@@ -268,6 +268,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"selected_turret_ammo_sprite": selected_turret_ammo_sprite()', source)
         self.assertNotIn('sprite.texture = textures.get("item")', source)
 
+    def test_port_game_uses_source_bullet_lifetime(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_lifetime_seconds(data: Dictionary) -> float:", source)
+        self.assertIn('return float(data.get("lifetime", 40.0)) / 60.0', source)
+        self.assertIn('"lifetime_remaining": source_bullet_lifetime_seconds(data)', source)
+        self.assertIn('var lifetime_remaining := float(bullet.get("lifetime_remaining", 0.0)) - delta', source)
+        self.assertIn('bullet["lifetime_remaining"] = lifetime_remaining', source)
+        self.assertIn("if lifetime_remaining <= 0.0:", source)
+        self.assertIn("func selected_turret_ammo_lifetime_seconds() -> float:", source)
+        self.assertIn('return source_bullet_lifetime_seconds(data)', source)
+        self.assertIn('"selected_turret_ammo_lifetime_seconds": selected_turret_ammo_lifetime_seconds()', source)
+
     def test_port_game_uses_source_drill_rate(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

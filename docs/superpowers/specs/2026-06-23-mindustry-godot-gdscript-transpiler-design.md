@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 37 |
-| Done | 37 |
+| Total tracked work items | 38 |
+| Done | 38 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -58,6 +58,7 @@
 | N33 | Enforce source core item capacity | `content_registry.py` extracts block `itemCapacity`, generated `core-shard.properties.itemCapacity=4000` from `Blocks.java`, and `PortGame.gd` initializes `core_item_capacity` from `source_block_item_capacity("core-shard")`; core item setters clamp item counts through `clamp_core_item_amount`; Python suite reports `39` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `core_item_capacity=4000`, `set_core_item_count("copper", 9999)` clamps to `core_items.copper=4000` and `core_inventory=4000`, with debug `errors: []` |
 | N34 | Use source mechanical drill rate | `content_registry.py` extracts block `tier` and `drillTime`, generated `mechanical-drill.properties` includes `tier=2` and `drillTime=600`, and `PortGame.gd` computes drill output from `Drill.getDrillTime(item)` source formula `drillTime + 50 * item.hardness`; Python suite reports `40` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `drill_output_item_id="copper"`, `drill_ore_cell_count=2`, and `drill_output_rate=0.184615384615385` from `120/650`, with debug `errors: []` |
 | N35 | Use source conveyor speed for item motion | `content_registry.py` extracts block `speed` and `displayedSpeed`, generated `conveyor.properties` includes `speed=0.03` and `displayedSpeed=4.2`, and `PortGame.gd` advances item sprite transport with source `ConveyorBuild` movement formula `speed * tilesize * 55`; Python suite reports `41` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `conveyor_world_speed=52.8` and `conveyor_path_progress_rate=0.183333333333333`, with debug `errors: []` |
+| N36 | Use source bullet lifetime | `PortGame.gd` converts generated bullet `lifetime` frames to seconds with `lifetime / 60.0`, stores `lifetime_remaining` on turret bullets, removes expired bullets, and exposes `selected_turret_ammo_lifetime_seconds`; Python suite reports `42` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_turret_ammo_lifetime_seconds=1` from generated duo copper bullet `lifetime=60`, with debug `errors: []` |
 
 ## Not Done
 
@@ -296,3 +297,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-23 | M32 source core item capacity: registry now extracts block `itemCapacity` and runtime clamps core item storage to generated `core-shard.itemCapacity=4000`. |
 | 2026-06-23 | M33 source mechanical drill rate: registry now extracts drill `tier/drillTime` and runtime computes copper drill output from source `Drill.getDrillTime(item)` formula instead of hardcoded `0.45`. |
 | 2026-06-23 | M34 source conveyor speed: registry now extracts conveyor `speed/displayedSpeed` and item sprite transport uses source `speed * tilesize * 55` instead of sharing drill production progress. |
+| 2026-06-23 | M35 source bullet lifetime: turret bullets now use generated `BasicBulletType.lifetime` seconds and expire instead of living until hit/target removal only. |
