@@ -246,6 +246,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"selected_build_health": selected_build_health()', source)
         self.assertIn('"selected_build_scaled_health": selected_build_scaled_health()', source)
 
+    def test_port_game_exposes_selected_build_mend_repair_params(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func selected_build_heal_percent() -> float:", source)
+        self.assertIn('return float(selected.properties.get("healPercent", 0.0))', source)
+        self.assertIn("func selected_build_phase_boost() -> float:", source)
+        self.assertIn('return float(selected.properties.get("phaseBoost", 0.0))', source)
+        self.assertIn("func selected_build_phase_range_boost() -> float:", source)
+        self.assertIn('return float(selected.properties.get("phaseRangeBoost", 0.0))', source)
+        self.assertIn('"selected_build_heal_percent": selected_build_heal_percent()', source)
+        self.assertIn('"selected_build_phase_boost": selected_build_phase_boost()', source)
+        self.assertIn('"selected_build_phase_range_boost": selected_build_phase_range_boost()', source)
+
     def test_port_game_enforces_source_core_item_capacity(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

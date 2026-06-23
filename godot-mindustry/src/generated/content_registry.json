@@ -2346,7 +2346,10 @@
       "implementation": "MendProjector",
       "properties": {
         "category": "effect",
+        "healPercent": 4.0,
         "health": 80,
+        "phaseBoost": 4.0,
+        "phaseRangeBoost": 20.0,
         "range": 40.0,
         "reload": 200.0,
         "requirements": [
@@ -2369,7 +2372,10 @@
       "implementation": "MendProjector",
       "properties": {
         "category": "effect",
+        "healPercent": 11.0,
         "health": 320,
+        "phaseBoost": 15.0,
+        "phaseRangeBoost": 50.0,
         "range": 85.0,
         "reload": 250.0,
         "requirements": [

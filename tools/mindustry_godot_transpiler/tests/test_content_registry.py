@@ -244,6 +244,8 @@ public class Blocks{
             requirements(Category.effect, with(Items.lead, 100));
             size = 2;
             scaledHealth = 80;
+            healPercent = 11f;
+            phaseBoost = 15f;
             reload = 250f;
             range = 85f;
         }};
@@ -257,6 +259,9 @@ public class Blocks{
 
         self.assertEqual(registry["blocks"][0]["properties"].get("scaledHealth"), 80)
         self.assertEqual(registry["blocks"][0]["properties"].get("health"), 320)
+        self.assertEqual(registry["blocks"][0]["properties"].get("healPercent"), 11.0)
+        self.assertEqual(registry["blocks"][0]["properties"].get("phaseBoost"), 15.0)
+        self.assertEqual(registry["blocks"][0]["properties"].get("phaseRangeBoost"), 50.0)
 
 if __name__ == "__main__":
     unittest.main()

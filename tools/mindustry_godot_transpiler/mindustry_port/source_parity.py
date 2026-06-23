@@ -24,6 +24,24 @@ def verify_mend_projector_scaled_health_parity(upstream_root: Path, godot_root: 
         "mismatches": mismatches,
     }
 
+def verify_mend_projector_repair_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / DUO_SOURCE
+    registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    registry = json.loads(registry_path.read_text(encoding="utf-8"))
+    expected = _extract_mend_projector_repair(source, "mendProjector", "MendProjector")
+    actual = _registry_block(registry, "mend-projector")
+    mismatches: list[dict[str, Any]] = []
+    actual_props = actual.get("properties", {})
+    for key, expected_value in expected.items():
+        _append_mismatch(mismatches, f"properties.{key}", expected_value, actual_props.get(key))
+    return {
+        "source": DUO_SOURCE,
+        "block": "mend-projector",
+        "checked": expected,
+        "mismatches": mismatches,
+    }
+
 
 def verify_duo_source_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / DUO_SOURCE
@@ -173,3 +191,14 @@ def _extract_scaled_health_block(source: str, field: str, implementation: str) -
     if scaled_health is None:
         raise ValueError(f"{field} scaledHealth assignment not found in Blocks.java")
     return {"size": size, "scaledHealth": scaled_health, "health": int(size * size * float(scaled_health))}
+
+def _extract_mend_projector_repair(source: str, field: str, implementation: str) -> dict[str, Any]:
+    match = re.search(rf'\b{field}\s*=\s*new\s+{implementation}\s*\(\s*"[^"]+"\s*\)', source)
+    if not match:
+        raise ValueError(f"{field} {implementation} initializer not found in Blocks.java")
+    body = _double_brace_body(source, match.end())
+    expected: dict[str, Any] = {}
+    for key, default in {"healPercent": 12.0, "phaseBoost": 12.0, "phaseRangeBoost": 50.0}.items():
+        value = _numeric_assignment(body, key)
+        expected[key] = float(value) if value is not None else default
+    return expected

@@ -253,12 +253,14 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
         match = re.search(rf"\b{key}\s*=\s*([0-9_]+)\s*;", initializer)
         if match:
             properties[key] = int(match.group(1).replace("_", ""))
-    for key in ["range", "reload", "drillTime", "speed", "displayedSpeed", "shootY", "inaccuracy", "rotateSpeed", "shootCone", "recoil", "scaledHealth"]:
+    for key in ["range", "reload", "drillTime", "speed", "displayedSpeed", "shootY", "inaccuracy", "rotateSpeed", "shootCone", "recoil", "scaledHealth", "healPercent", "phaseBoost", "phaseRangeBoost"]:
         value = _numeric_assignment(initializer, key)
         if value is not None:
             properties[key] = value
     if "scaledHealth" in properties and "health" not in properties and not _has_assignment(initializer, "health"):
         properties["health"] = int(int(properties.get("size", 1)) * int(properties.get("size", 1)) * float(properties["scaledHealth"]))
+    if implementation == "MendProjector":
+        _apply_mend_projector_defaults(properties, initializer)
     shoot_pattern = _shoot_alternate_pattern(initializer)
     if shoot_pattern is not None:
         properties["shootPattern"] = shoot_pattern
@@ -285,6 +287,11 @@ def _apply_item_turret_ammo_defaults(properties: dict[str, Any], initializer: st
         properties["consumeAmmoOnce"] = consume
     elif not _has_assignment(initializer, "consumeAmmoOnce"):
         properties["consumeAmmoOnce"] = True
+
+def _apply_mend_projector_defaults(properties: dict[str, Any], initializer: str) -> None:
+    for key, default in {"healPercent": 12.0, "phaseBoost": 12.0, "phaseRangeBoost": 50.0}.items():
+        if key not in properties and not _has_assignment(initializer, key):
+            properties[key] = default
 
 def _has_assignment(source: str, key: str) -> bool:
     return re.search(rf"\b{key}\s*=", source) is not None
