@@ -314,6 +314,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func selected_turret_ammo_lifetime_seconds() -> float:", source)
         self.assertIn('return source_bullet_lifetime_seconds(data)', source)
         self.assertIn('"selected_turret_ammo_lifetime_seconds": selected_turret_ammo_lifetime_seconds()', source)
+        self.assertIn("func selected_turret_limit_range_margin() -> float:", source)
+        self.assertIn('return float(duo.properties.get("limitRangeMargin", 0.0))', source)
+        self.assertIn('"selected_turret_limit_range_margin": selected_turret_limit_range_margin()', source)
 
     def test_port_game_uses_source_bullet_speed(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

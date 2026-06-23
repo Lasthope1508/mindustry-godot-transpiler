@@ -731,6 +731,14 @@ func selected_turret_ammo_lifetime_seconds() -> float:
 	var data: Dictionary = ammo[0]
 	return source_bullet_lifetime_seconds(data)
 
+func selected_turret_limit_range_margin() -> float:
+	if content_catalog == null:
+		return 0.0
+	var duo = content_catalog.get_by_id("duo")
+	if duo == null:
+		return 0.0
+	return float(duo.properties.get("limitRangeMargin", 0.0))
+
 func selected_turret_ammo_world_speed() -> float:
 	if content_catalog == null:
 		return 0.0
@@ -1361,6 +1369,7 @@ func get_runtime_summary() -> Dictionary:
 		"selected_turret_shoot_cone": selected_turret_shoot_cone(),
 		"selected_turret_recoil": selected_turret_recoil(),
 		"selected_turret_recoils": selected_turret_recoils(),
+		"selected_turret_limit_range_margin": selected_turret_limit_range_margin(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

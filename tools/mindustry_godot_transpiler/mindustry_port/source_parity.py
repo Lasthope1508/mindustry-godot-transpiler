@@ -36,6 +36,9 @@ def _extract_source_duo(source: str) -> dict[str, Any]:
     shoot_pattern = _shoot_alternate_pattern(body)
     if shoot_pattern is not None:
         properties["shootPattern"] = shoot_pattern
+    limit_range_margin = _limit_range_margin(body)
+    if limit_range_margin is not None:
+        properties["limitRangeMargin"] = limit_range_margin
     ammo = {}
     ammo_pattern = re.compile(
         r"Items\.([A-Za-z_]\w*)\s*,\s*new\s+BasicBulletType\s*\(\s*"
@@ -52,10 +55,12 @@ def _extract_source_duo(source: str) -> dict[str, Any]:
             "damage": _number_literal(damage),
             "sprite": sprite or "bullet",
         }
-        for key in ["width", "height", "hitSize", "lifetime", "ammoMultiplier", "reloadMultiplier", "rangeChange", "inaccuracy"]:
+        for key in ["width", "height", "hitSize", "lifetime", "ammoMultiplier", "reloadMultiplier", "rangeChange", "extraRangeMargin", "inaccuracy"]:
             value = _numeric_assignment(bullet_body, key)
             if value is not None:
                 entry[key] = value
+        if limit_range_margin is not None:
+            entry["lifetime"] = _limit_range_lifetime(properties, entry, limit_range_margin)
         ammo[_camel_to_kebab(item)] = entry
     return {"properties": properties, "ammo": ammo}
 
@@ -113,6 +118,20 @@ def _shoot_alternate_pattern(source: str) -> dict[str, Any] | None:
     if not match:
         return None
     return {"type": "ShootAlternate", "spread": _number_literal(match.group(1))}
+
+def _limit_range_margin(source: str) -> float | None:
+    match = re.search(r"\blimitRange\s*\(\s*(-?[0-9_]+(?:\.[0-9_]+)?[fFdD]?)?\s*\)\s*;", source)
+    if not match:
+        return None
+    raw = match.group(1)
+    return 9.0 if raw is None else float(_number_literal(raw))
+
+def _limit_range_lifetime(properties: dict[str, Any], bullet: dict[str, Any], margin: float) -> float:
+    speed = float(bullet.get("speed", 0.0))
+    if speed == 0.0:
+        return float(bullet.get("lifetime", 40.0))
+    real_range = float(properties.get("range", 0.0)) + float(bullet.get("rangeChange", 0.0))
+    return (real_range + margin + float(bullet.get("extraRangeMargin", 0.0)) + 10.0) / speed
 
 
 def _number_literal(raw: str) -> int | float:

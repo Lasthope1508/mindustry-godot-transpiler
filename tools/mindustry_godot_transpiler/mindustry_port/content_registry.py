@@ -262,6 +262,10 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
         properties["shootPattern"] = shoot_pattern
     ammo = _block_ammo(initializer)
     if ammo:
+        limit_range_margin = _limit_range_margin(initializer)
+        if implementation == "ItemTurret" and limit_range_margin is not None:
+            properties["limitRangeMargin"] = limit_range_margin
+            _apply_limit_range_to_ammo(properties, ammo, limit_range_margin)
         properties["ammo"] = ammo
     if implementation == "ItemTurret":
         _apply_item_turret_ammo_defaults(properties, initializer)
@@ -325,11 +329,29 @@ def _block_ammo(initializer: str) -> list[dict[str, Any]]:
         range_change = _numeric_assignment(bullet_body, "rangeChange")
         if range_change is not None:
             entry["rangeChange"] = range_change
+        extra_range_margin = _numeric_assignment(bullet_body, "extraRangeMargin")
+        if extra_range_margin is not None:
+            entry["extraRangeMargin"] = extra_range_margin
         inaccuracy = _numeric_assignment(bullet_body, "inaccuracy")
         if inaccuracy is not None:
             entry["inaccuracy"] = inaccuracy
         ammo.append(entry)
     return ammo
+
+def _limit_range_margin(source: str) -> float | None:
+    match = re.search(r"\blimitRange\s*\(\s*(-?[0-9_]+(?:\.[0-9_]+)?[fFdD]?)?\s*\)\s*;", source)
+    if not match:
+        return None
+    raw = match.group(1)
+    return 9.0 if raw is None else float(_number_literal(raw))
+
+def _apply_limit_range_to_ammo(properties: dict[str, Any], ammo: list[dict[str, Any]], margin: float) -> None:
+    for entry in ammo:
+        speed = float(entry.get("speed", 0.0))
+        if speed == 0.0:
+            continue
+        real_range = float(properties.get("range", 0.0)) + float(entry.get("rangeChange", 0.0))
+        entry["lifetime"] = (real_range + margin + float(entry.get("extraRangeMargin", 0.0)) + 10.0) / speed
 
 def _block_requirements(initializer: str) -> list[dict[str, Any]]:
     match = re.search(r"requirements\s*\([^;]*?with\((.*?)\)\s*\)", initializer, re.DOTALL)
