@@ -13,8 +13,8 @@
 | Bucket | Count |
 | --- | ---: |
 | Total tracked work items | 17 |
-| Done | 14 |
-| Not done | 3 |
+| Done | 15 |
+| Not done | 2 |
 | Blocked | 0 |
 
 ## Done
@@ -32,6 +32,7 @@
 | N8 | Port base content model | `MindustryContent`, `MindustryUnlockableContent`, `MindustryItem`, `MindustryLiquid`, `MindustryBlock`, and `MindustryContentCatalog` load generated registry objects; MCP runtime starts scene with `errors=[]` |
 | N9 | Generate first content data | `content` command writes `content_registry.json` and `MindustryContentRegistry.gd`; MCP LSP diagnostics pass for generated registry; registry includes `22` items, `11` liquids, `417` source-declared block constructors |
 | N10 | Build asset bridge | Full run writes `asset_manifest.json`, copies `2970` upstream assets, `mcp__godot.project_info` sees Godot asset structure |
+| N11 | Add reports for unsupported Java features | `port_report.json` contains `6986` unsupported source locations with exact `path`, `line`, `feature`, and `snippet`; `port_report.md` lists `path:line` entries |
 | N13 | Add source-derived unit registry and first wave | Registry extracts `56` unit constructors from `UnitTypes.java`; `MindustryUnitType` and catalog load generated units; playable scene spawns source-derived dagger sprites and updates wave/core HUD; Python tests pass and MCP runtime output shows `errors=[]` |
 | N14 | Add source-derived turret ammo and bullets | Registry extracts `duo` reload/range/ammo from `Blocks.java`; playable scene pre-places a source-derived duo turret, targets spawned units, fires bullet sprites, applies source-derived damage, and MCP runtime output shows `errors=[]` |
 | N15 | Add source-derived default waves | Registry extracts default `SpawnGroup` data from `mindustry/game/Waves.java`; playable scene uses generated wave groups and `getSpawned`-equivalent count logic instead of hardcoded dagger waves; MCP runtime output shows `errors=[]` |
@@ -41,7 +42,6 @@
 | ID | Item | Required verification before marking done |
 | --- | --- | --- |
 | N6 | Emit GDScript classes | Generated `.gd` files pass Godot parse check |
-| N11 | Add reports for unsupported Java features | Report lists unsupported syntax with exact source path and line number |
 | N12 | Add regression fixtures | Fixtures compare generated output against checked expected `.gd` files |
 ## Scope
 
@@ -252,3 +252,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-23 | M9 unit wave: generator extracts `56` units from `UnitTypes.java` without full-file Java parsing; `MindustryContentCatalog` loads units; `PortGame.gd` spawns source-derived dagger enemies that move toward the core; MCP runtime output shows zero errors. |
 | 2026-06-23 | M10 turret bullets: generator extracts turret `reload`, `range`, and first `BasicBulletType` ammo data; `PortGame.gd` pre-places source-derived duo, fires copper bullets at source-derived enemy units, and MCP runtime output shows zero errors. |
 | 2026-06-23 | M11 source waves: generator extracts `waveVersion` and `SpawnGroup` unit timing/count fields from `Waves.java`; `PortGame.gd` spawns waves from generated groups with Mindustry-equivalent count formula; MCP runtime output shows zero errors. |
+| 2026-06-23 | M12 unsupported report: report generation now scans upstream Java source for unsupported lambdas and anonymous double-brace initializers with exact source path, line number, feature name, and snippet; generated report records `6986` locations. |

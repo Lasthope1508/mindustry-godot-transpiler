@@ -10,3 +10,6991 @@ Java parse failures: 12
 - Generated gameplay classes not implemented yet
 - mindustry.gen generated Java package not expanded yet
 - Unsupported Java parser failures are listed in ast_manifest.json with paths and error types
+
+## Unsupported Source Locations
+- mindustry/ai/Astar.java:14 `lambda` public static final DistanceHeuristic manhattan = (x1, y1, x2, y2) -> Math.abs(x1 - x2) + Math.abs(y1 - y2);
+- mindustry/ai/Astar.java:17 `lambda` private static final PQueue<Tile> queue = new PQueue<>(200 * 200 / 4, (a, b) -> 0);
+- mindustry/ai/Astar.java:44 `lambda` queue.comparator = Structs.comparingFloat(a -> costs[a.array()] + dh.cost(a.x, a.y, end.x, end.y));
+- mindustry/ai/BaseBuilderAI.java:92 `lambda` Vars.spawner.eachGroundSpawn((x, y) -> calcTile = world.tile(x, y));
+- mindustry/ai/BaseBuilderAI.java:164 `lambda` if(spawner.getSpawns().contains(t -> t.within(tile, tilesize * 40f))){
+- mindustry/ai/BaseBuilderAI.java:228 `lambda` if(tile.block.solid && wtile != null && wtile.getLinkedTilesAs(tile.block, tmpTiles).contains(t -> path.contains(t.pos()))){
+- mindustry/ai/BaseBuilderAI.java:242 `lambda` tile.block.iterateTaken(tile.x + cx, tile.y + cy, (ex, ey) -> {
+- mindustry/ai/BaseRegistry.java:83 `lambda` schem.tiles.removeAll(s -> s.block.buildVisibility == BuildVisibility.sandboxOnly);
+- mindustry/ai/BaseRegistry.java:85 `lambda` part.tier = schem.tiles.sumf(s -> Mathf.pow(s.block.buildTime / s.block.buildCostMultiplier, 1.4f));
+- mindustry/ai/BaseRegistry.java:111 `lambda` cores.sort(b -> b.tier);
+- mindustry/ai/BaseRegistry.java:113 `lambda` reqParts.each((key, arr) -> arr.sort());
+- mindustry/ai/BlockIndexer.java:56 `lambda` Events.on(TilePreChangeEvent.class, event -> {
+- mindustry/ai/BlockIndexer.java:60 `lambda` Events.on(TileChangeEvent.class, event -> {
+- mindustry/ai/BlockIndexer.java:64 `lambda` Events.on(TileFloorChangeEvent.class, event -> {
+- mindustry/ai/BlockIndexer.java:69 `lambda` Events.on(WorldLoadEvent.class, event -> {
+- mindustry/ai/BlockIndexer.java:198 `lambda` var targetTypes = data.buildingTypes.get(build.block, () -> new Seq<>(false));
+- mindustry/ai/BlockIndexer.java:238 `lambda` base.getLinkedTiles(tile -> {
+- mindustry/ai/BlockIndexer.java:309 `lambda` tiles.removeAll(b -> !b.damaged());
+- mindustry/ai/BlockIndexer.java:333 `lambda` allBuildings(wx, wy, range, b -> {
+- mindustry/ai/BlockIndexer.java:345 `lambda` buildings.intersect(wx - range, wy - range, range*2f, range*2f, b -> {
+- mindustry/ai/BlockIndexer.java:371 `lambda` buildings.intersect(rect, b -> {
+- mindustry/ai/BlockIndexer.java:468 `lambda` Building candidate = findTile(enemy, x, y, range, b -> pred.get(b) && b.isDiscovered(team), true, source);
+- mindustry/ai/BlockIndexer.java:603 `lambda` var targetTypes = data.buildingTypes.get(tile.block(), () -> new Seq<>(false));
+- mindustry/ai/ControlPathfinder.java:33 `lambda` costGround = (team, tile) ->
+- mindustry/ai/ControlPathfinder.java:47 `lambda` costHover = (team, tile) ->
+- mindustry/ai/ControlPathfinder.java:55 `lambda` costLegs = (team, tile) ->
+- mindustry/ai/ControlPathfinder.java:61 `lambda` costNaval = (team, tile) ->
+- mindustry/ai/ControlPathfinder.java:110 `lambda` //maps team -> pathCost -> flattened array of clusters in 2D
+- mindustry/ai/ControlPathfinder.java:157 `lambda` //node index -> total cost
+- mindustry/ai/ControlPathfinder.java:159 `lambda` //node index (NodeIndex struct) -> node it came from TODO merge them, make properties of FieldCache?
+- mindustry/ai/ControlPathfinder.java:223 `lambda` Events.on(ResetEvent.class, event -> controlPath.stop());
+- mindustry/ai/ControlPathfinder.java:225 `lambda` Events.on(WorldLoadEvent.class, event -> {
+- mindustry/ai/ControlPathfinder.java:232 `lambda` Events.on(TileChangeEvent.class, e -> {
+- mindustry/ai/ControlPathfinder.java:237 `lambda` Events.run(Trigger.update, () -> {
+- mindustry/ai/ControlPathfinder.java:239 `lambda` //skipped N update -> drop it
+- mindustry/ai/ControlPathfinder.java:243 `lambda` controlPath.queue.post(() -> controlPath.threadPathRequests.remove(req));
+- mindustry/ai/ControlPathfinder.java:244 `lambda` Time.run(0f, () -> controlPath.unitRequests.remove(req.unit));
+- mindustry/ai/ControlPathfinder.java:249 `lambda` //skipped N update -> drop it
+- mindustry/ai/ControlPathfinder.java:252 `lambda` controlPath.queue.post(() -> controlPath.fields.remove(field.mapKey));
+- mindustry/ai/ControlPathfinder.java:253 `lambda` Time.run(0f, () -> controlPath.fieldList.remove(field));
+- mindustry/ai/ControlPathfinder.java:259 `lambda` Events.run(Trigger.draw, () -> {
+- mindustry/ai/ControlPathfinder.java:263 `lambda` Draw.draw(Layer.overlayUI, () -> {
+- mindustry/ai/ControlPathfinder.java:363 `lambda` queue.post(() -> clustersToInnerUpdate.add(cluster));
+- mindustry/ai/ControlPathfinder.java:369 `lambda` queue.post(() -> clustersToUpdate.add(cx + cy * cwidth));
+- mindustry/ai/ControlPathfinder.java:1006 `lambda` Core.app.post(() -> Fx.placeBlock.at(worldX *tilesize, worldY * tilesize, 1f));
+- mindustry/ai/ControlPathfinder.java:1049 `lambda` Core.app.post(() -> fieldList.add(fcache));
+- mindustry/ai/ControlPathfinder.java:1270 `lambda` queue.post(() -> {
+- mindustry/ai/ControlPathfinder.java:1294 `lambda` queue.post(() -> addFlowCluster(cache, x / clusterSize, y / clusterSize, true));
+- mindustry/ai/ControlPathfinder.java:1513 `lambda` clustersToUpdate.each(cluster -> {
+- mindustry/ai/ControlPathfinder.java:1520 `lambda` clustersToInnerUpdate.each(cluster -> {
+- mindustry/ai/ControlPathfinder.java:1552 `lambda` Core.app.post(() -> fieldList.remove(field));
+- mindustry/ai/ControlPathfinder.java:1560 `lambda` queue.post(() -> recalculatePath(otherRequest));
+- mindustry/ai/ControlPathfinder.java:1566 `lambda` queue.post(() -> recalculatePath(request));
+- mindustry/ai/ControlPathfinder.java:1571 `lambda` queue.post(() -> recalculatePath(request));
+- mindustry/ai/ControlPathfinder.java:1578 `lambda` fields.eachValue(cache -> {
+- mindustry/ai/Pathfinder.java:56 `lambda` (team, tile) ->
+- mindustry/ai/Pathfinder.java:65 `lambda` (team, tile) ->
+- mindustry/ai/Pathfinder.java:71 `lambda` (team, tile) ->
+- mindustry/ai/Pathfinder.java:79 `lambda` (team, tile) ->
+- mindustry/ai/Pathfinder.java:86 `lambda` (team, tile) -> 1,
+- mindustry/ai/Pathfinder.java:89 `lambda` (team, tile) ->
+- mindustry/ai/Pathfinder.java:117 `lambda` Events.on(WorldLoadEvent.class, event -> {
+- mindustry/ai/Pathfinder.java:139 `lambda` if(spawner.getSpawns().contains(t -> t.floor().isLiquid)){
+- mindustry/ai/Pathfinder.java:149 `lambda` Events.on(ResetEvent.class, event -> stop());
+- mindustry/ai/Pathfinder.java:151 `lambda` Events.on(TileChangeEvent.class, event -> {
+- mindustry/ai/Pathfinder.java:158 `lambda` Events.on(TilePreChangeEvent.class, event -> {
+- mindustry/ai/Pathfinder.java:188 `lambda` Events.run(Trigger.afterGameUpdate, () -> {
+- mindustry/ai/Pathfinder.java:209 `lambda` queue.post(() -> {
+- mindustry/ai/Pathfinder.java:309 `lambda` tile.getLinkedTiles(t -> {
+- mindustry/ai/Pathfinder.java:366 `lambda` queue.post(() -> registerPath(field));
+- mindustry/ai/Pathfinder.java:402 `lambda` queue.post(() -> updateTargets(path));
+- mindustry/ai/Pathfinder.java:484 `lambda` Core.app.post(() -> mainList.add(path));
+- mindustry/ai/RtsAI.java:47 `lambda` Events.on(BuildDamageEvent.class, e -> {
+- mindustry/ai/RtsAI.java:64 `lambda` Events.run(Trigger.draw, () -> {
+- mindustry/ai/RtsAI.java:66 `lambda` Draw.draw(Layer.overlayUI, () -> {
+- mindustry/ai/RtsAI.java:125 `lambda` data.tree().intersect(next.x - rad/2f, next.y - rad/2f, rad, rad, u -> {
+- mindustry/ai/RtsAI.java:181 `lambda` Building best = damaged.min(b -> {
+- mindustry/ai/RtsAI.java:214 `lambda` Unit aggressor = Units.closestEnemy(data.team, defend.x, defend.y, checkRange, u -> u.checkTarget(tair, tground));
+- mindustry/ai/RtsAI.java:296 `lambda` targets.removeAll(b -> assignedTargets.contains(b.id) || invalidTarget.contains(b.pos()));
+- mindustry/ai/RtsAI.java:313 `lambda` Structs.comparingFloat(b -> (1f - weights.get(b, 0f)) + b.dst(x, y)/10000f),
+- mindustry/ai/RtsAI.java:315 `lambda` Structs.comparingFloat(b -> b.dst2(x, y))
+- mindustry/ai/RtsAI.java:343 `lambda` Units.nearbyEnemies(data.team, Tmp.r1, other -> {
+- mindustry/ai/RtsAI.java:361 `lambda` // self 10 sec / other 10 sec -> can destroy target with 100 % losses -> returns 1
+- mindustry/ai/RtsAI.java:362 `lambda` // self 5 sec / other 10 sec -> can destroy about half of other -> returns 0.5 (needs to be 2x stronger to defeat)
+- mindustry/ai/types/BuilderAI.java:112 `lambda` unit.team.data().plans.remove(p -> p.x == req.x && p.y == req.y);
+- mindustry/ai/types/BuilderAI.java:152 `lambda` Units.nearby(unit.team, unit.x, unit.y, buildRadius, u -> {
+- mindustry/ai/types/CargoAI.java:105 `lambda` targets.selectFrom((Seq<UnitCargoUnloadPointBuild>)(Seq)Vars.indexer.getFlagged(unit.team, BlockFlag.unitCargoUnloadPoint), u -> u.item == item);
+- mindustry/ai/types/CargoAI.java:144 `lambda` orderedItems.sort(i -> -build.items.get(i));
+- mindustry/ai/types/CargoAI.java:150 `lambda` targets.selectFrom(baseTargets, u -> u.item == item);
+- mindustry/ai/types/CargoAI.java:177 `lambda` targets.sort(Structs.comps(Structs.comparingInt(b -> b.items.total()), Structs.comparingFloat(b -> b.dst2(unit))));
+- mindustry/ai/types/CommandAI.java:139 `lambda` commandQueue.removeAll(e -> e instanceof Healthc h && !h.isValid());
+- mindustry/ai/types/CommandAI.java:185 `lambda` Unit target = Units.closest(unit.team, unit.x, unit.y, unit.type.hitSize * 2f, u -> u.isAI() && u != unit && u.isGrounded() && pay.canPickup(u) && u.within(unit, u.hitSize + unit.hitSize));
+- mindustry/ai/types/CommandAI.java:304 `lambda` u -> u != unit && u.within(unit, u.hitSize/2f + unit.hitSize/2f + margin) && u.controller() instanceof CommandAI ai && ai.targetPos != null &&
+- mindustry/ai/types/DefenderAI.java:31 `lambda` var result = Units.closest(unit.team, x, y, Math.max(range, 400f), u -> !u.dead() && u.type != unit.type && u.targetable(unit.team) && u.playerControllable(),
+- mindustry/ai/types/DefenderAI.java:32 `lambda` (u, tx, ty) -> -u.maxHealth + Mathf.dst2(u.x, u.y, tx, ty) / 6400f);
+- mindustry/ai/types/FlyingFollowAI.java:31 `lambda` following = Units.closest(unit.team, unit.x, unit.y, Math.max(unit.type.range, 400f), u -> !u.dead() && !(u.controller() instanceof FlyingFollowAI) && u.type != unit.type, (u, tx, ty) -> -u.maxHealth + Mathf.dst2(u.x, u.y, tx, ty) / 6400f);
+- mindustry/ai/types/GroundAI.java:69 `lambda` Units.nearby(unit.team, unit.x, unit.y, radius, other -> {
+- mindustry/ai/types/HugAI.java:37 `lambda` if(target != null && unit.within(target, unit.type.range) && !World.raycast(unit.tileX(), unit.tileY(), target.tileX(), target.tileY(), (x, y) -> {
+- mindustry/ai/types/LogicAI.java:67 `lambda` case move -> {
+- mindustry/ai/types/LogicAI.java:70 `lambda` case approach -> {
+- mindustry/ai/types/LogicAI.java:73 `lambda` case pathfind -> {
+- mindustry/ai/types/LogicAI.java:82 `lambda` case autoPathfind -> {
+- mindustry/ai/types/LogicAI.java:106 `lambda` case stop -> {
+- mindustry/ai/types/LogicAI.java:153 `lambda` case target -> posTarget;
+- mindustry/ai/types/LogicAI.java:154 `lambda` case targetp -> mainTarget;
+- mindustry/ai/types/LogicAI.java:155 `lambda` default -> null;
+- mindustry/ai/types/MinerAI.java:39 `lambda` targetItem = content.items().min(i -> ((unit.type.mineFloor && indexer.hasOre(i)) || (unit.type.mineWalls && indexer.hasWallOre(i))) && unit.canMine(i) && ai.hasStance(ItemUnitStance.getByItem(i)), i -> core.items.get(i));
+- mindustry/ai/types/MinerAI.java:41 `lambda` targetItem = unit.type.mineItems.min(i -> ((unit.type.mineFloor && indexer.hasOre(i)) || (unit.type.mineWalls && indexer.hasWallOre(i))) && unit.canMine(i), i -> core.items.get(i));
+- mindustry/ai/types/MissileAI.java:42 `lambda` return Units.closestTarget(unit.team, x, y, range, u -> u.checkTarget(air, ground) && !u.isMissile(), t -> ground && (!t.block.underBullets || (shooter != null && t == Vars.world.buildWorld(shooter.aimX, shooter.aimY))));
+- mindustry/ai/types/PrebuildAI.java:44 `lambda` Structs.comparingFloat(plan -> priorities[plan.block.category.ordinal()]),
+- mindustry/ai/types/PrebuildAI.java:45 `lambda` Structs.comparingFloat(plan -> plan.block.buildTime)
+- mindustry/ai/types/PrebuildAI.java:70 `lambda` var min = tmpCopy.min(plan ->
+- mindustry/ai/types/PrebuildAI.java:71 `lambda` (canBuild(core, plan.block) || !Structs.contains(plan.block.requirements, it -> !indexer.hasOre(it.item))) &&
+- mindustry/ai/types/PrebuildAI.java:73 `lambda` plan -> unit.dst(plan.x * tilesize, plan.y * tilesize) - priorities[plan.block.category.ordinal()] * 200f);
+- mindustry/ai/types/PrebuildAI.java:183 `lambda` var targetStack = Structs.find(collectBlock.requirements, i -> !core.items.has(i.item, Mathf.ceil(state.rules.buildCostMultiplier * i.amount)));
+- mindustry/ai/types/SuicideAI.java:52 `lambda` boolean blocked = World.raycast(unit.tileX(), unit.tileY(), target.tileX(), target.tileY(), (x, y) -> {
+- mindustry/ai/types/SuicideAI.java:102 `lambda` return Units.closestTarget(unit.team, x, y, range, u -> u.checkTarget(air, ground), t -> ground &&
+- mindustry/ai/UnitCommand.java:44 `lambda` this.controller = controller == null ? u -> null : controller;
+- mindustry/ai/UnitCommand.java:76 `anonymous_double_brace_initializer` moveCommand = new UnitCommand("move", "right", Binding.unitCommandMove, null){{
+- mindustry/ai/UnitCommand.java:80 `lambda` repairCommand = new UnitCommand("repair", "modeSurvival", Binding.unitCommandRepair, u -> new RepairAI());
+- mindustry/ai/UnitCommand.java:81 `lambda` rebuildCommand = new UnitCommand("rebuild", "hammer", Binding.unitCommandRebuild, u -> new BuilderAI());
+- mindustry/ai/UnitCommand.java:82 `lambda` assistCommand = new UnitCommand("assist", "players", Binding.unitCommandAssist, u -> {
+- mindustry/ai/UnitCommand.java:87 `lambda` mineCommand = new UnitCommand("mine", "production", Binding.unitCommandMine, u -> new MinerAI()){{
+- mindustry/ai/UnitCommand.java:87 `anonymous_double_brace_initializer` mineCommand = new UnitCommand("mine", "production", Binding.unitCommandMine, u -> new MinerAI()){{
+- mindustry/ai/UnitCommand.java:90 `anonymous_double_brace_initializer` enterPayloadCommand = new UnitCommand("enterPayload", "downOpen", Binding.unitCommandEnterPayload, null){{
+- mindustry/ai/UnitCommand.java:96 `anonymous_double_brace_initializer` loadUnitsCommand = new UnitCommand("loadUnits", "upload", Binding.unitCommandLoadUnits, null){{
+- mindustry/ai/UnitCommand.java:101 `anonymous_double_brace_initializer` loadBlocksCommand = new UnitCommand("loadBlocks", "up", Binding.unitCommandLoadBlocks, null){{
+- mindustry/ai/UnitCommand.java:107 `anonymous_double_brace_initializer` unloadPayloadCommand = new UnitCommand("unloadPayload", "download", Binding.unitCommandUnloadPayload, null){{
+- mindustry/ai/UnitCommand.java:112 `anonymous_double_brace_initializer` loopPayloadCommand = new UnitCommand("loopPayload", "resize", Binding.unitCommandLoopPayload, null){{
+- mindustry/ai/UnitGroup.java:44 `lambda` Vars.mainExecutor.submit(() -> {
+- mindustry/ai/UnitGroup.java:56 `lambda` (index, hitbox) -> hitbox.setCentered(positions[index * 2], positions[index * 2 + 1], units.get(index).hitSize));
+- mindustry/ai/UnitGroup.java:145 `lambda` Core.app.post(() -> {
+- mindustry/ai/UnitGroup.java:182 `lambda` Core.app.post(() -> Fx.debugLine.at(unit.x, unit.y, 0f, Color.green, new Vec2[]{new Vec2(dest.x, dest.y), new Vec2(x, y)}));
+- mindustry/ai/UnitStance.java:87 `anonymous_double_brace_initializer` patrol = new UnitStance("patrol", "refresh", Binding.unitStancePatrol){{
+- mindustry/ai/UnitStance.java:91 `anonymous_double_brace_initializer` boost = new UnitStance("boost", "up", Binding.unitStanceBoost){{
+- mindustry/ai/UnitStance.java:103 `lambda` .each(c -> c.extraStances.add(holdPosition));
+- mindustry/ai/WaveSpawner.java:32 `lambda` Events.on(WorldLoadEvent.class, e -> reset());
+- mindustry/ai/WaveSpawner.java:34 `lambda` Events.on(TileOverlayChangeEvent.class, e -> {
+- mindustry/ai/WaveSpawner.java:43 `lambda` eachGroundSpawn((cx, cy) -> {
+- mindustry/ai/WaveSpawner.java:59 `lambda` return state.hasSpawns() && !player.dead() && spawns.contains(g -> Mathf.dst(g.x * tilesize, g.y * tilesize, player.x, player.y) < state.rules.dropZoneRadius && player.team() != state.rules.waveTeam);
+- mindustry/ai/WaveSpawner.java:65 `lambda` eachGroundSpawn(-1, (spawnX, spawnY, doShockwave) -> {
+- mindustry/ai/WaveSpawner.java:89 `lambda` eachFlyerSpawn(group.spawn, (spawnX, spawnY) -> {
+- mindustry/ai/WaveSpawner.java:97 `lambda` eachGroundSpawn(group.spawn, (spawnX, spawnY, doShockwave) -> {
+- mindustry/ai/WaveSpawner.java:108 `lambda` Time.run(121f, () -> spawning = false);
+- mindustry/ai/WaveSpawner.java:122 `lambda` eachGroundSpawn(-1, (x, y, shock) -> cons.get(World.toTile(x), World.toTile(y)));
+- mindustry/ai/WaveSpawner.java:152 `lambda` Geometry.circle(tx, ty, world.width(), world.height(), 3, (x, y) -> {
+- mindustry/ai/WaveSpawner.java:203 `lambda` eachGroundSpawn((x, y) -> tmpCount ++);
+- mindustry/ai/WaveSpawner.java:209 `lambda` eachFlyerSpawn(-1, (x, y) -> tmpCount ++);
+- mindustry/ai/WaveSpawner.java:247 `lambda` Time.run(30f, () -> Fx.spawn.at(x, y));
+- mindustry/async/AsyncCore.java:25 `lambda` Events.on(WorldLoadEvent.class, e -> {
+- mindustry/async/AsyncCore.java:32 `lambda` Events.on(ResetEvent.class, e -> {
+- mindustry/async/AsyncCore.java:51 `lambda` executor = Executors.newFixedThreadPool(processes.size, r -> {
+- mindustry/async/AsyncCore.java:54 `lambda` thread.setUncaughtExceptionHandler((t, e) -> Threads.throwAppException(e));
+- mindustry/async/PhysicsProcess.java:31 `lambda` refs.removeAll(ref -> {
+- mindustry/audio/SoundControl.java:39 `anonymous_double_brace_initializer` protected AudioFilter filter = new BiquadFilter(){{
+- mindustry/audio/SoundControl.java:46 `lambda` Events.on(ClientLoadEvent.class, e -> reload());
+- mindustry/audio/SoundControl.java:49 `lambda` Events.on(WaveEvent.class, e -> Time.run(Mathf.random(8f, 15f) * 60f, () -> {
+- mindustry/audio/SoundControl.java:50 `lambda` boolean boss = state.rules.spawns.contains(group -> group.getSpawned(state.wave - 2) > 0 && group.effect == StatusEffects.boss);
+- mindustry/audio/SoundControl.java:61 `lambda` Events.on(ResetEvent.class, e -> {
+- mindustry/audio/SoundControl.java:212 `lambda` sounds.each((sound, data) -> {
+- mindustry/audio/SoundControl.java:271 `lambda` if(state.rules.darkMusic != null) return state.rules.darkMusic.map(MusicContainer::get).removeAll(m -> m == null);
+- mindustry/audio/SoundControl.java:276 `lambda` if(state.rules.ambientMusic != null) return state.rules.ambientMusic.map(MusicContainer::get).removeAll(m -> m == null);
+- mindustry/audio/SoundControl.java:281 `lambda` if(state.rules.darkMusic != null) return state.rules.darkMusic.map(MusicContainer::get).removeAll(m -> m == null);
+- mindustry/audio/SoundControl.java:288 `lambda` //core damaged -> dark
+- mindustry/ClientLauncher.java:88 `lambda` Time.setDeltaProvider(() -> {
+- mindustry/ClientLauncher.java:125 `lambda` mainExecutor.submit(() -> {
+- mindustry/ClientLauncher.java:137 `lambda` mainExecutor.submit(() -> {
+- mindustry/ClientLauncher.java:164 `lambda` assets.load(new AssetDescriptor<>(maxTextureSize >= 4096 ? "sprites/sprites.aatls" : "sprites/fallback/sprites.aatls", TextureAtlas.class)).loaded = t -> atlas = t;
+- mindustry/ClientLauncher.java:165 `lambda` assets.loadRun("maps", Map.class, () -> maps.loadPreviews());
+- mindustry/ClientLauncher.java:170 `lambda` assets.loadRun("contentcreate", Content.class, () -> {
+- mindustry/ClientLauncher.java:173 `lambda` }, () -> {
+- mindustry/ClientLauncher.java:179 `lambda` assets.loadRun("mergeUI", PixmapPacker.class, () -> {}, () -> Fonts.mergeFontAtlas(atlas));
+- mindustry/ClientLauncher.java:190 `lambda` assets.loadRun("contentinit", ContentLoader.class, () -> content.init(), () -> content.load());
+- mindustry/ClientLauncher.java:191 `lambda` assets.loadRun("baseparts", BaseRegistry.class, () -> {}, () -> bases.load());
+- mindustry/ClientLauncher.java:248 `lambda` app.post(() -> app.post(() -> app.post(() -> app.post(() -> {
+- mindustry/content/Blocks.java:199 `anonymous_double_brace_initializer` cliff = new Cliff("cliff"){{
+- mindustry/content/Blocks.java:210 `anonymous_double_brace_initializer` deepwater = new Floor("deep-water"){{
+- mindustry/content/Blocks.java:224 `anonymous_double_brace_initializer` water = new Floor("shallow-water"){{
+- mindustry/content/Blocks.java:236 `anonymous_double_brace_initializer` taintedWater = new Floor("tainted-water"){{
+- mindustry/content/Blocks.java:249 `anonymous_double_brace_initializer` deepTaintedWater = new Floor("deep-tainted-water"){{
+- mindustry/content/Blocks.java:264 `anonymous_double_brace_initializer` darksandTaintedWater = new ShallowLiquid("darksand-tainted-water"){{
+- mindustry/content/Blocks.java:272 `anonymous_double_brace_initializer` sandWater = new ShallowLiquid("sand-water"){{
+- mindustry/content/Blocks.java:279 `anonymous_double_brace_initializer` darksandWater = new ShallowLiquid("darksand-water"){{
+- mindustry/content/Blocks.java:286 `anonymous_double_brace_initializer` tar = new Floor("tar"){{
+- mindustry/content/Blocks.java:298 `anonymous_double_brace_initializer` cryofluid = new Floor("pooled-cryofluid"){{
+- mindustry/content/Blocks.java:318 `anonymous_double_brace_initializer` slag = new Floor("molten-slag"){{
+- mindustry/content/Blocks.java:336 `anonymous_double_brace_initializer` space = new Floor("space"){{
+- mindustry/content/Blocks.java:349 `anonymous_double_brace_initializer` craters = new Floor("crater-stone"){{
+- mindustry/content/Blocks.java:354 `anonymous_double_brace_initializer` charr = new Floor("char"){{
+- mindustry/content/Blocks.java:359 `anonymous_double_brace_initializer` basalt = new Floor("basalt"){{
+- mindustry/content/Blocks.java:363 `anonymous_double_brace_initializer` hotrock = new Floor("hotrock"){{
+- mindustry/content/Blocks.java:373 `anonymous_double_brace_initializer` magmarock = new Floor("magmarock"){{
+- mindustry/content/Blocks.java:383 `anonymous_double_brace_initializer` sand = new Floor("sand-floor"){{
+- mindustry/content/Blocks.java:389 `anonymous_double_brace_initializer` darksand = new Floor("darksand"){{
+- mindustry/content/Blocks.java:397 `anonymous_double_brace_initializer` mud = new Floor("mud"){{
+- mindustry/content/Blocks.java:416 `anonymous_double_brace_initializer` rhyolite = new Floor("rhyolite"){{
+- mindustry/content/Blocks.java:420 `anonymous_double_brace_initializer` rhyoliteCrater = new Floor("rhyolite-crater"){{
+- mindustry/content/Blocks.java:425 `anonymous_double_brace_initializer` roughRhyolite = new Floor("rough-rhyolite"){{
+- mindustry/content/Blocks.java:430 `anonymous_double_brace_initializer` regolith = new Floor("regolith"){{
+- mindustry/content/Blocks.java:434 `anonymous_double_brace_initializer` yellowStone = new Floor("yellow-stone"){{
+- mindustry/content/Blocks.java:438 `anonymous_double_brace_initializer` carbonStone = new Floor("carbon-stone"){{
+- mindustry/content/Blocks.java:443 `anonymous_double_brace_initializer` ferricStone = new Floor("ferric-stone"){{
+- mindustry/content/Blocks.java:447 `anonymous_double_brace_initializer` ferricCraters = new Floor("ferric-craters"){{
+- mindustry/content/Blocks.java:453 `anonymous_double_brace_initializer` beryllicStone = new Floor("beryllic-stone"){{
+- mindustry/content/Blocks.java:457 `anonymous_double_brace_initializer` crystallineStone = new Floor("crystalline-stone"){{
+- mindustry/content/Blocks.java:461 `anonymous_double_brace_initializer` crystalFloor = new Floor("crystal-floor"){{
+- mindustry/content/Blocks.java:465 `anonymous_double_brace_initializer` yellowStonePlates = new Floor("yellow-stone-plates"){{
+- mindustry/content/Blocks.java:469 `anonymous_double_brace_initializer` redStone = new Floor("red-stone"){{
+- mindustry/content/Blocks.java:474 `anonymous_double_brace_initializer` denseRedStone = new Floor("dense-red-stone"){{
+- mindustry/content/Blocks.java:479 `anonymous_double_brace_initializer` redIce = new Floor("red-ice"){{
+- mindustry/content/Blocks.java:485 `anonymous_double_brace_initializer` arkyciteFloor = new Floor("arkycite-floor"){{
+- mindustry/content/Blocks.java:499 `anonymous_double_brace_initializer` arkyicStone = new Floor("arkyic-stone"){{
+- mindustry/content/Blocks.java:503 `anonymous_double_brace_initializer` rhyoliteVent = new SteamVent("rhyolite-vent"){{
+- mindustry/content/Blocks.java:508 `anonymous_double_brace_initializer` carbonVent = new SteamVent("carbon-vent"){{
+- mindustry/content/Blocks.java:513 `anonymous_double_brace_initializer` arkyicVent = new SteamVent("arkyic-vent"){{
+- mindustry/content/Blocks.java:518 `anonymous_double_brace_initializer` yellowStoneVent = new SteamVent("yellow-stone-vent"){{
+- mindustry/content/Blocks.java:523 `anonymous_double_brace_initializer` redStoneVent = new SteamVent("red-stone-vent"){{
+- mindustry/content/Blocks.java:528 `anonymous_double_brace_initializer` crystallineVent = new SteamVent("crystalline-vent"){{
+- mindustry/content/Blocks.java:533 `anonymous_double_brace_initializer` stoneVent = new SteamVent("stone-vent"){{
+- mindustry/content/Blocks.java:538 `anonymous_double_brace_initializer` basaltVent = new SteamVent("basalt-vent"){{
+- mindustry/content/Blocks.java:546 `anonymous_double_brace_initializer` grass = new Floor("grass"){{
+- mindustry/content/Blocks.java:551 `anonymous_double_brace_initializer` salt = new Floor("salt"){{
+- mindustry/content/Blocks.java:557 `anonymous_double_brace_initializer` snow = new Floor("snow"){{
+- mindustry/content/Blocks.java:562 `anonymous_double_brace_initializer` ice = new Floor("ice"){{
+- mindustry/content/Blocks.java:569 `anonymous_double_brace_initializer` iceSnow = new Floor("ice-snow"){{
+- mindustry/content/Blocks.java:576 `anonymous_double_brace_initializer` shale = new Floor("shale"){{
+- mindustry/content/Blocks.java:581 `anonymous_double_brace_initializer` moss = new Floor("moss"){{
+- mindustry/content/Blocks.java:586 `anonymous_double_brace_initializer` coreZone = new Floor("core-zone"){{
+- mindustry/content/Blocks.java:591 `anonymous_double_brace_initializer` sporeMoss = new Floor("spore-moss"){{
+- mindustry/content/Blocks.java:596 `anonymous_double_brace_initializer` stoneWall = new StaticWall("stone-wall"){{
+- mindustry/content/Blocks.java:600 `anonymous_double_brace_initializer` sporeWall = new StaticWall("spore-wall"){{
+- mindustry/content/Blocks.java:608 `anonymous_double_brace_initializer` iceWall = new StaticWall("ice-wall"){{
+- mindustry/content/Blocks.java:615 `anonymous_double_brace_initializer` duneWall = new StaticWall("dune-wall"){{
+- mindustry/content/Blocks.java:620 `anonymous_double_brace_initializer` regolithWall = new StaticWall("regolith-wall"){{
+- mindustry/content/Blocks.java:625 `anonymous_double_brace_initializer` yellowStoneWall = new StaticWall("yellow-stone-wall"){{
+- mindustry/content/Blocks.java:630 `anonymous_double_brace_initializer` rhyoliteWall = new StaticWall("rhyolite-wall"){{
+- mindustry/content/Blocks.java:635 `anonymous_double_brace_initializer` carbonWall = new StaticWall("carbon-wall"){{
+- mindustry/content/Blocks.java:640 `anonymous_double_brace_initializer` ferricStoneWall = new StaticWall("ferric-stone-wall"){{
+- mindustry/content/Blocks.java:645 `anonymous_double_brace_initializer` beryllicStoneWall = new StaticWall("beryllic-stone-wall"){{
+- mindustry/content/Blocks.java:650 `anonymous_double_brace_initializer` arkyicWall = new StaticWall("arkyic-wall"){{
+- mindustry/content/Blocks.java:655 `anonymous_double_brace_initializer` crystallineStoneWall = new StaticWall("crystalline-stone-wall"){{
+- mindustry/content/Blocks.java:660 `anonymous_double_brace_initializer` redIceWall = new StaticWall("red-ice-wall"){{
+- mindustry/content/Blocks.java:664 `anonymous_double_brace_initializer` redStoneWall = new StaticWall("red-stone-wall"){{
+- mindustry/content/Blocks.java:669 `anonymous_double_brace_initializer` redDiamondWall = new StaticTree("red-diamond-wall"){{
+- mindustry/content/Blocks.java:673 `anonymous_double_brace_initializer` sandWall = new StaticWall("sand-wall"){{
+- mindustry/content/Blocks.java:684 `anonymous_double_brace_initializer` sporePine = new StaticTree("spore-pine"){{
+- mindustry/content/Blocks.java:696 `anonymous_double_brace_initializer` sporeCluster = new Prop("spore-cluster"){{
+- mindustry/content/Blocks.java:702 `anonymous_double_brace_initializer` redweed = new Seaweed("redweed"){{
+- mindustry/content/Blocks.java:707 `anonymous_double_brace_initializer` purbush = new SeaBush("pur-bush"){{
+- mindustry/content/Blocks.java:711 `anonymous_double_brace_initializer` yellowCoral = new SeaBush("yellowcoral"){{
+- mindustry/content/Blocks.java:722 `anonymous_double_brace_initializer` boulder = new StaticProp("boulder"){{
+- mindustry/content/Blocks.java:727 `anonymous_double_brace_initializer` snowBoulder = new StaticProp("snow-boulder"){{
+- mindustry/content/Blocks.java:732 `anonymous_double_brace_initializer` shaleBoulder = new StaticProp("shale-boulder"){{
+- mindustry/content/Blocks.java:737 `anonymous_double_brace_initializer` sandBoulder = new StaticProp("sand-boulder"){{
+- mindustry/content/Blocks.java:742 `anonymous_double_brace_initializer` daciteBoulder = new StaticProp("dacite-boulder"){{
+- mindustry/content/Blocks.java:747 `anonymous_double_brace_initializer` basaltBoulder = new StaticProp("basalt-boulder"){{
+- mindustry/content/Blocks.java:752 `anonymous_double_brace_initializer` carbonBoulder = new StaticProp("carbon-boulder"){{
+- mindustry/content/Blocks.java:757 `anonymous_double_brace_initializer` ferricBoulder = new StaticProp("ferric-boulder"){{
+- mindustry/content/Blocks.java:762 `anonymous_double_brace_initializer` beryllicBoulder = new StaticProp("beryllic-boulder"){{
+- mindustry/content/Blocks.java:767 `anonymous_double_brace_initializer` yellowStoneBoulder = new StaticProp("yellow-stone-boulder"){{
+- mindustry/content/Blocks.java:773 `anonymous_double_brace_initializer` arkyicBoulder = new Prop("arkyic-boulder"){{
+- mindustry/content/Blocks.java:780 `anonymous_double_brace_initializer` crystalCluster = new TallBlock("crystal-cluster"){{
+- mindustry/content/Blocks.java:785 `anonymous_double_brace_initializer` vibrantCrystalCluster = new TallBlock("vibrant-crystal-cluster"){{
+- mindustry/content/Blocks.java:790 `anonymous_double_brace_initializer` crystalBlocks = new TallBlock("crystal-blocks"){{
+- mindustry/content/Blocks.java:797 `anonymous_double_brace_initializer` crystalOrbs = new TallBlock("crystal-orbs"){{
+- mindustry/content/Blocks.java:804 `anonymous_double_brace_initializer` crystallineBoulder = new StaticProp("crystalline-boulder"){{
+- mindustry/content/Blocks.java:809 `anonymous_double_brace_initializer` redIceBoulder = new StaticProp("red-ice-boulder"){{
+- mindustry/content/Blocks.java:814 `anonymous_double_brace_initializer` rhyoliteBoulder = new StaticProp("rhyolite-boulder"){{
+- mindustry/content/Blocks.java:819 `anonymous_double_brace_initializer` redStoneBoulder = new StaticProp("red-stone-boulder"){{
+- mindustry/content/Blocks.java:841 `anonymous_double_brace_initializer` metalTiles1 = new Floor("metal-tiles-1"){{
+- mindustry/content/Blocks.java:847 `anonymous_double_brace_initializer` metalTiles2 = new Floor("metal-tiles-2"){{
+- mindustry/content/Blocks.java:853 `anonymous_double_brace_initializer` metalTiles3 = new Floor("metal-tiles-3"){{
+- mindustry/content/Blocks.java:859 `anonymous_double_brace_initializer` metalTiles4 = new Floor("metal-tiles-4"){{
+- mindustry/content/Blocks.java:865 `anonymous_double_brace_initializer` metalTiles5 = new Floor("metal-tiles-5"){{
+- mindustry/content/Blocks.java:871 `anonymous_double_brace_initializer` metalTiles6 = new Floor("metal-tiles-6"){{
+- mindustry/content/Blocks.java:881 `anonymous_double_brace_initializer` metalTiles7 = new Floor("metal-tiles-7"){{
+- mindustry/content/Blocks.java:888 `anonymous_double_brace_initializer` metalTiles8 = new Floor("metal-tiles-8"){{
+- mindustry/content/Blocks.java:895 `anonymous_double_brace_initializer` metalTiles9 = new Floor("metal-tiles-9"){{
+- mindustry/content/Blocks.java:901 `anonymous_double_brace_initializer` metalTiles10 = new Floor("metal-tiles-10"){{
+- mindustry/content/Blocks.java:907 `anonymous_double_brace_initializer` metalTiles11 = new Floor("metal-tiles-11"){{
+- mindustry/content/Blocks.java:914 `anonymous_double_brace_initializer` metalTiles12 = new Floor("metal-tiles-12"){{
+- mindustry/content/Blocks.java:924 `anonymous_double_brace_initializer` metalTiles13 = new Floor("metal-tiles-13"){{
+- mindustry/content/Blocks.java:931 `anonymous_double_brace_initializer` metalWall1 = new StaticWall("metal-wall-1"){{
+- mindustry/content/Blocks.java:935 `anonymous_double_brace_initializer` metalWall2 = new StaticWall("metal-wall-2"){{
+- mindustry/content/Blocks.java:940 `anonymous_double_brace_initializer` metalWall3 = new StaticWall("metal-wall-3"){{
+- mindustry/content/Blocks.java:944 `anonymous_double_brace_initializer` coloredFloor = new ColoredFloor("colored-floor"){{
+- mindustry/content/Blocks.java:950 `anonymous_double_brace_initializer` coloredWall = new ColoredWall("colored-wall"){{
+- mindustry/content/Blocks.java:954 `anonymous_double_brace_initializer` characterOverlayGray = new CharacterOverlay("character-overlay"){{
+- mindustry/content/Blocks.java:958 `anonymous_double_brace_initializer` characterOverlayWhite = new CharacterOverlay("character-overlay-white"){{
+- mindustry/content/Blocks.java:962 `anonymous_double_brace_initializer` runeOverlay = new RuneOverlay("rune-overlay"){{
+- mindustry/content/Blocks.java:969 `lambda` .each(b -> b.asFloor().wall = darkMetal);
+- mindustry/content/Blocks.java:978 `anonymous_double_brace_initializer` oreCopper = new OreBlock(Items.copper){{
+- mindustry/content/Blocks.java:984 `anonymous_double_brace_initializer` oreLead = new OreBlock(Items.lead){{
+- mindustry/content/Blocks.java:992 `anonymous_double_brace_initializer` oreCoal = new OreBlock(Items.coal){{
+- mindustry/content/Blocks.java:998 `anonymous_double_brace_initializer` oreTitanium = new OreBlock(Items.titanium){{
+- mindustry/content/Blocks.java:1004 `anonymous_double_brace_initializer` oreThorium = new OreBlock(Items.thorium){{
+- mindustry/content/Blocks.java:1016 `anonymous_double_brace_initializer` wallOreThorium = new OreBlock("ore-wall-thorium", Items.thorium){{
+- mindustry/content/Blocks.java:1020 `anonymous_double_brace_initializer` wallOreBeryllium = new OreBlock("ore-wall-beryllium", Items.beryllium){{
+- mindustry/content/Blocks.java:1024 `anonymous_double_brace_initializer` graphiticWall = new StaticWall("graphitic-wall"){{
+- mindustry/content/Blocks.java:1029 `anonymous_double_brace_initializer` wallOreGraphite = new OreBlock("ore-wall-graphite", Items.graphite){{
+- mindustry/content/Blocks.java:1033 `anonymous_double_brace_initializer` wallOreTungsten = new OreBlock("ore-wall-tungsten", Items.tungsten){{
+- mindustry/content/Blocks.java:1040 `anonymous_double_brace_initializer` graphitePress = new GenericCrafter("graphite-press"){{
+- mindustry/content/Blocks.java:1052 `anonymous_double_brace_initializer` multiPress = new GenericCrafter("multi-press"){{
+- mindustry/content/Blocks.java:1069 `anonymous_double_brace_initializer` siliconSmelter = new GenericCrafter("silicon-smelter"){{
+- mindustry/content/Blocks.java:1085 `anonymous_double_brace_initializer` siliconCrucible = new AttributeCrafter("silicon-crucible"){{
+- mindustry/content/Blocks.java:1103 `anonymous_double_brace_initializer` kiln = new GenericCrafter("kiln"){{
+- mindustry/content/Blocks.java:1118 `anonymous_double_brace_initializer` plastaniumCompressor = new GenericCrafter("plastanium-compressor"){{
+- mindustry/content/Blocks.java:1136 `anonymous_double_brace_initializer` phaseWeaver = new GenericCrafter("phase-weaver"){{
+- mindustry/content/Blocks.java:1154 `anonymous_double_brace_initializer` surgeSmelter = new GenericCrafter("surge-smelter"){{
+- mindustry/content/Blocks.java:1168 `anonymous_double_brace_initializer` cryofluidMixer = new GenericCrafter("cryofluid-mixer"){{
+- mindustry/content/Blocks.java:1179 `anonymous_double_brace_initializer` drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.water), new DrawLiquidTile(Liquids.cryofluid){{drawLiquidLight = true;}}, new DrawDefault());
+- mindustry/content/Blocks.java:1189 `anonymous_double_brace_initializer` pyratiteMixer = new GenericCrafter("pyratite-mixer"){{
+- mindustry/content/Blocks.java:1204 `anonymous_double_brace_initializer` blastMixer = new GenericCrafter("blast-mixer"){{
+- mindustry/content/Blocks.java:1218 `anonymous_double_brace_initializer` melter = new GenericCrafter("melter"){{
+- mindustry/content/Blocks.java:1231 `anonymous_double_brace_initializer` separator = new Separator("separator"){{
+- mindustry/content/Blocks.java:1249 `anonymous_double_brace_initializer` disassembler = new Separator("disassembler"){{
+- mindustry/content/Blocks.java:1269 `anonymous_double_brace_initializer` sporePress = new GenericCrafter("spore-press"){{
+- mindustry/content/Blocks.java:1281 `anonymous_double_brace_initializer` new DrawPistons(){{
+- mindustry/content/Blocks.java:1293 `anonymous_double_brace_initializer` pulverizer = new GenericCrafter("pulverizer"){{
+- mindustry/content/Blocks.java:1300 `anonymous_double_brace_initializer` drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-rotator"){{
+- mindustry/content/Blocks.java:1311 `anonymous_double_brace_initializer` coalCentrifuge = new GenericCrafter("coal-centrifuge"){{
+- mindustry/content/Blocks.java:1324 `anonymous_double_brace_initializer` incinerator = new Incinerator("incinerator"){{
+- mindustry/content/Blocks.java:1333 `anonymous_double_brace_initializer` siliconArcFurnace = new GenericCrafter("silicon-arc-furnace"){{
+- mindustry/content/Blocks.java:1354 `anonymous_double_brace_initializer` electrolyzer = new GenericCrafter("electrolyzer"){{
+- mindustry/content/Blocks.java:1373 `anonymous_double_brace_initializer` new DrawBubbles(Color.valueOf("7693e3")){{
+- mindustry/content/Blocks.java:1382 `anonymous_double_brace_initializer` new DrawGlowRegion(){{
+- mindustry/content/Blocks.java:1398 `anonymous_double_brace_initializer` atmosphericConcentrator = new HeatCrafter("atmospheric-concentrator"){{
+- mindustry/content/Blocks.java:1404 `anonymous_double_brace_initializer` new DrawParticles(){{
+- mindustry/content/Blocks.java:1427 `anonymous_double_brace_initializer` oxidationChamber = new HeatProducer("oxidation-chamber"){{
+- mindustry/content/Blocks.java:1450 `anonymous_double_brace_initializer` electricHeater = new HeatProducer("electric-heater"){{
+- mindustry/content/Blocks.java:1465 `anonymous_double_brace_initializer` slagHeater = new HeatProducer("slag-heater"){{
+- mindustry/content/Blocks.java:1483 `anonymous_double_brace_initializer` phaseHeater = new HeatProducer("phase-heater"){{
+- mindustry/content/Blocks.java:1494 `anonymous_double_brace_initializer` heatRedirector = new HeatConductor("heat-redirector"){{
+- mindustry/content/Blocks.java:1505 `anonymous_double_brace_initializer` smallHeatRedirector = new HeatConductor("small-heat-redirector"){{
+- mindustry/content/Blocks.java:1517 `anonymous_double_brace_initializer` heatRouter = new HeatConductor("heat-router"){{
+- mindustry/content/Blocks.java:1529 `anonymous_double_brace_initializer` slagIncinerator = new ItemIncinerator("slag-incinerator"){{
+- mindustry/content/Blocks.java:1535 `anonymous_double_brace_initializer` carbideCrucible = new HeatCrafter("carbide-crucible"){{
+- mindustry/content/Blocks.java:1554 `anonymous_double_brace_initializer` slagCentrifuge = new GenericCrafter("slag-centrifuge"){{
+- mindustry/content/Blocks.java:1564 `anonymous_double_brace_initializer` var drawers = Seq.with(new DrawRegion("-bottom"), new DrawLiquidRegion(Liquids.slag){{ alpha = 0.7f; }});
+- mindustry/content/Blocks.java:1568 `anonymous_double_brace_initializer` drawers.add(new DrawGlowRegion(-1f){{
+- mindustry/content/Blocks.java:1585 `anonymous_double_brace_initializer` surgeCrucible = new HeatCrafter("surge-crucible"){{
+- mindustry/content/Blocks.java:1603 `anonymous_double_brace_initializer` drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawCircles(){{
+- mindustry/content/Blocks.java:1609 `anonymous_double_brace_initializer` new DrawHeatRegion(){{
+- mindustry/content/Blocks.java:1612 `anonymous_double_brace_initializer` new DrawHeatRegion("-vents"){{
+- mindustry/content/Blocks.java:1621 `anonymous_double_brace_initializer` cyanogenSynthesizer = new HeatCrafter("cyanogen-synthesizer"){{
+- mindustry/content/Blocks.java:1628 `anonymous_double_brace_initializer` new DrawParticles(){{
+- mindustry/content/Blocks.java:1653 `anonymous_double_brace_initializer` phaseSynthesizer = new HeatCrafter("phase-synthesizer"){{
+- mindustry/content/Blocks.java:1669 `anonymous_double_brace_initializer` drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawSpikes(){{
+- mindustry/content/Blocks.java:1676 `anonymous_double_brace_initializer` }}, new DrawMultiWeave(){{
+- mindustry/content/Blocks.java:1678 `anonymous_double_brace_initializer` }}, new DrawDefault(), new DrawHeatInput(), new DrawHeatRegion("-vents"){{
+- mindustry/content/Blocks.java:1687 `anonymous_double_brace_initializer` heatReactor = new HeatProducer("heat-reactor"){{
+- mindustry/content/Blocks.java:1706 `anonymous_double_brace_initializer` copperWall = new Wall("copper-wall"){{
+- mindustry/content/Blocks.java:1712 `anonymous_double_brace_initializer` copperWallLarge = new Wall("copper-wall-large"){{
+- mindustry/content/Blocks.java:1718 `anonymous_double_brace_initializer` titaniumWall = new Wall("titanium-wall"){{
+- mindustry/content/Blocks.java:1723 `anonymous_double_brace_initializer` titaniumWallLarge = new Wall("titanium-wall-large"){{
+- mindustry/content/Blocks.java:1729 `anonymous_double_brace_initializer` plastaniumWall = new Wall("plastanium-wall"){{
+- mindustry/content/Blocks.java:1737 `anonymous_double_brace_initializer` plastaniumWallLarge = new Wall("plastanium-wall-large"){{
+- mindustry/content/Blocks.java:1746 `anonymous_double_brace_initializer` thoriumWall = new Wall("thorium-wall"){{
+- mindustry/content/Blocks.java:1751 `anonymous_double_brace_initializer` thoriumWallLarge = new Wall("thorium-wall-large"){{
+- mindustry/content/Blocks.java:1757 `anonymous_double_brace_initializer` phaseWall = new Wall("phase-wall"){{
+- mindustry/content/Blocks.java:1764 `anonymous_double_brace_initializer` phaseWallLarge = new Wall("phase-wall-large"){{
+- mindustry/content/Blocks.java:1772 `anonymous_double_brace_initializer` surgeWall = new Wall("surge-wall"){{
+- mindustry/content/Blocks.java:1778 `anonymous_double_brace_initializer` surgeWallLarge = new Wall("surge-wall-large"){{
+- mindustry/content/Blocks.java:1785 `anonymous_double_brace_initializer` door = new Door("door"){{
+- mindustry/content/Blocks.java:1790 `anonymous_double_brace_initializer` doorLarge = new Door("door-large"){{
+- mindustry/content/Blocks.java:1798 `anonymous_double_brace_initializer` scrapWall = new Wall("scrap-wall"){{
+- mindustry/content/Blocks.java:1805 `anonymous_double_brace_initializer` scrapWallLarge = new Wall("scrap-wall-large"){{
+- mindustry/content/Blocks.java:1813 `anonymous_double_brace_initializer` scrapWallHuge = new Wall("scrap-wall-huge"){{
+- mindustry/content/Blocks.java:1821 `anonymous_double_brace_initializer` scrapWallGigantic = new Wall("scrap-wall-gigantic"){{
+- mindustry/content/Blocks.java:1828 `anonymous_double_brace_initializer` thruster = new Thruster("thruster"){{
+- mindustry/content/Blocks.java:1834 `anonymous_double_brace_initializer` berylliumWall = new Wall("beryllium-wall"){{
+- mindustry/content/Blocks.java:1841 `anonymous_double_brace_initializer` berylliumWallLarge = new Wall("beryllium-wall-large"){{
+- mindustry/content/Blocks.java:1849 `anonymous_double_brace_initializer` tungstenWall = new Wall("tungsten-wall"){{
+- mindustry/content/Blocks.java:1856 `anonymous_double_brace_initializer` tungstenWallLarge = new Wall("tungsten-wall-large"){{
+- mindustry/content/Blocks.java:1864 `anonymous_double_brace_initializer` blastDoor = new AutoDoor("blast-door"){{
+- mindustry/content/Blocks.java:1871 `anonymous_double_brace_initializer` reinforcedSurgeWall = new Wall("reinforced-surge-wall"){{
+- mindustry/content/Blocks.java:1880 `anonymous_double_brace_initializer` reinforcedSurgeWallLarge = new Wall("reinforced-surge-wall-large"){{
+- mindustry/content/Blocks.java:1890 `anonymous_double_brace_initializer` carbideWall = new Wall("carbide-wall"){{
+- mindustry/content/Blocks.java:1896 `anonymous_double_brace_initializer` carbideWallLarge = new Wall("carbide-wall-large"){{
+- mindustry/content/Blocks.java:1903 `anonymous_double_brace_initializer` shieldedWall = new ShieldWall("shielded-wall"){{
+- mindustry/content/Blocks.java:1919 `anonymous_double_brace_initializer` mender = new MendProjector("mender"){{
+- mindustry/content/Blocks.java:1932 `anonymous_double_brace_initializer` mendProjector = new MendProjector("mend-projector"){{
+- mindustry/content/Blocks.java:1944 `anonymous_double_brace_initializer` overdriveProjector = new OverdriveProjector("overdrive-projector"){{
+- mindustry/content/Blocks.java:1952 `anonymous_double_brace_initializer` overdriveDome = new OverdriveProjector("overdrive-dome"){{
+- mindustry/content/Blocks.java:1964 `anonymous_double_brace_initializer` forceProjector = new ForceProjector("force-projector"){{
+- mindustry/content/Blocks.java:1978 `anonymous_double_brace_initializer` shockMine = new ShockMine("shock-mine"){{
+- mindustry/content/Blocks.java:1988 `anonymous_double_brace_initializer` radar = new Radar("radar"){{
+- mindustry/content/Blocks.java:1997 `anonymous_double_brace_initializer` buildTower = new BuildTurret("build-tower"){{
+- mindustry/content/Blocks.java:2009 `anonymous_double_brace_initializer` regenProjector = new RegenProjector("regen-projector"){{
+- mindustry/content/Blocks.java:2023 `anonymous_double_brace_initializer` drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.hydrogen, 9f / 4f), new DrawDefault(), new DrawGlowRegion(){{
+- mindustry/content/Blocks.java:2025 `anonymous_double_brace_initializer` }}, new DrawPulseShape(false){{
+- mindustry/content/Blocks.java:2028 `anonymous_double_brace_initializer` }}, new DrawShape(){{
+- mindustry/content/Blocks.java:2038 `anonymous_double_brace_initializer` shockwaveTower = new ShockwaveTower("shockwave-tower"){{
+- mindustry/content/Blocks.java:2048 `anonymous_double_brace_initializer` shieldProjector = new BaseShield("shield-projector"){{
+- mindustry/content/Blocks.java:2056 `anonymous_double_brace_initializer` largeShieldProjector = new BaseShield("large-shield-projector"){{
+- mindustry/content/Blocks.java:2068 `anonymous_double_brace_initializer` conveyor = new Conveyor("conveyor"){{
+- mindustry/content/Blocks.java:2077 `anonymous_double_brace_initializer` titaniumConveyor = new Conveyor("titanium-conveyor"){{
+- mindustry/content/Blocks.java:2084 `anonymous_double_brace_initializer` plastaniumConveyor = new StackConveyor("plastanium-conveyor"){{
+- mindustry/content/Blocks.java:2091 `anonymous_double_brace_initializer` armoredConveyor = new ArmoredConveyor("armored-conveyor"){{
+- mindustry/content/Blocks.java:2098 `anonymous_double_brace_initializer` junction = new Junction("junction"){{
+- mindustry/content/Blocks.java:2106 `anonymous_double_brace_initializer` itemBridge = new BufferedItemBridge("bridge-conveyor"){{
+- mindustry/content/Blocks.java:2116 `anonymous_double_brace_initializer` phaseConveyor = new ItemBridge("phase-conveyor"){{
+- mindustry/content/Blocks.java:2128 `anonymous_double_brace_initializer` sorter = new Sorter("sorter"){{
+- mindustry/content/Blocks.java:2133 `anonymous_double_brace_initializer` invertedSorter = new Sorter("inverted-sorter"){{
+- mindustry/content/Blocks.java:2139 `anonymous_double_brace_initializer` router = new Router("router"){{
+- mindustry/content/Blocks.java:2144 `anonymous_double_brace_initializer` distributor = new Router("distributor"){{
+- mindustry/content/Blocks.java:2150 `anonymous_double_brace_initializer` overflowGate = new OverflowGate("overflow-gate"){{
+- mindustry/content/Blocks.java:2155 `anonymous_double_brace_initializer` underflowGate = new OverflowGate("underflow-gate"){{
+- mindustry/content/Blocks.java:2161 `anonymous_double_brace_initializer` unloader = new Unloader("unloader"){{
+- mindustry/content/Blocks.java:2167 `anonymous_double_brace_initializer` massDriver = new MassDriver("mass-driver"){{
+- mindustry/content/Blocks.java:2178 `anonymous_double_brace_initializer` duct = new Duct("duct"){{
+- mindustry/content/Blocks.java:2185 `anonymous_double_brace_initializer` armoredDuct = new Duct("armored-duct"){{
+- mindustry/content/Blocks.java:2193 `anonymous_double_brace_initializer` ductRouter = new DuctRouter("duct-router"){{
+- mindustry/content/Blocks.java:2202 `anonymous_double_brace_initializer` overflowDuct = new OverflowDuct("overflow-duct"){{
+- mindustry/content/Blocks.java:2210 `anonymous_double_brace_initializer` underflowDuct = new OverflowDuct("underflow-duct"){{
+- mindustry/content/Blocks.java:2219 `anonymous_double_brace_initializer` ductBridge = new DuctBridge("duct-bridge"){{
+- mindustry/content/Blocks.java:2228 `anonymous_double_brace_initializer` ductUnloader = new DirectionalUnloader("duct-unloader"){{
+- mindustry/content/Blocks.java:2237 `anonymous_double_brace_initializer` surgeConveyor = new StackConveyor("surge-conveyor"){{
+- mindustry/content/Blocks.java:2255 `anonymous_double_brace_initializer` surgeRouter = new StackRouter("surge-router"){{
+- mindustry/content/Blocks.java:2270 `anonymous_double_brace_initializer` unitCargoLoader = new UnitCargoLoader("unit-cargo-loader"){{
+- mindustry/content/Blocks.java:2285 `anonymous_double_brace_initializer` unitCargoUnloadPoint = new UnitCargoUnloadPoint("unit-cargo-unload-point"){{
+- mindustry/content/Blocks.java:2298 `anonymous_double_brace_initializer` mechanicalPump = new Pump("mechanical-pump"){{
+- mindustry/content/Blocks.java:2304 `anonymous_double_brace_initializer` rotaryPump = new Pump("rotary-pump"){{
+- mindustry/content/Blocks.java:2313 `anonymous_double_brace_initializer` impulsePump = new Pump("impulse-pump"){{
+- mindustry/content/Blocks.java:2322 `anonymous_double_brace_initializer` conduit = new Conduit("conduit"){{
+- mindustry/content/Blocks.java:2329 `anonymous_double_brace_initializer` pulseConduit = new Conduit("pulse-conduit"){{
+- mindustry/content/Blocks.java:2337 `anonymous_double_brace_initializer` platedConduit = new ArmoredConduit("plated-conduit"){{
+- mindustry/content/Blocks.java:2345 `anonymous_double_brace_initializer` liquidRouter = new LiquidRouter("liquid-router"){{
+- mindustry/content/Blocks.java:2354 `anonymous_double_brace_initializer` liquidContainer = new LiquidRouter("liquid-container"){{
+- mindustry/content/Blocks.java:2361 `anonymous_double_brace_initializer` liquidTank = new LiquidRouter("liquid-tank"){{
+- mindustry/content/Blocks.java:2369 `anonymous_double_brace_initializer` liquidJunction = new LiquidJunction("liquid-junction"){{
+- mindustry/content/Blocks.java:2374 `anonymous_double_brace_initializer` bridgeConduit = new LiquidBridge("bridge-conduit"){{
+- mindustry/content/Blocks.java:2385 `anonymous_double_brace_initializer` phaseConduit = new LiquidBridge("phase-conduit"){{
+- mindustry/content/Blocks.java:2401 `anonymous_double_brace_initializer` reinforcedPump = new Pump("reinforced-pump"){{
+- mindustry/content/Blocks.java:2410 `anonymous_double_brace_initializer` reinforcedConduit = new ArmoredConduit("reinforced-conduit"){{
+- mindustry/content/Blocks.java:2422 `anonymous_double_brace_initializer` reinforcedLiquidJunction = new LiquidJunction("reinforced-liquid-junction"){{
+- mindustry/content/Blocks.java:2432 `anonymous_double_brace_initializer` reinforcedBridgeConduit = new DirectionLiquidBridge("reinforced-bridge-conduit"){{
+- mindustry/content/Blocks.java:2445 `anonymous_double_brace_initializer` reinforcedLiquidRouter = new LiquidRouter("reinforced-liquid-router"){{
+- mindustry/content/Blocks.java:2457 `anonymous_double_brace_initializer` reinforcedLiquidContainer = new LiquidRouter("reinforced-liquid-container"){{
+- mindustry/content/Blocks.java:2467 `anonymous_double_brace_initializer` reinforcedLiquidTank = new LiquidRouter("reinforced-liquid-tank"){{
+- mindustry/content/Blocks.java:2479 `anonymous_double_brace_initializer` powerNode = new PowerNode("power-node"){{
+- mindustry/content/Blocks.java:2487 `anonymous_double_brace_initializer` powerNodeLarge = new PowerNode("power-node-large"){{
+- mindustry/content/Blocks.java:2494 `anonymous_double_brace_initializer` surgeTower = new PowerNode("surge-tower"){{
+- mindustry/content/Blocks.java:2502 `anonymous_double_brace_initializer` diode = new PowerDiode("diode"){{
+- mindustry/content/Blocks.java:2506 `anonymous_double_brace_initializer` battery = new Battery("battery"){{
+- mindustry/content/Blocks.java:2512 `anonymous_double_brace_initializer` batteryLarge = new Battery("battery-large"){{
+- mindustry/content/Blocks.java:2519 `anonymous_double_brace_initializer` combustionGenerator = new ConsumeGenerator("combustion-generator"){{
+- mindustry/content/Blocks.java:2535 `anonymous_double_brace_initializer` thermalGenerator = new ThermalGenerator("thermal-generator"){{
+- mindustry/content/Blocks.java:2546 `anonymous_double_brace_initializer` steamGenerator = new ConsumeGenerator("steam-generator"){{
+- mindustry/content/Blocks.java:2565 `anonymous_double_brace_initializer` new DrawRegion("-turbine"){{
+- mindustry/content/Blocks.java:2568 `anonymous_double_brace_initializer` new DrawRegion("-turbine"){{
+- mindustry/content/Blocks.java:2577 `anonymous_double_brace_initializer` differentialGenerator = new ConsumeGenerator("differential-generator"){{
+- mindustry/content/Blocks.java:2594 `anonymous_double_brace_initializer` rtgGenerator = new ConsumeGenerator("rtg-generator"){{
+- mindustry/content/Blocks.java:2607 `anonymous_double_brace_initializer` solarPanel = new SolarGenerator("solar-panel"){{
+- mindustry/content/Blocks.java:2612 `anonymous_double_brace_initializer` largeSolarPanel = new SolarGenerator("solar-panel-large"){{
+- mindustry/content/Blocks.java:2618 `anonymous_double_brace_initializer` thoriumReactor = new NuclearReactor("thorium-reactor"){{
+- mindustry/content/Blocks.java:2632 `anonymous_double_brace_initializer` impactReactor = new ImpactReactor("impact-reactor"){{
+- mindustry/content/Blocks.java:2649 `anonymous_double_brace_initializer` beamNode = new BeamNode("beam-node"){{
+- mindustry/content/Blocks.java:2661 `anonymous_double_brace_initializer` beamTower = new BeamNode("beam-tower"){{
+- mindustry/content/Blocks.java:2672 `anonymous_double_brace_initializer` beamLink = new LongPowerNode("beam-link"){{
+- mindustry/content/Blocks.java:2685 `anonymous_double_brace_initializer` turbineCondenser = new ThermalGenerator("turbine-condenser"){{
+- mindustry/content/Blocks.java:2699 `anonymous_double_brace_initializer` drawer = new DrawMulti(new DrawDefault(), new DrawBlurSpin("-rotator", 0.6f * 9f){{
+- mindustry/content/Blocks.java:2710 `anonymous_double_brace_initializer` chemicalCombustionChamber = new ConsumeGenerator("chemical-combustion-chamber"){{
+- mindustry/content/Blocks.java:2716 `anonymous_double_brace_initializer` drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawPistons(){{
+- mindustry/content/Blocks.java:2719 `anonymous_double_brace_initializer` }}, new DrawRegion("-mid"), new DrawLiquidTile(Liquids.arkycite, 37f / 4f), new DrawDefault(), new DrawGlowRegion(){{
+- mindustry/content/Blocks.java:2732 `anonymous_double_brace_initializer` pyrolysisGenerator = new ConsumeGenerator("pyrolysis-generator"){{
+- mindustry/content/Blocks.java:2736 `anonymous_double_brace_initializer` drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawPistons(){{
+- mindustry/content/Blocks.java:2741 `anonymous_double_brace_initializer` }}, new DrawRegion("-mid"), new DrawLiquidTile(Liquids.arkycite, 38f / 4f), new DrawDefault(), new DrawGlowRegion(){{
+- mindustry/content/Blocks.java:2762 `anonymous_double_brace_initializer` fluxReactor = new VariableReactor("flux-reactor"){{
+- mindustry/content/Blocks.java:2783 `anonymous_double_brace_initializer` new DrawSoftParticles(){{
+- mindustry/content/Blocks.java:2792 `anonymous_double_brace_initializer` new DrawGlowRegion("-ventglow"){{
+- mindustry/content/Blocks.java:2798 `anonymous_double_brace_initializer` neoplasiaReactor = new HeaterGenerator("neoplasia-reactor"){{
+- mindustry/content/Blocks.java:2836 `anonymous_double_brace_initializer` new DrawCircles(){{
+- mindustry/content/Blocks.java:2846 `anonymous_double_brace_initializer` new DrawCells(){{
+- mindustry/content/Blocks.java:2855 `anonymous_double_brace_initializer` new DrawGlowRegion("-glow"){{
+- mindustry/content/Blocks.java:2865 `anonymous_double_brace_initializer` mechanicalDrill = new Drill("mechanical-drill"){{
+- mindustry/content/Blocks.java:2877 `anonymous_double_brace_initializer` pneumaticDrill = new Drill("pneumatic-drill"){{
+- mindustry/content/Blocks.java:2886 `anonymous_double_brace_initializer` laserDrill = new Drill("laser-drill"){{
+- mindustry/content/Blocks.java:2899 `anonymous_double_brace_initializer` blastDrill = new Drill("blast-drill"){{
+- mindustry/content/Blocks.java:2920 `anonymous_double_brace_initializer` waterExtractor = new SolidPump("water-extractor"){{
+- mindustry/content/Blocks.java:2933 `anonymous_double_brace_initializer` cultivator = new AttributeCrafter("cultivator"){{
+- mindustry/content/Blocks.java:2964 `anonymous_double_brace_initializer` oilExtractor = new Fracker("oil-extractor"){{
+- mindustry/content/Blocks.java:2981 `anonymous_double_brace_initializer` ventCondenser = new AttributeCrafter("vent-condenser"){{
+- mindustry/content/Blocks.java:3002 `anonymous_double_brace_initializer` cliffCrusher = new WallCrafter("cliff-crusher"){{
+- mindustry/content/Blocks.java:3016 `anonymous_double_brace_initializer` largeCliffCrusher = new WallCrafter("large-cliff-crusher"){{
+- mindustry/content/Blocks.java:3038 `anonymous_double_brace_initializer` plasmaBore = new BeamDrill("plasma-bore"){{
+- mindustry/content/Blocks.java:3052 `anonymous_double_brace_initializer` largePlasmaBore = new BeamDrill("large-plasma-bore"){{
+- mindustry/content/Blocks.java:3070 `anonymous_double_brace_initializer` impactDrill = new BurstDrill("impact-drill"){{
+- mindustry/content/Blocks.java:3093 `anonymous_double_brace_initializer` eruptionDrill = new BurstDrill("eruption-drill"){{
+- mindustry/content/Blocks.java:3126 `anonymous_double_brace_initializer` coreShard = new CoreBlock("core-shard"){{
+- mindustry/content/Blocks.java:3140 `anonymous_double_brace_initializer` coreFoundation = new CoreBlock("core-foundation"){{
+- mindustry/content/Blocks.java:3153 `anonymous_double_brace_initializer` coreNucleus = new CoreBlock("core-nucleus"){{
+- mindustry/content/Blocks.java:3166 `anonymous_double_brace_initializer` coreBastion = new CoreBlock("core-bastion"){{
+- mindustry/content/Blocks.java:3188 `anonymous_double_brace_initializer` coreCitadel = new CoreBlock("core-citadel"){{
+- mindustry/content/Blocks.java:3206 `anonymous_double_brace_initializer` coreAcropolis = new CoreBlock("core-acropolis"){{
+- mindustry/content/Blocks.java:3224 `anonymous_double_brace_initializer` container = new StorageBlock("container"){{
+- mindustry/content/Blocks.java:3231 `anonymous_double_brace_initializer` vault = new StorageBlock("vault"){{
+- mindustry/content/Blocks.java:3238 `anonymous_double_brace_initializer` reinforcedContainer = new StorageBlock("reinforced-container"){{
+- mindustry/content/Blocks.java:3246 `anonymous_double_brace_initializer` reinforcedVault = new StorageBlock("reinforced-vault"){{
+- mindustry/content/Blocks.java:3257 `anonymous_double_brace_initializer` duo = new ItemTurret("duo"){{
+- mindustry/content/Blocks.java:3260 `anonymous_double_brace_initializer` Items.copper,  new BasicBulletType(2.5f, 9){{
+- mindustry/content/Blocks.java:3270 `anonymous_double_brace_initializer` Items.graphite, new BasicBulletType(3.5f, 18){{
+- mindustry/content/Blocks.java:3282 `anonymous_double_brace_initializer` Items.silicon, new BasicBulletType(3f, 12){{
+- mindustry/content/Blocks.java:3302 `anonymous_double_brace_initializer` drawer = new DrawTurret(){{
+- mindustry/content/Blocks.java:3305 `anonymous_double_brace_initializer` parts.add(new RegionPart("-barrel-" + (i == 0 ? "l" : "r")){{
+- mindustry/content/Blocks.java:3332 `anonymous_double_brace_initializer` scatter = new ItemTurret("scatter"){{
+- mindustry/content/Blocks.java:3335 `anonymous_double_brace_initializer` Items.scrap, new FlakBulletType(4f, 3){{
+- mindustry/content/Blocks.java:3350 `anonymous_double_brace_initializer` Items.lead, new FlakBulletType(4.2f, 3){{
+- mindustry/content/Blocks.java:3360 `anonymous_double_brace_initializer` Items.metaglass, new FlakBulletType(4f, 3){{
+- mindustry/content/Blocks.java:3375 `anonymous_double_brace_initializer` fragBullet = new BasicBulletType(3f, 5){{
+- mindustry/content/Blocks.java:3388 `anonymous_double_brace_initializer` drawer = new DrawTurret(){{
+- mindustry/content/Blocks.java:3389 `anonymous_double_brace_initializer` parts.add(new RegionPart("-mid"){{
+- mindustry/content/Blocks.java:3418 `anonymous_double_brace_initializer` scorch = new ItemTurret("scorch"){{
+- mindustry/content/Blocks.java:3421 `anonymous_double_brace_initializer` Items.coal, new BulletType(3.35f, 17f){{
+- mindustry/content/Blocks.java:3434 `anonymous_double_brace_initializer` Items.pyratite, new BulletType(4f, 30f){{
+- mindustry/content/Blocks.java:3462 `anonymous_double_brace_initializer` hail = new ItemTurret("hail"){{
+- mindustry/content/Blocks.java:3465 `anonymous_double_brace_initializer` Items.graphite, new ArtilleryBulletType(3f, 20){{
+- mindustry/content/Blocks.java:3477 `anonymous_double_brace_initializer` Items.silicon, new ArtilleryBulletType(3f, 20){{
+- mindustry/content/Blocks.java:3496 `anonymous_double_brace_initializer` Items.pyratite, new ArtilleryBulletType(3f, 25){{
+- mindustry/content/Blocks.java:3528 `anonymous_double_brace_initializer` wave = new LiquidTurret("wave"){{
+- mindustry/content/Blocks.java:3531 `anonymous_double_brace_initializer` Liquids.water,new LiquidBulletType(Liquids.water){{
+- mindustry/content/Blocks.java:3536 `anonymous_double_brace_initializer` Liquids.slag, new LiquidBulletType(Liquids.slag){{
+- mindustry/content/Blocks.java:3540 `anonymous_double_brace_initializer` Liquids.cryofluid, new LiquidBulletType(Liquids.cryofluid){{
+- mindustry/content/Blocks.java:3543 `anonymous_double_brace_initializer` Liquids.oil, new LiquidBulletType(Liquids.oil){{
+- mindustry/content/Blocks.java:3560 `anonymous_double_brace_initializer` lancer = new PowerTurret("lancer"){{
+- mindustry/content/Blocks.java:3583 `anonymous_double_brace_initializer` shootType = new LaserBulletType(140){{
+- mindustry/content/Blocks.java:3601 `anonymous_double_brace_initializer` arc = new PowerTurret("arc"){{
+- mindustry/content/Blocks.java:3603 `anonymous_double_brace_initializer` shootType = new LightningBulletType(){{
+- mindustry/content/Blocks.java:3612 `anonymous_double_brace_initializer` lightningType = new BulletType(0.0001f, 0f){{
+- mindustry/content/Blocks.java:3640 `anonymous_double_brace_initializer` parallax = new TractorBeamTurret("parallax"){{
+- mindustry/content/Blocks.java:3655 `anonymous_double_brace_initializer` swarmer = new ItemTurret("swarmer"){{
+- mindustry/content/Blocks.java:3658 `anonymous_double_brace_initializer` Items.blastCompound, new MissileBulletType(3.7f, 10){{
+- mindustry/content/Blocks.java:3673 `anonymous_double_brace_initializer` Items.pyratite, new MissileBulletType(3.7f, 12){{
+- mindustry/content/Blocks.java:3687 `anonymous_double_brace_initializer` Items.surgeAlloy, new MissileBulletType(3.7f, 18){{
+- mindustry/content/Blocks.java:3705 `anonymous_double_brace_initializer` shoot = new ShootBarrel(){{
+- mindustry/content/Blocks.java:3730 `anonymous_double_brace_initializer` salvo = new ItemTurret("salvo"){{
+- mindustry/content/Blocks.java:3733 `anonymous_double_brace_initializer` Items.copper,  new BasicBulletType(2.5f, 15){{
+- mindustry/content/Blocks.java:3744 `anonymous_double_brace_initializer` Items.graphite, new BasicBulletType(3.5f, 31){{
+- mindustry/content/Blocks.java:3757 `anonymous_double_brace_initializer` Items.pyratite, new BasicBulletType(3.2f, 25){{
+- mindustry/content/Blocks.java:3773 `anonymous_double_brace_initializer` Items.silicon, new BasicBulletType(3f, 23, "bullet"){{
+- mindustry/content/Blocks.java:3787 `anonymous_double_brace_initializer` Items.thorium, new BasicBulletType(4f, 28, "bullet"){{
+- mindustry/content/Blocks.java:3802 `anonymous_double_brace_initializer` drawer = new DrawTurret(){{
+- mindustry/content/Blocks.java:3803 `anonymous_double_brace_initializer` parts.add(new RegionPart("-side"){{
+- mindustry/content/Blocks.java:3810 `anonymous_double_brace_initializer` }}, new RegionPart("-barrel"){{
+- mindustry/content/Blocks.java:3835 `anonymous_double_brace_initializer` segment = new PointDefenseTurret("segment"){{
+- mindustry/content/Blocks.java:3849 `anonymous_double_brace_initializer` tsunami = new LiquidTurret("tsunami"){{
+- mindustry/content/Blocks.java:3852 `anonymous_double_brace_initializer` Liquids.water, new LiquidBulletType(Liquids.water){{
+- mindustry/content/Blocks.java:3864 `anonymous_double_brace_initializer` Liquids.slag, new LiquidBulletType(Liquids.slag){{
+- mindustry/content/Blocks.java:3875 `anonymous_double_brace_initializer` Liquids.cryofluid, new LiquidBulletType(Liquids.cryofluid){{
+- mindustry/content/Blocks.java:3886 `anonymous_double_brace_initializer` Liquids.oil, new LiquidBulletType(Liquids.oil){{
+- mindustry/content/Blocks.java:3914 `anonymous_double_brace_initializer` fuse = new ItemTurret("fuse"){{
+- mindustry/content/Blocks.java:3936 `anonymous_double_brace_initializer` Items.titanium, new ShrapnelBulletType(){{
+- mindustry/content/Blocks.java:3943 `anonymous_double_brace_initializer` Items.thorium, new ShrapnelBulletType(){{
+- mindustry/content/Blocks.java:3954 `anonymous_double_brace_initializer` ripple = new ItemTurret("ripple"){{
+- mindustry/content/Blocks.java:3957 `anonymous_double_brace_initializer` Items.graphite, new ArtilleryBulletType(3f, 40){{
+- mindustry/content/Blocks.java:3973 `anonymous_double_brace_initializer` Items.silicon, new ArtilleryBulletType(3f, 40){{
+- mindustry/content/Blocks.java:3996 `anonymous_double_brace_initializer` Items.pyratite, new ArtilleryBulletType(3f, 48){{
+- mindustry/content/Blocks.java:4016 `anonymous_double_brace_initializer` Items.blastCompound, new ArtilleryBulletType(2f, 40, "shell"){{
+- mindustry/content/Blocks.java:4035 `anonymous_double_brace_initializer` Items.plastanium, new ArtilleryBulletType(3.4f, 40, "shell"){{
+- mindustry/content/Blocks.java:4044 `anonymous_double_brace_initializer` fragBullet = new BasicBulletType(2.5f, 14, "bullet"){{
+- mindustry/content/Blocks.java:4084 `anonymous_double_brace_initializer` cyclone = new ItemTurret("cyclone"){{
+- mindustry/content/Blocks.java:4087 `anonymous_double_brace_initializer` Items.metaglass, new FlakBulletType(4f, 6){{
+- mindustry/content/Blocks.java:4096 `anonymous_double_brace_initializer` fragBullet = new BasicBulletType(3f, 12, "bullet"){{
+- mindustry/content/Blocks.java:4113 `anonymous_double_brace_initializer` Items.blastCompound, new FlakBulletType(4f, 8){{
+- mindustry/content/Blocks.java:4126 `anonymous_double_brace_initializer` Items.plastanium, new FlakBulletType(4f, 8){{
+- mindustry/content/Blocks.java:4130 `anonymous_double_brace_initializer` fragBullet = new BasicBulletType(2.5f, 12, "bullet"){{
+- mindustry/content/Blocks.java:4148 `anonymous_double_brace_initializer` Items.surgeAlloy, new FlakBulletType(4.5f, 13){{
+- mindustry/content/Blocks.java:4165 `anonymous_double_brace_initializer` shoot = new ShootBarrel(){{
+- mindustry/content/Blocks.java:4174 `anonymous_double_brace_initializer` drawer = new DrawTurret(){{
+- mindustry/content/Blocks.java:4177 `anonymous_double_brace_initializer` parts.add(new RegionPart("-barrel-" + i){{
+- mindustry/content/Blocks.java:4202 `anonymous_double_brace_initializer` foreshadow = new ItemTurret("foreshadow"){{
+- mindustry/content/Blocks.java:4207 `anonymous_double_brace_initializer` Items.surgeAlloy, new RailBulletType(){{
+- mindustry/content/Blocks.java:4247 `anonymous_double_brace_initializer` spectre = new ItemTurret("spectre"){{
+- mindustry/content/Blocks.java:4250 `anonymous_double_brace_initializer` Items.graphite, new BasicBulletType(7.5f, 50){{
+- mindustry/content/Blocks.java:4263 `anonymous_double_brace_initializer` Items.thorium, new BasicBulletType(8f, 80){{
+- mindustry/content/Blocks.java:4275 `anonymous_double_brace_initializer` Items.pyratite, new BasicBulletType(7f, 70){{
+- mindustry/content/Blocks.java:4314 `anonymous_double_brace_initializer` meltdown = new LaserTurret("meltdown"){{
+- mindustry/content/Blocks.java:4330 `anonymous_double_brace_initializer` shootType = new ContinuousLaserBulletType(78){{
+- mindustry/content/Blocks.java:4350 `anonymous_double_brace_initializer` breach = new ItemTurret("breach"){{
+- mindustry/content/Blocks.java:4356 `anonymous_double_brace_initializer` Items.beryllium, new BasicBulletType(7.5f, 85){{
+- mindustry/content/Blocks.java:4373 `anonymous_double_brace_initializer` Items.tungsten, new BasicBulletType(8f, 95){{
+- mindustry/content/Blocks.java:4392 `anonymous_double_brace_initializer` Items.carbide, new BasicBulletType(12f, 325f/0.75f){{
+- mindustry/content/Blocks.java:4417 `anonymous_double_brace_initializer` fragBullet = new BasicBulletType(8.1f, 227f){{
+- mindustry/content/Blocks.java:4462 `anonymous_double_brace_initializer` diffuse = new ItemTurret("diffuse"){{
+- mindustry/content/Blocks.java:4466 `anonymous_double_brace_initializer` Items.graphite, new BasicBulletType(8f, 41){{
+- mindustry/content/Blocks.java:4481 `anonymous_double_brace_initializer` Items.oxide, new BasicBulletType(8f, 90){{
+- mindustry/content/Blocks.java:4496 `anonymous_double_brace_initializer` Items.silicon, new BasicBulletType(8f, 35){{
+- mindustry/content/Blocks.java:4528 `anonymous_double_brace_initializer` drawer = new DrawTurret("reinforced-"){{
+- mindustry/content/Blocks.java:4529 `anonymous_double_brace_initializer` parts.add(new RegionPart("-front"){{
+- mindustry/content/Blocks.java:4552 `anonymous_double_brace_initializer` sublimate = new ContinuousLiquidTurret("sublimate"){{
+- mindustry/content/Blocks.java:4555 `anonymous_double_brace_initializer` drawer = new DrawTurret("reinforced-"){{
+- mindustry/content/Blocks.java:4561 `anonymous_double_brace_initializer` new RegionPart("-back"){{
+- mindustry/content/Blocks.java:4571 `anonymous_double_brace_initializer` new RegionPart("-front"){{
+- mindustry/content/Blocks.java:4582 `anonymous_double_brace_initializer` new RegionPart("-nozzle"){{
+- mindustry/content/Blocks.java:4605 `anonymous_double_brace_initializer` Liquids.ozone, new ContinuousFlameBulletType(){{
+- mindustry/content/Blocks.java:4616 `anonymous_double_brace_initializer` Liquids.cyanogen, new ContinuousFlameBulletType(){{
+- mindustry/content/Blocks.java:4638 `anonymous_double_brace_initializer` titan = new ItemTurret("titan"){{
+- mindustry/content/Blocks.java:4642 `anonymous_double_brace_initializer` Items.thorium, new ArtilleryBulletType(2.5f, 350, "shell"){{
+- mindustry/content/Blocks.java:4669 `lambda` trailInterp = v -> Math.max(Mathf.slope(v), 0.8f);
+- mindustry/content/Blocks.java:4674 `anonymous_double_brace_initializer` Items.carbide, new ArtilleryBulletType(3.25f, 700, "shell"){{
+- mindustry/content/Blocks.java:4705 `lambda` trailInterp = v -> Math.max(Mathf.slope(v), 0.8f);
+- mindustry/content/Blocks.java:4712 `anonymous_double_brace_initializer` fragBullet = new ArtilleryBulletType(0.5f, 50, "shell"){{
+- mindustry/content/Blocks.java:4713 `anonymous_double_brace_initializer` hitEffect = new MultiEffect(Fx.titanExplosionFrag, Fx.titanLightSmall, new WaveEffect(){{
+- mindustry/content/Blocks.java:4734 `anonymous_double_brace_initializer` Items.oxide, new ArtilleryBulletType(2.5f, 300, "shell"){{
+- mindustry/content/Blocks.java:4762 `lambda` trailInterp = v -> Math.max(Mathf.slope(v), 0.8f);
+- mindustry/content/Blocks.java:4770 `anonymous_double_brace_initializer` fragBullet = new EmptyBulletType(){{
+- mindustry/content/Blocks.java:4775 `anonymous_double_brace_initializer` intervalBullet = new EmptyBulletType(){{
+- mindustry/content/Blocks.java:4808 `anonymous_double_brace_initializer` drawer = new DrawTurret("reinforced-"){{
+- mindustry/content/Blocks.java:4810 `anonymous_double_brace_initializer` new RegionPart("-barrel"){{
+- mindustry/content/Blocks.java:4816 `anonymous_double_brace_initializer` new RegionPart("-side"){{
+- mindustry/content/Blocks.java:4839 `anonymous_double_brace_initializer` disperse = new ItemTurret("disperse"){{
+- mindustry/content/Blocks.java:4843 `anonymous_double_brace_initializer` Items.tungsten, new BasicBulletType(){{
+- mindustry/content/Blocks.java:4867 `anonymous_double_brace_initializer` Items.thorium, new BasicBulletType(){{
+- mindustry/content/Blocks.java:4895 `anonymous_double_brace_initializer` Items.silicon, new BasicBulletType(){{
+- mindustry/content/Blocks.java:4921 `anonymous_double_brace_initializer` Items.surgeAlloy, new BasicBulletType(){{
+- mindustry/content/Blocks.java:4953 `anonymous_double_brace_initializer` intervalBullet = new BulletType(){{
+- mindustry/content/Blocks.java:4975 `anonymous_double_brace_initializer` drawer = new DrawTurret("reinforced-"){{
+- mindustry/content/Blocks.java:4976 `anonymous_double_brace_initializer` parts.add(new RegionPart("-side"){{
+- mindustry/content/Blocks.java:4982 `anonymous_double_brace_initializer` new RegionPart("-mid"){{
+- mindustry/content/Blocks.java:4989 `anonymous_double_brace_initializer` new RegionPart("-blade"){{
+- mindustry/content/Blocks.java:5000 `anonymous_double_brace_initializer` shoot = new ShootAlternate(){{
+- mindustry/content/Blocks.java:5023 `anonymous_double_brace_initializer` afflict = new PowerTurret("afflict"){{
+- mindustry/content/Blocks.java:5027 `anonymous_double_brace_initializer` shootType = new BasicBulletType(){{
+- mindustry/content/Blocks.java:5028 `anonymous_double_brace_initializer` shootEffect = new MultiEffect(Fx.shootTitan, new WaveEffect(){{
+- mindustry/content/Blocks.java:5054 `anonymous_double_brace_initializer` despawnEffect = hitEffect = new ExplosionEffect(){{
+- mindustry/content/Blocks.java:5065 `anonymous_double_brace_initializer` fragBullet = intervalBullet = new BasicBulletType(3f, 35){{
+- mindustry/content/Blocks.java:5076 `anonymous_double_brace_initializer` hitEffect = despawnEffect = new WaveEffect(){{
+- mindustry/content/Blocks.java:5098 `anonymous_double_brace_initializer` drawer = new DrawTurret("reinforced-"){{
+- mindustry/content/Blocks.java:5099 `anonymous_double_brace_initializer` parts.add(new RegionPart("-blade"){{
+- mindustry/content/Blocks.java:5108 `anonymous_double_brace_initializer` new RegionPart("-blade-glow"){{
+- mindustry/content/Blocks.java:5146 `anonymous_double_brace_initializer` lustre = new ContinuousTurret("lustre"){{
+- mindustry/content/Blocks.java:5149 `anonymous_double_brace_initializer` shootType = new PointLaserBulletType(){{
+- mindustry/content/Blocks.java:5155 `anonymous_double_brace_initializer` drawer = new DrawTurret("reinforced-"){{
+- mindustry/content/Blocks.java:5156 `lambda` var heatp = PartProgress.warmup.blend(p -> Mathf.absin(2f, 1f) * p.warmup, 0.2f);
+- mindustry/content/Blocks.java:5158 `anonymous_double_brace_initializer` parts.add(new RegionPart("-blade"){{
+- mindustry/content/Blocks.java:5168 `anonymous_double_brace_initializer` new RegionPart("-inner"){{
+- mindustry/content/Blocks.java:5177 `anonymous_double_brace_initializer` new RegionPart("-mid"){{
+- mindustry/content/Blocks.java:5211 `anonymous_double_brace_initializer` scathe = new ItemTurret("scathe"){{
+- mindustry/content/Blocks.java:5217 `anonymous_double_brace_initializer` Items.carbide, new BulletType(0f, 0f){{
+- mindustry/content/Blocks.java:5223 `anonymous_double_brace_initializer` spawnUnit = new MissileUnitType("scathe-missile"){{
+- mindustry/content/Blocks.java:5247 `anonymous_double_brace_initializer` weapons.add(new Weapon(){{
+- mindustry/content/Blocks.java:5254 `anonymous_double_brace_initializer` bullet = new ExplosionBulletType(1000f, 65f){{
+- mindustry/content/Blocks.java:5256 `anonymous_double_brace_initializer` shootEffect = new MultiEffect(Fx.massiveExplosion, Fx.scatheExplosion, Fx.scatheLight, new WaveEffect(){{
+- mindustry/content/Blocks.java:5268 `anonymous_double_brace_initializer` fragBullet = new ArtilleryBulletType(3.4f, 32){{
+- mindustry/content/Blocks.java:5294 `anonymous_double_brace_initializer` abilities.add(new MoveEffectAbility(){{
+- mindustry/content/Blocks.java:5304 `anonymous_double_brace_initializer` Items.phaseFabric, new BulletType(0f, 0f){{
+- mindustry/content/Blocks.java:5311 `anonymous_double_brace_initializer` spawnUnit = new MissileUnitType("scathe-missile-phase"){{
+- mindustry/content/Blocks.java:5331 `anonymous_double_brace_initializer` parts.add(new ShapePart(){{
+- mindustry/content/Blocks.java:5346 `anonymous_double_brace_initializer` weapons.add(new Weapon(){{
+- mindustry/content/Blocks.java:5353 `anonymous_double_brace_initializer` bullet = new ExplosionBulletType(320f, 120f){{
+- mindustry/content/Blocks.java:5358 `anonymous_double_brace_initializer` shootEffect = new MultiEffect(Fx.massiveExplosion, Fx.scatheExplosion, Fx.scatheLight, new WaveEffect(){{
+- mindustry/content/Blocks.java:5369 `anonymous_double_brace_initializer` fragBullet = new ArtilleryBulletType(3.4f, 32){{
+- mindustry/content/Blocks.java:5395 `anonymous_double_brace_initializer` abilities.add(new MoveEffectAbility(){{
+- mindustry/content/Blocks.java:5408 `anonymous_double_brace_initializer` Items.surgeAlloy, new BulletType(0f, 0f){{
+- mindustry/content/Blocks.java:5416 `anonymous_double_brace_initializer` spawnUnit = new MissileUnitType("scathe-missile-surge"){{
+- mindustry/content/Blocks.java:5440 `anonymous_double_brace_initializer` weapons.add(new Weapon(){{
+- mindustry/content/Blocks.java:5448 `anonymous_double_brace_initializer` bullet = new ExplosionBulletType(1800f, 40f){{
+- mindustry/content/Blocks.java:5466 `anonymous_double_brace_initializer` fragBullet = new BulletType(){{
+- mindustry/content/Blocks.java:5472 `anonymous_double_brace_initializer` spawnUnit = new MissileUnitType("scathe-missile-surge-split"){{
+- mindustry/content/Blocks.java:5494 `anonymous_double_brace_initializer` weapons.add(new Weapon(){{
+- mindustry/content/Blocks.java:5501 `anonymous_double_brace_initializer` bullet = new ExplosionBulletType(180f, 35f){{
+- mindustry/content/Blocks.java:5507 `anonymous_double_brace_initializer` shootEffect = new MultiEffect(Fx.massiveExplosion, Fx.scatheExplosionSmall, Fx.scatheLightSmall, new WaveEffect(){{
+- mindustry/content/Blocks.java:5518 `anonymous_double_brace_initializer` abilities.add(new MoveEffectAbility(){{
+- mindustry/content/Blocks.java:5530 `anonymous_double_brace_initializer` abilities.add(new MoveEffectAbility(){{
+- mindustry/content/Blocks.java:5541 `anonymous_double_brace_initializer` drawer = new DrawTurret("reinforced-"){{
+- mindustry/content/Blocks.java:5542 `anonymous_double_brace_initializer` parts.add(new RegionPart("-blade"){{
+- mindustry/content/Blocks.java:5550 `anonymous_double_brace_initializer` children.add(new RegionPart("-side"){{
+- mindustry/content/Blocks.java:5562 `anonymous_double_brace_initializer` new RegionPart("-mid"){{
+- mindustry/content/Blocks.java:5564 `lambda` heatProgress = PartProgress.warmup.add(-0.2f).add(p -> Mathf.sin(9f, 0.2f) * p.warmup);
+- mindustry/content/Blocks.java:5568 `anonymous_double_brace_initializer` }}, new RegionPart("-missile"){{
+- mindustry/content/Blocks.java:5583 `anonymous_double_brace_initializer` Items.carbide, Seq.with(new RegionPart("-missile"){{
+- mindustry/content/Blocks.java:5596 `anonymous_double_brace_initializer` Items.phaseFabric, Seq.with(new RegionPart("-missile-phase"){{
+- mindustry/content/Blocks.java:5609 `anonymous_double_brace_initializer` Items.surgeAlloy, Seq.with(new RegionPart("-missile-surge"){{
+- mindustry/content/Blocks.java:5655 `anonymous_double_brace_initializer` smite = new ItemTurret("smite"){{
+- mindustry/content/Blocks.java:5659 `anonymous_double_brace_initializer` Items.surgeAlloy, new BasicBulletType(7f, 250){{
+- mindustry/content/Blocks.java:5665 `anonymous_double_brace_initializer` shootEffect = new MultiEffect(Fx.shootTitan, Fx.colorSparkBig, new WaveEffect(){{
+- mindustry/content/Blocks.java:5684 `anonymous_double_brace_initializer` despawnEffect = new MultiEffect(Fx.hitBulletColor, new WaveEffect(){{
+- mindustry/content/Blocks.java:5694 `anonymous_double_brace_initializer` intervalBullet = new LightningBulletType(){{
+- mindustry/content/Blocks.java:5705 `anonymous_double_brace_initializer` lightningType = new BulletType(0.0001f, 0f){{
+- mindustry/content/Blocks.java:5720 `anonymous_double_brace_initializer` shoot = new ShootMulti(new ShootAlternate(){{
+- mindustry/content/Blocks.java:5723 `anonymous_double_brace_initializer` }}, new ShootHelix(){{
+- mindustry/content/Blocks.java:5737 `anonymous_double_brace_initializer` drawer = new DrawTurret("reinforced-"){{
+- mindustry/content/Blocks.java:5740 `anonymous_double_brace_initializer` new RegionPart("-mid"){{
+- mindustry/content/Blocks.java:5744 `anonymous_double_brace_initializer` new RegionPart("-blade"){{
+- mindustry/content/Blocks.java:5751 `anonymous_double_brace_initializer` new RegionPart("-front"){{
+- mindustry/content/Blocks.java:5760 `anonymous_double_brace_initializer` new RegionPart("-back"){{
+- mindustry/content/Blocks.java:5767 `anonymous_double_brace_initializer` new ShapePart(){{
+- mindustry/content/Blocks.java:5779 `anonymous_double_brace_initializer` new ShapePart(){{
+- mindustry/content/Blocks.java:5791 `anonymous_double_brace_initializer` new HaloPart(){{
+- mindustry/content/Blocks.java:5805 `anonymous_double_brace_initializer` new HaloPart(){{
+- mindustry/content/Blocks.java:5820 `anonymous_double_brace_initializer` new HaloPart(){{
+- mindustry/content/Blocks.java:5835 `anonymous_double_brace_initializer` new HaloPart(){{
+- mindustry/content/Blocks.java:5851 `anonymous_double_brace_initializer` new HaloPart(){{
+- mindustry/content/Blocks.java:5870 `anonymous_double_brace_initializer` parts.add(new RegionPart("-blade-bar"){{
+- mindustry/content/Blocks.java:5887 `anonymous_double_brace_initializer` parts.add(new RegionPart("-spine"){{
+- mindustry/content/Blocks.java:5925 `anonymous_double_brace_initializer` malign = new PowerTurret("malign"){{
+- mindustry/content/Blocks.java:5940 `anonymous_double_brace_initializer` shootType = new FlakBulletType(8f, 70f){{
+- mindustry/content/Blocks.java:5972 `anonymous_double_brace_initializer` intervalBullet = new LightningBulletType() {{
+- mindustry/content/Blocks.java:5980 `anonymous_double_brace_initializer` fragBullet = new LaserBulletType(65f){{
+- mindustry/content/Blocks.java:6005 `anonymous_double_brace_initializer` drawer = new DrawTurret("reinforced-"){{
+- mindustry/content/Blocks.java:6009 `anonymous_double_brace_initializer` new ShapePart(){{
+- mindustry/content/Blocks.java:6021 `anonymous_double_brace_initializer` new ShapePart(){{
+- mindustry/content/Blocks.java:6036 `anonymous_double_brace_initializer` new ShapePart(){{
+- mindustry/content/Blocks.java:6050 `anonymous_double_brace_initializer` new ShapePart(){{
+- mindustry/content/Blocks.java:6064 `anonymous_double_brace_initializer` new HaloPart(){{
+- mindustry/content/Blocks.java:6081 `anonymous_double_brace_initializer` new RegionPart("-mouth"){{
+- mindustry/content/Blocks.java:6087 `anonymous_double_brace_initializer` new RegionPart("-end"){{
+- mindustry/content/Blocks.java:6091 `anonymous_double_brace_initializer` new RegionPart("-front"){{
+- mindustry/content/Blocks.java:6100 `anonymous_double_brace_initializer` new RegionPart("-back"){{
+- mindustry/content/Blocks.java:6110 `anonymous_double_brace_initializer` new RegionPart("-mid"){{
+- mindustry/content/Blocks.java:6117 `anonymous_double_brace_initializer` new ShapePart(){{
+- mindustry/content/Blocks.java:6128 `anonymous_double_brace_initializer` new ShapePart(){{
+- mindustry/content/Blocks.java:6140 `anonymous_double_brace_initializer` new HaloPart(){{
+- mindustry/content/Blocks.java:6155 `anonymous_double_brace_initializer` new HaloPart(){{
+- mindustry/content/Blocks.java:6168 `anonymous_double_brace_initializer` new HaloPart(){{
+- mindustry/content/Blocks.java:6183 `anonymous_double_brace_initializer` new HaloPart(){{
+- mindustry/content/Blocks.java:6200 `anonymous_double_brace_initializer` new HaloPart(){{
+- mindustry/content/Blocks.java:6220 `anonymous_double_brace_initializer` parts.add(new RegionPart("-spine"){{
+- mindustry/content/Blocks.java:6223 `lambda` heatProgress = PartProgress.warmup.add(p -> (Mathf.absin(3f, 0.2f) - 0.2f) * p.warmup);
+- mindustry/content/Blocks.java:6268 `anonymous_double_brace_initializer` groundFactory = new UnitFactory("ground-factory"){{
+- mindustry/content/Blocks.java:6280 `anonymous_double_brace_initializer` airFactory = new UnitFactory("air-factory"){{
+- mindustry/content/Blocks.java:6291 `anonymous_double_brace_initializer` navalFactory = new UnitFactory("naval-factory"){{
+- mindustry/content/Blocks.java:6302 `anonymous_double_brace_initializer` additiveReconstructor = new Reconstructor("additive-reconstructor"){{
+- mindustry/content/Blocks.java:6322 `anonymous_double_brace_initializer` multiplicativeReconstructor = new Reconstructor("multiplicative-reconstructor"){{
+- mindustry/content/Blocks.java:6342 `anonymous_double_brace_initializer` exponentialReconstructor = new Reconstructor("exponential-reconstructor"){{
+- mindustry/content/Blocks.java:6364 `anonymous_double_brace_initializer` tetrativeReconstructor = new Reconstructor("tetrative-reconstructor"){{
+- mindustry/content/Blocks.java:6386 `anonymous_double_brace_initializer` repairPoint = new RepairTurret("repair-point"){{
+- mindustry/content/Blocks.java:6396 `anonymous_double_brace_initializer` repairTurret = new RepairTurret("repair-turret"){{
+- mindustry/content/Blocks.java:6414 `anonymous_double_brace_initializer` tankFabricator = new UnitFactory("tank-fabricator"){{
+- mindustry/content/Blocks.java:6425 `anonymous_double_brace_initializer` shipFabricator = new UnitFactory("ship-fabricator"){{
+- mindustry/content/Blocks.java:6437 `anonymous_double_brace_initializer` mechFabricator = new UnitFactory("mech-fabricator"){{
+- mindustry/content/Blocks.java:6448 `anonymous_double_brace_initializer` tankRefabricator = new Reconstructor("tank-refabricator"){{
+- mindustry/content/Blocks.java:6465 `anonymous_double_brace_initializer` shipRefabricator = new Reconstructor("ship-refabricator"){{
+- mindustry/content/Blocks.java:6483 `anonymous_double_brace_initializer` mechRefabricator = new Reconstructor("mech-refabricator"){{
+- mindustry/content/Blocks.java:6501 `anonymous_double_brace_initializer` primeRefabricator = new Reconstructor("prime-refabricator"){{
+- mindustry/content/Blocks.java:6521 `anonymous_double_brace_initializer` tankAssembler = new UnitAssembler("tank-assembler"){{
+- mindustry/content/Blocks.java:6536 `anonymous_double_brace_initializer` shipAssembler = new UnitAssembler("ship-assembler"){{
+- mindustry/content/Blocks.java:6550 `anonymous_double_brace_initializer` mechAssembler = new UnitAssembler("mech-assembler"){{
+- mindustry/content/Blocks.java:6566 `anonymous_double_brace_initializer` basicAssemblerModule = new UnitAssemblerModule("basic-assembler-module"){{
+- mindustry/content/Blocks.java:6575 `anonymous_double_brace_initializer` unitRepairTower = new RepairTower("unit-repair-tower"){{
+- mindustry/content/Blocks.java:6589 `anonymous_double_brace_initializer` payloadConveyor = new PayloadConveyor("payload-conveyor"){{
+- mindustry/content/Blocks.java:6594 `anonymous_double_brace_initializer` payloadRouter = new PayloadRouter("payload-router"){{
+- mindustry/content/Blocks.java:6599 `anonymous_double_brace_initializer` reinforcedPayloadConveyor = new PayloadConveyor("reinforced-payload-conveyor"){{
+- mindustry/content/Blocks.java:6608 `anonymous_double_brace_initializer` reinforcedPayloadRouter = new PayloadRouter("reinforced-payload-router"){{
+- mindustry/content/Blocks.java:6617 `anonymous_double_brace_initializer` payloadMassDriver = new PayloadMassDriver("payload-mass-driver"){{
+- mindustry/content/Blocks.java:6629 `anonymous_double_brace_initializer` largePayloadMassDriver = new PayloadMassDriver("large-payload-mass-driver"){{
+- mindustry/content/Blocks.java:6640 `anonymous_double_brace_initializer` smallDeconstructor = new PayloadDeconstructor("small-deconstructor"){{
+- mindustry/content/Blocks.java:6649 `anonymous_double_brace_initializer` deconstructor = new PayloadDeconstructor("deconstructor"){{
+- mindustry/content/Blocks.java:6658 `anonymous_double_brace_initializer` constructor = new Constructor("constructor"){{
+- mindustry/content/Blocks.java:6670 `anonymous_double_brace_initializer` largeConstructor = new Constructor("large-constructor"){{
+- mindustry/content/Blocks.java:6682 `anonymous_double_brace_initializer` payloadLoader = new PayloadLoader("payload-loader"){{
+- mindustry/content/Blocks.java:6691 `anonymous_double_brace_initializer` payloadUnloader = new PayloadUnloader("payload-unloader"){{
+- mindustry/content/Blocks.java:6703 `anonymous_double_brace_initializer` powerSource = new PowerSource("power-source"){{
+- mindustry/content/Blocks.java:6709 `anonymous_double_brace_initializer` powerVoid = new PowerVoid("power-void"){{
+- mindustry/content/Blocks.java:6714 `anonymous_double_brace_initializer` itemSource = new ItemSource("item-source"){{
+- mindustry/content/Blocks.java:6719 `anonymous_double_brace_initializer` itemVoid = new ItemVoid("item-void"){{
+- mindustry/content/Blocks.java:6724 `anonymous_double_brace_initializer` liquidSource = new LiquidSource("liquid-source"){{
+- mindustry/content/Blocks.java:6730 `anonymous_double_brace_initializer` liquidVoid = new LiquidVoid("liquid-void"){{
+- mindustry/content/Blocks.java:6736 `anonymous_double_brace_initializer` payloadSource = new PayloadSource("payload-source"){{
+- mindustry/content/Blocks.java:6742 `anonymous_double_brace_initializer` payloadVoid = new PayloadVoid("payload-void"){{
+- mindustry/content/Blocks.java:6748 `anonymous_double_brace_initializer` heatSource = new HeatProducer("heat-source"){{
+- mindustry/content/Blocks.java:6763 `anonymous_double_brace_initializer` illuminator = new LightBlock("illuminator"){{
+- mindustry/content/Blocks.java:6776 `anonymous_double_brace_initializer` new LegacyUnitFactory("legacy-unit-factory-air"){{
+- mindustry/content/Blocks.java:6779 `anonymous_double_brace_initializer` new LegacyUnitFactory("legacy-unit-factory-ground"){{
+- mindustry/content/Blocks.java:6783 `anonymous_double_brace_initializer` new LegacyCommandCenter("command-center"){{
+- mindustry/content/Blocks.java:6790 `anonymous_double_brace_initializer` launchPad = new LaunchPad("launch-pad"){{
+- mindustry/content/Blocks.java:6800 `anonymous_double_brace_initializer` advancedLaunchPad = new LaunchPad("advanced-launch-pad"){{
+- mindustry/content/Blocks.java:6812 `anonymous_double_brace_initializer` landingPad = new LandingPad("landing-pad"){{
+- mindustry/content/Blocks.java:6823 `anonymous_double_brace_initializer` interplanetaryAccelerator = new Accelerator("interplanetary-accelerator"){{
+- mindustry/content/Blocks.java:6837 `anonymous_double_brace_initializer` message = new MessageBlock("message"){{
+- mindustry/content/Blocks.java:6841 `anonymous_double_brace_initializer` switchBlock = new SwitchBlock("switch"){{
+- mindustry/content/Blocks.java:6845 `anonymous_double_brace_initializer` microProcessor = new LogicBlock("micro-processor"){{
+- mindustry/content/Blocks.java:6852 `anonymous_double_brace_initializer` logicProcessor = new LogicBlock("logic-processor"){{
+- mindustry/content/Blocks.java:6860 `anonymous_double_brace_initializer` hyperProcessor = new LogicBlock("hyper-processor"){{
+- mindustry/content/Blocks.java:6871 `anonymous_double_brace_initializer` memoryCell = new MemoryBlock("memory-cell"){{
+- mindustry/content/Blocks.java:6877 `anonymous_double_brace_initializer` memoryBank = new MemoryBlock("memory-bank"){{
+- mindustry/content/Blocks.java:6884 `anonymous_double_brace_initializer` logicDisplay = new LogicDisplay("logic-display"){{
+- mindustry/content/Blocks.java:6892 `anonymous_double_brace_initializer` largeLogicDisplay = new LogicDisplay("large-logic-display"){{
+- mindustry/content/Blocks.java:6900 `anonymous_double_brace_initializer` tileLogicDisplay = new TileableLogicDisplay("tile-logic-display"){{
+- mindustry/content/Blocks.java:6904 `anonymous_double_brace_initializer` canvas = new CanvasBlock("canvas"){{
+- mindustry/content/Blocks.java:6913 `anonymous_double_brace_initializer` largeCanvas = new CanvasBlock("large-canvas"){{
+- mindustry/content/Blocks.java:6942 `anonymous_double_brace_initializer` reinforcedMessage = new MessageBlock("reinforced-message"){{
+- mindustry/content/Blocks.java:6948 `anonymous_double_brace_initializer` worldProcessor = new LogicBlock("world-processor"){{
+- mindustry/content/Blocks.java:6961 `anonymous_double_brace_initializer` worldCell = new MemoryBlock("world-cell"){{
+- mindustry/content/Blocks.java:6970 `anonymous_double_brace_initializer` worldMessage = new MessageBlock("world-message"){{
+- mindustry/content/Blocks.java:6977 `anonymous_double_brace_initializer` worldSwitch = new SwitchBlock("world-switch"){{
+- mindustry/content/Bullets.java:18 `anonymous_double_brace_initializer` placeholder = new BasicBulletType(2.5f, 9, "ohno"){{
+- mindustry/content/Bullets.java:26 `anonymous_double_brace_initializer` damageLightning = new BulletType(0.0001f, 0f){{
+- mindustry/content/Bullets.java:44 `anonymous_double_brace_initializer` fireball = new FireBulletType(1f, 4){{
+- mindustry/content/Bullets.java:48 `anonymous_double_brace_initializer` spaceLiquid = new SpaceLiquidBulletType(){{
+- mindustry/content/ErekirTechTree.java:27 `lambda` for(var unit : content.units().select(u -> u instanceof ErekirUnitType)){
+- mindustry/content/ErekirTechTree.java:34 `lambda` if(block instanceof Turret turret && Structs.contains(block.requirements, i -> !Items.serpuloItems.contains(i.item))){
+- mindustry/content/ErekirTechTree.java:65 `lambda` Planets.erekir.techTree = nodeRoot("erekir", coreBastion, true, () -> {
+- mindustry/content/ErekirTechTree.java:68 `lambda` node(duct, erekirSector, () -> {
+- mindustry/content/ErekirTechTree.java:69 `lambda` node(ductRouter, () -> {
+- mindustry/content/ErekirTechTree.java:70 `lambda` node(ductBridge, () -> {
+- mindustry/content/ErekirTechTree.java:71 `lambda` node(armoredDuct, () -> {
+- mindustry/content/ErekirTechTree.java:72 `lambda` node(surgeConveyor, () -> {
+- mindustry/content/ErekirTechTree.java:77 `lambda` node(unitCargoLoader, () -> {
+- mindustry/content/ErekirTechTree.java:78 `lambda` node(unitCargoUnloadPoint, () -> {
+- mindustry/content/ErekirTechTree.java:84 `lambda` node(overflowDuct, Seq.with(new OnSector(aegis)), () -> {
+- mindustry/content/ErekirTechTree.java:86 `lambda` node(reinforcedContainer, () -> {
+- mindustry/content/ErekirTechTree.java:87 `lambda` node(ductUnloader, () -> {
+- mindustry/content/ErekirTechTree.java:91 `lambda` node(reinforcedVault, () -> {
+- mindustry/content/ErekirTechTree.java:97 `lambda` node(reinforcedMessage, Seq.with(new OnSector(aegis)), () -> {
+- mindustry/content/ErekirTechTree.java:98 `lambda` node(canvas, () -> {
+- mindustry/content/ErekirTechTree.java:104 `lambda` node(reinforcedPayloadConveyor, Seq.with(new OnSector(atlas)), () -> {
+- mindustry/content/ErekirTechTree.java:106 `lambda` node(payloadMassDriver, Seq.with(new Research(siliconArcFurnace), new OnSector(split)), () -> {
+- mindustry/content/ErekirTechTree.java:108 `lambda` node(payloadLoader, () -> {
+- mindustry/content/ErekirTechTree.java:109 `lambda` node(payloadUnloader, () -> {
+- mindustry/content/ErekirTechTree.java:110 `lambda` node(largePayloadMassDriver, () -> {
+- mindustry/content/ErekirTechTree.java:116 `lambda` node(constructor, Seq.with(new OnSector(split)), () -> {
+- mindustry/content/ErekirTechTree.java:117 `lambda` node(smallDeconstructor, Seq.with(new OnSector(peaks)), () -> {
+- mindustry/content/ErekirTechTree.java:118 `lambda` node(largeConstructor, Seq.with(new OnSector(siege)), () -> {
+- mindustry/content/ErekirTechTree.java:122 `lambda` node(deconstructor, Seq.with(new OnSector(siege)), () -> {
+- mindustry/content/ErekirTechTree.java:129 `lambda` node(reinforcedPayloadRouter, () -> {
+- mindustry/content/ErekirTechTree.java:136 `lambda` node(plasmaBore, () -> {
+- mindustry/content/ErekirTechTree.java:137 `lambda` node(impactDrill, Seq.with(new OnSector(aegis)), () -> {
+- mindustry/content/ErekirTechTree.java:138 `lambda` node(largePlasmaBore, Seq.with(new OnSector(caldera)), () -> {
+- mindustry/content/ErekirTechTree.java:139 `lambda` node(eruptionDrill, Seq.with(new OnSector(stronghold)), () -> {
+- mindustry/content/ErekirTechTree.java:143 `lambda` node(largeCliffCrusher, Seq.with(new OnSector(stronghold)), () -> {
+- mindustry/content/ErekirTechTree.java:150 `lambda` node(turbineCondenser, () -> {
+- mindustry/content/ErekirTechTree.java:151 `lambda` node(beamNode, () -> {
+- mindustry/content/ErekirTechTree.java:152 `lambda` node(ventCondenser, Seq.with(new OnSector(aegis)), () -> {
+- mindustry/content/ErekirTechTree.java:153 `lambda` node(chemicalCombustionChamber, Seq.with(new OnSector(basin)), () -> {
+- mindustry/content/ErekirTechTree.java:154 `lambda` node(pyrolysisGenerator, Seq.with(new OnSector(crevice)), () -> {
+- mindustry/content/ErekirTechTree.java:155 `lambda` node(fluxReactor, Seq.with(new OnSector(crossroads), new Research(cyanogenSynthesizer)), () -> {
+- mindustry/content/ErekirTechTree.java:156 `lambda` node(neoplasiaReactor, Seq.with(new OnSector(karst)), () -> {
+- mindustry/content/ErekirTechTree.java:164 `lambda` node(beamTower, Seq.with(new OnSector(peaks)), () -> {
+- mindustry/content/ErekirTechTree.java:165 `lambda` node(beamLink, Seq.with(new OnSector(crossroads)), () -> {
+- mindustry/content/ErekirTechTree.java:171 `lambda` node(regenProjector, Seq.with(new OnSector(peaks)), () -> {
+- mindustry/content/ErekirTechTree.java:173 `lambda` node(buildTower, Seq.with(new OnSector(stronghold)), () -> {
+- mindustry/content/ErekirTechTree.java:174 `lambda` node(shockwaveTower, Seq.with(new OnSector(siege)), () -> {
+- mindustry/content/ErekirTechTree.java:181 `lambda` node(reinforcedConduit, Seq.with(new OnSector(aegis)), () -> {
+- mindustry/content/ErekirTechTree.java:183 `lambda` node(reinforcedPump, Seq.with(new OnSector(basin)), () -> {
+- mindustry/content/ErekirTechTree.java:187 `lambda` node(reinforcedLiquidJunction, () -> {
+- mindustry/content/ErekirTechTree.java:188 `lambda` node(reinforcedBridgeConduit, () -> {
+- mindustry/content/ErekirTechTree.java:192 `lambda` node(reinforcedLiquidRouter, () -> {
+- mindustry/content/ErekirTechTree.java:193 `lambda` node(reinforcedLiquidContainer, () -> {
+- mindustry/content/ErekirTechTree.java:194 `lambda` node(reinforcedLiquidTank, Seq.with(new SectorComplete(intersect)), () -> {
+- mindustry/content/ErekirTechTree.java:202 `lambda` node(cliffCrusher, () -> {
+- mindustry/content/ErekirTechTree.java:203 `lambda` node(siliconArcFurnace, () -> {
+- mindustry/content/ErekirTechTree.java:204 `lambda` node(electrolyzer, Seq.with(new OnSector(atlas)), () -> {
+- mindustry/content/ErekirTechTree.java:205 `lambda` node(oxidationChamber, Seq.with(new Research(tankRefabricator), new OnSector(marsh)), () -> {
+- mindustry/content/ErekirTechTree.java:207 `lambda` node(surgeCrucible, Seq.with(new OnSector(ravine)), () -> {
+- mindustry/content/ErekirTechTree.java:210 `lambda` node(heatRedirector, Seq.with(new OnSector(ravine)), () -> {
+- mindustry/content/ErekirTechTree.java:211 `lambda` node(electricHeater, Seq.with(new OnSector(ravine), new Research(afflict)), () -> {
+- mindustry/content/ErekirTechTree.java:212 `lambda` node(slagHeater, Seq.with(new OnSector(caldera)), () -> {
+- mindustry/content/ErekirTechTree.java:216 `lambda` node(atmosphericConcentrator, Seq.with(new OnSector(caldera)), () -> {
+- mindustry/content/ErekirTechTree.java:217 `lambda` node(cyanogenSynthesizer, Seq.with(new OnSector(siege)), () -> {
+- mindustry/content/ErekirTechTree.java:222 `lambda` node(carbideCrucible, Seq.with(new OnSector(crevice)), () -> {
+- mindustry/content/ErekirTechTree.java:223 `lambda` node(phaseSynthesizer, Seq.with(new OnSector(karst)), () -> {
+- mindustry/content/ErekirTechTree.java:224 `lambda` node(phaseHeater, Seq.with(new Research(phaseSynthesizer)), () -> {
+- mindustry/content/ErekirTechTree.java:230 `lambda` node(heatRouter, () -> {
+- mindustry/content/ErekirTechTree.java:231 `lambda` node(smallHeatRedirector, () -> {
+- mindustry/content/ErekirTechTree.java:239 `lambda` node(slagIncinerator, Seq.with(new OnSector(basin)), () -> {
+- mindustry/content/ErekirTechTree.java:242 `lambda` //node(slagCentrifuge, () -> {});
+- mindustry/content/ErekirTechTree.java:243 `lambda` //node(heatReactor, () -> {});
+- mindustry/content/ErekirTechTree.java:251 `lambda` node(breach, Seq.with(new Research(siliconArcFurnace), new Research(tankFabricator)), () -> {
+- mindustry/content/ErekirTechTree.java:252 `lambda` node(berylliumWall, () -> {
+- mindustry/content/ErekirTechTree.java:253 `lambda` node(berylliumWallLarge, () -> {
+- mindustry/content/ErekirTechTree.java:257 `lambda` node(tungstenWall, () -> {
+- mindustry/content/ErekirTechTree.java:258 `lambda` node(tungstenWallLarge, () -> {
+- mindustry/content/ErekirTechTree.java:259 `lambda` node(blastDoor, () -> {
+- mindustry/content/ErekirTechTree.java:264 `lambda` node(reinforcedSurgeWall, () -> {
+- mindustry/content/ErekirTechTree.java:265 `lambda` node(reinforcedSurgeWallLarge, () -> {
+- mindustry/content/ErekirTechTree.java:266 `lambda` node(shieldedWall, () -> {
+- mindustry/content/ErekirTechTree.java:272 `lambda` node(carbideWall, () -> {
+- mindustry/content/ErekirTechTree.java:273 `lambda` node(carbideWallLarge, () -> {
+- mindustry/content/ErekirTechTree.java:280 `lambda` node(diffuse, Seq.with(new OnSector(lake)), () -> {
+- mindustry/content/ErekirTechTree.java:281 `lambda` node(sublimate, Seq.with(new OnSector(marsh)), () -> {
+- mindustry/content/ErekirTechTree.java:282 `lambda` node(afflict, Seq.with(new OnSector(ravine)), () -> {
+- mindustry/content/ErekirTechTree.java:283 `lambda` node(titan, Seq.with(new OnSector(stronghold)), () -> {
+- mindustry/content/ErekirTechTree.java:284 `lambda` node(lustre, Seq.with(new OnSector(crevice)), () -> {
+- mindustry/content/ErekirTechTree.java:285 `lambda` node(smite, Seq.with(new OnSector(karst)), () -> {
+- mindustry/content/ErekirTechTree.java:293 `lambda` node(disperse, Seq.with(new OnSector(stronghold)), () -> {
+- mindustry/content/ErekirTechTree.java:294 `lambda` node(scathe, Seq.with(new OnSector(siege)), () -> {
+- mindustry/content/ErekirTechTree.java:295 `lambda` node(malign, Seq.with(new SectorComplete(karst)), () -> {
+- mindustry/content/ErekirTechTree.java:303 `lambda` node(radar, Seq.with(new Research(beamNode), new Research(turbineCondenser), new Research(tankFabricator), new OnSector(SectorPresets.aegis)), () -> {
+- mindustry/content/ErekirTechTree.java:308 `lambda` node(coreCitadel, Seq.with(new SectorComplete(peaks)), () -> {
+- mindustry/content/ErekirTechTree.java:309 `lambda` node(coreAcropolis, Seq.with(new SectorComplete(siege)), () -> {
+- mindustry/content/ErekirTechTree.java:314 `lambda` node(tankFabricator, Seq.with(new Research(siliconArcFurnace), new Research(plasmaBore), new Research(turbineCondenser)), () -> {
+- mindustry/content/ErekirTechTree.java:317 `lambda` node(unitRepairTower, Seq.with(new OnSector(ravine), new Research(mechRefabricator)), () -> {
+- mindustry/content/ErekirTechTree.java:321 `lambda` node(shipFabricator, Seq.with(new OnSector(lake)), () -> {
+- mindustry/content/ErekirTechTree.java:324 `lambda` node(mechFabricator, Seq.with(new OnSector(intersect)), () -> {
+- mindustry/content/ErekirTechTree.java:327 `lambda` node(tankRefabricator, Seq.with(new OnSector(atlas)), () -> {
+- mindustry/content/ErekirTechTree.java:330 `lambda` node(mechRefabricator, Seq.with(new OnSector(basin)), () -> {
+- mindustry/content/ErekirTechTree.java:333 `lambda` node(shipRefabricator, Seq.with(new OnSector(peaks)), () -> {
+- mindustry/content/ErekirTechTree.java:336 `lambda` node(primeRefabricator, Seq.with(new OnSector(stronghold)), () -> {
+- mindustry/content/ErekirTechTree.java:342 `lambda` node(tankAssembler, Seq.with(new OnSector(siege), new Research(constructor), new Research(atmosphericConcentrator)), () -> {
+- mindustry/content/ErekirTechTree.java:344 `lambda` node(UnitTypes.vanquish, () -> {
+- mindustry/content/ErekirTechTree.java:345 `lambda` node(UnitTypes.conquer, Seq.with(new OnSector(karst)), () -> {
+- mindustry/content/ErekirTechTree.java:350 `lambda` node(shipAssembler, Seq.with(new OnSector(crossroads)), () -> {
+- mindustry/content/ErekirTechTree.java:351 `lambda` node(UnitTypes.quell, () -> {
+- mindustry/content/ErekirTechTree.java:352 `lambda` node(UnitTypes.disrupt, Seq.with(new OnSector(karst)), () -> {
+- mindustry/content/ErekirTechTree.java:358 `lambda` node(mechAssembler, Seq.with(new OnSector(crossroads)), () -> {
+- mindustry/content/ErekirTechTree.java:359 `lambda` node(UnitTypes.tecta, () -> {
+- mindustry/content/ErekirTechTree.java:360 `lambda` node(UnitTypes.collaris, Seq.with(new OnSector(karst)), () -> {
+- mindustry/content/ErekirTechTree.java:366 `lambda` node(basicAssemblerModule, Seq.with(new SectorComplete(karst)), () -> {
+- mindustry/content/ErekirTechTree.java:377 `lambda` node(onset, () -> {
+- mindustry/content/ErekirTechTree.java:378 `lambda` node(aegis, Seq.with(new SectorComplete(onset), new Research(ductRouter), new Research(ductBridge)), () -> {
+- mindustry/content/ErekirTechTree.java:379 `lambda` node(lake, Seq.with(new SectorComplete(aegis)), () -> {
+- mindustry/content/ErekirTechTree.java:383 `lambda` node(intersect, Seq.with(new SectorComplete(aegis), new SectorComplete(lake), new Research(ventCondenser), new Research(shipFabricator)), () -> {
+- mindustry/content/ErekirTechTree.java:384 `lambda` node(atlas, Seq.with(new SectorComplete(intersect), new Research(mechFabricator)), () -> {
+- mindustry/content/ErekirTechTree.java:385 `lambda` node(split, Seq.with(new SectorComplete(atlas), new Research(reinforcedPayloadConveyor), new Research(reinforcedContainer)), () -> {
+- mindustry/content/ErekirTechTree.java:389 `lambda` node(basin, Seq.with(new SectorComplete(atlas)), () -> {
+- mindustry/content/ErekirTechTree.java:390 `lambda` node(marsh, Seq.with(new SectorComplete(basin)), () -> {
+- mindustry/content/ErekirTechTree.java:391 `lambda` node(ravine, Seq.with(new SectorComplete(marsh), new Research(Liquids.slag)), () -> {
+- mindustry/content/ErekirTechTree.java:392 `lambda` node(caldera, Seq.with(new SectorComplete(peaks), new SectorComplete(ravine), new Research(heatRedirector)), () -> {
+- mindustry/content/ErekirTechTree.java:393 `lambda` node(stronghold, Seq.with(new SectorComplete(caldera), new Research(coreCitadel)), () -> {
+- mindustry/content/ErekirTechTree.java:394 `lambda` node(crevice, Seq.with(new SectorComplete(stronghold)), () -> {
+- mindustry/content/ErekirTechTree.java:395 `lambda` node(siege, Seq.with(new SectorComplete(crevice)), () -> {
+- mindustry/content/ErekirTechTree.java:396 `lambda` node(crossroads, Seq.with(new SectorComplete(siege)), () -> {
+- mindustry/content/ErekirTechTree.java:397 `lambda` node(karst, Seq.with(new SectorComplete(crossroads), new Research(coreAcropolis)), () -> {
+- mindustry/content/ErekirTechTree.java:398 `lambda` node(origin, Seq.with(new SectorComplete(karst), new Research(coreAcropolis), new Research(UnitTypes.vanquish), new Research(UnitTypes.disrupt), new Research(UnitTypes.collaris), new Research(malign), new Research(basicAssemblerModule), new Research(neoplasiaReactor)), () -> {
+- mindustry/content/ErekirTechTree.java:409 `lambda` node(peaks, Seq.with(new SectorComplete(marsh), new SectorComplete(split)), () -> {
+- mindustry/content/ErekirTechTree.java:419 `lambda` nodeProduce(Items.beryllium, () -> {
+- mindustry/content/ErekirTechTree.java:420 `lambda` nodeProduce(Items.sand, () -> {
+- mindustry/content/ErekirTechTree.java:421 `lambda` nodeProduce(Items.silicon, () -> {
+- mindustry/content/ErekirTechTree.java:422 `lambda` nodeProduce(Items.oxide, () -> {
+- mindustry/content/ErekirTechTree.java:423 `lambda` //nodeProduce(Items.fissileMatter, () -> {});
+- mindustry/content/ErekirTechTree.java:428 `lambda` nodeProduce(Liquids.water, () -> {
+- mindustry/content/ErekirTechTree.java:429 `lambda` nodeProduce(Liquids.ozone, () -> {
+- mindustry/content/ErekirTechTree.java:430 `lambda` nodeProduce(Liquids.hydrogen, () -> {
+- mindustry/content/ErekirTechTree.java:431 `lambda` nodeProduce(Liquids.nitrogen, () -> {
+- mindustry/content/ErekirTechTree.java:435 `lambda` nodeProduce(Liquids.cyanogen, () -> {
+- mindustry/content/ErekirTechTree.java:436 `lambda` nodeProduce(Liquids.neoplasm, () -> {
+- mindustry/content/ErekirTechTree.java:444 `lambda` nodeProduce(Items.graphite, () -> {
+- mindustry/content/ErekirTechTree.java:445 `lambda` nodeProduce(Items.tungsten, () -> {
+- mindustry/content/ErekirTechTree.java:446 `lambda` nodeProduce(Liquids.slag, () -> {
+- mindustry/content/ErekirTechTree.java:450 `lambda` nodeProduce(Liquids.arkycite, () -> {
+- mindustry/content/ErekirTechTree.java:454 `lambda` nodeProduce(Items.thorium, () -> {
+- mindustry/content/ErekirTechTree.java:455 `lambda` nodeProduce(Items.carbide, () -> {
+- mindustry/content/ErekirTechTree.java:457 `lambda` //nodeProduce(Liquids.gallium, () -> {});
+- mindustry/content/ErekirTechTree.java:461 `lambda` nodeProduce(Items.surgeAlloy, () -> {
+- mindustry/content/ErekirTechTree.java:462 `lambda` nodeProduce(Items.phaseFabric, () -> {
+- mindustry/content/Fx.java:30 `lambda` none = new Effect(0, 0f, e -> {}),
+- mindustry/content/Fx.java:32 `lambda` blockCrash = new Effect(90f, e -> {
+- mindustry/content/Fx.java:43 `lambda` trailFade = new Effect(400f, e -> {
+- mindustry/content/Fx.java:55 `lambda` unitSpawn = new Effect(30f, e -> {
+- mindustry/content/Fx.java:74 `lambda` unitCapKill = new Effect(80f, e -> {
+- mindustry/content/Fx.java:82 `lambda` unitEnvKill = new Effect(80f, e -> {
+- mindustry/content/Fx.java:90 `lambda` unitControl = new Effect(30f, e -> {
+- mindustry/content/Fx.java:106 `lambda` unitDespawn = new Effect(100f, e -> {
+- mindustry/content/Fx.java:120 `lambda` unitSpirit = new Effect(17f, e -> {
+- mindustry/content/Fx.java:138 `lambda` itemTransfer = new Effect(12f, e -> {
+- mindustry/content/Fx.java:152 `lambda` pointBeam = new Effect(25f, 300f, e -> {
+- mindustry/content/Fx.java:161 `lambda` pointHit = new Effect(8f, e -> {
+- mindustry/content/Fx.java:167 `lambda` hitScepterSecondary = new Effect(8, e -> {
+- mindustry/content/Fx.java:188 `lambda` lightning = new Effect(10f, 500f, e -> {
+- mindustry/content/Fx.java:207 `lambda` coreBuildShockwave = new Effect(120, 500f, e -> {
+- mindustry/content/Fx.java:215 `lambda` coreBuildBlock = new Effect(80f, e -> {
+- mindustry/content/Fx.java:223 `lambda` pointShockwave = new Effect(20, e -> {
+- mindustry/content/Fx.java:227 `lambda` randLenVectors(e.id + 1, 8, 1f + 23f * e.finpow(), (x, y) ->
+- mindustry/content/Fx.java:231 `lambda` moveCommand = new Effect(20, e -> {
+- mindustry/content/Fx.java:237 `lambda` attackCommand = new Effect(20, e -> {
+- mindustry/content/Fx.java:243 `lambda` commandSend = new Effect(28, e -> {
+- mindustry/content/Fx.java:249 `lambda` upgradeCore = new Effect(120f, e -> {
+- mindustry/content/Fx.java:257 `lambda` upgradeCoreBloom = new Effect(80f, e -> {
+- mindustry/content/Fx.java:263 `lambda` placeBlock = new Effect(16, e -> {
+- mindustry/content/Fx.java:269 `lambda` coreLaunchConstruct = new Effect(35, e -> {
+- mindustry/content/Fx.java:274 `lambda` randLenVectors(e.id, 5 + (int)(e.rotation * 5), e.rotation * 3f + (tilesize * e.rotation) * e.finpow() * 1.5f, (x, y) -> {
+- mindustry/content/Fx.java:279 `lambda` tapBlock = new Effect(12, e -> {
+- mindustry/content/Fx.java:285 `lambda` breakBlock = new Effect(12, e -> {
+- mindustry/content/Fx.java:290 `lambda` randLenVectors(e.id, 3 + (int)(e.rotation * 3), e.rotation * 2f + (tilesize * e.rotation) * e.finpow(), (x, y) -> {
+- mindustry/content/Fx.java:295 `lambda` payloadDeposit = new Effect(30f, e -> {
+- mindustry/content/Fx.java:311 `lambda` select = new Effect(23, e -> {
+- mindustry/content/Fx.java:317 `lambda` smoke = new Effect(100, e -> {
+- mindustry/content/Fx.java:322 `lambda` fallSmoke = new Effect(110, e -> {
+- mindustry/content/Fx.java:327 `lambda` unitWreck = new Effect(200f, e -> {
+- mindustry/content/Fx.java:342 `lambda` rocketSmoke = new Effect(120, e -> {
+- mindustry/content/Fx.java:348 `lambda` rocketSmokeLarge = new Effect(220, e -> {
+- mindustry/content/Fx.java:354 `lambda` magmasmoke = new Effect(110, e -> {
+- mindustry/content/Fx.java:359 `lambda` spawn = new Effect(30, e -> {
+- mindustry/content/Fx.java:365 `lambda` unitAssemble = new Effect(70, e -> {
+- mindustry/content/Fx.java:373 `lambda` padlaunch = new Effect(10, e -> {
+- mindustry/content/Fx.java:379 `lambda` breakProp = new Effect(23, e -> {
+- mindustry/content/Fx.java:382 `lambda` randLenVectors(e.id, 6, 19f * e.finpow() * scl, (x, y) -> {
+- mindustry/content/Fx.java:387 `lambda` unitDrop = new Effect(30, e -> {
+- mindustry/content/Fx.java:389 `lambda` randLenVectors(e.id, 9, 3 + 20f * e.finpow(), (x, y) -> {
+- mindustry/content/Fx.java:394 `lambda` unitLand = new Effect(30, e -> {
+- mindustry/content/Fx.java:397 `lambda` randLenVectors(e.id, 6, 17f * e.finpow(), (x, y) -> {
+- mindustry/content/Fx.java:402 `lambda` unitDust = new Effect(30, e -> {
+- mindustry/content/Fx.java:404 `lambda` randLenVectors(e.id, 3, 8f * e.finpow(), e.rotation, 30f, (x, y) -> {
+- mindustry/content/Fx.java:409 `lambda` unitLandSmall = new Effect(30, e -> {
+- mindustry/content/Fx.java:411 `lambda` randLenVectors(e.id, (int)(6 * e.rotation), 12f * e.finpow() * e.rotation, (x, y) -> {
+- mindustry/content/Fx.java:416 `lambda` unitPickup = new Effect(18, e -> {
+- mindustry/content/Fx.java:422 `lambda` crawlDust = new Effect(35, e -> {
+- mindustry/content/Fx.java:424 `lambda` randLenVectors(e.id, 2, 10f * e.finpow(), (x, y) -> {
+- mindustry/content/Fx.java:429 `lambda` landShock = new Effect(12, e -> {
+- mindustry/content/Fx.java:435 `lambda` pickup = new Effect(18, e -> {
+- mindustry/content/Fx.java:441 `lambda` sparkExplosion = new Effect(30f, 160f, e -> {
+- mindustry/content/Fx.java:455 `lambda` titanExplosion = new Effect(30f, 160f, e -> {
+- mindustry/content/Fx.java:469 `lambda` titanExplosionLarge = new Effect(45f, 220f, e -> {
+- mindustry/content/Fx.java:483 `lambda` titanExplosionSmall = new Effect(22f, 120f, e -> {
+- mindustry/content/Fx.java:497 `lambda` titanExplosionFrag = new Effect(20f, 50f, e -> {
+- mindustry/content/Fx.java:515 `lambda` titanSmoke = new Effect(300f, 300f, b -> {
+- mindustry/content/Fx.java:523 `lambda` b.scaled(b.lifetime * lenScl, e -> {
+- mindustry/content/Fx.java:524 `lambda` randLenVectors(e.id + fi - 1, e.fin(Interp.pow10Out), (int)(2.9f * intensity), 22f * intensity, (x, y, in, out) -> {
+- mindustry/content/Fx.java:535 `lambda` titanSmokeLarge = new Effect(400f, 400f, b -> {
+- mindustry/content/Fx.java:543 `lambda` b.scaled(b.lifetime * lenScl, e -> {
+- mindustry/content/Fx.java:544 `lambda` randLenVectors(e.id + fi - 1, e.fin(Interp.pow10Out), (int)(2.9f * intensity), 26f * intensity, (x, y, in, out) -> {
+- mindustry/content/Fx.java:554 `lambda` titanSmokeSmall = new Effect(200f, 200f, b -> {
+- mindustry/content/Fx.java:562 `lambda` b.scaled(b.lifetime * lenScl, e -> {
+- mindustry/content/Fx.java:563 `lambda` randLenVectors(e.id + fi - 1, e.fin(Interp.pow10Out), (int)(2.9f * intensity), 18f * intensity, (x, y, in, out) -> {
+- mindustry/content/Fx.java:574 `lambda` coreExplosion = new Effect(55f, 240f, e -> {
+- mindustry/content/Fx.java:605 `lambda` smokeAoeCloud = new Effect(60f * 3f, 250f, e -> {
+- mindustry/content/Fx.java:608 `lambda` randLenVectors(e.id, 80, 90f, (x, y) -> {
+- mindustry/content/Fx.java:613 `lambda` missileTrailSmoke = new Effect(180f, 300f, b -> {
+- mindustry/content/Fx.java:621 `lambda` b.scaled(b.lifetime * lenScl, e -> {
+- mindustry/content/Fx.java:622 `lambda` randLenVectors(e.id + fi - 1, e.fin(Interp.pow10Out), (int)(2.9f * intensity), 13f * intensity, (x, y, in, out) -> {
+- mindustry/content/Fx.java:633 `lambda` missileTrailSmokeSmall = new Effect(120f, 200f, b -> {
+- mindustry/content/Fx.java:641 `lambda` b.scaled(b.lifetime * lenScl, e -> {
+- mindustry/content/Fx.java:642 `lambda` randLenVectors(e.id + fi - 1, e.fin(Interp.pow10Out), (int)(2.9f * intensity), 13f * intensity, (x, y, in, out) -> {
+- mindustry/content/Fx.java:653 `lambda` neoplasmSplat = new Effect(400f, 300f, b -> {
+- mindustry/content/Fx.java:661 `lambda` b.scaled(b.lifetime * lenScl, e -> {
+- mindustry/content/Fx.java:662 `lambda` randLenVectors(e.id + fi - 1, e.fin(Interp.pow10Out), (int)(5f * intensity), 22f * intensity, (x, y, in, out) -> {
+- mindustry/content/Fx.java:673 `lambda` scatheExplosion = new Effect(60f, 160f, e -> {
+- mindustry/content/Fx.java:691 `lambda` scatheExplosionSmall = new Effect(40f, 160f, e -> {
+- mindustry/content/Fx.java:709 `lambda` scatheLight = new Effect(60f, 160f, e -> {
+- mindustry/content/Fx.java:716 `lambda` scatheLightSmall = new Effect(60f, 160f, e -> {
+- mindustry/content/Fx.java:723 `lambda` titanLightSmall = new Effect(40f, 100f, e -> {
+- mindustry/content/Fx.java:730 `lambda` scatheSlash = new Effect(40f, 160f, e -> {
+- mindustry/content/Fx.java:737 `lambda` dynamicSpikes = new Effect(40f, 100f, e -> {
+- mindustry/content/Fx.java:755 `lambda` greenBomb = new Effect(40f, 100f, e -> {
+- mindustry/content/Fx.java:774 `lambda` greenLaserCharge = new Effect(80f, 100f, e -> {
+- mindustry/content/Fx.java:781 `lambda` randLenVectors(e.id, 20, 40f * e.fout(), (x, y) -> {
+- mindustry/content/Fx.java:792 `lambda` greenLaserChargeSmall = new Effect(40f, 100f, e -> {
+- mindustry/content/Fx.java:798 `lambda` greenCloud = new Effect(80f, e -> {
+- mindustry/content/Fx.java:800 `lambda` randLenVectors(e.id, e.fin(), 7, 9f, (x, y, fin, fout) -> {
+- mindustry/content/Fx.java:805 `lambda` healWaveDynamic = new Effect(22, e -> {
+- mindustry/content/Fx.java:811 `lambda` healWave = new Effect(22, e -> {
+- mindustry/content/Fx.java:817 `lambda` heal = new Effect(11, e -> {
+- mindustry/content/Fx.java:823 `lambda` dynamicWave = new Effect(22, e -> {
+- mindustry/content/Fx.java:829 `lambda` shieldWave = new Effect(22, e -> {
+- mindustry/content/Fx.java:835 `lambda` shieldApply = new Effect(11, e -> {
+- mindustry/content/Fx.java:841 `lambda` disperseTrail = new Effect(13, e -> {
+- mindustry/content/Fx.java:854 `lambda` hitBulletSmall = new Effect(14, e -> {
+- mindustry/content/Fx.java:857 `lambda` e.scaled(7f, s -> {
+- mindustry/content/Fx.java:864 `lambda` randLenVectors(e.id, 5, e.fin() * 15f, (x, y) -> {
+- mindustry/content/Fx.java:872 `lambda` hitBulletColor = new Effect(14, e -> {
+- mindustry/content/Fx.java:875 `lambda` e.scaled(7f, s -> {
+- mindustry/content/Fx.java:882 `lambda` randLenVectors(e.id, 5, e.fin() * 15f, (x, y) -> {
+- mindustry/content/Fx.java:890 `lambda` hitSquaresColor = new Effect(14, e -> {
+- mindustry/content/Fx.java:893 `lambda` e.scaled(7f, s -> {
+- mindustry/content/Fx.java:900 `lambda` randLenVectors(e.id, 5, e.fin() * 17f, (x, y) -> {
+- mindustry/content/Fx.java:908 `lambda` squareWaveEffect =  new Effect(14, 40f, e -> {
+- mindustry/content/Fx.java:918 `lambda` hitFuse = new Effect(14, e -> {
+- mindustry/content/Fx.java:921 `lambda` e.scaled(7f, s -> {
+- mindustry/content/Fx.java:928 `lambda` randLenVectors(e.id, 6, e.fin() * 15f, (x, y) -> {
+- mindustry/content/Fx.java:934 `lambda` hitBulletBig = new Effect(13, e -> {
+- mindustry/content/Fx.java:938 `lambda` randLenVectors(e.id, 8, e.finpow() * 30f, e.rotation, 50f, (x, y) -> {
+- mindustry/content/Fx.java:944 `lambda` hitFlameSmall = new Effect(14, e -> {
+- mindustry/content/Fx.java:948 `lambda` randLenVectors(e.id, 2, 1f + e.fin() * 15f, e.rotation, 50f, (x, y) -> {
+- mindustry/content/Fx.java:954 `lambda` hitFlamePlasma = new Effect(14, e -> {
+- mindustry/content/Fx.java:958 `lambda` randLenVectors(e.id, 2, 1f + e.fin() * 15f, e.rotation, 50f, (x, y) -> {
+- mindustry/content/Fx.java:964 `lambda` hitLiquid = new Effect(16, e -> {
+- mindustry/content/Fx.java:967 `lambda` randLenVectors(e.id, 5, 1f + e.fin() * 15f, e.rotation, 60f, (x, y) -> {
+- mindustry/content/Fx.java:972 `lambda` hitLaserBlast = new Effect(12, e -> {
+- mindustry/content/Fx.java:976 `lambda` randLenVectors(e.id, 8, e.finpow() * 17f, (x, y) -> {
+- mindustry/content/Fx.java:982 `lambda` hitEmpSpark = new Effect(40, e -> {
+- mindustry/content/Fx.java:986 `lambda` randLenVectors(e.id, 18, e.finpow() * 27f, e.rotation, 360f, (x, y) -> {
+- mindustry/content/Fx.java:992 `lambda` hitLancer = new Effect(12, e -> {
+- mindustry/content/Fx.java:996 `lambda` randLenVectors(e.id, 8, e.finpow() * 17f, (x, y) -> {
+- mindustry/content/Fx.java:1002 `lambda` hitLancerLow = new Effect(12, e -> {
+- mindustry/content/Fx.java:1006 `lambda` randLenVectors(e.id, 4, e.finpow() * 17f, (x, y) -> {
+- mindustry/content/Fx.java:1012 `lambda` hitBeam = new Effect(12, e -> {
+- mindustry/content/Fx.java:1016 `lambda` randLenVectors(e.id, 6, e.finpow() * 18f, (x, y) -> {
+- mindustry/content/Fx.java:1022 `lambda` hitFlameBeam = new Effect(19, e -> {
+- mindustry/content/Fx.java:1025 `lambda` randLenVectors(e.id, 7, e.finpow() * 11f, (x, y) -> {
+- mindustry/content/Fx.java:1030 `lambda` hitMeltdown = new Effect(12, e -> {
+- mindustry/content/Fx.java:1034 `lambda` randLenVectors(e.id, 6, e.finpow() * 18f, (x, y) -> {
+- mindustry/content/Fx.java:1040 `lambda` hitMeltHeal = new Effect(12, e -> {
+- mindustry/content/Fx.java:1044 `lambda` randLenVectors(e.id, 6, e.finpow() * 18f, (x, y) -> {
+- mindustry/content/Fx.java:1050 `lambda` instBomb = new Effect(15f, 100f, e -> {
+- mindustry/content/Fx.java:1067 `lambda` instTrail = new Effect(30, e -> {
+- mindustry/content/Fx.java:1082 `lambda` instShoot = new Effect(24f, e -> {
+- mindustry/content/Fx.java:1083 `lambda` e.scaled(10f, b -> {
+- mindustry/content/Fx.java:1099 `lambda` instHit = new Effect(20f, 200f, e -> {
+- mindustry/content/Fx.java:1115 `lambda` e.scaled(10f, c -> {
+- mindustry/content/Fx.java:1121 `lambda` e.scaled(12f, c -> {
+- mindustry/content/Fx.java:1123 `lambda` randLenVectors(e.id, 25, 5f + e.fin() * 80f, e.rotation, 60f, (x, y) -> {
+- mindustry/content/Fx.java:1129 `lambda` hitLaser = new Effect(8, e -> {
+- mindustry/content/Fx.java:1137 `lambda` hitLaserColor = new Effect(8, e -> {
+- mindustry/content/Fx.java:1145 `lambda` despawn = new Effect(12, e -> {
+- mindustry/content/Fx.java:1149 `lambda` randLenVectors(e.id, 7, e.fin() * 7f, e.rotation, 40f, (x, y) -> {
+- mindustry/content/Fx.java:1156 `lambda` airBubble = new Effect(100f, e -> {
+- mindustry/content/Fx.java:1157 `lambda` randLenVectors(e.id, 1, e.fin() * 12f, (x, y) -> {
+- mindustry/content/Fx.java:1162 `lambda` flakExplosion = new Effect(20, e -> {
+- mindustry/content/Fx.java:1165 `lambda` e.scaled(6, i -> {
+- mindustry/content/Fx.java:1172 `lambda` randLenVectors(e.id, 5, 2f + 23f * e.finpow(), (x, y) -> {
+- mindustry/content/Fx.java:1179 `lambda` randLenVectors(e.id + 1, 4, 1f + 23f * e.finpow(), (x, y) -> {
+- mindustry/content/Fx.java:1186 `lambda` plasticExplosion = new Effect(24, e -> {
+- mindustry/content/Fx.java:1189 `lambda` e.scaled(7, i -> {
+- mindustry/content/Fx.java:1196 `lambda` randLenVectors(e.id, 7, 2f + 28f * e.finpow(), (x, y) -> {
+- mindustry/content/Fx.java:1203 `lambda` randLenVectors(e.id + 1, 4, 1f + 25f * e.finpow(), (x, y) -> {
+- mindustry/content/Fx.java:1210 `lambda` plasticExplosionFlak = new Effect(28, e -> {
+- mindustry/content/Fx.java:1213 `lambda` e.scaled(7, i -> {
+- mindustry/content/Fx.java:1220 `lambda` randLenVectors(e.id, 7, 2f + 30f * e.finpow(), (x, y) -> {
+- mindustry/content/Fx.java:1227 `lambda` randLenVectors(e.id + 1, 4, 1f + 30f * e.finpow(), (x, y) -> {
+- mindustry/content/Fx.java:1232 `lambda` blastExplosion = new Effect(22, e -> {
+- mindustry/content/Fx.java:1235 `lambda` e.scaled(6, i -> {
+- mindustry/content/Fx.java:1242 `lambda` randLenVectors(e.id, 5, 2f + 23f * e.finpow(), (x, y) -> {
+- mindustry/content/Fx.java:1249 `lambda` randLenVectors(e.id + 1, 4, 1f + 23f * e.finpow(), (x, y) -> {
+- mindustry/content/Fx.java:1256 `lambda` sapExplosion = new Effect(25, e -> {
+- mindustry/content/Fx.java:1259 `lambda` e.scaled(6, i -> {
+- mindustry/content/Fx.java:1266 `lambda` randLenVectors(e.id, 9, 2f + 70 * e.finpow(), (x, y) -> {
+- mindustry/content/Fx.java:1273 `lambda` randLenVectors(e.id + 1, 8, 1f + 60f * e.finpow(), (x, y) -> {
+- mindustry/content/Fx.java:1280 `lambda` massiveExplosion = new Effect(30, e -> {
+- mindustry/content/Fx.java:1283 `lambda` e.scaled(7, i -> {
+- mindustry/content/Fx.java:1290 `lambda` randLenVectors(e.id, 8, 2f + 30f * e.finpow(), (x, y) -> {
+- mindustry/content/Fx.java:1297 `lambda` randLenVectors(e.id + 1, 6, 1f + 29f * e.finpow(), (x, y) -> {
+- mindustry/content/Fx.java:1304 `lambda` artilleryTrail = new Effect(50, e -> {
+- mindustry/content/Fx.java:1309 `lambda` incendTrail = new Effect(50, e -> {
+- mindustry/content/Fx.java:1314 `lambda` missileTrail = new Effect(50, e -> {
+- mindustry/content/Fx.java:1319 `lambda` missileTrailShort = new Effect(22, e -> {
+- mindustry/content/Fx.java:1324 `lambda` bulletSparkSmokeTrailSmall = new Effect(28f, e -> {
+- mindustry/content/Fx.java:1351 `lambda` colorTrail = new Effect(50, e -> {
+- mindustry/content/Fx.java:1356 `lambda` absorb = new Effect(12, e -> {
+- mindustry/content/Fx.java:1362 `lambda` forceShrink = new Effect(20, e -> {
+- mindustry/content/Fx.java:1375 `lambda` flakExplosionBig = new Effect(30, e -> {
+- mindustry/content/Fx.java:1378 `lambda` e.scaled(6, i -> {
+- mindustry/content/Fx.java:1385 `lambda` randLenVectors(e.id, 6, 2f + 23f * e.finpow(), (x, y) -> {
+- mindustry/content/Fx.java:1392 `lambda` randLenVectors(e.id + 1, 4, 1f + 23f * e.finpow(), (x, y) -> {
+- mindustry/content/Fx.java:1399 `lambda` burning = new Effect(35f, e -> {
+- mindustry/content/Fx.java:1402 `lambda` randLenVectors(e.id, 3, 2f + e.fin() * 7f, (x, y) -> {
+- mindustry/content/Fx.java:1407 `lambda` fireRemove = new Effect(70f, e -> {
+- mindustry/content/Fx.java:1414 `lambda` fire = new Effect(50f, e -> {
+- mindustry/content/Fx.java:1417 `lambda` randLenVectors(e.id, 2, 2f + e.fin() * 9f, (x, y) -> {
+- mindustry/content/Fx.java:1426 `lambda` fireHit = new Effect(35f, e -> {
+- mindustry/content/Fx.java:1429 `lambda` randLenVectors(e.id, 3, 2f + e.fin() * 10f, (x, y) -> {
+- mindustry/content/Fx.java:1436 `lambda` fireSmoke = new Effect(35f, e -> {
+- mindustry/content/Fx.java:1439 `lambda` randLenVectors(e.id, 1, 2f + e.fin() * 7f, (x, y) -> {
+- mindustry/content/Fx.java:1445 `lambda` neoplasmHeal = new Effect(120f, e -> {
+- mindustry/content/Fx.java:1448 `lambda` randLenVectors(e.id, 1, e.fin() * 3f, (x, y) -> {
+- mindustry/content/Fx.java:1453 `lambda` steam = new Effect(35f, e -> {
+- mindustry/content/Fx.java:1456 `lambda` randLenVectors(e.id, 2, 2f + e.fin() * 7f, (x, y) -> {
+- mindustry/content/Fx.java:1461 `lambda` ventSteam = new Effect(140f, e -> {
+- mindustry/content/Fx.java:1474 `lambda` drillSteam = new Effect(220f, e -> {
+- mindustry/content/Fx.java:1482 `lambda` e.scaled(e.lifetime * rand.random(0.5f, 1f), b -> {
+- mindustry/content/Fx.java:1490 `lambda` fluxVapor = new Effect(140f, e -> {
+- mindustry/content/Fx.java:1494 `lambda` randLenVectors(e.id, 2, 3f + e.finpow() * 10f, (x, y) -> {
+- mindustry/content/Fx.java:1499 `lambda` corrosionVapor = new Effect(50f, e -> {
+- mindustry/content/Fx.java:1503 `lambda` randLenVectors(e.id, 2, 8f + e.finpow() * 3f, (x, y) -> {
+- mindustry/content/Fx.java:1508 `lambda` vapor = new Effect(110f, e -> {
+- mindustry/content/Fx.java:1512 `lambda` randLenVectors(e.id, 3, 2f + e.finpow() * 11f, (x, y) -> {
+- mindustry/content/Fx.java:1517 `lambda` vaporSmall = new Effect(50f, e -> {
+- mindustry/content/Fx.java:1521 `lambda` randLenVectors(e.id, 4, 2f + e.finpow() * 5f, (x, y) -> {
+- mindustry/content/Fx.java:1526 `lambda` fireballsmoke = new Effect(25f, e -> {
+- mindustry/content/Fx.java:1529 `lambda` randLenVectors(e.id, 1, 2f + e.fin() * 7f, (x, y) -> {
+- mindustry/content/Fx.java:1534 `lambda` ballfire = new Effect(25f, e -> {
+- mindustry/content/Fx.java:1537 `lambda` randLenVectors(e.id, 2, 2f + e.fin() * 7f, (x, y) -> {
+- mindustry/content/Fx.java:1542 `lambda` freezing = new Effect(40f, e -> {
+- mindustry/content/Fx.java:1545 `lambda` randLenVectors(e.id, 2, 1f + e.fin() * 2f, (x, y) -> {
+- mindustry/content/Fx.java:1550 `lambda` melting = new Effect(40f, e -> {
+- mindustry/content/Fx.java:1553 `lambda` randLenVectors(e.id, 2, 1f + e.fin() * 3f, (x, y) -> {
+- mindustry/content/Fx.java:1558 `lambda` wet = new Effect(80f, e -> {
+- mindustry/content/Fx.java:1565 `lambda` muddy = new Effect(80f, e -> {
+- mindustry/content/Fx.java:1572 `lambda` sapped = new Effect(40f, e -> {
+- mindustry/content/Fx.java:1575 `lambda` randLenVectors(e.id, 2, 1f + e.fin() * 2f, (x, y) -> {
+- mindustry/content/Fx.java:1580 `lambda` electrified = new Effect(40f, e -> {
+- mindustry/content/Fx.java:1583 `lambda` randLenVectors(e.id, 2, 1f + e.fin() * 2f, (x, y) -> {
+- mindustry/content/Fx.java:1588 `lambda` sporeSlowed = new Effect(40f, e -> {
+- mindustry/content/Fx.java:1594 `lambda` oily = new Effect(42f, e -> {
+- mindustry/content/Fx.java:1597 `lambda` randLenVectors(e.id, 2, 1f + e.fin() * 2f, (x, y) -> {
+- mindustry/content/Fx.java:1602 `lambda` overdriven = new Effect(20f, e -> {
+- mindustry/content/Fx.java:1605 `lambda` randLenVectors(e.id, 2, 1f + e.fin() * 2f, (x, y) -> {
+- mindustry/content/Fx.java:1610 `lambda` overclocked = new Effect(50f, e -> {
+- mindustry/content/Fx.java:1616 `lambda` dropItem = new Effect(20f, e -> {
+- mindustry/content/Fx.java:1625 `lambda` shockwave = new Effect(10f, 80f, e -> {
+- mindustry/content/Fx.java:1631 `lambda` shockwaveSmaller = new Effect(9f, 80f, e -> {
+- mindustry/content/Fx.java:1637 `lambda` bigShockwave = new Effect(10f, 80f, e -> {
+- mindustry/content/Fx.java:1643 `lambda` spawnShockwave = new Effect(20f, 400f, e -> {
+- mindustry/content/Fx.java:1649 `lambda` podLandShockwave = new Effect(12f, 80f, e -> {
+- mindustry/content/Fx.java:1655 `lambda` explosion = new Effect(30, e -> {
+- mindustry/content/Fx.java:1656 `lambda` e.scaled(7, i -> {
+- mindustry/content/Fx.java:1663 `lambda` randLenVectors(e.id, 6, 2f + 19f * e.finpow(), (x, y) -> {
+- mindustry/content/Fx.java:1671 `lambda` randLenVectors(e.id + 1, 8, 1f + 23f * e.finpow(), (x, y) -> {
+- mindustry/content/Fx.java:1676 `lambda` dynamicExplosion = new Effect(30, 500f, b -> {
+- mindustry/content/Fx.java:1688 `lambda` b.scaled(b.lifetime * lenScl, e -> {
+- mindustry/content/Fx.java:1689 `lambda` randLenVectors(e.id + fi - 1, e.fin(Interp.pow10Out), (int)(3f * intensity), 14f * intensity, (x, y, in, out) -> {
+- mindustry/content/Fx.java:1696 `lambda` b.scaled(baseLifetime, e -> {
+- mindustry/content/Fx.java:1697 `lambda` e.scaled(5 + intensity * 2.5f, i -> {
+- mindustry/content/Fx.java:1707 `lambda` randLenVectors(e.id + 1, e.finpow() + 0.001f, (int)(9 * intensity), 40f * intensity, (x, y, in, out) -> {
+- mindustry/content/Fx.java:1714 `lambda` reactorExplosion = new Effect(30, 500f, b -> {
+- mindustry/content/Fx.java:1725 `lambda` b.scaled(b.lifetime * lenScl, e -> {
+- mindustry/content/Fx.java:1726 `lambda` randLenVectors(e.id + fi - 1, e.fin(Interp.pow10Out), (int)(2.9f * intensity), 22f * intensity, (x, y, in, out) -> {
+- mindustry/content/Fx.java:1736 `lambda` b.scaled(baseLifetime, e -> {
+- mindustry/content/Fx.java:1738 `lambda` e.scaled(5 + intensity * 2f, i -> {
+- mindustry/content/Fx.java:1748 `lambda` randLenVectors(e.id + 1, e.finpow() + 0.001f, (int)(8 * intensity), 28f * intensity, (x, y, in, out) -> {
+- mindustry/content/Fx.java:1755 `lambda` impactReactorExplosion = new Effect(30, 500f, b -> {
+- mindustry/content/Fx.java:1766 `lambda` b.scaled(b.lifetime * lenScl, e -> {
+- mindustry/content/Fx.java:1767 `lambda` randLenVectors(e.id + fi - 1, e.fin(Interp.pow10Out), (int)(2.8f * intensity), 25f * intensity, (x, y, in, out) -> {
+- mindustry/content/Fx.java:1777 `lambda` b.scaled(baseLifetime, e -> {
+- mindustry/content/Fx.java:1779 `lambda` e.scaled(5 + intensity * 2f, i -> {
+- mindustry/content/Fx.java:1789 `lambda` randLenVectors(e.id + 1, e.finpow() + 0.001f, (int)(8 * intensity), 30f * intensity, (x, y, in, out) -> {
+- mindustry/content/Fx.java:1796 `lambda` blockExplosionSmoke = new Effect(30, e -> {
+- mindustry/content/Fx.java:1799 `lambda` randLenVectors(e.id, 6, 4f + 30f * e.finpow(), (x, y) -> {
+- mindustry/content/Fx.java:1805 `lambda` steamCoolSmoke = new Effect(35f, e -> {
+- mindustry/content/Fx.java:1809 `lambda` randLenVectors(e.id, 4, e.finpow() * 7f, e.rotation, 30f, (x, y) -> {
+- mindustry/content/Fx.java:1814 `lambda` smokePuff = new Effect(30, e -> {
+- mindustry/content/Fx.java:1817 `lambda` randLenVectors(e.id, 6, 4f + 30f * e.finpow(), (x, y) -> {
+- mindustry/content/Fx.java:1823 `lambda` shootSmall = new Effect(8, e -> {
+- mindustry/content/Fx.java:1830 `lambda` shootSmallColor = new Effect(8, e -> {
+- mindustry/content/Fx.java:1837 `lambda` shootHeal = new Effect(8, e -> {
+- mindustry/content/Fx.java:1844 `lambda` shootHealYellow = new Effect(8, e -> {
+- mindustry/content/Fx.java:1851 `lambda` shootSmallSmoke = new Effect(20f, e -> {
+- mindustry/content/Fx.java:1854 `lambda` randLenVectors(e.id, 5, e.finpow() * 6f, e.rotation, 20f, (x, y) -> {
+- mindustry/content/Fx.java:1859 `lambda` shootBig = new Effect(9, e -> {
+- mindustry/content/Fx.java:1866 `lambda` shootBig2 = new Effect(10, e -> {
+- mindustry/content/Fx.java:1873 `lambda` shootBigColor = new Effect(11, e -> {
+- mindustry/content/Fx.java:1880 `lambda` shootScepterSecondary = new Effect(4, e -> {
+- mindustry/content/Fx.java:1894 `lambda` shootQuellPulse = new Effect(40f, e -> {
+- mindustry/content/Fx.java:1905 `lambda` e.scaled(10, i -> {
+- mindustry/content/Fx.java:1920 `lambda` e.scaled(fout * 0.8f, i -> {
+- mindustry/content/Fx.java:1961 `lambda` shootTitan = new Effect(10, e -> {
+- mindustry/content/Fx.java:1968 `lambda` shootBigSmoke = new Effect(17f, e -> {
+- mindustry/content/Fx.java:1971 `lambda` randLenVectors(e.id, 8, e.finpow() * 19f, e.rotation, 10f, (x, y) -> {
+- mindustry/content/Fx.java:1976 `lambda` shootBigSmoke2 = new Effect(18f, e -> {
+- mindustry/content/Fx.java:1979 `lambda` randLenVectors(e.id, 9, e.finpow() * 23f, e.rotation, 20f, (x, y) -> {
+- mindustry/content/Fx.java:1984 `lambda` shootSmokeDisperse = new Effect(25f, e -> {
+- mindustry/content/Fx.java:1987 `lambda` randLenVectors(e.id, 9, e.finpow() * 29f, e.rotation, 18f, (x, y) -> {
+- mindustry/content/Fx.java:1992 `lambda` shootSmokeSquare = new Effect(20f, e -> {
+- mindustry/content/Fx.java:2003 `lambda` shootSmokeSquareSparse = new Effect(30f, e -> {
+- mindustry/content/Fx.java:2014 `lambda` shootSmokeSquareBig = new Effect(32f, e -> {
+- mindustry/content/Fx.java:2025 `lambda` shootSmokeTitan = new Effect(70f, e -> {
+- mindustry/content/Fx.java:2029 `lambda` e.scaled(e.lifetime * rand.random(0.3f, 1f), b -> {
+- mindustry/content/Fx.java:2036 `lambda` shootSmokeSmite = new Effect(70f, e -> {
+- mindustry/content/Fx.java:2041 `lambda` e.scaled(e.lifetime * rand.random(0.3f, 1f), b -> {
+- mindustry/content/Fx.java:2049 `lambda` shootSmokeMissile = new Effect(130f, 300f, e -> {
+- mindustry/content/Fx.java:2055 `lambda` e.scaled(e.lifetime * rand.random(0.2f, 1f), b -> {
+- mindustry/content/Fx.java:2061 `lambda` shootSmokeMissileColor = new Effect(130f, 300f, e -> {
+- mindustry/content/Fx.java:2067 `lambda` e.scaled(e.lifetime * rand.random(0.2f, 1f), b -> {
+- mindustry/content/Fx.java:2073 `lambda` regenParticle = new Effect(100f, e -> {
+- mindustry/content/Fx.java:2079 `lambda` regenSuppressParticle = new Effect(35f, e -> {
+- mindustry/content/Fx.java:2083 `lambda` randLenVectors(e.id, 4, 17f * e.fin(), (x, y) -> {
+- mindustry/content/Fx.java:2088 `lambda` regenSuppressSeek = new Effect(140f, e -> {
+- mindustry/content/Fx.java:2103 `lambda` surgeCruciSmoke = new Effect(160f, e -> {
+- mindustry/content/Fx.java:2111 `lambda` e.scaled(e.lifetime * rand.random(0.3f, 1f), b -> {
+- mindustry/content/Fx.java:2118 `lambda` neoplasiaSmoke = new Effect(280f, e -> {
+- mindustry/content/Fx.java:2126 `lambda` e.scaled(e.lifetime * rand.random(0.3f, 1f), b -> {
+- mindustry/content/Fx.java:2133 `lambda` heatReactorSmoke = new Effect(180f, e -> {
+- mindustry/content/Fx.java:2140 `lambda` e.scaled(e.lifetime * rand.random(0.3f, 1f), b -> {
+- mindustry/content/Fx.java:2148 `lambda` circleColorSpark = new Effect(21f, e -> {
+- mindustry/content/Fx.java:2152 `lambda` randLenVectors(e.id, 9, 27f * e.fin(), 9f, (x, y) -> {
+- mindustry/content/Fx.java:2157 `lambda` colorSpark = new Effect(21f, e -> {
+- mindustry/content/Fx.java:2161 `lambda` randLenVectors(e.id, 5, 27f * e.fin(), e.rotation, 9f, (x, y) -> {
+- mindustry/content/Fx.java:2166 `lambda` colorSparkBig = new Effect(25f, e -> {
+- mindustry/content/Fx.java:2170 `lambda` randLenVectors(e.id, 8, 41f * e.fin(), e.rotation, 10f, (x, y) -> {
+- mindustry/content/Fx.java:2175 `lambda` randLifeSpark = new Effect(24f, e -> {
+- mindustry/content/Fx.java:2182 `lambda` e.scaled(e.lifetime * rand.random(0.5f, 1f), p -> {
+- mindustry/content/Fx.java:2189 `lambda` shootPayloadDriver = new Effect(30f, e -> {
+- mindustry/content/Fx.java:2202 `lambda` shootSmallFlame = new Effect(32f, 80f, e -> {
+- mindustry/content/Fx.java:2205 `lambda` randLenVectors(e.id, 12, e.finpow() * 60f, e.rotation, 10f, (x, y) -> {
+- mindustry/content/Fx.java:2210 `lambda` shootPyraFlame = new Effect(33f, 80f, e -> {
+- mindustry/content/Fx.java:2213 `lambda` randLenVectors(e.id, 13, e.finpow() * 70f, e.rotation, 10f, (x, y) -> {
+- mindustry/content/Fx.java:2218 `lambda` shootLiquid = new Effect(15f, 80f, e -> {
+- mindustry/content/Fx.java:2221 `lambda` randLenVectors(e.id, 2, e.finpow() * 15f, e.rotation, 11f, (x, y) -> {
+- mindustry/content/Fx.java:2226 `lambda` casing1 = new Effect(30f, e -> {
+- mindustry/content/Fx.java:2242 `lambda` casing2 = new Effect(34f, e -> {
+- mindustry/content/Fx.java:2256 `lambda` casing3 = new Effect(40f, e -> {
+- mindustry/content/Fx.java:2272 `lambda` casing4 = new Effect(45f, e -> {
+- mindustry/content/Fx.java:2288 `lambda` casing2Double = new Effect(34f, e -> {
+- mindustry/content/Fx.java:2304 `lambda` casing3Double = new Effect(40f, e -> {
+- mindustry/content/Fx.java:2323 `lambda` railShoot = new Effect(24f, e -> {
+- mindustry/content/Fx.java:2324 `lambda` e.scaled(10f, b -> {
+- mindustry/content/Fx.java:2337 `lambda` railTrail = new Effect(16f, e -> {
+- mindustry/content/Fx.java:2347 `lambda` railHit = new Effect(18f, 200f, e -> {
+- mindustry/content/Fx.java:2355 `lambda` lancerLaserShoot = new Effect(21f, e -> {
+- mindustry/content/Fx.java:2363 `lambda` lancerLaserShootSmoke = new Effect(26f, e -> {
+- mindustry/content/Fx.java:2367 `lambda` randLenVectors(e.id, 7, length, e.rotation, 0f, (x, y) -> {
+- mindustry/content/Fx.java:2372 `lambda` lancerLaserCharge = new Effect(38f, e -> {
+- mindustry/content/Fx.java:2375 `lambda` randLenVectors(e.id, 14, 1f + 20f * e.fout(), e.rotation, 120f, (x, y) -> {
+- mindustry/content/Fx.java:2380 `lambda` lancerLaserChargeBegin = new Effect(60f, e -> {
+- mindustry/content/Fx.java:2391 `lambda` lightningCharge = new Effect(38f, e -> {
+- mindustry/content/Fx.java:2394 `lambda` randLenVectors(e.id, 2, 1f + 20f * e.fout(), e.rotation, 120f, (x, y) -> {
+- mindustry/content/Fx.java:2399 `lambda` sparkShoot = new Effect(12f, e -> {
+- mindustry/content/Fx.java:2403 `lambda` randLenVectors(e.id, 7, 25f * e.finpow(), e.rotation, 3f, (x, y) -> {
+- mindustry/content/Fx.java:2408 `lambda` lightningShoot = new Effect(12f, e -> {
+- mindustry/content/Fx.java:2412 `lambda` randLenVectors(e.id, 7, 25f * e.finpow(), e.rotation, 50f, (x, y) -> {
+- mindustry/content/Fx.java:2417 `lambda` thoriumShoot = new Effect(12f, e -> {
+- mindustry/content/Fx.java:2421 `lambda` randLenVectors(e.id, 7, 25f * e.finpow(), e.rotation, 50f, (x, y) -> {
+- mindustry/content/Fx.java:2426 `lambda` reactorsmoke = new Effect(17, e -> {
+- mindustry/content/Fx.java:2427 `lambda` randLenVectors(e.id, 4, e.fin() * 8f, (x, y) -> {
+- mindustry/content/Fx.java:2434 `lambda` redgeneratespark = new Effect(90, e -> {
+- mindustry/content/Fx.java:2445 `lambda` turbinegenerate = new Effect(100, e -> {
+- mindustry/content/Fx.java:2456 `lambda` generatespark = new Effect(18, e -> {
+- mindustry/content/Fx.java:2457 `lambda` randLenVectors(e.id, 5, e.fin() * 8f, (x, y) -> {
+- mindustry/content/Fx.java:2463 `lambda` fuelburn = new Effect(23, e -> {
+- mindustry/content/Fx.java:2464 `lambda` randLenVectors(e.id, 5, e.fin() * 9f, (x, y) -> {
+- mindustry/content/Fx.java:2470 `lambda` incinerateSlag = new Effect(34, e -> {
+- mindustry/content/Fx.java:2471 `lambda` randLenVectors(e.id, 4, e.finpow() * 5f, (x, y) -> {
+- mindustry/content/Fx.java:2477 `lambda` coreBurn = new Effect(23, e -> {
+- mindustry/content/Fx.java:2478 `lambda` randLenVectors(e.id, 5, e.fin() * 9f, (x, y) -> {
+- mindustry/content/Fx.java:2485 `lambda` plasticburn = new Effect(40, e -> {
+- mindustry/content/Fx.java:2486 `lambda` randLenVectors(e.id, 5, 3f + e.fin() * 5f, (x, y) -> {
+- mindustry/content/Fx.java:2492 `lambda` conveyorPoof = new Effect(35, e -> {
+- mindustry/content/Fx.java:2494 `lambda` randLenVectors(e.id, 4, 3f + e.fin() * 4f, (x, y) -> {
+- mindustry/content/Fx.java:2499 `lambda` pulverize = new Effect(40, e -> {
+- mindustry/content/Fx.java:2500 `lambda` randLenVectors(e.id, 5, 3f + e.fin() * 8f, (x, y) -> {
+- mindustry/content/Fx.java:2506 `lambda` pulverizeRed = new Effect(40, e -> {
+- mindustry/content/Fx.java:2507 `lambda` randLenVectors(e.id, 5, 3f + e.fin() * 8f, (x, y) -> {
+- mindustry/content/Fx.java:2513 `lambda` pulverizeSmall = new Effect(30, e -> {
+- mindustry/content/Fx.java:2514 `lambda` randLenVectors(e.id, 3, e.fin() * 5f, (x, y) -> {
+- mindustry/content/Fx.java:2520 `lambda` pulverizeMedium = new Effect(30, e -> {
+- mindustry/content/Fx.java:2521 `lambda` randLenVectors(e.id, 5, 3f + e.fin() * 8f, (x, y) -> {
+- mindustry/content/Fx.java:2527 `lambda` producesmoke = new Effect(12, e -> {
+- mindustry/content/Fx.java:2528 `lambda` randLenVectors(e.id, 8, 4f + e.fin() * 18f, (x, y) -> {
+- mindustry/content/Fx.java:2534 `lambda` artilleryTrailSmoke = new Effect(50, e -> {
+- mindustry/content/Fx.java:2549 `lambda` smokeCloud = new Effect(70, e -> {
+- mindustry/content/Fx.java:2550 `lambda` randLenVectors(e.id, e.fin(), 30, 30f, (x, y, fin, fout) -> {
+- mindustry/content/Fx.java:2557 `lambda` smeltsmoke = new Effect(15, e -> {
+- mindustry/content/Fx.java:2558 `lambda` randLenVectors(e.id, 6, 4f + e.fin() * 5f, (x, y) -> {
+- mindustry/content/Fx.java:2564 `lambda` coalSmeltsmoke = new Effect(40f, e -> {
+- mindustry/content/Fx.java:2565 `lambda` randLenVectors(e.id, 0.2f + e.fin(), 4, 6.3f, (x, y, fin, out) -> {
+- mindustry/content/Fx.java:2571 `lambda` formsmoke = new Effect(40, e -> {
+- mindustry/content/Fx.java:2572 `lambda` randLenVectors(e.id, 6, 5f + e.fin() * 8f, (x, y) -> {
+- mindustry/content/Fx.java:2578 `lambda` blastsmoke = new Effect(26, e -> {
+- mindustry/content/Fx.java:2579 `lambda` randLenVectors(e.id, 12, 1f + e.fin() * 23f, (x, y) -> {
+- mindustry/content/Fx.java:2586 `lambda` lava = new Effect(18, e -> {
+- mindustry/content/Fx.java:2587 `lambda` randLenVectors(e.id, 3, 1f + e.fin() * 10f, (x, y) -> {
+- mindustry/content/Fx.java:2594 `lambda` dooropen = new Effect(10, e -> {
+- mindustry/content/Fx.java:2599 `lambda` doorclose = new Effect(10, e -> {
+- mindustry/content/Fx.java:2604 `lambda` dooropenlarge = new Effect(10, e -> {
+- mindustry/content/Fx.java:2609 `lambda` doorcloselarge = new Effect(10, e -> {
+- mindustry/content/Fx.java:2614 `lambda` generate = new Effect(11, e -> {
+- mindustry/content/Fx.java:2620 `lambda` mineWallSmall = new Effect(50, e -> {
+- mindustry/content/Fx.java:2622 `lambda` randLenVectors(e.id, 2, e.fin() * 6f, (x, y) -> {
+- mindustry/content/Fx.java:2627 `lambda` mineSmall = new Effect(30, e -> {
+- mindustry/content/Fx.java:2629 `lambda` randLenVectors(e.id, 3, e.fin() * 5f, (x, y) -> {
+- mindustry/content/Fx.java:2634 `lambda` mine = new Effect(20, e -> {
+- mindustry/content/Fx.java:2636 `lambda` randLenVectors(e.id, 6, 3f + e.fin() * 6f, (x, y) -> {
+- mindustry/content/Fx.java:2641 `lambda` mineBig = new Effect(30, e -> {
+- mindustry/content/Fx.java:2643 `lambda` randLenVectors(e.id, 6, 4f + e.fin() * 8f, (x, y) -> {
+- mindustry/content/Fx.java:2648 `lambda` mineHuge = new Effect(40, e -> {
+- mindustry/content/Fx.java:2650 `lambda` randLenVectors(e.id, 8, 5f + e.fin() * 10f, (x, y) -> {
+- mindustry/content/Fx.java:2655 `lambda` mineImpact = new Effect(90, e -> {
+- mindustry/content/Fx.java:2657 `lambda` randLenVectors(e.id, 12, 5f + e.finpow() * 22f, (x, y) -> {
+- mindustry/content/Fx.java:2662 `lambda` mineImpactWave = new Effect(50f, e -> {
+- mindustry/content/Fx.java:2667 `lambda` randLenVectors(e.id, 12, 4f + e.finpow() * e.rotation, (x, y) -> {
+- mindustry/content/Fx.java:2671 `lambda` e.scaled(30f, b -> {
+- mindustry/content/Fx.java:2677 `lambda` payloadReceive = new Effect(30, e -> {
+- mindustry/content/Fx.java:2679 `lambda` randLenVectors(e.id, 12, 7f + e.fin() * 13f, (x, y) -> {
+- mindustry/content/Fx.java:2684 `lambda` teleportActivate = new Effect(50, e -> {
+- mindustry/content/Fx.java:2687 `lambda` e.scaled(8f, e2 -> {
+- mindustry/content/Fx.java:2694 `lambda` randLenVectors(e.id, 30, 4f + 40f * e.fin(), (x, y) -> {
+- mindustry/content/Fx.java:2699 `lambda` teleport = new Effect(60, e -> {
+- mindustry/content/Fx.java:2704 `lambda` randLenVectors(e.id, 20, 6f + 20f * e.fout(), (x, y) -> {
+- mindustry/content/Fx.java:2709 `lambda` teleportOut = new Effect(20, e -> {
+- mindustry/content/Fx.java:2714 `lambda` randLenVectors(e.id, 20, 4f + 20f * e.fin(), (x, y) -> {
+- mindustry/content/Fx.java:2719 `lambda` ripple = new Effect(30, e -> {
+- mindustry/content/Fx.java:2727 `lambda` bubble = new Effect(20, e -> {
+- mindustry/content/Fx.java:2730 `lambda` randLenVectors(e.id, 2, e.rotation * 0.9f, (x, y) -> {
+- mindustry/content/Fx.java:2735 `lambda` launchAccelerator = new Effect(22, e -> {
+- mindustry/content/Fx.java:2741 `lambda` launch = new Effect(28, e -> {
+- mindustry/content/Fx.java:2747 `lambda` launchPod = new Effect(50, e -> {
+- mindustry/content/Fx.java:2750 `lambda` e.scaled(25f, f -> {
+- mindustry/content/Fx.java:2757 `lambda` randLenVectors(e.id, 24, e.finpow() * 50f, (x, y) -> {
+- mindustry/content/Fx.java:2763 `lambda` healWaveMend = new Effect(40, e -> {
+- mindustry/content/Fx.java:2769 `lambda` overdriveWave = new Effect(50, e -> {
+- mindustry/content/Fx.java:2775 `lambda` healBlock = new Effect(20, e -> {
+- mindustry/content/Fx.java:2781 `lambda` healBlockFull = new Effect(20, e -> {
+- mindustry/content/Fx.java:2789 `lambda` rotateBlock = new Effect(30, e -> {
+- mindustry/content/Fx.java:2795 `lambda` lightBlock = new Effect(60, e -> {
+- mindustry/content/Fx.java:2801 `lambda` overdriveBlockFull = new Effect(60, e -> {
+- mindustry/content/Fx.java:2807 `lambda` shieldBreak = new Effect(40, e -> {
+- mindustry/content/Fx.java:2818 `lambda` arcShieldBreak = new Effect(40, e -> {
+- mindustry/content/Fx.java:2821 `lambda` ShieldArcAbility ab = (ShieldArcAbility) Structs.find(u.abilities, a -> a instanceof ShieldArcAbility);
+- mindustry/content/Fx.java:2838 `lambda` coreLandDust = new Effect(100f, e -> {
+- mindustry/content/Fx.java:2845 `lambda` podLandDust = new Effect(70f, e -> {
+- mindustry/content/Fx.java:2852 `lambda` unitShieldBreak = new Effect(35, e -> {
+- mindustry/content/Fx.java:2857 `lambda` e.scaled(16f, c -> {
+- mindustry/content/Fx.java:2861 `lambda` randLenVectors(e.id, (int)(radius * 1.2f), radius/2f + c.finpow() * radius*1.25f, (x, y) -> {
+- mindustry/content/Fx.java:2871 `lambda` chainLightning = new Effect(20f, 300f, e -> {
+- mindustry/content/Fx.java:2908 `lambda` chainEmp = new Effect(30f, 300f, e -> {
+- mindustry/content/Fx.java:2945 `lambda` legDestroy = new Effect(90f, 100f, e -> {
+- mindustry/content/Fx.java:2960 `lambda` debugLine = new Effect(90f, 1000000000000f, e -> {
+- mindustry/content/Fx.java:2977 `lambda` debugRect = new Effect(90f, 1000000000000f, e -> {
+- mindustry/content/Items.java:16 `anonymous_double_brace_initializer` copper = new Item("copper", Color.valueOf("d99d73")){{
+- mindustry/content/Items.java:22 `anonymous_double_brace_initializer` lead = new Item("lead", Color.valueOf("8c7fa9")){{
+- mindustry/content/Items.java:27 `anonymous_double_brace_initializer` metaglass = new Item("metaglass", Color.valueOf("ebeef5")){{
+- mindustry/content/Items.java:31 `anonymous_double_brace_initializer` graphite = new Item("graphite", Color.valueOf("b2c6d2")){{
+- mindustry/content/Items.java:35 `anonymous_double_brace_initializer` sand = new Item("sand", Color.valueOf("f7cba4")){{
+- mindustry/content/Items.java:42 `anonymous_double_brace_initializer` coal = new Item("coal", Color.valueOf("272727")){{
+- mindustry/content/Items.java:49 `anonymous_double_brace_initializer` titanium = new Item("titanium", Color.valueOf("8da1e3")){{
+- mindustry/content/Items.java:54 `anonymous_double_brace_initializer` thorium = new Item("thorium", Color.valueOf("f9a3c7")){{
+- mindustry/content/Items.java:62 `anonymous_double_brace_initializer` scrap = new Item("scrap", Color.valueOf("777777")){{
+- mindustry/content/Items.java:66 `anonymous_double_brace_initializer` silicon = new Item("silicon", Color.valueOf("53565c")){{
+- mindustry/content/Items.java:70 `anonymous_double_brace_initializer` plastanium = new Item("plastanium", Color.valueOf("cbd97f")){{
+- mindustry/content/Items.java:77 `anonymous_double_brace_initializer` phaseFabric = new Item("phase-fabric", Color.valueOf("f4ba6e")){{
+- mindustry/content/Items.java:83 `anonymous_double_brace_initializer` surgeAlloy = new Item("surge-alloy", Color.valueOf("f3e979")){{
+- mindustry/content/Items.java:89 `anonymous_double_brace_initializer` sporePod = new Item("spore-pod", Color.valueOf("7457ce")){{
+- mindustry/content/Items.java:94 `anonymous_double_brace_initializer` blastCompound = new Item("blast-compound", Color.valueOf("ff795e")){{
+- mindustry/content/Items.java:100 `anonymous_double_brace_initializer` pyratite = new Item("pyratite", Color.valueOf("ffaa5f")){{
+- mindustry/content/Items.java:106 `anonymous_double_brace_initializer` beryllium = new Item("beryllium", Color.valueOf("3a8f64")){{
+- mindustry/content/Items.java:112 `anonymous_double_brace_initializer` tungsten = new Item("tungsten", Color.valueOf("768a9a")){{
+- mindustry/content/Items.java:118 `anonymous_double_brace_initializer` oxide = new Item("oxide", Color.valueOf("e4ffd6")){{
+- mindustry/content/Items.java:123 `anonymous_double_brace_initializer` carbide = new Item("carbide", Color.valueOf("89769a")){{
+- mindustry/content/Items.java:128 `anonymous_double_brace_initializer` fissileMatter = new Item("fissile-matter", Color.valueOf("5e988d")){{
+- mindustry/content/Items.java:133 `anonymous_double_brace_initializer` dormantCyst = new Item("dormant-cyst", Color.valueOf("df824d")){{
+- mindustry/content/Liquids.java:13 `anonymous_double_brace_initializer` water = new Liquid("water", Color.valueOf("596ab8")){{
+- mindustry/content/Liquids.java:21 `anonymous_double_brace_initializer` slag = new Liquid("slag", Color.valueOf("ffa166")){{
+- mindustry/content/Liquids.java:28 `anonymous_double_brace_initializer` oil = new Liquid("oil", Color.valueOf("313131")){{
+- mindustry/content/Liquids.java:40 `anonymous_double_brace_initializer` cryofluid = new Liquid("cryofluid", Color.valueOf("6ecdec")){{
+- mindustry/content/Liquids.java:49 `anonymous_double_brace_initializer` neoplasm = new CellLiquid("neoplasm", Color.valueOf("c33e2b")){{
+- mindustry/content/Liquids.java:65 `anonymous_double_brace_initializer` arkycite = new Liquid("arkycite", Color.valueOf("84a94b")){{
+- mindustry/content/Liquids.java:71 `anonymous_double_brace_initializer` gallium = new Liquid("gallium", Color.valueOf("9a9dbf")){{
+- mindustry/content/Liquids.java:76 `anonymous_double_brace_initializer` ozone = new Liquid("ozone", Color.valueOf("fc81dd")){{
+- mindustry/content/Liquids.java:83 `anonymous_double_brace_initializer` hydrogen = new Liquid("hydrogen", Color.valueOf("9eabf7")){{
+- mindustry/content/Liquids.java:88 `anonymous_double_brace_initializer` nitrogen = new Liquid("nitrogen", Color.valueOf("efe3ff")){{
+- mindustry/content/Liquids.java:92 `anonymous_double_brace_initializer` cyanogen = new Liquid("cyanogen", Color.valueOf("89e8b6")){{
+- mindustry/content/Planets.java:29 `anonymous_double_brace_initializer` sun = new Planet("sun", null, 4f){{
+- mindustry/content/Planets.java:33 `lambda` meshLoader = () -> new SunMesh(
+- mindustry/content/Planets.java:46 `anonymous_double_brace_initializer` erekir = new Planet("erekir", sun, 1f, 2){{
+- mindustry/content/Planets.java:48 `lambda` meshLoader = () -> new HexMesh(this, 5);
+- mindustry/content/Planets.java:49 `lambda` cloudMeshLoader = () -> new MultiMesh(
+- mindustry/content/Planets.java:74 `lambda` ruleSetter = r -> {
+- mindustry/content/Planets.java:92 `lambda` gier = makeAsteroid("gier", erekir, Blocks.ferricStoneWall, Blocks.carbonWall, -5, 0.4f, 7, 1f, gen -> {
+- mindustry/content/Planets.java:100 `lambda` notva = makeAsteroid("notva", sun, Blocks.ferricStoneWall, Blocks.beryllicStoneWall, -4, 0.55f, 9, 1.3f, gen -> {
+- mindustry/content/Planets.java:107 `anonymous_double_brace_initializer` tantros = new Planet("tantros", sun, 1f, 2){{
+- mindustry/content/Planets.java:109 `lambda` meshLoader = () -> new HexMesh(this, 4);
+- mindustry/content/Planets.java:118 `lambda` ruleSetter = r -> {
+- mindustry/content/Planets.java:123 `anonymous_double_brace_initializer` serpulo = new Planet("serpulo", sun, 1f, 3){{
+- mindustry/content/Planets.java:126 `lambda` meshLoader = () -> new HexMesh(this, 6);
+- mindustry/content/Planets.java:127 `lambda` cloudMeshLoader = () -> new MultiMesh(
+- mindustry/content/Planets.java:141 `lambda` ruleSetter = r -> {
+- mindustry/content/Planets.java:164 `lambda` verilus = makeAsteroid("verilus", sun, Blocks.stoneWall, Blocks.iceWall, -1, 0.5f, 12, 2f, gen -> {
+- mindustry/content/Planets.java:173 `anonymous_double_brace_initializer` return new Planet(name, parent, 0.12f){{
+- mindustry/content/Planets.java:187 `lambda` meshLoader = () -> {
+- mindustry/content/SectorPresets.java:22 `anonymous_double_brace_initializer` groundZero = new SectorPreset("groundZero", serpulo, 15){{
+- mindustry/content/SectorPresets.java:32 `anonymous_double_brace_initializer` saltFlats = new SectorPreset("saltFlats", serpulo, 101){{
+- mindustry/content/SectorPresets.java:36 `anonymous_double_brace_initializer` testingGrounds = new SectorPreset("testingGrounds", serpulo, 3){{
+- mindustry/content/SectorPresets.java:41 `anonymous_double_brace_initializer` frozenForest = new SectorPreset("frozenForest", serpulo, 86){{
+- mindustry/content/SectorPresets.java:46 `anonymous_double_brace_initializer` biomassFacility = new SectorPreset("biomassFacility", serpulo, 81){{
+- mindustry/content/SectorPresets.java:51 `anonymous_double_brace_initializer` taintedWoods = new SectorPreset("taintedWoods", serpulo, 221){{
+- mindustry/content/SectorPresets.java:56 `anonymous_double_brace_initializer` crateredBattleground = new SectorPreset("crateredBattleground", serpulo, 18){{
+- mindustry/content/SectorPresets.java:61 `anonymous_double_brace_initializer` ruinousShores = new SectorPreset("ruinousShores", serpulo, 213){{
+- mindustry/content/SectorPresets.java:66 `anonymous_double_brace_initializer` perilousHarbor = new SectorPreset("perilousHarbor", serpulo, 47){{
+- mindustry/content/SectorPresets.java:70 `anonymous_double_brace_initializer` facility32m = new SectorPreset("facility32m", serpulo, 64){{
+- mindustry/content/SectorPresets.java:75 `anonymous_double_brace_initializer` windsweptIslands = new SectorPreset("windsweptIslands", serpulo, 246){{
+- mindustry/content/SectorPresets.java:80 `anonymous_double_brace_initializer` stainedMountains = new SectorPreset("stainedMountains", serpulo, 20){{
+- mindustry/content/SectorPresets.java:85 `anonymous_double_brace_initializer` extractionOutpost = new SectorPreset("extractionOutpost", serpulo, 165){{
+- mindustry/content/SectorPresets.java:89 `anonymous_double_brace_initializer` coastline = new SectorPreset("coastline", serpulo, 108){{
+- mindustry/content/SectorPresets.java:94 `anonymous_double_brace_initializer` weatheredChannels = new SectorPreset("weatheredChannels", serpulo, 39){{
+- mindustry/content/SectorPresets.java:99 `anonymous_double_brace_initializer` navalFortress = new SectorPreset("navalFortress", serpulo, 216){{
+- mindustry/content/SectorPresets.java:103 `anonymous_double_brace_initializer` frontier = new SectorPreset("frontier", serpulo, 50){{
+- mindustry/content/SectorPresets.java:107 `anonymous_double_brace_initializer` fungalPass = new SectorPreset("fungalPass", serpulo, 21){{
+- mindustry/content/SectorPresets.java:111 `anonymous_double_brace_initializer` infestedCanyons = new SectorPreset("infestedCanyons", serpulo, 210){{
+- mindustry/content/SectorPresets.java:115 `anonymous_double_brace_initializer` atolls = new SectorPreset("atolls", serpulo, 1){{
+- mindustry/content/SectorPresets.java:119 `anonymous_double_brace_initializer` sunkenPier = new SectorPreset("sunkenPier", serpulo, -1){{
+- mindustry/content/SectorPresets.java:124 `anonymous_double_brace_initializer` mycelialBastion = new SectorPreset("mycelialBastion", serpulo, 260){{
+- mindustry/content/SectorPresets.java:128 `anonymous_double_brace_initializer` overgrowth = new SectorPreset("overgrowth", serpulo, 134){{
+- mindustry/content/SectorPresets.java:132 `anonymous_double_brace_initializer` tarFields = new SectorPreset("tarFields", serpulo, 23){{
+- mindustry/content/SectorPresets.java:137 `anonymous_double_brace_initializer` impact0078 = new SectorPreset("impact0078", serpulo, 227){{
+- mindustry/content/SectorPresets.java:142 `anonymous_double_brace_initializer` desolateRift = new SectorPreset("desolateRift", serpulo, 123){{
+- mindustry/content/SectorPresets.java:147 `anonymous_double_brace_initializer` nuclearComplex = new SectorPreset("nuclearComplex", serpulo, 130){{
+- mindustry/content/SectorPresets.java:152 `anonymous_double_brace_initializer` littoralShipyard = new SectorPreset("littoralShipyard", serpulo, 204){{
+- mindustry/content/SectorPresets.java:156 `anonymous_double_brace_initializer` planetaryTerminal = new SectorPreset("planetaryTerminal", serpulo, 93){{
+- mindustry/content/SectorPresets.java:166 `anonymous_double_brace_initializer` onset = new SectorPreset("onset", erekir, 10){{
+- mindustry/content/SectorPresets.java:171 `anonymous_double_brace_initializer` aegis = new SectorPreset("aegis", erekir, 88){{
+- mindustry/content/SectorPresets.java:175 `anonymous_double_brace_initializer` lake = new SectorPreset("lake", erekir, 41){{
+- mindustry/content/SectorPresets.java:179 `anonymous_double_brace_initializer` intersect = new SectorPreset("intersect", erekir, 36){{
+- mindustry/content/SectorPresets.java:185 `anonymous_double_brace_initializer` atlas = new SectorPreset("atlas", erekir, 14){{
+- mindustry/content/SectorPresets.java:189 `anonymous_double_brace_initializer` split = new SectorPreset("split", erekir, 19){{
+- mindustry/content/SectorPresets.java:193 `anonymous_double_brace_initializer` basin = new SectorPreset("basin", erekir, 29){{
+- mindustry/content/SectorPresets.java:197 `anonymous_double_brace_initializer` marsh = new SectorPreset("marsh", erekir, 25){{
+- mindustry/content/SectorPresets.java:201 `anonymous_double_brace_initializer` peaks = new SectorPreset("peaks", erekir, 30){{
+- mindustry/content/SectorPresets.java:205 `anonymous_double_brace_initializer` ravine = new SectorPreset("ravine", erekir, 39){{
+- mindustry/content/SectorPresets.java:210 `anonymous_double_brace_initializer` caldera = new SectorPreset("caldera-erekir", erekir, 43){{
+- mindustry/content/SectorPresets.java:214 `anonymous_double_brace_initializer` stronghold = new SectorPreset("stronghold", erekir, 18){{
+- mindustry/content/SectorPresets.java:218 `anonymous_double_brace_initializer` crevice = new SectorPreset("crevice", erekir, 3){{
+- mindustry/content/SectorPresets.java:223 `anonymous_double_brace_initializer` siege = new SectorPreset("siege", erekir, 58){{
+- mindustry/content/SectorPresets.java:227 `anonymous_double_brace_initializer` crossroads = new SectorPreset("crossroads", erekir, 37){{
+- mindustry/content/SectorPresets.java:231 `anonymous_double_brace_initializer` karst = new SectorPreset("karst", erekir, 5){{
+- mindustry/content/SectorPresets.java:236 `anonymous_double_brace_initializer` origin = new SectorPreset("origin", erekir, 12){{
+- mindustry/content/SerpuloTechTree.java:15 `lambda` Planets.serpulo.techTree = nodeRoot("serpulo", coreShard, () -> {
+- mindustry/content/SerpuloTechTree.java:17 `lambda` node(conveyor, () -> {
+- mindustry/content/SerpuloTechTree.java:18 `lambda` node(junction, () -> {
+- mindustry/content/SerpuloTechTree.java:19 `lambda` node(router, () -> {
+- mindustry/content/SerpuloTechTree.java:20 `lambda` node(advancedLaunchPad, Seq.with(new SectorComplete(extractionOutpost)), () -> {
+- mindustry/content/SerpuloTechTree.java:21 `lambda` node(landingPad, () -> {
+- mindustry/content/SerpuloTechTree.java:22 `lambda` node(interplanetaryAccelerator, Seq.with(new SectorComplete(planetaryTerminal)), () -> {
+- mindustry/content/SerpuloTechTree.java:29 `lambda` node(sorter, () -> {
+- mindustry/content/SerpuloTechTree.java:31 `lambda` node(overflowGate, () -> {
+- mindustry/content/SerpuloTechTree.java:35 `lambda` node(container, Seq.with(new SectorComplete(biomassFacility)), () -> {
+- mindustry/content/SerpuloTechTree.java:37 `lambda` node(vault, Seq.with(new SectorComplete(stainedMountains)), () -> {
+- mindustry/content/SerpuloTechTree.java:42 `lambda` node(itemBridge, () -> {
+- mindustry/content/SerpuloTechTree.java:43 `lambda` node(titaniumConveyor, Seq.with(new SectorComplete(crateredBattleground)), () -> {
+- mindustry/content/SerpuloTechTree.java:44 `lambda` node(massDriver, Seq.with(new SectorComplete(tarFields)), () -> {
+- mindustry/content/SerpuloTechTree.java:45 `lambda` node(phaseConveyor, () -> {
+- mindustry/content/SerpuloTechTree.java:50 `lambda` node(payloadConveyor, () -> {
+- mindustry/content/SerpuloTechTree.java:51 `lambda` node(payloadRouter, () -> {
+- mindustry/content/SerpuloTechTree.java:56 `lambda` node(plastaniumConveyor, () -> {
+- mindustry/content/SerpuloTechTree.java:57 `lambda` node(armoredConveyor, () -> {
+- mindustry/content/SerpuloTechTree.java:67 `lambda` node(coreFoundation, () -> {
+- mindustry/content/SerpuloTechTree.java:68 `lambda` node(coreNucleus, () -> {
+- mindustry/content/SerpuloTechTree.java:73 `lambda` node(mechanicalDrill, () -> {
+- mindustry/content/SerpuloTechTree.java:74 `lambda` node(mechanicalPump, () -> {
+- mindustry/content/SerpuloTechTree.java:75 `lambda` node(conduit, () -> {
+- mindustry/content/SerpuloTechTree.java:76 `lambda` node(liquidJunction, () -> {
+- mindustry/content/SerpuloTechTree.java:77 `lambda` node(liquidRouter, () -> {
+- mindustry/content/SerpuloTechTree.java:78 `lambda` node(liquidContainer, () -> {
+- mindustry/content/SerpuloTechTree.java:84 `lambda` node(pulseConduit, Seq.with(new SectorComplete(windsweptIslands)), () -> {
+- mindustry/content/SerpuloTechTree.java:85 `lambda` node(phaseConduit, () -> {
+- mindustry/content/SerpuloTechTree.java:89 `lambda` node(platedConduit, () -> {
+- mindustry/content/SerpuloTechTree.java:93 `lambda` node(rotaryPump, () -> {
+- mindustry/content/SerpuloTechTree.java:94 `lambda` node(impulsePump, () -> {
+- mindustry/content/SerpuloTechTree.java:104 `lambda` node(graphitePress, () -> {
+- mindustry/content/SerpuloTechTree.java:105 `lambda` node(pneumaticDrill, Seq.with(new SectorComplete(frozenForest)), () -> {
+- mindustry/content/SerpuloTechTree.java:106 `lambda` node(cultivator, Seq.with(new SectorComplete(biomassFacility)), () -> {
+- mindustry/content/SerpuloTechTree.java:110 `lambda` node(laserDrill, () -> {
+- mindustry/content/SerpuloTechTree.java:111 `lambda` node(blastDrill, Seq.with(new SectorComplete(nuclearComplex)), () -> {
+- mindustry/content/SerpuloTechTree.java:115 `lambda` node(waterExtractor, Seq.with(new SectorComplete(saltFlats)), () -> {
+- mindustry/content/SerpuloTechTree.java:116 `lambda` node(oilExtractor, () -> {
+- mindustry/content/SerpuloTechTree.java:123 `lambda` node(pyratiteMixer, Seq.with(new SectorComplete(crateredBattleground)), () -> {
+- mindustry/content/SerpuloTechTree.java:124 `lambda` node(blastMixer, Seq.with(new SectorComplete(facility32m)), () -> {
+- mindustry/content/SerpuloTechTree.java:129 `lambda` node(siliconSmelter, Seq.with(new SectorComplete(frozenForest)), () -> {
+- mindustry/content/SerpuloTechTree.java:131 `lambda` node(sporePress, () -> {
+- mindustry/content/SerpuloTechTree.java:132 `lambda` node(coalCentrifuge, () -> {
+- mindustry/content/SerpuloTechTree.java:133 `lambda` node(multiPress, () -> {
+- mindustry/content/SerpuloTechTree.java:134 `lambda` node(siliconCrucible, () -> {
+- mindustry/content/SerpuloTechTree.java:140 `lambda` node(plastaniumCompressor, Seq.with(new SectorComplete(windsweptIslands)), () -> {
+- mindustry/content/SerpuloTechTree.java:141 `lambda` node(phaseWeaver, Seq.with(new SectorComplete(impact0078)), () -> {
+- mindustry/content/SerpuloTechTree.java:147 `lambda` node(kiln, Seq.with(new OnSector(crateredBattleground)), () -> {
+- mindustry/content/SerpuloTechTree.java:148 `lambda` node(pulverizer, () -> {
+- mindustry/content/SerpuloTechTree.java:149 `lambda` node(incinerator, () -> {
+- mindustry/content/SerpuloTechTree.java:150 `lambda` node(melter, () -> {
+- mindustry/content/SerpuloTechTree.java:151 `lambda` node(surgeSmelter, Seq.with(new SectorComplete(coastline)), () -> {
+- mindustry/content/SerpuloTechTree.java:155 `lambda` node(separator, () -> {
+- mindustry/content/SerpuloTechTree.java:156 `lambda` node(disassembler, () -> {
+- mindustry/content/SerpuloTechTree.java:161 `lambda` node(cryofluidMixer, () -> {
+- mindustry/content/SerpuloTechTree.java:169 `lambda` node(microProcessor, () -> {
+- mindustry/content/SerpuloTechTree.java:170 `lambda` node(switchBlock, () -> {
+- mindustry/content/SerpuloTechTree.java:171 `lambda` node(message, () -> {
+- mindustry/content/SerpuloTechTree.java:172 `lambda` node(logicDisplay, () -> {
+- mindustry/content/SerpuloTechTree.java:173 `lambda` node(largeLogicDisplay, () -> {
+- mindustry/content/SerpuloTechTree.java:177 `lambda` node(tileLogicDisplay, () -> {
+- mindustry/content/SerpuloTechTree.java:182 `lambda` node(memoryCell, () -> {
+- mindustry/content/SerpuloTechTree.java:183 `lambda` node(memoryBank, () -> {
+- mindustry/content/SerpuloTechTree.java:189 `lambda` node(logicProcessor, () -> {
+- mindustry/content/SerpuloTechTree.java:190 `lambda` node(hyperProcessor, () -> {
+- mindustry/content/SerpuloTechTree.java:197 `lambda` node(illuminator, () -> {
+- mindustry/content/SerpuloTechTree.java:204 `lambda` node(combustionGenerator, Seq.with(new Research(Items.coal)), () -> {
+- mindustry/content/SerpuloTechTree.java:205 `lambda` node(powerNode, () -> {
+- mindustry/content/SerpuloTechTree.java:206 `lambda` node(powerNodeLarge, () -> {
+- mindustry/content/SerpuloTechTree.java:207 `lambda` node(diode, () -> {
+- mindustry/content/SerpuloTechTree.java:208 `lambda` node(surgeTower, () -> {
+- mindustry/content/SerpuloTechTree.java:214 `lambda` node(battery, () -> {
+- mindustry/content/SerpuloTechTree.java:215 `lambda` node(batteryLarge, () -> {
+- mindustry/content/SerpuloTechTree.java:220 `lambda` node(mender, () -> {
+- mindustry/content/SerpuloTechTree.java:221 `lambda` node(mendProjector, () -> {
+- mindustry/content/SerpuloTechTree.java:222 `lambda` node(forceProjector, Seq.with(new SectorComplete(impact0078)), () -> {
+- mindustry/content/SerpuloTechTree.java:223 `lambda` node(overdriveProjector, Seq.with(new SectorComplete(impact0078)), () -> {
+- mindustry/content/SerpuloTechTree.java:224 `lambda` node(overdriveDome, Seq.with(new SectorComplete(desolateRift)), () -> {
+- mindustry/content/SerpuloTechTree.java:230 `lambda` node(repairPoint, () -> {
+- mindustry/content/SerpuloTechTree.java:231 `lambda` node(repairTurret, () -> {
+- mindustry/content/SerpuloTechTree.java:238 `lambda` node(steamGenerator, Seq.with(new SectorComplete(crateredBattleground)), () -> {
+- mindustry/content/SerpuloTechTree.java:239 `lambda` node(thermalGenerator, () -> {
+- mindustry/content/SerpuloTechTree.java:240 `lambda` node(differentialGenerator, () -> {
+- mindustry/content/SerpuloTechTree.java:241 `lambda` node(thoriumReactor, Seq.with(new Research(Liquids.cryofluid), new OnSector(nuclearComplex)), () -> {
+- mindustry/content/SerpuloTechTree.java:242 `lambda` node(impactReactor, () -> {
+- mindustry/content/SerpuloTechTree.java:246 `lambda` node(rtgGenerator, () -> {
+- mindustry/content/SerpuloTechTree.java:254 `lambda` node(solarPanel, () -> {
+- mindustry/content/SerpuloTechTree.java:255 `lambda` node(largeSolarPanel, () -> {
+- mindustry/content/SerpuloTechTree.java:263 `lambda` node(duo, () -> {
+- mindustry/content/SerpuloTechTree.java:264 `lambda` node(copperWall, () -> {
+- mindustry/content/SerpuloTechTree.java:265 `lambda` node(copperWallLarge, () -> {
+- mindustry/content/SerpuloTechTree.java:266 `lambda` node(scrapWall, () -> {
+- mindustry/content/SerpuloTechTree.java:267 `lambda` node(scrapWallLarge, () -> {
+- mindustry/content/SerpuloTechTree.java:268 `lambda` node(scrapWallHuge, () -> {
+- mindustry/content/SerpuloTechTree.java:274 `lambda` node(titaniumWall, () -> {
+- mindustry/content/SerpuloTechTree.java:277 `lambda` node(door, () -> {
+- mindustry/content/SerpuloTechTree.java:281 `lambda` node(plastaniumWall, () -> {
+- mindustry/content/SerpuloTechTree.java:282 `lambda` node(plastaniumWallLarge, () -> {
+- mindustry/content/SerpuloTechTree.java:286 `lambda` node(thoriumWall, () -> {
+- mindustry/content/SerpuloTechTree.java:288 `lambda` node(surgeWall, () -> {
+- mindustry/content/SerpuloTechTree.java:290 `lambda` node(phaseWall, () -> {
+- mindustry/content/SerpuloTechTree.java:299 `lambda` node(scatter, () -> {
+- mindustry/content/SerpuloTechTree.java:300 `lambda` node(hail, Seq.with(new SectorComplete(crateredBattleground)), () -> {
+- mindustry/content/SerpuloTechTree.java:301 `lambda` node(salvo, () -> {
+- mindustry/content/SerpuloTechTree.java:302 `lambda` node(swarmer, () -> {
+- mindustry/content/SerpuloTechTree.java:303 `lambda` node(cyclone, () -> {
+- mindustry/content/SerpuloTechTree.java:304 `lambda` node(spectre, Seq.with(new SectorComplete(nuclearComplex)), () -> {
+- mindustry/content/SerpuloTechTree.java:310 `lambda` node(ripple, () -> {
+- mindustry/content/SerpuloTechTree.java:311 `lambda` node(fuse, () -> {
+- mindustry/content/SerpuloTechTree.java:319 `lambda` node(arc, Seq.with(new OnSector(frozenForest)), () -> {
+- mindustry/content/SerpuloTechTree.java:320 `lambda` node(scorch, () -> {
+- mindustry/content/SerpuloTechTree.java:321 `lambda` node(wave, () -> {
+- mindustry/content/SerpuloTechTree.java:322 `lambda` node(parallax, () -> {
+- mindustry/content/SerpuloTechTree.java:323 `lambda` node(segment, () -> {
+- mindustry/content/SerpuloTechTree.java:328 `lambda` node(tsunami, Seq.with(new SectorComplete(navalFortress)), () -> {
+- mindustry/content/SerpuloTechTree.java:333 `lambda` node(lancer, () -> {
+- mindustry/content/SerpuloTechTree.java:334 `lambda` node(meltdown, () -> {
+- mindustry/content/SerpuloTechTree.java:335 `lambda` node(foreshadow, () -> {
+- mindustry/content/SerpuloTechTree.java:340 `lambda` node(shockMine, () -> {
+- mindustry/content/SerpuloTechTree.java:348 `lambda` node(groundFactory, () -> {
+- mindustry/content/SerpuloTechTree.java:350 `lambda` node(dagger, () -> {
+- mindustry/content/SerpuloTechTree.java:351 `lambda` node(mace, () -> {
+- mindustry/content/SerpuloTechTree.java:352 `lambda` node(fortress, () -> {
+- mindustry/content/SerpuloTechTree.java:353 `lambda` node(scepter, () -> {
+- mindustry/content/SerpuloTechTree.java:354 `lambda` node(reign, Seq.with(new SectorComplete(desolateRift)), () -> {
+- mindustry/content/SerpuloTechTree.java:361 `lambda` node(nova, Seq.with(new SectorComplete(fungalPass)), () -> {
+- mindustry/content/SerpuloTechTree.java:362 `lambda` node(pulsar, () -> {
+- mindustry/content/SerpuloTechTree.java:363 `lambda` node(quasar, () -> {
+- mindustry/content/SerpuloTechTree.java:364 `lambda` node(vela, () -> {
+- mindustry/content/SerpuloTechTree.java:365 `lambda` node(corvus, () -> {
+- mindustry/content/SerpuloTechTree.java:374 `lambda` node(crawler, ItemStack.with(Items.silicon, 400, Items.graphite, 400), () -> {
+- mindustry/content/SerpuloTechTree.java:375 `lambda` node(atrax, () -> {
+- mindustry/content/SerpuloTechTree.java:376 `lambda` node(spiroct, () -> {
+- mindustry/content/SerpuloTechTree.java:377 `lambda` node(arkyid, () -> {
+- mindustry/content/SerpuloTechTree.java:378 `lambda` node(toxopid, Seq.with(new SectorComplete(mycelialBastion)), () -> {
+- mindustry/content/SerpuloTechTree.java:387 `lambda` node(airFactory, () -> {
+- mindustry/content/SerpuloTechTree.java:388 `lambda` node(flare, () -> {
+- mindustry/content/SerpuloTechTree.java:389 `lambda` node(horizon, () -> {
+- mindustry/content/SerpuloTechTree.java:390 `lambda` node(zenith, () -> {
+- mindustry/content/SerpuloTechTree.java:391 `lambda` node(antumbra, () -> {
+- mindustry/content/SerpuloTechTree.java:392 `lambda` node(eclipse, () -> {
+- mindustry/content/SerpuloTechTree.java:399 `lambda` node(mono, () -> {
+- mindustry/content/SerpuloTechTree.java:400 `lambda` node(poly, () -> {
+- mindustry/content/SerpuloTechTree.java:401 `lambda` node(mega, () -> {
+- mindustry/content/SerpuloTechTree.java:402 `lambda` node(quad, () -> {
+- mindustry/content/SerpuloTechTree.java:403 `lambda` node(oct, () -> {
+- mindustry/content/SerpuloTechTree.java:412 `lambda` node(navalFactory, Seq.with(new SectorComplete(ruinousShores)), () -> {
+- mindustry/content/SerpuloTechTree.java:413 `lambda` node(risso, () -> {
+- mindustry/content/SerpuloTechTree.java:414 `lambda` node(minke, () -> {
+- mindustry/content/SerpuloTechTree.java:415 `lambda` node(bryde, () -> {
+- mindustry/content/SerpuloTechTree.java:416 `lambda` node(sei, () -> {
+- mindustry/content/SerpuloTechTree.java:417 `lambda` node(omura, Seq.with(new SectorComplete(littoralShipyard)), () -> {
+- mindustry/content/SerpuloTechTree.java:424 `lambda` node(retusa, Seq.with(new SectorComplete(windsweptIslands)), () -> {
+- mindustry/content/SerpuloTechTree.java:425 `lambda` node(oxynoe, Seq.with(new SectorComplete(coastline)), () -> {
+- mindustry/content/SerpuloTechTree.java:426 `lambda` node(cyerce, Seq.with(new SectorComplete(perilousHarbor)), () -> {
+- mindustry/content/SerpuloTechTree.java:427 `lambda` node(aegires, () -> {
+- mindustry/content/SerpuloTechTree.java:428 `lambda` node(navanax, Seq.with(new SectorComplete(navalFortress)), () -> {
+- mindustry/content/SerpuloTechTree.java:439 `lambda` node(additiveReconstructor, Seq.with(new SectorComplete(fungalPass)), () -> {
+- mindustry/content/SerpuloTechTree.java:440 `lambda` node(multiplicativeReconstructor, Seq.with(new SectorComplete(frontier)), () -> {
+- mindustry/content/SerpuloTechTree.java:441 `lambda` node(exponentialReconstructor, Seq.with(new SectorComplete(overgrowth)), () -> {
+- mindustry/content/SerpuloTechTree.java:442 `lambda` node(tetrativeReconstructor, Seq.with(new SectorComplete(mycelialBastion)), () -> {
+- mindustry/content/SerpuloTechTree.java:450 `lambda` node(groundZero, () -> {
+- mindustry/content/SerpuloTechTree.java:455 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:460 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:466 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:473 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:482 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:488 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:495 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:501 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:512 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:523 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:536 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:544 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:558 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:563 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:573 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:587 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:593 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:601 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:612 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:619 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:628 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:637 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:646 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:656 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:667 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:672 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:687 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:694 `lambda` ), () -> {
+- mindustry/content/SerpuloTechTree.java:705 `lambda` nodeProduce(Items.copper, () -> {
+- mindustry/content/SerpuloTechTree.java:706 `lambda` nodeProduce(Liquids.water, () -> {
+- mindustry/content/SerpuloTechTree.java:710 `lambda` nodeProduce(Items.lead, () -> {
+- mindustry/content/SerpuloTechTree.java:711 `lambda` nodeProduce(Items.titanium, () -> {
+- mindustry/content/SerpuloTechTree.java:712 `lambda` nodeProduce(Liquids.cryofluid, () -> {
+- mindustry/content/SerpuloTechTree.java:716 `lambda` nodeProduce(Items.thorium, () -> {
+- mindustry/content/SerpuloTechTree.java:717 `lambda` nodeProduce(Items.surgeAlloy, () -> {
+- mindustry/content/SerpuloTechTree.java:721 `lambda` nodeProduce(Items.phaseFabric, () -> {
+- mindustry/content/SerpuloTechTree.java:727 `lambda` nodeProduce(Items.metaglass, () -> {
+- mindustry/content/SerpuloTechTree.java:732 `lambda` nodeProduce(Items.sand, () -> {
+- mindustry/content/SerpuloTechTree.java:733 `lambda` nodeProduce(Items.scrap, () -> {
+- mindustry/content/SerpuloTechTree.java:734 `lambda` nodeProduce(Liquids.slag, () -> {
+- mindustry/content/SerpuloTechTree.java:739 `lambda` nodeProduce(Items.coal, () -> {
+- mindustry/content/SerpuloTechTree.java:740 `lambda` nodeProduce(Items.graphite, () -> {
+- mindustry/content/SerpuloTechTree.java:741 `lambda` nodeProduce(Items.silicon, () -> {
+- mindustry/content/SerpuloTechTree.java:746 `lambda` nodeProduce(Items.pyratite, () -> {
+- mindustry/content/SerpuloTechTree.java:747 `lambda` nodeProduce(Items.blastCompound, () -> {
+- mindustry/content/SerpuloTechTree.java:752 `lambda` nodeProduce(Items.sporePod, () -> {
+- mindustry/content/SerpuloTechTree.java:756 `lambda` nodeProduce(Liquids.oil, () -> {
+- mindustry/content/SerpuloTechTree.java:757 `lambda` nodeProduce(Items.plastanium, () -> {
+- mindustry/content/StatusEffects.java:20 `anonymous_double_brace_initializer` burning = new StatusEffect("burning"){{
+- mindustry/content/StatusEffects.java:26 `lambda` init(() -> {
+- mindustry/content/StatusEffects.java:28 `lambda` affinity(tarred, (unit, result, time) -> {
+- mindustry/content/StatusEffects.java:36 `anonymous_double_brace_initializer` freezing = new StatusEffect("freezing"){{
+- mindustry/content/StatusEffects.java:43 `lambda` init(() -> {
+- mindustry/content/StatusEffects.java:46 `lambda` affinity(blasted, (unit, result, time) -> {
+- mindustry/content/StatusEffects.java:55 `anonymous_double_brace_initializer` unmoving = new StatusEffect("unmoving"){{
+- mindustry/content/StatusEffects.java:60 `anonymous_double_brace_initializer` slow = new StatusEffect("slow"){{
+- mindustry/content/StatusEffects.java:65 `lambda` init(() -> opposite(fast));
+- mindustry/content/StatusEffects.java:68 `anonymous_double_brace_initializer` fast = new StatusEffect("fast"){{
+- mindustry/content/StatusEffects.java:72 `lambda` init(() -> opposite(slow));
+- mindustry/content/StatusEffects.java:75 `anonymous_double_brace_initializer` wet = new StatusEffect("wet"){{
+- mindustry/content/StatusEffects.java:82 `lambda` init(() -> {
+- mindustry/content/StatusEffects.java:83 `lambda` affinity(shocked, (unit, result, time) -> {
+- mindustry/content/StatusEffects.java:94 `anonymous_double_brace_initializer` muddy = new StatusEffect("muddy"){{
+- mindustry/content/StatusEffects.java:102 `anonymous_double_brace_initializer` melting = new StatusEffect("melting"){{
+- mindustry/content/StatusEffects.java:109 `lambda` init(() -> {
+- mindustry/content/StatusEffects.java:111 `lambda` affinity(tarred, (unit, result, time) -> {
+- mindustry/content/StatusEffects.java:119 `anonymous_double_brace_initializer` sapped = new StatusEffect("sapped"){{
+- mindustry/content/StatusEffects.java:127 `anonymous_double_brace_initializer` electrified = new StatusEffect("electrified"){{
+- mindustry/content/StatusEffects.java:135 `anonymous_double_brace_initializer` sporeSlowed = new StatusEffect("spore-slowed"){{
+- mindustry/content/StatusEffects.java:142 `anonymous_double_brace_initializer` tarred = new StatusEffect("tarred"){{
+- mindustry/content/StatusEffects.java:147 `lambda` init(() -> {
+- mindustry/content/StatusEffects.java:148 `lambda` affinity(melting, (unit, result, time) -> result.set(melting, result.time + time));
+- mindustry/content/StatusEffects.java:149 `lambda` affinity(burning, (unit, result, time) -> result.set(burning, result.time + time));
+- mindustry/content/StatusEffects.java:153 `anonymous_double_brace_initializer` overdrive = new StatusEffect("overdrive"){{
+- mindustry/content/StatusEffects.java:163 `anonymous_double_brace_initializer` overclock = new StatusEffect("overclock"){{
+- mindustry/content/StatusEffects.java:172 `anonymous_double_brace_initializer` shielded = new StatusEffect("shielded"){{
+- mindustry/content/StatusEffects.java:178 `anonymous_double_brace_initializer` boss = new StatusEffect("boss"){{
+- mindustry/content/StatusEffects.java:185 `anonymous_double_brace_initializer` shocked = new StatusEffect("shocked"){{
+- mindustry/content/StatusEffects.java:190 `anonymous_double_brace_initializer` blasted = new StatusEffect("blasted"){{
+- mindustry/content/StatusEffects.java:195 `anonymous_double_brace_initializer` corroded = new StatusEffect("corroded"){{
+- mindustry/content/StatusEffects.java:204 `anonymous_double_brace_initializer` disarmed = new StatusEffect("disarmed"){{
+- mindustry/content/StatusEffects.java:210 `anonymous_double_brace_initializer` invincible = new StatusEffect("invincible"){{
+- mindustry/content/StatusEffects.java:215 `anonymous_double_brace_initializer` dynamic = new StatusEffect("dynamic"){{
+- mindustry/content/TechTree.java:46 `lambda` if(context != null && context.content instanceof SectorPreset preset && !node.objectives.contains(o -> o instanceof SectorComplete sc && sc.preset == preset)){
+- mindustry/content/TechTree.java:63 `lambda` return node(block, () -> {});
+- mindustry/content/TechTree.java:130 `lambda` content.getDependencies(d -> {
+- mindustry/content/TechTree.java:151 `lambda` each(node -> node.content.databaseTabs.add(tab));
+- mindustry/content/TechTree.java:156 `lambda` each(node -> node.content.shownPlanets.add(planet));
+- mindustry/content/UnitTypes.java:99 `anonymous_double_brace_initializer` dagger = new UnitType("dagger"){{
+- mindustry/content/UnitTypes.java:106 `anonymous_double_brace_initializer` weapons.add(new Weapon("large-weapon"){{
+- mindustry/content/UnitTypes.java:112 `anonymous_double_brace_initializer` bullet = new BasicBulletType(2.5f, 9){{
+- mindustry/content/UnitTypes.java:120 `anonymous_double_brace_initializer` mace = new UnitType("mace"){{
+- mindustry/content/UnitTypes.java:127 `anonymous_double_brace_initializer` weapons.add(new Weapon("flamethrower"){{
+- mindustry/content/UnitTypes.java:134 `anonymous_double_brace_initializer` bullet = new BulletType(4.2f, 37f*2f){{
+- mindustry/content/UnitTypes.java:152 `anonymous_double_brace_initializer` fortress = new UnitType("fortress"){{
+- mindustry/content/UnitTypes.java:164 `anonymous_double_brace_initializer` weapons.add(new Weapon("artillery"){{
+- mindustry/content/UnitTypes.java:173 `anonymous_double_brace_initializer` bullet = new ArtilleryBulletType(2f, 20, "shell"){{
+- mindustry/content/UnitTypes.java:189 `anonymous_double_brace_initializer` scepter = new UnitType("scepter"){{
+- mindustry/content/UnitTypes.java:207 `anonymous_double_brace_initializer` BulletType smallBullet = new BasicBulletType(12f, 20){{
+- mindustry/content/UnitTypes.java:224 `anonymous_double_brace_initializer` new Weapon("scepter-weapon"){{
+- mindustry/content/UnitTypes.java:240 `anonymous_double_brace_initializer` bullet = new BasicBulletType(8f, 70){{
+- mindustry/content/UnitTypes.java:257 `anonymous_double_brace_initializer` intervalBullet = new LightningBulletType(){{
+- mindustry/content/UnitTypes.java:267 `anonymous_double_brace_initializer` new Weapon("scepter-mount"){{
+- mindustry/content/UnitTypes.java:277 `anonymous_double_brace_initializer` new Weapon("scepter-mount"){{
+- mindustry/content/UnitTypes.java:290 `anonymous_double_brace_initializer` reign = new UnitType("reign"){{
+- mindustry/content/UnitTypes.java:306 `anonymous_double_brace_initializer` new Weapon("reign-weapon"){{
+- mindustry/content/UnitTypes.java:317 `anonymous_double_brace_initializer` bullet = new BasicBulletType(13f, 80){{
+- mindustry/content/UnitTypes.java:335 `anonymous_double_brace_initializer` fragBullet = new BasicBulletType(9f, 20){{
+- mindustry/content/UnitTypes.java:356 `anonymous_double_brace_initializer` nova = new UnitType("nova"){{
+- mindustry/content/UnitTypes.java:367 `anonymous_double_brace_initializer` weapons.add(new Weapon("heal-weapon"){{
+- mindustry/content/UnitTypes.java:377 `anonymous_double_brace_initializer` bullet = new LaserBoltBulletType(5.2f, 13){{
+- mindustry/content/UnitTypes.java:387 `anonymous_double_brace_initializer` pulsar = new UnitType("pulsar"){{
+- mindustry/content/UnitTypes.java:402 `anonymous_double_brace_initializer` weapons.add(new Weapon("heal-shotgun-weapon"){{
+- mindustry/content/UnitTypes.java:419 `anonymous_double_brace_initializer` bullet = new LightningBulletType(){{
+- mindustry/content/UnitTypes.java:428 `anonymous_double_brace_initializer` lightningType = new BulletType(0.0001f, 0f){{
+- mindustry/content/UnitTypes.java:442 `anonymous_double_brace_initializer` quasar = new UnitType("quasar"){{
+- mindustry/content/UnitTypes.java:465 `anonymous_double_brace_initializer` weapons.add(new Weapon("beam-weapon"){{
+- mindustry/content/UnitTypes.java:474 `anonymous_double_brace_initializer` bullet = new LaserBulletType(){{
+- mindustry/content/UnitTypes.java:488 `anonymous_double_brace_initializer` vela = new UnitType("vela"){{
+- mindustry/content/UnitTypes.java:517 `anonymous_double_brace_initializer` weapons.add(new Weapon("vela-weapon"){{
+- mindustry/content/UnitTypes.java:535 `anonymous_double_brace_initializer` bullet = new ContinuousLaserBulletType(){{
+- mindustry/content/UnitTypes.java:562 `anonymous_double_brace_initializer` weapons.add(new RepairBeamWeapon("repair-beam-weapon-center-large"){{
+- mindustry/content/UnitTypes.java:569 `anonymous_double_brace_initializer` bullet = new BulletType(){{
+- mindustry/content/UnitTypes.java:575 `anonymous_double_brace_initializer` corvus = new UnitType("corvus"){{
+- mindustry/content/UnitTypes.java:600 `anonymous_double_brace_initializer` weapons.add(new Weapon("corvus-weapon"){{
+- mindustry/content/UnitTypes.java:619 `anonymous_double_brace_initializer` bullet = new LaserBulletType(){{
+- mindustry/content/UnitTypes.java:651 `anonymous_double_brace_initializer` crawler = new UnitType("crawler"){{
+- mindustry/content/UnitTypes.java:663 `anonymous_double_brace_initializer` weapons.add(new Weapon(){{
+- mindustry/content/UnitTypes.java:673 `anonymous_double_brace_initializer` bullet = new BulletType(){{
+- mindustry/content/UnitTypes.java:691 `anonymous_double_brace_initializer` atrax = new UnitType("atrax"){{
+- mindustry/content/UnitTypes.java:714 `anonymous_double_brace_initializer` weapons.add(new Weapon("atrax-weapon"){{
+- mindustry/content/UnitTypes.java:723 `anonymous_double_brace_initializer` bullet = new LiquidBulletType(Liquids.slag){{
+- mindustry/content/UnitTypes.java:734 `anonymous_double_brace_initializer` spiroct = new UnitType("spiroct"){{
+- mindustry/content/UnitTypes.java:755 `anonymous_double_brace_initializer` weapons.add(new Weapon("spiroct-weapon"){{
+- mindustry/content/UnitTypes.java:766 `anonymous_double_brace_initializer` bullet = new SapBulletType(){{
+- mindustry/content/UnitTypes.java:779 `anonymous_double_brace_initializer` weapons.add(new Weapon("mount-purple-weapon"){{
+- mindustry/content/UnitTypes.java:786 `anonymous_double_brace_initializer` bullet = new SapBulletType(){{
+- mindustry/content/UnitTypes.java:800 `anonymous_double_brace_initializer` arkyid = new UnitType("arkyid"){{
+- mindustry/content/UnitTypes.java:831 `anonymous_double_brace_initializer` BulletType sapper = new SapBulletType(){{
+- mindustry/content/UnitTypes.java:844 `anonymous_double_brace_initializer` new Weapon("spiroct-weapon"){{
+- mindustry/content/UnitTypes.java:852 `anonymous_double_brace_initializer` new Weapon("spiroct-weapon"){{
+- mindustry/content/UnitTypes.java:860 `anonymous_double_brace_initializer` new Weapon("spiroct-weapon"){{
+- mindustry/content/UnitTypes.java:868 `anonymous_double_brace_initializer` new Weapon("large-purple-mount"){{
+- mindustry/content/UnitTypes.java:881 `anonymous_double_brace_initializer` bullet = new ArtilleryBulletType(2f, 12){{
+- mindustry/content/UnitTypes.java:904 `anonymous_double_brace_initializer` toxopid = new UnitType("toxopid"){{
+- mindustry/content/UnitTypes.java:935 `anonymous_double_brace_initializer` new Weapon("large-purple-mount"){{
+- mindustry/content/UnitTypes.java:951 `anonymous_double_brace_initializer` bullet = new ShrapnelBulletType(){{
+- mindustry/content/UnitTypes.java:966 `anonymous_double_brace_initializer` weapons.add(new Weapon("toxopid-cannon"){{
+- mindustry/content/UnitTypes.java:982 `anonymous_double_brace_initializer` bullet = new ArtilleryBulletType(3f, 50){{
+- mindustry/content/UnitTypes.java:1008 `anonymous_double_brace_initializer` fragBullet = new ArtilleryBulletType(2.3f, 30){{
+- mindustry/content/UnitTypes.java:1037 `anonymous_double_brace_initializer` flare = new UnitType("flare"){{
+- mindustry/content/UnitTypes.java:1059 `anonymous_double_brace_initializer` weapons.add(new Weapon(){{
+- mindustry/content/UnitTypes.java:1069 `anonymous_double_brace_initializer` bullet = new BasicBulletType(2.5f, 9){{
+- mindustry/content/UnitTypes.java:1081 `anonymous_double_brace_initializer` horizon = new UnitType("horizon"){{
+- mindustry/content/UnitTypes.java:1105 `anonymous_double_brace_initializer` weapons.add(new Weapon(){{
+- mindustry/content/UnitTypes.java:1116 `anonymous_double_brace_initializer` bullet = new BombBulletType(27f, 25f){{
+- mindustry/content/UnitTypes.java:1130 `anonymous_double_brace_initializer` zenith = new UnitType("zenith"){{
+- mindustry/content/UnitTypes.java:1146 `anonymous_double_brace_initializer` weapons.add(new Weapon("zenith-missiles"){{
+- mindustry/content/UnitTypes.java:1156 `anonymous_double_brace_initializer` bullet = new MissileBulletType(3f, 14){{
+- mindustry/content/UnitTypes.java:1177 `anonymous_double_brace_initializer` antumbra = new UnitType("antumbra"){{
+- mindustry/content/UnitTypes.java:1193 `anonymous_double_brace_initializer` BulletType missiles = new MissileBulletType(2.7f, 18){{
+- mindustry/content/UnitTypes.java:1210 `anonymous_double_brace_initializer` new Weapon("missiles-mount"){{
+- mindustry/content/UnitTypes.java:1221 `anonymous_double_brace_initializer` new Weapon("missiles-mount"){{
+- mindustry/content/UnitTypes.java:1232 `anonymous_double_brace_initializer` new Weapon("large-bullet-mount"){{
+- mindustry/content/UnitTypes.java:1243 `anonymous_double_brace_initializer` bullet = new BasicBulletType(7f, 55){{
+- mindustry/content/UnitTypes.java:1253 `anonymous_double_brace_initializer` eclipse = new UnitType("eclipse"){{
+- mindustry/content/UnitTypes.java:1269 `anonymous_double_brace_initializer` BulletType fragBullet = new FlakBulletType(4f, 15){{
+- mindustry/content/UnitTypes.java:1282 `anonymous_double_brace_initializer` new Weapon("large-laser-mount"){{
+- mindustry/content/UnitTypes.java:1294 `anonymous_double_brace_initializer` bullet = new LaserBulletType(){{
+- mindustry/content/UnitTypes.java:1305 `anonymous_double_brace_initializer` new Weapon("large-artillery"){{
+- mindustry/content/UnitTypes.java:1317 `anonymous_double_brace_initializer` new Weapon("large-artillery"){{
+- mindustry/content/UnitTypes.java:1335 `anonymous_double_brace_initializer` mono = new UnitType("mono"){{
+- mindustry/content/UnitTypes.java:1354 `anonymous_double_brace_initializer` poly = new UnitType("poly"){{
+- mindustry/content/UnitTypes.java:1375 `anonymous_double_brace_initializer` weapons.add(new Weapon("poly-weapon"){{
+- mindustry/content/UnitTypes.java:1387 `anonymous_double_brace_initializer` bullet = new MissileBulletType(4f, 12){{
+- mindustry/content/UnitTypes.java:1408 `anonymous_double_brace_initializer` mega = new UnitType("mega"){{
+- mindustry/content/UnitTypes.java:1429 `anonymous_double_brace_initializer` new Weapon("heal-weapon-mount"){{
+- mindustry/content/UnitTypes.java:1435 `anonymous_double_brace_initializer` bullet = new LaserBoltBulletType(5.2f, 10){{
+- mindustry/content/UnitTypes.java:1443 `anonymous_double_brace_initializer` new Weapon("heal-weapon-mount"){{
+- mindustry/content/UnitTypes.java:1449 `anonymous_double_brace_initializer` bullet = new LaserBoltBulletType(5.2f, 8){{
+- mindustry/content/UnitTypes.java:1459 `anonymous_double_brace_initializer` quad = new UnitType("quad"){{
+- mindustry/content/UnitTypes.java:1484 `anonymous_double_brace_initializer` new Weapon(){{
+- mindustry/content/UnitTypes.java:1493 `anonymous_double_brace_initializer` bullet = new BasicBulletType(){{
+- mindustry/content/UnitTypes.java:1533 `anonymous_double_brace_initializer` oct = new UnitType("oct"){{
+- mindustry/content/UnitTypes.java:1555 `anonymous_double_brace_initializer` abilities.add(new ForceFieldAbility(140f, 4f, 7000f, 60f * 8, 8, 0f){{
+- mindustry/content/UnitTypes.java:1563 `anonymous_double_brace_initializer` risso = new UnitType("risso"){{
+- mindustry/content/UnitTypes.java:1580 `anonymous_double_brace_initializer` weapons.add(new Weapon("mount-weapon"){{
+- mindustry/content/UnitTypes.java:1587 `anonymous_double_brace_initializer` bullet = new BasicBulletType(2.5f, 9){{
+- mindustry/content/UnitTypes.java:1595 `anonymous_double_brace_initializer` weapons.add(new Weapon("missiles-mount"){{
+- mindustry/content/UnitTypes.java:1603 `anonymous_double_brace_initializer` bullet = new MissileBulletType(2.7f, 12, "missile"){{
+- mindustry/content/UnitTypes.java:1624 `anonymous_double_brace_initializer` minke = new UnitType("minke"){{
+- mindustry/content/UnitTypes.java:1643 `anonymous_double_brace_initializer` weapons.add(new Weapon("mount-weapon"){{
+- mindustry/content/UnitTypes.java:1652 `anonymous_double_brace_initializer` bullet = new FlakBulletType(4.2f, 3){{
+- mindustry/content/UnitTypes.java:1664 `anonymous_double_brace_initializer` weapons.add(new Weapon("artillery-mount"){{
+- mindustry/content/UnitTypes.java:1674 `anonymous_double_brace_initializer` bullet = new ArtilleryBulletType(3f, 20, "shell"){{
+- mindustry/content/UnitTypes.java:1686 `anonymous_double_brace_initializer` bryde = new UnitType("bryde"){{
+- mindustry/content/UnitTypes.java:1707 `anonymous_double_brace_initializer` weapons.add(new Weapon("large-artillery"){{
+- mindustry/content/UnitTypes.java:1723 `anonymous_double_brace_initializer` bullet = new ArtilleryBulletType(3.2f, 15){{
+- mindustry/content/UnitTypes.java:1746 `anonymous_double_brace_initializer` weapons.add(new Weapon("missiles-mount"){{
+- mindustry/content/UnitTypes.java:1763 `anonymous_double_brace_initializer` bullet = new MissileBulletType(2.7f, 12){{
+- mindustry/content/UnitTypes.java:1784 `anonymous_double_brace_initializer` sei = new UnitType("sei"){{
+- mindustry/content/UnitTypes.java:1804 `anonymous_double_brace_initializer` weapons.add(new Weapon("sei-launcher"){{
+- mindustry/content/UnitTypes.java:1823 `anonymous_double_brace_initializer` shoot = new ShootAlternate(){{
+- mindustry/content/UnitTypes.java:1830 `anonymous_double_brace_initializer` bullet = new MissileBulletType(4.2f, 42){{
+- mindustry/content/UnitTypes.java:1851 `anonymous_double_brace_initializer` weapons.add(new Weapon("large-bullet-mount"){{
+- mindustry/content/UnitTypes.java:1869 `anonymous_double_brace_initializer` bullet = new BasicBulletType(7f, 57){{
+- mindustry/content/UnitTypes.java:1878 `anonymous_double_brace_initializer` omura = new UnitType("omura"){{
+- mindustry/content/UnitTypes.java:1897 `anonymous_double_brace_initializer` weapons.add(new Weapon("omura-cannon"){{
+- mindustry/content/UnitTypes.java:1913 `anonymous_double_brace_initializer` bullet = new RailBulletType(){{
+- mindustry/content/UnitTypes.java:1929 `anonymous_double_brace_initializer` retusa = new UnitType("retusa"){{
+- mindustry/content/UnitTypes.java:1949 `anonymous_double_brace_initializer` weapons.add(new RepairBeamWeapon("repair-beam-weapon-center"){{
+- mindustry/content/UnitTypes.java:1957 `anonymous_double_brace_initializer` bullet = new BulletType(){{
+- mindustry/content/UnitTypes.java:1962 `anonymous_double_brace_initializer` weapons.add(new Weapon("retusa-weapon"){{
+- mindustry/content/UnitTypes.java:1970 `anonymous_double_brace_initializer` bullet = new LaserBoltBulletType(5.2f, 12){{
+- mindustry/content/UnitTypes.java:1979 `anonymous_double_brace_initializer` weapons.add(new Weapon(){{
+- mindustry/content/UnitTypes.java:1991 `anonymous_double_brace_initializer` bullet = new BasicBulletType(){{
+- mindustry/content/UnitTypes.java:2037 `anonymous_double_brace_initializer` oxynoe = new UnitType("oxynoe"){{
+- mindustry/content/UnitTypes.java:2061 `anonymous_double_brace_initializer` weapons.add(new Weapon("plasma-mount-weapon"){{
+- mindustry/content/UnitTypes.java:2074 `anonymous_double_brace_initializer` bullet = new BulletType(3.4f, 23f){{
+- mindustry/content/UnitTypes.java:2089 `lambda` shootEffect = new Effect(32f, 80f, e -> {
+- mindustry/content/UnitTypes.java:2092 `lambda` randLenVectors(e.id, 8, e.finpow() * 60f, e.rotation, 10f, (x, y) -> {
+- mindustry/content/UnitTypes.java:2100 `anonymous_double_brace_initializer` weapons.add(new PointDefenseWeapon("point-defense-mount"){{
+- mindustry/content/UnitTypes.java:2108 `anonymous_double_brace_initializer` bullet = new BulletType(){{
+- mindustry/content/UnitTypes.java:2118 `anonymous_double_brace_initializer` cyerce = new UnitType("cyerce"){{
+- mindustry/content/UnitTypes.java:2140 `anonymous_double_brace_initializer` weapons.add(new RepairBeamWeapon("repair-beam-weapon-center"){{
+- mindustry/content/UnitTypes.java:2147 `anonymous_double_brace_initializer` bullet = new BulletType(){{
+- mindustry/content/UnitTypes.java:2152 `anonymous_double_brace_initializer` weapons.add(new Weapon("plasma-missile-mount"){{
+- mindustry/content/UnitTypes.java:2166 `anonymous_double_brace_initializer` bullet = new FlakBulletType(2.5f, 25){{
+- mindustry/content/UnitTypes.java:2188 `anonymous_double_brace_initializer` hitEffect = new ExplosionEffect(){{
+- mindustry/content/UnitTypes.java:2214 `anonymous_double_brace_initializer` fragBullet = new MissileBulletType(3.9f, 11){{
+- mindustry/content/UnitTypes.java:2241 `anonymous_double_brace_initializer` hitEffect = new ExplosionEffect(){{
+- mindustry/content/UnitTypes.java:2259 `anonymous_double_brace_initializer` aegires = new UnitType("aegires"){{
+- mindustry/content/UnitTypes.java:2286 `anonymous_double_brace_initializer` abilities.add(new EnergyFieldAbility(40f, 65f, 180f){{
+- mindustry/content/UnitTypes.java:2294 `anonymous_double_brace_initializer` weapons.add(new PointDefenseWeapon("point-defense-mount"){{
+- mindustry/content/UnitTypes.java:2301 `anonymous_double_brace_initializer` bullet = new BulletType(){{
+- mindustry/content/UnitTypes.java:2311 `anonymous_double_brace_initializer` navanax = new UnitType("navanax"){{
+- mindustry/content/UnitTypes.java:2333 `anonymous_double_brace_initializer` weapons.add(new Weapon("emp-cannon-mount"){{
+- mindustry/content/UnitTypes.java:2348 `anonymous_double_brace_initializer` bullet = new EmpBulletType(){{
+- mindustry/content/UnitTypes.java:2382 `lambda` trailEffect = new Effect(16f, e -> {
+- mindustry/content/UnitTypes.java:2389 `lambda` hitEffect = new Effect(50f, 100f, e -> {
+- mindustry/content/UnitTypes.java:2390 `lambda` e.scaled(7f, b -> {
+- mindustry/content/UnitTypes.java:2418 `anonymous_double_brace_initializer` weapons.add(new Weapon("plasma-laser-mount"){{
+- mindustry/content/UnitTypes.java:2441 `anonymous_double_brace_initializer` bullet = new ContinuousLaserBulletType(){{
+- mindustry/content/UnitTypes.java:2467 `anonymous_double_brace_initializer` abilities.add(new SuppressionFieldAbility(){{
+- mindustry/content/UnitTypes.java:2480 `anonymous_double_brace_initializer` alpha = new UnitType("alpha"){{
+- mindustry/content/UnitTypes.java:2481 `lambda` controller = u -> u.team.isAI() ? new BuilderAI(true, 400f) : new CommandAI();
+- mindustry/content/UnitTypes.java:2503 `anonymous_double_brace_initializer` weapons.add(new Weapon("small-basic-weapon"){{
+- mindustry/content/UnitTypes.java:2510 `anonymous_double_brace_initializer` bullet = new LaserBoltBulletType(2.5f, 11){{
+- mindustry/content/UnitTypes.java:2531 `anonymous_double_brace_initializer` beta = new UnitType("beta"){{
+- mindustry/content/UnitTypes.java:2532 `lambda` controller = u -> u.team.isAI() ? new BuilderAI(true, 400f) : new CommandAI();
+- mindustry/content/UnitTypes.java:2551 `anonymous_double_brace_initializer` weapons.add(new Weapon("small-mount-weapon"){{
+- mindustry/content/UnitTypes.java:2561 `anonymous_double_brace_initializer` bullet = new LaserBoltBulletType(3f, 11){{
+- mindustry/content/UnitTypes.java:2582 `anonymous_double_brace_initializer` gamma = new UnitType("gamma"){{
+- mindustry/content/UnitTypes.java:2583 `lambda` controller = u -> u.team.isAI() ? new BuilderAI(true, 400f) : new CommandAI();
+- mindustry/content/UnitTypes.java:2602 `anonymous_double_brace_initializer` weapons.add(new Weapon("small-mount-weapon"){{
+- mindustry/content/UnitTypes.java:2607 `anonymous_double_brace_initializer` shoot = new ShootSpread(){{
+- mindustry/content/UnitTypes.java:2616 `anonymous_double_brace_initializer` bullet = new LaserBoltBulletType(3.5f, 11){{
+- mindustry/content/UnitTypes.java:2640 `anonymous_double_brace_initializer` stell = new TankUnitType("stell"){{
+- mindustry/content/UnitTypes.java:2655 `anonymous_double_brace_initializer` weapons.add(new Weapon("stell-weapon"){{
+- mindustry/content/UnitTypes.java:2669 `anonymous_double_brace_initializer` bullet = new BasicBulletType(4f, 40){{
+- mindustry/content/UnitTypes.java:2686 `anonymous_double_brace_initializer` locus = new TankUnitType("locus"){{
+- mindustry/content/UnitTypes.java:2702 `anonymous_double_brace_initializer` weapons.add(new Weapon("locus-weapon"){{
+- mindustry/content/UnitTypes.java:2719 `anonymous_double_brace_initializer` bullet = new RailBulletType(){{
+- mindustry/content/UnitTypes.java:2728 `lambda` endEffect = new Effect(14f, e -> {
+- mindustry/content/UnitTypes.java:2733 `lambda` shootEffect = new Effect(10, e -> {
+- mindustry/content/UnitTypes.java:2747 `lambda` lineEffect = new Effect(20f, e -> {
+- mindustry/content/UnitTypes.java:2759 `lambda` e.scaled(14f, b -> {
+- mindustry/content/UnitTypes.java:2769 `anonymous_double_brace_initializer` precept = new TankUnitType("precept"){{
+- mindustry/content/UnitTypes.java:2784 `anonymous_double_brace_initializer` weapons.add(new Weapon("precept-weapon"){{
+- mindustry/content/UnitTypes.java:2798 `anonymous_double_brace_initializer` bullet = new BasicBulletType(7f, 120){{
+- mindustry/content/UnitTypes.java:2823 `anonymous_double_brace_initializer` fragBullet = new BasicBulletType(5f, 35){{
+- mindustry/content/UnitTypes.java:2843 `anonymous_double_brace_initializer` vanquish = new TankUnitType("vanquish"){{
+- mindustry/content/UnitTypes.java:2860 `anonymous_double_brace_initializer` weapons.add(new Weapon("vanquish-weapon"){{
+- mindustry/content/UnitTypes.java:2876 `anonymous_double_brace_initializer` bullet = new BasicBulletType(8f, 150f){{
+- mindustry/content/UnitTypes.java:2905 `anonymous_double_brace_initializer` fragBullet = new BasicBulletType(8f, 35f){{
+- mindustry/content/UnitTypes.java:2925 `anonymous_double_brace_initializer` weapons.add(new Weapon("vanquish-point-weapon"){{
+- mindustry/content/UnitTypes.java:2935 `anonymous_double_brace_initializer` bullet = new BasicBulletType(12f, 50f){{
+- mindustry/content/UnitTypes.java:2955 `anonymous_double_brace_initializer` conquer = new TankUnitType("conquer"){{
+- mindustry/content/UnitTypes.java:2973 `anonymous_double_brace_initializer` weapons.add(new Weapon("conquer-weapon"){{
+- mindustry/content/UnitTypes.java:2993 `anonymous_double_brace_initializer` new RegionPart("-glow"){{
+- mindustry/content/UnitTypes.java:2998 `anonymous_double_brace_initializer` new RegionPart("-sides"){{
+- mindustry/content/UnitTypes.java:3008 `anonymous_double_brace_initializer` new RegionPart("-sinks"){{
+- mindustry/content/UnitTypes.java:3018 `anonymous_double_brace_initializer` new RegionPart("-sinks-heat"){{
+- mindustry/content/UnitTypes.java:3034 `anonymous_double_brace_initializer` parts.add(new RegionPart("-blade"){{
+- mindustry/content/UnitTypes.java:3048 `anonymous_double_brace_initializer` bullet = new BasicBulletType(8f, 360f){{
+- mindustry/content/UnitTypes.java:3065 `anonymous_double_brace_initializer` shootEffect = new ExplosionEffect(){{
+- mindustry/content/UnitTypes.java:3088 `anonymous_double_brace_initializer` spawnBullets.add(new BasicBulletType(spd * fin, 60){{
+- mindustry/content/UnitTypes.java:3108 `anonymous_double_brace_initializer` despawnEffect = new ExplosionEffect(){{
+- mindustry/content/UnitTypes.java:3128 `anonymous_double_brace_initializer` parts.add(new RegionPart("-glow"){{
+- mindustry/content/UnitTypes.java:3139 `anonymous_double_brace_initializer` merui = new ErekirUnitType("merui"){{
+- mindustry/content/UnitTypes.java:3174 `anonymous_double_brace_initializer` weapons.add(new Weapon("merui-weapon"){{
+- mindustry/content/UnitTypes.java:3185 `anonymous_double_brace_initializer` bullet = new ArtilleryBulletType(3f, 40){{
+- mindustry/content/UnitTypes.java:3186 `lambda` shootEffect = new MultiEffect(Fx.shootSmallColor, new Effect(9, e -> {
+- mindustry/content/UnitTypes.java:3214 `anonymous_double_brace_initializer` hitEffect = despawnEffect = new MultiEffect(Fx.hitSquaresColor, new WaveEffect(){{
+- mindustry/content/UnitTypes.java:3225 `anonymous_double_brace_initializer` cleroi = new ErekirUnitType("cleroi"){{
+- mindustry/content/UnitTypes.java:3255 `anonymous_double_brace_initializer` parts.add(new RegionPart("-spine"){{
+- mindustry/content/UnitTypes.java:3266 `anonymous_double_brace_initializer` weapons.add(new Weapon("cleroi-weapon"){{
+- mindustry/content/UnitTypes.java:3278 `anonymous_double_brace_initializer` bullet = new BasicBulletType(3.5f, 30){{
+- mindustry/content/UnitTypes.java:3297 `anonymous_double_brace_initializer` hitEffect = despawnEffect = new MultiEffect(Fx.hitBulletColor, new WaveEffect(){{
+- mindustry/content/UnitTypes.java:3304 `lambda` shootEffect = new MultiEffect(Fx.shootBigColor, new Effect(9, e -> {
+- mindustry/content/UnitTypes.java:3316 `anonymous_double_brace_initializer` weapons.add(new PointDefenseWeapon("cleroi-point-defense"){{
+- mindustry/content/UnitTypes.java:3325 `anonymous_double_brace_initializer` bullet = new BulletType(){{
+- mindustry/content/UnitTypes.java:3335 `anonymous_double_brace_initializer` anthicus = new ErekirUnitType("anthicus"){{
+- mindustry/content/UnitTypes.java:3368 `anonymous_double_brace_initializer` parts.add(new RegionPart("-blade"){{
+- mindustry/content/UnitTypes.java:3377 `lambda` heatProgress = p -> Mathf.absin(Time.time + i * 14f, 7f, 1f);
+- mindustry/content/UnitTypes.java:3383 `anonymous_double_brace_initializer` weapons.add(new Weapon("anthicus-weapon"){{
+- mindustry/content/UnitTypes.java:3405 `anonymous_double_brace_initializer` shoot = new ShootPattern(){{
+- mindustry/content/UnitTypes.java:3410 `anonymous_double_brace_initializer` parts.add(new RegionPart("-blade"){{
+- mindustry/content/UnitTypes.java:3420 `anonymous_double_brace_initializer` parts.add(new RegionPart("-blade"){{
+- mindustry/content/UnitTypes.java:3431 `anonymous_double_brace_initializer` bullet = new BulletType(){{
+- mindustry/content/UnitTypes.java:3432 `lambda` shootEffect = new MultiEffect(Fx.shootBigColor, new Effect(9, e -> {
+- mindustry/content/UnitTypes.java:3438 `anonymous_double_brace_initializer` }), new WaveEffect(){{
+- mindustry/content/UnitTypes.java:3451 `anonymous_double_brace_initializer` spawnUnit = new MissileUnitType("anthicus-missile"){{
+- mindustry/content/UnitTypes.java:3462 `anonymous_double_brace_initializer` parts.add(new FlarePart(){{
+- mindustry/content/UnitTypes.java:3472 `anonymous_double_brace_initializer` weapons.add(new Weapon(){{
+- mindustry/content/UnitTypes.java:3479 `anonymous_double_brace_initializer` bullet = new ExplosionBulletType(140f, 25f){{
+- mindustry/content/UnitTypes.java:3480 `anonymous_double_brace_initializer` shootEffect = new MultiEffect(new WrapEffect(Fx.dynamicSpikes, Pal.techBlue, 24f), new WaveEffect(){{
+- mindustry/content/UnitTypes.java:3493 `anonymous_double_brace_initializer` tecta = new ErekirUnitType("tecta"){{
+- mindustry/content/UnitTypes.java:3512 `anonymous_double_brace_initializer` abilities.add(new ShieldArcAbility(){{
+- mindustry/content/UnitTypes.java:3544 `anonymous_double_brace_initializer` weapons.add(new Weapon("tecta-weapon"){{
+- mindustry/content/UnitTypes.java:3562 `anonymous_double_brace_initializer` bullet = new MissileBulletType(4.2f, 51){{
+- mindustry/content/UnitTypes.java:3585 `anonymous_double_brace_initializer` hitEffect = new ExplosionEffect(){{
+- mindustry/content/UnitTypes.java:3601 `anonymous_double_brace_initializer` collaris = new ErekirUnitType("collaris"){{
+- mindustry/content/UnitTypes.java:3640 `anonymous_double_brace_initializer` weapons.add(new Weapon("collaris-weapon"){{
+- mindustry/content/UnitTypes.java:3665 `anonymous_double_brace_initializer` parts.add(new RegionPart("-blade"){{
+- mindustry/content/UnitTypes.java:3681 `anonymous_double_brace_initializer` bullet = new ArtilleryBulletType(5.5f, 260){{
+- mindustry/content/UnitTypes.java:3704 `anonymous_double_brace_initializer` hitEffect = despawnEffect = new ExplosionEffect(){{
+- mindustry/content/UnitTypes.java:3726 `anonymous_double_brace_initializer` fragBullet = new BasicBulletType(5.5f, 37){{
+- mindustry/content/UnitTypes.java:3755 `anonymous_double_brace_initializer` hitEffect = despawnEffect = new MultiEffect(new ExplosionEffect(){{
+- mindustry/content/UnitTypes.java:3775 `anonymous_double_brace_initializer` elude = new ErekirUnitType("elude"){{
+- mindustry/content/UnitTypes.java:3798 `anonymous_double_brace_initializer` abilities.add(new MoveEffectAbility(0f, -7f, Pal.sapBulletBack, Fx.missileTrailShort, 4f){{
+- mindustry/content/UnitTypes.java:3803 `anonymous_double_brace_initializer` parts.add(new HoverPart(){{
+- mindustry/content/UnitTypes.java:3815 `anonymous_double_brace_initializer` weapons.add(new Weapon("elude-weapon"){{
+- mindustry/content/UnitTypes.java:3827 `anonymous_double_brace_initializer` bullet = new BasicBulletType(5f, 16){{
+- mindustry/content/UnitTypes.java:3844 `anonymous_double_brace_initializer` avert = new ErekirUnitType("avert"){{
+- mindustry/content/UnitTypes.java:3863 `anonymous_double_brace_initializer` weapons.add(new Weapon("avert-weapon"){{
+- mindustry/content/UnitTypes.java:3876 `anonymous_double_brace_initializer` bullet = new BasicBulletType(5f, 22f / 0.75f){{
+- mindustry/content/UnitTypes.java:3893 `anonymous_double_brace_initializer` fragBullet = new BasicBulletType(3f, 10){{
+- mindustry/content/UnitTypes.java:3909 `anonymous_double_brace_initializer` obviate = new ErekirUnitType("obviate"){{
+- mindustry/content/UnitTypes.java:3929 `anonymous_double_brace_initializer` new RegionPart("-blade"){{
+- mindustry/content/UnitTypes.java:3936 `anonymous_double_brace_initializer` children.add(new RegionPart("-side"){{
+- mindustry/content/UnitTypes.java:3946 `anonymous_double_brace_initializer` weapons.add(new Weapon(){{
+- mindustry/content/UnitTypes.java:3957 `anonymous_double_brace_initializer` bullet = new BasicBulletType(){{
+- mindustry/content/UnitTypes.java:3958 `anonymous_double_brace_initializer` shoot = new ShootHelix(){{
+- mindustry/content/UnitTypes.java:3963 `anonymous_double_brace_initializer` shootEffect = new MultiEffect(Fx.shootTitan, new WaveEffect(){{
+- mindustry/content/UnitTypes.java:3987 `anonymous_double_brace_initializer` despawnEffect = hitEffect = new ExplosionEffect(){{
+- mindustry/content/UnitTypes.java:3995 `anonymous_double_brace_initializer` intervalBullet = new LightningBulletType(){{
+- mindustry/content/UnitTypes.java:4006 `anonymous_double_brace_initializer` lightningType = new BulletType(0.0001f, 0f){{
+- mindustry/content/UnitTypes.java:4030 `anonymous_double_brace_initializer` quell = new ErekirUnitType("quell"){{
+- mindustry/content/UnitTypes.java:4054 `anonymous_double_brace_initializer` abilities.add(new SuppressionFieldAbility(){{
+- mindustry/content/UnitTypes.java:4060 `anonymous_double_brace_initializer` weapons.add(new Weapon("quell-weapon"){{
+- mindustry/content/UnitTypes.java:4071 `anonymous_double_brace_initializer` bullet = new BasicBulletType(4.3f, 70f, "missile-large"){{
+- mindustry/content/UnitTypes.java:4097 `anonymous_double_brace_initializer` fragBullet = new BulletType(){{
+- mindustry/content/UnitTypes.java:4101 `anonymous_double_brace_initializer` spawnUnit = new MissileUnitType("quell-missile"){{
+- mindustry/content/UnitTypes.java:4112 `anonymous_double_brace_initializer` weapons.add(new Weapon() {{
+- mindustry/content/UnitTypes.java:4119 `anonymous_double_brace_initializer` bullet = new ExplosionBulletType(110f, 25f){{
+- mindustry/content/UnitTypes.java:4135 `anonymous_double_brace_initializer` disrupt = new ErekirUnitType("disrupt"){{
+- mindustry/content/UnitTypes.java:4159 `anonymous_double_brace_initializer` abilities.add(new SuppressionFieldAbility(){{
+- mindustry/content/UnitTypes.java:4169 `anonymous_double_brace_initializer` abilities.add(new SuppressionFieldAbility(){{
+- mindustry/content/UnitTypes.java:4180 `anonymous_double_brace_initializer` weapons.add(new Weapon("disrupt-weapon"){{
+- mindustry/content/UnitTypes.java:4200 `anonymous_double_brace_initializer` parts.add(new RegionPart("-blade"){{
+- mindustry/content/UnitTypes.java:4213 `anonymous_double_brace_initializer` bullet = new BulletType(){{
+- mindustry/content/UnitTypes.java:4222 `anonymous_double_brace_initializer` spawnUnit = new MissileUnitType("disrupt-missile"){{
+- mindustry/content/UnitTypes.java:4236 `anonymous_double_brace_initializer` parts.add(new ShapePart(){{
+- mindustry/content/UnitTypes.java:4246 `anonymous_double_brace_initializer` parts.add(new RegionPart("-fin"){{
+- mindustry/content/UnitTypes.java:4256 `anonymous_double_brace_initializer` weapons.add(new Weapon(){{
+- mindustry/content/UnitTypes.java:4262 `anonymous_double_brace_initializer` bullet = new ExplosionBulletType(140f, 25f){{
+- mindustry/content/UnitTypes.java:4265 `anonymous_double_brace_initializer` shootEffect = new ExplosionEffect(){{
+- mindustry/content/UnitTypes.java:4295 `anonymous_double_brace_initializer` renale = new NeoplasmUnitType("renale"){{
+- mindustry/content/UnitTypes.java:4315 `anonymous_double_brace_initializer` latum = new NeoplasmUnitType("latum"){{
+- mindustry/content/UnitTypes.java:4340 `anonymous_double_brace_initializer` evoke = new ErekirUnitType("evoke"){{
+- mindustry/content/UnitTypes.java:4342 `lambda` controller = u -> new BuilderAI(true, coreFleeRange);
+- mindustry/content/UnitTypes.java:4379 `anonymous_double_brace_initializer` weapons.add(new RepairBeamWeapon(){{
+- mindustry/content/UnitTypes.java:4400 `anonymous_double_brace_initializer` bullet = new BulletType(){{
+- mindustry/content/UnitTypes.java:4406 `anonymous_double_brace_initializer` incite = new ErekirUnitType("incite"){{
+- mindustry/content/UnitTypes.java:4408 `lambda` controller = u -> new BuilderAI(true, coreFleeRange);
+- mindustry/content/UnitTypes.java:4446 `anonymous_double_brace_initializer` weapons.add(new RepairBeamWeapon(){{
+- mindustry/content/UnitTypes.java:4468 `anonymous_double_brace_initializer` bullet = new BulletType(){{
+- mindustry/content/UnitTypes.java:4475 `anonymous_double_brace_initializer` weapons.add(new BuildWeapon("build-weapon"){{
+- mindustry/content/UnitTypes.java:4485 `anonymous_double_brace_initializer` emanate = new ErekirUnitType("emanate"){{
+- mindustry/content/UnitTypes.java:4487 `lambda` controller = u -> new BuilderAI(true, coreFleeRange);
+- mindustry/content/UnitTypes.java:4527 `anonymous_double_brace_initializer` weapons.add(new RepairBeamWeapon(){{
+- mindustry/content/UnitTypes.java:4549 `anonymous_double_brace_initializer` bullet = new BulletType(){{
+- mindustry/content/UnitTypes.java:4558 `anonymous_double_brace_initializer` block = new UnitType("block"){{
+- mindustry/content/UnitTypes.java:4568 `anonymous_double_brace_initializer` manifold = new ErekirUnitType("manifold"){{
+- mindustry/content/UnitTypes.java:4569 `lambda` controller = u -> new CargoAI();
+- mindustry/content/UnitTypes.java:4595 `anonymous_double_brace_initializer` assemblyDrone = new ErekirUnitType("assembly-drone"){{
+- mindustry/content/UnitTypes.java:4596 `lambda` controller = u -> new AssemblerAI();
+- mindustry/content/Weathers.java:20 `anonymous_double_brace_initializer` snow = new ParticleWeather("snowing"){{
+- mindustry/content/Weathers.java:34 `anonymous_double_brace_initializer` rain = new RainWeather("rain"){{
+- mindustry/content/Weathers.java:42 `anonymous_double_brace_initializer` sandstorm = new ParticleWeather("sandstorm"){{
+- mindustry/content/Weathers.java:62 `anonymous_double_brace_initializer` sporestorm = new ParticleWeather("sporestorm"){{
+- mindustry/content/Weathers.java:84 `anonymous_double_brace_initializer` fog = new ParticleWeather("fog"){{
+- mindustry/content/Weathers.java:105 `anonymous_double_brace_initializer` suspendParticles = new ParticleWeather("suspend-particles"){{
+- mindustry/core/ContentLoader.java:99 `lambda` Log.debug("Total content loaded: @", Seq.with(ContentType.all).sum(c -> contentMap[c.ordinal()].size));
+- mindustry/core/Control.java:68 `lambda` Events.on(BuildDamageEvent.class, e -> {
+- mindustry/core/Control.java:75 `lambda` Events.on(ClientLoadEvent.class, e -> {
+- mindustry/core/Control.java:77 `lambda` Time.runTask(4f, () -> {
+- mindustry/core/Control.java:84 `lambda` Events.on(StateChangeEvent.class, event -> {
+- mindustry/core/Control.java:90 `lambda` Events.on(PlayEvent.class, event -> {
+- mindustry/core/Control.java:97 `lambda` Events.on(WorldLoadEvent.class, event -> {
+- mindustry/core/Control.java:109 `lambda` Events.on(SaveLoadEvent.class, event -> {
+- mindustry/core/Control.java:113 `lambda` Events.on(ResetEvent.class, event -> {
+- mindustry/core/Control.java:123 `lambda` Events.on(WaveEvent.class, event -> {
+- mindustry/core/Control.java:132 `lambda` Events.on(GameOverEvent.class, event -> {
+- mindustry/core/Control.java:140 `lambda` Events.on(WorldLoadEvent.class, e -> {
+- mindustry/core/Control.java:149 `lambda` Events.on(WorldLoadEvent.class, event -> app.post(() -> {
+- mindustry/core/Control.java:161 `lambda` Events.on(UnlockEvent.class, e -> {
+- mindustry/core/Control.java:170 `lambda` if(!node.content.unlocked() && node.objectives.contains(o -> o instanceof SectorComplete sec && sec.preset == e.content) && !node.objectives.contains(o -> !o.complete())){
+- mindustry/core/Control.java:177 `lambda` Events.on(SectorCaptureEvent.class, e -> {
+- mindustry/core/Control.java:181 `lambda` Time.run(60f * 2f, () -> {
+- mindustry/core/Control.java:188 `lambda` Events.on(GameOverEvent.class, e -> {
+- mindustry/core/Control.java:198 `lambda` Events.run(Trigger.newGame, () -> {
+- mindustry/core/Control.java:261 `lambda` Time.run(delay, () -> {
+- mindustry/core/Control.java:280 `lambda` Time.run(coreDelay, () -> {
+- mindustry/core/Control.java:289 `lambda` Events.on(SaveWriteEvent.class, e -> {
+- mindustry/core/Control.java:295 `lambda` Events.on(HostEvent.class, e -> forcePlaceAll());
+- mindustry/core/Control.java:296 `lambda` Events.on(HostEvent.class, e -> {
+- mindustry/core/Control.java:321 `lambda` build.tile.setBlock(build.block, build.team, build.rotation, () -> build);
+- mindustry/core/Control.java:354 `lambda` if(!node.content.unlocked() && (node.parent == null || node.parent.content.unlocked()) && node.requirements.length == 0 && !node.objectives.contains(o -> !o.complete())){
+- mindustry/core/Control.java:382 `lambda` Events.on(ClientLoadEvent.class, e -> input.add());
+- mindustry/core/Control.java:401 `lambda` ui.loadAnd(() -> {
+- mindustry/core/Control.java:434 `lambda` ui.loadAnd(() -> {
+- mindustry/core/Control.java:489 `anonymous_double_brace_initializer` playNewSector(origin, sector, reloader, new WorldParams(){{
+- mindustry/core/Control.java:491 `lambda` }}, () -> {
+- mindustry/core/Control.java:503 `lambda` tile.setBlock(build.block, Team.derelict, build.rotation, () -> build);
+- mindustry/core/Control.java:520 `lambda` tile.setBlock(build.block, state.rules.defaultTeam, build.rotation, () -> build);
+- mindustry/core/Control.java:541 `lambda` Core.app.post(() -> {
+- mindustry/core/Control.java:554 `lambda` Time.runTask(10f, () -> ui.showErrorMessage("@save.corrupted"));
+- mindustry/core/Control.java:636 `lambda` Core.app.post(() -> Core.app.post(() -> {
+- mindustry/core/Control.java:641 `lambda` Runnable exit = () -> {
+- mindustry/core/Control.java:648 `lambda` dialog.cont.label(() -> {
+- mindustry/core/Control.java:658 `lambda` dialog.buttons.button("@ok", () -> {
+- mindustry/core/Control.java:713 `lambda` core.items.each((i, a) -> i.unlock());
+- mindustry/core/FileTree.java:59 `lambda` return loadedSounds.get(soundName, () -> {
+- mindustry/core/FileTree.java:80 `lambda` return loadedMusic.get(musicName, () -> {
+- mindustry/core/Logic.java:41 `lambda` Events.on(BlockDestroyEvent.class, event -> {
+- mindustry/core/Logic.java:53 `lambda` Events.on(BlockBuildEndEvent.class, event -> {
+- mindustry/core/Logic.java:63 `lambda` Events.on(PayloadDropEvent.class, e -> {
+- mindustry/core/Logic.java:70 `lambda` Events.on(SaveLoadEvent.class, e -> {
+- mindustry/core/Logic.java:90 `lambda` Events.on(PlayEvent.class, e -> {
+- mindustry/core/Logic.java:102 `lambda` Events.on(WorldLoadEvent.class, e -> {
+- mindustry/core/Logic.java:128 `lambda` Events.on(UnlockEvent.class, e -> {
+- mindustry/core/Logic.java:134 `lambda` Events.on(SectorCaptureEvent.class, e -> {
+- mindustry/core/Logic.java:150 `lambda` world.tiles.eachTile(t -> {
+- mindustry/core/Logic.java:168 `lambda` Events.on(SectorLoseEvent.class, e -> {
+- mindustry/core/Logic.java:174 `lambda` Events.on(BlockDestroyEvent.class, e -> {
+- mindustry/core/Logic.java:176 `lambda` Core.app.post(() -> core.team.data().timeDestroy(core.x, core.y, state.rules.enemyCoreBuildRadius));
+- mindustry/core/Logic.java:181 `lambda` Events.on(CoreChangeEvent.class, e -> Core.app.post(() -> {
+- mindustry/core/Logic.java:187 `lambda` Events.on(BlockBuildEndEvent.class, e -> {
+- mindustry/core/Logic.java:202 `lambda` Events.on(BlockDestroyEvent.class, e -> {
+- mindustry/core/Logic.java:218 `lambda` Events.on(UnitDestroyEvent.class, e -> {
+- mindustry/core/Logic.java:228 `lambda` Events.on(UnitCreateEvent.class, e -> {
+- mindustry/core/Logic.java:238 `lambda` Events.on(WaveEvent.class, e -> {
+- mindustry/core/Logic.java:244 `lambda` Events.on(GameOverEvent.class, e -> {
+- mindustry/core/Logic.java:361 `lambda` int countAlive = state.teams.getActive().count(t -> t.isAlive() && t.team != Team.derelict);
+- mindustry/core/Logic.java:365 `lambda` TeamData left = state.teams.getActive().find(t -> t.isAlive() && t.team != Team.derelict);
+- mindustry/core/Logic.java:377 `lambda` state.rules.weather.removeAll(w -> w.weather == null);
+- mindustry/core/Logic.java:437 `lambda` Time.run(60f * 3f, () -> ui.restart.show(winner));
+- mindustry/core/Logic.java:504 `lambda` state.enemies = Groups.unit.count(u -> u.team() == state.rules.waveTeam && u.isEnemy());
+- mindustry/core/Logic.java:539 `lambda` content.items().each(i -> {
+- mindustry/core/Logic.java:560 `lambda` if(units == null || !units.contains(u -> u.flag == core.pos())){
+- mindustry/core/Logic.java:589 `lambda` Groups.weather.each(w -> state.envAttrs.add(w.weather.attrs, w.opacity));
+- mindustry/core/NetClient.java:78 `lambda` net.handleClient(Connect.class, packet -> {
+- mindustry/core/NetClient.java:95 `lambda` ui.loadfrag.setButton(() -> {
+- mindustry/core/NetClient.java:125 `lambda` net.handleClient(Disconnect.class, packet -> {
+- mindustry/core/NetClient.java:140 `lambda` case "closed" -> "@disconnect.closed";
+- mindustry/core/NetClient.java:141 `lambda` case "timeout" -> "@disconnect.timeout";
+- mindustry/core/NetClient.java:142 `lambda` default -> "@disconnect.error";
+- mindustry/core/NetClient.java:149 `lambda` net.handleClient(WorldStream.class, data -> {
+- mindustry/core/NetClient.java:156 `lambda` net.handleClient(AssetRequirementStream.class, data -> {
+- mindustry/core/NetClient.java:168 `lambda` net.handleClient(StreamBegin.class, data -> {
+- mindustry/core/NetClient.java:180 `lambda` Threads.daemon(() -> {
+- mindustry/core/NetClient.java:189 `lambda` Core.app.post(() -> {
+- mindustry/core/NetClient.java:475 `lambda` ui.loadfrag.setButton(() -> {
+- mindustry/core/NetServer.java:57 `lambda` public TeamAssigner assigner = (player, players) -> {
+- mindustry/core/NetServer.java:60 `lambda` TeamData re = state.teams.getActive().min(data -> {
+- mindustry/core/NetServer.java:77 `lambda` public ChatFormatter chatFormatter = (player, message) -> player == null ? message : "[coral][[" + player.coloredName() + "[coral]]:[white] " + message;
+- mindustry/core/NetServer.java:80 `lambda` public InvalidCommandHandler invalidHandler = (player, response) -> {
+- mindustry/core/NetServer.java:135 `lambda` net.handleServer(Connect.class, (con, connect) -> {
+- mindustry/core/NetServer.java:147 `lambda` net.handleServer(Disconnect.class, (con, packet) -> {
+- mindustry/core/NetServer.java:153 `lambda` net.handleServer(ConnectPacket.class, (con, packet) -> {
+- mindustry/core/NetServer.java:236 `lambda` if(Groups.player.contains(p -> Strings.stripColors(p.name).trim().equalsIgnoreCase(Strings.stripColors(packet.name).trim()))){
+- mindustry/core/NetServer.java:241 `lambda` if(Groups.player.contains(player -> player.uuid().equals(packet.uuid) || player.usid().equals(packet.usid))){
+- mindustry/core/NetServer.java:332 `lambda` mods.eachClass(mod -> mod.registerClientCommands(clientCommands));
+- mindustry/core/NetServer.java:336 `lambda` clientCommands.<Player>register("help", "[page]", "Lists all commands.", (args, player) -> {
+- mindustry/core/NetServer.java:362 `lambda` clientCommands.<Player>register("t", "<message...>", "Send a message only to your teammates.", (args, player) -> {
+- mindustry/core/NetServer.java:366 `lambda` Groups.player.each(p -> p.team() == player.team(), o -> o.sendMessage(raw, player, message));
+- mindustry/core/NetServer.java:370 `lambda` clientCommands.<Player>register("a", "<message...>", "Send a message only to admins.", (args, player) -> {
+- mindustry/core/NetServer.java:377 `lambda` Groups.player.each(Player::admin, a -> a.sendMessage(raw, player, args[0]));
+- mindustry/core/NetServer.java:383 `lambda` clientCommands.<Player>register("votekick", "[player] [reason...]", "Vote to kick a player with a valid reason.", (args, player) -> {
+- mindustry/core/NetServer.java:408 `lambda` Groups.player.each(p -> !p.admin && p.con != null && p != player, p -> {
+- mindustry/core/NetServer.java:418 `lambda` found = Groups.player.find(p -> p.id() == id);
+- mindustry/core/NetServer.java:420 `lambda` found = Groups.player.find(p -> p.name.equalsIgnoreCase(args[0]));
+- mindustry/core/NetServer.java:433 `lambda` Timekeeper vtime = cooldowns.get(player.uuid(), () -> Timekeeper.ofSeconds(voteCooldown));
+- mindustry/core/NetServer.java:452 `lambda` clientCommands.<Player>register("vote", "<y/n/c>", "Vote to kick the current player. Admins can cancel the voting with 'c'.", (arg, player) -> {
+- mindustry/core/NetServer.java:469 `lambda` case "y", "yes" -> 1;
+- mindustry/core/NetServer.java:470 `lambda` case "n", "no" -> -1;
+- mindustry/core/NetServer.java:471 `lambda` default -> 0;
+- mindustry/core/NetServer.java:499 `lambda` clientCommands.<Player>register("sync", "Re-synchronize world state.", (args, player) -> {
+- mindustry/core/NetServer.java:529 `lambda` mainExecutor.submit(() -> {
+- mindustry/core/NetServer.java:779 `lambda` }else if(con.rejectedRequests.contains(r -> r.breaking == req.breaking && r.x == req.x && r.y == req.y)){ //check if request was recently rejected, and skip it if so
+- mindustry/core/NetServer.java:781 `lambda` }else if(!netServer.admins.allowAction(player, req.breaking ? ActionType.breakBlock : ActionType.placeBlock, tile, action -> { //make sure request is allowed by the server
+- mindustry/core/NetServer.java:876 `lambda` case wave -> {
+- mindustry/core/NetServer.java:882 `lambda` case ban -> {
+- mindustry/core/NetServer.java:888 `lambda` case kick -> {
+- mindustry/core/NetServer.java:892 `lambda` case trace -> {
+- mindustry/core/NetServer.java:901 `lambda` case switchTeam -> {
+- mindustry/core/NetServer.java:936 `lambda` mainExecutor.submit(() -> {
+- mindustry/core/NetServer.java:987 `lambda` if(Groups.player.count(p -> p.team() == t.team) > 0){
+- mindustry/core/NetServer.java:1001 `lambda` Time.runTask(5f, () -> {
+- mindustry/core/NetServer.java:1085 `lambda` int activeTeams = (byte)state.teams.present.count(t -> t.cores.size > 0);
+- mindustry/core/NetServer.java:1197 `lambda` Groups.player.each(p -> !p.isLocal(), player -> {
+- mindustry/core/NetServer.java:1257 `lambda` Groups.player.each(player -> {
+- mindustry/core/NetServer.java:1312 `lambda` this.task = Timer.schedule(() -> {
+- mindustry/core/NetServer.java:1338 `lambda` Groups.player.each(p -> p.uuid().equals(target.uuid()), p -> p.kick(KickReason.vote, kickDuration * 1000));
+- mindustry/core/Renderer.java:79 `lambda` Events.on(ResetEvent.class, e -> {
+- mindustry/core/Renderer.java:113 `lambda` Events.on(ClientLoadEvent.class, e -> {
+- mindustry/core/Renderer.java:117 `lambda` assets.load("sprites/clouds.png", Texture.class).loaded = t -> {
+- mindustry/core/Renderer.java:122 `lambda` Events.on(WorldLoadEvent.class, e -> {
+- mindustry/core/Renderer.java:235 `lambda` case Gl.invalidValue -> "invalid value";
+- mindustry/core/Renderer.java:236 `lambda` case Gl.invalidOperation -> "invalid operation";
+- mindustry/core/Renderer.java:237 `lambda` case Gl.invalidFramebufferOperation -> "invalid framebuffer operation";
+- mindustry/core/Renderer.java:238 `lambda` case Gl.invalidEnum -> "invalid enum";
+- mindustry/core/Renderer.java:239 `lambda` case Gl.outOfMemory -> "out of memory";
+- mindustry/core/Renderer.java:240 `lambda` default -> "unknown error (" + error + ")";
+- mindustry/core/Renderer.java:338 `lambda` Draw.draw(Layer.block - 0.09f, () -> {
+- mindustry/core/Renderer.java:343 `lambda` Draw.drawRange(Layer.blockBuilding, () -> Draw.shader(Shaders.blockbuild, true), Draw::shader);
+- mindustry/core/Renderer.java:374 `lambda` Draw.drawRange(Layer.shields, 1f, () -> effectBuffer.begin(Color.clear), () -> {
+- mindustry/core/Renderer.java:379 `lambda` Draw.drawRange(Layer.buildBeam, 1f, () -> effectBuffer.begin(Color.clear), () -> {
+- mindustry/core/Renderer.java:388 `lambda` state.rules.objectives.eachRunning(obj -> {
+- mindustry/core/Renderer.java:406 `lambda` Draw.draw(Layer.space, () -> {
+- mindustry/core/Renderer.java:443 `anonymous_double_brace_initializer` var desc = assets.load(state.rules.backgroundTexture, Texture.class, new TextureParameter(){{
+- mindustry/core/Renderer.java:608 `lambda` mainExecutor.submit(() -> {
+- mindustry/core/Renderer.java:617 `lambda` app.post(() -> ui.showInfoFade(bundle.format("screenshot", file.toString())));
+- mindustry/core/UI.java:117 `lambda` Core.assets.getAll(Font.class, new Seq<>()).each(font -> font.setUseIntegerPositions(true));
+- mindustry/core/UI.java:129 `lambda` Dialog.setShowAction(() -> sequence(alpha(0f), fadeIn(0.1f)));
+- mindustry/core/UI.java:130 `lambda` Dialog.setHideAction(() -> sequence(fadeOut(0.1f)));
+- mindustry/core/UI.java:133 `lambda` Tooltips.getInstance().textProvider = text -> new Tooltip(t -> t.background(Styles.black8).margin(4f).add(text));
+- mindustry/core/UI.java:138 `lambda` Core.settings.setErrorHandler(e -> {
+- mindustry/core/UI.java:140 `lambda` Core.app.post(() -> showErrorMessage("Failed to access local storage.\nSettings will not be saved."));
+- mindustry/core/UI.java:143 `lambda` ClickListener.clicked = () -> Sounds.uiButton.play();
+- mindustry/core/UI.java:231 `lambda` menuGroup.visible(() -> state.isMenu());
+- mindustry/core/UI.java:234 `lambda` hudGroup.visible(() -> state.isGame());
+- mindustry/core/UI.java:294 `lambda` Time.runTask(7f, () -> {
+- mindustry/core/UI.java:309 `anonymous_double_brace_initializer` Core.input.getTextInput(new TextInput(){{
+- mindustry/core/UI.java:320 `anonymous_double_brace_initializer` new Dialog(titleText){{
+- mindustry/core/UI.java:322 `lambda` TextFieldFilter filter = numbers ? TextFieldFilter.digitsOnly : (f, c) -> true;
+- mindustry/core/UI.java:323 `lambda` TextField field = cont.field(def, t -> {}).size(330f, 50f).get();
+- mindustry/core/UI.java:327 `lambda` buttons.button("@cancel", () -> {
+- mindustry/core/UI.java:331 `lambda` buttons.button("@ok", () -> {
+- mindustry/core/UI.java:334 `lambda` }).disabled(b -> !allowEmpty && field.getText().isEmpty());
+- mindustry/core/UI.java:336 `lambda` keyDown(KeyCode.enter, () -> {
+- mindustry/core/UI.java:362 `lambda` showTextInput(title, text, textLength, def, numeric, confirmed, () -> {});
+- mindustry/core/UI.java:383 `lambda` elem.addListener(new Tooltip(t -> t.background(Styles.black8).margin(4f).add(description).color(Color.lightGray)){
+- mindustry/core/UI.java:405 `lambda` table.update(() -> {
+- mindustry/core/UI.java:409 `lambda` table.top().table(Styles.black3, t -> t.margin(4).add(info).style(Styles.outlineLabel)).padTop(10);
+- mindustry/core/UI.java:428 `lambda` table.update(() -> {
+- mindustry/core/UI.java:434 `lambda` table.actions(Actions.delay(duration), Actions.remove(), Actions.run(() -> { if(id != null) popups.remove(id); }));
+- mindustry/core/UI.java:435 `lambda` table.align(align).table(Styles.black3, t -> t.margin(4).add(info).style(Styles.outlineLabel)).pad(top, left, bottom, right);
+- mindustry/core/UI.java:457 `anonymous_double_brace_initializer` new Dialog(""){{
+- mindustry/core/UI.java:467 `anonymous_double_brace_initializer` new Dialog(""){{
+- mindustry/core/UI.java:477 `anonymous_double_brace_initializer` new Dialog(""){{
+- mindustry/core/UI.java:486 `anonymous_double_brace_initializer` new Dialog(""){{
+- mindustry/core/UI.java:508 `anonymous_double_brace_initializer` new Dialog(""){{
+- mindustry/core/UI.java:520 `lambda` Collapser col = new Collapser(base -> base.pane(t -> t.margin(14f).add(Strings.neatError(exc)).color(Color.lightGray).left()), true);
+- mindustry/core/UI.java:522 `lambda` cont.button("@details", Styles.togglet, col::toggle).size(180f, 50f).checked(b -> !col.isCollapsed()).fillX().right();
+- mindustry/core/UI.java:535 `anonymous_double_brace_initializer` new Dialog(titleText){{
+- mindustry/core/UI.java:547 `anonymous_double_brace_initializer` new Dialog(titleText){{
+- mindustry/core/UI.java:555 `anonymous_double_brace_initializer` new Dialog(titleText){{
+- mindustry/core/UI.java:578 `lambda` dialog.buttons.button("@ok", Icon.ok, () -> {
+- mindustry/core/UI.java:583 `lambda` dialog.update(() -> {
+- mindustry/core/UI.java:589 `lambda` dialog.keyDown(KeyCode.enter, () -> {
+- mindustry/core/UI.java:603 `lambda` dialog.buttons.button(no, () -> {
+- mindustry/core/UI.java:607 `lambda` dialog.buttons.button(yes, () -> {
+- mindustry/core/UI.java:630 `lambda` t.update(() -> {
+- mindustry/core/UI.java:650 `lambda` dialog.buttons.button("@ok", () -> {
+- mindustry/core/UI.java:659 `anonymous_double_brace_initializer` return new Dialog(title){{
+- mindustry/core/UI.java:667 `lambda` cont.pane(table -> {
+- mindustry/core/UI.java:684 `lambda` buttonRow.button(optionName, () -> buttonListener.get(finalOption, this))
+- mindustry/core/UI.java:695 `lambda` Dialog dialog = newMenuDialog(title, message, options, (option, myself) -> {
+- mindustry/core/UI.java:699 `lambda` dialog.closeOnBack(() -> callback.get(-1));
+- mindustry/core/UI.java:706 `lambda` Dialog dialog = newMenuDialog(title, message, options, (option, myself) -> {
+- mindustry/core/UI.java:712 `lambda` dialog.closeOnBack(() -> {
+- mindustry/core/World.java:41 `lambda` Events.on(TileChangeEvent.class, e -> tileChanges ++);
+- mindustry/core/World.java:42 `lambda` Events.on(TileFloorChangeEvent.class, e -> floorChanges ++);
+- mindustry/core/World.java:44 `lambda` Events.on(WorldLoadEvent.class, e -> {
+- mindustry/core/World.java:269 `lambda` loadGenerator(size, size, tiles -> {
+- mindustry/core/World.java:330 `lambda` sector.info.resources.sort(Structs.comps(Structs.comparing(Content::getContentType), Structs.comparingInt(c -> c.id)));
+- mindustry/core/World.java:358 `lambda` Core.app.post(() -> state.set(State.menu));
+- mindustry/core/World.java:392 `lambda` if(invalidMap) Core.app.post(() -> state.set(State.menu));
+- mindustry/core/World.java:657 `lambda` input.begin(width(), height(), (x, y) -> tiles.getn(x, y));
+- mindustry/editor/BannedContentDialog.java:55 `lambda` var cell = cont.table(t -> {
+- mindustry/editor/BannedContentDialog.java:56 `lambda` t.table(s -> {
+- mindustry/editor/BannedContentDialog.java:57 `lambda` s.label(() -> "@search").padRight(10);
+- mindustry/editor/BannedContentDialog.java:58 `lambda` var field = s.field(contentSearch, value -> {
+- mindustry/editor/BannedContentDialog.java:62 `lambda` s.button(Icon.cancel, Styles.emptyi, () -> {
+- mindustry/editor/BannedContentDialog.java:70 `lambda` t.table(c -> {
+- mindustry/editor/BannedContentDialog.java:74 `lambda` c.button(ui.getIcon(category.name()), Styles.squareTogglei, () -> {
+- mindustry/editor/BannedContentDialog.java:81 `lambda` }).size(45f).update(i -> i.setChecked(selectedCategory == category)).padLeft(4f);
+- mindustry/editor/BannedContentDialog.java:91 `lambda` if(!contentSearch.isEmpty()) filteredContent.removeAll(content -> !content.localizedName.toLowerCase().contains(contentSearch.toLowerCase()));
+- mindustry/editor/BannedContentDialog.java:93 `lambda` cont.table(table -> {
+- mindustry/editor/BannedContentDialog.java:101 `lambda` table.pane(table2 -> selectedTable = table2).fill().expand().row();
+- mindustry/editor/BannedContentDialog.java:102 `lambda` table.button("@addall", Icon.add, () -> {
+- mindustry/editor/BannedContentDialog.java:105 `lambda` }).disabled(button -> contentSet.toSeq().containsAll(filteredContent)).padTop(10f).bottom().fillX();
+- mindustry/editor/BannedContentDialog.java:110 `lambda` var cell2 = cont.table(table -> {
+- mindustry/editor/BannedContentDialog.java:118 `lambda` table.pane(table2 -> deselectedTable = table2).fill().expand().row();
+- mindustry/editor/BannedContentDialog.java:119 `lambda` table.button("@addall", Icon.add, () -> {
+- mindustry/editor/BannedContentDialog.java:122 `lambda` }).disabled(button -> {
+- mindustry/editor/BannedContentDialog.java:143 `lambda` if(!contentSearch.isEmpty()) filteredContent.removeAll(content -> !content.localizedName.toLowerCase().contains(contentSearch.toLowerCase()));
+- mindustry/editor/BannedContentDialog.java:145 `lambda` filteredContent.removeAll(content -> selectedCategory != null && ((Block)content).category != selectedCategory);
+- mindustry/editor/BannedContentDialog.java:174 `lambda` array.removeAll(content -> !filteredContent.contains(content));
+- mindustry/editor/BannedContentDialog.java:189 `lambda` if(isSelected) button.clicked(() -> {
+- mindustry/editor/BannedContentDialog.java:193 `lambda` else button.clicked(() -> {
+- mindustry/editor/data/MapAssetsDialog.java:53 `lambda` shown(() -> {
+- mindustry/editor/data/MapAssetsDialog.java:59 `lambda` hidden(() -> {
+- mindustry/editor/data/MapAssetsDialog.java:78 `lambda` types.button(typeIcons[type.ordinal()], Styles.grayTogglei, () -> changeType(type))
+- mindustry/editor/data/MapAssetsDialog.java:79 `lambda` .checked(b -> currentType == type).tooltip(type.localized());
+- mindustry/editor/data/MapAssetsDialog.java:83 `lambda` types.table(Styles.grayPanel, t -> {
+- mindustry/editor/data/MapAssetsDialog.java:85 `lambda` t.label(() -> currentType.localized());
+- mindustry/editor/data/MapAssetsDialog.java:90 `lambda` types.button("@asset.guide", Icon.link, Styles.grayt, () -> Core.app.openURI(patchesGuideURL)).marginLeft(10f).size(200f, 50f).pad(4f);
+- mindustry/editor/data/MapAssetsDialog.java:96 `lambda` cont.table(search -> {
+- mindustry/editor/data/MapAssetsDialog.java:99 `lambda` searchField = search.field("", t -> {
+- mindustry/editor/data/MapAssetsDialog.java:106 `lambda` cont.pane(t -> list = t).grow().top();
+- mindustry/editor/data/MapAssetsDialog.java:135 `lambda` dialog.cont.pane(p -> {
+- mindustry/editor/data/MapAssetsDialog.java:137 `lambda` p.table(Tex.button, t -> {
+- mindustry/editor/data/MapAssetsDialog.java:140 `lambda` t.button("@asset.importzip", Icon.download, style, () -> FileChooser.open("zip").submit(file -> {
+- mindustry/editor/data/MapAssetsDialog.java:152 `lambda` ui.loadAnd(() -> {
+- mindustry/editor/data/MapAssetsDialog.java:168 `lambda` Seq<Fi> files = subfolder.findAll(f -> type.extensions.contains(f.extension().toLowerCase(Locale.ROOT)));
+- mindustry/editor/data/MapAssetsDialog.java:187 `lambda` Seq<Fi> files = folder.findAll(f -> type.extensions.contains(f.extension().toLowerCase(Locale.ROOT)));
+- mindustry/editor/data/MapAssetsDialog.java:226 `lambda` idiag.cont.pane(ep -> {
+- mindustry/editor/data/MapAssetsDialog.java:227 `lambda` ep.add(Seq.with(errors).toString("\n", s -> "[gray]- []" + s)).labelAlign(Align.left, Align.left).grow();
+- mindustry/editor/data/MapAssetsDialog.java:240 `lambda` t.button("@asset.exportzip", Icon.upload, style, () -> FileChooser.export("assets", "zip", file -> {
+- mindustry/editor/data/MapAssetsDialog.java:260 `lambda` t.button("@asset.clearall", Icon.trash, style, () -> {
+- mindustry/editor/data/MapAssetsDialog.java:262 `lambda` ui.showConfirm("@asset.clearall.confirm", () -> {
+- mindustry/editor/data/MapAudioView.java:42 `lambda` list.button(Icon.warning, Styles.graySquarei, iconMed, () -> ui.showInfo(file == null ? "@asset.broken" : "@asset.audio.invalid")).size(h);
+- mindustry/editor/data/MapAudioView.java:44 `lambda` list.button(Icon.play, Styles.graySquarei, iconMed, () -> {
+- mindustry/editor/data/MapAudioView.java:62 `lambda` }).update(i -> i.getStyle().imageUp = audioSource != null && audioSource.countPlaying() > 0 ? Icon.pause : Icon.play).size(h);
+- mindustry/editor/data/MapAudioView.java:65 `lambda` list.table(Styles.grayPanel, in -> {
+- mindustry/editor/data/MapAudioView.java:69 `lambda` slider.moved(value -> {
+- mindustry/editor/data/MapAudioView.java:76 `lambda` slider.visible(() -> {
+- mindustry/editor/data/MapAudioView.java:84 `lambda` Label label = new Label(() -> slider.visible ? UI.formatTime(slider.getValue() * 60f) : "");
+- mindustry/editor/data/MapAudioView.java:93 `lambda` list.button(Icon.export, Styles.graySquarei, Vars.iconMed, () -> FileChooser.export(asset.name, Strings.getFileExtension(asset.path), file::copyTo)).size(h).disabled(file == null);
+- mindustry/editor/data/MapAudioView.java:95 `lambda` list.button(Icon.trash, Styles.graySquarei, iconMed, () -> {
+- mindustry/editor/data/MapAudioView.java:96 `lambda` ui.showConfirm("@asset.delete.confirm",  () -> {
+- mindustry/editor/data/MapAudioView.java:133 `lambda` buttons.button("@add", Icon.add, () -> {
+- mindustry/editor/data/MapAudioView.java:134 `lambda` FileChooser.open("ogg", "mp3").submitMulti(result -> {
+- mindustry/editor/data/MapAudioView.java:141 `lambda` var other = state.data.getAssets(type).find(p -> (p.path.equalsIgnoreCase(path) || p.name.equalsIgnoreCase(name)));
+- mindustry/editor/data/MapBundlesView.java:36 `lambda` list.button(Icon.warning, Styles.graySquarei, iconMed, () -> ui.showInfo("@asset.broken")).size(h);
+- mindustry/editor/data/MapBundlesView.java:43 `lambda` list.button(("[accent]" + bundle.name + "\n") + "[lightgray][[" + Core.bundle.format("bundle.lines", (bundle.cachedBundle == null ? null : bundle.cachedBundle.size)) + "]", Styles.grayt, () -> {
+- mindustry/editor/data/MapBundlesView.java:45 `lambda` dialog.cont.top().pane(p -> {
+- mindustry/editor/data/MapBundlesView.java:47 `lambda` p.table(Styles.grayPanel, in -> {
+- mindustry/editor/data/MapBundlesView.java:57 `lambda` }).size(mobile ? 390f : 450f, h).margin(10f).with(b -> {
+- mindustry/editor/data/MapBundlesView.java:59 `lambda` }).disabled(v -> file == null);
+- mindustry/editor/data/MapBundlesView.java:61 `lambda` list.button(Icon.refresh, Styles.graySquarei, Vars.iconMed, () -> {
+- mindustry/editor/data/MapBundlesView.java:62 `lambda` Cons<String> handler = str -> {
+- mindustry/editor/data/MapBundlesView.java:68 `lambda` dialog.cont.pane(p -> {
+- mindustry/editor/data/MapBundlesView.java:70 `lambda` p.table(Tex.button, t -> {
+- mindustry/editor/data/MapBundlesView.java:74 `lambda` t.button("@import.clipboard", Icon.copy, style, () -> {
+- mindustry/editor/data/MapBundlesView.java:77 `lambda` }).marginLeft(12f).disabled(b -> Core.app.getClipboardText() == null);
+- mindustry/editor/data/MapBundlesView.java:79 `lambda` t.button("@import.file", Icon.download, style, () -> FileChooser.open("properties", "txt").submit(f -> {
+- mindustry/editor/data/MapBundlesView.java:91 `lambda` list.button(Icon.export, Styles.graySquarei, Vars.iconMed, () -> {
+- mindustry/editor/data/MapBundlesView.java:94 `lambda` dialog.cont.pane(p -> {
+- mindustry/editor/data/MapBundlesView.java:96 `lambda` p.table(Tex.button, t -> {
+- mindustry/editor/data/MapBundlesView.java:100 `lambda` t.button("@copy.clipboard", Icon.copy, style, () -> {
+- mindustry/editor/data/MapBundlesView.java:108 `lambda` }).marginLeft(12f).disabled(b -> Core.app.getClipboardText() == null);
+- mindustry/editor/data/MapBundlesView.java:110 `lambda` t.button("@export.file", Icon.export, style, () -> {
+- mindustry/editor/data/MapBundlesView.java:120 `lambda` list.button(Icon.trash, Styles.graySquarei, iconMed, () -> {
+- mindustry/editor/data/MapBundlesView.java:121 `lambda` ui.showConfirm("@asset.delete.confirm",  () -> {
+- mindustry/editor/data/MapBundlesView.java:137 `lambda` buttons.button("@add", Icon.add, () -> {
+- mindustry/editor/data/MapBundlesView.java:138 `lambda` FileChooser.open("properties", "txt").submitMulti(files -> {
+- mindustry/editor/data/MapContentView.java:51 `lambda` list.table(t -> {
+- mindustry/editor/data/MapContentView.java:60 `lambda` list.button(Icon.warning, Styles.graySquarei, iconMed, () -> {
+- mindustry/editor/data/MapContentView.java:62 `lambda` dialog.cont.top().pane(p -> {
+- mindustry/editor/data/MapContentView.java:73 `lambda` p.table(Styles.grayPanel, in -> {
+- mindustry/editor/data/MapContentView.java:86 `lambda` contentIcons.get(content.type, Icon.warning), Styles.graySquarei, iconMed, () -> {}).touchable(Touchable.disabled).size(h);
+- mindustry/editor/data/MapContentView.java:88 `lambda` list.button(("[accent]" + content.name + "\n") + "[lightgray]" + Core.bundle.get("content." + content.type), Styles.grayt, () -> {
+- mindustry/editor/data/MapContentView.java:90 `lambda` dialog.cont.top().pane(p -> {
+- mindustry/editor/data/MapContentView.java:92 `lambda` p.table(Styles.grayPanel, in -> {
+- mindustry/editor/data/MapContentView.java:98 `lambda` }).size(mobile ? 390f : 450f, h).margin(10f).with(b -> {
+- mindustry/editor/data/MapContentView.java:102 `lambda` list.button(Icon.refresh, Styles.graySquarei, Vars.iconMed, () -> {
+- mindustry/editor/data/MapContentView.java:103 `lambda` Cons<String> handler = str -> {
+- mindustry/editor/data/MapContentView.java:105 `lambda` ui.loadAnd(() -> {
+- mindustry/editor/data/MapContentView.java:113 `lambda` dialog.cont.pane(p -> {
+- mindustry/editor/data/MapContentView.java:115 `lambda` p.table(Tex.button, t -> {
+- mindustry/editor/data/MapContentView.java:119 `lambda` t.button("@import.clipboard", Icon.copy, style, () -> {
+- mindustry/editor/data/MapContentView.java:122 `lambda` }).marginLeft(12f).disabled(b -> Core.app.getClipboardText() == null);
+- mindustry/editor/data/MapContentView.java:124 `lambda` t.button("@import.file", Icon.download, style, () -> FileChooser.open("json", "hjson", "json5").submit(file -> {
+- mindustry/editor/data/MapContentView.java:136 `lambda` list.button(Icon.export, Styles.graySquarei, Vars.iconMed, () -> {
+- mindustry/editor/data/MapContentView.java:139 `lambda` dialog.cont.pane(p -> {
+- mindustry/editor/data/MapContentView.java:141 `lambda` p.table(Tex.button, t -> {
+- mindustry/editor/data/MapContentView.java:145 `lambda` t.button("@copy.clipboard", Icon.copy, style, () -> {
+- mindustry/editor/data/MapContentView.java:149 `lambda` }).marginLeft(12f).disabled(b -> Core.app.getClipboardText() == null);
+- mindustry/editor/data/MapContentView.java:151 `lambda` t.button("@export.file", Icon.export, style, () -> {
+- mindustry/editor/data/MapContentView.java:153 `lambda` FileChooser.export(content.name, "json", file -> file.writeString(content.data));
+- mindustry/editor/data/MapContentView.java:161 `lambda` list.button(Icon.trash, Styles.graySquarei, iconMed, () -> {
+- mindustry/editor/data/MapContentView.java:162 `lambda` ui.showConfirm("@asset.delete.confirm",  () -> {
+- mindustry/editor/data/MapContentView.java:179 `lambda` buttons.button("@add", Icon.add, () -> showImport(diag)).size(190f, 64f);
+- mindustry/editor/data/MapContentView.java:183 `lambda` ui.loadAnd(() -> {
+- mindustry/editor/data/MapContentView.java:200 `lambda` var nameField = choose.cont.field("", text -> {})
+- mindustry/editor/data/MapContentView.java:201 `lambda` .with(t -> {
+- mindustry/editor/data/MapContentView.java:202 `lambda` t.setFilter((field, c) -> !Character.isWhitespace(c));
+- mindustry/editor/data/MapContentView.java:204 `lambda` t.changed(() -> invalid[0] = content.byName(t.getText()) != null || !t.isValid());
+- mindustry/editor/data/MapContentView.java:209 `lambda` choose.cont.table(t -> {
+- mindustry/editor/data/MapContentView.java:210 `lambda` t.table(Styles.grayPanel, c -> {
+- mindustry/editor/data/MapContentView.java:212 `lambda` c.label(() -> "@content." + selected[0].name());
+- mindustry/editor/data/MapContentView.java:218 `lambda` t.button(contentIcons.get(type), Styles.grayTogglei, iconMed, () -> selected[0] = type).checked(b -> selected[0] == type).size(50f).pad(4f).tooltip("@content." + type.name());
+- mindustry/editor/data/MapContentView.java:224 `lambda` choose.cont.label(() -> !nameField.isValid() ? "@asset.content.badname" : "@asset.content.exists").colspan(2).visible(() -> invalid[0]);
+- mindustry/editor/data/MapContentView.java:228 `lambda` choose.buttons.button("@asset.content.import.file", Icon.fileText, () -> FileChooser.open("json", "json5", "hjson").submit(file -> {
+- mindustry/editor/data/MapContentView.java:232 `lambda` })).size(200f, 64f).disabled(b -> nameField.getText().isEmpty() || invalid[0]);
+- mindustry/editor/data/MapContentView.java:234 `lambda` choose.buttons.button("@asset.content.import.clipboard", Icon.copy, () -> {
+- mindustry/editor/data/MapContentView.java:240 `lambda` }).size(200f, 64f).disabled(b -> nameField.getText().isEmpty() || invalid[0] || Core.app.getClipboardText() == null);
+- mindustry/editor/data/MapImagesView.java:32 `lambda` buttons.button("@add", Icon.add, () -> {
+- mindustry/editor/data/MapImagesView.java:33 `lambda` FileChooser.open("png", "jpeg", "jpg").submitMulti(results -> {
+- mindustry/editor/data/MapImagesView.java:53 `lambda` var other = images.find(p -> p.path.equalsIgnoreCase(path) || p.name.equalsIgnoreCase(name));
+- mindustry/editor/data/MapImagesView.java:72 `lambda` buttons.button("@edit", Icon.menu, () -> {
+- mindustry/editor/data/MapImagesView.java:74 `lambda` dialog.cont.pane(p -> {
+- mindustry/editor/data/MapImagesView.java:76 `lambda` p.table(Tex.button, t -> {
+- mindustry/editor/data/MapImagesView.java:79 `lambda` t.button("@asset.image.importzip", Icon.download, style, () -> FileChooser.open("zip").submit(file -> {
+- mindustry/editor/data/MapImagesView.java:91 `lambda` ui.loadAnd(() -> {
+- mindustry/editor/data/MapImagesView.java:103 `lambda` zipped.walk(ifile -> {
+- mindustry/editor/data/MapImagesView.java:105 `lambda` images.add(mainExecutor.submit(() -> {
+- mindustry/editor/data/MapImagesView.java:146 `lambda` var other = getImages().find(op -> !op.isGenerated() && (op.path.equalsIgnoreCase(path) || op.name.equalsIgnoreCase(name)));
+- mindustry/editor/data/MapImagesView.java:151 `lambda` getImages().removeAll(i -> i.isGenerated() && i.name.equals(name));
+- mindustry/editor/data/MapImagesView.java:167 `lambda` idiag.cont.pane(ep -> {
+- mindustry/editor/data/MapImagesView.java:168 `lambda` ep.add(Seq.with(errors).toString("\n", s -> "[gray]- []" + s)).labelAlign(Align.left, Align.left).grow();
+- mindustry/editor/data/MapImagesView.java:180 `lambda` t.button("@asset.image.exportzip", Icon.upload, style, () -> FileChooser.export("images", "zip", file -> {
+- mindustry/editor/data/MapImagesView.java:193 `lambda` t.button("@asset.clearall", Icon.trash, style, () -> {
+- mindustry/editor/data/MapImagesView.java:195 `lambda` ui.showConfirm("@asset.image.clearall.confirm", () -> {
+- mindustry/editor/data/MapImagesView.java:228 `lambda` Runnable showInfo = () -> {
+- mindustry/editor/data/MapImagesView.java:232 `lambda` d.cont.add(new BorderImage(region, 4f)).scaling(Scaling.fit).with(bi -> bi.drawAlpha = bi.forceNearest = true).size(maxSize).row();
+- mindustry/editor/data/MapImagesView.java:249 `lambda` inner.table(Styles.grayPanel, t -> {
+- mindustry/editor/data/MapImagesView.java:252 `lambda` t.add(new BorderImage(region, 4f)).scaling(Scaling.fit).with(b -> b.drawAlpha = true).size(size - 10f).with(img -> {
+- mindustry/editor/data/MapImagesView.java:258 `lambda` t.table(b -> {
+- mindustry/editor/data/MapImagesView.java:262 `lambda` b.button(Icon.pencil, istyle, () -> {
+- mindustry/editor/data/MapImagesView.java:263 `lambda` ui.showTextInput("@save.rename", "@patch.path", image.path, res -> {
+- mindustry/editor/data/MapImagesView.java:269 `lambda` var other = getImages().find(p -> p != image && !p.isGenerated() && (p.path.equalsIgnoreCase(path) || p.name.equalsIgnoreCase(name)));
+- mindustry/editor/data/MapImagesView.java:288 `lambda` b.button(Icon.export, istyle, () -> {
+- mindustry/editor/data/MapImagesView.java:289 `lambda` FileChooser.export(image.name, "png", out -> image.getCacheFileNoNull().copyTo(out));
+- mindustry/editor/data/MapImagesView.java:291 `lambda` b.button(Icon.trash, istyle, () -> {
+- mindustry/editor/data/MapImagesView.java:292 `lambda` ui.showConfirm("@asset.image.delete.confirm", () -> {
+- mindustry/editor/data/MapPatchesView.java:21 `lambda` buttons.button("@add", Icon.add, () -> showImport(s -> {
+- mindustry/editor/data/MapPatchesView.java:40 `lambda` list.button(Icon.warning, Styles.graySquarei, iconMed, () -> {
+- mindustry/editor/data/MapPatchesView.java:42 `lambda` dialog.cont.top().pane(p -> {
+- mindustry/editor/data/MapPatchesView.java:46 `lambda` p.table(Styles.grayPanel, in -> {
+- mindustry/editor/data/MapPatchesView.java:58 `lambda` list.button((patch.name.isEmpty() ? "<unnamed>\n" : "[accent]" + patch.name + "\n") + "[lightgray][[" + Core.bundle.format("patch.fields", fields) + "]", Styles.grayt, () -> {
+- mindustry/editor/data/MapPatchesView.java:60 `lambda` dialog.cont.top().pane(p -> {
+- mindustry/editor/data/MapPatchesView.java:62 `lambda` p.table(Styles.grayPanel, in -> {
+- mindustry/editor/data/MapPatchesView.java:68 `lambda` }).size(mobile ? 390f : 450f, h).margin(10f).with(b -> {
+- mindustry/editor/data/MapPatchesView.java:72 `lambda` list.button(Icon.copy, Styles.graySquarei, Vars.iconMed, () -> {
+- mindustry/editor/data/MapPatchesView.java:77 `lambda` list.button(Icon.refresh, Styles.graySquarei, Vars.iconMed, () -> {
+- mindustry/editor/data/MapPatchesView.java:78 `lambda` showImport(str -> {
+- mindustry/editor/data/MapPatchesView.java:84 `lambda` list.button(Icon.trash, Styles.graySquarei, iconMed, () -> {
+- mindustry/editor/data/MapPatchesView.java:85 `lambda` ui.showConfirm("@patch.delete.confirm",  () -> {
+- mindustry/editor/data/MapPatchesView.java:101 `lambda` dialog.cont.pane(p -> {
+- mindustry/editor/data/MapPatchesView.java:103 `lambda` p.table(Tex.button, t -> {
+- mindustry/editor/data/MapPatchesView.java:107 `lambda` t.button("@import.clipboard", Icon.copy, style, () -> {
+- mindustry/editor/data/MapPatchesView.java:110 `lambda` }).marginLeft(12f).disabled(b -> Core.app.getClipboardText() == null);
+- mindustry/editor/data/MapPatchesView.java:113 `lambda` t.button("@import.file", Icon.download, style, () -> FileChooser.open("json", "hjson", "json5").submit(file -> {
+- mindustry/editor/DrawOperation.java:60 `lambda` case opFloor -> tile.floorID();
+- mindustry/editor/DrawOperation.java:61 `lambda` case opOverlay -> tile.overlayID();
+- mindustry/editor/DrawOperation.java:62 `lambda` case opBlock -> tile.blockID();
+- mindustry/editor/DrawOperation.java:63 `lambda` case opRotation -> tile.build == null ? 0 : (byte)tile.build.rotation;
+- mindustry/editor/DrawOperation.java:64 `lambda` case opTeam -> tile.getTeamID();
+- mindustry/editor/DrawOperation.java:65 `lambda` case opData -> TileOpData.get(tile.data, tile.floorData, tile.overlayData);
+- mindustry/editor/DrawOperation.java:66 `lambda` case opDataExtra -> tile.extraData;
+- mindustry/editor/DrawOperation.java:67 `lambda` default -> throw new IllegalArgumentException("Invalid type.");
+- mindustry/editor/DrawOperation.java:73 `lambda` tile.getLinkedTiles(t -> {
+- mindustry/editor/DrawOperation.java:81 `lambda` editor.load(() -> {
+- mindustry/editor/DrawOperation.java:83 `lambda` case opFloor -> {
+- mindustry/editor/DrawOperation.java:88 `lambda` case opOverlay -> {
+- mindustry/editor/DrawOperation.java:93 `lambda` case opBlock -> {
+- mindustry/editor/DrawOperation.java:100 `lambda` case opRotation -> {
+- mindustry/editor/DrawOperation.java:103 `lambda` case opTeam -> tile.setTeam(Team.get(to));
+- mindustry/editor/DrawOperation.java:104 `lambda` case opData -> {
+- mindustry/editor/DrawOperation.java:109 `lambda` case opDataExtra -> tile.extraData = to;
+- mindustry/editor/DrawOperation.java:114 `lambda` tile.getLinkedTiles(t -> {
+- mindustry/editor/EditorRenderer.java:129 `lambda` recacheChunks.each(i -> recacheChunk(Point2.x(i), Point2.y(i)));
+- mindustry/editor/EditorRenderer.java:217 `lambda` tmpTiles.sort(Structs.comparingBool(b -> !b.block().synthetic()));
+- mindustry/editor/EditorTile.java:80 `lambda` prevCenter.getLinkedTilesAs(prev, tile -> editor.renderer.updateBlock(tile));
+- mindustry/editor/EditorTile.java:82 `lambda` getLinkedTiles(tile -> editor.renderer.updateBlock(tile));
+- mindustry/editor/EditorTile.java:107 `lambda` getLinkedTiles(t -> editor.renderer.updateBlock(t.x, t.y));
+- mindustry/editor/EditorTool.java:41 `lambda` Bresenham2.line(x1, y1, x2, y2, (x, y) -> {
+- mindustry/editor/EditorTool.java:68 `lambda` editor.drawBlocks(x, y, true, false, tile -> true);
+- mindustry/editor/EditorTool.java:71 `lambda` editor.drawCircle(x, y, tile -> tile.setTeam(editor.drawTeam));
+- mindustry/editor/EditorTool.java:73 `lambda` editor.drawBlocks(x, y, false, true, tile -> tile.floor().isLiquid);
+- mindustry/editor/EditorTool.java:86 `lambda` editor.drawCircle(x, y, tile -> {
+- mindustry/editor/EditorTool.java:130 `lambda` tester = t -> t.overlay() == dest && (t.floor().hasSurface() || !t.floor().needsSurface);
+- mindustry/editor/EditorTool.java:131 `lambda` setter = t -> t.setOverlay(editor.drawBlock);
+- mindustry/editor/EditorTool.java:135 `lambda` tester = t -> t.floor() == dest;
+- mindustry/editor/EditorTool.java:136 `lambda` setter = t -> {
+- mindustry/editor/EditorTool.java:145 `lambda` tester = t -> t.block() == dest;
+- mindustry/editor/EditorTool.java:146 `lambda` setter = t -> t.setBlock(editor.drawBlock, editor.drawTeam);
+- mindustry/editor/EditorTool.java:150 `lambda` setter = t -> {
+- mindustry/editor/EditorTool.java:172 `lambda` fill(x, y, true, t -> t.getTeamID() == dest.id && t.synthetic(), t -> t.setTeam(editor.drawTeam));
+- mindustry/editor/EditorTool.java:180 `lambda` tester = t -> t.block() == dest;
+- mindustry/editor/EditorTool.java:181 `lambda` setter = t -> t.setBlock(Blocks.air);
+- mindustry/editor/EditorTool.java:184 `lambda` tester = t -> t.overlay() == dest;
+- mindustry/editor/EditorTool.java:185 `lambda` setter = t -> t.setOverlay(Blocks.air);
+- mindustry/editor/EditorTool.java:198 `lambda` fill(x, y, false, t -> t.block().isStatic() && t.block() != Blocks.cliff, t -> {
+- mindustry/editor/EditorTool.java:224 `lambda` tester = t -> t.floor() == dest && t.overlay() == destoverlay;
+- mindustry/editor/EditorTool.java:225 `lambda` setter = t -> {
+- mindustry/editor/EditorTool.java:310 `lambda` editor.drawCircle(x, y, tile -> {
+- mindustry/editor/EditorTool.java:316 `lambda` editor.drawBlocks(x, y, tile -> Mathf.chance(chance) && tile.block() != Blocks.air);
+- mindustry/editor/EditorTool.java:318 `lambda` editor.drawBlocks(x, y, tile -> Mathf.chance(chance));
+- mindustry/editor/MapEditor.java:58 `lambda` load(() -> MapIO.loadMap(map, context));
+- mindustry/editor/MapEditor.java:67 `lambda` load(() -> MapIO.readImage(pixmap, tiles()));
+- mindustry/editor/MapEditor.java:85 `lambda` tiles.get(build.tileX(), build.tileY()).setBlock(build.block, build.team, build.rotation, () -> build);
+- mindustry/editor/MapEditor.java:136 `lambda` drawBlocks(x, y, tile -> tile.block() != Blocks.air || drawBlock.isFloor());
+- mindustry/editor/MapEditor.java:140 `lambda` drawBlocks(x, y, false, false, tile -> true);
+- mindustry/editor/MapEditor.java:158 `lambda` Cons<Tile> drawer = tile -> {
+- mindustry/editor/MapEditor.java:338 `lambda` Object out = BuildPlan.pointConfig(tile.block(), config, p -> {
+- mindustry/editor/MapEditorDialog.java:70 `lambda` menu.cont.table(t -> {
+- mindustry/editor/MapEditorDialog.java:75 `lambda` t.button("@editor.mapinfo", Icon.pencil, () -> {
+- mindustry/editor/MapEditorDialog.java:82 `lambda` t.button("@editor.generate", Icon.terrain, () -> {
+- mindustry/editor/MapEditorDialog.java:87 `lambda` t.button("@editor.resize", Icon.resize, () -> {
+- mindustry/editor/MapEditorDialog.java:94 `lambda` t.button("@editor.import", Icon.download, () -> createDialog("@editor.import",
+- mindustry/editor/MapEditorDialog.java:96 `lambda` "@editor.importfile", "@editor.importfile.description", Icon.file, (Runnable)() ->
+- mindustry/editor/MapEditorDialog.java:97 `lambda` FileChooser.open(mapExtension).submit(file -> ui.loadAnd(() -> {
+- mindustry/editor/MapEditorDialog.java:98 `lambda` maps.tryCatchMapError(() -> {
+- mindustry/editor/MapEditorDialog.java:107 `lambda` "@editor.importimage", "@editor.importimage.description", Icon.fileImage, (Runnable)() ->
+- mindustry/editor/MapEditorDialog.java:108 `lambda` FileChooser.open("png").submit(file ->
+- mindustry/editor/MapEditorDialog.java:109 `lambda` ui.loadAnd(() -> {
+- mindustry/editor/MapEditorDialog.java:125 `lambda` t.button("@editor.export", Icon.upload, () -> createDialog("@editor.export",
+- mindustry/editor/MapEditorDialog.java:127 `lambda` (Runnable)() -> FileChooser.export(editor.tags.get("name", "unknown"), mapExtension, file -> MapIO.writeMap(file, editor.createMap(file))),
+- mindustry/editor/MapEditorDialog.java:129 `lambda` (Runnable)() -> FileChooser.export(editor.tags.get("name", "unknown"), "png", file -> {
+- mindustry/editor/MapEditorDialog.java:145 `lambda` menu.cont.button("@editor.publish.workshop", Icon.link, () -> {
+- mindustry/editor/MapEditorDialog.java:146 `lambda` Map builtin = maps.all().find(m -> m.name().equals(editor.tags.get("name", "").trim()));
+- mindustry/editor/MapEditorDialog.java:167 `lambda` if(!Structs.contains(Gamemode.all, g -> g.valid(map))){
+- mindustry/editor/MapEditorDialog.java:173 `lambda` }).padTop(-3).size(swidth * 2f + 10, 60f).update(b ->
+- mindustry/editor/MapEditorDialog.java:181 `lambda` menu.cont.button("@editor.sectorgenerate", Icon.terrain, () -> {
+- mindustry/editor/MapEditorDialog.java:191 `lambda` menu.cont.button("Simulate", Icon.logic, () -> {
+- mindustry/editor/MapEditorDialog.java:199 `lambda` dialog.cont.field(seconds[0] + "", text -> seconds[0] = Strings.parseInt(text, 1)).valid(s -> Strings.parseInt(s, 9999999) < 10f * 60f);
+- mindustry/editor/MapEditorDialog.java:203 `lambda` dialog.buttons.button("@ok", Icon.ok, () -> {
+- mindustry/editor/MapEditorDialog.java:204 `lambda` ui.loadAnd(() -> {
+- mindustry/editor/MapEditorDialog.java:214 `lambda` world.tiles.eachTile(t -> {
+- mindustry/editor/MapEditorDialog.java:225 `lambda` content.items().each(it -> {
+- mindustry/editor/MapEditorDialog.java:257 `lambda` menu.cont.button("@quit", Icon.exit, () -> {
+- mindustry/editor/MapEditorDialog.java:262 `lambda` resizeDialog = new MapResizeDialog((width, height, shiftX, shiftY) -> {
+- mindustry/editor/MapEditorDialog.java:264 `lambda` ui.loadAnd(() -> {
+- mindustry/editor/MapEditorDialog.java:270 `lambda` loadDialog = new MapLoadDialog(map -> ui.loadAnd(() -> {
+- mindustry/editor/MapEditorDialog.java:284 `lambda` update(() -> {
+- mindustry/editor/MapEditorDialog.java:290 `lambda` shown(() -> {
+- mindustry/editor/MapEditorDialog.java:307 `lambda` hidden(() -> {
+- mindustry/editor/MapEditorDialog.java:328 `lambda` ui.loadAnd(() -> {
+- mindustry/editor/MapEditorDialog.java:411 `lambda` Unit unit = Groups.unit.find(u -> u.spawnedByCore);
+- mindustry/editor/MapEditorDialog.java:420 `lambda` Core.app.post(() -> ui.showErrorMessage("@editor.save.noname"));
+- mindustry/editor/MapEditorDialog.java:422 `lambda` Map map = maps.all().find(m -> m.name().equalsIgnoreCase(name));
+- mindustry/editor/MapEditorDialog.java:471 `lambda` TextButton button = dialog.cont.button(name, () -> {
+- mindustry/editor/MapEditorDialog.java:479 `lambda` button.table(t -> {
+- mindustry/editor/MapEditorDialog.java:510 `lambda` ui.loadAnd(() -> {
+- mindustry/editor/MapEditorDialog.java:542 `lambda` table(cont -> {
+- mindustry/editor/MapEditorDialog.java:545 `lambda` cont.table(mid -> {
+- mindustry/editor/MapEditorDialog.java:553 `lambda` Cons<EditorTool> addTool = tool -> {
+- mindustry/editor/MapEditorDialog.java:556 `lambda` button.clicked(() -> {
+- mindustry/editor/MapEditorDialog.java:562 `lambda` button.update(() -> button.setChecked(view.getTool() == tool));
+- mindustry/editor/MapEditorDialog.java:566 `lambda` button.clicked(l -> {
+- mindustry/editor/MapEditorDialog.java:571 `lambda` }, e -> {
+- mindustry/editor/MapEditorDialog.java:588 `lambda` table.button(b -> {
+- mindustry/editor/MapEditorDialog.java:595 `lambda` }, () -> {
+- mindustry/editor/MapEditorDialog.java:598 `lambda` }).update(b -> b.setChecked(tool.mode == mode));
+- mindustry/editor/MapEditorDialog.java:602 `lambda` table.update(() -> {
+- mindustry/editor/MapEditorDialog.java:622 `lambda` mode.update(() -> mode.setText(tool.mode == -1 ? "" : "M" + (tool.mode + 1) + " "));
+- mindustry/editor/MapEditorDialog.java:633 `lambda` ImageButton grid = tools.button(Icon.grid, Styles.squareTogglei, () -> view.setGrid(!view.isGrid())).get();
+- mindustry/editor/MapEditorDialog.java:646 `lambda` undo.setDisabled(() -> !editor.canUndo());
+- mindustry/editor/MapEditorDialog.java:647 `lambda` redo.setDisabled(() -> !editor.canRedo());
+- mindustry/editor/MapEditorDialog.java:649 `lambda` undo.update(() -> undo.getImage().setColor(undo.isDisabled() ? Color.gray : Color.white));
+- mindustry/editor/MapEditorDialog.java:650 `lambda` redo.update(() -> redo.getImage().setColor(redo.isDisabled() ? Color.gray : Color.white));
+- mindustry/editor/MapEditorDialog.java:651 `lambda` grid.update(() -> grid.setChecked(view.isGrid()));
+- mindustry/editor/MapEditorDialog.java:662 `lambda` ImageButton rotate = tools.button(Icon.right, Styles.flati, () -> editor.rotation = (editor.rotation + 1) % 4).get();
+- mindustry/editor/MapEditorDialog.java:663 `lambda` rotate.getImage().update(() -> {
+- mindustry/editor/MapEditorDialog.java:681 `lambda` button.clicked(() -> editor.drawTeam = team);
+- mindustry/editor/MapEditorDialog.java:682 `lambda` button.update(() -> button.setChecked(editor.drawTeam == team));
+- mindustry/editor/MapEditorDialog.java:693 `lambda` mid.table(Tex.underline, t -> {
+- mindustry/editor/MapEditorDialog.java:695 `lambda` slider.moved(f -> editor.brushSize = MapEditor.brushSizes[(int)f]);
+- mindustry/editor/MapEditorDialog.java:712 `lambda` mid.check("@editor.showblocks", editor.showBuildings, b -> {
+- mindustry/editor/MapEditorDialog.java:716 `lambda` mid.check("@editor.showterrain", editor.showTerrain, b -> {
+- mindustry/editor/MapEditorDialog.java:720 `lambda` mid.check("@editor.showfloor", editor.showFloor, b -> editor.showFloor = b).pad(2f).growX().with(Table::left).row();
+- mindustry/editor/MapEditorDialog.java:727 `lambda` cont.table(t -> t.add(view).grow()).grow();
+- mindustry/editor/MapEditorDialog.java:791 `lambda` ui.showConfirm("@confirm", "@editor.unsaved", () -> {
+- mindustry/editor/MapEditorDialog.java:803 `lambda` pane.exited(() -> {
+- mindustry/editor/MapEditorDialog.java:812 `lambda` cont.table(search -> {
+- mindustry/editor/MapEditorDialog.java:818 `lambda` cont.table(Tex.underline, extra -> extra.labelWrap(() -> editor.drawBlock.localizedName).width(200f).center()).growX();
+- mindustry/editor/MapEditorDialog.java:820 `lambda` cont.collapser(t -> {
+- mindustry/editor/MapEditorDialog.java:822 `lambda` }, () -> editor.drawBlock != null && editor.drawBlock.editorConfigurable).with(c -> c.setEnforceMinSize(true)).update(col -> {
+- mindustry/editor/MapEditorDialog.java:847 `lambda` blocksOut.sort((b1, b2) -> {
+- mindustry/editor/MapEditorDialog.java:869 `lambda` button.clicked(() -> editor.drawBlock = block);
+- mindustry/editor/MapEditorDialog.java:871 `lambda` button.update(() -> button.setChecked(editor.drawBlock == block));
+- mindustry/editor/MapGenerateDialog.java:72 `lambda` buttons.button("@editor.apply", Icon.ok, () -> {
+- mindustry/editor/MapGenerateDialog.java:73 `lambda` ui.loadAnd(() -> {
+- mindustry/editor/MapGenerateDialog.java:80 `lambda` buttons.button("@editor.randomize", Icon.refresh, () -> {
+- mindustry/editor/MapGenerateDialog.java:87 `lambda` buttons.button("@edit", Icon.edit, () -> {
+- mindustry/editor/MapGenerateDialog.java:89 `lambda` dialog.cont.pane(p -> {
+- mindustry/editor/MapGenerateDialog.java:91 `lambda` p.table(Tex.button, in -> {
+- mindustry/editor/MapGenerateDialog.java:94 `lambda` in.button("@waves.copy", Icon.copy, style, () -> {
+- mindustry/editor/MapGenerateDialog.java:99 `lambda` in.button("@waves.load", Icon.download, style, () -> {
+- mindustry/editor/MapGenerateDialog.java:109 `lambda` }).marginLeft(12f).disabled(b -> Core.app.getClipboardText() == null).row();
+- mindustry/editor/MapGenerateDialog.java:110 `lambda` in.button("@clear", Icon.none, style, () -> {
+- mindustry/editor/MapGenerateDialog.java:117 `lambda` in.button("@settings.reset", Icon.refresh, style, () -> {
+- mindustry/editor/MapGenerateDialog.java:169 `lambda` editor.load(() -> {
+- mindustry/editor/MapGenerateDialog.java:207 `lambda` cont.table(t -> {
+- mindustry/editor/MapGenerateDialog.java:221 `anonymous_double_brace_initializer` }, new Stack(){{
+- mindustry/editor/MapGenerateDialog.java:224 `lambda` visible(() -> generating && !updateEditorOnChange);
+- mindustry/editor/MapGenerateDialog.java:226 `lambda` t.pane(p -> filterTable = p.marginRight(6)).update(pane -> {
+- mindustry/editor/MapGenerateDialog.java:261 `lambda` filterTable.table(Tex.pane, c -> {
+- mindustry/editor/MapGenerateDialog.java:265 `lambda` c.table(Tex.whiteui, t -> {
+- mindustry/editor/MapGenerateDialog.java:276 `lambda` t.button(Icon.refresh, style, () -> {
+- mindustry/editor/MapGenerateDialog.java:282 `lambda` t.button(Icon.upOpen, style, () -> {
+- mindustry/editor/MapGenerateDialog.java:291 `lambda` t.button(Icon.downOpen, style, () -> {
+- mindustry/editor/MapGenerateDialog.java:299 `lambda` t.button(Icon.copy, style, () -> {
+- mindustry/editor/MapGenerateDialog.java:307 `lambda` t.button(Icon.cancel, style, () -> {
+- mindustry/editor/MapGenerateDialog.java:316 `lambda` c.table(f -> {
+- mindustry/editor/MapGenerateDialog.java:321 `lambda` f.table(t -> {
+- mindustry/editor/MapGenerateDialog.java:342 `lambda` selection.cont.pane(p -> {
+- mindustry/editor/MapGenerateDialog.java:353 `lambda` p.button((icon == '\0' ? "" : icon + " ") + filter.name(), Styles.flatt, () -> {
+- mindustry/editor/MapGenerateDialog.java:363 `lambda` p.button(Iconc.refresh + " " + Core.bundle.get("filter.defaultores"), Styles.flatt, () -> {
+- mindustry/editor/MapGenerateDialog.java:415 `lambda` result = mainExecutor.submit(() -> {
+- mindustry/editor/MapGenerateDialog.java:431 `lambda` input.begin(editor.width(), editor.height(), (x, y) -> unpack(buffer1[Mathf.clamp(x / scaling, 0, pixmap.width -1) + w* Mathf.clamp(y / scaling, 0, pixmap.height -1)]));
+- mindustry/editor/MapGenerateDialog.java:434 `lambda` pixmap.each((px, py) -> {
+- mindustry/editor/MapGenerateDialog.java:442 `lambda` pixmap.each((px, py) -> buffer1[px + py*w] = buffer2[px + py*w]);
+- mindustry/editor/MapGenerateDialog.java:460 `lambda` Core.app.post(() -> {
+- mindustry/editor/MapInfoDialog.java:39 `lambda` cont.pane(t -> {
+- mindustry/editor/MapInfoDialog.java:43 `lambda` TextField name = t.field(tags.get("name", ""), text -> {
+- mindustry/editor/MapInfoDialog.java:51 `lambda` TextArea description = t.area(tags.get("description", ""), Styles.areaField, text -> {
+- mindustry/editor/MapInfoDialog.java:58 `lambda` TextField author = t.field(tags.get("author", ""), text -> {
+- mindustry/editor/MapInfoDialog.java:65 `lambda` t.table(Tex.button, r -> {
+- mindustry/editor/MapInfoDialog.java:70 `lambda` r.button("@editor.rules", Icon.list, style, () -> {
+- mindustry/editor/MapInfoDialog.java:71 `lambda` ruleInfo.show(Vars.state.rules, () -> Vars.state.rules = new Rules());
+- mindustry/editor/MapInfoDialog.java:75 `lambda` r.button("@editor.waves", Icon.units, style, () -> {
+- mindustry/editor/MapInfoDialog.java:82 `lambda` r.button("@editor.objectives", Icon.info, style, () -> {
+- mindustry/editor/MapInfoDialog.java:87 `lambda` r.button("@editor.generation", Icon.terrain, style, () -> {
+- mindustry/editor/MapInfoDialog.java:93 `lambda` filters -> {
+- mindustry/editor/MapInfoDialog.java:95 `lambda` filters.each(f -> f.seed = 0);
+- mindustry/editor/MapInfoDialog.java:103 `lambda` r.button("@editor.locales", Icon.fileText, style, () -> {
+- mindustry/editor/MapInfoDialog.java:114 `lambda` r.button("@editor.worldprocessors", Icon.logic, style, () -> {
+- mindustry/editor/MapInfoDialog.java:121 `lambda` r.button("@asset.title", Icon.fileCode, style, () -> {
+- mindustry/editor/MapLoadDialog.java:22 `lambda` hidden(() -> selected = null);
+- mindustry/editor/MapLoadDialog.java:27 `lambda` buttons.button("@load", Icon.ok, () -> {
+- mindustry/editor/MapLoadDialog.java:32 `lambda` }).disabled(b -> selected == null);
+- mindustry/editor/MapLoadDialog.java:53 `lambda` table.button(b -> {
+- mindustry/editor/MapLoadDialog.java:56 `lambda` }, Styles.squareTogglet, () -> selected = map).group(group).margin(8f).checked(b -> selected == map);
+- mindustry/editor/MapLocalesDialog.java:28 `anonymous_double_brace_initializer` private static final TextButtonStyle filterStyle = new TextButtonStyle(){{
+- mindustry/editor/MapLocalesDialog.java:66 `lambda` buttons.table(t -> {
+- mindustry/editor/MapLocalesDialog.java:69 `lambda` t.button("@back", Icon.left, () -> {
+- mindustry/editor/MapLocalesDialog.java:70 `lambda` if(!saved) ui.showConfirm("@editor.locales", "@editor.savechanges", () -> {
+- mindustry/editor/MapLocalesDialog.java:76 `lambda` closeOnBack(() -> {
+- mindustry/editor/MapLocalesDialog.java:77 `lambda` if(!saved) ui.showConfirm("@editor.locales", "@editor.savechanges", () -> {
+- mindustry/editor/MapLocalesDialog.java:83 `lambda` t.button("@editor.apply", Icon.ok, () -> {
+- mindustry/editor/MapLocalesDialog.java:88 `lambda` }).size(210f, 64f).disabled(b -> saved);
+- mindustry/editor/MapLocalesDialog.java:95 `lambda` buttons.button("?", () -> ui.showInfo("@locales.info")).size(60f, 64f).uniform();
+- mindustry/editor/MapLocalesDialog.java:114 `lambda` cont.table(t -> {
+- mindustry/editor/MapLocalesDialog.java:116 `lambda` t.table(a -> {
+- mindustry/editor/MapLocalesDialog.java:117 `lambda` a.button(Icon.downOpen, Styles.emptyTogglei, () -> {
+- mindustry/editor/MapLocalesDialog.java:120 `lambda` }).update(b -> {
+- mindustry/editor/MapLocalesDialog.java:125 `lambda` a.button(Icon.filter, Styles.emptyi, () -> filterDialog(this::buildMain)).padLeft(10f).size(35f);
+- mindustry/editor/MapLocalesDialog.java:127 `lambda` var field = a.field("", v -> {
+- mindustry/editor/MapLocalesDialog.java:130 `lambda` }).update(f -> f.setText(searchString)).maxTextLength(64).padLeft(10f).width(250f).update(f -> f.setMessageText(searchByValue ? "@locales.searchvalue": "@locales.searchname")).get();
+- mindustry/editor/MapLocalesDialog.java:132 `lambda` a.button(Icon.cancel, Styles.emptyi, () -> {
+- mindustry/editor/MapLocalesDialog.java:139 `lambda` t.check("@locales.applytoall", applytoall, b -> applytoall = b).pad(10f).row();
+- mindustry/editor/MapLocalesDialog.java:145 `lambda` cont.table(Tex.button, t -> {
+- mindustry/editor/MapLocalesDialog.java:146 `lambda` TextField name = t.field(Core.bundle.get("locales.property.name"), s -> {}).maxTextLength(64).fillX().padTop(10f).get();
+- mindustry/editor/MapLocalesDialog.java:148 `lambda` TextField value = t.area(Core.bundle.get("locales.property.text"), s -> {}).maxTextLength(1000).fillX().height(140f).get();
+- mindustry/editor/MapLocalesDialog.java:151 `lambda` t.button("@add", Icon.add, () -> {
+- mindustry/editor/MapLocalesDialog.java:178 `lambda` langs.pane(p -> {
+- mindustry/editor/MapLocalesDialog.java:183 `lambda` p.button(loc.getDisplayName(Core.bundle.getLocale()), Styles.flatTogglet, () -> {
+- mindustry/editor/MapLocalesDialog.java:188 `lambda` }).update(b -> b.setChecked(selectedLocale.equals(name))).width(200f).minHeight(50f);
+- mindustry/editor/MapLocalesDialog.java:189 `lambda` p.button(Icon.edit, Styles.flati, () -> localeEditDialog(name)).size(50f);
+- mindustry/editor/MapLocalesDialog.java:190 `lambda` p.button(Icon.trash, Styles.flati, () -> ui.showConfirm("@confirm", "@locales.deletelocale", () -> {
+- mindustry/editor/MapLocalesDialog.java:209 `lambda` main.pane(p -> {
+- mindustry/editor/MapLocalesDialog.java:235 `lambda` colTables[i].table(Tex.whitePane, t -> {
+- mindustry/editor/MapLocalesDialog.java:241 `lambda` t.button(Icon.downOpen, Styles.emptyTogglei, () -> shown[0] = !shown[0]).update(b -> {
+- mindustry/editor/MapLocalesDialog.java:247 `lambda` t.field(propKey[0], (f, c) -> c != '=' && c != ':', v -> {
+- mindustry/editor/MapLocalesDialog.java:276 `lambda` t.button(Icon.trash, Styles.emptyi, () -> {
+- mindustry/editor/MapLocalesDialog.java:289 `lambda` t.button(Icon.edit, Styles.emptyi, () -> propEditDialog(t, propKey[0], propValue[0])).size(35f).row();
+- mindustry/editor/MapLocalesDialog.java:292 `lambda` t.collapser(c -> c.area(propValue[0], v -> {
+- mindustry/editor/MapLocalesDialog.java:296 `lambda` }).maxTextLength(1000).height(140f).update(a -> {
+- mindustry/editor/MapLocalesDialog.java:299 `lambda` }).growX(), () -> shown[0]).colspan(4).growX();
+- mindustry/editor/MapLocalesDialog.java:322 `lambda` case missing -> table.setColor(Pal.accent);
+- mindustry/editor/MapLocalesDialog.java:323 `lambda` case same -> table.setColor(Pal.techBlue);
+- mindustry/editor/MapLocalesDialog.java:324 `lambda` case correct -> table.setColor(Pal.gray);
+- mindustry/editor/MapLocalesDialog.java:353 `lambda` dialog.cont.pane(t -> {
+- mindustry/editor/MapLocalesDialog.java:358 `lambda` t.button(loc.getDisplayName(Core.bundle.getLocale()), Styles.flatTogglet, () -> {
+- mindustry/editor/MapLocalesDialog.java:367 `lambda` }).update(b -> b.setChecked(selectedLocale.equals(name))).size(400f, 50f).row();
+- mindustry/editor/MapLocalesDialog.java:379 `lambda` dialog.cont.pane(p -> {
+- mindustry/editor/MapLocalesDialog.java:381 `lambda` p.table(Tex.button, t -> {
+- mindustry/editor/MapLocalesDialog.java:384 `lambda` t.button("@locales.addtoother", Icon.add, Styles.flatt, () -> {
+- mindustry/editor/MapLocalesDialog.java:396 `lambda` t.button("@locales.viewproperty", Icon.zoom, Styles.flatt, () -> {
+- mindustry/editor/MapLocalesDialog.java:401 `lambda` t.button("@locales.addicon", Icon.image, Styles.flatt, () -> {
+- mindustry/editor/MapLocalesDialog.java:402 `lambda` addIconDialog(res -> {
+- mindustry/editor/MapLocalesDialog.java:409 `lambda` t.button("@locales.rollback", Icon.undo, Styles.flatt, () -> {
+- mindustry/editor/MapLocalesDialog.java:413 `lambda` }).disabled(b -> {
+- mindustry/editor/MapLocalesDialog.java:428 `lambda` dialog.cont.pane(p -> {
+- mindustry/editor/MapLocalesDialog.java:430 `lambda` p.table(Tex.button, t -> {
+- mindustry/editor/MapLocalesDialog.java:433 `lambda` t.button("@waves.copy", Icon.copy, Styles.flatt, () -> {
+- mindustry/editor/MapLocalesDialog.java:438 `lambda` t.button("@waves.load", Icon.download, Styles.flatt, () -> {
+- mindustry/editor/MapLocalesDialog.java:454 `lambda` dialog.cont.pane(p -> {
+- mindustry/editor/MapLocalesDialog.java:456 `lambda` p.table(Tex.button, t -> {
+- mindustry/editor/MapLocalesDialog.java:459 `lambda` t.button("@waves.copy", Icon.copy, Styles.flatt, () -> {
+- mindustry/editor/MapLocalesDialog.java:464 `lambda` t.button("@waves.load", Icon.download, Styles.flatt, () -> {
+- mindustry/editor/MapLocalesDialog.java:470 `lambda` t.button("@locales.rollback", Icon.undo, Styles.flatt, () -> {
+- mindustry/editor/MapLocalesDialog.java:475 `lambda` }).disabled(b -> saved).marginLeft(12f).row();
+- mindustry/editor/MapLocalesDialog.java:486 `lambda` dialog.cont.table(t -> {
+- mindustry/editor/MapLocalesDialog.java:487 `lambda` t.button(Icon.filter, Styles.emptyi, () -> filterDialog(() -> buildPropView(key))).size(35f);
+- mindustry/editor/MapLocalesDialog.java:489 `lambda` var field = t.field(searchString, v -> {
+- mindustry/editor/MapLocalesDialog.java:492 `lambda` }).update(f -> f.setText(searchString)).maxTextLength(64).padLeft(10f).width(250f).update(f -> f.setMessageText(searchByValue ? "@locales.searchvalue" : "@locales.searchlocale")).get();
+- mindustry/editor/MapLocalesDialog.java:494 `lambda` t.button(Icon.cancel, Styles.emptyi, () -> {
+- mindustry/editor/MapLocalesDialog.java:515 `lambda` propView.pane(p -> {
+- mindustry/editor/MapLocalesDialog.java:543 `lambda` colTables[i].table(Tex.whitePane, t -> {
+- mindustry/editor/MapLocalesDialog.java:548 `lambda` t.table(b ->
+- mindustry/editor/MapLocalesDialog.java:549 `lambda` b.button("@add", Icon.add, () -> {
+- mindustry/editor/MapLocalesDialog.java:555 `lambda` t.area(locales.get(name).get(key), v -> {
+- mindustry/editor/MapLocalesDialog.java:561 `lambda` t.area(locales.get(name).get(key), v -> {
+- mindustry/editor/MapLocalesDialog.java:566 `lambda` }).update(t -> updateCard(t, key, locales.get(name).get(key), name, true)).top().width(cardWidth).pad(5f).row();
+- mindustry/editor/MapLocalesDialog.java:583 `lambda` dialog.cont.table(t -> {
+- mindustry/editor/MapLocalesDialog.java:585 `lambda` t.table(b -> {
+- mindustry/editor/MapLocalesDialog.java:586 `lambda` b.button("@locales.byname", Styles.togglet, () -> searchByValue = false).size(300f, 50f).checked(v -> !searchByValue);
+- mindustry/editor/MapLocalesDialog.java:587 `lambda` b.button("@locales.byvalue", Styles.togglet, () -> searchByValue = true).padLeft(10f).size(300f, 50f).checked(v -> searchByValue);
+- mindustry/editor/MapLocalesDialog.java:591 `lambda` dialog.cont.button("@locales.showcorrect", Icon.ok, filterStyle, () -> showCorrect = !showCorrect).update(b -> {
+- mindustry/editor/MapLocalesDialog.java:598 `lambda` dialog.cont.button("@locales.showmissing", Icon.ok, filterStyle, () -> showMissing = !showMissing).update(b -> {
+- mindustry/editor/MapLocalesDialog.java:605 `lambda` dialog.cont.button("@locales.showsame", Icon.ok, filterStyle, () -> showSame = !showSame).update(b -> {
+- mindustry/editor/MapLocalesDialog.java:610 `lambda` dialog.buttons.button("@back", Icon.left, () -> {
+- mindustry/editor/MapLocalesDialog.java:623 `lambda` TextField search = Elem.newField("", v -> iconsTable(icons, v.replace(" ", "").toLowerCase(), dialog, cons));
+- mindustry/editor/MapLocalesDialog.java:626 `lambda` dialog.cont.table(t -> {
+- mindustry/editor/MapLocalesDialog.java:629 `lambda` t.button(Icon.cancel, Styles.emptyi, () -> {
+- mindustry/editor/MapLocalesDialog.java:636 `lambda` dialog.resized(true, () -> iconsTable(icons, search.getText().replace(" ", "").toLowerCase(), dialog, cons));
+- mindustry/editor/MapLocalesDialog.java:665 `lambda` table.button(Icon.icons.get(icon.key), Styles.flati, iconMed, () -> {
+- mindustry/editor/MapLocalesDialog.java:674 `lambda` var all = content.getBy(ctype).<UnlockableContent>as().select(u -> u.localizedName.replace(" ", "").toLowerCase().contains(search) && u.uiIcon.found());
+- mindustry/editor/MapLocalesDialog.java:681 `lambda` table.button(new TextureRegionDrawable(u.uiIcon), Styles.flati, iconMed, () -> {
+- mindustry/editor/MapLocalesDialog.java:691 `lambda` teams = teams.select(u -> u.localized().toLowerCase().contains(search) && Core.atlas.has("team-" + u.name));
+- mindustry/editor/MapLocalesDialog.java:699 `lambda` table.button(new TextureRegionDrawable(region), Styles.flati, iconMed, () -> {
+- mindustry/editor/MapObjectivesCanvas.java:142 `lambda` touchable(() -> isQuerying() ? Touchable.disabled : Touchable.childrenOnly);
+- mindustry/editor/MapObjectivesCanvas.java:206 `lambda` var parentTile = tiles.find(t -> t.obj == parent);
+- mindustry/editor/MapObjectivesCanvas.java:353 `lambda` table(Tex.whiteui, t -> {
+- mindustry/editor/MapObjectivesCanvas.java:356 `lambda` t.touchable(() -> Touchable.enabled);
+- mindustry/editor/MapObjectivesCanvas.java:366 `lambda` t.table(b -> {
+- mindustry/editor/MapObjectivesCanvas.java:369 `lambda` b.button(Icon.pencilSmall, () -> {
+- mindustry/editor/MapObjectivesCanvas.java:371 `lambda` dialog.cont.pane(Styles.noBarPane, list -> list.top().table(e -> {
+- mindustry/editor/MapObjectivesCanvas.java:376 `lambda` () -> obj,
+- mindustry/editor/MapObjectivesCanvas.java:377 `lambda` res -> {}
+- mindustry/editor/MapObjectivesCanvas.java:384 `lambda` b.button(Icon.trashSmall, () -> removeTile(this));
+- mindustry/editor/MapObjectivesCanvas.java:475 `anonymous_double_brace_initializer` super(new ButtonStyle(){{
+- mindustry/editor/MapObjectivesDialog.java:35 `lambda` protected Cons<Seq<MapObjective>> out = arr -> {};
+- mindustry/editor/MapObjectivesDialog.java:44 `lambda` setProvider(String.class, (type, cons) -> cons.get(""));
+- mindustry/editor/MapObjectivesDialog.java:45 `lambda` setInterpreter(String.class, (cont, name, type, field, remover, indexer, get, set) -> {
+- mindustry/editor/MapObjectivesDialog.java:51 `lambda` cont.button(b -> b.image(Icon.pencil).size(iconSmall), () -> {
+- mindustry/editor/MapObjectivesDialog.java:59 `lambda` setProvider(boolean.class, (type, cons) -> cons.get(false));
+- mindustry/editor/MapObjectivesDialog.java:60 `lambda` setInterpreter(boolean.class, (cont, name, type, field, remover, indexer, get, set) -> {
+- mindustry/editor/MapObjectivesDialog.java:65 `lambda` setProvider(byte.class, (type, cons) -> cons.get((byte)0));
+- mindustry/editor/MapObjectivesDialog.java:66 `lambda` setInterpreter(byte.class, (cont, name, type, field, remover, indexer, get, set) -> {
+- mindustry/editor/MapObjectivesDialog.java:68 `lambda` cont.field(Byte.toString(get.get()), str -> set.get((byte)Strings.parseInt(str)))
+- mindustry/editor/MapObjectivesDialog.java:74 `lambda` setProvider(int.class, (type, cons) -> cons.get(0));
+- mindustry/editor/MapObjectivesDialog.java:75 `lambda` setInterpreter(int.class, (cont, name, type, field, remover, indexer, get, set) -> {
+- mindustry/editor/MapObjectivesDialog.java:77 `lambda` cont.field(Integer.toString(get.get()), str -> set.get(Strings.parseInt(str)))
+- mindustry/editor/MapObjectivesDialog.java:83 `lambda` setProvider(float.class, (type, cons) -> cons.get(0f));
+- mindustry/editor/MapObjectivesDialog.java:84 `lambda` setInterpreter(float.class, (cont, name, type, field, remover, indexer, get, set) -> {
+- mindustry/editor/MapObjectivesDialog.java:97 `lambda` cont.field(Float.toString(get.get() / mult), str -> set.get(Strings.parseFloat(str) * mult))
+- mindustry/editor/MapObjectivesDialog.java:103 `lambda` setProvider(UnlockableContent.class, (type, cons) -> cons.get(Blocks.coreShard));
+- mindustry/editor/MapObjectivesDialog.java:104 `lambda` setInterpreter(UnlockableContent.class, (cont, name, type, field, remover, indexer, get, set) -> {
+- mindustry/editor/MapObjectivesDialog.java:106 `lambda` cont.table(t -> t.left().button(
+- mindustry/editor/MapObjectivesDialog.java:107 `lambda` b -> b.image().size(iconSmall).scaling(Scaling.fit).update(i -> i.setDrawable(get.get().uiIcon)),
+- mindustry/editor/MapObjectivesDialog.java:108 `lambda` () -> showContentSelect(null, set, b -> (field != null && !field.isAnnotationPresent(Researchable.class)) || b.techNode != null)
+- mindustry/editor/MapObjectivesDialog.java:112 `lambda` setProvider(Block.class, (type, cons) -> cons.get(Blocks.copperWall));
+- mindustry/editor/MapObjectivesDialog.java:113 `lambda` setInterpreter(Block.class, (cont, name, type, field, remover, indexer, get, set) -> {
+- mindustry/editor/MapObjectivesDialog.java:115 `lambda` cont.table(t -> t.left().button(
+- mindustry/editor/MapObjectivesDialog.java:116 `lambda` b -> b.image().size(iconSmall).update(i -> i.setDrawable(get.get().uiIcon)),
+- mindustry/editor/MapObjectivesDialog.java:117 `lambda` () -> showContentSelect(ContentType.block, set, b -> (field != null && !field.isAnnotationPresent(Synthetic.class)) || b.synthetic())
+- mindustry/editor/MapObjectivesDialog.java:121 `lambda` setProvider(Item.class, (type, cons) -> cons.get(Items.copper));
+- mindustry/editor/MapObjectivesDialog.java:122 `lambda` setInterpreter(Item.class, (cont, name, type, field, remover, indexer, get, set) -> {
+- mindustry/editor/MapObjectivesDialog.java:124 `lambda` cont.table(t -> t.left().button(
+- mindustry/editor/MapObjectivesDialog.java:125 `lambda` b -> b.image().size(iconSmall).update(i -> i.setDrawable(get.get().uiIcon)),
+- mindustry/editor/MapObjectivesDialog.java:126 `lambda` () -> showContentSelect(ContentType.item, set, item -> true)
+- mindustry/editor/MapObjectivesDialog.java:130 `lambda` setProvider(UnitType.class, (type, cons) -> cons.get(UnitTypes.dagger));
+- mindustry/editor/MapObjectivesDialog.java:131 `lambda` setInterpreter(UnitType.class, (cont, name, type, field, remover, indexer, get, set) -> {
+- mindustry/editor/MapObjectivesDialog.java:133 `lambda` cont.table(t -> t.left().button(
+- mindustry/editor/MapObjectivesDialog.java:134 `lambda` b -> b.image().size(iconSmall).update(i -> i.setDrawable(get.get().uiIcon)),
+- mindustry/editor/MapObjectivesDialog.java:135 `lambda` () -> showContentSelect(ContentType.unit, set, unit -> true)
+- mindustry/editor/MapObjectivesDialog.java:139 `lambda` setProvider(Team.class, (type, cons) -> cons.get(Team.sharded));
+- mindustry/editor/MapObjectivesDialog.java:140 `lambda` setInterpreter(Team.class, (cont, name, type, field, remover, indexer, get, set) -> {
+- mindustry/editor/MapObjectivesDialog.java:142 `lambda` cont.table(t -> t.left().button(
+- mindustry/editor/MapObjectivesDialog.java:143 `lambda` b -> b.image(Tex.whiteui).size(iconSmall).update(i -> i.setColor(get.get().color)),
+- mindustry/editor/MapObjectivesDialog.java:145 `lambda` () -> showTeamSelect(set)
+- mindustry/editor/MapObjectivesDialog.java:149 `lambda` setProvider(Color.class, (type, cons) -> cons.get(Pal.accent.cpy()));
+- mindustry/editor/MapObjectivesDialog.java:150 `lambda` setInterpreter(Color.class, (cont, name, type, field, remover, indexer, get, set) -> {
+- mindustry/editor/MapObjectivesDialog.java:154 `lambda` cont.table(t -> t.left().button(
+- mindustry/editor/MapObjectivesDialog.java:155 `lambda` b -> b.stack(new Image(Tex.alphaBg), new Image(Tex.whiteui){{
+- mindustry/editor/MapObjectivesDialog.java:155 `anonymous_double_brace_initializer` b -> b.stack(new Image(Tex.alphaBg), new Image(Tex.whiteui){{
+- mindustry/editor/MapObjectivesDialog.java:156 `lambda` update(() -> setColor(out));
+- mindustry/editor/MapObjectivesDialog.java:159 `lambda` () -> ui.picker.show(out, res -> set.get(out.set(res)))
+- mindustry/editor/MapObjectivesDialog.java:163 `lambda` setProvider(Vec2.class, (type, cons) -> cons.get(new Vec2()));
+- mindustry/editor/MapObjectivesDialog.java:164 `lambda` setInterpreter(Vec2.class, (cont, name, type, field, remover, indexer, get, set) -> {
+- mindustry/editor/MapObjectivesDialog.java:168 `lambda` cont.table(t -> {
+- mindustry/editor/MapObjectivesDialog.java:177 `lambda` isInt ? () -> (int)obj.x : () -> obj.x,
+- mindustry/editor/MapObjectivesDialog.java:178 `lambda` res -> {
+- mindustry/editor/MapObjectivesDialog.java:187 `lambda` isInt ? () -> (int)obj.y : () -> obj.y,
+- mindustry/editor/MapObjectivesDialog.java:188 `lambda` res -> {
+- mindustry/editor/MapObjectivesDialog.java:196 `lambda` setProvider(Point2.class, (type, cons) -> cons.get(new Point2()));
+- mindustry/editor/MapObjectivesDialog.java:197 `lambda` setInterpreter(Point2.class, (cont, name, type, field, remover, indexer, get, set) -> {
+- mindustry/editor/MapObjectivesDialog.java:203 `lambda` () -> vec,
+- mindustry/editor/MapObjectivesDialog.java:204 `lambda` res -> {
+- mindustry/editor/MapObjectivesDialog.java:212 `lambda` setProvider(MapObjective.class, (type, cons) -> new BaseDialog("@add"){{
+- mindustry/editor/MapObjectivesDialog.java:212 `anonymous_double_brace_initializer` setProvider(MapObjective.class, (type, cons) -> new BaseDialog("@add"){{
+- mindustry/editor/MapObjectivesDialog.java:213 `lambda` cont.pane(p -> {
+- mindustry/editor/MapObjectivesDialog.java:221 `lambda` p.button(obj.typeName(), Styles.flatt, () -> {
+- mindustry/editor/MapObjectivesDialog.java:234 `lambda` setProvider(ObjectiveMarker.class, (type, cons) -> new BaseDialog("@add"){{
+- mindustry/editor/MapObjectivesDialog.java:234 `anonymous_double_brace_initializer` setProvider(ObjectiveMarker.class, (type, cons) -> new BaseDialog("@add"){{
+- mindustry/editor/MapObjectivesDialog.java:235 `lambda` cont.pane(p -> {
+- mindustry/editor/MapObjectivesDialog.java:243 `lambda` p.button(marker.typeName(), Styles.flatt, () -> {
+- mindustry/editor/MapObjectivesDialog.java:256 `lambda` setInterpreter(Vertices.class, float[].class, (cont, name, type, field, remover, indexer, get, set) -> cont.table(main -> {
+- mindustry/editor/MapObjectivesDialog.java:260 `lambda` cont.table(t -> {
+- mindustry/editor/MapObjectivesDialog.java:270 `lambda` t.table(row -> {
+- mindustry/editor/MapObjectivesDialog.java:275 `lambda` getInterpreter(Color.class).build(row, names[j], new TypeInfo(Color.class), null, null, null, () -> new Color().abgr8888(data[index]), value -> data[index] = value.toFloatBits());
+- mindustry/editor/MapObjectivesDialog.java:278 `lambda` getInterpreter(float.class).build(row, names[j], new TypeInfo(float.class), null, null, null, () -> data[index] / scale, value -> data[index] = value * scale);
+- mindustry/editor/MapObjectivesDialog.java:288 `lambda` setInterpreter(Alignment.class, int.class, (cont, name, type, field, remover, indexer, get, set) -> {
+- mindustry/editor/MapObjectivesDialog.java:291 `lambda` cont.button(b -> {
+- mindustry/editor/MapObjectivesDialog.java:292 `lambda` b.label(() -> LStatement.alignToName.get(get.get(), "center"));
+- mindustry/editor/MapObjectivesDialog.java:293 `lambda` b.clicked(() -> LStatement.showAlignSelect(b, get.get(), set::get, align.hor(), align.ver()));
+- mindustry/editor/MapObjectivesDialog.java:294 `lambda` }, () -> {});
+- mindustry/editor/MapObjectivesDialog.java:297 `lambda` setInterpreter(TextureHolder.class, (cont, name, type, field, remover, indexer, get, set) -> {
+- mindustry/editor/MapObjectivesDialog.java:299 `lambda` cont.field(String.valueOf(get.get().value), s -> get.get().value = s).growX();
+- mindustry/editor/MapObjectivesDialog.java:307 `lambda` setInterpreter(LabelFlag.class, byte.class, (cont, name, type, field, remover, indexer, get, set) -> {
+- mindustry/editor/MapObjectivesDialog.java:309 `lambda` cont.table(t -> {
+- mindustry/editor/MapObjectivesDialog.java:315 `lambda` t.check("@marker.background", (value & bg) == bg, res -> set.get((byte)(res ? value | bg : value & ~bg)))
+- mindustry/editor/MapObjectivesDialog.java:320 `lambda` t.check("@marker.outline", (value & out) == out, res -> set.get((byte)(res ? value | out : value & ~out)))
+- mindustry/editor/MapObjectivesDialog.java:327 `lambda` setProvider(Seq.class, (type, cons) -> cons.get(new Seq<>(type.element.raw)));
+- mindustry/editor/MapObjectivesDialog.java:328 `lambda` setInterpreter(Seq.class, (cont, name, type, field, remover, indexer, get, set) -> cont.table(main -> {
+- mindustry/editor/MapObjectivesDialog.java:333 `lambda` var header = main.table(Tex.button, t -> {
+- mindustry/editor/MapObjectivesDialog.java:342 `lambda` t.button(Icon.upOpen, Styles.emptyi, () -> indexer.get(true)).fill().padRight(4f);
+- mindustry/editor/MapObjectivesDialog.java:343 `lambda` t.button(Icon.downOpen, Styles.emptyi, () -> indexer.get(false)).fill().padRight(4f);
+- mindustry/editor/MapObjectivesDialog.java:347 `lambda` t.button(Icon.add, Styles.emptyi, () -> getProvider(type.element.raw).get(type.element, res -> {
+- mindustry/editor/MapObjectivesDialog.java:354 `lambda` main.row().table(Tex.button, t -> rebuild[0] = () -> {
+- mindustry/editor/MapObjectivesDialog.java:370 `lambda` field, field == null || !field.isAnnotationPresent(Immutable.class) ? () -> {
+- mindustry/editor/MapObjectivesDialog.java:373 `lambda` } : null, field == null || !field.isAnnotationPresent(Unordered.class) ? in -> {
+- mindustry/editor/MapObjectivesDialog.java:382 `lambda` () -> arr.get(index),
+- mindustry/editor/MapObjectivesDialog.java:383 `lambda` res -> {
+- mindustry/editor/MapObjectivesDialog.java:398 `lambda` setProvider(Object[].class, (type, cons) -> cons.get(Reflect.newArray(type.element.raw, 0)));
+- mindustry/editor/MapObjectivesDialog.java:399 `lambda` setInterpreter(Object[].class, (cont, name, type, field, remover, indexer, get, set) -> {
+- mindustry/editor/MapObjectivesDialog.java:404 `lambda` () -> arr,
+- mindustry/editor/MapObjectivesDialog.java:405 `lambda` res -> set.get(arr.toArray(type.element.raw))
+- mindustry/editor/MapObjectivesDialog.java:411 `lambda` return (cont, name, type, field, remover, indexer, get, set) -> cont.table(main -> {
+- mindustry/editor/MapObjectivesDialog.java:413 `lambda` var header = main.table(Tex.button, t -> {
+- mindustry/editor/MapObjectivesDialog.java:424 `lambda` t.button(Icon.upOpen, Styles.emptyi, () -> indexer.get(true)).fill().padRight(4f);
+- mindustry/editor/MapObjectivesDialog.java:425 `lambda` t.button(Icon.downOpen, Styles.emptyi, () -> indexer.get(false)).fill();
+- mindustry/editor/MapObjectivesDialog.java:429 `lambda` main.row().table(Tex.button, t -> {
+- mindustry/editor/MapObjectivesDialog.java:449 `lambda` var anno = Structs.find(f.getDeclaredAnnotations(), a -> hasInterpreter(a.annotationType(), ft));
+- mindustry/editor/MapObjectivesDialog.java:453 `lambda` () -> Reflect.get(obj, f),
+- mindustry/editor/MapObjectivesDialog.java:454 `lambda` Modifier.isFinal(mods) ? res -> {} : res -> Reflect.set(obj, f, res)
+- mindustry/editor/MapObjectivesDialog.java:465 `lambda` cont.table(t -> {
+- mindustry/editor/MapObjectivesDialog.java:468 `lambda` t.button(Icon.upOpen, Styles.emptyi, () -> indexer.get(true)).fill().padRight(4f);
+- mindustry/editor/MapObjectivesDialog.java:469 `lambda` t.button(Icon.downOpen, Styles.emptyi, () -> indexer.get(false)).fill().padRight(4f);
+- mindustry/editor/MapObjectivesDialog.java:485 `anonymous_double_brace_initializer` new Table(){{
+- mindustry/editor/MapObjectivesDialog.java:488 `lambda` buttons.button("@add", Icon.add, () -> getProvider(MapObjective.class).get(new TypeInfo(MapObjective.class), canvas::query));
+- mindustry/editor/MapObjectivesDialog.java:489 `lambda` buttons.button("@edit.menu", Icon.edit, () -> {
+- mindustry/editor/MapObjectivesDialog.java:493 `lambda` dialog.cont.table(Tex.button, t -> {
+- mindustry/editor/MapObjectivesDialog.java:497 `lambda` t.button("@waves.copy", Icon.copy, style, () -> {
+- mindustry/editor/MapObjectivesDialog.java:501 `lambda` }).disabled(b -> canvas.objectives.isEmpty()).marginLeft(12f).row();
+- mindustry/editor/MapObjectivesDialog.java:503 `lambda` t.button("@waves.load", Icon.download, style, () -> {
+- mindustry/editor/MapObjectivesDialog.java:513 `lambda` t.button("@clear", Icon.none, style, () -> ui.showConfirm("@confirm", "@settings.clear.confirm", () -> {
+- mindustry/editor/MapObjectivesDialog.java:523 `lambda` buttons.button("@cancel", Icon.cancel, canvas::stopQuery).visible(() -> canvas.isQuerying());
+- mindustry/editor/MapObjectivesDialog.java:524 `lambda` buttons.button("@ok", Icon.ok, canvas::placeQuery).visible(() -> canvas.isQuerying());
+- mindustry/editor/MapObjectivesDialog.java:537 `lambda` hidden(() -> {
+- mindustry/editor/MapObjectivesDialog.java:539 `lambda` out = arr -> {};
+- mindustry/editor/MapObjectivesDialog.java:557 `lambda` objectives.contains(obj -> obj.editorX == -999 || obj.editorY == -999))){
+- mindustry/editor/MapObjectivesDialog.java:583 `lambda` objectives.each(o -> canvas.tilemap.createTile(o.editorX, o.editorY, o, true));
+- mindustry/editor/MapObjectivesDialog.java:591 `lambda` dialog.cont.pane(Styles.noBarPane, t -> {
+- mindustry/editor/MapObjectivesDialog.java:601 `lambda` .with(b -> b.addListener(new HandCursorListener()))
+- mindustry/editor/MapObjectivesDialog.java:602 `lambda` .tooltip(content.localizedName).get().clicked(() -> {
+- mindustry/editor/MapObjectivesDialog.java:625 `lambda` dialog.cont.button(Icon.cancel, Styles.emptyi, () -> {
+- mindustry/editor/MapObjectivesDialog.java:633 `lambda` .with(i -> i.addListener(new HandCursorListener()))
+- mindustry/editor/MapObjectivesDialog.java:634 `lambda` .tooltip(team.localized()).get().clicked(() -> {
+- mindustry/editor/MapObjectivesDialog.java:646 `lambda` case "Boolean" -> boolean.class;
+- mindustry/editor/MapObjectivesDialog.java:647 `lambda` case "Byte" -> byte.class;
+- mindustry/editor/MapObjectivesDialog.java:648 `lambda` case "Character" -> char.class;
+- mindustry/editor/MapObjectivesDialog.java:649 `lambda` case "Short" -> short.class;
+- mindustry/editor/MapObjectivesDialog.java:650 `lambda` case "Integer" -> int.class;
+- mindustry/editor/MapObjectivesDialog.java:651 `lambda` case "Long" -> long.class;
+- mindustry/editor/MapObjectivesDialog.java:652 `lambda` case "Float" -> float.class;
+- mindustry/editor/MapObjectivesDialog.java:653 `lambda` case "Double" -> double.class;
+- mindustry/editor/MapObjectivesDialog.java:654 `lambda` default -> boxed;
+- mindustry/editor/MapObjectivesDialog.java:702 `lambda` return (FieldProvider<T>)providers.getThrow(unbox(type), () -> new IllegalArgumentException("Provider for type " + type + " not set up yet."));
+- mindustry/editor/MapProcessorsDialog.java:33 `lambda` buttons.button("@add", Icon.add, () -> {
+- mindustry/editor/MapProcessorsDialog.java:61 `lambda` cont.table(s -> {
+- mindustry/editor/MapProcessorsDialog.java:63 `lambda` search = s.field(null, text -> rebuild()).growX().get();
+- mindustry/editor/MapProcessorsDialog.java:67 `lambda` cont.pane(t -> {
+- mindustry/editor/MapProcessorsDialog.java:86 `lambda` t.button(log.iconTag == 0 ? Styles.none : new TextureRegionDrawable(Fonts.getLargeIcon(Fonts.unicodeToName(log.iconTag))), Styles.graySquarei, iconMed, () -> {
+- mindustry/editor/MapProcessorsDialog.java:87 `lambda` iconSelect.show(ic -> {
+- mindustry/editor/MapProcessorsDialog.java:93 `lambda` t.button((log.tag == null ? "<no name>\n" : "[accent]" + log.tag + "\n") + "[lightgray][[" + log.tile.x + ", " + log.tile.y + "]", Styles.grayt, () -> {
+- mindustry/editor/MapProcessorsDialog.java:96 `lambda` }).size(Vars.mobile ? 390f : 450f, h).margin(10f).with(b -> {
+- mindustry/editor/MapProcessorsDialog.java:100 `lambda` t.button(Icon.pencil, Styles.graySquarei, Vars.iconMed, () -> {
+- mindustry/editor/MapProcessorsDialog.java:101 `lambda` ui.showTextInput("", "@editor.name", LogicBlock.maxNameLength, log.tag == null ? "" : log.tag, tag -> {
+- mindustry/editor/MapProcessorsDialog.java:109 `lambda` t.button(Icon.eyeSmall, Styles.graySquarei, Vars.iconMed, () -> {
+- mindustry/editor/MapProcessorsDialog.java:116 `lambda` t.button(Icon.trash, Styles.graySquarei, iconMed, () -> {
+- mindustry/editor/MapProcessorsDialog.java:117 `lambda` ui.showConfirm("@editor.worldprocessors.delete.confirm",  () -> {
+- mindustry/editor/MapProcessorsDialog.java:147 `lambda` Vars.world.tiles.eachTile(t -> {
+- mindustry/editor/MapResizeDialog.java:20 `lambda` shown(() -> {
+- mindustry/editor/MapResizeDialog.java:31 `lambda` table.field((w ? width : height) + "", TextFieldFilter.digitsOnly, value -> {
+- mindustry/editor/MapResizeDialog.java:34 `lambda` }).valid(value -> Strings.canParsePositiveInt(value) && Integer.parseInt(value) <= maxSize && Integer.parseInt(value) >= minSize).maxTextLength(3);
+- mindustry/editor/MapResizeDialog.java:43 `lambda` table.field((x ? shiftX : shiftY) + "", value -> {
+- mindustry/editor/MapResizeDialog.java:58 `lambda` buttons.button("@ok", () -> {
+- mindustry/editor/MapView.java:42 `lambda` brushPolygons[i] = Geometry.pixelCircle(size, (index, x, y) -> Mathf.dst(x, y, index - mod, index - mod) <= size - 0.5f);
+- mindustry/editor/MapView.java:138 `lambda` Bresenham2.line(lastx, lasty, p.x, p.y, (cx, cy) -> tool.touched(cx, cy));
+- mindustry/editor/SectorGenerateDialog.java:33 `lambda` cont.button(planet.localizedName, () -> {
+- mindustry/editor/SectorGenerateDialog.java:35 `lambda` dialog.cont.pane(p -> {
+- mindustry/editor/SectorGenerateDialog.java:42 `lambda` p.button(plan.localizedName, Styles.flatTogglet, () -> {
+- mindustry/editor/SectorGenerateDialog.java:57 `lambda` }).size(200f, 40f).get().getLabel().setText(() -> planet.localizedName);
+- mindustry/editor/SectorGenerateDialog.java:63 `lambda` cont.field(sector + "", text -> {
+- mindustry/editor/SectorGenerateDialog.java:65 `lambda` }).width(200f).valid(text -> planet.sectors.size > Strings.parseInt(text, 99999) && Strings.parseInt(text, 9999) >= 0);
+- mindustry/editor/SectorGenerateDialog.java:71 `lambda` cont.field(seed + "", text -> {
+- mindustry/editor/SectorGenerateDialog.java:77 `lambda` cont.label(() -> "[ " + planet.sectors.get(sector).getSize() + "x" + planet.sectors.get(sector).getSize() + " ]").color(Pal.accent).center().labelAlign(Align.center).padTop(5).colspan(2);
+- mindustry/editor/SectorGenerateDialog.java:79 `lambda` buttons.button("@editor.apply", Icon.ok, () -> {
+- mindustry/editor/SectorGenerateDialog.java:80 `lambda` ui.loadAnd(() -> {
+- mindustry/editor/SectorGenerateDialog.java:88 `lambda` ui.loadAnd(() -> {
+- mindustry/editor/SectorGenerateDialog.java:90 `lambda` editor.load(() -> {
+- mindustry/editor/WaveGraph.java:47 `lambda` scrolled((scroll) -> {
+- mindustry/editor/WaveGraph.java:81 `lambda` rect((x, y, width, height) -> {
+- mindustry/editor/WaveGraph.java:91 `lambda` case counts -> nextStep(max);
+- mindustry/editor/WaveGraph.java:92 `lambda` case health -> nextStep((int)maxHealth);
+- mindustry/editor/WaveGraph.java:93 `lambda` case totals -> nextStep(maxTotal);
+- mindustry/editor/WaveGraph.java:231 `lambda` table(t -> colors = t).growX();
+- mindustry/editor/WaveGraph.java:235 `lambda` table(t -> {
+- mindustry/editor/WaveGraph.java:240 `lambda` t.button("@wavemode." + m.name(), Styles.fullTogglet, () -> {
+- mindustry/editor/WaveGraph.java:242 `lambda` }).group(group).height(35f).update(b -> b.setChecked(m == mode)).width(130f);
+- mindustry/editor/WaveGraph.java:300 `lambda` colors.button("@waves.units.hide", Styles.flatt, () -> {
+- mindustry/editor/WaveGraph.java:310 `lambda` }).update(b -> b.setText(hidden.size == usedCopy.size ? "@waves.units.show" : "@waves.units.hide")).height(32f).width(130f);
+- mindustry/editor/WaveGraph.java:311 `lambda` colors.pane(t -> {
+- mindustry/editor/WaveGraph.java:314 `lambda` t.button(b -> {
+- mindustry/editor/WaveGraph.java:316 `lambda` b.image().size(32f).update(i -> i.setColor(b.isChecked() ? Tmp.c1.set(tcolor).mul(0.5f) : tcolor)).get().act(1);
+- mindustry/editor/WaveGraph.java:317 `lambda` b.image(type.uiIcon).size(32f).scaling(Scaling.fit).padRight(20).update(i -> i.setColor(b.isChecked() ? Color.gray : Color.white)).get().act(1);
+- mindustry/editor/WaveGraph.java:319 `lambda` }, Styles.fullTogglet, () -> {
+- mindustry/editor/WaveGraph.java:327 `lambda` }).update(b -> b.setChecked(hidden.contains(type)));
+- mindustry/editor/WaveInfoDialog.java:44 `lambda` shown(() -> {
+- mindustry/editor/WaveInfoDialog.java:48 `lambda` hidden(() -> state.rules.spawns = groups);
+- mindustry/editor/WaveInfoDialog.java:52 `lambda` buttons.button("@edit.menu", Icon.edit, () -> {
+- mindustry/editor/WaveInfoDialog.java:56 `lambda` dialog.cont.table(Tex.button, t -> {
+- mindustry/editor/WaveInfoDialog.java:60 `lambda` t.button("@waves.copy", Icon.copy, style, () -> {
+- mindustry/editor/WaveInfoDialog.java:64 `lambda` }).disabled(b -> groups == null || groups.isEmpty()).marginLeft(12f).row();
+- mindustry/editor/WaveInfoDialog.java:66 `lambda` t.button("@waves.load", Icon.download, style, () -> {
+- mindustry/editor/WaveInfoDialog.java:77 `lambda` t.button("@clear", Icon.none, style, () -> ui.showConfirm("@confirm", "@settings.clear.confirm", () -> {
+- mindustry/editor/WaveInfoDialog.java:83 `lambda` t.button("@settings.reset", Icon.refresh, style, () -> ui.showConfirm("@confirm", "@settings.clear.confirm", () -> {
+- mindustry/editor/WaveInfoDialog.java:93 `lambda` buttons.button(Core.bundle.get("waves.random"), Icon.refresh, () -> {
+- mindustry/editor/WaveInfoDialog.java:105 `lambda` cont.stack(new Table(Tex.clear, main -> {
+- mindustry/editor/WaveInfoDialog.java:106 `lambda` main.table(s -> {
+- mindustry/editor/WaveInfoDialog.java:108 `lambda` s.field(search < 0 ? "" : (search + 1) + "", TextFieldFilter.digitsOnly, text -> {
+- mindustry/editor/WaveInfoDialog.java:112 `lambda` s.button(Icon.units, Styles.emptyi, () -> showUnits(type -> filterType = type, true)).size(46f).tooltip("@waves.filter")
+- mindustry/editor/WaveInfoDialog.java:113 `lambda` .update(b -> b.getStyle().imageUp = filterType != null ? new TextureRegionDrawable(filterType.uiIcon) : Icon.filter);
+- mindustry/editor/WaveInfoDialog.java:116 `lambda` main.pane(t -> table = t).grow().padRight(8f).scrollX(false).row();
+- mindustry/editor/WaveInfoDialog.java:118 `lambda` main.table(t -> {
+- mindustry/editor/WaveInfoDialog.java:119 `lambda` t.button("@add", () -> {
+- mindustry/editor/WaveInfoDialog.java:120 `lambda` showUnits(type -> groups.add(expandedGroup = new SpawnGroup(type)), false);
+- mindustry/editor/WaveInfoDialog.java:124 `lambda` t.button(Icon.filter, () -> {
+- mindustry/editor/WaveInfoDialog.java:127 `lambda` dialog.cont.table(Tex.button, f -> {
+- mindustry/editor/WaveInfoDialog.java:129 `lambda` f.button("@waves.sort." + s, Styles.flatTogglet, () -> {
+- mindustry/editor/WaveInfoDialog.java:136 `lambda` dialog.cont.check("@waves.sort.reverse", b -> {
+- mindustry/editor/WaveInfoDialog.java:145 `anonymous_double_brace_initializer` }), new Label("@waves.none"){{
+- mindustry/editor/WaveInfoDialog.java:146 `lambda` visible(() -> groups.isEmpty());
+- mindustry/editor/WaveInfoDialog.java:170 `lambda` table.table(Tex.button, t -> {
+- mindustry/editor/WaveInfoDialog.java:172 `lambda` t.button(b -> {
+- mindustry/editor/WaveInfoDialog.java:179 `lambda` b.label(() -> (group.begin + 1) + "").color(Color.lightGray).minWidth(45f).labelAlign(Align.left).left();
+- mindustry/editor/WaveInfoDialog.java:181 `lambda` b.button(Icon.copySmall, Styles.emptyi, () -> {
+- mindustry/editor/WaveInfoDialog.java:189 `lambda` Styles.emptyi, () -> showEffects(group)).pad(-6).size(46f).scaling(Scaling.fit).tooltip(group.effect != null ? group.effect.localizedName : "@none");
+- mindustry/editor/WaveInfoDialog.java:191 `lambda` b.button(Icon.unitsSmall, Styles.emptyi, () -> showUnits(type -> group.type = type, false)).pad(-6).size(46f).tooltip("@stat.unittype");
+- mindustry/editor/WaveInfoDialog.java:192 `lambda` b.button(Icon.cancel, Styles.emptyi, () -> {
+- mindustry/editor/WaveInfoDialog.java:199 `lambda` b.clicked(KeyCode.mouseMiddle, () -> {
+- mindustry/editor/WaveInfoDialog.java:203 `lambda` }, () -> {
+- mindustry/editor/WaveInfoDialog.java:209 `lambda` t.table(spawns -> {
+- mindustry/editor/WaveInfoDialog.java:210 `lambda` spawns.field("" + (group.begin + 1), TextFieldFilter.digitsOnly, text -> {
+- mindustry/editor/WaveInfoDialog.java:217 `lambda` spawns.field(group.end == never ? "" : (group.end + 1) + "", TextFieldFilter.digitsOnly, text -> {
+- mindustry/editor/WaveInfoDialog.java:228 `lambda` t.table(p -> {
+- mindustry/editor/WaveInfoDialog.java:230 `lambda` p.field(group.spacing + "", TextFieldFilter.digitsOnly, text -> {
+- mindustry/editor/WaveInfoDialog.java:239 `lambda` t.table(a -> {
+- mindustry/editor/WaveInfoDialog.java:240 `lambda` a.field(group.unitAmount + "", TextFieldFilter.digitsOnly, text -> {
+- mindustry/editor/WaveInfoDialog.java:248 `lambda` a.field(Strings.fixed(Math.max((Mathf.zero(group.unitScaling) ? 0 : 1f / group.unitScaling), 0), 2), TextFieldFilter.floatsOnly, text -> {
+- mindustry/editor/WaveInfoDialog.java:257 `lambda` t.table(a -> {
+- mindustry/editor/WaveInfoDialog.java:258 `lambda` a.field(group.max + "", TextFieldFilter.digitsOnly, text -> {
+- mindustry/editor/WaveInfoDialog.java:268 `lambda` t.table(a -> {
+- mindustry/editor/WaveInfoDialog.java:269 `lambda` a.field((int)group.shields + "", TextFieldFilter.digitsOnly, text -> {
+- mindustry/editor/WaveInfoDialog.java:277 `lambda` a.field((int)group.shieldScaling + "", TextFieldFilter.digitsOnly, text -> {
+- mindustry/editor/WaveInfoDialog.java:286 `lambda` t.check("@waves.guardian", b -> {
+- mindustry/editor/WaveInfoDialog.java:289 `lambda` }).padTop(4).update(b -> b.setChecked(group.effect == StatusEffects.boss)).padBottom(8f).row();
+- mindustry/editor/WaveInfoDialog.java:291 `lambda` t.table(a -> {
+- mindustry/editor/WaveInfoDialog.java:294 `lambda` a.button(b -> b.image(Tex.whiteui).size(iconSmall).update(i -> i.setColor(group.team == null ? Color.clear : group.team.color)), Styles.squarei,
+- mindustry/editor/WaveInfoDialog.java:295 `lambda` () -> MapObjectivesDialog.showTeamSelect(true, team -> group.team = team)).size(38f);
+- mindustry/editor/WaveInfoDialog.java:298 `lambda` t.table(a -> {
+- mindustry/editor/WaveInfoDialog.java:301 `lambda` a.button("", () -> {
+- mindustry/editor/WaveInfoDialog.java:309 `lambda` dialog.cont.pane(p -> {
+- mindustry/editor/WaveInfoDialog.java:320 `lambda` p.button(spawn.x + ", " + spawn.y, Styles.flatTogglet, () -> {
+- mindustry/editor/WaveInfoDialog.java:338 `lambda` p.button("@waves.spawn.all", Styles.flatTogglet, () -> {
+- mindustry/editor/WaveInfoDialog.java:347 `lambda` }).width(160f).height(36f).get().getLabel().setText(() -> group.spawn == -1 ? "@waves.spawn.all" : Point2.x(group.spawn) + ", " + Point2.y(group.spawn));
+- mindustry/editor/WaveInfoDialog.java:368 `lambda` dialog.cont.pane(p -> {
+- mindustry/editor/WaveInfoDialog.java:371 `lambda` p.button(t -> {
+- mindustry/editor/WaveInfoDialog.java:375 `lambda` }, () -> {
+- mindustry/editor/WaveInfoDialog.java:384 `lambda` p.button(t -> {
+- mindustry/editor/WaveInfoDialog.java:388 `lambda` }, () -> {
+- mindustry/editor/WaveInfoDialog.java:402 `lambda` dialog.cont.pane(p -> {
+- mindustry/editor/WaveInfoDialog.java:404 `lambda` p.button(t -> {
+- mindustry/editor/WaveInfoDialog.java:408 `lambda` }, () -> {
+- mindustry/editor/WaveInfoDialog.java:416 `lambda` p.button(t -> {
+- mindustry/editor/WaveInfoDialog.java:420 `lambda` }, () -> {
+- mindustry/editor/WaveInfoDialog.java:433 `lambda` begin(g -> g.begin, g -> g.type.id),
+- mindustry/editor/WaveInfoDialog.java:434 `lambda` health(g -> g.type.health),
+- mindustry/editor/WaveInfoDialog.java:435 `lambda` type(g -> g.type.id);
+- mindustry/editor/WaveInfoDialog.java:442 `lambda` this(sort, g -> g.begin);
+- mindustry/entities/abilities/Ability.java:29 `lambda` t.table(Styles.grayPanel, a -> {
+- mindustry/entities/abilities/ArmorPlateAbility.java:65 `lambda` Draw.draw(Draw.z(), () -> {
+- mindustry/entities/abilities/EnergyFieldAbility.java:72 `lambda` t.add((status.hasEmoji() ? status.emoji() : "") + "[stat]" + status.localizedName).with(l -> StatValues.withTooltip(l, status));
+- mindustry/entities/abilities/EnergyFieldAbility.java:130 `lambda` Units.nearby(null, rx, ry, range, other -> {
+- mindustry/entities/abilities/EnergyFieldAbility.java:138 `lambda` Units.nearbyBuildings(rx, ry, range, b -> {
+- mindustry/entities/abilities/EnergyFieldAbility.java:145 `lambda` all.sort(h -> h.dst2(rx, ry));
+- mindustry/entities/abilities/ForceFieldAbility.java:45 `lambda` private static final Cons<Bullet> shieldConsumer = b -> {
+- mindustry/entities/abilities/ForceFieldAbility.java:147 `lambda` bars.add(new Bar("stat.shieldhealth", Pal.accent, () -> unit.shield / max)).row();
+- mindustry/entities/abilities/RepairFieldAbility.java:69 `lambda` Units.nearby(unit.team, unit.x, unit.y, range, other -> {
+- mindustry/entities/abilities/ShieldArcAbility.java:23 `lambda` private static final Cons<Bullet> shieldConsumer = b -> {
+- mindustry/entities/abilities/ShieldArcAbility.java:76 `lambda` protected static final Cons<Unit> unitConsumer = unit -> {
+- mindustry/entities/abilities/ShieldArcAbility.java:232 `lambda` bars.add(new Bar("stat.shieldhealth", Pal.accent, () -> data / max)).row();
+- mindustry/entities/abilities/ShieldRegenFieldAbility.java:53 `lambda` Units.nearby(unit.team, unit.x, unit.y, range, other -> {
+- mindustry/entities/abilities/StatusFieldAbility.java:52 `lambda` Units.nearby(unit.team, unit.x, unit.y, range, other -> {
+- mindustry/entities/abilities/SuppressionFieldAbility.java:34 `lambda` public Interp particleInterp = f -> Interp.circleOut.apply(Interp.slope.apply(f));
+- mindustry/entities/abilities/UnitSpawnAbility.java:67 `lambda` Draw.draw(Draw.z(), () -> {
+- mindustry/entities/bullet/BulletType.java:347 `lambda` /** Scale of bullet weave pattern. Higher -> less vibration. */
+- mindustry/entities/bullet/BulletType.java:557 `lambda` Time.run(0f, () -> createFrags(b, x, y));
+- mindustry/entities/bullet/BulletType.java:602 `lambda` indexer.eachBlock(b.team, x, y, splashDamageRadius, Building::damaged, other -> {
+- mindustry/entities/bullet/BulletType.java:609 `lambda` indexer.eachBlock(null, x, y, splashDamageRadius, other -> other.team != b.team, other -> Fires.create(other.tile));
+- mindustry/entities/bullet/BulletType.java:743 `lambda` e -> e.checkTarget(collidesAir, collidesGround) && e.team != b.team && !b.hasCollided(e.id),
+- mindustry/entities/bullet/BulletType.java:744 `lambda` t -> collidesGround && (t.team != b.team || t.damaged()) && !b.hasCollided(t.id));
+- mindustry/entities/bullet/BulletType.java:750 `lambda` e -> e != null && e.checkTarget(collidesAir, collidesGround) && !b.hasCollided(e.id),
+- mindustry/entities/bullet/BulletType.java:751 `lambda` t -> t != null && collidesGround && !b.hasCollided(t.id));
+- mindustry/entities/bullet/EmpBulletType.java:21 `lambda` Vars.indexer.allBuildings(x, y, radius, other -> {
+- mindustry/entities/bullet/EmpBulletType.java:50 `lambda` Units.nearbyEnemies(b.team, x, y, radius, other -> {
+- mindustry/entities/bullet/FlakBulletType.java:31 `lambda` Units.nearbyEnemies(b.team, Tmp.r1.setSize(explodeRange * 2f).setCenter(b.x, b.y), unit -> {
+- mindustry/entities/bullet/FlakBulletType.java:38 `lambda` Time.run(explodeDelay, () -> {
+- mindustry/entities/bullet/LaserBulletType.java:81 `lambda` Time.run(f * lightningDelay, () -> {
+- mindustry/entities/bullet/PointBulletType.java:31 `lambda` Geometry.iterateLine(0f, b.x, b.y, px, py, trailSpacing, (x, y) -> {
+- mindustry/entities/bullet/PointBulletType.java:44 `lambda` Units.nearbyEnemies(b.team, px - range, py - range, range*2f, range*2f, e -> {
+- mindustry/entities/comp/BuilderComp.java:170 `lambda` !Structs.contains(current.block.requirements, i -> !core.items.has(i.item, Math.min(Mathf.round(i.amount * state.rules.buildCostMultiplier), 1)));
+- mindustry/entities/comp/BuilderComp.java:250 `lambda` (Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0));
+- mindustry/entities/comp/BuilderComp.java:255 `lambda` int idx = plans.indexOf(req -> req.breaking == breaking && req.x == x && req.y == y);
+- mindustry/entities/comp/BuildingComp.java:518 `lambda` case 0 -> world.build(tile.x + 1, tile.y);
+- mindustry/entities/comp/BuildingComp.java:519 `lambda` case 1 -> world.build(tile.x, tile.y + 1);
+- mindustry/entities/comp/BuildingComp.java:520 `lambda` case 2 -> world.build(tile.x - 1, tile.y);
+- mindustry/entities/comp/BuildingComp.java:521 `lambda` case 3 -> world.build(tile.x, tile.y - 1);
+- mindustry/entities/comp/BuildingComp.java:522 `lambda` default -> null;
+- mindustry/entities/comp/BuildingComp.java:710 `lambda` Core.app.post(() -> unit.id = EntityGroup.nextId());
+- mindustry/entities/comp/BuildingComp.java:1360 `lambda` PowerNode.getNodeLinks(tile, block, team, other -> {
+- mindustry/entities/comp/BuildingComp.java:1466 `lambda` Time.run(i / 2f, () -> {
+- mindustry/entities/comp/BuildingComp.java:1480 `lambda` tile.getLinkedTiles(other -> Puddles.deposit(other, liquids.current(), perCell));
+- mindustry/entities/comp/BuildingComp.java:1500 `lambda` flammability += liquids.sum((liquid, amount) -> liquid.flammability * amount / 2f);
+- mindustry/entities/comp/BuildingComp.java:1501 `lambda` explosiveness += liquids.sum((liquid, amount) -> liquid.explosiveness * amount / 2f);
+- mindustry/entities/comp/BuildingComp.java:1559 `lambda` table.table(t -> {
+- mindustry/entities/comp/BuildingComp.java:1569 `lambda` table.table(bars -> {
+- mindustry/entities/comp/BuildingComp.java:1587 `lambda` table.table(l -> {
+- mindustry/entities/comp/BuildingComp.java:1590 `lambda` Runnable rebuild = () -> {
+- mindustry/entities/comp/BuildingComp.java:1596 `lambda` l.label(() -> flowItems.getFlowRate(item) < 0 ? "..." : Strings.fixed(flowItems.getFlowRate(item), 1) + ps).color(Color.lightGray);
+- mindustry/entities/comp/BuildingComp.java:1603 `lambda` l.update(() -> {
+- mindustry/entities/comp/BuildingComp.java:1617 `lambda` table.table(l -> {
+- mindustry/entities/comp/BuildingComp.java:1620 `lambda` Runnable rebuild = () -> {
+- mindustry/entities/comp/BuildingComp.java:1626 `lambda` l.label(() -> liquids.getFlowRate(liquid) < 0 ? "..." : Strings.fixed(liquids.getFlowRate(liquid), 1) + ps).color(Color.lightGray);
+- mindustry/entities/comp/BuildingComp.java:1633 `lambda` l.update(() -> {
+- mindustry/entities/comp/BuildingComp.java:1953 `lambda` //disabled -> nothing works
+- mindustry/entities/comp/BuildingComp.java:2095 `lambda` case x -> World.conv(x);
+- mindustry/entities/comp/BuildingComp.java:2096 `lambda` case y -> World.conv(y);
+- mindustry/entities/comp/BuildingComp.java:2097 `lambda` case color -> Color.toDoubleBits(team.color.r, team.color.g, team.color.b, 1f);
+- mindustry/entities/comp/BuildingComp.java:2098 `lambda` case dead -> !isValid() ? 1 : 0;
+- mindustry/entities/comp/BuildingComp.java:2099 `lambda` case solid -> block.solid || checkSolid() ? 1 : 0;
+- mindustry/entities/comp/BuildingComp.java:2100 `lambda` case team -> team.id;
+- mindustry/entities/comp/BuildingComp.java:2101 `lambda` case health -> health;
+- mindustry/entities/comp/BuildingComp.java:2102 `lambda` case maxHealth -> maxHealth;
+- mindustry/entities/comp/BuildingComp.java:2103 `lambda` case efficiency -> efficiency;
+- mindustry/entities/comp/BuildingComp.java:2104 `lambda` case timescale -> timeScale;
+- mindustry/entities/comp/BuildingComp.java:2105 `lambda` case range -> this instanceof Ranged r ? r.range() / tilesize : 0;
+- mindustry/entities/comp/BuildingComp.java:2106 `lambda` case rotation -> rotation;
+- mindustry/entities/comp/BuildingComp.java:2107 `lambda` case totalItems -> items == null ? 0 : items.total();
+- mindustry/entities/comp/BuildingComp.java:2109 `lambda` case totalLiquids -> liquids == null ? 0 : liquids.currentAmount();
+- mindustry/entities/comp/BuildingComp.java:2110 `lambda` case totalPower -> power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f);
+- mindustry/entities/comp/BuildingComp.java:2111 `lambda` case itemCapacity -> block.hasItems ? block.itemCapacity : 0;
+- mindustry/entities/comp/BuildingComp.java:2112 `lambda` case liquidCapacity -> block.hasLiquids ? block.liquidCapacity : 0;
+- mindustry/entities/comp/BuildingComp.java:2113 `lambda` case powerCapacity -> block.consPower != null ? block.consPower.capacity : 0f;
+- mindustry/entities/comp/BuildingComp.java:2114 `lambda` case powerNetIn -> power == null ? 0 : power.graph.getLastScaledPowerIn() * 60;
+- mindustry/entities/comp/BuildingComp.java:2115 `lambda` case powerNetOut -> power == null ? 0 : power.graph.getLastScaledPowerOut() * 60;
+- mindustry/entities/comp/BuildingComp.java:2116 `lambda` case powerNetStored -> power == null ? 0 : power.graph.getLastPowerStored();
+- mindustry/entities/comp/BuildingComp.java:2117 `lambda` case powerNetCapacity -> power == null ? 0 : power.graph.getLastCapacity();
+- mindustry/entities/comp/BuildingComp.java:2118 `lambda` case enabled -> enabled ? 1 : 0;
+- mindustry/entities/comp/BuildingComp.java:2119 `lambda` case controlled -> this instanceof ControlBlock c && c.isControlled() ? GlobalVars.ctrlPlayer : 0;
+- mindustry/entities/comp/BuildingComp.java:2120 `lambda` case payloadCount -> (getPayloads() != null ? getPayloads().total() : 0) + (getPayload() != null ? 1 : 0);
+- mindustry/entities/comp/BuildingComp.java:2121 `lambda` case size -> block.size;
+- mindustry/entities/comp/BuildingComp.java:2122 `lambda` case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;
+- mindustry/entities/comp/BuildingComp.java:2123 `lambda` default -> Float.NaN; //gets converted to null in logic
+- mindustry/entities/comp/BuildingComp.java:2130 `lambda` case type -> block;
+- mindustry/entities/comp/BuildingComp.java:2131 `lambda` case firstItem -> items == null ? null : items.first();
+- mindustry/entities/comp/BuildingComp.java:2132 `lambda` case config -> block.configSenseable() ? config() : null;
+- mindustry/entities/comp/BuildingComp.java:2133 `lambda` case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;
+- mindustry/entities/comp/BuildingComp.java:2134 `lambda` default -> noSensed;
+- mindustry/entities/comp/BuildingComp.java:2168 `lambda` case health -> {
+- mindustry/entities/comp/BuildingComp.java:2176 `lambda` case team -> {
+- mindustry/entities/comp/BuildingComp.java:2182 `lambda` case totalPower -> {
+- mindustry/entities/comp/BuildingComp.java:2193 `lambda` case team -> {
+- mindustry/entities/comp/BulletComp.java:320 `lambda` Drawf.underwater(() -> type.draw(self()));
+- mindustry/entities/comp/BulletComp.java:350 `lambda` case rotation -> rotation;
+- mindustry/entities/comp/BulletComp.java:351 `lambda` case health -> damage;
+- mindustry/entities/comp/BulletComp.java:352 `lambda` case maxHealth -> type.damage;
+- mindustry/entities/comp/BulletComp.java:353 `lambda` case x -> World.conv(x);
+- mindustry/entities/comp/BulletComp.java:354 `lambda` case y -> World.conv(y);
+- mindustry/entities/comp/BulletComp.java:355 `lambda` case velocityX -> vel.x * 60f / tilesize;
+- mindustry/entities/comp/BulletComp.java:356 `lambda` case velocityY -> vel.y * 60f / tilesize;
+- mindustry/entities/comp/BulletComp.java:357 `lambda` case dead -> !isAdded() ? 1 : 0;
+- mindustry/entities/comp/BulletComp.java:358 `lambda` case team -> team.id;
+- mindustry/entities/comp/BulletComp.java:359 `lambda` case range -> type.range;
+- mindustry/entities/comp/BulletComp.java:360 `lambda` case shootX -> World.conv(aimX());
+- mindustry/entities/comp/BulletComp.java:361 `lambda` case shootY -> World.conv(aimY());
+- mindustry/entities/comp/BulletComp.java:362 `lambda` case speed -> type.speed * 60f / tilesize;
+- mindustry/entities/comp/BulletComp.java:363 `lambda` case size -> type.hitSize / tilesize;
+- mindustry/entities/comp/BulletComp.java:364 `lambda` case color -> Color.toDoubleBits(team.color.r, team.color.g, team.color.b, 1f);
+- mindustry/entities/comp/BulletComp.java:365 `lambda` case bulletLifetime -> this.lifetime;
+- mindustry/entities/comp/BulletComp.java:366 `lambda` case bulletTime -> this.time;
+- mindustry/entities/comp/BulletComp.java:367 `lambda` default -> Float.NaN;
+- mindustry/entities/comp/BulletComp.java:374 `lambda` case health -> damage = (float)value;
+- mindustry/entities/comp/BulletComp.java:375 `lambda` case x -> x = World.unconv((float)value);
+- mindustry/entities/comp/BulletComp.java:376 `lambda` case y -> y = World.unconv((float)value);
+- mindustry/entities/comp/BulletComp.java:377 `lambda` case velocityX -> vel.x = (float)(value * tilesize / 60d);
+- mindustry/entities/comp/BulletComp.java:378 `lambda` case velocityY -> vel.y = (float)(value * tilesize / 60d);
+- mindustry/entities/comp/BulletComp.java:379 `lambda` case rotation -> rotation = (float)value;
+- mindustry/entities/comp/BulletComp.java:380 `lambda` case team -> this.team = Team.get((int)value);
+- mindustry/entities/comp/BulletComp.java:381 `lambda` case speed -> vel.setLength((float)value * 8f);
+- mindustry/entities/comp/BulletComp.java:382 `lambda` case bulletLifetime -> this.lifetime = (float)value;
+- mindustry/entities/comp/BulletComp.java:383 `lambda` case bulletTime -> this.time = (float)value;
+- mindustry/entities/comp/BulletComp.java:395 `lambda` case team -> {
+- mindustry/entities/comp/FireComp.java:50 `lambda` //faster updates -> disappears more quickly
+- mindustry/entities/comp/FireComp.java:98 `lambda` unit -> !unit.isFlying() && !unit.isImmune(StatusEffects.burning),
+- mindustry/entities/comp/FireComp.java:99 `lambda` unit -> unit.apply(StatusEffects.burning, 60 * 5));
+- mindustry/entities/comp/PayloadComp.java:77 `lambda` return payloads.sumf(p -> p.size() * p.size());
+- mindustry/entities/comp/PayloadComp.java:173 `lambda` return !(!u.canPass(World.toTile(x + Tmp.v1.x), World.toTile(y + Tmp.v1.y)) || Units.count(x, y, u.physicSize(), o -> o.isGrounded() && o.hitSize > 14f) > 1);
+- mindustry/entities/comp/PayloadComp.java:186 `lambda` if(!u.canPass(World.toTile(x + Tmp.v1.x), World.toTile(y + Tmp.v1.y)) || Units.count(x, y, u.physicSize(), o -> o.isGrounded() && o.hitSize > 14f) > 1){
+- mindustry/entities/comp/PlayerComp.java:125 `lambda` return cores.min(b -> cores.size == 1 || ((CoreBlock)b.block).unitType.supportsEnv(state.rules.env), Structs.comps(Structs.comparingInt(c -> -c.block.size), Structs.comparingFloat(c -> c.dst2(x, y))));
+- mindustry/entities/comp/PuddleComp.java:25 `lambda` private static Cons<Unit> unitCons = unit -> {
+- mindustry/entities/comp/StatusComp.java:73 `lambda` var entry = statuses.find(e -> e.effect == effect);
+- mindustry/entities/comp/StatusComp.java:78 `lambda` statuses.each(e -> e.effect.onRemoved(self()));
+- mindustry/entities/comp/StatusComp.java:84 `lambda` statuses.remove(e -> {
+- mindustry/entities/comp/StatusComp.java:125 `lambda` StatusEntry entry = statuses.find(s -> s.effect.dynamic);
+- mindustry/entities/comp/UnderwaterMoveComp.java:19 `lambda` Drawf.underwater(() -> {
+- mindustry/entities/comp/UnitComp.java:175 `lambda` return !onSolid() && Units.count(x, y, physicSize(), f -> f != self() && f.isGrounded()) == 0;
+- mindustry/entities/comp/UnitComp.java:266 `lambda` case totalItems -> stack().amount;
+- mindustry/entities/comp/UnitComp.java:267 `lambda` case itemCapacity -> type.itemCapacity;
+- mindustry/entities/comp/UnitComp.java:268 `lambda` case rotation -> rotation;
+- mindustry/entities/comp/UnitComp.java:269 `lambda` case health -> health;
+- mindustry/entities/comp/UnitComp.java:270 `lambda` case shield -> shield;
+- mindustry/entities/comp/UnitComp.java:271 `lambda` case maxHealth -> maxHealth;
+- mindustry/entities/comp/UnitComp.java:272 `lambda` case x -> World.conv(x);
+- mindustry/entities/comp/UnitComp.java:273 `lambda` case y -> World.conv(y);
+- mindustry/entities/comp/UnitComp.java:274 `lambda` case velocityX -> vel.x * 60f / tilesize;
+- mindustry/entities/comp/UnitComp.java:275 `lambda` case velocityY -> vel.y * 60f / tilesize;
+- mindustry/entities/comp/UnitComp.java:276 `lambda` case dead -> dead || !isAdded() ? 1 : 0;
+- mindustry/entities/comp/UnitComp.java:277 `lambda` case team -> team.id;
+- mindustry/entities/comp/UnitComp.java:278 `lambda` case shooting -> isShooting() ? 1 : 0;
+- mindustry/entities/comp/UnitComp.java:279 `lambda` case boosting -> type.canBoost && isFlying() ? 1 : 0;
+- mindustry/entities/comp/UnitComp.java:280 `lambda` case range -> range() / tilesize;
+- mindustry/entities/comp/UnitComp.java:281 `lambda` case shootX -> World.conv(aimX());
+- mindustry/entities/comp/UnitComp.java:282 `lambda` case shootY -> World.conv(aimY());
+- mindustry/entities/comp/UnitComp.java:283 `lambda` case cameraX -> controller instanceof Player player ? World.conv(player.con == null ? Core.camera.position.x : player.con.viewX) : 0;
+- mindustry/entities/comp/UnitComp.java:284 `lambda` case cameraY -> controller instanceof Player player ? World.conv(player.con == null ? Core.camera.position.y : player.con.viewY) : 0;
+- mindustry/entities/comp/UnitComp.java:285 `lambda` case cameraWidth -> controller instanceof Player player ? World.conv(player.con == null ? Core.camera.width : player.con.viewWidth) : 0;
+- mindustry/entities/comp/UnitComp.java:286 `lambda` case cameraHeight -> controller instanceof Player player ? World.conv(player.con == null ? Core.camera.height : player.con.viewHeight) : 0;
+- mindustry/entities/comp/UnitComp.java:287 `lambda` case mining -> mining() ? 1 : 0;
+- mindustry/entities/comp/UnitComp.java:288 `lambda` case mineX -> mining() ? mineTile.x : -1;
+- mindustry/entities/comp/UnitComp.java:289 `lambda` case mineY -> mining() ? mineTile.y : -1;
+- mindustry/entities/comp/UnitComp.java:290 `lambda` case buildX -> isBuilding() ? buildPlan().x : -1;
+- mindustry/entities/comp/UnitComp.java:291 `lambda` case buildY -> isBuilding() ? buildPlan().y : -1;
+- mindustry/entities/comp/UnitComp.java:292 `lambda` case armor -> armorOverride >= 0f ? armorOverride : armor;
+- mindustry/entities/comp/UnitComp.java:293 `lambda` case flag -> flag;
+- mindustry/entities/comp/UnitComp.java:294 `lambda` case speed -> type.speed * 60f / tilesize * speedMultiplier;
+- mindustry/entities/comp/UnitComp.java:295 `lambda` case controlled -> !isValid() ? 0 :
+- mindustry/entities/comp/UnitComp.java:300 `lambda` case payloadCount -> ((Object)this) instanceof Payloadc pay ? pay.payloads().size : 0;
+- mindustry/entities/comp/UnitComp.java:301 `lambda` case totalPayload -> ((Object)this) instanceof Payloadc pay ? pay.payloadUsed() / (tilesize * tilesize) : 0;
+- mindustry/entities/comp/UnitComp.java:302 `lambda` case payloadCapacity -> type.payloadCapacity / tilePayload;
+- mindustry/entities/comp/UnitComp.java:303 `lambda` case size -> hitSize / tilesize;
+- mindustry/entities/comp/UnitComp.java:304 `lambda` case color -> Color.toDoubleBits(team.color.r, team.color.g, team.color.b, 1f);
+- mindustry/entities/comp/UnitComp.java:305 `lambda` case selectedRotation -> controller instanceof Player p ? p.selectedRotation : 0;
+- mindustry/entities/comp/UnitComp.java:306 `lambda` case pingX -> controller instanceof Player p && p.isPinging() ? World.conv(p.pingX) : Float.NaN;
+- mindustry/entities/comp/UnitComp.java:307 `lambda` case pingY -> controller instanceof Player p && p.isPinging() ? World.conv(p.pingY) : Float.NaN;
+- mindustry/entities/comp/UnitComp.java:308 `lambda` default -> Float.NaN;
+- mindustry/entities/comp/UnitComp.java:315 `lambda` case type -> type;
+- mindustry/entities/comp/UnitComp.java:316 `lambda` case name -> controller instanceof Player p ? p.name : null;
+- mindustry/entities/comp/UnitComp.java:317 `lambda` case firstItem -> stack().amount == 0 ? null : item();
+- mindustry/entities/comp/UnitComp.java:318 `lambda` case controller -> !isValid() ? null : controller instanceof LogicAI log ? log.controller : this;
+- mindustry/entities/comp/UnitComp.java:319 `lambda` case payloadType -> ((Object)this) instanceof Payloadc pay ?
+- mindustry/entities/comp/UnitComp.java:323 `lambda` case building -> isBuilding() && !buildPlan().breaking ? buildPlan().tile().build : null;
+- mindustry/entities/comp/UnitComp.java:324 `lambda` case breaking -> isBuilding() && buildPlan().breaking ? buildPlan().tile().build : null;
+- mindustry/entities/comp/UnitComp.java:325 `lambda` case selectedBlock -> controller instanceof Player p ? p.selectedBlock : null;
+- mindustry/entities/comp/UnitComp.java:326 `lambda` case pingText -> controller instanceof Player p && p.isPinging() ? p.pingText : null;
+- mindustry/entities/comp/UnitComp.java:327 `lambda` default -> noSensed;
+- mindustry/entities/comp/UnitComp.java:337 `lambda` pay.payloads().count(p -> p instanceof UnitPayload up && up.unit.type == u)) : 0;
+- mindustry/entities/comp/UnitComp.java:342 `lambda` pay.payloads().count(p -> p instanceof BuildPayload bp && bp.build.block == b)) : 0;
+- mindustry/entities/comp/UnitComp.java:350 `lambda` case health -> {
+- mindustry/entities/comp/UnitComp.java:356 `lambda` case shield -> shield = Math.max((float)value, 0f);
+- mindustry/entities/comp/UnitComp.java:357 `lambda` case x -> {
+- mindustry/entities/comp/UnitComp.java:361 `lambda` case y -> {
+- mindustry/entities/comp/UnitComp.java:365 `lambda` case velocityX -> vel.x = (float)(value * tilesize / 60d);
+- mindustry/entities/comp/UnitComp.java:366 `lambda` case velocityY -> vel.y = (float)(value * tilesize / 60d);
+- mindustry/entities/comp/UnitComp.java:367 `lambda` case rotation -> rotation = (float)value;
+- mindustry/entities/comp/UnitComp.java:368 `lambda` case team -> {
+- mindustry/entities/comp/UnitComp.java:377 `lambda` case flag -> flag = value;
+- mindustry/entities/comp/UnitComp.java:378 `lambda` case speed -> statusSpeed(Mathf.clamp((float)value, 0f, 1000f));
+- mindustry/entities/comp/UnitComp.java:379 `lambda` case armor -> statusArmor(Math.max((float)value, 0f));
+- mindustry/entities/comp/UnitComp.java:386 `lambda` case team -> {
+- mindustry/entities/comp/UnitComp.java:392 `lambda` case payloadType -> {
+- mindustry/entities/comp/UnitComp.java:906 `lambda` if(shields.isEmpty() || !shields.contains(b -> b instanceof ExplosionShield s && s.absorbExplosion(x, y, crashDamage))){
+- mindustry/entities/Damage.java:48 `lambda` indexer.eachBlock(null, x, y, range, build -> build.team != team, build -> {
+- mindustry/entities/Damage.java:66 `lambda` Time.run(Mathf.random(maxDelay), () -> {
+- mindustry/entities/Damage.java:97 `lambda` Time.run(i * 0.8f + Mathf.random(4f), () -> Lightning.create(Team.derelict, Pal.power, 3 + Mathf.pow(power, 0.35f), x, y, Mathf.random(360f), length + Mathf.range(2)));
+- mindustry/entities/Damage.java:102 `lambda` Time.run(i / 2f, () -> Call.createBullet(Bullets.fireball, Team.derelict, x, y, Mathf.random(360f), Bullets.fireball.damage, 1, 1));
+- mindustry/entities/Damage.java:112 `lambda` Time.run(i * 2f, () -> {
+- mindustry/entities/Damage.java:113 `lambda` if(shields == null || shields.isEmpty() || !shields.contains(b -> b instanceof ExplosionShield s && s.absorbExplosion(x, y, damagePerWave))){
+- mindustry/entities/Damage.java:150 `lambda` (x, y) -> (tmpBuilding = world.build(x, y)) != null && tmpBuilding.team != team && tmpBuilding.block.absorbLasers);
+- mindustry/entities/Damage.java:171 `lambda` (x, y) -> (furthest = world.tile(x, y)) != null && furthest.team() != b.team && (furthest.build != null && furthest.build.absorbLasers()));
+- mindustry/entities/Damage.java:189 `lambda` World.raycast(b.tileX(), b.tileY(), World.toTile(b.x + vec.x), World.toTile(b.y + vec.y), (x, y) -> {
+- mindustry/entities/Damage.java:206 `lambda` Units.nearbyEnemies(b.team, rect, u -> {
+- mindustry/entities/Damage.java:266 `lambda` World.raycastEachWorld(x, y, seg2.x, seg2.y, (cx, cy) -> {
+- mindustry/entities/Damage.java:292 `lambda` Units.nearbyEnemies(team, rect, u -> {
+- mindustry/entities/Damage.java:305 `lambda` collided.sort(c -> hitter.dst2(c.x, c.y));
+- mindustry/entities/Damage.java:306 `lambda` collided.each(c -> {
+- mindustry/entities/Damage.java:357 `lambda` Units.nearbyEnemies(team, rect.setCentered(x, y, 1f), u -> {
+- mindustry/entities/Damage.java:375 `lambda` World.raycastEachWorld(x, y, x + vec.x, y + vec.y, (cx, cy) -> {
+- mindustry/entities/Damage.java:407 `lambda` Units.nearbyEnemies(hitter.team, rect, e -> {
+- mindustry/entities/Damage.java:437 `lambda` Cons<Unit> cons = entity -> {
+- mindustry/entities/Damage.java:473 `lambda` Cons<Unit> cons = entity -> {
+- mindustry/entities/Damage.java:506 `lambda` Cons<Unit> cons = unit -> {
+- mindustry/entities/Damage.java:558 `lambda` Time.run(0f, () -> {
+- mindustry/entities/effect/ExplosionEffect.java:22 `lambda` renderer = e -> {
+- mindustry/entities/effect/ExplosionEffect.java:25 `lambda` e.scaled(waveLife, i -> {
+- mindustry/entities/effect/ExplosionEffect.java:33 `lambda` randLenVectors(e.id, smokes, 2f + smokeRad * e.finpow(), (x, y) -> {
+- mindustry/entities/effect/ExplosionEffect.java:41 `lambda` randLenVectors(e.id + 1, sparks, 1f + sparkRad * e.finpow(), (x, y) -> {
+- mindustry/entities/effect/SoundEffect.java:45 `lambda` Time.run(startDelay, () -> sound.at(x, y, Mathf.random(minPitch, maxPitch), Mathf.random(minVolume, maxVolume)));
+- mindustry/entities/Effect.java:30 `lambda` public Cons<EffectContainer> renderer = e -> {};
+- mindustry/entities/Effect.java:157 `lambda` Time.run(startDelay, () -> add(x, y, rotation, color, data));
+- mindustry/entities/Effect.java:274 `lambda` Time.run(i * 3.5f, () -> {
+- mindustry/entities/EntityCollisions.java:24 `lambda` private Cons<QuadTree> treeCons = tree -> tree.intersect(r2, arrOut);
+- mindustry/entities/EntityCollisions.java:127 `lambda` group.each(s -> {
+- mindustry/entities/EntityGroup.java:68 `lambda` each(u -> {
+- mindustry/entities/Lightning.java:57 `lambda` World.raycastEach(World.toTile(from.getX()), World.toTile(from.getY()), World.toTile(to.getX()), World.toTile(to.getY()), (wx, wy) -> {
+- mindustry/entities/Lightning.java:74 `lambda` Units.nearbyEnemies(team, rect, u -> {
+- mindustry/entities/part/DrawPart.java:76 `lambda` reload = p -> p.reload,
+- mindustry/entities/part/DrawPart.java:78 `lambda` smoothReload = p -> p.smoothReload,
+- mindustry/entities/part/DrawPart.java:80 `lambda` warmup = p -> p.warmup,
+- mindustry/entities/part/DrawPart.java:82 `lambda` charge = p -> p.charge,
+- mindustry/entities/part/DrawPart.java:84 `lambda` recoil = p -> p.recoil,
+- mindustry/entities/part/DrawPart.java:86 `lambda` heat = p -> p.heat,
+- mindustry/entities/part/DrawPart.java:88 `lambda` life = p -> p.life,
+- mindustry/entities/part/DrawPart.java:90 `lambda` time = p -> Time.time;
+- mindustry/entities/part/DrawPart.java:95 `lambda` return p -> value;
+- mindustry/entities/part/DrawPart.java:199 `lambda` return p -> 1f - self.get(p);
+- mindustry/entities/part/DrawPart.java:203 `lambda` return p -> Mathf.slope(self.get(p));
+- mindustry/entities/part/DrawPart.java:207 `lambda` return p -> Mathf.clamp(self.get(p));
+- mindustry/entities/part/DrawPart.java:211 `lambda` return p -> self.get(p) + amount;
+- mindustry/entities/part/DrawPart.java:215 `lambda` return p -> self.get(p) + other.get(p);
+- mindustry/entities/part/DrawPart.java:219 `lambda` return p -> (self.get(p) - amount) / (1f - amount);
+- mindustry/entities/part/DrawPart.java:223 `lambda` return p -> (self.get(p) - offset) / duration;
+- mindustry/entities/part/DrawPart.java:227 `lambda` return p -> {
+- mindustry/entities/part/DrawPart.java:234 `lambda` return p -> self.get(p) / (1f - amount);
+- mindustry/entities/part/DrawPart.java:238 `lambda` return p -> Mathf.curve(self.get(p), start, end);
+- mindustry/entities/part/DrawPart.java:242 `lambda` return p -> Mathf.lerp(self.get(p), other.get(p), amount);
+- mindustry/entities/part/DrawPart.java:246 `lambda` return p -> self.get(p) * other.get(p);
+- mindustry/entities/part/DrawPart.java:250 `lambda` return p -> self.get(p) * amount;
+- mindustry/entities/part/DrawPart.java:254 `lambda` return p -> Math.min(self.get(p), other.get(p));
+- mindustry/entities/part/DrawPart.java:258 `lambda` return p -> self.get(p) + Mathf.sin(Time.time + offset, scl, mag);
+- mindustry/entities/part/DrawPart.java:262 `lambda` return p -> self.get(p) + Mathf.sin(scl, mag);
+- mindustry/entities/part/DrawPart.java:266 `lambda` return p -> self.get(p) + Mathf.absin(scl, mag);
+- mindustry/entities/part/DrawPart.java:270 `lambda` return p -> Mathf.mod(self.get(p), amount);
+- mindustry/entities/part/DrawPart.java:274 `lambda` return p -> Mathf.mod(self.get(p)/time, 1);
+- mindustry/entities/part/DrawPart.java:278 `lambda` return p -> func.get(self.get(p), other.get(p));
+- mindustry/entities/part/DrawPart.java:282 `lambda` return p -> interp.apply(self.get(p));
+- mindustry/entities/pattern/ShootHelix.java:28 `lambda` b -> b.moveRelative(0f, Mathf.sin(b.time + offset, scl, mag * sign)));
+- mindustry/entities/pattern/ShootMulti.java:31 `lambda` source.shoot(totalShots, (x, y, rotation, delay, move) -> {
+- mindustry/entities/pattern/ShootMulti.java:33 `lambda` pattern.shoot(totalShots, (x2, y2, rot2, delay2, mover) -> {
+- mindustry/entities/pattern/ShootMulti.java:34 `lambda` handler.shoot(x + x2, y + y2, rotation + rot2, delay + delay2, move == null && mover == null ? null : b -> {
+- mindustry/entities/units/AIController.java:227 `lambda` bomberTarget = Units.closestTarget(unit.team, unit.x, unit.y, unit.hitSize, u -> !u.isFlying(), t -> true);
+- mindustry/entities/units/AIController.java:278 `lambda` return Geometry.findClosest(x, y, enemy ? indexer.getEnemy(unit.team, flag) : indexer.getFlagged(unit.team, flag), t -> ((t.items != null && t.items.any()) || t.status() != BlockStatus.noInput) && t.block.targetable);
+- mindustry/entities/units/AIController.java:282 `lambda` return Units.closestTarget(unit.team, x, y, range, u -> u.checkTarget(air, ground), t -> ground && (unit.type.targetUnderBlocks || !t.block.underBullets));
+- mindustry/entities/Units.java:29 `lambda` private static final Boolf<Unit> anyEntityLambda = unit -> {
+- mindustry/entities/Units.java:54 `lambda` Core.app.post(() -> Call.unitDestroy(unit.id));
+- mindustry/entities/Units.java:63 `lambda` Core.app.post(() -> Call.unitDestroy(unit.id));
+- mindustry/entities/Units.java:201 `lambda` return nearbyCheck(x, y, width, height, unit -> {
+- mindustry/entities/Units.java:213 `lambda` return indexer.getDamaged(team).min(b -> b.dst2(x, y));
+- mindustry/entities/Units.java:235 `lambda` buildings.intersect(wx - range, wy - range, range*2f, range*2f, b -> {
+- mindustry/entities/Units.java:263 `lambda` return closestTarget(team, x, y, range, unitPred, t -> true);
+- mindustry/entities/Units.java:303 `lambda` nearbyEnemies(team, x - range, y - range, range*2f, range*2f, e -> {
+- mindustry/entities/Units.java:325 `lambda` nearbyEnemies(team, x - range, y - range, range*2f, range*2f, e -> {
+- mindustry/entities/Units.java:362 `lambda` nearby(team, x, y, range, e -> {
+- mindustry/entities/Units.java:380 `lambda` nearby(team, x, y, range, e -> {
+- mindustry/entities/Units.java:399 `lambda` nearby(team, x - range, y - range, range*2f, range*2f, e -> {
+- mindustry/entities/Units.java:420 `lambda` Groups.unit.intersect(x, y, width, height, v -> {
+- mindustry/entities/Units.java:446 `lambda` nearby(team, x - radius, y - radius, radius*2f, radius*2f, unit -> {
+- mindustry/entities/Units.java:483 `lambda` nearbyEnemies(team, x - radius, y - radius, radius * 2f, radius * 2f, u -> {
+- mindustry/entities/UnitSorts.java:12 `lambda` farthest = (u, x, y) -> -u.dst2(x, y),
+- mindustry/entities/UnitSorts.java:13 `lambda` strongest = (u, x, y) -> -u.maxHealth + Mathf.dst2(u.x, u.y, x, y) / 6400f,
+- mindustry/entities/UnitSorts.java:14 `lambda` weakest = (u, x, y) -> u.maxHealth + Mathf.dst2(u.x, u.y, x, y) / 6400f,
+- mindustry/entities/UnitSorts.java:15 `lambda` mostArmor = (u, x, y) -> -u.armor + Mathf.dst2(u.x, u.y, x, y) / 6400f,
+- mindustry/entities/UnitSorts.java:16 `lambda` leastArmor = (u, x, y) -> u.armor + Mathf.dst2(u.x, u.y, x, y) / 6400f,
+- mindustry/entities/UnitSorts.java:17 `lambda` mostShield = (u, x, y) -> -u.shield + Mathf.dst2(u.x, u.y, x, y) / 6400f,
+- mindustry/entities/UnitSorts.java:18 `lambda` leastShield = (u, x, y) -> u.shield + Mathf.dst2(u.x, u.y, x, y) / 6400f;
+- mindustry/entities/UnitSorts.java:22 `lambda` buildingDefault = b -> b.block.priority,
+- mindustry/entities/UnitSorts.java:23 `lambda` buildingWater = b -> b.block.priority + (b.liquids != null && b.liquids.get(Liquids.water) > 5f ? 10f : 0f);
+- mindustry/game/CampaignRules.java:32 `lambda` Groups.unit.each(u -> {
+- mindustry/game/FogControl.java:42 `lambda` Events.on(ResetEvent.class, e -> {
+- mindustry/game/FogControl.java:46 `lambda` Events.on(WorldLoadEvent.class, e -> {
+- mindustry/game/FogControl.java:64 `lambda` Events.on(TileChangeEvent.class, event -> {
+- mindustry/game/FogControl.java:81 `lambda` Events.on(TilePreChangeEvent.class, e -> {
+- mindustry/game/FogControl.java:90 `lambda` //unit dead -> fog updates
+- mindustry/game/FogControl.java:91 `lambda` Events.on(UnitDestroyEvent.class, e -> {
+- mindustry/game/Gamemode.java:10 `lambda` survival(rules -> {
+- mindustry/game/Gamemode.java:13 `lambda` }, map -> map.spawns > 0),
+- mindustry/game/Gamemode.java:14 `lambda` sandbox(rules -> {
+- mindustry/game/Gamemode.java:20 `lambda` attack(rules -> {
+- mindustry/game/Gamemode.java:26 `lambda` }, map -> map.teams.size > 1),
+- mindustry/game/Gamemode.java:27 `lambda` pvp(rules -> {
+- mindustry/game/Gamemode.java:34 `lambda` }, map -> map.teams.size > 1),
+- mindustry/game/Gamemode.java:35 `lambda` editor(true, rules -> {
+- mindustry/game/Gamemode.java:54 `lambda` this(hidden, rules, m -> true);
+- mindustry/game/MapObjectives.java:138 `lambda` eachRunning(obj -> {
+- mindustry/game/MapObjectives.java:166 `lambda` all.each(obj -> obj.qualified() && pred.get(obj), cons);
+- mindustry/game/MapObjectives.java:672 `lambda` return headless || control.input.selectedUnits.contains(u -> u.isCommandable() && u.command().hasCommand());
+- mindustry/game/MapObjectives.java:761 `lambda` case world -> world = !Mathf.equal((float)p1, 0f);
+- mindustry/game/MapObjectives.java:762 `lambda` case minimap -> minimap = !Mathf.equal((float)p1, 0f);
+- mindustry/game/MapObjectives.java:763 `lambda` case autoscale -> autoscale = !Mathf.equal((float)p1, 0f);
+- mindustry/game/MapObjectives.java:764 `lambda` case drawLayer -> drawLayer = (float)p1;
+- mindustry/game/MapObjectives.java:919 `lambda` case fontSize -> fontSize = (float)p1;
+- mindustry/game/MapObjectives.java:920 `lambda` case textHeight -> textHeight = (float)p1;
+- mindustry/game/MapObjectives.java:921 `lambda` case textAlign -> textAlign = (int)p1;
+- mindustry/game/MapObjectives.java:922 `lambda` case lineAlign -> lineAlign = (int)p1;
+- mindustry/game/MapObjectives.java:923 `lambda` case outline -> flags = (byte)Pack.bitmask(flags, WorldLabel.flagOutline, !Mathf.equal((float)p1, 0f));
+- mindustry/game/MapObjectives.java:924 `lambda` case labelFlags -> flags = (byte)Pack.bitmask(flags, WorldLabel.flagBackground, !Mathf.equal((float)p1, 0f));
+- mindustry/game/MapObjectives.java:925 `lambda` case radius -> radius = (float)p1;
+- mindustry/game/MapObjectives.java:926 `lambda` case rotation -> rotation = (float)p1;
+- mindustry/game/MapObjectives.java:927 `lambda` case color -> color.fromDouble(p1);
+- mindustry/game/MapObjectives.java:928 `lambda` case shape -> sides = (int)p1;
+- mindustry/game/MapObjectives.java:934 `lambda` case labelFlags -> flags = (byte)Pack.bitmask(flags, WorldLabel.flagOutline, !Mathf.equal((float)p2, 0f));
+- mindustry/game/MapObjectives.java:991 `lambda` case radius -> radius = (float)p1;
+- mindustry/game/MapObjectives.java:992 `lambda` case stroke -> stroke = (float)p1;
+- mindustry/game/MapObjectives.java:993 `lambda` case color -> color.fromDouble(p1);
+- mindustry/game/MapObjectives.java:1050 `lambda` case radius -> radius = (float)p1;
+- mindustry/game/MapObjectives.java:1051 `lambda` case stroke -> stroke = (float)p1;
+- mindustry/game/MapObjectives.java:1052 `lambda` case outline -> outline = !Mathf.equal((float)p1, 0f);
+- mindustry/game/MapObjectives.java:1053 `lambda` case rotation -> rotation = (float)p1;
+- mindustry/game/MapObjectives.java:1054 `lambda` case color -> color.fromDouble(p1);
+- mindustry/game/MapObjectives.java:1055 `lambda` case shape -> sides = (int)p1;
+- mindustry/game/MapObjectives.java:1056 `lambda` case arc -> startAngle = (float)p1;
+- mindustry/game/MapObjectives.java:1062 `lambda` case shape -> fill = !Mathf.equal((float)p2, 0f);
+- mindustry/game/MapObjectives.java:1063 `lambda` case arc -> endAngle = (float)p2;
+- mindustry/game/MapObjectives.java:1118 `lambda` case fontSize -> fontSize = (float)p1;
+- mindustry/game/MapObjectives.java:1119 `lambda` case textAlign -> textAlign = (int)p1;
+- mindustry/game/MapObjectives.java:1120 `lambda` case lineAlign -> lineAlign = (int)p1;
+- mindustry/game/MapObjectives.java:1121 `lambda` case outline -> flags = (byte)Pack.bitmask(flags, WorldLabel.flagOutline, !Mathf.equal((float)p1, 0f));
+- mindustry/game/MapObjectives.java:1122 `lambda` case labelFlags -> flags = (byte)Pack.bitmask(flags, WorldLabel.flagBackground, !Mathf.equal((float)p1, 0f));
+- mindustry/game/MapObjectives.java:1128 `lambda` case labelFlags -> flags = (byte)Pack.bitmask(flags, WorldLabel.flagOutline, !Mathf.equal((float)p2, 0f));
+- mindustry/game/MapObjectives.java:1183 `lambda` case endPos -> endPos.x = (float)p1 * tilesize;
+- mindustry/game/MapObjectives.java:1184 `lambda` case stroke -> stroke = (float)p1;
+- mindustry/game/MapObjectives.java:1185 `lambda` case color -> color1.set(color2.fromDouble(p1));
+- mindustry/game/MapObjectives.java:1186 `lambda` case outline -> outline = !Mathf.equal((float)p1, 0f);
+- mindustry/game/MapObjectives.java:1192 `lambda` case endPos -> endPos.y = (float)p2 * tilesize;
+- mindustry/game/MapObjectives.java:1198 `lambda` case posi -> ((int)p1 == 0 ? pos : (int)p1 == 1 ? endPos : Tmp.v1).x = (float)p2 * tilesize;
+- mindustry/game/MapObjectives.java:1199 `lambda` case colori -> ((int)p1 == 0 ? color1 : (int)p1 == 1 ? color2 : Tmp.c1).fromDouble(p2);
+- mindustry/game/MapObjectives.java:1205 `lambda` case posi -> ((int)p1 == 0 ? pos : (int)p1 == 1 ? endPos : Tmp.v1).y = (float)p3 * tilesize;
+- mindustry/game/MapObjectives.java:1239 `lambda` case rotation -> rotation = (float)p1;
+- mindustry/game/MapObjectives.java:1240 `lambda` case textureSize -> width = (float)p1 * tilesize;
+- mindustry/game/MapObjectives.java:1241 `lambda` case color -> color.fromDouble(p1);
+- mindustry/game/MapObjectives.java:1247 `lambda` case textureSize -> height = (float)p2 * tilesize;
+- mindustry/game/MapObjectives.java:1307 `lambda` case color -> {
+- mindustry/game/MapObjectives.java:1311 `lambda` case pos -> vertices[0] = (float)p1 * tilesize;
+- mindustry/game/MapObjectives.java:1312 `lambda` case posi -> setPos((int)p1, p2, p3);
+- mindustry/game/MapObjectives.java:1313 `lambda` case uvi -> setUv((int)p1, p2, p3);
+- mindustry/game/MapObjectives.java:1319 `lambda` case pos -> vertices[1] = (float)p1 * tilesize;
+- mindustry/game/MapObjectives.java:1325 `lambda` case colori -> setColor((int)p1, p2);
+- mindustry/game/Rules.java:347 `lambda` /** Minimum "advantage" needed for a squad to attack. Higher -> more cautious. */
+- mindustry/game/Saves.java:41 `lambda` Events.on(StateChangeEvent.class, event -> {
+- mindustry/game/Saves.java:54 `lambda` saves.removeAll(s -> {
+- mindustry/game/Saves.java:70 `lambda` saveDirectory.walk(file -> {
+- mindustry/game/Saves.java:72 `lambda` futures.add(mainExecutor.submit(() -> {
+- mindustry/game/Saves.java:90 `lambda` lastSectorSave = saves.find(s -> s.isSector() && s.getName().equals(Core.settings.getString("last-sector-save", "<none>")));
+- mindustry/game/Saves.java:136 `lambda` SectorPreset target = content.sectors().find(s -> s.planet == sector.planet && s.originalPosition == sector.id);
+- mindustry/game/Saves.java:145 `lambda` Log.info("Remapping sector: @ -> @ (@)", sector.id, remapTarget.id, remapTarget.preset);
+- mindustry/game/Saves.java:155 `lambda` Log.err("Failed to move sector files when remapping: " + sector.id + " -> " + remapTarget.id, e);
+- mindustry/game/Saves.java:186 `lambda` Log.err("Failed to move back sector files when remapping: " + remap.sourceSector.id + " -> " + remapTarget.id, e);
+- mindustry/game/Saves.java:228 `lambda` Time.runTask(3f, () -> saving = false);
+- mindustry/game/Saves.java:347 `lambda` mainExecutor.submit(() -> {
+- mindustry/game/Saves.java:476 `anonymous_double_brace_initializer` SaveIO.write(to, new SaveOptions(){{
+- mindustry/game/Schematic.java:34 `lambda` return tiles.sumf(s -> s.block instanceof PowerGenerator p ? p.getDisplayedPowerProduction() : 0f);
+- mindustry/game/Schematic.java:38 `lambda` return tiles.sumf(s -> s.block.consPower != null ? s.block.consPower.usage : 0f);
+- mindustry/game/Schematic.java:44 `lambda` tiles.each(t -> {
+- mindustry/game/Schematic.java:54 `lambda` return tiles.contains(s -> s.block instanceof CoreBlock);
+- mindustry/game/Schematic.java:58 `lambda` Stile tile = tiles.find(s -> s.block instanceof CoreBlock);
+- mindustry/game/Schematics.java:69 `lambda` Events.on(ClientLoadEvent.class, event -> {
+- mindustry/game/Schematics.java:85 `lambda` schematicDirectory.walk(file -> {
+- mindustry/game/Schematics.java:94 `lambda` mods.listFiles("schematics", (mod, file) -> {
+- mindustry/game/Schematics.java:104 `lambda` Core.app.post(() -> shadowBuffer = new FrameBuffer(maxSchematicSize + padding + 8, maxSchematicSize + padding + 8));
+- mindustry/game/Schematics.java:109 `lambda` Seq.with(Loadouts.basicShard, Loadouts.basicFoundation, Loadouts.basicNucleus, Loadouts.basicBastion).each(s -> checkLoadout(s, false));
+- mindustry/game/Schematics.java:126 `lambda` loadouts.each((block, list) -> list.remove(target));
+- mindustry/game/Schematics.java:226 `lambda` schematic.tiles.each(t -> {
+- mindustry/game/Schematics.java:250 `lambda` Seq<BuildPlan> plans = schematic.tiles.map(t -> new BuildPlan(t.x, t.y, t.rotation, t.block, t.config));
+- mindustry/game/Schematics.java:259 `lambda` plans.each(req -> {
+- mindustry/game/Schematics.java:265 `lambda` plans.each(req -> req.block.drawPlanConfigTop(req, eachPlans));
+- mindustry/game/Schematics.java:288 `lambda` return schem.tiles.map(t -> new BuildPlan(t.x + x - schem.width/2, t.y + y - schem.height/2, t.rotation, t.block, t.config))
+- mindustry/game/Schematics.java:289 `lambda` .removeAll(s -> (checkHidden && !s.block.isVisible() && !(s.block instanceof CoreBlock)) || !s.block.unlockedNow()).sort(Structs.comparingInt(s -> -s.block.schematicPriority));
+- mindustry/game/Schematics.java:311 `lambda` Stile core = s.tiles.find(t -> t.block instanceof CoreBlock);
+- mindustry/game/Schematics.java:313 `lambda` int cores = s.tiles.count(t -> t.block instanceof CoreBlock);
+- mindustry/game/Schematics.java:318 `lambda` || s.tiles.contains(t -> t.block.buildVisibility == BuildVisibility.sandboxOnly || !t.block.unlocked()) || cores > 1))) return;
+- mindustry/game/Schematics.java:364 `lambda` loadouts.each((block, seq) -> seq.remove(s));
+- mindustry/game/Schematics.java:468 `lambda` Stile coreTile = schem.tiles.find(s -> s.block instanceof CoreBlock);
+- mindustry/game/Schematics.java:472 `lambda` schem.tiles.copy().sort(s -> -s.block.schematicPriority).each(st -> {
+- mindustry/game/Schematics.java:481 `lambda` //if(seq.contains(t -> !t.block().alwaysReplace && !t.synthetic())){
+- mindustry/game/Schematics.java:510 `lambda` schem.tiles.each(st -> {
+- mindustry/game/Schematics.java:578 `lambda` mapper = (type, id) -> contentMap.get(type.ordinal(), IntMap::new).get(id);
+- mindustry/game/Schematics.java:635 `lambda` //write a map for content name -> id to make sure remapping doesn't occur
+- mindustry/game/Schematics.java:652 `lambda` schematic.tiles.each(t -> blocks.add(t.block));
+- mindustry/game/Schematics.java:708 `lambda` schem.tiles.each(req -> {
+- mindustry/game/Schematics.java:709 `lambda` req.config = BuildPlan.pointConfig(req.block, req.config, p -> {
+- mindustry/game/SectorInfo.java:147 `lambda` eachImport(planet, sector -> sector.info.export.each((item, stat) -> {
+- mindustry/game/SectorInfo.java:194 `lambda` entity.items.each((i, a) -> entity.items.set(i, Mathf.clamp(a, 0, entity.storageCapacity)));
+- mindustry/game/SectorInfo.java:223 `lambda` bestCoreType = !hasCore ? Blocks.air : state.rules.defaultTeam.cores().max(e -> e.block.size).block;
+- mindustry/game/SectorInfo.java:237 `lambda` lightCoverage += state.rules.defaultTeam.data().units.sumf(u -> u.type.lightRadius/2f);
+- mindustry/game/SectorInfo.java:240 `lambda` production.each((item, stat) -> {
+- mindustry/game/SectorInfo.java:247 `lambda` if(pads.size == 0 || !pads.contains(t -> t.efficiency > 0)){
+- mindustry/game/SectorInfo.java:298 `lambda` map.each((item, stat) -> {
+- mindustry/game/SectorInfo.java:325 `lambda` export.each((item, value) -> map.put(item, value.mean));
+- mindustry/game/SectorInfo.java:332 `lambda` export.each((i, e) -> returnf += e.mean);
+- mindustry/game/SectorInfo.java:340 `lambda` eachImport(planet, sector -> sector.info.export.each((item, stat) -> imports.get(item, ExportStat::new).mean += stat.mean));
+- mindustry/game/SpawnGroup.java:108 `lambda` return createUnit(team, 0f, 0f, 0f, wave, u -> {});
+- mindustry/game/SpawnGroup.java:125 `lambda` if(payloads != null && payloads.any()) json.writeValue("payloads", payloads.map(u -> u.name).toArray(String.class));
+- mindustry/game/SpawnGroup.java:145 `lambda` if(data.has("payloads")) payloads = Seq.with(json.readValue(String[].class, data.get("payloads"))).map(content::unit).removeAll(t -> t == null);
+- mindustry/game/Team.java:172 `lambda` case id -> id;
+- mindustry/game/Team.java:173 `lambda` case color -> color.toDoubleBits();
+- mindustry/game/Team.java:174 `lambda` default -> Double.NaN;
+- mindustry/game/Teams.java:131 `lambda` active.removeAll(t -> !t.active());
+- mindustry/game/Teams.java:319 `lambda` return buildingTypes.get(block, () -> new Seq<>(false));
+- mindustry/game/Teams.java:353 `lambda` units.each(u -> Time.run(Mathf.random(0f, 60f * 5f), () -> {
+- mindustry/game/Teams.java:369 `lambda` if(!build.block.privileged && build.within(x, y, range) && !cores.contains(c -> c.within(build, range))){
+- mindustry/game/Teams.java:385 `lambda` Geometry.circle(World.toTile(x), World.toTile(y), world.width(), world.height(), Mathf.round(range / tilesize), (tx, ty) -> {
+- mindustry/game/Teams.java:388 `lambda` if(result != null && !cores.contains(c -> c.within(t, range))){
+- mindustry/game/Teams.java:412 `lambda` derelictBuffer.chunked(1000, values -> Call.setTeams(values, Team.derelict));
+- mindustry/game/Universe.java:32 `lambda` Events.on(SectorCaptureEvent.class, e -> {
+- mindustry/game/Universe.java:145 `lambda` Schematic schem = all.find(s -> s.file != null && s.file.nameWithoutExtension().equals(file));
+- mindustry/game/Universe.java:183 `lambda` sector.info.export.each((item, stat) -> items.add(item, (int)(stat.mean * newSecondsPassed)));
+- mindustry/game/Universe.java:213 `lambda` sector.info.production.each((item, stat) -> sector.info.items.add(item, Math.min((int)(stat.mean * newSecondsPassed), sector.info.storageCapacity - sector.info.items.get(item))));
+- mindustry/game/Universe.java:216 `lambda` sector.info.export.each((item, stat) -> {
+- mindustry/game/Universe.java:233 `lambda` int count = sector.near().count(s -> s.hasEnemyBase() && !s.hasBase() && (s.preset == null || !s.preset.requireUnlock));
+- mindustry/game/Waves.java:20 `anonymous_double_brace_initializer` new SpawnGroup(dagger){{
+- mindustry/game/Waves.java:26 `anonymous_double_brace_initializer` new SpawnGroup(crawler){{
+- mindustry/game/Waves.java:33 `anonymous_double_brace_initializer` new SpawnGroup(flare){{
+- mindustry/game/Waves.java:39 `anonymous_double_brace_initializer` new SpawnGroup(dagger){{
+- mindustry/game/Waves.java:47 `anonymous_double_brace_initializer` new SpawnGroup(pulsar){{
+- mindustry/game/Waves.java:54 `anonymous_double_brace_initializer` new SpawnGroup(mace){{
+- mindustry/game/Waves.java:62 `anonymous_double_brace_initializer` new SpawnGroup(dagger){{
+- mindustry/game/Waves.java:71 `anonymous_double_brace_initializer` new SpawnGroup(mace){{
+- mindustry/game/Waves.java:79 `anonymous_double_brace_initializer` new SpawnGroup(spiroct){{
+- mindustry/game/Waves.java:89 `anonymous_double_brace_initializer` new SpawnGroup(pulsar){{
+- mindustry/game/Waves.java:97 `anonymous_double_brace_initializer` new SpawnGroup(flare){{
+- mindustry/game/Waves.java:105 `anonymous_double_brace_initializer` new SpawnGroup(quasar){{
+- mindustry/game/Waves.java:114 `anonymous_double_brace_initializer` new SpawnGroup(pulsar){{
+- mindustry/game/Waves.java:123 `anonymous_double_brace_initializer` new SpawnGroup(fortress){{
+- mindustry/game/Waves.java:132 `anonymous_double_brace_initializer` new SpawnGroup(nova){{
+- mindustry/game/Waves.java:141 `anonymous_double_brace_initializer` new SpawnGroup(dagger){{
+- mindustry/game/Waves.java:151 `anonymous_double_brace_initializer` new SpawnGroup(horizon){{
+- mindustry/game/Waves.java:159 `anonymous_double_brace_initializer` new SpawnGroup(flare){{
+- mindustry/game/Waves.java:170 `anonymous_double_brace_initializer` new SpawnGroup(zenith){{
+- mindustry/game/Waves.java:179 `anonymous_double_brace_initializer` new SpawnGroup(nova){{
+- mindustry/game/Waves.java:187 `anonymous_double_brace_initializer` new SpawnGroup(atrax){{
+- mindustry/game/Waves.java:195 `anonymous_double_brace_initializer` new SpawnGroup(scepter){{
+- mindustry/game/Waves.java:203 `anonymous_double_brace_initializer` new SpawnGroup(reign){{
+- mindustry/game/Waves.java:211 `anonymous_double_brace_initializer` new SpawnGroup(antumbra){{
+- mindustry/game/Waves.java:219 `anonymous_double_brace_initializer` new SpawnGroup(vela){{
+- mindustry/game/Waves.java:227 `anonymous_double_brace_initializer` new SpawnGroup(corvus){{
+- mindustry/game/Waves.java:236 `anonymous_double_brace_initializer` new SpawnGroup(horizon){{
+- mindustry/game/Waves.java:245 `anonymous_double_brace_initializer` new SpawnGroup(toxopid){{
+- mindustry/game/Waves.java:282 `lambda` species = Structs.filter(UnitType[].class, species, v -> v[0].flying);
+- mindustry/game/Waves.java:286 `lambda` species = Structs.filter(UnitType[].class, species, v -> v[0].flying || v[0].naval);
+- mindustry/game/Waves.java:288 `lambda` species = Structs.filter(UnitType[].class, species, v -> !v[0].naval);
+- mindustry/game/Waves.java:304 `lambda` Intc createProgression = start -> {
+- mindustry/game/Waves.java:318 `anonymous_double_brace_initializer` out.add(new SpawnGroup(curSpecies[Math.min(curTier, curSpecies.length - 1)]){{
+- mindustry/game/Waves.java:330 `anonymous_double_brace_initializer` out.add(new SpawnGroup(curSpecies[Math.min(curTier, curSpecies.length - 1)]){{
+- mindustry/game/Waves.java:371 `anonymous_double_brace_initializer` out.add(new SpawnGroup(Structs.random(rand, species)[bossTier]){{
+- mindustry/game/Waves.java:383 `anonymous_double_brace_initializer` out.add(new SpawnGroup(Structs.random(rand, species)[bossTier]){{
+- mindustry/game/Waves.java:397 `anonymous_double_brace_initializer` out.add(new SpawnGroup(Structs.random(rand, species)[bossTier]){{
+- mindustry/game/Waves.java:409 `anonymous_double_brace_initializer` out.add(new SpawnGroup(Structs.random(rand, species)[bossTier]){{
+- mindustry/game/Waves.java:426 `anonymous_double_brace_initializer` out.add(new SpawnGroup(mega){{
+- mindustry/graphics/BlockRenderer.java:86 `lambda` Events.on(ClientLoadEvent.class, e -> {
+- mindustry/graphics/BlockRenderer.java:95 `lambda` Events.on(WorldLoadEvent.class, event -> {
+- mindustry/graphics/BlockRenderer.java:100 `lambda` Events.run(Trigger.newGame, () -> {
+- mindustry/graphics/BlockRenderer.java:107 `lambda` Events.on(TilePreChangeEvent.class, event -> {
+- mindustry/graphics/BlockRenderer.java:125 `lambda` Events.on(TileChangeEvent.class, event -> {
+- mindustry/graphics/BlockRenderer.java:205 `lambda` blockCachedTree.intersect(cx * chunkSize * tilesize, cy * chunkSize * tilesize, chunkSize * tilesize, chunkSize * tilesize, tile -> {
+- mindustry/graphics/BlockRenderer.java:418 `lambda` darkEvents.each(pos -> {
+- mindustry/graphics/BlockRenderer.java:433 `lambda` darkEvents.each(pos -> {
+- mindustry/graphics/BlockRenderer.java:561 `lambda` blockLightTree.intersect(bounds, tile -> {
+- mindustry/graphics/BlockRenderer.java:569 `lambda` blockTree.intersect(bounds, tile -> {
+- mindustry/graphics/BlockRenderer.java:613 `lambda` chunksToDraw.each(xy -> {
+- mindustry/graphics/BlockRenderer.java:679 `lambda` Draw.draw(z, () -> {
+- mindustry/graphics/BlockRenderer.java:681 `lambda` dirtyChunks.each(c -> {
+- mindustry/graphics/BlockRenderer.java:698 `lambda` queuedCacheIndices[layer].each(spriteCacheIndex -> {
+- mindustry/graphics/BlockRenderer.java:864 `lambda` blockTree.intersect(camera.bounds(Tmp.r1), tile -> {
+- mindustry/graphics/DebugCollisionRenderer.java:26 `lambda` Draw.draw(Layer.overlayUI, () -> {
+- mindustry/graphics/DebugCollisionRenderer.java:29 `lambda` Groups.draw.each(d -> {
+- mindustry/graphics/DebugCollisionRenderer.java:70 `lambda` Groups.draw.each(d -> {
+- mindustry/graphics/DebugCollisionRenderer.java:81 `lambda` Groups.draw.each(d -> {
+- mindustry/graphics/Drawf.java:139 `lambda` Arrays.sort(vecs, Structs.comparingFloat(vec -> -Angles.angleDist(Angles.angle(x, y, vec.x, vec.y), ang)));
+- mindustry/graphics/EnvRenderers.java:22 `lambda` Core.assets.load("sprites/rays.png", Texture.class).loaded = t -> {
+- mindustry/graphics/EnvRenderers.java:30 `lambda` renderer.addEnvRenderer(Env.underwater, () -> {
+- mindustry/graphics/EnvRenderers.java:31 `lambda` Draw.draw(Layer.light + 1, () -> {
+- mindustry/graphics/EnvRenderers.java:76 `lambda` Draw.draw(Layer.weather, () -> {
+- mindustry/graphics/EnvRenderers.java:92 `anonymous_double_brace_initializer` Core.assets.load("sprites/distortAlpha.png", Texture.class, new TextureParameter(){{
+- mindustry/graphics/EnvRenderers.java:99 `lambda` renderer.addEnvRenderer(Env.scorching, () -> {
+- mindustry/graphics/FloorRenderer.java:98 `lambda` Events.on(WorldLoadEvent.class, event -> reload());
+- mindustry/graphics/FogRenderer.java:26 `lambda` Events.on(WorldLoadEvent.class, event -> {
+- mindustry/graphics/g3d/PlanetRenderer.java:31 `anonymous_double_brace_initializer` public final Bloom bloom = new Bloom(Core.graphics.getWidth()/4, Core.graphics.getHeight()/4, true, false){{
+- mindustry/graphics/g3d/PlanetRenderer.java:177 `lambda` Angles.circleVectors(points, radius, (cx, cy) -> batch.vertex(Tmp.v32.set(center).add(cx, 0, cy), Pal.gray.write(Tmp.c1).a(params.uiAlpha)));
+- mindustry/graphics/g3d/PlanetRenderer.java:214 `lambda` Draw.batch(projector, () -> {
+- mindustry/graphics/LightRenderer.java:57 `lambda` add(() -> {
+- mindustry/graphics/LightRenderer.java:69 `lambda` add(() -> {
+- mindustry/graphics/LoadRenderer.java:63 `lambda` new Bar("c_aprog", () -> assets != null, () -> assets.getProgress(), () -> false),
+- mindustry/graphics/LoadRenderer.java:65 `lambda` new Bar("s_mem#", () -> true, () -> Core.app.getJavaHeap() / 1024f / 1024f / 200f, () -> Core.app.getJavaHeap() > 1024 * 1024 * 110),
+- mindustry/graphics/LoadRenderer.java:66 `lambda` new Bar("v_ver#", () -> Version.build != 0, () -> Version.build == -1 ? 0.3f : (Version.build - 103f) / 10f, () -> !Version.modifier.equals("release")),
+- mindustry/graphics/LoadRenderer.java:68 `lambda` new Bar("v_worlds#", () -> Vars.control != null && Vars.control.saves != null, () -> Vars.control.saves.getSaveSlots().size / 30f, () -> Vars.control.saves.getSaveSlots().size > 30),
+- mindustry/graphics/LoadRenderer.java:69 `lambda` new Bar("c_datas#", () -> settings.keySize() > 0, () -> settings.keySize() / 50f, () -> settings.keySize() > 20),
+- mindustry/graphics/LoadRenderer.java:70 `lambda` new Bar("v_alterc", () -> Vars.mods != null, () -> (Vars.mods.list().size + 1) / 6f, () -> Vars.mods.list().size > 0),
+- mindustry/graphics/LoadRenderer.java:499 `lambda` this.value = () -> value;
+- mindustry/graphics/LoadRenderer.java:500 `lambda` this.red = () -> red;
+- mindustry/graphics/LoadRenderer.java:501 `lambda` this.valid = () -> true;
+- mindustry/graphics/MenuRenderer.java:248 `lambda` flyers((x, y) -> {
+- mindustry/graphics/MinimapRenderer.java:37 `lambda` Events.on(WorldLoadEvent.class, event -> {
+- mindustry/graphics/MinimapRenderer.java:42 `lambda` Events.on(TileChangeEvent.class, event -> {
+- mindustry/graphics/MinimapRenderer.java:48 `lambda` event.tile.getLinkedTiles(t -> {
+- mindustry/graphics/MinimapRenderer.java:58 `lambda` Events.on(TilePreChangeEvent.class, e -> {
+- mindustry/graphics/MinimapRenderer.java:63 `lambda` Time.run(0f, () -> update(tile));
+- mindustry/graphics/MinimapRenderer.java:68 `lambda` Events.on(BuildTeamChangeEvent.class, event -> update(event.build.tile));
+- mindustry/graphics/MinimapRenderer.java:76 `lambda` updates.each(pos -> {
+- mindustry/graphics/MinimapRenderer.java:280 `lambda` state.rules.objectives.eachRunning(obj -> {
+- mindustry/graphics/MinimapRenderer.java:348 `lambda` tile.getLinkedTiles(other -> {
+- mindustry/graphics/OverlayRenderer.java:34 `lambda` Events.on(WorldLoadEvent.class, e -> {
+- mindustry/graphics/OverlayRenderer.java:38 `lambda` Events.on(CoreChangeEvent.class, e -> {
+- mindustry/graphics/OverlayRenderer.java:111 `lambda` Groups.unit.each(unit -> {
+- mindustry/graphics/OverlayRenderer.java:187 `lambda` state.teams.eachEnemyCore(player.team(), core -> {
+- mindustry/graphics/Pixelator.java:49 `lambda` Draw.draw(Layer.end, () -> {
+- mindustry/graphics/Shaders.java:310 `anonymous_double_brace_initializer` Core.assets.load("sprites/space.png", Texture.class, new TextureParameter(){{
+- mindustry/graphics/Shaders.java:315 `lambda` }}).loaded = t -> texture = t;
+- mindustry/graphics/Shaders.java:350 `lambda` Core.assets.load("sprites/" + textureName() + ".png", Texture.class).loaded = t -> {
+- mindustry/graphics/Shaders.java:390 `lambda` Events.run(Trigger.update, () -> {
+- mindustry/graphics/Shaders.java:414 `lambda` Events.run(Trigger.preDraw, () -> {
+- mindustry/graphics/Shaders.java:423 `lambda` Events.run(Trigger.postDraw, () -> {
+- mindustry/graphics/Voronoi.java:68 `lambda` Arrays.sort(sites, (p1, p2) -> {
+- mindustry/input/DesktopInput.java:81 `lambda` group.fill(t -> {
+- mindustry/input/DesktopInput.java:83 `lambda` t.visible(() -> (t.color.a = Mathf.lerpDelta(t.color.a, Mathf.num(showHint()), 0.15f)) > 0.001f);
+- mindustry/input/DesktopInput.java:85 `lambda` t.table(Styles.black6, b -> {
+- mindustry/input/DesktopInput.java:88 `lambda` b.label(() -> {
+- mindustry/input/DesktopInput.java:107 `lambda` group.fill(t -> {
+- mindustry/input/DesktopInput.java:108 `lambda` t.visible(() -> ui.hudfrag.shown && lastSchematic != null && !selectPlans.isEmpty());
+- mindustry/input/DesktopInput.java:110 `lambda` t.table(Styles.black6, b -> {
+- mindustry/input/DesktopInput.java:112 `lambda` b.label(() -> Core.bundle.format("schematic.flip",
+- mindustry/input/DesktopInput.java:114 `lambda` Binding.schematicFlipY.value.key.toString())).style(Styles.outlineLabel).visible(() -> Core.settings.getBool("hints"));
+- mindustry/input/DesktopInput.java:116 `lambda` b.table(a -> {
+- mindustry/input/DesktopInput.java:117 `lambda` a.button("@schematic.add", Icon.save, this::showSchematicSave).colspan(2).size(250f, 50f).disabled(f -> lastSchematic == null || lastSchematic.file != null);
+- mindustry/input/DesktopInput.java:307 `lambda` selectedUnits.removeAll(u -> !u.allowCommand() || !u.isValid() || u.team != player.team());
+- mindustry/input/DesktopInput.java:315 `lambda` selectedUnits.set(selectedCommandUnits(Tmp.r1.x, Tmp.r1.y, Tmp.r1.width, Tmp.r1.height).removeAll(u -> !u.type.controlSelectGlobal));
+- mindustry/input/DesktopInput.java:330 `lambda` selectedUnits.set(selectedCommandUnits(Tmp.r1.x, Tmp.r1.y, Tmp.r1.width, Tmp.r1.height, u -> u instanceof Payloadc));
+- mindustry/input/DesktopInput.java:350 `lambda` commandBuildings.retainAll(b -> Tmp.r1.overlaps(b.x - (b.hitSize() /2), b.y - (b.hitSize() /2), b.hitSize(), b.hitSize()));
+- mindustry/input/DesktopInput.java:368 `lambda` IntSeq selectedUnitIds = selectedUnits.mapInt(u -> u.id);
+- mindustry/input/DesktopInput.java:393 `lambda` group.each(id -> {
+- mindustry/input/DesktopInput.java:481 `lambda` ui.showTextInput("", "@ping.text", Vars.maxPingTextLength, "", result -> Call.pingLocation(Vars.player, input.mouseWorldX(), input.mouseWorldY(), UI.formatIcons(result)));
+- mindustry/input/DesktopInput.java:536 `lambda` table.button(Icon.paste, Styles.clearNonei, () -> {
+- mindustry/input/DesktopInput.java:540 `lambda` table.button(Icon.book, Styles.clearNonei, () -> {
+- mindustry/input/DesktopInput.java:544 `lambda` table.button(Icon.tree, Styles.clearNonei, () -> {
+- mindustry/input/DesktopInput.java:546 `lambda` }).visible(() -> state.isCampaign()).tooltip("@research");
+- mindustry/input/DesktopInput.java:548 `lambda` table.button(Icon.map, Styles.clearNonei, () -> {
+- mindustry/input/DesktopInput.java:550 `lambda` }).visible(() -> state.isCampaign()).tooltip("@planetmap");
+- mindustry/input/DesktopInput.java:587 `lambda` selectPlans.each(s -> {
+- mindustry/input/DesktopInput.java:861 `lambda` canAttack = selectedUnits.contains(u -> u.canTarget(unit));
+- mindustry/input/InputHandler.java:86 `lambda` public Seq<Boolp> inputLocks = Seq.with(() -> renderer.isCutscene(), () -> logicCutscene);
+- mindustry/input/InputHandler.java:141 `lambda` Events.on(UnitDestroyEvent.class, e -> {
+- mindustry/input/InputHandler.java:142 `lambda` if(e.unit != null && e.unit.isPlayer() && e.unit.getPlayer().isLocal() && e.unit.type.weapons.contains(w -> w.bullet.killShooter)){
+- mindustry/input/InputHandler.java:147 `lambda` Events.on(WorldLoadEvent.class, e -> {
+- mindustry/input/InputHandler.java:153 `lambda` Events.on(ResetEvent.class, e -> {
+- mindustry/input/InputHandler.java:175 `lambda` Time.run(j * 3f, () -> transferItemEffect(item, build.x, build.y, to));
+- mindustry/input/InputHandler.java:182 `lambda` createItemTransfer(item, 1, x, y, to, () -> to.addItem(item));
+- mindustry/input/InputHandler.java:254 `lambda` Time.run(i * 3, () -> createItemTransfer(item, amount, x, y, build, () -> {}));
+- mindustry/input/InputHandler.java:263 `lambda` if(net.server() && !netServer.admins.allowAction(player, ActionType.removePlanned, a -> a.plans = positions)){
+- mindustry/input/InputHandler.java:287 `lambda` if(net.server() && !netServer.admins.allowAction(player, ActionType.pingLocation, event -> {
+- mindustry/input/InputHandler.java:313 `lambda` if(net.server() && !netServer.admins.allowAction(player, ActionType.commandUnits, event -> {
+- mindustry/input/InputHandler.java:414 `lambda` if(net.server() && !netServer.admins.allowAction(player, ActionType.commandUnits, event -> {
+- mindustry/input/InputHandler.java:449 `lambda` if(net.server() && !netServer.admins.allowAction(player, ActionType.commandUnits, event -> {
+- mindustry/input/InputHandler.java:473 `lambda` if(net.server() && !netServer.admins.allowAction(player, ActionType.commandBuilding, event -> {
+- mindustry/input/InputHandler.java:501 `lambda` !netServer.admins.allowAction(player, ActionType.withdrawItem, build.tile, action -> {
+- mindustry/input/InputHandler.java:520 `lambda` !netServer.admins.allowAction(player, ActionType.depositItem, build.tile, action -> {
+- mindustry/input/InputHandler.java:563 `lambda` if(net.server() && !netServer.admins.allowAction(player, ActionType.pickupBlock, build.tile, action -> {
+- mindustry/input/InputHandler.java:625 `lambda` if(net.server() && !netServer.admins.allowAction(player, ActionType.dropPayload, player.unit().tileOn(), action -> {
+- mindustry/input/InputHandler.java:691 `lambda` !netServer.admins.allowAction(player, ActionType.rotate, build.tile, action -> action.rotation = Mathf.mod(build.rotation + Mathf.sign(direction), 4)))){
+- mindustry/input/InputHandler.java:711 `lambda` !netServer.admins.allowAction(player, ActionType.configure, build.tile, action -> action.config = value))){
+- mindustry/input/InputHandler.java:746 `lambda` if(net.server() && !netServer.admins.allowAction(player, ActionType.buildSelect, action -> action.tile = build.tile)){
+- mindustry/input/InputHandler.java:776 `lambda` if(net.server() && (!state.rules.possessionAllowed || !netServer.admins.allowAction(player, ActionType.control, action -> action.unit = unit))){
+- mindustry/input/InputHandler.java:808 `lambda` Time.run(Fx.unitSpirit.lifetime, () -> Fx.unitControl.at(unit.x, unit.y, 0f, unit));
+- mindustry/input/InputHandler.java:825 `lambda` if(net.server() && !netServer.admins.allowAction(player, ActionType.respawn, action -> {})){
+- mindustry/input/InputHandler.java:952 `lambda` commandBuildings.removeAll(b -> !b.isValid() || !b.isCommandable() || b.team != player.team());
+- mindustry/input/InputHandler.java:1008 `lambda` Unit unit = Units.closest(player.team(), player.x, player.y, u -> !u.isPlayer() && u.type == controlledType && u.playerControllable() && !u.dead);
+- mindustry/input/InputHandler.java:1022 `lambda` Unit unit = Units.closest(player.team(), player.x, player.y, u -> !u.isPlayer() && u.type == controlledType && !u.dead);
+- mindustry/input/InputHandler.java:1041 `lambda` Unit target = Units.closest(player.team(), pay.x(), pay.y(), unit.type.hitSize * 2f, u -> u.isAI() && u.isGrounded() && pay.canPickup(u) && u.within(unit, u.hitSize + unit.hitSize));
+- mindustry/input/InputHandler.java:1122 `lambda` selectedUnits.addAll(selectedCommandUnits(Tmp.r1.x, Tmp.r1.y, Tmp.r1.width, Tmp.r1.height, u -> u.type == unit.type));
+- mindustry/input/InputHandler.java:1196 `lambda` Call.commandBuilding(player, commandBuildings.mapInt(b -> b.pos()).toArray(), target);
+- mindustry/input/InputHandler.java:1210 `lambda` Draw.draw(Layer.plans, () -> {
+- mindustry/input/InputHandler.java:1214 `lambda` Draw.draw(Layer.groundUnit - 1, () -> {
+- mindustry/input/InputHandler.java:1218 `lambda` Draw.draw(Layer.overlayUI, () -> {
+- mindustry/input/InputHandler.java:1244 `lambda` selectedUnits.removeAll(u -> !u.allowCommand());
+- mindustry/input/InputHandler.java:1380 `lambda` private static final Boolf<BuildPlan> sameQuadPlanFinder = b -> b.block == sameQuadPlan.block && b.x == sameQuadPlan.x && b.y == sameQuadPlan.y;
+- mindustry/input/InputHandler.java:1388 `lambda` Groups.player.each(player -> {
+- mindustry/input/InputHandler.java:1419 `lambda` player.previewPlanTree.intersect(Tmp.r1.grow(tilesize * 2f), plan -> {
+- mindustry/input/InputHandler.java:1540 `lambda` ui.showTextInput("@schematic.add", "@name", 1000, "", text -> {
+- mindustry/input/InputHandler.java:1541 `lambda` Schematic replacement = schematics.all().find(s -> s.name().equals(text));
+- mindustry/input/InputHandler.java:1543 `lambda` ui.showConfirm("@confirm", "@schematic.replace", () -> {
+- mindustry/input/InputHandler.java:1562 `lambda` plans.each(plan -> {
+- mindustry/input/InputHandler.java:1567 `lambda` plan.pointConfig(p -> {
+- mindustry/input/InputHandler.java:1600 `lambda` plans.each(plan -> {
+- mindustry/input/InputHandler.java:1611 `lambda` plan.pointConfig(p -> {
+- mindustry/input/InputHandler.java:1646 `lambda` Boolf<BuildPlan> test = plan -> {
+- mindustry/input/InputHandler.java:1894 `lambda` }else if(validBreak(tile.x, tile.y) && !selectPlans.contains(r -> r.tile() != null && r.tile() == tile)){
+- mindustry/input/InputHandler.java:1946 `lambda` iterateLine(x1, y1, x2, y2, l -> {
+- mindustry/input/InputHandler.java:1954 `lambda` linePlans.each(plan -> {
+- mindustry/input/InputHandler.java:2153 `lambda` Unit unit = Units.closest(player.team(), Core.input.mouseWorld().x, Core.input.mouseWorld().y, 40f, u -> u.isAI() && u.playerControllable());
+- mindustry/input/InputHandler.java:2183 `lambda` return tmpUnits.min(u -> u.isCommandable(), u -> u.dst(x, y) - u.hitSize/2f);
+- mindustry/input/InputHandler.java:2197 `lambda` return tmpUnits.min(u -> !u.inFogTo(player.team()), u -> u.dst(x, y) - u.hitSize/2f);
+- mindustry/input/InputHandler.java:2205 `lambda` tree.intersect(Tmp.r1.set(x - rad/2f, y - rad/2f, rad*2f + w, rad*2f + h).normalize(), b -> {
+- mindustry/input/InputHandler.java:2218 `lambda` tmpUnits.removeAll(u -> !u.isCommandable() || !predicate.get(u));
+- mindustry/input/InputHandler.java:2223 `lambda` return selectedCommandUnits(x, y, w, h, u -> true);
+- mindustry/input/InputHandler.java:2245 `lambda` Core.input.getInputProcessors().remove(i -> i instanceof InputHandler || (i instanceof GestureDetector && ((GestureDetector)i).getListener() instanceof InputHandler));
+- mindustry/input/InputHandler.java:2364 `lambda` private static final Boolf<BuildPlan> vpPredicate = plan ->
+- mindustry/input/MobileInput.java:80 `lambda` Events.on(UnitDestroyEvent.class, e -> {
+- mindustry/input/MobileInput.java:81 `lambda` if(e.unit != null && e.unit.isPlayer() && e.unit.getPlayer().isLocal() && e.unit.type.weapons.contains(w -> w.bullet.killShooter)){
+- mindustry/input/MobileInput.java:93 `lambda` Unit unit = Units.closestEnemy(player.team(), x, y, 20f, u -> !u.dead);
+- mindustry/input/MobileInput.java:195 `lambda` table.button(Icon.hammer, Styles.clearNoneTogglei, () -> {
+- mindustry/input/MobileInput.java:198 `lambda` }).update(l -> l.setChecked(mode == breaking)).name("breakmode");
+- mindustry/input/MobileInput.java:201 `lambda` table.button(Icon.diagonal, Styles.clearNoneTogglei, () -> {
+- mindustry/input/MobileInput.java:203 `lambda` }).update(l -> l.setChecked(Core.settings.getBool("swapdiagonal")));
+- mindustry/input/MobileInput.java:206 `lambda` table.button(Icon.right, Styles.clearNoneTogglei, () -> {
+- mindustry/input/MobileInput.java:218 `lambda` }).update(i -> {
+- mindustry/input/MobileInput.java:227 `lambda` table.button(Icon.ok, Styles.clearNoneTogglei, () -> {
+- mindustry/input/MobileInput.java:258 `lambda` removals.addAll(selectPlans.select(r -> !r.breaking));
+- mindustry/input/MobileInput.java:262 `lambda` }).visible(() -> !selectPlans.isEmpty() || schematicMode || rebuildMode).update(i -> {
+- mindustry/input/MobileInput.java:265 `lambda` i.setDisabled(() -> player.dead());
+- mindustry/input/MobileInput.java:281 `lambda` group.fill(t -> {
+- mindustry/input/MobileInput.java:284 `lambda` t.button(Icon.cancel, Styles.cleari, () -> {
+- mindustry/input/MobileInput.java:293 `lambda` t.button(Icon.pause, Styles.clearTogglei, () -> isBuilding = !isBuilding).width(155f/2f).checked(b -> {
+- mindustry/input/MobileInput.java:300 `lambda` group.fill(t -> {
+- mindustry/input/MobileInput.java:301 `lambda` t.visible(() -> !hasSchematic() && !ui.consolefrag.shown() && !(state.isEditor()&& Core.settings.getBool("editor-blocks-shown")));
+- mindustry/input/MobileInput.java:304 `lambda` t.button("@command.queue", Icon.rightOpen, Styles.clearTogglet, () -> {
+- mindustry/input/MobileInput.java:306 `lambda` }).width(155f).height(48f).margin(12f).checked(b -> queueCommandMode).visible(() -> commandMode).row();
+- mindustry/input/MobileInput.java:308 `lambda` t.button("@command", Icon.units, Styles.clearTogglet, () -> {
+- mindustry/input/MobileInput.java:315 `lambda` }).width(155f).height(48f).margin(12f).checked(b -> commandMode).row();
+- mindustry/input/MobileInput.java:317 `lambda` t.spacerY(() -> showCancel() ? 50f : 0f).row();
+- mindustry/input/MobileInput.java:320 `lambda` t.rect((x, y, w, h) -> {
+- mindustry/input/MobileInput.java:327 `lambda` group.fill(t -> {
+- mindustry/input/MobileInput.java:328 `lambda` t.visible(() -> hasSchematic() && !ui.consolefrag.shown());
+- mindustry/input/MobileInput.java:330 `lambda` t.table(Tex.pane, b -> {
+- mindustry/input/MobileInput.java:335 `lambda` b.button(Icon.save, style, this::showSchematicSave).disabled(f -> lastSchematic == null || lastSchematic.file != null);
+- mindustry/input/MobileInput.java:336 `lambda` b.button(Icon.cancel, style, () -> {
+- mindustry/input/MobileInput.java:341 `lambda` b.button(Icon.flipX, style, () -> flipPlans(selectPlans, true));
+- mindustry/input/MobileInput.java:342 `lambda` b.button(Icon.flipY, style, () -> flipPlans(selectPlans, false));
+- mindustry/input/MobileInput.java:344 `lambda` b.button(Icon.rotate, style, () -> rotatePlans(selectPlans, 1)).update(i -> {
+- mindustry/input/MobileInput.java:489 `lambda` selectPlans.each(r -> Tmp.v1.add(r.drawx(), r.drawy()));
+- mindustry/input/MobileInput.java:496 `lambda` selectPlans.each(r -> Tmp.v1.add(r.drawx(), r.drawy()));
+- mindustry/input/MobileInput.java:628 `lambda` Unit target = Units.closest(player.team(), pos.x, pos.y, 8f, u -> u.isAI() && u.isGrounded() && pay.canPickup(u) && u.within(pos, u.hitSize + 8f));
+- mindustry/input/MobileInput.java:800 `lambda` selectedUnits.removeAll(u -> !u.allowCommand() || !u.isValid() || u.team != player.team());
+- mindustry/input/MobileInput.java:1050 `lambda` //vec -> dropping something
+- mindustry/input/MobileInput.java:1053 `lambda` //building -> picking building up
+- mindustry/input/MobileInput.java:1056 `lambda` //unit -> picking unit up
+- mindustry/input/MobileInput.java:1092 `lambda` target = Units.closestTarget(unit.team, unit.x, unit.y, range, u -> u.checkTarget(type.targetAir, type.targetGround), u -> type.targetGround && type.targetBuildingsMobile);
+- mindustry/input/MobileInput.java:1107 `lambda` Vec2 intercept = player.unit().type.weapons.contains(w -> w.predictTarget) ? Predict.intercept(unit, target, type.weapons.first().bullet) : Tmp.v1.set(target);
+- mindustry/input/Placement.java:96 `lambda` base.selectFrom(points, p -> p == points.first() || p == points.peek() || Build.validPlace(block, player.team(), p.x, p.y, rotation));
+- mindustry/input/Placement.java:132 `lambda` calculateBridges(plans, bridge, false, t -> false);
+- mindustry/input/Placement.java:143 `lambda` Boolf<BuildPlan> placeable = plan ->
+- mindustry/input/Placement.java:218 `lambda` Boolf<BuildPlan> placeable = plan ->
+- mindustry/input/Placement.java:319 `lambda` PQueue<Tile> queue = new PQueue<>(10, (a, b) -> Float.compare(costs.get(a.pos(), 0f) + distanceHeuristic(a.x, a.y, end.x, end.y), costs.get(b.pos(), 0f) + distanceHeuristic(b.x, b.y, end.x, end.y)));
+- mindustry/io/MapIO.java:44 `lambda` ver.readRegion("meta", stream, counter, in -> tags.putAll(ver.readStringMap(in)));
+- mindustry/io/MapIO.java:56 `anonymous_double_brace_initializer` SaveIO.write(file, new SaveOptions(){{
+- mindustry/io/MapIO.java:110 `lambda` ver.readRegion("preview_map", stream, counter, in -> ver.readMap(in, new WorldContext(){
+- mindustry/io/SaveFileReader.java:92 `lambda` length = readChunk(stream, (chunkStream, len) -> cons.accept(chunkStream));
+- mindustry/io/SaveFileReader.java:104 `lambda` writeChunk(stream, writes -> cons.accept(writes.output));
+- mindustry/io/SaveFileReader.java:144 `lambda` return readChunk(input, (in, length) -> {
+- mindustry/io/SaveFileReader.java:152 `lambda` int length = readChunk(input, (t, len) -> {});
+- mindustry/io/SaveFileReader.java:169 `lambda` int length = readLegacyShortChunk(input, (t, len) -> {});
+- mindustry/io/SaveMeta.java:25 `lambda` this.map = maps == null ? null : maps.all().find(m -> m.name().equals(map));
+- mindustry/io/SaveVersion.java:64 `lambda` readRegion("meta", stream, counter, in -> readMeta(in, context));
+- mindustry/io/SaveVersion.java:69 `lambda` readRegion("map", stream, counter, in -> readMap(in, context));
+- mindustry/io/SaveVersion.java:79 `lambda` writeRegion("meta", stream, out -> writeMeta(out, options.extraTags));
+- mindustry/io/SaveVersion.java:80 `lambda` writeRegion("patches", stream, out -> writeDataPatches(out, options.embedAssets));
+- mindustry/io/SaveVersion.java:85 `lambda` writeRegion("custom", stream, s -> writeCustomChunks(s, false));
+- mindustry/io/SaveVersion.java:89 `lambda` var chunks = customChunks.orderedKeys().select(s -> customChunks.get(s).shouldWrite() && (!net || customChunks.get(s).writeNet()));
+- mindustry/io/SaveVersion.java:95 `lambda` writeChunk(stream, writes -> chunk.write(writes.output));
+- mindustry/io/SaveVersion.java:251 `lambda` writeChunk(stream, out -> {
+- mindustry/io/SaveVersion.java:351 `lambda` readChunkReads(stream, (in, len) -> {
+- mindustry/io/SaveVersion.java:406 `lambda` writeChunk(stream, out -> {
+- mindustry/io/SaveVersion.java:467 `lambda` readChunkReads(stream, (in, len) -> {
+- mindustry/io/TypeIO.java:184 `lambda` case 0 -> null;
+- mindustry/io/TypeIO.java:185 `lambda` case 1 -> read.i();
+- mindustry/io/TypeIO.java:186 `lambda` case 2 -> read.l();
+- mindustry/io/TypeIO.java:187 `lambda` case 3 -> read.f();
+- mindustry/io/TypeIO.java:188 `lambda` case 4 -> {
+- mindustry/io/TypeIO.java:197 `lambda` case 5 -> mapper == null ? content.getByID(ContentType.all[read.b()], read.s()) : mapper.get(ContentType.all[read.b()], read.s());
+- mindustry/io/TypeIO.java:198 `lambda` case 6 -> {
+- mindustry/io/TypeIO.java:206 `lambda` case 7 -> new Point2(read.i(), read.i());
+- mindustry/io/TypeIO.java:207 `lambda` case 8 -> {
+- mindustry/io/TypeIO.java:214 `lambda` case 9 -> content.<UnlockableContent>getByID(ContentType.all[read.b()], read.s()).techNode;
+- mindustry/io/TypeIO.java:215 `lambda` case 10 -> read.bool();
+- mindustry/io/TypeIO.java:216 `lambda` case 11 -> read.d();
+- mindustry/io/TypeIO.java:217 `lambda` case 12 -> !box ? world.build(read.i()) : new BuildingBox(read.i());
+- mindustry/io/TypeIO.java:218 `lambda` case 13 -> LAccess.all[read.s()];
+- mindustry/io/TypeIO.java:219 `lambda` case 14 -> {
+- mindustry/io/TypeIO.java:229 `lambda` case 15 -> {
+- mindustry/io/TypeIO.java:233 `lambda` case 16 -> {
+- mindustry/io/TypeIO.java:242 `lambda` case 17 -> !box ? Groups.unit.getByID(read.i()) : new UnitBox(read.i());
+- mindustry/io/TypeIO.java:243 `lambda` case 18 -> {
+- mindustry/io/TypeIO.java:252 `lambda` case 19 -> new Vec2(read.f(), read.f());
+- mindustry/io/TypeIO.java:253 `lambda` case 20 -> Team.all[read.ub()];
+- mindustry/io/TypeIO.java:254 `lambda` case 21 -> readInts(read);
+- mindustry/io/TypeIO.java:255 `lambda` case 22 -> {
+- mindustry/io/TypeIO.java:266 `lambda` case 23 -> content.unitCommand(read.us());
+- mindustry/io/TypeIO.java:267 `lambda` default -> throw new IllegalArgumentException("Unknown object type: " + type);
+- mindustry/io/TypeIO.java:646 `lambda` case 0 -> null;
+- mindustry/io/TypeIO.java:647 `lambda` case 1 -> read.i();
+- mindustry/io/TypeIO.java:648 `lambda` case 2 -> read.l();
+- mindustry/io/TypeIO.java:649 `lambda` case 3 -> read.f();
+- mindustry/io/TypeIO.java:650 `lambda` case 5 -> content.getByID(ContentType.all[read.b()], read.s());
+- mindustry/io/TypeIO.java:651 `lambda` case 10 -> read.bool();
+- mindustry/io/TypeIO.java:652 `lambda` case 11 -> read.d();
+- mindustry/io/TypeIO.java:653 `lambda` default -> throw new IllegalArgumentException("Unknown plan config object type: " + type);
+- mindustry/io/TypeIO.java:786 `lambda` case 0 -> {
+- mindustry/io/TypeIO.java:790 `lambda` case 1 -> {
+- mindustry/io/TypeIO.java:794 `lambda` case 2 -> {
+- mindustry/io/versions/LegacyRegionSaveVersion.java:19 `lambda` readRegion("meta", stream, counter, in -> readMeta(in, context));
+- mindustry/io/versions/LegacyRegionSaveVersion.java:23 `lambda` readRegion("map", stream, counter, in -> readMap(in, context));
+- mindustry/io/versions/LegacySaveVersion.java:64 `lambda` readLegacyShortChunk(stream, (in, len) -> {
+- mindustry/io/versions/LegacySaveVersion2.java:20 `lambda` readLegacyShortChunk(stream, (in, len) -> {
+- mindustry/io/versions/Save11.java:27 `lambda` readRegion("meta", stream, counter, in -> readMeta(in, context));
+- mindustry/io/versions/Save11.java:32 `lambda` readRegion("map", stream, counter, in -> readMap(in, context));
+- mindustry/io/versions/ShortChunkSaveVersion.java:25 `lambda` readLegacyShortChunk(stream, (in, len) -> {
+- mindustry/io/versions/ShortChunkSaveVersion.java:120 `lambda` readLegacyShortChunk(stream, (in, len) -> {
+- mindustry/logic/ConditionOp.java:6 `lambda` equal("==", (a, b) -> Math.abs(a - b) < 0.000001, Structs::eq),
+- mindustry/logic/ConditionOp.java:7 `lambda` notEqual("not", (a, b) -> Math.abs(a - b) >= 0.000001, (a, b) -> !Structs.eq(a, b)),
+- mindustry/logic/ConditionOp.java:8 `lambda` lessThan("<", (a, b) -> a < b),
+- mindustry/logic/ConditionOp.java:9 `lambda` lessThanEq("<=", (a, b) -> a <= b),
+- mindustry/logic/ConditionOp.java:10 `lambda` greaterThan(">", (a, b) -> a > b),
+- mindustry/logic/ConditionOp.java:11 `lambda` greaterThanEq(">=", (a, b) -> a >= b),
+- mindustry/logic/ConditionOp.java:12 `lambda` strictEqual("===", (a, b) -> false),
+- mindustry/logic/ConditionOp.java:13 `lambda` always("always", (a, b) -> true);
+- mindustry/logic/GlobalVars.java:153 `lambda` LStatement.nameToAlign.each((name, align) -> put("@" + name, align));
+- mindustry/logic/GlobalVarsDialog.java:29 `lambda` cont.pane(t -> {
+- mindustry/logic/GlobalVarsDialog.java:52 `lambda` t.table(Tex.pane, out -> out.add(fdesc).style(Styles.outlineLabel).width(prefWidth).padLeft(2).padRight(2).wrap()).padRight(pad);
+- mindustry/logic/LAccess.java:91 `lambda` senseable = Seq.select(all, t -> t.params.length <= 1).toArray(LAccess.class),
+- mindustry/logic/LAccess.java:92 `lambda` controls = Seq.select(all, t -> t.params.length > 0).toArray(LAccess.class),
+- mindustry/logic/LAssembler.java:38 `lambda` asm.instructions = st.map(l -> l.build(asm)).retainAll(l -> l != null).toArray(LInstruction.class);
+- mindustry/logic/LCanvas.java:51 `lambda` Core.app.post(() -> {
+- mindustry/logic/LCanvas.java:70 `lambda` var tip = new Tooltip(t -> t.background(Styles.black8).margin(4f).add("[lightgray]" + Core.bundle.get(lkey)).style(Styles.outlineLabel));
+- mindustry/logic/LCanvas.java:112 `lambda` pane = pane(t -> {
+- mindustry/logic/LCanvas.java:118 `lambda` statements.jumps.update(() -> statements.jumps.setCullingArea(t.getCullingArea()));
+- mindustry/logic/LCanvas.java:138 `lambda` Seq<LStatement> st = statements.getChildren().<StatementElem>as().map(s -> s.st);
+- mindustry/logic/LCanvas.java:214 `lambda` float totalHeight = getChildren().sumf(e -> e.getPrefHeight() + space);
+- mindustry/logic/LCanvas.java:275 `lambda` jumpsChildren.each(e -> {
+- mindustry/logic/LCanvas.java:291 `lambda` processedJumps.sort((a, b) -> a.jumpUIBegin - b.jumpUIBegin);
+- mindustry/logic/LCanvas.java:299 `lambda` occupiers.retainAll(e -> {
+- mindustry/logic/LCanvas.java:311 `lambda` jumpsChildren.each(e -> {
+- mindustry/logic/LCanvas.java:332 `lambda` tmpOccupiers.retainAll(e -> {
+- mindustry/logic/LCanvas.java:375 `lambda` children.each(c -> c.cullable = false);
+- mindustry/logic/LCanvas.java:381 `lambda` children.each(c -> c.cullable = true);
+- mindustry/logic/LCanvas.java:427 `lambda` table(Tex.whiteui, t -> {
+- mindustry/logic/LCanvas.java:440 `lambda` t.button(Icon.add, Styles.logici, () -> Vars.ui.logic.showAddDialog(index + 1))
+- mindustry/logic/LCanvas.java:441 `lambda` .disabled(b -> canvas.statements.getChildren().size >= LExecutor.maxInstructions).size(24f).padRight(6);
+- mindustry/logic/LCanvas.java:443 `lambda` t.button(Icon.copy, Styles.logici, () -> {
+- mindustry/logic/LCanvas.java:444 `lambda` }).size(24f).padRight(6).disabled(i -> canvas.statements.getChildren().size >= LExecutor.maxInstructions).get().tapped(this::copy);
+- mindustry/logic/LCanvas.java:446 `lambda` t.button(Icon.cancel, Styles.logici, () -> {
+- mindustry/logic/LCanvas.java:495 `lambda` table(t -> {
+- mindustry/logic/LCanvas.java:555 `anonymous_double_brace_initializer` super(Tex.logicNode, new ImageButtonStyle(){{
+- mindustry/logic/LCanvas.java:595 `lambda` update(() -> {
+- mindustry/logic/LExecutor.java:71 `lambda` Events.on(ResetEvent.class, e -> unitTimeouts.clear());
+- mindustry/logic/LExecutor.java:127 `lambda` vars = builder.vars.values().toSeq().retainAll(var -> !var.constant).toArray(LVar.class);
+- mindustry/logic/LExecutor.java:247 `lambda` case ore -> {
+- mindustry/logic/LExecutor.java:252 `lambda` case building -> {
+- mindustry/logic/LExecutor.java:257 `lambda` case spawn -> {
+- mindustry/logic/LExecutor.java:260 `lambda` case damaged -> {
+- mindustry/logic/LExecutor.java:355 `lambda` case idle, autoPathfind -> {
+- mindustry/logic/LExecutor.java:358 `lambda` case move, stop, approach, pathfind -> {
+- mindustry/logic/LExecutor.java:372 `lambda` case unbind -> {
+- mindustry/logic/LExecutor.java:376 `lambda` case within -> {
+- mindustry/logic/LExecutor.java:379 `lambda` case target -> {
+- mindustry/logic/LExecutor.java:385 `lambda` case targetp -> {
+- mindustry/logic/LExecutor.java:390 `lambda` case boost -> {
+- mindustry/logic/LExecutor.java:393 `lambda` case flag -> {
+- mindustry/logic/LExecutor.java:396 `lambda` case mine -> {
+- mindustry/logic/LExecutor.java:402 `lambda` case payDrop -> {
+- mindustry/logic/LExecutor.java:410 `lambda` case payTake -> {
+- mindustry/logic/LExecutor.java:416 `lambda` Unit result = Units.closest(unit.team, unit.x, unit.y, unit.type.hitSize * 2f, u -> u != unit && u.isAI() && u.isGrounded() && pay.canPickup(u) && u.within(unit, u.hitSize + unit.hitSize * 1.2f));
+- mindustry/logic/LExecutor.java:438 `lambda` case payEnter -> {
+- mindustry/logic/LExecutor.java:444 `lambda` case build -> {
+- mindustry/logic/LExecutor.java:469 `lambda` case deconstruct -> {
+- mindustry/logic/LExecutor.java:491 `lambda` case getBlock -> {
+- mindustry/logic/LExecutor.java:511 `lambda` case itemDrop -> {
+- mindustry/logic/LExecutor.java:532 `lambda` case itemTake -> {
+- mindustry/logic/LExecutor.java:548 `lambda` default -> {}
+- mindustry/logic/LExecutor.java:808 `lambda` Units.nearby(team, b.x(), b.y(), range, u -> {
+- mindustry/logic/LExecutor.java:1329 `lambda` case pan -> {
+- mindustry/logic/LExecutor.java:1334 `lambda` case zoom -> {
+- mindustry/logic/LExecutor.java:1338 `lambda` case stop -> {
+- mindustry/logic/LExecutor.java:1368 `lambda` case unit -> {
+- mindustry/logic/LExecutor.java:1377 `lambda` case player -> result.setobj(i < 0 || i >= data.players.size ? null :
+- mindustry/logic/LExecutor.java:1379 `lambda` case core -> result.setobj(i < 0 || i >= data.cores.size ? null : data.cores.get(i));
+- mindustry/logic/LExecutor.java:1380 `lambda` case build -> {
+- mindustry/logic/LExecutor.java:1389 `lambda` case unitCount -> {
+- mindustry/logic/LExecutor.java:1397 `lambda` case coreCount -> result.setnum(data.cores.size);
+- mindustry/logic/LExecutor.java:1398 `lambda` case playerCount -> result.setnum(data.players.size);
+- mindustry/logic/LExecutor.java:1399 `lambda` case buildCount -> {
+- mindustry/logic/LExecutor.java:1417 `lambda` private static final Cons<Bullet> bulletCons = o -> {
+- mindustry/logic/LExecutor.java:1465 `lambda` case unit -> {
+- mindustry/logic/LExecutor.java:1474 `lambda` case bullet -> {
+- mindustry/logic/LExecutor.java:1483 `lambda` case building -> {
+- mindustry/logic/LExecutor.java:1500 `lambda` case unit -> results.<Unit>as().removeAll(u -> !u.within(circleX, circleY, radius + u.hitSize/2f));
+- mindustry/logic/LExecutor.java:1501 `lambda` case bullet -> results.<Bullet>as().removeAll(u -> !u.within(circleX, circleY, radius + u.hitSize/2f));
+- mindustry/logic/LExecutor.java:1502 `lambda` case building -> results.<Building>as().removeAll(u -> !u.within(circleX, circleY, radius + u.hitSize()/2f));
+- mindustry/logic/LExecutor.java:1530 `lambda` case floor -> tile.floor();
+- mindustry/logic/LExecutor.java:1531 `lambda` case ore -> tile.overlay();
+- mindustry/logic/LExecutor.java:1532 `lambda` case block -> tile.block();
+- mindustry/logic/LExecutor.java:1533 `lambda` case building -> tile.build;
+- mindustry/logic/LExecutor.java:1564 `lambda` case ore -> {
+- mindustry/logic/LExecutor.java:1567 `lambda` case floor -> {
+- mindustry/logic/LExecutor.java:1572 `lambda` case block -> {
+- mindustry/logic/LExecutor.java:1765 `lambda` case waveTimer -> state.rules.waveTimer = value.bool();
+- mindustry/logic/LExecutor.java:1766 `lambda` case wave -> state.wave = Math.max(value.numi(), 1);
+- mindustry/logic/LExecutor.java:1767 `lambda` case currentWaveTime -> state.wavetime = Math.max(value.numf() * 60f, 0f);
+- mindustry/logic/LExecutor.java:1768 `lambda` case waves -> state.rules.waves = value.bool();
+- mindustry/logic/LExecutor.java:1769 `lambda` case waveSending -> state.rules.waveSending = value.bool();
+- mindustry/logic/LExecutor.java:1770 `lambda` case attackMode -> state.rules.attackMode = value.bool();
+- mindustry/logic/LExecutor.java:1771 `lambda` case waveSpacing -> state.rules.waveSpacing = value.numf() * 60f;
+- mindustry/logic/LExecutor.java:1772 `lambda` case enemyCoreBuildRadius -> state.rules.enemyCoreBuildRadius = value.numf() * 8f;
+- mindustry/logic/LExecutor.java:1773 `lambda` case dropZoneRadius -> state.rules.dropZoneRadius = value.numf() * 8f;
+- mindustry/logic/LExecutor.java:1774 `lambda` case unitCap -> state.rules.unitCap = Math.max(value.numi(), 0);
+- mindustry/logic/LExecutor.java:1775 `lambda` case lighting -> state.rules.lighting = value.bool();
+- mindustry/logic/LExecutor.java:1776 `lambda` case canGameOver -> state.rules.canGameOver = value.bool();
+- mindustry/logic/LExecutor.java:1777 `lambda` case pauseDisabled -> state.rules.pauseDisabled = value.bool();
+- mindustry/logic/LExecutor.java:1778 `lambda` case mapArea -> {
+- mindustry/logic/LExecutor.java:1784 `lambda` case ambientLight -> state.rules.ambientLight.fromDouble(value.num());
+- mindustry/logic/LExecutor.java:1785 `lambda` case solarMultiplier -> state.rules.solarMultiplier = Math.max(value.numf(), 0f);
+- mindustry/logic/LExecutor.java:1786 `lambda` case dragMultiplier -> state.rules.dragMultiplier = Math.max(value.numf(), 0f);
+- mindustry/logic/LExecutor.java:1787 `lambda` case ban -> {
+- mindustry/logic/LExecutor.java:1796 `lambda` case unban -> {
+- mindustry/logic/LExecutor.java:1804 `lambda` case unitHealth, unitBuildSpeed, unitMineSpeed, unitCost, unitDamage, blockHealth, blockDamage, buildSpeed, rtsMinSquad, rtsMinWeight -> {
+- mindustry/logic/LExecutor.java:1809 `lambda` case buildSpeed -> team.rules().buildSpeedMultiplier = Mathf.clamp(num, 0.001f, 50f);
+- mindustry/logic/LExecutor.java:1810 `lambda` case unitHealth -> team.rules().unitHealthMultiplier = Math.max(num, 0.001f);
+- mindustry/logic/LExecutor.java:1811 `lambda` case unitBuildSpeed -> team.rules().unitBuildSpeedMultiplier = Mathf.clamp(num, 0f, 50f);
+- mindustry/logic/LExecutor.java:1812 `lambda` case unitMineSpeed -> team.rules().unitMineSpeedMultiplier = Math.max(num, 0f);
+- mindustry/logic/LExecutor.java:1813 `lambda` case unitCost -> team.rules().unitCostMultiplier = Math.max(num, 0f);
+- mindustry/logic/LExecutor.java:1814 `lambda` case unitDamage -> team.rules().unitDamageMultiplier = Math.max(num, 0f);
+- mindustry/logic/LExecutor.java:1815 `lambda` case blockHealth -> team.rules().blockHealthMultiplier = Math.max(num, 0.001f);
+- mindustry/logic/LExecutor.java:1816 `lambda` case blockDamage -> team.rules().blockDamageMultiplier = Math.max(num, 0f);
+- mindustry/logic/LExecutor.java:1817 `lambda` case rtsMinWeight -> team.rules().rtsMinWeight = num;
+- mindustry/logic/LExecutor.java:1818 `lambda` case rtsMinSquad -> team.rules().rtsMinSquad = (int)num;
+- mindustry/logic/LExecutor.java:1929 `lambda` case notify -> ui.hudfrag.showToast(Icon.info, text);
+- mindustry/logic/LExecutor.java:1930 `lambda` case announce -> ui.announce(text, duration.numf());
+- mindustry/logic/LExecutor.java:1931 `lambda` case toast -> ui.showInfoToast(text, duration.numf());
+- mindustry/logic/LExecutor.java:1933 `lambda` case mission -> state.rules.mission = text;
+- mindustry/logic/LogicDialog.java:30 `lambda` Cons<String> consumer = s -> {};
+- mindustry/logic/LogicDialog.java:47 `lambda` shown(() -> {
+- mindustry/logic/LogicDialog.java:51 `lambda` hidden(() -> consumer.get(canvas.save()));
+- mindustry/logic/LogicDialog.java:52 `lambda` onResize(() -> {
+- mindustry/logic/LogicDialog.java:62 `lambda` keyDown(KeyCode.enter, () -> {
+- mindustry/logic/LogicDialog.java:107 `lambda` buttons.button("@edit", Icon.edit, () -> {
+- mindustry/logic/LogicDialog.java:109 `lambda` dialog.cont.pane(p -> {
+- mindustry/logic/LogicDialog.java:111 `lambda` p.table(Tex.button, t -> {
+- mindustry/logic/LogicDialog.java:116 `lambda` t.button("@editor.worldprocessors.editname", Icon.edit, style, () -> {
+- mindustry/logic/LogicDialog.java:117 `lambda` ui.showTextInput("", "@editor.name", LogicBlock.maxNameLength, executor.build.tag == null ? "" : executor.build.tag, tag -> {
+- mindustry/logic/LogicDialog.java:128 `lambda` t.button("@clear", Icon.cancel, style, () -> {
+- mindustry/logic/LogicDialog.java:129 `lambda` ui.showConfirm("@logic.clear.confirm", () -> canvas.clearStatements());
+- mindustry/logic/LogicDialog.java:133 `lambda` t.button("@copy.clipboard", Icon.copy, style, () -> {
+- mindustry/logic/LogicDialog.java:138 `lambda` t.button("@import.clipboard", Icon.download, style, () -> {
+- mindustry/logic/LogicDialog.java:145 `lambda` }).marginLeft(12f).disabled(b -> Core.app.getClipboardText() == null).row();
+- mindustry/logic/LogicDialog.java:147 `lambda` t.button("@logic.restart", Icon.refresh, style, () -> {
+- mindustry/logic/LogicDialog.java:162 `lambda` buttons.button("@variables", Icon.menu, () -> {
+- mindustry/logic/LogicDialog.java:170 `lambda` dialog.hidden(() -> {
+- mindustry/logic/LogicDialog.java:176 `lambda` dialog.shown(() -> {
+- mindustry/logic/LogicDialog.java:182 `lambda` dialog.cont.pane(p -> {
+- mindustry/logic/LogicDialog.java:185 `lambda` p.table(Tex.button, t -> {
+- mindustry/logic/LogicDialog.java:194 `anonymous_double_brace_initializer` t.stack(new Image(Tex.whiteui, varColor), new Label(" " + s.name + " ", Styles.outlineLabel){{
+- mindustry/logic/LogicDialog.java:199 `lambda` t.table(Tex.pane, out -> {
+- mindustry/logic/LogicDialog.java:203 `lambda` label.update(() -> {
+- mindustry/logic/LogicDialog.java:218 `lambda` t.add(new Image(Tex.whiteui, typeColor(s, new Color()).mul(mul))).update(i -> i.setColor(typeColor(s, i.color).mul(mul))).width(stub);
+- mindustry/logic/LogicDialog.java:220 `anonymous_double_brace_initializer` t.stack(new Image(Tex.whiteui, typeColor(s, new Color())){{
+- mindustry/logic/LogicDialog.java:221 `lambda` update(() -> setColor(typeColor(s, color)));
+- mindustry/logic/LogicDialog.java:222 `lambda` }}, new Label(() -> " " + typeName(s) + " "){{
+- mindustry/logic/LogicDialog.java:222 `anonymous_double_brace_initializer` }}, new Label(() -> " " + typeName(s) + " "){{
+- mindustry/logic/LogicDialog.java:234 `lambda` dialog.buttons.button("@logic.globals", Icon.list, () -> globalsDialog.show()).size(210f, 64f);
+- mindustry/logic/LogicDialog.java:237 `lambda` }).name("variables").update(b -> {
+- mindustry/logic/LogicDialog.java:245 `lambda` buttons.button("@add", Icon.add, () -> {
+- mindustry/logic/LogicDialog.java:247 `lambda` }).disabled(t -> canvas.statements.getChildren().size >= LExecutor.maxInstructions);
+- mindustry/logic/LogicDialog.java:262 `lambda` dialog.cont.table(table -> {
+- mindustry/logic/LogicDialog.java:265 `lambda` Runnable[] rebuild = {() -> {}};
+- mindustry/logic/LogicDialog.java:269 `lambda` table.table(s -> {
+- mindustry/logic/LogicDialog.java:271 `lambda` var search = s.field(null, text -> {
+- mindustry/logic/LogicDialog.java:283 `lambda` search.keyDown(KeyCode.enter, () -> {
+- mindustry/logic/LogicDialog.java:292 `lambda` table.pane(t -> {
+- mindustry/logic/LogicDialog.java:293 `lambda` rebuild[0] = () -> {
+- mindustry/logic/LogicDialog.java:313 `lambda` t.table(s -> {
+- mindustry/logic/LogicDialog.java:323 `lambda` cat = t.table(c -> {
+- mindustry/logic/LogicDialog.java:333 `lambda` cat.button(example.name(), style, () -> {
+- mindustry/logic/LogicDialog.java:336 `lambda` }).size(130f, 50f).self(c -> tooltip(c, "lst." + example.name())).top().left();
+- mindustry/logic/LogicDialog.java:362 `lambda` this.consumer = result -> {
+- mindustry/logic/LogicFx.java:49 `lambda` map.each((n, e) -> e.name = n);
+- mindustry/logic/LogicFx.java:53 `lambda` return map.orderedKeys().map(s -> map.get(s));
+- mindustry/logic/LogicOp.java:8 `lambda` add("+", (a, b) -> a + b),
+- mindustry/logic/LogicOp.java:9 `lambda` sub("-", (a, b) -> a - b),
+- mindustry/logic/LogicOp.java:10 `lambda` mul("*", (a, b) -> a * b),
+- mindustry/logic/LogicOp.java:11 `lambda` div("/", (a, b) -> a / b),
+- mindustry/logic/LogicOp.java:12 `lambda` idiv("//", (a, b) -> Math.floor(a / b)),
+- mindustry/logic/LogicOp.java:13 `lambda` mod("%", (a, b) -> a % b),
+- mindustry/logic/LogicOp.java:14 `lambda` emod("%%", (a, b) -> ((a % b) + b) % b),
+- mindustry/logic/LogicOp.java:17 `lambda` equal("==", (a, b) -> Math.abs(a - b) < 0.000001 ? 1 : 0, (a, b) -> Structs.eq(a, b) ? 1 : 0),
+- mindustry/logic/LogicOp.java:18 `lambda` notEqual("not", (a, b) -> Math.abs(a - b) < 0.000001 ? 0 : 1, (a, b) -> !Structs.eq(a, b) ? 1 : 0),
+- mindustry/logic/LogicOp.java:19 `lambda` land("and", (a, b) -> a != 0 && b != 0 ? 1 : 0),
+- mindustry/logic/LogicOp.java:20 `lambda` lessThan("<", (a, b) -> a < b ? 1 : 0),
+- mindustry/logic/LogicOp.java:21 `lambda` lessThanEq("<=", (a, b) -> a <= b ? 1 : 0),
+- mindustry/logic/LogicOp.java:22 `lambda` greaterThan(">", (a, b) -> a > b ? 1 : 0),
+- mindustry/logic/LogicOp.java:23 `lambda` greaterThanEq(">=", (a, b) -> a >= b ? 1 : 0),
+- mindustry/logic/LogicOp.java:24 `lambda` strictEqual("===", (a, b) -> 0), //this lambda is not actually used
+- mindustry/logic/LogicOp.java:26 `lambda` shl("<<", (a, b) -> (long)a << (long)b),
+- mindustry/logic/LogicOp.java:27 `lambda` shr(">>", (a, b) -> (long)a >> (long)b),
+- mindustry/logic/LogicOp.java:28 `lambda` ushr(">>>", (a, b) -> (long)a >>> (long)b),
+- mindustry/logic/LogicOp.java:29 `lambda` or("or", (a, b) -> (long)a | (long)b),
+- mindustry/logic/LogicOp.java:30 `lambda` and("b-and", (a, b) -> (long)a & (long)b),
+- mindustry/logic/LogicOp.java:31 `lambda` xor("xor", (a, b) -> (long)a ^ (long)b),
+- mindustry/logic/LogicOp.java:32 `lambda` not("flip", a -> ~(long)(a)),
+- mindustry/logic/LogicOp.java:36 `lambda` angle("angle", true, (x, y) -> Angles.angle((float)x, (float)y)),
+- mindustry/logic/LogicOp.java:37 `lambda` angleDiff("anglediff", true, (x, y) -> Angles.angleDist((float)x, (float)y)),
+- mindustry/logic/LogicOp.java:38 `lambda` len("len", true, (x, y) -> Mathf.dst((float)x, (float)y)),
+- mindustry/logic/LogicOp.java:39 `lambda` noise("noise", true, (x, y) -> Simplex.raw2d(0, x, y)),
+- mindustry/logic/LogicOp.java:40 `lambda` abs("abs", a -> Math.abs(a)), //not a method reference because it fails to compile for some reason
+- mindustry/logic/LogicOp.java:43 `lambda` logn("logn", (x, y) -> Math.log(x) / Math.log(y)),
+- mindustry/logic/LogicOp.java:49 `lambda` rand("rand", d -> GlobalVars.rand.nextDouble() * d),
+- mindustry/logic/LogicOp.java:51 `lambda` sin("sin", d -> Math.sin(d * Mathf.doubleDegRad)),
+- mindustry/logic/LogicOp.java:52 `lambda` cos("cos", d -> Math.cos(d * Mathf.doubleDegRad)),
+- mindustry/logic/LogicOp.java:53 `lambda` tan("tan", d -> Math.tan(d * Mathf.doubleDegRad)),
+- mindustry/logic/LogicOp.java:55 `lambda` asin("asin", d -> Math.asin(d) * Mathf.doubleRadDeg),
+- mindustry/logic/LogicOp.java:56 `lambda` acos("acos", d -> Math.acos(d) * Mathf.doubleRadDeg),
+- mindustry/logic/LogicOp.java:57 `lambda` atan("atan", d -> Math.atan(d) * Mathf.doubleRadDeg),
+- mindustry/logic/LParser.java:187 `lambda` case '\n', ';', ' ' -> pos ++; //skip newlines and spaces
+- mindustry/logic/LParser.java:188 `lambda` case '\r' -> pos += 2; //skip the newline after the \r
+- mindustry/logic/LParser.java:189 `lambda` default -> statement();
+- mindustry/logic/LStatement.java:42 `lambda` nameToAlign.each((k, v) -> alignToName.put(v, k));
+- mindustry/logic/LStatement.java:109 `lambda` case ';' -> 's';
+- mindustry/logic/LStatement.java:110 `lambda` case '"' -> '\'';
+- mindustry/logic/LStatement.java:111 `lambda` case ' ' -> '_';
+- mindustry/logic/LStatement.java:112 `lambda` default -> c;
+- mindustry/logic/LStatement.java:124 `lambda` return table.field(value, Styles.nodeField, s -> setter.get(sanitize(s)))
+- mindustry/logic/LStatement.java:136 `lambda` table.table(t -> {
+- mindustry/logic/LStatement.java:147 `lambda` return table.button(b -> {
+- mindustry/logic/LStatement.java:149 `lambda` b.clicked(() -> {
+- mindustry/logic/LStatement.java:159 `lambda` }, Styles.logict, () -> {}).size(40f).padLeft(-11).color(table.color);
+- mindustry/logic/LStatement.java:173 `lambda` showSelectTable(b, (t, hide) -> {
+- mindustry/logic/LStatement.java:179 `lambda` sizer.get(t.button(p.toString(), Styles.logicTogglet, () -> {
+- mindustry/logic/LStatement.java:182 `lambda` }).self(c -> {
+- mindustry/logic/LStatement.java:194 `lambda` showSelect(b, values, current, getter, 4, c -> {});
+- mindustry/logic/LStatement.java:198 `lambda` t.button(b -> {
+- mindustry/logic/LStatement.java:200 `lambda` b.clicked(() -> {
+- mindustry/logic/LStatement.java:202 `lambda` showAlignSelect(b, current.startsWith("@") ? nameToAlign.get(current.substring(1), -1) : -1, align -> set.get("@" + alignToName.get(align)), hor, ver);
+- mindustry/logic/LStatement.java:204 `lambda` }, Styles.logict, () -> {}).size(40f).color(t.color).left().padLeft(-10);
+- mindustry/logic/LStatement.java:208 `lambda` showSelectTable(b, (t, hide) -> {
+- mindustry/logic/LStatement.java:216 `lambda` t.button(align, Styles.logicTogglet, () -> {
+- mindustry/logic/LStatement.java:243 `lambda` Runnable hide = () -> {
+- mindustry/logic/LStatement.java:254 `lambda` t.update(() -> {
+- mindustry/logic/LStatement.java:256 `lambda` Core.app.post(() -> {
+- mindustry/logic/LStatement.java:273 `lambda` t.top().pane(inner -> {
+- mindustry/logic/LStatements.java:37 `lambda` table.area(comment, Styles.nodeArea, v -> comment = v).growX().height(90f).padLeft(2).padRight(6).color(table.color);
+- mindustry/logic/LStatements.java:67 `lambda` field(table, output, str -> output = str);
+- mindustry/logic/LStatements.java:71 `lambda` field(table, target, str -> target = str);
+- mindustry/logic/LStatements.java:77 `lambda` field(table, address, str -> address = str);
+- mindustry/logic/LStatements.java:99 `lambda` field(table, input, str -> input = str);
+- mindustry/logic/LStatements.java:103 `lambda` field(table, target, str -> target = str);
+- mindustry/logic/LStatements.java:109 `lambda` field(table, address, str -> address = str);
+- mindustry/logic/LStatements.java:139 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:140 `lambda` b.label(() -> type.name());
+- mindustry/logic/LStatements.java:141 `lambda` b.clicked(() -> showSelect(b, GraphicsType.all, type, t -> {
+- mindustry/logic/LStatements.java:158 `lambda` }, 2, cell -> cell.size(100, 50)));
+- mindustry/logic/LStatements.java:159 `lambda` }, Styles.logict, () -> {}).size(90, 40).color(table.color).left().padLeft(2);
+- mindustry/logic/LStatements.java:165 `lambda` table.table(s -> {
+- mindustry/logic/LStatements.java:170 `lambda` case clear -> {
+- mindustry/logic/LStatements.java:171 `lambda` fields(s, "r", x, v -> x = v);
+- mindustry/logic/LStatements.java:172 `lambda` fields(s, "g", y, v -> y = v);
+- mindustry/logic/LStatements.java:173 `lambda` fields(s, "b", p1, v -> p1 = v);
+- mindustry/logic/LStatements.java:175 `lambda` case color -> {
+- mindustry/logic/LStatements.java:176 `lambda` fields(s, "r", x, v -> x = v);
+- mindustry/logic/LStatements.java:177 `lambda` fields(s, "g", y, v -> y = v);
+- mindustry/logic/LStatements.java:178 `lambda` fields(s, "b", p1, v -> p1 = v);
+- mindustry/logic/LStatements.java:180 `lambda` fields(s, "a", p2, v -> p2 = v);
+- mindustry/logic/LStatements.java:182 `lambda` case col -> {
+- mindustry/logic/LStatements.java:183 `lambda` fields(s, "color", x, v -> x = v).width(144f);
+- mindustry/logic/LStatements.java:184 `lambda` col(s, x, res -> {
+- mindustry/logic/LStatements.java:189 `lambda` case stroke -> {
+- mindustry/logic/LStatements.java:191 `lambda` fields(s, x, v -> x = v);
+- mindustry/logic/LStatements.java:193 `lambda` case line -> {
+- mindustry/logic/LStatements.java:194 `lambda` fields(s, "x", x, v -> x = v);
+- mindustry/logic/LStatements.java:195 `lambda` fields(s, "y", y, v -> y = v);
+- mindustry/logic/LStatements.java:197 `lambda` fields(s, "x2", p1, v -> p1 = v);
+- mindustry/logic/LStatements.java:198 `lambda` fields(s, "y2", p2, v -> p2 = v);
+- mindustry/logic/LStatements.java:200 `lambda` case rect, lineRect -> {
+- mindustry/logic/LStatements.java:201 `lambda` fields(s, "x", x, v -> x = v);
+- mindustry/logic/LStatements.java:202 `lambda` fields(s, "y", y, v -> y = v);
+- mindustry/logic/LStatements.java:204 `lambda` fields(s, "width", p1, v -> p1 = v);
+- mindustry/logic/LStatements.java:205 `lambda` fields(s, "height", p2, v -> p2 = v);
+- mindustry/logic/LStatements.java:207 `lambda` case poly, linePoly -> {
+- mindustry/logic/LStatements.java:208 `lambda` fields(s, "x", x, v -> x = v);
+- mindustry/logic/LStatements.java:209 `lambda` fields(s, "y", y, v -> y = v);
+- mindustry/logic/LStatements.java:211 `lambda` fields(s, "sides", p1, v -> p1 = v);
+- mindustry/logic/LStatements.java:212 `lambda` fields(s, "radius", p2, v -> p2 = v);
+- mindustry/logic/LStatements.java:214 `lambda` fields(s, "rotation", p3, v -> p3 = v);
+- mindustry/logic/LStatements.java:216 `lambda` case triangle -> {
+- mindustry/logic/LStatements.java:217 `lambda` fields(s, "x", x, v -> x = v);
+- mindustry/logic/LStatements.java:218 `lambda` fields(s, "y", y, v -> y = v);
+- mindustry/logic/LStatements.java:220 `lambda` fields(s, "x2", p1, v -> p1 = v);
+- mindustry/logic/LStatements.java:221 `lambda` fields(s, "y2", p2, v -> p2 = v);
+- mindustry/logic/LStatements.java:223 `lambda` fields(s, "x3", p3, v -> p3 = v);
+- mindustry/logic/LStatements.java:224 `lambda` fields(s, "y3", p4, v -> p4 = v);
+- mindustry/logic/LStatements.java:226 `lambda` case image -> {
+- mindustry/logic/LStatements.java:227 `lambda` fields(s, "x", x, v -> x = v);
+- mindustry/logic/LStatements.java:228 `lambda` fields(s, "y", y, v -> y = v);
+- mindustry/logic/LStatements.java:230 `lambda` fields(s, "image", p1, v -> p1 = v);
+- mindustry/logic/LStatements.java:231 `lambda` fields(s, "size", p2, v -> p2 = v);
+- mindustry/logic/LStatements.java:233 `lambda` fields(s, "rotation", p3, v -> p3 = v);
+- mindustry/logic/LStatements.java:235 `lambda` case print -> {
+- mindustry/logic/LStatements.java:236 `lambda` fields(s, "x", x, v -> x = v);
+- mindustry/logic/LStatements.java:237 `lambda` fields(s, "y", y, v -> y = v);
+- mindustry/logic/LStatements.java:241 `lambda` fields(s, "align", p1, v -> p1 = v).width(170f);
+- mindustry/logic/LStatements.java:242 `lambda` fieldAlignSelect(s, () -> p1, v -> {
+- mindustry/logic/LStatements.java:247 `lambda` case translate, scale -> {
+- mindustry/logic/LStatements.java:248 `lambda` fields(s, "x", x, v -> x = v);
+- mindustry/logic/LStatements.java:249 `lambda` fields(s, "y", y, v -> y = v);
+- mindustry/logic/LStatements.java:251 `lambda` case rotate -> {
+- mindustry/logic/LStatements.java:252 `lambda` fields(s, "degrees", p1, v -> p1 = v);
+- mindustry/logic/LStatements.java:287 `lambda` field(table, value, str -> value = str).width(0f).growX().padRight(3);
+- mindustry/logic/LStatements.java:309 `lambda` TextField field = field(table, value, str -> value = str).get();
+- mindustry/logic/LStatements.java:310 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:312 `lambda` b.clicked(() -> showSelectTable(b, (t, hide) -> {
+- mindustry/logic/LStatements.java:314 `lambda` t.table(i -> {
+- mindustry/logic/LStatements.java:319 `lambda` i.button(String.valueOf(j), Styles.flatt, () -> {
+- mindustry/logic/LStatements.java:328 `lambda` }, Styles.logict, () -> {}).size(40f).padLeft(-2).color(table.color);
+- mindustry/logic/LStatements.java:348 `lambda` field(table, value, str -> value = str).width(0f).growX().padRight(3);
+- mindustry/logic/LStatements.java:370 `lambda` field(table, target, str -> target = str);
+- mindustry/logic/LStatements.java:391 `lambda` field(table, target, str -> target = str);
+- mindustry/logic/LStatements.java:411 `lambda` field(table, output, str -> output = str);
+- mindustry/logic/LStatements.java:415 `lambda` field(table, address, str -> address = str);
+- mindustry/logic/LStatements.java:446 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:447 `lambda` b.label(() -> type.name());
+- mindustry/logic/LStatements.java:448 `lambda` b.clicked(() -> showSelect(b, LAccess.controls, type, t -> {
+- mindustry/logic/LStatements.java:451 `lambda` }, 2, cell -> cell.size(100, 50)));
+- mindustry/logic/LStatements.java:452 `lambda` }, Styles.logict, () -> {}).size(90, 40).color(table.color).left().padLeft(2);
+- mindustry/logic/LStatements.java:456 `lambda` field(table, target, v -> target = v);
+- mindustry/logic/LStatements.java:465 `lambda` fields(table, type.params[i], i == 0 ? p1 : i == 1 ? p2 : i == 2 ? p3 : p4, i == 0 ? v -> p1 = v : i == 1 ? v -> p2 = v : i == 2 ? v -> p3 = v : v -> p4 = v);
+- mindustry/logic/LStatements.java:495 `lambda` fields(table, radar, v -> radar = v);
+- mindustry/logic/LStatements.java:502 `lambda` Prov<RadarTarget> get = () -> (fi == 0 ? target1 : fi == 1 ? target2 : target3);
+- mindustry/logic/LStatements.java:506 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:507 `lambda` b.label(() -> get.get().name());
+- mindustry/logic/LStatements.java:508 `lambda` b.clicked(() -> showSelect(b, RadarTarget.all, get.get(), t -> {
+- mindustry/logic/LStatements.java:510 `lambda` }, 2, cell -> cell.size(100, 50)));
+- mindustry/logic/LStatements.java:511 `lambda` }, Styles.logict, () -> {}).size(90, 40).color(table.color).left().padLeft(2);
+- mindustry/logic/LStatements.java:520 `lambda` fields(table, sortOrder, v -> sortOrder = v);
+- mindustry/logic/LStatements.java:526 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:527 `lambda` b.label(() -> sort.name());
+- mindustry/logic/LStatements.java:528 `lambda` b.clicked(() -> showSelect(b, RadarSort.all, sort, t -> {
+- mindustry/logic/LStatements.java:530 `lambda` }, 2, cell -> cell.size(100, 50)));
+- mindustry/logic/LStatements.java:531 `lambda` }, Styles.logict, () -> {}).size(90, 40).color(table.color).left().padLeft(2);
+- mindustry/logic/LStatements.java:535 `lambda` fields(table, output, v -> output = v);
+- mindustry/logic/LStatements.java:563 `lambda` field(table, to, str -> to = str);
+- mindustry/logic/LStatements.java:569 `lambda` tfield = field(table, type, str -> type = str).padRight(0f).get();
+- mindustry/logic/LStatements.java:571 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:574 `lambda` b.clicked(() -> showSelectTable(b, (t, hide) -> {
+- mindustry/logic/LStatements.java:577 `lambda` new Table(i -> {
+- mindustry/logic/LStatements.java:582 `lambda` i.button(new TextureRegionDrawable(item.uiIcon), Styles.flati, iconSmall, () -> {
+- mindustry/logic/LStatements.java:591 `lambda` new Table(i -> {
+- mindustry/logic/LStatements.java:596 `lambda` i.button(new TextureRegionDrawable(item.uiIcon), Styles.flati, iconSmall, () -> {
+- mindustry/logic/LStatements.java:604 `lambda` new Table(i -> {
+- mindustry/logic/LStatements.java:609 `lambda` i.button(new TextureRegionDrawable(item.uiIcon), Styles.flati, iconSmall, () -> {
+- mindustry/logic/LStatements.java:619 `lambda` i.button(new TextureRegionDrawable(item.uiIcon), Styles.flati, iconSmall, () -> {
+- mindustry/logic/LStatements.java:628 `lambda` new Table(i -> {
+- mindustry/logic/LStatements.java:630 `lambda` i.button(sensor.name(), Styles.flatt, () -> {
+- mindustry/logic/LStatements.java:633 `lambda` }).size(240f, 40f).self(c -> tooltip(c, sensor)).row();
+- mindustry/logic/LStatements.java:645 `lambda` t.button(icons[i], Styles.squareTogglei, () -> {
+- mindustry/logic/LStatements.java:658 `lambda` }, Styles.logict, () -> {}).size(40f).padLeft(-1).color(table.color);
+- mindustry/logic/LStatements.java:662 `lambda` field(table, from, str -> from = str);
+- mindustry/logic/LStatements.java:688 `lambda` field(table, to, str -> to = str);
+- mindustry/logic/LStatements.java:692 `lambda` field(table, from, str -> from = str);
+- mindustry/logic/LStatements.java:719 `lambda` field(table, dest, str -> dest = str);
+- mindustry/logic/LStatements.java:726 `lambda` field(table, a, str -> a = str);
+- mindustry/logic/LStatements.java:735 `lambda` table.table(c -> {
+- mindustry/logic/LStatements.java:744 `lambda` field(table, a, str -> a = str);
+- mindustry/logic/LStatements.java:748 `lambda` field(table, b, str -> b = str);
+- mindustry/logic/LStatements.java:756 `lambda` field(table, a, str -> a = str);
+- mindustry/logic/LStatements.java:758 `lambda` field(table, b, str -> b = str);
+- mindustry/logic/LStatements.java:762 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:763 `lambda` b.label(() -> op.symbol);
+- mindustry/logic/LStatements.java:764 `lambda` b.clicked(() -> showSelect(b, LogicOp.all, op, o -> {
+- mindustry/logic/LStatements.java:767 `lambda` }, 4, c -> c.width(64f)));
+- mindustry/logic/LStatements.java:768 `lambda` }, Styles.logict, () -> {}).size(64f, 40f).pad(4f).color(table.color);
+- mindustry/logic/LStatements.java:797 `lambda` table.table(t -> {
+- mindustry/logic/LStatements.java:800 `lambda` field(t, result, str -> result = str);
+- mindustry/logic/LStatements.java:805 `lambda` JumpStatement.addOp(this, t, op, o -> {
+- mindustry/logic/LStatements.java:808 `lambda` }, comp0, str -> comp0 = str, comp1, str -> comp1 = str);
+- mindustry/logic/LStatements.java:812 `lambda` table.table(t -> {
+- mindustry/logic/LStatements.java:816 `lambda` field(t, a, str -> a = str).width(130f);
+- mindustry/logic/LStatements.java:818 `lambda` field(t, b, str -> b = str).width(130f);
+- mindustry/logic/LStatements.java:839 `lambda` field(table, value, str -> value = str);
+- mindustry/logic/LStatements.java:879 `lambda` fields(table, result, str -> result = str).width(120f);
+- mindustry/logic/LStatements.java:885 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:886 `lambda` b.label(() -> type.name());
+- mindustry/logic/LStatements.java:887 `lambda` b.clicked(() -> showSelect(b, GlobalVars.lookableContent, type, o -> {
+- mindustry/logic/LStatements.java:890 `lambda` }, Styles.logict, () -> {}).size(64f, 40f).pad(4f).color(table.color);
+- mindustry/logic/LStatements.java:894 `lambda` fields(table, id, str -> id = str);
+- mindustry/logic/LStatements.java:914 `lambda` fields(table, result, str -> result = str);
+- mindustry/logic/LStatements.java:920 `lambda` fields(table, r, str -> r = str);
+- mindustry/logic/LStatements.java:921 `lambda` fields(table, g, str -> g = str);
+- mindustry/logic/LStatements.java:922 `lambda` fields(table, b, str -> b = str);
+- mindustry/logic/LStatements.java:923 `lambda` fields(table, a, str -> a = str);
+- mindustry/logic/LStatements.java:943 `lambda` fields(table, r, str -> r = str);
+- mindustry/logic/LStatements.java:944 `lambda` fields(table, g, str -> g = str);
+- mindustry/logic/LStatements.java:945 `lambda` fields(table, b, str -> b = str);
+- mindustry/logic/LStatements.java:946 `lambda` fields(table, a, str -> a = str);
+- mindustry/logic/LStatements.java:952 `lambda` fields(table, value, str -> value = str);
+- mindustry/logic/LStatements.java:1003 `lambda` table.add(new JumpButton(() -> dest, s -> dest = s, this.elem)).size(30).right().padLeft(-8);
+- mindustry/logic/LStatements.java:1008 `lambda` Core.app.post(() -> {
+- mindustry/logic/LStatements.java:1013 `lambda` title.update(() -> title.setText((dest != null ? name + " -> " + dest.index : name)));
+- mindustry/logic/LStatements.java:1024 `lambda` addOp(this, table, op, o -> {
+- mindustry/logic/LStatements.java:1027 `lambda` }, value, str -> value = str, compare, str -> compare = str);
+- mindustry/logic/LStatements.java:1033 `lambda` t.button(b -> {
+- mindustry/logic/LStatements.java:1035 `lambda` b.clicked(() -> st.showSelect(b, ConditionOp.all, op, getter));
+- mindustry/logic/LStatements.java:1036 `lambda` }, Styles.logict, () -> {
+- mindustry/logic/LStatements.java:1076 `lambda` TextField field = field(table, type, str -> type = str).get();
+- mindustry/logic/LStatements.java:1078 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:1080 `lambda` b.clicked(() -> showSelectTable(b, (t, hide) -> {
+- mindustry/logic/LStatements.java:1082 `lambda` t.table(i -> {
+- mindustry/logic/LStatements.java:1087 `lambda` i.button(new TextureRegionDrawable(item.uiIcon), Styles.flati, iconSmall, () -> {
+- mindustry/logic/LStatements.java:1097 `lambda` }, Styles.logict, () -> {}).size(40f).padLeft(-2).color(table.color);
+- mindustry/logic/LStatements.java:1128 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:1129 `lambda` b.label(() -> type.name());
+- mindustry/logic/LStatements.java:1130 `lambda` b.clicked(() -> showSelect(b, Structs.filter(LUnitControl.class, LUnitControl.all, t ->
+- mindustry/logic/LStatements.java:1134 `lambda` ), type, t -> {
+- mindustry/logic/LStatements.java:1137 `lambda` }, 2, cell -> cell.size(120, 50)));
+- mindustry/logic/LStatements.java:1138 `lambda` }, Styles.logict, () -> {}).size(120, 40).color(table.color).left().padLeft(2);
+- mindustry/logic/LStatements.java:1147 `lambda` fields(table, type.params[i], i == 0 ? p1 : i == 1 ? p2 : i == 2 ? p3 : i == 3 ? p4 : p5, i == 0 ? v -> p1 = v : i == 1 ? v -> p2 = v : i == 2 ? v -> p3 = v : i == 3 ? v -> p4 = v : v -> p5 = v).width(100f);
+- mindustry/logic/LStatements.java:1209 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:1210 `lambda` b.label(() -> locate.name());
+- mindustry/logic/LStatements.java:1211 `lambda` b.clicked(() -> showSelect(b, LLocate.all, locate, t -> {
+- mindustry/logic/LStatements.java:1214 `lambda` }, 2, cell -> cell.size(110, 50)));
+- mindustry/logic/LStatements.java:1215 `lambda` }, Styles.logict, () -> {}).size(110, 40).color(table.color).left().padLeft(2);
+- mindustry/logic/LStatements.java:1218 `lambda` case building -> {
+- mindustry/logic/LStatements.java:1221 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:1222 `lambda` b.label(() -> flag.name());
+- mindustry/logic/LStatements.java:1223 `lambda` b.clicked(() -> showSelect(b, BlockFlag.allLogic, flag, t -> flag = t, 2, cell -> cell.size(110, 50)));
+- mindustry/logic/LStatements.java:1224 `lambda` }, Styles.logict, () -> {}).size(110, 40).color(table.color).left().padLeft(2);
+- mindustry/logic/LStatements.java:1229 `lambda` fields(table, enemy, str -> enemy = str);
+- mindustry/logic/LStatements.java:1234 `lambda` case ore -> {
+- mindustry/logic/LStatements.java:1236 `lambda` table.table(ts -> {
+- mindustry/logic/LStatements.java:1239 `lambda` fields(ts, ore, str -> ore = str);
+- mindustry/logic/LStatements.java:1241 `lambda` ts.button(b -> {
+- mindustry/logic/LStatements.java:1243 `lambda` b.clicked(() -> showSelectTable(b, (t, hide) -> {
+- mindustry/logic/LStatements.java:1245 `lambda` t.table(i -> {
+- mindustry/logic/LStatements.java:1250 `lambda` i.button(new TextureRegionDrawable(item.uiIcon), Styles.flati, iconSmall, () -> {
+- mindustry/logic/LStatements.java:1260 `lambda` }, Styles.logict, () -> {}).size(40f).padLeft(-2).color(table.color);
+- mindustry/logic/LStatements.java:1267 `lambda` case spawn, damaged -> {
+- mindustry/logic/LStatements.java:1273 `lambda` fields(table, outX, str -> outX = str);
+- mindustry/logic/LStatements.java:1276 `lambda` fields(table, outY, str -> outY = str);
+- mindustry/logic/LStatements.java:1281 `lambda` fields(table, outFound, str -> outFound = str);
+- mindustry/logic/LStatements.java:1285 `lambda` fields(table, outBuild, str -> outBuild = str);
+- mindustry/logic/LStatements.java:1311 `lambda` table.button(shape == QueryShape.circle ? "circle" : "rect", Styles.logict, () -> {
+- mindustry/logic/LStatements.java:1316 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:1317 `lambda` b.label(() -> type.name());
+- mindustry/logic/LStatements.java:1318 `lambda` b.clicked(() -> showSelect(b, QueryType.queryable, type, o -> {
+- mindustry/logic/LStatements.java:1322 `lambda` }, Styles.logict, () -> {}).size(64f, 40f).pad(4f).color(table.color);
+- mindustry/logic/LStatements.java:1324 `lambda` fields(table, "team", team, str -> team = str);
+- mindustry/logic/LStatements.java:1328 `lambda` fields(table, "x", x, str -> x = str);
+- mindustry/logic/LStatements.java:1329 `lambda` fields(table, "y", y, str -> y = str);
+- mindustry/logic/LStatements.java:1334 `lambda` fields(table, "radius", w, str -> w = str);
+- mindustry/logic/LStatements.java:1336 `lambda` fields(table, "width", w, str -> w = str);
+- mindustry/logic/LStatements.java:1337 `lambda` fields(table, "height", h, str -> h = str);
+- mindustry/logic/LStatements.java:1364 `lambda` fields(table, result, str -> result = str);
+- mindustry/logic/LStatements.java:1370 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:1371 `lambda` b.label(() -> layer.name());
+- mindustry/logic/LStatements.java:1372 `lambda` b.clicked(() -> showSelect(b, TileLayer.all, layer, o -> layer = o));
+- mindustry/logic/LStatements.java:1373 `lambda` }, Styles.logict, () -> {}).size(64f, 40f).pad(4f).color(table.color);
+- mindustry/logic/LStatements.java:1377 `lambda` fields(table, x, str -> x = str);
+- mindustry/logic/LStatements.java:1379 `lambda` fields(table, y, str -> y = str);
+- mindustry/logic/LStatements.java:1412 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:1413 `lambda` b.label(() -> layer.name());
+- mindustry/logic/LStatements.java:1414 `lambda` b.clicked(() -> showSelect(b, TileLayer.settable, layer, o -> {
+- mindustry/logic/LStatements.java:1418 `lambda` }, Styles.logict, () -> {}).size(64f, 40f).pad(4f).color(table.color);
+- mindustry/logic/LStatements.java:1424 `lambda` fields(table, x, str -> x = str);
+- mindustry/logic/LStatements.java:1426 `lambda` fields(table, y, str -> y = str);
+- mindustry/logic/LStatements.java:1432 `lambda` fields(table, block, str -> block = str);
+- mindustry/logic/LStatements.java:1438 `lambda` fields(table, team, str -> team = str);
+- mindustry/logic/LStatements.java:1441 `lambda` fields(table, rotation, str -> rotation = str);
+- mindustry/logic/LStatements.java:1467 `lambda` fields(table, result, str -> result = str);
+- mindustry/logic/LStatements.java:1470 `lambda` field(table, type, str -> type = str).colspan(!LCanvas.useRows() ? 1 : 2);
+- mindustry/logic/LStatements.java:1475 `lambda` fields(table, x, str -> x = str);
+- mindustry/logic/LStatements.java:1478 `lambda` fields(table, y, str -> y = str);
+- mindustry/logic/LStatements.java:1487 `lambda` field(table, team, str -> team = str);
+- mindustry/logic/LStatements.java:1490 `lambda` fields(table, rotation, str -> rotation = str).left();
+- mindustry/logic/LStatements.java:1515 `lambda` fields(table, result, str -> result = str);
+- mindustry/logic/LStatements.java:1521 `lambda` fields(table, "from", from, str -> from = str);
+- mindustry/logic/LStatements.java:1522 `lambda` fields(table, "index", index, str -> index = str);
+- mindustry/logic/LStatements.java:1524 `lambda` fields(table, "x", x, str -> x = str);
+- mindustry/logic/LStatements.java:1525 `lambda` fields(table, "y", y, str -> y = str);
+- mindustry/logic/LStatements.java:1527 `lambda` fields(table, "rotation", rotation, str -> rotation = str);
+- mindustry/logic/LStatements.java:1528 `lambda` fields(table, "team", team, str -> team = str);
+- mindustry/logic/LStatements.java:1530 `lambda` fields(table, "owner", owner, str -> owner = str);
+- mindustry/logic/LStatements.java:1531 `lambda` fields(table, "damage", damage, str -> damage = str);
+- mindustry/logic/LStatements.java:1533 `lambda` fields(table, "velocityScl", velocityScl, str -> velocityScl = str);
+- mindustry/logic/LStatements.java:1534 `lambda` fields(table, "lifeScl", lifeScl, str -> lifeScl = str);
+- mindustry/logic/LStatements.java:1536 `lambda` fields(table, "aimX", aimX, str -> aimX = str);
+- mindustry/logic/LStatements.java:1537 `lambda` fields(table, "aimY", aimY, str -> aimY = str);
+- mindustry/logic/LStatements.java:1571 `lambda` table.button(clear ? "clear" : "apply", Styles.logict, () -> {
+- mindustry/logic/LStatements.java:1577 `lambda` statusNames = content.statusEffects().map(s -> s.name).toArray(String.class);
+- mindustry/logic/LStatements.java:1580 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:1581 `lambda` b.label(() -> effect).grow().wrap().labelAlign(Align.center).center();
+- mindustry/logic/LStatements.java:1582 `lambda` b.clicked(() -> showSelect(b, statusNames, effect, o -> {
+- mindustry/logic/LStatements.java:1585 `lambda` }, 2, c -> c.size(120f, 38f)));
+- mindustry/logic/LStatements.java:1586 `lambda` }, Styles.logict, () -> {}).size(120f, 40f).pad(4f).color(table.color);
+- mindustry/logic/LStatements.java:1592 `lambda` fields(table, unit, str -> unit = str);
+- mindustry/logic/LStatements.java:1598 `lambda` fields(table, duration, str -> duration = str);
+- mindustry/logic/LStatements.java:1629 `lambda` field(table, to, str -> to = str);
+- mindustry/logic/LStatements.java:1635 `lambda` tfield = field(table, weather, str -> weather = str).padRight(0f).get();
+- mindustry/logic/LStatements.java:1637 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:1640 `lambda` b.clicked(() -> showSelectTable(b, (t, hide) -> {
+- mindustry/logic/LStatements.java:1642 `lambda` t.table(i -> {
+- mindustry/logic/LStatements.java:1646 `lambda` i.button(w.name, Styles.flatt, () -> {
+- mindustry/logic/LStatements.java:1656 `lambda` }, Styles.logict, () -> {}).size(40f).padLeft(-1).color(table.color);
+- mindustry/logic/LStatements.java:1685 `lambda` tfield = field(table, weather, str -> weather = str).padRight(0f).get();
+- mindustry/logic/LStatements.java:1687 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:1690 `lambda` b.clicked(() -> showSelectTable(b, (t, hide) -> {
+- mindustry/logic/LStatements.java:1692 `lambda` t.table(i -> {
+- mindustry/logic/LStatements.java:1696 `lambda` i.button(w.name, Styles.flatt, () -> {
+- mindustry/logic/LStatements.java:1706 `lambda` }, Styles.logict, () -> {}).size(40f).padLeft(-1).color(table.color);
+- mindustry/logic/LStatements.java:1710 `lambda` fields(table, state, str -> state = str);
+- mindustry/logic/LStatements.java:1736 `lambda` fields(table, natural, str -> natural = str);
+- mindustry/logic/LStatements.java:1738 `lambda` table.add("x ").visible(() -> !natural.equals("true"));
+- mindustry/logic/LStatements.java:1739 `lambda` fields(table, x, str -> x = str).visible(() -> !natural.equals("true"));
+- mindustry/logic/LStatements.java:1741 `lambda` table.add(" y ").visible(() -> !natural.equals("true"));
+- mindustry/logic/LStatements.java:1742 `lambda` fields(table, y, str -> y = str).visible(() -> !natural.equals("true"));
+- mindustry/logic/LStatements.java:1774 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:1775 `lambda` b.label(() -> rule.name()).growX().wrap().labelAlign(Align.center);
+- mindustry/logic/LStatements.java:1776 `lambda` b.clicked(() -> showSelect(b, LogicRule.all, rule, o -> {
+- mindustry/logic/LStatements.java:1779 `lambda` }, 2, c -> c.width(150f)));
+- mindustry/logic/LStatements.java:1780 `lambda` }, Styles.logict, () -> {}).size(160f, 40f).margin(5f).pad(4f).color(table.color);
+- mindustry/logic/LStatements.java:1783 `lambda` case mapArea -> {
+- mindustry/logic/LStatements.java:1788 `lambda` fields(table, "x", p1, s -> p1 = s);
+- mindustry/logic/LStatements.java:1789 `lambda` fields(table, "y", p2, s -> p2 = s);
+- mindustry/logic/LStatements.java:1791 `lambda` fields(table, "w", p3, s -> p3 = s);
+- mindustry/logic/LStatements.java:1792 `lambda` fields(table, "h", p4, s -> p4 = s);
+- mindustry/logic/LStatements.java:1794 `lambda` case buildSpeed, unitHealth, unitBuildSpeed, unitMineSpeed, unitCost, unitDamage, blockHealth, blockDamage, rtsMinSquad, rtsMinWeight -> {
+- mindustry/logic/LStatements.java:1799 `lambda` fields(table, "of", p1, s -> p1 = s);
+- mindustry/logic/LStatements.java:1802 `lambda` field(table, value, s -> value = s);
+- mindustry/logic/LStatements.java:1804 `lambda` case ban, unban -> {
+- mindustry/logic/LStatements.java:1807 `lambda` fields(table, value, s -> value = s);
+- mindustry/logic/LStatements.java:1809 `lambda` default -> {
+- mindustry/logic/LStatements.java:1812 `lambda` field(table, value, s -> value = s);
+- mindustry/logic/LStatements.java:1846 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:1847 `lambda` b.label(() -> type.name()).growX().wrap().labelAlign(Align.center);
+- mindustry/logic/LStatements.java:1848 `lambda` b.clicked(() -> showSelect(b, MessageType.all, type, o -> {
+- mindustry/logic/LStatements.java:1851 `lambda` }, 2, c -> c.width(150f)));
+- mindustry/logic/LStatements.java:1852 `lambda` }, Styles.logict, () -> {}).size(160f, 40f).padLeft(2).color(table.color);
+- mindustry/logic/LStatements.java:1855 `lambda` case announce, toast  -> {
+- mindustry/logic/LStatements.java:1857 `lambda` fields(table, duration, str -> duration = str);
+- mindustry/logic/LStatements.java:1864 `lambda` fields(table, outSuccess, str -> outSuccess = str);
+- mindustry/logic/LStatements.java:1896 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:1897 `lambda` b.label(() -> action.name()).growX().wrap().labelAlign(Align.center);
+- mindustry/logic/LStatements.java:1898 `lambda` b.clicked(() -> showSelect(b, CutsceneAction.all, action, o -> {
+- mindustry/logic/LStatements.java:1902 `lambda` }, Styles.logict, () -> {}).size(90f, 40f).padLeft(2).color(table.color);
+- mindustry/logic/LStatements.java:1905 `lambda` case pan -> {
+- mindustry/logic/LStatements.java:1907 `lambda` fields(table, p1, str -> p1 = str);
+- mindustry/logic/LStatements.java:1909 `lambda` fields(table, p2, str -> p2 = str);
+- mindustry/logic/LStatements.java:1914 `lambda` fields(table, p3, str -> p3 = str);
+- mindustry/logic/LStatements.java:1916 `lambda` case zoom -> {
+- mindustry/logic/LStatements.java:1918 `lambda` fields(table, p1, str -> p1 = str);
+- mindustry/logic/LStatements.java:1947 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:1948 `lambda` b.label(() -> type).growX().wrap().labelAlign(Align.center);
+- mindustry/logic/LStatements.java:1949 `lambda` b.clicked(() -> ui.effects.show(entry -> {
+- mindustry/logic/LStatements.java:1953 `lambda` }, Styles.logict, () -> {}).size(150f, 40f).margin(5f).pad(4f).color(table.color).colspan(2);
+- mindustry/logic/LStatements.java:1959 `lambda` fields(table, "x", x, str -> x = str);
+- mindustry/logic/LStatements.java:1960 `lambda` fields(table, "y", y, str -> y = str);
+- mindustry/logic/LStatements.java:1965 `lambda` fields(table, "color", color, str -> color = str).width(120f);
+- mindustry/logic/LStatements.java:1967 `lambda` col(table, color, res -> {
+- mindustry/logic/LStatements.java:1976 `lambda` fields(table, entry.size ? "size" : "rotation", sizerot, str -> sizerot = str);
+- mindustry/logic/LStatements.java:1980 `lambda` fields(table, "data", data, str -> data = str);
+- mindustry/logic/LStatements.java:2007 `lambda` fields(table, "team", team, str -> team = str);
+- mindustry/logic/LStatements.java:2008 `lambda` fields(table, "x", x, str -> x = str);
+- mindustry/logic/LStatements.java:2010 `lambda` fields(table, "y", y, str -> y = str);
+- mindustry/logic/LStatements.java:2011 `lambda` fields(table, "radius", radius, str -> radius = str);
+- mindustry/logic/LStatements.java:2013 `lambda` fields(table, "damage", damage, str -> damage = str);
+- mindustry/logic/LStatements.java:2014 `lambda` fields(table, "air", air, str -> air = str);
+- mindustry/logic/LStatements.java:2016 `lambda` fields(table, "ground", ground, str -> ground = str);
+- mindustry/logic/LStatements.java:2017 `lambda` fields(table, "pierce", pierce, str -> pierce = str);
+- mindustry/logic/LStatements.java:2019 `lambda` fields(table, "effect", effect, str -> effect = str);
+- mindustry/logic/LStatements.java:2044 `lambda` fields(table, "ipt = ", amount, str -> amount = str);
+- mindustry/logic/LStatements.java:2076 `lambda` fields(table, result, r -> result = r);
+- mindustry/logic/LStatements.java:2080 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:2081 `lambda` b.label(() -> type.name()).growX().wrap().labelAlign(Align.center);
+- mindustry/logic/LStatements.java:2082 `lambda` b.clicked(() -> showSelect(b, FetchType.all, type, o -> {
+- mindustry/logic/LStatements.java:2085 `lambda` }, 2, c -> c.width(150f)));
+- mindustry/logic/LStatements.java:2086 `lambda` }, Styles.logict, () -> {}).size(160f, 40f).margin(5f).pad(4f).color(table.color);
+- mindustry/logic/LStatements.java:2090 `lambda` fields(table, "team", team, s -> team = s);
+- mindustry/logic/LStatements.java:2097 `lambda` fields(table, index, i -> index = i);
+- mindustry/logic/LStatements.java:2103 `lambda` fields(table, "block", extra, i -> extra = i);
+- mindustry/logic/LStatements.java:2109 `lambda` fields(table, "unit", extra, i -> extra = i);
+- mindustry/logic/LStatements.java:2136 `lambda` fields(table, variable, str -> variable = str).width(190f);
+- mindustry/logic/LStatements.java:2162 `lambda` fields(table, value, str -> value = str);
+- mindustry/logic/LStatements.java:2164 `lambda` fields(table, channel, str -> channel = str);
+- mindustry/logic/LStatements.java:2166 `lambda` fields(table, reliable, str -> reliable = str);
+- mindustry/logic/LStatements.java:2199 `lambda` fields(table, result, str -> result = str).width(width);
+- mindustry/logic/LStatements.java:2203 `lambda` fields(table, flag, str -> flag = str).width(width);
+- mindustry/logic/LStatements.java:2230 `lambda` fields(table, flag, str -> flag = str).width(width);
+- mindustry/logic/LStatements.java:2234 `lambda` fields(table, value, str -> value = str).width(width);
+- mindustry/logic/LStatements.java:2264 `lambda` tfield = field(table, type, str -> type = str).padRight(0f).get();
+- mindustry/logic/LStatements.java:2266 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:2269 `lambda` b.clicked(() -> showSelectTable(b, (t, hide) -> {
+- mindustry/logic/LStatements.java:2272 `lambda` new Table(i -> {
+- mindustry/logic/LStatements.java:2277 `lambda` i.button(new TextureRegionDrawable(item.uiIcon), Styles.flati, iconSmall, () -> {
+- mindustry/logic/LStatements.java:2286 `lambda` new Table(i -> {
+- mindustry/logic/LStatements.java:2291 `lambda` i.button(new TextureRegionDrawable(item.uiIcon), Styles.flati, iconSmall, () -> {
+- mindustry/logic/LStatements.java:2300 `lambda` new Table(i -> {
+- mindustry/logic/LStatements.java:2302 `lambda` i.button(property.name(), Styles.flatt, () -> {
+- mindustry/logic/LStatements.java:2305 `lambda` }).size(240f, 40f).self(c -> tooltip(c, property)).row();
+- mindustry/logic/LStatements.java:2317 `lambda` t.button(icons[i], Styles.squareTogglei, () -> {
+- mindustry/logic/LStatements.java:2330 `lambda` }, Styles.logict, () -> {}).size(40f).padLeft(-1).color(table.color);
+- mindustry/logic/LStatements.java:2336 `lambda` field(table, of, str -> of = str).colspan(2);
+- mindustry/logic/LStatements.java:2342 `lambda` field(table, value, str -> value = str).colspan(2);
+- mindustry/logic/LStatements.java:2375 `lambda` table.button(positional ? "positional" : "global", Styles.logict, () -> {
+- mindustry/logic/LStatements.java:2382 `lambda` field(table, id, str -> id = str).padRight(0f).get();
+- mindustry/logic/LStatements.java:2384 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:2388 `lambda` b.clicked(() -> showSelect(b, GlobalVars.soundNames.toArray(String.class), soundName, t -> {
+- mindustry/logic/LStatements.java:2391 `lambda` }, 2, cell -> cell.size(160, 50)));
+- mindustry/logic/LStatements.java:2392 `lambda` }, Styles.logict, () -> {}).size(40).color(table.color).left().padLeft(-1);
+- mindustry/logic/LStatements.java:2396 `lambda` fieldst(table, "volume", volume, str -> volume = str);
+- mindustry/logic/LStatements.java:2397 `lambda` fieldst(table, "pitch", pitch, str -> pitch = str);
+- mindustry/logic/LStatements.java:2402 `lambda` fieldst(table, "x", x, str -> x = str);
+- mindustry/logic/LStatements.java:2404 `lambda` fieldst(table, "y", y, str -> y = str);
+- mindustry/logic/LStatements.java:2406 `lambda` fieldst(table, "pan", pan, str -> pan = str);
+- mindustry/logic/LStatements.java:2411 `lambda` fieldst(table, "limit", limit, str -> limit = str);
+- mindustry/logic/LStatements.java:2438 `lambda` fields(table, "music", name, str -> name = str).width(width);
+- mindustry/logic/LStatements.java:2440 `lambda` fields(table, "interrupt", interrupt, str -> interrupt = str).width(width);
+- mindustry/logic/LStatements.java:2474 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:2475 `lambda` b.label(() -> type.name());
+- mindustry/logic/LStatements.java:2476 `lambda` b.clicked(() -> showSelect(b, LMarkerControl.all, type, t -> {
+- mindustry/logic/LStatements.java:2479 `lambda` }, 3, cell -> cell.size(140, 50)));
+- mindustry/logic/LStatements.java:2480 `lambda` }, Styles.logict, () -> {}).size(190, 40).color(table.color).left().padLeft(2);
+- mindustry/logic/LStatements.java:2484 `lambda` fieldst(table, "of id#", id, str -> id = str);
+- mindustry/logic/LStatements.java:2491 `lambda` table.table(t -> {
+- mindustry/logic/LStatements.java:2495 `lambda` Cons<String> setter = i == 0 ? v -> p1 = v : i == 1 ? v -> p2 = v : v -> p3 = v;
+- mindustry/logic/LStatements.java:2500 `lambda` col(t, value, res -> {
+- mindustry/logic/LStatements.java:2505 `lambda` t.button(b -> {
+- mindustry/logic/LStatements.java:2507 `lambda` b.clicked(() -> showSelectTable(b, (o, hide) -> {
+- mindustry/logic/LStatements.java:2509 `lambda` o.table(s -> {
+- mindustry/logic/LStatements.java:2513 `lambda` s.button(field.getName() + " = " + layer, Styles.logicTogglet, () -> {
+- mindustry/logic/LStatements.java:2521 `lambda` }, Styles.logict, () -> {}).size(40f).padLeft(-11).color(table.color);
+- mindustry/logic/LStatements.java:2523 `lambda` fieldAlignSelect(t, () -> p1, v -> {
+- mindustry/logic/LStatements.java:2559 `lambda` table.button(b -> {
+- mindustry/logic/LStatements.java:2560 `lambda` b.label(() -> type);
+- mindustry/logic/LStatements.java:2562 `lambda` b.clicked(() -> showSelect(b, MapObjectives.allMarkerTypeNames.toArray(String.class), type, t -> {
+- mindustry/logic/LStatements.java:2565 `lambda` }, 2, cell -> cell.size(160, 50)));
+- mindustry/logic/LStatements.java:2566 `lambda` }, Styles.logict, () -> {}).size(190, 40).color(table.color).left().padLeft(2);
+- mindustry/logic/LStatements.java:2568 `lambda` fieldst(table, "id", id, str -> id = str);
+- mindustry/logic/LStatements.java:2572 `lambda` fieldst(table, "x", x, v -> x = v);
+- mindustry/logic/LStatements.java:2574 `lambda` fieldst(table, "y", y, v -> y = v);
+- mindustry/logic/LStatements.java:2578 `lambda` fieldst(table, "replace", replace, v -> replace = v);
+- mindustry/logic/LStatements.java:2603 `lambda` field(table, value, str -> value = str).width(0f).growX().padRight(3);
+- mindustry/logic/RadarSort.java:7 `lambda` distance((pos, other) -> -pos.dst2(other)),
+- mindustry/logic/RadarSort.java:8 `lambda` health((pos, other) -> other.health()),
+- mindustry/logic/RadarSort.java:9 `lambda` shield((pos, other) -> other.shield()),
+- mindustry/logic/RadarSort.java:10 `lambda` armor((pos, other) -> other.armor()),
+- mindustry/logic/RadarSort.java:11 `lambda` maxHealth((pos, other) -> other.maxHealth());
+- mindustry/logic/RadarTarget.java:7 `lambda` any((team, other) -> true),
+- mindustry/logic/RadarTarget.java:8 `lambda` enemy((team, other) -> team != other.team && other.team != Team.derelict),
+- mindustry/logic/RadarTarget.java:9 `lambda` ally((team, other) -> team == other.team),
+- mindustry/logic/RadarTarget.java:10 `lambda` player((team, other) -> other.isPlayer()),
+- mindustry/logic/RadarTarget.java:11 `lambda` attacker((pos, other) -> other.canShoot()),
+- mindustry/logic/RadarTarget.java:12 `lambda` flying((team, other) -> other.isFlying()),
+- mindustry/logic/RadarTarget.java:13 `lambda` boss((team, other) -> other.isBoss()),
+- mindustry/logic/RadarTarget.java:14 `lambda` ground((team, other) -> other.isGrounded());
+- mindustry/maps/filters/BlendFilter.java:16 `lambda` new SliderOption("radius", () -> radius, f -> radius = f, 1f, 10f),
+- mindustry/maps/filters/BlendFilter.java:17 `lambda` new BlockOption("block", () -> block, b -> block = b, anyOptional),
+- mindustry/maps/filters/BlendFilter.java:18 `lambda` new BlockOption("floor", () -> floor, b -> floor = b, anyOptional),
+- mindustry/maps/filters/BlendFilter.java:19 `lambda` new BlockOption("ignore", () -> ignore, b -> ignore = b, anyOptional)
+- mindustry/maps/filters/ClearFilter.java:17 `lambda` new BlockOption("target", () -> target, b -> target = b, anyOptional),
+- mindustry/maps/filters/ClearFilter.java:18 `lambda` new BlockOption("replacement", () -> replace, b -> replace = b, anyOptional),
+- mindustry/maps/filters/ClearFilter.java:19 `lambda` new BlockOption("ignore", () -> ignore, b -> ignore = b, anyOptional)
+- mindustry/maps/filters/CoreSpawnFilter.java:17 `lambda` // SliderOption("amount", () -> amount, f -> amount = (int)f, 1, 10).display()
+- mindustry/maps/filters/DistortFilter.java:13 `lambda` new SliderOption("scale", () -> scl, f -> scl = f, 1f, 200f),
+- mindustry/maps/filters/DistortFilter.java:14 `lambda` new SliderOption("mag", () -> mag, f -> mag = f, 0.5f, 100f)
+- mindustry/maps/filters/EnemySpawnFilter.java:16 `lambda` new SliderOption("amount", () -> amount, f -> amount = (int)f, 1, 10).display()
+- mindustry/maps/filters/FilterOption.java:23 `lambda` public static final Boolf<Block> floorsOnly = b -> (b instanceof Floor && !(b instanceof OverlayFloor)) && !headless && Core.atlas.isFound(b.fullIcon);
+- mindustry/maps/filters/FilterOption.java:24 `lambda` public static final Boolf<Block> wallsOnly = b -> (!b.synthetic() && !(b instanceof Floor)) && !headless && Core.atlas.isFound(b.fullIcon) && b.inEditor;
+- mindustry/maps/filters/FilterOption.java:25 `lambda` public static final Boolf<Block> floorsOptional = b -> b == Blocks.air || ((b instanceof Floor && !(b instanceof OverlayFloor)) && !headless && Core.atlas.isFound(b.fullIcon));
+- mindustry/maps/filters/FilterOption.java:26 `lambda` public static final Boolf<Block> wallsOptional = b -> (b == Blocks.air || ((!b.synthetic() && !(b instanceof Floor)) && !headless && Core.atlas.isFound(b.fullIcon))) && b.inEditor;
+- mindustry/maps/filters/FilterOption.java:27 `lambda` public static final Boolf<Block> wallsOresOptional = b -> b == Blocks.air || (((!b.synthetic() && !(b instanceof Floor)) || (b instanceof OverlayFloor)) && !headless && Core.atlas.isFound(b.fullIcon)) && b.inEditor;
+- mindustry/maps/filters/FilterOption.java:28 `lambda` public static final Boolf<Block> oresOnly = b -> b instanceof OverlayFloor && !headless && Core.atlas.isFound(b.fullIcon);
+- mindustry/maps/filters/FilterOption.java:29 `lambda` public static final Boolf<Block> oresFloorsOptional = b -> (b instanceof Floor) && !headless && Core.atlas.isFound(b.fullIcon);
+- mindustry/maps/filters/FilterOption.java:30 `lambda` public static final Boolf<Block> anyOptional = b -> (floorsOnly.get(b) || wallsOnly.get(b) || oresOnly.get(b) || b == Blocks.air) && b.inEditor;
+- mindustry/maps/filters/FilterOption.java:34 `lambda` public Runnable changed = () -> {};
+- mindustry/maps/filters/FilterOption.java:74 `lambda` t.label(() -> Strings.autoFixed(getter.get(), 2)).style(Styles.outlineLabel).right().labelAlign(Align.right).padLeft(6);
+- mindustry/maps/filters/FilterOption.java:106 `lambda` Button button = table.button(b -> b.image(supplier.get().uiIcon).update(i -> ((TextureRegionDrawable)i.getDrawable())
+- mindustry/maps/filters/FilterOption.java:107 `lambda` .setRegion(supplier.get() == Blocks.air ? Icon.none.getRegion() : supplier.get().uiIcon)).size(iconSmall), () -> {
+- mindustry/maps/filters/FilterOption.java:109 `lambda` dialog.cont.pane(t -> {
+- mindustry/maps/filters/FilterOption.java:114 `lambda` t.image(block == Blocks.air ? Icon.none.getRegion() : block.uiIcon).size(iconMed).pad(3).tooltip(block == Blocks.air ? "@none" : block.localizedName).get().clicked(() -> {
+- mindustry/maps/filters/FilterOption.java:129 `lambda` button.clicked(KeyCode.mouseMiddle, () -> {
+- mindustry/maps/filters/FilterOption.java:134 `lambda` button.clicked(KeyCode.mouseRight, () -> {
+- mindustry/maps/filters/LogicFilter.java:23 `lambda` table.button(b -> b.image(Icon.pencil).size(iconSmall), () -> {
+- mindustry/maps/filters/LogicFilter.java:24 `lambda` ui.logic.show(code, null, true, code -> LogicFilter.this.code = code);
+- mindustry/maps/filters/LogicFilter.java:30 `lambda` new ToggleOption("loop", () -> loop, f -> loop = f)
+- mindustry/maps/filters/MedianFilter.java:20 `lambda` new SliderOption("radius", () -> radius, f -> radius = f, 1f, 10f),
+- mindustry/maps/filters/MedianFilter.java:21 `lambda` new SliderOption("percentile", () -> percentile, f -> percentile = f, 0f, 1f)
+- mindustry/maps/filters/MirrorFilter.java:22 `lambda` new SliderOption("angle", () -> angle, f -> angle = (int)f, 0, 360, 15),
+- mindustry/maps/filters/MirrorFilter.java:23 `lambda` new ToggleOption("rotate", () -> rotate, f -> rotate = f)
+- mindustry/maps/filters/NoiseFilter.java:16 `lambda` new SliderOption("scale", () -> scl, f -> scl = f, 1f, 500f),
+- mindustry/maps/filters/NoiseFilter.java:17 `lambda` new SliderOption("threshold", () -> threshold, f -> threshold = f, 0f, 1f),
+- mindustry/maps/filters/NoiseFilter.java:18 `lambda` new SliderOption("octaves", () -> octaves, f -> octaves = f, 1f, 10f),
+- mindustry/maps/filters/NoiseFilter.java:19 `lambda` new SliderOption("falloff", () -> falloff, f -> falloff = f, 0f, 1f),
+- mindustry/maps/filters/NoiseFilter.java:20 `lambda` new SliderOption("tilt", () -> tilt, f -> tilt = f, -4f, 4f),
+- mindustry/maps/filters/NoiseFilter.java:21 `lambda` new BlockOption("target", () -> target, b -> target = b, anyOptional),
+- mindustry/maps/filters/NoiseFilter.java:22 `lambda` new BlockOption("floor", () -> floor, b -> floor = b, floorsOptional),
+- mindustry/maps/filters/NoiseFilter.java:23 `lambda` new BlockOption("wall", () -> block, b -> block = b, wallsOptional)
+- mindustry/maps/filters/OreFilter.java:16 `lambda` new SliderOption("scale", () -> scl, f -> scl = f, 1f, 500f),
+- mindustry/maps/filters/OreFilter.java:17 `lambda` new SliderOption("threshold", () -> threshold, f -> threshold = f, 0f, 1f),
+- mindustry/maps/filters/OreFilter.java:18 `lambda` new SliderOption("octaves", () -> octaves, f -> octaves = f, 1f, 10f),
+- mindustry/maps/filters/OreFilter.java:19 `lambda` new SliderOption("falloff", () -> falloff, f -> falloff = f, 0f, 1f),
+- mindustry/maps/filters/OreFilter.java:20 `lambda` new SliderOption("tilt", () -> tilt, f -> tilt = f, -4f, 4f),
+- mindustry/maps/filters/OreFilter.java:21 `lambda` new BlockOption("ore", () -> ore, b -> ore = b, oresOnly),
+- mindustry/maps/filters/OreFilter.java:22 `lambda` new BlockOption("target", () -> target, b -> target = b, oresFloorsOptional)
+- mindustry/maps/filters/OreMedianFilter.java:20 `lambda` new SliderOption("radius", () -> radius, f -> radius = f, 1f, 12f),
+- mindustry/maps/filters/OreMedianFilter.java:21 `lambda` new SliderOption("percentile", () -> percentile, f -> percentile = f, 0f, 1f)
+- mindustry/maps/filters/RiverNoiseFilter.java:16 `lambda` new SliderOption("scale", () -> scl, f -> scl = f, 1f, 500f),
+- mindustry/maps/filters/RiverNoiseFilter.java:17 `lambda` new SliderOption("threshold", () -> threshold, f -> threshold = f, -1f, 1f),
+- mindustry/maps/filters/RiverNoiseFilter.java:18 `lambda` new SliderOption("threshold2", () -> threshold2, f -> threshold2 = f, -1f, 1f),
+- mindustry/maps/filters/RiverNoiseFilter.java:19 `lambda` new SliderOption("octaves", () -> octaves, f -> octaves = f, 1f, 10f),
+- mindustry/maps/filters/RiverNoiseFilter.java:20 `lambda` new SliderOption("falloff", () -> falloff, f -> falloff = f, 0f, 1f),
+- mindustry/maps/filters/RiverNoiseFilter.java:21 `lambda` new BlockOption("target", () -> target, b -> target = b, anyOptional),
+- mindustry/maps/filters/RiverNoiseFilter.java:22 `lambda` new BlockOption("block", () -> block, b -> block = b, wallsOptional),
+- mindustry/maps/filters/RiverNoiseFilter.java:23 `lambda` new BlockOption("floor", () -> floor, b -> floor = b, floorsOptional),
+- mindustry/maps/filters/RiverNoiseFilter.java:24 `lambda` new BlockOption("floor2", () -> floor2, b -> floor2 = b, floorsOptional)
+- mindustry/maps/filters/ScatterFilter.java:16 `lambda` new SliderOption("chance", () -> chance, f -> chance = f, 0f, 1f),
+- mindustry/maps/filters/ScatterFilter.java:17 `lambda` new BlockOption("flooronto", () -> flooronto, b -> flooronto = b, floorsOptional),
+- mindustry/maps/filters/ScatterFilter.java:18 `lambda` new BlockOption("floor", () -> floor, b -> floor = b, floorsOptional),
+- mindustry/maps/filters/ScatterFilter.java:19 `lambda` new BlockOption("block", () -> block, b -> block = b, wallsOresOptional)
+- mindustry/maps/filters/SpawnPathFilter.java:24 `lambda` new SliderOption("radius", () -> radius, f -> radius = (int)f, 1, 20).display(),
+- mindustry/maps/filters/SpawnPathFilter.java:25 `lambda` new BlockOption("wall", () -> block, b -> block = b, wallsOnly)
+- mindustry/maps/filters/SpawnPathFilter.java:50 `lambda` var path = Astar.pathfind(core.x, core.y, spawn.x, spawn.y, t -> t.solid() ? 100 : 1, Astar.manhattan, tile -> !tile.floor().isDeep());
+- mindustry/maps/filters/TerrainFilter.java:17 `lambda` new SliderOption("scale", () -> scl, f -> scl = f, 1f, 500f),
+- mindustry/maps/filters/TerrainFilter.java:18 `lambda` new SliderOption("mag", () -> magnitude, f -> magnitude = f, 0f, 2f),
+- mindustry/maps/filters/TerrainFilter.java:19 `lambda` new SliderOption("threshold", () -> threshold, f -> threshold = f, 0f, 1f),
+- mindustry/maps/filters/TerrainFilter.java:20 `lambda` new SliderOption("circle-scale", () -> circleScl, f -> circleScl = f, 0f, 3f),
+- mindustry/maps/filters/TerrainFilter.java:21 `lambda` new SliderOption("octaves", () -> octaves, f -> octaves = f, 1f, 10f),
+- mindustry/maps/filters/TerrainFilter.java:22 `lambda` new SliderOption("falloff", () -> falloff, f -> falloff = f, 0f, 1f),
+- mindustry/maps/filters/TerrainFilter.java:23 `lambda` new SliderOption("tilt", () -> tilt, f -> tilt = f, -4f, 4f),
+- mindustry/maps/filters/TerrainFilter.java:24 `lambda` new BlockOption("floor", () -> floor, b -> floor = b, floorsOptional),
+- mindustry/maps/filters/TerrainFilter.java:25 `lambda` new BlockOption("wall", () -> block, b -> block = b, wallsOnly)
+- mindustry/maps/generators/BaseGenerator.java:34 `lambda` Seq<Block> wallsSmall = content.blocks().select(b -> b instanceof Wall && b.isVanilla() && b.size == size
+- mindustry/maps/generators/BaseGenerator.java:38 `lambda` wallsSmall.sort(b -> b.buildTime);
+- mindustry/maps/generators/BaseGenerator.java:74 `lambda` pass(tile -> {
+- mindustry/maps/generators/BaseGenerator.java:91 `lambda` pass(tile -> {
+- mindustry/maps/generators/BaseGenerator.java:100 `lambda` pass(tile -> {
+- mindustry/maps/generators/BaseGenerator.java:133 `lambda` pass(curr -> {
+- mindustry/maps/generators/BaseGenerator.java:157 `lambda` Astar.pathfind(tile, spawn, t -> t.team() == state.rules.waveTeam && !t.within(tile, coreDst) ? 100000 : t.floor().hasSurface() ? 1 : 10, t -> !t.block().isStatic()).each(t -> {
+- mindustry/maps/generators/BaseGenerator.java:191 `lambda` core.circle(range, (x, y) -> cons.get(tiles.getn(x, y)));
+- mindustry/maps/generators/BaseGenerator.java:237 `lambda` tile.block.iterateTaken(tile.x + cx, tile.y + cy, (ex, ey) -> {
+- mindustry/maps/generators/BasicGenerator.java:56 `lambda` tiles.each((x, y) -> {
+- mindustry/maps/generators/BasicGenerator.java:61 `lambda` Geometry.circle(x, y, width, height, radius, (cx, cy) -> {
+- mindustry/maps/generators/BasicGenerator.java:72 `lambda` pass((x, y) -> {
+- mindustry/maps/generators/BasicGenerator.java:81 `lambda` pass((x, y) -> {
+- mindustry/maps/generators/BasicGenerator.java:97 `lambda` pass((x, y) -> {
+- mindustry/maps/generators/BasicGenerator.java:133 `lambda` pass((x, y) -> {
+- mindustry/maps/generators/BasicGenerator.java:182 `lambda` pass((x, y) -> {
+- mindustry/maps/generators/BasicGenerator.java:199 `lambda` pass((x, y) -> {
+- mindustry/maps/generators/BasicGenerator.java:211 `lambda` pass((x, y) -> {
+- mindustry/maps/generators/BasicGenerator.java:224 `lambda` pass((x, y) -> {
+- mindustry/maps/generators/BasicGenerator.java:248 `lambda` tiles.each((x, y) -> {
+- mindustry/maps/generators/BasicGenerator.java:264 `lambda` pass((x, y) -> {
+- mindustry/maps/generators/BasicGenerator.java:290 `lambda` tiles.each((x, y) -> read.set(x, y, !tiles.get(x, y).block().isAir()));
+- mindustry/maps/generators/BasicGenerator.java:293 `lambda` tiles.each((x, y) -> {
+- mindustry/maps/generators/BasicGenerator.java:393 `lambda` pass((x, y) -> {
+- mindustry/maps/generators/BasicGenerator.java:432 `lambda` path.each(tile -> erase(tile.x, tile.y, rad));
+- mindustry/maps/generators/BasicGenerator.java:448 `lambda` return Astar.pathfind(startX, startY, endX, endY, th, dh, tile -> world.getDarkness(tile.x, tile.y) <= 1f);
+- mindustry/maps/generators/FileMapGenerator.java:46 `lambda` String fileName = candidates.find(name -> Vars.tree.get("maps/" + name + "." + mapExtension).exists());
+- mindustry/maps/generators/FileMapGenerator.java:106 `lambda` Geometry.circle(tile.x, tile.y, tiles.width, tiles.height, rad, (wx, wy) -> {
+- mindustry/maps/generators/PlanetGenerator.java:76 `lambda` return destination.planet.sectors.min(s -> s.hasBase() && !s.isAttacked() && s.items().has(tmpItems), s -> s.tile.v.dst(destination.tile.v));
+- mindustry/maps/generators/PlanetGenerator.java:86 `lambda` launchFrom = destination.near().find(s -> s.hasBase() && !s.isAttacked());
+- mindustry/maps/generators/PlanetGenerator.java:89 `lambda` launchFrom = destination.planet.sectors.min(s -> s.hasBase() && !s.isAttacked(), s -> s.tile.v.dst2(destination.tile.v));
+- mindustry/maps/generators/PlanetGenerator.java:129 `lambda` entries.sort(e -> -e.value);
+- mindustry/maps/generators/PlanetGenerator.java:131 `lambda` entries.removeAll(e -> e.value < 30);
+- mindustry/maps/MapPreviewLoader.java:70 `lambda` Prov<Object> sup = () -> Reflect.get(Vars.state, world);
+- mindustry/maps/MapPreviewLoader.java:71 `lambda` Events.on(WorldLoadEvent.class, e -> {
+- mindustry/maps/MapPreviewLoader.java:76 `lambda` Events.on(ResetEvent.class, e -> {
+- mindustry/maps/MapPreviewLoader.java:81 `lambda` Events.run(Trigger.update, check = () -> {
+- mindustry/maps/MapPreviewLoader.java:87 `lambda` Events.run(Trigger.update, () -> check = inst);
+- mindustry/maps/Maps.java:92 `lambda` return maps.select(m -> m.custom);
+- mindustry/maps/Maps.java:97 `lambda` return maps.select(m -> !m.custom && m.mod == null);
+- mindustry/maps/Maps.java:102 `lambda` return maps.select(m -> m.mod != null);
+- mindustry/maps/Maps.java:106 `lambda` return maps.find(m -> m.name().equals(name));
+- mindustry/maps/Maps.java:110 `lambda` Events.on(ClientLoadEvent.class, event -> maps.sort());
+- mindustry/maps/Maps.java:144 `lambda` customMapDirectory.walk(file -> {
+- mindustry/maps/Maps.java:170 `lambda` mods.listFiles("maps", (mod, file) -> {
+- mindustry/maps/Maps.java:209 `lambda` Map other = maps.find(m -> m.name().equals(name));
+- mindustry/maps/Maps.java:255 `lambda` mainExecutor.submit(() -> {
+- mindustry/maps/Maps.java:278 `lambda` createNewPreview(map, e -> {
+- mindustry/maps/Maps.java:353 `lambda` Seq<Block> ores = content.blocks().select(b -> b.isOverlay() && b.asFloor().oreDefault);
+- mindustry/maps/Maps.java:389 `lambda` Core.assets.load(new AssetDescriptor<>(map.previewFile().path() + "." + mapExtension, Texture.class, new MapPreviewParameter(map))).loaded = t -> map.texture = t;
+- mindustry/maps/Maps.java:404 `lambda` Core.app.post(() -> {
+- mindustry/maps/Maps.java:406 `lambda` createNewPreview(map, e -> Core.app.post(() -> map.texture = Core.assets.get("sprites/error.png")));
+- mindustry/maps/Maps.java:413 `lambda` Core.app.post(() -> previewList.add(map));
+- mindustry/maps/Maps.java:422 `lambda` mainExecutor.submit(() -> {
+- mindustry/maps/Maps.java:494 `lambda` none((mode, map) -> null),
+- mindustry/maps/Maps.java:495 `lambda` all((mode, prev) -> next(mode, prev, Vars.maps.defaultMaps(), Vars.maps.customMaps())),
+- mindustry/maps/Maps.java:496 `lambda` custom((mode, prev) -> next(mode, prev, Vars.maps.customMaps().isEmpty() ? Vars.maps.defaultMaps() : Vars.maps.customMaps())),
+- mindustry/maps/Maps.java:497 `lambda` builtin((mode, prev) -> next(mode, prev, Vars.maps.defaultMaps()));
+- mindustry/maps/Maps.java:510 `lambda` return maps.find(m -> (m != prev || maps.size == 1) && valid(mode, m));
+- mindustry/maps/planet/AsteroidGenerator.java:57 `lambda` tiles.eachTile(t -> t.setFloor(background));
+- mindustry/maps/planet/AsteroidGenerator.java:78 `lambda` pass((x, y) -> {
+- mindustry/maps/planet/AsteroidGenerator.java:87 `lambda` pass((x, y) -> {
+- mindustry/maps/planet/AsteroidGenerator.java:103 `lambda` pass((x, y) -> {
+- mindustry/maps/planet/AsteroidGenerator.java:125 `lambda` pass((x, y) -> {
+- mindustry/maps/planet/AsteroidGenerator.java:140 `anonymous_double_brace_initializer` state.rules.planetBackground = new PlanetParams(){{
+- mindustry/maps/planet/ErekirPlanetGenerator.java:129 `lambda` pass((x, y) -> {
+- mindustry/maps/planet/ErekirPlanetGenerator.java:152 `lambda` pass((x, y) -> {
+- mindustry/maps/planet/ErekirPlanetGenerator.java:169 `lambda` brush(pathfind(spawnX, spawnY, endX, endY, tile -> (tile.solid() ? 300f : 0f) + maxd - tile.dst(width/2f, height/2f)/10f, Astar.manhattan), 9);
+- mindustry/maps/planet/ErekirPlanetGenerator.java:173 `lambda` pass((x, y) -> {
+- mindustry/maps/planet/ErekirPlanetGenerator.java:206 `lambda` pass((x, y) -> {
+- mindustry/maps/planet/ErekirPlanetGenerator.java:252 `lambda` pass((x, y) -> {
+- mindustry/maps/planet/ErekirPlanetGenerator.java:300 `lambda` pass((x, y) -> {
+- mindustry/maps/planet/ErekirPlanetGenerator.java:302 `lambda` removeWall(x, y, 3, b -> b instanceof TallBlock);
+- mindustry/maps/planet/SerpuloPlanetGenerator.java:92 `lambda` return s.hasBase() && !s.isAttacked() && (s.info.bestCoreType.size >= 4 || s.isBeingPlayed() && state.rules.defaultTeam.cores().contains(b -> b.block.size >= 4));
+- mindustry/maps/planet/SerpuloPlanetGenerator.java:259 `lambda` brush(pathfind(x1, y1, x2, y2, tile -> (tile.solid() ? 50f : 0f) + noise(tile.x, tile.y, 2, 0.4f, 1f / nscl) * 500, Astar.manhattan), stroke);
+- mindustry/maps/planet/SerpuloPlanetGenerator.java:287 `lambda` var path = pathfind(x1, y1, x2, y2, tile -> (tile.solid() || !tile.floor().isLiquid ? 70f : 0f) + noise(tile.x, tile.y, 2, 0.4f, 1f / nscl) * 500, Astar.manhattan);
+- mindustry/maps/planet/SerpuloPlanetGenerator.java:288 `lambda` path.each(t -> {
+- mindustry/maps/planet/SerpuloPlanetGenerator.java:429 `lambda` pass((x, y) -> {
+- mindustry/maps/planet/SerpuloPlanetGenerator.java:453 `lambda` pass((x, y) -> {
+- mindustry/maps/planet/SerpuloPlanetGenerator.java:480 `lambda` pass((x, y) -> {
+- mindustry/maps/planet/SerpuloPlanetGenerator.java:530 `lambda` pass((x, y) -> {
+- mindustry/maps/planet/SerpuloPlanetGenerator.java:557 `lambda` pass((x, y) -> {
+- mindustry/maps/planet/SerpuloPlanetGenerator.java:568 `lambda` Math.abs(0.5f - noise(x, y + sector.id*10, 1, 1, 60)) > 0.41f && !(roomseq.contains(r -> Mathf.within(x, y, r.x, r.y, 30)))){
+- mindustry/maps/planet/SerpuloPlanetGenerator.java:592 `lambda` if(noise > 0.67f && !roomseq.contains(e -> Mathf.within(x, y, e.x, e.y, 14))){
+- mindustry/maps/planet/SerpuloPlanetGenerator.java:678 `lambda` if(part != null && BaseGenerator.tryPlace(part, x, y, Team.derelict, rand, (cx, cy) -> {
+- mindustry/maps/planet/SerpuloPlanetGenerator.java:695 `lambda` Geometry.circle(x, y, tiles.width, tiles.height, debrisRadius, (cx, cy) -> {
+- mindustry/maps/planet/SerpuloPlanetGenerator.java:726 `lambda` basegen.generate(tiles, enemies.map(r -> tiles.getn(r.x, r.y)), tiles.get(spawn.x, spawn.y), state.rules.waveTeam, sector, difficulty);
+- mindustry/maps/planet/TantrosPlanetGenerator.java:67 `lambda` pass((x, y) -> {
+- mindustry/maps/SectorDamage.java:36 `lambda` Seq<Tile> path = Astar.pathfind(spawner, core.tile, SectorDamage::cost, t -> !(t.block().isStatic() && t.solid()));
+- mindustry/maps/SectorDamage.java:42 `lambda` float totalHealth = fraction >= 1f ? 1f : path.sumf(t -> {
+- mindustry/maps/SectorSubmissions.java:85 `anonymous_double_brace_initializer` new SectorPreset("fallenVessel", serpulo, -1){{
+- mindustry/maps/SectorSubmissions.java:92 `anonymous_double_brace_initializer` new SectorPreset("geothermalStronghold", serpulo, 264){{
+- mindustry/maps/SectorSubmissions.java:98 `anonymous_double_brace_initializer` new SectorPreset("cruxscape", serpulo, 54){{
+- mindustry/mod/ContentParser.java:71 `anonymous_double_brace_initializer` ObjectMap<Class<?>, FieldParser> classParsers = new ObjectMap<>(){{
+- mindustry/mod/ContentParser.java:72 `lambda` put(Effect.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:85 `lambda` put(Sortf.class, (type, data) -> field(UnitSorts.class, data));
+- mindustry/mod/ContentParser.java:86 `lambda` put(Interp.class, (type, data) -> field(Interp.class, data));
+- mindustry/mod/ContentParser.java:87 `lambda` put(Blending.class, (type, data) -> field(Blending.class, data));
+- mindustry/mod/ContentParser.java:88 `lambda` put(CacheLayer.class, (type, data) -> field(CacheLayer.class, data));
+- mindustry/mod/ContentParser.java:89 `lambda` put(Attribute.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:94 `lambda` put(Attributes.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:105 `lambda` put(BuildVisibility.class, (type, data) -> field(BuildVisibility.class, data));
+- mindustry/mod/ContentParser.java:106 `lambda` put(Schematic.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:119 `lambda` put(TextureRegion.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:135 `lambda` put(Color.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:144 `lambda` put(StatusEffect.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:155 `lambda` put(UnitCommand.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:167 `lambda` put(UnitStance.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:179 `lambda` put(BulletType.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:193 `lambda` put(MassDriverBolt.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:198 `lambda` put(DrawBlock.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:213 `lambda` put(ShootPattern.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:220 `lambda` put(DrawPart.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:228 `lambda` put(PartProgress.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:271 `lambda` put(PlanetGenerator.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:278 `lambda` put(Mat3D.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:296 `lambda` case "translate", "trans" -> mat.translate(parser.readValue(Vec3.class, data));
+- mindustry/mod/ContentParser.java:297 `lambda` case "scale", "scl" -> mat.scale(parser.readValue(Vec3.class, data));
+- mindustry/mod/ContentParser.java:298 `lambda` case "rotate", "rot" -> mat.rotate(parser.readValue(Vec3.class, data), data.getFloat("degrees", 0f));
+- mindustry/mod/ContentParser.java:299 `lambda` case "multiply", "mul" -> mat.mul(parser.readValue(Mat3D.class, data));
+- mindustry/mod/ContentParser.java:300 `lambda` case "x", "y", "z" -> {}
+- mindustry/mod/ContentParser.java:301 `lambda` default -> throw new RuntimeException("Unknown matrix transformation: '" + val.name + "'");
+- mindustry/mod/ContentParser.java:307 `lambda` put(Vec3.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:311 `lambda` put(Sound.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:328 `lambda` put(Music.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:344 `lambda` put(Objectives.Objective.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:356 `lambda` put(Ability.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:363 `lambda` put(Weapon.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:373 `lambda` put(Consume.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:380 `lambda` put(ConsumeLiquidBase.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:387 `lambda` put(Team.class, (type, data) -> {
+- mindustry/mod/ContentParser.java:389 `lambda` Team out = Structs.find(Team.baseTeams, t -> t.name.equals(data.asString()));
+- mindustry/mod/ContentParser.java:435 `lambda` listeners.each(hook -> hook.parsed(type, jsonData, t));
+- mindustry/mod/ContentParser.java:509 `lambda` ContentType ctype = contentTypes.getThrow(type, () -> new IllegalArgumentException("No content type for class: " + type.getSimpleName()));
+- mindustry/mod/ContentParser.java:527 `lambda` case "remove" -> {
+- mindustry/mod/ContentParser.java:531 `lambda` block.removeConsumers(b -> true);
+- mindustry/mod/ContentParser.java:535 `lambda` block.removeConsumers(b -> consumeType.isAssignableFrom(b.getClass()));
+- mindustry/mod/ContentParser.java:542 `lambda` case "item" -> block.consumeItem(find(ContentType.item, child.asString()));
+- mindustry/mod/ContentParser.java:543 `lambda` case "itemCharged" -> block.consume((Consume)parser.readValue(ConsumeItemCharged.class, child));
+- mindustry/mod/ContentParser.java:544 `lambda` case "itemFlammable" -> block.consume((Consume)parser.readValue(ConsumeItemFlammable.class, child));
+- mindustry/mod/ContentParser.java:545 `lambda` case "itemRadioactive" -> block.consume((Consume)parser.readValue(ConsumeItemRadioactive.class, child));
+- mindustry/mod/ContentParser.java:546 `lambda` case "itemExplosive" -> block.consume((Consume)parser.readValue(ConsumeItemExplosive.class, child));
+- mindustry/mod/ContentParser.java:547 `lambda` case "itemList" -> block.consume((Consume)parser.readValue(ConsumeItemList.class, child));
+- mindustry/mod/ContentParser.java:548 `lambda` case "itemExplode" -> block.consume((Consume)parser.readValue(ConsumeItemExplode.class, child));
+- mindustry/mod/ContentParser.java:549 `lambda` case "items" -> block.consume(
+- mindustry/mod/ContentParser.java:553 `lambda` case "itemsBoost" -> block.consume(child.isArray() ? new ConsumeItems(parser.readValue(ItemStack[].class, child)) :
+- mindustry/mod/ContentParser.java:556 `lambda` case "liquidFlammable" -> block.consume((Consume)parser.readValue(ConsumeLiquidFlammable.class, child));
+- mindustry/mod/ContentParser.java:557 `lambda` case "liquid" -> block.consume((Consume)parser.readValue(ConsumeLiquid.class, child));
+- mindustry/mod/ContentParser.java:558 `lambda` case "liquids" -> block.consume(
+- mindustry/mod/ContentParser.java:561 `lambda` case "coolant" -> block.consume((Consume)parser.readValue(ConsumeCoolant.class, child));
+- mindustry/mod/ContentParser.java:562 `lambda` case "liquidsBoost" -> block.consume(child.isArray() ? new ConsumeLiquids(parser.readValue(LiquidStack[].class, child)) :
+- mindustry/mod/ContentParser.java:564 `lambda` case "power" -> {
+- mindustry/mod/ContentParser.java:571 `lambda` case "powerBuffered" -> block.consumePowerBuffered(child.asFloat());
+- mindustry/mod/ContentParser.java:572 `lambda` default -> throw new IllegalArgumentException("Unknown consumption type: '" + child.name + "' for block '" + block.name + "'.");
+- mindustry/mod/ContentParser.java:579 `lambda` ContentType.block, (TypeParser<Block>)(mod, name, value) -> {
+- mindustry/mod/ContentParser.java:597 `lambda` read(() -> {
+- mindustry/mod/ContentParser.java:617 `lambda` ContentType.unit, (TypeParser<UnitType>)(mod, name, value) -> {
+- mindustry/mod/ContentParser.java:642 `lambda` read(() -> {
+- mindustry/mod/ContentParser.java:668 `lambda` unit.controller = u -> sup.get();
+- mindustry/mod/ContentParser.java:688 `lambda` ContentType.weather, (TypeParser<Weather>)(mod, name, value) -> {
+- mindustry/mod/ContentParser.java:699 `lambda` read(() -> readFields(item, value));
+- mindustry/mod/ContentParser.java:703 `lambda` ContentType.liquid, (TypeParser<Liquid>)(mod, name, value) -> {
+- mindustry/mod/ContentParser.java:714 `lambda` read(() -> readFields(liquid, value));
+- mindustry/mod/ContentParser.java:717 `lambda` ContentType.status, (TypeParser<StatusEffect>)(mod, name, value) -> {
+- mindustry/mod/ContentParser.java:727 `lambda` read(() -> readFields(status, value));
+- mindustry/mod/ContentParser.java:729 `lambda` status.init(() -> {
+- mindustry/mod/ContentParser.java:737 `lambda` status.affinity(affinity, (unit, result, time) -> {
+- mindustry/mod/ContentParser.java:745 `lambda` ContentType.sector, (TypeParser<SectorPreset>)(mod, name, value) -> {
+- mindustry/mod/ContentParser.java:763 `lambda` read(() -> {
+- mindustry/mod/ContentParser.java:790 `lambda` preset.rules = rules -> {
+- mindustry/mod/ContentParser.java:804 `lambda` ContentType.planet, (TypeParser<Planet>)(mod, name, value) -> {
+- mindustry/mod/ContentParser.java:818 `lambda` planet.meshLoader = () -> {
+- mindustry/mod/ContentParser.java:833 `lambda` planet.cloudMeshLoader = () -> {
+- mindustry/mod/ContentParser.java:847 `lambda` planet.ruleSetter = rules -> {
+- mindustry/mod/ContentParser.java:861 `lambda` read(() -> readFields(planet, value));
+- mindustry/mod/ContentParser.java:864 `lambda` ContentType.team, (TypeParser<TeamEntry>)(mod, name, value) -> {
+- mindustry/mod/ContentParser.java:882 `lambda` read(() -> readFields(entry, value));
+- mindustry/mod/ContentParser.java:890 `lambda` case "flying" -> UnitEntity::create;
+- mindustry/mod/ContentParser.java:891 `lambda` case "mech" -> MechUnit::create;
+- mindustry/mod/ContentParser.java:892 `lambda` case "legs" -> LegsUnit::create;
+- mindustry/mod/ContentParser.java:893 `lambda` case "naval" -> UnitWaterMove::create;
+- mindustry/mod/ContentParser.java:894 `lambda` case "payload" -> PayloadUnit::create;
+- mindustry/mod/ContentParser.java:895 `lambda` case "missile" -> TimedKillUnit::create;
+- mindustry/mod/ContentParser.java:896 `lambda` case "tank" -> TankUnit::create;
+- mindustry/mod/ContentParser.java:897 `lambda` case "hover" -> ElevationMoveUnit::create;
+- mindustry/mod/ContentParser.java:898 `lambda` case "tether" -> BuildingTetherPayloadUnit::create;
+- mindustry/mod/ContentParser.java:899 `lambda` case "crawl" -> CrawlUnit::create;
+- mindustry/mod/ContentParser.java:900 `lambda` default -> throw new IllegalArgumentException("Invalid unit type: '" + value.asString() + "'. Must be 'flying/mech/legs/naval/payload/missile/tether/crawl'.");
+- mindustry/mod/ContentParser.java:924 `lambda` return (mod, name, value) -> {
+- mindustry/mod/ContentParser.java:934 `lambda` read(() -> readFields(item, value));
+- mindustry/mod/ContentParser.java:968 `lambda` reads.add(() -> {
+- mindustry/mod/ContentParser.java:1133 `lambda` case "NoiseMesh" -> new NoiseMesh(planet,
+- mindustry/mod/ContentParser.java:1140 `lambda` case "SunMesh" -> {
+- mindustry/mod/ContentParser.java:1151 `lambda` case "HexSkyMesh" -> new HexSkyMesh(planet,
+- mindustry/mod/ContentParser.java:1155 `lambda` case "MultiMesh" -> new MultiMesh(parseMeshes(planet, data.get("meshes")));
+- mindustry/mod/ContentParser.java:1156 `lambda` case "MatMesh" -> new MatMesh(parseMesh(planet, data.get("mesh")), parser.readValue(Mat3D.class, data.get("mat")));
+- mindustry/mod/ContentParser.java:1157 `lambda` default -> throw new RuntimeException("Unknown mesh type: " + tname);
+- mindustry/mod/ContentParser.java:1164 `lambda` case "inv" -> base.inv();
+- mindustry/mod/ContentParser.java:1165 `lambda` case "slope" -> base.slope();
+- mindustry/mod/ContentParser.java:1166 `lambda` case "clamp" -> base.clamp();
+- mindustry/mod/ContentParser.java:1167 `lambda` case "delay" -> base.delay(data.getFloat("amount"));
+- mindustry/mod/ContentParser.java:1168 `lambda` case "sustain" -> base.sustain(data.getFloat("offset", 0f), data.getFloat("grow", 0f), data.getFloat("sustain"));
+- mindustry/mod/ContentParser.java:1169 `lambda` case "shorten" -> base.shorten(data.getFloat("amount"));
+- mindustry/mod/ContentParser.java:1170 `lambda` case "compress" -> base.compress(data.getFloat("start"), data.getFloat("end"));
+- mindustry/mod/ContentParser.java:1171 `lambda` case "add" -> data.has("amount") ? base.add(data.getFloat("amount")) : base.add(parser.readValue(PartProgress.class, data.get("other")));
+- mindustry/mod/ContentParser.java:1172 `lambda` case "blend" -> base.blend(parser.readValue(PartProgress.class, data.get("other")), data.getFloat("amount"));
+- mindustry/mod/ContentParser.java:1173 `lambda` case "mul" -> data.has("amount") ? base.mul(data.getFloat("amount")) : base.mul(parser.readValue(PartProgress.class, data.get("other")));
+- mindustry/mod/ContentParser.java:1174 `lambda` case "min" -> base.min(parser.readValue(PartProgress.class, data.get("other")));
+- mindustry/mod/ContentParser.java:1175 `lambda` case "sin" -> base.sin(data.has("offset") ? data.getFloat("offset") : 0f, data.getFloat("scl"), data.getFloat("mag"));
+- mindustry/mod/ContentParser.java:1176 `lambda` case "absin" -> base.absin(data.getFloat("scl"), data.getFloat("mag"));
+- mindustry/mod/ContentParser.java:1177 `lambda` case "mod" -> base.mod(data.getFloat("amount"));
+- mindustry/mod/ContentParser.java:1178 `lambda` case "loop" -> base.loop(data.getFloat("time"));
+- mindustry/mod/ContentParser.java:1179 `lambda` case "curve" -> data.has("interp") ? base.curve(parser.readValue(Interp.class, data.get("interp"))) : base.curve(data.getFloat("offset"), data.getFloat("duration"));
+- mindustry/mod/ContentParser.java:1180 `lambda` default -> throw new RuntimeException("Unknown operation '" + op + "', check PartProgress class for a list of methods.");
+- mindustry/mod/ContentParser.java:1207 `lambda` return () -> {
+- mindustry/mod/ContentParser.java:1250 `lambda` parser.getFields(object.getClass()).values().toSeq().each(field -> {
+- mindustry/mod/ContentParser.java:1359 `lambda` TechNode lastNode = TechTree.all.find(t -> t.content == unlock);
+- mindustry/mod/ContentParser.java:1368 `lambda` postreads.add(() -> {
+- mindustry/mod/ContentParser.java:1379 `lambda` if((unlock instanceof Item || unlock instanceof Liquid) && !node.objectives.contains(o -> o instanceof Produce p && p.content == unlock)){
+- mindustry/mod/ContentParser.java:1403 `lambda` TechNode parent = TechTree.all.find(t -> t.content.name.equals(researchName) || t.content.name.equals(currentMod.name + "-" + researchName) || t.content.name.equals(SaveVersion.mapFallback(researchName)));
+- mindustry/mod/DataBundleLoader.java:45 `lambda` originalProperties.each((bundle, properties) -> bundle.getProperties().set(properties));
+- mindustry/mod/DataImagePacker.java:39 `lambda` sizeTasks.add(Vars.mainExecutor.submit(() -> {
+- mindustry/mod/DataImagePacker.java:69 `lambda` boolean anyEnv = images.contains(p -> p.path.contains("blocks/environment/"));
+- mindustry/mod/DataImagePacker.java:95 `lambda` tasks.add(Vars.mainExecutor.submit(() -> {
+- mindustry/mod/DataImagePacker.java:190 `lambda` int total = packer.getPages().sum(p -> p.rects.size);
+- mindustry/mod/DataManager.java:41 `lambda` Seq<UnlockableContent> contentToPack = allContent.select(c -> c instanceof UnlockableContent && c.minfo.asset != null).as();
+- mindustry/mod/DataManager.java:54 `lambda` images.removeAll(i -> {
+- mindustry/mod/DataManager.java:66 `lambda` contentToPack.removeAll(u -> imagesWithHashes.contains(hashes.get(u)));
+- mindustry/mod/DataManager.java:146 `lambda` imagePixmaps.each((key, val) -> val.pixmap.dispose());
+- mindustry/mod/DataManager.java:244 `lambda` return orderedExternalAssets.select(d -> !d.isCached());
+- mindustry/mod/DataManager.java:252 `lambda` return getAssets(type).contains(a -> a.path.equals(path));
+- mindustry/mod/DataManager.java:256 `lambda` return getAssets(type).contains(a -> a.name.equals(name));
+- mindustry/mod/DataManager.java:260 `lambda` return getAssets(type).contains(a -> a.name.equals(name) || a.path.equals(path));
+- mindustry/mod/DataPatcher.java:40 `anonymous_double_brace_initializer` private static  ModMeta dpModMeta = new ModMeta(){{
+- mindustry/mod/DataPatcher.java:104 `lambda` reset(() -> {
+- mindustry/mod/DataPatcher.java:204 `lambda` all.addAll(arr.select(c -> c.minfo.mod == dpMod));
+- mindustry/mod/DataPatcher.java:434 `lambda` assignValue(object, field, meta, () -> null, val -> {
+- mindustry/mod/DataPatcher.java:447 `lambda` assignValue(parentObject, parentField, meta, () -> null, val -> {
+- mindustry/mod/DataPatcher.java:492 `lambda` assignValue(object, field, metadata, () -> s.get(i), val -> s.set(i, val), value, true);
+- mindustry/mod/DataPatcher.java:497 `lambda` assignValue(object, field, metadata, () -> Array.get(fobj, i), val -> Array.set(fobj, i, val), value, true);
+- mindustry/mod/DataPatcher.java:513 `lambda` assignValue(object, field, multiAdd ? meta : metadata, () -> null, val -> {
+- mindustry/mod/DataPatcher.java:532 `lambda` reset(() -> map.set(copy));
+- mindustry/mod/DataPatcher.java:539 `lambda` assignValue(object, field, new FieldData(metadata.elementType, null, null), () -> map.get(key), val -> map.put(key, val), value, false);
+- mindustry/mod/DataPatcher.java:553 `lambda` reset(() -> map.set(copy));
+- mindustry/mod/DataPatcher.java:560 `lambda` assignValue(object, field, new FieldData(float.class, null, null), () -> map.get(key, 0f), val -> map.put(key, (Float)val), value, false);
+- mindustry/mod/DataPatcher.java:573 `lambda` reset(() -> map.set(key, prev));
+- mindustry/mod/DataPatcher.java:585 `lambda` assignValue(object, "controller", new FieldData(fmeta), () -> Reflect.get(fobj, fmeta.field), val -> Reflect.set(fobj, fmeta.field, val), (Func<Unit, UnitController>)(u -> parser.resolveController(jsv.asString()).get()), true);
+- mindustry/mod/DataPatcher.java:588 `lambda` assignValue(object, "aiController", new FieldData(fmeta), () -> Reflect.get(fobj, fmeta.field), val -> Reflect.set(fobj, fmeta.field, val), parser.resolveController(jsv.asString()), true);
+- mindustry/mod/DataPatcher.java:592 `lambda` assignValue(object, field, new FieldData(fdata), () -> Reflect.get(fobj, fdata.field), fv -> {
+- mindustry/mod/DataPatcher.java:602 `lambda` Runnable resetCons = () -> {
+- mindustry/mod/DataPatcher.java:623 `lambda` assignValue(object, "constructor", new FieldData(fmeta), () -> Reflect.get(fobj, fmeta.field), val -> Reflect.set(fobj, fmeta.field, val), parser.unitType(jsv), true);
+- mindustry/mod/DataPatcher.java:647 `lambda` parser.listeners.add((type, jsonData, result) -> created(result));
+- mindustry/mod/DataPatcher.java:707 `lambda` reset(() -> {
+- mindustry/mod/DataPatcher.java:762 `lambda` resetters.add(() -> {
+- mindustry/mod/DataPatcher.java:772 `lambda` resetters.add(() -> {
+- mindustry/mod/Mods.java:55 `lambda` Events.on(ClientLoadEvent.class, e -> Core.app.post(this::checkWarnings));
+- mindustry/mod/Mods.java:80 `lambda` eachEnabled(mod -> {
+- mindustry/mod/Mods.java:94 `lambda` return mods.find(m -> m.name.equals(name));
+- mindustry/mod/Mods.java:99 `lambda` return mods.find(m -> m.main != null && m.main.getClass() == type);
+- mindustry/mod/Mods.java:128 `lambda` Core.app.post(() -> loadIcon(loaded));
+- mindustry/mod/Mods.java:156 `lambda` eachEnabled(mod -> {
+- mindustry/mod/Mods.java:157 `lambda` Seq<Fi> sprites = mod.root.child("sprites").findAll(f -> f.extension().equals("png"));
+- mindustry/mod/Mods.java:158 `lambda` Seq<Fi> overrides = mod.root.child("sprites-override").findAll(f -> f.extension().equals("png"));
+- mindustry/mod/Mods.java:232 `lambda` rects.sort(Structs.comparingInt(o -> -Math.max(o.region.width, o.region.height)));
+- mindustry/mod/Mods.java:242 `lambda` waitForMain(() -> {
+- mindustry/mod/Mods.java:306 `lambda` arr.each(c -> {
+- mindustry/mod/Mods.java:317 `lambda` waitForMain(() -> {
+- mindustry/mod/Mods.java:335 `lambda` textureResize.each(e -> Core.atlas.find(e.key).scale = e.value);
+- mindustry/mod/Mods.java:388 `lambda` tasks.add(mainExecutor.submit(() -> {
+- mindustry/mod/Mods.java:397 `lambda` return () -> {
+- mindustry/mod/Mods.java:418 `lambda` Core.app.post(() -> {
+- mindustry/mod/Mods.java:507 `lambda` .retainAll(f -> f.extEquals("jar") || f.extEquals("zip") || (f.isDirectory() && Structs.contains(metaFiles, meta -> resolveRoot(f).child(meta).exists())))
+- mindustry/mod/Mods.java:575 `lambda` mods.sort(Structs.comps(Structs.comparingInt(m -> m.state.ordinal()), Structs.comparing(m -> m.name)));
+- mindustry/mod/Mods.java:604 `lambda` var mapping = enabled.asMap(m -> m.meta.internalName);
+- mindustry/mod/Mods.java:605 `lambda` lastOrderedMods = resolveDependencies(enabled.map(m -> m.meta)).orderedKeys().map(mapping::get);
+- mindustry/mod/Mods.java:611 `lambda` return mods.find(mod -> mod.enabled() && mod.name.equals(name));
+- mindustry/mod/Mods.java:621 `lambda` file.walk(f -> tree.addFile(mod.file.isDirectory() ? f.path().substring(1 + mod.file.path().length()) :
+- mindustry/mod/Mods.java:666 `anonymous_double_brace_initializer` new Dialog(""){{
+- mindustry/mod/Mods.java:675 `lambda` cont.pane(p -> {
+- mindustry/mod/Mods.java:676 `lambda` mods.each(m -> m.enabled() && m.hasContentErrors(), m -> {
+- mindustry/mod/Mods.java:681 `lambda` p.table(d -> {
+- mindustry/mod/Mods.java:685 `lambda` d.button("@details", Icon.downOpen, Styles.cleart, () -> {
+- mindustry/mod/Mods.java:686 `anonymous_double_brace_initializer` new Dialog(""){{
+- mindustry/mod/Mods.java:688 `lambda` cont.pane(e -> e.add(c.minfo.error).wrap().grow().labelAlign(Align.center, Align.left)).grow();
+- mindustry/mod/Mods.java:706 `lambda` Seq<LoadedMod> toCheck = mods.select(mod -> mod.shouldBeEnabled() && mod.hasUnmetDependencies());
+- mindustry/mod/Mods.java:716 `anonymous_double_brace_initializer` new Dialog(""){{
+- mindustry/mod/Mods.java:724 `lambda` cont.pane(p -> {
+- mindustry/mod/Mods.java:725 `lambda` toCheck.each(mod -> {
+- mindustry/mod/Mods.java:728 `lambda` p.table(d -> {
+- mindustry/mod/Mods.java:729 `lambda` mod.missingDependencies.each(dep -> {
+- mindustry/mod/Mods.java:734 `lambda` mod.missingSoftDependencies.each(dep -> {
+- mindustry/mod/Mods.java:747 `lambda` cont.button(soft ? "@mod.dependencies.downloadreq" : "@mod.dependencies.download", Icon.download, () -> {
+- mindustry/mod/Mods.java:750 `lambda` toCheck.each(mod -> mod.missingDependencies.each(toImport::addUnique));
+- mindustry/mod/Mods.java:757 `lambda` cont.button("@mod.dependencies.downloadall", Icon.download, () -> {
+- mindustry/mod/Mods.java:760 `lambda` toCheck.each(mod -> mod.missingDependencies.each(toImport::addUnique));
+- mindustry/mod/Mods.java:761 `lambda` toCheck.each(mod -> mod.missingSoftDependencies.each(toImport::addUnique));
+- mindustry/mod/Mods.java:770 `lambda` ui.mods.importDependencies(remaining, () -> {
+- mindustry/mod/Mods.java:779 `anonymous_double_brace_initializer` new Dialog(""){{
+- mindustry/mod/Mods.java:788 `lambda` cont.pane(p -> {
+- mindustry/mod/Mods.java:792 `lambda` p.table(t -> {
+- mindustry/mod/Mods.java:793 `lambda` success.each(d -> {
+- mindustry/mod/Mods.java:804 `lambda` p.table(t -> {
+- mindustry/mod/Mods.java:805 `lambda` failed.each(d -> {
+- mindustry/mod/Mods.java:820 `lambda` hidden(() -> {
+- mindustry/mod/Mods.java:833 `lambda` newImports.removeAll(m -> m.missingDependencies.isEmpty() && m.softDependencies.isEmpty());
+- mindustry/mod/Mods.java:836 `lambda` checkDependencies(newImports, newImports.contains(m -> m.softDependencies.any()));
+- mindustry/mod/Mods.java:838 `lambda` ui.showInfoOnHidden("@mods.reloadexit", () -> {
+- mindustry/mod/Mods.java:854 `lambda` eachEnabled(mod -> {
+- mindustry/mod/Mods.java:858 `lambda` Seq<Fi> allScripts = mod.root.child("scripts").findAll(f -> f.extEquals("js"));
+- mindustry/mod/Mods.java:867 `lambda` Core.app.post(() -> {
+- mindustry/mod/Mods.java:873 `lambda` Core.app.post(() -> Log.err("No main.js found for mod @.", mod.meta.name));
+- mindustry/mod/Mods.java:929 `lambda` for(Fi file : folder.findAll(f -> f.extension().equals("json") || f.extension().equals("hjson"))){
+- mindustry/mod/Mods.java:991 `lambda` return mods.select(l -> !l.meta.hidden && l.enabled()).map(l -> l.name + ":" + l.meta.version);
+- mindustry/mod/Mods.java:1024 `lambda` orderedMods().each(p -> p.main != null, p -> contextRun(p, () -> cons.get(p.main)));
+- mindustry/mod/Mods.java:1140 `lambda` var other = mods.find(m -> m.name.equals(baseName));
+- mindustry/net/Administration.java:41 `lambda` addChatFilter((player, message) -> {
+- mindustry/net/Administration.java:72 `lambda` addActionFilter(action -> {
+- mindustry/net/Administration.java:168 `lambda` return allowAction(player, type, action -> setter.get(action.set(player, type, tile)));
+- mindustry/net/Administration.java:248 `lambda` Events.fire(new PlayerBanEvent(Groups.player.find(p -> id.equals(p.uuid())), id));
+- mindustry/net/Administration.java:287 `lambda` Events.fire(new PlayerUnbanEvent(Groups.player.find(p -> id.equals(p.uuid())), id));
+- mindustry/net/Administration.java:390 `lambda` return bannedNames.size > 0 && bannedNames.contains(p -> p.matcher(name).find());
+- mindustry/net/Administration.java:418 `lambda` if(info.names.contains(n -> n.toLowerCase().contains(name.toLowerCase()) || Strings.stripColors(n).trim().toLowerCase().contains(name))){
+- mindustry/net/Administration.java:456 `lambda` return playerInfo.values().toSeq().select(p -> isWhitelisted(p.id, p.adminUsid));
+- mindustry/net/Administration.java:531 `lambda` socketInput = new Config("socketInput", "Allows a local application to control this server through a local TCP socket.", false, "socket", () -> Events.fire(Trigger.socketConfigChanged)),
+- mindustry/net/Administration.java:532 `lambda` socketInputPort = new Config("socketInputPort", "The port for socket input.", 6859, () -> Events.fire(Trigger.socketConfigChanged)),
+- mindustry/net/Administration.java:533 `lambda` socketInputAddress = new Config("socketInputAddress", "The bind address for socket input.", "localhost", () -> Events.fire(Trigger.socketConfigChanged)),
+- mindustry/net/Administration.java:540 `lambda` debug = new Config("debug", "Enable debug logging.", false, () -> Log.level = debug() ? LogLevel.debug : LogLevel.info),
+- mindustry/net/Administration.java:569 `lambda` this.changed = changed == null ? () -> {} : changed;
+- mindustry/net/ArcNetProvider.java:31 `lambda` final Prov<DatagramPacket> packetSupplier = () -> new DatagramPacket(new byte[512], 512);
+- mindustry/net/ArcNetProvider.java:44 `lambda` ArcNet.errorHandler = e -> {
+- mindustry/net/ArcNetProvider.java:56 `lambda` Events.run(Trigger.update, () -> {
+- mindustry/net/ArcNetProvider.java:80 `lambda` Core.app.post(() -> net.handleClientReceived(c));
+- mindustry/net/ArcNetProvider.java:91 `lambda` Core.app.post(() -> net.handleClientReceived(c));
+- mindustry/net/ArcNetProvider.java:98 `lambda` Core.app.post(() -> {
+- mindustry/net/ArcNetProvider.java:111 `lambda` server.setDiscoveryHandler((address, handler) -> {
+- mindustry/net/ArcNetProvider.java:142 `lambda` Core.app.post(() -> net.handleServerReceived(kn, c));
+- mindustry/net/ArcNetProvider.java:152 `lambda` Core.app.post(() -> {
+- mindustry/net/ArcNetProvider.java:171 `lambda` Core.app.post(() -> {
+- mindustry/net/ArcNetProvider.java:214 `lambda` Threads.daemon(() -> {
+- mindustry/net/ArcNetProvider.java:219 `lambda` Threads.daemon("Net Client", () -> {
+- mindustry/net/ArcNetProvider.java:261 `lambda` Core.app.post(() -> valid.get(host));
+- mindustry/net/ArcNetProvider.java:267 `lambda` Core.app.post(() -> valid.get(host));
+- mindustry/net/ArcNetProvider.java:273 `lambda` Core.app.post(() -> invalid.get(e));
+- mindustry/net/ArcNetProvider.java:299 `lambda` client.discoverHosts(port, multicastGroup, multicastPort, 3000, packet -> {
+- mindustry/net/ArcNetProvider.java:302 `lambda` if(foundAddresses.contains(address -> address.equals(packet.getAddress()) || (isLocal(address) && isLocal(packet.getAddress())))){
+- mindustry/net/ArcNetProvider.java:307 `lambda` Core.app.post(() -> callback.get(host));
+- mindustry/net/ArcNetProvider.java:314 `lambda` }, () -> Core.app.post(done));
+- mindustry/net/ArcNetProvider.java:337 `lambda` serverThread = new Thread(() -> {
+- mindustry/net/ArcNetProvider.java:425 `lambda` ThreadLocal<ByteBuffer> decompressBuffer = Threads.local(() -> ByteBuffer.allocate(32768));
+- mindustry/net/ArcNetProvider.java:426 `lambda` ThreadLocal<Reads> reads = Threads.local(() -> new Reads(new ByteBufferInput(decompressBuffer.get())));
+- mindustry/net/ArcNetProvider.java:427 `lambda` ThreadLocal<Writes> writes = Threads.local(() -> new Writes(new ByteBufferOutput(decompressBuffer.get())));
+- mindustry/net/BeControl.java:43 `lambda` Timer.schedule(() -> {
+- mindustry/net/BeControl.java:45 `lambda` checkUpdate(t -> {});
+- mindustry/net/BeControl.java:55 `lambda` for(Fi file : self.parent().findAll(f -> !f.equals(self))) file.delete();
+- mindustry/net/BeControl.java:67 `lambda` .error(e -> {
+- mindustry/net/BeControl.java:71 `lambda` .submit(res -> {
+- mindustry/net/BeControl.java:75 `lambda` Jval asset = val.get("assets").asArray().find(v -> v.getString("name", "").startsWith(headless ? "Mindustry-BE-Server" : "Mindustry-BE-Desktop"));
+- mindustry/net/BeControl.java:80 `lambda` Core.app.post(() -> {
+- mindustry/net/BeControl.java:85 `lambda` Core.app.post(() -> done.get(false));
+- mindustry/net/BeControl.java:101 `lambda` ui.showCustomConfirm(Core.bundle.format("be.update", "") + " " + updateBuild, "@be.update.confirm", "@ok", "@be.ignore", () -> {
+- mindustry/net/BeControl.java:112 `lambda` download(updateUrl, file, i -> length[0] = i, v -> progress[0] = v, () -> cancel[0], () -> {
+- mindustry/net/BeControl.java:122 `lambda` }, e -> {
+- mindustry/net/BeControl.java:127 `lambda` dialog.cont.add(new Bar(() -> length[0] == 0 ? Core.bundle.get("be.updating") : (int)(progress[0] * length[0]) / 1024/ 1024 + "/" + length[0]/1024/1024 + " MB", () -> Pal.accent, () -> progress[0])).width(400f).height(70f);
+- mindustry/net/BeControl.java:128 `lambda` dialog.buttons.button("@cancel", Icon.cancel, () -> {
+- mindustry/net/BeControl.java:137 `lambda` }, () -> checkUpdates = false);
+- mindustry/net/BeControl.java:149 `lambda` len -> Core.app.post(() -> Log.info("&ly| Size: @ MB.", Strings.fixed((float)len / 1024 / 1024, 2))),
+- mindustry/net/BeControl.java:150 `lambda` progress -> {},
+- mindustry/net/BeControl.java:151 `lambda` () -> false,
+- mindustry/net/BeControl.java:152 `lambda` () -> Core.app.post(() -> {
+- mindustry/net/BeControl.java:176 `lambda` mainExecutor.submit(() -> {
+- mindustry/net/CrashHandler.java:31 `lambda` var enabledMods = mods == null ? null : mods.list().select(m -> m.shouldBeEnabled() && m.isSupported());
+- mindustry/net/CrashHandler.java:43 `lambda` + (enabledMods == null ? "<no mod init>" : "Mods: " + (enabledMods.isEmpty() ? "none (vanilla)" : enabledMods.toString(", ", mod -> mod.name + ":" + mod.meta.version))) + "\n"
+- mindustry/net/CrashHandler.java:44 `lambda` + (state != null && state.data != null && state.data.getPatches().size > 0 ? "Patches: \n" + state.data.getPatches().toString("\n---\n", p -> p.patch) + "\n" : "")
+- mindustry/net/Net.java:88 `lambda` Core.app.post(() -> showError(new IOException("mismatch", e)));
+- mindustry/net/Net.java:90 `lambda` Core.app.post(() -> showError(new IOException("alreadyconnected", e)));
+- mindustry/net/Net.java:92 `lambda` Core.app.post(() -> showError(e));
+- mindustry/net/Net.java:384 `lambda` pingExecutor.submit(() -> provider.pingHost(address, port, valid, failed));
+- mindustry/net/SteamAdmin.java:25 `lambda` Http.get(Vars.ghApi + "/repos/Anuken/MindustrySteamBans/commits?path=data.json&per_page=1").submit(res -> { //fetch latest commit from api
+- mindustry/net/SteamAdmin.java:39 `lambda` fetch(githubURL, () -> fetch(Vars.steamBansURLs[1], () -> {}));
+- mindustry/net/SteamAdmin.java:48 `lambda` .error(t -> {
+- mindustry/net/SteamAdmin.java:51 `lambda` }).submit(result -> {
+- mindustry/net/SteamAdmin.java:53 `lambda` Core.app.post(() -> {
+- mindustry/net/SteamAdmin.java:57 `lambda` Groups.player.each(p -> data.bans.contains(p.uuid()), p -> p.kick(Packets.KickReason.banned));
+- mindustry/service/GameService.java:46 `lambda` Events.on(ClientLoadEvent.class, e -> registerEvents());
+- mindustry/service/GameService.java:79 `lambda` if(!Structs.contains(blocks, t -> !blocksBuilt.contains(t.name))){
+- mindustry/service/GameService.java:85 `lambda` allTransportSerpulo = content.blocks().select(b -> b.category == Category.distribution && b.isOnPlanet(Planets.serpulo) && b.isVanilla() && b.buildVisibility == BuildVisibility.shown).toArray(Block.class);
+- mindustry/service/GameService.java:86 `lambda` allTransportErekir = content.blocks().select(b -> b.category == Category.distribution && b.isOnPlanet(Planets.erekir) && b.isVanilla() && b.buildVisibility == BuildVisibility.shown).toArray(Block.class);
+- mindustry/service/GameService.java:89 `lambda` allSerpuloBlocks = content.blocks().select(b -> b.synthetic() && b.isOnPlanet(Planets.serpulo) && b.isVanilla() && !(b instanceof CoreBlock) && b.buildVisibility == BuildVisibility.shown).toArray(Block.class);
+- mindustry/service/GameService.java:90 `lambda` allErekirBlocks = content.blocks().select(b -> b.synthetic() && b.isOnPlanet(Planets.erekir) && b.isVanilla() && !(b instanceof CoreBlock) && b.buildVisibility == BuildVisibility.shown).toArray(Block.class);
+- mindustry/service/GameService.java:122 `lambda` if(!Planets.serpulo.sectors.contains(s -> !s.isCaptured())){
+- mindustry/service/GameService.java:126 `lambda` Events.run(Trigger.openConsole, () -> openConsole.complete());
+- mindustry/service/GameService.java:128 `lambda` Events.run(Trigger.unitCommandAttack, () -> {
+- mindustry/service/GameService.java:134 `lambda` Events.on(UnitDestroyEvent.class, e -> {
+- mindustry/service/GameService.java:146 `lambda` Events.on(TurnEvent.class, e -> {
+- mindustry/service/GameService.java:161 `lambda` Events.run(Trigger.update, () -> {
+- mindustry/service/GameService.java:180 `lambda` Events.run(Trigger.unitCommandBoost, () -> {
+- mindustry/service/GameService.java:186 `lambda` Events.run(Trigger.newGame, () -> Core.app.post(() -> {
+- mindustry/service/GameService.java:192 `lambda` Events.on(BuildingBulletDestroyEvent.class, e -> {
+- mindustry/service/GameService.java:198 `lambda` Events.on(BlockBuildEndEvent.class, e -> {
+- mindustry/service/GameService.java:204 `lambda` Events.on(BlockBuildEndEvent.class, e -> {
+- mindustry/service/GameService.java:208 `lambda` if(e.tile.block() == Blocks.router && e.tile.build.proximity.contains(t -> t.block == Blocks.router)){
+- mindustry/service/GameService.java:238 `lambda` if(e.tile.getLinkedTiles(tmpTiles).contains(t -> t.floor().liquidDrop == Liquids.water)){
+- mindustry/service/GameService.java:287 `lambda` Events.on(TurnEvent.class, e -> {
+- mindustry/service/GameService.java:300 `lambda` Events.on(SectorLaunchLoadoutEvent.class, e -> {
+- mindustry/service/GameService.java:306 `lambda` Events.on(UnitCreateEvent.class, e -> {
+- mindustry/service/GameService.java:309 `lambda` SStat.unitTypesBuilt.max(content.units().count(u -> unitsBuilt.contains(u.name) && !u.isHidden()));
+- mindustry/service/GameService.java:319 `lambda` Events.on(SaveLoadEvent.class, e -> Core.app.post(() -> Core.app.post(() -> {
+- mindustry/service/GameService.java:336 `lambda` SStat.unitTypesBuilt.max(content.units().count(u -> unitsBuilt.contains(u.name) && !u.isHidden()));
+- mindustry/service/GameService.java:342 `lambda` Events.on(UnitControlEvent.class, e -> {
+- mindustry/service/GameService.java:352 `lambda` Events.on(SchematicCreateEvent.class, e -> {
+- mindustry/service/GameService.java:356 `lambda` Events.on(BlockDestroyEvent.class, e -> {
+- mindustry/service/GameService.java:362 `lambda` Events.on(MapMakeEvent.class, e -> SStat.mapsMade.add());
+- mindustry/service/GameService.java:364 `lambda` Events.on(MapPublishEvent.class, e -> SStat.mapsPublished.add());
+- mindustry/service/GameService.java:366 `lambda` Events.on(UnlockEvent.class, e -> {
+- mindustry/service/GameService.java:377 `lambda` Events.on(UnitDrownEvent.class, e -> {
+- mindustry/service/GameService.java:401 `lambda` Events.run(Trigger.thoriumReactorOverheat, () -> {
+- mindustry/service/GameService.java:407 `lambda` Events.on(GeneratorPressureExplodeEvent.class, e -> {
+- mindustry/service/GameService.java:417 `lambda` Events.on(UnitBulletDestroyEvent.class, e -> {
+- mindustry/service/GameService.java:434 `lambda` Events.on(LaunchItemEvent.class, e -> {
+- mindustry/service/GameService.java:440 `lambda` Events.on(PickupEvent.class, e -> {
+- mindustry/service/GameService.java:446 `lambda` Events.on(UnitCreateEvent.class, e -> {
+- mindustry/service/GameService.java:452 `lambda` Events.on(SectorLaunchEvent.class, e -> {
+- mindustry/service/GameService.java:456 `lambda` Events.on(LaunchItemEvent.class, e -> {
+- mindustry/service/GameService.java:460 `lambda` Events.on(WaveEvent.class, e -> {
+- mindustry/service/GameService.java:470 `lambda` Events.on(PlayerJoin.class, e -> {
+- mindustry/service/GameService.java:476 `lambda` Runnable checkUnlocks = () -> {
+- mindustry/service/GameService.java:479 `lambda` if(!TechTree.all.contains(t -> t.content.locked())){
+- mindustry/service/GameService.java:487 `lambda` Events.on(ResearchEvent.class, e -> checkUnlocks.run());
+- mindustry/service/GameService.java:488 `lambda` Events.on(UnlockEvent.class, e -> checkUnlocks.run());
+- mindustry/service/GameService.java:492 `lambda` Events.on(WinEvent.class, e -> {
+- mindustry/service/GameService.java:498 `lambda` Events.on(ClientPreConnectEvent.class, e -> {
+- mindustry/service/GameService.java:504 `lambda` Events.on(SectorCaptureEvent.class, e -> {
+- mindustry/service/GameService.java:523 `lambda` if(e.sector.planet == Planets.serpulo && !e.sector.planet.sectors.contains(s -> !s.hasBase())){
+- mindustry/service/GameService.java:541 `lambda` Events.on(PayloadDropEvent.class, e -> {
+- mindustry/service/GameService.java:542 `lambda` if(campaign() && e.unit != null && e.carrier.team == state.rules.defaultTeam && state.rules.waveTeam.cores().contains(c -> c.within(e.unit, state.rules.enemyCoreBuildRadius))){
+- mindustry/service/GameService.java:547 `lambda` Events.on(ClientChatEvent.class, e -> {
+- mindustry/service/GameService.java:556 `lambda` SStat.maxUnitActive.max(Groups.unit.count(t -> t.team == player.team()));
+- mindustry/service/GameService.java:558 `lambda` if(Groups.unit.count(u -> u.type == UnitTypes.poly && u.team == player.team()) >= 10){
+- mindustry/service/GameService.java:563 `lambda` if(!content.items().contains(i -> i.isOnPlanet(state.getPlanet()) && entity.items.get(i) < entity.block.itemCapacity)){
+- mindustry/service/GameService.java:588 `lambda` Events.run(trigger, () -> {
+- mindustry/type/Item.java:96 `lambda` Events.run(Trigger.update, () -> {
+- mindustry/type/Item.java:163 `lambda` return content.blocks().select(b -> b instanceof OreBlock).map(b -> b.itemDrop);
+- mindustry/type/PayloadSeq.java:45 `lambda` stacks.each(b -> remove(b.item, b.amount));
+- mindustry/type/PayloadSeq.java:71 `lambda` return !stacks.contains(b -> get(b.item) < b.amount);
+- mindustry/type/Planet.java:169 `lambda` public Prov<GenericMesh> meshLoader = () -> new ShaderSphereMesh(this, Shaders.unlitWhite, 2), cloudMeshLoader = () -> null;
+- mindustry/type/Planet.java:171 `lambda` public Prov<Mesh> gridMeshLoader = () -> MeshBuilder.buildPlanetGrid(grid, outlineColor, outlineRad * radius);
+- mindustry/type/Planet.java:183 `lambda` public Cons<Rules> ruleSetter = r -> {};
+- mindustry/type/Planet.java:256 `lambda` campaignRules = Core.settings.getJson(name + "-campaign-rules", CampaignRules.class, () -> campaignRules);
+- mindustry/type/Planet.java:423 `lambda` mainExecutor.submit(() -> {
+- mindustry/type/Planet.java:426 `lambda` Core.app.post(() -> {
+- mindustry/type/Planet.java:453 `lambda` techTree = TechTree.roots.find(n -> n.planet == this);
+- mindustry/type/Planet.java:508 `lambda` return sectors.min(t -> Tmp.v31.set(t.tile.v).setLength(radius).dst2(vec));
+- mindustry/type/Sector.java:114 `lambda` if(info.resources.contains(u -> u == null)){
+- mindustry/type/Sector.java:115 `lambda` info.resources = info.resources.select(u -> u != null);
+- mindustry/type/Sector.java:126 `lambda` return preset != null && preset.shieldSectors.size > 0 && preset.shieldSectors.contains(s -> !s.isCaptured());
+- mindustry/type/Sector.java:209 `lambda` copy.each((i, a) -> copy.set(i, -a));
+- mindustry/type/Sector.java:225 `lambda` items.each((item, amount) -> storage.add(item, Math.min(cap - storage.get(item), amount)));
+- mindustry/type/Sector.java:228 `lambda` items.each((item, amount) -> info.items.add(item, Math.min(info.storageCapacity - info.items.get(item), amount)));
+- mindustry/type/SectorPreset.java:19 `lambda` public Cons<Rules> rules = rules -> rules.winWave = captureWave;
+- mindustry/type/StatusEffect.java:73 `lambda` protected Runnable initblock = () -> {};
+- mindustry/type/StatusEffect.java:119 `lambda` var other = Vars.content.statusEffects().find(f -> f.affinities.contains(this));
+- mindustry/type/StatusEffect.java:194 `lambda` trans(other, (unit, result, time) -> {
+- mindustry/type/unit/MissileUnitType.java:23 `lambda` controller = u -> new MissileAI();
+- mindustry/type/unit/NeoplasmUnitType.java:20 `anonymous_double_brace_initializer` abilities.add(new RegenAbility(){{
+- mindustry/type/unit/NeoplasmUnitType.java:25 `anonymous_double_brace_initializer` abilities.add(new LiquidExplodeAbility(){{
+- mindustry/type/unit/NeoplasmUnitType.java:29 `anonymous_double_brace_initializer` abilities.add(new LiquidRegenAbility(){{
+- mindustry/type/UnitType.java:279 `lambda` public Prov<? extends UnitController> aiController = () -> !flying ? new GroundAI() : new FlyingAI();
+- mindustry/type/UnitType.java:281 `lambda` public Func<Unit, ? extends UnitController> controller = u -> !playerControllable || (u.team.isAI() && !u.team.rules().rtsAi) ? aiController.get() : new CommandAI();
+- mindustry/type/UnitType.java:700 `lambda` table.table(t -> {
+- mindustry/type/UnitType.java:707 `lambda` table.table(bars -> {
+- mindustry/type/UnitType.java:719 `lambda` bars.add(new Bar("stat.payloadcapacity", Pal.items, () -> payload.payloadUsed() / payloadCapacity));
+- mindustry/type/UnitType.java:723 `lambda` bars.table().update(t -> {
+- mindustry/type/UnitType.java:740 `lambda` table.label(() -> Iconc.settings + " " + (long)unit.flag + "").color(Color.lightGray).growX().wrap().left();
+- mindustry/type/UnitType.java:801 `lambda` stats.add(Stat.legSplashDamage, table -> {
+- mindustry/type/UnitType.java:825 `lambda` stats.add(Stat.mineTier, StatValues.drillables(mineSpeed, 1f, 1, null, b ->
+- mindustry/type/UnitType.java:957 `lambda` autoFindTarget = !weapons.contains(w -> w.shootStatus.speedMultiplier < 0.99f) || alwaysShootWhenMoving;
+- mindustry/type/UnitType.java:997 `lambda` if(!weapons.contains(w -> w.useAttackRange)){
+- mindustry/type/UnitType.java:1011 `lambda` aimDst = weapons.contains(w -> !w.rotate) ? hitSize * 2f : hitSize / 2f;
+- mindustry/type/UnitType.java:1024 `lambda` treadEffect = new Effect(50, e -> {
+- mindustry/type/UnitType.java:1066 `lambda` canHeal = weapons.contains(w -> w.bullet.heals());
+- mindustry/type/UnitType.java:1068 `lambda` canAttack = weapons.contains(w -> !w.noAttack);
+- mindustry/type/UnitType.java:1138 `lambda` if(weapons.contains(w -> w.bullet.killShooter)){
+- mindustry/type/UnitType.java:1264 `lambda` if(!weapon.name.isEmpty() && (minfo.mod == null || weapon.name.startsWith(minfo.mod.name)) && (weapon.top || !packer.isOutlined(weapon.name) || weapon.parts.contains(p -> p.under))){
+- mindustry/type/UnitType.java:1265 `lambda` makeOutline(PageType.main, packer, weapon.region, !weapon.top || weapon.parts.contains(p -> p.under), outlineColor, outlineRadius);
+- mindustry/type/UnitType.java:1352 `lambda` var rec = (Reconstructor)content.blocks().find(b -> b instanceof Reconstructor re && re.upgrades.contains(u -> u[1] == this));
+- mindustry/type/UnitType.java:1354 `lambda` if(rec != null && rec.findConsumer(i -> i instanceof ConsumeItems) instanceof ConsumeItems ci){
+- mindustry/type/UnitType.java:1356 `lambda` prevReturn[0] = rec.upgrades.find(u -> u[1] == this)[0];
+- mindustry/type/UnitType.java:1364 `lambda` var factory = (UnitFactory)content.blocks().find(u -> u instanceof UnitFactory uf && uf.plans.contains(p -> p.unit == this));
+- mindustry/type/UnitType.java:1367 `lambda` var plan = factory.plans.find(p -> p.unit == this);
+- mindustry/type/UnitType.java:1374 `lambda` var assembler = (UnitAssembler)content.blocks().find(u -> u instanceof UnitAssembler a && a.plans.contains(p -> p.unit == this));
+- mindustry/type/UnitType.java:1376 `lambda` var plan = assembler.plans.find(p -> p.unit == this);
+- mindustry/type/UnitType.java:1422 `lambda` out = Structs.filter(ItemStack.class, out, stack -> stack.amount > 0);
+- mindustry/type/UnitType.java:1435 `lambda` case health, maxHealth -> health;
+- mindustry/type/UnitType.java:1436 `lambda` case armor -> armor;
+- mindustry/type/UnitType.java:1437 `lambda` case range -> World.conv(maxRange);
+- mindustry/type/UnitType.java:1438 `lambda` case size -> hitSize / tilesize;
+- mindustry/type/UnitType.java:1439 `lambda` case itemCapacity -> itemCapacity;
+- mindustry/type/UnitType.java:1440 `lambda` case speed -> speed * 60f / tilesize;
+- mindustry/type/UnitType.java:1441 `lambda` case payloadCapacity -> sample instanceof Payloadc ? payloadCapacity / tilePayload : 0f;
+- mindustry/type/UnitType.java:1442 `lambda` case id -> getLogicId();
+- mindustry/type/UnitType.java:1443 `lambda` default -> Double.NaN;
+- mindustry/type/Weapon.java:448 `lambda` return Units.closestTarget(unit.team, x, y, range + Math.abs(shootY), u -> u.checkTarget(air, ground), t -> ground && (unit.type.targetUnderBlocks || !t.block.underBullets));
+- mindustry/type/Weapon.java:468 `lambda` shoot.shoot(mount.barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {
+- mindustry/type/Weapon.java:474 `lambda` Time.run(delay, () -> {
+- mindustry/type/Weapon.java:484 `lambda` }, () -> mount.barrelCounter++);
+- mindustry/type/weapons/PointDefenseBulletWeapon.java:28 `lambda` return Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != unit.team && b.type().hittable && !(b.type.collidesAir && !b.type.collidesTiles), b -> b.dst2(x, y) - b.damage * damageTargetWeight);
+- mindustry/type/weapons/PointDefenseWeapon.java:50 `lambda` return Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != unit.team && b.type().hittable, b -> b.dst2(x, y));
+- mindustry/type/weapons/RepairBeamWeapon.java:89 `lambda` var out = targetUnits ? Units.closest(unit.team, x, y, range, u -> u != unit && u.damaged()) :  null;
+- mindustry/type/weapons/RepairBeamWeapon.java:131 `lambda` World.raycastEachWorld(wx, wy, heal.lastEnd.x, heal.lastEnd.y, (x, y) -> {
+- mindustry/type/Weather.java:70 `lambda` return Groups.weather.find(w -> w.weather() == this);
+- mindustry/type/Weather.java:91 `lambda` Groups.unit.each(u -> {
+- mindustry/type/Weather.java:349 `lambda` Draw.draw(Layer.weather, () -> {
+- mindustry/type/Weather.java:355 `lambda` Draw.draw(Layer.debris, () -> {
+- mindustry/ui/Bar.java:34 `lambda` update(() -> {
+- mindustry/ui/Bar.java:54 `lambda` update(() -> this.name = name.get());
+- mindustry/ui/CoreItemsDisplay.java:32 `lambda` update(() -> {
+- mindustry/ui/CoreItemsDisplay.java:35 `lambda` if(content.items().contains(item -> core != null && core.items.get(item) > 0 && usedItems.add(item))){
+- mindustry/ui/CoreItemsDisplay.java:44 `lambda` image(item.uiIcon).size(iconSmall).padRight(3).tooltip(t -> t.background(Styles.black6).margin(4f).add(item.localizedName).style(Styles.outlineLabel));
+- mindustry/ui/CoreItemsDisplay.java:46 `lambda` label(() -> core == null ? "0" : UI.formatAmount(core.items.get(item))).padRight(3).minWidth(52f).left().tooltip(t -> t.background(Styles.black6).margin(4f).label(() -> core == null ? "0" : core.items.get(item) + "").style(Styles.outlineLabel));
+- mindustry/ui/dialogs/AboutDialog.java:24 `lambda` shown(() -> {
+- mindustry/ui/dialogs/AboutDialog.java:50 `lambda` table.table(img -> {
+- mindustry/ui/dialogs/AboutDialog.java:56 `lambda` table.table(i -> {
+- mindustry/ui/dialogs/AboutDialog.java:61 `lambda` table.table(inset -> {
+- mindustry/ui/dialogs/AboutDialog.java:67 `lambda` table.button(Icon.link, Styles.clearNonei, () -> {
+- mindustry/ui/dialogs/AboutDialog.java:79 `lambda` shown(() -> Time.run(1f, () -> Core.scene.setScrollFocus(pane)));
+- mindustry/ui/dialogs/AboutDialog.java:99 `anonymous_double_brace_initializer` dialog.cont.pane(new Table(){{
+- mindustry/ui/dialogs/AdminsDialog.java:42 `lambda` res.button(Icon.cancel, () -> {
+- mindustry/ui/dialogs/AdminsDialog.java:43 `lambda` ui.showConfirm("@confirm", Core.bundle.format("@confirmunadmin", info.lastName), () -> {
+- mindustry/ui/dialogs/AdminsDialog.java:45 `lambda` Groups.player.each(player -> {
+- mindustry/ui/dialogs/BansDialog.java:42 `lambda` res.button(Icon.cancel, () -> {
+- mindustry/ui/dialogs/BansDialog.java:43 `lambda` ui.showConfirm("@confirm", "@confirmunban", () -> {
+- mindustry/ui/dialogs/BaseDialog.java:27 `lambda` hidden(() -> {
+- mindustry/ui/dialogs/BaseDialog.java:34 `lambda` shown(() -> {
+- mindustry/ui/dialogs/BaseDialog.java:60 `lambda` Events.on(ResizeEvent.class, event -> {
+- mindustry/ui/dialogs/CampaignCompleteDialog.java:22 `lambda` buttons.button("@menu", Icon.left, () -> {
+- mindustry/ui/dialogs/CampaignCompleteDialog.java:35 `lambda` float playtime = planet.sectors.sumf(s -> s.hasSave() ? s.save.meta.timePlayed : 0) / 1000f;
+- mindustry/ui/dialogs/CampaignRulesDialog.java:22 `lambda` hidden(() -> {
+- mindustry/ui/dialogs/CampaignRulesDialog.java:33 `lambda` onResize(() -> {
+- mindustry/ui/dialogs/CampaignRulesDialog.java:42 `lambda` cont.top().pane(inner -> {
+- mindustry/ui/dialogs/CampaignRulesDialog.java:46 `lambda` current.table(Tex.button, t -> {
+- mindustry/ui/dialogs/CampaignRulesDialog.java:54 `lambda` t.button(diff.localized(), style, () -> {
+- mindustry/ui/dialogs/CampaignRulesDialog.java:56 `lambda` }).group(group).checked(b -> rules.difficulty == diff)
+- mindustry/ui/dialogs/CampaignRulesDialog.java:66 `lambda` check("@rules.invasions", b -> rules.sectorInvasion = b, () -> rules.sectorInvasion);
+- mindustry/ui/dialogs/CampaignRulesDialog.java:69 `lambda` check("@rules.fog", b -> rules.fog = b, () -> rules.fog);
+- mindustry/ui/dialogs/CampaignRulesDialog.java:70 `lambda` check("@rules.hidespawns", b -> rules.hideSpawns = b, () -> rules.hideSpawns);
+- mindustry/ui/dialogs/CampaignRulesDialog.java:71 `lambda` check("@rules.randomwaveai", b -> rules.randomWaveAI = b, () -> rules.randomWaveAI);
+- mindustry/ui/dialogs/CampaignRulesDialog.java:72 `lambda` check("@rules.pauseDisabled", b -> rules.pauseDisabled = b, () -> rules.pauseDisabled);
+- mindustry/ui/dialogs/CampaignRulesDialog.java:75 `lambda` check("@rules.rtsai.campaign", b -> rules.rtsAI = b, () -> rules.rtsAI);
+- mindustry/ui/dialogs/CampaignRulesDialog.java:79 `lambda` check("@rules.clearsectoronloss", b -> rules.clearSectorOnLose = b, () -> rules.clearSectorOnLose);
+- mindustry/ui/dialogs/CampaignRulesDialog.java:92 `lambda` check(text, cons, prov, () -> true);
+- mindustry/ui/dialogs/CampaignRulesDialog.java:97 `lambda` var cell = current.check(text, cons).checked(prov.get()).update(a -> a.setDisabled(!condition.get()));
+- mindustry/ui/dialogs/CanvasEditDialog.java:46 `lambda` buttons.button("@import", Icon.image, () -> FileChooser.open("png", "jpeg").submit(this::importFrom));
+- mindustry/ui/dialogs/CanvasEditDialog.java:48 `lambda` buttons.button("@export", Icon.export, () -> FileChooser.export("canvas", "png", this::exportTo));
+- mindustry/ui/dialogs/CanvasEditDialog.java:50 `lambda` hidden(() -> {
+- mindustry/ui/dialogs/CanvasEditDialog.java:60 `lambda` update(() -> {
+- mindustry/ui/dialogs/CanvasEditDialog.java:73 `lambda` cont.table(Tex.pane, body -> {
+- mindustry/ui/dialogs/CanvasEditDialog.java:131 `lambda` Bresenham2.line(lastX, lastY, cx, cy, (x, y) -> draw(x, y));
+- mindustry/ui/dialogs/CanvasEditDialog.java:190 `lambda` cont.table(Tex.button, t -> {
+- mindustry/ui/dialogs/CanvasEditDialog.java:191 `lambda` t.button(Icon.grid, Styles.clearNoneTogglei, () -> grid = !grid).checked(grid).size(44f);
+- mindustry/ui/dialogs/CanvasEditDialog.java:194 `lambda` cont.table(Tex.button, p -> {
+- mindustry/ui/dialogs/CanvasEditDialog.java:202 `lambda` var button = p.button(Tex.whiteui, Styles.squareTogglei, 30, () -> {
+- mindustry/ui/dialogs/CanvasEditDialog.java:204 `lambda` }).size(44).checked(b -> curColor == block.palette[fi]).get();
+- mindustry/ui/dialogs/CanvasEditDialog.java:209 `lambda` cont.table(Tex.button, t -> {
+- mindustry/ui/dialogs/CanvasEditDialog.java:210 `lambda` t.button(Icon.fill, Styles.clearNoneTogglei, () -> fill = !fill).size(44f);
+- mindustry/ui/dialogs/ColorPicker.java:15 `lambda` private Cons<Color> cons = c -> {};
+- mindustry/ui/dialogs/ColorPicker.java:46 `lambda` cont.pane(t -> {
+- mindustry/ui/dialogs/ColorPicker.java:47 `lambda` t.table(Tex.pane, i -> {
+- mindustry/ui/dialogs/ColorPicker.java:48 `anonymous_double_brace_initializer` i.stack(new Image(Tex.alphaBg), new Image(){{
+- mindustry/ui/dialogs/ColorPicker.java:50 `lambda` update(() -> setColor(current));
+- mindustry/ui/dialogs/ColorPicker.java:58 `anonymous_double_brace_initializer` t.stack(new Image(new TextureRegion(hueTex)), hSlider = new Slider(0f, 360f, 0.3f, false){{
+- mindustry/ui/dialogs/ColorPicker.java:60 `lambda` moved(value -> {
+- mindustry/ui/dialogs/ColorPicker.java:79 `anonymous_double_brace_initializer` }, sSlider = new Slider(0f, 1f, 0.001f, false){{
+- mindustry/ui/dialogs/ColorPicker.java:81 `lambda` moved(value -> {
+- mindustry/ui/dialogs/ColorPicker.java:100 `anonymous_double_brace_initializer` }, vSlider = new Slider(0f, 1f, 0.001f, false){{
+- mindustry/ui/dialogs/ColorPicker.java:103 `lambda` moved(value -> {
+- mindustry/ui/dialogs/ColorPicker.java:123 `anonymous_double_brace_initializer` }, aSlider = new Slider(0f, 1f, 0.001f, false){{
+- mindustry/ui/dialogs/ColorPicker.java:126 `lambda` moved(value -> {
+- mindustry/ui/dialogs/ColorPicker.java:133 `lambda` hexField = t.field(current.toString(), value -> {
+- mindustry/ui/dialogs/ColorPicker.java:152 `lambda` }).size(130f, 40f).valid(text -> {
+- mindustry/ui/dialogs/ColorPicker.java:165 `lambda` buttons.button("@ok", Icon.ok, () -> {
+- mindustry/ui/dialogs/ContentInfoDialog.java:27 `lambda` keyDown(key -> {
+- mindustry/ui/dialogs/ContentInfoDialog.java:43 `lambda` table.table(title1 -> {
+- mindustry/ui/dialogs/ContentInfoDialog.java:51 `lambda` table.table(t -> {
+- mindustry/ui/dialogs/ContentInfoDialog.java:89 `lambda` table.table(inset -> {
+- mindustry/ui/dialogs/ContentInfoDialog.java:114 `lambda` table.button("@viewfields", Icon.link, Styles.grayt, () -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:35 `lambda` private BannedContentDialog<UnitType> bannedUnits = new BannedContentDialog<>("@bannedunits", ContentType.unit, u -> !u.isHidden());
+- mindustry/ui/dialogs/CustomRulesDialog.java:63 `lambda` buttons.button("@edit", Icon.pencil, () -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:68 `lambda` dialog.cont.table(Tex.button, t -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:72 `lambda` t.button("@waves.copy", Icon.copy, style, () -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:83 `lambda` t.button("@waves.load", Icon.download, style, () -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:98 `lambda` t.button("@settings.reset", Icon.refresh, style, () -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:122 `lambda` cont.table(t -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:124 `lambda` var field = t.field(ruleSearch, text -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:130 `lambda` t.button(Icon.cancel, Styles.emptyi, () -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:135 `lambda` Cell<ScrollPane> paneCell = cont.pane(m -> main = m);
+- mindustry/ui/dialogs/CustomRulesDialog.java:149 `lambda` check("@rules.waves", b -> rules.waves = b, () -> rules.waves);
+- mindustry/ui/dialogs/CustomRulesDialog.java:150 `lambda` check("@rules.wavesending", b -> rules.waveSending = b, () -> rules.waveSending, () -> rules.waves);
+- mindustry/ui/dialogs/CustomRulesDialog.java:151 `lambda` check("@rules.wavetimer", b -> rules.waveTimer = b, () -> rules.waveTimer, () -> rules.waves);
+- mindustry/ui/dialogs/CustomRulesDialog.java:152 `lambda` check("@rules.waitForWaveToEnd", b -> rules.waitEnemies = b, () -> rules.waitEnemies, () -> rules.waves && rules.waveTimer);
+- mindustry/ui/dialogs/CustomRulesDialog.java:153 `lambda` check("@rules.randomwaveai", b -> rules.randomWaveAI = b, () -> rules.randomWaveAI, () -> rules.waves);
+- mindustry/ui/dialogs/CustomRulesDialog.java:154 `lambda` check("@rules.wavespawnatcores", b -> rules.wavesSpawnAtCores = b, () -> rules.wavesSpawnAtCores, () -> rules.waves);
+- mindustry/ui/dialogs/CustomRulesDialog.java:155 `lambda` check("@rules.airUseSpawns", b -> rules.airUseSpawns = b, () -> rules.airUseSpawns, () -> rules.waves);
+- mindustry/ui/dialogs/CustomRulesDialog.java:156 `lambda` numberi("@rules.wavelimit", f -> rules.winWave = f, () -> rules.winWave, () -> rules.waves, 0, Integer.MAX_VALUE);
+- mindustry/ui/dialogs/CustomRulesDialog.java:157 `lambda` number("@rules.wavespacing", false, f -> rules.waveSpacing = f * 60f, () -> rules.waveSpacing / 60f, () -> rules.waves && rules.waveTimer, 1, Float.MAX_VALUE);
+- mindustry/ui/dialogs/CustomRulesDialog.java:158 `lambda` number("@rules.initialwavespacing", false, f -> rules.initialWaveSpacing = f * 60f, () -> rules.initialWaveSpacing / 60f, () -> rules.waves && rules.waveTimer, 0, Float.MAX_VALUE);
+- mindustry/ui/dialogs/CustomRulesDialog.java:159 `lambda` number("@rules.dropzoneradius", false, f -> rules.dropZoneRadius = f * tilesize, () -> rules.dropZoneRadius / tilesize, () -> rules.waves);
+- mindustry/ui/dialogs/CustomRulesDialog.java:162 `lambda` check("@rules.alloweditworldprocessors", b -> rules.allowEditWorldProcessors = b, () -> rules.allowEditWorldProcessors);
+- mindustry/ui/dialogs/CustomRulesDialog.java:163 `lambda` check("@rules.infiniteresources", b -> rules.infiniteResources = b, () -> rules.infiniteResources);
+- mindustry/ui/dialogs/CustomRulesDialog.java:164 `lambda` check("@rules.onlydepositcore", b -> rules.onlyDepositCore = b, () -> rules.onlyDepositCore);
+- mindustry/ui/dialogs/CustomRulesDialog.java:165 `lambda` check("@rules.coreunloaders", b -> rules.allowCoreUnloaders = b, () -> rules.allowCoreUnloaders);
+- mindustry/ui/dialogs/CustomRulesDialog.java:166 `lambda` check("@rules.derelictrepair", b -> rules.derelictRepair = b, () -> rules.derelictRepair);
+- mindustry/ui/dialogs/CustomRulesDialog.java:167 `lambda` check("@rules.reactorexplosions", b -> rules.reactorExplosions = b, () -> rules.reactorExplosions);
+- mindustry/ui/dialogs/CustomRulesDialog.java:168 `lambda` check("@rules.schematic", b -> rules.schematicsAllowed = b, () -> rules.schematicsAllowed);
+- mindustry/ui/dialogs/CustomRulesDialog.java:169 `lambda` check("@rules.coreincinerates", b -> rules.coreIncinerates = b, () -> rules.coreIncinerates);
+- mindustry/ui/dialogs/CustomRulesDialog.java:170 `lambda` check("@rules.cleanupdeadteams", b -> rules.cleanupDeadTeams = b, () -> rules.cleanupDeadTeams, () -> rules.pvp);
+- mindustry/ui/dialogs/CustomRulesDialog.java:171 `lambda` check("@rules.disableworldprocessors", b -> rules.disableWorldProcessors = b, () -> rules.disableWorldProcessors);
+- mindustry/ui/dialogs/CustomRulesDialog.java:172 `lambda` number("@rules.buildcostmultiplier", false, f -> rules.buildCostMultiplier = f, () -> rules.buildCostMultiplier, () -> !rules.infiniteResources);
+- mindustry/ui/dialogs/CustomRulesDialog.java:173 `lambda` number("@rules.buildspeedmultiplier", f -> rules.buildSpeedMultiplier = f, () -> rules.buildSpeedMultiplier, 0.001f, 50f);
+- mindustry/ui/dialogs/CustomRulesDialog.java:174 `lambda` number("@rules.deconstructrefundmultiplier", false, f -> rules.deconstructRefundMultiplier = f, () -> rules.deconstructRefundMultiplier, () -> !rules.infiniteResources, 0f, 1f);
+- mindustry/ui/dialogs/CustomRulesDialog.java:175 `lambda` number("@rules.blockhealthmultiplier", f -> rules.blockHealthMultiplier = f, () -> rules.blockHealthMultiplier);
+- mindustry/ui/dialogs/CustomRulesDialog.java:176 `lambda` number("@rules.blockdamagemultiplier", f -> rules.blockDamageMultiplier = f, () -> rules.blockDamageMultiplier);
+- mindustry/ui/dialogs/CustomRulesDialog.java:180 `lambda` () -> loadoutDialog.show(999999, rules.loadout,
+- mindustry/ui/dialogs/CustomRulesDialog.java:181 `lambda` i -> true,
+- mindustry/ui/dialogs/CustomRulesDialog.java:182 `lambda` () -> rules.loadout.clear().add(new ItemStack(Items.copper, 100)),
+- mindustry/ui/dialogs/CustomRulesDialog.java:183 `lambda` () -> {}, () -> {}
+- mindustry/ui/dialogs/CustomRulesDialog.java:188 `lambda` current.button("@bannedblocks", () -> bannedBlocks.show(rules.bannedBlocks)).left().width(300f).row();
+- mindustry/ui/dialogs/CustomRulesDialog.java:190 `lambda` check("@rules.hidebannedblocks", b -> rules.hideBannedBlocks = b, () -> rules.hideBannedBlocks);
+- mindustry/ui/dialogs/CustomRulesDialog.java:191 `lambda` check("@bannedblocks.whitelist", b -> rules.blockWhitelist = b, () -> rules.blockWhitelist);
+- mindustry/ui/dialogs/CustomRulesDialog.java:194 `lambda` check("@rules.unitcapvariable", b -> rules.unitCapVariable = b, () -> rules.unitCapVariable);
+- mindustry/ui/dialogs/CustomRulesDialog.java:195 `lambda` check("@rules.unitpayloadsexplode", b -> rules.unitPayloadsExplode = b, () -> rules.unitPayloadsExplode);
+- mindustry/ui/dialogs/CustomRulesDialog.java:196 `lambda` numberi("@rules.unitcap", f -> rules.unitCap = f, () -> rules.unitCap, -999, 999);
+- mindustry/ui/dialogs/CustomRulesDialog.java:198 `lambda` number("@rules.unitfactoryactivation", f -> rules.unitFactoryActivationDelay = f * 60f, () -> rules.unitFactoryActivationDelay / 60f);
+- mindustry/ui/dialogs/CustomRulesDialog.java:199 `lambda` number("@rules.unitdamagemultiplier", f -> rules.unitDamageMultiplier = f, () -> rules.unitDamageMultiplier);
+- mindustry/ui/dialogs/CustomRulesDialog.java:200 `lambda` number("@rules.unitcrashdamagemultiplier", f -> rules.unitCrashDamageMultiplier = f, () -> rules.unitCrashDamageMultiplier);
+- mindustry/ui/dialogs/CustomRulesDialog.java:201 `lambda` number("@rules.unitminespeedmultiplier", f -> rules.unitMineSpeedMultiplier = f, () -> rules.unitMineSpeedMultiplier);
+- mindustry/ui/dialogs/CustomRulesDialog.java:202 `lambda` number("@rules.unitbuildspeedmultiplier", f -> rules.unitBuildSpeedMultiplier = f, () -> rules.unitBuildSpeedMultiplier, 0f, 50f);
+- mindustry/ui/dialogs/CustomRulesDialog.java:203 `lambda` number("@rules.unitcostmultiplier", f -> rules.unitCostMultiplier = f, () -> rules.unitCostMultiplier);
+- mindustry/ui/dialogs/CustomRulesDialog.java:204 `lambda` check("@rules.logicunitcontrol", b -> rules.logicUnitControl = b, () -> rules.logicUnitControl);
+- mindustry/ui/dialogs/CustomRulesDialog.java:205 `lambda` check("@rules.logicunitbuild", b -> rules.logicUnitBuild = b, () -> rules.logicUnitBuild, () -> rules.logicUnitControl);
+- mindustry/ui/dialogs/CustomRulesDialog.java:206 `lambda` check("@rules.logicunitdeconstruct", b -> rules.logicUnitDeconstruct = b, () -> rules.logicUnitDeconstruct, () -> rules.logicUnitControl);
+- mindustry/ui/dialogs/CustomRulesDialog.java:209 `lambda` current.button("@bannedunits", () -> bannedUnits.show(rules.bannedUnits)).left().width(300f).row();
+- mindustry/ui/dialogs/CustomRulesDialog.java:211 `lambda` check("@bannedunits.whitelist", b -> rules.unitWhitelist = b, () -> rules.unitWhitelist);
+- mindustry/ui/dialogs/CustomRulesDialog.java:214 `lambda` check("@rules.attack", b -> rules.attackMode = b, () -> rules.attackMode);
+- mindustry/ui/dialogs/CustomRulesDialog.java:215 `lambda` check("@rules.corecapture", b -> rules.coreCapture = b, () -> rules.coreCapture);
+- mindustry/ui/dialogs/CustomRulesDialog.java:216 `lambda` check("@rules.placerangecheck", b -> rules.placeRangeCheck = b, () -> rules.placeRangeCheck);
+- mindustry/ui/dialogs/CustomRulesDialog.java:217 `lambda` check("@rules.polygoncoreprotection", b -> rules.polygonCoreProtection = b, () -> rules.polygonCoreProtection);
+- mindustry/ui/dialogs/CustomRulesDialog.java:218 `lambda` number("@rules.enemycorebuildradius", f -> rules.enemyCoreBuildRadius = f * tilesize, () -> Math.min(rules.enemyCoreBuildRadius / tilesize, 200), () -> !rules.polygonCoreProtection);
+- mindustry/ui/dialogs/CustomRulesDialog.java:222 `lambda` check("@rules.pauseDisabled", b -> rules.pauseDisabled = b, () -> rules.pauseDisabled);
+- mindustry/ui/dialogs/CustomRulesDialog.java:223 `lambda` check("@rules.explosions", b -> rules.damageExplosions = b, () -> rules.damageExplosions);
+- mindustry/ui/dialogs/CustomRulesDialog.java:224 `lambda` check("@rules.fire", b -> rules.fire = b, () -> rules.fire);
+- mindustry/ui/dialogs/CustomRulesDialog.java:225 `lambda` check("@rules.fog", b -> rules.fog = b, () -> rules.fog);
+- mindustry/ui/dialogs/CustomRulesDialog.java:226 `lambda` check("@rules.lighting", b -> rules.lighting = b, () -> rules.lighting);
+- mindustry/ui/dialogs/CustomRulesDialog.java:228 `lambda` check("@rules.limitarea", b -> rules.limitMapArea = b, () -> rules.limitMapArea, () -> !state.isGame());
+- mindustry/ui/dialogs/CustomRulesDialog.java:229 `lambda` numberi("x", x -> rules.limitX = x, () -> rules.limitX, () -> rules.limitMapArea && !state.isGame(), 0, 10000);
+- mindustry/ui/dialogs/CustomRulesDialog.java:230 `lambda` numberi("y", y -> rules.limitY = y, () -> rules.limitY, () -> rules.limitMapArea && !state.isGame(), 0, 10000);
+- mindustry/ui/dialogs/CustomRulesDialog.java:231 `lambda` numberi("w", w -> rules.limitWidth = w, () -> rules.limitWidth, () -> rules.limitMapArea && !state.isGame(), 0, 10000);
+- mindustry/ui/dialogs/CustomRulesDialog.java:232 `lambda` numberi("h", h -> rules.limitHeight = h, () -> rules.limitHeight, () -> rules.limitMapArea && !state.isGame(), 0, 10000);
+- mindustry/ui/dialogs/CustomRulesDialog.java:234 `lambda` number("@rules.solarmultiplier", f -> rules.solarMultiplier = f, () -> rules.solarMultiplier);
+- mindustry/ui/dialogs/CustomRulesDialog.java:237 `lambda` current.button(b -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:239 `lambda` b.table(Tex.pane, in -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:240 `anonymous_double_brace_initializer` in.stack(new Image(Tex.alphaBg), new Image(Tex.whiteui){{
+- mindustry/ui/dialogs/CustomRulesDialog.java:241 `lambda` update(() -> setColor(rules.ambientLight));
+- mindustry/ui/dialogs/CustomRulesDialog.java:245 `lambda` }, () -> ui.picker.show(rules.ambientLight, rules.ambientLight::set)).left().width(250f).row();
+- mindustry/ui/dialogs/CustomRulesDialog.java:254 `lambda` current.table(Tex.button, t -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:261 `lambda` for(Planet planet : content.planets().select(p -> p.accessible && p.visible && p.isLandable())){
+- mindustry/ui/dialogs/CustomRulesDialog.java:262 `lambda` t.button(planet.localizedName, style, () -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:264 `lambda` }).group(group).checked(b -> rules.planet == planet);
+- mindustry/ui/dialogs/CustomRulesDialog.java:271 `lambda` t.button("@rules.anyenv", style, () -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:275 `lambda` }).group(group).checked(b -> rules.planet == Planets.sun);
+- mindustry/ui/dialogs/CustomRulesDialog.java:283 `lambda` check("@rules.allowedit", b -> rules.allowEditRules = b, () -> rules.allowEditRules);
+- mindustry/ui/dialogs/CustomRulesDialog.java:285 `lambda` team("@rules.playerteam", t -> rules.defaultTeam = t, () -> rules.defaultTeam);
+- mindustry/ui/dialogs/CustomRulesDialog.java:286 `lambda` team("@rules.enemyteam", t -> rules.waveTeam = t, () -> rules.waveTeam);
+- mindustry/ui/dialogs/CustomRulesDialog.java:293 `lambda` teamRules.button(team.coloredName(), Icon.downOpen, Styles.togglet, () -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:295 `lambda` }).marginLeft(14f).width(260f).height(55f).update(t -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:300 `lambda` teamRules.collapser(c -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:305 `lambda` number("@rules.blockhealthmultiplier", f -> teams.blockHealthMultiplier = f, () -> teams.blockHealthMultiplier);
+- mindustry/ui/dialogs/CustomRulesDialog.java:306 `lambda` number("@rules.blockdamagemultiplier", f -> teams.blockDamageMultiplier = f, () -> teams.blockDamageMultiplier);
+- mindustry/ui/dialogs/CustomRulesDialog.java:308 `lambda` check("@rules.rtsai", b -> teams.rtsAi = b, () -> teams.rtsAi, () -> team != rules.defaultTeam);
+- mindustry/ui/dialogs/CustomRulesDialog.java:309 `lambda` numberi("@rules.rtsminsquadsize", f -> teams.rtsMinSquad = f, () -> teams.rtsMinSquad, () -> teams.rtsAi, 0, 100);
+- mindustry/ui/dialogs/CustomRulesDialog.java:310 `lambda` numberi("@rules.rtsmaxsquadsize", f -> teams.rtsMaxSquad = f, () -> teams.rtsMaxSquad, () -> teams.rtsAi, 1, 1000);
+- mindustry/ui/dialogs/CustomRulesDialog.java:311 `lambda` number("@rules.rtsminattackweight", f -> teams.rtsMinWeight = f, () -> teams.rtsMinWeight, () -> teams.rtsAi);
+- mindustry/ui/dialogs/CustomRulesDialog.java:314 `lambda` check("@rules.buildai", b -> teams.buildAi = b, () -> teams.buildAi, () -> team != rules.defaultTeam && rules.env != Planets.erekir.defaultEnv && !rules.pvp);
+- mindustry/ui/dialogs/CustomRulesDialog.java:315 `lambda` number("@rules.buildaitier", false, f -> teams.buildAiTier = f, () -> teams.buildAiTier, () -> teams.buildAi && rules.env != Planets.erekir.defaultEnv && !rules.pvp, 0, 1);
+- mindustry/ui/dialogs/CustomRulesDialog.java:317 `lambda` check("@rules.protectcores", b -> teams.protectCores = b, () -> teams.protectCores);
+- mindustry/ui/dialogs/CustomRulesDialog.java:318 `lambda` number("@rules.extracorebuildradius", f -> teams.extraCoreBuildRadius = f * tilesize, () -> Math.min(teams.extraCoreBuildRadius / tilesize, 200), () -> !rules.polygonCoreProtection && teams.protectCores);
+- mindustry/ui/dialogs/CustomRulesDialog.java:319 `lambda` check("@rules.checkplacement", b -> teams.checkPlacement = b, () -> teams.checkPlacement);
+- mindustry/ui/dialogs/CustomRulesDialog.java:321 `lambda` check("@rules.infiniteresources", b -> teams.infiniteResources = b, () -> teams.infiniteResources);
+- mindustry/ui/dialogs/CustomRulesDialog.java:322 `lambda` check("@rules.fillitems", b -> teams.fillItems = b, () -> teams.fillItems);
+- mindustry/ui/dialogs/CustomRulesDialog.java:323 `lambda` number("@rules.buildspeedmultiplier", f -> teams.buildSpeedMultiplier = f, () -> teams.buildSpeedMultiplier, 0.001f, 50f);
+- mindustry/ui/dialogs/CustomRulesDialog.java:325 `lambda` number("@rules.unitfactoryactivation", f -> teams.unitFactoryActivationDelay = f * 60f, () -> teams.unitFactoryActivationDelay / 60f);
+- mindustry/ui/dialogs/CustomRulesDialog.java:326 `lambda` number("@rules.unitdamagemultiplier", f -> teams.unitDamageMultiplier = f, () -> teams.unitDamageMultiplier);
+- mindustry/ui/dialogs/CustomRulesDialog.java:327 `lambda` number("@rules.unitcrashdamagemultiplier", f -> teams.unitCrashDamageMultiplier = f, () -> teams.unitCrashDamageMultiplier);
+- mindustry/ui/dialogs/CustomRulesDialog.java:328 `lambda` number("@rules.unitminespeedmultiplier", f -> teams.unitMineSpeedMultiplier = f, () -> teams.unitMineSpeedMultiplier);
+- mindustry/ui/dialogs/CustomRulesDialog.java:329 `lambda` number("@rules.unitbuildspeedmultiplier", f -> teams.unitBuildSpeedMultiplier = f, () -> teams.unitBuildSpeedMultiplier, 0.001f, 50f);
+- mindustry/ui/dialogs/CustomRulesDialog.java:330 `lambda` number("@rules.unitcostmultiplier", f -> teams.unitCostMultiplier = f, () -> teams.unitCostMultiplier);
+- mindustry/ui/dialogs/CustomRulesDialog.java:331 `lambda` number("@rules.unithealthmultiplier", f -> teams.unitHealthMultiplier = f, () -> teams.unitHealthMultiplier);
+- mindustry/ui/dialogs/CustomRulesDialog.java:340 `lambda` }, () -> shown[0]).left().growX().row();
+- mindustry/ui/dialogs/CustomRulesDialog.java:368 `lambda` current.table(t -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:373 `lambda` t.button(Tex.whiteui, Styles.squareTogglei, 38f, () -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:375 `lambda` }).pad(1f).checked(b -> prov.get() == team).size(60f).tooltip(team.coloredName()).with(i -> i.getStyle().imageUpColor = team.color);
+- mindustry/ui/dialogs/CustomRulesDialog.java:381 `lambda` number(text, false, cons, prov, () -> true, 0, Float.MAX_VALUE);
+- mindustry/ui/dialogs/CustomRulesDialog.java:385 `lambda` number(text, false, cons, prov, () -> true, min, max);
+- mindustry/ui/dialogs/CustomRulesDialog.java:397 `lambda` numberi(text, cons, prov, () -> true, min, max);
+- mindustry/ui/dialogs/CustomRulesDialog.java:402 `lambda` var cell = current.table(t -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:405 `lambda` .update(a -> a.setColor(condition.get() ? Color.white : Color.gray));
+- mindustry/ui/dialogs/CustomRulesDialog.java:406 `lambda` t.field((prov.get()) + "", s -> cons.get(Strings.parseInt(s)))
+- mindustry/ui/dialogs/CustomRulesDialog.java:407 `lambda` .update(a -> a.setDisabled(!condition.get()))
+- mindustry/ui/dialogs/CustomRulesDialog.java:409 `lambda` .valid(f -> Strings.parseInt(f) >= min && Strings.parseInt(f) <= max).width(120f).left();
+- mindustry/ui/dialogs/CustomRulesDialog.java:417 `lambda` var cell = current.table(t -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:420 `lambda` .update(a -> a.setColor(condition.get() ? Color.white : Color.gray));
+- mindustry/ui/dialogs/CustomRulesDialog.java:421 `lambda` t.field((integer ? (int)prov.get() : prov.get()) + "", s -> cons.get(Strings.parseFloat(s)))
+- mindustry/ui/dialogs/CustomRulesDialog.java:423 `lambda` .update(a -> a.setDisabled(!condition.get()))
+- mindustry/ui/dialogs/CustomRulesDialog.java:424 `lambda` .valid(f -> Strings.canParsePositiveFloat(f) && Strings.parseFloat(f) >= min && Strings.parseFloat(f) <= max).width(120f).left();
+- mindustry/ui/dialogs/CustomRulesDialog.java:431 `lambda` check(text, cons, prov, () -> true);
+- mindustry/ui/dialogs/CustomRulesDialog.java:436 `lambda` var cell = current.check(text, cons).checked(prov.get()).update(a -> a.setDisabled(!condition.get()));
+- mindustry/ui/dialogs/CustomRulesDialog.java:448 `lambda` table.button(Icon.infoSmall, () -> ui.showInfo(text + ".info")).size(32f).right();
+- mindustry/ui/dialogs/CustomRulesDialog.java:457 `lambda` return table.field(Strings.autoFixed(value, 2), v -> setter.get(Strings.parseFloat(v)))
+- mindustry/ui/dialogs/CustomRulesDialog.java:466 `lambda` dialog.cont.pane(base -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:468 `lambda` rebuild[0] = () -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:473 `lambda` rules.weather.removeAll(w -> w.weather == null);
+- mindustry/ui/dialogs/CustomRulesDialog.java:478 `lambda` base.table(Tex.pane, c -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:482 `lambda` c.table(Tex.whiteui, t -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:493 `lambda` t.button(Icon.cancel, style, () -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:502 `lambda` c.table(f -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:509 `lambda` field(f, entry.minDuration / toMinutes, v -> entry.minDuration = v * toMinutes).disabled(v -> entry.always);
+- mindustry/ui/dialogs/CustomRulesDialog.java:511 `lambda` field(f, entry.maxDuration / toMinutes, v -> entry.maxDuration = v * toMinutes).disabled(v -> entry.always);
+- mindustry/ui/dialogs/CustomRulesDialog.java:517 `lambda` field(f, entry.minFrequency / toMinutes, v -> entry.minFrequency = v * toMinutes).disabled(v -> entry.always);
+- mindustry/ui/dialogs/CustomRulesDialog.java:519 `lambda` field(f, entry.maxFrequency / toMinutes, v -> entry.maxFrequency = v * toMinutes).disabled(v -> entry.always);
+- mindustry/ui/dialogs/CustomRulesDialog.java:524 `lambda` f.check("@rules.weather.always", val -> entry.always = val).checked(cc -> entry.always).padBottom(4);
+- mindustry/ui/dialogs/CustomRulesDialog.java:542 `lambda` dialog.buttons.button("@add", Icon.add, () -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:544 `lambda` add.cont.pane(t -> {
+- mindustry/ui/dialogs/CustomRulesDialog.java:550 `lambda` t.button(weather.localizedName, Styles.flatt, () -> {
+- mindustry/ui/dialogs/DatabaseDialog.java:41 `lambda` shown(() -> {
+- mindustry/ui/dialogs/DatabaseDialog.java:57 `lambda` cont.table(s -> {
+- mindustry/ui/dialogs/DatabaseDialog.java:59 `lambda` search = s.field(null, text -> rebuild()).growX().get();
+- mindustry/ui/dialogs/DatabaseDialog.java:108 `lambda` all.table(t -> {
+- mindustry/ui/dialogs/DatabaseDialog.java:111 `lambda` t.button(content == Planets.sun ? Icon.eyeSmall : content instanceof Planet p ? Icon.icons.get(p.icon, Icon.commandRally) : new TextureRegionDrawable(content.uiIcon), Styles.clearNoneTogglei, iconMed, () -> {
+- mindustry/ui/dialogs/DatabaseDialog.java:114 `lambda` }).size(50f).checked(b -> tab == content).tooltip(content == Planets.sun ? "@all" : content.localizedName).with(but -> {
+- mindustry/ui/dialogs/DatabaseDialog.java:134 `lambda` Seq<UnlockableContent> array = categoryContents.get(tagName).select(u ->
+- mindustry/ui/dialogs/DatabaseDialog.java:145 `lambda` array.sort(Structs.comps(Structs.comparingBool(UnlockableContent::isBanned), Structs.comparingInt(u -> u.id)));
+- mindustry/ui/dialogs/DatabaseDialog.java:158 `lambda` all.table(sub -> {
+- mindustry/ui/dialogs/DatabaseDialog.java:165 `lambda` sub.table(tag -> {
+- mindustry/ui/dialogs/DatabaseDialog.java:172 `lambda` sub.table(list -> {
+- mindustry/ui/dialogs/DatabaseDialog.java:183 `anonymous_double_brace_initializer` list.stack(image, new Image(Icon.cancel){{
+- mindustry/ui/dialogs/DatabaseDialog.java:188 `anonymous_double_brace_initializer` list.stack(image, new Table(){{
+- mindustry/ui/dialogs/DatabaseDialog.java:201 `lambda` image.update(() -> image.color.lerp(!listener.isOver() ? Color.lightGray : Color.white, Mathf.clamp(0.4f * Time.delta)));
+- mindustry/ui/dialogs/DatabaseDialog.java:205 `lambda` image.clicked(() -> {
+- mindustry/ui/dialogs/DatabaseDialog.java:213 `lambda` image.addListener(new Tooltip(t -> t.background(Tex.button).add(unlock.localizedName + (settings.getBool("console") ? "\n[gray]" + unlock.name : ""))));
+- mindustry/ui/dialogs/DiscordDialog.java:22 `lambda` cont.table(t -> {
+- mindustry/ui/dialogs/DiscordDialog.java:25 `lambda` t.table(img -> {
+- mindustry/ui/dialogs/DiscordDialog.java:31 `lambda` t.table(i -> {
+- mindustry/ui/dialogs/DiscordDialog.java:41 `lambda` buttons.button("@copylink", Icon.copy, () -> {
+- mindustry/ui/dialogs/DiscordDialog.java:45 `lambda` buttons.button("@openlink", Icon.discord, () -> {
+- mindustry/ui/dialogs/EditorMapsDialog.java:26 `lambda` buttons.button("@editor.newmap", Icon.add, () -> {
+- mindustry/ui/dialogs/EditorMapsDialog.java:27 `lambda` ui.showTextInput("@editor.newmap", "@editor.mapname", "", text -> {
+- mindustry/ui/dialogs/EditorMapsDialog.java:28 `lambda` Runnable show = () -> ui.loadAnd(() -> {
+- mindustry/ui/dialogs/EditorMapsDialog.java:43 `lambda` buttons.button("@editor.importmap", Icon.upload, () -> {
+- mindustry/ui/dialogs/EditorMapsDialog.java:44 `lambda` FileChooser.open(mapExtension).submitMulti(files -> {
+- mindustry/ui/dialogs/EditorMapsDialog.java:45 `lambda` ui.loadAnd(() -> {
+- mindustry/ui/dialogs/EditorMapsDialog.java:47 `lambda` maps.tryCatchMapError(() -> {
+- mindustry/ui/dialogs/EditorMapsDialog.java:56 `lambda` String name = map.tags.get("name", () -> {
+- mindustry/ui/dialogs/EditorMapsDialog.java:69 `lambda` Map conflict = maps.all().find(m -> m.name().equalsIgnoreCase(name));
+- mindustry/ui/dialogs/EditorMapsDialog.java:74 `lambda` ui.showConfirm("@confirm", Core.bundle.format("editor.overwrite.confirm", map.name()), () -> {
+- mindustry/ui/dialogs/EditorMapsDialog.java:75 `lambda` maps.tryCatchMapError(() -> {
+- mindustry/ui/dialogs/EditorMapsDialog.java:102 `lambda` table.table(Styles.black, desc -> {
+- mindustry/ui/dialogs/EditorMapsDialog.java:131 `lambda` table.button("@editor.openin", Icon.export, () -> {
+- mindustry/ui/dialogs/EditorMapsDialog.java:142 `lambda` table.button(map.workshop && steam ? "@view.workshop" : "@delete", map.workshop && steam ? Icon.link : Icon.trash, () -> {
+- mindustry/ui/dialogs/EditorMapsDialog.java:146 `lambda` ui.showConfirm("@confirm", Core.bundle.format("map.delete", map.name()), () -> {
+- mindustry/ui/dialogs/EffectsDialog.java:46 `lambda` return new EffectsDialog(Seq.select(Fx.class.getFields(), f -> f.getType() == Effect.class).map(f -> new EffectEntry(Reflect.get(f)).name(f.getName())));
+- mindustry/ui/dialogs/EffectsDialog.java:65 `lambda` cont.pane(t -> {
+- mindustry/ui/dialogs/EffectsDialog.java:76 `lambda` new Table(af -> af.add(entry.name).grow().labelAlign(Align.bottomLeft).style(Styles.outlineLabel).bottom().left())
+- mindustry/ui/dialogs/EffectsDialog.java:77 `lambda` ).size(size).with(a -> {
+- mindustry/ui/dialogs/EffectsDialog.java:78 `lambda` a.clicked(() -> {
+- mindustry/ui/dialogs/EffectsDialog.java:85 `lambda` a.addListener(new HandCursorListener(() -> listener != null, true));
+- mindustry/ui/dialogs/FileChooserDialog.java:42 `lambda` onResize(() -> {
+- mindustry/ui/dialogs/FileChooserDialog.java:47 `lambda` shown(() -> {
+- mindustry/ui/dialogs/FileChooserDialog.java:52 `lambda` keyDown(KeyCode.enter, () -> {
+- mindustry/ui/dialogs/FileChooserDialog.java:71 `lambda` ok.clicked(() -> {
+- mindustry/ui/dialogs/FileChooserDialog.java:78 `lambda` filefield.changed(() -> {
+- mindustry/ui/dialogs/FileChooserDialog.java:103 `lambda` up.clicked(() -> {
+- mindustry/ui/dialogs/FileChooserDialog.java:112 `lambda` forward.clicked(() -> stack.forward());
+- mindustry/ui/dialogs/FileChooserDialog.java:113 `lambda` back.clicked(() -> stack.back());
+- mindustry/ui/dialogs/FileChooserDialog.java:114 `lambda` forward.setDisabled(() -> !stack.canForward());
+- mindustry/ui/dialogs/FileChooserDialog.java:115 `lambda` back.setDisabled(() -> !stack.canBack());
+- mindustry/ui/dialogs/FileChooserDialog.java:118 `lambda` home.clicked(() -> {
+- mindustry/ui/dialogs/FileChooserDialog.java:165 `lambda` Fi[] handles = directory.list(file -> !file.getName().startsWith("."));
+- mindustry/ui/dialogs/FileChooserDialog.java:167 `lambda` Arrays.sort(handles, (a, b) -> {
+- mindustry/ui/dialogs/FileChooserDialog.java:197 `lambda` upbutton.clicked(() -> {
+- mindustry/ui/dialogs/FileChooserDialog.java:223 `lambda` button.clicked(() -> {
+- mindustry/ui/dialogs/FileChooserDialog.java:234 `lambda` filefield.changed(() -> {
+- mindustry/ui/dialogs/GameOverDialog.java:32 `lambda` shown(() -> {
+- mindustry/ui/dialogs/GameOverDialog.java:38 `lambda` hidden(() -> ui.hudfrag.shown = hudShown);
+- mindustry/ui/dialogs/GameOverDialog.java:40 `lambda` Events.on(ResetEvent.class, e -> hide());
+- mindustry/ui/dialogs/GameOverDialog.java:60 `lambda` cont.table(t -> {
+- mindustry/ui/dialogs/GameOverDialog.java:73 `lambda` t.pane(p -> {
+- mindustry/ui/dialogs/GameOverDialog.java:78 `lambda` p.table(stats -> {
+- mindustry/ui/dialogs/GameOverDialog.java:88 `lambda` p.table(pt -> {
+- mindustry/ui/dialogs/GameOverDialog.java:104 `lambda` buttons.button("@gameover.disconnect", () -> {
+- mindustry/ui/dialogs/GameOverDialog.java:111 `lambda` buttons.button("@continue", () -> {
+- mindustry/ui/dialogs/GameOverDialog.java:116 `lambda` Time.runTask(10f, () -> {
+- mindustry/ui/dialogs/GameOverDialog.java:122 `lambda` dialog.buttons.button("@difficulty.guide.confirm", Icon.book, () -> {
+- mindustry/ui/dialogs/GameOverDialog.java:134 `lambda` buttons.button("@menu", () -> {
+- mindustry/ui/dialogs/GameOverDialog.java:176 `lambda` Actions.run(() -> {
+- mindustry/ui/dialogs/GameOverDialog.java:177 `lambda` valueLabel.update(() -> {
+- mindustry/ui/dialogs/HostDialog.java:24 `lambda` cont.table(t -> {
+- mindustry/ui/dialogs/HostDialog.java:26 `lambda` t.field(Core.settings.getString("name"), text -> {
+- mindustry/ui/dialogs/HostDialog.java:32 `lambda` ImageButton button = t.button(Tex.whiteui, Styles.squarei, 40, () -> {
+- mindustry/ui/dialogs/HostDialog.java:33 `lambda` new PaletteDialog().show(color -> {
+- mindustry/ui/dialogs/HostDialog.java:38 `lambda` button.update(() -> button.getStyle().imageUpColor = player.color());
+- mindustry/ui/dialogs/HostDialog.java:46 `lambda` cont.check("@steam.friendsonly", !Core.settings.getBool("steampublichost2"), val -> Core.settings.put("steampublichost2", !val)).colspan(2).left()
+- mindustry/ui/dialogs/HostDialog.java:47 `lambda` .with(c -> ui.addDescTooltip(c, "@steam.friendsonly.tooltip")).padBottom(15f).row();
+- mindustry/ui/dialogs/HostDialog.java:54 `lambda` cont.table(t -> {
+- mindustry/ui/dialogs/HostDialog.java:56 `lambda` portField[0] = t.field(String.valueOf(Core.settings.getInt("port", port)), text -> Core.settings.put("port", Strings.parseInt(text, 6567)))
+- mindustry/ui/dialogs/HostDialog.java:57 `lambda` .pad(8).grow().maxTextLength(5).valid(text -> {
+- mindustry/ui/dialogs/HostDialog.java:67 `lambda` cont.button("@host", () -> {
+- mindustry/ui/dialogs/HostDialog.java:74 `lambda` }).width(w).height(70f).disabled(b -> !portField[0].isValid());
+- mindustry/ui/dialogs/HostDialog.java:77 `lambda` cont.button("?", () -> ui.showInfo("@host.info")).size(65f, 70f).padLeft(6f);
+- mindustry/ui/dialogs/HostDialog.java:82 `lambda` shown(() -> {
+- mindustry/ui/dialogs/HostDialog.java:84 `lambda` Core.app.post(() -> Core.settings.getBoolOnce("hostinfo", () -> ui.showInfo("@host.info")));
+- mindustry/ui/dialogs/HostDialog.java:91 `lambda` Time.runTask(5f, () -> {
+- mindustry/ui/dialogs/HostDialog.java:105 `lambda` Core.settings.getBoolOnce("betapublic", () -> ui.showInfo("@public.beta"));
+- mindustry/ui/dialogs/IconSelectDialog.java:17 `lambda` private Intc consumer = i -> Log.info("you have mere seconds");
+- mindustry/ui/dialogs/IconSelectDialog.java:27 `lambda` cont.pane(t -> {
+- mindustry/ui/dialogs/IconSelectDialog.java:28 `lambda` resized(true, () -> {
+- mindustry/ui/dialogs/IconSelectDialog.java:33 `lambda` t.button(Icon.none, Styles.flati, () -> {
+- mindustry/ui/dialogs/IconSelectDialog.java:44 `lambda` t.button(value, Styles.flati, () -> {
+- mindustry/ui/dialogs/IconSelectDialog.java:60 `lambda` t.button(new TextureRegionDrawable(u.uiIcon), Styles.flati, iconMed, () -> {
+- mindustry/ui/dialogs/JoinDialog.java:53 `anonymous_double_brace_initializer` style = new TextButtonStyle(){{
+- mindustry/ui/dialogs/JoinDialog.java:72 `lambda` buttons.button("@server.add", Icon.add, () -> {
+- mindustry/ui/dialogs/JoinDialog.java:78 `lambda` if(infoButton) buttons.button("?", () -> ui.showInfo("@join.info")).size(60f, 64f);
+- mindustry/ui/dialogs/JoinDialog.java:83 `lambda` TextField field = add.cont.field(Core.settings.getString("ip"), text -> {
+- mindustry/ui/dialogs/JoinDialog.java:90 `lambda` add.buttons.button("@ok", () -> {
+- mindustry/ui/dialogs/JoinDialog.java:102 `lambda` }).disabled(b -> Core.settings.getString("ip").isEmpty() || net.active());
+- mindustry/ui/dialogs/JoinDialog.java:104 `lambda` add.shown(() -> {
+- mindustry/ui/dialogs/JoinDialog.java:113 `lambda` shown(() -> {
+- mindustry/ui/dialogs/JoinDialog.java:118 `lambda` Core.app.post(() -> Core.settings.getBoolOnce("joininfo", () -> ui.showInfo("@join.info")));
+- mindustry/ui/dialogs/JoinDialog.java:122 `lambda` onResize(() -> {
+- mindustry/ui/dialogs/JoinDialog.java:152 `lambda` Button button = buttons[0] = remote.button(b -> {}, style, () -> {
+- mindustry/ui/dialogs/JoinDialog.java:175 `lambda` inner.button(Icon.upOpen, Styles.emptyi, () -> {
+- mindustry/ui/dialogs/JoinDialog.java:180 `lambda` inner.button(Icon.downOpen, Styles.emptyi, () -> {
+- mindustry/ui/dialogs/JoinDialog.java:185 `lambda` inner.button(Icon.refresh, Styles.emptyi, () -> {
+- mindustry/ui/dialogs/JoinDialog.java:189 `lambda` inner.button(Icon.pencil, Styles.emptyi, () -> {
+- mindustry/ui/dialogs/JoinDialog.java:194 `lambda` inner.button(Icon.trash, Styles.emptyi, () -> {
+- mindustry/ui/dialogs/JoinDialog.java:195 `lambda` ui.showConfirm("@confirm", "@server.delete", () -> {
+- mindustry/ui/dialogs/JoinDialog.java:205 `lambda` server.content = button.table(t -> {}).grow().get();
+- mindustry/ui/dialogs/JoinDialog.java:240 `lambda` server.content.label(() -> Core.bundle.get("server.refreshing") + Strings.animated(Time.time, 4, 11, ".")).grow().center().labelAlign(Align.center).padBottom(4);
+- mindustry/ui/dialogs/JoinDialog.java:242 `lambda` net.pingHost(server.ip, server.port, host -> setupServer(server, host), e -> {
+- mindustry/ui/dialogs/JoinDialog.java:268 `lambda` content.table(Tex.whiteui, t -> {
+- mindustry/ui/dialogs/JoinDialog.java:276 `lambda` content.table(Tex.whitePane, t -> {
+- mindustry/ui/dialogs/JoinDialog.java:332 `lambda` cont.table(t -> {
+- mindustry/ui/dialogs/JoinDialog.java:334 `lambda` t.field(Core.settings.getString("name"), text -> {
+- mindustry/ui/dialogs/JoinDialog.java:339 `lambda` ImageButton button = t.button(Tex.whiteui, Styles.squarei, 40, () -> {
+- mindustry/ui/dialogs/JoinDialog.java:340 `lambda` new PaletteDialog().show(color -> {
+- mindustry/ui/dialogs/JoinDialog.java:345 `lambda` button.update(() -> button.getStyle().imageUpColor = player.color());
+- mindustry/ui/dialogs/JoinDialog.java:356 `lambda` hosts.table(name -> {
+- mindustry/ui/dialogs/JoinDialog.java:360 `lambda` name.button(Icon.eyeSmall, Styles.emptyi, () -> {
+- mindustry/ui/dialogs/JoinDialog.java:363 `lambda` }).update(i -> i.getStyle().imageUp = (showHidden ? Icon.eyeSmall : Icon.eyeOffSmall))
+- mindustry/ui/dialogs/JoinDialog.java:367 `lambda` name.button(Icon.downOpen, Styles.emptyi, () -> {
+- mindustry/ui/dialogs/JoinDialog.java:370 `lambda` }).update(i -> i.getStyle().imageUp = (!coll.isCollapsed() ? Icon.upOpen : Icon.downOpen)).size(40f).right().padRight(10f);
+- mindustry/ui/dialogs/JoinDialog.java:384 `lambda` local.table(Tex.button, t -> t.label(() -> "[accent]" + Core.bundle.get("hosts.discovering.any") + Strings.animated(Time.time, 4, 10f, ".")).pad(10f)).growX();
+- mindustry/ui/dialogs/JoinDialog.java:398 `lambda` global.table(t -> {
+- mindustry/ui/dialogs/JoinDialog.java:400 `lambda` t.field(serverSearch, text ->
+- mindustry/ui/dialogs/JoinDialog.java:429 `lambda` net.pingHost(resaddress, resport, res -> {
+- mindustry/ui/dialogs/JoinDialog.java:435 `lambda` fontIgnoreDirtyTask = Time.runTask(0.6f * 60f, () -> {
+- mindustry/ui/dialogs/JoinDialog.java:457 `lambda` }, e -> {});
+- mindustry/ui/dialogs/JoinDialog.java:464 `lambda` global.table(t -> groupTable[0] = t).fillX().left().row();
+- mindustry/ui/dialogs/JoinDialog.java:466 `lambda` groupTable[0].visible(() -> doInit);
+- mindustry/ui/dialogs/JoinDialog.java:471 `lambda` groupTable[0].table(head -> {
+- mindustry/ui/dialogs/JoinDialog.java:480 `anonymous_double_brace_initializer` image[0] = head.button(Icon.star, new ImageButton.ImageButtonStyle(){{
+- mindustry/ui/dialogs/JoinDialog.java:483 `lambda` }}, () -> {
+- mindustry/ui/dialogs/JoinDialog.java:490 `lambda` image[1] = head.button(hidden ? Icon.eyeOffSmall : Icon.eyeSmall, Styles.grayi, () -> {
+- mindustry/ui/dialogs/JoinDialog.java:497 `lambda` image[1].addListener(new Tooltip(t -> t.background(Styles.black6).margin(4).label(() -> !group.hidden() ? "@server.shown" : "@server.hidden")));
+- mindustry/ui/dialogs/JoinDialog.java:516 `lambda` button[0] = container.button(b -> {}, style, () -> {
+- mindustry/ui/dialogs/JoinDialog.java:521 `lambda` ui.showCustomConfirm("@warning", "@servers.disclaimer", "@ok", "@back", () -> {
+- mindustry/ui/dialogs/JoinDialog.java:524 `lambda` }, () -> {
+- mindustry/ui/dialogs/JoinDialog.java:540 `lambda` inner.button(Icon.add, Styles.emptyi, () -> {
+- mindustry/ui/dialogs/JoinDialog.java:551 `lambda` buildServer(host, button[0].table(t -> {}).grow().get(), false, false);
+- mindustry/ui/dialogs/JoinDialog.java:582 `lambda` local.button(b -> buildServer(host, b, true, true), style, () -> {
+- mindustry/ui/dialogs/JoinDialog.java:596 `lambda` ui.loadfrag.setButton(() -> {
+- mindustry/ui/dialogs/JoinDialog.java:603 `lambda` Time.runTask(2f, () -> {
+- mindustry/ui/dialogs/JoinDialog.java:607 `lambda` net.connect(lastIp = ip, lastPort = port, () -> {
+- mindustry/ui/dialogs/JoinDialog.java:620 `lambda` ping = Timer.schedule(() -> {
+- mindustry/ui/dialogs/JoinDialog.java:621 `lambda` net.pingHost(lastIp, lastPort, host -> {
+- mindustry/ui/dialogs/JoinDialog.java:626 `lambda` }, exception -> {});
+- mindustry/ui/dialogs/JoinDialog.java:629 `lambda` ui.loadfrag.setButton(() -> {
+- mindustry/ui/dialogs/JoinDialog.java:684 `lambda` .error(t -> {
+- mindustry/ui/dialogs/JoinDialog.java:694 `lambda` .submit(result -> {
+- mindustry/ui/dialogs/JoinDialog.java:700 `lambda` Core.app.post(() -> {
+- mindustry/ui/dialogs/JoinDialog.java:711 `lambda` Log.info("Fetched @ community servers.", defaultServers.sum(s -> s.addresses.length));
+- mindustry/ui/dialogs/JoinDialog.java:719 `lambda` val.asArray().each(child -> {
+- mindustry/ui/dialogs/JoinDialog.java:730 `lambda` servers.sort(s -> s.name == null ? Integer.MAX_VALUE : s.name.hashCode());
+- mindustry/ui/dialogs/KeybindDialog.java:41 `lambda` cont.table(table -> {
+- mindustry/ui/dialogs/KeybindDialog.java:44 `lambda` var field = table.field(searchText, res -> {
+- mindustry/ui/dialogs/KeybindDialog.java:49 `lambda` shown(() -> {
+- mindustry/ui/dialogs/KeybindDialog.java:66 `lambda` keyDown(key -> {
+- mindustry/ui/dialogs/KeybindDialog.java:98 `lambda` table.labelWrap(() -> {
+- mindustry/ui/dialogs/KeybindDialog.java:103 `lambda` table.button("@settings.rebind", tstyle, () -> {
+- mindustry/ui/dialogs/KeybindDialog.java:110 `lambda` table.add(keybind.value.key.getName()).update(l -> {
+- mindustry/ui/dialogs/KeybindDialog.java:115 `lambda` table.button("@settings.rebind", tstyle, () -> {
+- mindustry/ui/dialogs/KeybindDialog.java:121 `lambda` table.button("@settings.resetKey", tstyle, keybind::resetToDefault).disabled(t -> keybind.isDefault()).size(bw, bh).pad(2f).padLeft(4f);
+- mindustry/ui/dialogs/KeybindDialog.java:183 `lambda` Time.runTask(1f, () -> getScene().setScrollFocus(rebindDialog));
+- mindustry/ui/dialogs/LanguageDialog.java:78 `lambda` button.clicked(() -> {
+- mindustry/ui/dialogs/LanguageDialog.java:85 `lambda` langs.add(button).group(group).update(t -> t.setChecked(loc.equals(getLocale()))).size(400f, 50f).row();
+- mindustry/ui/dialogs/LaunchLoadoutDialog.java:59 `lambda` Runnable update = () -> {
+- mindustry/ui/dialogs/LaunchLoadoutDialog.java:94 `lambda` Cons<Table> rebuild = table -> {
+- mindustry/ui/dialogs/LaunchLoadoutDialog.java:122 `lambda` Runnable rebuildItems = () -> rebuild.get(items);
+- mindustry/ui/dialogs/LaunchLoadoutDialog.java:125 `lambda` buttons.button("@resources.max", Icon.add, Styles.togglet, () -> {
+- mindustry/ui/dialogs/LaunchLoadoutDialog.java:129 `lambda` }).checked(b -> getMax());
+- mindustry/ui/dialogs/LaunchLoadoutDialog.java:131 `lambda` buttons.button("@resources", Icon.edit, () -> {
+- mindustry/ui/dialogs/LaunchLoadoutDialog.java:138 `lambda` loadout.show(lastCapacity, realItems, out, i -> i.unlocked() && i.isOnPlanet(sector.planet), out::clear, () -> {}, () -> {
+- mindustry/ui/dialogs/LaunchLoadoutDialog.java:143 `lambda` }).disabled(b -> getMax());
+- mindustry/ui/dialogs/LaunchLoadoutDialog.java:150 `lambda` var cell = buttons.button("@launch.text", Icon.ok, () -> {
+- mindustry/ui/dialogs/LaunchLoadoutDialog.java:154 `lambda` }).disabled(b -> !valid);
+- mindustry/ui/dialogs/LaunchLoadoutDialog.java:168 `lambda` cont.pane(t -> {
+- mindustry/ui/dialogs/LaunchLoadoutDialog.java:171 `lambda` Cons<Schematic> handler = s -> {
+- mindustry/ui/dialogs/LaunchLoadoutDialog.java:172 `lambda` if(s.tiles.contains(tile -> !tile.block.supportsEnv(sector.planet.defaultEnv) ||
+- mindustry/ui/dialogs/LaunchLoadoutDialog.java:178 `lambda` t.button(b -> b.add(new SchematicImage(s)), Styles.togglet, () -> {
+- mindustry/ui/dialogs/LaunchLoadoutDialog.java:205 `lambda` cont.label(() -> Core.bundle.format("launch.capacity", lastCapacity)).row();
+- mindustry/ui/dialogs/LaunchLoadoutDialog.java:208 `lambda` cont.pane(p -> {
+- mindustry/ui/dialogs/LaunchLoadoutDialog.java:215 `lambda` cont.add("@sector.missingresources").visible(() -> !valid);
+- mindustry/ui/dialogs/LoadDialog.java:40 `lambda` shown(() -> {
+- mindustry/ui/dialogs/LoadDialog.java:61 `lambda` searchField = search.field("", t -> {
+- mindustry/ui/dialogs/LoadDialog.java:70 `lambda` search.button(sandbox ? Icon.terrain : icon, Styles.emptyTogglei, () -> {
+- mindustry/ui/dialogs/LoadDialog.java:73 `lambda` }).size(60f).padLeft(-12f).checked(b -> !hidden.contains(mode)).tooltip("@mode." + mode.name() + ".name");
+- mindustry/ui/dialogs/LoadDialog.java:90 `lambda` Time.runTask(2f, () -> Core.scene.setScrollFocus(pane));
+- mindustry/ui/dialogs/LoadDialog.java:93 `lambda` array.sort((slot, other) -> -Long.compare(slot.getTimestamp(), other.getTimestamp()));
+- mindustry/ui/dialogs/LoadDialog.java:114 `lambda` button.table(title -> {
+- mindustry/ui/dialogs/LoadDialog.java:117 `lambda` title.table(t -> {
+- mindustry/ui/dialogs/LoadDialog.java:121 `lambda` t.button(Icon.save, Styles.emptyTogglei, () -> {
+- mindustry/ui/dialogs/LoadDialog.java:125 `lambda` t.button(Icon.trash, Styles.emptyi, () -> {
+- mindustry/ui/dialogs/LoadDialog.java:126 `lambda` ui.showConfirm("@confirm", "@save.delete.confirm", () -> {
+- mindustry/ui/dialogs/LoadDialog.java:132 `lambda` t.button(Icon.pencil, Styles.emptyi, () -> {
+- mindustry/ui/dialogs/LoadDialog.java:133 `lambda` ui.showTextInput("@save.rename", "@save.rename.text", slot.getName(), text -> {
+- mindustry/ui/dialogs/LoadDialog.java:139 `lambda` t.button(Icon.export, Styles.emptyi, () -> {
+- mindustry/ui/dialogs/LoadDialog.java:154 `lambda` button.left().add(new BorderImage(def, 4f)).update(im -> {
+- mindustry/ui/dialogs/LoadDialog.java:167 `lambda` button.table(meta -> {
+- mindustry/ui/dialogs/LoadDialog.java:175 `lambda` meta.labelWrap(() -> Core.bundle.format("save.autosave", color + Core.bundle.get(slot.isAutosave() ? "on" : "off")));
+- mindustry/ui/dialogs/LoadDialog.java:177 `lambda` meta.labelWrap(() -> Core.bundle.format("save.playtime", color + slot.getPlayTime()));
+- mindustry/ui/dialogs/LoadDialog.java:199 `lambda` buttons.button("@save.import", Icon.add, () -> {
+- mindustry/ui/dialogs/LoadDialog.java:200 `lambda` FileChooser.open("msav").submitMulti(files -> {
+- mindustry/ui/dialogs/LoadDialog.java:226 `lambda` slot.cautiousLoad(() -> {
+- mindustry/ui/dialogs/LoadDialog.java:227 `lambda` ui.loadAnd(() -> {
+- mindustry/ui/dialogs/LoadDialog.java:243 `lambda` Collapser col = new Collapser(base -> base.pane(t -> {
+- mindustry/ui/dialogs/LoadDialog.java:250 `lambda` d.cont.button("@save.assets.missing.list", Styles.togglet, col::toggle).size(180f, 50f).checked(b -> !col.isCollapsed()).fillX().right();
+- mindustry/ui/dialogs/LoadDialog.java:267 `lambda` button.clicked(() -> {
+- mindustry/ui/dialogs/LoadoutDialog.java:22 `lambda` private Boolf<Item> validator = i -> true;
+- mindustry/ui/dialogs/LoadoutDialog.java:31 `lambda` keyDown(key -> {
+- mindustry/ui/dialogs/LoadoutDialog.java:37 `lambda` cont.pane(t -> items = t.margin(10f)).left();
+- mindustry/ui/dialogs/LoadoutDialog.java:40 `lambda` hidden(() -> {
+- mindustry/ui/dialogs/LoadoutDialog.java:41 `lambda` originalStacks.selectFrom(stacks, s -> s.amount > 0);
+- mindustry/ui/dialogs/LoadoutDialog.java:52 `lambda` buttons.button("@settings.reset", Icon.refresh, () -> {
+- mindustry/ui/dialogs/LoadoutDialog.java:90 `lambda` items.table(Tex.pane, t -> {
+- mindustry/ui/dialogs/LoadoutDialog.java:92 `lambda` t.button("-", Styles.flatt, () -> {
+- mindustry/ui/dialogs/LoadoutDialog.java:97 `lambda` t.button("+", Styles.flatt, () -> {
+- mindustry/ui/dialogs/LoadoutDialog.java:102 `lambda` t.button(Icon.pencil, Styles.flati, () -> ui.showTextInput("@configure", stack.item.localizedName, 10, stack.amount + "", true, str -> {
+- mindustry/ui/dialogs/LoadoutDialog.java:115 `lambda` t.label(() -> stack.amount + "").left().width(90f);
+- mindustry/ui/dialogs/LoadoutDialog.java:127 `lambda` this.stacks.addAll(content.items().select(i -> validator.get(i) && !i.isHidden() && !stacks.contains(stack -> stack.item == i)).map(i -> new ItemStack(i, 0)));
+- mindustry/ui/dialogs/LoadoutDialog.java:128 `lambda` this.stacks.sort(Structs.comparingInt(s -> s.item.id));
+- mindustry/ui/dialogs/MapListDialog.java:56 `lambda` hidden(() -> rulesCache.clear());
+- mindustry/ui/dialogs/MapListDialog.java:58 `lambda` onResize(() -> {
+- mindustry/ui/dialogs/MapListDialog.java:71 `lambda` availablePlanets = content.planets().select(p -> p.accessible).map(p -> p.name);
+- mindustry/ui/dialogs/MapListDialog.java:99 `lambda` searchField = search.field("", t -> {
+- mindustry/ui/dialogs/MapListDialog.java:123 `lambda` Seq<String> activePlanetFilters = planets.select(p -> availablePlanets.contains(p));
+- mindustry/ui/dialogs/MapListDialog.java:133 `lambda` ordered.addAll(mapList.select(m -> m.mod != null).sortComparing(m -> m.mod.meta.displayName));
+- mindustry/ui/dialogs/MapListDialog.java:134 `lambda` ordered.addAll(mapList.select(m -> m.mod == null).sortComparing(m -> m.plainName()));
+- mindustry/ui/dialogs/MapListDialog.java:138 `lambda` ordered.addAll(mapList.select(m -> m.custom)).sortComparing(m -> m.plainName());
+- mindustry/ui/dialogs/MapListDialog.java:139 `lambda` ordered.addAll(mapList.select(m -> !m.custom).sortComparing(m -> m.plainName()));
+- mindustry/ui/dialogs/MapListDialog.java:142 `lambda` mapList.sortComparing(m -> m.plainName());
+- mindustry/ui/dialogs/MapListDialog.java:173 `lambda` TextButton button = mapTable.button("", Styles.grayt, () -> showMap(map)).width(mapsize).bottom().pad(8).get();
+- mindustry/ui/dialogs/MapListDialog.java:179 `lambda` button.table(t -> {
+- mindustry/ui/dialogs/MapListDialog.java:214 `lambda` activeDialog.cont.table(menu -> {
+- mindustry/ui/dialogs/MapListDialog.java:215 `lambda` menu.table(tab -> {
+- mindustry/ui/dialogs/MapListDialog.java:217 `lambda` tab.table(t -> {
+- mindustry/ui/dialogs/MapListDialog.java:219 `lambda` t.table(Tex.button, left -> {
+- mindustry/ui/dialogs/MapListDialog.java:223 `lambda` left.button(icon, Styles.emptyTogglei, () -> {
+- mindustry/ui/dialogs/MapListDialog.java:236 `lambda` tab.table(t -> {
+- mindustry/ui/dialogs/MapListDialog.java:238 `lambda` t.table(Tex.button, right ->{
+- mindustry/ui/dialogs/MapListDialog.java:239 `lambda` right.button(ui.getIcon("players"), Styles.emptyTogglei, () -> {
+- mindustry/ui/dialogs/MapListDialog.java:247 `lambda` }).size(60f).checked(b -> showCustom && prioritizeCustom).tooltip("@editor.filters.prioritizecustom").disabled(b -> !showCustom);
+- mindustry/ui/dialogs/MapListDialog.java:248 `lambda` right.button(ui.getIcon("hammer"), Styles.emptyTogglei, () -> {
+- mindustry/ui/dialogs/MapListDialog.java:256 `lambda` }).size(60f).checked(b-> showModded && prioritizeModded).tooltip("@editor.filters.prioritizemod").disabled(b -> !showModded);
+- mindustry/ui/dialogs/MapListDialog.java:260 `lambda` tab.table(t -> {
+- mindustry/ui/dialogs/MapListDialog.java:262 `lambda` t.table(Tex.button, but -> {
+- mindustry/ui/dialogs/MapListDialog.java:263 `lambda` ImageButton pButton = but.button(ui.getIcon("planet"), Styles.emptyTogglei, () -> {
+- mindustry/ui/dialogs/MapListDialog.java:264 `lambda` new BaseDialog("@editor.filters.planetselect"){{ cont.pane(t -> {
+- mindustry/ui/dialogs/MapListDialog.java:264 `anonymous_double_brace_initializer` new BaseDialog("@editor.filters.planetselect"){{ cont.pane(t -> {
+- mindustry/ui/dialogs/MapListDialog.java:265 `lambda` t.table(Tex.button, in -> {
+- mindustry/ui/dialogs/MapListDialog.java:268 `lambda` in.button("@rules.anyenv", ui.getIcon("planet"), Styles.flatTogglet, iconMed, () -> {
+- mindustry/ui/dialogs/MapListDialog.java:278 `lambda` for(Planet planet : content.planets().select(p -> p.accessible)){
+- mindustry/ui/dialogs/MapListDialog.java:283 `lambda` in.button(planet.localizedName, picon, Styles.flatTogglet, iconMed, () -> {
+- mindustry/ui/dialogs/MapListDialog.java:297 `lambda` }).size(60f).tooltip("@editor.filters.planetselect").checked(b -> planets.find(p -> availablePlanets.contains(p)) != null)
+- mindustry/ui/dialogs/MapListDialog.java:303 `lambda` planets.removeAll(p -> availablePlanets.contains(p));
+- mindustry/ui/dialogs/MapListDialog.java:312 `lambda` planets.removeAll(p -> availablePlanets.contains(p));
+- mindustry/ui/dialogs/MapListDialog.java:324 `lambda` menu.table(Tex.button, t -> {
+- mindustry/ui/dialogs/MapListDialog.java:325 `lambda` t.button("@custom", Styles.flatTogglet, () -> {
+- mindustry/ui/dialogs/MapListDialog.java:334 `lambda` t.button("@builtin", Styles.flatTogglet, () -> {
+- mindustry/ui/dialogs/MapListDialog.java:339 `lambda` t.button("@modded", Styles.flatTogglet, () -> {
+- mindustry/ui/dialogs/MapListDialog.java:351 `lambda` menu.table(Tex.button, t -> {
+- mindustry/ui/dialogs/MapListDialog.java:352 `lambda` t.button("@editor.filters.author", Styles.flatTogglet, () -> {
+- mindustry/ui/dialogs/MapListDialog.java:357 `lambda` t.button("@editor.filters.description", Styles.flatTogglet, () -> {
+- mindustry/ui/dialogs/MapListDialog.java:362 `lambda` t.button("@editor.filters.modname", Styles.flatTogglet, () -> {
+- mindustry/ui/dialogs/MapPlayDialog.java:26 `lambda` onResize(() -> {
+- mindustry/ui/dialogs/MapPlayDialog.java:46 `lambda` selectedGamemode = Structs.find(Gamemode.all, m -> m.valid(map));
+- mindustry/ui/dialogs/MapPlayDialog.java:58 `lambda` selmode.table(Tex.button, modes -> {
+- mindustry/ui/dialogs/MapPlayDialog.java:63 `lambda` modes.button(mode.toString(), Styles.flatToggleMenut, () -> {
+- mindustry/ui/dialogs/MapPlayDialog.java:66 `lambda` }).update(b -> b.setChecked(selectedGamemode == mode)).size(140f, mobile ? 44f : 54f).disabled(!mode.valid(map));
+- mindustry/ui/dialogs/MapPlayDialog.java:75 `lambda` cont.button("@customize", Icon.settings, () -> dialog.show(rules, () -> rules = map.applyRules(selectedGamemode))).height(50f).width(230);
+- mindustry/ui/dialogs/MapPlayDialog.java:81 `lambda` cont.label((() -> Core.bundle.format("level.highscore", map.getHightScore()))).pad(3f);
+- mindustry/ui/dialogs/MapPlayDialog.java:87 `lambda` buttons.button("@play", Icon.play, () -> {
+- mindustry/ui/dialogs/ModsDialog.java:56 `lambda` browser.cont.table(table -> {
+- mindustry/ui/dialogs/ModsDialog.java:59 `lambda` table.field(searchtxt, res -> {
+- mindustry/ui/dialogs/ModsDialog.java:63 `lambda` table.button(Icon.list, Styles.emptyi, 32f, () -> {
+- mindustry/ui/dialogs/ModsDialog.java:66 `lambda` }).update(b -> b.getStyle().imageUp = (orderDate ? Icon.list : Icon.star)).size(40f).get()
+- mindustry/ui/dialogs/ModsDialog.java:67 `lambda` .addListener(new Tooltip(tip -> tip.label(() -> orderDate ? "@mods.browser.sortdate" : "@mods.browser.sortstars").left()));
+- mindustry/ui/dialogs/ModsDialog.java:71 `lambda` browser.cont.pane(tablebrow -> {
+- mindustry/ui/dialogs/ModsDialog.java:80 `lambda` buttons.button("@mods.guide", Icon.link, () -> Core.app.openURI(modGuideURL)).size(210, 64f);
+- mindustry/ui/dialogs/ModsDialog.java:83 `lambda` buttons.button("@mods.openfolder", Icon.link, () -> Core.app.openFolder(modDirectory.absolutePath()));
+- mindustry/ui/dialogs/ModsDialog.java:89 `lambda` Events.on(ResizeEvent.class, event -> {
+- mindustry/ui/dialogs/ModsDialog.java:96 `lambda` hidden(() -> {
+- mindustry/ui/dialogs/ModsDialog.java:107 `lambda` if(error instanceof NoSuchMethodError || Strings.getCauses(error).contains(t -> t.getMessage() != null && (t.getMessage().contains("trust anchor") || t.getMessage().contains("SSL") || t.getMessage().contains("protocol")))){
+- mindustry/ui/dialogs/ModsDialog.java:130 `lambda` Http.get(modJsonURLs[index], response -> {
+- mindustry/ui/dialogs/ModsDialog.java:133 `lambda` Core.app.post(() -> {
+- mindustry/ui/dialogs/ModsDialog.java:138 `lambda` Func<String, Date> parser = text -> {
+- mindustry/ui/dialogs/ModsDialog.java:146 `lambda` modList.sortComparing(m -> parser.get(m.lastUpdated)).reverse();
+- mindustry/ui/dialogs/ModsDialog.java:153 `lambda` }, error -> {
+- mindustry/ui/dialogs/ModsDialog.java:157 `lambda` Core.app.post(() -> {
+- mindustry/ui/dialogs/ModsDialog.java:176 `lambda` cont.table(buttons -> {
+- mindustry/ui/dialogs/ModsDialog.java:182 `lambda` buttons.button("@mod.import", Icon.add, style, () -> {
+- mindustry/ui/dialogs/ModsDialog.java:187 `lambda` dialog.cont.table(Tex.button, t -> {
+- mindustry/ui/dialogs/ModsDialog.java:191 `lambda` t.button("@mod.import.file", Icon.file, bstyle, () -> {
+- mindustry/ui/dialogs/ModsDialog.java:194 `lambda` FileChooser.open("zip", "jar").submitMulti(files -> {
+- mindustry/ui/dialogs/ModsDialog.java:210 `lambda` t.button("@mod.import.github", Icon.github, bstyle, () -> {
+- mindustry/ui/dialogs/ModsDialog.java:213 `lambda` ui.showTextInput("@mod.import.github", "", 64, Core.settings.getString("lastmod", ""), text -> {
+- mindustry/ui/dialogs/ModsDialog.java:239 `lambda` Cons<String> rebuild = query -> {
+- mindustry/ui/dialogs/ModsDialog.java:251 `lambda` pane[0].button(t -> {
+- mindustry/ui/dialogs/ModsDialog.java:257 `lambda` t.addListener(new Tooltip(f -> f.background(Styles.black8).margin(4f).add(stateDetails).growX().width(400f).wrap()));
+- mindustry/ui/dialogs/ModsDialog.java:261 `lambda` t.table(title1 -> {
+- mindustry/ui/dialogs/ModsDialog.java:264 `anonymous_double_brace_initializer` title1.add(new BorderImage(){{
+- mindustry/ui/dialogs/ModsDialog.java:273 `lambda` title1.table(text -> {
+- mindustry/ui/dialogs/ModsDialog.java:295 `lambda` t.table(right -> {
+- mindustry/ui/dialogs/ModsDialog.java:297 `lambda` right.button(item.enabled() ? Icon.downOpen : Icon.upOpen, Styles.clearNonei, () -> {
+- mindustry/ui/dialogs/ModsDialog.java:302 `lambda` right.button(item.hasSteamID() ? Icon.link : Icon.trash, Styles.clearNonei, () -> {
+- mindustry/ui/dialogs/ModsDialog.java:304 `lambda` ui.showConfirm("@confirm", "@mod.remove.confirm", () -> {
+- mindustry/ui/dialogs/ModsDialog.java:315 `lambda` right.button(Icon.export, Styles.clearNonei, () -> {
+- mindustry/ui/dialogs/ModsDialog.java:320 `lambda` }, Styles.grayt, () -> showMod(item)).size(w, h).growX().pad(4f);
+- mindustry/ui/dialogs/ModsDialog.java:331 `lambda` cont.table(search -> {
+- mindustry/ui/dialogs/ModsDialog.java:338 `lambda` cont.pane(table1 -> {
+- mindustry/ui/dialogs/ModsDialog.java:341 `lambda` }).scrollX(false).update(s -> scroll = s.getScrollY()).get().setScrollYForce(scroll);
+- mindustry/ui/dialogs/ModsDialog.java:343 `lambda` cont.table(Styles.black6, t -> t.add("@mods.none")).height(80f);
+- mindustry/ui/dialogs/ModsDialog.java:395 `lambda` dialog.buttons.button("@mods.openfolder", Icon.link, () -> Core.app.openFolder(mod.file.absolutePath()));
+- mindustry/ui/dialogs/ModsDialog.java:400 `lambda` dialog.buttons.button("@mods.github.open", Icon.link, () -> Core.app.openURI("https://github.com/" + mod.getRepo()));
+- mindustry/ui/dialogs/ModsDialog.java:402 `lambda` if(showImport) dialog.buttons.button("@mods.browser.reinstall", Icon.download, () -> githubImportMod(mod.getRepo(), mod.isJava(), null));
+- mindustry/ui/dialogs/ModsDialog.java:405 `lambda` dialog.cont.pane(desc -> {
+- mindustry/ui/dialogs/ModsDialog.java:441 `lambda` Seq<UnlockableContent> all = Seq.with(content.getContentMap()).<Content>flatten().select(c -> c.minfo.mod == mod && c instanceof UnlockableContent u && !u.isHidden()).as();
+- mindustry/ui/dialogs/ModsDialog.java:444 `lambda` dialog.cont.button("@mods.viewcontent", Icon.book, () -> {
+- mindustry/ui/dialogs/ModsDialog.java:446 `lambda` d.cont.pane(cs -> {
+- mindustry/ui/dialogs/ModsDialog.java:449 `lambda` cs.button(new TextureRegionDrawable(c.uiIcon), Styles.flati, iconMed, () -> {
+- mindustry/ui/dialogs/ModsDialog.java:451 `lambda` }).size(50f).with(im -> {
+- mindustry/ui/dialogs/ModsDialog.java:453 `lambda` im.update(() -> im.getImage().color.lerp(!click.isOver() ? Color.lightGray : Color.white, 0.4f * Time.delta));
+- mindustry/ui/dialogs/ModsDialog.java:475 `lambda` ObjectSet<String> installed = mods.list().map(m -> m.getRepo()).asSet();
+- mindustry/ui/dialogs/ModsDialog.java:482 `lambda` getModList(0, rlistings -> {
+- mindustry/ui/dialogs/ModsDialog.java:489 `lambda` listings.sortComparing(m1 -> -m1.stars);
+- mindustry/ui/dialogs/ModsDialog.java:499 `lambda` browserTable.button(con -> {
+- mindustry/ui/dialogs/ModsDialog.java:520 `lambda` Http.get("https://raw.githubusercontent.com/Anuken/MindustryMods/master/icons/" + repo.replace("/", "_"), res -> {
+- mindustry/ui/dialogs/ModsDialog.java:522 `lambda` Core.app.post(() -> {
+- mindustry/ui/dialogs/ModsDialog.java:532 `lambda` }, err -> {});
+- mindustry/ui/dialogs/ModsDialog.java:554 `lambda` }, Styles.grayt, () -> {
+- mindustry/ui/dialogs/ModsDialog.java:556 `lambda` sel.cont.pane(p -> p.add(mod.description + "\n\n[accent]" + Core.bundle.get("editor.author") + "[lightgray] " + mod.author)
+- mindustry/ui/dialogs/ModsDialog.java:559 `lambda` sel.buttons.button("@back", Icon.left, () -> {
+- mindustry/ui/dialogs/ModsDialog.java:564 `lambda` var found = mods.list().find(l -> mod.repo != null && mod.repo.equals(l.getRepo()));
+- mindustry/ui/dialogs/ModsDialog.java:565 `lambda` sel.buttons.button(found == null ? "@mods.browser.add" : "@mods.browser.reinstall", Icon.download, () -> {
+- mindustry/ui/dialogs/ModsDialog.java:574 `lambda` sel.buttons.button("@mods.github.open", Icon.link, () -> {
+- mindustry/ui/dialogs/ModsDialog.java:578 `lambda` sel.buttons.button("@mods.browser.view-releases", Icon.zoom, () -> {
+- mindustry/ui/dialogs/ModsDialog.java:582 `lambda` Http.get(ghApi + "/repos/" + mod.repo + "/releases", res -> {
+- mindustry/ui/dialogs/ModsDialog.java:586 `lambda` Core.app.post(() -> {
+- mindustry/ui/dialogs/ModsDialog.java:594 `lambda` downloads.cont.pane(p -> {
+- mindustry/ui/dialogs/ModsDialog.java:599 `lambda` p.table(((TextureRegionDrawable)Tex.whiteui).tint(Pal.darkestGray), t -> {
+- mindustry/ui/dialogs/ModsDialog.java:604 `lambda` t.table(b -> {
+- mindustry/ui/dialogs/ModsDialog.java:606 `lambda` b.button("@mods.github.open-release", Icon.link, () -> Core.app.openURI(release.getString("html_url")));
+- mindustry/ui/dialogs/ModsDialog.java:607 `lambda` b.button("@mods.browser.add", Icon.download, () -> {
+- mindustry/ui/dialogs/ModsDialog.java:617 `lambda` downloads.buttons.button("@back", Icon.left, () -> {
+- mindustry/ui/dialogs/ModsDialog.java:628 `lambda` }, t -> Core.app.post(() -> {
+- mindustry/ui/dialogs/ModsDialog.java:647 `lambda` Floatc cons = len <= 0 ? f -> {} : p -> modImportProgress = p;
+- mindustry/ui/dialogs/ModsDialog.java:650 `lambda` Streams.copyProgress(result.getResultAsStream(), stream, len, 4096, p -> {
+- mindustry/ui/dialogs/ModsDialog.java:661 `lambda` Core.app.post(() -> {
+- mindustry/ui/dialogs/ModsDialog.java:677 `lambda` Core.app.post(() -> modError(t));
+- mindustry/ui/dialogs/ModsDialog.java:688 `lambda` ui.loadfrag.setProgress(() -> modImportProgress);
+- mindustry/ui/dialogs/ModsDialog.java:689 `lambda` ui.loadfrag.setButton(() -> {
+- mindustry/ui/dialogs/ModsDialog.java:697 `lambda` Http.get(ghApi + "/repos/" + repo, res -> {
+- mindustry/ui/dialogs/ModsDialog.java:715 `lambda` getModList(listings -> {
+- mindustry/ui/dialogs/ModsDialog.java:716 `lambda` listings.each(l -> dependencies.contains(l.internalName), l -> {
+- mindustry/ui/dialogs/ModsDialog.java:726 `lambda` Http.get(ghApi + "/repos/" + repo + "/releases/" + (release == null ? "latest" : release), res -> {
+- mindustry/ui/dialogs/ModsDialog.java:732 `lambda` var dexedAsset = assets.find(j -> j.getString("name").startsWith("dexed") && j.getString("name").endsWith(".jar"));
+- mindustry/ui/dialogs/ModsDialog.java:733 `lambda` var asset = dexedAsset == null ? assets.find(j -> j.getString("name").endsWith(".jar")) : dexedAsset;
+- mindustry/ui/dialogs/ModsDialog.java:739 `lambda` Http.get(url, result -> {
+- mindustry/ui/dialogs/ModsDialog.java:751 `lambda` Http.get(ghApi + "/repos/" + repo + "/releases/" + release, res -> {
+- mindustry/ui/dialogs/ModsDialog.java:754 `lambda` Http.get(zipUrl, loc -> {
+- mindustry/ui/dialogs/ModsDialog.java:757 `lambda` Http.get(loc.getHeader("Location"), result -> {
+- mindustry/ui/dialogs/ModsDialog.java:767 `lambda` Http.get(ghApi + "/repos/" + repo + "/zipball/" + branch, loc -> {
+- mindustry/ui/dialogs/ModsDialog.java:770 `lambda` Http.get(loc.getHeader("Location"), result -> {
+- mindustry/ui/dialogs/PaletteDialog.java:20 `lambda` cont.table(table -> {
+- mindustry/ui/dialogs/PaletteDialog.java:24 `lambda` ImageButton button = table.button(Tex.whiteui, Styles.squareTogglei, 34, () -> {
+- mindustry/ui/dialogs/PausedDialog.java:27 `lambda` stack(cont, new Table(t -> {
+- mindustry/ui/dialogs/PausedDialog.java:29 `lambda` t.button(Icon.book, () -> {
+- mindustry/ui/dialogs/PausedDialog.java:31 `lambda` rulesDialog.show(toEdit, () -> state.rules.copy());
+- mindustry/ui/dialogs/PausedDialog.java:32 `lambda` rulesDialog.hidden(() -> {
+- mindustry/ui/dialogs/PausedDialog.java:37 `lambda` }).size(70f).tooltip("@customize").visible(() -> state.rules.allowEditRules && (net.server() || !net.active()));
+- mindustry/ui/dialogs/PausedDialog.java:40 `lambda` shown(() -> {
+- mindustry/ui/dialogs/PausedDialog.java:54 `lambda` update(() -> {
+- mindustry/ui/dialogs/PausedDialog.java:62 `lambda` cont.check("@steam.friendsonly", !Core.settings.getBool("steampublichost2"), val -> {
+- mindustry/ui/dialogs/PausedDialog.java:65 `lambda` }).colspan(2).left().with(c -> ui.addDescTooltip(c, "@steam.friendsonly.tooltip")).width(440f)
+- mindustry/ui/dialogs/PausedDialog.java:66 `lambda` .visible(() -> net.server()).center().colspan(2).fillX().padBottom(10f).row();
+- mindustry/ui/dialogs/PausedDialog.java:75 `lambda` cont.button("@objective", Icon.info, () -> ui.fullText.show("@objective", state.rules.sector != null && state.rules.sector.preset != null ? state.rules.sector.preset.description : "oh dear")).padTop(-60f);
+- mindustry/ui/dialogs/PausedDialog.java:78 `lambda` cont.button("@abandon", Icon.cancel, () -> ui.planet.abandonSectorConfirm(state.rules.sector, this::hide)).padTop(-60f)
+- mindustry/ui/dialogs/PausedDialog.java:80 `lambda` .disabled(b -> net.client() || state.gameOver).visible(() -> state.rules.sector != null).row();
+- mindustry/ui/dialogs/PausedDialog.java:88 `lambda` cont.button("@loadgame", Icon.upload, load::show).disabled(b -> net.active());
+- mindustry/ui/dialogs/PausedDialog.java:94 `lambda` cont.button(state.isEditor() ? "@hostserver.mobile" : "@hostserver", Icon.host, () -> {
+- mindustry/ui/dialogs/PausedDialog.java:100 `lambda` }).disabled(b -> !((steam && net.server()) || !net.active())).colspan(state.isEditor() ? 1 : 2).width(state.isEditor() ? dw : dw * 2 + 10f)
+- mindustry/ui/dialogs/PausedDialog.java:101 `lambda` .update(e -> e.setText(net.server() && steam ? "@invitefriends" : state.isEditor() ? "@hostserver.mobile" : "@hostserver"));
+- mindustry/ui/dialogs/PausedDialog.java:104 `lambda` cont.button("@editor.worldprocessors", Icon.logic, () -> {
+- mindustry/ui/dialogs/PausedDialog.java:112 `lambda` cont.button("@quit", Icon.exit, this::showQuitConfirm).colspan(2).width(dw + 10f).update(s -> s.setText(control.saves.getCurrent() != null && control.saves.getCurrent().isAutosave() ? "@save.quit" : "@quit"));
+- mindustry/ui/dialogs/PausedDialog.java:124 `lambda` cont.buttonRow("@load", Icon.download, () -> {
+- mindustry/ui/dialogs/PausedDialog.java:130 `lambda` }).update(t -> {
+- mindustry/ui/dialogs/PausedDialog.java:140 `lambda` cont.buttonRow("@planetmap", Icon.map, () -> {
+- mindustry/ui/dialogs/PausedDialog.java:148 `lambda` cont.buttonRow("@hostserver.mobile", Icon.host, ui.host::show).disabled(b -> net.active());
+- mindustry/ui/dialogs/PausedDialog.java:150 `lambda` cont.buttonRow("@quit", Icon.exit, this::showQuitConfirm).update(s -> {
+- mindustry/ui/dialogs/PausedDialog.java:158 `lambda` Runnable quit = () -> {
+- mindustry/ui/dialogs/PausedDialog.java:202 `lambda` ui.loadAnd("@saving", () -> {
+- mindustry/ui/dialogs/PlanetDialog.java:63 `lambda` public Cons<Sector> listener = s -> {};
+- mindustry/ui/dialogs/PlanetDialog.java:99 `lambda` Core.app.post(() -> hide());
+- mindustry/ui/dialogs/PlanetDialog.java:114 `lambda` dragged((cx, cy) -> {
+- mindustry/ui/dialogs/PlanetDialog.java:182 `lambda` shown(() -> {
+- mindustry/ui/dialogs/PlanetDialog.java:183 `lambda` if(!settings.getBool("campaignselect") && !content.planets().contains(p -> p.sectors.contains(Sector::hasBase))){
+- mindustry/ui/dialogs/PlanetDialog.java:195 `lambda` diag.cont.button(b -> {
+- mindustry/ui/dialogs/PlanetDialog.java:200 `lambda` }, Styles.togglet, () -> selected[0] = planet).size(mobile ? 220f : 320f).group(group);
+- mindustry/ui/dialogs/PlanetDialog.java:205 `lambda` diag.cont.label(() -> selected[0] == null ? "@campaign.none" : "@campaign." + selected[0].name).labelAlign(Align.center).style(Styles.outlineLabel).width(440f).wrap().colspan(2);
+- mindustry/ui/dialogs/PlanetDialog.java:207 `lambda` diag.buttons.button("@ok", Icon.ok, () -> {
+- mindustry/ui/dialogs/PlanetDialog.java:213 `lambda` }).size(300f, 64f).disabled(b -> selected[0] == null);
+- mindustry/ui/dialogs/PlanetDialog.java:229 `anonymous_double_brace_initializer` assets.load(names[i], Texture.class, new TextureParameter(){{
+- mindustry/ui/dialogs/PlanetDialog.java:231 `lambda` }}).loaded = t -> planetTextures[fi] = t;
+- mindustry/ui/dialogs/PlanetDialog.java:266 `lambda` listener = s -> {};
+- mindustry/ui/dialogs/PlanetDialog.java:316 `lambda` buttons.button("@techtree", Icon.tree, () -> ui.research.show()).size(200f, 54f).visible(() -> mode == look).pad(2).bottom();
+- mindustry/ui/dialogs/PlanetDialog.java:564 `lambda` planets.drawPlane(sec, () -> {
+- mindustry/ui/dialogs/PlanetDialog.java:573 `lambda` planets.drawPlane(sec, () -> {
+- mindustry/ui/dialogs/PlanetDialog.java:587 `lambda` planets.drawPlane(hovered, () -> {
+- mindustry/ui/dialogs/PlanetDialog.java:657 `lambda` selectDialog.show(state.planet, result -> {
+- mindustry/ui/dialogs/PlanetDialog.java:674 `lambda` if(scene.getDialog() == PlanetDialog.this && (scene.getHoverElement() == null || !scene.getHoverElement().isDescendantOf(e -> e instanceof ScrollPane))){
+- mindustry/ui/dialogs/PlanetDialog.java:721 `lambda` new Table(t -> {
+- mindustry/ui/dialogs/PlanetDialog.java:724 `lambda` t.label(() ->
+- mindustry/ui/dialogs/PlanetDialog.java:733 `lambda` new Table(t -> {
+- mindustry/ui/dialogs/PlanetDialog.java:737 `lambda` t.button("@campaign.difficulty", Icon.bookSmall, () -> {
+- mindustry/ui/dialogs/PlanetDialog.java:739 `lambda` }).margin(12f).size(208f, 40f).padTop(12f).visible(() -> state.planet.allowCampaignRules && mode != planetLaunch).row();
+- mindustry/ui/dialogs/PlanetDialog.java:747 `lambda` if(star.solarSystem != star || !content.planets().contains(p -> p.solarSystem == star && selectable(p))) continue;
+- mindustry/ui/dialogs/PlanetDialog.java:756 `lambda` Button planetButton = planetTable.button(planet.localizedName, Icon.icons.get(planet.icon + "Small", Icon.icons.get(planet.icon, Icon.commandRallySmall)), Styles.flatTogglet, () -> {
+- mindustry/ui/dialogs/PlanetDialog.java:758 `lambda` }).width(200).height(40).update(bb -> bb.setChecked(state.planet == planet)).with(w -> w.marginLeft(10f)).get();
+- mindustry/ui/dialogs/PlanetDialog.java:765 `lambda` }).visible(() -> mode != select),
+- mindustry/ui/dialogs/PlanetDialog.java:767 `lambda` new Table(c -> expandTable = c)).grow();
+- mindustry/ui/dialogs/PlanetDialog.java:774 `lambda` c.visible(() -> !(graphics.isPortrait() && mobile) && mode != planetLaunch);
+- mindustry/ui/dialogs/PlanetDialog.java:784 `lambda` Icon.downOpen, Styles.squareTogglet, () -> sectorsShown = !sectorsShown)
+- mindustry/ui/dialogs/PlanetDialog.java:785 `lambda` .height(60f).checked(b -> {
+- mindustry/ui/dialogs/PlanetDialog.java:789 `lambda` }).with(t -> t.left().margin(7f)).with(t -> t.getLabelCell().grow().left()).row();
+- mindustry/ui/dialogs/PlanetDialog.java:791 `lambda` c.collapser(t -> {
+- mindustry/ui/dialogs/PlanetDialog.java:796 `lambda` }, false, () -> sectorsShown).padBottom(64f).row();
+- mindustry/ui/dialogs/PlanetDialog.java:806 `lambda` all.sort(Structs.comps(Structs.comparingBool(s -> !s.isAttacked()), Structs.comparingInt(s -> s.save == null ? 0 : -(int)s.save.meta.timePlayed)));
+- mindustry/ui/dialogs/PlanetDialog.java:808 `lambda` notifs.pane(p -> {
+- mindustry/ui/dialogs/PlanetDialog.java:811 `lambda` p.table(s -> {
+- mindustry/ui/dialogs/PlanetDialog.java:813 `lambda` s.field(searchText, t -> {
+- mindustry/ui/dialogs/PlanetDialog.java:822 `lambda` readd[0] = () -> {
+- mindustry/ui/dialogs/PlanetDialog.java:826 `lambda` con.button(t -> {
+- mindustry/ui/dialogs/PlanetDialog.java:831 `lambda` t.table(head -> {
+- mindustry/ui/dialogs/PlanetDialog.java:835 `lambda` head.image(Icon.warningSmall).update(i -> {
+- mindustry/ui/dialogs/PlanetDialog.java:850 `lambda` }, Styles.underlineb, () -> {
+- mindustry/ui/dialogs/PlanetDialog.java:854 `lambda` }).margin(8f).marginLeft(13f).marginBottom(6f).marginTop(6f).padBottom(3f).padTop(3f).growX().checked(b -> selected == sec).row();
+- mindustry/ui/dialogs/PlanetDialog.java:855 `lambda` //for resources: .tooltip(sec.info.resources.toString("", u -> u.emoji()))
+- mindustry/ui/dialogs/PlanetDialog.java:1027 `lambda` displayItems(c, stats, name, t -> {});
+- mindustry/ui/dialogs/PlanetDialog.java:1058 `lambda` dialog.cont.pane(c -> {
+- mindustry/ui/dialogs/PlanetDialog.java:1081 `lambda` c.table(t -> {
+- mindustry/ui/dialogs/PlanetDialog.java:1099 `lambda` displayItems(c, sector.info.export, "@sectors.export", t -> {
+- mindustry/ui/dialogs/PlanetDialog.java:1108 `lambda` displayItems(c, sector.info.imports, "@sectors.import", t -> {
+- mindustry/ui/dialogs/PlanetDialog.java:1109 `lambda` sector.info.eachImport(sector.planet, other -> {
+- mindustry/ui/dialogs/PlanetDialog.java:1122 `lambda` c.table(t -> {
+- mindustry/ui/dialogs/PlanetDialog.java:1125 `lambda` t.table(res -> {
+- mindustry/ui/dialogs/PlanetDialog.java:1143 `lambda` dialog.buttons.button("@sector.abandon", Icon.cancel, () -> abandonSectorConfirm(sector, dialog::hide));
+- mindustry/ui/dialogs/PlanetDialog.java:1150 `lambda` ui.showConfirm("@sector.abandon.confirm", () -> {
+- mindustry/ui/dialogs/PlanetDialog.java:1156 `lambda` Time.runTask(7f, () -> {
+- mindustry/ui/dialogs/PlanetDialog.java:1199 `lambda` stable.table(title -> {
+- mindustry/ui/dialogs/PlanetDialog.java:1204 `lambda` title.button(Icon.pencilSmall, Styles.clearNonei, () -> {
+- mindustry/ui/dialogs/PlanetDialog.java:1205 `lambda` ui.showTextInput("@sectors.rename", "@name", 32, sector.name(), v -> {
+- mindustry/ui/dialogs/PlanetDialog.java:1217 `lambda` title.button(icon == null ? Icon.noneSmall : icon, Styles.clearNonei, iconSmall, () -> {
+- mindustry/ui/dialogs/PlanetDialog.java:1219 `anonymous_double_brace_initializer` new Dialog(""){{
+- mindustry/ui/dialogs/PlanetDialog.java:1223 `lambda` Runnable refresh = () -> {
+- mindustry/ui/dialogs/PlanetDialog.java:1230 `lambda` cont.pane(t -> {
+- mindustry/ui/dialogs/PlanetDialog.java:1231 `lambda` resized(true, () -> {
+- mindustry/ui/dialogs/PlanetDialog.java:1236 `lambda` t.button(Icon.none, Styles.squareTogglei, () -> {
+- mindustry/ui/dialogs/PlanetDialog.java:1248 `lambda` t.button(value, Styles.squareTogglei, () -> {
+- mindustry/ui/dialogs/PlanetDialog.java:1265 `lambda` t.button(new TextureRegionDrawable(u.uiIcon), Styles.squareTogglei, iconMed, () -> {
+- mindustry/ui/dialogs/PlanetDialog.java:1287 `lambda` stable.table(r -> {
+- mindustry/ui/dialogs/PlanetDialog.java:1304 `lambda` }else if(sector.hasBase() && sector.planet.campaignRules.sectorInvasion && sector.near().contains(s -> s.hasEnemyBase() && (s.preset == null || !s.preset.requireUnlock))){
+- mindustry/ui/dialogs/PlanetDialog.java:1313 `lambda` stable.table(t -> {
+- mindustry/ui/dialogs/PlanetDialog.java:1325 `lambda` stable.button("@stats", Icon.info, Styles.cleart, () -> showStats(sector)).height(40f).fillX().row();
+- mindustry/ui/dialogs/PlanetDialog.java:1332 `lambda` stable.button("@sectors.viewsubmission", Icon.link, () -> {
+- mindustry/ui/dialogs/PlanetDialog.java:1407 `lambda` loadouts.show(block, from, sector, () -> {
+- mindustry/ui/dialogs/PlanetDialog.java:1426 `lambda` Time.runTask(5f, () -> {
+- mindustry/ui/dialogs/PlanetDialog.java:1427 `lambda` Runnable doLaunch = () -> {
+- mindustry/ui/dialogs/PlanetDialog.java:1430 `lambda` Time.runTask(core.launchDuration() - 8f, () -> control.playSector(from, sector));
+- mindustry/ui/dialogs/ResearchDialog.java:56 `lambda` Events.on(ResetEvent.class, e -> {
+- mindustry/ui/dialogs/ResearchDialog.java:60 `lambda` Events.on(UnlockEvent.class, e -> {
+- mindustry/ui/dialogs/ResearchDialog.java:63 `lambda` Core.app.post(() -> {
+- mindustry/ui/dialogs/ResearchDialog.java:78 `lambda` titleTable.button(b -> {
+- mindustry/ui/dialogs/ResearchDialog.java:80 `lambda` b.imageDraw(() -> root.node.icon()).padRight(8).size(iconMed);
+- mindustry/ui/dialogs/ResearchDialog.java:82 `lambda` b.label(() -> root.node.localizedName()).color(Pal.accent);
+- mindustry/ui/dialogs/ResearchDialog.java:85 `lambda` }, () -> {
+- mindustry/ui/dialogs/ResearchDialog.java:86 `anonymous_double_brace_initializer` new BaseDialog("@techtree.select"){{
+- mindustry/ui/dialogs/ResearchDialog.java:87 `lambda` cont.pane(t -> {
+- mindustry/ui/dialogs/ResearchDialog.java:88 `lambda` t.table(Tex.button, in -> {
+- mindustry/ui/dialogs/ResearchDialog.java:94 `lambda` in.button(node.localizedName(), node.icon(), Styles.flatTogglet, iconMed, () -> {
+- mindustry/ui/dialogs/ResearchDialog.java:108 `lambda` }).visible(() -> showTechSelect = TechTree.roots.count(node -> !(node.requiresUnlock && !node.content.unlockedHost())) > 1).minWidth(300f);
+- mindustry/ui/dialogs/ResearchDialog.java:112 `lambda` itemDisplay.visible(() -> !net.client());
+- mindustry/ui/dialogs/ResearchDialog.java:120 `lambda` shown(() -> {
+- mindustry/ui/dialogs/ResearchDialog.java:145 `lambda` keyDown(key -> {
+- mindustry/ui/dialogs/ResearchDialog.java:151 `lambda` buttons.button("@database", Icon.book, () -> {
+- mindustry/ui/dialogs/ResearchDialog.java:237 `lambda` cached.each((item, amount) -> {
+- mindustry/ui/dialogs/ResearchDialog.java:259 `lambda` cache.each((sector, seq) -> {
+- mindustry/ui/dialogs/ResearchDialog.java:322 `anonymous_double_brace_initializer` new BranchTreeLayout(){{
+- mindustry/ui/dialogs/ResearchDialog.java:332 `anonymous_double_brace_initializer` new BranchTreeLayout(){{
+- mindustry/ui/dialogs/ResearchDialog.java:387 `lambda` return node.content.unlockedHost() || !node.objectives.contains(i -> !i.complete());
+- mindustry/ui/dialogs/ResearchDialog.java:402 `lambda` children = Seq.with(node.children).map(t -> new LayoutNode(t, this)).toArray(LayoutNode.class);
+- mindustry/ui/dialogs/ResearchDialog.java:443 `lambda` button.visible(() -> node.visible);
+- mindustry/ui/dialogs/ResearchDialog.java:445 `lambda` button.clicked(() -> {
+- mindustry/ui/dialogs/ResearchDialog.java:472 `lambda` button.hovered(() -> {
+- mindustry/ui/dialogs/ResearchDialog.java:478 `lambda` button.exited(() -> {
+- mindustry/ui/dialogs/ResearchDialog.java:484 `lambda` button.touchable(() -> !node.visible ? Touchable.disabled : Touchable.enabled);
+- mindustry/ui/dialogs/ResearchDialog.java:487 `lambda` button.update(() -> {
+- mindustry/ui/dialogs/ResearchDialog.java:518 `lambda` released(() -> moved = false);
+- mindustry/ui/dialogs/ResearchDialog.java:638 `lambda` infoTable.update(() -> infoTable.setPosition(button.x + button.getWidth(), button.y + button.getHeight(), Align.topLeft));
+- mindustry/ui/dialogs/ResearchDialog.java:645 `lambda` infoTable.table(b -> {
+- mindustry/ui/dialogs/ResearchDialog.java:650 `lambda` b.button(Icon.info, Styles.flati, () -> ui.content.show(node.content)).growY().width(50f);
+- mindustry/ui/dialogs/ResearchDialog.java:653 `lambda` b.table(desc -> {
+- mindustry/ui/dialogs/ResearchDialog.java:662 `lambda` desc.table(t -> {
+- mindustry/ui/dialogs/ResearchDialog.java:667 `lambda` if(Structs.contains(node.finishedRequirements, s -> s.amount > 0)){
+- mindustry/ui/dialogs/ResearchDialog.java:697 `lambda` t.table(list -> {
+- mindustry/ui/dialogs/ResearchDialog.java:703 `lambda` Label label = list.label(() -> " " +
+- mindustry/ui/dialogs/ResearchDialog.java:720 `lambda` t.table(r -> {
+- mindustry/ui/dialogs/ResearchDialog.java:742 `anonymous_double_brace_initializer` b.button("@research", Icon.ok, new TextButtonStyle(){{
+- mindustry/ui/dialogs/ResearchDialog.java:749 `lambda` }}, () -> spend(node)).disabled(i -> !canSpend(node)).growX().height(44f).colspan(3);
+- mindustry/ui/dialogs/ResearchDialog.java:755 `lambda` infoTable.table(t -> t.margin(3f).left().labelWrap(node.content.displayDescription()).color(Color.lightGray)
+- mindustry/ui/dialogs/ResearchDialog.java:762 `lambda` Core.app.post(() -> checkMargin());
+- mindustry/ui/dialogs/SaveDialog.java:16 `lambda` update(() -> {
+- mindustry/ui/dialogs/SaveDialog.java:26 `lambda` buttons.button("@save.new", Icon.add, () ->
+- mindustry/ui/dialogs/SaveDialog.java:28 `lambda` text -> ui.loadAnd("@saving", () -> {
+- mindustry/ui/dialogs/SaveDialog.java:30 `lambda` Core.app.post(() -> Core.app.post(this::setup));
+- mindustry/ui/dialogs/SaveDialog.java:36 `lambda` button.clicked(() -> {
+- mindustry/ui/dialogs/SaveDialog.java:39 `lambda` ui.showConfirm("@overwrite", "@save.overwrite", () -> save(slot));
+- mindustry/ui/dialogs/SaveDialog.java:47 `lambda` Time.runTask(5f, () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:37 `lambda` private Runnable rebuildPane = () -> {}, rebuildTags = () -> {};
+- mindustry/ui/dialogs/SchematicsDialog.java:44 `lambda` Core.assets.load("sprites/schematic-background.png", Texture.class).loaded = t -> t.setWrap(TextureWrap.repeat);
+- mindustry/ui/dialogs/SchematicsDialog.java:67 `lambda` cont.table(s -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:70 `lambda` searchField = s.field(search, res -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:75 `lambda` searchField.clicked(KeyCode.mouseRight, () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:86 `lambda` cont.table(in -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:91 `lambda` in.pane(Styles.noBarPane, t -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:92 `lambda` rebuildTags = () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:98 `lambda` t.button(tag, Styles.togglet, () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:105 `lambda` }).checked(selectedTags.contains(tag)).with(c -> c.getLabel().setWrap(false));
+- mindustry/ui/dialogs/SchematicsDialog.java:116 `lambda` cont.pane(t -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:119 `lambda` t.update(() -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:130 `lambda` rebuildPane = () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:147 `lambda` sel[0] = t.button(b -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:150 `lambda` b.table(buttons -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:156 `lambda` buttons.button(Icon.info, style, () -> showInfo(s)).tooltip("@info.title");
+- mindustry/ui/dialogs/SchematicsDialog.java:157 `lambda` buttons.button(Icon.upload, style, () -> showExport(s)).tooltip("@editor.export");
+- mindustry/ui/dialogs/SchematicsDialog.java:158 `lambda` buttons.button(Icon.pencil, style, () -> showEdit(s)).tooltip("@schematic.edit");
+- mindustry/ui/dialogs/SchematicsDialog.java:161 `lambda` buttons.button(Icon.link, style, () -> platform.viewListing(s)).tooltip("@view.workshop");
+- mindustry/ui/dialogs/SchematicsDialog.java:163 `lambda` buttons.button(Icon.trash, style, () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:167 `lambda` ui.showConfirm("@confirm", "@schematic.delete.confirm", () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:176 `lambda` b.stack(new SchematicImage(s).setScaling(Scaling.fit), new Table(n -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:178 `lambda` n.table(Styles.black3, c -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:184 `lambda` }, () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:224 `lambda` dialog.cont.pane(p -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:226 `lambda` p.table(Tex.button, t -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:230 `lambda` t.button("@import.clipboard", Icon.copy, style, () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:243 `lambda` }).marginLeft(12f).disabled(b -> Core.app.getClipboardText() == null || !Core.app.getClipboardText().startsWith(schematicBaseStart));
+- mindustry/ui/dialogs/SchematicsDialog.java:245 `lambda` t.button("@import.file", Icon.download, style, () -> FileChooser.open(schematicExtension).submitMulti(files -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:270 `lambda` t.button("@workshop.browse", Icon.book, style, () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:284 `lambda` dialog.cont.pane(p -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:286 `lambda` p.table(Tex.button, t -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:291 `lambda` () -> platform.publish(s)).marginLeft(12f);
+- mindustry/ui/dialogs/SchematicsDialog.java:295 `lambda` t.button("@copy.clipboard", Icon.copy, style, () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:301 `lambda` t.button("@export.file", Icon.export, style, () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:303 `lambda` FileChooser.export(s.name(), schematicExtension, file -> Schematics.write(s, file));
+- mindustry/ui/dialogs/SchematicsDialog.java:313 `anonymous_double_brace_initializer` new BaseDialog("@schematic.edit"){{
+- mindustry/ui/dialogs/SchematicsDialog.java:320 `lambda` cont.table(tags -> buildTags(s, tags, false)).maxWidth(400f).fillX().left().row();
+- mindustry/ui/dialogs/SchematicsDialog.java:328 `lambda` TextField descField = cont.area(s.description(), Styles.areaField, t -> {}).size(400f, 140f).left().get();
+- mindustry/ui/dialogs/SchematicsDialog.java:330 `lambda` Runnable accept = () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:339 `lambda` buttons.button("@ok", Icon.ok, accept).disabled(b -> nameField.getText().isEmpty());
+- mindustry/ui/dialogs/SchematicsDialog.java:342 `lambda` keyDown(KeyCode.enter, () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:402 `lambda` ui.showTextInput("@schematic.addtag", "", "", out -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:414 `anonymous_double_brace_initializer` new Dialog(){{
+- mindustry/ui/dialogs/SchematicsDialog.java:419 `lambda` cont.pane(t -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:420 `lambda` resized(true, () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:432 `lambda` t.button(Icon.icons.get(icon), Styles.flati, iconMed, () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:443 `lambda` var all = content.getBy(ctype).<UnlockableContent>as().select(u -> !u.isHidden() && u.unlockedNow() && u.hasEmoji());
+- mindustry/ui/dialogs/SchematicsDialog.java:446 `lambda` if(all.count(u -> !tags.contains(u.emoji())) > 0) t.image().colspan(cols).growX().width(Float.NEGATIVE_INFINITY).height(3f).color(Pal.accent);
+- mindustry/ui/dialogs/SchematicsDialog.java:452 `lambda` t.button(new TextureRegionDrawable(u.uiIcon), Styles.flati, iconMed, () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:475 `lambda` dialog.cont.pane(p -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:476 `lambda` rebuild[0] = () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:486 `lambda` var next = new Table(Tex.whiteui, n -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:490 `lambda` n.table(move -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:493 `lambda` move.button(Icon.upOpen, Styles.emptyi, () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:502 `lambda` move.button(Icon.downOpen, Styles.emptyi, () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:512 `lambda` n.table(t -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:514 `lambda` t.add(Core.bundle.format("schematic.tagged", schematics.all().count(s -> s.labels.contains(tag)))).left()
+- mindustry/ui/dialogs/SchematicsDialog.java:515 `lambda` .update(b -> b.setColor(b.hasMouse() ? Pal.accent : Color.lightGray)).get().clicked(() -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:523 `lambda` n.table(b -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:527 `lambda` b.button(Icon.pencil, Styles.emptyi, () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:528 `lambda` ui.showTextInput("@schematic.renametag", "@name", tag, result -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:549 `lambda` b.button(Icon.trash, Styles.emptyi, () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:550 `lambda` ui.showConfirm("@schematic.tagdelconfirm", () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:586 `lambda` p.table(t -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:589 `lambda` t.button("@schematic.texttag", Icon.add, () -> showNewTag(res -> rebuild[0].run())).wrapLabel(false).get().getLabelCell().padLeft(5);
+- mindustry/ui/dialogs/SchematicsDialog.java:590 `lambda` t.button("@schematic.icontag", Icon.add, () -> showNewIconTag(res -> rebuild[0].run())).wrapLabel(false).get().getLabelCell().padLeft(5);
+- mindustry/ui/dialogs/SchematicsDialog.java:608 `lambda` schem.labels.sort(s -> tags.indexOf(s));
+- mindustry/ui/dialogs/SchematicsDialog.java:611 `lambda` t.pane(s -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:615 `lambda` s.table(Tex.button, i -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:617 `lambda` i.button(Icon.cancelSmall, Styles.emptyi, () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:626 `lambda` t.button(Icon.addSmall, () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:629 `lambda` dialog.cont.pane(p -> resized(true, () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:638 `lambda` var next = Elem.newButton(tag, () -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:665 `lambda` Cons<String> handleTag = res -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:673 `lambda` p.table(v -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:675 `lambda` v.button("@schematic.texttag", Icon.add, () -> showNewTag(handleTag)).wrapLabel(false).get().getLabelCell().padLeft(4);
+- mindustry/ui/dialogs/SchematicsDialog.java:676 `lambda` v.button("@schematic.icontag", Icon.add, () -> showNewIconTag(handleTag)).wrapLabel(false).get().getLabelCell().padLeft(4);
+- mindustry/ui/dialogs/SchematicsDialog.java:772 `lambda` inner.table(tags -> buildTags(schem, tags)).fillX().pad(6).row();
+- mindustry/ui/dialogs/SchematicsDialog.java:776 `lambda` inner.table(r -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:780 `lambda` r.label(() -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:793 `lambda` inner.table(t -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:814 `lambda` cont.pane(p -> {
+- mindustry/ui/dialogs/SchematicsDialog.java:821 `lambda` buttons.button("@editor.export", Icon.upload, () -> showExport(schem));
+- mindustry/ui/dialogs/SchematicsDialog.java:822 `lambda` buttons.button("@edit", Icon.edit, () -> showEdit(schem));
+- mindustry/ui/dialogs/SectorSelectDialog.java:21 `lambda` Cons<SectorPreset> cons = s -> {};
+- mindustry/ui/dialogs/SectorSelectDialog.java:28 `lambda` cont.table(s -> {
+- mindustry/ui/dialogs/SectorSelectDialog.java:30 `lambda` search = s.field("", ignored -> {
+- mindustry/ui/dialogs/SectorSelectDialog.java:33 `lambda` search.keyDown(KeyCode.enter, () -> {
+- mindustry/ui/dialogs/SectorSelectDialog.java:35 `lambda` var found = Vars.content.sectors().find(sec -> matches(sec, text));
+- mindustry/ui/dialogs/SectorSelectDialog.java:49 `lambda` shown(() -> {
+- mindustry/ui/dialogs/SectorSelectDialog.java:52 `lambda` Core.app.post(() -> search.requestKeyboard());
+- mindustry/ui/dialogs/SectorSelectDialog.java:71 `lambda` sectors.button(sector.localizedName, new TextureRegionDrawable(sector.uiIcon), Styles.grayt, 32f, () -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:56 `lambda` shown(() -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:62 `lambda` onResize(() -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:97 `lambda` planetDataDialog.cont.table(Tex.button, t -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:101 `lambda` t.button(bundle.format("settings.planetselect", "[#" + planet.iconColor + "]" + planet.localizedName), Icon.planet, style, () -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:103 `lambda` dialog.cont.pane(p -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:110 `lambda` p.button(plan.localizedName, Styles.flatTogglet, () -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:123 `lambda` }).marginLeft(4).get().getLabel().setText(() -> bundle.format("settings.planetselect", "[#" + planet.iconColor + "]" + planet.localizedName));
+- mindustry/ui/dialogs/SettingsMenuDialog.java:127 `lambda` t.button("@settings.clearplanetresearch", Icon.trash, style, () -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:128 `lambda` ui.showConfirm("@confirm", bundle.format("settings.clearplanetresearch.confirm", planet.localizedName), () -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:135 `lambda` content.each(c -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:146 `lambda` t.button("@settings.clearplanetcampaignsaves", Icon.trash, style, () -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:147 `lambda` ui.showConfirm("@confirm", bundle.format("settings.clearplanetcampaignsaves.confirm", planet.localizedName), () -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:176 `lambda` dataDialog.cont.table(Tex.button, t -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:180 `lambda` t.button("@settings.cleardata", Icon.trash, style, () -> ui.showConfirm("@confirm", "@settings.clearall.confirm", () -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:199 `lambda` t.button("@settings.clearplanetdata", Icon.trash, style, () -> planetDataDialog.show()).marginLeft(4).row();
+- mindustry/ui/dialogs/SettingsMenuDialog.java:201 `lambda` t.button("@settings.clearsaves", Icon.trash, style, () -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:202 `lambda` ui.showConfirm("@confirm", "@settings.clearsaves.confirm", () -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:209 `lambda` t.button("@settings.clearresearch", Icon.trash, style, () -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:210 `lambda` ui.showConfirm("@confirm", "@settings.clearresearch.confirm", () -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:215 `lambda` content.each(c -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:226 `lambda` t.button("@settings.clearcampaignsaves", Icon.trash, style, () -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:227 `lambda` ui.showConfirm("@confirm", "@settings.clearcampaignsaves.confirm", () -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:254 `lambda` t.button("@data.export", Icon.upload, style, () -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:260 `lambda` t.button("@data.import", Icon.download, style, () -> ui.showConfirm("@confirm", "@data.import.confirm", () -> FileChooser.open("zip").submit(file -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:280 `lambda` t.button("@data.openfolder", Icon.folder, style, () -> Core.app.openFolder(Core.settings.getDataDirectory().absolutePath())).marginLeft(4);
+- mindustry/ui/dialogs/SettingsMenuDialog.java:285 `lambda` t.button("@crash.export", Icon.upload, style, () -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:289 `lambda` FileChooser.export("logs", "txt", file -> file.writeString(getLogs()));
+- mindustry/ui/dialogs/SettingsMenuDialog.java:344 `lambda` menu.button("@settings.game", Icon.settings, style, isize, () -> visible(0)).marginLeft(marg).row();
+- mindustry/ui/dialogs/SettingsMenuDialog.java:345 `lambda` menu.button("@settings.graphics", Icon.image, style, isize, () -> visible(1)).marginLeft(marg).row();
+- mindustry/ui/dialogs/SettingsMenuDialog.java:346 `lambda` menu.button("@settings.sound", Icon.volumeUp, style, isize, () -> visible(2)).marginLeft(marg).row();
+- mindustry/ui/dialogs/SettingsMenuDialog.java:352 `lambda` menu.button("@settings.data", Icon.save, style, isize, () -> dataDialog.show()).marginLeft(marg).row();
+- mindustry/ui/dialogs/SettingsMenuDialog.java:353 `lambda` menu.button("@settings.dev", Icon.fileCode, style, isize, () -> visible(3)).marginLeft(marg).row();
+- mindustry/ui/dialogs/SettingsMenuDialog.java:359 `lambda` menu.button(cat.name, style, () -> visible(index)).marginLeft(marg).row();
+- mindustry/ui/dialogs/SettingsMenuDialog.java:361 `lambda` menu.button(cat.name, cat.icon, style, isize, () -> visible(index)).with(b -> ((Image)b.getChildren().get(1)).setScaling(Scaling.fit)).marginLeft(marg).row();
+- mindustry/ui/dialogs/SettingsMenuDialog.java:369 `lambda` sound.sliderPref("musicvol", 100, 0, 100, 1, i -> i + "%");
+- mindustry/ui/dialogs/SettingsMenuDialog.java:370 `lambda` sound.sliderPref("sfxvol", 100, 0, 100, 1, i -> i + "%");
+- mindustry/ui/dialogs/SettingsMenuDialog.java:371 `lambda` sound.sliderPref("ambientvol", 100, 0, 100, 1, i -> i + "%");
+- mindustry/ui/dialogs/SettingsMenuDialog.java:373 `lambda` game.sliderPref("saveinterval", 60, 10, 5 * 120, 10, i -> Core.bundle.format("setting.seconds", i));
+- mindustry/ui/dialogs/SettingsMenuDialog.java:377 `lambda` game.checkPref("keyboard", false, val -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:391 `lambda` game.checkPref("touchscreen", false, val -> control.setInput(!val ? new DesktopInput() : new MobileInput()));
+- mindustry/ui/dialogs/SettingsMenuDialog.java:397 `lambda` game.checkPref("communityservers", true, val -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:419 `lambda` game.sliderPref("playerlimit", 16, 2, 32, i -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:425 `lambda` graphics.sliderPref("uiEdgePadding", 0, 0, 100, s -> s + "px", s -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:434 `lambda` graphics.sliderPref("uiscale", 100, 25, 300, 5, s -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:440 `lambda` graphics.sliderPref("screenshake", 4, 0, 8, i -> (i / 4f) + "x");
+- mindustry/ui/dialogs/SettingsMenuDialog.java:442 `lambda` graphics.sliderPref("bloomintensity", 6, 0, 16, i -> (int)(i/4f * 100f) + "%");
+- mindustry/ui/dialogs/SettingsMenuDialog.java:443 `lambda` graphics.sliderPref("bloomblur", 2, 1, 16, i -> i + "x");
+- mindustry/ui/dialogs/SettingsMenuDialog.java:445 `lambda` graphics.sliderPref("fpscap", 240, 10, 245, 5, s -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:457 `lambda` graphics.sliderPref("chatopacity", 100, 0, 100, 5, s -> s + "%");
+- mindustry/ui/dialogs/SettingsMenuDialog.java:458 `lambda` graphics.sliderPref("lasersopacity", 100, 0, 100, 5, s -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:465 `lambda` graphics.sliderPref("unitlaseropacity", 100, 0, 100, 5, s -> s + "%");
+- mindustry/ui/dialogs/SettingsMenuDialog.java:466 `lambda` graphics.sliderPref("bridgeopacity", 100, 0, 100, 5, s -> s + "%");
+- mindustry/ui/dialogs/SettingsMenuDialog.java:468 `lambda` graphics.sliderPref("maxmagnificationmultiplierpercent", 100, 100, 200, 25, s -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:475 `lambda` graphics.sliderPref("minmagnificationmultiplierpercent", 100, 100, 300, 25, s -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:483 `lambda` graphics.checkPref("vsync", true, b -> Core.graphics.setVSync(b));
+- mindustry/ui/dialogs/SettingsMenuDialog.java:484 `lambda` graphics.checkPref("fullscreen", false, b -> Core.graphics.setFullscreen(b));
+- mindustry/ui/dialogs/SettingsMenuDialog.java:489 `lambda` Core.app.post(() -> Core.graphics.setFullscreen(true));
+- mindustry/ui/dialogs/SettingsMenuDialog.java:492 `lambda` graphics.checkPref("landscape", false, b -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:535 `lambda` graphics.checkPref("bloom", true, val -> renderer.toggleBloom(val));
+- mindustry/ui/dialogs/SettingsMenuDialog.java:537 `lambda` graphics.checkPref("pixelate", false, val -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:544 `lambda` graphics.checkPref("linear", !mobile, b -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:569 `lambda` dev.sliderPref("buildingtimestep", 65, 10, 65, 5, s -> s > 60 ? bundle.get("off") : s + "");
+- mindustry/ui/dialogs/SettingsMenuDialog.java:632 `lambda` zipped.walk(f -> f.copyTo(base.child(f.path())));
+- mindustry/ui/dialogs/SettingsMenuDialog.java:661 `lambda` buttons.button("@back", Icon.left, () -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:669 `lambda` keyDown(key -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:779 `lambda` button(bundle.get("settings.reset", "Reset to Defaults"), () -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:823 `lambda` box.add(new Image()).update(i -> i.setDrawable(box.isOver() ? (box.isChecked() ? Tex.checkOnOver : Tex.checkOver) : box.isChecked() ? Tex.checkOn : Tex.checkOff))
+- mindustry/ui/dialogs/SettingsMenuDialog.java:828 `lambda` box.update(() -> box.setChecked(settings.getBool(name)));
+- mindustry/ui/dialogs/SettingsMenuDialog.java:830 `lambda` box.clicked(() -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:871 `lambda` slider.changed(() -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:898 `lambda` field.update(() -> field.setText(settings.getString(name)));
+- mindustry/ui/dialogs/SettingsMenuDialog.java:900 `lambda` field.changed(() -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:909 `lambda` prefTable.label(() -> title);
+- mindustry/ui/dialogs/SettingsMenuDialog.java:925 `lambda` area.update(() -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:930 `lambda` area.changed(() -> {
+- mindustry/ui/dialogs/SettingsMenuDialog.java:937 `lambda` addDesc(table.label(() -> title).left().padTop(3f).get());
+- mindustry/ui/dialogs/TraceDialog.java:31 `lambda` table.table(c -> {
+- mindustry/ui/dialogs/TraceDialog.java:33 `lambda` c.button(Icon.copySmall, style, () -> copy(player.name)).size(s).padRight(4f);
+- mindustry/ui/dialogs/TraceDialog.java:35 `lambda` c.button(Icon.copySmall, style, () -> copy(info.ip)).size(s).padRight(4f);
+- mindustry/ui/dialogs/TraceDialog.java:37 `lambda` c.button(Icon.copySmall, style, () -> copy(info.locale)).size(s).padRight(4f);
+- mindustry/ui/dialogs/TraceDialog.java:39 `lambda` c.button(Icon.copySmall, style, () -> copy(info.uuid)).size(s).padRight(4f);
+- mindustry/ui/dialogs/TraceDialog.java:52 `lambda` table.pane(t -> {
+- mindustry/ui/FileChooser.java:17 `lambda` FileChooser.save(extension).name(name).submit(file -> {
+- mindustry/ui/FileChooser.java:18 `lambda` ui.loadAnd(() -> {
+- mindustry/ui/FileChooser.java:28 `lambda` ui.loadAnd(() -> {
+- mindustry/ui/FileChooser.java:50 `lambda` return new FileChooserDialog(params.title, file -> Structs.contains(params.extensions, file::extEquals), params.open, file -> {
+- mindustry/ui/Fonts.java:68 `lambda` Core.assets.load("default", Font.class, new FreeTypeFontLoaderParameter(mainFont, param)).loaded = f -> Fonts.def = f;
+- mindustry/ui/Fonts.java:70 `anonymous_double_brace_initializer` Core.assets.load("monospace", Font.class, new FreeTypeFontLoaderParameter("fonts/monospace.woff", new FreeTypeFontParameter(){{
+- mindustry/ui/Fonts.java:75 `lambda` fallback.add(() -> Fonts.def);
+- mindustry/ui/Fonts.java:76 `lambda` }})).loaded = f -> Fonts.monospace = f;
+- mindustry/ui/Fonts.java:78 `anonymous_double_brace_initializer` Core.assets.load("icon", Font.class, new FreeTypeFontLoaderParameter("fonts/icon.ttf", new FreeTypeFontParameter(){{
+- mindustry/ui/Fonts.java:82 `lambda` }})).loaded = f -> Fonts.icon = f;
+- mindustry/ui/Fonts.java:84 `anonymous_double_brace_initializer` Core.assets.load("iconLarge", Font.class, new FreeTypeFontLoaderParameter("fonts/icon.ttf", new FreeTypeFontParameter(){{
+- mindustry/ui/Fonts.java:90 `lambda` }})).loaded = f -> Fonts.iconLarge = f;
+- mindustry/ui/Fonts.java:92 `anonymous_double_brace_initializer` Core.assets.load("logic", Font.class, new FreeTypeFontLoaderParameter("fonts/logic.ttf", new FreeTypeFontParameter(){{
+- mindustry/ui/Fonts.java:98 `lambda` }})).loaded = f -> Fonts.logic = f;
+- mindustry/ui/Fonts.java:104 `anonymous_double_brace_initializer` Core.assets.load("font_jp", Font.class, new FreeTypeFontLoaderParameter("fonts/font_jp.woff", new FreeTypeFontParameter(){{
+- mindustry/ui/Fonts.java:110 `lambda` }})).loaded = f -> Fonts.def.data.setOverride(f.data);
+- mindustry/ui/Fonts.java:112 `anonymous_double_brace_initializer` Core.assets.load("font_jp_outline", Font.class, new FreeTypeFontLoaderParameter("fonts/font_jp.woff", new FreeTypeFontParameter(){{
+- mindustry/ui/Fonts.java:117 `lambda` }})).loaded = f -> Fonts.outline.data.setOverride(f.data);
+- mindustry/ui/Fonts.java:122 `lambda` return unicodeToName.get(unicode, () -> Iconc.codeToName.get(unicode));
+- mindustry/ui/Fonts.java:126 `lambda` return largeIcons.get(name, () -> {
+- mindustry/ui/Fonts.java:192 `lambda` if(Vars.mods.list().contains(m -> m.shouldBeEnabled())){
+- mindustry/ui/Fonts.java:265 `anonymous_double_brace_initializer` FreeTypeFontParameter param = new FreeTypeFontParameter(){{
+- mindustry/ui/Fonts.java:271 `lambda` Core.assets.load("outline", Font.class, new FreeTypeFontLoaderParameter(mainFont, param)).loaded = t -> Fonts.outline = t;
+- mindustry/ui/Fonts.java:273 `anonymous_double_brace_initializer` Core.assets.load("tech", Font.class, new FreeTypeFontLoaderParameter("fonts/tech.ttf", new FreeTypeFontParameter(){{
+- mindustry/ui/Fonts.java:275 `lambda` }})).loaded = f -> {
+- mindustry/ui/Fonts.java:290 `lambda` Seq<AtlasRegion> regions = atlas.getRegions().select(t -> t.texture == texture);
+- mindustry/ui/Fonts.java:359 `anonymous_double_brace_initializer` return new FreeTypeFontParameter(){{
+- mindustry/ui/fragments/BlockConfigFragment.java:23 `lambda` Events.on(ResetEvent.class, e -> forceHide());
+- mindustry/ui/fragments/BlockConfigFragment.java:53 `lambda` table.update(() -> {
+- mindustry/ui/fragments/BlockInventoryFragment.java:38 `lambda` Events.on(WorldLoadEvent.class, e -> hide());
+- mindustry/ui/fragments/BlockInventoryFragment.java:64 `lambda` table.actions(Actions.scaleTo(0f, 1f, 0.06f, Interp.pow3Out), Actions.run(() -> {
+- mindustry/ui/fragments/BlockInventoryFragment.java:99 `lambda` table.update(() -> {
+- mindustry/ui/fragments/BlockInventoryFragment.java:156 `lambda` Boolp canPick = () -> !player.dead() && player.unit().acceptsItem(item) && !state.isPaused() && player.within(build, itemTransferRange);
+- mindustry/ui/fragments/BlockInventoryFragment.java:161 `lambda` Element image = itemImage(item.uiIcon, () -> {
+- mindustry/ui/fragments/BlockInventoryFragment.java:169 `lambda` Boolp validClick = () -> !(!canPick.get() || build == null || !build.isValid() || build.items == null || !build.items.has(item));
+- mindustry/ui/fragments/ChatFragment.java:50 `lambda` visible(() -> {
+- mindustry/ui/fragments/ChatFragment.java:62 `lambda` update(() -> {
+- mindustry/ui/fragments/ChatFragment.java:247 `lambda` input.accepted = text -> {
+- mindustry/ui/fragments/ChatFragment.java:260 `lambda` Time.runTask(2f, () ->{
+- mindustry/ui/fragments/ChatFragment.java:333 `lambda` this.valid = () -> true;
+- mindustry/ui/fragments/ConsoleFragment.java:42 `lambda` visible(() -> {
+- mindustry/ui/fragments/ConsoleFragment.java:62 `lambda` update(() -> {
+- mindustry/ui/fragments/ConsoleFragment.java:110 `lambda` button(Icon.chat, Styles.cleari, () -> {
+- mindustry/ui/fragments/ConsoleFragment.java:112 `lambda` input.accepted = text -> {
+- mindustry/ui/fragments/ConsoleFragment.java:121 `lambda` button(Icon.upOpen, Styles.cleari, () -> scrollPos = Mathf.clamp(scrollPos + 1, 0, Math.max(0, messages.size))).disabled(b -> scrollPos >= messages.size).size(s).padLeft(4f);
+- mindustry/ui/fragments/ConsoleFragment.java:123 `lambda` button(Icon.downOpen, Styles.cleari, () -> scrollPos = Mathf.clamp(scrollPos - 1, 0, Math.max(0, messages.size))).disabled(b -> scrollPos <= 0).size(s).padLeft(4f);
+- mindustry/ui/fragments/ConsoleFragment.java:125 `lambda` button(Icon.fileText, Styles.cleari, () -> FileChooser.open("js").submit(file -> {
+- mindustry/ui/fragments/ConsoleFragment.java:133 `lambda` button(Icon.cancel, Styles.cleari, () -> shown = false).size(s).padLeft(4f);
+- mindustry/ui/fragments/HintsFragment.java:30 `lambda` private static final Boolp isTutorial = () -> Vars.state.rules.sector == SectorPresets.groundZero.sector;
+- mindustry/ui/fragments/HintsFragment.java:45 `lambda` group.visibility = () -> Core.settings.getBool("hints", true) && ui.hudfrag.shown;
+- mindustry/ui/fragments/HintsFragment.java:46 `lambda` group.update(() -> {
+- mindustry/ui/fragments/HintsFragment.java:74 `lambda` Events.on(BlockBuildEndEvent.class, event -> {
+- mindustry/ui/fragments/HintsFragment.java:84 `lambda` Events.run(Trigger.cannotUpgrade, () -> events.add("cannotupgrade"));
+- mindustry/ui/fragments/HintsFragment.java:86 `lambda` Events.on(ResetEvent.class, e -> {
+- mindustry/ui/fragments/HintsFragment.java:91 `lambda` Events.on(BuildingCommandEvent.class, e -> {
+- mindustry/ui/fragments/HintsFragment.java:97 `lambda` Events.on(BlockBuildBeginEvent.class, e -> {
+- mindustry/ui/fragments/HintsFragment.java:98 `lambda` if(e.unit == player.unit() && e.tile.build instanceof ConstructBuild c && c.prevBuild != null && c.prevBuild.contains(b -> b.team == Team.derelict)){
+- mindustry/ui/fragments/HintsFragment.java:107 `lambda` hints.removeAll(h -> !h.valid() || h.finished() || (h.show() && h.complete()));
+- mindustry/ui/fragments/HintsFragment.java:120 `lambda` group.fill(t -> {
+- mindustry/ui/fragments/HintsFragment.java:123 `lambda` t.table(Styles.black5, cont -> {
+- mindustry/ui/fragments/HintsFragment.java:128 `lambda` t.button("@hint.skip", Styles.nonet, () -> {
+- mindustry/ui/fragments/HintsFragment.java:169 `lambda` desktopMove(visibleDesktop, () -> Core.input.axis(Binding.moveX) != 0 || Core.input.axis(Binding.moveY) != 0),
+- mindustry/ui/fragments/HintsFragment.java:171 `lambda` zoom(visibleDesktop, () -> Core.input.axis(KeyCode.scroll) != 0),
+- mindustry/ui/fragments/HintsFragment.java:174 `lambda` () -> isTutorial.get() && state.rules.defaultTeam.data().getCount(Blocks.conveyor) > 5,
+- mindustry/ui/fragments/HintsFragment.java:175 `lambda` () -> ui.hints.events.contains("break")
+- mindustry/ui/fragments/HintsFragment.java:179 `lambda` () -> isSerpulo() && Vars.state.enemies > 0,
+- mindustry/ui/fragments/HintsFragment.java:180 `lambda` () -> player.shooting
+- mindustry/ui/fragments/HintsFragment.java:184 `lambda` () -> !player.dead() && player.unit().hasItem(),
+- mindustry/ui/fragments/HintsFragment.java:185 `lambda` () -> !player.dead() && !player.unit().hasItem()
+- mindustry/ui/fragments/HintsFragment.java:189 `lambda` () -> isTutorial.get() && !Vars.net.active() && state.wave >= 2,
+- mindustry/ui/fragments/HintsFragment.java:190 `lambda` () -> Core.input.keyTap(Binding.pause)
+- mindustry/ui/fragments/HintsFragment.java:194 `lambda` () -> isSerpulo() && state.rules.defaultTeam.data().units.size > 2 && !net.active() && !player.dead(),
+- mindustry/ui/fragments/HintsFragment.java:195 `lambda` () -> !player.dead() && !player.unit().spawnedByCore
+- mindustry/ui/fragments/HintsFragment.java:201 `lambda` () -> isSerpulo() && state.rules.defaultTeam.data().units.size > 3 && !net.active() && !player.dead() && state.getSector() != SectorPresets.fungalPass.sector && SectorPresets.fungalPass.sector.save == null,
+- mindustry/ui/fragments/HintsFragment.java:202 `lambda` () -> control.input.commandMode && control.input.selectedUnits.size > 0 && control.input.selectedUnits.first().controller() instanceof CommandAI ai && ai.targetPos != null
+- mindustry/ui/fragments/HintsFragment.java:206 `lambda` () -> !player.dead() && !player.unit().spawnedByCore,
+- mindustry/ui/fragments/HintsFragment.java:207 `lambda` () -> !player.dead() && player.unit().spawnedByCore
+- mindustry/ui/fragments/HintsFragment.java:211 `lambda` () -> (isTutorial.get() || Vars.state.rules.sector == SectorPresets.onset.sector) && state.rules.sector.isCaptured(),
+- mindustry/ui/fragments/HintsFragment.java:212 `lambda` () -> ui.planet.isShown()
+- mindustry/ui/fragments/HintsFragment.java:216 `lambda` () -> ui.hints.placedBlocks.contains(Blocks.router) || ui.hints.placedBlocks.contains(Blocks.ductRouter),
+- mindustry/ui/fragments/HintsFragment.java:217 `lambda` () -> Core.input.keyRelease(Binding.schematicSelect) || Core.input.keyTap(Binding.pick)
+- mindustry/ui/fragments/HintsFragment.java:221 `lambda` () -> control.input.block == Blocks.titaniumConveyor,
+- mindustry/ui/fragments/HintsFragment.java:222 `lambda` () -> Core.input.keyRelease(Binding.diagonalPlacement) || (mobile && Core.settings.getBool("swapdiagonal"))
+- mindustry/ui/fragments/HintsFragment.java:226 `lambda` () -> !player.dead() && player.unit().type.canBoost,
+- mindustry/ui/fragments/HintsFragment.java:227 `lambda` () -> Core.input.keyDown(Binding.boost)
+- mindustry/ui/fragments/HintsFragment.java:231 `lambda` () -> control.input.block == Blocks.graphitePress,
+- mindustry/ui/fragments/HintsFragment.java:232 `lambda` () -> ui.content.isShown()
+- mindustry/ui/fragments/HintsFragment.java:236 `lambda` () -> ui.hints.events.contains("derelictmouse") && !isTutorial.get(),
+- mindustry/ui/fragments/HintsFragment.java:237 `lambda` () -> ui.hints.events.contains("derelictbreak")
+- mindustry/ui/fragments/HintsFragment.java:241 `lambda` () -> isSerpulo() && !player.dead() && player.unit() instanceof Payloadc p && p.payloads().isEmpty(),
+- mindustry/ui/fragments/HintsFragment.java:242 `lambda` () -> player.unit() instanceof Payloadc p && p.payloads().any()
+- mindustry/ui/fragments/HintsFragment.java:246 `lambda` () -> !player.dead() && player.unit() instanceof Payloadc p && p.payloads().any(),
+- mindustry/ui/fragments/HintsFragment.java:247 `lambda` () -> player.unit() instanceof Payloadc p && p.payloads().isEmpty()
+- mindustry/ui/fragments/HintsFragment.java:251 `lambda` () -> Groups.fire.size() > 0 && Blocks.wave.unlockedNow(),
+- mindustry/ui/fragments/HintsFragment.java:252 `lambda` () -> indexer.getFlagged(state.rules.defaultTeam, BlockFlag.extinguisher).size > 0
+- mindustry/ui/fragments/HintsFragment.java:256 `lambda` () -> state.rules.defaultTeam.data().plans.size >= 10,
+- mindustry/ui/fragments/HintsFragment.java:257 `lambda` () -> control.input.isRebuildSelecting()
+- mindustry/ui/fragments/HintsFragment.java:261 `lambda` () -> state.boss() != null && isSerpulo() && state.boss().armor >= 4 && Blocks.salvo.unlocked() && !state.boss().isFlying(),
+- mindustry/ui/fragments/HintsFragment.java:262 `lambda` () -> state.boss() == null
+- mindustry/ui/fragments/HintsFragment.java:266 `lambda` () -> ui.hints.events.contains("cannotupgrade"),
+- mindustry/ui/fragments/HintsFragment.java:267 `lambda` () -> false
+- mindustry/ui/fragments/HintsFragment.java:270 `lambda` factoryControl(() -> !(state.isCampaign() && state.rules.sector.preset == SectorPresets.onset) &&
+- mindustry/ui/fragments/HintsFragment.java:272 `lambda` () -> ui.hints.events.contains("factorycontrol")
+- mindustry/ui/fragments/HintsFragment.java:275 `lambda` coreUpgrade(() -> state.isCampaign() && state.rules.sector.planet == Planets.serpulo && Blocks.coreFoundation.unlocked()
+- mindustry/ui/fragments/HintsFragment.java:279 `lambda` () -> ui.hints.placedBlocks.contains(Blocks.coreFoundation)
+- mindustry/ui/fragments/HintsFragment.java:283 `lambda` () -> state.isCampaign() && state.getPlanet() == Planets.serpulo && Vars.indexer.isBlockPresent(Blocks.coreZone) &&
+- mindustry/ui/fragments/HintsFragment.java:285 `lambda` () -> state.rules.defaultTeam.cores().size > 1
+- mindustry/ui/fragments/HintsFragment.java:289 `lambda` () -> state.isCampaign() && state.getSector().preset == null,
+- mindustry/ui/fragments/HintsFragment.java:290 `lambda` () -> state.isCampaign() && state.getSector().preset == SectorPresets.frozenForest
+- mindustry/ui/fragments/HintsFragment.java:293 `lambda` presetDifficulty(() -> state.isCampaign()
+- mindustry/ui/fragments/HintsFragment.java:297 `lambda` () -> state.isCampaign() && state.getSector().preset != null
+- mindustry/ui/fragments/HintsFragment.java:301 `lambda` () -> state.isCampaign() && state.rules.defaultTeam.core() != null && state.rules.defaultTeam.core().items.get(Items.copper) >= state.rules.defaultTeam.core().storageCapacity - 10,
+- mindustry/ui/fragments/HintsFragment.java:302 `lambda` () -> false
+- mindustry/ui/fragments/HintsFragment.java:311 `lambda` Boolp complete, shown = () -> true;
+- mindustry/ui/fragments/HintsFragment.java:363 `lambda` return shown.get() && (dependencies.length == 0 || !Structs.contains(dependencies, d -> !d.finished()));
+- mindustry/ui/fragments/HudFragment.java:69 `lambda` pane.update(() -> {
+- mindustry/ui/fragments/HudFragment.java:86 `lambda` cont.table(search -> {
+- mindustry/ui/fragments/HudFragment.java:88 `lambda` search.field("", text -> rebuildBlockSelection(blockSelection, text)).growX()
+- mindustry/ui/fragments/HudFragment.java:92 `lambda` cont.collapser(t -> {
+- mindustry/ui/fragments/HudFragment.java:94 `lambda` }, () -> control.input.block != null && control.input.block.editorConfigurable).with(c -> c.setEnforceMinSize(true)).update(col -> {
+- mindustry/ui/fragments/HudFragment.java:151 `lambda` blocksOut.sort((b1, b2) -> {
+- mindustry/ui/fragments/HudFragment.java:178 `lambda` button.clicked(() -> control.input.block = block);
+- mindustry/ui/fragments/HudFragment.java:180 `lambda` button.clicked(KeyCode.mouseRight, () -> {
+- mindustry/ui/fragments/HudFragment.java:199 `lambda` button.update(() -> button.setChecked(control.input.block == block));
+- mindustry/ui/fragments/HudFragment.java:214 `lambda` Actions.run(() -> lastFavorited = null)
+- mindustry/ui/fragments/HudFragment.java:241 `lambda` Events.on(WaveEvent.class, e -> {
+- mindustry/ui/fragments/HudFragment.java:261 `lambda` Events.on(SectorCaptureEvent.class, e -> {
+- mindustry/ui/fragments/HudFragment.java:269 `lambda` Events.on(SectorLoseEvent.class, e -> {
+- mindustry/ui/fragments/HudFragment.java:273 `lambda` Events.on(SectorInvasionEvent.class, e -> {
+- mindustry/ui/fragments/HudFragment.java:277 `lambda` Events.on(ResetEvent.class, e -> {
+- mindustry/ui/fragments/HudFragment.java:287 `lambda` parent.fill(t -> {
+- mindustry/ui/fragments/HudFragment.java:290 `lambda` t.top().visible(() -> state.isPaused() && shown && !netServer.isWaitingForPlayers() && !(mobile && Core.graphics.isPortrait())).touchable = Touchable.disabled;
+- mindustry/ui/fragments/HudFragment.java:291 `lambda` t.table(Styles.black6, top -> {
+- mindustry/ui/fragments/HudFragment.java:292 `lambda` top.label(() -> state.gameOver && state.isCampaign() ? "@sector.curlost" : "@paused")
+- mindustry/ui/fragments/HudFragment.java:294 `lambda` top.spacerX(() -> sidePad + Core.scene.marginLeft - Core.scene.marginRight);
+- mindustry/ui/fragments/HudFragment.java:300 `lambda` parent.fill(t -> {
+- mindustry/ui/fragments/HudFragment.java:302 `lambda` t.top().visible(() -> pauseDisableDur > 0f && shown && !mobile && !netServer.isWaitingForPlayers() && !state.isPaused() && !(state.gameOver && state.isCampaign())).touchable = Touchable.disabled;
+- mindustry/ui/fragments/HudFragment.java:303 `lambda` t.update(() -> {
+- mindustry/ui/fragments/HudFragment.java:309 `lambda` t.table(Styles.black6, top -> top.label(() -> "@pause.disabled").style(Styles.outlineLabel).pad(8f)).height(pauseHeight).growX();
+- mindustry/ui/fragments/HudFragment.java:313 `lambda` parent.fill((x, y, w, h) -> {
+- mindustry/ui/fragments/HudFragment.java:329 `lambda` parent.fill(t -> {
+- mindustry/ui/fragments/HudFragment.java:331 `lambda` t.visible(() -> netServer.isWaitingForPlayers() && state.isPaused() && shown).touchable = Touchable.disabled;
+- mindustry/ui/fragments/HudFragment.java:332 `lambda` t.table(Styles.black6, top -> top.add("@waiting.players").style(Styles.outlineLabel).pad(18f));
+- mindustry/ui/fragments/HudFragment.java:336 `lambda` parent.fill(t -> {
+- mindustry/ui/fragments/HudFragment.java:338 `lambda` t.visible(() -> Core.settings.getBool("minimap") && shown);
+- mindustry/ui/fragments/HudFragment.java:343 `lambda` t.label(() ->
+- mindustry/ui/fragments/HudFragment.java:346 `lambda` .visible(() -> Core.settings.getBool("position") || Core.settings.getBool("mouseposition"))
+- mindustry/ui/fragments/HudFragment.java:356 `lambda` parent.fill(cont -> {
+- mindustry/ui/fragments/HudFragment.java:362 `lambda` cont.rect((x, y, w, h) -> {
+- mindustry/ui/fragments/HudFragment.java:370 `lambda` cont.label(() -> state.gameOver && state.isCampaign() ? "@sector.curlost" : "@paused")
+- mindustry/ui/fragments/HudFragment.java:373 `lambda` .visible(() -> state.isPaused() && shown && !netServer.isWaitingForPlayers() && Core.graphics.isPortrait())
+- mindustry/ui/fragments/HudFragment.java:378 `lambda` cont.table(select -> {
+- mindustry/ui/fragments/HudFragment.java:387 `lambda` flip = select.button(Icon.upOpen, style, () -> {
+- mindustry/ui/fragments/HudFragment.java:393 `lambda` }).update(i -> {
+- mindustry/ui/fragments/HudFragment.java:406 `lambda` select.button(Icon.pause, style, () -> {
+- mindustry/ui/fragments/HudFragment.java:412 `lambda` }).name("pause").update(i -> {
+- mindustry/ui/fragments/HudFragment.java:422 `lambda` select.button(Icon.chat, style,() -> {
+- mindustry/ui/fragments/HudFragment.java:434 `lambda` }).name("chat").update(i -> {
+- mindustry/ui/fragments/HudFragment.java:452 `lambda` cont.update(() -> {
+- mindustry/ui/fragments/HudFragment.java:454 `lambda` Core.settings.getBoolOnce("ui-hidden", () -> {
+- mindustry/ui/fragments/HudFragment.java:485 `lambda` wavesMain.visible(() -> shown && !state.isEditor());
+- mindustry/ui/fragments/HudFragment.java:488 `lambda` wavesMain.table(s -> {
+- mindustry/ui/fragments/HudFragment.java:492 `anonymous_double_brace_initializer` var rightStyle = new ImageButtonStyle(){{
+- mindustry/ui/fragments/HudFragment.java:502 `lambda` s.button(Icon.play, rightStyle, 30f, () -> {
+- mindustry/ui/fragments/HudFragment.java:508 `lambda` }).growY().fillX().right().width(40f).disabled(b -> !canSkipWave()).name("skip").get().toBack();
+- mindustry/ui/fragments/HudFragment.java:516 `lambda` editorMain.table(Tex.buttonEdge4, t -> {
+- mindustry/ui/fragments/HudFragment.java:519 `lambda` t.top().table(teams -> {
+- mindustry/ui/fragments/HudFragment.java:522 `lambda` ImageButton button = teams.button(Tex.whiteui, Styles.clearNoneTogglei, 33f, () -> Call.setPlayerTeamEditor(player, team))
+- mindustry/ui/fragments/HudFragment.java:526 `lambda` button.update(() -> button.setChecked(player.team() == team));
+- mindustry/ui/fragments/HudFragment.java:529 `lambda` teams.button(Icon.downOpen, Styles.emptyi, () -> Core.settings.put("editor-blocks-shown", !Core.settings.getBool("editor-blocks-shown")))
+- mindustry/ui/fragments/HudFragment.java:530 `lambda` .size(45f).update(m -> m.getStyle().imageUp = (Core.settings.getBool("editor-blocks-shown") ? Icon.upOpen : Icon.downOpen));
+- mindustry/ui/fragments/HudFragment.java:533 `lambda` t.collapser(this::addBlockSelection, () -> Core.settings.getBool("editor-blocks-shown"));
+- mindustry/ui/fragments/HudFragment.java:537 `lambda` editorMain.row().spacerY(() -> {
+- mindustry/ui/fragments/HudFragment.java:548 `lambda` editorMain.visible(() -> shown && state.isEditor());
+- mindustry/ui/fragments/HudFragment.java:551 `lambda` cont.table(info -> {
+- mindustry/ui/fragments/HudFragment.java:554 `lambda` info.top().left().margin(4).visible(() -> Core.settings.getBool("fps") && shown);
+- mindustry/ui/fragments/HudFragment.java:561 `lambda` info.label(() -> fps.get(Core.graphics.getFramesPerSecond())).left().style(Styles.outlineLabel).name("fps");
+- mindustry/ui/fragments/HudFragment.java:565 `lambda` info.label(() -> memnative.get((int)(Core.app.getJavaHeap() / 1024 / 1024), (int)(Core.app.getNativeHeap() / 1024 / 1024))).left().style(Styles.outlineLabel).name("memory2");
+- mindustry/ui/fragments/HudFragment.java:567 `lambda` info.label(() -> mem.get((int)(Core.app.getJavaHeap() / 1024 / 1024))).left().style(Styles.outlineLabel).name("memory");
+- mindustry/ui/fragments/HudFragment.java:571 `lambda` info.label(() -> ping.get(netClient.getPing())).visible(net::client).left().style(Styles.outlineLabel).name("ping").row();
+- mindustry/ui/fragments/HudFragment.java:572 `lambda` info.label(() -> tps.get(state.serverTps == -1 ? 60 : state.serverTps)).visible(net::client).left().style(Styles.outlineLabel).name("tps").row();
+- mindustry/ui/fragments/HudFragment.java:578 `lambda` parent.fill(t -> {
+- mindustry/ui/fragments/HudFragment.java:585 `lambda` t.visible(() -> shown);
+- mindustry/ui/fragments/HudFragment.java:589 `lambda` t.collapser(v -> v.add().height(pauseHeight), () -> !netServer.isWaitingForPlayers() && (state.isPaused() || pauseDisableDur > 0f)).row();
+- mindustry/ui/fragments/HudFragment.java:591 `lambda` t.table(c -> {
+- mindustry/ui/fragments/HudFragment.java:593 `lambda` c.top().collapser(coreItems, () -> Core.settings.getBool("coreitems") && !mobile && shown).fillX().row();
+- mindustry/ui/fragments/HudFragment.java:597 `lambda` Events.run(Trigger.teamCoreDamage, () -> coreAttackTime = notifDuration);
+- mindustry/ui/fragments/HudFragment.java:598 `lambda` Events.on(ResetEvent.class, e -> {
+- mindustry/ui/fragments/HudFragment.java:603 `lambda` c.collapser(top -> top.background(Styles.black6).add("@coreattack").pad(8)
+- mindustry/ui/fragments/HudFragment.java:604 `lambda` .with(co -> {
+- mindustry/ui/fragments/HudFragment.java:605 `lambda` co.tapped(() -> {
+- mindustry/ui/fragments/HudFragment.java:612 `lambda` .update(label -> label.color.set(Color.orange).lerp(Color.scarlet, Mathf.absin(Time.time, 2f, 1f))), true,
+- mindustry/ui/fragments/HudFragment.java:613 `lambda` () -> {
+- mindustry/ui/fragments/HudFragment.java:630 `lambda` t.table(v -> v.margin(10f)
+- mindustry/ui/fragments/HudFragment.java:631 `lambda` .add(new Bar(() -> {
+- mindustry/ui/fragments/HudFragment.java:642 `lambda` }, () -> Pal.health, () -> {
+- mindustry/ui/fragments/HudFragment.java:651 `lambda` .fillX().width(320f).height(60f).name("boss").visible(() -> state.rules.waves && state.boss() != null && !(mobile && Core.graphics.isPortrait())).padTop(7).row();
+- mindustry/ui/fragments/HudFragment.java:653 `lambda` t.table(Styles.black3, p -> p.margin(4).label(() -> hudText).style(Styles.outlineLabel)).touchable(Touchable.disabled).with(p -> hudLabel = p)
+- mindustry/ui/fragments/HudFragment.java:654 `lambda` .with(p -> p.visible(() -> (p.color.a = Mathf.lerpDelta(p.color.a, Mathf.num(showHudText), 0.2f)) >= 0.001f));
+- mindustry/ui/fragments/HudFragment.java:658 `lambda` parent.fill(t -> {
+- mindustry/ui/fragments/HudFragment.java:661 `lambda` t.table(Styles.black6, c -> c.add("@nearpoint")
+- mindustry/ui/fragments/HudFragment.java:662 `lambda` .update(l -> l.setColor(Tmp.c1.set(Color.white).lerp(Color.scarlet, Mathf.absin(Time.time, 10f, 1f))))
+- mindustry/ui/fragments/HudFragment.java:664 `lambda` .margin(6).update(u -> u.color.a = Mathf.lerpDelta(u.color.a, Mathf.num(spawner.playerNear()), 0.1f)).get().color.a = 0f;
+- mindustry/ui/fragments/HudFragment.java:668 `lambda` parent.fill(t -> {
+- mindustry/ui/fragments/HudFragment.java:670 `lambda` t.bottom().visible(() -> control.saves.isSaving());
+- mindustry/ui/fragments/HudFragment.java:676 `lambda` parent.fill(t -> {
+- mindustry/ui/fragments/HudFragment.java:678 `lambda` t.table(Styles.black6, c -> {
+- mindustry/ui/fragments/HudFragment.java:681 `lambda` Runnable rebuild = () -> {
+- mindustry/ui/fragments/HudFragment.java:687 `lambda` c.label(() -> (int)state.rules.sector.info.getExport(item) + " /s").color(Color.lightGray);
+- mindustry/ui/fragments/HudFragment.java:693 `lambda` c.update(() -> {
+- mindustry/ui/fragments/HudFragment.java:706 `lambda` }).visible(() -> state.isCampaign() && content.items().contains(i -> state.rules.sector != null && state.rules.sector.info.getExport(i) > 0));
+- mindustry/ui/fragments/HudFragment.java:755 `lambda` scheduleToast(() -> {
+- mindustry/ui/fragments/HudFragment.java:759 `lambda` table.update(() -> {
+- mindustry/ui/fragments/HudFragment.java:776 `lambda` Actions.run(() -> container.actions(Actions.translateBy(0, table.getPrefHeight(), 1f, Interp.fade), Actions.remove())));
+- mindustry/ui/fragments/HudFragment.java:794 `lambda` scheduleToast(() -> {
+- mindustry/ui/fragments/HudFragment.java:796 `lambda` table.update(() -> {
+- mindustry/ui/fragments/HudFragment.java:824 `lambda` Actions.run(() -> container.actions(Actions.translateBy(0, table.getPrefHeight(), 1f, Interp.fade), Actions.run(() -> {
+- mindustry/ui/fragments/HudFragment.java:891 `lambda` waitingf = new IntFormat("wave.waiting", i -> {
+- mindustry/ui/fragments/HudFragment.java:1007 `lambda` new Table(t -> {
+- mindustry/ui/fragments/HudFragment.java:1011 `lambda` t.clicked(() -> {
+- mindustry/ui/fragments/HudFragment.java:1021 `lambda` Boolp playerHasPayloads = () -> player.unit() instanceof Payloadc pay && !pay.payloads().isEmpty();
+- mindustry/ui/fragments/HudFragment.java:1022 `lambda` Floatp playerPayloadCapacityUsed = () -> player.unit() instanceof Payloadc pay ? pay.payloadUsed() / player.unit().type().payloadCapacity : 0f;
+- mindustry/ui/fragments/HudFragment.java:1026 `lambda` new SideBar(() -> player.dead() ? 0f : player.unit().healthf(), () -> true, true),
+- mindustry/ui/fragments/HudFragment.java:1028 `lambda` new SideBar(() -> player.dead() ? 0 : shieldFrac[0], () -> true, true, false, Pal.accent){{
+- mindustry/ui/fragments/HudFragment.java:1028 `anonymous_double_brace_initializer` new SideBar(() -> player.dead() ? 0 : shieldFrac[0], () -> true, true, false, Pal.accent){{
+- mindustry/ui/fragments/HudFragment.java:1029 `lambda` visible(() -> {
+- mindustry/ui/fragments/HudFragment.java:1033 `lambda` var ab = Structs.find(player.unit().abilities, a -> a instanceof ForceFieldAbility || a instanceof ShieldArcAbility);
+- mindustry/ui/fragments/HudFragment.java:1046 `lambda` t.image(() -> player.icon()).scaling(Scaling.bounded).grow().maxWidth(54f);
+- mindustry/ui/fragments/HudFragment.java:1049 `lambda` () ->
+- mindustry/ui/fragments/HudFragment.java:1054 `lambda` () -> !(player.displayAmmo() || playerHasPayloads.get()), false)).width(bw).growY().padLeft(pad).update(b -> {
+- mindustry/ui/fragments/HudFragment.java:1065 `lambda` lcell[0] = table.labelWrap(() -> {
+- mindustry/ui/fragments/HudFragment.java:1113 `lambda` int sum = Math.max(state.teams.present.sum(t -> t.team != player.team() ? t.cores.size : 0), 1);
+- mindustry/ui/fragments/HudFragment.java:1160 `lambda` table.clicked(() -> {
+- mindustry/ui/fragments/HudFragment.java:1190 `lambda` table.table().update(t -> {
+- mindustry/ui/fragments/HudFragment.java:1201 `lambda` }).growX().visible(() -> {
+- mindustry/ui/fragments/HudFragment.java:1210 `lambda` table.table().update(t -> {
+- mindustry/ui/fragments/HudFragment.java:1220 `lambda` .addListener(new Tooltip(l -> l.label(() ->
+- mindustry/ui/fragments/LoadingFragment.java:26 `lambda` parent.fill(t -> {
+- mindustry/ui/fragments/LoadingFragment.java:28 `lambda` t.rect((x, y, w, h) -> {
+- mindustry/ui/fragments/LoadingFragment.java:46 `lambda` button = t.button("@cancel", () -> {
+- mindustry/ui/fragments/LoadingFragment.java:51 `lambda` button.keyDown(key -> {
+- mindustry/ui/fragments/LoadingFragment.java:67 `lambda` bar.set(() -> ((int)(progress.get() * 100) + "%"), progress, Pal.accent);
+- mindustry/ui/fragments/LoadingFragment.java:77 `lambda` setProgress(() -> progValue);
+- mindustry/ui/fragments/LoadingFragment.java:83 `lambda` setProgress(() -> progValue);
+- mindustry/ui/fragments/MenuFragment.java:38 `lambda` group.visible(() -> !ui.editor.isShown());
+- mindustry/ui/fragments/MenuFragment.java:43 `lambda` parent.fill((x, y, w, h) -> renderer.render());
+- mindustry/ui/fragments/MenuFragment.java:45 `lambda` parent.fill(c -> {
+- mindustry/ui/fragments/MenuFragment.java:46 `lambda` c.pane(Styles.noBarPane, cont -> {
+- mindustry/ui/fragments/MenuFragment.java:53 `lambda` Events.on(ResizeEvent.class, event -> buildDesktop());
+- mindustry/ui/fragments/MenuFragment.java:56 `lambda` Events.on(ResizeEvent.class, event -> buildMobile());
+- mindustry/ui/fragments/MenuFragment.java:58 `lambda` }).with(pane -> {
+- mindustry/ui/fragments/MenuFragment.java:63 `lambda` parent.fill(c -> c.bottom().right().button(Icon.discord, new ImageButtonStyle(){{
+- mindustry/ui/fragments/MenuFragment.java:63 `anonymous_double_brace_initializer` parent.fill(c -> c.bottom().right().button(Icon.discord, new ImageButtonStyle(){{
+- mindustry/ui/fragments/MenuFragment.java:65 `lambda` }}, ui.discord::show).visible(() -> !ui.consolefrag.shown()).marginTop(9f).marginLeft(10f).tooltip("@discord").size(84, 45).name("discord"));
+- mindustry/ui/fragments/MenuFragment.java:70 `lambda` parent.fill((x, y, w, h) -> {
+- mindustry/ui/fragments/MenuFragment.java:88 `lambda` parent.fill(c -> {
+- mindustry/ui/fragments/MenuFragment.java:90 `lambda` c.button(Icon.terminal, () -> ui.consolefrag.toggleMobile()).visible(() -> !ui.consolefrag.shown() && Core.settings.getBool("console")).pad(4f).size(60f).left().row();
+- mindustry/ui/fragments/MenuFragment.java:92 `anonymous_double_brace_initializer` c.button("", new TextButtonStyle(){{
+- mindustry/ui/fragments/MenuFragment.java:96 `lambda` }}, ui.about::show).size(84, 45).visible(() -> !ui.consolefrag.shown()).name("info");
+- mindustry/ui/fragments/MenuFragment.java:99 `lambda` parent.fill(c -> c.bottom().right().button("@be.check", Icon.refresh, () -> {
+- mindustry/ui/fragments/MenuFragment.java:101 `lambda` becontrol.checkUpdate(result -> {
+- mindustry/ui/fragments/MenuFragment.java:107 `lambda` }).size(200, 60).name("becheck").update(t -> {
+- mindustry/ui/fragments/MenuFragment.java:113 `lambda` parent.fill((x, y, w, h) -> {
+- mindustry/ui/fragments/MenuFragment.java:143 `lambda` play = new MobileButton(Icon.play, "@campaign", () -> checkPlay(ui.planet::show)),
+- mindustry/ui/fragments/MenuFragment.java:144 `lambda` custom = new MobileButton(Icon.rightOpenOut, "@customgame", () -> checkPlay(ui.custom::show)),
+- mindustry/ui/fragments/MenuFragment.java:145 `lambda` maps = new MobileButton(Icon.download, "@loadgame", () -> checkPlay(ui.load::show)),
+- mindustry/ui/fragments/MenuFragment.java:146 `lambda` join = new MobileButton(Icon.add, "@joingame", () -> checkPlay(ui.join::show)),
+- mindustry/ui/fragments/MenuFragment.java:147 `lambda` editor = new MobileButton(Icon.terrain, "@editor", () -> checkPlay(ui.maps::show)),
+- mindustry/ui/fragments/MenuFragment.java:150 `lambda` exit = new MobileButton(Icon.exit, "@quit", () -> Core.app.exit()),
+- mindustry/ui/fragments/MenuFragment.java:153 `lambda` Seq<MobileButton> customs = customButtons.map(b -> new MobileButton(b.icon, b.text, b.runnable == null ? () -> {} : b.runnable));
+- mindustry/ui/fragments/MenuFragment.java:205 `lambda` container.table(background, t -> {
+- mindustry/ui/fragments/MenuFragment.java:212 `lambda` new MenuButton("@campaign", Icon.play, () -> checkPlay(ui.planet::show)),
+- mindustry/ui/fragments/MenuFragment.java:213 `lambda` new MenuButton("@joingame", Icon.add, () -> checkPlay(ui.join::show)),
+- mindustry/ui/fragments/MenuFragment.java:214 `lambda` new MenuButton("@customgame", Icon.terrain, () -> checkPlay(ui.custom::show)),
+- mindustry/ui/fragments/MenuFragment.java:215 `lambda` new MenuButton("@loadgame", Icon.download, () -> checkPlay(ui.load::show))
+- mindustry/ui/fragments/MenuFragment.java:222 `lambda` new MenuButton("@editor", Icon.terrain, () -> checkPlay(ui.maps::show)), steam ? new MenuButton("@workshop", Icon.steam, platform::openWorkshop) : null,
+- mindustry/ui/fragments/MenuFragment.java:233 `lambda` container.table(background, t -> {
+- mindustry/ui/fragments/MenuFragment.java:239 `lambda` t.visible(() -> !t.getChildren().isEmpty());
+- mindustry/ui/fragments/MenuFragment.java:264 `lambda` submenu.actions(Actions.alpha(1f), Actions.alpha(0f, 0.2f, Interp.fade), Actions.run(() -> submenu.clearChildren()));
+- mindustry/ui/fragments/MenuFragment.java:271 `lambda` out[0] = t.button(b.text, b.icon, Styles.flatToggleMenut, () -> {
+- mindustry/ui/fragments/MenuFragment.java:291 `lambda` out[0].update(() -> out[0].setChecked(currentMenu == out[0]));
+- mindustry/ui/fragments/MenuFragment.java:344 `lambda` this.runnable = () -> {};
+- mindustry/ui/fragments/MinimapFragment.java:40 `lambda` elem = parent.fill((x, y, w, h) -> {
+- mindustry/ui/fragments/MinimapFragment.java:61 `lambda` elem.visible(() -> shown);
+- mindustry/ui/fragments/MinimapFragment.java:62 `lambda` elem.update(() -> {
+- mindustry/ui/fragments/MinimapFragment.java:133 `lambda` ui.showTextInput("", "@ping.text", Vars.maxPingTextLength, "", result -> Call.pingLocation(Vars.player, pos.x, pos.y, UI.formatIcons(result)));
+- mindustry/ui/fragments/MinimapFragment.java:142 `lambda` parent.fill(t -> {
+- mindustry/ui/fragments/MinimapFragment.java:144 `lambda` t.visible(() -> shown);
+- mindustry/ui/fragments/MinimapFragment.java:145 `lambda` t.update(() -> t.setBounds(0, 0, Core.graphics.getWidth(), Core.graphics.getHeight()));
+- mindustry/ui/fragments/MinimapFragment.java:151 `lambda` t.button("@back", Icon.leftOpen, () -> shown = false).size(220f, 60f).pad(10f);
+- mindustry/ui/fragments/PlacementFragment.java:78 `lambda` Events.on(WorldLoadEvent.class, event -> {
+- mindustry/ui/fragments/PlacementFragment.java:79 `lambda` Core.app.post(() -> {
+- mindustry/ui/fragments/PlacementFragment.java:86 `lambda` Events.run(Trigger.unitCommandChange, () -> {
+- mindustry/ui/fragments/PlacementFragment.java:92 `lambda` Events.on(UnlockEvent.class, event -> {
+- mindustry/ui/fragments/PlacementFragment.java:98 `lambda` Events.on(ResetEvent.class, event -> {
+- mindustry/ui/fragments/PlacementFragment.java:102 `lambda` Events.run(Trigger.update, () -> {
+- mindustry/ui/fragments/PlacementFragment.java:195 `lambda` case 10 -> j = (j - 1 + blocks.size) % blocks.size;
+- mindustry/ui/fragments/PlacementFragment.java:197 `lambda` case 11 -> j = (j + 1) % blocks.size;
+- mindustry/ui/fragments/PlacementFragment.java:199 `lambda` case 12 -> {
+- mindustry/ui/fragments/PlacementFragment.java:204 `lambda` case 13 -> j = (j < blocks.size - 4 ? j + 4 : j % 4);
+- mindustry/ui/fragments/PlacementFragment.java:278 `lambda` parent.fill(full -> {
+- mindustry/ui/fragments/PlacementFragment.java:280 `lambda` full.bottom().right().visible(() -> ui.hudfrag.shown);
+- mindustry/ui/fragments/PlacementFragment.java:282 `lambda` full.table(frame -> {
+- mindustry/ui/fragments/PlacementFragment.java:285 `lambda` Runnable rebuildCategory = () -> {
+- mindustry/ui/fragments/PlacementFragment.java:300 `lambda` ImageButton button = blockTable.button(new TextureRegionDrawable(block.uiIcon), Styles.selecti, () -> {
+- mindustry/ui/fragments/PlacementFragment.java:313 `lambda` button.update(() -> { //color unplacable things gray
+- mindustry/ui/fragments/PlacementFragment.java:316 `lambda` button.forEach(elem -> elem.setColor(color));
+- mindustry/ui/fragments/PlacementFragment.java:320 `lambda` button.forEach(elem -> elem.setColor(Color.darkGray));
+- mindustry/ui/fragments/PlacementFragment.java:324 `lambda` button.hovered(() -> menuHoverBlock = block);
+- mindustry/ui/fragments/PlacementFragment.java:325 `lambda` button.exited(() -> {
+- mindustry/ui/fragments/PlacementFragment.java:339 `lambda` Core.app.post(() -> {
+- mindustry/ui/fragments/PlacementFragment.java:347 `lambda` frame.table(Tex.buttonEdge2, top -> {
+- mindustry/ui/fragments/PlacementFragment.java:349 `lambda` top.add(new Table()).growX().update(topTable -> {
+- mindustry/ui/fragments/PlacementFragment.java:371 `lambda` topTable.table(header -> {
+- mindustry/ui/fragments/PlacementFragment.java:387 `lambda` header.labelWrap(() -> !unlocked(displayBlock) ? Core.bundle.get("block.unknown") : displayBlock.localizedName + keyComboFinal)
+- mindustry/ui/fragments/PlacementFragment.java:391 `lambda` header.button("?", Styles.flatBordert, () -> {
+- mindustry/ui/fragments/PlacementFragment.java:399 `lambda` topTable.table(req -> {
+- mindustry/ui/fragments/PlacementFragment.java:403 `lambda` req.table(line -> {
+- mindustry/ui/fragments/PlacementFragment.java:407 `lambda` line.labelWrap(() -> {
+- mindustry/ui/fragments/PlacementFragment.java:424 `lambda` topTable.table(b -> {
+- mindustry/ui/fragments/PlacementFragment.java:444 `lambda` mainStack.update(() -> {
+- mindustry/ui/fragments/PlacementFragment.java:463 `lambda` frame.rect((x, y, w, h) -> {
+- mindustry/ui/fragments/PlacementFragment.java:474 `lambda` commandTable.table(u -> {
+- mindustry/ui/fragments/PlacementFragment.java:493 `lambda` rebuildCommand = () -> {
+- mindustry/ui/fragments/PlacementFragment.java:528 `lambda` unitlist.add(StatValues.stack(type, counts[i])).pad(4).with(b -> {
+- mindustry/ui/fragments/PlacementFragment.java:534 `lambda` amountLabel.setText(() -> counts[fi] + "");
+- mindustry/ui/fragments/PlacementFragment.java:539 `lambda` //left click -> select
+- mindustry/ui/fragments/PlacementFragment.java:540 `lambda` b.clicked(KeyCode.mouseLeft, () -> {
+- mindustry/ui/fragments/PlacementFragment.java:541 `lambda` control.input.selectedUnits.removeAll(unit -> unit.type != type);
+- mindustry/ui/fragments/PlacementFragment.java:544 `lambda` //right click -> remove
+- mindustry/ui/fragments/PlacementFragment.java:545 `lambda` b.clicked(KeyCode.mouseRight, () -> {
+- mindustry/ui/fragments/PlacementFragment.java:546 `lambda` control.input.selectedUnits.removeAll(unit -> unit.type == type);
+- mindustry/ui/fragments/PlacementFragment.java:553 `lambda` b.update(() -> ((Group)b.getChildren().first()).getChildren().first().setColor(listener.isOver() ? Color.lightGray : Color.white));
+- mindustry/ui/fragments/PlacementFragment.java:573 `lambda` u.table(coms -> {
+- mindustry/ui/fragments/PlacementFragment.java:577 `lambda` coms.button(Icon.icons.get(command.icon, Icon.cancel), Styles.clearNoneTogglei, () -> {
+- mindustry/ui/fragments/PlacementFragment.java:578 `lambda` Call.setUnitCommand(player, units.mapInt(un -> un.id, un -> un.type.allowCommand(un, command)).toArray(), command);
+- mindustry/ui/fragments/PlacementFragment.java:579 `lambda` }).checked(i -> activeCommands.get(command.id)).size(50f).tooltip(command.localized(), true);
+- mindustry/ui/fragments/PlacementFragment.java:595 `lambda` u.table(coms -> {
+- mindustry/ui/fragments/PlacementFragment.java:600 `lambda` coms.button(stance.getIcon(), Styles.clearNoneTogglei, () -> {
+- mindustry/ui/fragments/PlacementFragment.java:601 `lambda` Call.setUnitStance(player, units.mapInt(un -> un.id, un -> un.type.allowStance(un, stance)).toArray(), stance, !activeStances.get(stance.id));
+- mindustry/ui/fragments/PlacementFragment.java:602 `lambda` }).checked(i -> activeStances.get(stance.id)).size(50f).tooltip(stance.localized(), true);
+- mindustry/ui/fragments/PlacementFragment.java:613 `lambda` u.update(() -> {
+- mindustry/ui/fragments/PlacementFragment.java:657 `lambda` Call.setUnitStance(player, control.input.selectedUnits.mapInt(un -> un.id, un -> un.type.allowStance(un, stance)).toArray(), stance, !activeStances.get(stance.id));
+- mindustry/ui/fragments/PlacementFragment.java:664 `lambda` Call.setUnitCommand(player, control.input.selectedUnits.mapInt(un -> un.id, un -> un.type.allowCommand(un, command)).toArray(), command);
+- mindustry/ui/fragments/PlacementFragment.java:675 `lambda` blockCatTable.table(Tex.pane2, blocksSelect -> {
+- mindustry/ui/fragments/PlacementFragment.java:677 `lambda` blockPane = blocksSelect.pane(blocks -> blockTable = blocks).height(194f).update(pane -> {
+- mindustry/ui/fragments/PlacementFragment.java:687 `lambda` blocksSelect.table(t -> {
+- mindustry/ui/fragments/PlacementFragment.java:693 `lambda` blockCatTable.table(categories -> {
+- mindustry/ui/fragments/PlacementFragment.java:728 `lambda` categories.button(ui.getIcon(cat.name()), Styles.clearTogglei, () -> {
+- mindustry/ui/fragments/PlacementFragment.java:734 `lambda` }).group(group).update(i -> i.setChecked(currentCategory == cat)).name("category-" + cat.name());
+- mindustry/ui/fragments/PlacementFragment.java:742 `lambda` frame.update(() -> {
+- mindustry/ui/fragments/PlacementFragment.java:752 `lambda` return returnCatArray.clear().addAll(Category.all).sort((c1, c2) -> Boolean.compare(categoryEmpty[c1.ordinal()], categoryEmpty[c2.ordinal()]));
+- mindustry/ui/fragments/PlacementFragment.java:756 `lambda` return returnArray.selectFrom(content.blocks(), block -> block.category == cat && block.isVisible() && block.environmentBuildable());
+- mindustry/ui/fragments/PlacementFragment.java:760 `lambda` return returnArray2.selectFrom(content.blocks(), block -> block.category == cat && block.isVisible() && unlocked(block)).sort((b1, b2) -> Boolean.compare(!b1.isPlaceable(), !b2.isPlaceable()));
+- mindustry/ui/fragments/PlacementFragment.java:764 `lambda` return selectedBlocks.get(cat, () -> getByCategory(cat).find(this::unlocked));
+- mindustry/ui/fragments/PlacementFragment.java:785 `lambda` Unit unit = Units.closestOverlap(player.team(), Core.input.mouseWorldX(), Core.input.mouseWorldY(), 5f, u -> !u.isLocal() && u.displayable());
+- mindustry/ui/fragments/PlanConfigFragment.java:31 `lambda` Events.on(EventType.ResetEvent.class, e -> forceHide());
+- mindustry/ui/fragments/PlanConfigFragment.java:51 `lambda` () -> selected != null ? (selected.config instanceof UnlockableContent c ? c : null) : null,
+- mindustry/ui/fragments/PlanConfigFragment.java:52 `lambda` content -> {
+- mindustry/ui/fragments/PlanConfigFragment.java:63 `lambda` table.update(() -> {
+- mindustry/ui/fragments/PlayerListFragment.java:32 `lambda` parent.fill(cont -> {
+- mindustry/ui/fragments/PlayerListFragment.java:34 `lambda` cont.visible(() -> visible);
+- mindustry/ui/fragments/PlayerListFragment.java:35 `lambda` cont.update(() -> {
+- mindustry/ui/fragments/PlayerListFragment.java:50 `lambda` cont.table(Tex.buttonTrans, pane -> {
+- mindustry/ui/fragments/PlayerListFragment.java:51 `lambda` pane.label(() -> Core.bundle.format(Groups.player.size() == 1 ? "players.single" : "players", Groups.player.size()));
+- mindustry/ui/fragments/PlayerListFragment.java:54 `lambda` search = pane.field(null, text -> rebuild()).grow().pad(8).name("search").maxTextLength(maxNameLength).get();
+- mindustry/ui/fragments/PlayerListFragment.java:61 `lambda` pane.table(menu -> {
+- mindustry/ui/fragments/PlayerListFragment.java:65 `lambda` menu.button("@server.bans", ui.bans::show).disabled(b -> net.client());
+- mindustry/ui/fragments/PlayerListFragment.java:66 `lambda` menu.button("@server.admins", ui.admins::show).disabled(b -> net.client());
+- mindustry/ui/fragments/PlayerListFragment.java:87 `lambda` players.sort(Structs.comps(Structs.comparing(Player::team), Structs.comparingBool(p -> !p.admin)));
+- mindustry/ui/fragments/PlayerListFragment.java:89 `lambda` players.retainAll(p -> Strings.stripColors(p.name().toLowerCase()).contains(search.getText().toLowerCase()));
+- mindustry/ui/fragments/PlayerListFragment.java:127 `lambda` iconTable.tapped(() -> {
+- mindustry/ui/fragments/PlayerListFragment.java:140 `lambda` button.image(Icon.admin).visible(() -> user.admin && !(!user.isLocal() && net.server())).padRight(5).get().updateVisibility();
+- mindustry/ui/fragments/PlayerListFragment.java:142 `anonymous_double_brace_initializer` var ustyle = new ImageButtonStyle(){{
+- mindustry/ui/fragments/PlayerListFragment.java:154 `lambda` button.button(Icon.menu, ustyle, () -> {
+- mindustry/ui/fragments/PlayerListFragment.java:167 `lambda` dialog.cont.pane(t -> {
+- mindustry/ui/fragments/PlayerListFragment.java:171 `lambda` t.button("@player.ban", Icon.hammer, bstyle, () -> {
+- mindustry/ui/fragments/PlayerListFragment.java:172 `lambda` ui.showConfirm("@confirm", Core.bundle.format("confirmban",  user.name()), () -> Call.adminRequest(user, AdminAction.ban, null));
+- mindustry/ui/fragments/PlayerListFragment.java:176 `lambda` t.button("@player.kick", Icon.cancel, bstyle, () -> {
+- mindustry/ui/fragments/PlayerListFragment.java:177 `lambda` ui.showConfirm("@confirm", Core.bundle.format("confirmkick",  user.name()), () -> Call.adminRequest(user, AdminAction.kick, null));
+- mindustry/ui/fragments/PlayerListFragment.java:181 `lambda` t.button("@player.trace", Icon.zoom, bstyle, () -> {
+- mindustry/ui/fragments/PlayerListFragment.java:189 `lambda` t.button("@player.team", Icon.redo, bstyle, () -> {
+- mindustry/ui/fragments/PlayerListFragment.java:200 `lambda` b.clicked(() -> {
+- mindustry/ui/fragments/PlayerListFragment.java:204 `lambda` teamSelect.cont.add(b).size(50f).checked(a -> user.team() == team);
+- mindustry/ui/fragments/PlayerListFragment.java:217 `lambda` t.button("@player.admin", Icon.admin, Styles.togglet, () -> {
+- mindustry/ui/fragments/PlayerListFragment.java:222 `lambda` ui.showConfirm("@confirm", Core.bundle.format("confirmunadmin",  user.name()), () -> {
+- mindustry/ui/fragments/PlayerListFragment.java:227 `lambda` ui.showConfirm("@confirm", Core.bundle.format("confirmadmin",  user.name()), () -> {
+- mindustry/ui/fragments/PlayerListFragment.java:232 `lambda` }).checked(b -> user.admin).row();
+- mindustry/ui/fragments/PlayerListFragment.java:247 `lambda` () -> ui.showTextInput("@votekick.reason", Core.bundle.format("votekick.reason.message", user.name()), "",
+- mindustry/ui/fragments/PlayerListFragment.java:248 `lambda` reason -> Call.sendChatMessage("/votekick #" + user.id + " " + reason)))
+- mindustry/ui/ItemsDisplay.java:35 `lambda` table(Tex.button, c -> {
+- mindustry/ui/ItemsDisplay.java:40 `lambda` Collapser col = new Collapser(base -> base.pane(t -> {
+- mindustry/ui/ItemsDisplay.java:60 `lambda` c.button("@globalitems", Icon.downOpen, Styles.flatTogglet, col::toggle).update(t -> {
+- mindustry/ui/Menus.java:37 `lambda` ui.showMenu(title, message, options, (option) -> Call.menuChoose(player, menuId, option));
+- mindustry/ui/Menus.java:46 `lambda` ui.showFollowUpMenu(menuId, title, message, options, (option) -> Call.menuChoose(player, menuId, option));
+- mindustry/ui/Menus.java:75 `lambda` ui.showTextInput(title, message, textLength, def, numeric, allowEmpty, (text) -> {
+- mindustry/ui/Menus.java:77 `lambda` }, () -> {
+- mindustry/ui/Menus.java:192 `lambda` ui.showConfirm(Core.bundle.format("linkopen", uri), () -> Core.app.openURI(uri));
+- mindustry/ui/Menus.java:199 `lambda` ui.showConfirm(Core.bundle.format("clipboardcopy", text), () -> Core.app.setClipboardText(text));
+- mindustry/ui/Minimap.java:112 `lambda` update(() -> {
+- mindustry/ui/MultiReqImage.java:22 `lambda` displays.each(req -> req.visible = false);
+- mindustry/ui/ReqImage.java:19 `lambda` visible(() -> !valid.get());
+- mindustry/ui/Styles.java:119 `anonymous_double_brace_initializer` defaultb = new ButtonStyle(){{
+- mindustry/ui/Styles.java:126 `anonymous_double_brace_initializer` underlineb = new ButtonStyle(){{
+- mindustry/ui/Styles.java:133 `anonymous_double_brace_initializer` defaultt = new TextButtonStyle(){{
+- mindustry/ui/Styles.java:142 `anonymous_double_brace_initializer` nonet = new TextButtonStyle(){{
+- mindustry/ui/Styles.java:149 `anonymous_double_brace_initializer` flatt = new TextButtonStyle(){{
+- mindustry/ui/Styles.java:157 `anonymous_double_brace_initializer` grayt = new TextButtonStyle(){{
+- mindustry/ui/Styles.java:166 `anonymous_double_brace_initializer` logict = new TextButtonStyle(){{
+- mindustry/ui/Styles.java:174 `anonymous_double_brace_initializer` flatBordert = new TextButtonStyle(){{
+- mindustry/ui/Styles.java:182 `anonymous_double_brace_initializer` cleart = new TextButtonStyle(){{
+- mindustry/ui/Styles.java:190 `anonymous_double_brace_initializer` flatTogglet = new TextButtonStyle(){{
+- mindustry/ui/Styles.java:200 `anonymous_double_brace_initializer` logicTogglet = new TextButtonStyle(){{
+- mindustry/ui/Styles.java:210 `anonymous_double_brace_initializer` flatToggleMenut = new TextButtonStyle(){{
+- mindustry/ui/Styles.java:220 `anonymous_double_brace_initializer` togglet = new TextButtonStyle(){{
+- mindustry/ui/Styles.java:230 `anonymous_double_brace_initializer` clearTogglet = new TextButtonStyle(){{
+- mindustry/ui/Styles.java:240 `anonymous_double_brace_initializer` fullTogglet = new TextButtonStyle(){{
+- mindustry/ui/Styles.java:250 `anonymous_double_brace_initializer` squareTogglet = new TextButtonStyle(){{
+- mindustry/ui/Styles.java:260 `anonymous_double_brace_initializer` defaulti = new ImageButtonStyle(){{
+- mindustry/ui/Styles.java:268 `anonymous_double_brace_initializer` nodei = new ImageButtonStyle(){{
+- mindustry/ui/Styles.java:272 `anonymous_double_brace_initializer` emptyi = new ImageButtonStyle(){{
+- mindustry/ui/Styles.java:277 `anonymous_double_brace_initializer` emptyTogglei = new ImageButtonStyle(){{
+- mindustry/ui/Styles.java:283 `anonymous_double_brace_initializer` selecti = new ImageButtonStyle(){{
+- mindustry/ui/Styles.java:287 `anonymous_double_brace_initializer` logici = new ImageButtonStyle(){{
+- mindustry/ui/Styles.java:290 `anonymous_double_brace_initializer` geni = new ImageButtonStyle(){{
+- mindustry/ui/Styles.java:294 `anonymous_double_brace_initializer` grayi = new ImageButtonStyle(){{
+- mindustry/ui/Styles.java:298 `anonymous_double_brace_initializer` graySquarei = new ImageButtonStyle(){{
+- mindustry/ui/Styles.java:306 `anonymous_double_brace_initializer` flati = new ImageButtonStyle(){{
+- mindustry/ui/Styles.java:311 `anonymous_double_brace_initializer` squarei = new ImageButtonStyle(){{
+- mindustry/ui/Styles.java:316 `anonymous_double_brace_initializer` clearNonei = new ImageButtonStyle(){{
+- mindustry/ui/Styles.java:324 `anonymous_double_brace_initializer` squareTogglei = new ImageButtonStyle(){{
+- mindustry/ui/Styles.java:330 `anonymous_double_brace_initializer` grayTogglei = new ImageButtonStyle(){{
+- mindustry/ui/Styles.java:337 `anonymous_double_brace_initializer` cleari = new ImageButtonStyle(){{
+- mindustry/ui/Styles.java:345 `anonymous_double_brace_initializer` clearTogglei = new ImageButtonStyle(){{
+- mindustry/ui/Styles.java:351 `anonymous_double_brace_initializer` clearNoneTogglei = new ImageButtonStyle(){{
+- mindustry/ui/Styles.java:358 `anonymous_double_brace_initializer` defaultPane = new ScrollPaneStyle(){{
+- mindustry/ui/Styles.java:362 `anonymous_double_brace_initializer` horizontalPane = new ScrollPaneStyle(){{
+- mindustry/ui/Styles.java:368 `anonymous_double_brace_initializer` smallPane = new ScrollPaneStyle(){{
+- mindustry/ui/Styles.java:374 `anonymous_double_brace_initializer` defaultSlider = new SliderStyle(){{
+- mindustry/ui/Styles.java:381 `anonymous_double_brace_initializer` defaultLabel = new LabelStyle(){{
+- mindustry/ui/Styles.java:385 `anonymous_double_brace_initializer` outlineLabel = new LabelStyle(){{
+- mindustry/ui/Styles.java:389 `anonymous_double_brace_initializer` techLabel = new LabelStyle(){{
+- mindustry/ui/Styles.java:393 `anonymous_double_brace_initializer` monoLabel = new LabelStyle(){{
+- mindustry/ui/Styles.java:398 `anonymous_double_brace_initializer` defaultField = new TextFieldStyle(){{
+- mindustry/ui/Styles.java:411 `anonymous_double_brace_initializer` nodeField = new TextFieldStyle(){{
+- mindustry/ui/Styles.java:424 `anonymous_double_brace_initializer` areaField = new TextFieldStyle(){{
+- mindustry/ui/Styles.java:435 `anonymous_double_brace_initializer` nodeArea = new TextFieldStyle(){{
+- mindustry/ui/Styles.java:446 `anonymous_double_brace_initializer` defaultCheck = new CheckBoxStyle(){{
+- mindustry/ui/Styles.java:458 `anonymous_double_brace_initializer` defaultDialog = new DialogStyle(){{
+- mindustry/ui/Styles.java:464 `anonymous_double_brace_initializer` fullDialog = new DialogStyle(){{
+- mindustry/ui/Styles.java:471 `anonymous_double_brace_initializer` defaultTree = new TreeStyle(){{
+- mindustry/Vars.java:386 `lambda` Events.on(ContentInitEvent.class, e -> {
+- mindustry/Vars.java:426 `lambda` Log.logger = (level, text) -> {
+- mindustry/Vars.java:448 `lambda` Events.on(ClientLoadEvent.class, e -> logBuffer.each(ui.consolefrag::addMessage));
+- mindustry/Vars.java:471 `lambda` Log.logger = (level, text) -> {
+- mindustry/Vars.java:530 `lambda` Time.run(10f, () -> ui.showInfo(Core.bundle.format("bundle.external", handle.absolutePath())));
+- mindustry/world/Block.java:483 `lambda` .sumf(other -> !other.floor().isLiquid ? 1f : 0f) / size / size;
+- mindustry/world/Block.java:512 `lambda` PowerNode.getNodeLinks(tile, this, player.team(), other -> {
+- mindustry/world/Block.java:520 `lambda` BeamNode.getNodeLinks(tile, this, player.team(), other -> {
+- mindustry/world/Block.java:580 `lambda` .sumf(other -> !floating && !placeableLiquid && other.floor().isDeep() ? 0 : other.floor().attributes.get(attr));
+- mindustry/world/Block.java:680 `lambda` addBar("liquid-" + liq.name, entity -> !liq.unlockedNow() ? null : new Bar(
+- mindustry/world/Block.java:681 `lambda` () -> liq.localizedName,
+- mindustry/world/Block.java:683 `lambda` () -> entity.liquids.get(liq) / liquidCapacity
+- mindustry/world/Block.java:689 `lambda` addBar("liquid", entity -> new Bar(
+- mindustry/world/Block.java:690 `lambda` () -> current.get((T)entity) == null || entity.liquids.get(current.get((T)entity)) <= 0.001f ? Core.bundle.get("bar.liquid") : current.get((T)entity).localizedName,
+- mindustry/world/Block.java:691 `lambda` () -> current.get((T)entity) == null ? Color.clear : current.get((T)entity).barColor(),
+- mindustry/world/Block.java:692 `lambda` () -> current.get((T)entity) == null ? 0f : entity.liquids.get(current.get((T)entity)) / liquidCapacity)
+- mindustry/world/Block.java:697 `lambda` addBar("health", entity -> new Bar("stat.health", Pal.health, entity::healthf).blink(Color.white));
+- mindustry/world/Block.java:703 `lambda` addBar("power", entity -> new Bar(
+- mindustry/world/Block.java:704 `lambda` () -> buffered ? Core.bundle.format("bar.poweramount", Float.isNaN(entity.power.status * capacity) ? "<ERROR>" : UI.formatAmount((int)(entity.power.status * capacity))) :
+- mindustry/world/Block.java:706 `lambda` () -> Pal.powerBar,
+- mindustry/world/Block.java:707 `lambda` () -> Mathf.zero(consPower.requestedPower(entity)) && entity.power.graph.getPowerProduced() + entity.power.graph.getBatteryStored() > 0f ? 1f : entity.power.status)
+- mindustry/world/Block.java:712 `lambda` addBar("items", entity -> new Bar(
+- mindustry/world/Block.java:713 `lambda` () -> Core.bundle.format("bar.items", entity.items.total()),
+- mindustry/world/Block.java:714 `lambda` () -> Pal.items,
+- mindustry/world/Block.java:715 `lambda` () -> (float)entity.items.total() / itemCapacity)
+- mindustry/world/Block.java:751 `lambda` addLiquidBar(build -> build.liquids.current());
+- mindustry/world/Block.java:923 `lambda` configurations.put(void.class, (tile, value) -> cons.get((E)tile));
+- mindustry/world/Block.java:939 `lambda` case 0 -> out.set(cornerX + s, cornerY + index);
+- mindustry/world/Block.java:940 `lambda` case 1 -> out.set(cornerX + index, cornerY + s);
+- mindustry/world/Block.java:941 `lambda` case 2 -> out.set(cornerX - 1, cornerY + index);
+- mindustry/world/Block.java:942 `lambda` case 3 -> out.set(cornerX + index, cornerY - 1);
+- mindustry/world/Block.java:1122 `lambda` if(!consumeBuilder.contains(c -> c instanceof ConsumePower)){
+- mindustry/world/Block.java:1190 `lambda` consumeBuilder.removeAll(b -> b instanceof ConsumePower);
+- mindustry/world/Block.java:1220 `lambda` Arrays.sort(requirements, Structs.comparingInt(i -> i.item.id));
+- mindustry/world/Block.java:1236 `lambda` Class<?> type = Structs.find(current.getDeclaredClasses(), t -> Building.class.isAssignableFrom(t) && !t.isInterface());
+- mindustry/world/Block.java:1240 `lambda` buildType = () -> {
+- mindustry/world/Block.java:1319 `lambda` if(!Structs.contains(requirements, s -> !s.item.isOnPlanet(planet))){
+- mindustry/world/Block.java:1446 `lambda` optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);
+- mindustry/world/Block.java:1447 `lambda` nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);
+- mindustry/world/Block.java:1448 `lambda` updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);
+- mindustry/world/Block.java:1464 `lambda` configurations.each((key, val) -> {
+- mindustry/world/Block.java:1483 `lambda` consPower = (ConsumePower)Structs.find(consumers, c -> c instanceof ConsumePower);
+- mindustry/world/Block.java:1484 `lambda` optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);
+- mindustry/world/Block.java:1485 `lambda` nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);
+- mindustry/world/Block.java:1486 `lambda` updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);
+- mindustry/world/Block.java:1561 `lambda` case 0xffffffff -> 0;
+- mindustry/world/Block.java:1562 `lambda` case 0xdcc6c6ff, 0xdbc5c5ff -> 1;
+- mindustry/world/Block.java:1563 `lambda` case 0x9d7f7fff, 0x9e8080ff -> 2;
+- mindustry/world/Block.java:1564 `lambda` default -> -1;
+- mindustry/world/Block.java:1653 `lambda` case color -> mapColor.toDoubleBits();
+- mindustry/world/Block.java:1654 `lambda` case health, maxHealth -> health;
+- mindustry/world/Block.java:1655 `lambda` case solid -> solid ? 1 : 0;
+- mindustry/world/Block.java:1656 `lambda` case size -> size;
+- mindustry/world/Block.java:1657 `lambda` case itemCapacity -> itemCapacity;
+- mindustry/world/Block.java:1658 `lambda` case liquidCapacity -> liquidCapacity;
+- mindustry/world/Block.java:1659 `lambda` case powerCapacity -> consPower != null && consPower.buffered ? consPower.capacity : 0f;
+- mindustry/world/Block.java:1660 `lambda` case id -> getLogicId();
+- mindustry/world/Block.java:1661 `lambda` default -> Double.NaN;
+- mindustry/world/blocks/Autotiler.java:24 `lambda` static final Boolf<BuildPlan> blendFinder = other -> {
+- mindustry/world/blocks/Autotiler.java:148 `lambda` case 0 -> bits[0] = 3;
+- mindustry/world/blocks/Autotiler.java:149 `lambda` case 1 -> bits[0] = 4;
+- mindustry/world/blocks/Autotiler.java:150 `lambda` case 2 -> bits[0] = 2;
+- mindustry/world/blocks/Autotiler.java:151 `lambda` case 3 -> {
+- mindustry/world/blocks/Autotiler.java:155 `lambda` case 4 -> {
+- mindustry/world/blocks/Autotiler.java:159 `lambda` case 5 -> bits[0] = 1;
+- mindustry/world/blocks/campaign/Accelerator.java:106 `lambda` addBar("powerBufferRequirement", b -> new Bar(
+- mindustry/world/blocks/campaign/Accelerator.java:107 `lambda` () -> Core.bundle.format("bar.powerbuffer",UI.formatAmount((long)b.power.graph.getBatteryStored()),  UI.formatAmount((long)powerBufferRequirement)),
+- mindustry/world/blocks/campaign/Accelerator.java:108 `lambda` () -> Pal.powerBar,
+- mindustry/world/blocks/campaign/Accelerator.java:109 `lambda` () -> b.power.graph.getBatteryStored() / powerBufferRequirement
+- mindustry/world/blocks/campaign/Accelerator.java:188 `lambda` Draw.draw(Layer.blockBuilding, () -> {
+- mindustry/world/blocks/campaign/Accelerator.java:263 `lambda` ui.planet.showPlanetLaunch(state.rules.sector, launchCandidates == null ? state.rules.sector.planet.launchCandidates : launchCandidates, sector -> {
+- mindustry/world/blocks/campaign/Accelerator.java:275 `lambda` Time.runTask(launchDuration() - 6f, () -> {
+- mindustry/world/blocks/campaign/Accelerator.java:348 `lambda` image.update(() -> {
+- mindustry/world/blocks/campaign/Accelerator.java:359 `lambda` Time.run(chargeDuration, () -> {
+- mindustry/world/blocks/campaign/Accelerator.java:373 `lambda` Time.run(i * 2f, () -> {
+- mindustry/world/blocks/campaign/Accelerator.java:454 `lambda` Angles.randLenVectors(1, pfin, 100, 800f * scl * pfin, (ax, ay, ffin, ffout) -> {
+- mindustry/world/blocks/campaign/LandingPad.java:37 `lambda` Events.on(ResetEvent.class, e -> {
+- mindustry/world/blocks/campaign/LandingPad.java:73 `lambda` config(Item.class, (LandingPadBuild build, Item item) -> {
+- mindustry/world/blocks/campaign/LandingPad.java:79 `lambda` configClear((LandingPadBuild build) -> {
+- mindustry/world/blocks/campaign/LandingPad.java:92 `lambda` table.add(new ReqImage(liquid.uiIcon, () -> build.liquids.get(liquid) >= amount)).size(iconMed).top().left();
+- mindustry/world/blocks/campaign/LandingPad.java:115 `lambda` addBar("cooldown", (LandingPadBuild entity) -> new Bar("bar.cooldown", Pal.lightOrange, () -> entity.cooldown));
+- mindustry/world/blocks/campaign/LandingPad.java:183 `lambda` waiting.each((item, pads) -> {
+- mindustry/world/blocks/campaign/LandingPad.java:184 `lambda` pads.removeAll(l -> l.config != item);
+- mindustry/world/blocks/campaign/LandingPad.java:186 `lambda` pads.sort(p -> p.priority);
+- mindustry/world/blocks/campaign/LandingPad.java:283 `lambda` tile.getLinkedTiles(t -> {
+- mindustry/world/blocks/campaign/LandingPad.java:341 `lambda` waiting.get(config, () -> new Seq<>(false)).add(this);
+- mindustry/world/blocks/campaign/LandingPad.java:380 `lambda` ItemSelection.buildTable(LandingPad.this, table, content.items(), () -> config, this::configure, selectionRows, selectionColumns);
+- mindustry/world/blocks/campaign/LandingPad.java:385 `lambda` table.table(t -> {
+- mindustry/world/blocks/campaign/LandingPad.java:388 `lambda` t.button(Icon.downOpen, Styles.clearNonei, 40f, () -> {
+- mindustry/world/blocks/campaign/LandingPad.java:397 `lambda` }).disabled(button -> config == null || !state.isCampaign() || (!state.getPlanet().sectors.contains(this::canRedirectExports)))
+- mindustry/world/blocks/campaign/LandingPad.java:414 `lambda` table.label(() -> {
+- mindustry/world/blocks/campaign/LaunchPad.java:69 `lambda` addBar("items", entity -> new Bar(() -> Core.bundle.format("bar.items", entity.items.total()), () -> Pal.items, () -> (float)entity.items.total() / itemCapacity));
+- mindustry/world/blocks/campaign/LaunchPad.java:70 `lambda` addBar("progress", (LaunchPadBuild build) -> new Bar(() -> Core.bundle.get("bar.launchcooldown"), () -> Pal.ammo, () -> Mathf.clamp(build.launchCounter / launchTime)));
+- mindustry/world/blocks/campaign/LaunchPad.java:151 `lambda` items.each((item, amount) -> entity.stacks.add(new ItemStack(item, amount)));
+- mindustry/world/blocks/campaign/LaunchPad.java:170 `lambda` table.label(() -> {
+- mindustry/world/blocks/campaign/LaunchPad.java:191 `lambda` table.button(Icon.upOpen, Styles.cleari, () -> {
+- mindustry/world/blocks/campaign/LaunchPad.java:192 `lambda` ui.planet.showSelect(state.rules.sector, other -> {
+- mindustry/world/blocks/ConstructBlock.java:216 `lambda` case progress -> Mathf.clamp(progress);
+- mindustry/world/blocks/ConstructBlock.java:217 `lambda` case breaking -> activeDeconstruct ? 1 : 0;
+- mindustry/world/blocks/ConstructBlock.java:218 `lambda` default -> super.sense(sensor);
+- mindustry/world/blocks/ConstructBlock.java:225 `lambda` case building -> current;
+- mindustry/world/blocks/ConstructBlock.java:226 `lambda` default -> super.senseObject(sensor);
+- mindustry/world/blocks/ConstructBlock.java:259 `lambda` Draw.draw(Layer.blockBuilding, () -> {
+- mindustry/world/blocks/defense/AutoDoor.java:22 `lambda` protected final static Boolf<Unit> groundCheck = u -> u.isGrounded() && !u.type.allowLegStep;
+- mindustry/world/blocks/defense/BaseShield.java:27 `lambda` protected static final Cons<Bullet> bulletConsumer = bullet -> {
+- mindustry/world/blocks/defense/BaseShield.java:38 `lambda` protected static final Cons<Unit> unitConsumer = unit -> {
+- mindustry/world/blocks/defense/BuildTurret.java:56 `anonymous_double_brace_initializer` unitType = new UnitType("turret-unit-" + name){{
+- mindustry/world/blocks/defense/BuildTurret.java:176 `lambda` Units.nearby(team, x, y, range, u -> {
+- mindustry/world/blocks/defense/BuildTurret.java:198 `lambda` team.data().plans.remove(p -> p.x == req.x && p.y == req.y);
+- mindustry/world/blocks/defense/BuildTurret.java:223 `lambda` unit.plans().remove(b -> b.build() == this);
+- mindustry/world/blocks/defense/BuildTurret.java:283 `lambda` case buildX, buildY -> unit.sense(sensor);
+- mindustry/world/blocks/defense/BuildTurret.java:284 `lambda` default -> super.sense(sensor);
+- mindustry/world/blocks/defense/BuildTurret.java:291 `lambda` case building, breaking -> unit.senseObject(sensor);
+- mindustry/world/blocks/defense/BuildTurret.java:292 `lambda` default -> super.senseObject(sensor);
+- mindustry/world/blocks/defense/Door.java:38 `lambda` config(Boolean.class, (DoorBuild base, Boolean open) -> {
+- mindustry/world/blocks/defense/ForceProjector.java:59 `lambda` protected static final Cons<Bullet> shieldConsumer = bullet -> {
+- mindustry/world/blocks/defense/ForceProjector.java:98 `lambda` addBar("shield", (ForceBuild entity) -> new Bar("stat.shieldhealth", Pal.accent, () -> entity.broken ? 0f : 1f - entity.buildup / (shieldHealth + phaseShieldBoost * entity.phaseHeat)).blink(Color.white));
+- mindustry/world/blocks/defense/ForceProjector.java:121 `lambda` stats.add(Stat.booster, (table) -> {
+- mindustry/world/blocks/defense/ForceProjector.java:123 `lambda` table.table(c -> {
+- mindustry/world/blocks/defense/ForceProjector.java:127 `lambda` c.table(Styles.grayPanel, b -> {
+- mindustry/world/blocks/defense/ForceProjector.java:128 `lambda` b.image(liquid.uiIcon).size(40).pad(10f).left().scaling(Scaling.fit).with(i -> StatValues.withTooltip(i, liquid, false));
+- mindustry/world/blocks/defense/ForceProjector.java:129 `lambda` b.table(info -> {
+- mindustry/world/blocks/defense/ForceProjector.java:138 `lambda` b.table(bt -> {
+- mindustry/world/blocks/defense/MendProjector.java:65 `lambda` if(findConsumer(c -> c instanceof ConsumeItems) instanceof ConsumeItems cons){
+- mindustry/world/blocks/defense/MendProjector.java:81 `lambda` indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));
+- mindustry/world/blocks/defense/MendProjector.java:112 `lambda` indexer.eachBlock(this, realRange, b -> b.damaged() && !b.isHealSuppressed(), other -> {
+- mindustry/world/blocks/defense/MendProjector.java:135 `lambda` indexer.eachBlock(this, realRange, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));
+- mindustry/world/blocks/defense/OverdriveProjector.java:59 `lambda` indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));
+- mindustry/world/blocks/defense/OverdriveProjector.java:71 `lambda` if(hasBoost && findConsumer(f -> f instanceof ConsumeItems) instanceof ConsumeItems items){
+- mindustry/world/blocks/defense/OverdriveProjector.java:80 `lambda` addBar("boost", (OverdriveBuild entity) -> new Bar(() -> Core.bundle.format("bar.boost", Mathf.round(Math.max((entity.realBoost() * 100 - 100), 0))), () -> Pal.accent, () -> entity.realBoost() / (hasBoost ? speedBoost + speedBoostPhase : speedBoost)));
+- mindustry/world/blocks/defense/OverdriveProjector.java:110 `lambda` indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> other.applyBoost(realBoost(), reload + 1f));
+- mindustry/world/blocks/defense/OverdriveProjector.java:131 `lambda` indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));
+- mindustry/world/blocks/defense/RegenProjector.java:64 `lambda` indexer.eachBlock(player.team(), Tmp.r1.setCentered(x, y, range * tilesize), b -> true, t -> {
+- mindustry/world/blocks/defense/RegenProjector.java:98 `lambda` if(findConsumer(c -> c instanceof ConsumeItems) instanceof ConsumeItems cons){
+- mindustry/world/blocks/defense/RegenProjector.java:118 `lambda` indexer.eachBlock(team, Tmp.r1.setCentered(x, y, range * tilesize), b -> true, targets::add);
+- mindustry/world/blocks/defense/RegenProjector.java:139 `lambda` anyTargets = targets.contains(b -> b.damaged());
+- mindustry/world/blocks/defense/ShockMine.java:43 `lambda` stats.add(Stat.damage, table -> {
+- mindustry/world/blocks/defense/ShockwaveTower.java:75 `lambda` Groups.bullet.intersect(x - range, y - range, range * 2, range * 2, b -> {
+- mindustry/world/blocks/defense/turrets/BaseTurret.java:51 `lambda` coolant = findConsumer(c -> c instanceof ConsumeCoolant);
+- mindustry/world/blocks/defense/turrets/BaseTurret.java:105 `lambda` addBar("activationtimer", (BaseTurretBuild entity) ->
+- mindustry/world/blocks/defense/turrets/BaseTurret.java:106 `lambda` new Bar(() ->
+- mindustry/world/blocks/defense/turrets/BaseTurret.java:108 `lambda` () -> (entity.activationTimer > 0)?  Pal.lightOrange : Pal.techBlue,
+- mindustry/world/blocks/defense/turrets/BaseTurret.java:109 `lambda` () -> 1 - entity.activationTimer / activationTime));
+- mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java:35 `lambda` ammoTypes.each((l, b) -> b.statLiquidConsumed = liquidConsumed);
+- mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java:42 `lambda` consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), liquidConsumed){
+- mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java:45 `lambda` multiplier = b -> {
+- mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java:58 `lambda` ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));
+- mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java:97 `lambda` case currentAmmoType -> liquids.current();
+- mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java:98 `lambda` default -> super.senseObject(sensor);
+- mindustry/world/blocks/defense/turrets/ContinuousTurret.java:78 `lambda` if(findConsumer(f -> f instanceof ConsumeLiquidBase) instanceof ConsumeLiquid cons){
+- mindustry/world/blocks/defense/turrets/ContinuousTurret.java:89 `lambda` bullets.removeAll(b -> !b.bullet.isAdded() || b.bullet.type == null || b.bullet.owner != this);
+- mindustry/world/blocks/defense/turrets/ItemTurret.java:61 `lambda` addBar("ammo", (ItemTurretBuild entity) ->
+- mindustry/world/blocks/defense/turrets/ItemTurret.java:65 `lambda` () -> (float)entity.totalAmmo / maxAmmo
+- mindustry/world/blocks/defense/turrets/ItemTurret.java:72 `lambda` consume(new ConsumeItemFilter(i -> ammoTypes.containsKey(i)){
+- mindustry/world/blocks/defense/turrets/ItemTurret.java:76 `lambda` content.items().each(i -> filter.get(i) && i.unlockedNow(),
+- mindustry/world/blocks/defense/turrets/ItemTurret.java:77 `lambda` item -> image.add(new ReqImage(new Image(item.uiIcon),
+- mindustry/world/blocks/defense/turrets/ItemTurret.java:78 `lambda` () -> build instanceof ItemTurretBuild it && !it.ammo.isEmpty() && ((ItemEntry)it.ammo.peek()).item == item)));
+- mindustry/world/blocks/defense/turrets/ItemTurret.java:96 `lambda` ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));
+- mindustry/world/blocks/defense/turrets/ItemTurret.java:117 `lambda` case currentAmmoType -> ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;
+- mindustry/world/blocks/defense/turrets/ItemTurret.java:118 `lambda` default -> super.senseObject(sensor);
+- mindustry/world/blocks/defense/turrets/LaserTurret.java:40 `lambda` coolant = findConsumer(c -> c instanceof ConsumeLiquidBase);
+- mindustry/world/blocks/defense/turrets/LaserTurret.java:70 `lambda` bullets.removeAll(b -> !b.bullet.isAdded() || b.bullet.type == null || b.life <= 0f || b.bullet.owner != this);
+- mindustry/world/blocks/defense/turrets/LiquidTurret.java:45 `lambda` consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), 1f){
+- mindustry/world/blocks/defense/turrets/LiquidTurret.java:59 `lambda` ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));
+- mindustry/world/blocks/defense/turrets/LiquidTurret.java:85 `lambda` case currentAmmoType -> liquids.current();
+- mindustry/world/blocks/defense/turrets/LiquidTurret.java:86 `lambda` default -> super.senseObject(sensor);
+- mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java:60 `lambda` consume(new ConsumePayloadFilter(i -> ammoTypes.containsKey(i)){
+- mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java:73 `lambda` image.add(new ReqImage(new Image(content.uiIcon), () -> build instanceof PayloadTurretBuild it && !it.payloads.isEmpty() && it.currentAmmo() == content));
+- mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java:174 `lambda` bars.add(new Bar("stat.ammo", Pal.ammo, () -> (float)totalAmmo / maxAmmo)).growX();
+- mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java:188 `lambda` payloads.removeAll(u -> !ammoTypes.containsKey(u));
+- mindustry/world/blocks/defense/turrets/PointDefenseTurret.java:66 `lambda` target = Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != team && b.type().hittable, b -> b.dst2(this));
+- mindustry/world/blocks/defense/turrets/PowerTurret.java:36 `lambda` case ammo -> power == null ? 0f : power.status;
+- mindustry/world/blocks/defense/turrets/PowerTurret.java:37 `lambda` case ammoCapacity -> 1;
+- mindustry/world/blocks/defense/turrets/PowerTurret.java:38 `lambda` default -> super.sense(sensor);
+- mindustry/world/blocks/defense/turrets/TractorBeamTurret.java:88 `lambda` target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));
+- mindustry/world/blocks/defense/turrets/Turret.java:109 `lambda` public Boolf<Unit> unitFilter = u -> true;
+- mindustry/world/blocks/defense/turrets/Turret.java:111 `lambda` public Boolf<Building> buildingFilter = b -> targetUnderBlocks || !b.block.underBullets;
+- mindustry/world/blocks/defense/turrets/Turret.java:196 `lambda` addBar("heat", (TurretBuild entity) ->
+- mindustry/world/blocks/defense/turrets/Turret.java:197 `lambda` new Bar(() ->
+- mindustry/world/blocks/defense/turrets/Turret.java:199 `lambda` () -> Pal.lightOrange,
+- mindustry/world/blocks/defense/turrets/Turret.java:200 `lambda` () -> entity.heatReq / heatRequirement));
+- mindustry/world/blocks/defense/turrets/Turret.java:408 `lambda` case ammo -> totalAmmo;
+- mindustry/world/blocks/defense/turrets/Turret.java:409 `lambda` case ammoCapacity -> maxAmmo;
+- mindustry/world/blocks/defense/turrets/Turret.java:410 `lambda` case rotation -> rotation;
+- mindustry/world/blocks/defense/turrets/Turret.java:411 `lambda` case shootX -> World.conv(targetPos.x);
+- mindustry/world/blocks/defense/turrets/Turret.java:412 `lambda` case shootY -> World.conv(targetPos.y);
+- mindustry/world/blocks/defense/turrets/Turret.java:413 `lambda` case shooting -> isShooting ? 1 : 0;
+- mindustry/world/blocks/defense/turrets/Turret.java:414 `lambda` case progress -> progress();
+- mindustry/world/blocks/defense/turrets/Turret.java:415 `lambda` default -> super.sense(sensor);
+- mindustry/world/blocks/defense/turrets/Turret.java:641 `lambda` return Units.bestEnemy(team, x, y, range, e -> !e.dead() && !e.isGrounded() && unitFilter.get(e), unitSort);
+- mindustry/world/blocks/defense/turrets/Turret.java:646 `lambda` e -> !e.dead() && unitFilter.get(e) && (e.isGrounded() || targetAir) && (!e.isGrounded() || targetGround) && (missiles || !(e instanceof TimedKillc)),
+- mindustry/world/blocks/defense/turrets/Turret.java:647 `lambda` b -> buildings && buildingFilter.get(b), unitSort);
+- mindustry/world/blocks/defense/turrets/Turret.java:661 `lambda` target = Units.findAllyTile(team, x, y, range, b -> b.damaged() && b != this);
+- mindustry/world/blocks/defense/turrets/Turret.java:754 `lambda` pattern.shoot(barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {
+- mindustry/world/blocks/defense/turrets/Turret.java:759 `lambda` Time.run(delay, () -> {
+- mindustry/world/blocks/defense/turrets/Turret.java:769 `lambda` }, () -> barrelCounter++);
+- mindustry/world/blocks/distribution/Conveyor.java:97 `lambda` if(bridgeReplacement instanceof DuctBridge bridge) Placement.calculateBridges(plans, bridge, hasJuntionReplacement, b -> b instanceof Duct || b instanceof Conveyor);
+- mindustry/world/blocks/distribution/Conveyor.java:98 `lambda` if(bridgeReplacement instanceof ItemBridge bridge) Placement.calculateBridges(plans, bridge, hasJuntionReplacement, b -> b instanceof Conveyor);
+- mindustry/world/blocks/distribution/Conveyor.java:115 `lambda` Boolf<Point2> cont = p -> plans.contains(o -> o.x == req.x + p.x && o.y == req.y + p.y && (req.block instanceof Conveyor || req.block instanceof Junction));
+- mindustry/world/blocks/distribution/DirectionalUnloader.java:48 `lambda` config(Item.class, (DirectionalUnloaderBuild tile, Item item) -> tile.unloadItem = item);
+- mindustry/world/blocks/distribution/DirectionalUnloader.java:49 `lambda` configClear((DirectionalUnloaderBuild tile) -> tile.unloadItem = null);
+- mindustry/world/blocks/distribution/DirectionalUnloader.java:140 `lambda` ItemSelection.buildTable(DirectionalUnloader.this, table, content.items(), () -> unloadItem, this::configure);
+- mindustry/world/blocks/distribution/DirectionBridge.java:61 `lambda` private Boolf<BuildPlan> planFinder = other -> {
+- mindustry/world/blocks/distribution/DirectionBridge.java:91 `lambda` Placement.calculateNodes(points, this, rotation, (point, other) -> Math.max(Math.abs(point.x - other.x), Math.abs(point.y - other.y)) <= range);
+- mindustry/world/blocks/distribution/Duct.java:114 `lambda` Boolf<Point2> cont = p -> plans.contains(o -> o.x == req.x + p.x && o.y == req.y + p.y && (req.block instanceof Duct || req.block instanceof DuctJunction));
+- mindustry/world/blocks/distribution/Duct.java:126 `lambda` if(bridgeReplacement instanceof ItemBridge bridge) Placement.calculateBridges(plans, bridge, hasJunction, b -> b instanceof Duct || b instanceof StackConveyor || b instanceof Conveyor);
+- mindustry/world/blocks/distribution/Duct.java:127 `lambda` if(bridgeReplacement instanceof DuctBridge bridge) Placement.calculateBridges(plans, bridge, hasJunction, b -> b instanceof Duct || b instanceof StackConveyor || b instanceof Conveyor);
+- mindustry/world/blocks/distribution/DuctRouter.java:43 `lambda` config(Item.class, (DuctRouterBuild tile, Item item) -> tile.sortItem = item);
+- mindustry/world/blocks/distribution/DuctRouter.java:44 `lambda` configClear((DuctRouterBuild tile) -> tile.sortItem = null);
+- mindustry/world/blocks/distribution/DuctRouter.java:125 `lambda` ItemSelection.buildTable(DuctRouter.this, table, content.items(), () -> sortItem, this::configure);
+- mindustry/world/blocks/distribution/ItemBridge.java:64 `lambda` config(Point2.class, (ItemBridgeBuild tile, Point2 i) -> tile.link = Point2.pack(i.x + tile.tileX(), i.y + tile.tileY()));
+- mindustry/world/blocks/distribution/ItemBridge.java:66 `lambda` config(Integer.class, (ItemBridgeBuild tile, Integer i) -> tile.link = i);
+- mindustry/world/blocks/distribution/ItemBridge.java:79 `lambda` private static final Boolf<BuildPlan> planFinder = other -> other.block == currentPlan.block && currentPlan != other && currentFindX == other.x && currentFindY == other.y;
+- mindustry/world/blocks/distribution/ItemBridge.java:194 `lambda` Placement.calculateNodes(points, this, rotation, (point, other) -> Math.max(Math.abs(point.x - other.x), Math.abs(point.y - other.y)) <= range);
+- mindustry/world/blocks/distribution/ItemBridge.java:228 `lambda` incoming.each(pos -> drawInput(world.tile(pos)));
+- mindustry/world/blocks/distribution/Junction.java:35 `lambda` stats.add(Stat.itemCapacity, table -> {
+- mindustry/world/blocks/distribution/MassDriver.java:58 `lambda` config(Point2.class, (MassDriverBuild tile, Point2 point) -> tile.link = Point2.pack(point.x + tile.tileX(), point.y + tile.tileY()));
+- mindustry/world/blocks/distribution/MassDriver.java:59 `lambda` config(Integer.class, (MassDriverBuild tile, Integer point) -> tile.link = point);
+- mindustry/world/blocks/distribution/MassDriver.java:67 `lambda` stats.add(Stat.reload, table -> {
+- mindustry/world/blocks/distribution/MassDriver.java:210 `lambda` Time.run(timeToArrive, () -> {
+- mindustry/world/blocks/distribution/Sorter.java:37 `lambda` config(Item.class, (SorterBuild tile, Item item) -> tile.sortItem = item);
+- mindustry/world/blocks/distribution/Sorter.java:38 `lambda` configClear((SorterBuild tile) -> tile.sortItem = null);
+- mindustry/world/blocks/distribution/Sorter.java:147 `lambda` ItemSelection.buildTable(Sorter.this, table, content.items(), () -> sortItem, this::configure, selectionRows, selectionColumns);
+- mindustry/world/blocks/environment/CharacterOverlay.java:67 `lambda` table.field(value + "", val -> {
+- mindustry/world/blocks/environment/CharacterOverlay.java:71 `lambda` }).valid(t -> t.length() == 1 && chars.indexOf(Character.toUpperCase(t.charAt(0))) != -1).maxTextLength(1);
+- mindustry/world/blocks/environment/ColoredFloor.java:48 `lambda` t.button(b -> {
+- mindustry/world/blocks/environment/ColoredFloor.java:51 `lambda` b.table(Tex.pane, in -> {
+- mindustry/world/blocks/environment/ColoredFloor.java:52 `lambda` in.image(Tex.whiteui).update(i -> {
+- mindustry/world/blocks/environment/ColoredFloor.java:59 `lambda` }, Styles.cleart, () ->
+- mindustry/world/blocks/environment/ColoredFloor.java:62 `lambda` col -> block.lastConfig = col.rgba8888())).left().width(250f).pad(3f).row();
+- mindustry/world/blocks/environment/Floor.java:379 `lambda` blenders.sort(a -> a.id + (tile.floor() != this && a == tile.floor() ? 99999 : 0));
+- mindustry/world/blocks/environment/RuneOverlay.java:87 `lambda` table.field(value + "", val -> lastConfig = Strings.parseInt(val))
+- mindustry/world/blocks/environment/RuneOverlay.java:88 `lambda` .valid(t -> Strings.canParsePositiveInt(t) && Strings.parseInt(t, 999) < characters);
+- mindustry/world/blocks/environment/Seaweed.java:27 `lambda` Draw.rectv(region, x, y, w, h, rot, vec -> vec.add(
+- mindustry/world/blocks/environment/TiledFloor.java:91 `lambda` Core.app.post(() -> renderer.blocks.floor.recacheTile(otherRoot));
+- mindustry/world/blocks/environment/TiledFloor.java:98 `lambda` Core.app.post(() -> renderer.blocks.floor.recacheTile(other));
+- mindustry/world/blocks/environment/TiledWall.java:87 `lambda` Core.app.post(() -> renderer.blocks.floor.recacheTile(otherRoot));
+- mindustry/world/blocks/environment/TiledWall.java:94 `lambda` Core.app.post(() -> renderer.blocks.floor.recacheTile(other));
+- mindustry/world/blocks/environment/TreeBlock.java:40 `lambda` Draw.rectv(reg, x, y, w, h, rot, vec -> vec.add(
+- mindustry/world/blocks/environment/WobbleProp.java:21 `lambda` Draw.rectv(region, tile.worldx(), tile.worldy(), region.width * region.scl(), region.height * region.scl(), 0, vec -> vec.add(
+- mindustry/world/blocks/heat/HeatConductor.java:32 `lambda` addBar("heat", (HeatConductorBuild entity) -> new Bar(() -> Core.bundle.format("bar.heatamount", (int)(entity.heat + 0.001f)), () -> Pal.lightOrange, () -> entity.heat / visualMaxHeat));
+- mindustry/world/blocks/heat/HeatProducer.java:39 `lambda` addBar("heat", (HeatProducerBuild entity) -> new Bar("bar.heat", Pal.lightOrange, () -> entity.heat / heatOutput));
+- mindustry/world/blocks/ItemSelection.java:58 `lambda` Runnable rebuild = () -> {
+- mindustry/world/blocks/ItemSelection.java:66 `lambda` Seq<T> list = items.select(u -> (text.isEmpty() || u.localizedName.toLowerCase().contains(text.toLowerCase())));
+- mindustry/world/blocks/ItemSelection.java:70 `lambda` ImageButton button = cont.button(Tex.whiteui, Styles.clearNoneTogglei, Mathf.clamp(item.selectionSize, 0f, 40f), () -> {
+- mindustry/world/blocks/ItemSelection.java:73 `lambda` button.changed(() -> consumer.get(button.isChecked() ? item : null));
+- mindustry/world/blocks/ItemSelection.java:75 `lambda` button.update(() -> button.setChecked(holder.get() == item));
+- mindustry/world/blocks/ItemSelection.java:88 `lambda` main.table(s -> {
+- mindustry/world/blocks/ItemSelection.java:90 `lambda` search = s.field(null, text -> rebuild.run()).padBottom(4).left().growX().get();
+- mindustry/world/blocks/ItemSelection.java:97 `lambda` pane.exited(() -> {
+- mindustry/world/blocks/ItemSelection.java:105 `lambda` pane.update(() -> {
+- mindustry/world/blocks/liquid/Conduit.java:127 `lambda` Boolf<Point2> cont = p -> plans.contains(o -> o.x == req.x + p.x && o.y == req.y + p.y && (req.block instanceof Conduit || req.block instanceof LiquidJunction));
+- mindustry/world/blocks/liquid/Conduit.java:145 `lambda` Placement.calculateBridges(plans, duct, true, b -> b instanceof Conduit);
+- mindustry/world/blocks/liquid/Conduit.java:147 `lambda` Placement.calculateBridges(plans, (ItemBridge)bridgeReplacement, true, b -> b instanceof Conduit);
+- mindustry/world/blocks/logic/CanvasBlock.java:46 `lambda` config(byte[].class, (CanvasBuild build, byte[] bytes) -> {
+- mindustry/world/blocks/logic/CanvasBlock.java:90 `lambda` findPlan(list, plan.x, plan.y, size + 1, other -> {
+- mindustry/world/blocks/logic/CanvasBlock.java:295 `lambda` case displayWidth, displayHeight -> canvasSize;
+- mindustry/world/blocks/logic/CanvasBlock.java:296 `lambda` default -> super.sense(sensor);
+- mindustry/world/blocks/logic/CanvasBlock.java:311 `lambda` table.button(Icon.pencil, Styles.cleari, () -> new CanvasEditDialog(this).show()).size(40f);
+- mindustry/world/blocks/logic/LogicBlock.java:65 `lambda` config(byte[].class, (LogicBuild build, byte[] data) -> {
+- mindustry/world/blocks/logic/LogicBlock.java:71 `lambda` config(String.class, (LogicBuild build, String data) -> {
+- mindustry/world/blocks/logic/LogicBlock.java:79 `lambda` config(Character.class, (LogicBuild build, Character data) -> {
+- mindustry/world/blocks/logic/LogicBlock.java:85 `lambda` config(Integer.class, (LogicBuild entity, Integer pos) -> {
+- mindustry/world/blocks/logic/LogicBlock.java:94 `lambda` entity.links.removeAll(l -> world.build(l.x, l.y) == lbuild);
+- mindustry/world/blocks/logic/LogicBlock.java:382 `lambda` executor.links = new Building[links.count(l -> l.valid)];
+- mindustry/world/blocks/logic/LogicBlock.java:527 `lambda` links.removeAll(o -> {
+- mindustry/world/blocks/logic/LogicBlock.java:575 `lambda` int valids = links.count(l -> l.valid);
+- mindustry/world/blocks/logic/LogicBlock.java:667 `lambda` Groups.unit.each(u -> u.controller() instanceof LogicAI ai && ai.controller == this, unit -> {
+- mindustry/world/blocks/logic/LogicBlock.java:725 `lambda` ui.logic.show(code, executor, privileged, code -> {
+- mindustry/world/blocks/logic/LogicBlock.java:770 `lambda` int count = Structs.count(executor.vars, v -> !(v.isobj && v.objval == null)) + (writeUnit ? 1 : 0);
+- mindustry/world/blocks/logic/LogicBlock.java:882 `lambda` loadBlock = () -> updateCode(code, false, asm -> {
+- mindustry/world/blocks/logic/LogicDisplay.java:57 `lambda` Events.on(ResetEvent.class, e -> displays.clear());
+- mindustry/world/blocks/logic/LogicDisplay.java:106 `lambda` Draw.draw(Draw.z(), () -> {
+- mindustry/world/blocks/logic/LogicDisplay.java:117 `lambda` case displayWidth, displayHeight -> displaySize;
+- mindustry/world/blocks/logic/LogicDisplay.java:118 `lambda` case bufferSize -> rootDisplay.commands.size;
+- mindustry/world/blocks/logic/LogicDisplay.java:119 `lambda` case operations -> rootDisplay.operations;
+- mindustry/world/blocks/logic/LogicDisplay.java:120 `lambda` default -> super.sense(sensor);
+- mindustry/world/blocks/logic/LogicDisplay.java:152 `lambda` Draw.draw(Draw.z(), () -> {
+- mindustry/world/blocks/logic/LogicDisplay.java:172 `lambda` case commandClear -> {
+- mindustry/world/blocks/logic/LogicDisplay.java:177 `lambda` case commandLine -> Lines.line(x, y, p1, p2);
+- mindustry/world/blocks/logic/LogicDisplay.java:178 `lambda` case commandRect -> Fill.crect(x, y, p1, p2);
+- mindustry/world/blocks/logic/LogicDisplay.java:179 `lambda` case commandLineRect -> Lines.rect(x, y, p1, p2);
+- mindustry/world/blocks/logic/LogicDisplay.java:180 `lambda` case commandPoly -> Fill.poly(x, y, Math.min(p1, maxSides), p2, p3);
+- mindustry/world/blocks/logic/LogicDisplay.java:181 `lambda` case commandLinePoly -> Lines.poly(x, y, Math.min(p1, maxSides), p2, p3);
+- mindustry/world/blocks/logic/LogicDisplay.java:182 `lambda` case commandTriangle -> Fill.tri(x, y, p1, p2, p3, p4);
+- mindustry/world/blocks/logic/LogicDisplay.java:183 `lambda` case commandColor -> Draw.color(this.color = Color.toFloatBits(x, y, p1, p2));
+- mindustry/world/blocks/logic/LogicDisplay.java:184 `lambda` case commandStroke -> Lines.stroke(this.stroke = x);
+- mindustry/world/blocks/logic/LogicDisplay.java:185 `lambda` case commandImage -> {
+- mindustry/world/blocks/logic/LogicDisplay.java:199 `lambda` case commandPrint -> {
+- mindustry/world/blocks/logic/LogicDisplay.java:208 `lambda` case commandTranslate -> Draw.trans((transform == null ? (transform = new Mat()) : transform).translate(x, y));
+- mindustry/world/blocks/logic/LogicDisplay.java:209 `lambda` case commandScale -> Draw.trans((transform == null ? (transform = new Mat()) : transform).scale(x * scaleStep, y * scaleStep));
+- mindustry/world/blocks/logic/LogicDisplay.java:210 `lambda` case commandRotate-> Draw.trans((transform == null ? (transform = new Mat()) : transform).rotate(p1));
+- mindustry/world/blocks/logic/LogicDisplay.java:211 `lambda` case commandResetTransform -> Draw.trans((transform == null ? (transform = new Mat()) : transform).idt());
+- mindustry/world/blocks/logic/MemoryBlock.java:86 `lambda` case memoryCapacity -> memoryCapacity;
+- mindustry/world/blocks/logic/MemoryBlock.java:87 `lambda` default -> super.sense(sensor);
+- mindustry/world/blocks/logic/MessageBlock.java:41 `lambda` config(String.class, (MessageBuild tile, String text) -> {
+- mindustry/world/blocks/logic/MessageBlock.java:110 `lambda` table.button(Icon.pencil, Styles.cleari, () -> {
+- mindustry/world/blocks/logic/MessageBlock.java:113 `anonymous_double_brace_initializer` Core.input.getTextInput(new TextInput(){{
+- mindustry/world/blocks/logic/MessageBlock.java:117 `lambda` accepted = str -> {
+- mindustry/world/blocks/logic/MessageBlock.java:125 `lambda` a.setFilter((textField, c) -> {
+- mindustry/world/blocks/logic/MessageBlock.java:139 `lambda` dialog.cont.label(() -> a.getText().length() + " / " + maxTextLength).color(Color.lightGray);
+- mindustry/world/blocks/logic/MessageBlock.java:140 `lambda` dialog.buttons.button("@ok", () -> {
+- mindustry/world/blocks/logic/MessageBlock.java:144 `lambda` dialog.update(() -> {
+- mindustry/world/blocks/logic/MessageBlock.java:185 `lambda` case bufferSize -> message.length();
+- mindustry/world/blocks/logic/MessageBlock.java:186 `lambda` default -> super.sense(sensor);
+- mindustry/world/blocks/logic/SwitchBlock.java:28 `lambda` config(Boolean.class, (SwitchBuild entity, Boolean b) -> entity.enabled = b);
+- mindustry/world/blocks/logic/TileableLogicDisplay.java:140 `lambda` case displayWidth -> tilesWidth * 32f - frameSize * 2;    // accounts for display frame (2 * 6 pixels)
+- mindustry/world/blocks/logic/TileableLogicDisplay.java:141 `lambda` case displayHeight -> tilesHeight * 32f - frameSize * 2;
+- mindustry/world/blocks/logic/TileableLogicDisplay.java:142 `lambda` default -> super.sense(sensor);
+- mindustry/world/blocks/logic/TileableLogicDisplay.java:181 `lambda` Draw.draw(Draw.z(), () -> {
+- mindustry/world/blocks/payloads/BlockProducer.java:39 `lambda` consume(new ConsumeItemDynamic((BlockProducerBuild e) -> {
+- mindustry/world/blocks/payloads/BlockProducer.java:43 `lambda` ItemStack[] clone = stacks.get(block, () -> ItemStack.copy(block.requirements));
+- mindustry/world/blocks/payloads/BlockProducer.java:74 `lambda` addBar("progress", (BlockProducerBuild entity) -> new Bar("bar.progress", Pal.ammo, () -> entity.recipe() == null ? 0f : (entity.progress / entity.recipe().buildTime)));
+- mindustry/world/blocks/payloads/BlockProducer.java:138 `lambda` Draw.draw(Layer.blockBuilding, () -> {
+- mindustry/world/blocks/payloads/BuildPayload.java:37 `lambda` tile.setBlock(build.block, build.team, rotation, () -> build);
+- mindustry/world/blocks/payloads/BuildPayload.java:119 `lambda` Draw.zTransform(z ->
+- mindustry/world/blocks/payloads/Constructor.java:31 `lambda` configClear((ConstructorBuild tile) -> tile.recipe = null);
+- mindustry/world/blocks/payloads/Constructor.java:32 `lambda` config(Block.class, (ConstructorBuild tile, Block block) -> {
+- mindustry/world/blocks/payloads/Constructor.java:38 `lambda` configClear((ConstructorBuild tile) -> tile.recipe = null);
+- mindustry/world/blocks/payloads/Constructor.java:68 `lambda` ItemSelection.buildTable(Constructor.this, table, filter.isEmpty() ? content.blocks().select(Constructor.this::canProduce) : filter, () -> recipe, this::configure, selectionRows, selectionColumns);
+- mindustry/world/blocks/payloads/PayloadBlock.java:81 `lambda` Groups.unit.intersect(x - size/2f, y - size/2f, size, size, u -> {
+- mindustry/world/blocks/payloads/PayloadBlock.java:110 `lambda` handleUnitPayload(player, p -> payload = (T)p);
+- mindustry/world/blocks/payloads/PayloadConveyor.java:92 `lambda` handleUnitPayload(player, p -> item = p);
+- mindustry/world/blocks/payloads/PayloadDeconstructor.java:48 `lambda` addBar("progress", (PayloadDeconstructorBuild e) -> new Bar("bar.progress", Pal.ammo, () -> e.progress));
+- mindustry/world/blocks/payloads/PayloadDeconstructor.java:77 `lambda` Draw.draw(Layer.blockOver, () -> {
+- mindustry/world/blocks/payloads/PayloadDeconstructor.java:151 `lambda` tile.getLinkedTiles(other -> Puddles.deposit(other, build.liquids.current(), perCell));
+- mindustry/world/blocks/payloads/PayloadLoader.java:63 `lambda` addBar("progress", (PayloadLoaderBuild build) -> new Bar(() ->
+- mindustry/world/blocks/payloads/PayloadLoader.java:65 `lambda` build.payload == null || !build.payload.block().hasItems ? 0 : build.payload.build.items.total()), () -> Pal.items, build::fraction));
+- mindustry/world/blocks/payloads/PayloadLoader.java:80 `lambda` consumePowerDynamic(basePowerUse, (PayloadLoaderBuild loader) -> loader.shouldConsume() ? (loader.hasBattery() && !loader.exporting ? maxPowerConsumption + basePowerUse : basePowerUse) : 0f);
+- mindustry/world/blocks/payloads/PayloadLoader.java:231 `lambda` (payload.block().hasItems && items.any() && payload.block().separateItemCapacity && content.items().contains(i -> (payload.build.items.get(i) >= payload.block().itemCapacity) && items.has(i))) ||
+- mindustry/world/blocks/payloads/PayloadMassDriver.java:40 `lambda` public Effect transferEffect = new Effect(11f, 600f, e -> {
+- mindustry/world/blocks/payloads/PayloadMassDriver.java:70 `lambda` config(Point2.class, (PayloadDriverBuild tile, Point2 point) -> tile.link = Point2.pack(point.x + tile.tileX(), point.y + tile.tileY()));
+- mindustry/world/blocks/payloads/PayloadMassDriver.java:71 `lambda` config(Integer.class, (PayloadDriverBuild tile, Integer point) -> tile.link = point);
+- mindustry/world/blocks/payloads/PayloadRouter.java:36 `lambda` config(Block.class, (PayloadRouterBuild tile, Block item) -> tile.sorted = item);
+- mindustry/world/blocks/payloads/PayloadRouter.java:37 `lambda` config(UnitType.class, (PayloadRouterBuild tile, UnitType item) -> tile.sorted = item);
+- mindustry/world/blocks/payloads/PayloadRouter.java:38 `lambda` configClear((PayloadRouterBuild tile) -> tile.sorted = null);
+- mindustry/world/blocks/payloads/PayloadRouter.java:187 `lambda` () -> (UnlockableContent)config(), this::configure);
+- mindustry/world/blocks/payloads/PayloadSource.java:45 `lambda` config(Block.class, (PayloadSourceBuild build, Block block) -> {
+- mindustry/world/blocks/payloads/PayloadSource.java:54 `lambda` config(UnitType.class, (PayloadSourceBuild build, UnitType unit) -> {
+- mindustry/world/blocks/payloads/PayloadSource.java:63 `lambda` configClear((PayloadSourceBuild build) -> {
+- mindustry/world/blocks/payloads/PayloadSource.java:118 `lambda` () -> (UnlockableContent)config(), this::configure, selectionRows, selectionColumns);
+- mindustry/world/blocks/payloads/UnitPayload.java:126 `lambda` if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep)) > 0){
+- mindustry/world/blocks/power/Battery.java:41 `anonymous_double_brace_initializer` drawer = new DrawMulti(new DrawDefault(), new DrawPower(){{
+- mindustry/world/blocks/power/BeamNode.java:110 `lambda` Placement.calculateNodes(points, this, rotation, (point, other) -> Math.max(Math.abs(point.x - other.x), Math.abs(point.y - other.y)) <= range + size - 1);
+- mindustry/world/blocks/power/BeamNode.java:124 `lambda` case 0 -> Tmp.r1.set(cx - s, cy - s, r, s * 2f);
+- mindustry/world/blocks/power/BeamNode.java:125 `lambda` case 1 -> Tmp.r1.set(cx - s, cy - s, s * 2f, r);
+- mindustry/world/blocks/power/BeamNode.java:126 `lambda` case 2 -> Tmp.r1.set(cx + s, cy - s, -r, s * 2f).normalize();
+- mindustry/world/blocks/power/BeamNode.java:127 `lambda` case 3 -> Tmp.r1.set(cx - s, cy + s, s * 2f, -r).normalize();
+- mindustry/world/blocks/power/BeamNode.java:133 `lambda` Building closest = tempBuilds.min(b -> b instanceof BeamNodeBuild node && node.couldConnect((fi + 2) % 4, block, tile.x, tile.y), b -> b.dst2(cx, cy));
+- mindustry/world/blocks/power/ConsumeGenerator.java:51 `lambda` filterItem = findConsumer(c -> c instanceof ConsumeItemFilter);
+- mindustry/world/blocks/power/ConsumeGenerator.java:52 `lambda` filterLiquid = findConsumer(c -> c instanceof ConsumeLiquidFilter);
+- mindustry/world/blocks/power/ConsumeGenerator.java:77 `lambda` filterItem = findConsumer(c -> c instanceof ConsumeItemFilter);
+- mindustry/world/blocks/power/ConsumeGenerator.java:78 `lambda` filterLiquid = findConsumer(c -> c instanceof ConsumeLiquidFilter);
+- mindustry/world/blocks/power/HeaterGenerator.java:41 `lambda` addBar("heat", (HeaterGeneratorBuild entity) -> new Bar("bar.heat", Pal.lightOrange, () -> entity.heat / heatOutput));
+- mindustry/world/blocks/power/ImpactReactor.java:48 `lambda` addBar("power", (GeneratorBuild entity) -> new Bar(() ->
+- mindustry/world/blocks/power/ImpactReactor.java:51 `lambda` () -> Pal.powerBar,
+- mindustry/world/blocks/power/ImpactReactor.java:52 `lambda` () -> entity.productionEfficiency));
+- mindustry/world/blocks/power/ImpactReactor.java:67 `lambda` stats.add(Stat.warmupTime, t -> {
+- mindustry/world/blocks/power/LightBlock.java:35 `lambda` config(Integer.class, (LightBuild tile, Integer value) -> tile.color = value);
+- mindustry/world/blocks/power/LightBlock.java:57 `lambda` Placement.calculateNodes(points, this, rotation, (point, other) -> point.dst2(other) <= placeRadius2);
+- mindustry/world/blocks/power/LightBlock.java:110 `lambda` table.button(Icon.pencil, Styles.cleari, () -> {
+- mindustry/world/blocks/power/LightBlock.java:111 `lambda` ui.picker.show(Tmp.c1.set(color).a(0.5f), false, res -> configure(res.rgba()));
+- mindustry/world/blocks/power/NuclearReactor.java:86 `lambda` addBar("heat", (NuclearReactorBuild entity) -> new Bar("bar.heat", Pal.lightOrange, () -> entity.heat));
+- mindustry/world/blocks/power/PowerDiode.java:33 `lambda` addBar("back", entity -> new Bar("bar.input", Pal.powerBar, () -> bar(entity.back())));
+- mindustry/world/blocks/power/PowerDiode.java:34 `lambda` addBar("front", entity -> new Bar("bar.output", Pal.powerBar, () -> bar(entity.front())));
+- mindustry/world/blocks/power/PowerGenerator.java:75 `lambda` addBar("power", (GeneratorBuild entity) -> new Bar(() ->
+- mindustry/world/blocks/power/PowerGenerator.java:78 `lambda` () -> Pal.powerBar,
+- mindustry/world/blocks/power/PowerGenerator.java:79 `lambda` () -> entity.productionEfficiency));
+- mindustry/world/blocks/power/PowerNode.java:59 `lambda` config(Integer.class, (entity, value) -> {
+- mindustry/world/blocks/power/PowerNode.java:96 `lambda` config(Point2[].class, (tile, value) -> {
+- mindustry/world/blocks/power/PowerNode.java:117 `lambda` addBar("connections", entity -> new Bar(() ->
+- mindustry/world/blocks/power/PowerNode.java:119 `lambda` () -> Pal.items,
+- mindustry/world/blocks/power/PowerNode.java:120 `lambda` () -> (float)entity.power.links.size / (float)maxNodes
+- mindustry/world/blocks/power/PowerNode.java:125 `lambda` return entity -> new Bar(() ->
+- mindustry/world/blocks/power/PowerNode.java:128 `lambda` () -> Pal.powerBar,
+- mindustry/world/blocks/power/PowerNode.java:129 `lambda` () -> Mathf.clamp(entity.power.graph.getLastPowerProduced() / entity.power.graph.getLastPowerNeeded())
+- mindustry/world/blocks/power/PowerNode.java:134 `lambda` return entity -> new Bar(() ->
+- mindustry/world/blocks/power/PowerNode.java:137 `lambda` () -> Pal.powerBar,
+- mindustry/world/blocks/power/PowerNode.java:138 `lambda` () -> Mathf.clamp(entity.power.graph.getLastPowerStored() / entity.power.graph.getLastCapacity())
+- mindustry/world/blocks/power/PowerNode.java:167 `lambda` getPotentialLinks(tile, player.team(), other -> {
+- mindustry/world/blocks/power/PowerNode.java:179 `lambda` Placement.calculateNodes(points, this, rotation, (point, other) -> overlaps(world.tile(point.x, point.y), world.tile(other.x, other.y)));
+- mindustry/world/blocks/power/PowerNode.java:223 `lambda` Boolf<Building> valid = other -> other != null && other.tile != tile && other.block.connectedPower && other.power != null &&
+- mindustry/world/blocks/power/PowerNode.java:229 `lambda` !Structs.contains(Edges.getEdges(size), p -> { //do not link to adjacent buildings
+- mindustry/world/blocks/power/PowerNode.java:252 `lambda` tree.intersect(tile.worldx() - worldRange, tile.worldy() - worldRange, worldRange * 2, worldRange * 2, build -> {
+- mindustry/world/blocks/power/PowerNode.java:259 `lambda` tempBuilds.sort((a, b) -> {
+- mindustry/world/blocks/power/PowerNode.java:267 `lambda` tempBuilds.each(valid, t -> {
+- mindustry/world/blocks/power/PowerNode.java:278 `lambda` Boolf<Building> valid = other -> other != null && other.tile != tile && other.block instanceof PowerNode node &&
+- mindustry/world/blocks/power/PowerNode.java:284 `lambda` !Structs.contains(Edges.getEdges(block.size), p -> { //do not link to adjacent buildings
+- mindustry/world/blocks/power/PowerNode.java:308 `lambda` tree.intersect(tile.worldx() - rangeWorld, tile.worldy() - rangeWorld, rangeWorld * 2, rangeWorld * 2, build -> {
+- mindustry/world/blocks/power/PowerNode.java:315 `lambda` tempBuilds.sort((a, b) -> {
+- mindustry/world/blocks/power/PowerNode.java:321 `lambda` tempBuilds.each(valid, t -> {
+- mindustry/world/blocks/power/PowerNode.java:329 `lambda` private static final Boolf<BuildPlan> planFinder = other -> other.block != null
+- mindustry/world/blocks/power/PowerNode.java:382 `lambda` return World.raycast(x, y, x2, y2, (wx, wy) -> {
+- mindustry/world/blocks/power/PowerNode.java:402 `lambda` getPotentialLinks(tile, team, other -> {
+- mindustry/world/blocks/power/PowerNode.java:427 `lambda` getPotentialLinks(tile, team, link -> {
+- mindustry/world/blocks/power/PowerNode.java:480 `lambda` power.links.each(i -> {
+- mindustry/world/blocks/power/ThermalGenerator.java:71 `lambda` return tile.getLinkedTilesAs(this, tempTiles).sumf(other -> other.floor().attributes.get(attribute)) > minEfficiency;
+- mindustry/world/blocks/power/VariableReactor.java:56 `lambda` addBar("instability", (VariableReactorBuild entity) -> new Bar("bar.instability", Pal.sap, () -> entity.instability));
+- mindustry/world/blocks/power/VariableReactor.java:58 `lambda` addBar("heat", (VariableReactorBuild entity) ->
+- mindustry/world/blocks/power/VariableReactor.java:59 `lambda` new Bar(() ->
+- mindustry/world/blocks/power/VariableReactor.java:61 `lambda` () -> Pal.lightOrange,
+- mindustry/world/blocks/power/VariableReactor.java:62 `lambda` () -> entity.heat / maxHeat));
+- mindustry/world/blocks/production/AttributeCrafter.java:41 `lambda` addBar("efficiency", (AttributeCrafterBuild entity) ->
+- mindustry/world/blocks/production/AttributeCrafter.java:43 `lambda` () -> Core.bundle.format("bar.efficiency", (int)(entity.efficiencyMultiplier() * 100 * displayEfficiencyScale)),
+- mindustry/world/blocks/production/AttributeCrafter.java:44 `lambda` () -> Pal.lightOrange,
+- mindustry/world/blocks/production/AttributeCrafter.java:51 `lambda` return baseEfficiency + tile.getLinkedTilesAs(this, tempTiles).sumf(other -> other.floor().attributes.get(attribute)) >= minEfficiency;
+- mindustry/world/blocks/production/BeamDrill.java:93 `lambda` addBar("drillspeed", (BeamDrillBuild e) ->
+- mindustry/world/blocks/production/BeamDrill.java:94 `lambda` new Bar(() -> Core.bundle.format("bar.drillspeed", Strings.fixed(e.lastDrillSpeed * 60, 2)), () -> Pal.ammo, () -> e.warmup));
+- mindustry/world/blocks/production/BeamDrill.java:122 `lambda` stats.add(Stat.drillTier, StatValues.drillables(drillTime, 0f, size, drillMultipliers, b ->
+- mindustry/world/blocks/production/BeamDrill.java:129 `lambda` if(optionalBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase){
+- mindustry/world/blocks/production/BurstDrill.java:61 `lambda` if(liquidBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase){
+- mindustry/world/blocks/production/Drill.java:117 `lambda` addBar("drillspeed", (DrillBuild e) ->
+- mindustry/world/blocks/production/Drill.java:118 `lambda` new Bar(() -> Core.bundle.format("bar.drillspeed", Strings.fixed(e.lastDrillSpeed * 60 * e.timeScale(), 2)), () -> Pal.ammo, () -> e.warmup));
+- mindustry/world/blocks/production/Drill.java:162 `lambda` Tile to = tile.getLinkedTilesAs(this, tempTiles).find(t -> t.drop() != null && (t.drop().hardness > tier || (blockedItems != null && blockedItems.contains(t.drop()))));
+- mindustry/world/blocks/production/Drill.java:178 `lambda` stats.add(Stat.drillTier, StatValues.drillables(drillTime, hardnessDrillMultiplier, size * size, drillMultipliers, b -> b instanceof Floor f && !f.wallOre && f.itemDrop != null &&
+- mindustry/world/blocks/production/Drill.java:183 `lambda` if(liquidBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase){
+- mindustry/world/blocks/production/Drill.java:215 `lambda` itemArray.sort((item1, item2) -> {
+- mindustry/world/blocks/production/HeatCrafter.java:27 `lambda` addBar("heat", (HeatCrafterBuild entity) ->
+- mindustry/world/blocks/production/HeatCrafter.java:28 `lambda` new Bar(() ->
+- mindustry/world/blocks/production/HeatCrafter.java:30 `lambda` () -> Pal.lightOrange,
+- mindustry/world/blocks/production/HeatCrafter.java:31 `lambda` () -> entity.heat / heatRequirement));
+- mindustry/world/blocks/production/Pump.java:103 `lambda` addLiquidBar((PumpBuild build) -> build.liquidDrop);
+- mindustry/world/blocks/production/Separator.java:44 `lambda` stats.add(Stat.output, table -> {
+- mindustry/world/blocks/production/Separator.java:55 `lambda` consItems = findConsumer(c -> c instanceof ConsumeItems);
+- mindustry/world/blocks/production/SolidPump.java:51 `lambda` addBar("efficiency", (SolidPumpBuild entity) -> new Bar(() -> Core.bundle.formatFloat("bar.pumpspeed",
+- mindustry/world/blocks/production/SolidPump.java:53 `lambda` () -> Pal.ammo,
+- mindustry/world/blocks/production/SolidPump.java:54 `lambda` () -> entity.warmup * entity.efficiency));
+- mindustry/world/blocks/production/SolidPump.java:70 `lambda` float sum = tile.getLinkedTilesAs(this, tempTiles).sumf(t -> canPump(t) ? baseEfficiency + (attribute != null ? t.floor().attributes.get(attribute) : 0f) : 0f);
+- mindustry/world/blocks/production/WallCrafter.java:71 `lambda` addBar("drillspeed", (WallCrafterBuild e) ->
+- mindustry/world/blocks/production/WallCrafter.java:72 `lambda` new Bar(() -> Core.bundle.format("bar.drillspeed", Strings.fixed(e.lastEfficiency * 60 / drillTime, 2)), () -> Pal.ammo, () -> e.warmup));
+- mindustry/world/blocks/production/WallCrafter.java:92 `lambda` if(liquidBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase){
+- mindustry/world/blocks/production/WallCrafter.java:106 `lambda` hasLiquidBooster = findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) != null;
+- mindustry/world/blocks/production/WallCrafter.java:149 `lambda` case 0 -> {
+- mindustry/world/blocks/production/WallCrafter.java:153 `lambda` case 1 -> {
+- mindustry/world/blocks/production/WallCrafter.java:157 `lambda` case 2 -> {
+- mindustry/world/blocks/production/WallCrafter.java:161 `lambda` case 3 -> {
+- mindustry/world/blocks/production/WallCrafter.java:196 `lambda` float eff = getEfficiency(tile.x, tile.y, rotation, dest -> {
+- mindustry/world/blocks/production/WallCrafter.java:239 `lambda` getEfficiency(tile.x, tile.y, rotation, null, (cx, cy) -> {
+- mindustry/world/blocks/sandbox/ItemSource.java:34 `lambda` config(Item.class, (ItemSourceBuild tile, Item item) -> tile.outputItem = item);
+- mindustry/world/blocks/sandbox/ItemSource.java:35 `lambda` configClear((ItemSourceBuild tile) -> tile.outputItem = null);
+- mindustry/world/blocks/sandbox/ItemSource.java:116 `lambda` ItemSelection.buildTable(ItemSource.this, table, content.items(), () -> outputItem, this::configure, selectionRows, selectionColumns);
+- mindustry/world/blocks/sandbox/LiquidSource.java:37 `lambda` config(Liquid.class, (LiquidSourceBuild tile, Liquid l) -> tile.source = l);
+- mindustry/world/blocks/sandbox/LiquidSource.java:38 `lambda` configClear((LiquidSourceBuild tile) -> tile.source = null);
+- mindustry/world/blocks/sandbox/LiquidSource.java:94 `lambda` ItemSelection.buildTable(LiquidSource.this, table, content.liquids(), () -> source, this::configure, selectionRows, selectionColumns);
+- mindustry/world/blocks/storage/CoreBlock.java:127 `lambda` stats.add(Stat.unitType, table -> {
+- mindustry/world/blocks/storage/CoreBlock.java:129 `lambda` table.table(Styles.grayPanel, b -> {
+- mindustry/world/blocks/storage/CoreBlock.java:131 `lambda` b.table(info -> {
+- mindustry/world/blocks/storage/CoreBlock.java:138 `lambda` b.button("?", Styles.flatBordert, () -> ui.content.show(unitType)).size(40f).pad(10).right().grow().visible(() -> unitType.unlockedNow());
+- mindustry/world/blocks/storage/CoreBlock.java:147 `lambda` addBar("capacity", (CoreBuild e) -> new Bar(
+- mindustry/world/blocks/storage/CoreBlock.java:148 `lambda` () -> Core.bundle.format("bar.capacity", UI.formatAmount(e.storageCapacity)),
+- mindustry/world/blocks/storage/CoreBlock.java:149 `lambda` () -> Pal.items,
+- mindustry/world/blocks/storage/CoreBlock.java:150 `lambda` () -> e.items.total() / ((float)e.storageCapacity * content.items().count(UnlockableContent::unlockedNow))
+- mindustry/world/blocks/storage/CoreBlock.java:193 `lambda` if(!tempTiles.contains(o -> !o.floor().allowCorePlacement || o.block() instanceof CoreBlock)){
+- mindustry/world/blocks/storage/CoreBlock.java:200 `lambda` return tile.block() instanceof CoreBlock && size > tile.block().size && (!requiresCoreZone || tempTiles.allMatch(o -> o.floor().allowCorePlacement));
+- mindustry/world/blocks/storage/CoreBlock.java:333 `lambda` image.update(() -> {
+- mindustry/world/blocks/storage/CoreBlock.java:347 `lambda` image.update(() -> {
+- mindustry/world/blocks/storage/CoreBlock.java:356 `lambda` Time.run(launchDuration(), () -> {
+- mindustry/world/blocks/storage/CoreBlock.java:387 `lambda` Angles.randLenVectors(1, pfin, 100, 800f * scl * pfin, (ax, ay, ffin, ffout) -> {
+- mindustry/world/blocks/storage/CoreBlock.java:612 `lambda` tile.getLinkedTiles(t -> {
+- mindustry/world/blocks/storage/CoreBlock.java:681 `lambda` Time.run(0f, () -> {
+- mindustry/world/blocks/storage/CoreBlock.java:715 `lambda` storageCapacity = itemCapacity + proximity.sum(e -> owns(e) ? e.block.itemCapacity : 0);
+- mindustry/world/blocks/storage/CoreBlock.java:716 `lambda` proximity.each(this::owns, t -> {
+- mindustry/world/blocks/storage/CoreBlock.java:723 `lambda` storageCapacity += other.block.itemCapacity + other.proximity.sum(e -> owns(other, e) ? e.block.itemCapacity : 0);
+- mindustry/world/blocks/storage/CoreBlock.java:768 `lambda` if(team.cores().size <= 1 && !proximity.contains(storage -> storage.items == items)) return;
+- mindustry/world/blocks/storage/CoreBlock.java:771 `lambda` Cons<Building> outline = b -> {
+- mindustry/world/blocks/storage/CoreBlock.java:778 `lambda` team.cores().each(core -> {
+- mindustry/world/blocks/storage/CoreBlock.java:780 `lambda` core.proximity.each(storage -> storage.items == items, outline);
+- mindustry/world/blocks/storage/CoreBlock.java:804 `lambda` int totalCapacity = proximity.sum(e -> e.items != null && e.items == items ? e.block.itemCapacity : 0);
+- mindustry/world/blocks/storage/CoreBlock.java:806 `lambda` proximity.each(e -> owns(e) && e.items == items && owns(e), t -> {
+- mindustry/world/blocks/storage/StorageBlock.java:128 `lambda` items.each((i, a) -> items.set(i, Math.min(a, itemCapacity)));
+- mindustry/world/blocks/storage/Unloader.java:49 `lambda` config(Item.class, (UnloaderBuild tile, Item item) -> tile.sortItem = item);
+- mindustry/world/blocks/storage/Unloader.java:50 `lambda` configClear((UnloaderBuild tile) -> tile.sortItem = null);
+- mindustry/world/blocks/storage/Unloader.java:99 `lambda` protected final Comparator<ContainerStat> comparator = (x, y) -> {
+- mindustry/world/blocks/storage/Unloader.java:258 `lambda` ItemSelection.buildTable(Unloader.this, table, content.items(), () -> sortItem, this::configure, selectionRows, selectionColumns);
+- mindustry/world/blocks/units/Reconstructor.java:50 `lambda` config(UnitCommand.class, (ReconstructorBuild build, UnitCommand command) -> build.command = command);
+- mindustry/world/blocks/units/Reconstructor.java:51 `lambda` configClear((ReconstructorBuild build) -> build.command = null);
+- mindustry/world/blocks/units/Reconstructor.java:71 `lambda` addBar("progress", (ReconstructorBuild entity) -> new Bar("bar.progress", Pal.ammo, entity::fraction));
+- mindustry/world/blocks/units/Reconstructor.java:72 `lambda` addBar("units", (ReconstructorBuild e) ->
+- mindustry/world/blocks/units/Reconstructor.java:74 `lambda` () -> e.unit() == null ? "[lightgray]" + Iconc.cancel :
+- mindustry/world/blocks/units/Reconstructor.java:80 `lambda` () -> Pal.power,
+- mindustry/world/blocks/units/Reconstructor.java:81 `lambda` () -> e.unit() == null ? 0f : (e.unit().useUnitCap ? (float)e.team.data().countType(e.unit()) / Units.getCap(e.team) : 1f)
+- mindustry/world/blocks/units/Reconstructor.java:91 `lambda` stats.add(Stat.output, table -> {
+- mindustry/world/blocks/units/Reconstructor.java:95 `lambda` table.table(Styles.grayPanel, t -> {
+- mindustry/world/blocks/units/Reconstructor.java:98 `lambda` t.image(upgrade[0].uiIcon).size(40).pad(10f).left().scaling(Scaling.fit).with(i -> StatValues.withTooltip(i, upgrade[0]));
+- mindustry/world/blocks/units/Reconstructor.java:99 `lambda` t.table(info -> {
+- mindustry/world/blocks/units/Reconstructor.java:105 `lambda` table.table(Styles.grayPanel, t -> {
+- mindustry/world/blocks/units/Reconstructor.java:110 `lambda` table.table(Styles.grayPanel, t -> {
+- mindustry/world/blocks/units/Reconstructor.java:113 `lambda` t.image(upgrade[1].uiIcon).size(40).pad(10f).right().scaling(Scaling.fit).with(i -> StatValues.withTooltip(i, upgrade[1]));
+- mindustry/world/blocks/units/Reconstructor.java:114 `lambda` t.table(info -> {
+- mindustry/world/blocks/units/Reconstructor.java:141 `lambda` ConsumeItems cons = findConsumer(c -> c instanceof ConsumeItems);
+- mindustry/world/blocks/units/Reconstructor.java:149 `lambda` consumeBuilder.each(c -> c.multiplier = b -> state.rules.unitCost(b.team));
+- mindustry/world/blocks/units/Reconstructor.java:219 `lambda` ImageButton button = table.button(item.getIcon(), Styles.clearNoneTogglei, 40f, () -> {
+- mindustry/world/blocks/units/Reconstructor.java:224 `lambda` button.update(() -> button.setChecked(command == item || (command == null && unit.defaultCommand == item)));
+- mindustry/world/blocks/units/Reconstructor.java:294 `lambda` Draw.draw(Layer.blockOver, () -> {
+- mindustry/world/blocks/units/Reconstructor.java:394 `lambda` UnitType[] r =  upgrades.find(u -> u[0] == type);
+- mindustry/world/blocks/units/RepairTower.java:62 `lambda` Units.nearby(team, x, y, range, u -> {
+- mindustry/world/blocks/units/RepairTurret.java:89 `lambda` consumePowerCond(powerUse, (RepairPointBuild entity) -> entity.target != null);
+- mindustry/world/blocks/units/UnitAssembler.java:105 `lambda` !indexer.getFlagged(team, BlockFlag.unitAssembler).contains(b -> b != tile.build && b.block instanceof UnitAssembler assembler && assembler.getRect(Tmp.r2, b.x, b.y, b.rotation).overlaps(rect)) &&
+- mindustry/world/blocks/units/UnitAssembler.java:106 `lambda` !team.data().getBuildings(ConstructBlock.get(size)).contains(b -> b != tile.build && ((ConstructBuild)b).current instanceof UnitAssembler assembler && assembler.getRect(Tmp.r2, b.x, b.y, b.rotation).overlaps(rect));
+- mindustry/world/blocks/units/UnitAssembler.java:128 `lambda` addBar("progress", (UnitAssemblerBuild e) -> new Bar("bar.progress", Pal.ammo, () -> e.progress));
+- mindustry/world/blocks/units/UnitAssembler.java:130 `lambda` addBar("units", (UnitAssemblerBuild e) ->
+- mindustry/world/blocks/units/UnitAssembler.java:131 `lambda` new Bar(() ->
+- mindustry/world/blocks/units/UnitAssembler.java:137 `lambda` () -> Pal.power,
+- mindustry/world/blocks/units/UnitAssembler.java:138 `lambda` () -> e.unit().useUnitCap ? ((float)e.team.data().countType(e.unit()) / Units.getCap(e.team)) : 1f
+- mindustry/world/blocks/units/UnitAssembler.java:158 `lambda` consume(consPayload = new ConsumePayloadDynamic((UnitAssemblerBuild build) -> build.plan().requirements));
+- mindustry/world/blocks/units/UnitAssembler.java:159 `lambda` consume(consItem = new ConsumeItemDynamic((UnitAssemblerBuild build) -> build.plan().itemReq != null ? build.plan().itemReq : ItemStack.empty));
+- mindustry/world/blocks/units/UnitAssembler.java:160 `lambda` consume(new ConsumeLiquidsDynamic((UnitAssemblerBuild build) -> build.plan().liquidReq != null ? build.plan().liquidReq : LiquidStack.empty));
+- mindustry/world/blocks/units/UnitAssembler.java:175 `lambda` consumeBuilder.each(c -> c.multiplier = b -> state.rules.unitCost(b.team));
+- mindustry/world/blocks/units/UnitAssembler.java:205 `lambda` stats.add(Stat.output, table -> {
+- mindustry/world/blocks/units/UnitAssembler.java:211 `lambda` table.table(Styles.grayPanel, t -> {
+- mindustry/world/blocks/units/UnitAssembler.java:219 `lambda` t.image(plan.unit.uiIcon).scaling(Scaling.fit).size(40).pad(10f).left().with(i -> StatValues.withTooltip(i, plan.unit));
+- mindustry/world/blocks/units/UnitAssembler.java:220 `lambda` t.table(info -> {
+- mindustry/world/blocks/units/UnitAssembler.java:231 `lambda` t.table(req -> {
+- mindustry/world/blocks/units/UnitAssembler.java:234 `lambda` req.table(solid -> {
+- mindustry/world/blocks/units/UnitAssembler.java:364 `lambda` modules.sort(b -> b.tier());
+- mindustry/world/blocks/units/UnitAssembler.java:411 `lambda` table.table(t -> {
+- mindustry/world/blocks/units/UnitAssembler.java:424 `lambda` t.label(() -> "[accent] -> []" + unit().emoji() + " " + unit().localizedName);
+- mindustry/world/blocks/units/UnitAssembler.java:432 `lambda` readUnits.each(i -> {
+- mindustry/world/blocks/units/UnitAssembler.java:452 `lambda` whenSyncedUnits.each(id -> {
+- mindustry/world/blocks/units/UnitAssembler.java:460 `lambda` units.removeAll(u -> !u.isAdded() || u.dead || !(u.controller() instanceof AssemblerAI));
+- mindustry/world/blocks/units/UnitAssembler.java:516 `lambda` float eff = (units.count(u -> ((AssemblerAI)u.controller()).inPosition()) / (float)dronesCreated);
+- mindustry/world/blocks/units/UnitAssembler.java:599 `lambda` Draw.draw(Layer.blockOver + 0.2f, () -> {
+- mindustry/world/blocks/units/UnitAssembler.java:610 `lambda` Draw.draw(Layer.blockBuilding, () -> {
+- mindustry/world/blocks/units/UnitAssembler.java:679 `lambda` Units.anyEntities(v.x - hsize/2f, v.y - hsize/2f, hsize, hsize, u -> (!same || u.type != output) && !u.spawnedByCore &&
+- mindustry/world/blocks/units/UnitAssembler.java:712 `lambda` return plan.requirements.contains(b -> b.item == unit.type() &&
+- mindustry/world/blocks/units/UnitAssembler.java:725 `lambda` plan.requirements.contains(b -> b.item == payload.content() &&
+- mindustry/world/blocks/units/UnitAssembler.java:738 `lambda` Structs.contains(plan().itemReq, stack -> stack.item == item);
+- mindustry/world/blocks/units/UnitAssemblerModule.java:68 `lambda` return results.find(b -> b.moduleFits(this, x * tilesize + offset, y * tilesize + offset, rotation));
+- mindustry/world/blocks/units/UnitCargoLoader.java:51 `lambda` addBar("units", (UnitTransportSourceBuild e) ->
+- mindustry/world/blocks/units/UnitCargoLoader.java:53 `lambda` () ->
+- mindustry/world/blocks/units/UnitCargoLoader.java:59 `lambda` () -> Pal.power,
+- mindustry/world/blocks/units/UnitCargoLoader.java:60 `lambda` () -> unitType.useUnitCap ? (float)e.team.data().countType(unitType) / Units.getCap(e.team) : 1f
+- mindustry/world/blocks/units/UnitCargoLoader.java:149 `lambda` Draw.draw(Layer.blockOver, () -> {
+- mindustry/world/blocks/units/UnitCargoUnloadPoint.java:33 `lambda` config(Item.class, (UnitCargoUnloadPointBuild build, Item item) -> build.item = item);
+- mindustry/world/blocks/units/UnitCargoUnloadPoint.java:34 `lambda` configClear((UnitCargoUnloadPointBuild build) -> build.item = null);
+- mindustry/world/blocks/units/UnitCargoUnloadPoint.java:83 `lambda` ItemSelection.buildTable(UnitCargoUnloadPoint.this, table, content.items(), () -> item, this::configure);
+- mindustry/world/blocks/units/UnitFactory.java:58 `lambda` config(Integer.class, (UnitFactoryBuild build, Integer i) -> {
+- mindustry/world/blocks/units/UnitFactory.java:69 `lambda` config(UnitType.class, (UnitFactoryBuild build, UnitType val) -> {
+- mindustry/world/blocks/units/UnitFactory.java:72 `lambda` int next = plans.indexOf(p -> p.unit == val);
+- mindustry/world/blocks/units/UnitFactory.java:81 `lambda` config(UnitCommand.class, (UnitFactoryBuild build, UnitCommand command) -> build.command = command);
+- mindustry/world/blocks/units/UnitFactory.java:82 `lambda` configClear((UnitFactoryBuild build) -> build.command = null);
+- mindustry/world/blocks/units/UnitFactory.java:84 `lambda` consume(new ConsumeItemDynamic((UnitFactoryBuild e) -> e.currentPlan != -1 ? plans.get(Math.min(e.currentPlan, plans.size - 1)).requirements : ItemStack.empty));
+- mindustry/world/blocks/units/UnitFactory.java:109 `lambda` consumeBuilder.each(c -> c.multiplier = b -> state.rules.unitCost(b.team));
+- mindustry/world/blocks/units/UnitFactory.java:121 `lambda` addBar("progress", (UnitFactoryBuild e) -> new Bar("bar.progress", Pal.ammo, e::fraction));
+- mindustry/world/blocks/units/UnitFactory.java:123 `lambda` addBar("units", (UnitFactoryBuild e) ->
+- mindustry/world/blocks/units/UnitFactory.java:125 `lambda` () -> e.unit() == null ? "[lightgray]" + Iconc.cancel :
+- mindustry/world/blocks/units/UnitFactory.java:131 `lambda` () -> Pal.power,
+- mindustry/world/blocks/units/UnitFactory.java:132 `lambda` () -> e.unit() == null ? 0f : (e.unit().useUnitCap ? (float)e.team.data().countType(e.unit()) / Units.getCap(e.team) : 1f)
+- mindustry/world/blocks/units/UnitFactory.java:147 `lambda` stats.add(Stat.output, table -> {
+- mindustry/world/blocks/units/UnitFactory.java:151 `lambda` table.table(Styles.grayPanel, t -> {
+- mindustry/world/blocks/units/UnitFactory.java:159 `lambda` t.image(plan.unit.uiIcon).size(40).pad(10f).left().scaling(Scaling.fit).with(i -> StatValues.withTooltip(i, plan.unit));
+- mindustry/world/blocks/units/UnitFactory.java:160 `lambda` t.table(info -> {
+- mindustry/world/blocks/units/UnitFactory.java:166 `lambda` t.table(req -> {
+- mindustry/world/blocks/units/UnitFactory.java:241 `lambda` currentPlan = plans.indexOf(u -> u.unit.unlockedNow());
+- mindustry/world/blocks/units/UnitFactory.java:278 `lambda` Seq<UnitType> units = Seq.with(plans).map(u -> u.unit).retainAll(u -> u.unlockedNow() && !u.isBanned());
+- mindustry/world/blocks/units/UnitFactory.java:281 `lambda` ItemSelection.buildTable(UnitFactory.this, table, units, () -> currentPlan == -1 ? null : plans.get(currentPlan).unit, unit -> configure(plans.indexOf(u -> u.unit == unit)), selectionRows, selectionColumns);
+- mindustry/world/blocks/units/UnitFactory.java:288 `lambda` Runnable rebuildCommands = () -> {
+- mindustry/world/blocks/units/UnitFactory.java:302 `lambda` ImageButton button = commands.button(item.getIcon(), Styles.clearNoneTogglei, 40f, () -> {
+- mindustry/world/blocks/units/UnitFactory.java:306 `lambda` button.update(() -> button.setChecked(command == item || (command == null && unit.defaultCommand == item)));
+- mindustry/world/blocks/units/UnitFactory.java:327 `lambda` commands.update(() -> {
+- mindustry/world/blocks/units/UnitFactory.java:339 `lambda` table.table(Styles.black3, t -> t.add("@none").color(Color.lightGray));
+- mindustry/world/blocks/units/UnitFactory.java:355 `lambda` table.table(t -> {
+- mindustry/world/blocks/units/UnitFactory.java:357 `lambda` t.image().update(i -> {
+- mindustry/world/blocks/units/UnitFactory.java:362 `lambda` t.label(() -> currentPlan == -1 ? "@none" : plans.get(currentPlan).unit.localizedName).wrap().width(230f).color(Color.lightGray);
+- mindustry/world/blocks/units/UnitFactory.java:378 `lambda` Draw.draw(Layer.blockOver, () -> Drawf.construct(this, plan.unit, rotdeg() - 90f, progress / plan.time, speedScl, time));
+- mindustry/world/blocks/units/UnitFactory.java:465 `lambda` Structs.contains(plans.get(currentPlan).requirements, stack -> stack.item == item);
+- mindustry/world/Build.java:121 `lambda` tile.getLinkedTilesAs(result, out -> {
+- mindustry/world/Build.java:143 `lambda` tile.getLinkedTilesAs(result, t -> {
+- mindustry/world/Build.java:273 `lambda` return indexer.findEnemyTile(team, x * tilesize + block.size, y * tilesize + block.size, block.placeOverlapRange + 4f, b -> b.team.rules().checkPlacement);
+- mindustry/world/consumers/Consume.java:18 `lambda` public Floatf<Building> multiplier = b -> 1f;
+- mindustry/world/consumers/ConsumeCoolant.java:12 `lambda` this.filter = liquid -> liquid.coolant && (this.allowLiquid && !liquid.gas || this.allowGas && liquid.gas) && liquid.temperature <= maxTemp && liquid.flammability < maxFlammability;
+- mindustry/world/consumers/ConsumeItemCharged.java:11 `lambda` filter = item -> item.charge >= this.minCharge;
+- mindustry/world/consumers/ConsumeItemDynamic.java:29 `lambda` table.table(cont -> {
+- mindustry/world/consumers/ConsumeItemDynamic.java:30 `lambda` table.update(() -> {
+- mindustry/world/consumers/ConsumeItemDynamic.java:47 `lambda` () -> build.items != null && build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8).left();
+- mindustry/world/consumers/ConsumeItemExplode.java:23 `lambda` this.filter = item -> item.explosiveness >= this.threshold;
+- mindustry/world/consumers/ConsumeItemExplosive.java:10 `lambda` filter = item -> item.explosiveness >= this.minExplosiveness;
+- mindustry/world/consumers/ConsumeItemFilter.java:15 `lambda` public Boolf<Item> filter = i -> false;
+- mindustry/world/consumers/ConsumeItemFilter.java:28 `lambda` content.items().each(filter, item -> block.itemFilter[item.id] = true);
+- mindustry/world/consumers/ConsumeItemFilter.java:34 `lambda` content.items().each(i -> filter.get(i) && i.unlockedNow() && !i.hidden, item -> image.add(new ReqImage(StatValues.stack(item, 1),
+- mindustry/world/consumers/ConsumeItemFilter.java:35 `lambda` () -> build.items.has(item))));
+- mindustry/world/consumers/ConsumeItemFlammable.java:10 `lambda` filter = item -> item.flammability >= this.minFlammability;
+- mindustry/world/consumers/ConsumeItemList.java:18 `lambda` filter = item -> itemMultipliers.containsKey(item);
+- mindustry/world/consumers/ConsumeItemRadioactive.java:10 `lambda` filter = item -> item.radioactivity >= this.minRadioactivity;
+- mindustry/world/consumers/ConsumeItems.java:33 `lambda` table.table(c -> {
+- mindustry/world/consumers/ConsumeItems.java:37 `lambda` () -> build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8);
+- mindustry/world/consumers/ConsumeLiquid.java:33 `lambda` table.add(new ReqImage(liquid.uiIcon, () -> build.liquids.get(liquid) > 0)).size(iconMed).top().left();
+- mindustry/world/consumers/ConsumeLiquidFilter.java:16 `lambda` public Boolf<Liquid> filter = l -> false;
+- mindustry/world/consumers/ConsumeLiquidFilter.java:29 `lambda` content.liquids().each(filter, item -> block.liquidFilter[item.id] = true);
+- mindustry/world/consumers/ConsumeLiquidFilter.java:34 `lambda` Seq<Liquid> list = content.liquids().select(l -> !l.isHidden() && filter.get(l));
+- mindustry/world/consumers/ConsumeLiquidFilter.java:36 `lambda` list.each(liquid -> image.add(new ReqImage(liquid.uiIcon, () -> getConsumed(build) == liquid)));
+- mindustry/world/consumers/ConsumeLiquidFlammable.java:12 `lambda` this.filter = liquid -> liquid.flammability >= this.minFlammability;
+- mindustry/world/consumers/ConsumeLiquidFlammable.java:25 `lambda` stats.add(booster ? Stat.booster : Stat.input, StatValues.liquidEffMultiplier(l -> l.flammability, amount * 60f, filter));
+- mindustry/world/consumers/ConsumeLiquids.java:33 `lambda` table.table(c -> {
+- mindustry/world/consumers/ConsumeLiquids.java:37 `lambda` () -> build.liquids.get(stack.liquid) > 0)).size(Vars.iconMed).padRight(8);
+- mindustry/world/consumers/ConsumeLiquidsDynamic.java:28 `lambda` table.table(cont -> {
+- mindustry/world/consumers/ConsumeLiquidsDynamic.java:29 `lambda` table.update(() -> {
+- mindustry/world/consumers/ConsumeLiquidsDynamic.java:46 `lambda` () -> build.liquids != null && build.liquids.get(stack.liquid) > 0)).size(Vars.iconMed).padRight(8);
+- mindustry/world/consumers/ConsumePayloadDynamic.java:47 `lambda` table.table(cont -> {
+- mindustry/world/consumers/ConsumePayloadDynamic.java:48 `lambda` table.update(() -> {
+- mindustry/world/consumers/ConsumePayloadDynamic.java:64 `lambda` table.table(c -> {
+- mindustry/world/consumers/ConsumePayloadDynamic.java:68 `lambda` () -> inv.contains(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8);
+- mindustry/world/consumers/ConsumePayloadFilter.java:59 `lambda` content.blocks().each(i -> filter.get(i) && i.unlockedNow(),
+- mindustry/world/consumers/ConsumePayloadFilter.java:60 `lambda` block -> image.add(new ReqImage(StatValues.stack(block, 1),
+- mindustry/world/consumers/ConsumePayloadFilter.java:61 `lambda` () -> inv.contains(block, 1)))
+- mindustry/world/consumers/ConsumePayloads.java:40 `lambda` stats.add(Stat.input, t -> {
+- mindustry/world/consumers/ConsumePayloads.java:51 `lambda` table.table(c -> {
+- mindustry/world/consumers/ConsumePayloads.java:55 `lambda` () -> inv.contains(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8);
+- mindustry/world/Edges.java:40 `lambda` Arrays.sort(edges[i], (e1, e2) -> Float.compare(Mathf.angle(e1.x, e1.y), Mathf.angle(e2.x, e2.y)));
+- mindustry/world/meta/Attribute.java:48 `lambda` return map.getThrow(name, () -> new IllegalArgumentException("Unknown Attribute type: " + name));
+- mindustry/world/meta/BuildVisibility.java:10 `lambda` hidden = new BuildVisibility(() -> false),
+- mindustry/world/meta/BuildVisibility.java:11 `lambda` shown = new BuildVisibility(() -> true),
+- mindustry/world/meta/BuildVisibility.java:12 `lambda` debugOnly = new BuildVisibility(() -> false),
+- mindustry/world/meta/BuildVisibility.java:13 `lambda` editorOnly = new BuildVisibility(() -> Vars.state.rules.editor),
+- mindustry/world/meta/BuildVisibility.java:14 `lambda` coreZoneOnly = new BuildVisibility(() -> Vars.indexer.isBlockPresent(Blocks.coreZone) || !Vars.state.isGame()),
+- mindustry/world/meta/BuildVisibility.java:15 `lambda` worldProcessorOnly = new BuildVisibility(() -> Vars.state.rules.editor || Vars.state.rules.allowEditWorldProcessors),
+- mindustry/world/meta/BuildVisibility.java:16 `lambda` sandboxOnly = new BuildVisibility(() -> Vars.state == null || Vars.state.rules.infiniteResources),
+- mindustry/world/meta/BuildVisibility.java:17 `lambda` campaignOnly = new BuildVisibility(() -> Vars.state == null || Vars.state.isCampaign() || !Vars.state.isGame()),
+- mindustry/world/meta/BuildVisibility.java:18 `lambda` legacyLaunchPadOnly = new BuildVisibility(() -> (Vars.state == null || Vars.state.isCampaign() && Vars.state.getPlanet().campaignRules.legacyLaunchPads) && Blocks.advancedLaunchPad != null && Blocks.advancedLaunchPad.unlocked()),
+- mindustry/world/meta/BuildVisibility.java:19 `lambda` notLegacyLaunchPadOnly = new BuildVisibility(() -> (Vars.state == null || !Vars.state.isGame() || Vars.state.rules.infiniteResources || Vars.state.isCampaign() && !Vars.state.getPlanet().campaignRules.legacyLaunchPads)),
+- mindustry/world/meta/BuildVisibility.java:20 `lambda` lightingOnly = new BuildVisibility(() -> Vars.state == null || Vars.state.rules.lighting || Vars.state.isCampaign() || !Vars.state.isGame() || Vars.state.rules.infiniteResources),
+- mindustry/world/meta/BuildVisibility.java:21 `lambda` fogOnly = new BuildVisibility(() -> Vars.state == null || Vars.state.rules.fog || Vars.state.rules.editor || !Vars.state.isGame());
+- mindustry/world/meta/StatValues.java:38 `lambda` return table -> table.add(result);
+- mindustry/world/meta/StatValues.java:42 `lambda` return table ->  table.add(!value ? "@no" : "@yes");
+- mindustry/world/meta/StatValues.java:50 `lambda` return table -> {
+- mindustry/world/meta/StatValues.java:58 `lambda` return table -> {
+- mindustry/world/meta/StatValues.java:75 `lambda` return table -> {
+- mindustry/world/meta/StatValues.java:96 `lambda` return table -> {
+- mindustry/world/meta/StatValues.java:117 `lambda` return table -> table.add(displayLiquid(liquid, amount, perSecond)).left();
+- mindustry/world/meta/StatValues.java:121 `lambda` return table -> {
+- mindustry/world/meta/StatValues.java:122 `lambda` Seq<Liquid> list = content.liquids().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden());
+- mindustry/world/meta/StatValues.java:139 `lambda` return table -> {
+- mindustry/world/meta/StatValues.java:151 `lambda` return table -> {
+- mindustry/world/meta/StatValues.java:159 `lambda` return table -> {
+- mindustry/world/meta/StatValues.java:171 `lambda` return table -> {
+- mindustry/world/meta/StatValues.java:172 `lambda` Seq<Item> list = content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden());
+- mindustry/world/meta/StatValues.java:189 `anonymous_double_brace_initializer` t.add(new Stack(){{
+- mindustry/world/meta/StatValues.java:197 `lambda` }}).size(iconMed).padRight(3  + (amount != 0 ? (Strings.autoFixed(amount, 3).length() - 1) * 10 : 0)).with(s -> withTooltip(s, liquid, false));
+- mindustry/world/meta/StatValues.java:214 `lambda` element.addListener(new HandCursorListener(() -> !content.isHidden(), true));
+- mindustry/world/meta/StatValues.java:216 `lambda` element.clicked(() -> {
+- mindustry/world/meta/StatValues.java:233 `lambda` stack.add(new Table(o -> {
+- mindustry/world/meta/StatValues.java:239 `lambda` stack.add(new Table(t -> {
+- mindustry/world/meta/StatValues.java:308 `lambda` return table -> {
+- mindustry/world/meta/StatValues.java:315 `lambda` return table -> table.stack(
+- mindustry/world/meta/StatValues.java:317 `lambda` new Table(t -> t.top().right().add((multiplier < 0 ? "[scarlet]" : startZero ? "[accent]" : "[accent]+") + (int)((multiplier) * 100) + "%").style(Styles.outlineLabel))
+- mindustry/world/meta/StatValues.java:326 `lambda` return table -> table.table(c -> {
+- mindustry/world/meta/StatValues.java:330 `lambda` rebuild[0] = () -> {
+- mindustry/world/meta/StatValues.java:336 `lambda` .select(block -> (!checkFloors || block instanceof Floor) && indexer.isBlockPresent(block) && block.attributes.get(attr) != 0 && !((block instanceof Floor f && f.isDeep()) && !floating))
+- mindustry/world/meta/StatValues.java:337 `lambda` .with(s -> s.sort(f -> f.attributes.get(attr)));
+- mindustry/world/meta/StatValues.java:359 `lambda` c.update(() -> {
+- mindustry/world/meta/StatValues.java:370 `lambda` return content(list, i -> true);
+- mindustry/world/meta/StatValues.java:378 `lambda` return table -> table.table(l -> {
+- mindustry/world/meta/StatValues.java:388 `lambda` if(item.uiIcon.found()) l.image(item.uiIcon).size(iconSmall).scaling(Scaling.fit).padRight(2).padLeft(2).padTop(3).padBottom(3).with(img -> withTooltip(img, item, false));
+- mindustry/world/meta/StatValues.java:410 `lambda` return content(list.as(), t -> true, "@none");
+- mindustry/world/meta/StatValues.java:414 `lambda` return table -> {
+- mindustry/world/meta/StatValues.java:416 `lambda` table.table(c -> {
+- mindustry/world/meta/StatValues.java:421 `lambda` c.table(Styles.grayPanel, b -> {
+- mindustry/world/meta/StatValues.java:423 `lambda` b.table(info -> {
+- mindustry/world/meta/StatValues.java:426 `lambda` info.add(block.itemDrop.emoji()).with(l -> withTooltip(l, block.itemDrop)).left();
+- mindustry/world/meta/StatValues.java:440 `lambda` return table -> {
+- mindustry/world/meta/StatValues.java:442 `lambda` table.table(c -> {
+- mindustry/world/meta/StatValues.java:446 `lambda` c.table(Styles.grayPanel, b -> {
+- mindustry/world/meta/StatValues.java:447 `lambda` b.image(liquid.uiIcon).size(40).pad(10f).left().scaling(Scaling.fit).with(i -> withTooltip(i, liquid, false));;
+- mindustry/world/meta/StatValues.java:448 `lambda` b.table(info -> {
+- mindustry/world/meta/StatValues.java:453 `lambda` b.table(bt -> {
+- mindustry/world/meta/StatValues.java:473 `lambda` return table -> {
+- mindustry/world/meta/StatValues.java:476 `lambda` table.table(c -> {
+- mindustry/world/meta/StatValues.java:477 `lambda` for(Item item : content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden())){
+- mindustry/world/meta/StatValues.java:481 `lambda` c.table(Styles.grayPanel, b -> {
+- mindustry/world/meta/StatValues.java:492 `lambda` return table -> {
+- mindustry/world/meta/StatValues.java:495 `lambda` table.table(c -> {
+- mindustry/world/meta/StatValues.java:496 `lambda` for(Liquid liquid : content.liquids().select(l -> filter.get(l) && l.unlockedNow() && !l.isHidden())){
+- mindustry/world/meta/StatValues.java:497 `lambda` c.table(Styles.grayPanel, b -> {
+- mindustry/world/meta/StatValues.java:507 `lambda` return table -> {
+- mindustry/world/meta/StatValues.java:509 `lambda` table.table(c -> {
+- mindustry/world/meta/StatValues.java:513 `lambda` c.table(Styles.grayPanel, b -> {
+- mindustry/world/meta/StatValues.java:514 `lambda` b.image(liquid.uiIcon).size(40).pad(10f).left().scaling(Scaling.fit).with(i -> withTooltip(i, liquid, false));
+- mindustry/world/meta/StatValues.java:515 `lambda` b.table(info -> {
+- mindustry/world/meta/StatValues.java:520 `lambda` b.table(bt -> {
+- mindustry/world/meta/StatValues.java:532 `lambda` return table -> {
+- mindustry/world/meta/StatValues.java:534 `lambda` table.table(c -> {
+- mindustry/world/meta/StatValues.java:535 `lambda` c.table(Styles.grayPanel, b -> {
+- mindustry/world/meta/StatValues.java:536 `lambda` b.table(it -> {
+- mindustry/world/meta/StatValues.java:547 `lambda` b.table(bt -> {
+- mindustry/world/meta/StatValues.java:559 `lambda` return table -> {
+- mindustry/world/meta/StatValues.java:571 `lambda` table.table(Styles.grayPanel, w -> {
+- mindustry/world/meta/StatValues.java:584 `lambda` return table -> {
+- mindustry/world/meta/StatValues.java:586 `lambda` table.table(t -> {
+- mindustry/world/meta/StatValues.java:623 `lambda` return table -> {
+- mindustry/world/meta/StatValues.java:640 `lambda` table.table(Styles.grayPanel, bt -> {
+- mindustry/world/meta/StatValues.java:644 `lambda` bt.table(title -> {
+- mindustry/world/meta/StatValues.java:645 `lambda` title.image(icon(t)).size(3 * 8).padRight(4).right().scaling(Scaling.fit).top().with(i -> withTooltip(i, t, false));
+- mindustry/world/meta/StatValues.java:660 `lambda` bt.table(desc -> {
+- mindustry/world/meta/StatValues.java:792 `lambda` Strings.autoFixed(type.statusDuration / 60f, 1) + "[lightgray] " + Core.bundle.get("unit.seconds"))).with(c -> withTooltip(c, type.status));
+- mindustry/world/meta/StatValues.java:811 `lambda` bt.table(it -> {
+- mindustry/world/meta/StatValues.java:815 `lambda` it.button(Icon.downOpen, Styles.emptyi, () -> coll.toggle(false)).update(i -> i.getStyle().imageUp = (!coll.isCollapsed() ? Icon.upOpen : Icon.downOpen)).size(8).padLeft(16f).expandX();
+- mindustry/world/meta/StatValues.java:829 `lambda` bt.table(ft -> {
+- mindustry/world/meta/StatValues.java:833 `lambda` ft.button(Icon.downOpen, Styles.emptyi, () -> coll.toggle(false)).update(i -> i.getStyle().imageUp = (!coll.isCollapsed() ? Icon.upOpen : Icon.downOpen)).size(8).padLeft(16f).expandX();
+- mindustry/world/meta/StatValues.java:849 `lambda` bt.table(st -> {
+- mindustry/world/meta/StatValues.java:853 `lambda` if(sc.getChildren().size > 0) st.button(Icon.downOpen, Styles.emptyi, () -> coll.toggle(false)).update(i -> i.getStyle().imageUp = (!coll.isCollapsed() ? Icon.upOpen : Icon.downOpen)).size(8).padLeft(16f).expandX();
+- mindustry/world/meta/StatValues.java:874 `lambda` return table.table(t -> {
+- mindustry/world/Tile.java:150 `lambda` result += build.items.sum((item, amount) -> item.flammability * amount) / Math.max(block.itemCapacity, 1) * Mathf.clamp(block.itemCapacity / 2.4f, 1f, 3f);
+- mindustry/world/Tile.java:154 `lambda` result += build.liquids.sum((liquid, amount) -> liquid.flammability * amount / 1.6f) / Math.max(block.liquidCapacity, 1) * Mathf.clamp(block.liquidCapacity / 30f, 1f, 2f);
+- mindustry/world/Tile.java:345 `lambda` circle(radius, (x, y) -> cons.get(world.rawTile(x, y)));
+- mindustry/world/Tile.java:549 `lambda` case 0 -> world.tile(x + 1, y);
+- mindustry/world/Tile.java:550 `lambda` case 1 -> world.tile(x, y + 1);
+- mindustry/world/Tile.java:551 `lambda` case 2 -> world.tile(x - 1, y);
+- mindustry/world/Tile.java:552 `lambda` case 3 -> world.tile(x, y - 1);
+- mindustry/world/Tile.java:553 `lambda` default -> null;
+- mindustry/world/Tile.java:559 `lambda` case 0 -> world.build(x + 1, y);
+- mindustry/world/Tile.java:560 `lambda` case 1 -> world.build(x, y + 1);
+- mindustry/world/Tile.java:561 `lambda` case 2 -> world.build(x - 1, y);
+- mindustry/world/Tile.java:562 `lambda` case 3 -> world.build(x, y - 1);
+- mindustry/world/Tile.java:563 `lambda` default -> null;
+- mindustry/world/Tile.java:719 `lambda` table.table(t -> {

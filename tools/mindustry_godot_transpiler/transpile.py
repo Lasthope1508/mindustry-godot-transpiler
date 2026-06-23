@@ -57,8 +57,8 @@ def run_parse(upstream: Path, godot: Path, limit: int | None = None) -> dict:
     return manifest
 
 
-def run_report(godot: Path, source_manifest: dict | None = None, asset_manifest: dict | None = None) -> dict:
-    return write_report(generated_dir(godot), source_manifest, asset_manifest)
+def run_report(upstream: Path, godot: Path, source_manifest: dict | None = None, asset_manifest: dict | None = None) -> dict:
+    return write_report(generated_dir(godot), source_manifest, asset_manifest, upstream / "core" / "src")
 
 
 def run_playable(godot: Path) -> dict:
@@ -85,7 +85,7 @@ def main(argv=None) -> int:
         manifest = run_parse(upstream, godot, args.limit)
         print(f"parsed {manifest['parsed_file_count']} Java files failures={manifest['failed_file_count']}")
     elif args.command == "report":
-        report = run_report(godot)
+        report = run_report(upstream, godot)
         print(f"report java={report['java_file_count']} assets={report['asset_count']}")
     elif args.command == "playable":
         manifest = run_playable(godot)
@@ -97,7 +97,7 @@ def main(argv=None) -> int:
     elif args.command == "all":
         source_manifest = run_scan(upstream, godot)
         asset_manifest = run_assets(upstream, godot)
-        report = run_report(godot, source_manifest, asset_manifest)
+        report = run_report(upstream, godot, source_manifest, asset_manifest)
         print(f"all java={report['java_file_count']} assets={report['asset_count']}")
     return 0
 
