@@ -279,6 +279,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertEqual(source.count("\n\t\t\tsprite.scale = Vector2(tile_size / size.x, tile_size / size.y)\n"), 1)
         self.assertIn('"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit())', source)
 
+    def test_port_game_uses_source_unit_health_for_spawned_units(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_health(unit_type) -> float:", source)
+        self.assertIn('return float(unit_type.properties.get("health", 200.0))', source)
+        self.assertIn('"health": source_unit_health(unit_type)', source)
+        self.assertNotIn('"health": float(unit_type.properties.get("health", 100.0))', source)
+        self.assertIn('"selected_enemy_health": source_unit_health(selected_enemy_unit())', source)
+
     def test_port_game_uses_source_bullet_sprite_assets(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

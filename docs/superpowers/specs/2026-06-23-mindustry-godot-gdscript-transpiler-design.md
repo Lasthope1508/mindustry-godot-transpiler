@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 46 |
-| Done | 46 |
+| Total tracked work items | 47 |
+| Done | 47 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -67,6 +67,7 @@
 | N42 | Use source bullet dimensions | `Blocks.java` sets duo copper `BasicBulletType.width=7f` and `height=9f`; `content_registry.py` extracts block ammo width/height into generated duo ammo; `PortGame.gd` scales turret bullet sprites through `source_bullet_scale(data, texture_size)` and exposes `selected_turret_ammo_dimensions`; Python suite reports `48` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_turret_ammo_dimensions={width:7,height:9}`, with debug `errors: []` |
 | N43 | Use source bullet hit size | `BulletType.java` defaults `hitSize=4` and `BulletType.create()` assigns `bullet.hitSize=hitSize`; `content_registry.py` extracts explicit block ammo `hitSize` assignments where source provides them; `PortGame.gd` stores bullet `hit_size` from `source_bullet_hit_size(data)` and uses it for projectile collision instead of `6.0`; Python suite reports `49` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_turret_ammo_hit_size=4`, with debug `errors: []` |
 | N44 | Use source bullet damage helper | `BulletType.java` defaults `damage=1f` and `BulletType(float speed, float damage)` assigns constructor damage; generated duo copper ammo has `damage=9`; `PortGame.gd` stores bullet damage through `source_bullet_damage(data)` and exposes `selected_turret_ammo_damage`; Python suite reports `50` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_turret_ammo_damage=9`, with debug `errors: []` |
+| N45 | Use source unit health for spawned units | `UnitType.java` defaults `health=200f`; `UnitTypes.java` sets dagger `health=150`; `PortGame.gd` initializes spawned enemy health through `source_unit_health(unit_type)` instead of `100.0` fallback and exposes `selected_enemy_health`; Python suite reports `51` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_enemy_health=150`, with debug `errors: []` |
 
 ## Not Done
 
@@ -314,3 +315,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-23 | M41 source bullet dimensions: duo copper ammo now carries generated `BasicBulletType.width/height`, and turret bullet sprites scale from `width=7`, `height=9` instead of a tile-size constant. |
 | 2026-06-23 | M42 source bullet hit size: turret bullet collision now uses source `BulletType.hitSize` default `4` and generated explicit ammo `hitSize` values instead of hardcoded `6.0`. |
 | 2026-06-23 | M43 source bullet damage helper: turret bullets now store damage through `source_bullet_damage()` and runtime summary exposes generated duo ammo damage `9`. |
+| 2026-06-23 | M44 source unit health: spawned enemy health now comes from generated `UnitType.health`, with dagger runtime summary reporting `150`. |
