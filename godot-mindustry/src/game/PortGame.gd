@@ -38,7 +38,8 @@ var last_placed_occupied_cell_count := 0
 var last_place_blocked := false
 var core_inventory := 0
 var core_items: Dictionary = {"copper": 0}
-var core_health := 500.0
+var core_max_health := 0.0
+var core_health := 0.0
 var produced_total := 0
 var item_progress := 0.0
 var item_sprites: Array[Sprite2D] = []
@@ -182,6 +183,8 @@ func build_world() -> void:
 	for x in range(drill_pos.x + 1, core_pos.x):
 		add_source_block(blocks, "conveyor", Vector2i(x, drill_pos.y))
 	add_source_block(blocks, "core-shard", core_pos)
+	core_max_health = source_block_health("core-shard")
+	core_health = core_max_health
 	add_source_block(blocks, "duo", duo_pos)
 	initial_world_block_count = placed_block_origins.size()
 	initial_occupied_cell_count = placed_blocks.size()
@@ -300,6 +303,14 @@ func record_placed_block(sprite: Sprite2D, block, cell: Vector2i) -> void:
 
 func block_size(block) -> int:
 	return max(1, int(block.properties.get("size", 1)))
+
+func source_block_health(block_id: String) -> float:
+	if content_catalog == null:
+		return 0.0
+	var block = content_catalog.get_by_id(block_id)
+	if block == null:
+		return 0.0
+	return float(block.properties.get("health", 0.0))
 
 func block_world_size(block) -> float:
 	return float(tile_size * block_size(block))
@@ -618,6 +629,7 @@ func get_runtime_summary() -> Dictionary:
 		"wave_index": wave_index,
 		"enemy_count": enemy_units.size(),
 		"bullet_count": bullets.size(),
+		"core_max_health": core_max_health,
 		"core_health": core_health,
 	}
 

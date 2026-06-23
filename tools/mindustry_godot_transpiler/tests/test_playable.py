@@ -220,5 +220,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('add_core_item("copper", 1)', source)
         self.assertIn('"core_items": core_items.duplicate()', source)
 
+    def test_port_game_initializes_core_health_from_source_block(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertNotIn("var core_health := 500.0", source)
+        self.assertIn("var core_max_health := 0.0", source)
+        self.assertIn("var core_health := 0.0", source)
+        self.assertIn('core_max_health = source_block_health("core-shard")', source)
+        self.assertIn("core_health = core_max_health", source)
+        self.assertIn("func source_block_health(block_id: String) -> float:", source)
+        self.assertIn('return float(block.properties.get("health", 0.0))', source)
+        self.assertIn('"core_max_health": core_max_health', source)
+
 if __name__ == "__main__":
     unittest.main()
