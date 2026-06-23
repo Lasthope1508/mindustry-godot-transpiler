@@ -73,6 +73,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"loaded_generated_instance_names": loaded_generated_instance_names.duplicate()', source)
         self.assertIn("Instanced generated scripts: %d (%s)", source)
 
+    def test_port_game_routes_mouse_event_position_to_placement(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("place_selected_block_at_world(event.position)", source)
+        self.assertIn("func place_selected_block_at_world(world_pos: Vector2) -> void:", source)
+        self.assertIn("var cell := world_to_grid(world_pos)", source)
+        self.assertIn('"placed_block_count": placed_blocks.size()', source)
+        self.assertIn('"selected_build_index": selected_build_index', source)
+
 
 if __name__ == "__main__":
     unittest.main()

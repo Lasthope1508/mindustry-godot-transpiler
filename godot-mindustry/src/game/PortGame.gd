@@ -161,7 +161,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		select_build_slot(event.keycode)
 	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		place_selected_block_at_mouse()
+		place_selected_block_at_world(event.position)
 
 func select_build_slot(keycode: int) -> void:
 	if keycode < KEY_1 or keycode > KEY_6:
@@ -171,9 +171,12 @@ func select_build_slot(keycode: int) -> void:
 		selected_build_index = index
 
 func place_selected_block_at_mouse() -> void:
+	place_selected_block_at_world(get_global_mouse_position())
+
+func place_selected_block_at_world(world_pos: Vector2) -> void:
 	if build_palette.is_empty():
 		return
-	var cell := world_to_grid(get_global_mouse_position())
+	var cell := world_to_grid(world_pos)
 	if cell.x < 0 or cell.y < 0 or cell.x >= WORLD_W or cell.y >= WORLD_H:
 		return
 	var block = build_palette[selected_build_index]
@@ -475,6 +478,8 @@ func get_runtime_summary() -> Dictionary:
 		"loaded_generated_instance_names": loaded_generated_instance_names.duplicate(),
 		"content_counts": content_counts.duplicate(),
 		"build_palette_size": build_palette.size(),
+		"placed_block_count": placed_blocks.size(),
+		"selected_build_index": selected_build_index,
 		"core_inventory": core_inventory,
 		"wave_index": wave_index,
 		"enemy_count": enemy_units.size(),

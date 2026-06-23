@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 23 |
-| Done | 23 |
+| Total tracked work items | 24 |
+| Done | 24 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -44,6 +44,7 @@
 | N19 | Surface generated class registry in playable HUD | `PortGame.gd` preloads `GeneratedClassRegistry.gd`, stores `generated_class_count = GeneratedClassRegistry.count()`, and displays `Generated Java classes: %d` in the HUD; Python suite reports `23` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP launched `scenes/Main.tscn` and debug output returns `errors: []` |
 | N20 | Enable Godot runtime MCP and load selected generated scripts | `godot_mcp_runtime` addon is installed and enabled as autoload; MCP runtime status returns `connected=true` and `runtimeAddon=connected` on port `7777`; `PortGame.gd` loads generated scripts for `Items`, `Blocks`, `UnitTypes`, and `Damage` from `GeneratedClassRegistry.gd`; runtime `get_runtime_summary()` returns `generated_class_count=801`, loaded generated names `[Items, Blocks, UnitTypes, Damage]`, content counts `22/11/417/56`, and MCP debug output returns `errors: []` |
 | N21 | Instantiate selected generated scripts in the playable scene | `PortGame.gd` calls `script.new()` for selected generated scripts, stores live instances in `loaded_generated_instances`, reports `loaded_generated_instance_names` in HUD and `get_runtime_summary()`; Python suite reports `27` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime status returns `runtimeAddon=connected`; runtime summary returns instance names `[Items, Blocks, UnitTypes, Damage]`; MCP debug output returns `errors: []` |
+| N22 | Verify block placement through Godot runtime MCP input | `_unhandled_input()` routes `InputEventMouseButton.position` into `place_selected_block_at_world()`, making runtime-injected mouse clicks place blocks; `get_runtime_summary()` reports `placed_block_count` and `selected_build_index`; Python suite reports `28` tests passing; MCP runtime sets inventory, injects key `2` and mouse click `(320, 320)`, and verifies `placed_block_count` increases from `1` to `2` with debug `errors: []` |
 
 ## Not Done
 
@@ -268,3 +269,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-23 | M18 playable registry HUD: playable scene now reads `MindustryGeneratedClassRegistry.count()` and displays generated Java class count in HUD; Python tests, MCP LSP, and MCP runtime launch report no errors. |
 | 2026-06-23 | M19 runtime MCP and generated script loading: installed/enabled `godot_mcp_runtime`, verified port `7777` through MCP runtime, loaded selected generated scripts in `PortGame.gd`, and exposed `get_runtime_summary()` for live MCP verification. |
 | 2026-06-23 | M20 generated script instances: `PortGame.gd` now instantiates selected generated scripts, reports instance names in HUD/runtime summary, and MCP runtime verifies live instances without errors. |
+| 2026-06-23 | M21 MCP placement input: runtime-injected key/mouse events now place source-derived blocks, and runtime summary exposes placement counters for MCP verification. |
