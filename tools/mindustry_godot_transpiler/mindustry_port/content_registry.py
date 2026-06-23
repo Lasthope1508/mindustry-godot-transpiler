@@ -257,6 +257,9 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
         value = _numeric_assignment(initializer, key)
         if value is not None:
             properties[key] = value
+    shoot_pattern = _shoot_alternate_pattern(initializer)
+    if shoot_pattern is not None:
+        properties["shootPattern"] = shoot_pattern
     ammo = _block_ammo(initializer)
     if ammo:
         properties["ammo"] = ammo
@@ -287,6 +290,12 @@ def _boolean_assignment(source: str, key: str) -> bool | None:
 def _numeric_assignment(source: str, key: str) -> int | float | None:
     match = re.search(rf"\b{key}\s*=\s*([0-9_]+(?:\.[0-9_]+)?[fFdDlL]?)\s*;", source)
     return _number_literal(match.group(1)) if match else None
+
+def _shoot_alternate_pattern(source: str) -> dict[str, Any] | None:
+    match = re.search(r"\bshoot\s*=\s*new\s+ShootAlternate\s*\(\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?)\s*\)", source)
+    if not match:
+        return None
+    return {"type": "ShootAlternate", "spread": _number_literal(match.group(1))}
 
 def _block_ammo(initializer: str) -> list[dict[str, Any]]:
     pattern = re.compile(r"Items\.([A-Za-z_]\w*)\s*,\s*new\s+BasicBulletType\s*\(\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?)\s*,\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?)(?:\s*,\s*\"([^\"]+)\")?", re.MULTILINE)

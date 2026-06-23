@@ -484,13 +484,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var last_turret_fired_shoot_y := 0.0", source)
         self.assertIn("func source_turret_shoot_y(turret) -> float:", source)
         self.assertIn('return float(turret.properties.get("shootY", 0.0))', source)
-        self.assertIn("func source_turret_bullet_origin(origin: Vector2, target, turret) -> Vector2:", source)
-        self.assertIn("return origin + direction.normalized() * source_turret_shoot_y(turret)", source)
-        self.assertIn("var bullet_origin := source_turret_bullet_origin(grid_to_world(cell), target, duo)", source)
+        self.assertIn("func source_turret_bullet_origin(origin: Vector2, target, turret, shoot_x_offset := 0.0) -> Vector2:", source)
+        self.assertIn("var shoot_y_origin := origin + direction.normalized() * source_turret_shoot_y(turret)", source)
+        self.assertIn("return shoot_y_origin + side * shoot_x_offset", source)
+        self.assertIn("var bullet_origin := source_turret_bullet_origin(grid_to_world(cell), target, duo, shoot_x_offset)", source)
         self.assertIn("last_turret_fired_shoot_y = source_turret_shoot_y(duo)", source)
         self.assertIn("spawn_turret_bullet(bullet_origin, target, data)", source)
         self.assertIn('"last_turret_fired_shoot_y": last_turret_fired_shoot_y', source)
         self.assertIn('"selected_turret_shoot_y": selected_turret_shoot_y()', source)
+
+    def test_port_game_uses_source_shoot_alternate_pattern(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var turret_barrel_counters: Dictionary = {}", source)
+        self.assertIn("var last_turret_fired_shoot_x_offset := 0.0", source)
+        self.assertIn("func source_turret_shoot_pattern(turret) -> Dictionary:", source)
+        self.assertIn('return turret.properties.get("shootPattern", {})', source)
+        self.assertIn("func use_turret_shoot_x_offset(cell: Vector2i, turret) -> float:", source)
+        self.assertIn('if str(pattern.get("type", "")) != "ShootAlternate":', source)
+        self.assertIn('var spread := float(pattern.get("spread", 0.0))', source)
+        self.assertIn("var offset := (float(index) - 0.5) * spread", source)
+        self.assertIn("turret_barrel_counters[key] = counter + 1", source)
+        self.assertIn("var shoot_x_offset := use_turret_shoot_x_offset(cell, duo)", source)
+        self.assertIn("last_turret_fired_shoot_x_offset = shoot_x_offset", source)
+        self.assertIn("source_turret_bullet_origin(grid_to_world(cell), target, duo, shoot_x_offset)", source)
+        self.assertIn('"last_turret_fired_shoot_x_offset": last_turret_fired_shoot_x_offset', source)
+        self.assertIn('"selected_turret_shoot_pattern": selected_turret_shoot_pattern()', source)
 
     def test_port_game_uses_source_drill_rate(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

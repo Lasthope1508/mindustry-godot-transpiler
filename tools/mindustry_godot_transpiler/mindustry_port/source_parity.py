@@ -33,6 +33,9 @@ def _extract_source_duo(source: str) -> dict[str, Any]:
         value = _numeric_assignment(body, key)
         if value is not None:
             properties[key] = value
+    shoot_pattern = _shoot_alternate_pattern(body)
+    if shoot_pattern is not None:
+        properties["shootPattern"] = shoot_pattern
     ammo = {}
     ammo_pattern = re.compile(
         r"Items\.([A-Za-z_]\w*)\s*,\s*new\s+BasicBulletType\s*\(\s*"
@@ -104,6 +107,12 @@ def _double_brace_body(source: str, start: int) -> str:
 def _numeric_assignment(source: str, key: str) -> int | float | None:
     match = re.search(rf"\b{key}\s*=\s*([0-9_]+(?:\.[0-9_]+)?[fFdDlL]?)\s*;", source)
     return _number_literal(match.group(1)) if match else None
+
+def _shoot_alternate_pattern(source: str) -> dict[str, Any] | None:
+    match = re.search(r"\bshoot\s*=\s*new\s+ShootAlternate\s*\(\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?)\s*\)", source)
+    if not match:
+        return None
+    return {"type": "ShootAlternate", "spread": _number_literal(match.group(1))}
 
 
 def _number_literal(raw: str) -> int | float:

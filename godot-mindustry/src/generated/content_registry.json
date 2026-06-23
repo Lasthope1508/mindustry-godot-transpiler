@@ -4864,6 +4864,10 @@
             "item": "copper"
           }
         ],
+        "shootPattern": {
+          "spread": 3.5,
+          "type": "ShootAlternate"
+        },
         "shootY": 3.0
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/duo/duo.png"
@@ -5220,6 +5224,10 @@
             "item": "thorium"
           }
         ],
+        "shootPattern": {
+          "spread": 4.0,
+          "type": "ShootAlternate"
+        },
         "size": 3,
         "speed": 4.0
       },
@@ -5415,6 +5423,10 @@
             "item": "thorium"
           }
         ],
+        "shootPattern": {
+          "spread": 8.0,
+          "type": "ShootAlternate"
+        },
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/spectre.png"
