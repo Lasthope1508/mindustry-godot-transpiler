@@ -28,9 +28,12 @@ var content_catalog: RefCounted
 var build_palette: Array = []
 var selected_build_index := 0
 var placed_blocks: Dictionary = {}
+var placed_block_origins: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_cell := Vector2i.ZERO
+var last_placed_occupied_cell_count := 0
+var last_place_blocked := false
 var core_inventory := 0
 var core_health := 500.0
 var produced_total := 0
@@ -225,29 +228,31 @@ func select_build_block_by_id(block_id: String) -> bool:
 func place_selected_block_at_mouse() -> void:
 	place_selected_block_at_world(get_global_mouse_position())
 
-func place_selected_block_at_world(world_pos: Vector2) -> void:
+func place_selected_block_at_world(world_pos: Vector2) -> bool:
 	if build_palette.is_empty():
-		return
+		last_place_blocked = true
+		return false
 	var cell := world_to_grid(world_pos)
-	if cell.x < 0 or cell.y < 0 or cell.x >= WORLD_W or cell.y >= WORLD_H:
-		return
 	var block = build_palette[selected_build_index]
+	if not can_place_block_at_cell(block, cell):
+		last_place_blocked = true
+		return false
 	if not can_afford(block):
-		return
+		last_place_blocked = true
+		return false
 	var blocks := get_node("World/BlockLayer")
-	var key := cell_key(cell)
-	if placed_blocks.has(key):
-		unregister_turret_cell(cell)
-		placed_blocks[key].queue_free()
 	spend_requirements(block)
 	var sprite := Sprite2D.new()
 	configure_block_sprite(sprite, block, cell)
 	blocks.add_child(sprite)
-	placed_blocks[key] = sprite
+	record_placed_block(sprite, block, cell)
 	last_placed_block_id = block.id
 	last_placed_block_size = block_size(block)
 	last_placed_cell = cell
+	last_placed_occupied_cell_count = block_size(block) * block_size(block)
+	last_place_blocked = false
 	register_turret_cell(cell, block)
+	return true
 
 func add_source_block(parent: Node, block_id: String, cell: Vector2i) -> void:
 	if content_catalog == null:
@@ -258,8 +263,35 @@ func add_source_block(parent: Node, block_id: String, cell: Vector2i) -> void:
 	var sprite := Sprite2D.new()
 	configure_block_sprite(sprite, block, cell)
 	parent.add_child(sprite)
-	placed_blocks[cell_key(cell)] = sprite
+	record_placed_block(sprite, block, cell)
 	register_turret_cell(cell, block)
+
+func occupied_cells(cell: Vector2i, block) -> Array[Vector2i]:
+	var cells: Array[Vector2i] = []
+	for y in block_size(block):
+		for x in block_size(block):
+			cells.append(cell + Vector2i(x, y))
+	return cells
+
+func is_cell_in_world(cell: Vector2i) -> bool:
+	return cell.x >= 0 and cell.y >= 0 and cell.x < WORLD_W and cell.y < WORLD_H
+
+func can_place_block_at_cell(block, cell: Vector2i) -> bool:
+	for occupied_cell in occupied_cells(cell, block):
+		if not is_cell_in_world(occupied_cell):
+			return false
+		if placed_blocks.has(cell_key(occupied_cell)):
+			return false
+	return true
+
+func record_placed_block(sprite: Sprite2D, block, cell: Vector2i) -> void:
+	var cell_keys: Array[String] = []
+	placed_block_origins[cell_key(cell)] = sprite
+	for occupied_cell in occupied_cells(cell, block):
+		cell_keys.append(cell_key(occupied_cell))
+		placed_blocks[cell_key(occupied_cell)] = sprite
+	sprite.set_meta("occupied_cells", cell_keys)
+	sprite.set_meta("origin_cell", cell)
 
 func block_size(block) -> int:
 	return max(1, int(block.properties.get("size", 1)))
@@ -542,10 +574,13 @@ func get_runtime_summary() -> Dictionary:
 		"loaded_generated_instance_names": loaded_generated_instance_names.duplicate(),
 		"content_counts": content_counts.duplicate(),
 		"build_palette_size": build_palette.size(),
-		"placed_block_count": placed_blocks.size(),
+		"placed_block_count": placed_block_origins.size(),
+		"occupied_cell_count": placed_blocks.size(),
 		"last_placed_block_id": last_placed_block_id,
 		"last_placed_block_size": last_placed_block_size,
 		"last_placed_cell": {"x": last_placed_cell.x, "y": last_placed_cell.y},
+		"last_placed_occupied_cell_count": last_placed_occupied_cell_count,
+		"last_place_blocked": last_place_blocked,
 		"selected_build_index": selected_build_index,
 		"selected_build_id": selected.id if selected else "",
 		"core_inventory": core_inventory,

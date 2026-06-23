@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 28 |
-| Done | 28 |
+| Total tracked work items | 29 |
+| Done | 29 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -49,6 +49,7 @@
 | N24 | Populate build palette with all textured source-derived blocks | `PortGame.gd` keeps six pinned blocks first, then appends every textured block from `content_catalog.get_many("block")`; `Tab`/`Shift+Tab` cycle selection and runtime summary reports `selected_build_id`; Python suite reports `30` tests passing; MCP runtime summary returns `build_palette_size=416`, injected `Tab` changes selected id from `conveyor` to `router`, and debug output returns `errors: []` |
 | N25 | Select and place any build palette block by source id through MCP | `PortGame.gd` exposes `select_build_block_by_id(block_id: String) -> bool`, allowing runtime selection of non-pinned source blocks; Python suite reports `31` tests passing; MCP runtime call selects `titanium-conveyor` at palette index `237`, then places it at `Vector2(384, 320)`, increasing `placed_block_count` from `1` to `2`; MCP debug output returns `errors: []` |
 | N26 | Render placed source blocks at source-derived block size | `PortGame.gd` uses `block_size`, `block_world_size`, and `configure_block_sprite` for manual placement and source blocks, and exposes `last_placed_block_id`, `last_placed_block_size`, and `last_placed_cell` in runtime summary; Python suite reports `32` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime selects `solar-panel-large`, places it at cell `(11, 10)`, returns `last_placed_block_size=3`, and debug output returns `errors: []` |
+| N27 | Enforce source-sized block footprint occupancy | `PortGame.gd` tracks occupied cells separately from block origins, returns `bool` from placement, rejects overlapping and out-of-bounds source-sized blocks before spending resources, and exposes `occupied_cell_count`, `last_placed_occupied_cell_count`, and `last_place_blocked` in runtime summary; Python suite reports `33` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime places `solar-panel-large`, returns `last_placed_occupied_cell_count=9`, rejects overlap/out-of-bounds placements, keeps `occupied_cell_count=10`, and debug output returns `errors: []` |
 
 ## Not Done
 
@@ -278,3 +279,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-23 | M23 source-wide build palette: playable scene now exposes `416` textured source-derived blocks in the build palette and MCP input verifies palette cycling. |
 | 2026-06-23 | M24 build selection by id: MCP runtime can now select and place non-pinned source-derived blocks such as `titanium-conveyor` by content id. |
 | 2026-06-23 | M25 source block size rendering: placed/source block sprites now scale and center from source `size`; MCP runtime verifies `solar-panel-large` places with `last_placed_block_size=3`. |
+| 2026-06-23 | M26 footprint occupancy: source-sized blocks now occupy all cells in their footprint and MCP runtime verifies overlap/out-of-bounds placement rejection. |

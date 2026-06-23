@@ -78,9 +78,9 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("place_selected_block_at_world(event.position)", source)
-        self.assertIn("func place_selected_block_at_world(world_pos: Vector2) -> void:", source)
+        self.assertIn("func place_selected_block_at_world(world_pos: Vector2) -> bool:", source)
         self.assertIn("var cell := world_to_grid(world_pos)", source)
-        self.assertIn('"placed_block_count": placed_blocks.size()', source)
+        self.assertIn('"placed_block_count": placed_block_origins.size()', source)
         self.assertIn('"selected_build_index": selected_build_index', source)
 
     def test_port_game_instantiates_all_generated_scripts_from_registry(self):
@@ -143,6 +143,42 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"last_placed_block_size": last_placed_block_size', source)
         self.assertIn('"last_placed_cell": {"x": last_placed_cell.x, "y": last_placed_cell.y}', source)
 
+
+    def test_port_game_tracks_source_block_footprint_occupancy(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var placed_block_origins: Dictionary = {}", source)
+        self.assertIn("var last_placed_occupied_cell_count := 0", source)
+        self.assertIn("var last_place_blocked := false", source)
+        self.assertIn("func occupied_cells(cell: Vector2i, block) -> Array[Vector2i]:", source)
+        self.assertIn("var cells: Array[Vector2i] = []", source)
+        self.assertIn("for y in block_size(block):", source)
+        self.assertIn("for x in block_size(block):", source)
+        self.assertIn("cells.append(cell + Vector2i(x, y))", source)
+        self.assertIn("func is_cell_in_world(cell: Vector2i) -> bool:", source)
+        self.assertIn("return cell.x >= 0 and cell.y >= 0 and cell.x < WORLD_W and cell.y < WORLD_H", source)
+        self.assertIn("func can_place_block_at_cell(block, cell: Vector2i) -> bool:", source)
+        self.assertIn("for occupied_cell in occupied_cells(cell, block):", source)
+        self.assertIn("if not is_cell_in_world(occupied_cell):", source)
+        self.assertIn("if placed_blocks.has(cell_key(occupied_cell)):", source)
+        self.assertIn("func record_placed_block(sprite: Sprite2D, block, cell: Vector2i) -> void:", source)
+        self.assertIn("var cell_keys: Array[String] = []", source)
+        self.assertIn("placed_block_origins[cell_key(cell)] = sprite", source)
+        self.assertIn("placed_blocks[cell_key(occupied_cell)] = sprite", source)
+        self.assertIn("sprite.set_meta(\"occupied_cells\", cell_keys)", source)
+        self.assertIn("sprite.set_meta(\"origin_cell\", cell)", source)
+        self.assertIn("func place_selected_block_at_world(world_pos: Vector2) -> bool:", source)
+        self.assertIn("if not can_place_block_at_cell(block, cell):", source)
+        self.assertIn("last_place_blocked = true", source)
+        self.assertIn("return false", source)
+        self.assertIn("last_place_blocked = false", source)
+        self.assertIn("last_placed_occupied_cell_count = block_size(block) * block_size(block)", source)
+        self.assertIn("record_placed_block(sprite, block, cell)", source)
+        self.assertIn('"placed_block_count": placed_block_origins.size()', source)
+        self.assertIn('"occupied_cell_count": placed_blocks.size()', source)
+        self.assertIn('"last_placed_occupied_cell_count": last_placed_occupied_cell_count', source)
+        self.assertIn('"last_place_blocked": last_place_blocked', source)
 
 if __name__ == "__main__":
     unittest.main()
