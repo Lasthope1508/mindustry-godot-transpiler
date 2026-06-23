@@ -66,9 +66,9 @@ func load_textures() -> void:
 	textures["item"] = load_png_texture(config["item"]["texture"])
 	for key in config["blocks"].keys():
 		textures[key] = load_png_texture(config["blocks"][key]["texture"])
-	var unit = selected_enemy_unit()
-	if unit != null and unit.has_texture():
-		textures["enemy_unit"] = load_png_texture(unit.texture_path)
+	for unit in content_catalog.get_many("unit"):
+		if unit.has_texture():
+			textures["unit:" + unit.id] = load_png_texture(unit.texture_path)
 
 func build_block_palette() -> void:
 	build_palette.clear()
@@ -282,21 +282,44 @@ func selected_enemy_unit():
 	return units[0] if not units.is_empty() else null
 
 func spawn_enemy_wave() -> void:
-	var unit_type = selected_enemy_unit()
-	if unit_type == null:
-		return
+	var spawned := 0
+	for group in ContentRegistry.WAVES.get("groups", []):
+		var count := spawned_for_wave(group, wave_index - 1)
+		if count <= 0:
+			continue
+		var unit_type = content_catalog.get_by_id(str(group.get("unit", "")))
+		if unit_type == null:
+			continue
+		for i in count:
+			spawn_enemy_unit(unit_type, spawned + i)
+		spawned += count
+	if spawned == 0:
+		var fallback = selected_enemy_unit()
+		if fallback != null:
+			spawn_enemy_unit(fallback, 0)
+
+func spawned_for_wave(group: Dictionary, wave_zero: int) -> int:
+	var begin := int(group.get("begin", 0))
+	var end := int(group.get("end", 2147483647))
+	var spacing: int = max(1, int(group.get("spacing", 1)))
+	if wave_zero < begin or wave_zero > end or (wave_zero - begin) % spacing != 0:
+		return 0
+	var amount := int(group.get("unitAmount", 1))
+	var scaling := float(group.get("unitScaling", 2147483647.0))
+	var scaled: int = 0 if scaling >= 2147483647.0 else int((float(wave_zero - begin) / float(spacing)) / scaling)
+	return mini(amount + scaled, int(group.get("max", 40)))
+
+func spawn_enemy_unit(unit_type, index: int) -> void:
 	var units_layer := get_node("World/UnitLayer")
-	var count = min(6, max(1, wave_index + 1))
-	for i in count:
-		var sprite := Sprite2D.new()
-		sprite.texture = textures.get("enemy_unit")
-		sprite.position = grid_to_world(Vector2i(WORLD_W - 2 + i, 6 + (i % 5)))
-		if sprite.texture:
-			var size := sprite.texture.get_size()
-			if size.x > 0 and size.y > 0:
-				sprite.scale = Vector2(tile_size / size.x, tile_size / size.y)
-		units_layer.add_child(sprite)
-		enemy_units.append({"sprite": sprite, "type": unit_type, "health": float(unit_type.properties.get("health", 100.0))})
+	var sprite := Sprite2D.new()
+	sprite.texture = textures.get("unit:" + unit_type.id)
+	sprite.position = grid_to_world(Vector2i(WORLD_W - 2 + index, 6 + (index % 5)))
+	if sprite.texture:
+		var size := sprite.texture.get_size()
+		if size.x > 0 and size.y > 0:
+			sprite.scale = Vector2(tile_size / size.x, tile_size / size.y)
+	units_layer.add_child(sprite)
+	enemy_units.append({"sprite": sprite, "type": unit_type, "health": float(unit_type.properties.get("health", 100.0))})
 
 func simulate_enemy_units(delta: float) -> void:
 	if core_health <= 0.0:

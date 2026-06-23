@@ -15,7 +15,9 @@ class ContentRegistryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             source = root / "upstream" / "core" / "src" / "mindustry" / "content"
+            game_source = root / "upstream" / "core" / "src" / "mindustry" / "game"
             source.mkdir(parents=True)
+            game_source.mkdir(parents=True)
             (source / "Items.java").write_text(
                 """
 package mindustry.content;
@@ -87,13 +89,43 @@ public class Blocks{
 package mindustry.content;
 import mindustry.type.*;
 public class UnitTypes{
-    public static UnitType dagger;
+    public static UnitType dagger, crawler;
     public static void load(){
         dagger = new UnitType("dagger"){{
             speed = 0.5f;
             health = 150;
             hitSize = 8f;
         }};
+        crawler = new UnitType("crawler"){{
+            speed = 0.8f;
+            health = 120;
+            hitSize = 8f;
+        }};
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            (game_source / "Waves.java").write_text(
+                """
+package mindustry.game;
+import static mindustry.content.UnitTypes.*;
+public class Waves{
+    public static final int waveVersion = 7;
+    public Seq<SpawnGroup> get(){
+        return Seq.with(
+            new SpawnGroup(dagger){{
+                end = 10;
+                unitScaling = 2f;
+                max = 30;
+            }},
+            new SpawnGroup(crawler){{
+                begin = 4;
+                end = 13;
+                unitAmount = 2;
+                unitScaling = 1.5f;
+            }}
+        );
     }
 }
 """,
@@ -122,8 +154,9 @@ public class UnitTypes{
         self.assertEqual(registry["blocks"][2], {"field": "coreShard", "id": "core-shard", "implementation": "CoreBlock", "properties": {}, "texture": ""})
         self.assertEqual(registry["blocks"][3], {"field": "router", "id": "router", "implementation": "Router", "properties": {"category": "distribution", "health": 90, "requirements": [{"amount": 3, "item": "copper"}], "size": 2}, "texture": ""})
         self.assertEqual(registry["blocks"][4], {"field": "duo", "id": "duo", "implementation": "ItemTurret", "properties": {"ammo": [{"damage": 9, "item": "copper", "lifetime": 60.0, "speed": 2.5}], "category": "turret", "range": 110.0, "reload": 20.0, "requirements": [{"amount": 35, "item": "copper"}]}, "texture": ""})
-        self.assertEqual(registry["units"], [{"field": "dagger", "id": "dagger", "implementation": "UnitType", "properties": {"health": 150, "hitSize": 8.0, "speed": 0.5}, "texture": "res://assets/core/assets-raw/sprites/units/dagger.png"}])
-        self.assertEqual(registry["counts"], {"items": 2, "liquids": 1, "blocks": 5, "units": 1})
+        self.assertEqual(registry["units"][0], {"field": "dagger", "id": "dagger", "implementation": "UnitType", "properties": {"health": 150, "hitSize": 8.0, "speed": 0.5}, "texture": "res://assets/core/assets-raw/sprites/units/dagger.png"})
+        self.assertEqual(registry["waves"], {"version": 7, "groups": [{"unit": "dagger", "end": 10, "max": 30, "unitScaling": 2.0}, {"unit": "crawler", "begin": 4, "end": 13, "unitAmount": 2, "unitScaling": 1.5}]})
+        self.assertEqual(registry["counts"], {"items": 2, "liquids": 1, "blocks": 5, "units": 2})
 
     def test_gdscript_literal_escapes_strings_and_keeps_types(self):
         self.assertEqual(gdscript_literal({"name": "core-shard", "enabled": True, "size": 3}), '{"enabled": true, "name": "core-shard", "size": 3}')

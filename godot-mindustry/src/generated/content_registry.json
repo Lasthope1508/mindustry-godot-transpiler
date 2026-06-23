@@ -8012,5 +8012,240 @@
       "texture": "res://assets/core/assets-raw/sprites/units/assembly-drone.png"
     }
   ],
-  "upstream_commit": "2bdedfed25932ebf11330d3584092c50e2e26d96"
+  "upstream_commit": "2bdedfed25932ebf11330d3584092c50e2e26d96",
+  "waves": {
+    "groups": [
+      {
+        "end": 10,
+        "max": 30,
+        "unit": "dagger",
+        "unitScaling": 2.0
+      },
+      {
+        "begin": 4,
+        "end": 13,
+        "unit": "crawler",
+        "unitAmount": 2,
+        "unitScaling": 1.5
+      },
+      {
+        "begin": 12,
+        "end": 16,
+        "unit": "flare",
+        "unitScaling": 1.0
+      },
+      {
+        "begin": 11,
+        "max": 4,
+        "shieldScaling": 25.0,
+        "spacing": 2,
+        "unit": "dagger",
+        "unitScaling": 1.7
+      },
+      {
+        "begin": 13,
+        "max": 25,
+        "spacing": 3,
+        "unit": "pulsar",
+        "unitScaling": 0.5
+      },
+      {
+        "begin": 7,
+        "end": 30,
+        "spacing": 3,
+        "unit": "mace",
+        "unitScaling": 2
+      },
+      {
+        "begin": 12,
+        "max": 14,
+        "shieldScaling": 20.0,
+        "spacing": 2,
+        "unit": "dagger",
+        "unitAmount": 4,
+        "unitScaling": 1
+      },
+      {
+        "begin": 28,
+        "end": 40,
+        "shieldScaling": 20.0,
+        "spacing": 3,
+        "unit": "mace",
+        "unitScaling": 1
+      },
+      {
+        "begin": 45,
+        "max": 10,
+        "shieldScaling": 30.0,
+        "shields": 100,
+        "spacing": 3,
+        "unit": "spiroct",
+        "unitScaling": 1
+      },
+      {
+        "begin": 120,
+        "spacing": 2,
+        "unit": "pulsar",
+        "unitAmount": 5,
+        "unitScaling": 3
+      },
+      {
+        "begin": 16,
+        "max": 20,
+        "shieldScaling": 20.0,
+        "spacing": 2,
+        "unit": "flare",
+        "unitScaling": 1
+      },
+      {
+        "begin": 82,
+        "shieldScaling": 30.0,
+        "spacing": 3,
+        "unit": "quasar",
+        "unitAmount": 4,
+        "unitScaling": 3
+      },
+      {
+        "begin": 41,
+        "max": 25,
+        "shields": 640.0,
+        "spacing": 5,
+        "unit": "pulsar",
+        "unitAmount": 1,
+        "unitScaling": 3
+      },
+      {
+        "begin": 40,
+        "max": 20,
+        "shieldScaling": 30,
+        "spacing": 5,
+        "unit": "fortress",
+        "unitAmount": 2,
+        "unitScaling": 2
+      },
+      {
+        "begin": 35,
+        "end": 60,
+        "spacing": 3,
+        "unit": "nova",
+        "unitAmount": 4
+      },
+      {
+        "begin": 42,
+        "end": 130,
+        "max": 30,
+        "spacing": 3,
+        "unit": "dagger",
+        "unitAmount": 4
+      },
+      {
+        "begin": 40,
+        "shieldScaling": 20,
+        "spacing": 2,
+        "unit": "horizon",
+        "unitAmount": 2,
+        "unitScaling": 2
+      },
+      {
+        "begin": 50,
+        "max": 20,
+        "shieldScaling": 10.0,
+        "shields": 100.0,
+        "spacing": 5,
+        "unit": "flare",
+        "unitAmount": 4,
+        "unitScaling": 3
+      },
+      {
+        "begin": 50,
+        "max": 16,
+        "shieldScaling": 30,
+        "spacing": 5,
+        "unit": "zenith",
+        "unitAmount": 2,
+        "unitScaling": 3
+      },
+      {
+        "begin": 53,
+        "shieldScaling": 30,
+        "spacing": 4,
+        "unit": "nova",
+        "unitAmount": 2,
+        "unitScaling": 3
+      },
+      {
+        "begin": 31,
+        "shieldScaling": 10.0,
+        "spacing": 3,
+        "unit": "atrax",
+        "unitAmount": 4,
+        "unitScaling": 1
+      },
+      {
+        "begin": 41,
+        "shieldScaling": 30.0,
+        "spacing": 30,
+        "unit": "scepter",
+        "unitAmount": 1,
+        "unitScaling": 1
+      },
+      {
+        "begin": 81,
+        "shieldScaling": 30.0,
+        "spacing": 40,
+        "unit": "reign",
+        "unitAmount": 1,
+        "unitScaling": 1
+      },
+      {
+        "begin": 120,
+        "shieldScaling": 30.0,
+        "spacing": 40,
+        "unit": "antumbra",
+        "unitAmount": 1,
+        "unitScaling": 1
+      },
+      {
+        "begin": 100,
+        "shieldScaling": 30.0,
+        "spacing": 30,
+        "unit": "vela",
+        "unitAmount": 1,
+        "unitScaling": 1
+      },
+      {
+        "begin": 145,
+        "shieldScaling": 30.0,
+        "shields": 100,
+        "spacing": 35,
+        "unit": "corvus",
+        "unitAmount": 1,
+        "unitScaling": 1
+      },
+      {
+        "begin": 90,
+        "shieldScaling": 30.0,
+        "shields": 40.0,
+        "spacing": 4,
+        "unit": "horizon",
+        "unitAmount": 2,
+        "unitScaling": 3
+      },
+      {
+        "begin": 210,
+        "shieldScaling": 35.0,
+        "shields": 1000,
+        "spacing": 35,
+        "unit": "toxopid",
+        "unitAmount": 1,
+        "unitScaling": 1
+      },
+      {
+        "max": 16,
+        "unit": "mega",
+        "unitAmount": 1
+      }
+    ],
+    "version": 7
+  }
 }

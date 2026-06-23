@@ -12,6 +12,9 @@ UPSTREAM_COMMIT = "2bdedfed25932ebf11330d3584092c50e2e26d96"
 def _source_content_dir(upstream_root: Path) -> Path:
     return Path(upstream_root) / "core" / "src" / "mindustry" / "content"
 
+def _source_game_dir(upstream_root: Path) -> Path:
+    return Path(upstream_root) / "core" / "src" / "mindustry" / "game"
+
 
 def _asset_root(godot_root: Path) -> Path:
     return Path(godot_root) / "assets"
@@ -170,6 +173,32 @@ def _number_literal(raw: str) -> int | float:
         number = number[:-1]
     return float(number) if "." in number or suffix in "fFdD" else int(number)
 
+def extract_waves(upstream_root: Path, units: list[dict[str, Any]]) -> dict[str, Any]:
+    java_file = _source_game_dir(upstream_root) / "Waves.java"
+    if not java_file.exists():
+        return {"version": 0, "groups": []}
+    source = java_file.read_text(encoding="utf-8", errors="replace")
+    version_match = re.search(r"waveVersion\s*=\s*([0-9_]+)", source)
+    version = int(version_match.group(1).replace("_", "")) if version_match else 0
+    field_to_id = {unit["field"]: unit["id"] for unit in units}
+    groups = []
+    pattern = re.compile(r"new\s+SpawnGroup\s*\(\s*([A-Za-z_]\w*)\s*\)", re.MULTILINE)
+    for match in pattern.finditer(source):
+        field = match.group(1)
+        unit_id = field_to_id.get(field, _camel_to_kebab(field))
+        group: dict[str, Any] = {"unit": unit_id}
+        body = _initializer_body(source, match.end())
+        for key in ["begin", "end", "spacing", "max", "unitAmount"]:
+            value = _numeric_assignment(body, key)
+            if value is not None:
+                group[key] = value
+        for key in ["unitScaling", "shields", "shieldScaling"]:
+            value = _numeric_assignment(body, key)
+            if value is not None:
+                group[key] = value
+        groups.append(group)
+    return {"version": version, "groups": groups}
+
 
 def extract_blocks(upstream_root: Path, godot_root: Path | None = None) -> list[dict[str, str]]:
     source = (_source_content_dir(upstream_root) / "Blocks.java").read_text(encoding="utf-8", errors="replace")
@@ -299,12 +328,14 @@ def build_content_registry(upstream_root: Path, godot_root: Path) -> dict[str, A
     liquids = extract_liquids(upstream_root, godot_root)
     blocks = extract_blocks(upstream_root, godot_root)
     units = extract_units(upstream_root, godot_root)
+    waves = extract_waves(upstream_root, units)
     return {
         "upstream_commit": UPSTREAM_COMMIT,
         "items": items,
         "liquids": liquids,
         "blocks": blocks,
         "units": units,
+        "waves": waves,
         "counts": {"items": len(items), "liquids": len(liquids), "blocks": len(blocks), "units": len(units)},
     }
 
@@ -329,6 +360,7 @@ def write_gdscript_registry(registry: dict[str, Any], output_path: Path) -> None
         f"const LIQUIDS := {gdscript_literal(registry['liquids'])}",
         f"const BLOCKS := {gdscript_literal(registry['blocks'])}",
         f"const UNITS := {gdscript_literal(registry['units'])}",
+        f"const WAVES := {gdscript_literal(registry['waves'])}",
         "",
         "static func counts() -> Dictionary:",
         "\treturn COUNTS",
