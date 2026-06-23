@@ -302,6 +302,21 @@ func selected_build_phase_range_boost() -> float:
 	var selected = build_palette[selected_build_index]
 	return float(selected.properties.get("phaseRangeBoost", 0.0))
 
+func source_mend_projector_repair_amount(mend_projector, target_block, phase_heat := 0.0, efficiency := 1.0) -> float:
+	if mend_projector == null or target_block == null:
+		return 0.0
+	var heal_percent := float(mend_projector.properties.get("healPercent", 0.0))
+	var phase_boost := float(mend_projector.properties.get("phaseBoost", 0.0))
+	var target_health := float(target_block.properties.get("health", 0.0))
+	return target_health * (heal_percent + phase_heat * phase_boost) / 100.0 * efficiency
+
+func selected_build_repair_amount() -> float:
+	if build_palette.is_empty() or content_catalog == null:
+		return 0.0
+	var selected = build_palette[selected_build_index]
+	var mend_projector = content_catalog.get_by_id("mend-projector")
+	return source_mend_projector_repair_amount(mend_projector, selected)
+
 func place_selected_block_at_mouse() -> void:
 	place_selected_block_at_world(get_global_mouse_position())
 
@@ -1351,6 +1366,7 @@ func get_runtime_summary() -> Dictionary:
 		"selected_build_heal_percent": selected_build_heal_percent(),
 		"selected_build_phase_boost": selected_build_phase_boost(),
 		"selected_build_phase_range_boost": selected_build_phase_range_boost(),
+		"selected_build_repair_amount": selected_build_repair_amount(),
 		"core_inventory": core_inventory,
 		"core_items": core_items.duplicate(),
 		"core_item_capacity": core_item_capacity,

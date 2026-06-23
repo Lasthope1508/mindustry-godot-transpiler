@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 62 |
-| Done | 62 |
+| Total tracked work items | 63 |
+| Done | 63 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -24,7 +24,7 @@
 - [x] N13-N24: Source-derived units, turrets, waves, parser failure cleanup, class registry, method stubs, HUD/runtime MCP, generated script loading/instancing, MCP placement input, all generated instances, and full textured build palette.
 - [x] N25-N36: Source block selection, source block size, footprint occupancy, source world occupancy, multi-item requirements, core health, unit weapon damage, bullet sprite assets, core item capacity, drill rate, conveyor speed, and bullet lifetime.
 - [x] N37-N48: Bullet speed, unit speed, unit hit size, turret reload/range, bullet dimensions/hit size/damage, unit health, full duo ammo list, ammo multiplier, and item turret ammo storage defaults.
-- [x] N49-N60: Item turret ammo stack/use, loaded-ammo firing, reload multiplier, anti-fabrication rangeChange gate, shootY, ShootAlternate spread, turret inaccuracy, turret rotation cone, turret recoil, source limitRange ammo lifetime, source scaledHealth block health, and source MendProjector repair params.
+- [x] N49-N61: Item turret ammo stack/use, loaded-ammo firing, reload multiplier, anti-fabrication rangeChange gate, shootY, ShootAlternate spread, turret inaccuracy, turret rotation cone, turret recoil, source limitRange ammo lifetime, source scaledHealth block health, source MendProjector repair params, and source MendProjector repair amount formula.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Done
@@ -93,6 +93,7 @@
 | N58 | Apply source `ItemTurret.limitRange(5f)` to duo ammo lifetimes | `Blocks.java` sets duo `range=160` and calls `limitRange(5f)` after defining copper, graphite, and silicon ammo; `ItemTurret.java` loops all ammo entries for `limitRange(float margin)`; `Turret.java` sets `bullet.lifetime = (range + bullet.rangeChange + margin + bullet.extraRangeMargin + 10f) / bullet.speed`; `BulletType.java` defaults `rangeChange=0f` and `extraRangeMargin=0f`; `source_parity.py` now enforces generated `limitRangeMargin=5.0` and computed lifetimes `70.0`, `54.57142857142857`, and `58.333333333333336`; `content_registry.py` parses `limitRange(...)`, rewrites emitted ammo lifetimes with the Java formula, and generated duo ammo carries those values; `PortGame.gd` exposes `selected_turret_limit_range_margin` while bullet lifetime continues flowing through generated `lifetime / 60.0`; Python suite reports `63` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime reports `selected_turret_limit_range_margin=5`, `selected_turret_ammo_lifetime_seconds=1.16666666666667` from copper lifetime `70/60`, and debug `errors: []` |
 | N59 | Compute source `Block.scaledHealth` block health | `Block.java` declares `scaledHealth=-1` and `health=-1`, and `Block.init()` computes `health = (int)(size * size * scaledHealth)` when `health` is unset and `scaledHealth >= 0`; `Blocks.java` sets `mendProjector` size `2` and `scaledHealth=80` without explicit `health`, so generated `mend-projector.health` must be `320`; `source_parity.py` now checks this against upstream source; `content_registry.py` extracts `scaledHealth` and computes `health` only when no explicit source `health` assignment exists; `PortGame.gd` exposes selected build health/scaledHealth in runtime summary; Python suite reports `66` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime selects `mend-projector` and reports `selected_build_health=320`, `selected_build_scaled_health=80`, and debug `errors: []` |
 | N60 | Apply source `MendProjector` repair params | `MendProjector.java` defines defaults `healPercent=12f`, `phaseBoost=12f`, and `phaseRangeBoost=50f`; `Blocks.java` sets `mendProjector` `healPercent=11f` and `phaseBoost=15f` while omitting `phaseRangeBoost`, so generated `mend-projector.phaseRangeBoost` must remain default `50.0`; `source_parity.py` now checks these values against upstream source; `content_registry.py` extracts explicit repair params and applies defaults only for `MendProjector`; `PortGame.gd` exposes selected build repair params in runtime summary; Python suite reports `68` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime selects `mend-projector` and reports `selected_build_heal_percent=11`, `selected_build_phase_boost=15`, `selected_build_phase_range_boost=50`, and debug `errors: []` |
+| N61 | Apply source `MendProjector` repair amount formula | `MendProjector.java` heals damaged blocks with `other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency`; using source `mend-projector.healPercent=11`, generated `health=320`, `phaseHeat=0`, and `efficiency=1` yields `35.2`; `source_parity.py` now checks this derived amount against generated registry data; `PortGame.gd` exposes `source_mend_projector_repair_amount()` and `selected_build_repair_amount` in runtime summary; Python suite reports `70` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime selects `mend-projector` and reports `selected_build_repair_amount=35.2`, and debug `errors: []` |
 
 ## Not Done
 
@@ -356,3 +357,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-24 | M57 source turret limitRange: generated duo ammo lifetimes now reflect `ItemTurret.limitRange(5f)` using Java formula `(range + rangeChange + margin + extraRangeMargin + 10) / speed`, with MCP proof of `selected_turret_limit_range_margin=5` and copper lifetime seconds `1.16666666666667`. |
 | 2026-06-24 | M58 source scaledHealth: generated block properties now include source `scaledHealth` and computed `health` for blocks without explicit `health`, with MCP proof that `mend-projector` reports `selected_build_scaled_health=80` and `selected_build_health=320`. |
 | 2026-06-24 | M59 source MendProjector repair params: generated `MendProjector` blocks now carry source/default `healPercent`, `phaseBoost`, and `phaseRangeBoost`, with MCP proof that `mend-projector` reports `11`, `15`, and `50`. |
+| 2026-06-24 | M60 source MendProjector repair amount: runtime now exposes the Java repair formula and MCP proves `mend-projector` non-phase self-repair amount `35.2`. |

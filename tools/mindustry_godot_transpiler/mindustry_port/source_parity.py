@@ -42,6 +42,26 @@ def verify_mend_projector_repair_parity(upstream_root: Path, godot_root: Path) -
         "mismatches": mismatches,
     }
 
+def verify_mend_projector_repair_amount_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / DUO_SOURCE
+    registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    registry = json.loads(registry_path.read_text(encoding="utf-8"))
+    repair = _extract_mend_projector_repair(source, "mendProjector", "MendProjector")
+    health = _extract_scaled_health_block(source, "mendProjector", "MendProjector")["health"]
+    expected = _mend_projector_repair_amount(health, repair["healPercent"], repair["phaseBoost"])
+    actual_props = _registry_block(registry, "mend-projector").get("properties", {})
+    actual = _mend_projector_repair_amount(actual_props.get("health"), actual_props.get("healPercent"), actual_props.get("phaseBoost"))
+    mismatches: list[dict[str, Any]] = []
+    for key, expected_value in expected.items():
+        _append_mismatch(mismatches, key, expected_value, actual.get(key))
+    return {
+        "source": DUO_SOURCE,
+        "block": "mend-projector",
+        "checked": expected,
+        "mismatches": mismatches,
+    }
+
 
 def verify_duo_source_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / DUO_SOURCE
@@ -202,3 +222,16 @@ def _extract_mend_projector_repair(source: str, field: str, implementation: str)
         value = _numeric_assignment(body, key)
         expected[key] = float(value) if value is not None else default
     return expected
+
+def _mend_projector_repair_amount(health: Any, heal_percent: Any, phase_boost: Any, phase_heat: float = 0.0, efficiency: float = 1.0) -> dict[str, Any]:
+    health_value = float(health)
+    heal_value = float(heal_percent)
+    phase_boost_value = float(phase_boost)
+    return {
+        "health": int(health_value) if health_value.is_integer() else health_value,
+        "healPercent": heal_value,
+        "phaseBoost": phase_boost_value,
+        "phaseHeat": phase_heat,
+        "efficiency": efficiency,
+        "repairAmount": health_value * (heal_value + phase_heat * phase_boost_value) / 100.0 * efficiency,
+    }

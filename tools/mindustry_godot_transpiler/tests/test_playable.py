@@ -260,6 +260,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"selected_build_phase_boost": selected_build_phase_boost()', source)
         self.assertIn('"selected_build_phase_range_boost": selected_build_phase_range_boost()', source)
 
+    def test_port_game_uses_source_mend_projector_repair_amount_formula(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_mend_projector_repair_amount(mend_projector, target_block, phase_heat := 0.0, efficiency := 1.0) -> float:", source)
+        self.assertIn('var heal_percent := float(mend_projector.properties.get("healPercent", 0.0))', source)
+        self.assertIn('var phase_boost := float(mend_projector.properties.get("phaseBoost", 0.0))', source)
+        self.assertIn('var target_health := float(target_block.properties.get("health", 0.0))', source)
+        self.assertIn('return target_health * (heal_percent + phase_heat * phase_boost) / 100.0 * efficiency', source)
+        self.assertIn("func selected_build_repair_amount() -> float:", source)
+        self.assertIn('var mend_projector = content_catalog.get_by_id("mend-projector")', source)
+        self.assertIn('return source_mend_projector_repair_amount(mend_projector, selected)', source)
+        self.assertIn('"selected_build_repair_amount": selected_build_repair_amount()', source)
+
     def test_port_game_enforces_source_core_item_capacity(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
