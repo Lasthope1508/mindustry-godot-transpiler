@@ -1,0 +1,14 @@
+# Generated from Mindustry upstream.
+# Source: mindustry/ai/types/LogicAI.java
+# Do not edit by hand.
+extends RefCounted
+
+const JAVA_PACKAGE := "mindustry.ai.types"
+const JAVA_KIND := "class"
+const JAVA_NAME := "LogicAI"
+const JAVA_EXTENDS := "AIController"
+const JAVA_IMPLEMENTS := []
+const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "transferDelay", "type": "float"}, {"modifiers": ["final", "public", "static"], "name": "logicControlTimeout", "type": "float"}, {"modifiers": ["public"], "name": "control", "type": "LUnitControl"}, {"modifiers": ["public"], "name": "moveX", "type": "float"}, {"modifiers": ["public"], "name": "moveY", "type": "float"}, {"modifiers": ["public"], "name": "moveRad", "type": "float"}, {"modifiers": ["public"], "name": "controlTimer", "type": "float"}, {"modifiers": ["public"], "name": "targetTimer", "type": "float"}, {"modifiers": ["public"], "name": "controller", "type": "Building"}, {"modifiers": ["public"], "name": "plan", "type": "BuildPlan"}, {"modifiers": ["public"], "name": "execCache", "type": "ObjectMap"}, {"modifiers": ["public"], "name": "aimControl", "type": "LUnitControl"}, {"modifiers": ["public"], "name": "boost", "type": "boolean"}, {"modifiers": ["public"], "name": "mainTarget", "type": "Teamc"}, {"modifiers": ["public"], "name": "shoot", "type": "boolean"}, {"modifiers": ["public"], "name": "posTarget", "type": "PosTeam"}, {"modifiers": ["private"], "name": "radars", "type": "ObjectSet"}]
+const JAVA_CONSTRUCTORS := []
+const JAVA_METHODS := [{"modifiers": ["public"], "name": "keepState", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "updateMovement", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "checkTargetTimer", "parameters": [{"name": "radar", "type": "Object", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "checkTarget", "parameters": [{"name": "target", "type": "Teamc", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "range", "type": "float", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "retarget", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "invalid", "parameters": [{"name": "target", "type": "Teamc", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "shouldShoot", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "target", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "range", "type": "float", "varargs": false}, {"name": "air", "type": "boolean", "varargs": false}, {"name": "ground", "type": "boolean", "varargs": false}], "return_type": "Teamc"}]
+const JAVA_ENUM_CONSTANTS := []

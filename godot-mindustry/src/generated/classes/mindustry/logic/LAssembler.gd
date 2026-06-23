@@ -1,0 +1,14 @@
+# Generated from Mindustry upstream.
+# Source: mindustry/logic/LAssembler.java
+# Do not edit by hand.
+extends RefCounted
+
+const JAVA_PACKAGE := "mindustry.logic"
+const JAVA_KIND := "class"
+const JAVA_NAME := "LAssembler"
+const JAVA_EXTENDS := ""
+const JAVA_IMPLEMENTS := []
+const JAVA_FIELDS := [{"modifiers": ["public", "static"], "name": "customParsers", "type": "ObjectMap"}, {"modifiers": ["final", "private", "static"], "name": "invalidNumNegative", "type": "long"}, {"modifiers": ["final", "private", "static"], "name": "invalidNumPositive", "type": "long"}, {"modifiers": ["public"], "name": "privileged", "type": "boolean"}, {"modifiers": ["public"], "name": "vars", "type": "OrderedMap"}, {"modifiers": ["public"], "name": "instructions", "type": "LInstruction"}]
+const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "LAssembler", "parameters": []}]
+const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "assemble", "parameters": [{"name": "data", "type": "String", "varargs": false}, {"name": "privileged", "type": "boolean", "varargs": false}], "return_type": "LAssembler"}, {"modifiers": ["public", "static"], "name": "write", "parameters": [{"name": "statements", "type": "Seq", "varargs": false}], "return_type": "String"}, {"modifiers": ["public", "static"], "name": "read", "parameters": [{"name": "text", "type": "String", "varargs": false}, {"name": "privileged", "type": "boolean", "varargs": false}], "return_type": "Seq"}, {"modifiers": ["public"], "name": "var", "parameters": [{"name": "symbol", "type": "String", "varargs": false}], "return_type": "LVar"}, {"modifiers": [], "name": "parseDouble", "parameters": [{"name": "symbol", "type": "String", "varargs": false}], "return_type": "double"}, {"modifiers": [], "name": "parseLong", "parameters": [{"name": "negative", "type": "boolean", "varargs": false}, {"name": "s", "type": "String", "varargs": false}, {"name": "radix", "type": "int", "varargs": false}, {"name": "start", "type": "int", "varargs": false}, {"name": "end", "type": "int", "varargs": false}], "return_type": "double"}, {"modifiers": [], "name": "parseColor", "parameters": [{"name": "symbol", "type": "String", "varargs": false}], "return_type": "double"}, {"modifiers": [], "name": "parseNamedColor", "parameters": [{"name": "symbol", "type": "String", "varargs": false}], "return_type": "double"}, {"modifiers": ["public"], "name": "putConst", "parameters": [{"name": "name", "type": "String", "varargs": false}, {"name": "value", "type": "Object", "varargs": false}], "return_type": "LVar"}, {"modifiers": ["public"], "name": "putVar", "parameters": [{"name": "name", "type": "String", "varargs": false}], "return_type": "LVar"}, {"modifiers": ["public"], "name": "getVar", "parameters": [{"name": "name", "type": "String", "varargs": false}], "return_type": "LVar"}]
+const JAVA_ENUM_CONSTANTS := []

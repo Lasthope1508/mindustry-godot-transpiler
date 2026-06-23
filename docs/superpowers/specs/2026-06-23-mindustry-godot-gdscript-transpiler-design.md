@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 17 |
-| Done | 17 |
+| Total tracked work items | 18 |
+| Done | 18 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -28,7 +28,7 @@
 | N3 | Build source scanner | Full run writes `source_manifest.json` and reports `801` core Java files |
 | N4 | Add Java AST parser | `test_java_ast.py` passes class and enum parser fixtures; `parse --limit 20` writes `ast_manifest.json` |
 | N5 | Define Java-to-GDScript mapping table | `test_mapping.py` verifies class, enum, method, field, constructor, static initializer, overload, package, import mappings |
-| N6 | Emit GDScript classes | `emit` command writes `612` parseable GDScript class skeletons under `src/generated/classes`; Godot MCP project scan sees `638` scripts and representative generated class LSP diagnostics return `diagnostics: []` |
+| N6 | Emit GDScript classes | `emit` command writes `801` parseable GDScript class skeletons under `src/generated/classes`; Godot MCP project scan sees `827` scripts and representative generated class LSP diagnostics return `diagnostics: []` |
 | N7 | Create compatibility runtime | Runtime stubs exist for `Seq`, `ObjectMap`, `Time`, `Mathf`, `ColorCompat`, `Vec2`, `Vars`, `Events`, `Core`; MCP project scan sees scripts |
 | N8 | Port base content model | `MindustryContent`, `MindustryUnlockableContent`, `MindustryItem`, `MindustryLiquid`, `MindustryBlock`, and `MindustryContentCatalog` load generated registry objects; MCP runtime starts scene with `errors=[]` |
 | N9 | Generate first content data | `content` command writes `content_registry.json` and `MindustryContentRegistry.gd`; MCP LSP diagnostics pass for generated registry; registry includes `22` items, `11` liquids, `417` source-declared block constructors |
@@ -38,6 +38,7 @@
 | N13 | Add source-derived unit registry and first wave | Registry extracts `56` unit constructors from `UnitTypes.java`; `MindustryUnitType` and catalog load generated units; playable scene spawns source-derived dagger sprites and updates wave/core HUD; Python tests pass and MCP runtime output shows `errors=[]` |
 | N14 | Add source-derived turret ammo and bullets | Registry extracts `duo` reload/range/ammo from `Blocks.java`; playable scene pre-places a source-derived duo turret, targets spawned units, fires bullet sprites, applies source-derived damage, and MCP runtime output shows `errors=[]` |
 | N15 | Add source-derived default waves | Registry extracts default `SpawnGroup` data from `mindustry/game/Waves.java`; playable scene uses generated wave groups and `getSpawned`-equivalent count logic instead of hardcoded dagger waves; MCP runtime output shows `errors=[]` |
+| N16 | Reduce Java parser failures to zero for class skeleton emission | Parser strips method/constructor bodies before `javalang` parsing and tolerates text blocks, switch-arrow bodies, pattern `instanceof`, and `instanceof` text in comments; `emit` prints `emitted classes=801 failures=0`; Python suite reports `22` tests passing; Godot MCP LSP diagnostics return `diagnostics: []` for `Renderer.gd`, `BaseBuilderAI.gd`, and `Damage.gd` |
 
 ## Not Done
 
@@ -256,3 +257,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-23 | M12 unsupported report: report generation now scans upstream Java source for unsupported lambdas and anonymous double-brace initializers with exact source path, line number, feature name, and snippet; generated report records `6986` locations. |
 | 2026-06-23 | M13 regression fixtures: generated `MindustryContentRegistry.gd` output is compared against a checked expected GDScript fixture; full test suite now has `16` passing tests. |
 | 2026-06-23 | M14 class emitter: added `emit` command that generates `612` GDScript class skeletons from parseable Java AST metadata; full test suite has `18` passing tests and Godot MCP LSP diagnostics pass for representative generated classes. |
+| 2026-06-23 | M15 parser failure reduction: Java preprocessing now strips callable bodies and handles modern Java syntax blockers; `emit` increases generated class skeletons from `612` to `801` and reduces skipped parser failures from `189` to `0`; full test suite has `22` passing tests and Godot MCP diagnostics pass for newly generated files. |

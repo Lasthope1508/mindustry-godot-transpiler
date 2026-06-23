@@ -1,0 +1,14 @@
+# Generated from Mindustry upstream.
+# Source: mindustry/world/blocks/environment/RuneOverlay.java
+# Do not edit by hand.
+extends RefCounted
+
+const JAVA_PACKAGE := "mindustry.world.blocks.environment"
+const JAVA_KIND := "class"
+const JAVA_NAME := "RuneOverlay"
+const JAVA_EXTENDS := "OverlayFloor"
+const JAVA_IMPLEMENTS := []
+const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "characters", "type": "int"}, {"modifiers": ["final", "public", "static"], "name": "unicodeOffset", "type": "int"}, {"modifiers": ["public"], "name": "letterRegions", "type": "TextureRegion"}, {"modifiers": ["public"], "name": "color", "type": "Color"}]
+const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "RuneOverlay", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
+const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "bytesToString", "parameters": [{"name": "data", "type": "byte", "varargs": false}], "return_type": "String"}, {"modifiers": ["public", "static"], "name": "stringToBytes", "parameters": [{"name": "s", "type": "String", "varargs": false}], "return_type": "byte"}, {"modifiers": ["public"], "name": "drawBase", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getConfig", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": "Object"}, {"modifiers": ["public"], "name": "drawPlanRegion", "parameters": [{"name": "plan", "type": "BuildPlan", "varargs": false}, {"name": "list", "type": "Eachable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "onPicked", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "buildEditorConfig", "parameters": [{"name": "table", "type": "Table", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "placeEnded", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "builder", "type": "Unit", "varargs": false}, {"name": "rotation", "type": "int", "varargs": false}, {"name": "config", "type": "Object", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "editorPicked", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}]
+const JAVA_ENUM_CONSTANTS := []

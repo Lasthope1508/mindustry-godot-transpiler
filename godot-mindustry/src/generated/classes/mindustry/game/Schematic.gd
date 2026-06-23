@@ -1,0 +1,14 @@
+# Generated from Mindustry upstream.
+# Source: mindustry/game/Schematic.java
+# Do not edit by hand.
+extends RefCounted
+
+const JAVA_PACKAGE := "mindustry.game"
+const JAVA_KIND := "class"
+const JAVA_NAME := "Schematic"
+const JAVA_EXTENDS := ""
+const JAVA_IMPLEMENTS := ["Publishable", "Comparable"]
+const JAVA_FIELDS := [{"modifiers": ["final", "public"], "name": "tiles", "type": "Seq"}, {"modifiers": ["public"], "name": "labels", "type": "Seq"}, {"modifiers": ["public"], "name": "tags", "type": "StringMap"}, {"modifiers": ["public"], "name": "width", "type": "int"}, {"modifiers": ["public"], "name": "height", "type": "int"}, {"modifiers": ["public"], "name": "file", "type": "Fi"}, {"modifiers": ["public"], "name": "mod", "type": "LoadedMod"}]
+const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "Schematic", "parameters": [{"name": "tiles", "type": "Seq", "varargs": false}, {"name": "tags", "type": "StringMap", "varargs": false}, {"name": "width", "type": "int", "varargs": false}, {"name": "height", "type": "int", "varargs": false}]}]
+const JAVA_METHODS := [{"modifiers": ["public"], "name": "powerProduction", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "powerConsumption", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "requirements", "parameters": [], "return_type": "ItemSeq"}, {"modifiers": ["public"], "name": "hasCore", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "findCore", "parameters": [], "return_type": "CoreBlock"}, {"modifiers": ["public"], "name": "name", "parameters": [], "return_type": "String"}, {"modifiers": ["public"], "name": "description", "parameters": [], "return_type": "String"}, {"modifiers": ["public"], "name": "save", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "getSteamID", "parameters": [], "return_type": "String"}, {"modifiers": ["public"], "name": "addSteamID", "parameters": [{"name": "id", "type": "String", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "removeSteamID", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "steamTitle", "parameters": [], "return_type": "String"}, {"modifiers": ["public"], "name": "steamDescription", "parameters": [], "return_type": "String"}, {"modifiers": ["public"], "name": "steamTag", "parameters": [], "return_type": "String"}, {"modifiers": ["public"], "name": "createSteamFolder", "parameters": [{"name": "id", "type": "String", "varargs": false}], "return_type": "Fi"}, {"modifiers": ["public"], "name": "createSteamPreview", "parameters": [{"name": "id", "type": "String", "varargs": false}], "return_type": "Fi"}, {"modifiers": ["public"], "name": "compareTo", "parameters": [{"name": "schematic", "type": "Schematic", "varargs": false}], "return_type": "int"}]
+const JAVA_ENUM_CONSTANTS := []

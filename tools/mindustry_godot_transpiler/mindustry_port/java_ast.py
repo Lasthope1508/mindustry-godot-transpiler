@@ -1,8 +1,158 @@
 from pathlib import Path
 from typing import Any
+import re
 
 import javalang
 from javalang.tree import ClassDeclaration, ConstructorDeclaration, EnumDeclaration, FieldDeclaration, MethodDeclaration
+
+def _replace_text_blocks(source: str) -> str:
+    result: list[str] = []
+    index = 0
+    while index < len(source):
+        start = source.find('"""', index)
+        if start == -1:
+            result.append(source[index:])
+            break
+        end = source.find('"""', start + 3)
+        if end == -1:
+            result.append(source[index:])
+            break
+        result.append(source[index:start])
+        result.append('"__text_block__"')
+        index = end + 3
+    return "".join(result)
+
+def _previous_non_space(source: str, index: int) -> int:
+    index -= 1
+    while index >= 0 and source[index].isspace():
+        index -= 1
+    return index
+
+def _matching_open_paren(source: str, close_index: int) -> int:
+    depth = 0
+    index = close_index
+    while index >= 0:
+        char = source[index]
+        if char == ")":
+            depth += 1
+        elif char == "(":
+            depth -= 1
+            if depth == 0:
+                return index
+        index -= 1
+    return -1
+
+def _token_before(source: str, index: int) -> str:
+    index = _previous_non_space(source, index)
+    end = index + 1
+    while index >= 0 and (source[index].isalnum() or source[index] in "_$"):
+        index -= 1
+    return source[index + 1:end]
+
+def _find_matching_brace(source: str, open_index: int) -> int:
+    depth = 1
+    index = open_index + 1
+    state = "code"
+    while index < len(source):
+        char = source[index]
+        next_char = source[index + 1] if index + 1 < len(source) else ""
+        if state == "line_comment":
+            if char == "\n":
+                state = "code"
+        elif state == "block_comment":
+            if char == "*" and next_char == "/":
+                state = "code"
+                index += 1
+        elif state == "string":
+            if char == "\\":
+                index += 1
+            elif char == '"':
+                state = "code"
+        elif state == "char":
+            if char == "\\":
+                index += 1
+            elif char == "'":
+                state = "code"
+        else:
+            if char == "/" and next_char == "/":
+                state = "line_comment"
+                index += 1
+            elif char == "/" and next_char == "*":
+                state = "block_comment"
+                index += 1
+            elif char == '"':
+                state = "string"
+            elif char == "'":
+                state = "char"
+            elif char == "{":
+                depth += 1
+            elif char == "}":
+                depth -= 1
+                if depth == 0:
+                    return index
+        index += 1
+    return -1
+
+def _is_callable_body(source: str, brace_index: int) -> bool:
+    previous = _previous_non_space(source, brace_index)
+    if previous < 0 or source[previous] != ")":
+        return False
+    open_paren = _matching_open_paren(source, previous)
+    if open_paren == -1:
+        return False
+    return _token_before(source, open_paren) not in {"if", "for", "while", "switch", "catch", "synchronized"}
+
+def _strip_callable_bodies(source: str) -> str:
+    result: list[str] = []
+    index = 0
+    last = 0
+    state = "code"
+    while index < len(source):
+        char = source[index]
+        next_char = source[index + 1] if index + 1 < len(source) else ""
+        if state == "line_comment":
+            if char == "\n":
+                state = "code"
+        elif state == "block_comment":
+            if char == "*" and next_char == "/":
+                state = "code"
+                index += 1
+        elif state == "string":
+            if char == "\\":
+                index += 1
+            elif char == '"':
+                state = "code"
+        elif state == "char":
+            if char == "\\":
+                index += 1
+            elif char == "'":
+                state = "code"
+        else:
+            if char == "/" and next_char == "/":
+                state = "line_comment"
+                index += 1
+            elif char == "/" and next_char == "*":
+                state = "block_comment"
+                index += 1
+            elif char == '"':
+                state = "string"
+            elif char == "'":
+                state = "char"
+            elif char == "{" and _is_callable_body(source, index):
+                end = _find_matching_brace(source, index)
+                if end != -1:
+                    result.append(source[last:index])
+                    result.append("{}")
+                    index = end
+                    last = end + 1
+        index += 1
+    result.append(source[last:])
+    return "".join(result)
+
+def _preprocess_modern_java(source: str) -> str:
+    source = _replace_text_blocks(source)
+    source = _strip_callable_bodies(source)
+    return re.sub(r"\binstanceof\s+([A-Za-z_$][\w$]*(?:\s*\.\s*[A-Za-z_$][\w$]*)*(?:\s*<[^;\n(){}]+>)?(?:\s*\[\s*\])*)\s+[A-Za-z_$][\w$]*", r"instanceof \1", source)
 
 
 def _type_name(type_node: Any) -> str:
@@ -112,6 +262,7 @@ def parse_java_file(java_file: Path, source_root: Path) -> dict:
     java_file = Path(java_file)
     source_root = Path(source_root)
     source = java_file.read_text(encoding="utf-8", errors="replace")
+    source = _preprocess_modern_java(source)
     tree = javalang.parse.parse(source)
     types = []
     for type_node in tree.types:
