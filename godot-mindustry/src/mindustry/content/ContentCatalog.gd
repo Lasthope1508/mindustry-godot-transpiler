@@ -5,12 +5,14 @@ const GeneratedRegistry := preload("res://src/generated/MindustryContentRegistry
 const ItemScript := preload("res://src/mindustry/content/Item.gd")
 const LiquidScript := preload("res://src/mindustry/content/Liquid.gd")
 const BlockScript := preload("res://src/mindustry/content/Block.gd")
+const UnitTypeScript := preload("res://src/mindustry/content/UnitType.gd")
 
 var items: Array = []
 var liquids: Array = []
 var blocks: Array = []
+var units: Array = []
 var by_id: Dictionary = {}
-var by_type: Dictionary = {"item": [], "liquid": [], "block": []}
+var by_type: Dictionary = {"item": [], "liquid": [], "block": [], "unit": []}
 
 func _init() -> void:
 	load_generated_registry()
@@ -19,14 +21,17 @@ func load_generated_registry() -> void:
 	items.clear()
 	liquids.clear()
 	blocks.clear()
+	units.clear()
 	by_id.clear()
-	by_type = {"item": [], "liquid": [], "block": []}
+	by_type = {"item": [], "liquid": [], "block": [], "unit": []}
 	for data in GeneratedRegistry.ITEMS:
 		_register(ItemScript.new(data))
 	for data in GeneratedRegistry.LIQUIDS:
 		_register(LiquidScript.new(data))
 	for data in GeneratedRegistry.BLOCKS:
 		_register(BlockScript.new(data))
+	for data in GeneratedRegistry.UNITS:
+		_register(UnitTypeScript.new(data))
 
 func _register(content: RefCounted) -> void:
 	by_id[content.id] = content
@@ -37,9 +42,11 @@ func _register(content: RefCounted) -> void:
 		liquids.append(content)
 	elif content.content_type == "block":
 		blocks.append(content)
+	elif content.content_type == "unit":
+		units.append(content)
 
 func counts() -> Dictionary:
-	return {"items": items.size(), "liquids": liquids.size(), "blocks": blocks.size()}
+	return {"items": items.size(), "liquids": liquids.size(), "blocks": blocks.size(), "units": units.size()}
 
 func get_by_id(id: String):
 	return by_id.get(id)

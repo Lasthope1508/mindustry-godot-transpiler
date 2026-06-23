@@ -127,6 +127,49 @@ def extract_liquids(upstream_root: Path, godot_root: Path) -> list[dict[str, Any
     entries = _extract_creators(_source_content_dir(upstream_root) / "Liquids.java", {"Liquid", "CellLiquid"})
     return _with_icon_paths(entries, _asset_root(godot_root), "liquid-")
 
+def extract_units(upstream_root: Path, godot_root: Path) -> list[dict[str, Any]]:
+    java_file = _source_content_dir(upstream_root) / "UnitTypes.java"
+    if not java_file.exists():
+        return []
+    entries = _extract_unit_creators(java_file)
+    result = []
+    asset_root = _asset_root(godot_root)
+    for entry in entries:
+        copy = dict(entry)
+        copy["texture"] = _texture_path(asset_root, f"core/assets-raw/sprites/units/{entry['id']}.png")
+        result.append(copy)
+    return result
+
+def _extract_unit_creators(java_file: Path) -> list[dict[str, Any]]:
+    source = Path(java_file).read_text(encoding="utf-8", errors="replace")
+    pattern = re.compile(r"\b([A-Za-z_]\w*)\s*=\s*new\s+(UnitType|ErekirUnitType|NeoplasmUnitType)\s*\(\s*\"([^\"]+)\"", re.MULTILINE)
+    units = []
+    for match in pattern.finditer(source):
+        field, implementation, content_id = match.groups()
+        units.append({
+            "field": field,
+            "id": content_id,
+            "implementation": implementation,
+            "properties": _unit_properties(source, match.end()),
+        })
+    return units
+
+def _unit_properties(source: str, assignment_end: int) -> dict[str, Any]:
+    initializer = _initializer_body(source, assignment_end)
+    properties: dict[str, Any] = {}
+    for key in ["speed", "health", "hitSize"]:
+        match = re.search(rf"\b{key}\s*=\s*([0-9_]+(?:\.[0-9_]+)?[fFdDlL]?)\s*;", initializer)
+        if match:
+            properties[key] = _number_literal(match.group(1))
+    return properties
+
+def _number_literal(raw: str) -> int | float:
+    number = raw.replace("_", "")
+    suffix = number[-1:] if number else ""
+    if suffix in "fFdDlL":
+        number = number[:-1]
+    return float(number) if "." in number or suffix in "fFdD" else int(number)
+
 
 def extract_blocks(upstream_root: Path, godot_root: Path | None = None) -> list[dict[str, str]]:
     source = (_source_content_dir(upstream_root) / "Blocks.java").read_text(encoding="utf-8", errors="replace")
@@ -231,12 +274,14 @@ def build_content_registry(upstream_root: Path, godot_root: Path) -> dict[str, A
     items = extract_items(upstream_root, godot_root)
     liquids = extract_liquids(upstream_root, godot_root)
     blocks = extract_blocks(upstream_root, godot_root)
+    units = extract_units(upstream_root, godot_root)
     return {
         "upstream_commit": UPSTREAM_COMMIT,
         "items": items,
         "liquids": liquids,
         "blocks": blocks,
-        "counts": {"items": len(items), "liquids": len(liquids), "blocks": len(blocks)},
+        "units": units,
+        "counts": {"items": len(items), "liquids": len(liquids), "blocks": len(blocks), "units": len(units)},
     }
 
 
@@ -248,7 +293,7 @@ def write_gdscript_registry(registry: dict[str, Any], output_path: Path) -> None
     output_path.parent.mkdir(parents=True, exist_ok=True)
     text = "\n".join([
         "# Generated from Mindustry upstream.",
-        "# Source: core/src/mindustry/content/{Items,Liquids,Blocks}.java",
+        "# Source: core/src/mindustry/content/{Items,Liquids,Blocks,UnitTypes}.java",
         f"# Upstream commit: {UPSTREAM_COMMIT}",
         "# Do not edit by hand.",
         "extends RefCounted",
@@ -259,6 +304,7 @@ def write_gdscript_registry(registry: dict[str, Any], output_path: Path) -> None
         f"const ITEMS := {gdscript_literal(registry['items'])}",
         f"const LIQUIDS := {gdscript_literal(registry['liquids'])}",
         f"const BLOCKS := {gdscript_literal(registry['blocks'])}",
+        f"const UNITS := {gdscript_literal(registry['units'])}",
         "",
         "static func counts() -> Dictionary:",
         "\treturn COUNTS",

@@ -93,7 +93,7 @@ def main(argv=None) -> int:
     elif args.command == "content":
         registry = run_content(upstream, godot)
         counts = registry["counts"]
-        print(f"content items={counts['items']} liquids={counts['liquids']} blocks={counts['blocks']}")
+        print(f"content items={counts['items']} liquids={counts['liquids']} blocks={counts['blocks']} units={counts['units']}")
     elif args.command == "all":
         source_manifest = run_scan(upstream, godot)
         asset_manifest = run_assets(upstream, godot)

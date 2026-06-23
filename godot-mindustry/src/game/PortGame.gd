@@ -12,15 +12,19 @@ var tile_size := 32
 var config: Dictionary = {}
 var textures: Dictionary = {}
 var block_texture_cache: Dictionary = {}
-var content_counts: Dictionary = {"items": 0, "liquids": 0, "blocks": 0}
+var content_counts: Dictionary = {"items": 0, "liquids": 0, "blocks": 0, "units": 0}
 var content_catalog: RefCounted
 var build_palette: Array = []
 var selected_build_index := 0
 var placed_blocks: Dictionary = {}
 var core_inventory := 0
+var core_health := 500.0
 var produced_total := 0
 var item_progress := 0.0
 var item_sprites: Array[Sprite2D] = []
+var enemy_units: Array = []
+var wave_index := 1
+var wave_cooldown := 0.0
 var path_points: Array[Vector2] = []
 var hud_label: Label
 var camera: Camera2D
@@ -58,6 +62,9 @@ func load_textures() -> void:
 	textures["item"] = load_png_texture(config["item"]["texture"])
 	for key in config["blocks"].keys():
 		textures[key] = load_png_texture(config["blocks"][key]["texture"])
+	var unit = selected_enemy_unit()
+	if unit != null and unit.has_texture():
+		textures["enemy_unit"] = load_png_texture(unit.texture_path)
 
 func build_block_palette() -> void:
 	build_palette.clear()
@@ -111,6 +118,7 @@ func build_world() -> void:
 		var sprite := add_sprite(units, "item", path_points[0])
 		sprite.visible = false
 		item_sprites.append(sprite)
+	spawn_enemy_wave()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
@@ -199,6 +207,7 @@ func build_hud() -> void:
 func _process(delta: float) -> void:
 	MindustryTime.update(delta)
 	simulate_factory(delta)
+	simulate_enemy_units(delta)
 	update_camera(delta)
 	update_hud()
 
@@ -217,6 +226,60 @@ func simulate_factory(delta: float) -> void:
 		var local_t := fmod(phase * float(path_points.size() - 1), 1.0)
 		item_sprites[i].position = path_points[idx].lerp(path_points[next_idx], local_t)
 		item_sprites[i].visible = true
+
+func selected_enemy_unit():
+	if content_catalog == null:
+		return null
+	var dagger = content_catalog.get_by_id("dagger")
+	if dagger != null:
+		return dagger
+	var units: Array = content_catalog.get_many("unit")
+	return units[0] if not units.is_empty() else null
+
+func spawn_enemy_wave() -> void:
+	var unit_type = selected_enemy_unit()
+	if unit_type == null:
+		return
+	var units_layer := get_node("World/UnitLayer")
+	var count = min(6, max(1, wave_index + 1))
+	for i in count:
+		var sprite := Sprite2D.new()
+		sprite.texture = textures.get("enemy_unit")
+		sprite.position = grid_to_world(Vector2i(WORLD_W - 2 + i, 6 + (i % 5)))
+		if sprite.texture:
+			var size := sprite.texture.get_size()
+			if size.x > 0 and size.y > 0:
+				sprite.scale = Vector2(tile_size / size.x, tile_size / size.y)
+		units_layer.add_child(sprite)
+		enemy_units.append({"sprite": sprite, "type": unit_type, "health": float(unit_type.properties.get("health", 100.0))})
+
+func simulate_enemy_units(delta: float) -> void:
+	if core_health <= 0.0:
+		return
+	var alive := []
+	var target := grid_to_world(core_pos)
+	for enemy in enemy_units:
+		var sprite = enemy.get("sprite")
+		if not is_instance_valid(sprite):
+			continue
+		var direction: Vector2 = target - sprite.position
+		if direction.length() <= float(tile_size) * 0.35:
+			core_health = max(0.0, core_health - 15.0)
+			sprite.queue_free()
+			continue
+		var unit_type = enemy.get("type")
+		var speed = max(20.0, float(unit_type.properties.get("speed", 0.5)) * float(tile_size) * 5.0)
+		sprite.position += direction.normalized() * speed * delta
+		alive.append(enemy)
+	enemy_units = alive
+	if enemy_units.is_empty():
+		wave_cooldown += delta
+		if wave_cooldown >= 3.0:
+			wave_index += 1
+			wave_cooldown = 0.0
+			spawn_enemy_wave()
+	else:
+		wave_cooldown = 0.0
 
 func update_camera(delta: float) -> void:
 	if camera == null:
@@ -245,4 +308,4 @@ func update_hud() -> void:
 	var selected = build_palette[selected_build_index] if not build_palette.is_empty() else null
 	var selected_name: String = selected.display_name() if selected else "None"
 	var selected_cost := requirements_text(selected) if selected else "none"
-	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks\nBuild: %s cost %s (1-6 select, left click place)\n%s in core: %d\nTotal produced: %d\nArrows move camera, Q/E zoom" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), selected_name, selected_cost, copper_name, core_inventory, produced_total]
+	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks / %d units\nBuild: %s cost %s (1-6 select, left click place)\n%s in core: %d\nTotal produced: %d\nWave: %d enemies: %d core health: %d\nArrows move camera, Q/E zoom" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), content_counts.get("units", 0), selected_name, selected_cost, copper_name, core_inventory, produced_total, wave_index, enemy_units.size(), int(core_health)]

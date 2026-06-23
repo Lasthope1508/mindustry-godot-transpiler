@@ -105,7 +105,7 @@ class CliTests(unittest.TestCase):
             result = run_cli("content", "--upstream", str(upstream), "--godot", str(godot))
 
             self.assertEqual(result.returncode, 0, result.stderr)
-            self.assertIn("content items=1 liquids=1 blocks=1", result.stdout)
+            self.assertIn("content items=1 liquids=1 blocks=1 units=0", result.stdout)
             self.assertTrue((godot / "src" / "generated" / "content_registry.json").exists())
             self.assertTrue((godot / "src" / "generated" / "MindustryContentRegistry.gd").exists())
 

@@ -72,12 +72,31 @@ public class Blocks{
 """,
                 encoding="utf-8",
             )
+            (source / "UnitTypes.java").write_text(
+                """
+package mindustry.content;
+import mindustry.type.*;
+public class UnitTypes{
+    public static UnitType dagger;
+    public static void load(){
+        dagger = new UnitType("dagger"){{
+            speed = 0.5f;
+            health = 150;
+            hitSize = 8f;
+        }};
+    }
+}
+""",
+                encoding="utf-8",
+            )
             assets = root / "godot" / "assets"
             (assets / "core/assets-raw/sprites/items").mkdir(parents=True)
             (assets / "core/assets-raw/sprites/items/item-copper.png").write_bytes(b"png")
             (assets / "core/assets-raw/sprites/items/liquid-water.png").write_bytes(b"png")
             (assets / "core/assets-raw/sprites/blocks/distribution/conveyors").mkdir(parents=True)
             (assets / "core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png").write_bytes(b"png")
+            (assets / "core/assets-raw/sprites/units").mkdir(parents=True)
+            (assets / "core/assets-raw/sprites/units/dagger.png").write_bytes(b"png")
 
             registry = build_content_registry(root / "upstream", root / "godot")
 
@@ -92,7 +111,8 @@ public class Blocks{
         self.assertEqual(registry["blocks"][1], {"field": "conveyor", "id": "conveyor", "implementation": "Conveyor", "properties": {}, "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png"})
         self.assertEqual(registry["blocks"][2], {"field": "coreShard", "id": "core-shard", "implementation": "CoreBlock", "properties": {}, "texture": ""})
         self.assertEqual(registry["blocks"][3], {"field": "router", "id": "router", "implementation": "Router", "properties": {"category": "distribution", "health": 90, "requirements": [{"amount": 3, "item": "copper"}], "size": 2}, "texture": ""})
-        self.assertEqual(registry["counts"], {"items": 2, "liquids": 1, "blocks": 4})
+        self.assertEqual(registry["units"], [{"field": "dagger", "id": "dagger", "implementation": "UnitType", "properties": {"health": 150, "hitSize": 8.0, "speed": 0.5}, "texture": "res://assets/core/assets-raw/sprites/units/dagger.png"}])
+        self.assertEqual(registry["counts"], {"items": 2, "liquids": 1, "blocks": 4, "units": 1})
 
     def test_gdscript_literal_escapes_strings_and_keeps_types(self):
         self.assertEqual(gdscript_literal({"name": "core-shard", "enabled": True, "size": 3}), '{"enabled": true, "name": "core-shard", "size": 3}')
