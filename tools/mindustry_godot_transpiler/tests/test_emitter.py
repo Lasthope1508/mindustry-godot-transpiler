@@ -35,9 +35,11 @@ public class Sample extends BaseSample implements Named{
             manifest = emit_gdscript_classes(source_root, output_root)
 
             emitted = output_root / "mindustry" / "content" / "Sample.gd"
+            registry = output_root.parent / "GeneratedClassRegistry.gd"
             self.assertEqual(manifest["emitted_file_count"], 1)
             self.assertEqual(manifest["skipped_failure_count"], 0)
             self.assertEqual(manifest["files"], ["mindustry/content/Sample.gd"])
+            self.assertEqual(manifest["registry"], "GeneratedClassRegistry.gd")
             self.assertEqual(emitted.read_text(encoding="utf-8"), """# Generated from Mindustry upstream.
 # Source: mindustry/content/Sample.java
 # Do not edit by hand.
@@ -52,6 +54,27 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "health", "type": "int"}
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "Sample", "parameters": [{"name": "health", "type": "int", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "enabled", "parameters": [{"name": "item", "type": "Item", "varargs": false}], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
+""")
+            self.assertEqual(registry.read_text(encoding="utf-8"), """# Generated from Mindustry upstream.
+# Source: emitted_classes.json
+# Do not edit by hand.
+extends RefCounted
+class_name MindustryGeneratedClassRegistry
+
+const CLASS_COUNT := 1
+const CLASSES := [{"gdscript_path": "res://src/generated/classes/mindustry/content/Sample.gd", "java_kind": "class", "java_name": "Sample", "java_package": "mindustry.content", "java_path": "mindustry/content/Sample.java"}]
+
+static func count() -> int:
+	return CLASS_COUNT
+
+static func all_classes() -> Array:
+	return CLASSES
+
+static func find_by_java_name(java_name: String) -> Dictionary:
+	for class_entry in CLASSES:
+		if class_entry.get("java_name", "") == java_name:
+			return class_entry
+	return {}
 """)
 
 

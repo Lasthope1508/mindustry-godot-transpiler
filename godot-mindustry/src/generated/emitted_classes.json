@@ -805,6 +805,7 @@
     "mindustry/world/WorldParams.gd"
   ],
   "output_root": "godot-mindustry/src/generated/classes",
+  "registry": "GeneratedClassRegistry.gd",
   "skipped_failure_count": 0,
   "source_root": "mindustry-upstream/core/src"
 }

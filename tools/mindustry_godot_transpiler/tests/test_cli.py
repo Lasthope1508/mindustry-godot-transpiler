@@ -124,6 +124,7 @@ class CliTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertIn("emitted classes=1", result.stdout)
             self.assertTrue((godot / "src" / "generated" / "classes" / "mindustry" / "content" / "Sample.gd").exists())
+            self.assertTrue((godot / "src" / "generated" / "GeneratedClassRegistry.gd").exists())
             self.assertTrue((godot / "src" / "generated" / "emitted_classes.json").exists())
 
 

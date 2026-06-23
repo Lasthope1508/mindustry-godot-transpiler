@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 18 |
-| Done | 18 |
+| Total tracked work items | 19 |
+| Done | 19 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -39,6 +39,7 @@
 | N14 | Add source-derived turret ammo and bullets | Registry extracts `duo` reload/range/ammo from `Blocks.java`; playable scene pre-places a source-derived duo turret, targets spawned units, fires bullet sprites, applies source-derived damage, and MCP runtime output shows `errors=[]` |
 | N15 | Add source-derived default waves | Registry extracts default `SpawnGroup` data from `mindustry/game/Waves.java`; playable scene uses generated wave groups and `getSpawned`-equivalent count logic instead of hardcoded dagger waves; MCP runtime output shows `errors=[]` |
 | N16 | Reduce Java parser failures to zero for class skeleton emission | Parser strips method/constructor bodies before `javalang` parsing and tolerates text blocks, switch-arrow bodies, pattern `instanceof`, and `instanceof` text in comments; `emit` prints `emitted classes=801 failures=0`; Python suite reports `22` tests passing; Godot MCP LSP diagnostics return `diagnostics: []` for `Renderer.gd`, `BaseBuilderAI.gd`, and `Damage.gd` |
+| N17 | Generate Godot class registry for emitted skeletons | `emit` writes `GeneratedClassRegistry.gd` with `801` class metadata entries and records `registry: GeneratedClassRegistry.gd` in `emitted_classes.json`; Python suite reports `22` tests passing; Godot MCP project scan sees `828` scripts; MCP LSP diagnostics for `src/generated/GeneratedClassRegistry.gd` return `diagnostics: []`; MCP debug output returns `errors: []` |
 
 ## Not Done
 
@@ -258,3 +259,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-23 | M13 regression fixtures: generated `MindustryContentRegistry.gd` output is compared against a checked expected GDScript fixture; full test suite now has `16` passing tests. |
 | 2026-06-23 | M14 class emitter: added `emit` command that generates `612` GDScript class skeletons from parseable Java AST metadata; full test suite has `18` passing tests and Godot MCP LSP diagnostics pass for representative generated classes. |
 | 2026-06-23 | M15 parser failure reduction: Java preprocessing now strips callable bodies and handles modern Java syntax blockers; `emit` increases generated class skeletons from `612` to `801` and reduces skipped parser failures from `189` to `0`; full test suite has `22` passing tests and Godot MCP diagnostics pass for newly generated files. |
+| 2026-06-23 | M16 generated class registry: `emit` now writes `GeneratedClassRegistry.gd` with `801` source-linked class entries, lookup helpers, and manifest registry metadata; Godot MCP project scan sees `828` scripts and registry diagnostics pass. |
