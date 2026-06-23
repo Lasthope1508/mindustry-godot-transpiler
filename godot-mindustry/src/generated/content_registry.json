@@ -4863,7 +4863,8 @@
             "amount": 35,
             "item": "copper"
           }
-        ]
+        ],
+        "shootY": 3.0
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/duo/duo.png"
     },
@@ -4913,7 +4914,8 @@
             "amount": 22,
             "item": "graphite"
           }
-        ]
+        ],
+        "shootY": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/scorch.png"
     },
@@ -5074,6 +5076,7 @@
             "item": "silicon"
           }
         ],
+        "shootY": 4.5,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/swarmer.png"
@@ -5305,6 +5308,7 @@
             "item": "plastanium"
           }
         ],
+        "shootY": 10.0,
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/cyclone/cyclone.png"
@@ -5575,6 +5579,7 @@
             "item": "tungsten"
           }
         ],
+        "shootY": 5.0,
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/diffuse/diffuse.png"
@@ -5604,6 +5609,7 @@
             "item": "beryllium"
           }
         ],
+        "shootY": 8.0,
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/sublimate/sublimate.png"
@@ -5631,6 +5637,7 @@
             "item": "thorium"
           }
         ],
+        "shootY": 7.0,
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/titan/titan.png"
@@ -5664,6 +5671,7 @@
             "item": "beryllium"
           }
         ],
+        "shootY": 15.0,
         "size": 4,
         "speed": 8.5
       },
@@ -5695,6 +5703,7 @@
             "item": "oxide"
           }
         ],
+        "shootY": 4,
         "size": 4,
         "speed": 5.0
       },
@@ -5725,6 +5734,7 @@
             "item": "carbide"
           }
         ],
+        "shootY": 0.5,
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/lustre/lustre-preview.png"
@@ -5814,6 +5824,7 @@
             "item": "phase-fabric"
           }
         ],
+        "shootY": 15.0,
         "size": 5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/smite/smite-preview.png"

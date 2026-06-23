@@ -64,6 +64,7 @@ var last_turret_fired_ammo_item := ""
 var last_turret_fired_damage := 0.0
 var last_turret_fired_reload_multiplier := 1.0
 var last_turret_fired_range := 0.0
+var last_turret_fired_shoot_y := 0.0
 var wave_index := 1
 var wave_cooldown := 0.0
 var path_points: Array[Vector2] = []
@@ -647,8 +648,10 @@ func simulate_turrets(delta: float) -> void:
 			if target != null:
 				data = use_turret_ammo(cell, duo)
 				if not data.is_empty():
+					var bullet_origin := source_turret_bullet_origin(grid_to_world(cell), target, duo)
 					last_turret_fired_range = range_pixels
-					spawn_turret_bullet(grid_to_world(cell), target, data)
+					last_turret_fired_shoot_y = source_turret_shoot_y(duo)
+					spawn_turret_bullet(bullet_origin, target, data)
 					cooldown = source_turret_reload_seconds_for_ammo(duo, data)
 		turret_cooldowns[key] = cooldown
 
@@ -937,6 +940,14 @@ func selected_turret_range() -> float:
 		return 0.0
 	return source_turret_range(duo)
 
+func selected_turret_shoot_y() -> float:
+	if content_catalog == null:
+		return 0.0
+	var duo = content_catalog.get_by_id("duo")
+	if duo == null:
+		return 0.0
+	return source_turret_shoot_y(duo)
+
 func source_turret_reload_seconds(turret) -> float:
 	if turret == null:
 		return 0.0
@@ -951,6 +962,22 @@ func source_turret_range(turret) -> float:
 	if turret == null:
 		return 0.0
 	return float(turret.properties.get("range", 80.0))
+
+func source_turret_shoot_y(turret) -> float:
+	if turret == null:
+		return 0.0
+	return float(turret.properties.get("shootY", 0.0))
+
+func source_turret_bullet_origin(origin: Vector2, target, turret) -> Vector2:
+	if target == null:
+		return origin
+	var sprite = target.get("sprite")
+	if not is_instance_valid(sprite):
+		return origin
+	var direction: Vector2 = sprite.position - origin
+	if direction == Vector2.ZERO:
+		return origin
+	return origin + direction.normalized() * source_turret_shoot_y(turret)
 
 func source_bullet_range_change(data: Dictionary) -> float:
 	return float(data.get("rangeChange", 0.0))
@@ -1098,6 +1125,7 @@ func get_runtime_summary() -> Dictionary:
 		"last_turret_fired_damage": last_turret_fired_damage,
 		"last_turret_fired_reload_multiplier": last_turret_fired_reload_multiplier,
 		"last_turret_fired_range": last_turret_fired_range,
+		"last_turret_fired_shoot_y": last_turret_fired_shoot_y,
 		"selected_turret_ammo_sprite": selected_turret_ammo_sprite(),
 		"selected_turret_ammo_lifetime_seconds": selected_turret_ammo_lifetime_seconds(),
 		"selected_turret_ammo_world_speed": selected_turret_ammo_world_speed(),
@@ -1117,6 +1145,7 @@ func get_runtime_summary() -> Dictionary:
 		"selected_turret_loaded_ammo_item": selected_turret_loaded_ammo_item(),
 		"selected_turret_reload_seconds": selected_turret_reload_seconds(),
 		"selected_turret_range": selected_turret_range(),
+		"selected_turret_shoot_y": selected_turret_shoot_y(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

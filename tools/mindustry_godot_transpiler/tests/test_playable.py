@@ -432,7 +432,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var data := peek_turret_ammo(cell, duo)", source)
         self.assertIn("data = use_turret_ammo(cell, duo)", source)
         self.assertIn("if not data.is_empty():", source)
-        self.assertIn("spawn_turret_bullet(grid_to_world(cell), target, data)", source)
+        self.assertIn("spawn_turret_bullet(bullet_origin, target, data)", source)
         self.assertIn("func spawn_turret_bullet(origin: Vector2, target, data: Dictionary) -> void:", source)
         self.assertNotIn("spawn_turret_bullet(grid_to_world(cell), target, duo)", source)
         self.assertIn("var turret_shot_count := 0", source)
@@ -476,6 +476,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"last_turret_fired_range": last_turret_fired_range', source)
         self.assertIn('"selected_turret_ammo_range_change": selected_turret_ammo_range_change()', source)
         self.assertIn('"selected_turret_range": selected_turret_range()', source)
+
+    def test_port_game_uses_source_turret_shoot_y(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var last_turret_fired_shoot_y := 0.0", source)
+        self.assertIn("func source_turret_shoot_y(turret) -> float:", source)
+        self.assertIn('return float(turret.properties.get("shootY", 0.0))', source)
+        self.assertIn("func source_turret_bullet_origin(origin: Vector2, target, turret) -> Vector2:", source)
+        self.assertIn("return origin + direction.normalized() * source_turret_shoot_y(turret)", source)
+        self.assertIn("var bullet_origin := source_turret_bullet_origin(grid_to_world(cell), target, duo)", source)
+        self.assertIn("last_turret_fired_shoot_y = source_turret_shoot_y(duo)", source)
+        self.assertIn("spawn_turret_bullet(bullet_origin, target, data)", source)
+        self.assertIn('"last_turret_fired_shoot_y": last_turret_fired_shoot_y', source)
+        self.assertIn('"selected_turret_shoot_y": selected_turret_shoot_y()', source)
 
     def test_port_game_uses_source_drill_rate(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

@@ -19,6 +19,7 @@ class SourceParityTests(unittest.TestCase):
         self.assertEqual(report["checked"]["properties"]["reload"], 20.0)
         self.assertEqual(report["checked"]["properties"]["range"], 160)
         self.assertEqual(report["checked"]["properties"]["health"], 250)
+        self.assertEqual(report["checked"]["properties"].get("shootY"), 3.0)
         self.assertEqual(report["checked"]["ammo"]["copper"]["ammoMultiplier"], 2)
         self.assertEqual(report["checked"]["ammo"]["graphite"]["rangeChange"], 16.0)
         self.assertEqual(report["checked"]["ammo"]["graphite"]["reloadMultiplier"], 0.8)
