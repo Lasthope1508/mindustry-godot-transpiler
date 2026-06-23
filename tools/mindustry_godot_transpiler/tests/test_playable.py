@@ -258,6 +258,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn('core_health = max(0.0, core_health - 15.0)', source)
         self.assertIn('"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit())', source)
 
+    def test_port_game_uses_source_unit_speed(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_world_speed(unit_type) -> float:", source)
+        self.assertIn('return float(unit_type.properties.get("speed", 0.0)) * 60.0', source)
+        self.assertIn("var speed := source_unit_world_speed(unit_type)", source)
+        self.assertNotIn('max(20.0, float(unit_type.properties.get("speed", 0.5)) * float(tile_size) * 5.0)', source)
+        self.assertIn('"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit())', source)
+
     def test_port_game_uses_source_bullet_sprite_assets(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

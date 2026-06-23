@@ -576,7 +576,7 @@ func simulate_enemy_units(delta: float) -> void:
 			core_health = max(0.0, core_health - source_unit_weapon_damage(unit_type))
 			sprite.queue_free()
 			continue
-		var speed = max(20.0, float(unit_type.properties.get("speed", 0.5)) * float(tile_size) * 5.0)
+		var speed := source_unit_world_speed(unit_type)
 		sprite.position += direction.normalized() * speed * delta
 		alive.append(enemy)
 	enemy_units = alive
@@ -598,6 +598,11 @@ func source_unit_weapon_damage(unit_type) -> float:
 	var weapon: Dictionary = weapons[0]
 	var bullet: Dictionary = weapon.get("bullet", {})
 	return float(bullet.get("damage", 0.0))
+
+func source_unit_world_speed(unit_type) -> float:
+	if unit_type == null:
+		return 0.0
+	return float(unit_type.properties.get("speed", 0.0)) * 60.0
 
 func simulate_turrets(delta: float) -> void:
 	if content_catalog == null or turret_cells.is_empty():
@@ -771,6 +776,7 @@ func get_runtime_summary() -> Dictionary:
 		"selected_turret_ammo_lifetime_seconds": selected_turret_ammo_lifetime_seconds(),
 		"selected_turret_ammo_world_speed": selected_turret_ammo_world_speed(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
+		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"core_max_health": core_max_health,
 		"core_health": core_health,
 	}

@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 39 |
-| Done | 39 |
+| Total tracked work items | 40 |
+| Done | 40 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -60,6 +60,7 @@
 | N35 | Use source conveyor speed for item motion | `content_registry.py` extracts block `speed` and `displayedSpeed`, generated `conveyor.properties` includes `speed=0.03` and `displayedSpeed=4.2`, and `PortGame.gd` advances item sprite transport with source `ConveyorBuild` movement formula `speed * tilesize * 55`; Python suite reports `41` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `conveyor_world_speed=52.8` and `conveyor_path_progress_rate=0.183333333333333`, with debug `errors: []` |
 | N36 | Use source bullet lifetime | `PortGame.gd` converts generated bullet `lifetime` frames to seconds with `lifetime / 60.0`, stores `lifetime_remaining` on turret bullets, removes expired bullets, and exposes `selected_turret_ammo_lifetime_seconds`; Python suite reports `42` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_turret_ammo_lifetime_seconds=1` from generated duo copper bullet `lifetime=60`, with debug `errors: []` |
 | N37 | Use source bullet speed | `BulletType.java` defines bullet `speed` as units/tick and `BulletComp.java` exposes speed stats as `type.speed * 60f / tilesize`; generated duo copper ammo has `speed=2.5`; `PortGame.gd` converts bullet movement to world pixels/second with `speed * 60.0`, exposes `selected_turret_ammo_world_speed`, and removes the previous `speed * tile_size * 4.0` runtime constant; Python suite reports `43` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_turret_ammo_world_speed=150`, with debug `errors: []` |
+| N38 | Use source unit speed | `UnitComp.java` returns `type.speed` for base unit speed and `UnitType.java` exposes speed stats as `speed * 60f / tilesize`; generated dagger has `speed=0.5`; `PortGame.gd` converts unit movement to world pixels/second with `speed * 60.0`, exposes `selected_enemy_world_speed`, and removes the previous `max(20.0, speed * tile_size * 5.0)` runtime constant; Python suite reports `44` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_enemy_world_speed=30`, with debug `errors: []` |
 
 ## Not Done
 
@@ -300,3 +301,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-23 | M34 source conveyor speed: registry now extracts conveyor `speed/displayedSpeed` and item sprite transport uses source `speed * tilesize * 55` instead of sharing drill production progress. |
 | 2026-06-23 | M35 source bullet lifetime: turret bullets now use generated `BasicBulletType.lifetime` seconds and expire instead of living until hit/target removal only. |
 | 2026-06-23 | M36 source bullet speed: turret bullets now use generated `BasicBulletType.speed` as units/tick converted to world pixels/second with `speed * 60.0`. |
+| 2026-06-23 | M37 source unit speed: enemy units now use generated `UnitType.speed` as units/tick converted to world pixels/second with `speed * 60.0`. |
