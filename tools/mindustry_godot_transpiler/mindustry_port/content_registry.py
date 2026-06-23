@@ -249,7 +249,7 @@ def _block_properties(source: str, assignment_end: int) -> dict[str, Any]:
     requirements = _block_requirements(initializer)
     if requirements:
         properties["requirements"] = requirements
-    for key in ["size", "health"]:
+    for key in ["size", "health", "itemCapacity"]:
         match = re.search(rf"\b{key}\s*=\s*([0-9_]+)\s*;", initializer)
         if match:
             properties[key] = int(match.group(1).replace("_", ""))

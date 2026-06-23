@@ -38,6 +38,7 @@ var last_placed_occupied_cell_count := 0
 var last_place_blocked := false
 var core_inventory := 0
 var core_items: Dictionary = {"copper": 0}
+var core_item_capacity := 0
 var core_max_health := 0.0
 var core_health := 0.0
 var produced_total := 0
@@ -184,6 +185,7 @@ func build_world() -> void:
 		add_source_block(blocks, "conveyor", Vector2i(x, drill_pos.y))
 	add_source_block(blocks, "core-shard", core_pos)
 	core_max_health = source_block_health("core-shard")
+	core_item_capacity = source_block_item_capacity("core-shard")
 	core_health = core_max_health
 	add_source_block(blocks, "duo", duo_pos)
 	initial_world_block_count = placed_block_origins.size()
@@ -312,6 +314,14 @@ func source_block_health(block_id: String) -> float:
 		return 0.0
 	return float(block.properties.get("health", 0.0))
 
+func source_block_item_capacity(block_id: String) -> int:
+	if content_catalog == null:
+		return 0
+	var block = content_catalog.get_by_id(block_id)
+	if block == null:
+		return 0
+	return int(block.properties.get("itemCapacity", 0))
+
 func block_world_size(block) -> float:
 	return float(tile_size * block_size(block))
 
@@ -371,11 +381,14 @@ func spend_requirements(block) -> void:
 			set_core_item_count(item_id, core_item_count(item_id) - amount)
 
 func sync_copper_inventory_alias() -> void:
-	core_items["copper"] = max(int(core_items.get("copper", 0)), core_inventory)
+	core_items["copper"] = clamp_core_item_amount(max(int(core_items.get("copper", 0)), core_inventory))
 	core_inventory = int(core_items.get("copper", 0))
 
+func clamp_core_item_amount(amount: int) -> int:
+	return mini(max(0, amount), core_item_capacity)
+
 func set_core_item_count(item_id: String, amount: int) -> void:
-	core_items[item_id] = max(0, amount)
+	core_items[item_id] = clamp_core_item_amount(amount)
 	if item_id == "copper":
 		core_inventory = int(core_items.get("copper", 0))
 
@@ -652,6 +665,7 @@ func get_runtime_summary() -> Dictionary:
 		"selected_build_id": selected.id if selected else "",
 		"core_inventory": core_inventory,
 		"core_items": core_items.duplicate(),
+		"core_item_capacity": core_item_capacity,
 		"wave_index": wave_index,
 		"enemy_count": enemy_units.size(),
 		"bullet_count": bullets.size(),

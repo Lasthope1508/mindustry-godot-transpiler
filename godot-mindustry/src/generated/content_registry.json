@@ -1125,6 +1125,7 @@
       "implementation": "GenericCrafter",
       "properties": {
         "category": "crafting",
+        "itemCapacity": 20,
         "requirements": [
           {
             "amount": 100,
@@ -1173,6 +1174,7 @@
       "implementation": "AttributeCrafter",
       "properties": {
         "category": "crafting",
+        "itemCapacity": 30,
         "requirements": [
           {
             "amount": 120,
@@ -1254,6 +1256,7 @@
       "implementation": "GenericCrafter",
       "properties": {
         "category": "crafting",
+        "itemCapacity": 30,
         "requirements": [
           {
             "amount": 130,
@@ -1278,6 +1281,7 @@
       "implementation": "GenericCrafter",
       "properties": {
         "category": "crafting",
+        "itemCapacity": 20,
         "requirements": [
           {
             "amount": 80,
@@ -1410,6 +1414,7 @@
       "implementation": "Separator",
       "properties": {
         "category": "crafting",
+        "itemCapacity": 20,
         "requirements": [
           {
             "amount": 40,
@@ -1522,6 +1527,7 @@
       "implementation": "GenericCrafter",
       "properties": {
         "category": "crafting",
+        "itemCapacity": 30,
         "requirements": [
           {
             "amount": 70,
@@ -1542,6 +1548,7 @@
       "implementation": "GenericCrafter",
       "properties": {
         "category": "crafting",
+        "itemCapacity": 0,
         "requirements": [
           {
             "amount": 50,
@@ -1570,6 +1577,7 @@
       "implementation": "HeatCrafter",
       "properties": {
         "category": "crafting",
+        "itemCapacity": 0,
         "requirements": [
           {
             "amount": 60,
@@ -1622,6 +1630,7 @@
       "implementation": "HeatProducer",
       "properties": {
         "category": "crafting",
+        "itemCapacity": 0,
         "requirements": [
           {
             "amount": 30,
@@ -1646,6 +1655,7 @@
       "implementation": "HeatProducer",
       "properties": {
         "category": "crafting",
+        "itemCapacity": 0,
         "requirements": [
           {
             "amount": 50,
@@ -1770,6 +1780,7 @@
       "implementation": "HeatCrafter",
       "properties": {
         "category": "crafting",
+        "itemCapacity": 20,
         "requirements": [
           {
             "amount": 110,
@@ -1822,6 +1833,7 @@
       "implementation": "HeatCrafter",
       "properties": {
         "category": "crafting",
+        "itemCapacity": 20,
         "requirements": [
           {
             "amount": 100,
@@ -1878,6 +1890,7 @@
       "implementation": "HeatCrafter",
       "properties": {
         "category": "crafting",
+        "itemCapacity": 40,
         "requirements": [
           {
             "amount": 90,
@@ -1906,6 +1919,7 @@
       "implementation": "HeatProducer",
       "properties": {
         "category": "crafting",
+        "itemCapacity": 20,
         "requirements": [
           {
             "amount": 70,
@@ -2656,6 +2670,7 @@
       "properties": {
         "category": "distribution",
         "health": 90,
+        "itemCapacity": 10,
         "requirements": [
           {
             "amount": 1,
@@ -2897,6 +2912,7 @@
       "implementation": "MassDriver",
       "properties": {
         "category": "distribution",
+        "itemCapacity": 120,
         "range": 440.0,
         "reload": 200.0,
         "requirements": [
@@ -3060,6 +3076,7 @@
       "properties": {
         "category": "distribution",
         "health": 130,
+        "itemCapacity": 10,
         "requirements": [
           {
             "amount": 1,
@@ -3099,6 +3116,7 @@
       "implementation": "UnitCargoLoader",
       "properties": {
         "category": "distribution",
+        "itemCapacity": 200,
         "requirements": [
           {
             "amount": 80,
@@ -3123,6 +3141,7 @@
       "implementation": "UnitCargoUnloadPoint",
       "properties": {
         "category": "distribution",
+        "itemCapacity": 100,
         "requirements": [
           {
             "amount": 60,
@@ -4127,6 +4146,7 @@
       "implementation": "HeaterGenerator",
       "properties": {
         "category": "power",
+        "itemCapacity": 10,
         "range": 4.0,
         "requirements": [
           {
@@ -4228,6 +4248,7 @@
       "implementation": "Drill",
       "properties": {
         "category": "production",
+        "itemCapacity": 20,
         "requirements": [
           {
             "amount": 65,
@@ -4340,6 +4361,7 @@
       "implementation": "AttributeCrafter",
       "properties": {
         "category": "production",
+        "itemCapacity": 0,
         "requirements": [
           {
             "amount": 20,
@@ -4380,6 +4402,7 @@
       "implementation": "WallCrafter",
       "properties": {
         "category": "production",
+        "itemCapacity": 20,
         "requirements": [
           {
             "amount": 80,
@@ -4425,6 +4448,7 @@
       "implementation": "BeamDrill",
       "properties": {
         "category": "production",
+        "itemCapacity": 20,
         "range": 6,
         "requirements": [
           {
@@ -4454,6 +4478,7 @@
       "implementation": "BurstDrill",
       "properties": {
         "category": "production",
+        "itemCapacity": 40,
         "requirements": [
           {
             "amount": 70,
@@ -4478,6 +4503,7 @@
       "implementation": "BurstDrill",
       "properties": {
         "category": "production",
+        "itemCapacity": 60,
         "requirements": [
           {
             "amount": 300,
@@ -4507,6 +4533,7 @@
       "properties": {
         "category": "effect",
         "health": 1100,
+        "itemCapacity": 4000,
         "requirements": [
           {
             "amount": 1000,
@@ -4528,6 +4555,7 @@
       "properties": {
         "category": "effect",
         "health": 3500,
+        "itemCapacity": 9000,
         "requirements": [
           {
             "amount": 3000,
@@ -4553,6 +4581,7 @@
       "properties": {
         "category": "effect",
         "health": 6000,
+        "itemCapacity": 13000,
         "requirements": [
           {
             "amount": 8000,
@@ -4582,6 +4611,7 @@
       "properties": {
         "category": "effect",
         "health": 4500,
+        "itemCapacity": 2000,
         "requirements": [
           {
             "amount": 1000,
@@ -4607,6 +4637,7 @@
       "properties": {
         "category": "effect",
         "health": 16000,
+        "itemCapacity": 3000,
         "requirements": [
           {
             "amount": 4000,
@@ -4636,6 +4667,7 @@
       "properties": {
         "category": "effect",
         "health": 30000,
+        "itemCapacity": 4000,
         "requirements": [
           {
             "amount": 6000,
@@ -4668,6 +4700,7 @@
       "implementation": "StorageBlock",
       "properties": {
         "category": "effect",
+        "itemCapacity": 300,
         "requirements": [
           {
             "amount": 100,
@@ -4684,6 +4717,7 @@
       "implementation": "StorageBlock",
       "properties": {
         "category": "effect",
+        "itemCapacity": 1000,
         "requirements": [
           {
             "amount": 250,
@@ -4704,6 +4738,7 @@
       "implementation": "StorageBlock",
       "properties": {
         "category": "effect",
+        "itemCapacity": 160,
         "requirements": [
           {
             "amount": 30,
@@ -4724,6 +4759,7 @@
       "implementation": "StorageBlock",
       "properties": {
         "category": "effect",
+        "itemCapacity": 900,
         "requirements": [
           {
             "amount": 125,
@@ -6270,6 +6306,7 @@
       "implementation": "PayloadDeconstructor",
       "properties": {
         "category": "units",
+        "itemCapacity": 100,
         "requirements": [
           {
             "amount": 100,
@@ -6298,6 +6335,7 @@
       "implementation": "PayloadDeconstructor",
       "properties": {
         "category": "units",
+        "itemCapacity": 250,
         "requirements": [
           {
             "amount": 250,
@@ -6500,6 +6538,7 @@
       "implementation": "HeatProducer",
       "properties": {
         "category": "crafting",
+        "itemCapacity": 0,
         "size": 1
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/sandbox/heat-source.png"
@@ -6533,6 +6572,7 @@
       "implementation": "LaunchPad",
       "properties": {
         "category": "effect",
+        "itemCapacity": 100,
         "requirements": [
           {
             "amount": 350,
@@ -6561,6 +6601,7 @@
       "implementation": "LaunchPad",
       "properties": {
         "category": "effect",
+        "itemCapacity": 100,
         "requirements": [
           {
             "amount": 350,
@@ -6589,6 +6630,7 @@
       "implementation": "LandingPad",
       "properties": {
         "category": "effect",
+        "itemCapacity": 100,
         "requirements": [
           {
             "amount": 200,

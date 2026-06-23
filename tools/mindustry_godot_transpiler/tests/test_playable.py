@@ -204,9 +204,9 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("var core_items: Dictionary = {\"copper\": 0}", source)
         self.assertIn("func sync_copper_inventory_alias() -> void:", source)
-        self.assertIn('core_items["copper"] = max(int(core_items.get("copper", 0)), core_inventory)', source)
+        self.assertIn('core_items["copper"] = clamp_core_item_amount(max(int(core_items.get("copper", 0)), core_inventory))', source)
         self.assertIn("func set_core_item_count(item_id: String, amount: int) -> void:", source)
-        self.assertIn("core_items[item_id] = max(0, amount)", source)
+        self.assertIn("core_items[item_id] = clamp_core_item_amount(amount)", source)
         self.assertIn("func add_core_item(item_id: String, amount: int) -> void:", source)
         self.assertIn("set_core_item_count(item_id, core_item_count(item_id) + amount)", source)
         self.assertIn("func core_item_count(item_id: String) -> int:", source)
@@ -232,6 +232,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_block_health(block_id: String) -> float:", source)
         self.assertIn('return float(block.properties.get("health", 0.0))', source)
         self.assertIn('"core_max_health": core_max_health', source)
+
+    def test_port_game_enforces_source_core_item_capacity(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var core_item_capacity := 0", source)
+        self.assertIn('core_item_capacity = source_block_item_capacity("core-shard")', source)
+        self.assertIn("func source_block_item_capacity(block_id: String) -> int:", source)
+        self.assertIn('return int(block.properties.get("itemCapacity", 0))', source)
+        self.assertIn("func clamp_core_item_amount(amount: int) -> int:", source)
+        self.assertIn("return mini(max(0, amount), core_item_capacity)", source)
+        self.assertIn("core_items[item_id] = clamp_core_item_amount(amount)", source)
+        self.assertIn('"core_item_capacity": core_item_capacity', source)
 
     def test_port_game_uses_source_unit_weapon_damage_against_core(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

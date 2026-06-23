@@ -62,7 +62,9 @@ public class Blocks{
     public static void load(){
         air = new AirBlock("air");
         conveyor = new Conveyor("conveyor");
-        coreShard = new CoreBlock("core-shard");
+        coreShard = new CoreBlock("core-shard"){{
+            itemCapacity = 4000;
+        }};
         router = new Router("router"){{
             requirements(Category.distribution, with(Items.copper, 3));
             size = 2;
@@ -157,7 +159,7 @@ public class Waves{
         self.assertEqual(registry["liquids"][0]["properties"]["heatCapacity"], 0.4)
         self.assertEqual(registry["blocks"][0], {"field": "air", "id": "air", "implementation": "AirBlock", "properties": {}, "texture": ""})
         self.assertEqual(registry["blocks"][1], {"field": "conveyor", "id": "conveyor", "implementation": "Conveyor", "properties": {}, "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png"})
-        self.assertEqual(registry["blocks"][2], {"field": "coreShard", "id": "core-shard", "implementation": "CoreBlock", "properties": {}, "texture": ""})
+        self.assertEqual(registry["blocks"][2], {"field": "coreShard", "id": "core-shard", "implementation": "CoreBlock", "properties": {"itemCapacity": 4000}, "texture": ""})
         self.assertEqual(registry["blocks"][3], {"field": "router", "id": "router", "implementation": "Router", "properties": {"category": "distribution", "health": 90, "requirements": [{"amount": 3, "item": "copper"}], "size": 2}, "texture": ""})
         self.assertEqual(registry["blocks"][4], {"field": "duo", "id": "duo", "implementation": "ItemTurret", "properties": {"ammo": [{"damage": 9, "item": "copper", "lifetime": 60.0, "speed": 2.5, "sprite": "bullet"}], "category": "turret", "range": 110.0, "reload": 20.0, "requirements": [{"amount": 35, "item": "copper"}]}, "texture": ""})
         self.assertEqual(registry["units"][0], {"field": "dagger", "id": "dagger", "implementation": "UnitType", "properties": {"health": 150, "hitSize": 8.0, "speed": 0.5, "weapons": [{"bullet": {"damage": 9, "lifetime": 60.0, "speed": 2.5, "sprite": "bullet"}, "reload": 13.0}]}, "texture": "res://assets/core/assets-raw/sprites/units/dagger.png"})
