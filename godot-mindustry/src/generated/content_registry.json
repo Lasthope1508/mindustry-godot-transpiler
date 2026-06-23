@@ -5258,6 +5258,7 @@
           {
             "damage": 50,
             "height": 21.0,
+            "hitSize": 4.8,
             "item": "graphite",
             "speed": 7.5,
             "sprite": "bullet",
@@ -5336,6 +5337,7 @@
           {
             "damage": 85,
             "height": 20.0,
+            "hitSize": 7.0,
             "item": "beryllium",
             "speed": 7.5,
             "sprite": "bullet",
@@ -5372,6 +5374,7 @@
           {
             "damage": 41,
             "height": 20.0,
+            "hitSize": 7.0,
             "item": "graphite",
             "speed": 8.0,
             "sprite": "bullet",
@@ -5593,6 +5596,7 @@
           {
             "damage": 250,
             "height": 21.0,
+            "hitSize": 8.0,
             "item": "surge-alloy",
             "lifetime": 12.0,
             "speed": 7.0,

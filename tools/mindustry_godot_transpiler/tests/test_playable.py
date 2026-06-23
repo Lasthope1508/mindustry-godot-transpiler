@@ -328,6 +328,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func selected_turret_ammo_dimensions() -> Dictionary:", source)
         self.assertIn('"selected_turret_ammo_dimensions": selected_turret_ammo_dimensions()', source)
 
+    def test_port_game_uses_source_bullet_hit_size(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_hit_size(data: Dictionary) -> float:", source)
+        self.assertIn('return float(data.get("hitSize", 4.0))', source)
+        self.assertIn('"hit_size": source_bullet_hit_size(data)', source)
+        self.assertIn('if direction.length() <= float(bullet.get("hit_size", 4.0)):', source)
+        self.assertNotIn("if direction.length() <= 6.0:", source)
+        self.assertIn("func selected_turret_ammo_hit_size() -> float:", source)
+        self.assertIn('"selected_turret_ammo_hit_size": selected_turret_ammo_hit_size()', source)
+
     def test_port_game_uses_source_turret_reload(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

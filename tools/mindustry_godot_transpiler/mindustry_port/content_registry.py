@@ -282,6 +282,9 @@ def _block_ammo(initializer: str) -> list[dict[str, Any]]:
         height = _numeric_assignment(bullet_body, "height")
         if height is not None:
             entry["height"] = height
+        hit_size = _numeric_assignment(bullet_body, "hitSize")
+        if hit_size is not None:
+            entry["hitSize"] = hit_size
         ammo.append(entry)
     return ammo
 
