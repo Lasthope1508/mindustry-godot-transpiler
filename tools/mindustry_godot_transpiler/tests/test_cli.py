@@ -57,5 +57,29 @@ class CliTests(unittest.TestCase):
             self.assertTrue((godot / "src" / "generated" / "ast_manifest.json").exists())
 
 
+    def test_playable_command_writes_playable_manifest(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            godot = root / "godot-mindustry"
+            assets = godot / "assets"
+            required = [
+                "core/assets-raw/sprites/items/item-copper.png",
+                "core/assets-raw/sprites/blocks/environment/ore-copper1.png",
+                "core/assets-raw/sprites/blocks/environment/stone1.png",
+                "core/assets-raw/sprites/blocks/drills/mechanical-drill.png",
+                "core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png",
+                "core/assets-raw/sprites/blocks/storage/core-shard.png",
+            ]
+            for rel in required:
+                path = assets / rel
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(b"asset")
+
+            result = run_cli("playable", "--godot", str(godot))
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertTrue((godot / "src" / "generated" / "playable_content.json").exists())
+
+
 if __name__ == "__main__":
     unittest.main()

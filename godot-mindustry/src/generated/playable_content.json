@@ -1,0 +1,36 @@
+{
+  "blocks": {
+    "conveyor": {
+      "id": "conveyor",
+      "source": "core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png"
+    },
+    "core_shard": {
+      "id": "core_shard",
+      "source": "core/assets-raw/sprites/blocks/storage/core-shard.png",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/storage/core-shard.png"
+    },
+    "mechanical_drill": {
+      "id": "mechanical_drill",
+      "source": "core/assets-raw/sprites/blocks/drills/mechanical-drill.png",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/drills/mechanical-drill.png"
+    },
+    "ore_copper": {
+      "id": "ore_copper",
+      "source": "core/assets-raw/sprites/blocks/environment/ore-copper1.png",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/ore-copper1.png"
+    },
+    "stone_floor": {
+      "id": "stone_floor",
+      "source": "core/assets-raw/sprites/blocks/environment/stone1.png",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/stone1.png"
+    }
+  },
+  "item": {
+    "id": "copper",
+    "source": "core/assets-raw/sprites/items/item-copper.png",
+    "texture": "res://assets/core/assets-raw/sprites/items/item-copper.png"
+  },
+  "skin_overrides": {},
+  "tile_size": 32
+}

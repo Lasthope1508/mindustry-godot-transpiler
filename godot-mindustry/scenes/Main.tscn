@@ -1,6 +1,9 @@
-[gd_scene format=3 uid="uid://cr4gjj2hmirr0"]
+[gd_scene load_steps=2 format=3 uid="uid://cr4gjj2hmirr0"]
+
+[ext_resource type="Script" path="res://src/game/PortGame.gd" id="1_portgame"]
 
 [node name="Main" type="Node2D" unique_id=473631206]
+script = ExtResource("1_portgame")
 
 [node name="World" type="Node2D" parent="." unique_id=1633660480]
 

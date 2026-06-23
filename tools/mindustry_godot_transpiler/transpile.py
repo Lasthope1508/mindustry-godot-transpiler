@@ -3,6 +3,7 @@ from pathlib import Path
 
 from mindustry_port.assets import copy_assets
 from mindustry_port.java_ast import parse_source_tree
+from mindustry_port.playable import write_playable_manifest
 from mindustry_port.reports import write_json, write_report
 from mindustry_port.scanner import scan_source_tree
 
@@ -25,6 +26,7 @@ def build_parser() -> argparse.ArgumentParser:
         "assets": "Copy Mindustry assets into Godot project",
         "report": "Write pipeline status report",
         "parse": "Parse Java files into normalized AST manifest",
+        "playable": "Write playable slice manifest",
         "all": "Run scan, assets, and report",
     }
     for command, help_text in commands.items():
@@ -57,6 +59,10 @@ def run_report(godot: Path, source_manifest: dict | None = None, asset_manifest:
     return write_report(generated_dir(godot), source_manifest, asset_manifest)
 
 
+def run_playable(godot: Path) -> dict:
+    return write_playable_manifest(godot / "assets", generated_dir(godot) / "playable_content.json")
+
+
 def main(argv=None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
@@ -75,6 +81,9 @@ def main(argv=None) -> int:
     elif args.command == "report":
         report = run_report(godot)
         print(f"report java={report['java_file_count']} assets={report['asset_count']}")
+    elif args.command == "playable":
+        manifest = run_playable(godot)
+        print(f"playable blocks={len(manifest['blocks'])} item={manifest['item']['id']}")
     elif args.command == "all":
         source_manifest = run_scan(upstream, godot)
         asset_manifest = run_assets(upstream, godot)
