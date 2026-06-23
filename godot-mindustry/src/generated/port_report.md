@@ -3,8 +3,10 @@
 Java files scanned: 801
 Assets copied: 2970
 Asset bytes copied: 63299978
+Java files parsed: 8
+Java parse failures: 12
 
 ## Unsupported Features
-- AST transpilation not implemented in M1
-- Generated gameplay classes not implemented in M1
-- mindustry.gen generated Java package not expanded in M1
+- Generated gameplay classes not implemented yet
+- mindustry.gen generated Java package not expanded yet
+- Unsupported Java parser failures are listed in ast_manifest.json with paths and error types

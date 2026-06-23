@@ -1,0 +1,3822 @@
+{
+  "failed_file_count": 12,
+  "failures": [
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/BaseBuilderAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/BaseRegistry.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/RtsAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/types/BoostAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/types/BuilderAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/types/CargoAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/types/CommandAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/types/DefenderAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/types/FlyingFollowAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/types/GroundAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/types/HugAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/types/LogicAI.java"
+    }
+  ],
+  "files": [
+    {
+      "imports": [
+        "arc.func",
+        "arc.math.geom",
+        "arc.struct",
+        "arc.util",
+        "mindustry.world",
+        "java.util",
+        "mindustry.Vars"
+      ],
+      "package": "mindustry.ai",
+      "path": "mindustry/ai/Astar.java",
+      "types": [
+        {
+          "constructors": [],
+          "enum_constants": [],
+          "extends": "",
+          "fields": [
+            {
+              "modifiers": [
+                "final",
+                "public",
+                "static"
+              ],
+              "name": "manhattan",
+              "type": "DistanceHeuristic"
+            },
+            {
+              "modifiers": [
+                "final",
+                "private",
+                "static"
+              ],
+              "name": "out",
+              "type": "Seq"
+            },
+            {
+              "modifiers": [
+                "final",
+                "private",
+                "static"
+              ],
+              "name": "queue",
+              "type": "PQueue"
+            },
+            {
+              "modifiers": [
+                "private",
+                "static"
+              ],
+              "name": "costs",
+              "type": "float"
+            },
+            {
+              "modifiers": [
+                "private",
+                "static"
+              ],
+              "name": "rotations",
+              "type": "byte"
+            }
+          ],
+          "implements": [],
+          "kind": "class",
+          "methods": [
+            {
+              "modifiers": [
+                "public",
+                "static"
+              ],
+              "name": "pathfind",
+              "parameters": [
+                {
+                  "name": "from",
+                  "type": "Tile",
+                  "varargs": false
+                },
+                {
+                  "name": "to",
+                  "type": "Tile",
+                  "varargs": false
+                },
+                {
+                  "name": "th",
+                  "type": "TileHeuristic",
+                  "varargs": false
+                },
+                {
+                  "name": "passable",
+                  "type": "Boolf",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Seq"
+            },
+            {
+              "modifiers": [
+                "public",
+                "static"
+              ],
+              "name": "pathfind",
+              "parameters": [
+                {
+                  "name": "startX",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "startY",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "endX",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "endY",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "th",
+                  "type": "TileHeuristic",
+                  "varargs": false
+                },
+                {
+                  "name": "passable",
+                  "type": "Boolf",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Seq"
+            },
+            {
+              "modifiers": [
+                "public",
+                "static"
+              ],
+              "name": "pathfind",
+              "parameters": [
+                {
+                  "name": "startX",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "startY",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "endX",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "endY",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "th",
+                  "type": "TileHeuristic",
+                  "varargs": false
+                },
+                {
+                  "name": "dh",
+                  "type": "DistanceHeuristic",
+                  "varargs": false
+                },
+                {
+                  "name": "passable",
+                  "type": "Boolf",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Seq"
+            }
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "name": "Astar"
+        }
+      ]
+    },
+    {
+      "imports": [
+        "arc",
+        "arc.func",
+        "arc.math",
+        "arc.math.geom",
+        "arc.struct",
+        "arc.util",
+        "mindustry.ai.types",
+        "mindustry.content",
+        "mindustry.entities",
+        "mindustry.entities.Units",
+        "mindustry.game.EventType",
+        "mindustry.game",
+        "mindustry.game.Teams",
+        "mindustry.gen",
+        "mindustry.logic",
+        "mindustry.type",
+        "mindustry.world",
+        "mindustry.world.blocks.environment",
+        "mindustry.world.meta",
+        "mindustry.Vars"
+      ],
+      "package": "mindustry.ai",
+      "path": "mindustry/ai/BlockIndexer.java",
+      "types": [
+        {
+          "constructors": [
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "BlockIndexer",
+              "parameters": []
+            }
+          ],
+          "enum_constants": [],
+          "extends": "",
+          "fields": [
+            {
+              "modifiers": [
+                "final",
+                "private",
+                "static"
+              ],
+              "name": "quadrantSize",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "private",
+                "static"
+              ],
+              "name": "rect",
+              "type": "Rect"
+            },
+            {
+              "modifiers": [
+                "private",
+                "static"
+              ],
+              "name": "returnBool",
+              "type": "boolean"
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "quadWidth",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "quadHeight",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "ores",
+              "type": "IntSeq"
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "wallOres",
+              "type": "IntSeq"
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "damagedTiles",
+              "type": "Seq"
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "allPresentOres",
+              "type": "Seq"
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "allOres",
+              "type": "ObjectIntMap"
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "allWallOres",
+              "type": "ObjectIntMap"
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "activeTeams",
+              "type": "Seq"
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "flagMap",
+              "type": "Seq"
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "blocksPresent",
+              "type": "boolean"
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "breturnArray",
+              "type": "Seq"
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "floorMap",
+              "type": "Seq"
+            }
+          ],
+          "implements": [],
+          "kind": "class",
+          "methods": [
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "getAllPresentOres",
+              "parameters": [],
+              "return_type": "Seq"
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "updatePresentOres",
+              "parameters": [],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "removeFloorIndex",
+              "parameters": [
+                {
+                  "name": "tile",
+                  "type": "Tile",
+                  "varargs": false
+                },
+                {
+                  "name": "floor",
+                  "type": "Floor",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "addFloorIndex",
+              "parameters": [
+                {
+                  "name": "tile",
+                  "type": "Tile",
+                  "varargs": false
+                },
+                {
+                  "name": "floor",
+                  "type": "Floor",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "getFlaggedFloors",
+              "parameters": [
+                {
+                  "name": "flag",
+                  "type": "BlockFlag",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Seq"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "removeIndex",
+              "parameters": [
+                {
+                  "name": "tile",
+                  "type": "Tile",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "addIndex",
+              "parameters": [
+                {
+                  "name": "base",
+                  "type": "Tile",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "isBlockPresent",
+              "parameters": [
+                {
+                  "name": "block",
+                  "type": "Block",
+                  "varargs": false
+                }
+              ],
+              "return_type": "boolean"
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "clearFlags",
+              "parameters": [],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "getFlagged",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "Team",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Seq"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "hasOre",
+              "parameters": [
+                {
+                  "name": "item",
+                  "type": "Item",
+                  "varargs": false
+                }
+              ],
+              "return_type": "boolean"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "hasWallOre",
+              "parameters": [
+                {
+                  "name": "item",
+                  "type": "Item",
+                  "varargs": false
+                }
+              ],
+              "return_type": "boolean"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "getDamaged",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "Team",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Seq"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "getFlagged",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "Team",
+                  "varargs": false
+                },
+                {
+                  "name": "type",
+                  "type": "BlockFlag",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Seq"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "findClosestFlag",
+              "parameters": [
+                {
+                  "name": "x",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "y",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "team",
+                  "type": "Team",
+                  "varargs": false
+                },
+                {
+                  "name": "flag",
+                  "type": "BlockFlag",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Building"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "eachBlock",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "Teamc",
+                  "varargs": false
+                },
+                {
+                  "name": "range",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "pred",
+                  "type": "Boolf",
+                  "varargs": false
+                },
+                {
+                  "name": "cons",
+                  "type": "Cons",
+                  "varargs": false
+                }
+              ],
+              "return_type": "boolean"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "eachBlock",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "Team",
+                  "varargs": false
+                },
+                {
+                  "name": "wx",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "wy",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "range",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "pred",
+                  "type": "Boolf",
+                  "varargs": false
+                },
+                {
+                  "name": "cons",
+                  "type": "Cons",
+                  "varargs": false
+                }
+              ],
+              "return_type": "boolean"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "eachBlock",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "Team",
+                  "varargs": false
+                },
+                {
+                  "name": "rect",
+                  "type": "Rect",
+                  "varargs": false
+                },
+                {
+                  "name": "pred",
+                  "type": "Boolf",
+                  "varargs": false
+                },
+                {
+                  "name": "cons",
+                  "type": "Cons",
+                  "varargs": false
+                }
+              ],
+              "return_type": "boolean"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "getEnemy",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "Team",
+                  "varargs": false
+                },
+                {
+                  "name": "type",
+                  "type": "BlockFlag",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Seq"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "notifyHealthChanged",
+              "parameters": [
+                {
+                  "name": "build",
+                  "type": "Building",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "allBuildings",
+              "parameters": [
+                {
+                  "name": "x",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "y",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "range",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "cons",
+                  "type": "Cons",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "findEnemyTile",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "Team",
+                  "varargs": false
+                },
+                {
+                  "name": "x",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "y",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "range",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "priority",
+                  "type": "BuildingPriorityf",
+                  "varargs": false
+                },
+                {
+                  "name": "pred",
+                  "type": "Boolf",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Building"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "findEnemyTile",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "Team",
+                  "varargs": false
+                },
+                {
+                  "name": "x",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "y",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "range",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "priority",
+                  "type": "BuildingPriorityf",
+                  "varargs": false
+                },
+                {
+                  "name": "pred",
+                  "type": "Boolf",
+                  "varargs": false
+                },
+                {
+                  "name": "source",
+                  "type": "Team",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Building"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "findEnemyTile",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "Team",
+                  "varargs": false
+                },
+                {
+                  "name": "x",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "y",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "range",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "pred",
+                  "type": "Boolf",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Building"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "findTile",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "Team",
+                  "varargs": false
+                },
+                {
+                  "name": "x",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "y",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "range",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "pred",
+                  "type": "Boolf",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Building"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "findTile",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "Team",
+                  "varargs": false
+                },
+                {
+                  "name": "x",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "y",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "range",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "pred",
+                  "type": "Boolf",
+                  "varargs": false
+                },
+                {
+                  "name": "usePriority",
+                  "type": "boolean",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Building"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "findTile",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "Team",
+                  "varargs": false
+                },
+                {
+                  "name": "x",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "y",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "range",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "pred",
+                  "type": "Boolf",
+                  "varargs": false
+                },
+                {
+                  "name": "usePriority",
+                  "type": "boolean",
+                  "varargs": false
+                },
+                {
+                  "name": "source",
+                  "type": "Team",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Building"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "findClosestOre",
+              "parameters": [
+                {
+                  "name": "xp",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "yp",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "item",
+                  "type": "Item",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Tile"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "findClosestWallOre",
+              "parameters": [
+                {
+                  "name": "xp",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "yp",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "item",
+                  "type": "Item",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Tile"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "findClosestOre",
+              "parameters": [
+                {
+                  "name": "unit",
+                  "type": "Unit",
+                  "varargs": false
+                },
+                {
+                  "name": "item",
+                  "type": "Item",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Tile"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "findClosestWallOre",
+              "parameters": [
+                {
+                  "name": "unit",
+                  "type": "Unit",
+                  "varargs": false
+                },
+                {
+                  "name": "item",
+                  "type": "Item",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Tile"
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "process",
+              "parameters": [
+                {
+                  "name": "tile",
+                  "type": "Tile",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            }
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "name": "BlockIndexer"
+        }
+      ]
+    },
+    {
+      "imports": [
+        "arc",
+        "arc.graphics",
+        "arc.graphics.g2d",
+        "arc.math",
+        "arc.math.geom",
+        "arc.struct",
+        "arc.util",
+        "mindustry.annotations.Annotations",
+        "mindustry.content",
+        "mindustry.core",
+        "mindustry.game.EventType",
+        "mindustry.game",
+        "mindustry.gen",
+        "mindustry.graphics",
+        "mindustry.world",
+        "mindustry.Vars",
+        "mindustry.ai.Pathfinder"
+      ],
+      "package": "mindustry.ai",
+      "path": "mindustry/ai/ControlPathfinder.java",
+      "types": [
+        {
+          "constructors": [
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "ControlPathfinder",
+              "parameters": []
+            }
+          ],
+          "enum_constants": [],
+          "extends": "",
+          "fields": [
+            {
+              "modifiers": [
+                "final",
+                "private",
+                "static"
+              ],
+              "name": "wallImpassableCap",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "private",
+                "static"
+              ],
+              "name": "solidCap",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "private",
+                "static"
+              ],
+              "name": "initialized",
+              "type": "boolean"
+            },
+            {
+              "modifiers": [
+                "public",
+                "static"
+              ],
+              "name": "showDebug",
+              "type": "boolean"
+            },
+            {
+              "modifiers": [
+                "final",
+                "public",
+                "static"
+              ],
+              "name": "costGround",
+              "type": "PathCost"
+            },
+            {
+              "modifiers": [
+                "final",
+                "public",
+                "static"
+              ],
+              "name": "costHover",
+              "type": "PathCost"
+            },
+            {
+              "modifiers": [
+                "final",
+                "public",
+                "static"
+              ],
+              "name": "costLegs",
+              "type": "PathCost"
+            },
+            {
+              "modifiers": [
+                "final",
+                "public",
+                "static"
+              ],
+              "name": "costNaval",
+              "type": "PathCost"
+            },
+            {
+              "modifiers": [
+                "final",
+                "public",
+                "static"
+              ],
+              "name": "costIdGround",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "public",
+                "static"
+              ],
+              "name": "costIdHover",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "public",
+                "static"
+              ],
+              "name": "costIdLegs",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "public",
+                "static"
+              ],
+              "name": "costIdNaval",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "public",
+                "static"
+              ],
+              "name": "costTypes",
+              "type": "Seq"
+            },
+            {
+              "modifiers": [
+                "final",
+                "private",
+                "static"
+              ],
+              "name": "maxUpdate",
+              "type": "long"
+            },
+            {
+              "modifiers": [
+                "final",
+                "private",
+                "static"
+              ],
+              "name": "updateStepInterval",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "private",
+                "static"
+              ],
+              "name": "updateFPS",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "private",
+                "static"
+              ],
+              "name": "updateInterval",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "private",
+                "static"
+              ],
+              "name": "invalidateCheckInterval",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "static"
+              ],
+              "name": "clusterSize",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "static"
+              ],
+              "name": "offsets",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "static"
+              ],
+              "name": "moveDirs",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "static"
+              ],
+              "name": "nextOffsets",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final"
+              ],
+              "name": "clusters",
+              "type": "Cluster"
+            },
+            {
+              "modifiers": [
+                "final"
+              ],
+              "name": "cwidth",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final"
+              ],
+              "name": "cheight",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final"
+              ],
+              "name": "usedEdges",
+              "type": "IntSet"
+            },
+            {
+              "modifiers": [
+                "final"
+              ],
+              "name": "queue",
+              "type": "TaskQueue"
+            },
+            {
+              "modifiers": [
+                "final"
+              ],
+              "name": "unitRequests",
+              "type": "ObjectMap"
+            },
+            {
+              "modifiers": [
+                "final"
+              ],
+              "name": "threadPathRequests",
+              "type": "Seq"
+            },
+            {
+              "modifiers": [
+                "final"
+              ],
+              "name": "fields",
+              "type": "LongMap"
+            },
+            {
+              "modifiers": [
+                "final"
+              ],
+              "name": "fieldList",
+              "type": "Seq"
+            },
+            {
+              "modifiers": [
+                "final"
+              ],
+              "name": "innerCosts",
+              "type": "IntFloatMap"
+            },
+            {
+              "modifiers": [
+                "final"
+              ],
+              "name": "innerFrontier",
+              "type": "PathfindQueue"
+            },
+            {
+              "modifiers": [
+                "final"
+              ],
+              "name": "clustersToUpdate",
+              "type": "IntSet"
+            },
+            {
+              "modifiers": [
+                "final"
+              ],
+              "name": "clustersToInnerUpdate",
+              "type": "IntSet"
+            },
+            {
+              "modifiers": [
+                "final"
+              ],
+              "name": "invalidRequests",
+              "type": "ObjectSet"
+            },
+            {
+              "modifiers": [],
+              "name": "thread",
+              "type": "Thread"
+            },
+            {
+              "modifiers": [
+                "volatile"
+              ],
+              "name": "invalidated",
+              "type": "boolean"
+            }
+          ],
+          "implements": [
+            "Runnable"
+          ],
+          "kind": "class",
+          "methods": [
+            {
+              "modifiers": [
+                "static"
+              ],
+              "name": "checkEvents",
+              "parameters": [],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "updateTile",
+              "parameters": [
+                {
+                  "name": "tile",
+                  "type": "Tile",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "updateSingleTile",
+              "parameters": [
+                {
+                  "name": "t",
+                  "type": "Tile",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [],
+              "name": "queueClusterUpdate",
+              "parameters": [
+                {
+                  "name": "cx",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cy",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [],
+              "name": "portalToVec",
+              "parameters": [
+                {
+                  "name": "cluster",
+                  "type": "Cluster",
+                  "varargs": false
+                },
+                {
+                  "name": "cx",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cy",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "direction",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "portalIndex",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "out",
+                  "type": "Vec2",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "start",
+              "parameters": [],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "stop",
+              "parameters": [],
+              "return_type": ""
+            },
+            {
+              "modifiers": [],
+              "name": "getCluster",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "pathCost",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cx",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cy",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Cluster"
+            },
+            {
+              "modifiers": [],
+              "name": "getCluster",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "pathCost",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "clusterIndex",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Cluster"
+            },
+            {
+              "modifiers": [],
+              "name": "getCreateCluster",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "pathCost",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cx",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cy",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Cluster"
+            },
+            {
+              "modifiers": [],
+              "name": "getCreateCluster",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "pathCost",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "clusterIndex",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Cluster"
+            },
+            {
+              "modifiers": [],
+              "name": "updateCluster",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "pathCost",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cx",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cy",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Cluster"
+            },
+            {
+              "modifiers": [],
+              "name": "updateInnerEdges",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cost",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cx",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cy",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cluster",
+                  "type": "Cluster",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [],
+              "name": "updateInnerEdges",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cost",
+                  "type": "PathCost",
+                  "varargs": false
+                },
+                {
+                  "name": "cx",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cy",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cluster",
+                  "type": "Cluster",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "private",
+                "static"
+              ],
+              "name": "heuristic",
+              "parameters": [
+                {
+                  "name": "a",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "b",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "float"
+            },
+            {
+              "modifiers": [
+                "private",
+                "static"
+              ],
+              "name": "tcost",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cost",
+                  "type": "PathCost",
+                  "varargs": false
+                },
+                {
+                  "name": "tilePos",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "int"
+            },
+            {
+              "modifiers": [
+                "private",
+                "static"
+              ],
+              "name": "tileCost",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "type",
+                  "type": "PathCost",
+                  "varargs": false
+                },
+                {
+                  "name": "a",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "b",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "float"
+            },
+            {
+              "modifiers": [],
+              "name": "innerAstar",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cost",
+                  "type": "PathCost",
+                  "varargs": false
+                },
+                {
+                  "name": "minX",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "minY",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "maxX",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "maxY",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "startPos",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "goalPos",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "goalX1",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "goalY1",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "goalX2",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "goalY2",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "float"
+            },
+            {
+              "modifiers": [],
+              "name": "makeNodeIndex",
+              "parameters": [
+                {
+                  "name": "cx",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cy",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "dir",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "portal",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "int"
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "findClosestNode",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "pathCost",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "tileX",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "tileY",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "int"
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "clusterNodeHeuristic",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "pathCost",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "nodeA",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "nodeB",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "float"
+            },
+            {
+              "modifiers": [],
+              "name": "clusterAstar",
+              "parameters": [
+                {
+                  "name": "request",
+                  "type": "PathRequest",
+                  "varargs": false
+                },
+                {
+                  "name": "pathCost",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "startNodeIndex",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "endNodeIndex",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "IntSeq"
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "checkEdges",
+              "parameters": [
+                {
+                  "name": "request",
+                  "type": "PathRequest",
+                  "varargs": false
+                },
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "pathCost",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "current",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "goal",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cx",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cy",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "connections",
+                  "type": "LongSeq",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "updateFields",
+              "parameters": [
+                {
+                  "name": "cache",
+                  "type": "FieldCache",
+                  "varargs": false
+                },
+                {
+                  "name": "nsToRun",
+                  "type": "long",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "addFlowCluster",
+              "parameters": [
+                {
+                  "name": "cache",
+                  "type": "FieldCache",
+                  "varargs": false
+                },
+                {
+                  "name": "cluster",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "addingFrontier",
+                  "type": "boolean",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "addFlowCluster",
+              "parameters": [
+                {
+                  "name": "cache",
+                  "type": "FieldCache",
+                  "varargs": false
+                },
+                {
+                  "name": "cx",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cy",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "addingFrontier",
+                  "type": "boolean",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "initializePathRequest",
+              "parameters": [
+                {
+                  "name": "request",
+                  "type": "PathRequest",
+                  "varargs": false
+                },
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "costId",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "unitX",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "unitY",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "goalX",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "goalY",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "idToCost",
+              "parameters": [
+                {
+                  "name": "costId",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "PathCost"
+            },
+            {
+              "modifiers": [
+                "public",
+                "static"
+              ],
+              "name": "isNearObstacle",
+              "parameters": [
+                {
+                  "name": "unit",
+                  "type": "Unit",
+                  "varargs": false
+                },
+                {
+                  "name": "x1",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "y1",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "x2",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "y2",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "boolean"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "getPathPosition",
+              "parameters": [
+                {
+                  "name": "unit",
+                  "type": "Unit",
+                  "varargs": false
+                },
+                {
+                  "name": "destination",
+                  "type": "Vec2",
+                  "varargs": false
+                },
+                {
+                  "name": "out",
+                  "type": "Vec2",
+                  "varargs": false
+                },
+                {
+                  "name": "noResultFound",
+                  "type": "boolean",
+                  "varargs": false
+                }
+              ],
+              "return_type": "boolean"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "getPathPosition",
+              "parameters": [
+                {
+                  "name": "unit",
+                  "type": "Unit",
+                  "varargs": false
+                },
+                {
+                  "name": "destination",
+                  "type": "Vec2",
+                  "varargs": false
+                },
+                {
+                  "name": "mainDestination",
+                  "type": "Vec2",
+                  "varargs": false
+                },
+                {
+                  "name": "out",
+                  "type": "Vec2",
+                  "varargs": false
+                },
+                {
+                  "name": "noResultFound",
+                  "type": "boolean",
+                  "varargs": false
+                }
+              ],
+              "return_type": "boolean"
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "recalculatePath",
+              "parameters": [
+                {
+                  "name": "request",
+                  "type": "PathRequest",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "getCost",
+              "parameters": [
+                {
+                  "name": "cache",
+                  "type": "FieldCache",
+                  "varargs": false
+                },
+                {
+                  "name": "x",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "y",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "requeue",
+                  "type": "boolean",
+                  "varargs": false
+                }
+              ],
+              "return_type": "int"
+            },
+            {
+              "modifiers": [
+                "private",
+                "static"
+              ],
+              "name": "raycast",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "type",
+                  "type": "PathCost",
+                  "varargs": false
+                },
+                {
+                  "name": "x1",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "y1",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "x2",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "y2",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "boolean"
+            },
+            {
+              "modifiers": [
+                "public",
+                "static"
+              ],
+              "name": "raycastFast",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "type",
+                  "type": "PathCost",
+                  "varargs": false
+                },
+                {
+                  "name": "x1",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "y1",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "x2",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "y2",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "int"
+            },
+            {
+              "modifiers": [
+                "public",
+                "static"
+              ],
+              "name": "raycastFastAvoid",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "type",
+                  "type": "PathCost",
+                  "varargs": false
+                },
+                {
+                  "name": "x1",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "y1",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "x2",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "y2",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "int"
+            },
+            {
+              "modifiers": [
+                "private",
+                "static"
+              ],
+              "name": "overlap",
+              "parameters": [
+                {
+                  "name": "initialCost",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "type",
+                  "type": "PathCost",
+                  "varargs": false
+                },
+                {
+                  "name": "x",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "y",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "startX",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "startY",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "endX",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "endY",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "rectSize",
+                  "type": "float",
+                  "varargs": false
+                }
+              ],
+              "return_type": "boolean"
+            },
+            {
+              "modifiers": [
+                "private",
+                "static"
+              ],
+              "name": "raycastRect",
+              "parameters": [
+                {
+                  "name": "initialCost",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "startX",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "startY",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "endX",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "endY",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "type",
+                  "type": "PathCost",
+                  "varargs": false
+                },
+                {
+                  "name": "x1",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "y1",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "x2",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "y2",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "rectSize",
+                  "type": "float",
+                  "varargs": false
+                }
+              ],
+              "return_type": "boolean"
+            },
+            {
+              "modifiers": [
+                "private",
+                "static"
+              ],
+              "name": "avoid",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "type",
+                  "type": "PathCost",
+                  "varargs": false
+                },
+                {
+                  "name": "tilePos",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "boolean"
+            },
+            {
+              "modifiers": [
+                "private",
+                "static"
+              ],
+              "name": "passable",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cost",
+                  "type": "PathCost",
+                  "varargs": false
+                },
+                {
+                  "name": "pos",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "boolean"
+            },
+            {
+              "modifiers": [
+                "private",
+                "static"
+              ],
+              "name": "nearPassable",
+              "parameters": [
+                {
+                  "name": "initialCost",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cost",
+                  "type": "PathCost",
+                  "varargs": false
+                },
+                {
+                  "name": "pos",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "boolean"
+            },
+            {
+              "modifiers": [
+                "private",
+                "static"
+              ],
+              "name": "solid",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "type",
+                  "type": "PathCost",
+                  "varargs": false
+                },
+                {
+                  "name": "x",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "y",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "boolean"
+            },
+            {
+              "modifiers": [
+                "private",
+                "static"
+              ],
+              "name": "solid",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "type",
+                  "type": "PathCost",
+                  "varargs": false
+                },
+                {
+                  "name": "tilePos",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "checkWall",
+                  "type": "boolean",
+                  "varargs": false
+                }
+              ],
+              "return_type": "boolean"
+            },
+            {
+              "modifiers": [
+                "private",
+                "static"
+              ],
+              "name": "cost",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cost",
+                  "type": "PathCost",
+                  "varargs": false
+                },
+                {
+                  "name": "tilePos",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "int"
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "clusterChanged",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "pathCost",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cx",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "cy",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "updateClustersComplete",
+              "parameters": [
+                {
+                  "name": "clusterIndex",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "updateClustersInner",
+              "parameters": [
+                {
+                  "name": "clusterIndex",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "run",
+              "parameters": [],
+              "return_type": ""
+            }
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "name": "ControlPathfinder"
+        }
+      ]
+    },
+    {
+      "imports": [
+        "arc",
+        "arc.scene.style",
+        "arc.struct",
+        "arc.util",
+        "mindustry.type"
+      ],
+      "package": "mindustry.ai",
+      "path": "mindustry/ai/ItemUnitStance.java",
+      "types": [
+        {
+          "constructors": [
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "ItemUnitStance",
+              "parameters": [
+                {
+                  "name": "item",
+                  "type": "Item",
+                  "varargs": false
+                }
+              ]
+            }
+          ],
+          "enum_constants": [],
+          "extends": "UnitStance",
+          "fields": [
+            {
+              "modifiers": [
+                "private",
+                "static"
+              ],
+              "name": "itemToStance",
+              "type": "ObjectMap"
+            },
+            {
+              "modifiers": [
+                "private",
+                "static"
+              ],
+              "name": "all",
+              "type": "Seq"
+            },
+            {
+              "modifiers": [
+                "final",
+                "public"
+              ],
+              "name": "item",
+              "type": "Item"
+            }
+          ],
+          "implements": [],
+          "kind": "class",
+          "methods": [
+            {
+              "modifiers": [
+                "public",
+                "static"
+              ],
+              "name": "getByItem",
+              "parameters": [
+                {
+                  "name": "item",
+                  "type": "Item",
+                  "varargs": false
+                }
+              ],
+              "return_type": "ItemUnitStance"
+            },
+            {
+              "modifiers": [
+                "public",
+                "static"
+              ],
+              "name": "all",
+              "parameters": [],
+              "return_type": "Seq"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "localized",
+              "parameters": [],
+              "return_type": "String"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "getIcon",
+              "parameters": [],
+              "return_type": "TextureRegionDrawable"
+            }
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "name": "ItemUnitStance"
+        }
+      ]
+    },
+    {
+      "imports": [
+        "arc",
+        "arc.func",
+        "arc.math",
+        "arc.math.geom",
+        "arc.struct",
+        "arc.util.TaskQueue",
+        "arc.util",
+        "mindustry.annotations.Annotations",
+        "mindustry.core",
+        "mindustry.game.EventType",
+        "mindustry.game",
+        "mindustry.gen",
+        "mindustry.world",
+        "mindustry.world.blocks.environment",
+        "mindustry.world.blocks.storage",
+        "mindustry.world.meta",
+        "java.util",
+        "mindustry.Vars",
+        "mindustry.world.meta.BlockFlag"
+      ],
+      "package": "mindustry.ai",
+      "path": "mindustry/ai/Pathfinder.java",
+      "types": [
+        {
+          "constructors": [
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "Pathfinder",
+              "parameters": []
+            }
+          ],
+          "enum_constants": [],
+          "extends": "",
+          "fields": [
+            {
+              "modifiers": [
+                "final",
+                "private",
+                "static"
+              ],
+              "name": "maxUpdate",
+              "type": "long"
+            },
+            {
+              "modifiers": [
+                "final",
+                "private",
+                "static"
+              ],
+              "name": "neverRefresh",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "private",
+                "static"
+              ],
+              "name": "updateFPS",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "private",
+                "static"
+              ],
+              "name": "updateInterval",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "static"
+              ],
+              "name": "wwidth",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "static"
+              ],
+              "name": "wheight",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "static"
+              ],
+              "name": "impassable",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "public",
+                "static"
+              ],
+              "name": "fieldCore",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "public",
+                "static"
+              ],
+              "name": "maxFields",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "public",
+                "static"
+              ],
+              "name": "fieldTypes",
+              "type": "Seq"
+            },
+            {
+              "modifiers": [
+                "final",
+                "public",
+                "static"
+              ],
+              "name": "costGround",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "public",
+                "static"
+              ],
+              "name": "costLegs",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "public",
+                "static"
+              ],
+              "name": "costNaval",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "public",
+                "static"
+              ],
+              "name": "costNeoplasm",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "public",
+                "static"
+              ],
+              "name": "costNone",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "public",
+                "static"
+              ],
+              "name": "costHover",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "public",
+                "static"
+              ],
+              "name": "maxCosts",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "final",
+                "public",
+                "static"
+              ],
+              "name": "costTypes",
+              "type": "Seq"
+            },
+            {
+              "modifiers": [],
+              "name": "tiles",
+              "type": "int"
+            },
+            {
+              "modifiers": [],
+              "name": "cache",
+              "type": "Flowfield"
+            },
+            {
+              "modifiers": [],
+              "name": "threadList",
+              "type": "Seq"
+            },
+            {
+              "modifiers": [],
+              "name": "mainList",
+              "type": "Seq"
+            },
+            {
+              "modifiers": [],
+              "name": "queue",
+              "type": "TaskQueue"
+            },
+            {
+              "modifiers": [],
+              "name": "thread",
+              "type": "Thread"
+            },
+            {
+              "modifiers": [],
+              "name": "tmpArray",
+              "type": "IntSeq"
+            },
+            {
+              "modifiers": [],
+              "name": "needsRefresh",
+              "type": "boolean"
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "lastRefreshTime",
+              "type": "long"
+            },
+            {
+              "modifiers": [
+                "final",
+                "private",
+                "static"
+              ],
+              "name": "refreshIntervalMs",
+              "type": "long"
+            }
+          ],
+          "implements": [
+            "Runnable"
+          ],
+          "kind": "class",
+          "methods": [
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "clearCache",
+              "parameters": [],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "packTile",
+              "parameters": [
+                {
+                  "name": "tile",
+                  "type": "Tile",
+                  "varargs": false
+                }
+              ],
+              "return_type": "int"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "get",
+              "parameters": [
+                {
+                  "name": "x",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "y",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "int"
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "start",
+              "parameters": [],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "stop",
+              "parameters": [],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "updateTile",
+              "parameters": [
+                {
+                  "name": "tile",
+                  "type": "Tile",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "run",
+              "parameters": [],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "getField",
+              "parameters": [
+                {
+                  "name": "team",
+                  "type": "Team",
+                  "varargs": false
+                },
+                {
+                  "name": "costType",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "fieldType",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Flowfield"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "getTargetTile",
+              "parameters": [
+                {
+                  "name": "tile",
+                  "type": "Tile",
+                  "varargs": false
+                },
+                {
+                  "name": "path",
+                  "type": "Flowfield",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Tile"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "getTargetTile",
+              "parameters": [
+                {
+                  "name": "tile",
+                  "type": "Tile",
+                  "varargs": false
+                },
+                {
+                  "name": "path",
+                  "type": "Flowfield",
+                  "varargs": false
+                },
+                {
+                  "name": "diagonals",
+                  "type": "boolean",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Tile"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "getTargetTile",
+              "parameters": [
+                {
+                  "name": "tile",
+                  "type": "Tile",
+                  "varargs": false
+                },
+                {
+                  "name": "path",
+                  "type": "Flowfield",
+                  "varargs": false
+                },
+                {
+                  "name": "diagonals",
+                  "type": "boolean",
+                  "varargs": false
+                },
+                {
+                  "name": "avoidanceId",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Tile"
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "updateTargets",
+              "parameters": [
+                {
+                  "name": "path",
+                  "type": "Flowfield",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "preloadPath",
+              "parameters": [
+                {
+                  "name": "path",
+                  "type": "Flowfield",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "registerPath",
+              "parameters": [
+                {
+                  "name": "path",
+                  "type": "Flowfield",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "updateFrontier",
+              "parameters": [
+                {
+                  "name": "path",
+                  "type": "Flowfield",
+                  "varargs": false
+                },
+                {
+                  "name": "nsToRun",
+                  "type": "long",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            }
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "name": "Pathfinder"
+        }
+      ]
+    },
+    {
+      "imports": [
+        "arc.util"
+      ],
+      "package": "mindustry.ai",
+      "path": "mindustry/ai/PathfindQueue.java",
+      "types": [
+        {
+          "constructors": [
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "PathfindQueue",
+              "parameters": []
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "PathfindQueue",
+              "parameters": [
+                {
+                  "name": "initialCapacity",
+                  "type": "int",
+                  "varargs": false
+                }
+              ]
+            }
+          ],
+          "enum_constants": [],
+          "extends": "",
+          "fields": [
+            {
+              "modifiers": [
+                "final",
+                "private",
+                "static"
+              ],
+              "name": "CAPACITY_RATIO_LOW",
+              "type": "double"
+            },
+            {
+              "modifiers": [
+                "final",
+                "private",
+                "static"
+              ],
+              "name": "CAPACITY_RATIO_HI",
+              "type": "double"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "queue",
+              "type": "int"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "weights",
+              "type": "float"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "size",
+              "type": "int"
+            }
+          ],
+          "implements": [],
+          "kind": "class",
+          "methods": [
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "empty",
+              "parameters": [],
+              "return_type": "boolean"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "add",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "weight",
+                  "type": "float",
+                  "varargs": false
+                }
+              ],
+              "return_type": "boolean"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "peek",
+              "parameters": [],
+              "return_type": "int"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "clear",
+              "parameters": [],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "poll",
+              "parameters": [],
+              "return_type": "int"
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "siftUp",
+              "parameters": [
+                {
+                  "name": "k",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "x",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "weight",
+                  "type": "float",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "siftDown",
+              "parameters": [
+                {
+                  "name": "k",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "x",
+                  "type": "int",
+                  "varargs": false
+                },
+                {
+                  "name": "weight",
+                  "type": "float",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "private"
+              ],
+              "name": "growToSize",
+              "parameters": [
+                {
+                  "name": "minCapacity",
+                  "type": "int",
+                  "varargs": false
+                }
+              ],
+              "return_type": ""
+            }
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "name": "PathfindQueue"
+        }
+      ]
+    },
+    {
+      "imports": [
+        "arc.math",
+        "arc.math.geom",
+        "mindustry.entities.units"
+      ],
+      "package": "mindustry.ai.types",
+      "path": "mindustry/ai/types/AssemblerAI.java",
+      "types": [
+        {
+          "constructors": [],
+          "enum_constants": [],
+          "extends": "AIController",
+          "fields": [
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "targetPos",
+              "type": "Vec2"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "targetAngle",
+              "type": "float"
+            }
+          ],
+          "implements": [],
+          "kind": "class",
+          "methods": [
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "updateMovement",
+              "parameters": [],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "inPosition",
+              "parameters": [],
+              "return_type": "boolean"
+            }
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "name": "AssemblerAI"
+        }
+      ]
+    },
+    {
+      "imports": [
+        "arc.math",
+        "mindustry.entities.units",
+        "mindustry.gen",
+        "mindustry.world.meta",
+        "mindustry.Vars",
+        "mindustry.world.meta.BlockFlag"
+      ],
+      "package": "mindustry.ai.types",
+      "path": "mindustry/ai/types/FlyingAI.java",
+      "types": [
+        {
+          "constructors": [],
+          "enum_constants": [],
+          "extends": "AIController",
+          "fields": [
+            {
+              "modifiers": [
+                "final",
+                "static"
+              ],
+              "name": "rand",
+              "type": "Rand"
+            },
+            {
+              "modifiers": [
+                "final",
+                "static"
+              ],
+              "name": "randomTargets",
+              "type": "BlockFlag"
+            }
+          ],
+          "implements": [],
+          "kind": "class",
+          "methods": [
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "updateMovement",
+              "parameters": [],
+              "return_type": ""
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "findTarget",
+              "parameters": [
+                {
+                  "name": "x",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "y",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "range",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "air",
+                  "type": "boolean",
+                  "varargs": false
+                },
+                {
+                  "name": "ground",
+                  "type": "boolean",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Teamc"
+            },
+            {
+              "modifiers": [
+                "public"
+              ],
+              "name": "findMainTarget",
+              "parameters": [
+                {
+                  "name": "x",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "y",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "range",
+                  "type": "float",
+                  "varargs": false
+                },
+                {
+                  "name": "air",
+                  "type": "boolean",
+                  "varargs": false
+                },
+                {
+                  "name": "ground",
+                  "type": "boolean",
+                  "varargs": false
+                }
+              ],
+              "return_type": "Teamc"
+            }
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "name": "FlyingAI"
+        }
+      ]
+    }
+  ],
+  "parsed_file_count": 8,
+  "source_root": "mindustry-upstream/core/src"
+}

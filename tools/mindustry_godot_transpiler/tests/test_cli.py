@@ -42,6 +42,20 @@ class CliTests(unittest.TestCase):
             self.assertTrue((godot / "src" / "generated" / "asset_manifest.json").exists())
             self.assertTrue((godot / "src" / "generated" / "port_report.md").exists())
 
+    def test_parse_command_writes_ast_manifest(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            upstream = root / "mindustry-upstream"
+            source = upstream / "core" / "src" / "mindustry" / "content"
+            source.mkdir(parents=True)
+            (source / "Items.java").write_text("package mindustry.content;\npublic class Items {}\n", encoding="utf-8")
+            godot = root / "godot-mindustry"
+
+            result = run_cli("parse", "--upstream", str(upstream), "--godot", str(godot), "--limit", "10")
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertTrue((godot / "src" / "generated" / "ast_manifest.json").exists())
+
 
 if __name__ == "__main__":
     unittest.main()

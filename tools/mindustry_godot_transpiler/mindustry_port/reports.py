@@ -1,4 +1,4 @@
-﻿import json
+import json
 from pathlib import Path
 
 
@@ -17,15 +17,18 @@ def write_report(generated_dir: Path, source_manifest: dict | None = None, asset
     generated_dir = Path(generated_dir)
     source_manifest = source_manifest or load_json(generated_dir / "source_manifest.json")
     asset_manifest = asset_manifest or load_json(generated_dir / "asset_manifest.json")
+    ast_manifest = load_json(generated_dir / "ast_manifest.json")
     unsupported = [
-        "AST transpilation not implemented in M1",
-        "Generated gameplay classes not implemented in M1",
-        "mindustry.gen generated Java package not expanded in M1",
+        "Generated gameplay classes not implemented yet",
+        "mindustry.gen generated Java package not expanded yet",
+        "Unsupported Java parser failures are listed in ast_manifest.json with paths and error types",
     ]
     report = {
         "java_file_count": source_manifest.get("java_file_count", 0),
         "asset_count": asset_manifest.get("asset_count", 0),
         "asset_total_bytes": asset_manifest.get("total_bytes", 0),
+        "parsed_file_count": ast_manifest.get("parsed_file_count", 0),
+        "failed_file_count": ast_manifest.get("failed_file_count", 0),
         "unsupported": unsupported,
     }
     lines = [
@@ -34,6 +37,8 @@ def write_report(generated_dir: Path, source_manifest: dict | None = None, asset
         f"Java files scanned: {report['java_file_count']}",
         f"Assets copied: {report['asset_count']}",
         f"Asset bytes copied: {report['asset_total_bytes']}",
+        f"Java files parsed: {report['parsed_file_count']}",
+        f"Java parse failures: {report['failed_file_count']}",
         "",
         "## Unsupported Features",
     ]

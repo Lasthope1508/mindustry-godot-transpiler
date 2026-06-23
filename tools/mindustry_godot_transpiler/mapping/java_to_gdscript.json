@@ -1,0 +1,38 @@
+{
+  "package_path": {
+    "gdscript": "Java package names map to res://src/mindustry/<package_path>/ folders.",
+    "example": "mindustry.content -> src/mindustry/content"
+  },
+  "imports": {
+    "gdscript": "Imports are recorded in manifests; Godot class_name resolution replaces direct import statements.",
+    "example": "import mindustry.type.Item -> class_name Item dependency"
+  },
+  "class": {
+    "gdscript": "Java class declarations emit GDScript files with class_name and optional extends.",
+    "example": "public class Item -> class_name Item"
+  },
+  "enum": {
+    "gdscript": "Java enum declarations emit constants and lookup dictionaries.",
+    "example": "enum ContentType { item } -> const ITEM = \"item\""
+  },
+  "field": {
+    "gdscript": "Instance fields emit var declarations; static final primitives emit const when possible.",
+    "example": "public int hardness -> var hardness: int"
+  },
+  "method": {
+    "gdscript": "Java methods emit func declarations with normalized names and manifest parameter metadata.",
+    "example": "compareTo(Item other) -> func compare_to(other)"
+  },
+  "constructor": {
+    "gdscript": "Constructors emit _init with matching parameter metadata.",
+    "example": "Item(String name) -> func _init(name: String)"
+  },
+  "static_initializer": {
+    "gdscript": "Static initializer blocks emit registry bootstrap functions run in deterministic order.",
+    "example": "static { load(); } -> static func _static_init_registry()"
+  },
+  "overload": {
+    "gdscript": "Overloaded methods emit suffixed implementations plus optional dispatcher methods.",
+    "example": "set(int) and set(float) -> set__int, set__float"
+  }
+}

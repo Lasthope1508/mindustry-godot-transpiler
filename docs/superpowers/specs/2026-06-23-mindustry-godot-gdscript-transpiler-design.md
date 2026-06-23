@@ -13,8 +13,8 @@
 | Bucket | Count |
 | --- | ---: |
 | Total tracked work items | 14 |
-| Done | 7 |
-| Not done | 7 |
+| Done | 9 |
+| Not done | 5 |
 | Blocked | 0 |
 
 ## Done
@@ -26,6 +26,8 @@
 | N1 | Create Godot output project | `mcp__godot.project_info` reads `Mindustry Godot Port`; main scene is `res://scenes/Main.tscn` |
 | N2 | Create transpiler CLI skeleton | `python -m unittest discover -s tools/mindustry_godot_transpiler/tests -v` passes CLI tests |
 | N3 | Build source scanner | Full run writes `source_manifest.json` and reports `801` core Java files |
+| N4 | Add Java AST parser | `test_java_ast.py` passes class and enum parser fixtures; `parse --limit 20` writes `ast_manifest.json` |
+| N5 | Define Java-to-GDScript mapping table | `test_mapping.py` verifies class, enum, method, field, constructor, static initializer, overload, package, import mappings |
 | N7 | Create compatibility runtime | Runtime stubs exist for `Seq`, `ObjectMap`, `Time`, `Mathf`, `ColorCompat`, `Vec2`, `Vars`, `Events`, `Core`; MCP project scan sees scripts |
 | N10 | Build asset bridge | Full run writes `asset_manifest.json`, copies `2970` upstream assets, `mcp__godot.project_info` sees Godot asset structure |
 
@@ -33,8 +35,6 @@
 
 | ID | Item | Required verification before marking done |
 | --- | --- | --- |
-| N4 | Add Java AST parser | Parser handles selected sample classes without text-regex translation |
-| N5 | Define Java-to-GDScript mapping table | Mapping file covers class, enum, method, field, constructor, static initializer, overload |
 | N6 | Emit GDScript classes | Generated `.gd` files pass Godot parse check |
 | N8 | Port base content model | `Content`, `ContentType`, `UnlockableContent`, `Item`, `Liquid`, `Block` load in Godot |
 | N9 | Generate first content data | `Items`, `Liquids`, and a small block subset generate into Godot resources/classes |
@@ -239,3 +239,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | --- | --- |
 | 2026-06-23 | Created design spec. Cloned upstream. Chose GDScript and automated transpiler pipeline. |
 | 2026-06-23 | M1 pipeline created: Godot project, MCP-verified scene, runtime stubs, source scan, full asset bridge, manifests, report. |
+| 2026-06-23 | M2 parser started: javalang parser, parse CLI, AST manifest, Java-to-GDScript mapping table. |

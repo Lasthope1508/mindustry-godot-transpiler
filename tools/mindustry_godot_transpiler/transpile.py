@@ -1,7 +1,8 @@
-﻿import argparse
+import argparse
 from pathlib import Path
 
 from mindustry_port.assets import copy_assets
+from mindustry_port.java_ast import parse_source_tree
 from mindustry_port.reports import write_json, write_report
 from mindustry_port.scanner import scan_source_tree
 
@@ -19,14 +20,18 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Mindustry to Godot GDScript transpiler pipeline")
     add_common_options(parser)
     subparsers = parser.add_subparsers(dest="command", required=True)
-    for command, help_text in {
+    commands = {
         "scan": "Scan Java source tree and write manifest",
         "assets": "Copy Mindustry assets into Godot project",
         "report": "Write pipeline status report",
+        "parse": "Parse Java files into normalized AST manifest",
         "all": "Run scan, assets, and report",
-    }.items():
+    }
+    for command, help_text in commands.items():
         subparser = subparsers.add_parser(command, help=help_text)
         add_common_options(subparser)
+        if command == "parse":
+            subparser.add_argument("--limit", type=int, default=None, help="Maximum Java files to parse")
     return parser
 
 
@@ -39,6 +44,12 @@ def run_scan(upstream: Path, godot: Path) -> dict:
 def run_assets(upstream: Path, godot: Path) -> dict:
     manifest = copy_assets(upstream, godot / "assets")
     write_json(generated_dir(godot) / "asset_manifest.json", manifest)
+    return manifest
+
+
+def run_parse(upstream: Path, godot: Path, limit: int | None = None) -> dict:
+    manifest = parse_source_tree(upstream / "core" / "src", limit)
+    write_json(generated_dir(godot) / "ast_manifest.json", manifest)
     return manifest
 
 
@@ -58,6 +69,9 @@ def main(argv=None) -> int:
     elif args.command == "assets":
         manifest = run_assets(upstream, godot)
         print(f"copied {manifest['asset_count']} assets")
+    elif args.command == "parse":
+        manifest = run_parse(upstream, godot, args.limit)
+        print(f"parsed {manifest['parsed_file_count']} Java files failures={manifest['failed_file_count']}")
     elif args.command == "report":
         report = run_report(godot)
         print(f"report java={report['java_file_count']} assets={report['asset_count']}")
