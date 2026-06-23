@@ -56,8 +56,9 @@ public class Liquids{
                 """
 package mindustry.content;
 public class Blocks{
-    public static Block conveyor, coreShard;
+    public static Block air, conveyor, coreShard;
     public static void load(){
+        air = new AirBlock("air");
         conveyor = new Conveyor("conveyor");
         coreShard = new CoreBlock("core-shard");
         drawer = new DrawTurret("not-a-block-field");
@@ -70,6 +71,8 @@ public class Blocks{
             (assets / "core/assets-raw/sprites/items").mkdir(parents=True)
             (assets / "core/assets-raw/sprites/items/item-copper.png").write_bytes(b"png")
             (assets / "core/assets-raw/sprites/items/liquid-water.png").write_bytes(b"png")
+            (assets / "core/assets-raw/sprites/blocks/distribution/conveyors").mkdir(parents=True)
+            (assets / "core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png").write_bytes(b"png")
 
             registry = build_content_registry(root / "upstream", root / "godot")
 
@@ -81,10 +84,11 @@ public class Blocks{
         self.assertEqual(registry["liquids"][0]["id"], "water")
         self.assertEqual(registry["liquids"][0]["properties"]["heatCapacity"], 0.4)
         self.assertEqual(registry["blocks"], [
-            {"field": "conveyor", "id": "conveyor", "implementation": "Conveyor"},
-            {"field": "coreShard", "id": "core-shard", "implementation": "CoreBlock"},
+            {"field": "air", "id": "air", "implementation": "AirBlock", "texture": ""},
+            {"field": "conveyor", "id": "conveyor", "implementation": "Conveyor", "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png"},
+            {"field": "coreShard", "id": "core-shard", "implementation": "CoreBlock", "texture": ""},
         ])
-        self.assertEqual(registry["counts"], {"items": 2, "liquids": 1, "blocks": 2})
+        self.assertEqual(registry["counts"], {"items": 2, "liquids": 1, "blocks": 3})
 
     def test_gdscript_literal_escapes_strings_and_keeps_types(self):
         self.assertEqual(gdscript_literal({"name": "core-shard", "enabled": True, "size": 3}), '{"enabled": true, "name": "core-shard", "size": 3}')

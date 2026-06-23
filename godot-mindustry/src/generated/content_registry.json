@@ -3,2087 +3,2504 @@
     {
       "field": "air",
       "id": "air",
-      "implementation": "AirBlock"
+      "implementation": "AirBlock",
+      "texture": ""
     },
     {
       "field": "spawn",
       "id": "spawn",
-      "implementation": "SpawnBlock"
+      "implementation": "SpawnBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/spawn.png"
     },
     {
       "field": "removeWall",
       "id": "remove-wall",
-      "implementation": "RemoveWall"
+      "implementation": "RemoveWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/remove-wall.png"
     },
     {
       "field": "removeOre",
       "id": "remove-ore",
-      "implementation": "RemoveOre"
+      "implementation": "RemoveOre",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/remove-ore.png"
     },
     {
       "field": "cliff",
       "id": "cliff",
-      "implementation": "Cliff"
+      "implementation": "Cliff",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/cliff.png"
     },
     {
       "field": "deepwater",
       "id": "deep-water",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/deep-water.png"
     },
     {
       "field": "water",
       "id": "shallow-water",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/shallow-water.png"
     },
     {
       "field": "taintedWater",
       "id": "tainted-water",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/tainted-water.png"
     },
     {
       "field": "deepTaintedWater",
       "id": "deep-tainted-water",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/deep-tainted-water.png"
     },
     {
       "field": "darksandTaintedWater",
       "id": "darksand-tainted-water",
-      "implementation": "ShallowLiquid"
+      "implementation": "ShallowLiquid",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/darksand-tainted-water.png"
     },
     {
       "field": "sandWater",
       "id": "sand-water",
-      "implementation": "ShallowLiquid"
+      "implementation": "ShallowLiquid",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/sand-water.png"
     },
     {
       "field": "darksandWater",
       "id": "darksand-water",
-      "implementation": "ShallowLiquid"
+      "implementation": "ShallowLiquid",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/darksand-water.png"
     },
     {
       "field": "tar",
       "id": "tar",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/tar.png"
     },
     {
       "field": "cryofluid",
       "id": "pooled-cryofluid",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/pooled-cryofluid.png"
     },
     {
       "field": "slag",
       "id": "molten-slag",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/molten-slag.png"
     },
     {
       "field": "space",
       "id": "space",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/space.png"
     },
     {
       "field": "empty",
       "id": "empty",
-      "implementation": "EmptyFloor"
+      "implementation": "EmptyFloor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/empty.png"
     },
     {
       "field": "stone",
       "id": "stone",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/stone1.png"
     },
     {
       "field": "craters",
       "id": "crater-stone",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/crater-stone1.png"
     },
     {
       "field": "charr",
       "id": "char",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/char1.png"
     },
     {
       "field": "basalt",
       "id": "basalt",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/basalt1.png"
     },
     {
       "field": "hotrock",
       "id": "hotrock",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/hotrock1.png"
     },
     {
       "field": "magmarock",
       "id": "magmarock",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/magmarock1.png"
     },
     {
       "field": "sand",
       "id": "sand-floor",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/sand-floor1.png"
     },
     {
       "field": "darksand",
       "id": "darksand",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/darksand1.png"
     },
     {
       "field": "dirt",
       "id": "dirt",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dirt1.png"
     },
     {
       "field": "mud",
       "id": "mud",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/mud1.png"
     },
     {
       "field": "dacite",
       "id": "dacite",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dacite1.png"
     },
     {
       "field": "rhyolite",
       "id": "rhyolite",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/rhyolite1.png"
     },
     {
       "field": "rhyoliteCrater",
       "id": "rhyolite-crater",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/rhyolite-crater1.png"
     },
     {
       "field": "roughRhyolite",
       "id": "rough-rhyolite",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/rough-rhyolite1.png"
     },
     {
       "field": "regolith",
       "id": "regolith",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/regolith1.png"
     },
     {
       "field": "yellowStone",
       "id": "yellow-stone",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/yellow-stone1.png"
     },
     {
       "field": "carbonStone",
       "id": "carbon-stone",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/carbon-stone1.png"
     },
     {
       "field": "ferricStone",
       "id": "ferric-stone",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/ferric-stone1.png"
     },
     {
       "field": "ferricCraters",
       "id": "ferric-craters",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/ferric-craters1.png"
     },
     {
       "field": "beryllicStone",
       "id": "beryllic-stone",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/beryllic-stone1.png"
     },
     {
       "field": "crystallineStone",
       "id": "crystalline-stone",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/crystalline-stone1.png"
     },
     {
       "field": "crystalFloor",
       "id": "crystal-floor",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/crystal-floor1.png"
     },
     {
       "field": "yellowStonePlates",
       "id": "yellow-stone-plates",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/yellow-stone-plates1.png"
     },
     {
       "field": "redStone",
       "id": "red-stone",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/red-stone1.png"
     },
     {
       "field": "denseRedStone",
       "id": "dense-red-stone",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dense-red-stone1.png"
     },
     {
       "field": "redIce",
       "id": "red-ice",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/red-ice1.png"
     },
     {
       "field": "arkyciteFloor",
       "id": "arkycite-floor",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/arkycite-floor.png"
     },
     {
       "field": "arkyicStone",
       "id": "arkyic-stone",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/arkyic-stone1.png"
     },
     {
       "field": "rhyoliteVent",
       "id": "rhyolite-vent",
-      "implementation": "SteamVent"
+      "implementation": "SteamVent",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/rhyolite-vent1.png"
     },
     {
       "field": "carbonVent",
       "id": "carbon-vent",
-      "implementation": "SteamVent"
+      "implementation": "SteamVent",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/carbon-vent1.png"
     },
     {
       "field": "arkyicVent",
       "id": "arkyic-vent",
-      "implementation": "SteamVent"
+      "implementation": "SteamVent",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/arkyic-vent1.png"
     },
     {
       "field": "yellowStoneVent",
       "id": "yellow-stone-vent",
-      "implementation": "SteamVent"
+      "implementation": "SteamVent",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/yellow-stone-vent1.png"
     },
     {
       "field": "redStoneVent",
       "id": "red-stone-vent",
-      "implementation": "SteamVent"
+      "implementation": "SteamVent",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/red-stone-vent1.png"
     },
     {
       "field": "crystallineVent",
       "id": "crystalline-vent",
-      "implementation": "SteamVent"
+      "implementation": "SteamVent",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/crystalline-vent1.png"
     },
     {
       "field": "stoneVent",
       "id": "stone-vent",
-      "implementation": "SteamVent"
+      "implementation": "SteamVent",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/stone-vent1.png"
     },
     {
       "field": "basaltVent",
       "id": "basalt-vent",
-      "implementation": "SteamVent"
+      "implementation": "SteamVent",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/basalt-vent1.png"
     },
     {
       "field": "redmat",
       "id": "redmat",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/redmat1.png"
     },
     {
       "field": "bluemat",
       "id": "bluemat",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/bluemat1.png"
     },
     {
       "field": "grass",
       "id": "grass",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/grass1.png"
     },
     {
       "field": "salt",
       "id": "salt",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/salt.png"
     },
     {
       "field": "snow",
       "id": "snow",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/snow1.png"
     },
     {
       "field": "ice",
       "id": "ice",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/ice1.png"
     },
     {
       "field": "iceSnow",
       "id": "ice-snow",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/ice-snow1.png"
     },
     {
       "field": "shale",
       "id": "shale",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/shale1.png"
     },
     {
       "field": "moss",
       "id": "moss",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/moss1.png"
     },
     {
       "field": "coreZone",
       "id": "core-zone",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/core-zone.png"
     },
     {
       "field": "sporeMoss",
       "id": "spore-moss",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/spore-moss1.png"
     },
     {
       "field": "stoneWall",
       "id": "stone-wall",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/stone-wall1.png"
     },
     {
       "field": "sporeWall",
       "id": "spore-wall",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/spore-wall1.png"
     },
     {
       "field": "dirtWall",
       "id": "dirt-wall",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dirt-wall1.png"
     },
     {
       "field": "daciteWall",
       "id": "dacite-wall",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dacite-wall1.png"
     },
     {
       "field": "iceWall",
       "id": "ice-wall",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/ice-wall1.png"
     },
     {
       "field": "snowWall",
       "id": "snow-wall",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/snow-wall1.png"
     },
     {
       "field": "duneWall",
       "id": "dune-wall",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dune-wall1.png"
     },
     {
       "field": "regolithWall",
       "id": "regolith-wall",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/regolith-wall1.png"
     },
     {
       "field": "yellowStoneWall",
       "id": "yellow-stone-wall",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/yellow-stone-wall1.png"
     },
     {
       "field": "rhyoliteWall",
       "id": "rhyolite-wall",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/rhyolite-wall1.png"
     },
     {
       "field": "carbonWall",
       "id": "carbon-wall",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/carbon-wall1.png"
     },
     {
       "field": "ferricStoneWall",
       "id": "ferric-stone-wall",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/ferric-stone-wall1.png"
     },
     {
       "field": "beryllicStoneWall",
       "id": "beryllic-stone-wall",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/beryllic-stone-wall1.png"
     },
     {
       "field": "arkyicWall",
       "id": "arkyic-wall",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/arkyic-wall1.png"
     },
     {
       "field": "crystallineStoneWall",
       "id": "crystalline-stone-wall",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/crystalline-stone-wall1.png"
     },
     {
       "field": "redIceWall",
       "id": "red-ice-wall",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/red-ice-wall1.png"
     },
     {
       "field": "redStoneWall",
       "id": "red-stone-wall",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/red-stone-wall1.png"
     },
     {
       "field": "redDiamondWall",
       "id": "red-diamond-wall",
-      "implementation": "StaticTree"
+      "implementation": "StaticTree",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/red-diamond-wall1.png"
     },
     {
       "field": "sandWall",
       "id": "sand-wall",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/sand-wall1.png"
     },
     {
       "field": "saltWall",
       "id": "salt-wall",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/salt-wall1.png"
     },
     {
       "field": "shrubs",
       "id": "shrubs",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/shrubs1.png"
     },
     {
       "field": "shaleWall",
       "id": "shale-wall",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/shale-wall1.png"
     },
     {
       "field": "sporePine",
       "id": "spore-pine",
-      "implementation": "StaticTree"
+      "implementation": "StaticTree",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/spore-pine.png"
     },
     {
       "field": "snowPine",
       "id": "snow-pine",
-      "implementation": "StaticTree"
+      "implementation": "StaticTree",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/snow-pine.png"
     },
     {
       "field": "pine",
       "id": "pine",
-      "implementation": "StaticTree"
+      "implementation": "StaticTree",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/pine.png"
     },
     {
       "field": "whiteTreeDead",
       "id": "white-tree-dead",
-      "implementation": "TreeBlock"
+      "implementation": "TreeBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/props/white-tree-dead.png"
     },
     {
       "field": "whiteTree",
       "id": "white-tree",
-      "implementation": "TreeBlock"
+      "implementation": "TreeBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/props/white-tree.png"
     },
     {
       "field": "sporeCluster",
       "id": "spore-cluster",
-      "implementation": "Prop"
+      "implementation": "Prop",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/props/spore-cluster1.png"
     },
     {
       "field": "redweed",
       "id": "redweed",
-      "implementation": "Seaweed"
+      "implementation": "Seaweed",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/props/redweed1.png"
     },
     {
       "field": "purbush",
       "id": "pur-bush",
-      "implementation": "SeaBush"
+      "implementation": "SeaBush",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/props/pur-bush.png"
     },
     {
       "field": "yellowCoral",
       "id": "yellowcoral",
-      "implementation": "SeaBush"
+      "implementation": "SeaBush",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/yellowcoral.png"
     },
     {
       "field": "boulder",
       "id": "boulder",
-      "implementation": "StaticProp"
+      "implementation": "StaticProp",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/props/boulder1.png"
     },
     {
       "field": "snowBoulder",
       "id": "snow-boulder",
-      "implementation": "StaticProp"
+      "implementation": "StaticProp",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/props/snow-boulder1.png"
     },
     {
       "field": "shaleBoulder",
       "id": "shale-boulder",
-      "implementation": "StaticProp"
+      "implementation": "StaticProp",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/props/shale-boulder1.png"
     },
     {
       "field": "sandBoulder",
       "id": "sand-boulder",
-      "implementation": "StaticProp"
+      "implementation": "StaticProp",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/props/sand-boulder1.png"
     },
     {
       "field": "daciteBoulder",
       "id": "dacite-boulder",
-      "implementation": "StaticProp"
+      "implementation": "StaticProp",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/props/dacite-boulder1.png"
     },
     {
       "field": "basaltBoulder",
       "id": "basalt-boulder",
-      "implementation": "StaticProp"
+      "implementation": "StaticProp",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/props/basalt-boulder1.png"
     },
     {
       "field": "carbonBoulder",
       "id": "carbon-boulder",
-      "implementation": "StaticProp"
+      "implementation": "StaticProp",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/props/carbon-boulder1.png"
     },
     {
       "field": "ferricBoulder",
       "id": "ferric-boulder",
-      "implementation": "StaticProp"
+      "implementation": "StaticProp",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/props/ferric-boulder1.png"
     },
     {
       "field": "beryllicBoulder",
       "id": "beryllic-boulder",
-      "implementation": "StaticProp"
+      "implementation": "StaticProp",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/props/beryllic-boulder1.png"
     },
     {
       "field": "yellowStoneBoulder",
       "id": "yellow-stone-boulder",
-      "implementation": "StaticProp"
+      "implementation": "StaticProp",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/props/yellow-stone-boulder1.png"
     },
     {
       "field": "arkyicBoulder",
       "id": "arkyic-boulder",
-      "implementation": "Prop"
+      "implementation": "Prop",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/props/arkyic-boulder1.png"
     },
     {
       "field": "crystalCluster",
       "id": "crystal-cluster",
-      "implementation": "TallBlock"
+      "implementation": "TallBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/props/crystal-cluster1.png"
     },
     {
       "field": "vibrantCrystalCluster",
       "id": "vibrant-crystal-cluster",
-      "implementation": "TallBlock"
+      "implementation": "TallBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/props/vibrant-crystal-cluster1.png"
     },
     {
       "field": "crystalBlocks",
       "id": "crystal-blocks",
-      "implementation": "TallBlock"
+      "implementation": "TallBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/props/crystal-blocks1.png"
     },
     {
       "field": "crystalOrbs",
       "id": "crystal-orbs",
-      "implementation": "TallBlock"
+      "implementation": "TallBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/props/crystal-orbs1.png"
     },
     {
       "field": "crystallineBoulder",
       "id": "crystalline-boulder",
-      "implementation": "StaticProp"
+      "implementation": "StaticProp",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/props/crystalline-boulder1.png"
     },
     {
       "field": "redIceBoulder",
       "id": "red-ice-boulder",
-      "implementation": "StaticProp"
+      "implementation": "StaticProp",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/props/red-ice-boulder1.png"
     },
     {
       "field": "rhyoliteBoulder",
       "id": "rhyolite-boulder",
-      "implementation": "StaticProp"
+      "implementation": "StaticProp",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/props/rhyolite-boulder1.png"
     },
     {
       "field": "redStoneBoulder",
       "id": "red-stone-boulder",
-      "implementation": "StaticProp"
+      "implementation": "StaticProp",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/props/red-stone-boulder1.png"
     },
     {
       "field": "metalFloor",
       "id": "metal-floor",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-floor.png"
     },
     {
       "field": "metalFloorDamaged",
       "id": "metal-floor-damaged",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-floor-damaged1.png"
     },
     {
       "field": "metalFloor2",
       "id": "metal-floor-2",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-floor-2.png"
     },
     {
       "field": "metalFloor3",
       "id": "metal-floor-3",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-floor-3.png"
     },
     {
       "field": "metalFloor4",
       "id": "metal-floor-4",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-floor-4.png"
     },
     {
       "field": "metalFloor5",
       "id": "metal-floor-5",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-floor-5.png"
     },
     {
       "field": "darkPanel1",
       "id": "dark-panel-1",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dark-panel-1.png"
     },
     {
       "field": "darkPanel2",
       "id": "dark-panel-2",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dark-panel-2.png"
     },
     {
       "field": "darkPanel3",
       "id": "dark-panel-3",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dark-panel-3.png"
     },
     {
       "field": "darkPanel4",
       "id": "dark-panel-4",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dark-panel-4.png"
     },
     {
       "field": "darkPanel5",
       "id": "dark-panel-5",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dark-panel-5.png"
     },
     {
       "field": "darkPanel6",
       "id": "dark-panel-6",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dark-panel-6.png"
     },
     {
       "field": "darkMetal",
       "id": "dark-metal",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dark-metal1.png"
     },
     {
       "field": "metalTiles1",
       "id": "metal-tiles-1",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-1.png"
     },
     {
       "field": "metalTiles2",
       "id": "metal-tiles-2",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-2-autotile.png"
     },
     {
       "field": "metalTiles3",
       "id": "metal-tiles-3",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-3-autotile.png"
     },
     {
       "field": "metalTiles4",
       "id": "metal-tiles-4",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-4-autotile.png"
     },
     {
       "field": "metalTiles5",
       "id": "metal-tiles-5",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-5-autotile.png"
     },
     {
       "field": "metalTiles6",
       "id": "metal-tiles-6",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-6-autotile.png"
     },
     {
       "field": "metalTiles7",
       "id": "metal-tiles-7",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-7-autotile.png"
     },
     {
       "field": "metalTiles8",
       "id": "metal-tiles-8",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-8-autotile.png"
     },
     {
       "field": "metalTiles9",
       "id": "metal-tiles-9",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-9-autotile.png"
     },
     {
       "field": "metalTiles10",
       "id": "metal-tiles-10",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-10-autotile.png"
     },
     {
       "field": "metalTiles11",
       "id": "metal-tiles-11",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-11.png"
     },
     {
       "field": "metalTiles12",
       "id": "metal-tiles-12",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-12.png"
     },
     {
       "field": "metalTiles13",
       "id": "metal-tiles-13",
-      "implementation": "Floor"
+      "implementation": "Floor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-13-autotile.png"
     },
     {
       "field": "metalWall1",
       "id": "metal-wall-1",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-wall-1.png"
     },
     {
       "field": "metalWall2",
       "id": "metal-wall-2",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-wall-2.png"
     },
     {
       "field": "metalWall3",
       "id": "metal-wall-3",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-wall-3.png"
     },
     {
       "field": "coloredFloor",
       "id": "colored-floor",
-      "implementation": "ColoredFloor"
+      "implementation": "ColoredFloor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/colored-floor.png"
     },
     {
       "field": "coloredWall",
       "id": "colored-wall",
-      "implementation": "ColoredWall"
+      "implementation": "ColoredWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/colored-wall.png"
     },
     {
       "field": "characterOverlayGray",
       "id": "character-overlay",
-      "implementation": "CharacterOverlay"
+      "implementation": "CharacterOverlay",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/character-overlay/character-overlay.png"
     },
     {
       "field": "characterOverlayWhite",
       "id": "character-overlay-white",
-      "implementation": "CharacterOverlay"
+      "implementation": "CharacterOverlay",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/character-overlay/character-overlay-white.png"
     },
     {
       "field": "runeOverlay",
       "id": "rune-overlay",
-      "implementation": "RuneOverlay"
+      "implementation": "RuneOverlay",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/rune-overlay/rune-overlay.png"
     },
     {
       "field": "cruxRuneOverlay",
       "id": "rune-overlay-crux",
-      "implementation": "RuneOverlay"
+      "implementation": "RuneOverlay",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/rune-overlay/rune-overlay-crux.png"
     },
     {
       "field": "pebbles",
       "id": "pebbles",
-      "implementation": "OverlayFloor"
+      "implementation": "OverlayFloor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/pebbles1.png"
     },
     {
       "field": "tendrils",
       "id": "tendrils",
-      "implementation": "OverlayFloor"
+      "implementation": "OverlayFloor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/tendrils1.png"
     },
     {
       "field": "oreCrystalThorium",
       "id": "ore-crystal-thorium",
-      "implementation": "OreBlock"
+      "implementation": "OreBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/ore-crystal-thorium1.png"
     },
     {
       "field": "wallOreThorium",
       "id": "ore-wall-thorium",
-      "implementation": "OreBlock"
+      "implementation": "OreBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/ore-wall-thorium1.png"
     },
     {
       "field": "wallOreBeryllium",
       "id": "ore-wall-beryllium",
-      "implementation": "OreBlock"
+      "implementation": "OreBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/ore-wall-beryllium1.png"
     },
     {
       "field": "graphiticWall",
       "id": "graphitic-wall",
-      "implementation": "StaticWall"
+      "implementation": "StaticWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/graphitic-wall1.png"
     },
     {
       "field": "wallOreGraphite",
       "id": "ore-wall-graphite",
-      "implementation": "OreBlock"
+      "implementation": "OreBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/ore-wall-graphite1.png"
     },
     {
       "field": "wallOreTungsten",
       "id": "ore-wall-tungsten",
-      "implementation": "OreBlock"
+      "implementation": "OreBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/ore-wall-tungsten1.png"
     },
     {
       "field": "graphitePress",
       "id": "graphite-press",
-      "implementation": "GenericCrafter"
+      "implementation": "GenericCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/graphite-press.png"
     },
     {
       "field": "multiPress",
       "id": "multi-press",
-      "implementation": "GenericCrafter"
+      "implementation": "GenericCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/multi-press.png"
     },
     {
       "field": "siliconSmelter",
       "id": "silicon-smelter",
-      "implementation": "GenericCrafter"
+      "implementation": "GenericCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/silicon-smelter.png"
     },
     {
       "field": "siliconCrucible",
       "id": "silicon-crucible",
-      "implementation": "AttributeCrafter"
+      "implementation": "AttributeCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/silicon-crucible.png"
     },
     {
       "field": "kiln",
       "id": "kiln",
-      "implementation": "GenericCrafter"
+      "implementation": "GenericCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/kiln.png"
     },
     {
       "field": "plastaniumCompressor",
       "id": "plastanium-compressor",
-      "implementation": "GenericCrafter"
+      "implementation": "GenericCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/plastanium-compressor.png"
     },
     {
       "field": "phaseWeaver",
       "id": "phase-weaver",
-      "implementation": "GenericCrafter"
+      "implementation": "GenericCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/phase-weaver.png"
     },
     {
       "field": "surgeSmelter",
       "id": "surge-smelter",
-      "implementation": "GenericCrafter"
+      "implementation": "GenericCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/surge-smelter.png"
     },
     {
       "field": "cryofluidMixer",
       "id": "cryofluid-mixer",
-      "implementation": "GenericCrafter"
+      "implementation": "GenericCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/cryofluid-mixer.png"
     },
     {
       "field": "pyratiteMixer",
       "id": "pyratite-mixer",
-      "implementation": "GenericCrafter"
+      "implementation": "GenericCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/pyratite-mixer.png"
     },
     {
       "field": "blastMixer",
       "id": "blast-mixer",
-      "implementation": "GenericCrafter"
+      "implementation": "GenericCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/blast-mixer.png"
     },
     {
       "field": "melter",
       "id": "melter",
-      "implementation": "GenericCrafter"
+      "implementation": "GenericCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/melter.png"
     },
     {
       "field": "separator",
       "id": "separator",
-      "implementation": "Separator"
+      "implementation": "Separator",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/separator.png"
     },
     {
       "field": "disassembler",
       "id": "disassembler",
-      "implementation": "Separator"
+      "implementation": "Separator",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/disassembler.png"
     },
     {
       "field": "sporePress",
       "id": "spore-press",
-      "implementation": "GenericCrafter"
+      "implementation": "GenericCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/spore-press.png"
     },
     {
       "field": "pulverizer",
       "id": "pulverizer",
-      "implementation": "GenericCrafter"
+      "implementation": "GenericCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/pulverizer.png"
     },
     {
       "field": "coalCentrifuge",
       "id": "coal-centrifuge",
-      "implementation": "GenericCrafter"
+      "implementation": "GenericCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/coal-centrifuge.png"
     },
     {
       "field": "incinerator",
       "id": "incinerator",
-      "implementation": "Incinerator"
+      "implementation": "Incinerator",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/incinerator.png"
     },
     {
       "field": "siliconArcFurnace",
       "id": "silicon-arc-furnace",
-      "implementation": "GenericCrafter"
+      "implementation": "GenericCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/silicon-arc-furnace.png"
     },
     {
       "field": "electrolyzer",
       "id": "electrolyzer",
-      "implementation": "GenericCrafter"
+      "implementation": "GenericCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/electrolyzer.png"
     },
     {
       "field": "atmosphericConcentrator",
       "id": "atmospheric-concentrator",
-      "implementation": "HeatCrafter"
+      "implementation": "HeatCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/atmospheric-concentrator.png"
     },
     {
       "field": "oxidationChamber",
       "id": "oxidation-chamber",
-      "implementation": "HeatProducer"
+      "implementation": "HeatProducer",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/oxidation-chamber.png"
     },
     {
       "field": "electricHeater",
       "id": "electric-heater",
-      "implementation": "HeatProducer"
+      "implementation": "HeatProducer",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/electric-heater.png"
     },
     {
       "field": "slagHeater",
       "id": "slag-heater",
-      "implementation": "HeatProducer"
+      "implementation": "HeatProducer",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/slag-heater.png"
     },
     {
       "field": "phaseHeater",
       "id": "phase-heater",
-      "implementation": "HeatProducer"
+      "implementation": "HeatProducer",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/phase-heater.png"
     },
     {
       "field": "heatRedirector",
       "id": "heat-redirector",
-      "implementation": "HeatConductor"
+      "implementation": "HeatConductor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/heat-redirector.png"
     },
     {
       "field": "smallHeatRedirector",
       "id": "small-heat-redirector",
-      "implementation": "HeatConductor"
+      "implementation": "HeatConductor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/small-heat-redirector.png"
     },
     {
       "field": "heatRouter",
       "id": "heat-router",
-      "implementation": "HeatConductor"
+      "implementation": "HeatConductor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/heat-router.png"
     },
     {
       "field": "slagIncinerator",
       "id": "slag-incinerator",
-      "implementation": "ItemIncinerator"
+      "implementation": "ItemIncinerator",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/slag-incinerator.png"
     },
     {
       "field": "carbideCrucible",
       "id": "carbide-crucible",
-      "implementation": "HeatCrafter"
+      "implementation": "HeatCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/carbide-crucible.png"
     },
     {
       "field": "slagCentrifuge",
       "id": "slag-centrifuge",
-      "implementation": "GenericCrafter"
+      "implementation": "GenericCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/slag-centrifuge.png"
     },
     {
       "field": "surgeCrucible",
       "id": "surge-crucible",
-      "implementation": "HeatCrafter"
+      "implementation": "HeatCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/surge-crucible.png"
     },
     {
       "field": "cyanogenSynthesizer",
       "id": "cyanogen-synthesizer",
-      "implementation": "HeatCrafter"
+      "implementation": "HeatCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/cyanogen-synthesizer.png"
     },
     {
       "field": "phaseSynthesizer",
       "id": "phase-synthesizer",
-      "implementation": "HeatCrafter"
+      "implementation": "HeatCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/phase-synthesizer.png"
     },
     {
       "field": "heatReactor",
       "id": "heat-reactor",
-      "implementation": "HeatProducer"
+      "implementation": "HeatProducer",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/heat-reactor.png"
     },
     {
       "field": "copperWall",
       "id": "copper-wall",
-      "implementation": "Wall"
+      "implementation": "Wall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/copper-wall.png"
     },
     {
       "field": "copperWallLarge",
       "id": "copper-wall-large",
-      "implementation": "Wall"
+      "implementation": "Wall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/copper-wall-large.png"
     },
     {
       "field": "titaniumWall",
       "id": "titanium-wall",
-      "implementation": "Wall"
+      "implementation": "Wall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/titanium-wall.png"
     },
     {
       "field": "titaniumWallLarge",
       "id": "titanium-wall-large",
-      "implementation": "Wall"
+      "implementation": "Wall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/titanium-wall-large.png"
     },
     {
       "field": "plastaniumWall",
       "id": "plastanium-wall",
-      "implementation": "Wall"
+      "implementation": "Wall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/plastanium-wall.png"
     },
     {
       "field": "plastaniumWallLarge",
       "id": "plastanium-wall-large",
-      "implementation": "Wall"
+      "implementation": "Wall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/plastanium-wall-large.png"
     },
     {
       "field": "thoriumWall",
       "id": "thorium-wall",
-      "implementation": "Wall"
+      "implementation": "Wall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/thorium-wall.png"
     },
     {
       "field": "thoriumWallLarge",
       "id": "thorium-wall-large",
-      "implementation": "Wall"
+      "implementation": "Wall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/thorium-wall-large.png"
     },
     {
       "field": "phaseWall",
       "id": "phase-wall",
-      "implementation": "Wall"
+      "implementation": "Wall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/phase-wall.png"
     },
     {
       "field": "phaseWallLarge",
       "id": "phase-wall-large",
-      "implementation": "Wall"
+      "implementation": "Wall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/phase-wall-large.png"
     },
     {
       "field": "surgeWall",
       "id": "surge-wall",
-      "implementation": "Wall"
+      "implementation": "Wall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/surge-wall.png"
     },
     {
       "field": "surgeWallLarge",
       "id": "surge-wall-large",
-      "implementation": "Wall"
+      "implementation": "Wall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/surge-wall-large.png"
     },
     {
       "field": "door",
       "id": "door",
-      "implementation": "Door"
+      "implementation": "Door",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/door.png"
     },
     {
       "field": "doorLarge",
       "id": "door-large",
-      "implementation": "Door"
+      "implementation": "Door",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/door-large.png"
     },
     {
       "field": "scrapWall",
       "id": "scrap-wall",
-      "implementation": "Wall"
+      "implementation": "Wall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/scrap-wall1.png"
     },
     {
       "field": "scrapWallLarge",
       "id": "scrap-wall-large",
-      "implementation": "Wall"
+      "implementation": "Wall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/scrap-wall-large1.png"
     },
     {
       "field": "scrapWallHuge",
       "id": "scrap-wall-huge",
-      "implementation": "Wall"
+      "implementation": "Wall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/scrap-wall-huge1.png"
     },
     {
       "field": "scrapWallGigantic",
       "id": "scrap-wall-gigantic",
-      "implementation": "Wall"
+      "implementation": "Wall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/scrap-wall-gigantic.png"
     },
     {
       "field": "thruster",
       "id": "thruster",
-      "implementation": "Thruster"
+      "implementation": "Thruster",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/thruster.png"
     },
     {
       "field": "berylliumWall",
       "id": "beryllium-wall",
-      "implementation": "Wall"
+      "implementation": "Wall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/beryllium-wall.png"
     },
     {
       "field": "berylliumWallLarge",
       "id": "beryllium-wall-large",
-      "implementation": "Wall"
+      "implementation": "Wall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/beryllium-wall-large.png"
     },
     {
       "field": "tungstenWall",
       "id": "tungsten-wall",
-      "implementation": "Wall"
+      "implementation": "Wall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/tungsten-wall.png"
     },
     {
       "field": "tungstenWallLarge",
       "id": "tungsten-wall-large",
-      "implementation": "Wall"
+      "implementation": "Wall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/tungsten-wall-large.png"
     },
     {
       "field": "blastDoor",
       "id": "blast-door",
-      "implementation": "AutoDoor"
+      "implementation": "AutoDoor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/blast-door.png"
     },
     {
       "field": "reinforcedSurgeWall",
       "id": "reinforced-surge-wall",
-      "implementation": "Wall"
+      "implementation": "Wall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/reinforced-surge-wall.png"
     },
     {
       "field": "reinforcedSurgeWallLarge",
       "id": "reinforced-surge-wall-large",
-      "implementation": "Wall"
+      "implementation": "Wall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/reinforced-surge-wall-large.png"
     },
     {
       "field": "carbideWall",
       "id": "carbide-wall",
-      "implementation": "Wall"
+      "implementation": "Wall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/carbide-wall.png"
     },
     {
       "field": "carbideWallLarge",
       "id": "carbide-wall-large",
-      "implementation": "Wall"
+      "implementation": "Wall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/carbide-wall-large.png"
     },
     {
       "field": "shieldedWall",
       "id": "shielded-wall",
-      "implementation": "ShieldWall"
+      "implementation": "ShieldWall",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/walls/shielded-wall.png"
     },
     {
       "field": "mender",
       "id": "mender",
-      "implementation": "MendProjector"
+      "implementation": "MendProjector",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/defense/mender.png"
     },
     {
       "field": "mendProjector",
       "id": "mend-projector",
-      "implementation": "MendProjector"
+      "implementation": "MendProjector",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/defense/mend-projector.png"
     },
     {
       "field": "overdriveProjector",
       "id": "overdrive-projector",
-      "implementation": "OverdriveProjector"
+      "implementation": "OverdriveProjector",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/defense/overdrive-projector.png"
     },
     {
       "field": "overdriveDome",
       "id": "overdrive-dome",
-      "implementation": "OverdriveProjector"
+      "implementation": "OverdriveProjector",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/defense/overdrive-dome.png"
     },
     {
       "field": "forceProjector",
       "id": "force-projector",
-      "implementation": "ForceProjector"
+      "implementation": "ForceProjector",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/defense/force-projector.png"
     },
     {
       "field": "shockMine",
       "id": "shock-mine",
-      "implementation": "ShockMine"
+      "implementation": "ShockMine",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/defense/shock-mine.png"
     },
     {
       "field": "radar",
       "id": "radar",
-      "implementation": "Radar"
+      "implementation": "Radar",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/defense/radar.png"
     },
     {
       "field": "buildTower",
       "id": "build-tower",
-      "implementation": "BuildTurret"
+      "implementation": "BuildTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/defense/build-tower.png"
     },
     {
       "field": "regenProjector",
       "id": "regen-projector",
-      "implementation": "RegenProjector"
+      "implementation": "RegenProjector",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/defense/regen-projector.png"
     },
     {
       "field": "shockwaveTower",
       "id": "shockwave-tower",
-      "implementation": "ShockwaveTower"
+      "implementation": "ShockwaveTower",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/defense/shockwave-tower.png"
     },
     {
       "field": "shieldProjector",
       "id": "shield-projector",
-      "implementation": "BaseShield"
+      "implementation": "BaseShield",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/defense/shield-projector.png"
     },
     {
       "field": "largeShieldProjector",
       "id": "large-shield-projector",
-      "implementation": "BaseShield"
+      "implementation": "BaseShield",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/defense/large-shield-projector.png"
     },
     {
       "field": "conveyor",
       "id": "conveyor",
-      "implementation": "Conveyor"
+      "implementation": "Conveyor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png"
     },
     {
       "field": "titaniumConveyor",
       "id": "titanium-conveyor",
-      "implementation": "Conveyor"
+      "implementation": "Conveyor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/conveyors/titanium-conveyor-0-0.png"
     },
     {
       "field": "plastaniumConveyor",
       "id": "plastanium-conveyor",
-      "implementation": "StackConveyor"
+      "implementation": "StackConveyor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/stack-conveyors/plastanium-conveyor.png"
     },
     {
       "field": "armoredConveyor",
       "id": "armored-conveyor",
-      "implementation": "ArmoredConveyor"
+      "implementation": "ArmoredConveyor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/conveyors/armored-conveyor-0-0.png"
     },
     {
       "field": "junction",
       "id": "junction",
-      "implementation": "Junction"
+      "implementation": "Junction",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/junction.png"
     },
     {
       "field": "itemBridge",
       "id": "bridge-conveyor",
-      "implementation": "BufferedItemBridge"
+      "implementation": "BufferedItemBridge",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/bridge-conveyor.png"
     },
     {
       "field": "phaseConveyor",
       "id": "phase-conveyor",
-      "implementation": "ItemBridge"
+      "implementation": "ItemBridge",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/phase-conveyor.png"
     },
     {
       "field": "sorter",
       "id": "sorter",
-      "implementation": "Sorter"
+      "implementation": "Sorter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/sorter.png"
     },
     {
       "field": "invertedSorter",
       "id": "inverted-sorter",
-      "implementation": "Sorter"
+      "implementation": "Sorter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/inverted-sorter.png"
     },
     {
       "field": "router",
       "id": "router",
-      "implementation": "Router"
+      "implementation": "Router",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/router.png"
     },
     {
       "field": "distributor",
       "id": "distributor",
-      "implementation": "Router"
+      "implementation": "Router",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/distributor.png"
     },
     {
       "field": "overflowGate",
       "id": "overflow-gate",
-      "implementation": "OverflowGate"
+      "implementation": "OverflowGate",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/overflow-gate.png"
     },
     {
       "field": "underflowGate",
       "id": "underflow-gate",
-      "implementation": "OverflowGate"
+      "implementation": "OverflowGate",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/underflow-gate.png"
     },
     {
       "field": "unloader",
       "id": "unloader",
-      "implementation": "Unloader"
+      "implementation": "Unloader",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/storage/unloader.png"
     },
     {
       "field": "massDriver",
       "id": "mass-driver",
-      "implementation": "MassDriver"
+      "implementation": "MassDriver",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/mass-driver.png"
     },
     {
       "field": "duct",
       "id": "duct",
-      "implementation": "Duct"
+      "implementation": "Duct",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/duct-bottom-0.png"
     },
     {
       "field": "armoredDuct",
       "id": "armored-duct",
-      "implementation": "Duct"
+      "implementation": "Duct",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/armored-duct-top-0.png"
     },
     {
       "field": "ductRouter",
       "id": "duct-router",
-      "implementation": "DuctRouter"
+      "implementation": "DuctRouter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/duct-router.png"
     },
     {
       "field": "overflowDuct",
       "id": "overflow-duct",
-      "implementation": "OverflowDuct"
+      "implementation": "OverflowDuct",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/overflow-duct.png"
     },
     {
       "field": "underflowDuct",
       "id": "underflow-duct",
-      "implementation": "OverflowDuct"
+      "implementation": "OverflowDuct",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/underflow-duct.png"
     },
     {
       "field": "ductBridge",
       "id": "duct-bridge",
-      "implementation": "DuctBridge"
+      "implementation": "DuctBridge",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/duct-bridge.png"
     },
     {
       "field": "ductUnloader",
       "id": "duct-unloader",
-      "implementation": "DirectionalUnloader"
+      "implementation": "DirectionalUnloader",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/duct-unloader.png"
     },
     {
       "field": "surgeConveyor",
       "id": "surge-conveyor",
-      "implementation": "StackConveyor"
+      "implementation": "StackConveyor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/stack-conveyors/surge-conveyor.png"
     },
     {
       "field": "surgeRouter",
       "id": "surge-router",
-      "implementation": "StackRouter"
+      "implementation": "StackRouter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/surge-router.png"
     },
     {
       "field": "unitCargoLoader",
       "id": "unit-cargo-loader",
-      "implementation": "UnitCargoLoader"
+      "implementation": "UnitCargoLoader",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/units/unit-cargo-loader.png"
     },
     {
       "field": "unitCargoUnloadPoint",
       "id": "unit-cargo-unload-point",
-      "implementation": "UnitCargoUnloadPoint"
+      "implementation": "UnitCargoUnloadPoint",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/units/unit-cargo-unload-point.png"
     },
     {
       "field": "mechanicalPump",
       "id": "mechanical-pump",
-      "implementation": "Pump"
+      "implementation": "Pump",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/mechanical-pump.png"
     },
     {
       "field": "rotaryPump",
       "id": "rotary-pump",
-      "implementation": "Pump"
+      "implementation": "Pump",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/rotary-pump.png"
     },
     {
       "field": "impulsePump",
       "id": "impulse-pump",
-      "implementation": "Pump"
+      "implementation": "Pump",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/impulse-pump.png"
     },
     {
       "field": "conduit",
       "id": "conduit",
-      "implementation": "Conduit"
+      "implementation": "Conduit",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/conduits/conduit-bottom-0.png"
     },
     {
       "field": "pulseConduit",
       "id": "pulse-conduit",
-      "implementation": "Conduit"
+      "implementation": "Conduit",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/conduits/pulse-conduit-top-0.png"
     },
     {
       "field": "platedConduit",
       "id": "plated-conduit",
-      "implementation": "ArmoredConduit"
+      "implementation": "ArmoredConduit",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/conduits/plated-conduit-cap.png"
     },
     {
       "field": "liquidRouter",
       "id": "liquid-router",
-      "implementation": "LiquidRouter"
+      "implementation": "LiquidRouter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/liquid-router.png"
     },
     {
       "field": "liquidContainer",
       "id": "liquid-container",
-      "implementation": "LiquidRouter"
+      "implementation": "LiquidRouter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/liquid-container.png"
     },
     {
       "field": "liquidTank",
       "id": "liquid-tank",
-      "implementation": "LiquidRouter"
+      "implementation": "LiquidRouter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/liquid-tank.png"
     },
     {
       "field": "liquidJunction",
       "id": "liquid-junction",
-      "implementation": "LiquidJunction"
+      "implementation": "LiquidJunction",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/liquid-junction.png"
     },
     {
       "field": "bridgeConduit",
       "id": "bridge-conduit",
-      "implementation": "LiquidBridge"
+      "implementation": "LiquidBridge",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/bridge-conduit.png"
     },
     {
       "field": "phaseConduit",
       "id": "phase-conduit",
-      "implementation": "LiquidBridge"
+      "implementation": "LiquidBridge",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/phase-conduit.png"
     },
     {
       "field": "reinforcedPump",
       "id": "reinforced-pump",
-      "implementation": "Pump"
+      "implementation": "Pump",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/reinforced-pump.png"
     },
     {
       "field": "reinforcedConduit",
       "id": "reinforced-conduit",
-      "implementation": "ArmoredConduit"
+      "implementation": "ArmoredConduit",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/conduits/reinforced-conduit-cap.png"
     },
     {
       "field": "reinforcedLiquidJunction",
       "id": "reinforced-liquid-junction",
-      "implementation": "LiquidJunction"
+      "implementation": "LiquidJunction",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/reinforced-liquid-junction.png"
     },
     {
       "field": "reinforcedBridgeConduit",
       "id": "reinforced-bridge-conduit",
-      "implementation": "DirectionLiquidBridge"
+      "implementation": "DirectionLiquidBridge",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/reinforced-bridge-conduit.png"
     },
     {
       "field": "reinforcedLiquidRouter",
       "id": "reinforced-liquid-router",
-      "implementation": "LiquidRouter"
+      "implementation": "LiquidRouter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/reinforced-liquid-router.png"
     },
     {
       "field": "reinforcedLiquidContainer",
       "id": "reinforced-liquid-container",
-      "implementation": "LiquidRouter"
+      "implementation": "LiquidRouter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/reinforced-liquid-container.png"
     },
     {
       "field": "reinforcedLiquidTank",
       "id": "reinforced-liquid-tank",
-      "implementation": "LiquidRouter"
+      "implementation": "LiquidRouter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/reinforced-liquid-tank.png"
     },
     {
       "field": "powerNode",
       "id": "power-node",
-      "implementation": "PowerNode"
+      "implementation": "PowerNode",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/power-node.png"
     },
     {
       "field": "powerNodeLarge",
       "id": "power-node-large",
-      "implementation": "PowerNode"
+      "implementation": "PowerNode",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/power-node-large.png"
     },
     {
       "field": "surgeTower",
       "id": "surge-tower",
-      "implementation": "PowerNode"
+      "implementation": "PowerNode",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/surge-tower.png"
     },
     {
       "field": "diode",
       "id": "diode",
-      "implementation": "PowerDiode"
+      "implementation": "PowerDiode",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/diode.png"
     },
     {
       "field": "battery",
       "id": "battery",
-      "implementation": "Battery"
+      "implementation": "Battery",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/battery.png"
     },
     {
       "field": "batteryLarge",
       "id": "battery-large",
-      "implementation": "Battery"
+      "implementation": "Battery",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/battery-large.png"
     },
     {
       "field": "combustionGenerator",
       "id": "combustion-generator",
-      "implementation": "ConsumeGenerator"
+      "implementation": "ConsumeGenerator",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/combustion-generator.png"
     },
     {
       "field": "thermalGenerator",
       "id": "thermal-generator",
-      "implementation": "ThermalGenerator"
+      "implementation": "ThermalGenerator",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/thermal-generator.png"
     },
     {
       "field": "steamGenerator",
       "id": "steam-generator",
-      "implementation": "ConsumeGenerator"
+      "implementation": "ConsumeGenerator",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/steam-generator.png"
     },
     {
       "field": "differentialGenerator",
       "id": "differential-generator",
-      "implementation": "ConsumeGenerator"
+      "implementation": "ConsumeGenerator",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/differential-generator.png"
     },
     {
       "field": "rtgGenerator",
       "id": "rtg-generator",
-      "implementation": "ConsumeGenerator"
+      "implementation": "ConsumeGenerator",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/rtg-generator.png"
     },
     {
       "field": "solarPanel",
       "id": "solar-panel",
-      "implementation": "SolarGenerator"
+      "implementation": "SolarGenerator",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/solar-panel.png"
     },
     {
       "field": "largeSolarPanel",
       "id": "solar-panel-large",
-      "implementation": "SolarGenerator"
+      "implementation": "SolarGenerator",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/solar-panel-large.png"
     },
     {
       "field": "thoriumReactor",
       "id": "thorium-reactor",
-      "implementation": "NuclearReactor"
+      "implementation": "NuclearReactor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/thorium-reactor.png"
     },
     {
       "field": "impactReactor",
       "id": "impact-reactor",
-      "implementation": "ImpactReactor"
+      "implementation": "ImpactReactor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/impact-reactor.png"
     },
     {
       "field": "beamNode",
       "id": "beam-node",
-      "implementation": "BeamNode"
+      "implementation": "BeamNode",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/beam-node.png"
     },
     {
       "field": "beamTower",
       "id": "beam-tower",
-      "implementation": "BeamNode"
+      "implementation": "BeamNode",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/beam-tower.png"
     },
     {
       "field": "beamLink",
       "id": "beam-link",
-      "implementation": "LongPowerNode"
+      "implementation": "LongPowerNode",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/beam-link.png"
     },
     {
       "field": "turbineCondenser",
       "id": "turbine-condenser",
-      "implementation": "ThermalGenerator"
+      "implementation": "ThermalGenerator",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/turbine-condenser.png"
     },
     {
       "field": "chemicalCombustionChamber",
       "id": "chemical-combustion-chamber",
-      "implementation": "ConsumeGenerator"
+      "implementation": "ConsumeGenerator",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/chemical-combustion-chamber.png"
     },
     {
       "field": "pyrolysisGenerator",
       "id": "pyrolysis-generator",
-      "implementation": "ConsumeGenerator"
+      "implementation": "ConsumeGenerator",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/pyrolysis-generator.png"
     },
     {
       "field": "fluxReactor",
       "id": "flux-reactor",
-      "implementation": "VariableReactor"
+      "implementation": "VariableReactor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/flux-reactor.png"
     },
     {
       "field": "neoplasiaReactor",
       "id": "neoplasia-reactor",
-      "implementation": "HeaterGenerator"
+      "implementation": "HeaterGenerator",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/neoplasia-reactor.png"
     },
     {
       "field": "mechanicalDrill",
       "id": "mechanical-drill",
-      "implementation": "Drill"
+      "implementation": "Drill",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/drills/mechanical-drill.png"
     },
     {
       "field": "pneumaticDrill",
       "id": "pneumatic-drill",
-      "implementation": "Drill"
+      "implementation": "Drill",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/drills/pneumatic-drill.png"
     },
     {
       "field": "laserDrill",
       "id": "laser-drill",
-      "implementation": "Drill"
+      "implementation": "Drill",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/drills/laser-drill.png"
     },
     {
       "field": "blastDrill",
       "id": "blast-drill",
-      "implementation": "Drill"
+      "implementation": "Drill",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/drills/blast-drill.png"
     },
     {
       "field": "waterExtractor",
       "id": "water-extractor",
-      "implementation": "SolidPump"
+      "implementation": "SolidPump",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/drills/water-extractor.png"
     },
     {
       "field": "cultivator",
       "id": "cultivator",
-      "implementation": "AttributeCrafter"
+      "implementation": "AttributeCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/cultivator.png"
     },
     {
       "field": "oilExtractor",
       "id": "oil-extractor",
-      "implementation": "Fracker"
+      "implementation": "Fracker",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/drills/oil-extractor.png"
     },
     {
       "field": "ventCondenser",
       "id": "vent-condenser",
-      "implementation": "AttributeCrafter"
+      "implementation": "AttributeCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/production/vent-condenser.png"
     },
     {
       "field": "cliffCrusher",
       "id": "cliff-crusher",
-      "implementation": "WallCrafter"
+      "implementation": "WallCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/drills/cliff-crusher.png"
     },
     {
       "field": "largeCliffCrusher",
       "id": "large-cliff-crusher",
-      "implementation": "WallCrafter"
+      "implementation": "WallCrafter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/drills/large-cliff-crusher.png"
     },
     {
       "field": "plasmaBore",
       "id": "plasma-bore",
-      "implementation": "BeamDrill"
+      "implementation": "BeamDrill",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/drills/plasma-bore.png"
     },
     {
       "field": "largePlasmaBore",
       "id": "large-plasma-bore",
-      "implementation": "BeamDrill"
+      "implementation": "BeamDrill",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/drills/large-plasma-bore.png"
     },
     {
       "field": "impactDrill",
       "id": "impact-drill",
-      "implementation": "BurstDrill"
+      "implementation": "BurstDrill",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/drills/impact-drill.png"
     },
     {
       "field": "eruptionDrill",
       "id": "eruption-drill",
-      "implementation": "BurstDrill"
+      "implementation": "BurstDrill",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/drills/eruption-drill.png"
     },
     {
       "field": "coreShard",
       "id": "core-shard",
-      "implementation": "CoreBlock"
+      "implementation": "CoreBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/storage/core-shard.png"
     },
     {
       "field": "coreFoundation",
       "id": "core-foundation",
-      "implementation": "CoreBlock"
+      "implementation": "CoreBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/storage/core-foundation.png"
     },
     {
       "field": "coreNucleus",
       "id": "core-nucleus",
-      "implementation": "CoreBlock"
+      "implementation": "CoreBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/storage/core-nucleus.png"
     },
     {
       "field": "coreBastion",
       "id": "core-bastion",
-      "implementation": "CoreBlock"
+      "implementation": "CoreBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/storage/core-bastion.png"
     },
     {
       "field": "coreCitadel",
       "id": "core-citadel",
-      "implementation": "CoreBlock"
+      "implementation": "CoreBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/storage/core-citadel.png"
     },
     {
       "field": "coreAcropolis",
       "id": "core-acropolis",
-      "implementation": "CoreBlock"
+      "implementation": "CoreBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/storage/core-acropolis.png"
     },
     {
       "field": "container",
       "id": "container",
-      "implementation": "StorageBlock"
+      "implementation": "StorageBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/storage/container.png"
     },
     {
       "field": "vault",
       "id": "vault",
-      "implementation": "StorageBlock"
+      "implementation": "StorageBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/storage/vault.png"
     },
     {
       "field": "reinforcedContainer",
       "id": "reinforced-container",
-      "implementation": "StorageBlock"
+      "implementation": "StorageBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/storage/reinforced-container.png"
     },
     {
       "field": "reinforcedVault",
       "id": "reinforced-vault",
-      "implementation": "StorageBlock"
+      "implementation": "StorageBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/storage/reinforced-vault.png"
     },
     {
       "field": "duo",
       "id": "duo",
-      "implementation": "ItemTurret"
+      "implementation": "ItemTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/duo/duo.png"
     },
     {
       "field": "scatter",
       "id": "scatter",
-      "implementation": "ItemTurret"
+      "implementation": "ItemTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/scatter/scatter.png"
     },
     {
       "field": "scorch",
       "id": "scorch",
-      "implementation": "ItemTurret"
+      "implementation": "ItemTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/scorch.png"
     },
     {
       "field": "hail",
       "id": "hail",
-      "implementation": "ItemTurret"
+      "implementation": "ItemTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/hail.png"
     },
     {
       "field": "wave",
       "id": "wave",
-      "implementation": "LiquidTurret"
+      "implementation": "LiquidTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/wave.png"
     },
     {
       "field": "lancer",
       "id": "lancer",
-      "implementation": "PowerTurret"
+      "implementation": "PowerTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/lancer.png"
     },
     {
       "field": "arc",
       "id": "arc",
-      "implementation": "PowerTurret"
+      "implementation": "PowerTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/arc.png"
     },
     {
       "field": "parallax",
       "id": "parallax",
-      "implementation": "TractorBeamTurret"
+      "implementation": "TractorBeamTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/defense/parallax.png"
     },
     {
       "field": "swarmer",
       "id": "swarmer",
-      "implementation": "ItemTurret"
+      "implementation": "ItemTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/swarmer.png"
     },
     {
       "field": "salvo",
       "id": "salvo",
-      "implementation": "ItemTurret"
+      "implementation": "ItemTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/salvo/salvo-preview.png"
     },
     {
       "field": "segment",
       "id": "segment",
-      "implementation": "PointDefenseTurret"
+      "implementation": "PointDefenseTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/defense/segment.png"
     },
     {
       "field": "tsunami",
       "id": "tsunami",
-      "implementation": "LiquidTurret"
+      "implementation": "LiquidTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/tsunami.png"
     },
     {
       "field": "fuse",
       "id": "fuse",
-      "implementation": "ItemTurret"
+      "implementation": "ItemTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/fuse.png"
     },
     {
       "field": "ripple",
       "id": "ripple",
-      "implementation": "ItemTurret"
+      "implementation": "ItemTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/ripple.png"
     },
     {
       "field": "cyclone",
       "id": "cyclone",
-      "implementation": "ItemTurret"
+      "implementation": "ItemTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/cyclone/cyclone.png"
     },
     {
       "field": "foreshadow",
       "id": "foreshadow",
-      "implementation": "ItemTurret"
+      "implementation": "ItemTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/foreshadow.png"
     },
     {
       "field": "spectre",
       "id": "spectre",
-      "implementation": "ItemTurret"
+      "implementation": "ItemTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/spectre.png"
     },
     {
       "field": "meltdown",
       "id": "meltdown",
-      "implementation": "LaserTurret"
+      "implementation": "LaserTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/meltdown.png"
     },
     {
       "field": "breach",
       "id": "breach",
-      "implementation": "ItemTurret"
+      "implementation": "ItemTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/breach.png"
     },
     {
       "field": "diffuse",
       "id": "diffuse",
-      "implementation": "ItemTurret"
+      "implementation": "ItemTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/diffuse/diffuse.png"
     },
     {
       "field": "sublimate",
       "id": "sublimate",
-      "implementation": "ContinuousLiquidTurret"
+      "implementation": "ContinuousLiquidTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/sublimate/sublimate.png"
     },
     {
       "field": "titan",
       "id": "titan",
-      "implementation": "ItemTurret"
+      "implementation": "ItemTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/titan/titan.png"
     },
     {
       "field": "disperse",
       "id": "disperse",
-      "implementation": "ItemTurret"
+      "implementation": "ItemTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/disperse/disperse-preview.png"
     },
     {
       "field": "afflict",
       "id": "afflict",
-      "implementation": "PowerTurret"
+      "implementation": "PowerTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/afflict/afflict.png"
     },
     {
       "field": "lustre",
       "id": "lustre",
-      "implementation": "ContinuousTurret"
+      "implementation": "ContinuousTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/lustre/lustre-preview.png"
     },
     {
       "field": "scathe",
       "id": "scathe",
-      "implementation": "ItemTurret"
+      "implementation": "ItemTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/scathe/scathe-preview.png"
     },
     {
       "field": "smite",
       "id": "smite",
-      "implementation": "ItemTurret"
+      "implementation": "ItemTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/smite/smite-preview.png"
     },
     {
       "field": "malign",
       "id": "malign",
-      "implementation": "PowerTurret"
+      "implementation": "PowerTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/malign/malign-preview.png"
     },
     {
       "field": "groundFactory",
       "id": "ground-factory",
-      "implementation": "UnitFactory"
+      "implementation": "UnitFactory",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/units/ground-factory.png"
     },
     {
       "field": "airFactory",
       "id": "air-factory",
-      "implementation": "UnitFactory"
+      "implementation": "UnitFactory",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/units/air-factory.png"
     },
     {
       "field": "navalFactory",
       "id": "naval-factory",
-      "implementation": "UnitFactory"
+      "implementation": "UnitFactory",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/units/naval-factory.png"
     },
     {
       "field": "additiveReconstructor",
       "id": "additive-reconstructor",
-      "implementation": "Reconstructor"
+      "implementation": "Reconstructor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/units/additive-reconstructor.png"
     },
     {
       "field": "multiplicativeReconstructor",
       "id": "multiplicative-reconstructor",
-      "implementation": "Reconstructor"
+      "implementation": "Reconstructor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/units/multiplicative-reconstructor.png"
     },
     {
       "field": "exponentialReconstructor",
       "id": "exponential-reconstructor",
-      "implementation": "Reconstructor"
+      "implementation": "Reconstructor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/units/exponential-reconstructor.png"
     },
     {
       "field": "tetrativeReconstructor",
       "id": "tetrative-reconstructor",
-      "implementation": "Reconstructor"
+      "implementation": "Reconstructor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/units/tetrative-reconstructor.png"
     },
     {
       "field": "repairPoint",
       "id": "repair-point",
-      "implementation": "RepairTurret"
+      "implementation": "RepairTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/units/repair-point.png"
     },
     {
       "field": "repairTurret",
       "id": "repair-turret",
-      "implementation": "RepairTurret"
+      "implementation": "RepairTurret",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/units/repair-turret.png"
     },
     {
       "field": "tankFabricator",
       "id": "tank-fabricator",
-      "implementation": "UnitFactory"
+      "implementation": "UnitFactory",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/units/tank-fabricator.png"
     },
     {
       "field": "shipFabricator",
       "id": "ship-fabricator",
-      "implementation": "UnitFactory"
+      "implementation": "UnitFactory",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/units/ship-fabricator.png"
     },
     {
       "field": "mechFabricator",
       "id": "mech-fabricator",
-      "implementation": "UnitFactory"
+      "implementation": "UnitFactory",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/units/mech-fabricator.png"
     },
     {
       "field": "tankRefabricator",
       "id": "tank-refabricator",
-      "implementation": "Reconstructor"
+      "implementation": "Reconstructor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/units/tank-refabricator.png"
     },
     {
       "field": "shipRefabricator",
       "id": "ship-refabricator",
-      "implementation": "Reconstructor"
+      "implementation": "Reconstructor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/units/ship-refabricator.png"
     },
     {
       "field": "mechRefabricator",
       "id": "mech-refabricator",
-      "implementation": "Reconstructor"
+      "implementation": "Reconstructor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/units/mech-refabricator.png"
     },
     {
       "field": "primeRefabricator",
       "id": "prime-refabricator",
-      "implementation": "Reconstructor"
+      "implementation": "Reconstructor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/units/prime-refabricator.png"
     },
     {
       "field": "tankAssembler",
       "id": "tank-assembler",
-      "implementation": "UnitAssembler"
+      "implementation": "UnitAssembler",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/units/tank-assembler.png"
     },
     {
       "field": "shipAssembler",
       "id": "ship-assembler",
-      "implementation": "UnitAssembler"
+      "implementation": "UnitAssembler",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/units/ship-assembler.png"
     },
     {
       "field": "mechAssembler",
       "id": "mech-assembler",
-      "implementation": "UnitAssembler"
+      "implementation": "UnitAssembler",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/units/mech-assembler.png"
     },
     {
       "field": "basicAssemblerModule",
       "id": "basic-assembler-module",
-      "implementation": "UnitAssemblerModule"
+      "implementation": "UnitAssemblerModule",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/units/basic-assembler-module.png"
     },
     {
       "field": "unitRepairTower",
       "id": "unit-repair-tower",
-      "implementation": "RepairTower"
+      "implementation": "RepairTower",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/units/unit-repair-tower.png"
     },
     {
       "field": "payloadConveyor",
       "id": "payload-conveyor",
-      "implementation": "PayloadConveyor"
+      "implementation": "PayloadConveyor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/payload/payload-conveyor.png"
     },
     {
       "field": "payloadRouter",
       "id": "payload-router",
-      "implementation": "PayloadRouter"
+      "implementation": "PayloadRouter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/payload/payload-router.png"
     },
     {
       "field": "reinforcedPayloadConveyor",
       "id": "reinforced-payload-conveyor",
-      "implementation": "PayloadConveyor"
+      "implementation": "PayloadConveyor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/payload/reinforced-payload-conveyor.png"
     },
     {
       "field": "reinforcedPayloadRouter",
       "id": "reinforced-payload-router",
-      "implementation": "PayloadRouter"
+      "implementation": "PayloadRouter",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/payload/reinforced-payload-router.png"
     },
     {
       "field": "payloadMassDriver",
       "id": "payload-mass-driver",
-      "implementation": "PayloadMassDriver"
+      "implementation": "PayloadMassDriver",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/payload/payload-mass-driver.png"
     },
     {
       "field": "largePayloadMassDriver",
       "id": "large-payload-mass-driver",
-      "implementation": "PayloadMassDriver"
+      "implementation": "PayloadMassDriver",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/payload/large-payload-mass-driver.png"
     },
     {
       "field": "smallDeconstructor",
       "id": "small-deconstructor",
-      "implementation": "PayloadDeconstructor"
+      "implementation": "PayloadDeconstructor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/payload/small-deconstructor.png"
     },
     {
       "field": "deconstructor",
       "id": "deconstructor",
-      "implementation": "PayloadDeconstructor"
+      "implementation": "PayloadDeconstructor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/payload/deconstructor.png"
     },
     {
       "field": "constructor",
       "id": "constructor",
-      "implementation": "Constructor"
+      "implementation": "Constructor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/payload/constructor.png"
     },
     {
       "field": "largeConstructor",
       "id": "large-constructor",
-      "implementation": "Constructor"
+      "implementation": "Constructor",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/payload/large-constructor.png"
     },
     {
       "field": "payloadLoader",
       "id": "payload-loader",
-      "implementation": "PayloadLoader"
+      "implementation": "PayloadLoader",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/payload/payload-loader.png"
     },
     {
       "field": "payloadUnloader",
       "id": "payload-unloader",
-      "implementation": "PayloadUnloader"
+      "implementation": "PayloadUnloader",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/payload/payload-unloader.png"
     },
     {
       "field": "powerSource",
       "id": "power-source",
-      "implementation": "PowerSource"
+      "implementation": "PowerSource",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/power-source.png"
     },
     {
       "field": "powerVoid",
       "id": "power-void",
-      "implementation": "PowerVoid"
+      "implementation": "PowerVoid",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/power-void.png"
     },
     {
       "field": "itemSource",
       "id": "item-source",
-      "implementation": "ItemSource"
+      "implementation": "ItemSource",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/sandbox/item-source.png"
     },
     {
       "field": "itemVoid",
       "id": "item-void",
-      "implementation": "ItemVoid"
+      "implementation": "ItemVoid",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/sandbox/item-void.png"
     },
     {
       "field": "liquidSource",
       "id": "liquid-source",
-      "implementation": "LiquidSource"
+      "implementation": "LiquidSource",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/sandbox/liquid-source.png"
     },
     {
       "field": "liquidVoid",
       "id": "liquid-void",
-      "implementation": "LiquidVoid"
+      "implementation": "LiquidVoid",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/sandbox/liquid-void.png"
     },
     {
       "field": "payloadSource",
       "id": "payload-source",
-      "implementation": "PayloadSource"
+      "implementation": "PayloadSource",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/payload/payload-source.png"
     },
     {
       "field": "payloadVoid",
       "id": "payload-void",
-      "implementation": "PayloadVoid"
+      "implementation": "PayloadVoid",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/payload/payload-void.png"
     },
     {
       "field": "heatSource",
       "id": "heat-source",
-      "implementation": "HeatProducer"
+      "implementation": "HeatProducer",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/sandbox/heat-source.png"
     },
     {
       "field": "illuminator",
       "id": "illuminator",
-      "implementation": "LightBlock"
+      "implementation": "LightBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/power/illuminator.png"
     },
     {
       "field": "launchPad",
       "id": "launch-pad",
-      "implementation": "LaunchPad"
+      "implementation": "LaunchPad",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/campaign/launch-pad.png"
     },
     {
       "field": "advancedLaunchPad",
       "id": "advanced-launch-pad",
-      "implementation": "LaunchPad"
+      "implementation": "LaunchPad",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/campaign/advanced-launch-pad.png"
     },
     {
       "field": "landingPad",
       "id": "landing-pad",
-      "implementation": "LandingPad"
+      "implementation": "LandingPad",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/campaign/landing-pad.png"
     },
     {
       "field": "interplanetaryAccelerator",
       "id": "interplanetary-accelerator",
-      "implementation": "Accelerator"
+      "implementation": "Accelerator",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/campaign/interplanetary-accelerator.png"
     },
     {
       "field": "message",
       "id": "message",
-      "implementation": "MessageBlock"
+      "implementation": "MessageBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/logic/message.png"
     },
     {
       "field": "switchBlock",
       "id": "switch",
-      "implementation": "SwitchBlock"
+      "implementation": "SwitchBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/logic/switch.png"
     },
     {
       "field": "microProcessor",
       "id": "micro-processor",
-      "implementation": "LogicBlock"
+      "implementation": "LogicBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/logic/micro-processor.png"
     },
     {
       "field": "logicProcessor",
       "id": "logic-processor",
-      "implementation": "LogicBlock"
+      "implementation": "LogicBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/logic/logic-processor.png"
     },
     {
       "field": "hyperProcessor",
       "id": "hyper-processor",
-      "implementation": "LogicBlock"
+      "implementation": "LogicBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/logic/hyper-processor.png"
     },
     {
       "field": "memoryCell",
       "id": "memory-cell",
-      "implementation": "MemoryBlock"
+      "implementation": "MemoryBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/logic/memory-cell.png"
     },
     {
       "field": "memoryBank",
       "id": "memory-bank",
-      "implementation": "MemoryBlock"
+      "implementation": "MemoryBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/logic/memory-bank.png"
     },
     {
       "field": "logicDisplay",
       "id": "logic-display",
-      "implementation": "LogicDisplay"
+      "implementation": "LogicDisplay",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/logic/logic-display.png"
     },
     {
       "field": "largeLogicDisplay",
       "id": "large-logic-display",
-      "implementation": "LogicDisplay"
+      "implementation": "LogicDisplay",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/logic/large-logic-display.png"
     },
     {
       "field": "tileLogicDisplay",
       "id": "tile-logic-display",
-      "implementation": "TileableLogicDisplay"
+      "implementation": "TileableLogicDisplay",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/logic/tile-logic-display.png"
     },
     {
       "field": "canvas",
       "id": "canvas",
-      "implementation": "CanvasBlock"
+      "implementation": "CanvasBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/logic/canvas.png"
     },
     {
       "field": "largeCanvas",
       "id": "large-canvas",
-      "implementation": "CanvasBlock"
+      "implementation": "CanvasBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/logic/large-canvas.png"
     },
     {
       "field": "reinforcedMessage",
       "id": "reinforced-message",
-      "implementation": "MessageBlock"
+      "implementation": "MessageBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/logic/reinforced-message.png"
     },
     {
       "field": "worldProcessor",
       "id": "world-processor",
-      "implementation": "LogicBlock"
+      "implementation": "LogicBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/logic/world-processor.png"
     },
     {
       "field": "worldCell",
       "id": "world-cell",
-      "implementation": "MemoryBlock"
+      "implementation": "MemoryBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/logic/world-cell.png"
     },
     {
       "field": "worldMessage",
       "id": "world-message",
-      "implementation": "MessageBlock"
+      "implementation": "MessageBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/logic/world-message.png"
     },
     {
       "field": "worldSwitch",
       "id": "world-switch",
-      "implementation": "SwitchBlock"
+      "implementation": "SwitchBlock",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/logic/world-switch.png"
     }
   ],
   "counts": {

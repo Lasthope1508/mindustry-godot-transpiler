@@ -128,16 +128,20 @@ def extract_liquids(upstream_root: Path, godot_root: Path) -> list[dict[str, Any
     return _with_icon_paths(entries, _asset_root(godot_root), "liquid-")
 
 
-def extract_blocks(upstream_root: Path) -> list[dict[str, str]]:
+def extract_blocks(upstream_root: Path, godot_root: Path | None = None) -> list[dict[str, str]]:
     source = (_source_content_dir(upstream_root) / "Blocks.java").read_text(encoding="utf-8", errors="replace")
     declared = _declared_block_fields(source)
+    asset_root = _asset_root(godot_root) if godot_root is not None else None
     pattern = re.compile(r"\b([A-Za-z_]\w*)\s*=\s*new\s+([A-Za-z_]\w*)\s*\(\s*\"([^\"]+)\"", re.MULTILINE)
     blocks = []
     for match in pattern.finditer(source):
         field, implementation, content_id = match.groups()
         if field not in declared:
             continue
-        blocks.append({"field": field, "id": content_id, "implementation": implementation})
+        entry = {"field": field, "id": content_id, "implementation": implementation}
+        if asset_root is not None:
+            entry["texture"] = _block_texture_path(asset_root, content_id)
+        blocks.append(entry)
     return blocks
 
 
@@ -149,10 +153,33 @@ def _declared_block_fields(source: str) -> set[str]:
     return {name for name in re.findall(r"\b[A-Za-z_]\w*\b", declarations) if name != "Block"}
 
 
+def _block_texture_path(asset_root: Path, block_id: str) -> str:
+    if block_id == "air":
+        return ""
+    blocks_root = Path(asset_root) / "core" / "assets-raw" / "sprites" / "blocks"
+    if not blocks_root.exists():
+        return ""
+    candidates = [
+        f"{block_id}.png",
+        f"{block_id}-preview.png",
+        f"{block_id}-0-0.png",
+        f"{block_id}-1.png",
+        f"{block_id}1.png",
+    ]
+    for name in candidates:
+        matches = sorted(blocks_root.rglob(name))
+        if matches:
+            return "res://assets/" + matches[0].relative_to(asset_root).as_posix()
+    prefixed = sorted(blocks_root.rglob(f"{block_id}-*.png"))
+    if prefixed:
+        return "res://assets/" + prefixed[0].relative_to(asset_root).as_posix()
+    return ""
+
+
 def build_content_registry(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     items = extract_items(upstream_root, godot_root)
     liquids = extract_liquids(upstream_root, godot_root)
-    blocks = extract_blocks(upstream_root)
+    blocks = extract_blocks(upstream_root, godot_root)
     return {
         "upstream_commit": UPSTREAM_COMMIT,
         "items": items,
