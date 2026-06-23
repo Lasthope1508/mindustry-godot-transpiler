@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 41 |
-| Done | 41 |
+| Total tracked work items | 42 |
+| Done | 42 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -62,6 +62,7 @@
 | N37 | Use source bullet speed | `BulletType.java` defines bullet `speed` as units/tick and `BulletComp.java` exposes speed stats as `type.speed * 60f / tilesize`; generated duo copper ammo has `speed=2.5`; `PortGame.gd` converts bullet movement to world pixels/second with `speed * 60.0`, exposes `selected_turret_ammo_world_speed`, and removes the previous `speed * tile_size * 4.0` runtime constant; Python suite reports `43` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_turret_ammo_world_speed=150`, with debug `errors: []` |
 | N38 | Use source unit speed | `UnitComp.java` returns `type.speed` for base unit speed and `UnitType.java` exposes speed stats as `speed * 60f / tilesize`; generated dagger has `speed=0.5`; `PortGame.gd` converts unit movement to world pixels/second with `speed * 60.0`, exposes `selected_enemy_world_speed`, and removes the previous `max(20.0, speed * tile_size * 5.0)` runtime constant; Python suite reports `44` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_enemy_world_speed=30`, with debug `errors: []` |
 | N39 | Use source unit hit size for sprite scale | `UnitType.java` defines `hitSize` as the size of one side of the unit hitbox; `UnitTypes.java` sets dagger `hitSize=8f`; generated dagger has `hitSize=8`; `PortGame.gd` scales enemy unit sprites from `source_unit_hit_size(unit_type)` instead of one tile, exposes `selected_enemy_hit_size`, and keeps generic terrain/item sprite scaling unchanged; Python suite reports `45` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_enemy_hit_size=8`, with debug `errors: []` |
+| N40 | Use source turret reload | `ReloadTurret.java` defaults `reload=10f`; `Blocks.java` sets duo `reload=20f`; generated duo has `reload=20`; `PortGame.gd` converts turret reload frames to seconds with `reload / 60.0`, uses it for turret cooldowns, exposes `selected_turret_reload_seconds`, and removes the previous `max(0.1, reload / 60.0)` runtime guard; Python suite reports `46` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_turret_reload_seconds=0.333333333333333`, with debug `errors: []` |
 
 ## Not Done
 
@@ -304,3 +305,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-23 | M36 source bullet speed: turret bullets now use generated `BasicBulletType.speed` as units/tick converted to world pixels/second with `speed * 60.0`. |
 | 2026-06-23 | M37 source unit speed: enemy units now use generated `UnitType.speed` as units/tick converted to world pixels/second with `speed * 60.0`. |
 | 2026-06-23 | M38 source unit hit size: enemy unit sprites now scale from generated `UnitType.hitSize` instead of one tile. |
+| 2026-06-23 | M39 source turret reload: duo turret cooldown now uses generated `ReloadTurret.reload` frames converted to seconds with `reload / 60.0`. |
