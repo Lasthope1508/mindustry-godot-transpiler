@@ -1,0 +1,4 @@
+﻿mindustry-upstream/
+godot-mindustry/.godot/
+__pycache__/
+*.pyc

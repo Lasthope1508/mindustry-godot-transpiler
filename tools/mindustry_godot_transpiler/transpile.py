@@ -1,0 +1,73 @@
+﻿import argparse
+from pathlib import Path
+
+from mindustry_port.assets import copy_assets
+from mindustry_port.reports import write_json, write_report
+from mindustry_port.scanner import scan_source_tree
+
+
+def generated_dir(godot_root: Path) -> Path:
+    return godot_root / "src" / "generated"
+
+
+def add_common_options(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument("--upstream", default="mindustry-upstream", help="Path to Mindustry upstream checkout")
+    parser.add_argument("--godot", default="godot-mindustry", help="Path to Godot output project")
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description="Mindustry to Godot GDScript transpiler pipeline")
+    add_common_options(parser)
+    subparsers = parser.add_subparsers(dest="command", required=True)
+    for command, help_text in {
+        "scan": "Scan Java source tree and write manifest",
+        "assets": "Copy Mindustry assets into Godot project",
+        "report": "Write pipeline status report",
+        "all": "Run scan, assets, and report",
+    }.items():
+        subparser = subparsers.add_parser(command, help=help_text)
+        add_common_options(subparser)
+    return parser
+
+
+def run_scan(upstream: Path, godot: Path) -> dict:
+    manifest = scan_source_tree(upstream / "core" / "src")
+    write_json(generated_dir(godot) / "source_manifest.json", manifest)
+    return manifest
+
+
+def run_assets(upstream: Path, godot: Path) -> dict:
+    manifest = copy_assets(upstream, godot / "assets")
+    write_json(generated_dir(godot) / "asset_manifest.json", manifest)
+    return manifest
+
+
+def run_report(godot: Path, source_manifest: dict | None = None, asset_manifest: dict | None = None) -> dict:
+    return write_report(generated_dir(godot), source_manifest, asset_manifest)
+
+
+def main(argv=None) -> int:
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    upstream = Path(args.upstream)
+    godot = Path(args.godot)
+
+    if args.command == "scan":
+        manifest = run_scan(upstream, godot)
+        print(f"scanned {manifest['java_file_count']} Java files")
+    elif args.command == "assets":
+        manifest = run_assets(upstream, godot)
+        print(f"copied {manifest['asset_count']} assets")
+    elif args.command == "report":
+        report = run_report(godot)
+        print(f"report java={report['java_file_count']} assets={report['asset_count']}")
+    elif args.command == "all":
+        source_manifest = run_scan(upstream, godot)
+        asset_manifest = run_assets(upstream, godot)
+        report = run_report(godot, source_manifest, asset_manifest)
+        print(f"all java={report['java_file_count']} assets={report['asset_count']}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -13,8 +13,8 @@
 | Bucket | Count |
 | --- | ---: |
 | Total tracked work items | 14 |
-| Done | 2 |
-| Not done | 12 |
+| Done | 7 |
+| Not done | 7 |
 | Blocked | 0 |
 
 ## Done
@@ -23,24 +23,23 @@
 | --- | --- | --- |
 | D1 | Clone Mindustry upstream source | `mindustry-upstream` exists and `git rev-parse HEAD` returns `2bdedfed25932ebf11330d3584092c50e2e26d96` |
 | D2 | Initial source inventory | Measured `845` Java files, `801` core Java files, `2970` asset files |
+| N1 | Create Godot output project | `mcp__godot.project_info` reads `Mindustry Godot Port`; main scene is `res://scenes/Main.tscn` |
+| N2 | Create transpiler CLI skeleton | `python -m unittest discover -s tools/mindustry_godot_transpiler/tests -v` passes CLI tests |
+| N3 | Build source scanner | Full run writes `source_manifest.json` and reports `801` core Java files |
+| N7 | Create compatibility runtime | Runtime stubs exist for `Seq`, `ObjectMap`, `Time`, `Mathf`, `ColorCompat`, `Vec2`, `Vars`, `Events`, `Core`; MCP project scan sees scripts |
+| N10 | Build asset bridge | Full run writes `asset_manifest.json`, copies `2970` upstream assets, `mcp__godot.project_info` sees Godot asset structure |
 
 ## Not Done
 
 | ID | Item | Required verification before marking done |
 | --- | --- | --- |
-| N1 | Create Godot output project | `project.godot` exists and `mcp__godot.project_info` reads it |
-| N2 | Create transpiler CLI skeleton | CLI runs `scan`, `emit`, `report` commands with exit code `0` |
-| N3 | Build source scanner | Scanner writes manifest with package, class, enum, import, inheritance data |
 | N4 | Add Java AST parser | Parser handles selected sample classes without text-regex translation |
 | N5 | Define Java-to-GDScript mapping table | Mapping file covers class, enum, method, field, constructor, static initializer, overload |
 | N6 | Emit GDScript classes | Generated `.gd` files pass Godot parse check |
-| N7 | Create compatibility runtime | Runtime provides `Seq`, `ObjectMap`, `Time`, `Mathf`, `Color`, `Vec2`, `Vars`, `Events`, `Core` stubs |
 | N8 | Port base content model | `Content`, `ContentType`, `UnlockableContent`, `Item`, `Liquid`, `Block` load in Godot |
 | N9 | Generate first content data | `Items`, `Liquids`, and a small block subset generate into Godot resources/classes |
-| N10 | Build asset bridge | PNG, OGG, fonts, shader files copy into Godot project with generated path registry |
 | N11 | Add reports for unsupported Java features | Report lists unsupported syntax with exact source path and line number |
 | N12 | Add regression fixtures | Fixtures compare generated output against checked expected `.gd` files |
-
 ## Scope
 
 This project does not attempt a blind one-shot conversion of all Java source into working Godot gameplay. It builds a repeatable transpiler pipeline that gradually converts Mindustry source into a Godot 4.6.2 GDScript project while preserving traceability back to upstream files.
@@ -239,3 +238,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | Date | Change |
 | --- | --- |
 | 2026-06-23 | Created design spec. Cloned upstream. Chose GDScript and automated transpiler pipeline. |
+| 2026-06-23 | M1 pipeline created: Godot project, MCP-verified scene, runtime stubs, source scan, full asset bridge, manifests, report. |

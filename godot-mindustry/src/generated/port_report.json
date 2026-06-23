@@ -1,0 +1,10 @@
+{
+  "asset_count": 2970,
+  "asset_total_bytes": 63299978,
+  "java_file_count": 801,
+  "unsupported": [
+    "AST transpilation not implemented in M1",
+    "Generated gameplay classes not implemented in M1",
+    "mindustry.gen generated Java package not expanded in M1"
+  ]
+}
