@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 52 |
-| Done | 52 |
+| Total tracked work items | 53 |
+| Done | 53 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -73,6 +73,7 @@
 | N48 | Extract source item turret ammo storage defaults | `Turret.java` defines default `maxAmmo=30`, `ammoPerShot=1`, and `consumeAmmoOnce=true`; duo does not override these in `Blocks.java`; `content_registry.py` records these defaults for ItemTurret blocks only when source has no assignment for that key, avoiding false defaults for unsupported expressions; `PortGame.gd` exposes selected turret ammo storage fields; Python suite reports `54` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_turret_max_ammo=30`, `selected_turret_ammo_per_shot=1`, and `selected_turret_consume_ammo_once=true`, with debug `errors: []` |
 | N49 | Port source item turret ammo stack load/use logic | `ItemTurretBuild.handleItem()` adds `type.ammoMultiplier` to the matching item stack and moves that stack to the right; `TurretBuild.useAmmo()` subtracts `ammoPerShot`, pops empty stacks, and returns the peeked ammo type; `PortGame.gd` now keeps per-cell `turret_ammo_stacks` and `turret_total_ammo`, exposes `load_selected_turret_ammo()` and `use_selected_turret_ammo_once()` for MCP verification, and reports loaded ammo state in runtime summary; Python suite reports `55` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime loads two copper items into duo (`total=4` from source `ammoMultiplier=2`) then uses one shot (`total=3`, bullet damage `9`), with debug `errors: []` |
 | N50 | Fire source item turrets from loaded ammo stack | `TurretBuild.updateShooting()`/`shoot()` only fires when ammo exists and `useAmmo()` supplies the bullet type; `PortGame.gd` now calls `use_turret_ammo(cell, duo)` before spawning a turret bullet, does not fall back to `duo.properties.ammo[0]`, and records `turret_shot_count`, `last_turret_fired_ammo_item`, and `last_turret_fired_damage` in runtime summary for MCP proof; Python suite reports `56` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime loads three copper items (`selected_turret_total_ammo=6`), observes one fired shot with `last_turret_fired_ammo_item="copper"`, `last_turret_fired_damage=9`, `turret_shot_count=1`, and remaining total ammo `5`, with debug `errors: []` |
+| N51 | Extract and use source bullet reload multiplier | `BulletType.java` defines default `reloadMultiplier=1f` and `TurretBuild.ammoReloadMultiplier()` returns `peekAmmo().reloadMultiplier`; `Blocks.java` sets duo graphite `reloadMultiplier=0.8f` and silicon `reloadMultiplier=1.5f`; `content_registry.py` now extracts bullet `reloadMultiplier`, regenerated content registry carries those source values, and `PortGame.gd` uses `source_turret_reload_seconds(turret) / source_bullet_reload_multiplier(data)` after firing loaded ammo; Python suite reports `57` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; deterministic MCP runtime disables `_process`, loads two silicon items (`selected_turret_total_ammo=10` from source `ammoMultiplier=5`), manually calls `simulate_turrets(0.0)`, then reports `last_turret_fired_reload_multiplier=1.5`, `selected_turret_cooldown_seconds=0.222222222222222`, and `selected_turret_total_ammo=9`, with debug `errors: []` |
 
 ## Not Done
 
@@ -326,3 +327,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-23 | M47 source item turret ammo storage defaults: generated duo now carries source `maxAmmo=30`, `ammoPerShot=1`, and `consumeAmmoOnce=true`, exposed through MCP runtime summary. |
 | 2026-06-23 | M48 source item turret ammo stack logic: runtime now ports `handleItem()`/`useAmmo()` stack behavior for item turrets and verifies load/use through MCP. |
 | 2026-06-23 | M49 source-loaded ammo firing: duo turret now consumes loaded ammo through `use_turret_ammo()` before spawning bullets and exposes fired ammo counters for MCP verification. |
+| 2026-06-23 | M50 source bullet reload multiplier: generated ammo now includes `reloadMultiplier`, and turret cooldown uses source `reload / 60 / reloadMultiplier` for loaded ammo. |

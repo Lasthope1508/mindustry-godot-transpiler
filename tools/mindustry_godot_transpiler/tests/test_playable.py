@@ -379,6 +379,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return source_bullet_ammo_multiplier(data)', source)
         self.assertIn('"selected_turret_ammo_multiplier": selected_turret_ammo_multiplier()', source)
 
+    def test_port_game_uses_source_bullet_reload_multiplier(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var last_turret_fired_reload_multiplier := 1.0", source)
+        self.assertIn("func source_bullet_reload_multiplier(data: Dictionary) -> float:", source)
+        self.assertIn('return float(data.get("reloadMultiplier", 1.0))', source)
+        self.assertIn("func source_turret_reload_seconds_for_ammo(turret, data: Dictionary) -> float:", source)
+        self.assertIn("return source_turret_reload_seconds(turret) / source_bullet_reload_multiplier(data)", source)
+        self.assertIn("cooldown = source_turret_reload_seconds_for_ammo(duo, data)", source)
+        self.assertIn("func selected_turret_cooldown_seconds() -> float:", source)
+        self.assertIn('return float(turret_cooldowns.get(cell_key(duo_pos), 0.0))', source)
+        self.assertIn("last_turret_fired_reload_multiplier = source_bullet_reload_multiplier(data)", source)
+        self.assertIn('"last_turret_fired_reload_multiplier": last_turret_fired_reload_multiplier', source)
+        self.assertIn('"selected_turret_ammo_reload_multiplier": selected_turret_ammo_reload_multiplier()', source)
+        self.assertIn('"selected_turret_cooldown_seconds": selected_turret_cooldown_seconds()', source)
+
     def test_port_game_exposes_source_turret_ammo_storage(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -433,7 +450,7 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_turret_reload_seconds(turret) -> float:", source)
         self.assertIn('return float(turret.properties.get("reload", 10.0)) / 60.0', source)
-        self.assertIn("var reload_seconds := source_turret_reload_seconds(duo)", source)
+        self.assertIn("cooldown = source_turret_reload_seconds_for_ammo(duo, data)", source)
         self.assertNotIn('max(0.1, float(duo.properties.get("reload", 60.0)) / 60.0)', source)
         self.assertIn("func selected_turret_reload_seconds() -> float:", source)
         self.assertIn('return source_turret_reload_seconds(duo)', source)

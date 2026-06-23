@@ -90,11 +90,13 @@ public class Blocks{
                 height = 12f;
                 lifetime = 60f;
                 ammoMultiplier = 4;
+                reloadMultiplier = 0.8f;
             }}, Items.silicon, new BasicBulletType(3f, 12){{
                 width = 7f;
                 height = 9f;
                 lifetime = 60f;
                 ammoMultiplier = 5;
+                reloadMultiplier = 1.5f;
             }});
         }};
         mechanicalDrill = new Drill("mechanical-drill"){{
@@ -184,7 +186,7 @@ public class Waves{
         self.assertEqual(registry["blocks"][1], {"field": "conveyor", "id": "conveyor", "implementation": "Conveyor", "properties": {"category": "distribution", "displayedSpeed": 4.2, "health": 45, "requirements": [{"amount": 1, "item": "copper"}], "speed": 0.03}, "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png"})
         self.assertEqual(registry["blocks"][2], {"field": "coreShard", "id": "core-shard", "implementation": "CoreBlock", "properties": {"itemCapacity": 4000}, "texture": ""})
         self.assertEqual(registry["blocks"][3], {"field": "router", "id": "router", "implementation": "Router", "properties": {"category": "distribution", "health": 90, "requirements": [{"amount": 3, "item": "copper"}], "size": 2}, "texture": ""})
-        self.assertEqual(registry["blocks"][4], {"field": "duo", "id": "duo", "implementation": "ItemTurret", "properties": {"ammo": [{"ammoMultiplier": 2, "damage": 9, "height": 9, "hitSize": 5, "item": "copper", "lifetime": 60.0, "speed": 2.5, "sprite": "bullet", "width": 7}, {"ammoMultiplier": 4, "damage": 18, "height": 12, "item": "graphite", "lifetime": 60.0, "speed": 3.5, "sprite": "bullet", "width": 9}, {"ammoMultiplier": 5, "damage": 12, "height": 9, "item": "silicon", "lifetime": 60.0, "speed": 3, "sprite": "bullet", "width": 7}], "ammoPerShot": 1, "category": "turret", "consumeAmmoOnce": True, "maxAmmo": 30, "range": 110.0, "reload": 20.0, "requirements": [{"amount": 35, "item": "copper"}]}, "texture": ""})
+        self.assertEqual(registry["blocks"][4], {"field": "duo", "id": "duo", "implementation": "ItemTurret", "properties": {"ammo": [{"ammoMultiplier": 2, "damage": 9, "height": 9, "hitSize": 5, "item": "copper", "lifetime": 60.0, "speed": 2.5, "sprite": "bullet", "width": 7}, {"ammoMultiplier": 4, "damage": 18, "height": 12, "item": "graphite", "lifetime": 60.0, "reloadMultiplier": 0.8, "speed": 3.5, "sprite": "bullet", "width": 9}, {"ammoMultiplier": 5, "damage": 12, "height": 9, "item": "silicon", "lifetime": 60.0, "reloadMultiplier": 1.5, "speed": 3, "sprite": "bullet", "width": 7}], "ammoPerShot": 1, "category": "turret", "consumeAmmoOnce": True, "maxAmmo": 30, "range": 110.0, "reload": 20.0, "requirements": [{"amount": 35, "item": "copper"}]}, "texture": ""})
         self.assertEqual(registry["blocks"][5], {"field": "mechanicalDrill", "id": "mechanical-drill", "implementation": "Drill", "properties": {"category": "production", "drillTime": 600, "requirements": [{"amount": 12, "item": "copper"}], "size": 2, "tier": 2}, "texture": ""})
         self.assertEqual(registry["units"][0], {"field": "dagger", "id": "dagger", "implementation": "UnitType", "properties": {"health": 150, "hitSize": 8.0, "speed": 0.5, "weapons": [{"bullet": {"damage": 9, "lifetime": 60.0, "speed": 2.5, "sprite": "bullet"}, "reload": 13.0}]}, "texture": "res://assets/core/assets-raw/sprites/units/dagger.png"})
         self.assertEqual(registry["waves"], {"version": 7, "groups": [{"unit": "dagger", "end": 10, "max": 30, "unitScaling": 2.0}, {"unit": "crawler", "begin": 4, "end": 13, "unitAmount": 2, "unitScaling": 1.5}]})

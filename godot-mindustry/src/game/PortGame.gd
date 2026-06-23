@@ -62,6 +62,7 @@ var turret_total_ammo: Dictionary = {}
 var turret_shot_count := 0
 var last_turret_fired_ammo_item := ""
 var last_turret_fired_damage := 0.0
+var last_turret_fired_reload_multiplier := 1.0
 var wave_index := 1
 var wave_cooldown := 0.0
 var path_points: Array[Vector2] = []
@@ -632,7 +633,6 @@ func simulate_turrets(delta: float) -> void:
 	var duo = content_catalog.get_by_id("duo")
 	if duo == null:
 		return
-	var reload_seconds := source_turret_reload_seconds(duo)
 	var range_pixels := source_turret_range(duo)
 	for cell in turret_cells:
 		var key := cell_key(cell)
@@ -643,7 +643,7 @@ func simulate_turrets(delta: float) -> void:
 				var data := use_turret_ammo(cell, duo)
 				if not data.is_empty():
 					spawn_turret_bullet(grid_to_world(cell), target, data)
-					cooldown = reload_seconds
+					cooldown = source_turret_reload_seconds_for_ammo(duo, data)
 		turret_cooldowns[key] = cooldown
 
 func selected_turret_ammo_sprite() -> String:
@@ -731,6 +731,18 @@ func selected_turret_ammo_multiplier() -> float:
 	var data: Dictionary = ammo[0]
 	return source_bullet_ammo_multiplier(data)
 
+func selected_turret_ammo_reload_multiplier() -> float:
+	if content_catalog == null:
+		return 0.0
+	var duo = content_catalog.get_by_id("duo")
+	if duo == null:
+		return 0.0
+	var ammo: Array = duo.properties.get("ammo", [])
+	if ammo.is_empty():
+		return 0.0
+	var data: Dictionary = ammo[0]
+	return source_bullet_reload_multiplier(data)
+
 func selected_turret_ammo_count() -> int:
 	if content_catalog == null:
 		return 0
@@ -765,6 +777,9 @@ func selected_turret_consume_ammo_once() -> bool:
 
 func selected_turret_total_ammo() -> int:
 	return int(turret_total_ammo.get(cell_key(duo_pos), 0))
+
+func selected_turret_cooldown_seconds() -> float:
+	return float(turret_cooldowns.get(cell_key(duo_pos), 0.0))
 
 func selected_turret_ammo_stack_count() -> int:
 	var stacks: Array = turret_ammo_stacks.get(cell_key(duo_pos), [])
@@ -891,6 +906,11 @@ func source_turret_reload_seconds(turret) -> float:
 		return 0.0
 	return float(turret.properties.get("reload", 10.0)) / 60.0
 
+func source_turret_reload_seconds_for_ammo(turret, data: Dictionary) -> float:
+	if data.is_empty():
+		return source_turret_reload_seconds(turret)
+	return source_turret_reload_seconds(turret) / source_bullet_reload_multiplier(data)
+
 func source_turret_range(turret) -> float:
 	if turret == null:
 		return 0.0
@@ -910,6 +930,9 @@ func source_bullet_damage(data: Dictionary) -> float:
 
 func source_bullet_ammo_multiplier(data: Dictionary) -> float:
 	return float(data.get("ammoMultiplier", 2.0))
+
+func source_bullet_reload_multiplier(data: Dictionary) -> float:
+	return float(data.get("reloadMultiplier", 1.0))
 
 func source_bullet_scale(data: Dictionary, texture_size: Vector2) -> Vector2:
 	var width := float(data.get("width", 4.0))
@@ -936,6 +959,7 @@ func spawn_turret_bullet(origin: Vector2, target, data: Dictionary) -> void:
 		return
 	last_turret_fired_ammo_item = str(data.get("item", ""))
 	last_turret_fired_damage = source_bullet_damage(data)
+	last_turret_fired_reload_multiplier = source_bullet_reload_multiplier(data)
 	turret_shot_count += 1
 	var sprite := Sprite2D.new()
 	sprite.texture = source_bullet_texture(str(data.get("sprite", "bullet")))
@@ -1030,6 +1054,7 @@ func get_runtime_summary() -> Dictionary:
 		"turret_shot_count": turret_shot_count,
 		"last_turret_fired_ammo_item": last_turret_fired_ammo_item,
 		"last_turret_fired_damage": last_turret_fired_damage,
+		"last_turret_fired_reload_multiplier": last_turret_fired_reload_multiplier,
 		"selected_turret_ammo_sprite": selected_turret_ammo_sprite(),
 		"selected_turret_ammo_lifetime_seconds": selected_turret_ammo_lifetime_seconds(),
 		"selected_turret_ammo_world_speed": selected_turret_ammo_world_speed(),
@@ -1037,11 +1062,13 @@ func get_runtime_summary() -> Dictionary:
 		"selected_turret_ammo_hit_size": selected_turret_ammo_hit_size(),
 		"selected_turret_ammo_damage": selected_turret_ammo_damage(),
 		"selected_turret_ammo_multiplier": selected_turret_ammo_multiplier(),
+		"selected_turret_ammo_reload_multiplier": selected_turret_ammo_reload_multiplier(),
 		"selected_turret_ammo_count": selected_turret_ammo_count(),
 		"selected_turret_max_ammo": selected_turret_max_ammo(),
 		"selected_turret_ammo_per_shot": selected_turret_ammo_per_shot(),
 		"selected_turret_consume_ammo_once": selected_turret_consume_ammo_once(),
 		"selected_turret_total_ammo": selected_turret_total_ammo(),
+		"selected_turret_cooldown_seconds": selected_turret_cooldown_seconds(),
 		"selected_turret_ammo_stack_count": selected_turret_ammo_stack_count(),
 		"selected_turret_loaded_ammo_item": selected_turret_loaded_ammo_item(),
 		"selected_turret_reload_seconds": selected_turret_reload_seconds(),
