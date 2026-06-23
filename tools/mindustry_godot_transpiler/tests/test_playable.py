@@ -124,6 +124,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return true", source)
         self.assertIn("return false", source)
 
+    def test_port_game_uses_source_block_size_for_placement(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var last_placed_block_id := \"\"", source)
+        self.assertIn("var last_placed_block_size := 0", source)
+        self.assertIn("var last_placed_cell := Vector2i.ZERO", source)
+        self.assertIn("func block_size(block) -> int:", source)
+        self.assertIn('return max(1, int(block.properties.get("size", 1)))', source)
+        self.assertIn("func block_world_size(block) -> float:", source)
+        self.assertIn("return float(tile_size * block_size(block))", source)
+        self.assertIn("func configure_block_sprite(sprite: Sprite2D, block, cell: Vector2i) -> void:", source)
+        self.assertIn("sprite.position = grid_to_world(cell) + Vector2.ONE * (block_world_size(block) - float(tile_size)) * 0.5", source)
+        self.assertIn("sprite.scale = Vector2(block_world_size(block) / size.x, block_world_size(block) / size.y)", source)
+        self.assertIn("configure_block_sprite(sprite, block, cell)", source)
+        self.assertIn('"last_placed_block_id": last_placed_block_id', source)
+        self.assertIn('"last_placed_block_size": last_placed_block_size', source)
+        self.assertIn('"last_placed_cell": {"x": last_placed_cell.x, "y": last_placed_cell.y}', source)
+
 
 if __name__ == "__main__":
     unittest.main()

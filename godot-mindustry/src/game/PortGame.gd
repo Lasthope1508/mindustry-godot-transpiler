@@ -28,6 +28,9 @@ var content_catalog: RefCounted
 var build_palette: Array = []
 var selected_build_index := 0
 var placed_blocks: Dictionary = {}
+var last_placed_block_id := ""
+var last_placed_block_size := 0
+var last_placed_cell := Vector2i.ZERO
 var core_inventory := 0
 var core_health := 500.0
 var produced_total := 0
@@ -238,14 +241,12 @@ func place_selected_block_at_world(world_pos: Vector2) -> void:
 		placed_blocks[key].queue_free()
 	spend_requirements(block)
 	var sprite := Sprite2D.new()
-	sprite.texture = block_texture(block)
-	sprite.position = grid_to_world(cell)
-	if sprite.texture:
-		var size := sprite.texture.get_size()
-		if size.x > 0 and size.y > 0:
-			sprite.scale = Vector2(tile_size / size.x, tile_size / size.y)
+	configure_block_sprite(sprite, block, cell)
 	blocks.add_child(sprite)
 	placed_blocks[key] = sprite
+	last_placed_block_id = block.id
+	last_placed_block_size = block_size(block)
+	last_placed_cell = cell
 	register_turret_cell(cell, block)
 
 func add_source_block(parent: Node, block_id: String, cell: Vector2i) -> void:
@@ -255,15 +256,24 @@ func add_source_block(parent: Node, block_id: String, cell: Vector2i) -> void:
 	if block == null:
 		return
 	var sprite := Sprite2D.new()
-	sprite.texture = block_texture(block)
-	sprite.position = grid_to_world(cell)
-	if sprite.texture:
-		var size := sprite.texture.get_size()
-		if size.x > 0 and size.y > 0:
-			sprite.scale = Vector2(tile_size / size.x, tile_size / size.y)
+	configure_block_sprite(sprite, block, cell)
 	parent.add_child(sprite)
 	placed_blocks[cell_key(cell)] = sprite
 	register_turret_cell(cell, block)
+
+func block_size(block) -> int:
+	return max(1, int(block.properties.get("size", 1)))
+
+func block_world_size(block) -> float:
+	return float(tile_size * block_size(block))
+
+func configure_block_sprite(sprite: Sprite2D, block, cell: Vector2i) -> void:
+	sprite.texture = block_texture(block)
+	sprite.position = grid_to_world(cell) + Vector2.ONE * (block_world_size(block) - float(tile_size)) * 0.5
+	if sprite.texture:
+		var size := sprite.texture.get_size()
+		if size.x > 0 and size.y > 0:
+			sprite.scale = Vector2(block_world_size(block) / size.x, block_world_size(block) / size.y)
 
 func register_turret_cell(cell: Vector2i, block) -> void:
 	if block == null or not block.is_turret():
@@ -533,6 +543,9 @@ func get_runtime_summary() -> Dictionary:
 		"content_counts": content_counts.duplicate(),
 		"build_palette_size": build_palette.size(),
 		"placed_block_count": placed_blocks.size(),
+		"last_placed_block_id": last_placed_block_id,
+		"last_placed_block_size": last_placed_block_size,
+		"last_placed_cell": {"x": last_placed_cell.x, "y": last_placed_cell.y},
 		"selected_build_index": selected_build_index,
 		"selected_build_id": selected.id if selected else "",
 		"core_inventory": core_inventory,
