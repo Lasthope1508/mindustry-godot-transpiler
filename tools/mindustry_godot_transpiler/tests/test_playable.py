@@ -198,5 +198,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"initial_world_block_count": initial_world_block_count', source)
         self.assertIn('"initial_occupied_cell_count": initial_occupied_cell_count', source)
 
+    def test_port_game_uses_all_source_requirement_items(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var core_items: Dictionary = {\"copper\": 0}", source)
+        self.assertIn("func sync_copper_inventory_alias() -> void:", source)
+        self.assertIn('core_items["copper"] = max(int(core_items.get("copper", 0)), core_inventory)', source)
+        self.assertIn("func set_core_item_count(item_id: String, amount: int) -> void:", source)
+        self.assertIn("core_items[item_id] = max(0, amount)", source)
+        self.assertIn("func add_core_item(item_id: String, amount: int) -> void:", source)
+        self.assertIn("set_core_item_count(item_id, core_item_count(item_id) + amount)", source)
+        self.assertIn("func core_item_count(item_id: String) -> int:", source)
+        self.assertIn("return int(core_items.get(item_id, 0))", source)
+        self.assertIn("for requirement in block.properties.get(\"requirements\", []):", source)
+        self.assertIn('var item_id := str(requirement.get("item", ""))', source)
+        self.assertIn('var amount := int(requirement.get("amount", 0))', source)
+        self.assertIn("if item_id != \"\" and core_item_count(item_id) < amount:", source)
+        self.assertIn("set_core_item_count(item_id, core_item_count(item_id) - amount)", source)
+        self.assertNotIn('requirement.get("item", "") == "copper"', source)
+        self.assertIn('add_core_item("copper", 1)', source)
+        self.assertIn('"core_items": core_items.duplicate()', source)
+
 if __name__ == "__main__":
     unittest.main()

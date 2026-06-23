@@ -37,6 +37,7 @@ var last_placed_cell := Vector2i.ZERO
 var last_placed_occupied_cell_count := 0
 var last_place_blocked := false
 var core_inventory := 0
+var core_items: Dictionary = {"copper": 0}
 var core_health := 500.0
 var produced_total := 0
 var item_progress := 0.0
@@ -338,15 +339,38 @@ func block_texture(block) -> Texture2D:
 	return texture
 
 func can_afford(block) -> bool:
+	sync_copper_inventory_alias()
 	for requirement in block.properties.get("requirements", []):
-		if requirement.get("item", "") == "copper" and core_inventory < int(requirement.get("amount", 0)):
+		var item_id := str(requirement.get("item", ""))
+		var amount := int(requirement.get("amount", 0))
+		if item_id != "" and core_item_count(item_id) < amount:
 			return false
 	return true
 
 func spend_requirements(block) -> void:
+	sync_copper_inventory_alias()
 	for requirement in block.properties.get("requirements", []):
-		if requirement.get("item", "") == "copper":
-			core_inventory = max(0, core_inventory - int(requirement.get("amount", 0)))
+		var item_id := str(requirement.get("item", ""))
+		var amount := int(requirement.get("amount", 0))
+		if item_id != "":
+			set_core_item_count(item_id, core_item_count(item_id) - amount)
+
+func sync_copper_inventory_alias() -> void:
+	core_items["copper"] = max(int(core_items.get("copper", 0)), core_inventory)
+	core_inventory = int(core_items.get("copper", 0))
+
+func set_core_item_count(item_id: String, amount: int) -> void:
+	core_items[item_id] = max(0, amount)
+	if item_id == "copper":
+		core_inventory = int(core_items.get("copper", 0))
+
+func add_core_item(item_id: String, amount: int) -> void:
+	set_core_item_count(item_id, core_item_count(item_id) + amount)
+
+func core_item_count(item_id: String) -> int:
+	if item_id == "copper" and core_inventory > int(core_items.get("copper", 0)):
+		core_items["copper"] = core_inventory
+	return int(core_items.get(item_id, 0))
 
 func requirements_text(block) -> String:
 	var parts: Array[String] = []
@@ -392,7 +416,7 @@ func simulate_factory(delta: float) -> void:
 	item_progress += delta * 0.45
 	if item_progress >= 1.0:
 		item_progress -= 1.0
-		core_inventory += 1
+		add_core_item("copper", 1)
 		produced_total += 1
 	for i in item_sprites.size():
 		var phase := fmod(item_progress + float(i) / float(item_sprites.size()), 1.0)
@@ -590,6 +614,7 @@ func get_runtime_summary() -> Dictionary:
 		"selected_build_index": selected_build_index,
 		"selected_build_id": selected.id if selected else "",
 		"core_inventory": core_inventory,
+		"core_items": core_items.duplicate(),
 		"wave_index": wave_index,
 		"enemy_count": enemy_units.size(),
 		"bullet_count": bullets.size(),
