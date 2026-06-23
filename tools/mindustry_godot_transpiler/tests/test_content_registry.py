@@ -56,11 +56,16 @@ public class Liquids{
                 """
 package mindustry.content;
 public class Blocks{
-    public static Block air, conveyor, coreShard;
+    public static Block air, conveyor, coreShard, router;
     public static void load(){
         air = new AirBlock("air");
         conveyor = new Conveyor("conveyor");
         coreShard = new CoreBlock("core-shard");
+        router = new Router("router"){{
+            requirements(Category.distribution, with(Items.copper, 3));
+            size = 2;
+            health = 90;
+        }};
         drawer = new DrawTurret("not-a-block-field");
     }
 }
@@ -83,12 +88,11 @@ public class Blocks{
         self.assertEqual(registry["items"][0]["texture"], "res://assets/core/assets-raw/sprites/items/item-copper.png")
         self.assertEqual(registry["liquids"][0]["id"], "water")
         self.assertEqual(registry["liquids"][0]["properties"]["heatCapacity"], 0.4)
-        self.assertEqual(registry["blocks"], [
-            {"field": "air", "id": "air", "implementation": "AirBlock", "texture": ""},
-            {"field": "conveyor", "id": "conveyor", "implementation": "Conveyor", "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png"},
-            {"field": "coreShard", "id": "core-shard", "implementation": "CoreBlock", "texture": ""},
-        ])
-        self.assertEqual(registry["counts"], {"items": 2, "liquids": 1, "blocks": 3})
+        self.assertEqual(registry["blocks"][0], {"field": "air", "id": "air", "implementation": "AirBlock", "properties": {}, "texture": ""})
+        self.assertEqual(registry["blocks"][1], {"field": "conveyor", "id": "conveyor", "implementation": "Conveyor", "properties": {}, "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png"})
+        self.assertEqual(registry["blocks"][2], {"field": "coreShard", "id": "core-shard", "implementation": "CoreBlock", "properties": {}, "texture": ""})
+        self.assertEqual(registry["blocks"][3], {"field": "router", "id": "router", "implementation": "Router", "properties": {"category": "distribution", "health": 90, "size": 2}, "texture": ""})
+        self.assertEqual(registry["counts"], {"items": 2, "liquids": 1, "blocks": 4})
 
     def test_gdscript_literal_escapes_strings_and_keeps_types(self):
         self.assertEqual(gdscript_literal({"name": "core-shard", "enabled": True, "size": 3}), '{"enabled": true, "name": "core-shard", "size": 3}')

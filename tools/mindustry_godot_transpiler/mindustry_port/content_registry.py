@@ -138,11 +138,41 @@ def extract_blocks(upstream_root: Path, godot_root: Path | None = None) -> list[
         field, implementation, content_id = match.groups()
         if field not in declared:
             continue
-        entry = {"field": field, "id": content_id, "implementation": implementation}
+        entry = {"field": field, "id": content_id, "implementation": implementation, "properties": _block_properties(source, match.end())}
         if asset_root is not None:
             entry["texture"] = _block_texture_path(asset_root, content_id)
         blocks.append(entry)
     return blocks
+
+def _block_properties(source: str, assignment_end: int) -> dict[str, Any]:
+    initializer = _initializer_body(source, assignment_end)
+    properties: dict[str, Any] = {}
+    category = re.search(r"requirements\s*\(\s*Category\.([A-Za-z_]\w*)", initializer)
+    if category:
+        properties["category"] = category.group(1)
+    for key in ["size", "health"]:
+        match = re.search(rf"\b{key}\s*=\s*([0-9_]+)\s*;", initializer)
+        if match:
+            properties[key] = int(match.group(1).replace("_", ""))
+    return properties
+
+def _initializer_body(source: str, start: int) -> str:
+    end = source.find(";", start)
+    double_brace = source.find("{{", start, end if end != -1 else len(source))
+    if double_brace == -1:
+        return ""
+    depth = 0
+    index = double_brace
+    while index < len(source):
+        char = source[index]
+        if char == "{":
+            depth += 1
+        elif char == "}":
+            depth -= 1
+            if depth == 0:
+                return source[double_brace:index + 1]
+        index += 1
+    return ""
 
 
 def _declared_block_fields(source: str) -> set[str]:

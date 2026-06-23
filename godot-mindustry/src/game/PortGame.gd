@@ -6,12 +6,17 @@ const ContentRegistry := preload("res://src/generated/MindustryContentRegistry.g
 const ContentCatalog := preload("res://src/mindustry/content/ContentCatalog.gd")
 const WORLD_W := 24
 const WORLD_H := 16
+const BUILD_BLOCK_IDS := ["conveyor", "router", "junction", "mechanical-drill", "duo", "copper-wall"]
 
 var tile_size := 32
 var config: Dictionary = {}
 var textures: Dictionary = {}
+var block_texture_cache: Dictionary = {}
 var content_counts: Dictionary = {"items": 0, "liquids": 0, "blocks": 0}
 var content_catalog: RefCounted
+var build_palette: Array = []
+var selected_build_index := 0
+var placed_blocks: Dictionary = {}
 var core_inventory := 0
 var produced_total := 0
 var item_progress := 0.0
@@ -27,6 +32,7 @@ func _ready() -> void:
 	load_content_registry()
 	load_textures()
 	bind_nodes()
+	build_block_palette()
 	build_world()
 	build_hud()
 
@@ -52,6 +58,15 @@ func load_textures() -> void:
 	textures["item"] = load_png_texture(config["item"]["texture"])
 	for key in config["blocks"].keys():
 		textures[key] = load_png_texture(config["blocks"][key]["texture"])
+
+func build_block_palette() -> void:
+	build_palette.clear()
+	if content_catalog == null:
+		return
+	for block_id in BUILD_BLOCK_IDS:
+		var block = content_catalog.get_by_id(block_id)
+		if block != null and block.has_texture():
+			build_palette.append(block)
 
 
 func load_png_texture(path: String) -> Texture2D:
@@ -97,6 +112,47 @@ func build_world() -> void:
 		sprite.visible = false
 		item_sprites.append(sprite)
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo:
+		select_build_slot(event.keycode)
+	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		place_selected_block_at_mouse()
+
+func select_build_slot(keycode: int) -> void:
+	if keycode < KEY_1 or keycode > KEY_6:
+		return
+	var index := keycode - KEY_1
+	if index < build_palette.size():
+		selected_build_index = index
+
+func place_selected_block_at_mouse() -> void:
+	if build_palette.is_empty():
+		return
+	var cell := world_to_grid(get_global_mouse_position())
+	if cell.x < 0 or cell.y < 0 or cell.x >= WORLD_W or cell.y >= WORLD_H:
+		return
+	var block = build_palette[selected_build_index]
+	var blocks := get_node("World/BlockLayer")
+	var key := cell_key(cell)
+	if placed_blocks.has(key):
+		placed_blocks[key].queue_free()
+	var sprite := Sprite2D.new()
+	sprite.texture = block_texture(block)
+	sprite.position = grid_to_world(cell)
+	if sprite.texture:
+		var size := sprite.texture.get_size()
+		if size.x > 0 and size.y > 0:
+			sprite.scale = Vector2(tile_size / size.x, tile_size / size.y)
+	blocks.add_child(sprite)
+	placed_blocks[key] = sprite
+
+func block_texture(block) -> Texture2D:
+	if block_texture_cache.has(block.id):
+		return block_texture_cache[block.id]
+	var texture := load_png_texture(block.texture_path)
+	block_texture_cache[block.id] = texture
+	return texture
+
 func add_sprite(parent: Node, key: String, pos: Vector2) -> Sprite2D:
 	var sprite := Sprite2D.new()
 	sprite.texture = textures.get(key)
@@ -110,6 +166,12 @@ func add_sprite(parent: Node, key: String, pos: Vector2) -> Sprite2D:
 
 func grid_to_world(cell: Vector2i) -> Vector2:
 	return Vector2(cell.x * tile_size, cell.y * tile_size)
+
+func world_to_grid(pos: Vector2) -> Vector2i:
+	return Vector2i(floori(pos.x / tile_size), floori(pos.y / tile_size))
+
+func cell_key(cell: Vector2i) -> String:
+	return "%d,%d" % [cell.x, cell.y]
 
 func build_hud() -> void:
 	update_hud()
@@ -160,4 +222,6 @@ func update_hud() -> void:
 		return
 	var copper = content_catalog.get_by_id("copper") if content_catalog else null
 	var copper_name: String = copper.display_name() if copper else "Copper"
-	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks\n%s in core: %d\nTotal produced: %d\nArrows move camera, Q/E zoom" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), copper_name, core_inventory, produced_total]
+	var selected = build_palette[selected_build_index] if not build_palette.is_empty() else null
+	var selected_name: String = selected.display_name() if selected else "None"
+	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks\nBuild: %s (1-6 select, left click place)\n%s in core: %d\nTotal produced: %d\nArrows move camera, Q/E zoom" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), selected_name, copper_name, core_inventory, produced_total]
