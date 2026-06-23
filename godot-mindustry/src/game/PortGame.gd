@@ -7,7 +7,7 @@ const GeneratedClassRegistry := preload("res://src/generated/GeneratedClassRegis
 const ContentCatalog := preload("res://src/mindustry/content/ContentCatalog.gd")
 const WORLD_W := 24
 const WORLD_H := 16
-const BUILD_BLOCK_IDS := ["conveyor", "router", "junction", "mechanical-drill", "duo", "copper-wall"]
+const PINNED_BUILD_BLOCK_IDS := ["conveyor", "router", "junction", "mechanical-drill", "duo", "copper-wall"]
 const SELECTED_GENERATED_CLASS_NAMES := ["Items", "Blocks", "UnitTypes", "Damage"]
 
 var tile_size := 32
@@ -129,9 +129,12 @@ func build_block_palette() -> void:
 	build_palette.clear()
 	if content_catalog == null:
 		return
-	for block_id in BUILD_BLOCK_IDS:
+	for block_id in PINNED_BUILD_BLOCK_IDS:
 		var block = content_catalog.get_by_id(block_id)
 		if block != null and block.has_texture():
+			build_palette.append(block)
+	for block in content_catalog.get_many("block"):
+		if block.has_texture() and not build_palette.has(block):
 			build_palette.append(block)
 
 
@@ -187,11 +190,27 @@ func _unhandled_input(event: InputEvent) -> void:
 		place_selected_block_at_world(event.position)
 
 func select_build_slot(keycode: int) -> void:
+	if keycode == KEY_TAB:
+		if Input.is_key_pressed(KEY_SHIFT):
+			select_previous_build_slot()
+		else:
+			select_next_build_slot()
+		return
 	if keycode < KEY_1 or keycode > KEY_6:
 		return
 	var index := keycode - KEY_1
 	if index < build_palette.size():
 		selected_build_index = index
+
+func select_next_build_slot() -> void:
+	if build_palette.is_empty():
+		return
+	selected_build_index = (selected_build_index + 1) % build_palette.size()
+
+func select_previous_build_slot() -> void:
+	if build_palette.is_empty():
+		return
+	selected_build_index = (selected_build_index - 1 + build_palette.size()) % build_palette.size()
 
 func place_selected_block_at_mouse() -> void:
 	place_selected_block_at_world(get_global_mouse_position())
@@ -495,6 +514,7 @@ func update_camera(delta: float) -> void:
 		camera.zoom *= 1.0 - min(delta, 0.5)
 
 func get_runtime_summary() -> Dictionary:
+	var selected = build_palette[selected_build_index] if not build_palette.is_empty() else null
 	return {
 		"generated_class_count": generated_class_count,
 		"all_generated_script_count": all_generated_scripts.size(),
@@ -507,6 +527,7 @@ func get_runtime_summary() -> Dictionary:
 		"build_palette_size": build_palette.size(),
 		"placed_block_count": placed_blocks.size(),
 		"selected_build_index": selected_build_index,
+		"selected_build_id": selected.id if selected else "",
 		"core_inventory": core_inventory,
 		"wave_index": wave_index,
 		"enemy_count": enemy_units.size(),

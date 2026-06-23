@@ -100,6 +100,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"all_generated_instance_count": all_generated_instances.size()', source)
         self.assertIn("All generated script instances: %d / %d", source)
 
+    def test_port_game_build_palette_uses_all_textured_blocks(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("const PINNED_BUILD_BLOCK_IDS", source)
+        self.assertIn('for block in content_catalog.get_many("block"):', source)
+        self.assertIn("if block.has_texture() and not build_palette.has(block):", source)
+        self.assertIn("func select_next_build_slot() -> void:", source)
+        self.assertIn("func select_previous_build_slot() -> void:", source)
+        self.assertIn("selected_build_index = (selected_build_index + 1) % build_palette.size()", source)
+        self.assertIn("selected_build_index = (selected_build_index - 1 + build_palette.size()) % build_palette.size()", source)
+        self.assertIn('"selected_build_id": selected.id if selected else ""', source)
+
 
 if __name__ == "__main__":
     unittest.main()
