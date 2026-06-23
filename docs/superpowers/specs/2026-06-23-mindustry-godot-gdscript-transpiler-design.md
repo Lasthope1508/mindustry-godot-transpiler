@@ -13,8 +13,8 @@
 | Bucket | Count |
 | --- | ---: |
 | Total tracked work items | 17 |
-| Done | 15 |
-| Not done | 2 |
+| Done | 16 |
+| Not done | 1 |
 | Blocked | 0 |
 
 ## Done
@@ -33,6 +33,7 @@
 | N9 | Generate first content data | `content` command writes `content_registry.json` and `MindustryContentRegistry.gd`; MCP LSP diagnostics pass for generated registry; registry includes `22` items, `11` liquids, `417` source-declared block constructors |
 | N10 | Build asset bridge | Full run writes `asset_manifest.json`, copies `2970` upstream assets, `mcp__godot.project_info` sees Godot asset structure |
 | N11 | Add reports for unsupported Java features | `port_report.json` contains `6986` unsupported source locations with exact `path`, `line`, `feature`, and `snippet`; `port_report.md` lists `path:line` entries |
+| N12 | Add regression fixtures | `test_regression_fixtures.py` compares generated `MindustryContentRegistry.gd` against checked expected fixture `expected_content_registry.gd`; full test suite reports `16` tests passing |
 | N13 | Add source-derived unit registry and first wave | Registry extracts `56` unit constructors from `UnitTypes.java`; `MindustryUnitType` and catalog load generated units; playable scene spawns source-derived dagger sprites and updates wave/core HUD; Python tests pass and MCP runtime output shows `errors=[]` |
 | N14 | Add source-derived turret ammo and bullets | Registry extracts `duo` reload/range/ammo from `Blocks.java`; playable scene pre-places a source-derived duo turret, targets spawned units, fires bullet sprites, applies source-derived damage, and MCP runtime output shows `errors=[]` |
 | N15 | Add source-derived default waves | Registry extracts default `SpawnGroup` data from `mindustry/game/Waves.java`; playable scene uses generated wave groups and `getSpawned`-equivalent count logic instead of hardcoded dagger waves; MCP runtime output shows `errors=[]` |
@@ -42,7 +43,6 @@
 | ID | Item | Required verification before marking done |
 | --- | --- | --- |
 | N6 | Emit GDScript classes | Generated `.gd` files pass Godot parse check |
-| N12 | Add regression fixtures | Fixtures compare generated output against checked expected `.gd` files |
 ## Scope
 
 This project does not attempt a blind one-shot conversion of all Java source into working Godot gameplay. It builds a repeatable transpiler pipeline that gradually converts Mindustry source into a Godot 4.6.2 GDScript project while preserving traceability back to upstream files.
@@ -253,3 +253,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-23 | M10 turret bullets: generator extracts turret `reload`, `range`, and first `BasicBulletType` ammo data; `PortGame.gd` pre-places source-derived duo, fires copper bullets at source-derived enemy units, and MCP runtime output shows zero errors. |
 | 2026-06-23 | M11 source waves: generator extracts `waveVersion` and `SpawnGroup` unit timing/count fields from `Waves.java`; `PortGame.gd` spawns waves from generated groups with Mindustry-equivalent count formula; MCP runtime output shows zero errors. |
 | 2026-06-23 | M12 unsupported report: report generation now scans upstream Java source for unsupported lambdas and anonymous double-brace initializers with exact source path, line number, feature name, and snippet; generated report records `6986` locations. |
+| 2026-06-23 | M13 regression fixtures: generated `MindustryContentRegistry.gd` output is compared against a checked expected GDScript fixture; full test suite now has `16` passing tests. |
