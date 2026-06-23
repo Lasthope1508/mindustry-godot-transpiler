@@ -233,5 +233,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return float(block.properties.get("health", 0.0))', source)
         self.assertIn('"core_max_health": core_max_health', source)
 
+    def test_port_game_uses_source_unit_weapon_damage_against_core(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_weapon_damage(unit_type) -> float:", source)
+        self.assertIn('var weapons: Array = unit_type.properties.get("weapons", [])', source)
+        self.assertIn('var bullet: Dictionary = weapon.get("bullet", {})', source)
+        self.assertIn('return float(bullet.get("damage", 0.0))', source)
+        self.assertIn('core_health = max(0.0, core_health - source_unit_weapon_damage(unit_type))', source)
+        self.assertNotIn('core_health = max(0.0, core_health - 15.0)', source)
+        self.assertIn('"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit())', source)
+
 if __name__ == "__main__":
     unittest.main()

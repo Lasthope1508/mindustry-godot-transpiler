@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 32 |
-| Done | 32 |
+| Total tracked work items | 33 |
+| Done | 33 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -53,6 +53,7 @@
 | N28 | Populate starting world blocks from source content occupancy | `PortGame.gd` now creates starting mechanical drill, conveyors, core shard, and duo through `add_source_block()` using source content ids instead of raw sprite aliases, records `initial_world_block_count` and `initial_occupied_cell_count`, and blocks new placement over the prebuilt world footprint; Python suite reports `34` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime reports `initial_world_block_count=12`, `initial_occupied_cell_count=22`, rejects placement on conveyor/core cells with `last_place_blocked=true`, keeps counts unchanged, and debug output returns `errors: []` |
 | N29 | Use all source build requirement item types | `PortGame.gd` keeps `core_inventory` as a copper alias and adds `core_items` keyed by source item id; `can_afford()` and `spend_requirements()` iterate every generated `requirements` entry instead of only copper; Python suite reports `35` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime selects `titanium-conveyor`, rejects placement with `lead=0` and `titanium=0`, accepts after setting `copper/lead/titanium=100`, and reports `core_items={copper:99, lead:99, titanium:99}` with debug `errors: []` |
 | N30 | Initialize core health from source core block | `PortGame.gd` now initializes `core_max_health` and current `core_health` from `source_block_health("core-shard")` using generated `core-shard.properties.health=1100`; Python suite reports `36` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; restarted MCP runtime summary returns `core_max_health=1100` and debug output returns `errors: []` |
+| N31 | Use source unit weapon damage against core | `content_registry.py` extracts `UnitType` first weapon reload and `BasicBulletType` speed/damage/lifetime into `properties.weapons`; generated `dagger` has bullet damage `9`; `PortGame.gd` subtracts `source_unit_weapon_damage(unit_type)` instead of hardcoded `15.0` when units reach the core; Python suite reports `37` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; restarted MCP runtime summary returns `selected_enemy_weapon_damage=9` and debug output returns `errors: []` |
 
 ## Not Done
 
@@ -286,3 +287,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-23 | M27 source world occupancy: starting block layer now uses source content ids and MCP runtime verifies prebuilt conveyor/core cells reject placement. |
 | 2026-06-23 | M28 source requirement inventory: placement affordability and spending now use every source-derived requirement item id; MCP runtime verifies `titanium-conveyor` needs copper, lead, and titanium. |
 | 2026-06-23 | M29 source core health: playable runtime now initializes core max health from generated `core-shard.health=1100` instead of a handwritten constant. |
+| 2026-06-23 | M30 source unit weapon damage: registry now extracts first unit weapon bullet damage and runtime uses dagger damage `9` against the core instead of handwritten `15.0`. |

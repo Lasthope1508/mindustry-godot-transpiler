@@ -164,7 +164,31 @@ def _unit_properties(source: str, assignment_end: int) -> dict[str, Any]:
         match = re.search(rf"\b{key}\s*=\s*([0-9_]+(?:\.[0-9_]+)?[fFdDlL]?)\s*;", initializer)
         if match:
             properties[key] = _number_literal(match.group(1))
+    weapons = _unit_weapons(initializer)
+    if weapons:
+        properties["weapons"] = weapons
     return properties
+
+def _unit_weapons(initializer: str) -> list[dict[str, Any]]:
+    pattern = re.compile(r"weapons\.add\s*\(\s*new\s+[A-Za-z_]\w*\s*\([^)]*\)", re.MULTILINE)
+    weapons = []
+    for match in pattern.finditer(initializer):
+        weapon_body = _initializer_body(initializer, match.end())
+        bullet_match = re.search(r"bullet\s*=\s*new\s+BasicBulletType\s*\(\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?)\s*,\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?)", weapon_body, re.MULTILINE)
+        if not bullet_match:
+            continue
+        speed, damage = bullet_match.groups()
+        bullet = {"speed": _number_literal(speed), "damage": _number_literal(damage)}
+        bullet_body = _initializer_body(weapon_body, bullet_match.end())
+        lifetime = _numeric_assignment(bullet_body, "lifetime")
+        if lifetime is not None:
+            bullet["lifetime"] = lifetime
+        entry: dict[str, Any] = {"bullet": bullet}
+        reload = _numeric_assignment(weapon_body, "reload")
+        if reload is not None:
+            entry["reload"] = reload
+        weapons.append(entry)
+    return weapons
 
 def _number_literal(raw: str) -> int | float:
     number = raw.replace("_", "")

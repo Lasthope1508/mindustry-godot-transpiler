@@ -7404,7 +7404,17 @@
       "properties": {
         "health": 150,
         "hitSize": 8.0,
-        "speed": 0.5
+        "speed": 0.5,
+        "weapons": [
+          {
+            "bullet": {
+              "damage": 9,
+              "lifetime": 60.0,
+              "speed": 2.5
+            },
+            "reload": 13.0
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/units/dagger.png"
     },
@@ -7437,7 +7447,17 @@
       "properties": {
         "health": 9000,
         "hitSize": 22.0,
-        "speed": 0.36
+        "speed": 0.36,
+        "weapons": [
+          {
+            "bullet": {
+              "damage": 70,
+              "lifetime": 27.0,
+              "speed": 8.0
+            },
+            "reload": 45.0
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/units/scepter.png"
     },
@@ -7448,7 +7468,17 @@
       "properties": {
         "health": 24000,
         "hitSize": 30.0,
-        "speed": 0.4
+        "speed": 0.4,
+        "weapons": [
+          {
+            "bullet": {
+              "damage": 80,
+              "lifetime": 15.0,
+              "speed": 13.0
+            },
+            "reload": 9.0
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/units/reign.png"
     },
@@ -7569,7 +7599,17 @@
       "properties": {
         "health": 70,
         "hitSize": 9,
-        "speed": 2.7
+        "speed": 2.7,
+        "weapons": [
+          {
+            "bullet": {
+              "damage": 9,
+              "lifetime": 32.0,
+              "speed": 2.5
+            },
+            "reload": 80.0
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/units/flare.png"
     },
@@ -7678,7 +7718,17 @@
       "properties": {
         "health": 280,
         "hitSize": 10.0,
-        "speed": 1.1
+        "speed": 1.1,
+        "weapons": [
+          {
+            "bullet": {
+              "damage": 9,
+              "lifetime": 60.0,
+              "speed": 2.5
+            },
+            "reload": 13.0
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/units/risso.png"
     },
@@ -7711,7 +7761,17 @@
       "properties": {
         "health": 11000,
         "hitSize": 39.0,
-        "speed": 0.73
+        "speed": 0.73,
+        "weapons": [
+          {
+            "bullet": {
+              "damage": 57,
+              "lifetime": 35.0,
+              "speed": 7.0
+            },
+            "reload": 60.0
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/units/sei.png"
     },
@@ -7832,7 +7892,17 @@
       "properties": {
         "health": 1100,
         "hitSize": 14.0,
-        "speed": 0.6
+        "speed": 0.6,
+        "weapons": [
+          {
+            "bullet": {
+              "damage": 30,
+              "lifetime": 40.0,
+              "speed": 3.5
+            },
+            "reload": 33.0
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/units/cleroi.png"
     },
@@ -7876,7 +7946,17 @@
       "properties": {
         "health": 600.0,
         "hitSize": 11.0,
-        "speed": 1.8
+        "speed": 1.8,
+        "weapons": [
+          {
+            "bullet": {
+              "damage": 16,
+              "lifetime": 30.0,
+              "speed": 5.0
+            },
+            "reload": 40.0
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/units/elude.png"
     },
@@ -7887,7 +7967,17 @@
       "properties": {
         "health": 1100.0,
         "hitSize": 12.0,
-        "speed": 2.0
+        "speed": 2.0,
+        "weapons": [
+          {
+            "bullet": {
+              "damage": 22.0,
+              "lifetime": 18.0,
+              "speed": 5.0
+            },
+            "reload": 35.0
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/units/avert.png"
     },
@@ -7909,7 +7999,16 @@
       "properties": {
         "health": 6000.0,
         "hitSize": 36.0,
-        "speed": 1.1
+        "speed": 1.1,
+        "weapons": [
+          {
+            "bullet": {
+              "damage": 70.0,
+              "speed": 4.3
+            },
+            "reload": 55.0
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/units/quell.png"
     },
