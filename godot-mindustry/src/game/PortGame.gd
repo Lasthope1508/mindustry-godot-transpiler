@@ -18,6 +18,8 @@ var content_counts: Dictionary = {"items": 0, "liquids": 0, "blocks": 0, "units"
 var generated_class_count := 0
 var loaded_generated_scripts: Dictionary = {}
 var loaded_generated_class_names: Array[String] = []
+var loaded_generated_instances: Dictionary = {}
+var loaded_generated_instance_names: Array[String] = []
 var content_catalog: RefCounted
 var build_palette: Array = []
 var selected_build_index := 0
@@ -70,6 +72,8 @@ func load_content_registry() -> void:
 func load_selected_generated_scripts() -> void:
 	loaded_generated_scripts.clear()
 	loaded_generated_class_names.clear()
+	loaded_generated_instances.clear()
+	loaded_generated_instance_names.clear()
 	for java_name in SELECTED_GENERATED_CLASS_NAMES:
 		var entry := GeneratedClassRegistry.find_by_java_name(java_name)
 		if entry.is_empty():
@@ -81,6 +85,12 @@ func load_selected_generated_scripts() -> void:
 			continue
 		loaded_generated_scripts[java_name] = script
 		loaded_generated_class_names.append(java_name)
+		var instance = script.new()
+		if instance == null:
+			push_error("Generated class script failed to instantiate: " + java_name)
+			continue
+		loaded_generated_instances[java_name] = instance
+		loaded_generated_instance_names.append(java_name)
 
 func load_textures() -> void:
 	if config.is_empty():
@@ -462,6 +472,7 @@ func get_runtime_summary() -> Dictionary:
 	return {
 		"generated_class_count": generated_class_count,
 		"loaded_generated_class_names": loaded_generated_class_names.duplicate(),
+		"loaded_generated_instance_names": loaded_generated_instance_names.duplicate(),
 		"content_counts": content_counts.duplicate(),
 		"build_palette_size": build_palette.size(),
 		"core_inventory": core_inventory,
@@ -479,4 +490,4 @@ func update_hud() -> void:
 	var selected = build_palette[selected_build_index] if not build_palette.is_empty() else null
 	var selected_name: String = selected.display_name() if selected else "None"
 	var selected_cost := requirements_text(selected) if selected else "none"
-	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks / %d units\nGenerated Java classes: %d\nLoaded generated scripts: %d (%s)\nBuild: %s cost %s (1-6 select, left click place)\n%s in core: %d\nTotal produced: %d\nWave: %d enemies: %d bullets: %d core health: %d\nArrows move camera, Q/E zoom" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), content_counts.get("units", 0), generated_class_count, loaded_generated_class_names.size(), ", ".join(loaded_generated_class_names), selected_name, selected_cost, copper_name, core_inventory, produced_total, wave_index, enemy_units.size(), bullets.size(), int(core_health)]
+	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks / %d units\nGenerated Java classes: %d\nLoaded generated scripts: %d (%s)\nInstanced generated scripts: %d (%s)\nBuild: %s cost %s (1-6 select, left click place)\n%s in core: %d\nTotal produced: %d\nWave: %d enemies: %d bullets: %d core health: %d\nArrows move camera, Q/E zoom" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), content_counts.get("units", 0), generated_class_count, loaded_generated_class_names.size(), ", ".join(loaded_generated_class_names), loaded_generated_instance_names.size(), ", ".join(loaded_generated_instance_names), selected_name, selected_cost, copper_name, core_inventory, produced_total, wave_index, enemy_units.size(), bullets.size(), int(core_health)]

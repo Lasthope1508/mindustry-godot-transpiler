@@ -61,6 +61,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"loaded_generated_class_names": loaded_generated_class_names.duplicate()', source)
         self.assertIn('"content_counts": content_counts.duplicate()', source)
 
+    def test_port_game_instantiates_selected_generated_scripts(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var loaded_generated_instances: Dictionary = {}", source)
+        self.assertIn("var loaded_generated_instance_names: Array[String] = []", source)
+        self.assertIn("var instance = script.new()", source)
+        self.assertIn("loaded_generated_instances[java_name] = instance", source)
+        self.assertIn("loaded_generated_instance_names.append(java_name)", source)
+        self.assertIn('"loaded_generated_instance_names": loaded_generated_instance_names.duplicate()', source)
+        self.assertIn("Instanced generated scripts: %d (%s)", source)
+
 
 if __name__ == "__main__":
     unittest.main()
