@@ -61,7 +61,12 @@ public class Blocks{
     public static Block air, conveyor, coreShard, router, duo, mechanicalDrill;
     public static void load(){
         air = new AirBlock("air");
-        conveyor = new Conveyor("conveyor");
+        conveyor = new Conveyor("conveyor"){{
+            requirements(Category.distribution, with(Items.copper, 1));
+            health = 45;
+            speed = 0.03f;
+            displayedSpeed = 4.2f;
+        }};
         coreShard = new CoreBlock("core-shard"){{
             itemCapacity = 4000;
         }};
@@ -164,7 +169,7 @@ public class Waves{
         self.assertEqual(registry["liquids"][0]["id"], "water")
         self.assertEqual(registry["liquids"][0]["properties"]["heatCapacity"], 0.4)
         self.assertEqual(registry["blocks"][0], {"field": "air", "id": "air", "implementation": "AirBlock", "properties": {}, "texture": ""})
-        self.assertEqual(registry["blocks"][1], {"field": "conveyor", "id": "conveyor", "implementation": "Conveyor", "properties": {}, "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png"})
+        self.assertEqual(registry["blocks"][1], {"field": "conveyor", "id": "conveyor", "implementation": "Conveyor", "properties": {"category": "distribution", "displayedSpeed": 4.2, "health": 45, "requirements": [{"amount": 1, "item": "copper"}], "speed": 0.03}, "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png"})
         self.assertEqual(registry["blocks"][2], {"field": "coreShard", "id": "core-shard", "implementation": "CoreBlock", "properties": {"itemCapacity": 4000}, "texture": ""})
         self.assertEqual(registry["blocks"][3], {"field": "router", "id": "router", "implementation": "Router", "properties": {"category": "distribution", "health": 90, "requirements": [{"amount": 3, "item": "copper"}], "size": 2}, "texture": ""})
         self.assertEqual(registry["blocks"][4], {"field": "duo", "id": "duo", "implementation": "ItemTurret", "properties": {"ammo": [{"damage": 9, "item": "copper", "lifetime": 60.0, "speed": 2.5, "sprite": "bullet"}], "category": "turret", "range": 110.0, "reload": 20.0, "requirements": [{"amount": 35, "item": "copper"}]}, "texture": ""})

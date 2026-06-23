@@ -2629,13 +2629,15 @@
       "implementation": "Conveyor",
       "properties": {
         "category": "distribution",
+        "displayedSpeed": 4.2,
         "health": 45,
         "requirements": [
           {
             "amount": 1,
             "item": "copper"
           }
-        ]
+        ],
+        "speed": 0.03
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png"
     },
@@ -2645,6 +2647,7 @@
       "implementation": "Conveyor",
       "properties": {
         "category": "distribution",
+        "displayedSpeed": 10.0,
         "health": 65,
         "requirements": [
           {
@@ -2659,7 +2662,8 @@
             "amount": 1,
             "item": "titanium"
           }
-        ]
+        ],
+        "speed": 0.08
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/conveyors/titanium-conveyor-0-0.png"
     },
@@ -2694,6 +2698,7 @@
       "implementation": "ArmoredConveyor",
       "properties": {
         "category": "distribution",
+        "displayedSpeed": 11.0,
         "health": 280,
         "requirements": [
           {
@@ -2708,7 +2713,8 @@
             "amount": 1,
             "item": "metaglass"
           }
-        ]
+        ],
+        "speed": 0.08
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/conveyors/armored-conveyor-0-0.png"
     },
@@ -2724,7 +2730,8 @@
             "amount": 3,
             "item": "copper"
           }
-        ]
+        ],
+        "speed": 26
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/junction.png"
     },
@@ -2744,7 +2751,8 @@
             "amount": 6,
             "item": "copper"
           }
-        ]
+        ],
+        "speed": 74.0
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/bridge-conveyor.png"
     },
@@ -2949,7 +2957,8 @@
             "amount": 1,
             "item": "beryllium"
           }
-        ]
+        ],
+        "speed": 4.0
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/duct-bottom-0.png"
     },
@@ -2969,7 +2978,8 @@
             "amount": 1,
             "item": "tungsten"
           }
-        ]
+        ],
+        "speed": 4.0
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/armored-duct-top-0.png"
     },
@@ -2985,7 +2995,8 @@
             "amount": 10,
             "item": "beryllium"
           }
-        ]
+        ],
+        "speed": 4.0
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/duct-router.png"
     },
@@ -3005,7 +3016,8 @@
             "amount": 8,
             "item": "beryllium"
           }
-        ]
+        ],
+        "speed": 4.0
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/overflow-duct.png"
     },
@@ -3025,7 +3037,8 @@
             "amount": 8,
             "item": "beryllium"
           }
-        ]
+        ],
+        "speed": 4.0
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/underflow-duct.png"
     },
@@ -3041,7 +3054,8 @@
             "amount": 15,
             "item": "beryllium"
           }
-        ]
+        ],
+        "speed": 4.0
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/duct-bridge.png"
     },
@@ -3065,7 +3079,8 @@
             "amount": 10,
             "item": "tungsten"
           }
-        ]
+        ],
+        "speed": 4.0
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/duct-unloader.png"
     },
@@ -3106,7 +3121,8 @@
             "amount": 1,
             "item": "tungsten"
           }
-        ]
+        ],
+        "speed": 6.0
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/surge-router.png"
     },
@@ -5112,7 +5128,8 @@
             "item": "thorium"
           }
         ],
-        "size": 3
+        "size": 3,
+        "speed": 4.0
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/tsunami.png"
     },
@@ -5456,7 +5473,8 @@
             "item": "beryllium"
           }
         ],
-        "size": 4
+        "size": 4,
+        "speed": 8.5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/disperse/disperse-preview.png"
     },
@@ -5486,7 +5504,8 @@
             "item": "oxide"
           }
         ],
-        "size": 4
+        "size": 4,
+        "speed": 5.0
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/afflict/afflict.png"
     },
@@ -5550,7 +5569,8 @@
             "item": "carbide"
           }
         ],
-        "size": 4
+        "size": 4,
+        "speed": 4.6
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/scathe/scathe-preview.png"
     },

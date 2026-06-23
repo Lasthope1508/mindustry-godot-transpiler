@@ -10,6 +10,7 @@ const WORLD_H := 16
 const PINNED_BUILD_BLOCK_IDS := ["conveyor", "router", "junction", "mechanical-drill", "duo", "copper-wall"]
 const SELECTED_GENERATED_CLASS_NAMES := ["Items", "Blocks", "UnitTypes", "Damage"]
 const SOURCE_DRILL_HARDNESS_MULTIPLIER := 50.0
+const SOURCE_CONVEYOR_TILE_SPEED_SCALE := 55.0
 
 var tile_size := 32
 var config: Dictionary = {}
@@ -48,6 +49,9 @@ var drill_ore_cell_count := 0
 var drill_output_rate := 0.0
 var produced_total := 0
 var item_progress := 0.0
+var transport_progress := 0.0
+var conveyor_world_speed := 0.0
+var conveyor_path_progress_rate := 0.0
 var item_sprites: Array[Sprite2D] = []
 var enemy_units: Array = []
 var bullets: Array = []
@@ -201,6 +205,8 @@ func build_world() -> void:
 	path_points.clear()
 	for x in range(drill_pos.x + 1, core_pos.x + 1):
 		path_points.append(grid_to_world(Vector2i(x, drill_pos.y)))
+	conveyor_world_speed = source_conveyor_world_speed("conveyor")
+	conveyor_path_progress_rate = source_conveyor_path_progress_rate("conveyor")
 	for i in 3:
 		var sprite := add_sprite(units, "item", path_points[0])
 		sprite.visible = false
@@ -354,6 +360,20 @@ func source_drill_output_rate(block_id: String, item_id: String, ore_count: int)
 		return 0.0
 	return 60.0 * float(ore_count) / delay
 
+func source_conveyor_world_speed(block_id: String) -> float:
+	if content_catalog == null:
+		return 0.0
+	var block = content_catalog.get_by_id(block_id)
+	if block == null:
+		return 0.0
+	return float(block.properties.get("speed", 0.0)) * float(tile_size) * SOURCE_CONVEYOR_TILE_SPEED_SCALE
+
+func source_conveyor_path_progress_rate(block_id: String) -> float:
+	if path_points.size() < 2:
+		return 0.0
+	var path_length := float(max(1, path_points.size() - 1) * tile_size)
+	return source_conveyor_world_speed(block_id) / path_length
+
 func block_world_size(block) -> float:
 	return float(tile_size * block_size(block))
 
@@ -475,15 +495,17 @@ func _process(delta: float) -> void:
 	update_hud()
 
 func simulate_factory(delta: float) -> void:
-	if path_points.is_empty() or drill_output_rate <= 0.0:
+	if path_points.is_empty():
 		return
-	item_progress += delta * drill_output_rate
-	while item_progress >= 1.0:
-		item_progress -= 1.0
-		add_core_item(drill_output_item_id, 1)
-		produced_total += 1
+	if drill_output_rate > 0.0:
+		item_progress += delta * drill_output_rate
+		while item_progress >= 1.0:
+			item_progress -= 1.0
+			add_core_item(drill_output_item_id, 1)
+			produced_total += 1
+	transport_progress = fmod(transport_progress + delta * conveyor_path_progress_rate, 1.0)
 	for i in item_sprites.size():
-		var phase := fmod(item_progress + float(i) / float(item_sprites.size()), 1.0)
+		var phase := fmod(transport_progress + float(i) / float(item_sprites.size()), 1.0)
 		var idx := int(floor(phase * float(path_points.size() - 1)))
 		var next_idx = min(idx + 1, path_points.size() - 1)
 		var local_t := fmod(phase * float(path_points.size() - 1), 1.0)
@@ -705,6 +727,8 @@ func get_runtime_summary() -> Dictionary:
 		"drill_output_item_id": drill_output_item_id,
 		"drill_ore_cell_count": drill_ore_cell_count,
 		"drill_output_rate": drill_output_rate,
+		"conveyor_world_speed": conveyor_world_speed,
+		"conveyor_path_progress_rate": conveyor_path_progress_rate,
 		"wave_index": wave_index,
 		"enemy_count": enemy_units.size(),
 		"bullet_count": bullets.size(),

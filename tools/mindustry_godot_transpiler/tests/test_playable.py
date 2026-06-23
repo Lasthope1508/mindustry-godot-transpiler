@@ -291,5 +291,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"drill_ore_cell_count": drill_ore_cell_count', source)
         self.assertIn('"drill_output_rate": drill_output_rate', source)
 
+    def test_port_game_uses_source_conveyor_speed_for_item_motion(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("const SOURCE_CONVEYOR_TILE_SPEED_SCALE := 55.0", source)
+        self.assertIn("var transport_progress := 0.0", source)
+        self.assertIn("var conveyor_world_speed := 0.0", source)
+        self.assertIn("var conveyor_path_progress_rate := 0.0", source)
+        self.assertIn('conveyor_world_speed = source_conveyor_world_speed("conveyor")', source)
+        self.assertIn('conveyor_path_progress_rate = source_conveyor_path_progress_rate("conveyor")', source)
+        self.assertIn("transport_progress = fmod(transport_progress + delta * conveyor_path_progress_rate, 1.0)", source)
+        self.assertIn("var phase := fmod(transport_progress + float(i) / float(item_sprites.size()), 1.0)", source)
+        self.assertIn("func source_conveyor_world_speed(block_id: String) -> float:", source)
+        self.assertIn('return float(block.properties.get("speed", 0.0)) * float(tile_size) * SOURCE_CONVEYOR_TILE_SPEED_SCALE', source)
+        self.assertIn("func source_conveyor_path_progress_rate(block_id: String) -> float:", source)
+        self.assertIn("var path_length := float(max(1, path_points.size() - 1) * tile_size)", source)
+        self.assertIn("return source_conveyor_world_speed(block_id) / path_length", source)
+        self.assertIn('"conveyor_world_speed": conveyor_world_speed', source)
+        self.assertIn('"conveyor_path_progress_rate": conveyor_path_progress_rate', source)
+
 if __name__ == "__main__":
     unittest.main()
