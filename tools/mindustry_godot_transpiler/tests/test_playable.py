@@ -35,6 +35,14 @@ class PlayableManifestTests(unittest.TestCase):
         for entry in [manifest["item"], *manifest["blocks"].values()]:
             self.assertTrue(entry["texture"].startswith("res://assets/"))
 
+    def test_port_game_hud_reads_generated_class_registry(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn('preload("res://src/generated/GeneratedClassRegistry.gd")', source)
+        self.assertIn("generated_class_count = GeneratedClassRegistry.count()", source)
+        self.assertIn("Generated Java classes: %d", source)
+
 
 if __name__ == "__main__":
     unittest.main()

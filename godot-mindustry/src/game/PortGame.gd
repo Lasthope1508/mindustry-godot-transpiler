@@ -3,6 +3,7 @@ class_name PortGame
 
 const CONFIG_PATH := "res://src/generated/playable_content.json"
 const ContentRegistry := preload("res://src/generated/MindustryContentRegistry.gd")
+const GeneratedClassRegistry := preload("res://src/generated/GeneratedClassRegistry.gd")
 const ContentCatalog := preload("res://src/mindustry/content/ContentCatalog.gd")
 const WORLD_W := 24
 const WORLD_H := 16
@@ -13,6 +14,7 @@ var config: Dictionary = {}
 var textures: Dictionary = {}
 var block_texture_cache: Dictionary = {}
 var content_counts: Dictionary = {"items": 0, "liquids": 0, "blocks": 0, "units": 0}
+var generated_class_count := 0
 var content_catalog: RefCounted
 var build_palette: Array = []
 var selected_build_index := 0
@@ -57,6 +59,7 @@ func load_config() -> void:
 func load_content_registry() -> void:
 	content_catalog = ContentCatalog.new()
 	content_counts = content_catalog.counts()
+	generated_class_count = GeneratedClassRegistry.count()
 	if content_counts != ContentRegistry.counts():
 		push_error("Generated registry counts do not match loaded content catalog")
 
@@ -444,4 +447,4 @@ func update_hud() -> void:
 	var selected = build_palette[selected_build_index] if not build_palette.is_empty() else null
 	var selected_name: String = selected.display_name() if selected else "None"
 	var selected_cost := requirements_text(selected) if selected else "none"
-	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks / %d units\nBuild: %s cost %s (1-6 select, left click place)\n%s in core: %d\nTotal produced: %d\nWave: %d enemies: %d bullets: %d core health: %d\nArrows move camera, Q/E zoom" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), content_counts.get("units", 0), selected_name, selected_cost, copper_name, core_inventory, produced_total, wave_index, enemy_units.size(), bullets.size(), int(core_health)]
+	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks / %d units\nGenerated Java classes: %d\nBuild: %s cost %s (1-6 select, left click place)\n%s in core: %d\nTotal produced: %d\nWave: %d enemies: %d bullets: %d core health: %d\nArrows move camera, Q/E zoom" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), content_counts.get("units", 0), generated_class_count, selected_name, selected_cost, copper_name, core_inventory, produced_total, wave_index, enemy_units.size(), bullets.size(), int(core_health)]
