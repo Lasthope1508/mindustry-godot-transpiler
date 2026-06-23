@@ -57,6 +57,8 @@ var enemy_units: Array = []
 var bullets: Array = []
 var turret_cells: Array = []
 var turret_cooldowns: Dictionary = {}
+var turret_ammo_stacks: Dictionary = {}
+var turret_total_ammo: Dictionary = {}
 var wave_index := 1
 var wave_cooldown := 0.0
 var path_points: Array[Vector2] = []
@@ -392,6 +394,10 @@ func register_turret_cell(cell: Vector2i, block) -> void:
 	if not turret_cooldowns.has(key):
 		turret_cells.append(cell)
 	turret_cooldowns[key] = 0.0
+	if not turret_ammo_stacks.has(key):
+		turret_ammo_stacks[key] = []
+	if not turret_total_ammo.has(key):
+		turret_total_ammo[key] = 0
 
 func unregister_turret_cell(cell: Vector2i) -> void:
 	var key := cell_key(cell)
@@ -403,6 +409,8 @@ func unregister_turret_cell(cell: Vector2i) -> void:
 		if cell_key(existing) != key:
 			kept.append(existing)
 	turret_cells = kept
+	turret_ammo_stacks.erase(key)
+	turret_total_ammo.erase(key)
 
 func block_texture(block) -> Texture2D:
 	if block_texture_cache.has(block.id):
@@ -750,6 +758,113 @@ func selected_turret_consume_ammo_once() -> bool:
 		return false
 	return bool(duo.properties.get("consumeAmmoOnce", true))
 
+func selected_turret_total_ammo() -> int:
+	return int(turret_total_ammo.get(cell_key(duo_pos), 0))
+
+func selected_turret_ammo_stack_count() -> int:
+	var stacks: Array = turret_ammo_stacks.get(cell_key(duo_pos), [])
+	return stacks.size()
+
+func selected_turret_loaded_ammo_item() -> String:
+	var stacks: Array = turret_ammo_stacks.get(cell_key(duo_pos), [])
+	if stacks.is_empty():
+		return ""
+	var stack: Dictionary = stacks[stacks.size() - 1]
+	return str(stack.get("item", ""))
+
+func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
+	if turret == null:
+		return {}
+	for data in turret.properties.get("ammo", []):
+		if data is Dictionary and str(data.get("item", "")) == item_id:
+			return data
+	return {}
+
+func handle_turret_item(cell: Vector2i, turret, item_id: String) -> bool:
+	var data := source_turret_ammo_data(turret, item_id)
+	if data.is_empty():
+		return false
+	var key := cell_key(cell)
+	var amount := int(source_bullet_ammo_multiplier(data))
+	var total := int(turret_total_ammo.get(key, 0))
+	var max_ammo := int(turret.properties.get("maxAmmo", 30))
+	if total + amount > max_ammo:
+		return false
+	var stacks: Array = turret_ammo_stacks.get(key, [])
+	var found := -1
+	for index in stacks.size():
+		var stack: Dictionary = stacks[index]
+		if str(stack.get("item", "")) == item_id:
+			found = index
+			break
+	if found >= 0:
+		var stack: Dictionary = stacks[found]
+		stack["amount"] = int(stack.get("amount", 0)) + amount
+		stacks[found] = stack
+		if found != stacks.size() - 1:
+			var last_stack = stacks[stacks.size() - 1]
+			stacks[stacks.size() - 1] = stacks[found]
+			stacks[found] = last_stack
+	else:
+		stacks.append({"item": item_id, "amount": amount})
+	turret_ammo_stacks[key] = stacks
+	turret_total_ammo[key] = total + amount
+	return true
+
+func use_turret_ammo(cell: Vector2i, turret) -> Dictionary:
+	if turret == null:
+		return {}
+	var key := cell_key(cell)
+	var stacks: Array = turret_ammo_stacks.get(key, [])
+	var ammo_per_shot := int(turret.properties.get("ammoPerShot", 1))
+	if stacks.size() >= 2 and int((stacks[stacks.size() - 1] as Dictionary).get("amount", 0)) < ammo_per_shot:
+		for index in stacks.size():
+			var stack: Dictionary = stacks[index]
+			if int(stack.get("amount", 0)) >= ammo_per_shot:
+				var last_stack = stacks[stacks.size() - 1]
+				stacks[stacks.size() - 1] = stacks[index]
+				stacks[index] = last_stack
+				break
+	if stacks.is_empty():
+		return {}
+	var active_stack: Dictionary = stacks[stacks.size() - 1]
+	if int(active_stack.get("amount", 0)) < ammo_per_shot:
+		turret_ammo_stacks[key] = stacks
+		return {}
+	var data := source_turret_ammo_data(turret, str(active_stack.get("item", "")))
+	if data.is_empty():
+		return {}
+	active_stack["amount"] = int(active_stack.get("amount", 0)) - ammo_per_shot
+	if int(active_stack.get("amount", 0)) <= 0:
+		stacks.pop_back()
+	else:
+		stacks[stacks.size() - 1] = active_stack
+	turret_ammo_stacks[key] = stacks
+	turret_total_ammo[key] = maxi(0, int(turret_total_ammo.get(key, 0)) - ammo_per_shot)
+	return data
+
+func load_selected_turret_ammo(item_id: String, amount: int) -> int:
+	if content_catalog == null:
+		return 0
+	var duo = content_catalog.get_by_id("duo")
+	if duo == null:
+		return 0
+	var loaded := 0
+	for _i in amount:
+		if handle_turret_item(duo_pos, duo, item_id):
+			loaded += 1
+		else:
+			break
+	return loaded
+
+func use_selected_turret_ammo_once() -> Dictionary:
+	if content_catalog == null:
+		return {}
+	var duo = content_catalog.get_by_id("duo")
+	if duo == null:
+		return {}
+	return use_turret_ammo(duo_pos, duo)
+
 func selected_turret_reload_seconds() -> float:
 	if content_catalog == null:
 		return 0.0
@@ -917,6 +1032,9 @@ func get_runtime_summary() -> Dictionary:
 		"selected_turret_max_ammo": selected_turret_max_ammo(),
 		"selected_turret_ammo_per_shot": selected_turret_ammo_per_shot(),
 		"selected_turret_consume_ammo_once": selected_turret_consume_ammo_once(),
+		"selected_turret_total_ammo": selected_turret_total_ammo(),
+		"selected_turret_ammo_stack_count": selected_turret_ammo_stack_count(),
+		"selected_turret_loaded_ammo_item": selected_turret_loaded_ammo_item(),
 		"selected_turret_reload_seconds": selected_turret_reload_seconds(),
 		"selected_turret_range": selected_turret_range(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),

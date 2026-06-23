@@ -393,6 +393,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"selected_turret_ammo_per_shot": selected_turret_ammo_per_shot()', source)
         self.assertIn('"selected_turret_consume_ammo_once": selected_turret_consume_ammo_once()', source)
 
+    def test_port_game_ports_source_item_turret_ammo_stack_logic(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var turret_ammo_stacks: Dictionary = {}", source)
+        self.assertIn("var turret_total_ammo: Dictionary = {}", source)
+        self.assertIn("func source_turret_ammo_data(turret, item_id: String) -> Dictionary:", source)
+        self.assertIn("func handle_turret_item(cell: Vector2i, turret, item_id: String) -> bool:", source)
+        self.assertIn("func use_turret_ammo(cell: Vector2i, turret) -> Dictionary:", source)
+        self.assertIn("func load_selected_turret_ammo(item_id: String, amount: int) -> int:", source)
+        self.assertIn("func use_selected_turret_ammo_once() -> Dictionary:", source)
+        self.assertIn('"selected_turret_total_ammo": selected_turret_total_ammo()', source)
+        self.assertIn('"selected_turret_ammo_stack_count": selected_turret_ammo_stack_count()', source)
+        self.assertIn('"selected_turret_loaded_ammo_item": selected_turret_loaded_ammo_item()', source)
+
     def test_port_game_uses_source_turret_reload(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
