@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 33 |
-| Done | 33 |
+| Total tracked work items | 34 |
+| Done | 34 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -54,6 +54,7 @@
 | N29 | Use all source build requirement item types | `PortGame.gd` keeps `core_inventory` as a copper alias and adds `core_items` keyed by source item id; `can_afford()` and `spend_requirements()` iterate every generated `requirements` entry instead of only copper; Python suite reports `35` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime selects `titanium-conveyor`, rejects placement with `lead=0` and `titanium=0`, accepts after setting `copper/lead/titanium=100`, and reports `core_items={copper:99, lead:99, titanium:99}` with debug `errors: []` |
 | N30 | Initialize core health from source core block | `PortGame.gd` now initializes `core_max_health` and current `core_health` from `source_block_health("core-shard")` using generated `core-shard.properties.health=1100`; Python suite reports `36` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; restarted MCP runtime summary returns `core_max_health=1100` and debug output returns `errors: []` |
 | N31 | Use source unit weapon damage against core | `content_registry.py` extracts `UnitType` first weapon reload and `BasicBulletType` speed/damage/lifetime into `properties.weapons`; generated `dagger` has bullet damage `9`; `PortGame.gd` subtracts `source_unit_weapon_damage(unit_type)` instead of hardcoded `15.0` when units reach the core; Python suite reports `37` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; restarted MCP runtime summary returns `selected_enemy_weapon_damage=9` and debug output returns `errors: []` |
+| N32 | Use source bullet sprite assets | `content_registry.py` records `BasicBulletType` sprite ids for block ammo and unit weapons, defaulting two-argument constructors to source sprite `bullet`; generated `duo` ammo and `dagger` weapon bullets include `sprite="bullet"`; `PortGame.gd` loads turret bullet textures from `res://assets/core/assets-raw/sprites/effects/%s.png` instead of using the item icon; Python suite reports `38` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; runtime MCP resolves `source_bullet_texture("bullet")` to `res://assets/core/assets-raw/sprites/effects/bullet.png` with debug `errors: []` |
 
 ## Not Done
 
@@ -288,3 +289,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-23 | M28 source requirement inventory: placement affordability and spending now use every source-derived requirement item id; MCP runtime verifies `titanium-conveyor` needs copper, lead, and titanium. |
 | 2026-06-23 | M29 source core health: playable runtime now initializes core max health from generated `core-shard.health=1100` instead of a handwritten constant. |
 | 2026-06-23 | M30 source unit weapon damage: registry now extracts first unit weapon bullet damage and runtime uses dagger damage `9` against the core instead of handwritten `15.0`. |
+| 2026-06-23 | M31 source bullet sprite assets: turret bullets now use generated BasicBulletType sprite ids and copied `effects/bullet.png` instead of the item icon. |

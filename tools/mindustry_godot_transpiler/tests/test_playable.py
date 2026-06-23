@@ -245,5 +245,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn('core_health = max(0.0, core_health - 15.0)', source)
         self.assertIn('"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit())', source)
 
+    def test_port_game_uses_source_bullet_sprite_assets(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_texture(sprite_id: String) -> Texture2D:", source)
+        self.assertIn('"res://assets/core/assets-raw/sprites/effects/%s.png" % sprite_id', source)
+        self.assertIn('sprite.texture = source_bullet_texture(str(data.get("sprite", "bullet")))', source)
+        self.assertIn('"selected_turret_ammo_sprite": selected_turret_ammo_sprite()', source)
+        self.assertNotIn('sprite.texture = textures.get("item")', source)
+
 if __name__ == "__main__":
     unittest.main()

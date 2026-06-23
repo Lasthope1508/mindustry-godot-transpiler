@@ -4752,7 +4752,8 @@
             "damage": 9,
             "item": "copper",
             "lifetime": 60.0,
-            "speed": 2.5
+            "speed": 2.5,
+            "sprite": "bullet"
           }
         ],
         "category": "turret",
@@ -4977,7 +4978,8 @@
             "damage": 15,
             "item": "copper",
             "lifetime": 60.0,
-            "speed": 2.5
+            "speed": 2.5,
+            "sprite": "bullet"
           }
         ],
         "category": "turret",
@@ -5182,7 +5184,8 @@
           {
             "damage": 50,
             "item": "graphite",
-            "speed": 7.5
+            "speed": 7.5,
+            "sprite": "bullet"
           }
         ],
         "category": "turret",
@@ -5257,7 +5260,8 @@
           {
             "damage": 85,
             "item": "beryllium",
-            "speed": 7.5
+            "speed": 7.5,
+            "sprite": "bullet"
           }
         ],
         "category": "turret",
@@ -5290,7 +5294,8 @@
           {
             "damage": 41,
             "item": "graphite",
-            "speed": 8.0
+            "speed": 8.0,
+            "sprite": "bullet"
           }
         ],
         "category": "turret",
@@ -5506,7 +5511,8 @@
             "damage": 250,
             "item": "surge-alloy",
             "lifetime": 12.0,
-            "speed": 7.0
+            "speed": 7.0,
+            "sprite": "bullet"
           }
         ],
         "category": "turret",
@@ -7410,7 +7416,8 @@
             "bullet": {
               "damage": 9,
               "lifetime": 60.0,
-              "speed": 2.5
+              "speed": 2.5,
+              "sprite": "bullet"
             },
             "reload": 13.0
           }
@@ -7453,7 +7460,8 @@
             "bullet": {
               "damage": 70,
               "lifetime": 27.0,
-              "speed": 8.0
+              "speed": 8.0,
+              "sprite": "bullet"
             },
             "reload": 45.0
           }
@@ -7474,7 +7482,8 @@
             "bullet": {
               "damage": 80,
               "lifetime": 15.0,
-              "speed": 13.0
+              "speed": 13.0,
+              "sprite": "bullet"
             },
             "reload": 9.0
           }
@@ -7605,7 +7614,8 @@
             "bullet": {
               "damage": 9,
               "lifetime": 32.0,
-              "speed": 2.5
+              "speed": 2.5,
+              "sprite": "bullet"
             },
             "reload": 80.0
           }
@@ -7724,7 +7734,8 @@
             "bullet": {
               "damage": 9,
               "lifetime": 60.0,
-              "speed": 2.5
+              "speed": 2.5,
+              "sprite": "bullet"
             },
             "reload": 13.0
           }
@@ -7767,7 +7778,8 @@
             "bullet": {
               "damage": 57,
               "lifetime": 35.0,
-              "speed": 7.0
+              "speed": 7.0,
+              "sprite": "bullet"
             },
             "reload": 60.0
           }
@@ -7898,7 +7910,8 @@
             "bullet": {
               "damage": 30,
               "lifetime": 40.0,
-              "speed": 3.5
+              "speed": 3.5,
+              "sprite": "bullet"
             },
             "reload": 33.0
           }
@@ -7952,7 +7965,8 @@
             "bullet": {
               "damage": 16,
               "lifetime": 30.0,
-              "speed": 5.0
+              "speed": 5.0,
+              "sprite": "bullet"
             },
             "reload": 40.0
           }
@@ -7973,7 +7987,8 @@
             "bullet": {
               "damage": 22.0,
               "lifetime": 18.0,
-              "speed": 5.0
+              "speed": 5.0,
+              "sprite": "bullet"
             },
             "reload": 35.0
           }
@@ -8004,7 +8019,8 @@
           {
             "bullet": {
               "damage": 70.0,
-              "speed": 4.3
+              "speed": 4.3,
+              "sprite": "missile-large"
             },
             "reload": 55.0
           }

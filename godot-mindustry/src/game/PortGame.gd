@@ -349,6 +349,10 @@ func block_texture(block) -> Texture2D:
 	block_texture_cache[block.id] = texture
 	return texture
 
+func source_bullet_texture(sprite_id: String) -> Texture2D:
+	var path := "res://assets/core/assets-raw/sprites/effects/%s.png" % sprite_id
+	return load_png_texture(path)
+
 func can_afford(block) -> bool:
 	sync_copper_inventory_alias()
 	for requirement in block.properties.get("requirements", []):
@@ -542,6 +546,18 @@ func simulate_turrets(delta: float) -> void:
 				cooldown = reload_seconds
 		turret_cooldowns[key] = cooldown
 
+func selected_turret_ammo_sprite() -> String:
+	if content_catalog == null:
+		return ""
+	var duo = content_catalog.get_by_id("duo")
+	if duo == null:
+		return ""
+	var ammo: Array = duo.properties.get("ammo", [])
+	if ammo.is_empty():
+		return ""
+	var data: Dictionary = ammo[0]
+	return str(data.get("sprite", "bullet"))
+
 func find_enemy_target(origin: Vector2, range_pixels: float):
 	var best = null
 	var best_distance := range_pixels
@@ -561,7 +577,7 @@ func spawn_turret_bullet(origin: Vector2, target, turret) -> void:
 		return
 	var data: Dictionary = ammo[0]
 	var sprite := Sprite2D.new()
-	sprite.texture = textures.get("item")
+	sprite.texture = source_bullet_texture(str(data.get("sprite", "bullet")))
 	sprite.position = origin
 	if sprite.texture:
 		var size := sprite.texture.get_size()
@@ -639,6 +655,7 @@ func get_runtime_summary() -> Dictionary:
 		"wave_index": wave_index,
 		"enemy_count": enemy_units.size(),
 		"bullet_count": bullets.size(),
+		"selected_turret_ammo_sprite": selected_turret_ammo_sprite(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"core_max_health": core_max_health,
 		"core_health": core_health,

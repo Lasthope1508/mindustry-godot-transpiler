@@ -174,11 +174,11 @@ def _unit_weapons(initializer: str) -> list[dict[str, Any]]:
     weapons = []
     for match in pattern.finditer(initializer):
         weapon_body = _initializer_body(initializer, match.end())
-        bullet_match = re.search(r"bullet\s*=\s*new\s+BasicBulletType\s*\(\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?)\s*,\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?)", weapon_body, re.MULTILINE)
+        bullet_match = re.search(r"bullet\s*=\s*new\s+BasicBulletType\s*\(\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?)\s*,\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?)(?:\s*,\s*\"([^\"]+)\")?", weapon_body, re.MULTILINE)
         if not bullet_match:
             continue
-        speed, damage = bullet_match.groups()
-        bullet = {"speed": _number_literal(speed), "damage": _number_literal(damage)}
+        speed, damage, sprite = bullet_match.groups()
+        bullet = {"speed": _number_literal(speed), "damage": _number_literal(damage), "sprite": sprite or "bullet"}
         bullet_body = _initializer_body(weapon_body, bullet_match.end())
         lifetime = _numeric_assignment(bullet_body, "lifetime")
         if lifetime is not None:
@@ -267,11 +267,11 @@ def _numeric_assignment(source: str, key: str) -> int | float | None:
     return _number_literal(match.group(1)) if match else None
 
 def _block_ammo(initializer: str) -> list[dict[str, Any]]:
-    pattern = re.compile(r"ammo\s*\(\s*Items\.([A-Za-z_]\w*)\s*,\s*new\s+BasicBulletType\s*\(\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?)\s*,\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?)", re.MULTILINE)
+    pattern = re.compile(r"ammo\s*\(\s*Items\.([A-Za-z_]\w*)\s*,\s*new\s+BasicBulletType\s*\(\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?)\s*,\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?)(?:\s*,\s*\"([^\"]+)\")?", re.MULTILINE)
     ammo = []
     for match in pattern.finditer(initializer):
-        item, speed, damage = match.groups()
-        entry = {"item": _camel_to_kebab(item), "speed": _number_literal(speed), "damage": _number_literal(damage)}
+        item, speed, damage, sprite = match.groups()
+        entry = {"item": _camel_to_kebab(item), "speed": _number_literal(speed), "damage": _number_literal(damage), "sprite": sprite or "bullet"}
         bullet_body = _initializer_body(initializer, match.end())
         lifetime = _numeric_assignment(bullet_body, "lifetime")
         if lifetime is not None:
