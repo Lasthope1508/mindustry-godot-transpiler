@@ -23,6 +23,8 @@ class SourceParityTests(unittest.TestCase):
         self.assertEqual(report["checked"]["properties"].get("inaccuracy"), 2.0)
         self.assertEqual(report["checked"]["properties"].get("rotateSpeed"), 10.0)
         self.assertEqual(report["checked"]["properties"].get("shootCone"), 15.0)
+        self.assertEqual(report["checked"]["properties"].get("recoil"), 0.5)
+        self.assertEqual(report["checked"]["properties"].get("recoils"), 2)
         self.assertEqual(report["checked"]["properties"].get("shootPattern"), {"type": "ShootAlternate", "spread": 3.5})
         self.assertEqual(report["checked"]["ammo"]["copper"]["ammoMultiplier"], 2)
         self.assertEqual(report["checked"]["ammo"]["graphite"]["rangeChange"], 16.0)

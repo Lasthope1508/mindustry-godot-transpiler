@@ -12,6 +12,7 @@ const SELECTED_GENERATED_CLASS_NAMES := ["Items", "Blocks", "UnitTypes", "Damage
 const SOURCE_DRILL_HARDNESS_MULTIPLIER := 50.0
 const SOURCE_CONVEYOR_TILE_SPEED_SCALE := 55.0
 const SOURCE_TICK_RATE := 60.0
+const SOURCE_RECOIL_POW := 1.8
 
 var tile_size := 32
 var config: Dictionary = {}
@@ -62,6 +63,7 @@ var turret_ammo_stacks: Dictionary = {}
 var turret_total_ammo: Dictionary = {}
 var turret_barrel_counters: Dictionary = {}
 var turret_rotations: Dictionary = {}
+var turret_recoils: Dictionary = {}
 var turret_shot_count := 0
 var last_turret_fired_ammo_item := ""
 var last_turret_fired_damage := 0.0
@@ -74,6 +76,10 @@ var last_turret_fired_inaccuracy_offset := 0.0
 var last_turret_target_rotation := 0.0
 var last_turret_rotation := 0.0
 var last_turret_angle_delta := 0.0
+var last_turret_recoil := 0.0
+var last_turret_recoils := 0
+var last_turret_cur_recoil := 0.0
+var last_turret_recoil_offset := Vector2.ZERO
 var wave_index := 1
 var wave_cooldown := 0.0
 var path_points: Array[Vector2] = []
@@ -394,9 +400,12 @@ func source_conveyor_path_progress_rate(block_id: String) -> float:
 func block_world_size(block) -> float:
 	return float(tile_size * block_size(block))
 
+func source_block_sprite_base_position(block, cell: Vector2i) -> Vector2:
+	return grid_to_world(cell) + Vector2.ONE * (block_world_size(block) - float(tile_size)) * 0.5
+
 func configure_block_sprite(sprite: Sprite2D, block, cell: Vector2i) -> void:
 	sprite.texture = block_texture(block)
-	sprite.position = grid_to_world(cell) + Vector2.ONE * (block_world_size(block) - float(tile_size)) * 0.5
+	sprite.position = source_block_sprite_base_position(block, cell)
 	if sprite.texture:
 		var size := sprite.texture.get_size()
 		if size.x > 0 and size.y > 0:
@@ -417,6 +426,8 @@ func register_turret_cell(cell: Vector2i, block) -> void:
 		turret_barrel_counters[key] = 0
 	if not turret_rotations.has(key):
 		turret_rotations[key] = 0.0
+	if not turret_recoils.has(key):
+		turret_recoils[key] = 0.0
 
 func unregister_turret_cell(cell: Vector2i) -> void:
 	var key := cell_key(cell)
@@ -425,6 +436,7 @@ func unregister_turret_cell(cell: Vector2i) -> void:
 	turret_cooldowns.erase(key)
 	turret_barrel_counters.erase(key)
 	turret_rotations.erase(key)
+	turret_recoils.erase(key)
 	var kept: Array = []
 	for existing in turret_cells:
 		if cell_key(existing) != key:
@@ -652,6 +664,7 @@ func simulate_turrets(delta: float) -> void:
 		return
 	for cell in turret_cells:
 		var key := cell_key(cell)
+		update_turret_recoil(cell, duo, delta, float(turret_rotations.get(key, 0.0)))
 		var cooldown = max(0.0, float(turret_cooldowns.get(key, 0.0)) - delta)
 		if cooldown <= 0.0:
 			var data := peek_turret_ammo(cell, duo)
@@ -684,6 +697,12 @@ func simulate_turrets(delta: float) -> void:
 					last_turret_fired_shoot_x_offset = shoot_x_offset
 					last_turret_fired_inaccuracy_range = inaccuracy_range
 					last_turret_fired_inaccuracy_offset = inaccuracy_offset
+					turret_recoils[key] = 1.0
+					last_turret_cur_recoil = 1.0
+					last_turret_recoil = source_turret_recoil(duo)
+					last_turret_recoils = source_turret_recoils(duo)
+					last_turret_recoil_offset = source_turret_recoil_offset(duo, current_rotation, last_turret_cur_recoil)
+					apply_turret_recoil_offset(cell, duo, last_turret_recoil_offset)
 					spawn_turret_bullet(bullet_origin, target, data, shoot_angle_degrees)
 					cooldown = source_turret_reload_seconds_for_ammo(duo, data)
 		turret_cooldowns[key] = cooldown
@@ -1013,6 +1032,22 @@ func selected_turret_shoot_cone() -> float:
 		return 0.0
 	return source_turret_shoot_cone(duo)
 
+func selected_turret_recoil() -> float:
+	if content_catalog == null:
+		return 0.0
+	var duo = content_catalog.get_by_id("duo")
+	if duo == null:
+		return 0.0
+	return source_turret_recoil(duo)
+
+func selected_turret_recoils() -> int:
+	if content_catalog == null:
+		return 0
+	var duo = content_catalog.get_by_id("duo")
+	if duo == null:
+		return 0
+	return source_turret_recoils(duo)
+
 func source_turret_reload_seconds(turret) -> float:
 	if turret == null:
 		return 0.0
@@ -1047,6 +1082,41 @@ func source_turret_shoot_cone(turret) -> float:
 	if turret == null:
 		return 0.0
 	return float(turret.properties.get("shootCone", 8.0))
+
+func source_turret_recoil(turret) -> float:
+	if turret == null:
+		return 0.0
+	return float(turret.properties.get("recoil", 1.0))
+
+func source_turret_recoils(turret) -> int:
+	if turret == null:
+		return 0
+	return int(turret.properties.get("recoils", -1))
+
+func source_turret_recoil_time(turret) -> float:
+	if turret == null:
+		return 1.0
+	return source_turret_reload_seconds(turret) * SOURCE_TICK_RATE
+
+func source_turret_recoil_offset(turret, recoil_rotation_degrees: float, cur_recoil: float) -> Vector2:
+	return Vector2.RIGHT.rotated(deg_to_rad(recoil_rotation_degrees)) * (-pow(cur_recoil, SOURCE_RECOIL_POW) * source_turret_recoil(turret))
+
+func update_turret_recoil(cell: Vector2i, turret, delta: float, recoil_rotation_degrees: float) -> void:
+	var key := cell_key(cell)
+	var cur_recoil := float(turret_recoils.get(key, 0.0))
+	if source_turret_recoil_time(turret) > 0.0:
+		cur_recoil = max(0.0, cur_recoil - delta * SOURCE_TICK_RATE / source_turret_recoil_time(turret))
+	turret_recoils[key] = cur_recoil
+	last_turret_cur_recoil = cur_recoil
+	last_turret_recoil = source_turret_recoil(turret)
+	last_turret_recoils = source_turret_recoils(turret)
+	last_turret_recoil_offset = source_turret_recoil_offset(turret, recoil_rotation_degrees, cur_recoil)
+	apply_turret_recoil_offset(cell, turret, last_turret_recoil_offset)
+
+func apply_turret_recoil_offset(cell: Vector2i, turret, offset: Vector2) -> void:
+	var sprite = placed_block_origins.get(cell_key(cell))
+	if is_instance_valid(sprite):
+		sprite.position = source_block_sprite_base_position(turret, cell) + offset
 
 func source_turret_shoot_pattern(turret) -> Dictionary:
 	if turret == null:
@@ -1261,6 +1331,10 @@ func get_runtime_summary() -> Dictionary:
 		"last_turret_target_rotation": last_turret_target_rotation,
 		"last_turret_rotation": last_turret_rotation,
 		"last_turret_angle_delta": last_turret_angle_delta,
+		"last_turret_recoil": last_turret_recoil,
+		"last_turret_recoils": last_turret_recoils,
+		"last_turret_cur_recoil": last_turret_cur_recoil,
+		"last_turret_recoil_offset": {"x": last_turret_recoil_offset.x, "y": last_turret_recoil_offset.y},
 		"selected_turret_ammo_sprite": selected_turret_ammo_sprite(),
 		"selected_turret_ammo_lifetime_seconds": selected_turret_ammo_lifetime_seconds(),
 		"selected_turret_ammo_world_speed": selected_turret_ammo_world_speed(),
@@ -1285,6 +1359,8 @@ func get_runtime_summary() -> Dictionary:
 		"selected_turret_inaccuracy": selected_turret_inaccuracy(),
 		"selected_turret_rotate_speed": selected_turret_rotate_speed(),
 		"selected_turret_shoot_cone": selected_turret_shoot_cone(),
+		"selected_turret_recoil": selected_turret_recoil(),
+		"selected_turret_recoils": selected_turret_recoils(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

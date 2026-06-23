@@ -4863,6 +4863,8 @@
         "inaccuracy": 2.0,
         "maxAmmo": 30,
         "range": 160,
+        "recoil": 0.5,
+        "recoils": 2,
         "reload": 20.0,
         "requirements": [
           {
@@ -4891,6 +4893,7 @@
         "inaccuracy": 17.0,
         "maxAmmo": 30,
         "range": 220.0,
+        "recoil": 1.0,
         "reload": 18.0,
         "requirements": [
           {
@@ -4919,6 +4922,7 @@
         "health": 400,
         "maxAmmo": 30,
         "range": 60.0,
+        "recoil": 0.0,
         "reload": 6.0,
         "requirements": [
           {
@@ -4947,6 +4951,7 @@
         "inaccuracy": 1.0,
         "maxAmmo": 30,
         "range": 235.0,
+        "recoil": 2.0,
         "reload": 60.0,
         "requirements": [
           {
@@ -4970,6 +4975,7 @@
         "category": "turret",
         "inaccuracy": 5.0,
         "range": 110.0,
+        "recoil": 0.0,
         "reload": 3.0,
         "requirements": [
           {
@@ -4997,6 +5003,7 @@
       "properties": {
         "category": "turret",
         "range": 165.0,
+        "recoil": 2.0,
         "reload": 80.0,
         "requirements": [
           {
@@ -5028,6 +5035,7 @@
         "category": "turret",
         "health": 260,
         "range": 90.0,
+        "recoil": 1.0,
         "reload": 35.0,
         "requirements": [
           {
@@ -5169,6 +5177,7 @@
         "consumeAmmoOnce": false,
         "maxAmmo": 30,
         "range": 190.0,
+        "recoil": 0.0,
         "reload": 29.0,
         "requirements": [
           {
@@ -5226,6 +5235,7 @@
         "category": "turret",
         "inaccuracy": 3.0,
         "range": 190.0,
+        "recoil": 1.0,
         "reload": 3.0,
         "requirements": [
           {
@@ -5265,6 +5275,7 @@
         "consumeAmmoOnce": true,
         "maxAmmo": 30,
         "range": 90.0,
+        "recoil": 5.0,
         "reload": 35.0,
         "requirements": [
           {
@@ -5296,6 +5307,7 @@
         "inaccuracy": 11.0,
         "maxAmmo": 30,
         "range": 290.0,
+        "recoil": 6.0,
         "reload": 120.0,
         "requirements": [
           {
@@ -5326,6 +5338,8 @@
         "inaccuracy": 10.0,
         "maxAmmo": 30,
         "range": 200.0,
+        "recoil": 1.5,
+        "recoils": 3,
         "reload": 10.0,
         "requirements": [
           {
@@ -5358,6 +5372,7 @@
         "consumeAmmoOnce": true,
         "maxAmmo": 40,
         "range": 500.0,
+        "recoil": 5.0,
         "reload": 200.0,
         "requirements": [
           {
@@ -5430,6 +5445,7 @@
         "inaccuracy": 3.0,
         "maxAmmo": 30,
         "range": 260.0,
+        "recoil": 3.0,
         "reload": 7.0,
         "requirements": [
           {
@@ -5469,6 +5485,7 @@
       "properties": {
         "category": "turret",
         "range": 195.0,
+        "recoil": 4.0,
         "reload": 90.0,
         "requirements": [
           {
@@ -5543,6 +5560,7 @@
         "consumeAmmoOnce": true,
         "maxAmmo": 30,
         "range": 190,
+        "recoil": 2.0,
         "reload": 40.0,
         "requirements": [
           {
@@ -5607,6 +5625,7 @@
         "inaccuracy": 0.2,
         "maxAmmo": 30,
         "range": 125,
+        "recoil": 2.0,
         "reload": 30.0,
         "requirements": [
           {
@@ -5672,6 +5691,7 @@
         "category": "turret",
         "consumeAmmoOnce": true,
         "range": 390.0,
+        "recoil": 1.0,
         "requirements": [
           {
             "amount": 250,
@@ -5738,6 +5758,7 @@
         "category": "turret",
         "inaccuracy": 1.0,
         "range": 368,
+        "recoil": 3.0,
         "reload": 50.0,
         "requirements": [
           {
@@ -5808,6 +5829,7 @@
         "health": 240,
         "maxAmmo": 45,
         "range": 1350,
+        "recoil": 0.5,
         "reload": 1.0,
         "requirements": [
           {
@@ -5861,6 +5883,7 @@
         "consumeAmmoOnce": true,
         "maxAmmo": 30,
         "range": 300,
+        "recoil": 2.0,
         "reload": 100.0,
         "requirements": [
           {
@@ -5898,6 +5921,7 @@
       "properties": {
         "category": "turret",
         "range": 410,
+        "recoil": 0.5,
         "reload": 3.5,
         "requirements": [
           {

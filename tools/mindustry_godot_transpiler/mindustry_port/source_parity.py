@@ -29,7 +29,7 @@ def _extract_source_duo(source: str) -> dict[str, Any]:
         raise ValueError("duo ItemTurret initializer not found in Blocks.java")
     body = _double_brace_body(source, match.end())
     properties: dict[str, Any] = {}
-    for key in ["reload", "range", "health", "shootY", "inaccuracy", "rotateSpeed", "shootCone"]:
+    for key in ["reload", "range", "health", "shootY", "inaccuracy", "rotateSpeed", "shootCone", "recoil", "recoils"]:
         value = _numeric_assignment(body, key)
         if value is not None:
             properties[key] = value
