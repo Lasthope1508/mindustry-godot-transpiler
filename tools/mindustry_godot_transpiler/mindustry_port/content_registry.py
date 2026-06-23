@@ -313,6 +313,9 @@ def _block_ammo(initializer: str) -> list[dict[str, Any]]:
         reload_multiplier = _numeric_assignment(bullet_body, "reloadMultiplier")
         if reload_multiplier is not None:
             entry["reloadMultiplier"] = reload_multiplier
+        range_change = _numeric_assignment(bullet_body, "rangeChange")
+        if range_change is not None:
+            entry["rangeChange"] = range_change
         ammo.append(entry)
     return ammo
 

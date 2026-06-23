@@ -429,7 +429,8 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn("var data := use_turret_ammo(cell, duo)", source)
+        self.assertIn("var data := peek_turret_ammo(cell, duo)", source)
+        self.assertIn("data = use_turret_ammo(cell, duo)", source)
         self.assertIn("if not data.is_empty():", source)
         self.assertIn("spawn_turret_bullet(grid_to_world(cell), target, data)", source)
         self.assertIn("func spawn_turret_bullet(origin: Vector2, target, data: Dictionary) -> void:", source)
@@ -462,10 +463,18 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_turret_range(turret) -> float:", source)
         self.assertIn('return float(turret.properties.get("range", 80.0))', source)
-        self.assertIn("var range_pixels := source_turret_range(duo)", source)
+        self.assertIn("func source_bullet_range_change(data: Dictionary) -> float:", source)
+        self.assertIn('return float(data.get("rangeChange", 0.0))', source)
+        self.assertIn("func source_turret_range_for_ammo(turret, data: Dictionary) -> float:", source)
+        self.assertIn("return source_turret_range(turret) + source_bullet_range_change(data)", source)
+        self.assertIn("var data := peek_turret_ammo(cell, duo)", source)
+        self.assertIn("var range_pixels := source_turret_range_for_ammo(duo, data)", source)
+        self.assertIn("last_turret_fired_range = range_pixels", source)
         self.assertNotIn('var range_pixels = float(duo.properties.get("range", 0.0))', source)
         self.assertIn("func selected_turret_range() -> float:", source)
         self.assertIn('return source_turret_range(duo)', source)
+        self.assertIn('"last_turret_fired_range": last_turret_fired_range', source)
+        self.assertIn('"selected_turret_ammo_range_change": selected_turret_ammo_range_change()', source)
         self.assertIn('"selected_turret_range": selected_turret_range()', source)
 
     def test_port_game_uses_source_drill_rate(self):

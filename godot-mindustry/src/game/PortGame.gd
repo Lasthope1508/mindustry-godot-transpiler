@@ -63,6 +63,7 @@ var turret_shot_count := 0
 var last_turret_fired_ammo_item := ""
 var last_turret_fired_damage := 0.0
 var last_turret_fired_reload_multiplier := 1.0
+var last_turret_fired_range := 0.0
 var wave_index := 1
 var wave_cooldown := 0.0
 var path_points: Array[Vector2] = []
@@ -633,15 +634,20 @@ func simulate_turrets(delta: float) -> void:
 	var duo = content_catalog.get_by_id("duo")
 	if duo == null:
 		return
-	var range_pixels := source_turret_range(duo)
 	for cell in turret_cells:
 		var key := cell_key(cell)
 		var cooldown = max(0.0, float(turret_cooldowns.get(key, 0.0)) - delta)
 		if cooldown <= 0.0:
+			var data := peek_turret_ammo(cell, duo)
+			if data.is_empty():
+				turret_cooldowns[key] = cooldown
+				continue
+			var range_pixels := source_turret_range_for_ammo(duo, data)
 			var target = find_enemy_target(grid_to_world(cell), range_pixels)
 			if target != null:
-				var data := use_turret_ammo(cell, duo)
+				data = use_turret_ammo(cell, duo)
 				if not data.is_empty():
+					last_turret_fired_range = range_pixels
 					spawn_turret_bullet(grid_to_world(cell), target, data)
 					cooldown = source_turret_reload_seconds_for_ammo(duo, data)
 		turret_cooldowns[key] = cooldown
@@ -743,6 +749,18 @@ func selected_turret_ammo_reload_multiplier() -> float:
 	var data: Dictionary = ammo[0]
 	return source_bullet_reload_multiplier(data)
 
+func selected_turret_ammo_range_change() -> float:
+	if content_catalog == null:
+		return 0.0
+	var duo = content_catalog.get_by_id("duo")
+	if duo == null:
+		return 0.0
+	var ammo: Array = duo.properties.get("ammo", [])
+	if ammo.is_empty():
+		return 0.0
+	var data: Dictionary = ammo[0]
+	return source_bullet_range_change(data)
+
 func selected_turret_ammo_count() -> int:
 	if content_catalog == null:
 		return 0
@@ -798,6 +816,24 @@ func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	for data in turret.properties.get("ammo", []):
 		if data is Dictionary and str(data.get("item", "")) == item_id:
 			return data
+	return {}
+
+func peek_turret_ammo(cell: Vector2i, turret) -> Dictionary:
+	if turret == null:
+		return {}
+	var key := cell_key(cell)
+	var stacks: Array = turret_ammo_stacks.get(key, [])
+	var ammo_per_shot := int(turret.properties.get("ammoPerShot", 1))
+	if stacks.is_empty():
+		return {}
+	var active_stack: Dictionary = stacks[stacks.size() - 1]
+	if int(active_stack.get("amount", 0)) >= ammo_per_shot:
+		return source_turret_ammo_data(turret, str(active_stack.get("item", "")))
+	if stacks.size() >= 2:
+		for index in stacks.size():
+			var stack: Dictionary = stacks[index]
+			if int(stack.get("amount", 0)) >= ammo_per_shot:
+				return source_turret_ammo_data(turret, str(stack.get("item", "")))
 	return {}
 
 func handle_turret_item(cell: Vector2i, turret, item_id: String) -> bool:
@@ -915,6 +951,12 @@ func source_turret_range(turret) -> float:
 	if turret == null:
 		return 0.0
 	return float(turret.properties.get("range", 80.0))
+
+func source_bullet_range_change(data: Dictionary) -> float:
+	return float(data.get("rangeChange", 0.0))
+
+func source_turret_range_for_ammo(turret, data: Dictionary) -> float:
+	return source_turret_range(turret) + source_bullet_range_change(data)
 
 func source_bullet_lifetime_seconds(data: Dictionary) -> float:
 	return float(data.get("lifetime", 40.0)) / 60.0
@@ -1055,6 +1097,7 @@ func get_runtime_summary() -> Dictionary:
 		"last_turret_fired_ammo_item": last_turret_fired_ammo_item,
 		"last_turret_fired_damage": last_turret_fired_damage,
 		"last_turret_fired_reload_multiplier": last_turret_fired_reload_multiplier,
+		"last_turret_fired_range": last_turret_fired_range,
 		"selected_turret_ammo_sprite": selected_turret_ammo_sprite(),
 		"selected_turret_ammo_lifetime_seconds": selected_turret_ammo_lifetime_seconds(),
 		"selected_turret_ammo_world_speed": selected_turret_ammo_world_speed(),
@@ -1063,6 +1106,7 @@ func get_runtime_summary() -> Dictionary:
 		"selected_turret_ammo_damage": selected_turret_ammo_damage(),
 		"selected_turret_ammo_multiplier": selected_turret_ammo_multiplier(),
 		"selected_turret_ammo_reload_multiplier": selected_turret_ammo_reload_multiplier(),
+		"selected_turret_ammo_range_change": selected_turret_ammo_range_change(),
 		"selected_turret_ammo_count": selected_turret_ammo_count(),
 		"selected_turret_max_ammo": selected_turret_max_ammo(),
 		"selected_turret_ammo_per_shot": selected_turret_ammo_per_shot(),
