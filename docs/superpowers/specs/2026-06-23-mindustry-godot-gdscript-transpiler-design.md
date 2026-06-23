@@ -17,6 +17,16 @@
 | Not done | 0 |
 | Blocked | 0 |
 
+## Migration Checklist
+
+- [x] D1-D2: Upstream clone and source inventory recorded.
+- [x] N1-N12: Godot project, transpiler skeleton, scanner, parser, mapper, class emitter, runtime stubs, content model, initial content, asset bridge, unsupported report, and regression fixtures.
+- [x] N13-N24: Source-derived units, turrets, waves, parser failure cleanup, class registry, method stubs, HUD/runtime MCP, generated script loading/instancing, MCP placement input, all generated instances, and full textured build palette.
+- [x] N25-N36: Source block selection, source block size, footprint occupancy, source world occupancy, multi-item requirements, core health, unit weapon damage, bullet sprite assets, core item capacity, drill rate, conveyor speed, and bullet lifetime.
+- [x] N37-N48: Bullet speed, unit speed, unit hit size, turret reload/range, bullet dimensions/hit size/damage, unit health, full duo ammo list, ammo multiplier, and item turret ammo storage defaults.
+- [x] N49-N55: Item turret ammo stack/use, loaded-ammo firing, reload multiplier, anti-fabrication rangeChange gate, shootY, ShootAlternate spread, and turret inaccuracy.
+- [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
+
 ## Done
 
 | ID | Item | Evidence |

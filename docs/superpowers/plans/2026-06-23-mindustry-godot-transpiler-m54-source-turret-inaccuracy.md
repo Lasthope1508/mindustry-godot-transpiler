@@ -23,6 +23,18 @@
 
 ## Done
 
+## Execution Checklist
+
+- [x] M54-1 Add failing source-parity test.
+- [x] M54-2 Add failing generator test.
+- [x] M54-3 Add failing playable runtime test.
+- [x] M54-4 Extract source inaccuracy.
+- [x] M54-5 Regenerate Godot content registry.
+- [x] M54-6 Use inaccuracy in playable turret fire.
+- [x] M54-7 Verify tests and Godot diagnostics.
+- [x] M54-8 Verify deterministic MCP runtime behavior.
+- [ ] Next M55 source-backed item.
+
 | ID | Item | Evidence |
 | --- | --- | --- |
 | M54-1 | Add failing source-parity test | `test_source_parity.py` asserted duo source `inaccuracy=2.0`; before implementation, targeted test failed with `None != 2.0`. |
