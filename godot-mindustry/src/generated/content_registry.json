@@ -4818,6 +4818,7 @@
       "properties": {
         "ammo": [
           {
+            "ammoMultiplier": 2,
             "damage": 9,
             "height": 9.0,
             "item": "copper",
@@ -4827,6 +4828,7 @@
             "width": 7.0
           },
           {
+            "ammoMultiplier": 4,
             "damage": 18,
             "height": 12.0,
             "item": "graphite",
@@ -4836,6 +4838,7 @@
             "width": 9.0
           },
           {
+            "ammoMultiplier": 5,
             "damage": 12,
             "height": 9.0,
             "item": "silicon",
@@ -5064,6 +5067,7 @@
       "properties": {
         "ammo": [
           {
+            "ammoMultiplier": 5,
             "damage": 15,
             "height": 9.0,
             "item": "copper",
@@ -5073,6 +5077,7 @@
             "width": 7.0
           },
           {
+            "ammoMultiplier": 4,
             "damage": 31,
             "height": 12.0,
             "item": "graphite",
@@ -5082,6 +5087,7 @@
             "width": 9.0
           },
           {
+            "ammoMultiplier": 5,
             "damage": 25,
             "height": 12.0,
             "item": "pyratite",
@@ -5091,6 +5097,7 @@
             "width": 10.0
           },
           {
+            "ammoMultiplier": 5,
             "damage": 23,
             "height": 10.0,
             "item": "silicon",
@@ -5100,6 +5107,7 @@
             "width": 8.0
           },
           {
+            "ammoMultiplier": 4,
             "damage": 28,
             "height": 13.0,
             "item": "thorium",
@@ -5310,6 +5318,7 @@
       "properties": {
         "ammo": [
           {
+            "ammoMultiplier": 4,
             "damage": 50,
             "height": 21.0,
             "hitSize": 4.8,
@@ -5328,6 +5337,7 @@
             "width": 16.0
           },
           {
+            "ammoMultiplier": 3,
             "damage": 70,
             "height": 21.0,
             "hitSize": 5,
@@ -5407,6 +5417,7 @@
       "properties": {
         "ammo": [
           {
+            "ammoMultiplier": 1,
             "damage": 85,
             "height": 20.0,
             "hitSize": 7.0,
@@ -5416,6 +5427,7 @@
             "width": 12.0
           },
           {
+            "ammoMultiplier": 2,
             "damage": 95,
             "height": 19.0,
             "hitSize": 7.0,
@@ -5425,6 +5437,7 @@
             "width": 13.0
           },
           {
+            "ammoMultiplier": 2,
             "damage": 325.0,
             "height": 21.0,
             "hitSize": 7.0,
@@ -5463,6 +5476,7 @@
       "properties": {
         "ammo": [
           {
+            "ammoMultiplier": 1,
             "damage": 41,
             "height": 20.0,
             "hitSize": 7.0,
@@ -5472,6 +5486,7 @@
             "width": 25.0
           },
           {
+            "ammoMultiplier": 2,
             "damage": 90,
             "height": 20.0,
             "hitSize": 7.0,
@@ -5481,6 +5496,7 @@
             "width": 25.0
           },
           {
+            "ammoMultiplier": 1,
             "damage": 35,
             "height": 20.0,
             "hitSize": 7.0,
@@ -5703,6 +5719,7 @@
       "properties": {
         "ammo": [
           {
+            "ammoMultiplier": 1,
             "damage": 250,
             "height": 21.0,
             "hitSize": 8.0,

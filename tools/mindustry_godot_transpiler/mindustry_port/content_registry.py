@@ -285,6 +285,9 @@ def _block_ammo(initializer: str) -> list[dict[str, Any]]:
         hit_size = _numeric_assignment(bullet_body, "hitSize")
         if hit_size is not None:
             entry["hitSize"] = hit_size
+        ammo_multiplier = _numeric_assignment(bullet_body, "ammoMultiplier")
+        if ammo_multiplier is not None:
+            entry["ammoMultiplier"] = ammo_multiplier
         ammo.append(entry)
     return ammo
 

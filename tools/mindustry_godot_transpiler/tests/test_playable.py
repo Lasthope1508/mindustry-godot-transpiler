@@ -369,6 +369,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return duo.properties.get("ammo", []).size()', source)
         self.assertIn('"selected_turret_ammo_count": selected_turret_ammo_count()', source)
 
+    def test_port_game_uses_source_bullet_ammo_multiplier(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_ammo_multiplier(data: Dictionary) -> float:", source)
+        self.assertIn('return float(data.get("ammoMultiplier", 2.0))', source)
+        self.assertIn("func selected_turret_ammo_multiplier() -> float:", source)
+        self.assertIn('return source_bullet_ammo_multiplier(data)', source)
+        self.assertIn('"selected_turret_ammo_multiplier": selected_turret_ammo_multiplier()', source)
+
     def test_port_game_uses_source_turret_reload(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

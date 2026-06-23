@@ -706,6 +706,18 @@ func selected_turret_ammo_damage() -> float:
 	var data: Dictionary = ammo[0]
 	return source_bullet_damage(data)
 
+func selected_turret_ammo_multiplier() -> float:
+	if content_catalog == null:
+		return 0.0
+	var duo = content_catalog.get_by_id("duo")
+	if duo == null:
+		return 0.0
+	var ammo: Array = duo.properties.get("ammo", [])
+	if ammo.is_empty():
+		return 0.0
+	var data: Dictionary = ammo[0]
+	return source_bullet_ammo_multiplier(data)
+
 func selected_turret_ammo_count() -> int:
 	if content_catalog == null:
 		return 0
@@ -751,6 +763,9 @@ func source_bullet_hit_size(data: Dictionary) -> float:
 
 func source_bullet_damage(data: Dictionary) -> float:
 	return float(data.get("damage", 1.0))
+
+func source_bullet_ammo_multiplier(data: Dictionary) -> float:
+	return float(data.get("ammoMultiplier", 2.0))
 
 func source_bullet_scale(data: Dictionary, texture_size: Vector2) -> Vector2:
 	var width := float(data.get("width", 4.0))
@@ -873,6 +888,7 @@ func get_runtime_summary() -> Dictionary:
 		"selected_turret_ammo_dimensions": selected_turret_ammo_dimensions(),
 		"selected_turret_ammo_hit_size": selected_turret_ammo_hit_size(),
 		"selected_turret_ammo_damage": selected_turret_ammo_damage(),
+		"selected_turret_ammo_multiplier": selected_turret_ammo_multiplier(),
 		"selected_turret_ammo_count": selected_turret_ammo_count(),
 		"selected_turret_reload_seconds": selected_turret_reload_seconds(),
 		"selected_turret_range": selected_turret_range(),
