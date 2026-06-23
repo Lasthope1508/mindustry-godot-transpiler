@@ -8,6 +8,7 @@ const ContentCatalog := preload("res://src/mindustry/content/ContentCatalog.gd")
 const WORLD_W := 24
 const WORLD_H := 16
 const BUILD_BLOCK_IDS := ["conveyor", "router", "junction", "mechanical-drill", "duo", "copper-wall"]
+const SELECTED_GENERATED_CLASS_NAMES := ["Items", "Blocks", "UnitTypes", "Damage"]
 
 var tile_size := 32
 var config: Dictionary = {}
@@ -15,6 +16,8 @@ var textures: Dictionary = {}
 var block_texture_cache: Dictionary = {}
 var content_counts: Dictionary = {"items": 0, "liquids": 0, "blocks": 0, "units": 0}
 var generated_class_count := 0
+var loaded_generated_scripts: Dictionary = {}
+var loaded_generated_class_names: Array[String] = []
 var content_catalog: RefCounted
 var build_palette: Array = []
 var selected_build_index := 0
@@ -60,8 +63,24 @@ func load_content_registry() -> void:
 	content_catalog = ContentCatalog.new()
 	content_counts = content_catalog.counts()
 	generated_class_count = GeneratedClassRegistry.count()
+	load_selected_generated_scripts()
 	if content_counts != ContentRegistry.counts():
 		push_error("Generated registry counts do not match loaded content catalog")
+
+func load_selected_generated_scripts() -> void:
+	loaded_generated_scripts.clear()
+	loaded_generated_class_names.clear()
+	for java_name in SELECTED_GENERATED_CLASS_NAMES:
+		var entry := GeneratedClassRegistry.find_by_java_name(java_name)
+		if entry.is_empty():
+			push_error("Generated class missing from registry: " + java_name)
+			continue
+		var script = ResourceLoader.load(str(entry.get("gdscript_path", "")))
+		if script == null:
+			push_error("Generated class script failed to load: " + java_name)
+			continue
+		loaded_generated_scripts[java_name] = script
+		loaded_generated_class_names.append(java_name)
 
 func load_textures() -> void:
 	if config.is_empty():
@@ -439,6 +458,19 @@ func update_camera(delta: float) -> void:
 	if Input.is_key_pressed(KEY_E):
 		camera.zoom *= 1.0 - min(delta, 0.5)
 
+func get_runtime_summary() -> Dictionary:
+	return {
+		"generated_class_count": generated_class_count,
+		"loaded_generated_class_names": loaded_generated_class_names.duplicate(),
+		"content_counts": content_counts.duplicate(),
+		"build_palette_size": build_palette.size(),
+		"core_inventory": core_inventory,
+		"wave_index": wave_index,
+		"enemy_count": enemy_units.size(),
+		"bullet_count": bullets.size(),
+		"core_health": core_health,
+	}
+
 func update_hud() -> void:
 	if hud_label == null:
 		return
@@ -447,4 +479,4 @@ func update_hud() -> void:
 	var selected = build_palette[selected_build_index] if not build_palette.is_empty() else null
 	var selected_name: String = selected.display_name() if selected else "None"
 	var selected_cost := requirements_text(selected) if selected else "none"
-	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks / %d units\nGenerated Java classes: %d\nBuild: %s cost %s (1-6 select, left click place)\n%s in core: %d\nTotal produced: %d\nWave: %d enemies: %d bullets: %d core health: %d\nArrows move camera, Q/E zoom" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), content_counts.get("units", 0), generated_class_count, selected_name, selected_cost, copper_name, core_inventory, produced_total, wave_index, enemy_units.size(), bullets.size(), int(core_health)]
+	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks / %d units\nGenerated Java classes: %d\nLoaded generated scripts: %d (%s)\nBuild: %s cost %s (1-6 select, left click place)\n%s in core: %d\nTotal produced: %d\nWave: %d enemies: %d bullets: %d core health: %d\nArrows move camera, Q/E zoom" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), content_counts.get("units", 0), generated_class_count, loaded_generated_class_names.size(), ", ".join(loaded_generated_class_names), selected_name, selected_cost, copper_name, core_inventory, produced_total, wave_index, enemy_units.size(), bullets.size(), int(core_health)]

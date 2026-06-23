@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 21 |
-| Done | 21 |
+| Total tracked work items | 22 |
+| Done | 22 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -42,6 +42,7 @@
 | N17 | Generate Godot class registry for emitted skeletons | `emit` writes `GeneratedClassRegistry.gd` with `801` class metadata entries and records `registry: GeneratedClassRegistry.gd` in `emitted_classes.json`; Python suite reports `22` tests passing; Godot MCP project scan sees `828` scripts; MCP LSP diagnostics for `src/generated/GeneratedClassRegistry.gd` return `diagnostics: []`; MCP debug output returns `errors: []` |
 | N18 | Generate collision-safe method stubs for emitted classes | Per-class skeletons now emit `java_method_<name>_<index>(_args)` stubs from Java method metadata, preserving overloads through numeric suffixes; `Items.gd` exposes `java_method_load_0`; `Damage.gd` exposes `35` method stubs; Python suite reports `22` tests passing; MCP LSP diagnostics for `Items.gd` and `Damage.gd` return `diagnostics: []`; MCP debug output returns `errors: []` |
 | N19 | Surface generated class registry in playable HUD | `PortGame.gd` preloads `GeneratedClassRegistry.gd`, stores `generated_class_count = GeneratedClassRegistry.count()`, and displays `Generated Java classes: %d` in the HUD; Python suite reports `23` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP launched `scenes/Main.tscn` and debug output returns `errors: []` |
+| N20 | Enable Godot runtime MCP and load selected generated scripts | `godot_mcp_runtime` addon is installed and enabled as autoload; MCP runtime status returns `connected=true` and `runtimeAddon=connected` on port `7777`; `PortGame.gd` loads generated scripts for `Items`, `Blocks`, `UnitTypes`, and `Damage` from `GeneratedClassRegistry.gd`; runtime `get_runtime_summary()` returns `generated_class_count=801`, loaded generated names `[Items, Blocks, UnitTypes, Damage]`, content counts `22/11/417/56`, and MCP debug output returns `errors: []` |
 
 ## Not Done
 
@@ -264,3 +265,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-23 | M16 generated class registry: `emit` now writes `GeneratedClassRegistry.gd` with `801` source-linked class entries, lookup helpers, and manifest registry metadata; Godot MCP project scan sees `828` scripts and registry diagnostics pass. |
 | 2026-06-23 | M17 method stubs: emitted class skeletons now include collision-safe `java_method_*` stubs for parsed Java methods, making method metadata callable from Godot while preserving overload traceability; tests and MCP diagnostics pass. |
 | 2026-06-23 | M18 playable registry HUD: playable scene now reads `MindustryGeneratedClassRegistry.count()` and displays generated Java class count in HUD; Python tests, MCP LSP, and MCP runtime launch report no errors. |
+| 2026-06-23 | M19 runtime MCP and generated script loading: installed/enabled `godot_mcp_runtime`, verified port `7777` through MCP runtime, loaded selected generated scripts in `PortGame.gd`, and exposed `get_runtime_summary()` for live MCP verification. |

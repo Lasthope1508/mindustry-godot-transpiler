@@ -43,6 +43,24 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("generated_class_count = GeneratedClassRegistry.count()", source)
         self.assertIn("Generated Java classes: %d", source)
 
+    def test_port_game_loads_selected_generated_scripts_from_registry(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn('const SELECTED_GENERATED_CLASS_NAMES := ["Items", "Blocks", "UnitTypes", "Damage"]', source)
+        self.assertIn("ResourceLoader.load(str(entry.get(\"gdscript_path\", \"\")))", source)
+        self.assertIn("loaded_generated_class_names.append(java_name)", source)
+        self.assertIn("Loaded generated scripts: %d (%s)", source)
+
+    def test_port_game_exposes_runtime_summary_for_mcp(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func get_runtime_summary() -> Dictionary:", source)
+        self.assertIn('"generated_class_count": generated_class_count', source)
+        self.assertIn('"loaded_generated_class_names": loaded_generated_class_names.duplicate()', source)
+        self.assertIn('"content_counts": content_counts.duplicate()', source)
+
 
 if __name__ == "__main__":
     unittest.main()
