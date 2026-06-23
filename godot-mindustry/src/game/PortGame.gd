@@ -617,7 +617,7 @@ func simulate_turrets(delta: float) -> void:
 	if duo == null:
 		return
 	var reload_seconds := source_turret_reload_seconds(duo)
-	var range_pixels = float(duo.properties.get("range", 0.0))
+	var range_pixels := source_turret_range(duo)
 	for cell in turret_cells:
 		var key := cell_key(cell)
 		var cooldown = max(0.0, float(turret_cooldowns.get(key, 0.0)) - delta)
@@ -672,10 +672,23 @@ func selected_turret_reload_seconds() -> float:
 		return 0.0
 	return source_turret_reload_seconds(duo)
 
+func selected_turret_range() -> float:
+	if content_catalog == null:
+		return 0.0
+	var duo = content_catalog.get_by_id("duo")
+	if duo == null:
+		return 0.0
+	return source_turret_range(duo)
+
 func source_turret_reload_seconds(turret) -> float:
 	if turret == null:
 		return 0.0
 	return float(turret.properties.get("reload", 10.0)) / 60.0
+
+func source_turret_range(turret) -> float:
+	if turret == null:
+		return 0.0
+	return float(turret.properties.get("range", 80.0))
 
 func source_bullet_lifetime_seconds(data: Dictionary) -> float:
 	return float(data.get("lifetime", 40.0)) / 60.0
@@ -795,6 +808,7 @@ func get_runtime_summary() -> Dictionary:
 		"selected_turret_ammo_lifetime_seconds": selected_turret_ammo_lifetime_seconds(),
 		"selected_turret_ammo_world_speed": selected_turret_ammo_world_speed(),
 		"selected_turret_reload_seconds": selected_turret_reload_seconds(),
+		"selected_turret_range": selected_turret_range(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
