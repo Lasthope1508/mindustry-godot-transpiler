@@ -59,6 +59,9 @@ var turret_cells: Array = []
 var turret_cooldowns: Dictionary = {}
 var turret_ammo_stacks: Dictionary = {}
 var turret_total_ammo: Dictionary = {}
+var turret_shot_count := 0
+var last_turret_fired_ammo_item := ""
+var last_turret_fired_damage := 0.0
 var wave_index := 1
 var wave_cooldown := 0.0
 var path_points: Array[Vector2] = []
@@ -637,8 +640,10 @@ func simulate_turrets(delta: float) -> void:
 		if cooldown <= 0.0:
 			var target = find_enemy_target(grid_to_world(cell), range_pixels)
 			if target != null:
-				spawn_turret_bullet(grid_to_world(cell), target, duo)
-				cooldown = reload_seconds
+				var data := use_turret_ammo(cell, duo)
+				if not data.is_empty():
+					spawn_turret_bullet(grid_to_world(cell), target, data)
+					cooldown = reload_seconds
 		turret_cooldowns[key] = cooldown
 
 func selected_turret_ammo_sprite() -> String:
@@ -926,11 +931,12 @@ func find_enemy_target(origin: Vector2, range_pixels: float):
 			best = enemy
 	return best
 
-func spawn_turret_bullet(origin: Vector2, target, turret) -> void:
-	var ammo: Array = turret.properties.get("ammo", [])
-	if ammo.is_empty():
+func spawn_turret_bullet(origin: Vector2, target, data: Dictionary) -> void:
+	if data.is_empty():
 		return
-	var data: Dictionary = ammo[0]
+	last_turret_fired_ammo_item = str(data.get("item", ""))
+	last_turret_fired_damage = source_bullet_damage(data)
+	turret_shot_count += 1
 	var sprite := Sprite2D.new()
 	sprite.texture = source_bullet_texture(str(data.get("sprite", "bullet")))
 	sprite.position = origin
@@ -1021,6 +1027,9 @@ func get_runtime_summary() -> Dictionary:
 		"wave_index": wave_index,
 		"enemy_count": enemy_units.size(),
 		"bullet_count": bullets.size(),
+		"turret_shot_count": turret_shot_count,
+		"last_turret_fired_ammo_item": last_turret_fired_ammo_item,
+		"last_turret_fired_damage": last_turret_fired_damage,
 		"selected_turret_ammo_sprite": selected_turret_ammo_sprite(),
 		"selected_turret_ammo_lifetime_seconds": selected_turret_ammo_lifetime_seconds(),
 		"selected_turret_ammo_world_speed": selected_turret_ammo_world_speed(),

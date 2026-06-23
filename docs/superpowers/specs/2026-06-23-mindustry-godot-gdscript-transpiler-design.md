@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 51 |
-| Done | 51 |
+| Total tracked work items | 52 |
+| Done | 52 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -72,6 +72,7 @@
 | N47 | Extract source bullet ammo multiplier | `BulletType.java` defaults `ammoMultiplier=2f`; `Blocks.java` sets duo copper `ammoMultiplier=2`, graphite `ammoMultiplier=4`, and silicon `ammoMultiplier=5`; `content_registry.py` extracts `ammoMultiplier` from each BasicBulletType body; generated duo ammo contains `2/4/5`; `PortGame.gd` exposes `selected_turret_ammo_multiplier`; Python suite reports `53` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_turret_ammo_multiplier=2`, with debug `errors: []` |
 | N48 | Extract source item turret ammo storage defaults | `Turret.java` defines default `maxAmmo=30`, `ammoPerShot=1`, and `consumeAmmoOnce=true`; duo does not override these in `Blocks.java`; `content_registry.py` records these defaults for ItemTurret blocks only when source has no assignment for that key, avoiding false defaults for unsupported expressions; `PortGame.gd` exposes selected turret ammo storage fields; Python suite reports `54` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_turret_max_ammo=30`, `selected_turret_ammo_per_shot=1`, and `selected_turret_consume_ammo_once=true`, with debug `errors: []` |
 | N49 | Port source item turret ammo stack load/use logic | `ItemTurretBuild.handleItem()` adds `type.ammoMultiplier` to the matching item stack and moves that stack to the right; `TurretBuild.useAmmo()` subtracts `ammoPerShot`, pops empty stacks, and returns the peeked ammo type; `PortGame.gd` now keeps per-cell `turret_ammo_stacks` and `turret_total_ammo`, exposes `load_selected_turret_ammo()` and `use_selected_turret_ammo_once()` for MCP verification, and reports loaded ammo state in runtime summary; Python suite reports `55` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime loads two copper items into duo (`total=4` from source `ammoMultiplier=2`) then uses one shot (`total=3`, bullet damage `9`), with debug `errors: []` |
+| N50 | Fire source item turrets from loaded ammo stack | `TurretBuild.updateShooting()`/`shoot()` only fires when ammo exists and `useAmmo()` supplies the bullet type; `PortGame.gd` now calls `use_turret_ammo(cell, duo)` before spawning a turret bullet, does not fall back to `duo.properties.ammo[0]`, and records `turret_shot_count`, `last_turret_fired_ammo_item`, and `last_turret_fired_damage` in runtime summary for MCP proof; Python suite reports `56` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime loads three copper items (`selected_turret_total_ammo=6`), observes one fired shot with `last_turret_fired_ammo_item="copper"`, `last_turret_fired_damage=9`, `turret_shot_count=1`, and remaining total ammo `5`, with debug `errors: []` |
 
 ## Not Done
 
@@ -324,3 +325,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-23 | M46 source bullet ammo multiplier: generated duo ammo now includes source `ammoMultiplier` values `2/4/5`, and runtime summary exposes selected copper ammo multiplier `2`. |
 | 2026-06-23 | M47 source item turret ammo storage defaults: generated duo now carries source `maxAmmo=30`, `ammoPerShot=1`, and `consumeAmmoOnce=true`, exposed through MCP runtime summary. |
 | 2026-06-23 | M48 source item turret ammo stack logic: runtime now ports `handleItem()`/`useAmmo()` stack behavior for item turrets and verifies load/use through MCP. |
+| 2026-06-23 | M49 source-loaded ammo firing: duo turret now consumes loaded ammo through `use_turret_ammo()` before spawning bullets and exposes fired ammo counters for MCP verification. |

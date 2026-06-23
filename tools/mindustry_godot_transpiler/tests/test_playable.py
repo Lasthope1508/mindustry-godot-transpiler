@@ -408,6 +408,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"selected_turret_ammo_stack_count": selected_turret_ammo_stack_count()', source)
         self.assertIn('"selected_turret_loaded_ammo_item": selected_turret_loaded_ammo_item()', source)
 
+    def test_port_game_turret_fire_uses_source_loaded_ammo(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var data := use_turret_ammo(cell, duo)", source)
+        self.assertIn("if not data.is_empty():", source)
+        self.assertIn("spawn_turret_bullet(grid_to_world(cell), target, data)", source)
+        self.assertIn("func spawn_turret_bullet(origin: Vector2, target, data: Dictionary) -> void:", source)
+        self.assertNotIn("spawn_turret_bullet(grid_to_world(cell), target, duo)", source)
+        self.assertIn("var turret_shot_count := 0", source)
+        self.assertIn("var last_turret_fired_ammo_item := \"\"", source)
+        self.assertIn("var last_turret_fired_damage := 0.0", source)
+        self.assertIn('last_turret_fired_ammo_item = str(data.get("item", ""))', source)
+        self.assertIn("last_turret_fired_damage = source_bullet_damage(data)", source)
+        self.assertIn("turret_shot_count += 1", source)
+        self.assertIn('"turret_shot_count": turret_shot_count', source)
+        self.assertIn('"last_turret_fired_ammo_item": last_turret_fired_ammo_item', source)
+        self.assertIn('"last_turret_fired_damage": last_turret_fired_damage', source)
+
     def test_port_game_uses_source_turret_reload(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
