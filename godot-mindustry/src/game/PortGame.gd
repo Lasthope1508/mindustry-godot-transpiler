@@ -3,6 +3,7 @@ class_name PortGame
 
 const CONFIG_PATH := "res://src/generated/playable_content.json"
 const ContentRegistry := preload("res://src/generated/MindustryContentRegistry.gd")
+const ContentCatalog := preload("res://src/mindustry/content/ContentCatalog.gd")
 const WORLD_W := 24
 const WORLD_H := 16
 
@@ -10,6 +11,7 @@ var tile_size := 32
 var config: Dictionary = {}
 var textures: Dictionary = {}
 var content_counts: Dictionary = {"items": 0, "liquids": 0, "blocks": 0}
+var content_catalog: RefCounted
 var core_inventory := 0
 var produced_total := 0
 var item_progress := 0.0
@@ -39,7 +41,10 @@ func load_config() -> void:
 		tile_size = int(config.get("tile_size", 32))
 
 func load_content_registry() -> void:
-	content_counts = ContentRegistry.counts()
+	content_catalog = ContentCatalog.new()
+	content_counts = content_catalog.counts()
+	if content_counts != ContentRegistry.counts():
+		push_error("Generated registry counts do not match loaded content catalog")
 
 func load_textures() -> void:
 	if config.is_empty():
@@ -153,4 +158,6 @@ func update_camera(delta: float) -> void:
 func update_hud() -> void:
 	if hud_label == null:
 		return
-	hud_label.text = "Mindustry Godot slice\nSource registry: %d items / %d liquids / %d blocks\nCopper in core: %d\nTotal produced: %d\nArrows move camera, Q/E zoom" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), core_inventory, produced_total]
+	var copper = content_catalog.get_by_id("copper") if content_catalog else null
+	var copper_name: String = copper.display_name() if copper else "Copper"
+	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks\n%s in core: %d\nTotal produced: %d\nArrows move camera, Q/E zoom" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), copper_name, core_inventory, produced_total]

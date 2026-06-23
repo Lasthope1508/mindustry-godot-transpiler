@@ -1,0 +1,18 @@
+extends "res://src/mindustry/content/UnlockableContent.gd"
+class_name MindustryBlock
+
+var size := 1
+var health := 0
+var category := ""
+
+func _init(data: Dictionary = {}) -> void:
+	super(data, "block")
+	size = int(properties.get("size", 1))
+	health = int(properties.get("health", 0))
+	category = str(properties.get("category", ""))
+
+func is_core() -> bool:
+	return implementation == "CoreBlock"
+
+func is_distribution() -> bool:
+	return implementation in ["Conveyor", "StackConveyor", "ArmoredConveyor", "Router", "Junction"]

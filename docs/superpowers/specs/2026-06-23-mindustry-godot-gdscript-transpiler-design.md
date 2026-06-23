@@ -13,8 +13,8 @@
 | Bucket | Count |
 | --- | ---: |
 | Total tracked work items | 14 |
-| Done | 10 |
-| Not done | 4 |
+| Done | 11 |
+| Not done | 3 |
 | Blocked | 0 |
 
 ## Done
@@ -29,6 +29,7 @@
 | N4 | Add Java AST parser | `test_java_ast.py` passes class and enum parser fixtures; `parse --limit 20` writes `ast_manifest.json` |
 | N5 | Define Java-to-GDScript mapping table | `test_mapping.py` verifies class, enum, method, field, constructor, static initializer, overload, package, import mappings |
 | N7 | Create compatibility runtime | Runtime stubs exist for `Seq`, `ObjectMap`, `Time`, `Mathf`, `ColorCompat`, `Vec2`, `Vars`, `Events`, `Core`; MCP project scan sees scripts |
+| N8 | Port base content model | `MindustryContent`, `MindustryUnlockableContent`, `MindustryItem`, `MindustryLiquid`, `MindustryBlock`, and `MindustryContentCatalog` load generated registry objects; MCP runtime starts scene with `errors=[]` |
 | N9 | Generate first content data | `content` command writes `content_registry.json` and `MindustryContentRegistry.gd`; MCP LSP diagnostics pass for generated registry; registry includes `22` items, `11` liquids, `417` source-declared block constructors |
 | N10 | Build asset bridge | Full run writes `asset_manifest.json`, copies `2970` upstream assets, `mcp__godot.project_info` sees Godot asset structure |
 
@@ -37,7 +38,6 @@
 | ID | Item | Required verification before marking done |
 | --- | --- | --- |
 | N6 | Emit GDScript classes | Generated `.gd` files pass Godot parse check |
-| N8 | Port base content model | `Content`, `ContentType`, `UnlockableContent`, `Item`, `Liquid`, `Block` load in Godot |
 | N11 | Add reports for unsupported Java features | Report lists unsupported syntax with exact source path and line number |
 | N12 | Add regression fixtures | Fixtures compare generated output against checked expected `.gd` files |
 ## Scope
@@ -242,3 +242,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-23 | M2 parser started: javalang parser, parse CLI, AST manifest, Java-to-GDScript mapping table. |
 | 2026-06-23 | M3 playable slice: generated playable content manifest, attached `PortGame.gd`, MCP run_project starts scene with zero runtime errors. |
 | 2026-06-23 | M4 content registry: generated source-derived `Items`, `Liquids`, and declared `Blocks` registry; `PortGame.gd` HUD reads generated registry counts; MCP diagnostics and runtime output show zero errors. |
+| 2026-06-23 | M5 content model: added Godot content classes and catalog loader; generated registry now instantiates live item/liquid/block objects; MCP runtime output shows zero errors. |
