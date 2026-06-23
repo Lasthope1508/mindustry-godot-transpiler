@@ -1,0 +1,94 @@
+import tempfile
+import unittest
+from pathlib import Path
+
+import sys
+
+ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT / "tools" / "mindustry_godot_transpiler"))
+
+from mindustry_port.content_registry import build_content_registry, gdscript_literal
+
+
+class ContentRegistryTests(unittest.TestCase):
+    def test_build_registry_extracts_items_liquids_blocks_and_assets(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = root / "upstream" / "core" / "src" / "mindustry" / "content"
+            source.mkdir(parents=True)
+            (source / "Items.java").write_text(
+                """
+package mindustry.content;
+import arc.graphics.*;
+import mindustry.type.*;
+public class Items{
+    public static Item copper, lead;
+    public static void load(){
+        copper = new Item("copper", Color.valueOf("d99d73")){{
+            hardness = 1;
+            cost = 0.5f;
+            alwaysUnlocked = true;
+        }};
+        lead = new Item("lead", Color.valueOf("8c7fa9"));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            (source / "Liquids.java").write_text(
+                """
+package mindustry.content;
+import arc.graphics.*;
+import mindustry.type.*;
+public class Liquids{
+    public static Liquid water;
+    public static void load(){
+        water = new Liquid("water", Color.valueOf("596ab8")){{
+            heatCapacity = 0.4f;
+            gas = false;
+        }};
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            (source / "Blocks.java").write_text(
+                """
+package mindustry.content;
+public class Blocks{
+    public static Block conveyor, coreShard;
+    public static void load(){
+        conveyor = new Conveyor("conveyor");
+        coreShard = new CoreBlock("core-shard");
+        drawer = new DrawTurret("not-a-block-field");
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            assets = root / "godot" / "assets"
+            (assets / "core/assets-raw/sprites/items").mkdir(parents=True)
+            (assets / "core/assets-raw/sprites/items/item-copper.png").write_bytes(b"png")
+            (assets / "core/assets-raw/sprites/items/liquid-water.png").write_bytes(b"png")
+
+            registry = build_content_registry(root / "upstream", root / "godot")
+
+        self.assertEqual([item["id"] for item in registry["items"]], ["copper", "lead"])
+        self.assertEqual(registry["items"][0]["color"], "d99d73")
+        self.assertEqual(registry["items"][0]["properties"]["hardness"], 1)
+        self.assertEqual(registry["items"][0]["properties"]["alwaysUnlocked"], True)
+        self.assertEqual(registry["items"][0]["texture"], "res://assets/core/assets-raw/sprites/items/item-copper.png")
+        self.assertEqual(registry["liquids"][0]["id"], "water")
+        self.assertEqual(registry["liquids"][0]["properties"]["heatCapacity"], 0.4)
+        self.assertEqual(registry["blocks"], [
+            {"field": "conveyor", "id": "conveyor", "implementation": "Conveyor"},
+            {"field": "coreShard", "id": "core-shard", "implementation": "CoreBlock"},
+        ])
+        self.assertEqual(registry["counts"], {"items": 2, "liquids": 1, "blocks": 2})
+
+    def test_gdscript_literal_escapes_strings_and_keeps_types(self):
+        self.assertEqual(gdscript_literal({"name": "core-shard", "enabled": True, "size": 3}), '{"enabled": true, "name": "core-shard", "size": 3}')
+
+
+if __name__ == "__main__":
+    unittest.main()

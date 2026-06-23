@@ -2,12 +2,14 @@ extends Node2D
 class_name PortGame
 
 const CONFIG_PATH := "res://src/generated/playable_content.json"
+const ContentRegistry := preload("res://src/generated/MindustryContentRegistry.gd")
 const WORLD_W := 24
 const WORLD_H := 16
 
 var tile_size := 32
 var config: Dictionary = {}
 var textures: Dictionary = {}
+var content_counts: Dictionary = {"items": 0, "liquids": 0, "blocks": 0}
 var core_inventory := 0
 var produced_total := 0
 var item_progress := 0.0
@@ -20,6 +22,7 @@ var core_pos := Vector2i(17, 8)
 
 func _ready() -> void:
 	load_config()
+	load_content_registry()
 	load_textures()
 	bind_nodes()
 	build_world()
@@ -34,6 +37,9 @@ func load_config() -> void:
 	if typeof(parsed) == TYPE_DICTIONARY:
 		config = parsed
 		tile_size = int(config.get("tile_size", 32))
+
+func load_content_registry() -> void:
+	content_counts = ContentRegistry.counts()
 
 func load_textures() -> void:
 	if config.is_empty():
@@ -147,4 +153,4 @@ func update_camera(delta: float) -> void:
 func update_hud() -> void:
 	if hud_label == null:
 		return
-	hud_label.text = "Mindustry Godot slice\nCopper in core: %d\nTotal produced: %d\nArrows move camera, Q/E zoom" % [core_inventory, produced_total]
+	hud_label.text = "Mindustry Godot slice\nSource registry: %d items / %d liquids / %d blocks\nCopper in core: %d\nTotal produced: %d\nArrows move camera, Q/E zoom" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), core_inventory, produced_total]

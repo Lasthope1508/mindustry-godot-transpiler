@@ -21,6 +21,7 @@ class CliTests(unittest.TestCase):
         self.assertIn("scan", result.stdout)
         self.assertIn("assets", result.stdout)
         self.assertIn("report", result.stdout)
+        self.assertIn("content", result.stdout)
         self.assertIn("all", result.stdout)
 
     def test_all_command_writes_manifests_and_report(self):
@@ -79,6 +80,34 @@ class CliTests(unittest.TestCase):
 
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertTrue((godot / "src" / "generated" / "playable_content.json").exists())
+
+
+    def test_content_command_writes_json_and_gdscript_registry(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            upstream = root / "mindustry-upstream"
+            source = upstream / "core" / "src" / "mindustry" / "content"
+            source.mkdir(parents=True)
+            (source / "Items.java").write_text(
+                'package mindustry.content; import arc.graphics.*; import mindustry.type.*; public class Items{ public static Item copper; public static void load(){ copper = new Item("copper", Color.valueOf("d99d73")); } }',
+                encoding="utf-8",
+            )
+            (source / "Liquids.java").write_text(
+                'package mindustry.content; import arc.graphics.*; import mindustry.type.*; public class Liquids{ public static Liquid water; public static void load(){ water = new Liquid("water", Color.valueOf("596ab8")); } }',
+                encoding="utf-8",
+            )
+            (source / "Blocks.java").write_text(
+                'package mindustry.content; public class Blocks{ public static Block conveyor; public static void load(){ conveyor = new Conveyor("conveyor"); } }',
+                encoding="utf-8",
+            )
+            godot = root / "godot-mindustry"
+
+            result = run_cli("content", "--upstream", str(upstream), "--godot", str(godot))
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("content items=1 liquids=1 blocks=1", result.stdout)
+            self.assertTrue((godot / "src" / "generated" / "content_registry.json").exists())
+            self.assertTrue((godot / "src" / "generated" / "MindustryContentRegistry.gd").exists())
 
 
 if __name__ == "__main__":

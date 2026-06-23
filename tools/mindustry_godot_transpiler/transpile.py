@@ -2,6 +2,7 @@ import argparse
 from pathlib import Path
 
 from mindustry_port.assets import copy_assets
+from mindustry_port.content_registry import write_content_registry
 from mindustry_port.java_ast import parse_source_tree
 from mindustry_port.playable import write_playable_manifest
 from mindustry_port.reports import write_json, write_report
@@ -27,6 +28,7 @@ def build_parser() -> argparse.ArgumentParser:
         "report": "Write pipeline status report",
         "parse": "Parse Java files into normalized AST manifest",
         "playable": "Write playable slice manifest",
+        "content": "Write source-derived content registry",
         "all": "Run scan, assets, and report",
     }
     for command, help_text in commands.items():
@@ -63,6 +65,10 @@ def run_playable(godot: Path) -> dict:
     return write_playable_manifest(godot / "assets", generated_dir(godot) / "playable_content.json")
 
 
+def run_content(upstream: Path, godot: Path) -> dict:
+    return write_content_registry(upstream, godot)
+
+
 def main(argv=None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
@@ -84,6 +90,10 @@ def main(argv=None) -> int:
     elif args.command == "playable":
         manifest = run_playable(godot)
         print(f"playable blocks={len(manifest['blocks'])} item={manifest['item']['id']}")
+    elif args.command == "content":
+        registry = run_content(upstream, godot)
+        counts = registry["counts"]
+        print(f"content items={counts['items']} liquids={counts['liquids']} blocks={counts['blocks']}")
     elif args.command == "all":
         source_manifest = run_scan(upstream, godot)
         asset_manifest = run_assets(upstream, godot)
