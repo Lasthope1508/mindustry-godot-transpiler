@@ -83,6 +83,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"placed_block_count": placed_blocks.size()', source)
         self.assertIn('"selected_build_index": selected_build_index', source)
 
+    def test_port_game_instantiates_all_generated_scripts_from_registry(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var all_generated_scripts: Dictionary = {}", source)
+        self.assertIn("var all_generated_instances: Dictionary = {}", source)
+        self.assertIn("var all_generated_load_failures: Array[String] = []", source)
+        self.assertIn("var all_generated_instance_failures: Array[String] = []", source)
+        self.assertIn("func load_all_generated_scripts() -> void:", source)
+        self.assertIn("for entry in GeneratedClassRegistry.all_classes():", source)
+        self.assertIn('var java_key := "%s.%s" % [str(entry.get("java_package", "")), str(entry.get("java_name", ""))]', source)
+        self.assertIn("all_generated_scripts[java_key] = script", source)
+        self.assertIn("all_generated_instances[java_key] = instance", source)
+        self.assertIn('"all_generated_script_count": all_generated_scripts.size()', source)
+        self.assertIn('"all_generated_instance_count": all_generated_instances.size()', source)
+        self.assertIn("All generated script instances: %d / %d", source)
+
 
 if __name__ == "__main__":
     unittest.main()

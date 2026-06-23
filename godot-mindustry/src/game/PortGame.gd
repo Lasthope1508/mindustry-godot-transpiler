@@ -20,6 +20,10 @@ var loaded_generated_scripts: Dictionary = {}
 var loaded_generated_class_names: Array[String] = []
 var loaded_generated_instances: Dictionary = {}
 var loaded_generated_instance_names: Array[String] = []
+var all_generated_scripts: Dictionary = {}
+var all_generated_instances: Dictionary = {}
+var all_generated_load_failures: Array[String] = []
+var all_generated_instance_failures: Array[String] = []
 var content_catalog: RefCounted
 var build_palette: Array = []
 var selected_build_index := 0
@@ -65,9 +69,28 @@ func load_content_registry() -> void:
 	content_catalog = ContentCatalog.new()
 	content_counts = content_catalog.counts()
 	generated_class_count = GeneratedClassRegistry.count()
+	load_all_generated_scripts()
 	load_selected_generated_scripts()
 	if content_counts != ContentRegistry.counts():
 		push_error("Generated registry counts do not match loaded content catalog")
+
+func load_all_generated_scripts() -> void:
+	all_generated_scripts.clear()
+	all_generated_instances.clear()
+	all_generated_load_failures.clear()
+	all_generated_instance_failures.clear()
+	for entry in GeneratedClassRegistry.all_classes():
+		var java_key := "%s.%s" % [str(entry.get("java_package", "")), str(entry.get("java_name", ""))]
+		var script = ResourceLoader.load(str(entry.get("gdscript_path", "")))
+		if script == null:
+			all_generated_load_failures.append(java_key)
+			continue
+		all_generated_scripts[java_key] = script
+		var instance = script.new()
+		if instance == null:
+			all_generated_instance_failures.append(java_key)
+			continue
+		all_generated_instances[java_key] = instance
 
 func load_selected_generated_scripts() -> void:
 	loaded_generated_scripts.clear()
@@ -474,6 +497,10 @@ func update_camera(delta: float) -> void:
 func get_runtime_summary() -> Dictionary:
 	return {
 		"generated_class_count": generated_class_count,
+		"all_generated_script_count": all_generated_scripts.size(),
+		"all_generated_instance_count": all_generated_instances.size(),
+		"all_generated_load_failures": all_generated_load_failures.duplicate(),
+		"all_generated_instance_failures": all_generated_instance_failures.duplicate(),
 		"loaded_generated_class_names": loaded_generated_class_names.duplicate(),
 		"loaded_generated_instance_names": loaded_generated_instance_names.duplicate(),
 		"content_counts": content_counts.duplicate(),
@@ -495,4 +522,4 @@ func update_hud() -> void:
 	var selected = build_palette[selected_build_index] if not build_palette.is_empty() else null
 	var selected_name: String = selected.display_name() if selected else "None"
 	var selected_cost := requirements_text(selected) if selected else "none"
-	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks / %d units\nGenerated Java classes: %d\nLoaded generated scripts: %d (%s)\nInstanced generated scripts: %d (%s)\nBuild: %s cost %s (1-6 select, left click place)\n%s in core: %d\nTotal produced: %d\nWave: %d enemies: %d bullets: %d core health: %d\nArrows move camera, Q/E zoom" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), content_counts.get("units", 0), generated_class_count, loaded_generated_class_names.size(), ", ".join(loaded_generated_class_names), loaded_generated_instance_names.size(), ", ".join(loaded_generated_instance_names), selected_name, selected_cost, copper_name, core_inventory, produced_total, wave_index, enemy_units.size(), bullets.size(), int(core_health)]
+	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks / %d units\nGenerated Java classes: %d\nAll generated script instances: %d / %d\nLoaded generated scripts: %d (%s)\nInstanced generated scripts: %d (%s)\nBuild: %s cost %s (1-6 select, left click place)\n%s in core: %d\nTotal produced: %d\nWave: %d enemies: %d bullets: %d core health: %d\nArrows move camera, Q/E zoom" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), content_counts.get("units", 0), generated_class_count, all_generated_instances.size(), generated_class_count, loaded_generated_class_names.size(), ", ".join(loaded_generated_class_names), loaded_generated_instance_names.size(), ", ".join(loaded_generated_instance_names), selected_name, selected_cost, copper_name, core_inventory, produced_total, wave_index, enemy_units.size(), bullets.size(), int(core_health)]
