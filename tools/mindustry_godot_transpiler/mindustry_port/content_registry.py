@@ -249,11 +249,11 @@ def _block_properties(source: str, assignment_end: int) -> dict[str, Any]:
     requirements = _block_requirements(initializer)
     if requirements:
         properties["requirements"] = requirements
-    for key in ["size", "health", "itemCapacity"]:
+    for key in ["size", "health", "itemCapacity", "tier"]:
         match = re.search(rf"\b{key}\s*=\s*([0-9_]+)\s*;", initializer)
         if match:
             properties[key] = int(match.group(1).replace("_", ""))
-    for key in ["range", "reload"]:
+    for key in ["range", "reload", "drillTime"]:
         value = _numeric_assignment(initializer, key)
         if value is not None:
             properties[key] = value

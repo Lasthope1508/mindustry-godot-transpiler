@@ -9,6 +9,7 @@ const WORLD_W := 24
 const WORLD_H := 16
 const PINNED_BUILD_BLOCK_IDS := ["conveyor", "router", "junction", "mechanical-drill", "duo", "copper-wall"]
 const SELECTED_GENERATED_CLASS_NAMES := ["Items", "Blocks", "UnitTypes", "Damage"]
+const SOURCE_DRILL_HARDNESS_MULTIPLIER := 50.0
 
 var tile_size := 32
 var config: Dictionary = {}
@@ -27,6 +28,7 @@ var all_generated_instance_failures: Array[String] = []
 var content_catalog: RefCounted
 var build_palette: Array = []
 var selected_build_index := 0
+var ore_items_by_cell: Dictionary = {}
 var placed_blocks: Dictionary = {}
 var placed_block_origins: Dictionary = {}
 var initial_world_block_count := 0
@@ -41,6 +43,9 @@ var core_items: Dictionary = {"copper": 0}
 var core_item_capacity := 0
 var core_max_health := 0.0
 var core_health := 0.0
+var drill_output_item_id := "copper"
+var drill_ore_cell_count := 0
+var drill_output_rate := 0.0
 var produced_total := 0
 var item_progress := 0.0
 var item_sprites: Array[Sprite2D] = []
@@ -174,13 +179,16 @@ func build_world() -> void:
 	var terrain := get_node("World/TerrainLayer")
 	var blocks := get_node("World/BlockLayer")
 	var units := get_node("World/UnitLayer")
+	ore_items_by_cell.clear()
 	for y in WORLD_H:
 		for x in WORLD_W:
 			add_sprite(terrain, "stone_floor", grid_to_world(Vector2i(x, y)))
 	for y in range(6, 11):
 		for x in range(5, 8):
-			add_sprite(terrain, "ore_copper", grid_to_world(Vector2i(x, y)))
+			add_ore_cell(terrain, "ore_copper", "copper", Vector2i(x, y))
 	add_source_block(blocks, "mechanical-drill", drill_pos)
+	drill_ore_cell_count = source_drill_ore_count("mechanical-drill", drill_pos, drill_output_item_id)
+	drill_output_rate = source_drill_output_rate("mechanical-drill", drill_output_item_id, drill_ore_cell_count)
 	for x in range(drill_pos.x + 1, core_pos.x):
 		add_source_block(blocks, "conveyor", Vector2i(x, drill_pos.y))
 	add_source_block(blocks, "core-shard", core_pos)
@@ -322,6 +330,30 @@ func source_block_item_capacity(block_id: String) -> int:
 		return 0
 	return int(block.properties.get("itemCapacity", 0))
 
+func source_drill_ore_count(block_id: String, cell: Vector2i, item_id: String) -> int:
+	if content_catalog == null:
+		return 0
+	var block = content_catalog.get_by_id(block_id)
+	if block == null:
+		return 0
+	var count := 0
+	for occupied_cell in occupied_cells(cell, block):
+		if str(ore_items_by_cell.get(cell_key(occupied_cell), "")) == item_id:
+			count += 1
+	return count
+
+func source_drill_output_rate(block_id: String, item_id: String, ore_count: int) -> float:
+	if content_catalog == null or ore_count <= 0:
+		return 0.0
+	var block = content_catalog.get_by_id(block_id)
+	var item = content_catalog.get_by_id(item_id)
+	if block == null or item == null:
+		return 0.0
+	var delay := float(block.properties.get("drillTime", 300.0)) + SOURCE_DRILL_HARDNESS_MULTIPLIER * float(item.properties.get("hardness", 0))
+	if delay <= 0.0:
+		return 0.0
+	return 60.0 * float(ore_count) / delay
+
 func block_world_size(block) -> float:
 	return float(tile_size * block_size(block))
 
@@ -417,6 +449,10 @@ func add_sprite(parent: Node, key: String, pos: Vector2) -> Sprite2D:
 	parent.add_child(sprite)
 	return sprite
 
+func add_ore_cell(parent: Node, key: String, item_id: String, cell: Vector2i) -> Sprite2D:
+	ore_items_by_cell[cell_key(cell)] = item_id
+	return add_sprite(parent, key, grid_to_world(cell))
+
 func grid_to_world(cell: Vector2i) -> Vector2:
 	return Vector2(cell.x * tile_size, cell.y * tile_size)
 
@@ -439,12 +475,12 @@ func _process(delta: float) -> void:
 	update_hud()
 
 func simulate_factory(delta: float) -> void:
-	if path_points.is_empty():
+	if path_points.is_empty() or drill_output_rate <= 0.0:
 		return
-	item_progress += delta * 0.45
-	if item_progress >= 1.0:
+	item_progress += delta * drill_output_rate
+	while item_progress >= 1.0:
 		item_progress -= 1.0
-		add_core_item("copper", 1)
+		add_core_item(drill_output_item_id, 1)
 		produced_total += 1
 	for i in item_sprites.size():
 		var phase := fmod(item_progress + float(i) / float(item_sprites.size()), 1.0)
@@ -666,6 +702,9 @@ func get_runtime_summary() -> Dictionary:
 		"core_inventory": core_inventory,
 		"core_items": core_items.duplicate(),
 		"core_item_capacity": core_item_capacity,
+		"drill_output_item_id": drill_output_item_id,
+		"drill_ore_cell_count": drill_ore_cell_count,
+		"drill_output_rate": drill_output_rate,
 		"wave_index": wave_index,
 		"enemy_count": enemy_units.size(),
 		"bullet_count": bullets.size(),

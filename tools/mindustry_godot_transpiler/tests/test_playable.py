@@ -217,7 +217,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("if item_id != \"\" and core_item_count(item_id) < amount:", source)
         self.assertIn("set_core_item_count(item_id, core_item_count(item_id) - amount)", source)
         self.assertNotIn('requirement.get("item", "") == "copper"', source)
-        self.assertIn('add_core_item("copper", 1)', source)
+        self.assertIn("add_core_item(drill_output_item_id, 1)", source)
         self.assertIn('"core_items": core_items.duplicate()', source)
 
     def test_port_game_initializes_core_health_from_source_block(self):
@@ -267,6 +267,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('sprite.texture = source_bullet_texture(str(data.get("sprite", "bullet")))', source)
         self.assertIn('"selected_turret_ammo_sprite": selected_turret_ammo_sprite()', source)
         self.assertNotIn('sprite.texture = textures.get("item")', source)
+
+    def test_port_game_uses_source_drill_rate(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("const SOURCE_DRILL_HARDNESS_MULTIPLIER := 50.0", source)
+        self.assertIn("var ore_items_by_cell: Dictionary = {}", source)
+        self.assertIn("var drill_output_item_id := \"copper\"", source)
+        self.assertIn("var drill_ore_cell_count := 0", source)
+        self.assertIn("var drill_output_rate := 0.0", source)
+        self.assertIn('add_ore_cell(terrain, "ore_copper", "copper", Vector2i(x, y))', source)
+        self.assertIn('drill_ore_cell_count = source_drill_ore_count("mechanical-drill", drill_pos, drill_output_item_id)', source)
+        self.assertIn('drill_output_rate = source_drill_output_rate("mechanical-drill", drill_output_item_id, drill_ore_cell_count)', source)
+        self.assertIn("item_progress += delta * drill_output_rate", source)
+        self.assertNotIn("item_progress += delta * 0.45", source)
+        self.assertIn("add_core_item(drill_output_item_id, 1)", source)
+        self.assertNotIn('add_core_item("copper", 1)', source)
+        self.assertIn("func source_drill_output_rate(block_id: String, item_id: String, ore_count: int) -> float:", source)
+        self.assertIn('var delay := float(block.properties.get("drillTime", 300.0)) + SOURCE_DRILL_HARDNESS_MULTIPLIER * float(item.properties.get("hardness", 0))', source)
+        self.assertIn("return 60.0 * float(ore_count) / delay", source)
+        self.assertIn('"drill_output_item_id": drill_output_item_id', source)
+        self.assertIn('"drill_ore_cell_count": drill_ore_cell_count', source)
+        self.assertIn('"drill_output_rate": drill_output_rate', source)
 
 if __name__ == "__main__":
     unittest.main()

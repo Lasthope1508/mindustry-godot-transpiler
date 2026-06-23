@@ -4184,13 +4184,15 @@
       "implementation": "Drill",
       "properties": {
         "category": "production",
+        "drillTime": 600,
         "requirements": [
           {
             "amount": 12,
             "item": "copper"
           }
         ],
-        "size": 2
+        "size": 2,
+        "tier": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/mechanical-drill.png"
     },
@@ -4200,6 +4202,7 @@
       "implementation": "Drill",
       "properties": {
         "category": "production",
+        "drillTime": 400,
         "requirements": [
           {
             "amount": 18,
@@ -4210,7 +4213,8 @@
             "item": "graphite"
           }
         ],
-        "size": 2
+        "size": 2,
+        "tier": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/pneumatic-drill.png"
     },
@@ -4220,6 +4224,7 @@
       "implementation": "Drill",
       "properties": {
         "category": "production",
+        "drillTime": 280,
         "requirements": [
           {
             "amount": 35,
@@ -4238,7 +4243,8 @@
             "item": "titanium"
           }
         ],
-        "size": 3
+        "size": 3,
+        "tier": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/laser-drill.png"
     },
@@ -4248,6 +4254,7 @@
       "implementation": "Drill",
       "properties": {
         "category": "production",
+        "drillTime": 280,
         "itemCapacity": 20,
         "requirements": [
           {
@@ -4267,7 +4274,8 @@
             "item": "thorium"
           }
         ],
-        "size": 4
+        "size": 4,
+        "tier": 5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/blast-drill.png"
     },
@@ -4382,6 +4390,7 @@
       "implementation": "WallCrafter",
       "properties": {
         "category": "production",
+        "drillTime": 110.0,
         "requirements": [
           {
             "amount": 25,
@@ -4402,6 +4411,7 @@
       "implementation": "WallCrafter",
       "properties": {
         "category": "production",
+        "drillTime": 48.0,
         "itemCapacity": 20,
         "requirements": [
           {
@@ -4431,6 +4441,7 @@
       "implementation": "BeamDrill",
       "properties": {
         "category": "production",
+        "drillTime": 160.0,
         "range": 5,
         "requirements": [
           {
@@ -4438,7 +4449,8 @@
             "item": "beryllium"
           }
         ],
-        "size": 2
+        "size": 2,
+        "tier": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/plasma-bore.png"
     },
@@ -4448,6 +4460,7 @@
       "implementation": "BeamDrill",
       "properties": {
         "category": "production",
+        "drillTime": 100.0,
         "itemCapacity": 20,
         "range": 6,
         "requirements": [
@@ -4468,7 +4481,8 @@
             "item": "tungsten"
           }
         ],
-        "size": 3
+        "size": 3,
+        "tier": 5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/large-plasma-bore.png"
     },
@@ -4493,7 +4507,8 @@
             "item": "graphite"
           }
         ],
-        "size": 4
+        "size": 4,
+        "tier": 6
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/impact-drill.png"
     },
@@ -4503,6 +4518,7 @@
       "implementation": "BurstDrill",
       "properties": {
         "category": "production",
+        "drillTime": 281.25,
         "itemCapacity": 60,
         "requirements": [
           {
@@ -4522,7 +4538,8 @@
             "item": "thorium"
           }
         ],
-        "size": 5
+        "size": 5,
+        "tier": 7
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/eruption-drill.png"
     },
