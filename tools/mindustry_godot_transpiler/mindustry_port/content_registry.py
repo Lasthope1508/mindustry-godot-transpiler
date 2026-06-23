@@ -200,7 +200,31 @@ def _block_properties(source: str, assignment_end: int) -> dict[str, Any]:
         match = re.search(rf"\b{key}\s*=\s*([0-9_]+)\s*;", initializer)
         if match:
             properties[key] = int(match.group(1).replace("_", ""))
+    for key in ["range", "reload"]:
+        value = _numeric_assignment(initializer, key)
+        if value is not None:
+            properties[key] = value
+    ammo = _block_ammo(initializer)
+    if ammo:
+        properties["ammo"] = ammo
     return properties
+
+def _numeric_assignment(source: str, key: str) -> int | float | None:
+    match = re.search(rf"\b{key}\s*=\s*([0-9_]+(?:\.[0-9_]+)?[fFdDlL]?)\s*;", source)
+    return _number_literal(match.group(1)) if match else None
+
+def _block_ammo(initializer: str) -> list[dict[str, Any]]:
+    pattern = re.compile(r"ammo\s*\(\s*Items\.([A-Za-z_]\w*)\s*,\s*new\s+BasicBulletType\s*\(\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?)\s*,\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?)", re.MULTILINE)
+    ammo = []
+    for match in pattern.finditer(initializer):
+        item, speed, damage = match.groups()
+        entry = {"item": _camel_to_kebab(item), "speed": _number_literal(speed), "damage": _number_literal(damage)}
+        bullet_body = _initializer_body(initializer, match.end())
+        lifetime = _numeric_assignment(bullet_body, "lifetime")
+        if lifetime is not None:
+            entry["lifetime"] = lifetime
+        ammo.append(entry)
+    return ammo
 
 def _block_requirements(initializer: str) -> list[dict[str, Any]]:
     match = re.search(r"requirements\s*\([^;]*?with\((.*?)\)\s*\)", initializer, re.DOTALL)

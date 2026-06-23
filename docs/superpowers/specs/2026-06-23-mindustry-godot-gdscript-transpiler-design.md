@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 15 |
-| Done | 12 |
+| Total tracked work items | 16 |
+| Done | 13 |
 | Not done | 3 |
 | Blocked | 0 |
 
@@ -33,6 +33,7 @@
 | N9 | Generate first content data | `content` command writes `content_registry.json` and `MindustryContentRegistry.gd`; MCP LSP diagnostics pass for generated registry; registry includes `22` items, `11` liquids, `417` source-declared block constructors |
 | N10 | Build asset bridge | Full run writes `asset_manifest.json`, copies `2970` upstream assets, `mcp__godot.project_info` sees Godot asset structure |
 | N13 | Add source-derived unit registry and first wave | Registry extracts `56` unit constructors from `UnitTypes.java`; `MindustryUnitType` and catalog load generated units; playable scene spawns source-derived dagger sprites and updates wave/core HUD; Python tests pass and MCP runtime output shows `errors=[]` |
+| N14 | Add source-derived turret ammo and bullets | Registry extracts `duo` reload/range/ammo from `Blocks.java`; playable scene pre-places a source-derived duo turret, targets spawned units, fires bullet sprites, applies source-derived damage, and MCP runtime output shows `errors=[]` |
 
 ## Not Done
 
@@ -248,3 +249,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-23 | M7 build placement: generator extracts block category/size/health from `Blocks.java`; playable scene has source-derived block palette, keyboard selection, and mouse placement using copied textures; MCP runtime output shows zero errors. |
 | 2026-06-23 | M8 build economy: generator extracts `with(Items.x, n)` requirements for `231` blocks; placement now checks and spends core copper using source-derived build costs; MCP runtime output shows zero errors. |
 | 2026-06-23 | M9 unit wave: generator extracts `56` units from `UnitTypes.java` without full-file Java parsing; `MindustryContentCatalog` loads units; `PortGame.gd` spawns source-derived dagger enemies that move toward the core; MCP runtime output shows zero errors. |
+| 2026-06-23 | M10 turret bullets: generator extracts turret `reload`, `range`, and first `BasicBulletType` ammo data; `PortGame.gd` pre-places source-derived duo, fires copper bullets at source-derived enemy units, and MCP runtime output shows zero errors. |

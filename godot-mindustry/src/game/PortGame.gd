@@ -23,6 +23,9 @@ var produced_total := 0
 var item_progress := 0.0
 var item_sprites: Array[Sprite2D] = []
 var enemy_units: Array = []
+var bullets: Array = []
+var turret_cells: Array = []
+var turret_cooldowns: Dictionary = {}
 var wave_index := 1
 var wave_cooldown := 0.0
 var path_points: Array[Vector2] = []
@@ -30,6 +33,7 @@ var hud_label: Label
 var camera: Camera2D
 var drill_pos := Vector2i(7, 8)
 var core_pos := Vector2i(17, 8)
+var duo_pos := Vector2i(18, 7)
 
 func _ready() -> void:
 	load_config()
@@ -111,6 +115,7 @@ func build_world() -> void:
 	for x in range(drill_pos.x + 1, core_pos.x):
 		add_sprite(blocks, "conveyor", grid_to_world(Vector2i(x, drill_pos.y)))
 	add_sprite(blocks, "core_shard", grid_to_world(core_pos))
+	add_source_block(blocks, "duo", duo_pos)
 	path_points.clear()
 	for x in range(drill_pos.x + 1, core_pos.x + 1):
 		path_points.append(grid_to_world(Vector2i(x, drill_pos.y)))
@@ -145,6 +150,7 @@ func place_selected_block_at_mouse() -> void:
 	var blocks := get_node("World/BlockLayer")
 	var key := cell_key(cell)
 	if placed_blocks.has(key):
+		unregister_turret_cell(cell)
 		placed_blocks[key].queue_free()
 	spend_requirements(block)
 	var sprite := Sprite2D.new()
@@ -156,6 +162,43 @@ func place_selected_block_at_mouse() -> void:
 			sprite.scale = Vector2(tile_size / size.x, tile_size / size.y)
 	blocks.add_child(sprite)
 	placed_blocks[key] = sprite
+	register_turret_cell(cell, block)
+
+func add_source_block(parent: Node, block_id: String, cell: Vector2i) -> void:
+	if content_catalog == null:
+		return
+	var block = content_catalog.get_by_id(block_id)
+	if block == null:
+		return
+	var sprite := Sprite2D.new()
+	sprite.texture = block_texture(block)
+	sprite.position = grid_to_world(cell)
+	if sprite.texture:
+		var size := sprite.texture.get_size()
+		if size.x > 0 and size.y > 0:
+			sprite.scale = Vector2(tile_size / size.x, tile_size / size.y)
+	parent.add_child(sprite)
+	placed_blocks[cell_key(cell)] = sprite
+	register_turret_cell(cell, block)
+
+func register_turret_cell(cell: Vector2i, block) -> void:
+	if block == null or not block.is_turret():
+		return
+	var key := cell_key(cell)
+	if not turret_cooldowns.has(key):
+		turret_cells.append(cell)
+	turret_cooldowns[key] = 0.0
+
+func unregister_turret_cell(cell: Vector2i) -> void:
+	var key := cell_key(cell)
+	if not turret_cooldowns.has(key):
+		return
+	turret_cooldowns.erase(key)
+	var kept: Array = []
+	for existing in turret_cells:
+		if cell_key(existing) != key:
+			kept.append(existing)
+	turret_cells = kept
 
 func block_texture(block) -> Texture2D:
 	if block_texture_cache.has(block.id):
@@ -207,6 +250,8 @@ func build_hud() -> void:
 func _process(delta: float) -> void:
 	MindustryTime.update(delta)
 	simulate_factory(delta)
+	simulate_turrets(delta)
+	simulate_bullets(delta)
 	simulate_enemy_units(delta)
 	update_camera(delta)
 	update_hud()
@@ -281,6 +326,74 @@ func simulate_enemy_units(delta: float) -> void:
 	else:
 		wave_cooldown = 0.0
 
+func simulate_turrets(delta: float) -> void:
+	if content_catalog == null or turret_cells.is_empty():
+		return
+	var duo = content_catalog.get_by_id("duo")
+	if duo == null:
+		return
+	var reload_seconds = max(0.1, float(duo.properties.get("reload", 60.0)) / 60.0)
+	var range_pixels = float(duo.properties.get("range", 0.0))
+	for cell in turret_cells:
+		var key := cell_key(cell)
+		var cooldown = max(0.0, float(turret_cooldowns.get(key, 0.0)) - delta)
+		if cooldown <= 0.0:
+			var target = find_enemy_target(grid_to_world(cell), range_pixels)
+			if target != null:
+				spawn_turret_bullet(grid_to_world(cell), target, duo)
+				cooldown = reload_seconds
+		turret_cooldowns[key] = cooldown
+
+func find_enemy_target(origin: Vector2, range_pixels: float):
+	var best = null
+	var best_distance := range_pixels
+	for enemy in enemy_units:
+		var sprite = enemy.get("sprite")
+		if not is_instance_valid(sprite):
+			continue
+		var distance := origin.distance_to(sprite.position)
+		if distance <= best_distance:
+			best_distance = distance
+			best = enemy
+	return best
+
+func spawn_turret_bullet(origin: Vector2, target, turret) -> void:
+	var ammo: Array = turret.properties.get("ammo", [])
+	if ammo.is_empty():
+		return
+	var data: Dictionary = ammo[0]
+	var sprite := Sprite2D.new()
+	sprite.texture = textures.get("item")
+	sprite.position = origin
+	if sprite.texture:
+		var size := sprite.texture.get_size()
+		if size.x > 0 and size.y > 0:
+			sprite.scale = Vector2(tile_size / size.x, tile_size / size.y) * 0.45
+	get_node("World/BulletLayer").add_child(sprite)
+	bullets.append({"sprite": sprite, "target": target, "speed": float(data.get("speed", 2.5)) * float(tile_size) * 4.0, "damage": float(data.get("damage", 1.0))})
+
+func simulate_bullets(delta: float) -> void:
+	var active: Array = []
+	for bullet in bullets:
+		var sprite = bullet.get("sprite")
+		var target = bullet.get("target")
+		if not is_instance_valid(sprite) or target == null:
+			continue
+		var target_sprite = target.get("sprite")
+		if not is_instance_valid(target_sprite):
+			sprite.queue_free()
+			continue
+		var direction: Vector2 = target_sprite.position - sprite.position
+		if direction.length() <= 6.0:
+			target["health"] = float(target.get("health", 0.0)) - float(bullet.get("damage", 1.0))
+			if float(target.get("health", 0.0)) <= 0.0:
+				target_sprite.queue_free()
+			sprite.queue_free()
+			continue
+		sprite.position += direction.normalized() * float(bullet.get("speed", 100.0)) * delta
+		active.append(bullet)
+	bullets = active
+
 func update_camera(delta: float) -> void:
 	if camera == null:
 		return
@@ -308,4 +421,4 @@ func update_hud() -> void:
 	var selected = build_palette[selected_build_index] if not build_palette.is_empty() else null
 	var selected_name: String = selected.display_name() if selected else "None"
 	var selected_cost := requirements_text(selected) if selected else "none"
-	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks / %d units\nBuild: %s cost %s (1-6 select, left click place)\n%s in core: %d\nTotal produced: %d\nWave: %d enemies: %d core health: %d\nArrows move camera, Q/E zoom" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), content_counts.get("units", 0), selected_name, selected_cost, copper_name, core_inventory, produced_total, wave_index, enemy_units.size(), int(core_health)]
+	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks / %d units\nBuild: %s cost %s (1-6 select, left click place)\n%s in core: %d\nTotal produced: %d\nWave: %d enemies: %d bullets: %d core health: %d\nArrows move camera, Q/E zoom" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), content_counts.get("units", 0), selected_name, selected_cost, copper_name, core_inventory, produced_total, wave_index, enemy_units.size(), bullets.size(), int(core_health)]

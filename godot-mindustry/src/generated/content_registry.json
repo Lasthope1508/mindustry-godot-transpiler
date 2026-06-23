@@ -2331,6 +2331,8 @@
       "properties": {
         "category": "effect",
         "health": 80,
+        "range": 40.0,
+        "reload": 200.0,
         "requirements": [
           {
             "amount": 30,
@@ -2351,6 +2353,8 @@
       "implementation": "MendProjector",
       "properties": {
         "category": "effect",
+        "range": 85.0,
+        "reload": 250.0,
         "requirements": [
           {
             "amount": 100,
@@ -2407,6 +2411,7 @@
       "implementation": "OverdriveProjector",
       "properties": {
         "category": "effect",
+        "range": 200.0,
         "requirements": [
           {
             "amount": 200,
@@ -2506,6 +2511,7 @@
       "implementation": "BuildTurret",
       "properties": {
         "category": "effect",
+        "range": 200.0,
         "requirements": [
           {
             "amount": 150,
@@ -2530,6 +2536,7 @@
       "implementation": "RegenProjector",
       "properties": {
         "category": "effect",
+        "range": 28,
         "requirements": [
           {
             "amount": 80,
@@ -2558,6 +2565,8 @@
       "implementation": "ShockwaveTower",
       "properties": {
         "category": "effect",
+        "range": 170.0,
+        "reload": 80.0,
         "requirements": [
           {
             "amount": 50,
@@ -2710,6 +2719,7 @@
       "implementation": "BufferedItemBridge",
       "properties": {
         "category": "distribution",
+        "range": 4,
         "requirements": [
           {
             "amount": 6,
@@ -2729,6 +2739,7 @@
       "implementation": "ItemBridge",
       "properties": {
         "category": "distribution",
+        "range": 12,
         "requirements": [
           {
             "amount": 5,
@@ -2886,6 +2897,8 @@
       "implementation": "MassDriver",
       "properties": {
         "category": "distribution",
+        "range": 440.0,
+        "reload": 200.0,
         "requirements": [
           {
             "amount": 125,
@@ -3348,6 +3361,7 @@
       "implementation": "LiquidBridge",
       "properties": {
         "category": "liquid",
+        "range": 4,
         "requirements": [
           {
             "amount": 4,
@@ -3367,6 +3381,7 @@
       "implementation": "LiquidBridge",
       "properties": {
         "category": "liquid",
+        "range": 12,
         "requirements": [
           {
             "amount": 5,
@@ -3455,6 +3470,7 @@
       "properties": {
         "category": "liquid",
         "health": 250,
+        "range": 4,
         "requirements": [
           {
             "amount": 8,
@@ -3930,6 +3946,7 @@
       "properties": {
         "category": "power",
         "health": 90,
+        "range": 10,
         "requirements": [
           {
             "amount": 8,
@@ -3945,6 +3962,7 @@
       "implementation": "BeamNode",
       "properties": {
         "category": "power",
+        "range": 23,
         "requirements": [
           {
             "amount": 30,
@@ -4109,6 +4127,7 @@
       "implementation": "HeaterGenerator",
       "properties": {
         "category": "power",
+        "range": 4.0,
         "requirements": [
           {
             "amount": 750,
@@ -4389,6 +4408,7 @@
       "implementation": "BeamDrill",
       "properties": {
         "category": "production",
+        "range": 5,
         "requirements": [
           {
             "amount": 40,
@@ -4405,6 +4425,7 @@
       "implementation": "BeamDrill",
       "properties": {
         "category": "production",
+        "range": 6,
         "requirements": [
           {
             "amount": 100,
@@ -4726,8 +4747,18 @@
       "id": "duo",
       "implementation": "ItemTurret",
       "properties": {
+        "ammo": [
+          {
+            "damage": 9,
+            "item": "copper",
+            "lifetime": 60.0,
+            "speed": 2.5
+          }
+        ],
         "category": "turret",
         "health": 250,
+        "range": 160,
+        "reload": 20.0,
         "requirements": [
           {
             "amount": 35,
@@ -4743,6 +4774,8 @@
       "implementation": "ItemTurret",
       "properties": {
         "category": "turret",
+        "range": 220.0,
+        "reload": 18.0,
         "requirements": [
           {
             "amount": 85,
@@ -4764,6 +4797,8 @@
       "properties": {
         "category": "turret",
         "health": 400,
+        "range": 60.0,
+        "reload": 6.0,
         "requirements": [
           {
             "amount": 25,
@@ -4784,6 +4819,8 @@
       "properties": {
         "category": "turret",
         "health": 260,
+        "range": 235.0,
+        "reload": 60.0,
         "requirements": [
           {
             "amount": 40,
@@ -4803,6 +4840,8 @@
       "implementation": "LiquidTurret",
       "properties": {
         "category": "turret",
+        "range": 110.0,
+        "reload": 3.0,
         "requirements": [
           {
             "amount": 45,
@@ -4827,6 +4866,8 @@
       "implementation": "PowerTurret",
       "properties": {
         "category": "turret",
+        "range": 165.0,
+        "reload": 80.0,
         "requirements": [
           {
             "amount": 60,
@@ -4856,6 +4897,8 @@
       "properties": {
         "category": "turret",
         "health": 260,
+        "range": 90.0,
+        "reload": 35.0,
         "requirements": [
           {
             "amount": 50,
@@ -4876,6 +4919,7 @@
       "implementation": "TractorBeamTurret",
       "properties": {
         "category": "turret",
+        "range": 300.0,
         "requirements": [
           {
             "amount": 160,
@@ -4900,6 +4944,7 @@
       "implementation": "ItemTurret",
       "properties": {
         "category": "turret",
+        "range": 240.0,
         "requirements": [
           {
             "amount": 35,
@@ -4927,7 +4972,17 @@
       "id": "salvo",
       "implementation": "ItemTurret",
       "properties": {
+        "ammo": [
+          {
+            "damage": 15,
+            "item": "copper",
+            "lifetime": 60.0,
+            "speed": 2.5
+          }
+        ],
         "category": "turret",
+        "range": 190.0,
+        "reload": 29.0,
         "requirements": [
           {
             "amount": 100,
@@ -4952,6 +5007,8 @@
       "implementation": "PointDefenseTurret",
       "properties": {
         "category": "turret",
+        "range": 180.0,
+        "reload": 8.0,
         "requirements": [
           {
             "amount": 130,
@@ -4980,6 +5037,8 @@
       "implementation": "LiquidTurret",
       "properties": {
         "category": "turret",
+        "range": 190.0,
+        "reload": 3.0,
         "requirements": [
           {
             "amount": 100,
@@ -5008,6 +5067,8 @@
       "implementation": "ItemTurret",
       "properties": {
         "category": "turret",
+        "range": 90.0,
+        "reload": 35.0,
         "requirements": [
           {
             "amount": 225,
@@ -5032,6 +5093,8 @@
       "implementation": "ItemTurret",
       "properties": {
         "category": "turret",
+        "range": 290.0,
+        "reload": 120.0,
         "requirements": [
           {
             "amount": 150,
@@ -5056,6 +5119,8 @@
       "implementation": "ItemTurret",
       "properties": {
         "category": "turret",
+        "range": 200.0,
+        "reload": 10.0,
         "requirements": [
           {
             "amount": 200,
@@ -5080,6 +5145,8 @@
       "implementation": "ItemTurret",
       "properties": {
         "category": "turret",
+        "range": 500.0,
+        "reload": 200.0,
         "requirements": [
           {
             "amount": 1000,
@@ -5111,7 +5178,16 @@
       "id": "spectre",
       "implementation": "ItemTurret",
       "properties": {
+        "ammo": [
+          {
+            "damage": 50,
+            "item": "graphite",
+            "speed": 7.5
+          }
+        ],
         "category": "turret",
+        "range": 260.0,
+        "reload": 7.0,
         "requirements": [
           {
             "amount": 900,
@@ -5144,6 +5220,8 @@
       "implementation": "LaserTurret",
       "properties": {
         "category": "turret",
+        "range": 195.0,
+        "reload": 90.0,
         "requirements": [
           {
             "amount": 1200,
@@ -5175,7 +5253,16 @@
       "id": "breach",
       "implementation": "ItemTurret",
       "properties": {
+        "ammo": [
+          {
+            "damage": 85,
+            "item": "beryllium",
+            "speed": 7.5
+          }
+        ],
         "category": "turret",
+        "range": 190,
+        "reload": 40.0,
         "requirements": [
           {
             "amount": 150,
@@ -5199,7 +5286,16 @@
       "id": "diffuse",
       "implementation": "ItemTurret",
       "properties": {
+        "ammo": [
+          {
+            "damage": 41,
+            "item": "graphite",
+            "speed": 8.0
+          }
+        ],
         "category": "turret",
+        "range": 125,
+        "reload": 30.0,
         "requirements": [
           {
             "amount": 150,
@@ -5228,6 +5324,7 @@
       "implementation": "ContinuousLiquidTurret",
       "properties": {
         "category": "turret",
+        "range": 130.0,
         "requirements": [
           {
             "amount": 150,
@@ -5256,6 +5353,7 @@
       "implementation": "ItemTurret",
       "properties": {
         "category": "turret",
+        "range": 390.0,
         "requirements": [
           {
             "amount": 250,
@@ -5280,6 +5378,8 @@
       "implementation": "ItemTurret",
       "properties": {
         "category": "turret",
+        "range": 310.0,
+        "reload": 9.0,
         "requirements": [
           {
             "amount": 50,
@@ -5308,6 +5408,8 @@
       "implementation": "PowerTurret",
       "properties": {
         "category": "turret",
+        "range": 368,
+        "reload": 50.0,
         "requirements": [
           {
             "amount": 100,
@@ -5336,6 +5438,7 @@
       "implementation": "ContinuousTurret",
       "properties": {
         "category": "turret",
+        "range": 250.0,
         "requirements": [
           {
             "amount": 250,
@@ -5365,6 +5468,8 @@
       "properties": {
         "category": "turret",
         "health": 240,
+        "range": 1350,
+        "reload": 1.0,
         "requirements": [
           {
             "amount": 450,
@@ -5396,7 +5501,17 @@
       "id": "smite",
       "implementation": "ItemTurret",
       "properties": {
+        "ammo": [
+          {
+            "damage": 250,
+            "item": "surge-alloy",
+            "lifetime": 12.0,
+            "speed": 7.0
+          }
+        ],
         "category": "turret",
+        "range": 300,
+        "reload": 100.0,
         "requirements": [
           {
             "amount": 200,
@@ -5429,6 +5544,8 @@
       "implementation": "PowerTurret",
       "properties": {
         "category": "turret",
+        "range": 410,
+        "reload": 3.5,
         "requirements": [
           {
             "amount": 200,
@@ -5992,6 +6109,7 @@
       "implementation": "RepairTower",
       "properties": {
         "category": "units",
+        "range": 100.0,
         "requirements": [
           {
             "amount": 90,
@@ -6086,6 +6204,8 @@
       "implementation": "PayloadMassDriver",
       "properties": {
         "category": "units",
+        "range": 700.0,
+        "reload": 130.0,
         "requirements": [
           {
             "amount": 40,
@@ -6110,6 +6230,8 @@
       "implementation": "PayloadMassDriver",
       "properties": {
         "category": "units",
+        "range": 2100.0,
+        "reload": 130.0,
         "requirements": [
           {
             "amount": 20,
