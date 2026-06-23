@@ -379,6 +379,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return source_bullet_ammo_multiplier(data)', source)
         self.assertIn('"selected_turret_ammo_multiplier": selected_turret_ammo_multiplier()', source)
 
+    def test_port_game_exposes_source_turret_ammo_storage(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func selected_turret_max_ammo() -> int:", source)
+        self.assertIn('return int(duo.properties.get("maxAmmo", 30))', source)
+        self.assertIn("func selected_turret_ammo_per_shot() -> int:", source)
+        self.assertIn('return int(duo.properties.get("ammoPerShot", 1))', source)
+        self.assertIn("func selected_turret_consume_ammo_once() -> bool:", source)
+        self.assertIn('return bool(duo.properties.get("consumeAmmoOnce", true))', source)
+        self.assertIn('"selected_turret_max_ammo": selected_turret_max_ammo()', source)
+        self.assertIn('"selected_turret_ammo_per_shot": selected_turret_ammo_per_shot()', source)
+        self.assertIn('"selected_turret_consume_ammo_once": selected_turret_consume_ammo_once()', source)
+
     def test_port_game_uses_source_turret_reload(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

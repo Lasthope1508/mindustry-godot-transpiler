@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 49 |
-| Done | 49 |
+| Total tracked work items | 50 |
+| Done | 50 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -70,6 +70,7 @@
 | N45 | Use source unit health for spawned units | `UnitType.java` defaults `health=200f`; `UnitTypes.java` sets dagger `health=150`; `PortGame.gd` initializes spawned enemy health through `source_unit_health(unit_type)` instead of `100.0` fallback and exposes `selected_enemy_health`; Python suite reports `51` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_enemy_health=150`, with debug `errors: []` |
 | N46 | Extract full source duo ammo list | `Blocks.java` defines duo ammo entries for `Items.copper`, `Items.graphite`, and `Items.silicon`; `content_registry.py` now extracts every `Items.x, new BasicBulletType(...)` pair in the turret initializer instead of only the first `ammo(...)` pair; generated duo ammo contains `3` entries with source speed/damage/dimensions; `PortGame.gd` exposes `selected_turret_ammo_count`; Python suite reports `52` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_turret_ammo_count=3`, with debug `errors: []` |
 | N47 | Extract source bullet ammo multiplier | `BulletType.java` defaults `ammoMultiplier=2f`; `Blocks.java` sets duo copper `ammoMultiplier=2`, graphite `ammoMultiplier=4`, and silicon `ammoMultiplier=5`; `content_registry.py` extracts `ammoMultiplier` from each BasicBulletType body; generated duo ammo contains `2/4/5`; `PortGame.gd` exposes `selected_turret_ammo_multiplier`; Python suite reports `53` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_turret_ammo_multiplier=2`, with debug `errors: []` |
+| N48 | Extract source item turret ammo storage defaults | `Turret.java` defines default `maxAmmo=30`, `ammoPerShot=1`, and `consumeAmmoOnce=true`; duo does not override these in `Blocks.java`; `content_registry.py` records these defaults for ItemTurret blocks only when source has no assignment for that key, avoiding false defaults for unsupported expressions; `PortGame.gd` exposes selected turret ammo storage fields; Python suite reports `54` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_turret_max_ammo=30`, `selected_turret_ammo_per_shot=1`, and `selected_turret_consume_ammo_once=true`, with debug `errors: []` |
 
 ## Not Done
 
@@ -320,3 +321,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-23 | M44 source unit health: spawned enemy health now comes from generated `UnitType.health`, with dagger runtime summary reporting `150`. |
 | 2026-06-23 | M45 source turret ammo list: duo now carries all source `BasicBulletType` ammo entries for copper, graphite, and silicon, and runtime summary exposes `selected_turret_ammo_count=3`. |
 | 2026-06-23 | M46 source bullet ammo multiplier: generated duo ammo now includes source `ammoMultiplier` values `2/4/5`, and runtime summary exposes selected copper ammo multiplier `2`. |
+| 2026-06-23 | M47 source item turret ammo storage defaults: generated duo now carries source `maxAmmo=30`, `ammoPerShot=1`, and `consumeAmmoOnce=true`, exposed through MCP runtime summary. |

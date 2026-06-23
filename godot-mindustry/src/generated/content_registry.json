@@ -4848,8 +4848,11 @@
             "width": 7.0
           }
         ],
+        "ammoPerShot": 1,
         "category": "turret",
+        "consumeAmmoOnce": true,
         "health": 250,
+        "maxAmmo": 30,
         "range": 160,
         "reload": 20.0,
         "requirements": [
@@ -4866,7 +4869,10 @@
       "id": "scatter",
       "implementation": "ItemTurret",
       "properties": {
+        "ammoPerShot": 1,
         "category": "turret",
+        "consumeAmmoOnce": true,
+        "maxAmmo": 30,
         "range": 220.0,
         "reload": 18.0,
         "requirements": [
@@ -4888,8 +4894,11 @@
       "id": "scorch",
       "implementation": "ItemTurret",
       "properties": {
+        "ammoPerShot": 1,
         "category": "turret",
+        "consumeAmmoOnce": true,
         "health": 400,
+        "maxAmmo": 30,
         "range": 60.0,
         "reload": 6.0,
         "requirements": [
@@ -4910,8 +4919,11 @@
       "id": "hail",
       "implementation": "ItemTurret",
       "properties": {
+        "ammoPerShot": 1,
         "category": "turret",
+        "consumeAmmoOnce": true,
         "health": 260,
+        "maxAmmo": 30,
         "range": 235.0,
         "reload": 60.0,
         "requirements": [
@@ -5036,7 +5048,10 @@
       "id": "swarmer",
       "implementation": "ItemTurret",
       "properties": {
+        "ammoPerShot": 1,
         "category": "turret",
+        "consumeAmmoOnce": false,
+        "maxAmmo": 30,
         "range": 240.0,
         "requirements": [
           {
@@ -5117,7 +5132,10 @@
             "width": 8.0
           }
         ],
+        "ammoPerShot": 1,
         "category": "turret",
+        "consumeAmmoOnce": false,
+        "maxAmmo": 30,
         "range": 190.0,
         "reload": 29.0,
         "requirements": [
@@ -5204,7 +5222,10 @@
       "id": "fuse",
       "implementation": "ItemTurret",
       "properties": {
+        "ammoPerShot": 1,
         "category": "turret",
+        "consumeAmmoOnce": true,
+        "maxAmmo": 30,
         "range": 90.0,
         "reload": 35.0,
         "requirements": [
@@ -5230,7 +5251,10 @@
       "id": "ripple",
       "implementation": "ItemTurret",
       "properties": {
+        "ammoPerShot": 2,
         "category": "turret",
+        "consumeAmmoOnce": true,
+        "maxAmmo": 30,
         "range": 290.0,
         "reload": 120.0,
         "requirements": [
@@ -5256,7 +5280,10 @@
       "id": "cyclone",
       "implementation": "ItemTurret",
       "properties": {
+        "ammoPerShot": 1,
         "category": "turret",
+        "consumeAmmoOnce": true,
+        "maxAmmo": 30,
         "range": 200.0,
         "reload": 10.0,
         "requirements": [
@@ -5282,7 +5309,10 @@
       "id": "foreshadow",
       "implementation": "ItemTurret",
       "properties": {
+        "ammoPerShot": 5,
         "category": "turret",
+        "consumeAmmoOnce": true,
+        "maxAmmo": 40,
         "range": 500.0,
         "reload": 200.0,
         "requirements": [
@@ -5347,7 +5377,10 @@
             "width": 16.0
           }
         ],
+        "ammoPerShot": 1,
         "category": "turret",
+        "consumeAmmoOnce": true,
+        "maxAmmo": 30,
         "range": 260.0,
         "reload": 7.0,
         "requirements": [
@@ -5448,7 +5481,10 @@
             "width": 15.0
           }
         ],
+        "ammoPerShot": 2,
         "category": "turret",
+        "consumeAmmoOnce": true,
+        "maxAmmo": 30,
         "range": 190,
         "reload": 40.0,
         "requirements": [
@@ -5506,7 +5542,10 @@
             "width": 25.0
           }
         ],
+        "ammoPerShot": 3,
         "category": "turret",
+        "consumeAmmoOnce": true,
+        "maxAmmo": 30,
         "range": 125,
         "reload": 30.0,
         "requirements": [
@@ -5565,7 +5604,9 @@
       "id": "titan",
       "implementation": "ItemTurret",
       "properties": {
+        "ammoPerShot": 4,
         "category": "turret",
+        "consumeAmmoOnce": true,
         "range": 390.0,
         "requirements": [
           {
@@ -5590,7 +5631,10 @@
       "id": "disperse",
       "implementation": "ItemTurret",
       "properties": {
+        "ammoPerShot": 1,
         "category": "turret",
+        "consumeAmmoOnce": true,
+        "maxAmmo": 30,
         "range": 310.0,
         "reload": 9.0,
         "requirements": [
@@ -5681,8 +5725,11 @@
       "id": "scathe",
       "implementation": "ItemTurret",
       "properties": {
+        "ammoPerShot": 15,
         "category": "turret",
+        "consumeAmmoOnce": true,
         "health": 240,
+        "maxAmmo": 45,
         "range": 1350,
         "reload": 1.0,
         "requirements": [
@@ -5730,7 +5777,10 @@
             "width": 17.0
           }
         ],
+        "ammoPerShot": 2,
         "category": "turret",
+        "consumeAmmoOnce": true,
+        "maxAmmo": 30,
         "range": 300,
         "reload": 100.0,
         "requirements": [

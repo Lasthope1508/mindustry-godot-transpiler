@@ -726,6 +726,30 @@ func selected_turret_ammo_count() -> int:
 		return 0
 	return duo.properties.get("ammo", []).size()
 
+func selected_turret_max_ammo() -> int:
+	if content_catalog == null:
+		return 0
+	var duo = content_catalog.get_by_id("duo")
+	if duo == null:
+		return 0
+	return int(duo.properties.get("maxAmmo", 30))
+
+func selected_turret_ammo_per_shot() -> int:
+	if content_catalog == null:
+		return 0
+	var duo = content_catalog.get_by_id("duo")
+	if duo == null:
+		return 0
+	return int(duo.properties.get("ammoPerShot", 1))
+
+func selected_turret_consume_ammo_once() -> bool:
+	if content_catalog == null:
+		return false
+	var duo = content_catalog.get_by_id("duo")
+	if duo == null:
+		return false
+	return bool(duo.properties.get("consumeAmmoOnce", true))
+
 func selected_turret_reload_seconds() -> float:
 	if content_catalog == null:
 		return 0.0
@@ -890,6 +914,9 @@ func get_runtime_summary() -> Dictionary:
 		"selected_turret_ammo_damage": selected_turret_ammo_damage(),
 		"selected_turret_ammo_multiplier": selected_turret_ammo_multiplier(),
 		"selected_turret_ammo_count": selected_turret_ammo_count(),
+		"selected_turret_max_ammo": selected_turret_max_ammo(),
+		"selected_turret_ammo_per_shot": selected_turret_ammo_per_shot(),
+		"selected_turret_consume_ammo_once": selected_turret_consume_ammo_once(),
 		"selected_turret_reload_seconds": selected_turret_reload_seconds(),
 		"selected_turret_range": selected_turret_range(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),

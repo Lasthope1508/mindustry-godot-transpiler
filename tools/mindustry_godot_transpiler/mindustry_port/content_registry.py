@@ -234,13 +234,13 @@ def extract_blocks(upstream_root: Path, godot_root: Path | None = None) -> list[
         field, implementation, content_id = match.groups()
         if field not in declared:
             continue
-        entry = {"field": field, "id": content_id, "implementation": implementation, "properties": _block_properties(source, match.end())}
+        entry = {"field": field, "id": content_id, "implementation": implementation, "properties": _block_properties(source, match.end(), implementation)}
         if asset_root is not None:
             entry["texture"] = _block_texture_path(asset_root, content_id)
         blocks.append(entry)
     return blocks
 
-def _block_properties(source: str, assignment_end: int) -> dict[str, Any]:
+def _block_properties(source: str, assignment_end: int, implementation: str = "") -> dict[str, Any]:
     initializer = _initializer_body(source, assignment_end)
     properties: dict[str, Any] = {}
     category = re.search(r"requirements\s*\(\s*Category\.([A-Za-z_]\w*)", initializer)
@@ -260,7 +260,29 @@ def _block_properties(source: str, assignment_end: int) -> dict[str, Any]:
     ammo = _block_ammo(initializer)
     if ammo:
         properties["ammo"] = ammo
+    if implementation == "ItemTurret":
+        _apply_item_turret_ammo_defaults(properties, initializer)
     return properties
+
+def _apply_item_turret_ammo_defaults(properties: dict[str, Any], initializer: str) -> None:
+    for key, default in {"maxAmmo": 30, "ammoPerShot": 1}.items():
+        value = _numeric_assignment(initializer, key)
+        if value is not None:
+            properties[key] = int(value)
+        elif not _has_assignment(initializer, key):
+            properties[key] = default
+    consume = _boolean_assignment(initializer, "consumeAmmoOnce")
+    if consume is not None:
+        properties["consumeAmmoOnce"] = consume
+    elif not _has_assignment(initializer, "consumeAmmoOnce"):
+        properties["consumeAmmoOnce"] = True
+
+def _has_assignment(source: str, key: str) -> bool:
+    return re.search(rf"\b{key}\s*=", source) is not None
+
+def _boolean_assignment(source: str, key: str) -> bool | None:
+    match = re.search(rf"\b{key}\s*=\s*(true|false)\s*;", source)
+    return match.group(1) == "true" if match else None
 
 def _numeric_assignment(source: str, key: str) -> int | float | None:
     match = re.search(rf"\b{key}\s*=\s*([0-9_]+(?:\.[0-9_]+)?[fFdDlL]?)\s*;", source)
