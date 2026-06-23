@@ -1105,6 +1105,16 @@
       "implementation": "GenericCrafter",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 75,
+            "item": "copper"
+          },
+          {
+            "amount": 30,
+            "item": "lead"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/graphite-press.png"
@@ -1115,6 +1125,24 @@
       "implementation": "GenericCrafter",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 100,
+            "item": "titanium"
+          },
+          {
+            "amount": 25,
+            "item": "silicon"
+          },
+          {
+            "amount": 100,
+            "item": "lead"
+          },
+          {
+            "amount": 50,
+            "item": "graphite"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/multi-press.png"
@@ -1125,6 +1153,16 @@
       "implementation": "GenericCrafter",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 30,
+            "item": "copper"
+          },
+          {
+            "amount": 25,
+            "item": "lead"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/silicon-smelter.png"
@@ -1135,6 +1173,24 @@
       "implementation": "AttributeCrafter",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 120,
+            "item": "titanium"
+          },
+          {
+            "amount": 80,
+            "item": "metaglass"
+          },
+          {
+            "amount": 35,
+            "item": "plastanium"
+          },
+          {
+            "amount": 60,
+            "item": "silicon"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/silicon-crucible.png"
@@ -1145,6 +1201,20 @@
       "implementation": "GenericCrafter",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 60,
+            "item": "copper"
+          },
+          {
+            "amount": 30,
+            "item": "graphite"
+          },
+          {
+            "amount": 30,
+            "item": "lead"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/kiln.png"
@@ -1156,6 +1226,24 @@
       "properties": {
         "category": "crafting",
         "health": 320,
+        "requirements": [
+          {
+            "amount": 80,
+            "item": "silicon"
+          },
+          {
+            "amount": 115,
+            "item": "lead"
+          },
+          {
+            "amount": 60,
+            "item": "graphite"
+          },
+          {
+            "amount": 80,
+            "item": "titanium"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/plastanium-compressor.png"
@@ -1166,6 +1254,20 @@
       "implementation": "GenericCrafter",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 130,
+            "item": "silicon"
+          },
+          {
+            "amount": 120,
+            "item": "lead"
+          },
+          {
+            "amount": 75,
+            "item": "thorium"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/phase-weaver.png"
@@ -1176,6 +1278,20 @@
       "implementation": "GenericCrafter",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 80,
+            "item": "silicon"
+          },
+          {
+            "amount": 80,
+            "item": "lead"
+          },
+          {
+            "amount": 70,
+            "item": "thorium"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/surge-smelter.png"
@@ -1186,6 +1302,20 @@
       "implementation": "GenericCrafter",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 65,
+            "item": "lead"
+          },
+          {
+            "amount": 40,
+            "item": "silicon"
+          },
+          {
+            "amount": 60,
+            "item": "titanium"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/cryofluid-mixer.png"
@@ -1196,6 +1326,16 @@
       "implementation": "GenericCrafter",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 50,
+            "item": "copper"
+          },
+          {
+            "amount": 25,
+            "item": "lead"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/pyratite-mixer.png"
@@ -1206,6 +1346,16 @@
       "implementation": "GenericCrafter",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 30,
+            "item": "lead"
+          },
+          {
+            "amount": 20,
+            "item": "titanium"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/blast-mixer.png"
@@ -1216,7 +1366,21 @@
       "implementation": "GenericCrafter",
       "properties": {
         "category": "crafting",
-        "health": 200
+        "health": 200,
+        "requirements": [
+          {
+            "amount": 30,
+            "item": "copper"
+          },
+          {
+            "amount": 35,
+            "item": "lead"
+          },
+          {
+            "amount": 45,
+            "item": "graphite"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/melter.png"
     },
@@ -1226,6 +1390,16 @@
       "implementation": "Separator",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 30,
+            "item": "copper"
+          },
+          {
+            "amount": 25,
+            "item": "titanium"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/separator.png"
@@ -1236,6 +1410,24 @@
       "implementation": "Separator",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 40,
+            "item": "plastanium"
+          },
+          {
+            "amount": 100,
+            "item": "titanium"
+          },
+          {
+            "amount": 150,
+            "item": "silicon"
+          },
+          {
+            "amount": 80,
+            "item": "thorium"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/disassembler.png"
@@ -1247,6 +1439,16 @@
       "properties": {
         "category": "crafting",
         "health": 320,
+        "requirements": [
+          {
+            "amount": 35,
+            "item": "lead"
+          },
+          {
+            "amount": 30,
+            "item": "silicon"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/spore-press.png"
@@ -1256,7 +1458,17 @@
       "id": "pulverizer",
       "implementation": "GenericCrafter",
       "properties": {
-        "category": "crafting"
+        "category": "crafting",
+        "requirements": [
+          {
+            "amount": 30,
+            "item": "copper"
+          },
+          {
+            "amount": 25,
+            "item": "lead"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/pulverizer.png"
     },
@@ -1266,6 +1478,20 @@
       "implementation": "GenericCrafter",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 20,
+            "item": "titanium"
+          },
+          {
+            "amount": 40,
+            "item": "graphite"
+          },
+          {
+            "amount": 30,
+            "item": "lead"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/coal-centrifuge.png"
@@ -1276,7 +1502,17 @@
       "implementation": "Incinerator",
       "properties": {
         "category": "crafting",
-        "health": 90
+        "health": 90,
+        "requirements": [
+          {
+            "amount": 5,
+            "item": "graphite"
+          },
+          {
+            "amount": 15,
+            "item": "lead"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/incinerator.png"
     },
@@ -1286,6 +1522,16 @@
       "implementation": "GenericCrafter",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 70,
+            "item": "beryllium"
+          },
+          {
+            "amount": 80,
+            "item": "graphite"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/silicon-arc-furnace.png"
@@ -1296,6 +1542,24 @@
       "implementation": "GenericCrafter",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 50,
+            "item": "silicon"
+          },
+          {
+            "amount": 40,
+            "item": "graphite"
+          },
+          {
+            "amount": 130,
+            "item": "beryllium"
+          },
+          {
+            "amount": 80,
+            "item": "tungsten"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/electrolyzer.png"
@@ -1306,6 +1570,20 @@
       "implementation": "HeatCrafter",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 60,
+            "item": "oxide"
+          },
+          {
+            "amount": 180,
+            "item": "beryllium"
+          },
+          {
+            "amount": 150,
+            "item": "silicon"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/atmospheric-concentrator.png"
@@ -1316,6 +1594,24 @@
       "implementation": "HeatProducer",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 120,
+            "item": "tungsten"
+          },
+          {
+            "amount": 80,
+            "item": "graphite"
+          },
+          {
+            "amount": 100,
+            "item": "silicon"
+          },
+          {
+            "amount": 120,
+            "item": "beryllium"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/oxidation-chamber.png"
@@ -1326,6 +1622,20 @@
       "implementation": "HeatProducer",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 30,
+            "item": "tungsten"
+          },
+          {
+            "amount": 30,
+            "item": "oxide"
+          },
+          {
+            "amount": 30,
+            "item": "beryllium"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/electric-heater.png"
@@ -1336,6 +1646,20 @@
       "implementation": "HeatProducer",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 50,
+            "item": "tungsten"
+          },
+          {
+            "amount": 20,
+            "item": "oxide"
+          },
+          {
+            "amount": 20,
+            "item": "beryllium"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/slag-heater.png"
@@ -1346,6 +1670,20 @@
       "implementation": "HeatProducer",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 30,
+            "item": "oxide"
+          },
+          {
+            "amount": 30,
+            "item": "carbide"
+          },
+          {
+            "amount": 30,
+            "item": "beryllium"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/phase-heater.png"
@@ -1356,6 +1694,16 @@
       "implementation": "HeatConductor",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 10,
+            "item": "tungsten"
+          },
+          {
+            "amount": 10,
+            "item": "graphite"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/heat-redirector.png"
@@ -1366,6 +1714,16 @@
       "implementation": "HeatConductor",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 3,
+            "item": "surge-alloy"
+          },
+          {
+            "amount": 8,
+            "item": "graphite"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/small-heat-redirector.png"
@@ -1376,6 +1734,16 @@
       "implementation": "HeatConductor",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 15,
+            "item": "tungsten"
+          },
+          {
+            "amount": 10,
+            "item": "graphite"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/heat-router.png"
@@ -1386,6 +1754,12 @@
       "implementation": "ItemIncinerator",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 15,
+            "item": "tungsten"
+          }
+        ],
         "size": 1
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/slag-incinerator.png"
@@ -1396,6 +1770,20 @@
       "implementation": "HeatCrafter",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 110,
+            "item": "tungsten"
+          },
+          {
+            "amount": 150,
+            "item": "thorium"
+          },
+          {
+            "amount": 60,
+            "item": "oxide"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/carbide-crucible.png"
@@ -1406,6 +1794,24 @@
       "implementation": "GenericCrafter",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 70,
+            "item": "carbide"
+          },
+          {
+            "amount": 60,
+            "item": "graphite"
+          },
+          {
+            "amount": 40,
+            "item": "silicon"
+          },
+          {
+            "amount": 40,
+            "item": "oxide"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/slag-centrifuge.png"
@@ -1416,6 +1822,24 @@
       "implementation": "HeatCrafter",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 100,
+            "item": "silicon"
+          },
+          {
+            "amount": 80,
+            "item": "graphite"
+          },
+          {
+            "amount": 80,
+            "item": "tungsten"
+          },
+          {
+            "amount": 80,
+            "item": "oxide"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/surge-crucible.png"
@@ -1426,6 +1850,24 @@
       "implementation": "HeatCrafter",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 80,
+            "item": "carbide"
+          },
+          {
+            "amount": 120,
+            "item": "silicon"
+          },
+          {
+            "amount": 140,
+            "item": "beryllium"
+          },
+          {
+            "amount": 40,
+            "item": "oxide"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/cyanogen-synthesizer.png"
@@ -1436,6 +1878,24 @@
       "implementation": "HeatCrafter",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 90,
+            "item": "carbide"
+          },
+          {
+            "amount": 100,
+            "item": "silicon"
+          },
+          {
+            "amount": 100,
+            "item": "thorium"
+          },
+          {
+            "amount": 200,
+            "item": "tungsten"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/phase-synthesizer.png"
@@ -1446,6 +1906,24 @@
       "implementation": "HeatProducer",
       "properties": {
         "category": "crafting",
+        "requirements": [
+          {
+            "amount": 70,
+            "item": "oxide"
+          },
+          {
+            "amount": 20,
+            "item": "graphite"
+          },
+          {
+            "amount": 10,
+            "item": "carbide"
+          },
+          {
+            "amount": 80,
+            "item": "thorium"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/heat-reactor.png"
@@ -1455,7 +1933,13 @@
       "id": "copper-wall",
       "implementation": "Wall",
       "properties": {
-        "category": "defense"
+        "category": "defense",
+        "requirements": [
+          {
+            "amount": 6,
+            "item": "copper"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/copper-wall.png"
     },
@@ -1474,7 +1958,13 @@
       "id": "titanium-wall",
       "implementation": "Wall",
       "properties": {
-        "category": "defense"
+        "category": "defense",
+        "requirements": [
+          {
+            "amount": 6,
+            "item": "titanium"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/titanium-wall.png"
     },
@@ -1493,7 +1983,17 @@
       "id": "plastanium-wall",
       "implementation": "Wall",
       "properties": {
-        "category": "defense"
+        "category": "defense",
+        "requirements": [
+          {
+            "amount": 5,
+            "item": "plastanium"
+          },
+          {
+            "amount": 2,
+            "item": "metaglass"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/plastanium-wall.png"
     },
@@ -1512,7 +2012,13 @@
       "id": "thorium-wall",
       "implementation": "Wall",
       "properties": {
-        "category": "defense"
+        "category": "defense",
+        "requirements": [
+          {
+            "amount": 6,
+            "item": "thorium"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/thorium-wall.png"
     },
@@ -1531,7 +2037,13 @@
       "id": "phase-wall",
       "implementation": "Wall",
       "properties": {
-        "category": "defense"
+        "category": "defense",
+        "requirements": [
+          {
+            "amount": 6,
+            "item": "phase-fabric"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/phase-wall.png"
     },
@@ -1550,7 +2062,13 @@
       "id": "surge-wall",
       "implementation": "Wall",
       "properties": {
-        "category": "defense"
+        "category": "defense",
+        "requirements": [
+          {
+            "amount": 6,
+            "item": "surge-alloy"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/surge-wall.png"
     },
@@ -1569,7 +2087,17 @@
       "id": "door",
       "implementation": "Door",
       "properties": {
-        "category": "defense"
+        "category": "defense",
+        "requirements": [
+          {
+            "amount": 6,
+            "item": "titanium"
+          },
+          {
+            "amount": 4,
+            "item": "silicon"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/door.png"
     },
@@ -1588,7 +2116,13 @@
       "id": "scrap-wall",
       "implementation": "Wall",
       "properties": {
-        "category": "defense"
+        "category": "defense",
+        "requirements": [
+          {
+            "amount": 6,
+            "item": "scrap"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/scrap-wall1.png"
     },
@@ -1628,6 +2162,12 @@
       "implementation": "Thruster",
       "properties": {
         "category": "defense",
+        "requirements": [
+          {
+            "amount": 96,
+            "item": "scrap"
+          }
+        ],
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/thruster.png"
@@ -1637,7 +2177,13 @@
       "id": "beryllium-wall",
       "implementation": "Wall",
       "properties": {
-        "category": "defense"
+        "category": "defense",
+        "requirements": [
+          {
+            "amount": 6,
+            "item": "beryllium"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/beryllium-wall.png"
     },
@@ -1656,7 +2202,13 @@
       "id": "tungsten-wall",
       "implementation": "Wall",
       "properties": {
-        "category": "defense"
+        "category": "defense",
+        "requirements": [
+          {
+            "amount": 6,
+            "item": "tungsten"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/tungsten-wall.png"
     },
@@ -1676,6 +2228,16 @@
       "implementation": "AutoDoor",
       "properties": {
         "category": "defense",
+        "requirements": [
+          {
+            "amount": 24,
+            "item": "tungsten"
+          },
+          {
+            "amount": 24,
+            "item": "silicon"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/blast-door.png"
@@ -1685,7 +2247,17 @@
       "id": "reinforced-surge-wall",
       "implementation": "Wall",
       "properties": {
-        "category": "defense"
+        "category": "defense",
+        "requirements": [
+          {
+            "amount": 6,
+            "item": "surge-alloy"
+          },
+          {
+            "amount": 2,
+            "item": "tungsten"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/reinforced-surge-wall.png"
     },
@@ -1704,7 +2276,17 @@
       "id": "carbide-wall",
       "implementation": "Wall",
       "properties": {
-        "category": "defense"
+        "category": "defense",
+        "requirements": [
+          {
+            "amount": 6,
+            "item": "thorium"
+          },
+          {
+            "amount": 6,
+            "item": "carbide"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/carbide-wall.png"
     },
@@ -1724,6 +2306,20 @@
       "implementation": "ShieldWall",
       "properties": {
         "category": "defense",
+        "requirements": [
+          {
+            "amount": 20,
+            "item": "phase-fabric"
+          },
+          {
+            "amount": 12,
+            "item": "surge-alloy"
+          },
+          {
+            "amount": 12,
+            "item": "beryllium"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/shielded-wall.png"
@@ -1735,6 +2331,16 @@
       "properties": {
         "category": "effect",
         "health": 80,
+        "requirements": [
+          {
+            "amount": 30,
+            "item": "lead"
+          },
+          {
+            "amount": 25,
+            "item": "copper"
+          }
+        ],
         "size": 1
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/mender.png"
@@ -1745,6 +2351,24 @@
       "implementation": "MendProjector",
       "properties": {
         "category": "effect",
+        "requirements": [
+          {
+            "amount": 100,
+            "item": "lead"
+          },
+          {
+            "amount": 25,
+            "item": "titanium"
+          },
+          {
+            "amount": 40,
+            "item": "silicon"
+          },
+          {
+            "amount": 50,
+            "item": "copper"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/mend-projector.png"
@@ -1755,6 +2379,24 @@
       "implementation": "OverdriveProjector",
       "properties": {
         "category": "effect",
+        "requirements": [
+          {
+            "amount": 100,
+            "item": "lead"
+          },
+          {
+            "amount": 75,
+            "item": "titanium"
+          },
+          {
+            "amount": 75,
+            "item": "silicon"
+          },
+          {
+            "amount": 30,
+            "item": "plastanium"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/overdrive-projector.png"
@@ -1765,6 +2407,28 @@
       "implementation": "OverdriveProjector",
       "properties": {
         "category": "effect",
+        "requirements": [
+          {
+            "amount": 200,
+            "item": "lead"
+          },
+          {
+            "amount": 130,
+            "item": "titanium"
+          },
+          {
+            "amount": 130,
+            "item": "silicon"
+          },
+          {
+            "amount": 80,
+            "item": "plastanium"
+          },
+          {
+            "amount": 120,
+            "item": "surge-alloy"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/overdrive-dome.png"
@@ -1775,6 +2439,20 @@
       "implementation": "ForceProjector",
       "properties": {
         "category": "effect",
+        "requirements": [
+          {
+            "amount": 100,
+            "item": "lead"
+          },
+          {
+            "amount": 75,
+            "item": "titanium"
+          },
+          {
+            "amount": 125,
+            "item": "silicon"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/force-projector.png"
@@ -1785,7 +2463,17 @@
       "implementation": "ShockMine",
       "properties": {
         "category": "effect",
-        "health": 50
+        "health": 50,
+        "requirements": [
+          {
+            "amount": 25,
+            "item": "lead"
+          },
+          {
+            "amount": 12,
+            "item": "silicon"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/shock-mine.png"
     },
@@ -1794,7 +2482,21 @@
       "id": "radar",
       "implementation": "Radar",
       "properties": {
-        "category": "effect"
+        "category": "effect",
+        "requirements": [
+          {
+            "amount": 60,
+            "item": "silicon"
+          },
+          {
+            "amount": 50,
+            "item": "graphite"
+          },
+          {
+            "amount": 10,
+            "item": "beryllium"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/radar.png"
     },
@@ -1804,6 +2506,20 @@
       "implementation": "BuildTurret",
       "properties": {
         "category": "effect",
+        "requirements": [
+          {
+            "amount": 150,
+            "item": "silicon"
+          },
+          {
+            "amount": 40,
+            "item": "oxide"
+          },
+          {
+            "amount": 60,
+            "item": "thorium"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/build-tower.png"
@@ -1814,6 +2530,24 @@
       "implementation": "RegenProjector",
       "properties": {
         "category": "effect",
+        "requirements": [
+          {
+            "amount": 80,
+            "item": "silicon"
+          },
+          {
+            "amount": 60,
+            "item": "tungsten"
+          },
+          {
+            "amount": 40,
+            "item": "oxide"
+          },
+          {
+            "amount": 80,
+            "item": "beryllium"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/regen-projector.png"
@@ -1824,6 +2558,24 @@
       "implementation": "ShockwaveTower",
       "properties": {
         "category": "effect",
+        "requirements": [
+          {
+            "amount": 50,
+            "item": "surge-alloy"
+          },
+          {
+            "amount": 150,
+            "item": "silicon"
+          },
+          {
+            "amount": 30,
+            "item": "oxide"
+          },
+          {
+            "amount": 100,
+            "item": "tungsten"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/shockwave-tower.png"
@@ -1854,7 +2606,13 @@
       "implementation": "Conveyor",
       "properties": {
         "category": "distribution",
-        "health": 45
+        "health": 45,
+        "requirements": [
+          {
+            "amount": 1,
+            "item": "copper"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png"
     },
@@ -1864,7 +2622,21 @@
       "implementation": "Conveyor",
       "properties": {
         "category": "distribution",
-        "health": 65
+        "health": 65,
+        "requirements": [
+          {
+            "amount": 1,
+            "item": "copper"
+          },
+          {
+            "amount": 1,
+            "item": "lead"
+          },
+          {
+            "amount": 1,
+            "item": "titanium"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/conveyors/titanium-conveyor-0-0.png"
     },
@@ -1874,7 +2646,21 @@
       "implementation": "StackConveyor",
       "properties": {
         "category": "distribution",
-        "health": 90
+        "health": 90,
+        "requirements": [
+          {
+            "amount": 1,
+            "item": "plastanium"
+          },
+          {
+            "amount": 1,
+            "item": "silicon"
+          },
+          {
+            "amount": 1,
+            "item": "graphite"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/stack-conveyors/plastanium-conveyor.png"
     },
@@ -1884,7 +2670,21 @@
       "implementation": "ArmoredConveyor",
       "properties": {
         "category": "distribution",
-        "health": 280
+        "health": 280,
+        "requirements": [
+          {
+            "amount": 1,
+            "item": "plastanium"
+          },
+          {
+            "amount": 1,
+            "item": "thorium"
+          },
+          {
+            "amount": 1,
+            "item": "metaglass"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/conveyors/armored-conveyor-0-0.png"
     },
@@ -1894,7 +2694,13 @@
       "implementation": "Junction",
       "properties": {
         "category": "distribution",
-        "health": 30
+        "health": 30,
+        "requirements": [
+          {
+            "amount": 3,
+            "item": "copper"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/junction.png"
     },
@@ -1903,7 +2709,17 @@
       "id": "bridge-conveyor",
       "implementation": "BufferedItemBridge",
       "properties": {
-        "category": "distribution"
+        "category": "distribution",
+        "requirements": [
+          {
+            "amount": 6,
+            "item": "lead"
+          },
+          {
+            "amount": 6,
+            "item": "copper"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/bridge-conveyor.png"
     },
@@ -1912,7 +2728,25 @@
       "id": "phase-conveyor",
       "implementation": "ItemBridge",
       "properties": {
-        "category": "distribution"
+        "category": "distribution",
+        "requirements": [
+          {
+            "amount": 5,
+            "item": "phase-fabric"
+          },
+          {
+            "amount": 7,
+            "item": "silicon"
+          },
+          {
+            "amount": 10,
+            "item": "lead"
+          },
+          {
+            "amount": 10,
+            "item": "graphite"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/phase-conveyor.png"
     },
@@ -1921,7 +2755,17 @@
       "id": "sorter",
       "implementation": "Sorter",
       "properties": {
-        "category": "distribution"
+        "category": "distribution",
+        "requirements": [
+          {
+            "amount": 2,
+            "item": "lead"
+          },
+          {
+            "amount": 2,
+            "item": "copper"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/sorter.png"
     },
@@ -1930,7 +2774,17 @@
       "id": "inverted-sorter",
       "implementation": "Sorter",
       "properties": {
-        "category": "distribution"
+        "category": "distribution",
+        "requirements": [
+          {
+            "amount": 2,
+            "item": "lead"
+          },
+          {
+            "amount": 2,
+            "item": "copper"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/inverted-sorter.png"
     },
@@ -1939,7 +2793,13 @@
       "id": "router",
       "implementation": "Router",
       "properties": {
-        "category": "distribution"
+        "category": "distribution",
+        "requirements": [
+          {
+            "amount": 3,
+            "item": "copper"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/router.png"
     },
@@ -1949,6 +2809,16 @@
       "implementation": "Router",
       "properties": {
         "category": "distribution",
+        "requirements": [
+          {
+            "amount": 4,
+            "item": "lead"
+          },
+          {
+            "amount": 4,
+            "item": "copper"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/distributor.png"
@@ -1958,7 +2828,17 @@
       "id": "overflow-gate",
       "implementation": "OverflowGate",
       "properties": {
-        "category": "distribution"
+        "category": "distribution",
+        "requirements": [
+          {
+            "amount": 2,
+            "item": "lead"
+          },
+          {
+            "amount": 4,
+            "item": "copper"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/overflow-gate.png"
     },
@@ -1967,7 +2847,17 @@
       "id": "underflow-gate",
       "implementation": "OverflowGate",
       "properties": {
-        "category": "distribution"
+        "category": "distribution",
+        "requirements": [
+          {
+            "amount": 2,
+            "item": "lead"
+          },
+          {
+            "amount": 4,
+            "item": "copper"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/underflow-gate.png"
     },
@@ -1976,7 +2866,17 @@
       "id": "unloader",
       "implementation": "Unloader",
       "properties": {
-        "category": "distribution"
+        "category": "distribution",
+        "requirements": [
+          {
+            "amount": 25,
+            "item": "titanium"
+          },
+          {
+            "amount": 30,
+            "item": "silicon"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/storage/unloader.png"
     },
@@ -1986,6 +2886,24 @@
       "implementation": "MassDriver",
       "properties": {
         "category": "distribution",
+        "requirements": [
+          {
+            "amount": 125,
+            "item": "titanium"
+          },
+          {
+            "amount": 75,
+            "item": "silicon"
+          },
+          {
+            "amount": 125,
+            "item": "lead"
+          },
+          {
+            "amount": 50,
+            "item": "thorium"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/mass-driver.png"
@@ -1996,7 +2914,13 @@
       "implementation": "Duct",
       "properties": {
         "category": "distribution",
-        "health": 90
+        "health": 90,
+        "requirements": [
+          {
+            "amount": 1,
+            "item": "beryllium"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/duct-bottom-0.png"
     },
@@ -2006,7 +2930,17 @@
       "implementation": "Duct",
       "properties": {
         "category": "distribution",
-        "health": 140
+        "health": 140,
+        "requirements": [
+          {
+            "amount": 2,
+            "item": "beryllium"
+          },
+          {
+            "amount": 1,
+            "item": "tungsten"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/armored-duct-top-0.png"
     },
@@ -2016,7 +2950,13 @@
       "implementation": "DuctRouter",
       "properties": {
         "category": "distribution",
-        "health": 90
+        "health": 90,
+        "requirements": [
+          {
+            "amount": 10,
+            "item": "beryllium"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/duct-router.png"
     },
@@ -2026,7 +2966,17 @@
       "implementation": "OverflowDuct",
       "properties": {
         "category": "distribution",
-        "health": 90
+        "health": 90,
+        "requirements": [
+          {
+            "amount": 8,
+            "item": "graphite"
+          },
+          {
+            "amount": 8,
+            "item": "beryllium"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/overflow-duct.png"
     },
@@ -2036,7 +2986,17 @@
       "implementation": "OverflowDuct",
       "properties": {
         "category": "distribution",
-        "health": 90
+        "health": 90,
+        "requirements": [
+          {
+            "amount": 8,
+            "item": "graphite"
+          },
+          {
+            "amount": 8,
+            "item": "beryllium"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/underflow-duct.png"
     },
@@ -2046,7 +3006,13 @@
       "implementation": "DuctBridge",
       "properties": {
         "category": "distribution",
-        "health": 90
+        "health": 90,
+        "requirements": [
+          {
+            "amount": 15,
+            "item": "beryllium"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/duct-bridge.png"
     },
@@ -2056,7 +3022,21 @@
       "implementation": "DirectionalUnloader",
       "properties": {
         "category": "distribution",
-        "health": 120
+        "health": 120,
+        "requirements": [
+          {
+            "amount": 20,
+            "item": "graphite"
+          },
+          {
+            "amount": 20,
+            "item": "silicon"
+          },
+          {
+            "amount": 10,
+            "item": "tungsten"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/duct-unloader.png"
     },
@@ -2066,7 +3046,17 @@
       "implementation": "StackConveyor",
       "properties": {
         "category": "distribution",
-        "health": 130
+        "health": 130,
+        "requirements": [
+          {
+            "amount": 1,
+            "item": "surge-alloy"
+          },
+          {
+            "amount": 1,
+            "item": "tungsten"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/stack-conveyors/surge-conveyor.png"
     },
@@ -2076,7 +3066,17 @@
       "implementation": "StackRouter",
       "properties": {
         "category": "distribution",
-        "health": 130
+        "health": 130,
+        "requirements": [
+          {
+            "amount": 5,
+            "item": "surge-alloy"
+          },
+          {
+            "amount": 1,
+            "item": "tungsten"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/surge-router.png"
     },
@@ -2086,6 +3086,20 @@
       "implementation": "UnitCargoLoader",
       "properties": {
         "category": "distribution",
+        "requirements": [
+          {
+            "amount": 80,
+            "item": "silicon"
+          },
+          {
+            "amount": 50,
+            "item": "surge-alloy"
+          },
+          {
+            "amount": 20,
+            "item": "oxide"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/unit-cargo-loader.png"
@@ -2096,6 +3110,16 @@
       "implementation": "UnitCargoUnloadPoint",
       "properties": {
         "category": "distribution",
+        "requirements": [
+          {
+            "amount": 60,
+            "item": "silicon"
+          },
+          {
+            "amount": 60,
+            "item": "tungsten"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/unit-cargo-unload-point.png"
@@ -2105,7 +3129,17 @@
       "id": "mechanical-pump",
       "implementation": "Pump",
       "properties": {
-        "category": "liquid"
+        "category": "liquid",
+        "requirements": [
+          {
+            "amount": 15,
+            "item": "copper"
+          },
+          {
+            "amount": 10,
+            "item": "metaglass"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/mechanical-pump.png"
     },
@@ -2115,6 +3149,24 @@
       "implementation": "Pump",
       "properties": {
         "category": "liquid",
+        "requirements": [
+          {
+            "amount": 70,
+            "item": "copper"
+          },
+          {
+            "amount": 50,
+            "item": "metaglass"
+          },
+          {
+            "amount": 20,
+            "item": "silicon"
+          },
+          {
+            "amount": 35,
+            "item": "titanium"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/rotary-pump.png"
@@ -2125,6 +3177,28 @@
       "implementation": "Pump",
       "properties": {
         "category": "liquid",
+        "requirements": [
+          {
+            "amount": 80,
+            "item": "copper"
+          },
+          {
+            "amount": 90,
+            "item": "metaglass"
+          },
+          {
+            "amount": 30,
+            "item": "silicon"
+          },
+          {
+            "amount": 40,
+            "item": "titanium"
+          },
+          {
+            "amount": 35,
+            "item": "thorium"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/impulse-pump.png"
@@ -2135,7 +3209,13 @@
       "implementation": "Conduit",
       "properties": {
         "category": "liquid",
-        "health": 45
+        "health": 45,
+        "requirements": [
+          {
+            "amount": 1,
+            "item": "metaglass"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/conduits/conduit-bottom-0.png"
     },
@@ -2145,7 +3225,17 @@
       "implementation": "Conduit",
       "properties": {
         "category": "liquid",
-        "health": 90
+        "health": 90,
+        "requirements": [
+          {
+            "amount": 2,
+            "item": "titanium"
+          },
+          {
+            "amount": 1,
+            "item": "metaglass"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/conduits/pulse-conduit-top-0.png"
     },
@@ -2155,7 +3245,21 @@
       "implementation": "ArmoredConduit",
       "properties": {
         "category": "liquid",
-        "health": 220
+        "health": 220,
+        "requirements": [
+          {
+            "amount": 2,
+            "item": "thorium"
+          },
+          {
+            "amount": 1,
+            "item": "metaglass"
+          },
+          {
+            "amount": 1,
+            "item": "plastanium"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/conduits/plated-conduit-cap.png"
     },
@@ -2164,7 +3268,17 @@
       "id": "liquid-router",
       "implementation": "LiquidRouter",
       "properties": {
-        "category": "liquid"
+        "category": "liquid",
+        "requirements": [
+          {
+            "amount": 4,
+            "item": "graphite"
+          },
+          {
+            "amount": 2,
+            "item": "metaglass"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/liquid-router.png"
     },
@@ -2174,6 +3288,16 @@
       "implementation": "LiquidRouter",
       "properties": {
         "category": "liquid",
+        "requirements": [
+          {
+            "amount": 10,
+            "item": "titanium"
+          },
+          {
+            "amount": 15,
+            "item": "metaglass"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/liquid-container.png"
@@ -2185,6 +3309,16 @@
       "properties": {
         "category": "liquid",
         "health": 500,
+        "requirements": [
+          {
+            "amount": 30,
+            "item": "titanium"
+          },
+          {
+            "amount": 40,
+            "item": "metaglass"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/liquid-tank.png"
@@ -2194,7 +3328,17 @@
       "id": "liquid-junction",
       "implementation": "LiquidJunction",
       "properties": {
-        "category": "liquid"
+        "category": "liquid",
+        "requirements": [
+          {
+            "amount": 4,
+            "item": "graphite"
+          },
+          {
+            "amount": 8,
+            "item": "metaglass"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/liquid-junction.png"
     },
@@ -2203,7 +3347,17 @@
       "id": "bridge-conduit",
       "implementation": "LiquidBridge",
       "properties": {
-        "category": "liquid"
+        "category": "liquid",
+        "requirements": [
+          {
+            "amount": 4,
+            "item": "graphite"
+          },
+          {
+            "amount": 8,
+            "item": "metaglass"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/bridge-conduit.png"
     },
@@ -2212,7 +3366,25 @@
       "id": "phase-conduit",
       "implementation": "LiquidBridge",
       "properties": {
-        "category": "liquid"
+        "category": "liquid",
+        "requirements": [
+          {
+            "amount": 5,
+            "item": "phase-fabric"
+          },
+          {
+            "amount": 7,
+            "item": "silicon"
+          },
+          {
+            "amount": 20,
+            "item": "metaglass"
+          },
+          {
+            "amount": 10,
+            "item": "titanium"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/phase-conduit.png"
     },
@@ -2222,6 +3394,20 @@
       "implementation": "Pump",
       "properties": {
         "category": "liquid",
+        "requirements": [
+          {
+            "amount": 40,
+            "item": "beryllium"
+          },
+          {
+            "amount": 30,
+            "item": "tungsten"
+          },
+          {
+            "amount": 20,
+            "item": "silicon"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/reinforced-pump.png"
@@ -2232,7 +3418,13 @@
       "implementation": "ArmoredConduit",
       "properties": {
         "category": "liquid",
-        "health": 250
+        "health": 250,
+        "requirements": [
+          {
+            "amount": 2,
+            "item": "beryllium"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/conduits/reinforced-conduit-cap.png"
     },
@@ -2242,7 +3434,17 @@
       "implementation": "LiquidJunction",
       "properties": {
         "category": "liquid",
-        "health": 250
+        "health": 250,
+        "requirements": [
+          {
+            "amount": 4,
+            "item": "graphite"
+          },
+          {
+            "amount": 8,
+            "item": "beryllium"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/reinforced-liquid-junction.png"
     },
@@ -2252,7 +3454,17 @@
       "implementation": "DirectionLiquidBridge",
       "properties": {
         "category": "liquid",
-        "health": 250
+        "health": 250,
+        "requirements": [
+          {
+            "amount": 8,
+            "item": "graphite"
+          },
+          {
+            "amount": 20,
+            "item": "beryllium"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/reinforced-bridge-conduit.png"
     },
@@ -2262,7 +3474,17 @@
       "implementation": "LiquidRouter",
       "properties": {
         "category": "liquid",
-        "health": 250
+        "health": 250,
+        "requirements": [
+          {
+            "amount": 8,
+            "item": "graphite"
+          },
+          {
+            "amount": 4,
+            "item": "beryllium"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/reinforced-liquid-router.png"
     },
@@ -2273,6 +3495,16 @@
       "properties": {
         "category": "liquid",
         "health": 400,
+        "requirements": [
+          {
+            "amount": 10,
+            "item": "tungsten"
+          },
+          {
+            "amount": 16,
+            "item": "beryllium"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/reinforced-liquid-container.png"
@@ -2284,6 +3516,16 @@
       "properties": {
         "category": "liquid",
         "health": 900,
+        "requirements": [
+          {
+            "amount": 40,
+            "item": "tungsten"
+          },
+          {
+            "amount": 50,
+            "item": "beryllium"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/reinforced-liquid-tank.png"
@@ -2293,7 +3535,17 @@
       "id": "power-node",
       "implementation": "PowerNode",
       "properties": {
-        "category": "power"
+        "category": "power",
+        "requirements": [
+          {
+            "amount": 2,
+            "item": "copper"
+          },
+          {
+            "amount": 6,
+            "item": "lead"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/power-node.png"
     },
@@ -2303,6 +3555,20 @@
       "implementation": "PowerNode",
       "properties": {
         "category": "power",
+        "requirements": [
+          {
+            "amount": 5,
+            "item": "titanium"
+          },
+          {
+            "amount": 10,
+            "item": "lead"
+          },
+          {
+            "amount": 3,
+            "item": "silicon"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/power-node-large.png"
@@ -2313,6 +3579,24 @@
       "implementation": "PowerNode",
       "properties": {
         "category": "power",
+        "requirements": [
+          {
+            "amount": 7,
+            "item": "titanium"
+          },
+          {
+            "amount": 10,
+            "item": "lead"
+          },
+          {
+            "amount": 15,
+            "item": "silicon"
+          },
+          {
+            "amount": 15,
+            "item": "surge-alloy"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/surge-tower.png"
@@ -2322,7 +3606,21 @@
       "id": "diode",
       "implementation": "PowerDiode",
       "properties": {
-        "category": "power"
+        "category": "power",
+        "requirements": [
+          {
+            "amount": 10,
+            "item": "silicon"
+          },
+          {
+            "amount": 5,
+            "item": "plastanium"
+          },
+          {
+            "amount": 10,
+            "item": "metaglass"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/diode.png"
     },
@@ -2331,7 +3629,17 @@
       "id": "battery",
       "implementation": "Battery",
       "properties": {
-        "category": "power"
+        "category": "power",
+        "requirements": [
+          {
+            "amount": 5,
+            "item": "copper"
+          },
+          {
+            "amount": 20,
+            "item": "lead"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/battery.png"
     },
@@ -2341,6 +3649,20 @@
       "implementation": "Battery",
       "properties": {
         "category": "power",
+        "requirements": [
+          {
+            "amount": 20,
+            "item": "titanium"
+          },
+          {
+            "amount": 50,
+            "item": "lead"
+          },
+          {
+            "amount": 30,
+            "item": "silicon"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/battery-large.png"
@@ -2350,7 +3672,17 @@
       "id": "combustion-generator",
       "implementation": "ConsumeGenerator",
       "properties": {
-        "category": "power"
+        "category": "power",
+        "requirements": [
+          {
+            "amount": 25,
+            "item": "copper"
+          },
+          {
+            "amount": 15,
+            "item": "lead"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/combustion-generator.png"
     },
@@ -2360,6 +3692,28 @@
       "implementation": "ThermalGenerator",
       "properties": {
         "category": "power",
+        "requirements": [
+          {
+            "amount": 40,
+            "item": "copper"
+          },
+          {
+            "amount": 35,
+            "item": "graphite"
+          },
+          {
+            "amount": 50,
+            "item": "lead"
+          },
+          {
+            "amount": 35,
+            "item": "silicon"
+          },
+          {
+            "amount": 40,
+            "item": "metaglass"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/thermal-generator.png"
@@ -2370,6 +3724,24 @@
       "implementation": "ConsumeGenerator",
       "properties": {
         "category": "power",
+        "requirements": [
+          {
+            "amount": 35,
+            "item": "copper"
+          },
+          {
+            "amount": 25,
+            "item": "graphite"
+          },
+          {
+            "amount": 40,
+            "item": "lead"
+          },
+          {
+            "amount": 30,
+            "item": "silicon"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/steam-generator.png"
@@ -2380,6 +3752,28 @@
       "implementation": "ConsumeGenerator",
       "properties": {
         "category": "power",
+        "requirements": [
+          {
+            "amount": 70,
+            "item": "copper"
+          },
+          {
+            "amount": 50,
+            "item": "titanium"
+          },
+          {
+            "amount": 100,
+            "item": "lead"
+          },
+          {
+            "amount": 65,
+            "item": "silicon"
+          },
+          {
+            "amount": 50,
+            "item": "metaglass"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/differential-generator.png"
@@ -2390,6 +3784,28 @@
       "implementation": "ConsumeGenerator",
       "properties": {
         "category": "power",
+        "requirements": [
+          {
+            "amount": 100,
+            "item": "lead"
+          },
+          {
+            "amount": 75,
+            "item": "silicon"
+          },
+          {
+            "amount": 25,
+            "item": "phase-fabric"
+          },
+          {
+            "amount": 75,
+            "item": "plastanium"
+          },
+          {
+            "amount": 50,
+            "item": "thorium"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/rtg-generator.png"
@@ -2399,7 +3815,17 @@
       "id": "solar-panel",
       "implementation": "SolarGenerator",
       "properties": {
-        "category": "power"
+        "category": "power",
+        "requirements": [
+          {
+            "amount": 10,
+            "item": "lead"
+          },
+          {
+            "amount": 8,
+            "item": "silicon"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/solar-panel.png"
     },
@@ -2409,6 +3835,20 @@
       "implementation": "SolarGenerator",
       "properties": {
         "category": "power",
+        "requirements": [
+          {
+            "amount": 60,
+            "item": "lead"
+          },
+          {
+            "amount": 70,
+            "item": "silicon"
+          },
+          {
+            "amount": 15,
+            "item": "phase-fabric"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/solar-panel-large.png"
@@ -2420,6 +3860,28 @@
       "properties": {
         "category": "power",
         "health": 700,
+        "requirements": [
+          {
+            "amount": 300,
+            "item": "lead"
+          },
+          {
+            "amount": 200,
+            "item": "silicon"
+          },
+          {
+            "amount": 150,
+            "item": "graphite"
+          },
+          {
+            "amount": 150,
+            "item": "thorium"
+          },
+          {
+            "amount": 50,
+            "item": "metaglass"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/thorium-reactor.png"
@@ -2431,6 +3893,32 @@
       "properties": {
         "category": "power",
         "health": 900,
+        "requirements": [
+          {
+            "amount": 500,
+            "item": "lead"
+          },
+          {
+            "amount": 300,
+            "item": "silicon"
+          },
+          {
+            "amount": 400,
+            "item": "graphite"
+          },
+          {
+            "amount": 100,
+            "item": "thorium"
+          },
+          {
+            "amount": 250,
+            "item": "surge-alloy"
+          },
+          {
+            "amount": 250,
+            "item": "metaglass"
+          }
+        ],
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/impact-reactor.png"
@@ -2441,7 +3929,13 @@
       "implementation": "BeamNode",
       "properties": {
         "category": "power",
-        "health": 90
+        "health": 90,
+        "requirements": [
+          {
+            "amount": 8,
+            "item": "beryllium"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/beam-node.png"
     },
@@ -2451,6 +3945,20 @@
       "implementation": "BeamNode",
       "properties": {
         "category": "power",
+        "requirements": [
+          {
+            "amount": 30,
+            "item": "beryllium"
+          },
+          {
+            "amount": 10,
+            "item": "oxide"
+          },
+          {
+            "amount": 10,
+            "item": "silicon"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/beam-tower.png"
@@ -2461,6 +3969,32 @@
       "implementation": "LongPowerNode",
       "properties": {
         "category": "power",
+        "requirements": [
+          {
+            "amount": 250,
+            "item": "beryllium"
+          },
+          {
+            "amount": 250,
+            "item": "silicon"
+          },
+          {
+            "amount": 150,
+            "item": "oxide"
+          },
+          {
+            "amount": 75,
+            "item": "carbide"
+          },
+          {
+            "amount": 75,
+            "item": "surge-alloy"
+          },
+          {
+            "amount": 75,
+            "item": "phase-fabric"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/beam-link.png"
@@ -2471,6 +4005,12 @@
       "implementation": "ThermalGenerator",
       "properties": {
         "category": "power",
+        "requirements": [
+          {
+            "amount": 60,
+            "item": "beryllium"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/turbine-condenser.png"
@@ -2481,6 +4021,24 @@
       "implementation": "ConsumeGenerator",
       "properties": {
         "category": "power",
+        "requirements": [
+          {
+            "amount": 40,
+            "item": "graphite"
+          },
+          {
+            "amount": 20,
+            "item": "tungsten"
+          },
+          {
+            "amount": 40,
+            "item": "oxide"
+          },
+          {
+            "amount": 30,
+            "item": "silicon"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/chemical-combustion-chamber.png"
@@ -2491,6 +4049,24 @@
       "implementation": "ConsumeGenerator",
       "properties": {
         "category": "power",
+        "requirements": [
+          {
+            "amount": 100,
+            "item": "graphite"
+          },
+          {
+            "amount": 60,
+            "item": "carbide"
+          },
+          {
+            "amount": 60,
+            "item": "oxide"
+          },
+          {
+            "amount": 100,
+            "item": "silicon"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/pyrolysis-generator.png"
@@ -2501,6 +4077,28 @@
       "implementation": "VariableReactor",
       "properties": {
         "category": "power",
+        "requirements": [
+          {
+            "amount": 240,
+            "item": "graphite"
+          },
+          {
+            "amount": 60,
+            "item": "carbide"
+          },
+          {
+            "amount": 80,
+            "item": "oxide"
+          },
+          {
+            "amount": 480,
+            "item": "silicon"
+          },
+          {
+            "amount": 120,
+            "item": "surge-alloy"
+          }
+        ],
         "size": 5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/flux-reactor.png"
@@ -2511,6 +4109,32 @@
       "implementation": "HeaterGenerator",
       "properties": {
         "category": "power",
+        "requirements": [
+          {
+            "amount": 750,
+            "item": "tungsten"
+          },
+          {
+            "amount": 300,
+            "item": "carbide"
+          },
+          {
+            "amount": 150,
+            "item": "oxide"
+          },
+          {
+            "amount": 500,
+            "item": "silicon"
+          },
+          {
+            "amount": 150,
+            "item": "phase-fabric"
+          },
+          {
+            "amount": 200,
+            "item": "surge-alloy"
+          }
+        ],
         "size": 5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/neoplasia-reactor.png"
@@ -2521,6 +4145,12 @@
       "implementation": "Drill",
       "properties": {
         "category": "production",
+        "requirements": [
+          {
+            "amount": 12,
+            "item": "copper"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/mechanical-drill.png"
@@ -2531,6 +4161,16 @@
       "implementation": "Drill",
       "properties": {
         "category": "production",
+        "requirements": [
+          {
+            "amount": 18,
+            "item": "copper"
+          },
+          {
+            "amount": 10,
+            "item": "graphite"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/pneumatic-drill.png"
@@ -2541,6 +4181,24 @@
       "implementation": "Drill",
       "properties": {
         "category": "production",
+        "requirements": [
+          {
+            "amount": 35,
+            "item": "copper"
+          },
+          {
+            "amount": 30,
+            "item": "graphite"
+          },
+          {
+            "amount": 30,
+            "item": "silicon"
+          },
+          {
+            "amount": 20,
+            "item": "titanium"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/laser-drill.png"
@@ -2551,6 +4209,24 @@
       "implementation": "Drill",
       "properties": {
         "category": "production",
+        "requirements": [
+          {
+            "amount": 65,
+            "item": "copper"
+          },
+          {
+            "amount": 60,
+            "item": "silicon"
+          },
+          {
+            "amount": 50,
+            "item": "titanium"
+          },
+          {
+            "amount": 75,
+            "item": "thorium"
+          }
+        ],
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/blast-drill.png"
@@ -2561,6 +4237,24 @@
       "implementation": "SolidPump",
       "properties": {
         "category": "production",
+        "requirements": [
+          {
+            "amount": 30,
+            "item": "metaglass"
+          },
+          {
+            "amount": 30,
+            "item": "graphite"
+          },
+          {
+            "amount": 30,
+            "item": "lead"
+          },
+          {
+            "amount": 30,
+            "item": "copper"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/water-extractor.png"
@@ -2571,6 +4265,20 @@
       "implementation": "AttributeCrafter",
       "properties": {
         "category": "production",
+        "requirements": [
+          {
+            "amount": 25,
+            "item": "copper"
+          },
+          {
+            "amount": 25,
+            "item": "lead"
+          },
+          {
+            "amount": 10,
+            "item": "silicon"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/cultivator.png"
@@ -2581,6 +4289,28 @@
       "implementation": "Fracker",
       "properties": {
         "category": "production",
+        "requirements": [
+          {
+            "amount": 150,
+            "item": "copper"
+          },
+          {
+            "amount": 175,
+            "item": "graphite"
+          },
+          {
+            "amount": 115,
+            "item": "lead"
+          },
+          {
+            "amount": 115,
+            "item": "thorium"
+          },
+          {
+            "amount": 75,
+            "item": "silicon"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/oil-extractor.png"
@@ -2591,6 +4321,16 @@
       "implementation": "AttributeCrafter",
       "properties": {
         "category": "production",
+        "requirements": [
+          {
+            "amount": 20,
+            "item": "graphite"
+          },
+          {
+            "amount": 60,
+            "item": "beryllium"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/vent-condenser.png"
@@ -2601,6 +4341,16 @@
       "implementation": "WallCrafter",
       "properties": {
         "category": "production",
+        "requirements": [
+          {
+            "amount": 25,
+            "item": "graphite"
+          },
+          {
+            "amount": 20,
+            "item": "beryllium"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/cliff-crusher.png"
@@ -2611,6 +4361,24 @@
       "implementation": "WallCrafter",
       "properties": {
         "category": "production",
+        "requirements": [
+          {
+            "amount": 80,
+            "item": "silicon"
+          },
+          {
+            "amount": 15,
+            "item": "surge-alloy"
+          },
+          {
+            "amount": 100,
+            "item": "beryllium"
+          },
+          {
+            "amount": 50,
+            "item": "tungsten"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/large-cliff-crusher.png"
@@ -2621,6 +4389,12 @@
       "implementation": "BeamDrill",
       "properties": {
         "category": "production",
+        "requirements": [
+          {
+            "amount": 40,
+            "item": "beryllium"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/plasma-bore.png"
@@ -2631,6 +4405,24 @@
       "implementation": "BeamDrill",
       "properties": {
         "category": "production",
+        "requirements": [
+          {
+            "amount": 100,
+            "item": "silicon"
+          },
+          {
+            "amount": 25,
+            "item": "oxide"
+          },
+          {
+            "amount": 100,
+            "item": "beryllium"
+          },
+          {
+            "amount": 70,
+            "item": "tungsten"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/large-plasma-bore.png"
@@ -2641,6 +4433,20 @@
       "implementation": "BurstDrill",
       "properties": {
         "category": "production",
+        "requirements": [
+          {
+            "amount": 70,
+            "item": "silicon"
+          },
+          {
+            "amount": 90,
+            "item": "beryllium"
+          },
+          {
+            "amount": 60,
+            "item": "graphite"
+          }
+        ],
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/impact-drill.png"
@@ -2651,6 +4457,24 @@
       "implementation": "BurstDrill",
       "properties": {
         "category": "production",
+        "requirements": [
+          {
+            "amount": 300,
+            "item": "silicon"
+          },
+          {
+            "amount": 20,
+            "item": "oxide"
+          },
+          {
+            "amount": 250,
+            "item": "tungsten"
+          },
+          {
+            "amount": 150,
+            "item": "thorium"
+          }
+        ],
         "size": 5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/eruption-drill.png"
@@ -2662,6 +4486,16 @@
       "properties": {
         "category": "effect",
         "health": 1100,
+        "requirements": [
+          {
+            "amount": 1000,
+            "item": "copper"
+          },
+          {
+            "amount": 800,
+            "item": "lead"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/storage/core-shard.png"
@@ -2673,6 +4507,20 @@
       "properties": {
         "category": "effect",
         "health": 3500,
+        "requirements": [
+          {
+            "amount": 3000,
+            "item": "copper"
+          },
+          {
+            "amount": 3000,
+            "item": "lead"
+          },
+          {
+            "amount": 2000,
+            "item": "silicon"
+          }
+        ],
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/storage/core-foundation.png"
@@ -2684,6 +4532,24 @@
       "properties": {
         "category": "effect",
         "health": 6000,
+        "requirements": [
+          {
+            "amount": 8000,
+            "item": "copper"
+          },
+          {
+            "amount": 8000,
+            "item": "lead"
+          },
+          {
+            "amount": 5000,
+            "item": "silicon"
+          },
+          {
+            "amount": 4000,
+            "item": "thorium"
+          }
+        ],
         "size": 5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/storage/core-nucleus.png"
@@ -2695,6 +4561,20 @@
       "properties": {
         "category": "effect",
         "health": 4500,
+        "requirements": [
+          {
+            "amount": 1000,
+            "item": "graphite"
+          },
+          {
+            "amount": 1000,
+            "item": "silicon"
+          },
+          {
+            "amount": 800,
+            "item": "beryllium"
+          }
+        ],
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/storage/core-bastion.png"
@@ -2706,6 +4586,24 @@
       "properties": {
         "category": "effect",
         "health": 16000,
+        "requirements": [
+          {
+            "amount": 4000,
+            "item": "silicon"
+          },
+          {
+            "amount": 4000,
+            "item": "beryllium"
+          },
+          {
+            "amount": 3000,
+            "item": "tungsten"
+          },
+          {
+            "amount": 1000,
+            "item": "oxide"
+          }
+        ],
         "size": 5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/storage/core-citadel.png"
@@ -2717,6 +4615,28 @@
       "properties": {
         "category": "effect",
         "health": 30000,
+        "requirements": [
+          {
+            "amount": 6000,
+            "item": "beryllium"
+          },
+          {
+            "amount": 5000,
+            "item": "silicon"
+          },
+          {
+            "amount": 5000,
+            "item": "tungsten"
+          },
+          {
+            "amount": 3000,
+            "item": "carbide"
+          },
+          {
+            "amount": 3000,
+            "item": "oxide"
+          }
+        ],
         "size": 6
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/storage/core-acropolis.png"
@@ -2727,6 +4647,12 @@
       "implementation": "StorageBlock",
       "properties": {
         "category": "effect",
+        "requirements": [
+          {
+            "amount": 100,
+            "item": "titanium"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/storage/container.png"
@@ -2737,6 +4663,16 @@
       "implementation": "StorageBlock",
       "properties": {
         "category": "effect",
+        "requirements": [
+          {
+            "amount": 250,
+            "item": "titanium"
+          },
+          {
+            "amount": 125,
+            "item": "thorium"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/storage/vault.png"
@@ -2747,6 +4683,16 @@
       "implementation": "StorageBlock",
       "properties": {
         "category": "effect",
+        "requirements": [
+          {
+            "amount": 30,
+            "item": "tungsten"
+          },
+          {
+            "amount": 40,
+            "item": "graphite"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/storage/reinforced-container.png"
@@ -2757,6 +4703,20 @@
       "implementation": "StorageBlock",
       "properties": {
         "category": "effect",
+        "requirements": [
+          {
+            "amount": 125,
+            "item": "tungsten"
+          },
+          {
+            "amount": 70,
+            "item": "thorium"
+          },
+          {
+            "amount": 100,
+            "item": "beryllium"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/storage/reinforced-vault.png"
@@ -2767,7 +4727,13 @@
       "implementation": "ItemTurret",
       "properties": {
         "category": "turret",
-        "health": 250
+        "health": 250,
+        "requirements": [
+          {
+            "amount": 35,
+            "item": "copper"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/duo/duo.png"
     },
@@ -2777,6 +4743,16 @@
       "implementation": "ItemTurret",
       "properties": {
         "category": "turret",
+        "requirements": [
+          {
+            "amount": 85,
+            "item": "copper"
+          },
+          {
+            "amount": 45,
+            "item": "lead"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/scatter/scatter.png"
@@ -2787,7 +4763,17 @@
       "implementation": "ItemTurret",
       "properties": {
         "category": "turret",
-        "health": 400
+        "health": 400,
+        "requirements": [
+          {
+            "amount": 25,
+            "item": "copper"
+          },
+          {
+            "amount": 22,
+            "item": "graphite"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/scorch.png"
     },
@@ -2797,7 +4783,17 @@
       "implementation": "ItemTurret",
       "properties": {
         "category": "turret",
-        "health": 260
+        "health": 260,
+        "requirements": [
+          {
+            "amount": 40,
+            "item": "copper"
+          },
+          {
+            "amount": 17,
+            "item": "graphite"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/hail.png"
     },
@@ -2807,6 +4803,20 @@
       "implementation": "LiquidTurret",
       "properties": {
         "category": "turret",
+        "requirements": [
+          {
+            "amount": 45,
+            "item": "metaglass"
+          },
+          {
+            "amount": 75,
+            "item": "lead"
+          },
+          {
+            "amount": 25,
+            "item": "copper"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/wave.png"
@@ -2817,6 +4827,24 @@
       "implementation": "PowerTurret",
       "properties": {
         "category": "turret",
+        "requirements": [
+          {
+            "amount": 60,
+            "item": "copper"
+          },
+          {
+            "amount": 70,
+            "item": "lead"
+          },
+          {
+            "amount": 60,
+            "item": "silicon"
+          },
+          {
+            "amount": 30,
+            "item": "titanium"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/lancer.png"
@@ -2828,6 +4856,16 @@
       "properties": {
         "category": "turret",
         "health": 260,
+        "requirements": [
+          {
+            "amount": 50,
+            "item": "copper"
+          },
+          {
+            "amount": 50,
+            "item": "lead"
+          }
+        ],
         "size": 1
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/arc.png"
@@ -2838,6 +4876,20 @@
       "implementation": "TractorBeamTurret",
       "properties": {
         "category": "turret",
+        "requirements": [
+          {
+            "amount": 160,
+            "item": "silicon"
+          },
+          {
+            "amount": 110,
+            "item": "titanium"
+          },
+          {
+            "amount": 50,
+            "item": "graphite"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/parallax.png"
@@ -2848,6 +4900,24 @@
       "implementation": "ItemTurret",
       "properties": {
         "category": "turret",
+        "requirements": [
+          {
+            "amount": 35,
+            "item": "graphite"
+          },
+          {
+            "amount": 35,
+            "item": "titanium"
+          },
+          {
+            "amount": 45,
+            "item": "plastanium"
+          },
+          {
+            "amount": 30,
+            "item": "silicon"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/swarmer.png"
@@ -2858,6 +4928,20 @@
       "implementation": "ItemTurret",
       "properties": {
         "category": "turret",
+        "requirements": [
+          {
+            "amount": 100,
+            "item": "copper"
+          },
+          {
+            "amount": 80,
+            "item": "graphite"
+          },
+          {
+            "amount": 50,
+            "item": "titanium"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/salvo/salvo-preview.png"
@@ -2868,6 +4952,24 @@
       "implementation": "PointDefenseTurret",
       "properties": {
         "category": "turret",
+        "requirements": [
+          {
+            "amount": 130,
+            "item": "silicon"
+          },
+          {
+            "amount": 80,
+            "item": "thorium"
+          },
+          {
+            "amount": 40,
+            "item": "phase-fabric"
+          },
+          {
+            "amount": 40,
+            "item": "titanium"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/segment.png"
@@ -2878,6 +4980,24 @@
       "implementation": "LiquidTurret",
       "properties": {
         "category": "turret",
+        "requirements": [
+          {
+            "amount": 100,
+            "item": "metaglass"
+          },
+          {
+            "amount": 400,
+            "item": "lead"
+          },
+          {
+            "amount": 250,
+            "item": "titanium"
+          },
+          {
+            "amount": 100,
+            "item": "thorium"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/tsunami.png"
@@ -2888,6 +5008,20 @@
       "implementation": "ItemTurret",
       "properties": {
         "category": "turret",
+        "requirements": [
+          {
+            "amount": 225,
+            "item": "copper"
+          },
+          {
+            "amount": 225,
+            "item": "graphite"
+          },
+          {
+            "amount": 100,
+            "item": "thorium"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/fuse.png"
@@ -2898,6 +5032,20 @@
       "implementation": "ItemTurret",
       "properties": {
         "category": "turret",
+        "requirements": [
+          {
+            "amount": 150,
+            "item": "copper"
+          },
+          {
+            "amount": 135,
+            "item": "graphite"
+          },
+          {
+            "amount": 60,
+            "item": "titanium"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/ripple.png"
@@ -2908,6 +5056,20 @@
       "implementation": "ItemTurret",
       "properties": {
         "category": "turret",
+        "requirements": [
+          {
+            "amount": 200,
+            "item": "copper"
+          },
+          {
+            "amount": 125,
+            "item": "titanium"
+          },
+          {
+            "amount": 80,
+            "item": "plastanium"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/cyclone/cyclone.png"
@@ -2918,6 +5080,28 @@
       "implementation": "ItemTurret",
       "properties": {
         "category": "turret",
+        "requirements": [
+          {
+            "amount": 1000,
+            "item": "copper"
+          },
+          {
+            "amount": 600,
+            "item": "metaglass"
+          },
+          {
+            "amount": 300,
+            "item": "surge-alloy"
+          },
+          {
+            "amount": 200,
+            "item": "plastanium"
+          },
+          {
+            "amount": 600,
+            "item": "silicon"
+          }
+        ],
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/foreshadow.png"
@@ -2928,6 +5112,28 @@
       "implementation": "ItemTurret",
       "properties": {
         "category": "turret",
+        "requirements": [
+          {
+            "amount": 900,
+            "item": "copper"
+          },
+          {
+            "amount": 300,
+            "item": "graphite"
+          },
+          {
+            "amount": 250,
+            "item": "surge-alloy"
+          },
+          {
+            "amount": 175,
+            "item": "plastanium"
+          },
+          {
+            "amount": 250,
+            "item": "thorium"
+          }
+        ],
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/spectre.png"
@@ -2938,6 +5144,28 @@
       "implementation": "LaserTurret",
       "properties": {
         "category": "turret",
+        "requirements": [
+          {
+            "amount": 1200,
+            "item": "copper"
+          },
+          {
+            "amount": 350,
+            "item": "lead"
+          },
+          {
+            "amount": 300,
+            "item": "graphite"
+          },
+          {
+            "amount": 325,
+            "item": "surge-alloy"
+          },
+          {
+            "amount": 325,
+            "item": "silicon"
+          }
+        ],
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/meltdown.png"
@@ -2948,6 +5176,20 @@
       "implementation": "ItemTurret",
       "properties": {
         "category": "turret",
+        "requirements": [
+          {
+            "amount": 150,
+            "item": "beryllium"
+          },
+          {
+            "amount": 150,
+            "item": "silicon"
+          },
+          {
+            "amount": 125,
+            "item": "graphite"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/breach.png"
@@ -2958,6 +5200,24 @@
       "implementation": "ItemTurret",
       "properties": {
         "category": "turret",
+        "requirements": [
+          {
+            "amount": 150,
+            "item": "beryllium"
+          },
+          {
+            "amount": 200,
+            "item": "silicon"
+          },
+          {
+            "amount": 200,
+            "item": "graphite"
+          },
+          {
+            "amount": 50,
+            "item": "tungsten"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/diffuse/diffuse.png"
@@ -2968,6 +5228,24 @@
       "implementation": "ContinuousLiquidTurret",
       "properties": {
         "category": "turret",
+        "requirements": [
+          {
+            "amount": 150,
+            "item": "tungsten"
+          },
+          {
+            "amount": 200,
+            "item": "silicon"
+          },
+          {
+            "amount": 40,
+            "item": "oxide"
+          },
+          {
+            "amount": 400,
+            "item": "beryllium"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/sublimate/sublimate.png"
@@ -2978,6 +5256,20 @@
       "implementation": "ItemTurret",
       "properties": {
         "category": "turret",
+        "requirements": [
+          {
+            "amount": 250,
+            "item": "tungsten"
+          },
+          {
+            "amount": 300,
+            "item": "silicon"
+          },
+          {
+            "amount": 400,
+            "item": "thorium"
+          }
+        ],
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/titan/titan.png"
@@ -2988,6 +5280,24 @@
       "implementation": "ItemTurret",
       "properties": {
         "category": "turret",
+        "requirements": [
+          {
+            "amount": 50,
+            "item": "thorium"
+          },
+          {
+            "amount": 50,
+            "item": "oxide"
+          },
+          {
+            "amount": 200,
+            "item": "silicon"
+          },
+          {
+            "amount": 350,
+            "item": "beryllium"
+          }
+        ],
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/disperse/disperse-preview.png"
@@ -2998,6 +5308,24 @@
       "implementation": "PowerTurret",
       "properties": {
         "category": "turret",
+        "requirements": [
+          {
+            "amount": 100,
+            "item": "surge-alloy"
+          },
+          {
+            "amount": 200,
+            "item": "silicon"
+          },
+          {
+            "amount": 250,
+            "item": "graphite"
+          },
+          {
+            "amount": 40,
+            "item": "oxide"
+          }
+        ],
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/afflict/afflict.png"
@@ -3008,6 +5336,24 @@
       "implementation": "ContinuousTurret",
       "properties": {
         "category": "turret",
+        "requirements": [
+          {
+            "amount": 250,
+            "item": "silicon"
+          },
+          {
+            "amount": 200,
+            "item": "graphite"
+          },
+          {
+            "amount": 50,
+            "item": "oxide"
+          },
+          {
+            "amount": 90,
+            "item": "carbide"
+          }
+        ],
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/lustre/lustre-preview.png"
@@ -3019,6 +5365,28 @@
       "properties": {
         "category": "turret",
         "health": 240,
+        "requirements": [
+          {
+            "amount": 450,
+            "item": "silicon"
+          },
+          {
+            "amount": 400,
+            "item": "graphite"
+          },
+          {
+            "amount": 500,
+            "item": "tungsten"
+          },
+          {
+            "amount": 100,
+            "item": "oxide"
+          },
+          {
+            "amount": 200,
+            "item": "carbide"
+          }
+        ],
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/scathe/scathe-preview.png"
@@ -3029,6 +5397,28 @@
       "implementation": "ItemTurret",
       "properties": {
         "category": "turret",
+        "requirements": [
+          {
+            "amount": 200,
+            "item": "oxide"
+          },
+          {
+            "amount": 400,
+            "item": "surge-alloy"
+          },
+          {
+            "amount": 800,
+            "item": "silicon"
+          },
+          {
+            "amount": 500,
+            "item": "carbide"
+          },
+          {
+            "amount": 300,
+            "item": "phase-fabric"
+          }
+        ],
         "size": 5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/smite/smite-preview.png"
@@ -3039,6 +5429,28 @@
       "implementation": "PowerTurret",
       "properties": {
         "category": "turret",
+        "requirements": [
+          {
+            "amount": 200,
+            "item": "carbide"
+          },
+          {
+            "amount": 1000,
+            "item": "beryllium"
+          },
+          {
+            "amount": 500,
+            "item": "silicon"
+          },
+          {
+            "amount": 500,
+            "item": "graphite"
+          },
+          {
+            "amount": 200,
+            "item": "phase-fabric"
+          }
+        ],
         "size": 5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/malign/malign-preview.png"
@@ -3049,6 +5461,20 @@
       "implementation": "UnitFactory",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 50,
+            "item": "copper"
+          },
+          {
+            "amount": 120,
+            "item": "lead"
+          },
+          {
+            "amount": 80,
+            "item": "silicon"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/ground-factory.png"
@@ -3059,6 +5485,20 @@
       "implementation": "UnitFactory",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 60,
+            "item": "copper"
+          },
+          {
+            "amount": 70,
+            "item": "lead"
+          },
+          {
+            "amount": 60,
+            "item": "silicon"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/air-factory.png"
@@ -3069,6 +5509,20 @@
       "implementation": "UnitFactory",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 150,
+            "item": "copper"
+          },
+          {
+            "amount": 130,
+            "item": "lead"
+          },
+          {
+            "amount": 120,
+            "item": "metaglass"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/naval-factory.png"
@@ -3079,6 +5533,20 @@
       "implementation": "Reconstructor",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 200,
+            "item": "copper"
+          },
+          {
+            "amount": 120,
+            "item": "lead"
+          },
+          {
+            "amount": 90,
+            "item": "silicon"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/additive-reconstructor.png"
@@ -3089,6 +5557,24 @@
       "implementation": "Reconstructor",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 650,
+            "item": "lead"
+          },
+          {
+            "amount": 450,
+            "item": "silicon"
+          },
+          {
+            "amount": 350,
+            "item": "titanium"
+          },
+          {
+            "amount": 650,
+            "item": "thorium"
+          }
+        ],
         "size": 5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/multiplicative-reconstructor.png"
@@ -3099,6 +5585,32 @@
       "implementation": "Reconstructor",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 2000,
+            "item": "lead"
+          },
+          {
+            "amount": 1000,
+            "item": "silicon"
+          },
+          {
+            "amount": 2000,
+            "item": "titanium"
+          },
+          {
+            "amount": 750,
+            "item": "thorium"
+          },
+          {
+            "amount": 450,
+            "item": "plastanium"
+          },
+          {
+            "amount": 600,
+            "item": "phase-fabric"
+          }
+        ],
         "size": 7
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/exponential-reconstructor.png"
@@ -3109,6 +5621,32 @@
       "implementation": "Reconstructor",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 4000,
+            "item": "lead"
+          },
+          {
+            "amount": 3000,
+            "item": "silicon"
+          },
+          {
+            "amount": 1000,
+            "item": "thorium"
+          },
+          {
+            "amount": 600,
+            "item": "plastanium"
+          },
+          {
+            "amount": 600,
+            "item": "phase-fabric"
+          },
+          {
+            "amount": 800,
+            "item": "surge-alloy"
+          }
+        ],
         "size": 9
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/tetrative-reconstructor.png"
@@ -3118,7 +5656,21 @@
       "id": "repair-point",
       "implementation": "RepairTurret",
       "properties": {
-        "category": "units"
+        "category": "units",
+        "requirements": [
+          {
+            "amount": 30,
+            "item": "lead"
+          },
+          {
+            "amount": 30,
+            "item": "copper"
+          },
+          {
+            "amount": 20,
+            "item": "silicon"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/repair-point.png"
     },
@@ -3128,6 +5680,20 @@
       "implementation": "RepairTurret",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 90,
+            "item": "silicon"
+          },
+          {
+            "amount": 80,
+            "item": "thorium"
+          },
+          {
+            "amount": 60,
+            "item": "plastanium"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/repair-turret.png"
@@ -3138,6 +5704,16 @@
       "implementation": "UnitFactory",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 200,
+            "item": "silicon"
+          },
+          {
+            "amount": 150,
+            "item": "beryllium"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/tank-fabricator.png"
@@ -3148,6 +5724,16 @@
       "implementation": "UnitFactory",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 250,
+            "item": "silicon"
+          },
+          {
+            "amount": 200,
+            "item": "beryllium"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/ship-fabricator.png"
@@ -3158,6 +5744,20 @@
       "implementation": "UnitFactory",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 200,
+            "item": "silicon"
+          },
+          {
+            "amount": 250,
+            "item": "beryllium"
+          },
+          {
+            "amount": 10,
+            "item": "tungsten"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/mech-fabricator.png"
@@ -3168,6 +5768,20 @@
       "implementation": "Reconstructor",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 200,
+            "item": "beryllium"
+          },
+          {
+            "amount": 80,
+            "item": "tungsten"
+          },
+          {
+            "amount": 100,
+            "item": "silicon"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/tank-refabricator.png"
@@ -3178,6 +5792,24 @@
       "implementation": "Reconstructor",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 250,
+            "item": "beryllium"
+          },
+          {
+            "amount": 120,
+            "item": "tungsten"
+          },
+          {
+            "amount": 150,
+            "item": "silicon"
+          },
+          {
+            "amount": 15,
+            "item": "oxide"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/ship-refabricator.png"
@@ -3188,6 +5820,20 @@
       "implementation": "Reconstructor",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 250,
+            "item": "beryllium"
+          },
+          {
+            "amount": 175,
+            "item": "tungsten"
+          },
+          {
+            "amount": 150,
+            "item": "silicon"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/mech-refabricator.png"
@@ -3198,6 +5844,24 @@
       "implementation": "Reconstructor",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 250,
+            "item": "thorium"
+          },
+          {
+            "amount": 200,
+            "item": "oxide"
+          },
+          {
+            "amount": 200,
+            "item": "tungsten"
+          },
+          {
+            "amount": 400,
+            "item": "silicon"
+          }
+        ],
         "size": 5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/prime-refabricator.png"
@@ -3208,6 +5872,24 @@
       "implementation": "UnitAssembler",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 500,
+            "item": "thorium"
+          },
+          {
+            "amount": 150,
+            "item": "oxide"
+          },
+          {
+            "amount": 80,
+            "item": "carbide"
+          },
+          {
+            "amount": 650,
+            "item": "silicon"
+          }
+        ],
         "size": 5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/tank-assembler.png"
@@ -3218,6 +5900,28 @@
       "implementation": "UnitAssembler",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 100,
+            "item": "carbide"
+          },
+          {
+            "amount": 200,
+            "item": "oxide"
+          },
+          {
+            "amount": 550,
+            "item": "tungsten"
+          },
+          {
+            "amount": 900,
+            "item": "silicon"
+          },
+          {
+            "amount": 400,
+            "item": "thorium"
+          }
+        ],
         "size": 5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/ship-assembler.png"
@@ -3228,6 +5932,28 @@
       "implementation": "UnitAssembler",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 200,
+            "item": "carbide"
+          },
+          {
+            "amount": 600,
+            "item": "thorium"
+          },
+          {
+            "amount": 200,
+            "item": "oxide"
+          },
+          {
+            "amount": 550,
+            "item": "tungsten"
+          },
+          {
+            "amount": 1000,
+            "item": "silicon"
+          }
+        ],
         "size": 5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/mech-assembler.png"
@@ -3238,6 +5964,24 @@
       "implementation": "UnitAssemblerModule",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 300,
+            "item": "carbide"
+          },
+          {
+            "amount": 500,
+            "item": "thorium"
+          },
+          {
+            "amount": 250,
+            "item": "oxide"
+          },
+          {
+            "amount": 400,
+            "item": "phase-fabric"
+          }
+        ],
         "size": 5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/basic-assembler-module.png"
@@ -3248,6 +5992,20 @@
       "implementation": "RepairTower",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 90,
+            "item": "graphite"
+          },
+          {
+            "amount": 90,
+            "item": "silicon"
+          },
+          {
+            "amount": 80,
+            "item": "tungsten"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/unit-repair-tower.png"
@@ -3257,7 +6015,17 @@
       "id": "payload-conveyor",
       "implementation": "PayloadConveyor",
       "properties": {
-        "category": "units"
+        "category": "units",
+        "requirements": [
+          {
+            "amount": 10,
+            "item": "graphite"
+          },
+          {
+            "amount": 10,
+            "item": "copper"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/payload/payload-conveyor.png"
     },
@@ -3266,7 +6034,17 @@
       "id": "payload-router",
       "implementation": "PayloadRouter",
       "properties": {
-        "category": "units"
+        "category": "units",
+        "requirements": [
+          {
+            "amount": 15,
+            "item": "graphite"
+          },
+          {
+            "amount": 10,
+            "item": "copper"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/payload/payload-router.png"
     },
@@ -3276,7 +6054,13 @@
       "implementation": "PayloadConveyor",
       "properties": {
         "category": "units",
-        "health": 800
+        "health": 800,
+        "requirements": [
+          {
+            "amount": 10,
+            "item": "tungsten"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/payload/reinforced-payload-conveyor.png"
     },
@@ -3286,7 +6070,13 @@
       "implementation": "PayloadRouter",
       "properties": {
         "category": "units",
-        "health": 800
+        "health": 800,
+        "requirements": [
+          {
+            "amount": 15,
+            "item": "tungsten"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/payload/reinforced-payload-router.png"
     },
@@ -3296,6 +6086,20 @@
       "implementation": "PayloadMassDriver",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 40,
+            "item": "tungsten"
+          },
+          {
+            "amount": 50,
+            "item": "silicon"
+          },
+          {
+            "amount": 20,
+            "item": "graphite"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/payload/payload-mass-driver.png"
@@ -3306,6 +6110,28 @@
       "implementation": "PayloadMassDriver",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 20,
+            "item": "phase-fabric"
+          },
+          {
+            "amount": 200,
+            "item": "tungsten"
+          },
+          {
+            "amount": 200,
+            "item": "silicon"
+          },
+          {
+            "amount": 100,
+            "item": "graphite"
+          },
+          {
+            "amount": 30,
+            "item": "oxide"
+          }
+        ],
         "size": 5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/payload/large-payload-mass-driver.png"
@@ -3316,6 +6142,24 @@
       "implementation": "PayloadDeconstructor",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 100,
+            "item": "beryllium"
+          },
+          {
+            "amount": 100,
+            "item": "silicon"
+          },
+          {
+            "amount": 40,
+            "item": "oxide"
+          },
+          {
+            "amount": 80,
+            "item": "graphite"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/payload/small-deconstructor.png"
@@ -3326,6 +6170,24 @@
       "implementation": "PayloadDeconstructor",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 250,
+            "item": "beryllium"
+          },
+          {
+            "amount": 100,
+            "item": "oxide"
+          },
+          {
+            "amount": 250,
+            "item": "silicon"
+          },
+          {
+            "amount": 50,
+            "item": "carbide"
+          }
+        ],
         "size": 5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/payload/deconstructor.png"
@@ -3336,6 +6198,20 @@
       "implementation": "Constructor",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 50,
+            "item": "silicon"
+          },
+          {
+            "amount": 75,
+            "item": "beryllium"
+          },
+          {
+            "amount": 40,
+            "item": "tungsten"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/payload/constructor.png"
@@ -3346,6 +6222,24 @@
       "implementation": "Constructor",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 150,
+            "item": "silicon"
+          },
+          {
+            "amount": 100,
+            "item": "oxide"
+          },
+          {
+            "amount": 200,
+            "item": "tungsten"
+          },
+          {
+            "amount": 80,
+            "item": "thorium"
+          }
+        ],
         "size": 5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/payload/large-constructor.png"
@@ -3356,6 +6250,20 @@
       "implementation": "PayloadLoader",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 80,
+            "item": "graphite"
+          },
+          {
+            "amount": 160,
+            "item": "silicon"
+          },
+          {
+            "amount": 90,
+            "item": "tungsten"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/payload/payload-loader.png"
@@ -3366,6 +6274,20 @@
       "implementation": "PayloadUnloader",
       "properties": {
         "category": "units",
+        "requirements": [
+          {
+            "amount": 140,
+            "item": "graphite"
+          },
+          {
+            "amount": 220,
+            "item": "silicon"
+          },
+          {
+            "amount": 180,
+            "item": "tungsten"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/payload/payload-unloader.png"
@@ -3459,7 +6381,21 @@
       "id": "illuminator",
       "implementation": "LightBlock",
       "properties": {
-        "category": "effect"
+        "category": "effect",
+        "requirements": [
+          {
+            "amount": 12,
+            "item": "graphite"
+          },
+          {
+            "amount": 8,
+            "item": "silicon"
+          },
+          {
+            "amount": 8,
+            "item": "lead"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/illuminator.png"
     },
@@ -3469,6 +6405,24 @@
       "implementation": "LaunchPad",
       "properties": {
         "category": "effect",
+        "requirements": [
+          {
+            "amount": 350,
+            "item": "copper"
+          },
+          {
+            "amount": 140,
+            "item": "silicon"
+          },
+          {
+            "amount": 200,
+            "item": "lead"
+          },
+          {
+            "amount": 150,
+            "item": "titanium"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/campaign/launch-pad.png"
@@ -3479,6 +6433,24 @@
       "implementation": "LaunchPad",
       "properties": {
         "category": "effect",
+        "requirements": [
+          {
+            "amount": 350,
+            "item": "copper"
+          },
+          {
+            "amount": 250,
+            "item": "silicon"
+          },
+          {
+            "amount": 300,
+            "item": "lead"
+          },
+          {
+            "amount": 200,
+            "item": "titanium"
+          }
+        ],
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/campaign/advanced-launch-pad.png"
@@ -3489,6 +6461,20 @@
       "implementation": "LandingPad",
       "properties": {
         "category": "effect",
+        "requirements": [
+          {
+            "amount": 200,
+            "item": "copper"
+          },
+          {
+            "amount": 100,
+            "item": "graphite"
+          },
+          {
+            "amount": 100,
+            "item": "titanium"
+          }
+        ],
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/campaign/landing-pad.png"
@@ -3499,6 +6485,32 @@
       "implementation": "Accelerator",
       "properties": {
         "category": "effect",
+        "requirements": [
+          {
+            "amount": 16000,
+            "item": "copper"
+          },
+          {
+            "amount": 11000,
+            "item": "silicon"
+          },
+          {
+            "amount": 13000,
+            "item": "thorium"
+          },
+          {
+            "amount": 12000,
+            "item": "titanium"
+          },
+          {
+            "amount": 6000,
+            "item": "surge-alloy"
+          },
+          {
+            "amount": 5000,
+            "item": "phase-fabric"
+          }
+        ],
         "size": 7
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/campaign/interplanetary-accelerator.png"
@@ -3508,7 +6520,17 @@
       "id": "message",
       "implementation": "MessageBlock",
       "properties": {
-        "category": "logic"
+        "category": "logic",
+        "requirements": [
+          {
+            "amount": 5,
+            "item": "graphite"
+          },
+          {
+            "amount": 5,
+            "item": "copper"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/logic/message.png"
     },
@@ -3517,7 +6539,17 @@
       "id": "switch",
       "implementation": "SwitchBlock",
       "properties": {
-        "category": "logic"
+        "category": "logic",
+        "requirements": [
+          {
+            "amount": 5,
+            "item": "graphite"
+          },
+          {
+            "amount": 5,
+            "item": "copper"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/logic/switch.png"
     },
@@ -3527,6 +6559,20 @@
       "implementation": "LogicBlock",
       "properties": {
         "category": "logic",
+        "requirements": [
+          {
+            "amount": 90,
+            "item": "copper"
+          },
+          {
+            "amount": 50,
+            "item": "lead"
+          },
+          {
+            "amount": 50,
+            "item": "silicon"
+          }
+        ],
         "size": 1
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/logic/micro-processor.png"
@@ -3537,6 +6583,24 @@
       "implementation": "LogicBlock",
       "properties": {
         "category": "logic",
+        "requirements": [
+          {
+            "amount": 320,
+            "item": "lead"
+          },
+          {
+            "amount": 80,
+            "item": "silicon"
+          },
+          {
+            "amount": 60,
+            "item": "graphite"
+          },
+          {
+            "amount": 50,
+            "item": "thorium"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/logic/logic-processor.png"
@@ -3547,6 +6611,24 @@
       "implementation": "LogicBlock",
       "properties": {
         "category": "logic",
+        "requirements": [
+          {
+            "amount": 450,
+            "item": "lead"
+          },
+          {
+            "amount": 150,
+            "item": "silicon"
+          },
+          {
+            "amount": 75,
+            "item": "thorium"
+          },
+          {
+            "amount": 50,
+            "item": "surge-alloy"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/logic/hyper-processor.png"
@@ -3556,7 +6638,21 @@
       "id": "memory-cell",
       "implementation": "MemoryBlock",
       "properties": {
-        "category": "logic"
+        "category": "logic",
+        "requirements": [
+          {
+            "amount": 30,
+            "item": "graphite"
+          },
+          {
+            "amount": 30,
+            "item": "silicon"
+          },
+          {
+            "amount": 30,
+            "item": "copper"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/logic/memory-cell.png"
     },
@@ -3566,6 +6662,24 @@
       "implementation": "MemoryBlock",
       "properties": {
         "category": "logic",
+        "requirements": [
+          {
+            "amount": 80,
+            "item": "graphite"
+          },
+          {
+            "amount": 80,
+            "item": "silicon"
+          },
+          {
+            "amount": 30,
+            "item": "phase-fabric"
+          },
+          {
+            "amount": 30,
+            "item": "copper"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/logic/memory-bank.png"
@@ -3576,6 +6690,20 @@
       "implementation": "LogicDisplay",
       "properties": {
         "category": "logic",
+        "requirements": [
+          {
+            "amount": 100,
+            "item": "lead"
+          },
+          {
+            "amount": 50,
+            "item": "silicon"
+          },
+          {
+            "amount": 50,
+            "item": "metaglass"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/logic/logic-display.png"
@@ -3586,6 +6714,24 @@
       "implementation": "LogicDisplay",
       "properties": {
         "category": "logic",
+        "requirements": [
+          {
+            "amount": 200,
+            "item": "lead"
+          },
+          {
+            "amount": 150,
+            "item": "silicon"
+          },
+          {
+            "amount": 100,
+            "item": "metaglass"
+          },
+          {
+            "amount": 75,
+            "item": "phase-fabric"
+          }
+        ],
         "size": 6
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/logic/large-logic-display.png"
@@ -3595,7 +6741,25 @@
       "id": "tile-logic-display",
       "implementation": "TileableLogicDisplay",
       "properties": {
-        "category": "logic"
+        "category": "logic",
+        "requirements": [
+          {
+            "amount": 8,
+            "item": "lead"
+          },
+          {
+            "amount": 8,
+            "item": "silicon"
+          },
+          {
+            "amount": 8,
+            "item": "metaglass"
+          },
+          {
+            "amount": 3,
+            "item": "phase-fabric"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/logic/tile-logic-display.png"
     },
@@ -3605,6 +6769,16 @@
       "implementation": "CanvasBlock",
       "properties": {
         "category": "logic",
+        "requirements": [
+          {
+            "amount": 10,
+            "item": "silicon"
+          },
+          {
+            "amount": 10,
+            "item": "beryllium"
+          }
+        ],
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/logic/canvas.png"
@@ -3615,6 +6789,20 @@
       "implementation": "CanvasBlock",
       "properties": {
         "category": "logic",
+        "requirements": [
+          {
+            "amount": 15,
+            "item": "silicon"
+          },
+          {
+            "amount": 15,
+            "item": "beryllium"
+          },
+          {
+            "amount": 5,
+            "item": "surge-alloy"
+          }
+        ],
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/logic/large-canvas.png"
@@ -3625,7 +6813,17 @@
       "implementation": "MessageBlock",
       "properties": {
         "category": "logic",
-        "health": 100
+        "health": 100,
+        "requirements": [
+          {
+            "amount": 10,
+            "item": "graphite"
+          },
+          {
+            "amount": 5,
+            "item": "beryllium"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/logic/reinforced-message.png"
     },

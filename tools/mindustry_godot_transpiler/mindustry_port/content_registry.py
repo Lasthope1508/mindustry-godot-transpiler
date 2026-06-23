@@ -150,11 +150,32 @@ def _block_properties(source: str, assignment_end: int) -> dict[str, Any]:
     category = re.search(r"requirements\s*\(\s*Category\.([A-Za-z_]\w*)", initializer)
     if category:
         properties["category"] = category.group(1)
+    requirements = _block_requirements(initializer)
+    if requirements:
+        properties["requirements"] = requirements
     for key in ["size", "health"]:
         match = re.search(rf"\b{key}\s*=\s*([0-9_]+)\s*;", initializer)
         if match:
             properties[key] = int(match.group(1).replace("_", ""))
     return properties
+
+def _block_requirements(initializer: str) -> list[dict[str, Any]]:
+    match = re.search(r"requirements\s*\([^;]*?with\((.*?)\)\s*\)", initializer, re.DOTALL)
+    if not match:
+        return []
+    args = [part.strip() for part in match.group(1).replace("\n", " ").split(",")]
+    requirements = []
+    index = 0
+    while index + 1 < len(args):
+        item_match = re.match(r"Items\.([A-Za-z_]\w*)", args[index])
+        amount_match = re.match(r"([0-9_]+)", args[index + 1])
+        if item_match and amount_match:
+            requirements.append({"item": _camel_to_kebab(item_match.group(1)), "amount": int(amount_match.group(1).replace("_", ""))})
+        index += 2
+    return requirements
+
+def _camel_to_kebab(name: str) -> str:
+    return re.sub(r"(?<!^)([A-Z])", r"-\1", name).lower()
 
 def _initializer_body(source: str, start: int) -> str:
     end = source.find(";", start)

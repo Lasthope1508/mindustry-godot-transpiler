@@ -132,10 +132,13 @@ func place_selected_block_at_mouse() -> void:
 	if cell.x < 0 or cell.y < 0 or cell.x >= WORLD_W or cell.y >= WORLD_H:
 		return
 	var block = build_palette[selected_build_index]
+	if not can_afford(block):
+		return
 	var blocks := get_node("World/BlockLayer")
 	var key := cell_key(cell)
 	if placed_blocks.has(key):
 		placed_blocks[key].queue_free()
+	spend_requirements(block)
 	var sprite := Sprite2D.new()
 	sprite.texture = block_texture(block)
 	sprite.position = grid_to_world(cell)
@@ -152,6 +155,23 @@ func block_texture(block) -> Texture2D:
 	var texture := load_png_texture(block.texture_path)
 	block_texture_cache[block.id] = texture
 	return texture
+
+func can_afford(block) -> bool:
+	for requirement in block.properties.get("requirements", []):
+		if requirement.get("item", "") == "copper" and core_inventory < int(requirement.get("amount", 0)):
+			return false
+	return true
+
+func spend_requirements(block) -> void:
+	for requirement in block.properties.get("requirements", []):
+		if requirement.get("item", "") == "copper":
+			core_inventory = max(0, core_inventory - int(requirement.get("amount", 0)))
+
+func requirements_text(block) -> String:
+	var parts: Array[String] = []
+	for requirement in block.properties.get("requirements", []):
+		parts.append("%s %s" % [str(requirement.get("amount", 0)), str(requirement.get("item", ""))])
+	return ", ".join(parts) if not parts.is_empty() else "free"
 
 func add_sprite(parent: Node, key: String, pos: Vector2) -> Sprite2D:
 	var sprite := Sprite2D.new()
@@ -224,4 +244,5 @@ func update_hud() -> void:
 	var copper_name: String = copper.display_name() if copper else "Copper"
 	var selected = build_palette[selected_build_index] if not build_palette.is_empty() else null
 	var selected_name: String = selected.display_name() if selected else "None"
-	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks\nBuild: %s (1-6 select, left click place)\n%s in core: %d\nTotal produced: %d\nArrows move camera, Q/E zoom" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), selected_name, copper_name, core_inventory, produced_total]
+	var selected_cost := requirements_text(selected) if selected else "none"
+	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks\nBuild: %s cost %s (1-6 select, left click place)\n%s in core: %d\nTotal produced: %d\nArrows move camera, Q/E zoom" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), selected_name, selected_cost, copper_name, core_inventory, produced_total]
