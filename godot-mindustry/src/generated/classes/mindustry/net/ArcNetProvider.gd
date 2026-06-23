@@ -12,3 +12,42 @@ const JAVA_FIELDS := [{"modifiers": ["final"], "name": "client", "type": "Client
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ArcNetProvider", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "setConnectFilter", "parameters": [{"name": "connectFilter", "type": "Server", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getConnectFilter", "parameters": [], "return_type": "ServerConnectFilter"}, {"modifiers": ["private", "static"], "name": "isLocal", "parameters": [{"name": "addr", "type": "InetAddress", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "connectClient", "parameters": [{"name": "ip", "type": "String", "varargs": false}, {"name": "port", "type": "int", "varargs": false}, {"name": "success", "type": "Runnable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "disconnectClient", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "sendClient", "parameters": [{"name": "object", "type": "Object", "varargs": false}, {"name": "reliable", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "pingHost", "parameters": [{"name": "address", "type": "String", "varargs": false}, {"name": "port", "type": "int", "varargs": false}, {"name": "valid", "type": "Cons", "varargs": false}, {"name": "invalid", "type": "Cons", "varargs": false}], "return_type": ""}, {"modifiers": ["private"], "name": "pingHostImpl", "parameters": [{"name": "address", "type": "String", "varargs": false}, {"name": "port", "type": "int", "varargs": false}], "return_type": "Host"}, {"modifiers": ["public"], "name": "discoverServers", "parameters": [{"name": "callback", "type": "Cons", "varargs": false}, {"name": "done", "type": "Runnable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "dispose", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "getConnections", "parameters": [], "return_type": "Iterable"}, {"modifiers": ["public"], "name": "hostServer", "parameters": [{"name": "port", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "closeServer", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_setConnectFilter_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getConnectFilter_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isLocal_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_connectClient_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_disconnectClient_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_sendClient_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_pingHost_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_pingHostImpl_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_discoverServers_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_dispose_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getConnections_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hostServer_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_closeServer_12(_args: Array = []) -> Variant:
+	return null

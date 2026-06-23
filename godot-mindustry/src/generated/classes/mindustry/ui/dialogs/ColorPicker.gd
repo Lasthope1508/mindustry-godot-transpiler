@@ -12,3 +12,15 @@ const JAVA_FIELDS := [{"modifiers": ["private", "static"], "name": "hueTex", "ty
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ColorPicker", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "show", "parameters": [{"name": "color", "type": "Color", "varargs": false}, {"name": "consumer", "type": "Cons", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "show", "parameters": [{"name": "color", "type": "Color", "varargs": false}, {"name": "alpha", "type": "boolean", "varargs": false}, {"name": "consumer", "type": "Cons", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "updateColor", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "updateColor", "parameters": [{"name": "updateField", "type": "boolean", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_show_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_show_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateColor_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateColor_3(_args: Array = []) -> Variant:
+	return null

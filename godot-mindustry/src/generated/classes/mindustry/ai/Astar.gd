@@ -12,3 +12,12 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "manh
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "pathfind", "parameters": [{"name": "from", "type": "Tile", "varargs": false}, {"name": "to", "type": "Tile", "varargs": false}, {"name": "th", "type": "TileHeuristic", "varargs": false}, {"name": "passable", "type": "Boolf", "varargs": false}], "return_type": "Seq"}, {"modifiers": ["public", "static"], "name": "pathfind", "parameters": [{"name": "startX", "type": "int", "varargs": false}, {"name": "startY", "type": "int", "varargs": false}, {"name": "endX", "type": "int", "varargs": false}, {"name": "endY", "type": "int", "varargs": false}, {"name": "th", "type": "TileHeuristic", "varargs": false}, {"name": "passable", "type": "Boolf", "varargs": false}], "return_type": "Seq"}, {"modifiers": ["public", "static"], "name": "pathfind", "parameters": [{"name": "startX", "type": "int", "varargs": false}, {"name": "startY", "type": "int", "varargs": false}, {"name": "endX", "type": "int", "varargs": false}, {"name": "endY", "type": "int", "varargs": false}, {"name": "th", "type": "TileHeuristic", "varargs": false}, {"name": "dh", "type": "DistanceHeuristic", "varargs": false}, {"name": "passable", "type": "Boolf", "varargs": false}], "return_type": "Seq"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_pathfind_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_pathfind_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_pathfind_2(_args: Array = []) -> Variant:
+	return null

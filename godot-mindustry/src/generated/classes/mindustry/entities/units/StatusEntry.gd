@@ -12,3 +12,6 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "effect", "type": "Statu
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "set", "parameters": [{"name": "effect", "type": "StatusEffect", "varargs": false}, {"name": "time", "type": "float", "varargs": false}], "return_type": "StatusEntry"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_set_0(_args: Array = []) -> Variant:
+	return null

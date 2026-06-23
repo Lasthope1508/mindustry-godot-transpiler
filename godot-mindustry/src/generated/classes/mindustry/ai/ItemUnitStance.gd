@@ -12,3 +12,15 @@ const JAVA_FIELDS := [{"modifiers": ["private", "static"], "name": "itemToStance
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ItemUnitStance", "parameters": [{"name": "item", "type": "Item", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "getByItem", "parameters": [{"name": "item", "type": "Item", "varargs": false}], "return_type": "ItemUnitStance"}, {"modifiers": ["public", "static"], "name": "all", "parameters": [], "return_type": "Seq"}, {"modifiers": ["public"], "name": "localized", "parameters": [], "return_type": "String"}, {"modifiers": ["public"], "name": "getIcon", "parameters": [], "return_type": "TextureRegionDrawable"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_getByItem_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_all_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_localized_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getIcon_3(_args: Array = []) -> Variant:
+	return null

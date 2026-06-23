@@ -12,3 +12,12 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "fadeTime", "type": "flo
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ContinuousLaserBulletType", "parameters": [{"name": "damage", "type": "float", "varargs": false}]}, {"modifiers": ["public"], "name": "ContinuousLaserBulletType", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "draw", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawLight", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "currentLength", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": "float"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_draw_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawLight_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_currentLength_2(_args: Array = []) -> Variant:
+	return null

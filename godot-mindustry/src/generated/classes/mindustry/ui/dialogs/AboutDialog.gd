@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": [], "name": "contributors", "type": "Seq"}, 
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "AboutDialog", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": [], "name": "setup", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "showCredits", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_setup_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showCredits_1(_args: Array = []) -> Variant:
+	return null

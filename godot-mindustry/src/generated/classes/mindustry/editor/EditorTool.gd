@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "all"
 const JAVA_CONSTRUCTORS := [{"modifiers": [], "name": "EditorTool", "parameters": []}, {"modifiers": [], "name": "EditorTool", "parameters": [{"name": "code", "type": "KeyCode", "varargs": false}]}, {"modifiers": [], "name": "EditorTool", "parameters": [{"name": "altModes", "type": "String", "varargs": true}]}, {"modifiers": [], "name": "EditorTool", "parameters": [{"name": "code", "type": "KeyCode", "varargs": false}, {"name": "altModes", "type": "String", "varargs": true}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "touched", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "touchedLine", "parameters": [{"name": "x1", "type": "int", "varargs": false}, {"name": "y1", "type": "int", "varargs": false}, {"name": "x2", "type": "int", "varargs": false}, {"name": "y2", "type": "int", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := ["zoom", "pick", "line", "pencil", "eraser", "fill", "spray"]
+
+func java_method_touched_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_touchedLine_1(_args: Array = []) -> Variant:
+	return null

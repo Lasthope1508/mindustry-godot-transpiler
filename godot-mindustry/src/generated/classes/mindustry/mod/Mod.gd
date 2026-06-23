@@ -12,3 +12,24 @@ const JAVA_FIELDS := []
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "getConfigFolder", "parameters": [], "return_type": "Fi"}, {"modifiers": ["public"], "name": "getConfig", "parameters": [], "return_type": "Fi"}, {"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "loadContent", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "packSprites", "parameters": [{"name": "packer", "type": "MultiPacker", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "registerServerCommands", "parameters": [{"name": "handler", "type": "CommandHandler", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "registerClientCommands", "parameters": [{"name": "handler", "type": "CommandHandler", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_getConfigFolder_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getConfig_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadContent_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_packSprites_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_registerServerCommands_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_registerClientCommands_6(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,21 @@ const JAVA_FIELDS := [{"modifiers": [], "name": "slots", "type": "Table"}, {"mod
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "LoadDialog", "parameters": []}, {"modifiers": ["public"], "name": "LoadDialog", "parameters": [{"name": "title", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["protected"], "name": "setup", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "rebuild", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "addSetup", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "runLoadSave", "parameters": [{"name": "slot", "type": "SaveSlot", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "modifyButton", "parameters": [{"name": "button", "type": "TextButton", "varargs": false}, {"name": "slot", "type": "SaveSlot", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "show", "parameters": [], "return_type": "Dialog"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_setup_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_rebuild_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_addSetup_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_runLoadSave_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_modifyButton_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_show_5(_args: Array = []) -> Variant:
+	return null

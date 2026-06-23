@@ -12,3 +12,15 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "disp
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "LanguageDialog", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "getDisplayName", "parameters": [{"name": "locale", "type": "Locale", "varargs": false}], "return_type": "String"}, {"modifiers": ["private"], "name": "setup", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "getLocale", "parameters": [], "return_type": "Locale"}, {"modifiers": [], "name": "findClosestLocale", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_getDisplayName_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setup_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getLocale_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_findClosestLocale_3(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,6 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "glow", "type": "Texture
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "LongPowerNode", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "load", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_load_0(_args: Array = []) -> Variant:
+	return null

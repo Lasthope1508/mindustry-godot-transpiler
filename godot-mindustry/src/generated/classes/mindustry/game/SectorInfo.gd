@@ -12,3 +12,63 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "val
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "sectorDataMatches", "parameters": [{"name": "sector", "type": "Sector", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "handleCoreItem", "parameters": [{"name": "item", "type": "Item", "varargs": false}, {"name": "amount", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "handleProduction", "parameters": [{"name": "item", "type": "Item", "varargs": false}, {"name": "amount", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "handleItemExport", "parameters": [{"name": "stack", "type": "ItemStack", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "handleItemExport", "parameters": [{"name": "item", "type": "Item", "varargs": false}, {"name": "amount", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "handleItemImport", "parameters": [{"name": "item", "type": "Item", "varargs": false}, {"name": "amount", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getExport", "parameters": [{"name": "item", "type": "Item", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "hasExport", "parameters": [{"name": "item", "type": "Item", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "refreshImportRates", "parameters": [{"name": "planet", "type": "Planet", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getImportRates", "parameters": [{"name": "planet", "type": "Planet", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "getImportRate", "parameters": [{"name": "planet", "type": "Planet", "varargs": false}, {"name": "item", "type": "Item", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "write", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "prepare", "parameters": [{"name": "sector", "type": "Sector", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "update", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "updateStats", "parameters": [{"name": "map", "type": "ObjectMap", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "updateDelta", "parameters": [{"name": "item", "type": "Item", "varargs": false}, {"name": "map", "type": "ObjectMap", "varargs": false}, {"name": "deltas", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "exportRates", "parameters": [], "return_type": "ObjectFloatMap"}, {"modifiers": ["public"], "name": "anyExports", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "importStats", "parameters": [{"name": "planet", "type": "Planet", "varargs": false}], "return_type": "ObjectMap"}, {"modifiers": ["public"], "name": "eachImport", "parameters": [{"name": "planet", "type": "Planet", "varargs": false}, {"name": "cons", "type": "Cons", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_sectorDataMatches_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_handleCoreItem_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_handleProduction_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_handleItemExport_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_handleItemExport_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_handleItemImport_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getExport_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hasExport_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_refreshImportRates_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getImportRates_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getImportRate_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_write_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_prepare_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_update_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateStats_14(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateDelta_15(_args: Array = []) -> Variant:
+	return null
+
+func java_method_exportRates_16(_args: Array = []) -> Variant:
+	return null
+
+func java_method_anyExports_17(_args: Array = []) -> Variant:
+	return null
+
+func java_method_importStats_18(_args: Array = []) -> Variant:
+	return null
+
+func java_method_eachImport_19(_args: Array = []) -> Variant:
+	return null

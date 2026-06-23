@@ -12,3 +12,48 @@ const JAVA_FIELDS := [{"modifiers": ["protected", "static"], "name": "tmpItems",
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "generateSector", "parameters": [{"name": "sector", "type": "Sector", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "onSectorCaptured", "parameters": [{"name": "sector", "type": "Sector", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "onSectorLost", "parameters": [{"name": "sector", "type": "Sector", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "beforeSaveWrite", "parameters": [{"name": "sector", "type": "Sector", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getLockedText", "parameters": [{"name": "hovered", "type": "Sector", "varargs": false}, {"name": "out", "type": "StringBuilder", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getLockedIcon", "parameters": [{"name": "hovered", "type": "Sector", "varargs": false}], "return_type": "TextureRegion"}, {"modifiers": ["public"], "name": "allowLanding", "parameters": [{"name": "sector", "type": "Sector", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "findLaunchCandidate", "parameters": [{"name": "destination", "type": "Sector", "varargs": false}, {"name": "selected", "type": "Sector", "varargs": false}], "return_type": "Sector"}, {"modifiers": ["public"], "name": "allowAcceleratorLanding", "parameters": [{"name": "sector", "type": "Sector", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "addWeather", "parameters": [{"name": "sector", "type": "Sector", "varargs": false}, {"name": "rules", "type": "Rules", "varargs": false}], "return_type": ""}, {"modifiers": ["protected"], "name": "genTile", "parameters": [{"name": "position", "type": "Vec3", "varargs": false}, {"name": "tile", "type": "TileGen", "varargs": false}], "return_type": ""}, {"modifiers": ["protected"], "name": "noise", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "octaves", "type": "double", "varargs": false}, {"name": "falloff", "type": "double", "varargs": false}, {"name": "scl", "type": "double", "varargs": false}, {"name": "mag", "type": "double", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "getSizeScl", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "getSectorSize", "parameters": [{"name": "sector", "type": "Sector", "varargs": false}], "return_type": "int"}, {"modifiers": ["public"], "name": "generate", "parameters": [{"name": "tiles", "type": "Tiles", "varargs": false}, {"name": "sec", "type": "Sector", "varargs": false}, {"name": "params", "type": "WorldParams", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_generateSector_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_onSectorCaptured_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_onSectorLost_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_beforeSaveWrite_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getLockedText_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getLockedIcon_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_allowLanding_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_findLaunchCandidate_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_allowAcceleratorLanding_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_addWeather_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_genTile_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_noise_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getSizeScl_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getSectorSize_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_generate_14(_args: Array = []) -> Variant:
+	return null

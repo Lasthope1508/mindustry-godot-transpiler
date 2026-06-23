@@ -12,3 +12,24 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "tok
 const JAVA_CONSTRUCTORS := [{"modifiers": [], "name": "LParser", "parameters": [{"name": "text", "type": "String", "varargs": false}, {"name": "privileged", "type": "boolean", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": [], "name": "comment", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "error", "parameters": [{"name": "message", "type": "String", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "string", "parameters": [], "return_type": "String"}, {"modifiers": [], "name": "token", "parameters": [], "return_type": "String"}, {"modifiers": [], "name": "checkRead", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "statement", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "parse", "parameters": [], "return_type": "Seq"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_comment_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_error_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_string_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_token_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkRead_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_statement_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_parse_6(_args: Array = []) -> Variant:
+	return null

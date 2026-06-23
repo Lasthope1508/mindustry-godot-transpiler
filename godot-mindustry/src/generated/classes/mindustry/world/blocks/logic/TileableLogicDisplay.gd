@@ -12,3 +12,6 @@ const JAVA_FIELDS := [{"modifiers": ["final", "protected", "static"], "name": "q
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "TileableLogicDisplay", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "linkDisplays", "parameters": [{"name": "start", "type": "TileableLogicDisplayBuild", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_linkDisplays_0(_args: Array = []) -> Variant:
+	return null

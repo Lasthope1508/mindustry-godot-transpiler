@@ -12,3 +12,24 @@ const JAVA_FIELDS := [{"modifiers": ["private", "static"], "name": "scissor", "t
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "Bar", "parameters": [{"name": "name", "type": "String", "varargs": false}, {"name": "color", "type": "Color", "varargs": false}, {"name": "fraction", "type": "Floatp", "varargs": false}]}, {"modifiers": ["public"], "name": "Bar", "parameters": [{"name": "name", "type": "Prov", "varargs": false}, {"name": "color", "type": "Prov", "varargs": false}, {"name": "fraction", "type": "Floatp", "varargs": false}]}, {"modifiers": ["public"], "name": "Bar", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "reset", "parameters": [{"name": "value", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "set", "parameters": [{"name": "name", "type": "Prov", "varargs": false}, {"name": "fraction", "type": "Floatp", "varargs": false}, {"name": "color", "type": "Color", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "snap", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "outline", "parameters": [{"name": "color", "type": "Color", "varargs": false}, {"name": "stroke", "type": "float", "varargs": false}], "return_type": "Bar"}, {"modifiers": ["public"], "name": "flash", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "blink", "parameters": [{"name": "color", "type": "Color", "varargs": false}], "return_type": "Bar"}, {"modifiers": ["public"], "name": "draw", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_reset_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_set_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_snap_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_outline_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_flash_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_blink_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_draw_6(_args: Array = []) -> Variant:
+	return null

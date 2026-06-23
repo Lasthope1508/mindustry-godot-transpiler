@@ -12,3 +12,21 @@ const JAVA_FIELDS := [{"modifiers": ["public", "static"], "name": "all", "type":
 const JAVA_CONSTRUCTORS := [{"modifiers": [], "name": "Attribute", "parameters": [{"name": "id", "type": "int", "varargs": false}, {"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "env", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "toString", "parameters": [], "return_type": "String"}, {"modifiers": ["public", "static"], "name": "get", "parameters": [{"name": "name", "type": "String", "varargs": false}], "return_type": "Attribute"}, {"modifiers": ["public", "static"], "name": "getOrNull", "parameters": [{"name": "name", "type": "String", "varargs": false}], "return_type": "Attribute"}, {"modifiers": ["public", "static"], "name": "exists", "parameters": [{"name": "name", "type": "String", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public", "static"], "name": "add", "parameters": [{"name": "name", "type": "String", "varargs": false}], "return_type": "Attribute"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_env_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_toString_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_get_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getOrNull_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_exists_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_add_5(_args: Array = []) -> Variant:
+	return null

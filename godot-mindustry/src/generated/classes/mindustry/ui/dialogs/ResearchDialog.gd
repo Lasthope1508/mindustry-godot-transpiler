@@ -12,3 +12,36 @@ const JAVA_FIELDS := [{"modifiers": ["public", "static"], "name": "debugShowRequ
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ResearchDialog", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": [], "name": "checkMargin", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "rebuildItems", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "getPrefRoot", "parameters": [], "return_type": "TechNode"}, {"modifiers": ["public"], "name": "switchTree", "parameters": [{"name": "node", "type": "TechNode", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "rebuildTree", "parameters": [{"name": "node", "type": "TechNode", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "treeLayout", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "shift", "parameters": [{"name": "children", "type": "LayoutNode", "varargs": false}, {"name": "amount", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "copyInfo", "parameters": [{"name": "node", "type": "LayoutNode", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "checkNodes", "parameters": [{"name": "node", "type": "TechTreeNode", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "selectable", "parameters": [{"name": "node", "type": "TechNode", "varargs": false}], "return_type": "boolean"}, {"modifiers": [], "name": "locked", "parameters": [{"name": "node", "type": "TechNode", "varargs": false}], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_checkMargin_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_rebuildItems_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getPrefRoot_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_switchTree_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_rebuildTree_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_treeLayout_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_shift_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_copyInfo_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkNodes_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_selectable_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_locked_10(_args: Array = []) -> Variant:
+	return null

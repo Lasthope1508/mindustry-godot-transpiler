@@ -12,3 +12,27 @@ const JAVA_FIELDS := [{"modifiers": ["final", "protected", "static"], "name": "N
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "read", "parameters": [{"name": "read", "type": "Reads", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "write", "parameters": [{"name": "write", "type": "Writes", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "allow", "parameters": [{"name": "server", "type": "boolean", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "read", "parameters": [{"name": "read", "type": "Reads", "varargs": false}, {"name": "length", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "handled", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "getPriority", "parameters": [], "return_type": "int"}, {"modifiers": ["public"], "name": "handleClient", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "handleServer", "parameters": [{"name": "con", "type": "NetConnection", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_read_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_write_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_allow_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_read_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_handled_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getPriority_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_handleClient_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_handleServer_7(_args: Array = []) -> Variant:
+	return null

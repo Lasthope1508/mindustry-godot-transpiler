@@ -12,3 +12,6 @@ const JAVA_FIELDS := [{"modifiers": ["public", "transient"], "name": "graph", "t
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "update", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_update_0(_args: Array = []) -> Variant:
+	return null

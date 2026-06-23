@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "minFlammability", "type
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ConsumeLiquidFlammable", "parameters": [{"name": "minFlammability", "type": "float", "varargs": false}, {"name": "amount", "type": "float", "varargs": false}]}, {"modifiers": ["public"], "name": "ConsumeLiquidFlammable", "parameters": [{"name": "amount", "type": "float", "varargs": false}]}, {"modifiers": ["public"], "name": "ConsumeLiquidFlammable", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "display", "parameters": [{"name": "stats", "type": "Stats", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "liquidEfficiencyMultiplier", "parameters": [{"name": "liquid", "type": "Liquid", "varargs": false}], "return_type": "float"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_display_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_liquidEfficiencyMultiplier_1(_args: Array = []) -> Variant:
+	return null

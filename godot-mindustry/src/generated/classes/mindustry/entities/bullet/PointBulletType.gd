@@ -12,3 +12,6 @@ const JAVA_FIELDS := [{"modifiers": ["private", "static"], "name": "cdist", "typ
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "PointBulletType", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "init", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_init_0(_args: Array = []) -> Variant:
+	return null

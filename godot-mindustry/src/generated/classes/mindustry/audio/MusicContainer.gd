@@ -12,3 +12,6 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "name", "type": "String"
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "MusicContainer", "parameters": [{"name": "name", "type": "String", "varargs": false}]}, {"modifiers": ["public"], "name": "MusicContainer", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "get", "parameters": [], "return_type": "Music"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_get_0(_args: Array = []) -> Variant:
+	return null

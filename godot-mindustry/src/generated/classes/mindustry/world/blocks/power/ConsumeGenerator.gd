@@ -12,3 +12,15 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "itemDuration", "type": 
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ConsumeGenerator", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "setBars", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "afterPatch", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "setStats", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_setBars_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_afterPatch_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setStats_3(_args: Array = []) -> Variant:
+	return null

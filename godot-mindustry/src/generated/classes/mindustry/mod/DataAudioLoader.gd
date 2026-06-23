@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "sou
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "load", "parameters": [{"name": "sounds", "type": "Seq", "varargs": false}, {"name": "musics", "type": "Seq", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "unload", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_load_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_unload_1(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,21 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "hom
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "FileChooserDialog", "parameters": [{"name": "title", "type": "String", "varargs": false}, {"name": "filter", "type": "Boolf", "varargs": false}, {"name": "open", "type": "boolean", "varargs": false}, {"name": "result", "type": "Cons", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["private"], "name": "setupWidgets", "parameters": [], "return_type": ""}, {"modifiers": ["private"], "name": "updateFileFieldStatus", "parameters": [], "return_type": ""}, {"modifiers": ["private"], "name": "getFileNames", "parameters": [], "return_type": "Fi"}, {"modifiers": [], "name": "updateFiles", "parameters": [{"name": "push", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static", "synchronized"], "name": "setLastDirectory", "parameters": [{"name": "directory", "type": "Fi", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static", "synchronized"], "name": "getLastDirectory", "parameters": [], "return_type": "Fi"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_setupWidgets_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateFileFieldStatus_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getFileNames_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateFiles_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setLastDirectory_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getLastDirectory_5(_args: Array = []) -> Variant:
+	return null

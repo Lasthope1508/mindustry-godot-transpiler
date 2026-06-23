@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "effects", "type": "Effe
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "SeqEffect", "parameters": []}, {"modifiers": ["public"], "name": "SeqEffect", "parameters": [{"name": "effects", "type": "Effect", "varargs": true}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "render", "parameters": [{"name": "e", "type": "EffectContainer", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_init_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_render_1(_args: Array = []) -> Variant:
+	return null

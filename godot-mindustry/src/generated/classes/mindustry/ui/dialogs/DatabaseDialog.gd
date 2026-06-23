@@ -12,3 +12,15 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private"], "name": "sortedContent
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "DatabaseDialog", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": [], "name": "checkTabList", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "sortContents", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "rebuild", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "unlocked", "parameters": [{"name": "content", "type": "UnlockableContent", "varargs": false}], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_checkTabList_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_sortContents_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_rebuild_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_unlocked_3(_args: Array = []) -> Variant:
+	return null

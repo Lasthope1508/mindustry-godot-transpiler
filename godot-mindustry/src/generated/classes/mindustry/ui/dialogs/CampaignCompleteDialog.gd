@@ -12,3 +12,6 @@ const JAVA_FIELDS := []
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "CampaignCompleteDialog", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "show", "parameters": [{"name": "planet", "type": "Planet", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_show_0(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,18 @@ const JAVA_FIELDS := []
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "export", "parameters": [{"name": "name", "type": "String", "varargs": false}, {"name": "extension", "type": "String", "varargs": false}, {"name": "writer", "type": "FileWriter", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "open", "parameters": [{"name": "extensions", "type": "String", "varargs": true}], "return_type": "FileChooserParams"}, {"modifiers": ["public", "static"], "name": "save", "parameters": [{"name": "extensions", "type": "String", "varargs": true}], "return_type": "FileChooserParams"}, {"modifiers": ["public", "static"], "name": "createFallbackFileChooser", "parameters": [{"name": "params", "type": "FileChooserParams", "varargs": false}], "return_type": "FileChooserDialog"}, {"modifiers": ["public", "static"], "name": "showFallbackFileChooser", "parameters": [{"name": "params", "type": "FileChooserParams", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_export_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_open_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_save_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_createFallbackFileChooser_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showFallbackFileChooser_4(_args: Array = []) -> Variant:
+	return null

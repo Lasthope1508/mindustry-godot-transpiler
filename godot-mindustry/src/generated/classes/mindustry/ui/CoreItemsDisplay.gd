@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private"], "name": "usedItems", "
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "CoreItemsDisplay", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "resetUsed", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "rebuild", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_resetUsed_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_rebuild_1(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,18 @@ const JAVA_FIELDS := [{"modifiers": [], "name": "id", "type": "int"}, {"modifier
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "clipSize", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "update", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "draw", "parameters": [], "return_type": ""}, {"modifiers": ["public", "static"], "name": "drawAt", "parameters": [{"name": "text", "type": "String", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "layer", "type": "float", "varargs": false}, {"name": "flags", "type": "int", "varargs": false}, {"name": "fontSize", "type": "float", "varargs": false}, {"name": "align", "type": "int", "varargs": false}, {"name": "lineAlign", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "hide", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_clipSize_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_update_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_draw_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawAt_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hide_4(_args: Array = []) -> Variant:
+	return null

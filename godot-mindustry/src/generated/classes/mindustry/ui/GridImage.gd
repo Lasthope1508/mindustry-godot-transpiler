@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["private"], "name": "imageWidth", "type": "
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "GridImage", "parameters": [{"name": "w", "type": "int", "varargs": false}, {"name": "h", "type": "int", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "draw", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "setImageSize", "parameters": [{"name": "w", "type": "int", "varargs": false}, {"name": "h", "type": "int", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_draw_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setImageSize_1(_args: Array = []) -> Variant:
+	return null

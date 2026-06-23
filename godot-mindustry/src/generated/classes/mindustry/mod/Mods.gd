@@ -12,3 +12,144 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "met
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "Mods", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "mainLoader", "parameters": [], "return_type": "ClassLoader"}, {"modifiers": ["public"], "name": "getConfigFolder", "parameters": [{"name": "mod", "type": "Mod", "varargs": false}], "return_type": "Fi"}, {"modifiers": ["public"], "name": "getConfig", "parameters": [{"name": "mod", "type": "Mod", "varargs": false}], "return_type": "Fi"}, {"modifiers": ["public"], "name": "listFiles", "parameters": [{"name": "directory", "type": "String", "varargs": false}, {"name": "cons", "type": "Cons2", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getMod", "parameters": [{"name": "name", "type": "String", "varargs": false}], "return_type": "LoadedMod"}, {"modifiers": ["public"], "name": "getMod", "parameters": [{"name": "type", "type": "Class", "varargs": false}], "return_type": "LoadedMod"}, {"modifiers": ["public"], "name": "importMod", "parameters": [{"name": "file", "type": "Fi", "varargs": false}], "return_type": "LoadedMod"}, {"modifiers": ["public"], "name": "loadAsync", "parameters": [], "return_type": ""}, {"modifiers": ["private"], "name": "loadIcons", "parameters": [], "return_type": ""}, {"modifiers": ["private"], "name": "loadIcon", "parameters": [{"name": "mod", "type": "LoadedMod", "varargs": false}], "return_type": ""}, {"modifiers": ["private"], "name": "packSprites", "parameters": [{"name": "packer", "type": "MultiPacker", "varargs": false}, {"name": "sprites", "type": "Seq", "varargs": false}, {"name": "mod", "type": "LoadedMod", "varargs": false}, {"name": "prefix", "type": "boolean", "varargs": false}, {"name": "tasks", "type": "Seq", "varargs": false}, {"name": "textureResize", "type": "ObjectFloatMap", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "waitForMain", "parameters": [{"name": "run", "type": "Runnable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "loadSync", "parameters": [], "return_type": ""}, {"modifiers": ["private"], "name": "getPage", "parameters": [{"name": "file", "type": "Fi", "varargs": false}], "return_type": "PageType"}, {"modifiers": ["public"], "name": "removeMod", "parameters": [{"name": "mod", "type": "LoadedMod", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getScripts", "parameters": [], "return_type": "Scripts"}, {"modifiers": ["public"], "name": "hasScripts", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "requiresReload", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "skipModLoading", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "load", "parameters": [], "return_type": ""}, {"modifiers": ["private"], "name": "sortMods", "parameters": [], "return_type": ""}, {"modifiers": ["private"], "name": "updateDependencies", "parameters": [{"name": "mod", "type": "LoadedMod", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "orderedMods", "parameters": [], "return_type": "Seq"}, {"modifiers": ["public"], "name": "locateMod", "parameters": [{"name": "name", "type": "String", "varargs": false}], "return_type": "LoadedMod"}, {"modifiers": ["private"], "name": "buildFiles", "parameters": [], "return_type": ""}, {"modifiers": ["private"], "name": "checkWarnings", "parameters": [], "return_type": ""}, {"modifiers": ["private"], "name": "checkDependencies", "parameters": [{"name": "toCheck", "type": "Seq", "varargs": false}, {"name": "soft", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["private"], "name": "downloadDependencies", "parameters": [{"name": "toImport", "type": "Seq", "varargs": false}], "return_type": ""}, {"modifiers": ["private"], "name": "displayDependencyImportStatus", "parameters": [{"name": "failed", "type": "Seq", "varargs": false}, {"name": "success", "type": "Seq", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "reload", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "hasContentErrors", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "loadScripts", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "loadContent", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "handleContentError", "parameters": [{"name": "content", "type": "Content", "varargs": false}, {"name": "error", "type": "Throwable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "addParseListener", "parameters": [{"name": "hook", "type": "ParseListener", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getModStrings", "parameters": [], "return_type": "Seq"}, {"modifiers": ["public"], "name": "setEnabled", "parameters": [{"name": "mod", "type": "LoadedMod", "varargs": false}, {"name": "enabled", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getIncompatibility", "parameters": [{"name": "out", "type": "Seq", "varargs": false}], "return_type": "Seq"}, {"modifiers": ["public"], "name": "list", "parameters": [], "return_type": "Seq"}, {"modifiers": ["public"], "name": "eachClass", "parameters": [{"name": "cons", "type": "Cons", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "eachEnabled", "parameters": [{"name": "cons", "type": "Cons", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "contextRun", "parameters": [{"name": "mod", "type": "LoadedMod", "varargs": false}, {"name": "run", "type": "Runnable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "findMeta", "parameters": [{"name": "file", "type": "Fi", "varargs": false}], "return_type": "ModMeta"}, {"modifiers": ["public"], "name": "resolveDependencies", "parameters": [{"name": "metas", "type": "Seq", "varargs": false}], "return_type": "OrderedMap"}, {"modifiers": ["private"], "name": "resolve", "parameters": [{"name": "element", "type": "String", "varargs": false}, {"name": "context", "type": "ModResolutionContext", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["private"], "name": "resolveRoot", "parameters": [{"name": "fi", "type": "Fi", "varargs": false}], "return_type": "Fi"}, {"modifiers": ["private"], "name": "loadMod", "parameters": [{"name": "sourceFile", "type": "Fi", "varargs": false}, {"name": "overwrite", "type": "boolean", "varargs": false}, {"name": "initialize", "type": "boolean", "varargs": false}], "return_type": "LoadedMod"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_mainLoader_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getConfigFolder_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getConfig_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_listFiles_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getMod_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getMod_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_importMod_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadAsync_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadIcons_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadIcon_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_packSprites_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_waitForMain_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadSync_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getPage_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_removeMod_14(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getScripts_15(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hasScripts_16(_args: Array = []) -> Variant:
+	return null
+
+func java_method_requiresReload_17(_args: Array = []) -> Variant:
+	return null
+
+func java_method_skipModLoading_18(_args: Array = []) -> Variant:
+	return null
+
+func java_method_load_19(_args: Array = []) -> Variant:
+	return null
+
+func java_method_sortMods_20(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateDependencies_21(_args: Array = []) -> Variant:
+	return null
+
+func java_method_orderedMods_22(_args: Array = []) -> Variant:
+	return null
+
+func java_method_locateMod_23(_args: Array = []) -> Variant:
+	return null
+
+func java_method_buildFiles_24(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkWarnings_25(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkDependencies_26(_args: Array = []) -> Variant:
+	return null
+
+func java_method_downloadDependencies_27(_args: Array = []) -> Variant:
+	return null
+
+func java_method_displayDependencyImportStatus_28(_args: Array = []) -> Variant:
+	return null
+
+func java_method_reload_29(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hasContentErrors_30(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadScripts_31(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadContent_32(_args: Array = []) -> Variant:
+	return null
+
+func java_method_handleContentError_33(_args: Array = []) -> Variant:
+	return null
+
+func java_method_addParseListener_34(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getModStrings_35(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setEnabled_36(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getIncompatibility_37(_args: Array = []) -> Variant:
+	return null
+
+func java_method_list_38(_args: Array = []) -> Variant:
+	return null
+
+func java_method_eachClass_39(_args: Array = []) -> Variant:
+	return null
+
+func java_method_eachEnabled_40(_args: Array = []) -> Variant:
+	return null
+
+func java_method_contextRun_41(_args: Array = []) -> Variant:
+	return null
+
+func java_method_findMeta_42(_args: Array = []) -> Variant:
+	return null
+
+func java_method_resolveDependencies_43(_args: Array = []) -> Variant:
+	return null
+
+func java_method_resolve_44(_args: Array = []) -> Variant:
+	return null
+
+func java_method_resolveRoot_45(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadMod_46(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,30 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "char
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "RuneOverlay", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "bytesToString", "parameters": [{"name": "data", "type": "byte", "varargs": false}], "return_type": "String"}, {"modifiers": ["public", "static"], "name": "stringToBytes", "parameters": [{"name": "s", "type": "String", "varargs": false}], "return_type": "byte"}, {"modifiers": ["public"], "name": "drawBase", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getConfig", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": "Object"}, {"modifiers": ["public"], "name": "drawPlanRegion", "parameters": [{"name": "plan", "type": "BuildPlan", "varargs": false}, {"name": "list", "type": "Eachable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "onPicked", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "buildEditorConfig", "parameters": [{"name": "table", "type": "Table", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "placeEnded", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "builder", "type": "Unit", "varargs": false}, {"name": "rotation", "type": "int", "varargs": false}, {"name": "config", "type": "Object", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "editorPicked", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_bytesToString_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_stringToBytes_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawBase_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getConfig_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawPlanRegion_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_onPicked_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_buildEditorConfig_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_placeEnded_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_editorPicked_8(_args: Array = []) -> Variant:
+	return null

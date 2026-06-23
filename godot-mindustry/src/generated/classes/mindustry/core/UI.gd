@@ -12,3 +12,150 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "buf
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "UI", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "loadColors", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "loadAsync", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "loadSync", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "getDependencies", "parameters": [], "return_type": "Seq"}, {"modifiers": ["public"], "name": "update", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "updateMargins", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "resize", "parameters": [{"name": "width", "type": "int", "varargs": false}, {"name": "height", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getIcon", "parameters": [{"name": "name", "type": "String", "varargs": false}], "return_type": "TextureRegionDrawable"}, {"modifiers": ["public"], "name": "getIcon", "parameters": [{"name": "name", "type": "String", "varargs": false}, {"name": "def", "type": "String", "varargs": false}], "return_type": "TextureRegionDrawable"}, {"modifiers": ["public"], "name": "loadAnd", "parameters": [{"name": "call", "type": "Runnable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "loadAnd", "parameters": [{"name": "text", "type": "String", "varargs": false}, {"name": "call", "type": "Runnable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showTextInput", "parameters": [{"name": "titleText", "type": "String", "varargs": false}, {"name": "text", "type": "String", "varargs": false}, {"name": "textLength", "type": "int", "varargs": false}, {"name": "def", "type": "String", "varargs": false}, {"name": "numbers", "type": "boolean", "varargs": false}, {"name": "confirmed", "type": "Cons", "varargs": false}, {"name": "closed", "type": "Runnable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showTextInput", "parameters": [{"name": "titleText", "type": "String", "varargs": false}, {"name": "text", "type": "String", "varargs": false}, {"name": "textLength", "type": "int", "varargs": false}, {"name": "def", "type": "String", "varargs": false}, {"name": "numbers", "type": "boolean", "varargs": false}, {"name": "allowEmpty", "type": "boolean", "varargs": false}, {"name": "confirmed", "type": "Cons", "varargs": false}, {"name": "closed", "type": "Runnable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showTextInput", "parameters": [{"name": "title", "type": "String", "varargs": false}, {"name": "text", "type": "String", "varargs": false}, {"name": "def", "type": "String", "varargs": false}, {"name": "confirmed", "type": "Cons", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showTextInput", "parameters": [{"name": "title", "type": "String", "varargs": false}, {"name": "text", "type": "String", "varargs": false}, {"name": "textLength", "type": "int", "varargs": false}, {"name": "def", "type": "String", "varargs": false}, {"name": "confirmed", "type": "Cons", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showTextInput", "parameters": [{"name": "title", "type": "String", "varargs": false}, {"name": "text", "type": "String", "varargs": false}, {"name": "textLength", "type": "int", "varargs": false}, {"name": "def", "type": "String", "varargs": false}, {"name": "numeric", "type": "boolean", "varargs": false}, {"name": "confirmed", "type": "Cons", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showInfoFade", "parameters": [{"name": "info", "type": "String", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showInfoFade", "parameters": [{"name": "info", "type": "String", "varargs": false}, {"name": "duration", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "addDescTooltip", "parameters": [{"name": "elem", "type": "Element", "varargs": false}, {"name": "description", "type": "String", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showInfoToast", "parameters": [{"name": "info", "type": "String", "varargs": false}, {"name": "duration", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showInfoPopup", "parameters": [{"name": "info", "type": "String", "varargs": false}, {"name": "id", "type": "String", "varargs": false}, {"name": "duration", "type": "float", "varargs": false}, {"name": "align", "type": "int", "varargs": false}, {"name": "top", "type": "int", "varargs": false}, {"name": "left", "type": "int", "varargs": false}, {"name": "bottom", "type": "int", "varargs": false}, {"name": "right", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showLabel", "parameters": [{"name": "info", "type": "String", "varargs": false}, {"name": "id", "type": "int", "varargs": false}, {"name": "duration", "type": "float", "varargs": false}, {"name": "worldx", "type": "float", "varargs": false}, {"name": "worldy", "type": "float", "varargs": false}, {"name": "flags", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showInfo", "parameters": [{"name": "info", "type": "String", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showInfoOnHidden", "parameters": [{"name": "info", "type": "String", "varargs": false}, {"name": "listener", "type": "Runnable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showStartupInfo", "parameters": [{"name": "info", "type": "String", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showErrorMessage", "parameters": [{"name": "text", "type": "String", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showException", "parameters": [{"name": "t", "type": "Throwable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showException", "parameters": [{"name": "text", "type": "String", "varargs": false}, {"name": "exc", "type": "Throwable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showText", "parameters": [{"name": "titleText", "type": "String", "varargs": false}, {"name": "text", "type": "String", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showText", "parameters": [{"name": "titleText", "type": "String", "varargs": false}, {"name": "text", "type": "String", "varargs": false}, {"name": "align", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showInfoText", "parameters": [{"name": "titleText", "type": "String", "varargs": false}, {"name": "text", "type": "String", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showSmall", "parameters": [{"name": "titleText", "type": "String", "varargs": false}, {"name": "text", "type": "String", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showConfirm", "parameters": [{"name": "text", "type": "String", "varargs": false}, {"name": "confirmed", "type": "Runnable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showConfirm", "parameters": [{"name": "title", "type": "String", "varargs": false}, {"name": "text", "type": "String", "varargs": false}, {"name": "confirmed", "type": "Runnable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showConfirm", "parameters": [{"name": "title", "type": "String", "varargs": false}, {"name": "text", "type": "String", "varargs": false}, {"name": "hide", "type": "Boolp", "varargs": false}, {"name": "confirmed", "type": "Runnable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showCustomConfirm", "parameters": [{"name": "title", "type": "String", "varargs": false}, {"name": "text", "type": "String", "varargs": false}, {"name": "yes", "type": "String", "varargs": false}, {"name": "no", "type": "String", "varargs": false}, {"name": "confirmed", "type": "Runnable", "varargs": false}, {"name": "denied", "type": "Runnable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "hasAnnouncement", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "announce", "parameters": [{"name": "text", "type": "String", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "announce", "parameters": [{"name": "text", "type": "String", "varargs": false}, {"name": "duration", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showOkText", "parameters": [{"name": "title", "type": "String", "varargs": false}, {"name": "text", "type": "String", "varargs": false}, {"name": "confirmed", "type": "Runnable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "newMenuDialog", "parameters": [{"name": "title", "type": "String", "varargs": false}, {"name": "message", "type": "String", "varargs": false}, {"name": "options", "type": "String", "varargs": false}, {"name": "buttonListener", "type": "Cons2", "varargs": false}], "return_type": "Dialog"}, {"modifiers": ["public"], "name": "showMenu", "parameters": [{"name": "title", "type": "String", "varargs": false}, {"name": "message", "type": "String", "varargs": false}, {"name": "options", "type": "String", "varargs": false}, {"name": "callback", "type": "Intc", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showFollowUpMenu", "parameters": [{"name": "menuId", "type": "int", "varargs": false}, {"name": "title", "type": "String", "varargs": false}, {"name": "message", "type": "String", "varargs": false}, {"name": "options", "type": "String", "varargs": false}, {"name": "callback", "type": "Intc", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "hideFollowUpMenu", "parameters": [{"name": "menuId", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "formatIcons", "parameters": [{"name": "s", "type": "String", "varargs": false}], "return_type": "String"}, {"modifiers": ["public", "static"], "name": "formatTime", "parameters": [{"name": "ticks", "type": "float", "varargs": false}], "return_type": "String"}, {"modifiers": ["public", "static"], "name": "formatAmount", "parameters": [{"name": "number", "type": "long", "varargs": false}], "return_type": "String"}, {"modifiers": ["public", "static"], "name": "roundAmount", "parameters": [{"name": "number", "type": "int", "varargs": false}], "return_type": "int"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_loadColors_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadAsync_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadSync_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getDependencies_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_update_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateMargins_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_resize_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getIcon_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getIcon_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadAnd_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadAnd_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showTextInput_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showTextInput_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showTextInput_14(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showTextInput_15(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showTextInput_16(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showInfoFade_17(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showInfoFade_18(_args: Array = []) -> Variant:
+	return null
+
+func java_method_addDescTooltip_19(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showInfoToast_20(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showInfoPopup_21(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showLabel_22(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showInfo_23(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showInfoOnHidden_24(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showStartupInfo_25(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showErrorMessage_26(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showException_27(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showException_28(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showText_29(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showText_30(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showInfoText_31(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showSmall_32(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showConfirm_33(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showConfirm_34(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showConfirm_35(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showCustomConfirm_36(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hasAnnouncement_37(_args: Array = []) -> Variant:
+	return null
+
+func java_method_announce_38(_args: Array = []) -> Variant:
+	return null
+
+func java_method_announce_39(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showOkText_40(_args: Array = []) -> Variant:
+	return null
+
+func java_method_newMenuDialog_41(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showMenu_42(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showFollowUpMenu_43(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hideFollowUpMenu_44(_args: Array = []) -> Variant:
+	return null
+
+func java_method_formatIcons_45(_args: Array = []) -> Variant:
+	return null
+
+func java_method_formatTime_46(_args: Array = []) -> Variant:
+	return null
+
+func java_method_formatAmount_47(_args: Array = []) -> Variant:
+	return null
+
+func java_method_roundAmount_48(_args: Array = []) -> Variant:
+	return null

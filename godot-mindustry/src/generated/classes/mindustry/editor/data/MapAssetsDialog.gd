@@ -12,3 +12,12 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "typ
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "MapAssetsDialog", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": [], "name": "changeType", "parameters": [{"name": "type", "type": "DataAssetType", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "rebuild", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "showEditMenu", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_changeType_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_rebuild_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showEditMenu_2(_args: Array = []) -> Variant:
+	return null

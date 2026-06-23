@@ -12,3 +12,15 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "ind
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "OverlayRenderer", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["private"], "name": "updateCoreEdges", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "drawBottom", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "drawTop", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "checkApplySelection", "parameters": [{"name": "u", "type": "Unit", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_updateCoreEdges_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawBottom_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawTop_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkApplySelection_3(_args: Array = []) -> Variant:
+	return null

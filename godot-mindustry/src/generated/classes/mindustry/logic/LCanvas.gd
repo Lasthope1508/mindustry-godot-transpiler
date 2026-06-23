@@ -12,3 +12,36 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "tmp
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "LCanvas", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "useRows", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public", "static"], "name": "tooltip", "parameters": [{"name": "cell", "type": "Cell", "varargs": false}, {"name": "key", "type": "String", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "tooltip", "parameters": [{"name": "cell", "type": "Cell", "varargs": false}, {"name": "key", "type": "Enum", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "rebuild", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "add", "parameters": [{"name": "statement", "type": "LStatement", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "addAt", "parameters": [{"name": "at", "type": "int", "varargs": false}, {"name": "statement", "type": "LStatement", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "save", "parameters": [], "return_type": "String"}, {"modifiers": ["public"], "name": "load", "parameters": [{"name": "asm", "type": "String", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "clearStatements", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "checkHovered", "parameters": [], "return_type": "StatementElem"}, {"modifiers": ["public"], "name": "act", "parameters": [{"name": "delta", "type": "float", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_useRows_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_tooltip_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_tooltip_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_rebuild_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_add_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_addAt_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_save_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_load_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_clearStatements_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkHovered_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_act_10(_args: Array = []) -> Variant:
+	return null

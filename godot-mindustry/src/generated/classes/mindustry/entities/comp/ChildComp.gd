@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": [], "name": "x", "type": "float"}, {"modifie
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "add", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "update", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_add_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_update_1(_args: Array = []) -> Variant:
+	return null

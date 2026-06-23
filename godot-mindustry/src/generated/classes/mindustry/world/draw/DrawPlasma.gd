@@ -12,3 +12,12 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "x", "type": "float"}, {
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "load", "parameters": [{"name": "block", "type": "Block", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawLight", "parameters": [{"name": "build", "type": "Building", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "draw", "parameters": [{"name": "build", "type": "Building", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_load_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawLight_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_draw_2(_args: Array = []) -> Variant:
+	return null

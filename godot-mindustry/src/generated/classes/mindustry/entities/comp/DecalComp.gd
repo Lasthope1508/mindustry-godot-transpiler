@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": [], "name": "x", "type": "float"}, {"modifie
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "draw", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "clipSize", "parameters": [], "return_type": "float"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_draw_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_clipSize_1(_args: Array = []) -> Variant:
+	return null

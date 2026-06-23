@@ -12,3 +12,9 @@ const JAVA_FIELDS := []
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "CachedTile", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["protected"], "name": "preChanged", "parameters": [], "return_type": ""}, {"modifiers": ["protected"], "name": "changeBuild", "parameters": [{"name": "team", "type": "Team", "varargs": false}, {"name": "entityprov", "type": "Prov", "varargs": false}, {"name": "rotation", "type": "int", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_preChanged_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_changeBuild_1(_args: Array = []) -> Variant:
+	return null

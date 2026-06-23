@@ -12,3 +12,12 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "playListener", "type": 
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "MapPlayDialog", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "show", "parameters": [{"name": "map", "type": "Map", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "show", "parameters": [{"name": "map", "type": "Map", "varargs": false}, {"name": "playtesting", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["private"], "name": "displayGameModeHelp", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_show_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_show_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_displayGameModeHelp_2(_args: Array = []) -> Variant:
+	return null

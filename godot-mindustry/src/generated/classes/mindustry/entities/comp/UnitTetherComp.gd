@@ -12,3 +12,12 @@ const JAVA_FIELDS := [{"modifiers": [], "name": "type", "type": "UnitType"}, {"m
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "afterRead", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "afterSync", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "update", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_afterRead_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_afterSync_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_update_2(_args: Array = []) -> Variant:
+	return null

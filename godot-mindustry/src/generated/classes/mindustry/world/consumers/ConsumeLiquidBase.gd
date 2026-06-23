@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "amount", "type": "float
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ConsumeLiquidBase", "parameters": [{"name": "amount", "type": "float", "varargs": false}]}, {"modifiers": ["public"], "name": "ConsumeLiquidBase", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "apply", "parameters": [{"name": "block", "type": "Block", "varargs": false}], "return_type": ""}, {"modifiers": ["abstract", "public"], "name": "consumes", "parameters": [{"name": "liquid", "type": "Liquid", "varargs": false}], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_apply_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_consumes_1(_args: Array = []) -> Variant:
+	return null

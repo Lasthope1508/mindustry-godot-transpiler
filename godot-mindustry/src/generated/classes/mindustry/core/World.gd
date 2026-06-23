@@ -12,3 +12,147 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public"], "name": "context", "typ
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "World", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "addMapLoader", "parameters": [{"name": "map", "type": "Map", "varargs": false}, {"name": "loader", "type": "Runnable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "isInvalidMap", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "solid", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "passable", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "wallSolid", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "wallSolidFull", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "isAccessible", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "width", "parameters": [], "return_type": "int"}, {"modifiers": ["public"], "name": "height", "parameters": [], "return_type": "int"}, {"modifiers": ["public"], "name": "unitWidth", "parameters": [], "return_type": "int"}, {"modifiers": ["public"], "name": "unitHeight", "parameters": [], "return_type": "int"}, {"modifiers": ["public"], "name": "floor", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}], "return_type": "Floor"}, {"modifiers": ["public"], "name": "floorWorld", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}], "return_type": "Floor"}, {"modifiers": ["public"], "name": "tile", "parameters": [{"name": "pos", "type": "int", "varargs": false}], "return_type": "Tile"}, {"modifiers": ["public"], "name": "tile", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}], "return_type": "Tile"}, {"modifiers": ["public"], "name": "tileBuilding", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}], "return_type": "Tile"}, {"modifiers": ["public"], "name": "build", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}], "return_type": "Building"}, {"modifiers": ["public"], "name": "build", "parameters": [{"name": "pos", "type": "int", "varargs": false}], "return_type": "Building"}, {"modifiers": ["public"], "name": "rawTile", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}], "return_type": "Tile"}, {"modifiers": ["public"], "name": "tileWorld", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}], "return_type": "Tile"}, {"modifiers": ["public"], "name": "buildWorld", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}], "return_type": "Building"}, {"modifiers": ["public"], "name": "buildWorld", "parameters": [{"name": "pos", "type": "Position", "varargs": false}], "return_type": "Building"}, {"modifiers": ["public", "static"], "name": "conv", "parameters": [{"name": "coord", "type": "float", "varargs": false}], "return_type": "float"}, {"modifiers": ["public", "static"], "name": "unconv", "parameters": [{"name": "coord", "type": "float", "varargs": false}], "return_type": "float"}, {"modifiers": ["public", "static"], "name": "toTile", "parameters": [{"name": "coord", "type": "float", "varargs": false}], "return_type": "int"}, {"modifiers": ["public"], "name": "packArray", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}], "return_type": "int"}, {"modifiers": ["public"], "name": "clearBuildings", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "resize", "parameters": [{"name": "width", "type": "int", "varargs": false}, {"name": "height", "type": "int", "varargs": false}], "return_type": "Tiles"}, {"modifiers": ["public"], "name": "beginMapLoad", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "endMapLoad", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "getQuadBounds", "parameters": [{"name": "in", "type": "Rect", "varargs": false}], "return_type": "Rect"}, {"modifiers": ["public"], "name": "setGenerating", "parameters": [{"name": "gen", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "isGenerating", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "loadGenerator", "parameters": [{"name": "width", "type": "int", "varargs": false}, {"name": "height", "type": "int", "varargs": false}, {"name": "generator", "type": "Cons", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "loadSector", "parameters": [{"name": "sector", "type": "Sector", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "loadSector", "parameters": [{"name": "sector", "type": "Sector", "varargs": false}, {"name": "params", "type": "WorldParams", "varargs": false}], "return_type": ""}, {"modifiers": ["private"], "name": "setSectorRules", "parameters": [{"name": "sector", "type": "Sector", "varargs": false}, {"name": "saveInfo", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "filterContext", "parameters": [{"name": "map", "type": "Map", "varargs": false}], "return_type": "Context"}, {"modifiers": ["public"], "name": "loadMap", "parameters": [{"name": "map", "type": "Map", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "loadMap", "parameters": [{"name": "map", "type": "Map", "varargs": false}, {"name": "checkRules", "type": "Rules", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "addDarkness", "parameters": [{"name": "tiles", "type": "Tiles", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getWallDarkness", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": "byte"}, {"modifiers": ["public"], "name": "checkMapArea", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}, {"name": "w", "type": "int", "varargs": false}, {"name": "h", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getDarkness", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}], "return_type": "float"}, {"modifiers": ["public", "static"], "name": "raycastEachWorld", "parameters": [{"name": "x0", "type": "float", "varargs": false}, {"name": "y0", "type": "float", "varargs": false}, {"name": "x1", "type": "float", "varargs": false}, {"name": "y1", "type": "float", "varargs": false}, {"name": "cons", "type": "Raycaster", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "raycastEach", "parameters": [{"name": "x1", "type": "int", "varargs": false}, {"name": "y1", "type": "int", "varargs": false}, {"name": "x2", "type": "int", "varargs": false}, {"name": "y2", "type": "int", "varargs": false}, {"name": "cons", "type": "Raycaster", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "raycast", "parameters": [{"name": "x1", "type": "int", "varargs": false}, {"name": "y1", "type": "int", "varargs": false}, {"name": "x2", "type": "int", "varargs": false}, {"name": "y2", "type": "int", "varargs": false}, {"name": "cons", "type": "Raycaster", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "makeSectorContext", "parameters": [{"name": "sector", "type": "Sector", "varargs": false}], "return_type": "WorldContext"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_addMapLoader_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isInvalidMap_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_solid_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_passable_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_wallSolid_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_wallSolidFull_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isAccessible_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_width_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_height_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_unitWidth_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_unitHeight_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_floor_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_floorWorld_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_tile_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_tile_14(_args: Array = []) -> Variant:
+	return null
+
+func java_method_tileBuilding_15(_args: Array = []) -> Variant:
+	return null
+
+func java_method_build_16(_args: Array = []) -> Variant:
+	return null
+
+func java_method_build_17(_args: Array = []) -> Variant:
+	return null
+
+func java_method_rawTile_18(_args: Array = []) -> Variant:
+	return null
+
+func java_method_tileWorld_19(_args: Array = []) -> Variant:
+	return null
+
+func java_method_buildWorld_20(_args: Array = []) -> Variant:
+	return null
+
+func java_method_buildWorld_21(_args: Array = []) -> Variant:
+	return null
+
+func java_method_conv_22(_args: Array = []) -> Variant:
+	return null
+
+func java_method_unconv_23(_args: Array = []) -> Variant:
+	return null
+
+func java_method_toTile_24(_args: Array = []) -> Variant:
+	return null
+
+func java_method_packArray_25(_args: Array = []) -> Variant:
+	return null
+
+func java_method_clearBuildings_26(_args: Array = []) -> Variant:
+	return null
+
+func java_method_resize_27(_args: Array = []) -> Variant:
+	return null
+
+func java_method_beginMapLoad_28(_args: Array = []) -> Variant:
+	return null
+
+func java_method_endMapLoad_29(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getQuadBounds_30(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setGenerating_31(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isGenerating_32(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadGenerator_33(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadSector_34(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadSector_35(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setSectorRules_36(_args: Array = []) -> Variant:
+	return null
+
+func java_method_filterContext_37(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadMap_38(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadMap_39(_args: Array = []) -> Variant:
+	return null
+
+func java_method_addDarkness_40(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getWallDarkness_41(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkMapArea_42(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getDarkness_43(_args: Array = []) -> Variant:
+	return null
+
+func java_method_raycastEachWorld_44(_args: Array = []) -> Variant:
+	return null
+
+func java_method_raycastEach_45(_args: Array = []) -> Variant:
+	return null
+
+func java_method_raycast_46(_args: Array = []) -> Variant:
+	return null
+
+func java_method_makeSectorContext_47(_args: Array = []) -> Variant:
+	return null

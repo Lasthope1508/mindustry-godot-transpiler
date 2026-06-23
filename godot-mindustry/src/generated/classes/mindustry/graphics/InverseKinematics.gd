@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "mat
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "solve", "parameters": [{"name": "lengthA", "type": "float", "varargs": false}, {"name": "lengthB", "type": "float", "varargs": false}, {"name": "end", "type": "Vec2", "varargs": false}, {"name": "side", "type": "boolean", "varargs": false}, {"name": "result", "type": "Vec2", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public", "static"], "name": "solve", "parameters": [{"name": "lengthA", "type": "float", "varargs": false}, {"name": "lengthB", "type": "float", "varargs": false}, {"name": "end", "type": "Vec2", "varargs": false}, {"name": "attractor", "type": "Vec2", "varargs": false}, {"name": "result", "type": "Vec2", "varargs": false}], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_solve_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_solve_1(_args: Array = []) -> Variant:
+	return null

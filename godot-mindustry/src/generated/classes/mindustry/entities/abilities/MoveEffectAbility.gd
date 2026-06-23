@@ -12,3 +12,6 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "minVelocity", "type": "
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "MoveEffectAbility", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "color", "type": "Color", "varargs": false}, {"name": "effect", "type": "Effect", "varargs": false}, {"name": "interval", "type": "float", "varargs": false}]}, {"modifiers": ["public"], "name": "MoveEffectAbility", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "update", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_update_0(_args: Array = []) -> Variant:
+	return null

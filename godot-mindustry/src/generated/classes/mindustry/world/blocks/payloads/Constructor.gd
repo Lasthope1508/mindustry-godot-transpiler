@@ -12,3 +12,12 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "filter", "type": "Seq"}
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "Constructor", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "setStats", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "getPlanConfigs", "parameters": [{"name": "options", "type": "Seq", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "canProduce", "parameters": [{"name": "b", "type": "Block", "varargs": false}], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_setStats_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getPlanConfigs_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_canProduce_2(_args: Array = []) -> Variant:
+	return null

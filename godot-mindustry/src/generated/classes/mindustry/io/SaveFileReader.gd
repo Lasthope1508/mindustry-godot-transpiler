@@ -12,3 +12,42 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "fall
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "mapFallback", "parameters": [{"name": "name", "type": "String", "varargs": false}], "return_type": "String"}, {"modifiers": ["public"], "name": "readRegion", "parameters": [{"name": "name", "type": "String", "varargs": false}, {"name": "stream", "type": "DataInput", "varargs": false}, {"name": "counter", "type": "CounterInputStream", "varargs": false}, {"name": "cons", "type": "IORunner", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "writeRegion", "parameters": [{"name": "name", "type": "String", "varargs": false}, {"name": "stream", "type": "DataOutput", "varargs": false}, {"name": "cons", "type": "IORunner", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "writeChunk", "parameters": [{"name": "output", "type": "DataOutput", "varargs": false}, {"name": "runner", "type": "IORunner", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "readChunk", "parameters": [{"name": "input", "type": "DataInput", "varargs": false}, {"name": "runner", "type": "IORunnerLength", "varargs": false}], "return_type": "int"}, {"modifiers": ["public"], "name": "readChunkReads", "parameters": [{"name": "input", "type": "DataInput", "varargs": false}, {"name": "runner", "type": "IORunnerLength", "varargs": false}], "return_type": "int"}, {"modifiers": ["public"], "name": "skipChunk", "parameters": [{"name": "input", "type": "DataInput", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "readLegacyShortChunk", "parameters": [{"name": "input", "type": "DataInput", "varargs": false}, {"name": "runner", "type": "IORunnerLength", "varargs": false}], "return_type": "int"}, {"modifiers": ["public"], "name": "skipLegacyShortChunk", "parameters": [{"name": "input", "type": "DataInput", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "writeStringMap", "parameters": [{"name": "stream", "type": "DataOutput", "varargs": false}, {"name": "map", "type": "ObjectMap", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "readStringMap", "parameters": [{"name": "stream", "type": "DataInput", "varargs": false}], "return_type": "StringMap"}, {"modifiers": ["abstract", "public"], "name": "read", "parameters": [{"name": "stream", "type": "DataInputStream", "varargs": false}, {"name": "counter", "type": "CounterInputStream", "varargs": false}, {"name": "context", "type": "WorldContext", "varargs": false}], "return_type": ""}, {"modifiers": ["abstract", "public"], "name": "write", "parameters": [{"name": "stream", "type": "DataOutputStream", "varargs": false}, {"name": "options", "type": "SaveOptions", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_mapFallback_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_readRegion_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_writeRegion_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_writeChunk_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_readChunk_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_readChunkReads_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_skipChunk_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_readLegacyShortChunk_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_skipLegacyShortChunk_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_writeStringMap_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_readStringMap_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_read_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_write_12(_args: Array = []) -> Variant:
+	return null

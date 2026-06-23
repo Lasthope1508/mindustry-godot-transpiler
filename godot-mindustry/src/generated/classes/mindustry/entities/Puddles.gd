@@ -12,3 +12,33 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "maxL
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "deposit", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "source", "type": "Tile", "varargs": false}, {"name": "liquid", "type": "Liquid", "varargs": false}, {"name": "amount", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "deposit", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "liquid", "type": "Liquid", "varargs": false}, {"name": "amount", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "get", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": "Puddle"}, {"modifiers": ["public", "static"], "name": "deposit", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "source", "type": "Tile", "varargs": false}, {"name": "liquid", "type": "Liquid", "varargs": false}, {"name": "amount", "type": "float", "varargs": false}, {"name": "initial", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "deposit", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "source", "type": "Tile", "varargs": false}, {"name": "liquid", "type": "Liquid", "varargs": false}, {"name": "amount", "type": "float", "varargs": false}, {"name": "initial", "type": "boolean", "varargs": false}, {"name": "cap", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "hasLiquid", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "liquid", "type": "Liquid", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public", "static"], "name": "remove", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "register", "parameters": [{"name": "puddle", "type": "Puddle", "varargs": false}], "return_type": ""}, {"modifiers": ["private", "static"], "name": "reactPuddle", "parameters": [{"name": "dest", "type": "Liquid", "varargs": false}, {"name": "liquid", "type": "Liquid", "varargs": false}, {"name": "amount", "type": "float", "varargs": false}, {"name": "tile", "type": "Tile", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}], "return_type": "float"}, {"modifiers": ["private", "static"], "name": "canStayOn", "parameters": [{"name": "liquid", "type": "Liquid", "varargs": false}, {"name": "other", "type": "Liquid", "varargs": false}], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_deposit_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_deposit_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_get_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_deposit_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_deposit_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hasLiquid_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_remove_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_register_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_reactPuddle_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_canStayOn_9(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "col
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "get", "parameters": [{"name": "color", "type": "int", "varargs": false}], "return_type": "Block"}, {"modifiers": ["public", "static"], "name": "load", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_get_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_load_1(_args: Array = []) -> Variant:
+	return null

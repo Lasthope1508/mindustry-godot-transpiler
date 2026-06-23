@@ -12,3 +12,6 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "bloc
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "StatUnit", "parameters": [{"name": "name", "type": "String", "varargs": false}, {"name": "space", "type": "boolean", "varargs": false}]}, {"modifiers": ["public"], "name": "StatUnit", "parameters": [{"name": "name", "type": "String", "varargs": false}]}, {"modifiers": ["public"], "name": "StatUnit", "parameters": [{"name": "name", "type": "String", "varargs": false}, {"name": "icon", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "localized", "parameters": [], "return_type": "String"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_localized_0(_args: Array = []) -> Variant:
+	return null

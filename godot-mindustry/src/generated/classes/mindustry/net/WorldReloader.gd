@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": [], "name": "players", "type": "Seq"}, {"mod
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "begin", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "end", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_begin_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_end_1(_args: Array = []) -> Variant:
+	return null

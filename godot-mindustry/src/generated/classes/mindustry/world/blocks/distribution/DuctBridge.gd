@@ -12,3 +12,6 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "speed", "type": "float"
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "DuctBridge", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "setStats", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_setStats_0(_args: Array = []) -> Variant:
+	return null

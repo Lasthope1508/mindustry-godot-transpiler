@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["private"], "name": "iconSelect", "type": "
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "MapProcessorsDialog", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["private"], "name": "rebuild", "parameters": [], "return_type": ""}, {"modifiers": ["private"], "name": "setup", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_rebuild_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setup_1(_args: Array = []) -> Variant:
+	return null

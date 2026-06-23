@@ -12,3 +12,27 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "con
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ConstructBlock", "parameters": [{"name": "size", "type": "int", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "get", "parameters": [{"name": "size", "type": "int", "varargs": false}], "return_type": "ConstructBlock"}, {"modifiers": ["public", "static"], "name": "deconstructFinish", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "block", "type": "Block", "varargs": false}, {"name": "builder", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "constructFinish", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "block", "type": "Block", "varargs": false}, {"name": "builder", "type": "Unit", "varargs": false}, {"name": "rotation", "type": "byte", "varargs": false}, {"name": "team", "type": "Team", "varargs": false}, {"name": "config", "type": "Object", "varargs": false}], "return_type": ""}, {"modifiers": ["static"], "name": "shouldPlay", "parameters": [], "return_type": "boolean"}, {"modifiers": ["static"], "name": "calcPitch", "parameters": [{"name": "up", "type": "boolean", "varargs": false}], "return_type": "float"}, {"modifiers": ["public", "static"], "name": "playRepairSound", "parameters": [{"name": "team", "type": "Team", "varargs": false}, {"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "constructed", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "block", "type": "Block", "varargs": false}, {"name": "builder", "type": "Unit", "varargs": false}, {"name": "rotation", "type": "byte", "varargs": false}, {"name": "team", "type": "Team", "varargs": false}, {"name": "config", "type": "Object", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "isHidden", "parameters": [], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_get_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_deconstructFinish_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_constructFinish_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_shouldPlay_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_calcPitch_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_playRepairSound_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_constructed_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isHidden_7(_args: Array = []) -> Variant:
+	return null

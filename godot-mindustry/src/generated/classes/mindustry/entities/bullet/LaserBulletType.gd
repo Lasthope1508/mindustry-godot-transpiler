@@ -12,3 +12,21 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "colors", "type": "Color
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "LaserBulletType", "parameters": [{"name": "damage", "type": "float", "varargs": false}]}, {"modifiers": ["public"], "name": "LaserBulletType", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "estimateDPS", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["protected"], "name": "calculateRange", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "init", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "draw", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawLight", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_estimateDPS_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_calculateRange_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_draw_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawLight_5(_args: Array = []) -> Variant:
+	return null

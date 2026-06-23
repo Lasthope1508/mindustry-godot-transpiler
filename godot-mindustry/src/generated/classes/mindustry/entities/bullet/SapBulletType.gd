@@ -12,3 +12,18 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "length", "type": "float
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "SapBulletType", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "load", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "draw", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawLight", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": ""}, {"modifiers": ["protected"], "name": "calculateRange", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "init", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_load_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_draw_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawLight_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_calculateRange_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_4(_args: Array = []) -> Variant:
+	return null

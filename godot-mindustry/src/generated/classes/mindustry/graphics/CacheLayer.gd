@@ -12,3 +12,21 @@ const JAVA_FIELDS := [{"modifiers": ["public", "static"], "name": "water", "type
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "add", "parameters": [{"name": "layers", "type": "CacheLayer", "varargs": true}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "addLast", "parameters": [{"name": "layers", "type": "CacheLayer", "varargs": true}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "add", "parameters": [{"name": "index", "type": "int", "varargs": false}, {"name": "layer", "type": "CacheLayer", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "begin", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "end", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_add_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_addLast_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_add_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_begin_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_end_5(_args: Array = []) -> Variant:
+	return null

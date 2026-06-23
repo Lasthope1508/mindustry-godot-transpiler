@@ -12,3 +12,21 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "objW
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "MapObjectivesCanvas", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "clearObjectives", "parameters": [], "return_type": ""}, {"modifiers": ["protected"], "name": "stopQuery", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "query", "parameters": [{"name": "obj", "type": "MapObjective", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "placeQuery", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "isQuerying", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "isVisualPressed", "parameters": [], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_clearObjectives_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_stopQuery_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_query_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_placeQuery_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isQuerying_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isVisualPressed_5(_args: Array = []) -> Variant:
+	return null

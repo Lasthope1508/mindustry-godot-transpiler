@@ -12,3 +12,6 @@ const JAVA_FIELDS := []
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "HexMesh", "parameters": [{"name": "planet", "type": "Planet", "varargs": false}, {"name": "divisions", "type": "int", "varargs": false}]}, {"modifiers": ["public"], "name": "HexMesh", "parameters": [{"name": "planet", "type": "Planet", "varargs": false}, {"name": "mesher", "type": "HexMesher", "varargs": false}, {"name": "divisions", "type": "int", "varargs": false}, {"name": "shader", "type": "Shader", "varargs": false}]}, {"modifiers": ["public"], "name": "HexMesh", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "preRender", "parameters": [{"name": "params", "type": "PlanetParams", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_preRender_0(_args: Array = []) -> Variant:
+	return null

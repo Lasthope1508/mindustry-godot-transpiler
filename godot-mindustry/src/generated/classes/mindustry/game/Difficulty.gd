@@ -12,3 +12,15 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "all"
 const JAVA_CONSTRUCTORS := [{"modifiers": [], "name": "Difficulty", "parameters": [{"name": "enemyHealthMultiplier", "type": "float", "varargs": false}, {"name": "enemySpawnMultiplier", "type": "float", "varargs": false}, {"name": "waveTimeMultiplier", "type": "float", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "info", "parameters": [], "return_type": "String"}, {"modifiers": ["public"], "name": "localized", "parameters": [], "return_type": "String"}, {"modifiers": ["static"], "name": "percentStat", "parameters": [{"name": "val", "type": "float", "varargs": false}], "return_type": "String"}, {"modifiers": ["static"], "name": "percentStatNeg", "parameters": [{"name": "val", "type": "float", "varargs": false}], "return_type": "String"}]
 const JAVA_ENUM_CONSTANTS := ["casual", "easy", "normal", "hard", "eradication"]
+
+func java_method_info_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_localized_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_percentStat_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_percentStatNeg_3(_args: Array = []) -> Variant:
+	return null

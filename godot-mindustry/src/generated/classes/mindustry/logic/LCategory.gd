@@ -12,3 +12,12 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "all"
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "LCategory", "parameters": [{"name": "name", "type": "String", "varargs": false}, {"name": "color", "type": "Color", "varargs": false}]}, {"modifiers": ["public"], "name": "LCategory", "parameters": [{"name": "name", "type": "String", "varargs": false}, {"name": "color", "type": "Color", "varargs": false}, {"name": "icon", "type": "Drawable", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "localized", "parameters": [], "return_type": "String"}, {"modifiers": ["public"], "name": "description", "parameters": [], "return_type": "String"}, {"modifiers": ["public"], "name": "compareTo", "parameters": [{"name": "o", "type": "LCategory", "varargs": false}], "return_type": "int"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_localized_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_description_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_compareTo_2(_args: Array = []) -> Variant:
+	return null

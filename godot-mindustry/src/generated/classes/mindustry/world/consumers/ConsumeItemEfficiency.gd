@@ -12,3 +12,6 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "itemDurationMultipliers
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ConsumeItemEfficiency", "parameters": [{"name": "item", "type": "Boolf", "varargs": false}]}, {"modifiers": ["public"], "name": "ConsumeItemEfficiency", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "display", "parameters": [{"name": "stats", "type": "Stats", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_display_0(_args: Array = []) -> Variant:
+	return null

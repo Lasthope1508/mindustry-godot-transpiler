@@ -12,3 +12,93 @@ const JAVA_FIELDS := [{"modifiers": ["public", "static"], "name": "allFilterType
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "Maps", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "getShuffleMode", "parameters": [], "return_type": "ShuffleMode"}, {"modifiers": ["public"], "name": "setShuffleMode", "parameters": [{"name": "mode", "type": "ShuffleMode", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "setMapProvider", "parameters": [{"name": "provider", "type": "MapProvider", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "setNextMapOverride", "parameters": [{"name": "nextMapOverride", "type": "Map", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getNextMap", "parameters": [{"name": "mode", "type": "Gamemode", "varargs": false}, {"name": "previous", "type": "Map", "varargs": false}], "return_type": "Map"}, {"modifiers": ["public"], "name": "all", "parameters": [], "return_type": "Seq"}, {"modifiers": ["public"], "name": "customMaps", "parameters": [], "return_type": "Seq"}, {"modifiers": ["public"], "name": "defaultMaps", "parameters": [], "return_type": "Seq"}, {"modifiers": ["public"], "name": "moddedMaps", "parameters": [], "return_type": "Seq"}, {"modifiers": ["public"], "name": "byName", "parameters": [{"name": "name", "type": "String", "varargs": false}], "return_type": "Map"}, {"modifiers": ["public"], "name": "loadInternalMap", "parameters": [{"name": "name", "type": "String", "varargs": false}], "return_type": "Map"}, {"modifiers": ["public"], "name": "load", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "reload", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "saveMap", "parameters": [{"name": "baseTags", "type": "ObjectMap", "varargs": false}], "return_type": "Map"}, {"modifiers": ["public"], "name": "saveMap", "parameters": [{"name": "baseTags", "type": "ObjectMap", "varargs": false}, {"name": "embedAssets", "type": "boolean", "varargs": false}], "return_type": "Map"}, {"modifiers": ["public"], "name": "importMap", "parameters": [{"name": "file", "type": "Fi", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "tryCatchMapError", "parameters": [{"name": "run", "type": "UnsafeRunnable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "removeMap", "parameters": [{"name": "map", "type": "Map", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "readFilters", "parameters": [{"name": "str", "type": "String", "varargs": false}], "return_type": "Seq"}, {"modifiers": ["public"], "name": "addDefaultOres", "parameters": [{"name": "filters", "type": "Seq", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "writeWaves", "parameters": [{"name": "groups", "type": "Seq", "varargs": false}], "return_type": "String"}, {"modifiers": ["public"], "name": "readWaves", "parameters": [{"name": "str", "type": "String", "varargs": false}], "return_type": "Seq"}, {"modifiers": ["public"], "name": "loadPreviews", "parameters": [], "return_type": ""}, {"modifiers": ["private"], "name": "createAllPreviews", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "queueNewPreview", "parameters": [{"name": "map", "type": "Map", "varargs": false}], "return_type": ""}, {"modifiers": ["private"], "name": "createNewPreview", "parameters": [{"name": "map", "type": "Map", "varargs": false}, {"name": "failed", "type": "Cons", "varargs": false}], "return_type": ""}, {"modifiers": ["private"], "name": "writeCache", "parameters": [{"name": "map", "type": "Map", "varargs": false}], "return_type": ""}, {"modifiers": ["private"], "name": "readCache", "parameters": [{"name": "map", "type": "Map", "varargs": false}], "return_type": ""}, {"modifiers": ["private"], "name": "findFile", "parameters": [{"name": "unsanitizedName", "type": "String", "varargs": false}], "return_type": "Fi"}, {"modifiers": ["private"], "name": "loadMap", "parameters": [{"name": "file", "type": "Fi", "varargs": false}, {"name": "custom", "type": "boolean", "varargs": false}], "return_type": "Map"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_getShuffleMode_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setShuffleMode_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setMapProvider_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setNextMapOverride_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getNextMap_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_all_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_customMaps_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_defaultMaps_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_moddedMaps_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_byName_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadInternalMap_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_load_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_reload_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_saveMap_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_saveMap_14(_args: Array = []) -> Variant:
+	return null
+
+func java_method_importMap_15(_args: Array = []) -> Variant:
+	return null
+
+func java_method_tryCatchMapError_16(_args: Array = []) -> Variant:
+	return null
+
+func java_method_removeMap_17(_args: Array = []) -> Variant:
+	return null
+
+func java_method_readFilters_18(_args: Array = []) -> Variant:
+	return null
+
+func java_method_addDefaultOres_19(_args: Array = []) -> Variant:
+	return null
+
+func java_method_writeWaves_20(_args: Array = []) -> Variant:
+	return null
+
+func java_method_readWaves_21(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadPreviews_22(_args: Array = []) -> Variant:
+	return null
+
+func java_method_createAllPreviews_23(_args: Array = []) -> Variant:
+	return null
+
+func java_method_queueNewPreview_24(_args: Array = []) -> Variant:
+	return null
+
+func java_method_createNewPreview_25(_args: Array = []) -> Variant:
+	return null
+
+func java_method_writeCache_26(_args: Array = []) -> Variant:
+	return null
+
+func java_method_readCache_27(_args: Array = []) -> Variant:
+	return null
+
+func java_method_findFile_28(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadMap_29(_args: Array = []) -> Variant:
+	return null

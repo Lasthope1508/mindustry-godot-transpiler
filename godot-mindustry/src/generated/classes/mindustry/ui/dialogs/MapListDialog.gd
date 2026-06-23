@@ -12,3 +12,21 @@ const JAVA_FIELDS := [{"modifiers": [], "name": "activeDialog", "type": "BaseDia
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "MapListDialog", "parameters": [{"name": "title", "type": "String", "varargs": false}, {"name": "displayType", "type": "boolean", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": [], "name": "buildButtons", "parameters": [], "return_type": ""}, {"modifiers": ["abstract"], "name": "showMap", "parameters": [{"name": "map", "type": "Map", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "setup", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "rebuildMaps", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "showMapFilters", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "show", "parameters": [], "return_type": "Dialog"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_buildButtons_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showMap_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setup_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_rebuildMaps_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showMapFilters_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_show_5(_args: Array = []) -> Variant:
+	return null

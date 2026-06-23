@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "all"
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "prev", "parameters": [], "return_type": "Category"}, {"modifiers": ["public"], "name": "next", "parameters": [], "return_type": "Category"}]
 const JAVA_ENUM_CONSTANTS := ["turret", "production", "distribution", "liquid", "power", "defense", "crafting", "units", "effect", "logic"]
+
+func java_method_prev_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_next_1(_args: Array = []) -> Variant:
+	return null

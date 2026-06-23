@@ -12,3 +12,6 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private"], "name": "valid", "type
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ReqImage", "parameters": [{"name": "image", "type": "Element", "varargs": false}, {"name": "valid", "type": "Boolp", "varargs": false}]}, {"modifiers": ["public"], "name": "ReqImage", "parameters": [{"name": "region", "type": "TextureRegion", "varargs": false}, {"name": "valid", "type": "Boolp", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "valid", "parameters": [], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_valid_0(_args: Array = []) -> Variant:
+	return null

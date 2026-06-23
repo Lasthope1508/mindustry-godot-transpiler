@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "rub
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "apply", "parameters": [{"name": "fraction", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["static"], "name": "cost", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": "float"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_apply_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_cost_1(_args: Array = []) -> Variant:
+	return null

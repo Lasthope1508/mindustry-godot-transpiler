@@ -12,3 +12,18 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "usage", "type": "float"
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ConsumePower", "parameters": [{"name": "usage", "type": "float", "varargs": false}, {"name": "capacity", "type": "float", "varargs": false}, {"name": "buffered", "type": "boolean", "varargs": false}]}, {"modifiers": ["protected"], "name": "ConsumePower", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "apply", "parameters": [{"name": "block", "type": "Block", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "ignore", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "efficiency", "parameters": [{"name": "build", "type": "Building", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "display", "parameters": [{"name": "stats", "type": "Stats", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "requestedPower", "parameters": [{"name": "entity", "type": "Building", "varargs": false}], "return_type": "float"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_apply_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_ignore_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_efficiency_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_display_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_requestedPower_4(_args: Array = []) -> Variant:
+	return null

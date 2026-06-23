@@ -12,3 +12,6 @@ const JAVA_FIELDS := [{"modifiers": [], "name": "w", "type": "float"}]
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "HostDialog", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "runHost", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_runHost_0(_args: Array = []) -> Variant:
+	return null

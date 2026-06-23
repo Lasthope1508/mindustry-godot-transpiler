@@ -12,3 +12,24 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "groups", "type": "Seq"}
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "WaveGraph", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["private"], "name": "clampZoom", "parameters": [], "return_type": ""}, {"modifiers": ["private"], "name": "linePoint", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["private"], "name": "beginLine", "parameters": [], "return_type": ""}, {"modifiers": ["private"], "name": "endLine", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "rebuild", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "color", "parameters": [{"name": "type", "type": "UnitType", "varargs": false}], "return_type": "Color"}, {"modifiers": [], "name": "nextStep", "parameters": [{"name": "value", "type": "float", "varargs": false}], "return_type": "int"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_clampZoom_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_linePoint_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_beginLine_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_endLine_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_rebuild_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_color_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_nextStep_6(_args: Array = []) -> Variant:
+	return null

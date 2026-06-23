@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["public", "static"], "name": "black", "type
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "load", "parameters": [], "return_type": ""}, {"modifiers": ["private", "static"], "name": "createFlatDown", "parameters": [], "return_type": "Drawable"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_load_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_createFlatDown_1(_args: Array = []) -> Variant:
+	return null

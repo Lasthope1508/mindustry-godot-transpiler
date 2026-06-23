@@ -12,3 +12,12 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "comm
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "LogicDisplay", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "setStats", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["static"], "name": "unpackSign", "parameters": [{"name": "value", "type": "int", "varargs": false}], "return_type": "int"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_setStats_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_unpackSign_2(_args: Array = []) -> Variant:
+	return null

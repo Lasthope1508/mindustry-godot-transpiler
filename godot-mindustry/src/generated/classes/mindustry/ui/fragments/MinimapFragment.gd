@@ -12,3 +12,24 @@ const JAVA_FIELDS := [{"modifiers": ["private"], "name": "shown", "type": "boole
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["protected"], "name": "getRectBounds", "parameters": [], "return_type": "Rect"}, {"modifiers": ["public"], "name": "build", "parameters": [{"name": "parent", "type": "Group", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "panTo", "parameters": [{"name": "relativeX", "type": "float", "varargs": false}, {"name": "relativeY", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "convert", "parameters": [{"name": "relativeX", "type": "float", "varargs": false}, {"name": "relativeY", "type": "float", "varargs": false}], "return_type": "Vec2"}, {"modifiers": ["public"], "name": "shown", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "hide", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "toggle", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_getRectBounds_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_build_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_panTo_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_convert_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_shown_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hide_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_toggle_6(_args: Array = []) -> Variant:
+	return null

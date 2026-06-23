@@ -12,3 +12,21 @@ const JAVA_FIELDS := [{"modifiers": ["static"], "name": "wwidth", "type": "int"}
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "getAvoidance", "parameters": [], "return_type": "int"}, {"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "reset", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "begin", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "process", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "shouldProcess", "parameters": [], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_getAvoidance_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_reset_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_begin_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_process_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_shouldProcess_5(_args: Array = []) -> Variant:
+	return null

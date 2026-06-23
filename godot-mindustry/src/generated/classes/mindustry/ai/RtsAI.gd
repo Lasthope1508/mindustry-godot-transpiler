@@ -12,3 +12,21 @@ const JAVA_FIELDS := [{"modifiers": ["final", "static"], "name": "targets", "typ
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "RtsAI", "parameters": [{"name": "data", "type": "TeamData", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "update", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "checkBuilding", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "assignSquads", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "handleSquad", "parameters": [{"name": "units", "type": "Seq", "varargs": false}, {"name": "noDefenders", "type": "boolean", "varargs": false}], "return_type": "boolean"}, {"modifiers": [], "name": "findTarget", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "total", "type": "int", "varargs": false}, {"name": "dps", "type": "float", "varargs": false}, {"name": "health", "type": "float", "varargs": false}, {"name": "checkWeight", "type": "boolean", "varargs": false}, {"name": "air", "type": "boolean", "varargs": false}, {"name": "naval", "type": "boolean", "varargs": false}], "return_type": "Building"}, {"modifiers": [], "name": "estimateStats", "parameters": [{"name": "fromX", "type": "float", "varargs": false}, {"name": "fromY", "type": "float", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "selfDps", "type": "float", "varargs": false}, {"name": "selfHealth", "type": "float", "varargs": false}, {"name": "air", "type": "boolean", "varargs": false}], "return_type": "float"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_update_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkBuilding_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_assignSquads_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_handleSquad_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_findTarget_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_estimateStats_5(_args: Array = []) -> Variant:
+	return null

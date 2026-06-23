@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "unit", "type": "UnitTyp
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "SpawnDeathAbility", "parameters": [{"name": "unit", "type": "UnitType", "varargs": false}, {"name": "amount", "type": "int", "varargs": false}, {"name": "spread", "type": "float", "varargs": false}]}, {"modifiers": ["public"], "name": "SpawnDeathAbility", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "addStats", "parameters": [{"name": "t", "type": "Table", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "death", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_addStats_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_death_1(_args: Array = []) -> Variant:
+	return null

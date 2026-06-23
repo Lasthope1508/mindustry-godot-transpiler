@@ -12,3 +12,60 @@ const JAVA_FIELDS := [{"modifiers": [], "name": "rules", "type": "Rules"}, {"mod
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "CustomRulesDialog", "parameters": []}, {"modifiers": ["public"], "name": "CustomRulesDialog", "parameters": [{"name": "showRuleEditRule", "type": "boolean", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": [], "name": "refresh", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "show", "parameters": [{"name": "rules", "type": "Rules", "varargs": false}, {"name": "resetter", "type": "Prov", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "setup", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "setupMain", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "category", "parameters": [{"name": "name", "type": "String", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "addToMain", "parameters": [{"name": "category", "type": "Table", "varargs": false}, {"name": "title", "type": "String", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "team", "parameters": [{"name": "text", "type": "String", "varargs": false}, {"name": "cons", "type": "Cons", "varargs": false}, {"name": "prov", "type": "Prov", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "number", "parameters": [{"name": "text", "type": "String", "varargs": false}, {"name": "cons", "type": "Floatc", "varargs": false}, {"name": "prov", "type": "Floatp", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "number", "parameters": [{"name": "text", "type": "String", "varargs": false}, {"name": "cons", "type": "Floatc", "varargs": false}, {"name": "prov", "type": "Floatp", "varargs": false}, {"name": "min", "type": "float", "varargs": false}, {"name": "max", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "number", "parameters": [{"name": "text", "type": "String", "varargs": false}, {"name": "integer", "type": "boolean", "varargs": false}, {"name": "cons", "type": "Floatc", "varargs": false}, {"name": "prov", "type": "Floatp", "varargs": false}, {"name": "condition", "type": "Boolp", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "number", "parameters": [{"name": "text", "type": "String", "varargs": false}, {"name": "cons", "type": "Floatc", "varargs": false}, {"name": "prov", "type": "Floatp", "varargs": false}, {"name": "condition", "type": "Boolp", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "numberi", "parameters": [{"name": "text", "type": "String", "varargs": false}, {"name": "cons", "type": "Intc", "varargs": false}, {"name": "prov", "type": "Intp", "varargs": false}, {"name": "min", "type": "int", "varargs": false}, {"name": "max", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "numberi", "parameters": [{"name": "text", "type": "String", "varargs": false}, {"name": "cons", "type": "Intc", "varargs": false}, {"name": "prov", "type": "Intp", "varargs": false}, {"name": "condition", "type": "Boolp", "varargs": false}, {"name": "min", "type": "int", "varargs": false}, {"name": "max", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "number", "parameters": [{"name": "text", "type": "String", "varargs": false}, {"name": "integer", "type": "boolean", "varargs": false}, {"name": "cons", "type": "Floatc", "varargs": false}, {"name": "prov", "type": "Floatp", "varargs": false}, {"name": "condition", "type": "Boolp", "varargs": false}, {"name": "min", "type": "float", "varargs": false}, {"name": "max", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "check", "parameters": [{"name": "text", "type": "String", "varargs": false}, {"name": "cons", "type": "Boolc", "varargs": false}, {"name": "prov", "type": "Boolp", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "check", "parameters": [{"name": "text", "type": "String", "varargs": false}, {"name": "cons", "type": "Boolc", "varargs": false}, {"name": "prov", "type": "Boolp", "varargs": false}, {"name": "condition", "type": "Boolp", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "ruleInfo", "parameters": [{"name": "cell", "type": "Cell", "varargs": false}, {"name": "text", "type": "String", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "field", "parameters": [{"name": "table", "type": "Table", "varargs": false}, {"name": "value", "type": "float", "varargs": false}, {"name": "setter", "type": "Floatc", "varargs": false}], "return_type": "Cell"}, {"modifiers": [], "name": "weatherDialog", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_refresh_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_show_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setup_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setupMain_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_category_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_addToMain_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_team_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_number_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_number_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_number_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_number_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_numberi_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_numberi_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_number_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_check_14(_args: Array = []) -> Variant:
+	return null
+
+func java_method_check_15(_args: Array = []) -> Variant:
+	return null
+
+func java_method_ruleInfo_16(_args: Array = []) -> Variant:
+	return null
+
+func java_method_field_17(_args: Array = []) -> Variant:
+	return null
+
+func java_method_weatherDialog_18(_args: Array = []) -> Variant:
+	return null

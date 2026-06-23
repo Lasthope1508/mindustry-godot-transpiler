@@ -12,3 +12,36 @@ const JAVA_FIELDS := [{"modifiers": ["final"], "name": "applied", "type": "boole
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "MapGenerateDialog", "parameters": [{"name": "applied", "type": "boolean", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "show", "parameters": [{"name": "filters", "type": "Seq", "varargs": false}, {"name": "applier", "type": "Cons", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "show", "parameters": [{"name": "applier", "type": "Cons", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "applyToEditor", "parameters": [{"name": "filters", "type": "Seq", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "setup", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "create", "parameters": [], "return_type": "long"}, {"modifiers": [], "name": "rebuildFilters", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "showAdd", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "pack", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": "long"}, {"modifiers": [], "name": "unpack", "parameters": [{"name": "tile", "type": "long", "varargs": false}], "return_type": "Tile"}, {"modifiers": [], "name": "apply", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "update", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_show_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_show_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_applyToEditor_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setup_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_create_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_rebuildFilters_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showAdd_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_pack_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_unpack_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_apply_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_update_10(_args: Array = []) -> Variant:
+	return null

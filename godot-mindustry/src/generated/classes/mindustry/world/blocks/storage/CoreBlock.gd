@@ -12,3 +12,36 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "clou
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "CoreBlock", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "playerSpawn", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "player", "type": "Player", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "setStats", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "setBars", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "postInit", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "canBreak", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "canReplace", "parameters": [{"name": "other", "type": "Block", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "canPlaceOn", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "team", "type": "Team", "varargs": false}, {"name": "rotation", "type": "int", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "placeBegan", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "previous", "type": "Block", "varargs": false}, {"name": "builder", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "beforePlaceBegan", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "previous", "type": "Block", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawPlace", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}, {"name": "rotation", "type": "int", "varargs": false}, {"name": "valid", "type": "boolean", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_playerSpawn_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setStats_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setBars_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_postInit_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_canBreak_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_canReplace_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_canPlaceOn_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_placeBegan_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_beforePlaceBegan_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawPlace_10(_args: Array = []) -> Variant:
+	return null

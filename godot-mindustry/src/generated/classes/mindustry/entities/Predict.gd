@@ -12,3 +12,24 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "vec
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "intercept", "parameters": [{"name": "srcx", "type": "float", "varargs": false}, {"name": "srcy", "type": "float", "varargs": false}, {"name": "dstx", "type": "float", "varargs": false}, {"name": "dsty", "type": "float", "varargs": false}, {"name": "dstvx", "type": "float", "varargs": false}, {"name": "dstvy", "type": "float", "varargs": false}, {"name": "v", "type": "float", "varargs": false}], "return_type": "Vec2"}, {"modifiers": ["public", "static"], "name": "intercept", "parameters": [{"name": "src", "type": "Position", "varargs": false}, {"name": "dst", "type": "Position", "varargs": false}, {"name": "v", "type": "float", "varargs": false}], "return_type": "Vec2"}, {"modifiers": ["public", "static"], "name": "intercept", "parameters": [{"name": "src", "type": "Position", "varargs": false}, {"name": "dst", "type": "Position", "varargs": false}, {"name": "bullet", "type": "BulletType", "varargs": false}], "return_type": "Vec2"}, {"modifiers": ["public", "static"], "name": "intercept", "parameters": [{"name": "src", "type": "Position", "varargs": false}, {"name": "dst", "type": "Position", "varargs": false}, {"name": "offsetx", "type": "float", "varargs": false}, {"name": "offsety", "type": "float", "varargs": false}, {"name": "v", "type": "float", "varargs": false}], "return_type": "Vec2"}, {"modifiers": ["public", "static"], "name": "intercept", "parameters": [{"name": "src", "type": "Position", "varargs": false}, {"name": "dst", "type": "Position", "varargs": false}, {"name": "offsetx", "type": "float", "varargs": false}, {"name": "offsety", "type": "float", "varargs": false}, {"name": "useSrcVelocity", "type": "boolean", "varargs": false}, {"name": "v", "type": "float", "varargs": false}], "return_type": "Vec2"}, {"modifiers": ["public", "static"], "name": "intercept", "parameters": [{"name": "src", "type": "Hitboxc", "varargs": false}, {"name": "dst", "type": "Hitboxc", "varargs": false}, {"name": "v", "type": "float", "varargs": false}], "return_type": "Vec2"}, {"modifiers": ["private", "static"], "name": "quad", "parameters": [{"name": "a", "type": "float", "varargs": false}, {"name": "b", "type": "float", "varargs": false}, {"name": "c", "type": "float", "varargs": false}], "return_type": "Vec2"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_intercept_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_intercept_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_intercept_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_intercept_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_intercept_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_intercept_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_quad_6(_args: Array = []) -> Variant:
+	return null

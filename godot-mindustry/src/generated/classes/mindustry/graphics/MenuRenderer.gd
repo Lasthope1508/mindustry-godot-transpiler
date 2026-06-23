@@ -12,3 +12,21 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "dar
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "MenuRenderer", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["private"], "name": "generate", "parameters": [], "return_type": ""}, {"modifiers": ["private"], "name": "cache", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "render", "parameters": [], "return_type": ""}, {"modifiers": ["private"], "name": "drawFlyers", "parameters": [], "return_type": ""}, {"modifiers": ["private"], "name": "flyers", "parameters": [{"name": "cons", "type": "Floatc2", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "dispose", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_generate_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_cache_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_render_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawFlyers_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_flyers_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_dispose_5(_args: Array = []) -> Variant:
+	return null

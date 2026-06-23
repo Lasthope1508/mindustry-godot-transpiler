@@ -12,3 +12,15 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private"], "name": "rules", "type
 const JAVA_CONSTRUCTORS := [{"modifiers": [], "name": "Gamemode", "parameters": [{"name": "rules", "type": "Cons", "varargs": false}]}, {"modifiers": [], "name": "Gamemode", "parameters": [{"name": "hidden", "type": "boolean", "varargs": false}, {"name": "rules", "type": "Cons", "varargs": false}]}, {"modifiers": [], "name": "Gamemode", "parameters": [{"name": "rules", "type": "Cons", "varargs": false}, {"name": "validator", "type": "Boolf", "varargs": false}]}, {"modifiers": [], "name": "Gamemode", "parameters": [{"name": "hidden", "type": "boolean", "varargs": false}, {"name": "rules", "type": "Cons", "varargs": false}, {"name": "validator", "type": "Boolf", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "apply", "parameters": [{"name": "in", "type": "Rules", "varargs": false}], "return_type": "Rules"}, {"modifiers": ["public"], "name": "valid", "parameters": [{"name": "map", "type": "Map", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "description", "parameters": [], "return_type": "String"}, {"modifiers": ["public"], "name": "toString", "parameters": [], "return_type": "String"}]
 const JAVA_ENUM_CONSTANTS := ["survival", "sandbox", "attack", "pvp", "editor"]
+
+func java_method_apply_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_valid_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_description_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_toString_3(_args: Array = []) -> Variant:
+	return null

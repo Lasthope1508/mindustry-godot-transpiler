@@ -12,3 +12,6 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "minCharge", "type": "fl
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ConsumeItemCharged", "parameters": [{"name": "minCharge", "type": "float", "varargs": false}]}, {"modifiers": ["public"], "name": "ConsumeItemCharged", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "itemEfficiencyMultiplier", "parameters": [{"name": "item", "type": "Item", "varargs": false}], "return_type": "float"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_itemEfficiencyMultiplier_0(_args: Array = []) -> Variant:
+	return null

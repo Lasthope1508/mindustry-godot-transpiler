@@ -12,3 +12,18 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "pierceEffect", "type": 
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "RailBulletType", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["protected"], "name": "calculateRange", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "handlePierce", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}, {"name": "initialHealth", "type": "float", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "init", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "testCollision", "parameters": [{"name": "bullet", "type": "Bullet", "varargs": false}, {"name": "tile", "type": "Building", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "hitTile", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}, {"name": "build", "type": "Building", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "initialHealth", "type": "float", "varargs": false}, {"name": "direct", "type": "boolean", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_calculateRange_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_handlePierce_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_testCollision_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hitTile_4(_args: Array = []) -> Variant:
+	return null

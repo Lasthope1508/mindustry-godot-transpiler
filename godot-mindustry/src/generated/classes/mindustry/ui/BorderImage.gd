@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "thickness", "type": "fl
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "BorderImage", "parameters": []}, {"modifiers": ["public"], "name": "BorderImage", "parameters": [{"name": "texture", "type": "Texture", "varargs": false}]}, {"modifiers": ["public"], "name": "BorderImage", "parameters": [{"name": "texture", "type": "Texture", "varargs": false}, {"name": "thick", "type": "float", "varargs": false}]}, {"modifiers": ["public"], "name": "BorderImage", "parameters": [{"name": "region", "type": "TextureRegion", "varargs": false}, {"name": "thick", "type": "float", "varargs": false}]}, {"modifiers": ["public"], "name": "BorderImage", "parameters": [{"name": "region", "type": "Drawable", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "border", "parameters": [{"name": "color", "type": "Color", "varargs": false}], "return_type": "BorderImage"}, {"modifiers": ["public"], "name": "draw", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_border_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_draw_1(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,15 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "shadowOffset", "type": 
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "TallBlock", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "drawBase", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawShadow", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "icons", "parameters": [], "return_type": "TextureRegion"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_init_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawBase_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawShadow_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_icons_3(_args: Array = []) -> Variant:
+	return null

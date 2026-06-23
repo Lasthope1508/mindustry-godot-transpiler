@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "shadowOffset", "type": 
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "TreeBlock", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "drawBase", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawShadow", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_drawBase_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawShadow_1(_args: Array = []) -> Variant:
+	return null

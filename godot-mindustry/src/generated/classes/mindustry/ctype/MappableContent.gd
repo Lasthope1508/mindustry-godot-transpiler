@@ -12,3 +12,6 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public"], "name": "name", "type":
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "MappableContent", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "toString", "parameters": [], "return_type": "String"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_toString_0(_args: Array = []) -> Variant:
+	return null

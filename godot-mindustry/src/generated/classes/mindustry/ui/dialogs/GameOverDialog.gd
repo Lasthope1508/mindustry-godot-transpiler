@@ -12,3 +12,12 @@ const JAVA_FIELDS := [{"modifiers": ["private"], "name": "winner", "type": "Team
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "GameOverDialog", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "show", "parameters": [{"name": "winner", "type": "Team", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "rebuild", "parameters": [], "return_type": ""}, {"modifiers": ["private"], "name": "addStat", "parameters": [{"name": "parent", "type": "Table", "varargs": false}, {"name": "stat", "type": "String", "varargs": false}, {"name": "value", "type": "int", "varargs": false}, {"name": "delay", "type": "float", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_show_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_rebuild_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_addStat_2(_args: Array = []) -> Variant:
+	return null

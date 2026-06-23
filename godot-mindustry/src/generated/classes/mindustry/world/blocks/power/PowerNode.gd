@@ -12,3 +12,75 @@ const JAVA_FIELDS := [{"modifiers": ["protected", "static"], "name": "returnInt"
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "PowerNode", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "setBars", "parameters": [], "return_type": ""}, {"modifiers": ["public", "static"], "name": "makePowerBalance", "parameters": [], "return_type": "Func"}, {"modifiers": ["public", "static"], "name": "makeBatteryBalance", "parameters": [], "return_type": "Func"}, {"modifiers": ["public"], "name": "setStats", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "drawPlace", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}, {"name": "rotation", "type": "int", "varargs": false}, {"name": "valid", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "changePlacementPath", "parameters": [{"name": "points", "type": "Seq", "varargs": false}, {"name": "rotation", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["protected"], "name": "setupColor", "parameters": [{"name": "satisfaction", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawLaser", "parameters": [{"name": "x1", "type": "float", "varargs": false}, {"name": "y1", "type": "float", "varargs": false}, {"name": "x2", "type": "float", "varargs": false}, {"name": "y2", "type": "float", "varargs": false}, {"name": "size1", "type": "int", "varargs": false}, {"name": "size2", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawLaser", "parameters": [{"name": "x1", "type": "float", "varargs": false}, {"name": "y1", "type": "float", "varargs": false}, {"name": "x2", "type": "float", "varargs": false}, {"name": "y2", "type": "float", "varargs": false}, {"name": "size1", "type": "int", "varargs": false}, {"name": "size2", "type": "int", "varargs": false}, {"name": "light", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["protected"], "name": "overlaps", "parameters": [{"name": "srcx", "type": "float", "varargs": false}, {"name": "srcy", "type": "float", "varargs": false}, {"name": "other", "type": "Tile", "varargs": false}, {"name": "otherBlock", "type": "Block", "varargs": false}, {"name": "range", "type": "float", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["protected"], "name": "overlaps", "parameters": [{"name": "srcx", "type": "float", "varargs": false}, {"name": "srcy", "type": "float", "varargs": false}, {"name": "other", "type": "Tile", "varargs": false}, {"name": "range", "type": "float", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["protected"], "name": "overlaps", "parameters": [{"name": "src", "type": "Building", "varargs": false}, {"name": "other", "type": "Building", "varargs": false}, {"name": "range", "type": "float", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["protected"], "name": "overlaps", "parameters": [{"name": "src", "type": "Tile", "varargs": false}, {"name": "other", "type": "Tile", "varargs": false}, {"name": "range", "type": "float", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "overlaps", "parameters": [{"name": "src", "type": "Tile", "varargs": false}, {"name": "other", "type": "Tile", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["protected"], "name": "getPotentialLinks", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "team", "type": "Team", "varargs": false}, {"name": "others", "type": "Cons", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "getNodeLinks", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "block", "type": "Block", "varargs": false}, {"name": "team", "type": "Team", "varargs": false}, {"name": "others", "type": "Cons", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawPlanConfigTop", "parameters": [{"name": "plan", "type": "BuildPlan", "varargs": false}, {"name": "list", "type": "Eachable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "planConfigClipSize", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "linkValid", "parameters": [{"name": "tile", "type": "Building", "varargs": false}, {"name": "link", "type": "Building", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "linkValid", "parameters": [{"name": "tile", "type": "Building", "varargs": false}, {"name": "link", "type": "Building", "varargs": false}, {"name": "checkMaxNodes", "type": "boolean", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public", "static"], "name": "insulated", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "other", "type": "Tile", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public", "static"], "name": "insulated", "parameters": [{"name": "tile", "type": "Building", "varargs": false}, {"name": "other", "type": "Building", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public", "static"], "name": "insulated", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}, {"name": "x2", "type": "int", "varargs": false}, {"name": "y2", "type": "int", "varargs": false}], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_setBars_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_makePowerBalance_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_makeBatteryBalance_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setStats_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawPlace_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_changePlacementPath_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setupColor_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawLaser_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawLaser_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_overlaps_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_overlaps_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_overlaps_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_overlaps_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_overlaps_14(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getPotentialLinks_15(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getNodeLinks_16(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawPlanConfigTop_17(_args: Array = []) -> Variant:
+	return null
+
+func java_method_planConfigClipSize_18(_args: Array = []) -> Variant:
+	return null
+
+func java_method_linkValid_19(_args: Array = []) -> Variant:
+	return null
+
+func java_method_linkValid_20(_args: Array = []) -> Variant:
+	return null
+
+func java_method_insulated_21(_args: Array = []) -> Variant:
+	return null
+
+func java_method_insulated_22(_args: Array = []) -> Variant:
+	return null
+
+func java_method_insulated_23(_args: Array = []) -> Variant:
+	return null

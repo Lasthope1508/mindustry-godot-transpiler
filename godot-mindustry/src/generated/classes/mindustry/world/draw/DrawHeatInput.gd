@@ -12,3 +12,12 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "suffix", "type": "Strin
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "DrawHeatInput", "parameters": [{"name": "suffix", "type": "String", "varargs": false}]}, {"modifiers": ["public"], "name": "DrawHeatInput", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "drawPlan", "parameters": [{"name": "block", "type": "Block", "varargs": false}, {"name": "plan", "type": "BuildPlan", "varargs": false}, {"name": "list", "type": "Eachable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "draw", "parameters": [{"name": "build", "type": "Building", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "load", "parameters": [{"name": "block", "type": "Block", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_drawPlan_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_draw_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_load_2(_args: Array = []) -> Variant:
+	return null

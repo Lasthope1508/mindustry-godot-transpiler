@@ -12,3 +12,96 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "tmp
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "Sector", "parameters": [{"name": "planet", "type": "Planet", "varargs": false}, {"name": "tile", "type": "Ptile", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "near", "parameters": [], "return_type": "Seq"}, {"modifiers": ["public"], "name": "near", "parameters": [{"name": "cons", "type": "Cons", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "isNear", "parameters": [{"name": "other", "type": "Sector", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "displayThreat", "parameters": [], "return_type": "String"}, {"modifiers": ["public"], "name": "unlocked", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "allowLaunchSchematics", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "allowLaunchLoadout", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "saveInfo", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "loadInfo", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "clearInfo", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "isShielded", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "isAttacked", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "hasBase", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "isFrozen", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "hasEnemyBase", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "isBeingPlayed", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "name", "parameters": [], "return_type": "String"}, {"modifiers": ["public"], "name": "setName", "parameters": [{"name": "name", "type": "String", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "icon", "parameters": [], "return_type": "TextureRegion"}, {"modifiers": ["public"], "name": "iconChar", "parameters": [], "return_type": "String"}, {"modifiers": ["public"], "name": "isCaptured", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "hasSave", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "locked", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "getLight", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "getSize", "parameters": [], "return_type": "int"}, {"modifiers": ["public"], "name": "removeItems", "parameters": [{"name": "items", "type": "ItemSeq", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "removeItem", "parameters": [{"name": "item", "type": "Item", "varargs": false}, {"name": "amount", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "addItems", "parameters": [{"name": "items", "type": "ItemSeq", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "items", "parameters": [], "return_type": "ItemSeq"}, {"modifiers": ["public"], "name": "toString", "parameters": [], "return_type": "String"}, {"modifiers": ["protected"], "name": "makeRect", "parameters": [], "return_type": "SectorRect"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_near_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_near_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isNear_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_displayThreat_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_unlocked_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_allowLaunchSchematics_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_allowLaunchLoadout_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_saveInfo_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadInfo_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_clearInfo_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isShielded_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isAttacked_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hasBase_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isFrozen_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hasEnemyBase_14(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isBeingPlayed_15(_args: Array = []) -> Variant:
+	return null
+
+func java_method_name_16(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setName_17(_args: Array = []) -> Variant:
+	return null
+
+func java_method_icon_18(_args: Array = []) -> Variant:
+	return null
+
+func java_method_iconChar_19(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isCaptured_20(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hasSave_21(_args: Array = []) -> Variant:
+	return null
+
+func java_method_locked_22(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getLight_23(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getSize_24(_args: Array = []) -> Variant:
+	return null
+
+func java_method_removeItems_25(_args: Array = []) -> Variant:
+	return null
+
+func java_method_removeItem_26(_args: Array = []) -> Variant:
+	return null
+
+func java_method_addItems_27(_args: Array = []) -> Variant:
+	return null
+
+func java_method_items_28(_args: Array = []) -> Variant:
+	return null
+
+func java_method_toString_29(_args: Array = []) -> Variant:
+	return null
+
+func java_method_makeRect_30(_args: Array = []) -> Variant:
+	return null

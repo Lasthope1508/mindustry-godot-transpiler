@@ -12,3 +12,18 @@ const JAVA_FIELDS := [{"modifiers": ["private"], "name": "processors", "type": "
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "PausedDialog", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": [], "name": "rebuild", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "showQuitConfirm", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "checkPlaytest", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "runExitSave", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "runExitSave", "parameters": [{"name": "save", "type": "boolean", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_rebuild_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showQuitConfirm_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkPlaytest_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_runExitSave_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_runExitSave_4(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,6 @@ const JAVA_FIELDS := [{"modifiers": ["private"], "name": "consumer", "type": "In
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "IconSelectDialog", "parameters": []}, {"modifiers": ["public"], "name": "IconSelectDialog", "parameters": [{"name": "allowLocked", "type": "boolean", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "show", "parameters": [{"name": "listener", "type": "Intc", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_show_0(_args: Array = []) -> Variant:
+	return null

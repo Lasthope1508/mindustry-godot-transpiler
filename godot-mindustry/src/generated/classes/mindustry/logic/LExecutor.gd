@@ -12,3 +12,60 @@ const JAVA_FIELDS := [{"modifiers": ["public", "static"], "name": "maxInstructio
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "runLogicScript", "parameters": [{"name": "code", "type": "String", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "runLogicScript", "parameters": [{"name": "code", "type": "String", "varargs": false}, {"name": "maxInstructions", "type": "int", "varargs": false}, {"name": "loop", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "timeoutDone", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "delay", "type": "float", "varargs": false}], "return_type": "boolean"}, {"modifiers": [], "name": "updateTimeout", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "initialized", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "runOnce", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "load", "parameters": [{"name": "builder", "type": "LAssembler", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "optionalVar", "parameters": [{"name": "name", "type": "String", "varargs": false}], "return_type": "LVar"}, {"modifiers": ["public"], "name": "optionalVar", "parameters": [{"name": "index", "type": "int", "varargs": false}], "return_type": "LVar"}, {"modifiers": ["static"], "name": "checkMapArea", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}, {"name": "w", "type": "int", "varargs": false}, {"name": "h", "type": "int", "varargs": false}, {"name": "set", "type": "boolean", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public", "static"], "name": "setMapArea", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}, {"name": "w", "type": "int", "varargs": false}, {"name": "h", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "logicExplosion", "parameters": [{"name": "team", "type": "Team", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "radius", "type": "float", "varargs": false}, {"name": "damage", "type": "float", "varargs": false}, {"name": "air", "type": "boolean", "varargs": false}, {"name": "ground", "type": "boolean", "varargs": false}, {"name": "pierce", "type": "boolean", "varargs": false}, {"name": "effect", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "syncVariable", "parameters": [{"name": "building", "type": "Building", "varargs": false}, {"name": "variable", "type": "int", "varargs": false}, {"name": "value", "type": "Object", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "setFlag", "parameters": [{"name": "flag", "type": "String", "varargs": false}, {"name": "add", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "createMarker", "parameters": [{"name": "id", "type": "int", "varargs": false}, {"name": "marker", "type": "ObjectiveMarker", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "removeMarker", "parameters": [{"name": "id", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "updateMarker", "parameters": [{"name": "id", "type": "int", "varargs": false}, {"name": "control", "type": "LMarkerControl", "varargs": false}, {"name": "p1", "type": "double", "varargs": false}, {"name": "p2", "type": "double", "varargs": false}, {"name": "p3", "type": "double", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "updateMarkerText", "parameters": [{"name": "id", "type": "int", "varargs": false}, {"name": "type", "type": "LMarkerControl", "varargs": false}, {"name": "fetch", "type": "boolean", "varargs": false}, {"name": "text", "type": "String", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "updateMarkerTexture", "parameters": [{"name": "id", "type": "int", "varargs": false}, {"name": "texture", "type": "Object", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_runLogicScript_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_runLogicScript_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_timeoutDone_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateTimeout_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_initialized_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_runOnce_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_load_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_optionalVar_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_optionalVar_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkMapArea_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setMapArea_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_logicExplosion_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_syncVariable_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setFlag_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_createMarker_14(_args: Array = []) -> Variant:
+	return null
+
+func java_method_removeMarker_15(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateMarker_16(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateMarkerText_17(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateMarkerTexture_18(_args: Array = []) -> Variant:
+	return null

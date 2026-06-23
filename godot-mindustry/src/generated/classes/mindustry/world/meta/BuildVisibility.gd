@@ -12,3 +12,6 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "hidd
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "BuildVisibility", "parameters": [{"name": "visible", "type": "Boolp", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "visible", "parameters": [], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_visible_0(_args: Array = []) -> Variant:
+	return null

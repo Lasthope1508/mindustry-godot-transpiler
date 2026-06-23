@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "col
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "dispose", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "draw", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_dispose_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_draw_1(_args: Array = []) -> Variant:
+	return null

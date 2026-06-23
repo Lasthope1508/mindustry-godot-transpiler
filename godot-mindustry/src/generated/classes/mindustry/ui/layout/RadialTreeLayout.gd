@@ -12,3 +12,12 @@ const JAVA_FIELDS := [{"modifiers": ["private", "static"], "name": "visited", "t
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "layout", "parameters": [{"name": "root", "type": "TreeNode", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "radialize", "parameters": [{"name": "root", "type": "TreeNode", "varargs": false}, {"name": "radius", "type": "float", "varargs": false}, {"name": "from", "type": "float", "varargs": false}, {"name": "to", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "bfs", "parameters": [{"name": "node", "type": "TreeNode", "varargs": false}, {"name": "assign", "type": "boolean", "varargs": false}], "return_type": "int"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_layout_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_radialize_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_bfs_2(_args: Array = []) -> Variant:
+	return null

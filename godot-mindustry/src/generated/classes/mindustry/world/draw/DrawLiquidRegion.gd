@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "drawLiquid", "type": "L
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "DrawLiquidRegion", "parameters": [{"name": "drawLiquid", "type": "Liquid", "varargs": false}]}, {"modifiers": ["public"], "name": "DrawLiquidRegion", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "draw", "parameters": [{"name": "build", "type": "Building", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "load", "parameters": [{"name": "block", "type": "Block", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_draw_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_load_1(_args: Array = []) -> Variant:
+	return null

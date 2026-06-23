@@ -12,3 +12,15 @@ const JAVA_FIELDS := [{"modifiers": [], "name": "planet", "type": "Planet"}, {"m
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "CampaignRulesDialog", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": [], "name": "rebuild", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "show", "parameters": [{"name": "planet", "type": "Planet", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "check", "parameters": [{"name": "text", "type": "String", "varargs": false}, {"name": "cons", "type": "Boolc", "varargs": false}, {"name": "prov", "type": "Boolp", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "check", "parameters": [{"name": "text", "type": "String", "varargs": false}, {"name": "cons", "type": "Boolc", "varargs": false}, {"name": "prov", "type": "Boolp", "varargs": false}, {"name": "condition", "type": "Boolp", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_rebuild_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_show_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_check_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_check_3(_args: Array = []) -> Variant:
+	return null

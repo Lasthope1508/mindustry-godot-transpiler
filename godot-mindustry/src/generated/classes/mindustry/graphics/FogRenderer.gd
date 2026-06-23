@@ -12,3 +12,24 @@ const JAVA_FIELDS := [{"modifiers": ["private"], "name": "staticFog", "type": "F
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "FogRenderer", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "handleEvent", "parameters": [{"name": "event", "type": "long", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getStaticTexture", "parameters": [], "return_type": "Texture"}, {"modifiers": ["public"], "name": "getDynamicTexture", "parameters": [], "return_type": "Texture"}, {"modifiers": ["public"], "name": "drawFog", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "poly", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "rad", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "renderEvent", "parameters": [{"name": "e", "type": "long", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "copyFromCpu", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_handleEvent_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getStaticTexture_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getDynamicTexture_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawFog_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_poly_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_renderEvent_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_copyFromCpu_6(_args: Array = []) -> Variant:
+	return null

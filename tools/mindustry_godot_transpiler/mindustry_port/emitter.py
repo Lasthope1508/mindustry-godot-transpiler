@@ -1,4 +1,5 @@
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -12,6 +13,28 @@ def gdscript_literal(value: Any) -> str:
 def _script_path(java_file: dict, type_entry: dict) -> Path:
     package_path = java_file.get("package", "").replace(".", "/")
     return Path(package_path) / f"{type_entry['name']}.gd"
+
+
+def _gd_identifier(value: str) -> str:
+    identifier = re.sub(r"[^A-Za-z0-9_]", "_", value)
+    identifier = re.sub(r"_+", "_", identifier).strip("_")
+    if not identifier:
+        return "unnamed"
+    if identifier[0].isdigit():
+        return f"_{identifier}"
+    return identifier
+
+
+def _method_stub_lines(type_entry: dict) -> list[str]:
+    lines = []
+    for index, method in enumerate(type_entry.get("methods", [])):
+        name = _gd_identifier(method.get("name", "method"))
+        lines.extend([
+            "",
+            f"func java_method_{name}_{index}(_args: Array = []) -> Variant:",
+            "\treturn null",
+        ])
+    return lines
 
 
 def _script_text(java_file: dict, type_entry: dict) -> str:
@@ -30,8 +53,9 @@ def _script_text(java_file: dict, type_entry: dict) -> str:
         f"const JAVA_CONSTRUCTORS := {gdscript_literal(type_entry.get('constructors', []))}",
         f"const JAVA_METHODS := {gdscript_literal(type_entry.get('methods', []))}",
         f"const JAVA_ENUM_CONSTANTS := {gdscript_literal(type_entry.get('enum_constants', []))}",
-        "",
     ]
+    lines.extend(_method_stub_lines(type_entry))
+    lines.append("")
     return "\n".join(lines)
 
 def _registry_entry(java_file: dict, type_entry: dict, relative: Path) -> dict:

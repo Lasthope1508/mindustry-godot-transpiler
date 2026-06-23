@@ -12,3 +12,6 @@ const JAVA_FIELDS := []
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "LegacySaveVersion2", "parameters": [{"name": "version", "type": "int", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "readWorldEntities", "parameters": [{"name": "stream", "type": "DataInput", "varargs": false}, {"name": "mapping", "type": "Prov", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_readWorldEntities_0(_args: Array = []) -> Variant:
+	return null

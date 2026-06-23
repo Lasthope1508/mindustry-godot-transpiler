@@ -12,3 +12,27 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "tran
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "keepState", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "updateMovement", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "checkTargetTimer", "parameters": [{"name": "radar", "type": "Object", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "checkTarget", "parameters": [{"name": "target", "type": "Teamc", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "range", "type": "float", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "retarget", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "invalid", "parameters": [{"name": "target", "type": "Teamc", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "shouldShoot", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "target", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "range", "type": "float", "varargs": false}, {"name": "air", "type": "boolean", "varargs": false}, {"name": "ground", "type": "boolean", "varargs": false}], "return_type": "Teamc"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_keepState_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateMovement_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkTargetTimer_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkTarget_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_retarget_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_invalid_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_shouldShoot_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_target_7(_args: Array = []) -> Variant:
+	return null

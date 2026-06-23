@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["public", "static"], "name": "blockbuild", 
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public", "static"], "name": "getShaderFi", "parameters": [{"name": "file", "type": "String", "varargs": false}], "return_type": "Fi"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_init_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getShaderFi_1(_args: Array = []) -> Variant:
+	return null

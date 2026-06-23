@@ -12,3 +12,21 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "fram
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "update", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "draw", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "clipSize", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "remove", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "afterRead", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "afterSync", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_update_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_draw_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_clipSize_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_remove_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_afterRead_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_afterSync_5(_args: Array = []) -> Variant:
+	return null

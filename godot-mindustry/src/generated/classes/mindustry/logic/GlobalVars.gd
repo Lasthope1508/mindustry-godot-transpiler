@@ -12,3 +12,51 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "ctrl
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "update", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "waitVar", "parameters": [], "return_type": "LVar"}, {"modifiers": ["public"], "name": "getEntries", "parameters": [], "return_type": "Seq"}, {"modifiers": ["public"], "name": "lookupContent", "parameters": [{"name": "type", "type": "ContentType", "varargs": false}, {"name": "id", "type": "int", "varargs": false}], "return_type": "Object"}, {"modifiers": ["public"], "name": "lookupLogicId", "parameters": [{"name": "content", "type": "UnlockableContent", "varargs": false}], "return_type": "int"}, {"modifiers": ["public"], "name": "get", "parameters": [{"name": "name", "type": "String", "varargs": false}], "return_type": "LVar"}, {"modifiers": ["public"], "name": "get", "parameters": [{"name": "name", "type": "String", "varargs": false}, {"name": "privileged", "type": "boolean", "varargs": false}], "return_type": "LVar"}, {"modifiers": ["public"], "name": "set", "parameters": [{"name": "name", "type": "String", "varargs": false}, {"name": "value", "type": "double", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "put", "parameters": [{"name": "name", "type": "String", "varargs": false}, {"name": "value", "type": "Object", "varargs": false}, {"name": "privileged", "type": "boolean", "varargs": false}], "return_type": "LVar"}, {"modifiers": ["public"], "name": "put", "parameters": [{"name": "name", "type": "String", "varargs": false}, {"name": "value", "type": "Object", "varargs": false}, {"name": "privileged", "type": "boolean", "varargs": false}, {"name": "hidden", "type": "boolean", "varargs": false}], "return_type": "LVar"}, {"modifiers": ["public"], "name": "remove", "parameters": [{"name": "lvar", "type": "LVar", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "put", "parameters": [{"name": "name", "type": "String", "varargs": false}, {"name": "value", "type": "Object", "varargs": false}], "return_type": "LVar"}, {"modifiers": ["public"], "name": "putEntry", "parameters": [{"name": "name", "type": "String", "varargs": false}, {"name": "value", "type": "Object", "varargs": false}], "return_type": "LVar"}, {"modifiers": ["public"], "name": "putEntry", "parameters": [{"name": "name", "type": "String", "varargs": false}, {"name": "value", "type": "Object", "varargs": false}, {"name": "privileged", "type": "boolean", "varargs": false}], "return_type": "LVar"}, {"modifiers": ["public"], "name": "putEntryOnly", "parameters": [{"name": "name", "type": "String", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_init_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_update_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_waitVar_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getEntries_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_lookupContent_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_lookupLogicId_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_get_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_get_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_set_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_put_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_put_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_remove_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_put_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_putEntry_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_putEntry_14(_args: Array = []) -> Variant:
+	return null
+
+func java_method_putEntryOnly_15(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,18 @@ const JAVA_FIELDS := [{"modifiers": ["static"], "name": "priorities", "type": "f
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "sortPlans", "parameters": [{"name": "plans", "type": "Queue", "varargs": false}], "return_type": ""}, {"modifiers": ["private"], "name": "canBuild", "parameters": [{"name": "core", "type": "CoreBuild", "varargs": false}, {"name": "block", "type": "Block", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["private"], "name": "findNextPlan", "parameters": [], "return_type": "BlockPlan"}, {"modifiers": ["public"], "name": "updateMovement", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "doMining", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_sortPlans_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_canBuild_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_findNextPlan_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateMovement_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_doMining_4(_args: Array = []) -> Variant:
+	return null

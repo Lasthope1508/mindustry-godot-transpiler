@@ -12,3 +12,21 @@ const JAVA_FIELDS := [{"modifiers": ["private"], "name": "hider", "type": "Runna
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "LoadoutDialog", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "maxItems", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "show", "parameters": [{"name": "capacity", "type": "int", "varargs": false}, {"name": "stacks", "type": "Seq", "varargs": false}, {"name": "validator", "type": "Boolf", "varargs": false}, {"name": "reseter", "type": "Runnable", "varargs": false}, {"name": "updater", "type": "Runnable", "varargs": false}, {"name": "hider", "type": "Runnable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "show", "parameters": [{"name": "capacity", "type": "int", "varargs": false}, {"name": "total", "type": "ItemSeq", "varargs": false}, {"name": "stacks", "type": "Seq", "varargs": false}, {"name": "validator", "type": "Boolf", "varargs": false}, {"name": "reseter", "type": "Runnable", "varargs": false}, {"name": "updater", "type": "Runnable", "varargs": false}, {"name": "hider", "type": "Runnable", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "setup", "parameters": [], "return_type": ""}, {"modifiers": ["private"], "name": "reseed", "parameters": [], "return_type": ""}, {"modifiers": ["private"], "name": "step", "parameters": [{"name": "amount", "type": "int", "varargs": false}], "return_type": "int"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_maxItems_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_show_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_show_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setup_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_reseed_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_step_5(_args: Array = []) -> Variant:
+	return null

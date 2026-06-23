@@ -12,3 +12,6 @@ const JAVA_FIELDS := []
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "LegacyRegionSaveVersion", "parameters": [{"name": "version", "type": "int", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "read", "parameters": [{"name": "stream", "type": "DataInputStream", "varargs": false}, {"name": "counter", "type": "CounterInputStream", "varargs": false}, {"name": "context", "type": "WorldContext", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_read_0(_args: Array = []) -> Variant:
+	return null

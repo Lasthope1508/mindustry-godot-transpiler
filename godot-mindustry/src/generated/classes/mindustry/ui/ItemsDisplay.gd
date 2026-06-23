@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": [], "name": "collapsed", "type": "boolean"}]
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ItemsDisplay", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "rebuild", "parameters": [{"name": "items", "type": "ItemSeq", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "rebuild", "parameters": [{"name": "items", "type": "ItemSeq", "varargs": false}, {"name": "shine", "type": "boolean", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_rebuild_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_rebuild_1(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,18 @@ const JAVA_FIELDS := [{"modifiers": ["private", "static"], "name": "paramUnit", 
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "addStats", "parameters": [{"name": "t", "type": "Table", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "update", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "created", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "draw", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "displayBars", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "bars", "type": "Table", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_addStats_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_update_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_created_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_draw_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_displayBars_4(_args: Array = []) -> Variant:
+	return null

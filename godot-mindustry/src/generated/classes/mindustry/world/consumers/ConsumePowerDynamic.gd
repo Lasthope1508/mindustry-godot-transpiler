@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private"], "name": "usage", "type
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ConsumePowerDynamic", "parameters": [{"name": "usage", "type": "Floatf", "varargs": false}]}, {"modifiers": ["public"], "name": "ConsumePowerDynamic", "parameters": [{"name": "displayed", "type": "float", "varargs": false}, {"name": "usage", "type": "Floatf", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "requestedPower", "parameters": [{"name": "entity", "type": "Building", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "display", "parameters": [{"name": "stats", "type": "Stats", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_requestedPower_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_display_1(_args: Array = []) -> Variant:
+	return null

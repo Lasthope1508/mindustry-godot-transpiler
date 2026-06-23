@@ -12,3 +12,18 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "generateEffect", "type"
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ThermalGenerator", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "getDisplayedPowerProduction", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "setStats", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "drawPlace", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}, {"name": "rotation", "type": "int", "varargs": false}, {"name": "valid", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "canPlaceOn", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "team", "type": "Team", "varargs": false}, {"name": "rotation", "type": "int", "varargs": false}], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_getDisplayedPowerProduction_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setStats_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawPlace_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_canPlaceOn_4(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,18 @@ const JAVA_FIELDS := [{"modifiers": [], "name": "groups", "type": "Seq"}, {"modi
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "WaveInfoDialog", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": [], "name": "setup", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "buildGroups", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "showUnits", "parameters": [{"name": "cons", "type": "Cons", "varargs": false}, {"name": "reset", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "showEffects", "parameters": [{"name": "group", "type": "SpawnGroup", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "updateWaves", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_setup_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_buildGroups_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showUnits_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showEffects_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateWaves_4(_args: Array = []) -> Variant:
+	return null

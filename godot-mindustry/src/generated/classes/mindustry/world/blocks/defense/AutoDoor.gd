@@ -12,3 +12,6 @@ const JAVA_FIELDS := [{"modifiers": ["final", "protected", "static"], "name": "r
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "AutoDoor", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "autoDoorToggle", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "open", "type": "boolean", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_autoDoorToggle_0(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,12 @@ const JAVA_FIELDS := []
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "SaveDialog", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "addSetup", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "modifyButton", "parameters": [{"name": "button", "type": "TextButton", "varargs": false}, {"name": "slot", "type": "SaveSlot", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "save", "parameters": [{"name": "slot", "type": "SaveSlot", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_addSetup_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_modifyButton_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_save_2(_args: Array = []) -> Variant:
+	return null

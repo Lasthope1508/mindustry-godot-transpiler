@@ -12,3 +12,6 @@ const JAVA_FIELDS := []
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "GlobalVarsDialog", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": [], "name": "setup", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_setup_0(_args: Array = []) -> Variant:
+	return null

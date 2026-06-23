@@ -12,3 +12,15 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "unit", "type": "UnitTyp
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "UnitSpawnAbility", "parameters": [{"name": "unit", "type": "UnitType", "varargs": false}, {"name": "spawnTime", "type": "float", "varargs": false}, {"name": "spawnX", "type": "float", "varargs": false}, {"name": "spawnY", "type": "float", "varargs": false}]}, {"modifiers": ["public"], "name": "UnitSpawnAbility", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "addStats", "parameters": [{"name": "t", "type": "Table", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "update", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "draw", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "localized", "parameters": [], "return_type": "String"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_addStats_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_update_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_draw_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_localized_3(_args: Array = []) -> Variant:
+	return null

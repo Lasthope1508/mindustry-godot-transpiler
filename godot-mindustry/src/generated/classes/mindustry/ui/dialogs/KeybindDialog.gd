@@ -12,3 +12,15 @@ const JAVA_FIELDS := [{"modifiers": ["protected"], "name": "rebindKey", "type": 
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "KeybindDialog", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "addCloseButton", "parameters": [], "return_type": ""}, {"modifiers": ["private"], "name": "rebuildBinds", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "rebind", "parameters": [{"name": "bind", "type": "KeyBind", "varargs": false}, {"name": "newKey", "type": "KeyCode", "varargs": false}], "return_type": ""}, {"modifiers": ["private"], "name": "openDialog", "parameters": [{"name": "name", "type": "KeyBind", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_addCloseButton_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_rebuildBinds_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_rebind_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_openDialog_3(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,87 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "crac
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "BlockRenderer", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "recacheBuilding", "parameters": [{"name": "layer", "type": "BuildingCacheLayer", "varargs": false}, {"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "cacheChunk", "parameters": [{"name": "layer", "type": "int", "varargs": false}, {"name": "cx", "type": "int", "varargs": false}, {"name": "cy", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "reload", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "updateShadows", "parameters": [{"name": "ignoreBuildings", "type": "boolean", "varargs": false}, {"name": "ignoreTerrain", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "updateDarkness", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "invalidateTile", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getShadowBuffer", "parameters": [], "return_type": "FrameBuffer"}, {"modifiers": ["public"], "name": "removeFloorIndex", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "addFloorIndex", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "removeOverlayIndex", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "addOverlayIndex", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "indexBlock", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": "boolean"}, {"modifiers": [], "name": "indexBlockCached", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": "boolean"}, {"modifiers": [], "name": "indexOverlay", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": "boolean"}, {"modifiers": [], "name": "indexFloor", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": "boolean"}, {"modifiers": [], "name": "recordIndex", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "recacheWall", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "checkChanges", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "drawDarkness", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "drawDestroyed", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "processShadows", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "processShadows", "parameters": [{"name": "ignoreBuildings", "type": "boolean", "varargs": false}, {"name": "ignoreTerrain", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawShadows", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "processBlocks", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "drawTree", "parameters": [{"name": "tree", "type": "QuadTree", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawBlocks", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "updateShadow", "parameters": [{"name": "build", "type": "Building", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "updateShadowTile", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_recacheBuilding_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_cacheChunk_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_reload_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateShadows_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateDarkness_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_invalidateTile_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getShadowBuffer_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_removeFloorIndex_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_addFloorIndex_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_removeOverlayIndex_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_addOverlayIndex_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_indexBlock_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_indexBlockCached_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_indexOverlay_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_indexFloor_14(_args: Array = []) -> Variant:
+	return null
+
+func java_method_recordIndex_15(_args: Array = []) -> Variant:
+	return null
+
+func java_method_recacheWall_16(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkChanges_17(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawDarkness_18(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawDestroyed_19(_args: Array = []) -> Variant:
+	return null
+
+func java_method_processShadows_20(_args: Array = []) -> Variant:
+	return null
+
+func java_method_processShadows_21(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawShadows_22(_args: Array = []) -> Variant:
+	return null
+
+func java_method_processBlocks_23(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawTree_24(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawBlocks_25(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateShadow_26(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateShadowTile_27(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,81 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "edge", "type": "String"
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "Floor", "parameters": [{"name": "name", "type": "String", "varargs": false}]}, {"modifiers": ["public"], "name": "Floor", "parameters": [{"name": "name", "type": "String", "varargs": false}, {"name": "variants", "type": "int", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "load", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "getDisplayIcon", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": "TextureRegion"}, {"modifiers": ["public"], "name": "getDisplayName", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": "String"}, {"modifiers": ["public"], "name": "createIcons", "parameters": [{"name": "packer", "type": "MultiPacker", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawBase", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawMain", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "checkAutotileSame", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "other", "type": "Tile", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "variant", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}], "return_type": "int"}, {"modifiers": ["public"], "name": "variant", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}, {"name": "max", "type": "int", "varargs": false}], "return_type": "int"}, {"modifiers": ["public"], "name": "drawOverlay", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "icons", "parameters": [], "return_type": "TextureRegion"}, {"modifiers": ["public"], "name": "floorChanged", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "shouldIndex", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "updateRender", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "renderUpdate", "parameters": [{"name": "tile", "type": "UpdateRenderState", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "hasSurface", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "isDeep", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "drawNonLayer", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "layer", "type": "CacheLayer", "varargs": false}], "return_type": ""}, {"modifiers": ["protected"], "name": "drawEdges", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": ["protected"], "name": "drawBlended", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "checkId", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "realBlendId", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": "int"}, {"modifiers": ["protected"], "name": "edges", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}], "return_type": "TextureRegion"}, {"modifiers": ["protected"], "name": "edge", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}, {"name": "rx", "type": "int", "varargs": false}, {"name": "ry", "type": "int", "varargs": false}], "return_type": "TextureRegion"}, {"modifiers": ["protected"], "name": "doEdge", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "otherTile", "type": "Tile", "varargs": false}, {"name": "other", "type": "Floor", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "damages", "parameters": [], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_load_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getDisplayIcon_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getDisplayName_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_createIcons_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawBase_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawMain_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkAutotileSame_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_variant_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_variant_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawOverlay_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_icons_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_floorChanged_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_shouldIndex_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateRender_14(_args: Array = []) -> Variant:
+	return null
+
+func java_method_renderUpdate_15(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hasSurface_16(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isDeep_17(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawNonLayer_18(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawEdges_19(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawBlended_20(_args: Array = []) -> Variant:
+	return null
+
+func java_method_realBlendId_21(_args: Array = []) -> Variant:
+	return null
+
+func java_method_edges_22(_args: Array = []) -> Variant:
+	return null
+
+func java_method_edge_23(_args: Array = []) -> Variant:
+	return null
+
+func java_method_doEdge_24(_args: Array = []) -> Variant:
+	return null
+
+func java_method_damages_25(_args: Array = []) -> Variant:
+	return null

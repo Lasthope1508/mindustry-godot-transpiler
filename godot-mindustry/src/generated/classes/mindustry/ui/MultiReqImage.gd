@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["private"], "name": "displays", "type": "Se
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "add", "parameters": [{"name": "display", "type": "ReqImage", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "act", "parameters": [{"name": "delta", "type": "float", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_add_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_act_1(_args: Array = []) -> Variant:
+	return null

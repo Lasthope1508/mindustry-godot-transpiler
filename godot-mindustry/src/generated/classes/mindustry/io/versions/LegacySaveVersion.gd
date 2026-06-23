@@ -12,3 +12,9 @@ const JAVA_FIELDS := []
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "LegacySaveVersion", "parameters": [{"name": "version", "type": "int", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "readMap", "parameters": [{"name": "stream", "type": "DataInput", "varargs": false}, {"name": "context", "type": "WorldContext", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "readLegacyEntities", "parameters": [{"name": "stream", "type": "DataInput", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_readMap_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_readLegacyEntities_1(_args: Array = []) -> Variant:
+	return null

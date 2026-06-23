@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["private"], "name": "children", "type": "Se
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ModClassLoader", "parameters": [{"name": "parent", "type": "ClassLoader", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "addChild", "parameters": [{"name": "child", "type": "ClassLoader", "varargs": false}], "return_type": ""}, {"modifiers": ["protected"], "name": "findClass", "parameters": [{"name": "name", "type": "String", "varargs": false}], "return_type": "Class"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_addChild_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_findClass_1(_args: Array = []) -> Variant:
+	return null

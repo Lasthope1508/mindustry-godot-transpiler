@@ -12,3 +12,15 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "region", "type": "Textu
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "DrawRegion", "parameters": [{"name": "suffix", "type": "String", "varargs": false}]}, {"modifiers": ["public"], "name": "DrawRegion", "parameters": [{"name": "suffix", "type": "String", "varargs": false}, {"name": "rotateSpeed", "type": "float", "varargs": false}]}, {"modifiers": ["public"], "name": "DrawRegion", "parameters": [{"name": "suffix", "type": "String", "varargs": false}, {"name": "rotateSpeed", "type": "float", "varargs": false}, {"name": "spinSprite", "type": "boolean", "varargs": false}]}, {"modifiers": ["public"], "name": "DrawRegion", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "draw", "parameters": [{"name": "build", "type": "Building", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawPlan", "parameters": [{"name": "block", "type": "Block", "varargs": false}, {"name": "plan", "type": "BuildPlan", "varargs": false}, {"name": "list", "type": "Eachable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "icons", "parameters": [{"name": "block", "type": "Block", "varargs": false}], "return_type": "TextureRegion"}, {"modifiers": ["public"], "name": "load", "parameters": [{"name": "block", "type": "Block", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_draw_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawPlan_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_icons_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_load_3(_args: Array = []) -> Variant:
+	return null

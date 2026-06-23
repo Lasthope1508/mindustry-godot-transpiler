@@ -12,3 +12,51 @@ const JAVA_FIELDS := []
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "Logic", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["private"], "name": "checkCampaignStats", "parameters": [], "return_type": "boolean"}, {"modifiers": ["private"], "name": "checkOverlappingPlans", "parameters": [{"name": "team", "type": "Team", "varargs": false}, {"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "play", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "reset", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "skipWave", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "runWave", "parameters": [], "return_type": ""}, {"modifiers": ["private"], "name": "checkGameState", "parameters": [], "return_type": ""}, {"modifiers": ["protected"], "name": "updateWeather", "parameters": [], "return_type": ""}, {"modifiers": ["public", "static"], "name": "sectorCapture", "parameters": [], "return_type": ""}, {"modifiers": ["public", "static"], "name": "updateGameOver", "parameters": [{"name": "winner", "type": "Team", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "gameOver", "parameters": [{"name": "winner", "type": "Team", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "researched", "parameters": [{"name": "content", "type": "Content", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "dispose", "parameters": [], "return_type": ""}, {"modifiers": ["protected"], "name": "updateEntities", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "update", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "isWaitingWave", "parameters": [], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_checkCampaignStats_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkOverlappingPlans_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_play_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_reset_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_skipWave_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_runWave_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkGameState_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateWeather_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_sectorCapture_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateGameOver_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_gameOver_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_researched_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_dispose_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateEntities_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_update_14(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isWaitingWave_15(_args: Array = []) -> Variant:
+	return null

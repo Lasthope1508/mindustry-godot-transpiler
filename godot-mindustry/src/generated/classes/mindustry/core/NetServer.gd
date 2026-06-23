@@ -12,3 +12,138 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "max
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "NetServer", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "sendWorldAndAssets", "parameters": [{"name": "player", "type": "Player", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["private"], "name": "registerCommands", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "votesRequired", "parameters": [], "return_type": "int"}, {"modifiers": ["public"], "name": "assignTeam", "parameters": [{"name": "current", "type": "Player", "varargs": false}], "return_type": "Team"}, {"modifiers": ["public"], "name": "assignTeam", "parameters": [{"name": "current", "type": "Player", "varargs": false}, {"name": "players", "type": "Iterable", "varargs": false}], "return_type": "Team"}, {"modifiers": ["public"], "name": "sendAssetRequirements", "parameters": [{"name": "player", "type": "Player", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "sendWorldData", "parameters": [{"name": "player", "type": "Player", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "addPacketHandler", "parameters": [{"name": "type", "type": "String", "varargs": false}, {"name": "handler", "type": "Cons2", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getPacketHandlers", "parameters": [{"name": "type", "type": "String", "varargs": false}], "return_type": "Seq"}, {"modifiers": ["public"], "name": "addBinaryPacketHandler", "parameters": [{"name": "type", "type": "String", "varargs": false}, {"name": "handler", "type": "Cons2", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getBinaryPacketHandlers", "parameters": [{"name": "type", "type": "String", "varargs": false}], "return_type": "Seq"}, {"modifiers": ["public"], "name": "addLogicDataHandler", "parameters": [{"name": "type", "type": "String", "varargs": false}, {"name": "handler", "type": "Cons2", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "onDisconnect", "parameters": [{"name": "player", "type": "Player", "varargs": false}, {"name": "reason", "type": "String", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "requestDebugStatus", "parameters": [{"name": "player", "type": "Player", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "debugStatusClient", "parameters": [{"name": "value", "type": "int", "varargs": false}, {"name": "lastClientSnapshot", "type": "int", "varargs": false}, {"name": "snapshotsSent", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "debugStatusClientUnreliable", "parameters": [{"name": "value", "type": "int", "varargs": false}, {"name": "lastClientSnapshot", "type": "int", "varargs": false}, {"name": "snapshotsSent", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["static"], "name": "logClientStatus", "parameters": [{"name": "reliable", "type": "boolean", "varargs": false}, {"name": "value", "type": "int", "varargs": false}, {"name": "lastClientSnapshot", "type": "int", "varargs": false}, {"name": "snapshotsSent", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "serverPacketReliable", "parameters": [{"name": "player", "type": "Player", "varargs": false}, {"name": "type", "type": "String", "varargs": false}, {"name": "contents", "type": "String", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "serverPacketUnreliable", "parameters": [{"name": "player", "type": "Player", "varargs": false}, {"name": "type", "type": "String", "varargs": false}, {"name": "contents", "type": "String", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "serverBinaryPacketReliable", "parameters": [{"name": "player", "type": "Player", "varargs": false}, {"name": "type", "type": "String", "varargs": false}, {"name": "contents", "type": "byte", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "serverBinaryPacketUnreliable", "parameters": [{"name": "player", "type": "Player", "varargs": false}, {"name": "type", "type": "String", "varargs": false}, {"name": "contents", "type": "byte", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "clientLogicDataReliable", "parameters": [{"name": "player", "type": "Player", "varargs": false}, {"name": "channel", "type": "String", "varargs": false}, {"name": "value", "type": "Object", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "clientLogicDataUnreliable", "parameters": [{"name": "player", "type": "Player", "varargs": false}, {"name": "channel", "type": "String", "varargs": false}, {"name": "value", "type": "Object", "varargs": false}], "return_type": ""}, {"modifiers": ["private", "static"], "name": "invalid", "parameters": [{"name": "f", "type": "float", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public", "static"], "name": "syncBuilding", "parameters": [{"name": "build", "type": "Building", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "requestBlockSnapshot", "parameters": [{"name": "player", "type": "Player", "varargs": false}, {"name": "pos", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "clientPlanSnapshot", "parameters": [{"name": "player", "type": "Player", "varargs": false}, {"name": "groupId", "type": "int", "varargs": false}, {"name": "plans", "type": "ClientBuildPlans", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "clientPlanSnapshotReceived", "parameters": [{"name": "player", "type": "Player", "varargs": false}, {"name": "groupId", "type": "int", "varargs": false}, {"name": "plans", "type": "ClientBuildPlans", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "clientSnapshot", "parameters": [{"name": "player", "type": "Player", "varargs": false}, {"name": "snapshotID", "type": "int", "varargs": false}, {"name": "unitID", "type": "int", "varargs": false}, {"name": "dead", "type": "boolean", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "pointerX", "type": "float", "varargs": false}, {"name": "pointerY", "type": "float", "varargs": false}, {"name": "rotation", "type": "float", "varargs": false}, {"name": "baseRotation", "type": "float", "varargs": false}, {"name": "xVelocity", "type": "float", "varargs": false}, {"name": "yVelocity", "type": "float", "varargs": false}, {"name": "mining", "type": "Tile", "varargs": false}, {"name": "boosting", "type": "boolean", "varargs": false}, {"name": "shooting", "type": "boolean", "varargs": false}, {"name": "chatting", "type": "boolean", "varargs": false}, {"name": "building", "type": "boolean", "varargs": false}, {"name": "selectedBlock", "type": "Block", "varargs": false}, {"name": "selectedRotation", "type": "int", "varargs": false}, {"name": "plans", "type": "Queue", "varargs": false}, {"name": "viewX", "type": "float", "varargs": false}, {"name": "viewY", "type": "float", "varargs": false}, {"name": "viewWidth", "type": "float", "varargs": false}, {"name": "viewHeight", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "adminRequest", "parameters": [{"name": "player", "type": "Player", "varargs": false}, {"name": "other", "type": "Player", "varargs": false}, {"name": "action", "type": "AdminAction", "varargs": false}, {"name": "params", "type": "Object", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "requestWorld", "parameters": [{"name": "player", "type": "Player", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "requestAssets", "parameters": [{"name": "player", "type": "Player", "varargs": false}, {"name": "ids", "type": "short", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "connectConfirm", "parameters": [{"name": "player", "type": "Player", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "isWaitingForPlayers", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "update", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "buildHealthUpdate", "parameters": [{"name": "build", "type": "Building", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "openServer", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "kickAll", "parameters": [{"name": "reason", "type": "KickReason", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "writeBlockSnapshots", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "writeEntitySnapshot", "parameters": [{"name": "player", "type": "Player", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "fixName", "parameters": [{"name": "name", "type": "String", "varargs": false}], "return_type": "String"}, {"modifiers": ["public"], "name": "checkColor", "parameters": [{"name": "str", "type": "String", "varargs": false}], "return_type": "String"}, {"modifiers": [], "name": "sync", "parameters": [], "return_type": ""}, {"modifiers": ["static"], "name": "clientPlanSnapshotSend", "parameters": [{"name": "player", "type": "Player", "varargs": false}, {"name": "groupId", "type": "int", "varargs": false}, {"name": "plans", "type": "ClientBuildPlans", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_sendWorldAndAssets_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_registerCommands_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_votesRequired_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_assignTeam_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_assignTeam_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_sendAssetRequirements_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_sendWorldData_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_addPacketHandler_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getPacketHandlers_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_addBinaryPacketHandler_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getBinaryPacketHandlers_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_addLogicDataHandler_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_onDisconnect_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_requestDebugStatus_14(_args: Array = []) -> Variant:
+	return null
+
+func java_method_debugStatusClient_15(_args: Array = []) -> Variant:
+	return null
+
+func java_method_debugStatusClientUnreliable_16(_args: Array = []) -> Variant:
+	return null
+
+func java_method_logClientStatus_17(_args: Array = []) -> Variant:
+	return null
+
+func java_method_serverPacketReliable_18(_args: Array = []) -> Variant:
+	return null
+
+func java_method_serverPacketUnreliable_19(_args: Array = []) -> Variant:
+	return null
+
+func java_method_serverBinaryPacketReliable_20(_args: Array = []) -> Variant:
+	return null
+
+func java_method_serverBinaryPacketUnreliable_21(_args: Array = []) -> Variant:
+	return null
+
+func java_method_clientLogicDataReliable_22(_args: Array = []) -> Variant:
+	return null
+
+func java_method_clientLogicDataUnreliable_23(_args: Array = []) -> Variant:
+	return null
+
+func java_method_invalid_24(_args: Array = []) -> Variant:
+	return null
+
+func java_method_syncBuilding_25(_args: Array = []) -> Variant:
+	return null
+
+func java_method_requestBlockSnapshot_26(_args: Array = []) -> Variant:
+	return null
+
+func java_method_clientPlanSnapshot_27(_args: Array = []) -> Variant:
+	return null
+
+func java_method_clientPlanSnapshotReceived_28(_args: Array = []) -> Variant:
+	return null
+
+func java_method_clientSnapshot_29(_args: Array = []) -> Variant:
+	return null
+
+func java_method_adminRequest_30(_args: Array = []) -> Variant:
+	return null
+
+func java_method_requestWorld_31(_args: Array = []) -> Variant:
+	return null
+
+func java_method_requestAssets_32(_args: Array = []) -> Variant:
+	return null
+
+func java_method_connectConfirm_33(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isWaitingForPlayers_34(_args: Array = []) -> Variant:
+	return null
+
+func java_method_update_35(_args: Array = []) -> Variant:
+	return null
+
+func java_method_buildHealthUpdate_36(_args: Array = []) -> Variant:
+	return null
+
+func java_method_openServer_37(_args: Array = []) -> Variant:
+	return null
+
+func java_method_kickAll_38(_args: Array = []) -> Variant:
+	return null
+
+func java_method_writeBlockSnapshots_39(_args: Array = []) -> Variant:
+	return null
+
+func java_method_writeEntitySnapshot_40(_args: Array = []) -> Variant:
+	return null
+
+func java_method_fixName_41(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkColor_42(_args: Array = []) -> Variant:
+	return null
+
+func java_method_sync_43(_args: Array = []) -> Variant:
+	return null
+
+func java_method_clientPlanSnapshotSend_44(_args: Array = []) -> Variant:
+	return null

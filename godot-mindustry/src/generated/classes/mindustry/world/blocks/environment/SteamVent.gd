@@ -12,3 +12,21 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "offs
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "SteamVent", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "drawMain", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "updateRender", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "shouldIndex", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "isCenterVent", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "renderUpdate", "parameters": [{"name": "state", "type": "UpdateRenderState", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "checkAdjacent", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_drawMain_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateRender_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_shouldIndex_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isCenterVent_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_renderUpdate_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkAdjacent_5(_args: Array = []) -> Variant:
+	return null

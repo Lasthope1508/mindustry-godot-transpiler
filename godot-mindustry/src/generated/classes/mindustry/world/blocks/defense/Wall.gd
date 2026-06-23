@@ -12,3 +12,15 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "lightningChance", "type
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "Wall", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "setStats", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "load", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "icons", "parameters": [], "return_type": "TextureRegion"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_setStats_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_load_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_icons_3(_args: Array = []) -> Variant:
+	return null

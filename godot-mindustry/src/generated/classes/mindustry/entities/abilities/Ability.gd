@@ -12,3 +12,39 @@ const JAVA_FIELDS := [{"modifiers": ["final", "protected", "static"], "name": "d
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "update", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "draw", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "death", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "created", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "init", "parameters": [{"name": "type", "type": "UnitType", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "displayBars", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "bars", "type": "Table", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "display", "parameters": [{"name": "t", "type": "Table", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "addStats", "parameters": [{"name": "t", "type": "Table", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "abilityStat", "parameters": [{"name": "stat", "type": "String", "varargs": false}, {"name": "values", "type": "Object", "varargs": true}], "return_type": "String"}, {"modifiers": ["public"], "name": "copy", "parameters": [], "return_type": "Ability"}, {"modifiers": ["public"], "name": "localized", "parameters": [], "return_type": "String"}, {"modifiers": ["public"], "name": "getBundle", "parameters": [], "return_type": "String"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_update_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_draw_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_death_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_created_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_displayBars_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_display_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_addStats_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_abilityStat_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_copy_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_localized_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getBundle_11(_args: Array = []) -> Variant:
+	return null

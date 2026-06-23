@@ -12,3 +12,12 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public"], "name": "timerUse", "ty
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "MendProjector", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "outputsItems", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "setStats", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "drawPlace", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}, {"name": "rotation", "type": "int", "varargs": false}, {"name": "valid", "type": "boolean", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_outputsItems_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setStats_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawPlace_2(_args: Array = []) -> Variant:
+	return null

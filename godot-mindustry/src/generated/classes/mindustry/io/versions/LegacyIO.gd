@@ -12,3 +12,6 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "unit
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "readServers", "parameters": [], "return_type": "Seq"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_readServers_0(_args: Array = []) -> Variant:
+	return null

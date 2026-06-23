@@ -12,3 +12,42 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "sideRegion1", "type": "
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "UnitAssembler", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "getRect", "parameters": [{"name": "rect", "type": "Rect", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "rotation", "type": "int", "varargs": false}], "return_type": "Rect"}, {"modifiers": ["public"], "name": "drawPlace", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}, {"name": "rotation", "type": "int", "varargs": false}, {"name": "valid", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "canPlaceOn", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "team", "type": "Team", "varargs": false}, {"name": "rotation", "type": "int", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "setBars", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "drawPlanRegion", "parameters": [{"name": "plan", "type": "BuildPlan", "varargs": false}, {"name": "list", "type": "Eachable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "icons", "parameters": [], "return_type": "TextureRegion"}, {"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "afterPatch", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "initCapacities", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "checkContentArrayCapacity", "parameters": [{"name": "items", "type": "int", "varargs": false}, {"name": "liquids", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "setStats", "parameters": [], "return_type": ""}, {"modifiers": ["public", "static"], "name": "assemblerUnitSpawned", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "assemblerDroneSpawned", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "id", "type": "int", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_getRect_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawPlace_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_canPlaceOn_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setBars_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawPlanRegion_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_icons_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_afterPatch_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_initCapacities_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkContentArrayCapacity_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setStats_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_assemblerUnitSpawned_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_assemblerDroneSpawned_12(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,27 @@ const JAVA_FIELDS := [{"modifiers": ["public", "static"], "name": "failedToLaunc
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "loadAsync", "parameters": [], "return_type": ""}, {"modifiers": ["public", "static"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public", "static"], "name": "checkLaunch", "parameters": [], "return_type": ""}, {"modifiers": ["public", "static"], "name": "finishLaunch", "parameters": [], "return_type": ""}, {"modifiers": ["public", "static"], "name": "loadLogger", "parameters": [], "return_type": ""}, {"modifiers": ["public", "static"], "name": "loadFileLogger", "parameters": [], "return_type": ""}, {"modifiers": ["public", "static"], "name": "loadFileLogger", "parameters": [{"name": "file", "type": "Fi", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "loadSettings", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_loadAsync_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkLaunch_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_finishLaunch_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadLogger_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadFileLogger_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadFileLogger_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadSettings_7(_args: Array = []) -> Variant:
+	return null

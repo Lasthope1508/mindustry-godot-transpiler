@@ -12,3 +12,12 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "axi
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "BaseBuilderAI", "parameters": [{"name": "data", "type": "TeamData", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "update", "parameters": [], "return_type": ""}, {"modifiers": ["private"], "name": "randomPosition", "parameters": [], "return_type": "Position"}, {"modifiers": ["private"], "name": "tryPlace", "parameters": [{"name": "part", "type": "BasePart", "varargs": false}, {"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_update_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_randomPosition_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_tryPlace_2(_args: Array = []) -> Variant:
+	return null

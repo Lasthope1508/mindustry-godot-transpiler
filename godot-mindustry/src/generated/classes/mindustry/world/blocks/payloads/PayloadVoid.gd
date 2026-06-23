@@ -12,3 +12,6 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "incinerateEffect", "typ
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "PayloadVoid", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "icons", "parameters": [], "return_type": "TextureRegion"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_icons_0(_args: Array = []) -> Variant:
+	return null

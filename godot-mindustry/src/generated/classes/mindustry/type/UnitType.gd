@@ -12,3 +12,219 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "shad
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "UnitType", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "postInit", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "createController", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": "UnitController"}, {"modifiers": ["public"], "name": "create", "parameters": [{"name": "team", "type": "Team", "varargs": false}], "return_type": "Unit"}, {"modifiers": ["public"], "name": "spawn", "parameters": [{"name": "team", "type": "Team", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "rotation", "type": "float", "varargs": false}, {"name": "cons", "type": "Cons", "varargs": false}], "return_type": "Unit"}, {"modifiers": ["public"], "name": "spawn", "parameters": [{"name": "team", "type": "Team", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "rotation", "type": "float", "varargs": false}], "return_type": "Unit"}, {"modifiers": ["public"], "name": "spawn", "parameters": [{"name": "team", "type": "Team", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}], "return_type": "Unit"}, {"modifiers": ["public"], "name": "spawn", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}], "return_type": "Unit"}, {"modifiers": ["public"], "name": "spawn", "parameters": [{"name": "team", "type": "Team", "varargs": false}, {"name": "pos", "type": "Position", "varargs": false}], "return_type": "Unit"}, {"modifiers": ["public"], "name": "spawn", "parameters": [{"name": "pos", "type": "Position", "varargs": false}], "return_type": "Unit"}, {"modifiers": ["public"], "name": "spawn", "parameters": [{"name": "pos", "type": "Position", "varargs": false}, {"name": "team", "type": "Team", "varargs": false}], "return_type": "Unit"}, {"modifiers": ["public"], "name": "hasWeapons", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "targetable", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "targeter", "type": "Team", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "killable", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "hittable", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "getUnitStances", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "out", "type": "Seq", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "allowStance", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "stance", "type": "UnitStance", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "allowCommand", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "command", "type": "UnitCommand", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "update", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "updatePayload", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "unitHolder", "type": "Unit", "varargs": false}, {"name": "buildingHolder", "type": "Building", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "killed", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "landed", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "display", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "table", "type": "Table", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "supportsEnv", "parameters": [{"name": "env", "type": "int", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "isBanned", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "getDependencies", "parameters": [{"name": "cons", "type": "Cons", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "isHidden", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "setStats", "parameters": [], "return_type": ""}, {"modifiers": ["protected"], "name": "checkEntityMapping", "parameters": [{"name": "example", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "initPathType", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "estimateDps", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "load", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "getRegionsToOutline", "parameters": [{"name": "out", "type": "Seq", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "needsBodyOutline", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "createIcons", "parameters": [{"name": "packer", "type": "MultiPacker", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "afterPatch", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "beforeParse", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "getBuildTime", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "getTotalRequirements", "parameters": [], "return_type": "ItemStack"}, {"modifiers": ["public"], "name": "getRequirements", "parameters": [{"name": "prevReturn", "type": "UnitType", "varargs": false}, {"name": "timeReturn", "type": "float", "varargs": false}], "return_type": "ItemStack"}, {"modifiers": ["public"], "name": "getFirstRequirements", "parameters": [], "return_type": "ItemStack"}, {"modifiers": ["public"], "name": "researchRequirements", "parameters": [], "return_type": "ItemStack"}, {"modifiers": ["public"], "name": "sense", "parameters": [{"name": "sensor", "type": "LAccess", "varargs": false}], "return_type": "double"}, {"modifiers": ["public"], "name": "senseObject", "parameters": [{"name": "sensor", "type": "LAccess", "varargs": false}], "return_type": "Object"}, {"modifiers": ["public"], "name": "getContentType", "parameters": [], "return_type": "ContentType"}, {"modifiers": ["public"], "name": "setEnginesMirror", "parameters": [{"name": "array", "type": "UnitEngine", "varargs": true}], "return_type": ""}, {"modifiers": ["public"], "name": "draw", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "shieldColor", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": "Color"}, {"modifiers": ["public"], "name": "drawMining", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawMiningBeam", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "px", "type": "float", "varargs": false}, {"name": "py", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawPayload", "parameters": [{"name": "unit", "type": "T", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawShield", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawShadow", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawSoftShadow", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawSoftShadow", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "alpha", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawSoftShadow", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "rotation", "type": "float", "varargs": false}, {"name": "alpha", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawItems", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawTrail", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawEngines", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawWeapons", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawWeaponOutlines", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawOutline", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawBody", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawCell", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "cellColor", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": "Color"}, {"modifiers": ["public"], "name": "drawLight", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawTank", "parameters": [{"name": "unit", "type": "T", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawLegs", "parameters": [{"name": "unit", "type": "T", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawCrawl", "parameters": [{"name": "crawl", "type": "Crawlc", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawMech", "parameters": [{"name": "mech", "type": "Mechc", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "applyOutlineColor", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "applyColor", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_postInit_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_createController_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_create_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_spawn_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_spawn_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_spawn_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_spawn_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_spawn_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_spawn_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_spawn_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hasWeapons_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_targetable_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_killable_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hittable_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getUnitStances_14(_args: Array = []) -> Variant:
+	return null
+
+func java_method_allowStance_15(_args: Array = []) -> Variant:
+	return null
+
+func java_method_allowCommand_16(_args: Array = []) -> Variant:
+	return null
+
+func java_method_update_17(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updatePayload_18(_args: Array = []) -> Variant:
+	return null
+
+func java_method_killed_19(_args: Array = []) -> Variant:
+	return null
+
+func java_method_landed_20(_args: Array = []) -> Variant:
+	return null
+
+func java_method_display_21(_args: Array = []) -> Variant:
+	return null
+
+func java_method_supportsEnv_22(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isBanned_23(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getDependencies_24(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isHidden_25(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setStats_26(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkEntityMapping_27(_args: Array = []) -> Variant:
+	return null
+
+func java_method_initPathType_28(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_29(_args: Array = []) -> Variant:
+	return null
+
+func java_method_estimateDps_30(_args: Array = []) -> Variant:
+	return null
+
+func java_method_load_31(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getRegionsToOutline_32(_args: Array = []) -> Variant:
+	return null
+
+func java_method_needsBodyOutline_33(_args: Array = []) -> Variant:
+	return null
+
+func java_method_createIcons_34(_args: Array = []) -> Variant:
+	return null
+
+func java_method_afterPatch_35(_args: Array = []) -> Variant:
+	return null
+
+func java_method_beforeParse_36(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getBuildTime_37(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getTotalRequirements_38(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getRequirements_39(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getFirstRequirements_40(_args: Array = []) -> Variant:
+	return null
+
+func java_method_researchRequirements_41(_args: Array = []) -> Variant:
+	return null
+
+func java_method_sense_42(_args: Array = []) -> Variant:
+	return null
+
+func java_method_senseObject_43(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getContentType_44(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setEnginesMirror_45(_args: Array = []) -> Variant:
+	return null
+
+func java_method_draw_46(_args: Array = []) -> Variant:
+	return null
+
+func java_method_shieldColor_47(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawMining_48(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawMiningBeam_49(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawPayload_50(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawShield_51(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawShadow_52(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawSoftShadow_53(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawSoftShadow_54(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawSoftShadow_55(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawItems_56(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawTrail_57(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawEngines_58(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawWeapons_59(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawWeaponOutlines_60(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawOutline_61(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawBody_62(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawCell_63(_args: Array = []) -> Variant:
+	return null
+
+func java_method_cellColor_64(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawLight_65(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawTank_66(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawLegs_67(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawCrawl_68(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawMech_69(_args: Array = []) -> Variant:
+	return null
+
+func java_method_applyOutlineColor_70(_args: Array = []) -> Variant:
+	return null
+
+func java_method_applyColor_71(_args: Array = []) -> Variant:
+	return null

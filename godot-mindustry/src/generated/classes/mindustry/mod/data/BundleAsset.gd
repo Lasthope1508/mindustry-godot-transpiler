@@ -12,3 +12,12 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "cachedBundle", "type": 
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "tryLoadCache", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "updateData", "parameters": [{"name": "data", "type": "byte", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getType", "parameters": [], "return_type": "DataAssetType"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_tryLoadCache_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateData_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getType_2(_args: Array = []) -> Variant:
+	return null

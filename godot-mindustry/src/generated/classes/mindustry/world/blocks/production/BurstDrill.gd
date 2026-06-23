@@ -12,3 +12,12 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "shake", "type": "float"
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "BurstDrill", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "icons", "parameters": [], "return_type": "TextureRegion"}, {"modifiers": ["public"], "name": "getDrillTime", "parameters": [{"name": "item", "type": "Item", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "setStats", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_icons_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getDrillTime_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setStats_2(_args: Array = []) -> Variant:
+	return null

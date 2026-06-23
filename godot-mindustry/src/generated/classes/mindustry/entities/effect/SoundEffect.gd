@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "sound", "type": "Sound"
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "SoundEffect", "parameters": []}, {"modifiers": ["public"], "name": "SoundEffect", "parameters": [{"name": "sound", "type": "Sound", "varargs": false}, {"name": "effect", "type": "Effect", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "create", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "rotation", "type": "float", "varargs": false}, {"name": "color", "type": "Color", "varargs": false}, {"name": "data", "type": "Object", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_init_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_create_1(_args: Array = []) -> Variant:
+	return null

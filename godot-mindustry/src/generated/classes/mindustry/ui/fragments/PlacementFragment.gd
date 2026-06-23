@@ -12,3 +12,39 @@ const JAVA_FIELDS := [{"modifiers": ["final"], "name": "rowWidth", "type": "int"
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "PlacementFragment", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "hover", "parameters": [], "return_type": "Displayable"}, {"modifiers": ["public"], "name": "rebuild", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "updatePick", "parameters": [{"name": "input", "type": "InputHandler", "varargs": false}], "return_type": "boolean"}, {"modifiers": [], "name": "gridUpdate", "parameters": [{"name": "input", "type": "InputHandler", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "build", "parameters": [{"name": "parent", "type": "Group", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "getCategories", "parameters": [], "return_type": "Seq"}, {"modifiers": [], "name": "getByCategory", "parameters": [{"name": "cat", "type": "Category", "varargs": false}], "return_type": "Seq"}, {"modifiers": [], "name": "getUnlockedByCategory", "parameters": [{"name": "cat", "type": "Category", "varargs": false}], "return_type": "Seq"}, {"modifiers": [], "name": "getSelectedBlock", "parameters": [{"name": "cat", "type": "Category", "varargs": false}], "return_type": "Block"}, {"modifiers": [], "name": "unlocked", "parameters": [{"name": "block", "type": "Block", "varargs": false}], "return_type": "boolean"}, {"modifiers": [], "name": "hasInfoBox", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "hovered", "parameters": [], "return_type": "Displayable"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_hover_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_rebuild_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updatePick_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_gridUpdate_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_build_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getCategories_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getByCategory_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getUnlockedByCategory_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getSelectedBlock_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_unlocked_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hasInfoBox_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hovered_11(_args: Array = []) -> Variant:
+	return null

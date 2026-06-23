@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private"], "name": "builder", "ty
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "IntFormat", "parameters": [{"name": "text", "type": "String", "varargs": false}]}, {"modifiers": ["public"], "name": "IntFormat", "parameters": [{"name": "text", "type": "String", "varargs": false}, {"name": "converter", "type": "Func", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "get", "parameters": [{"name": "value", "type": "int", "varargs": false}], "return_type": "CharSequence"}, {"modifiers": ["public"], "name": "get", "parameters": [{"name": "value1", "type": "int", "varargs": false}, {"name": "value2", "type": "int", "varargs": false}], "return_type": "CharSequence"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_get_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_get_1(_args: Array = []) -> Variant:
+	return null

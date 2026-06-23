@@ -12,3 +12,48 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "pla
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "pathfindLine", "parameters": [{"name": "conveyors", "type": "boolean", "varargs": false}, {"name": "startX", "type": "int", "varargs": false}, {"name": "startY", "type": "int", "varargs": false}, {"name": "endX", "type": "int", "varargs": false}, {"name": "endY", "type": "int", "varargs": false}], "return_type": "Seq"}, {"modifiers": ["public", "static"], "name": "normalizeLine", "parameters": [{"name": "startX", "type": "int", "varargs": false}, {"name": "startY", "type": "int", "varargs": false}, {"name": "endX", "type": "int", "varargs": false}, {"name": "endY", "type": "int", "varargs": false}], "return_type": "Seq"}, {"modifiers": ["public", "static"], "name": "normalizeRectangle", "parameters": [{"name": "startX", "type": "int", "varargs": false}, {"name": "startY", "type": "int", "varargs": false}, {"name": "endX", "type": "int", "varargs": false}, {"name": "endY", "type": "int", "varargs": false}, {"name": "blockSize", "type": "int", "varargs": false}], "return_type": "Seq"}, {"modifiers": ["public", "static"], "name": "upgradeLine", "parameters": [{"name": "startX", "type": "int", "varargs": false}, {"name": "startY", "type": "int", "varargs": false}, {"name": "endX", "type": "int", "varargs": false}, {"name": "endY", "type": "int", "varargs": false}], "return_type": "Seq"}, {"modifiers": ["public", "static"], "name": "calculateNodes", "parameters": [{"name": "points", "type": "Seq", "varargs": false}, {"name": "block", "type": "Block", "varargs": false}, {"name": "rotation", "type": "int", "varargs": false}, {"name": "overlapper", "type": "Boolf2", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "isSidePlace", "parameters": [{"name": "plans", "type": "Seq", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public", "static"], "name": "calculateBridges", "parameters": [{"name": "plans", "type": "Seq", "varargs": false}, {"name": "bridge", "type": "ItemBridge", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "calculateBridges", "parameters": [{"name": "plans", "type": "Seq", "varargs": false}, {"name": "bridge", "type": "ItemBridge", "varargs": false}, {"name": "hasJunction", "type": "boolean", "varargs": false}, {"name": "avoid", "type": "Boolf", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "calculateBridges", "parameters": [{"name": "plans", "type": "Seq", "varargs": false}, {"name": "bridge", "type": "DirectionBridge", "varargs": false}, {"name": "hasJunction", "type": "boolean", "varargs": false}, {"name": "avoid", "type": "Boolf", "varargs": false}], "return_type": ""}, {"modifiers": ["private", "static"], "name": "tileHeuristic", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "other", "type": "Tile", "varargs": false}], "return_type": "float"}, {"modifiers": ["private", "static"], "name": "distanceHeuristic", "parameters": [{"name": "x1", "type": "int", "varargs": false}, {"name": "y1", "type": "int", "varargs": false}, {"name": "x2", "type": "int", "varargs": false}, {"name": "y2", "type": "int", "varargs": false}], "return_type": "float"}, {"modifiers": ["private", "static"], "name": "validNode", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "other", "type": "Tile", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["private", "static"], "name": "astar", "parameters": [{"name": "startX", "type": "int", "varargs": false}, {"name": "startY", "type": "int", "varargs": false}, {"name": "endX", "type": "int", "varargs": false}, {"name": "endY", "type": "int", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public", "static"], "name": "normalizeDrawArea", "parameters": [{"name": "block", "type": "Block", "varargs": false}, {"name": "startx", "type": "int", "varargs": false}, {"name": "starty", "type": "int", "varargs": false}, {"name": "endx", "type": "int", "varargs": false}, {"name": "endy", "type": "int", "varargs": false}, {"name": "snap", "type": "boolean", "varargs": false}, {"name": "maxLength", "type": "int", "varargs": false}, {"name": "scaling", "type": "float", "varargs": false}], "return_type": "NormalizeDrawResult"}, {"modifiers": ["public", "static"], "name": "normalizeArea", "parameters": [{"name": "tilex", "type": "int", "varargs": false}, {"name": "tiley", "type": "int", "varargs": false}, {"name": "endx", "type": "int", "varargs": false}, {"name": "endy", "type": "int", "varargs": false}, {"name": "rotation", "type": "int", "varargs": false}, {"name": "snap", "type": "boolean", "varargs": false}, {"name": "maxLength", "type": "int", "varargs": false}], "return_type": "NormalizeResult"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_pathfindLine_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_normalizeLine_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_normalizeRectangle_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_upgradeLine_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_calculateNodes_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isSidePlace_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_calculateBridges_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_calculateBridges_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_calculateBridges_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_tileHeuristic_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_distanceHeuristic_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_validNode_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_astar_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_normalizeDrawArea_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_normalizeArea_14(_args: Array = []) -> Variant:
+	return null

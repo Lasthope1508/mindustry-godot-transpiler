@@ -12,3 +12,51 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "allowEditRules", "type"
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "copy", "parameters": [], "return_type": "Rules"}, {"modifiers": ["public"], "name": "mode", "parameters": [], "return_type": "Gamemode"}, {"modifiers": ["public"], "name": "hasEnv", "parameters": [{"name": "env", "type": "int", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "buildRadius", "parameters": [{"name": "team", "type": "Team", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "unitBuildSpeed", "parameters": [{"name": "team", "type": "Team", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "unitCost", "parameters": [{"name": "team", "type": "Team", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "unitDamage", "parameters": [{"name": "team", "type": "Team", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "unitHealth", "parameters": [{"name": "team", "type": "Team", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "unitCrashDamage", "parameters": [{"name": "team", "type": "Team", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "unitMineSpeed", "parameters": [{"name": "team", "type": "Team", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "blockHealth", "parameters": [{"name": "team", "type": "Team", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "blockDamage", "parameters": [{"name": "team", "type": "Team", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "buildSpeed", "parameters": [{"name": "team", "type": "Team", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "isBanned", "parameters": [{"name": "block", "type": "Block", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "isBanned", "parameters": [{"name": "unit", "type": "UnitType", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "unitActivationDelay", "parameters": [{"name": "team", "type": "Team", "varargs": false}], "return_type": "float"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_copy_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_mode_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hasEnv_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_buildRadius_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_unitBuildSpeed_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_unitCost_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_unitDamage_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_unitHealth_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_unitCrashDamage_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_unitMineSpeed_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_blockHealth_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_blockDamage_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_buildSpeed_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isBanned_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isBanned_14(_args: Array = []) -> Variant:
+	return null
+
+func java_method_unitActivationDelay_15(_args: Array = []) -> Variant:
+	return null

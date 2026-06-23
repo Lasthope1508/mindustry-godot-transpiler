@@ -12,3 +12,12 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "region", "type": "Textu
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "DrawBlurSpin", "parameters": [{"name": "suffix", "type": "String", "varargs": false}, {"name": "speed", "type": "float", "varargs": false}]}, {"modifiers": ["public"], "name": "DrawBlurSpin", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "draw", "parameters": [{"name": "build", "type": "Building", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "icons", "parameters": [{"name": "block", "type": "Block", "varargs": false}], "return_type": "TextureRegion"}, {"modifiers": ["public"], "name": "load", "parameters": [{"name": "block", "type": "Block", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_draw_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_icons_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_load_2(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,33 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "pac
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "resize", "parameters": [{"name": "width", "type": "int", "varargs": false}, {"name": "height", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "draw", "parameters": [{"name": "tx", "type": "float", "varargs": false}, {"name": "ty", "type": "float", "varargs": false}, {"name": "tw", "type": "float", "varargs": false}, {"name": "th", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "updateStatic", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "updateBlock", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "updateBlock", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "recache", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "recacheTerrain", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "recacheShadows", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "recacheChunk", "parameters": [{"name": "cx", "type": "int", "varargs": false}, {"name": "cy", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "dispose", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_resize_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_draw_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateStatic_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateBlock_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateBlock_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_recache_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_recacheTerrain_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_recacheShadows_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_recacheChunk_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_dispose_9(_args: Array = []) -> Variant:
+	return null

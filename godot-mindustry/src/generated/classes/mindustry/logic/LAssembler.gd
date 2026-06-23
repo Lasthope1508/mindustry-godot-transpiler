@@ -12,3 +12,36 @@ const JAVA_FIELDS := [{"modifiers": ["public", "static"], "name": "customParsers
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "LAssembler", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "assemble", "parameters": [{"name": "data", "type": "String", "varargs": false}, {"name": "privileged", "type": "boolean", "varargs": false}], "return_type": "LAssembler"}, {"modifiers": ["public", "static"], "name": "write", "parameters": [{"name": "statements", "type": "Seq", "varargs": false}], "return_type": "String"}, {"modifiers": ["public", "static"], "name": "read", "parameters": [{"name": "text", "type": "String", "varargs": false}, {"name": "privileged", "type": "boolean", "varargs": false}], "return_type": "Seq"}, {"modifiers": ["public"], "name": "var", "parameters": [{"name": "symbol", "type": "String", "varargs": false}], "return_type": "LVar"}, {"modifiers": [], "name": "parseDouble", "parameters": [{"name": "symbol", "type": "String", "varargs": false}], "return_type": "double"}, {"modifiers": [], "name": "parseLong", "parameters": [{"name": "negative", "type": "boolean", "varargs": false}, {"name": "s", "type": "String", "varargs": false}, {"name": "radix", "type": "int", "varargs": false}, {"name": "start", "type": "int", "varargs": false}, {"name": "end", "type": "int", "varargs": false}], "return_type": "double"}, {"modifiers": [], "name": "parseColor", "parameters": [{"name": "symbol", "type": "String", "varargs": false}], "return_type": "double"}, {"modifiers": [], "name": "parseNamedColor", "parameters": [{"name": "symbol", "type": "String", "varargs": false}], "return_type": "double"}, {"modifiers": ["public"], "name": "putConst", "parameters": [{"name": "name", "type": "String", "varargs": false}, {"name": "value", "type": "Object", "varargs": false}], "return_type": "LVar"}, {"modifiers": ["public"], "name": "putVar", "parameters": [{"name": "name", "type": "String", "varargs": false}], "return_type": "LVar"}, {"modifiers": ["public"], "name": "getVar", "parameters": [{"name": "name", "type": "String", "varargs": false}], "return_type": "LVar"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_assemble_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_write_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_read_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_var_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_parseDouble_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_parseLong_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_parseColor_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_parseNamedColor_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_putConst_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_putVar_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getVar_10(_args: Array = []) -> Variant:
+	return null

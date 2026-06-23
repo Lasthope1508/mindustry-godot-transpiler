@@ -12,3 +12,24 @@ const JAVA_FIELDS := [{"modifiers": [], "name": "table", "type": "Table"}, {"mod
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "build", "parameters": [{"name": "parent", "type": "Group", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "forceHide", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "isShown", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "getSelected", "parameters": [], "return_type": "Building"}, {"modifiers": ["public"], "name": "showConfig", "parameters": [{"name": "tile", "type": "Building", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "hasConfigMouse", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "hideConfig", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_build_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_forceHide_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isShown_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getSelected_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showConfig_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hasConfigMouse_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hideConfig_6(_args: Array = []) -> Variant:
+	return null

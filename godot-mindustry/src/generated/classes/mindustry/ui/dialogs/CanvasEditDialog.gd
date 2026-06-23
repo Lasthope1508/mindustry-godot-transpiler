@@ -12,3 +12,15 @@ const JAVA_FIELDS := [{"modifiers": ["final", "static"], "name": "refreshTime", 
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "CanvasEditDialog", "parameters": [{"name": "canvas", "type": "CanvasBuild", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": [], "name": "exportTo", "parameters": [{"name": "file", "type": "Fi", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "importFrom", "parameters": [{"name": "file", "type": "Fi", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "findClosest", "parameters": [{"name": "color", "type": "int", "varargs": false}], "return_type": "int"}, {"modifiers": [], "name": "save", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_exportTo_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_importFrom_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_findClosest_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_save_3(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "barrels", "type": "int"
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ShootAlternate", "parameters": [{"name": "spread", "type": "float", "varargs": false}]}, {"modifiers": ["public"], "name": "ShootAlternate", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "flip", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "shoot", "parameters": [{"name": "totalShots", "type": "int", "varargs": false}, {"name": "handler", "type": "BulletHandler", "varargs": false}, {"name": "barrelIncrementer", "type": "Runnable", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_flip_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_shoot_1(_args: Array = []) -> Variant:
+	return null

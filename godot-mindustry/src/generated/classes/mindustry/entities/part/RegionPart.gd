@@ -12,3 +12,15 @@ const JAVA_FIELDS := [{"modifiers": ["protected"], "name": "childParam", "type":
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "RegionPart", "parameters": [{"name": "region", "type": "String", "varargs": false}]}, {"modifiers": ["public"], "name": "RegionPart", "parameters": [{"name": "region", "type": "String", "varargs": false}, {"name": "blending", "type": "Blending", "varargs": false}, {"name": "color", "type": "Color", "varargs": false}]}, {"modifiers": ["public"], "name": "RegionPart", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "draw", "parameters": [{"name": "params", "type": "PartParams", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "rect", "parameters": [{"name": "region", "type": "TextureRegion", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "rotation", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "load", "parameters": [{"name": "name", "type": "String", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getOutlines", "parameters": [{"name": "out", "type": "Seq", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_draw_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_rect_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_load_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getOutlines_3(_args: Array = []) -> Variant:
+	return null

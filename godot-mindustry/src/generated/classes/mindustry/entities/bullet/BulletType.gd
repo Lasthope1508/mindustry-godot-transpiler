@@ -12,3 +12,159 @@ const JAVA_FIELDS := [{"modifiers": ["final", "static"], "name": "bulletDamageEv
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "BulletType", "parameters": [{"name": "speed", "type": "float", "varargs": false}, {"name": "damage", "type": "float", "varargs": false}]}, {"modifiers": ["public"], "name": "BulletType", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "copy", "parameters": [], "return_type": "BulletType"}, {"modifiers": ["public"], "name": "afterPatch", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "load", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "estimateDPS", "parameters": [], "return_type": "float"}, {"modifiers": ["protected"], "name": "calculateRange", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "continuousDamage", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "heals", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "testCollision", "parameters": [{"name": "bullet", "type": "Bullet", "varargs": false}, {"name": "tile", "type": "Building", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "hitTile", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}, {"name": "build", "type": "Building", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "initialHealth", "type": "float", "varargs": false}, {"name": "direct", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "hitEntity", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}, {"name": "entity", "type": "Hitboxc", "varargs": false}, {"name": "health", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "handlePierce", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}, {"name": "initialHealth", "type": "float", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "damageMultiplier", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "hit", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "hit", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "hit", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "createFrags", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "createIncend", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "createPuddles", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "createSplashDamage", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "createFrags", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "createUnits", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "despawned", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "removed", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "buildingDamage", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "shieldDamage", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "draw", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawTrail", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawParts", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawLight", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "init", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "update", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "updateBulletInterval", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "updateHoming", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "updateWeaving", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "updateTrailEffects", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "updateTrail", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "getContentType", "parameters": [], "return_type": "ContentType"}, {"modifiers": ["public"], "name": "create", "parameters": [{"name": "owner", "type": "Teamc", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "angle", "type": "float", "varargs": false}], "return_type": "Bullet"}, {"modifiers": ["public"], "name": "create", "parameters": [{"name": "owner", "type": "Entityc", "varargs": false}, {"name": "team", "type": "Team", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "angle", "type": "float", "varargs": false}], "return_type": "Bullet"}, {"modifiers": ["public"], "name": "create", "parameters": [{"name": "owner", "type": "Entityc", "varargs": false}, {"name": "team", "type": "Team", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "angle", "type": "float", "varargs": false}, {"name": "velocityScl", "type": "float", "varargs": false}], "return_type": "Bullet"}, {"modifiers": ["public"], "name": "create", "parameters": [{"name": "owner", "type": "Entityc", "varargs": false}, {"name": "team", "type": "Team", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "angle", "type": "float", "varargs": false}, {"name": "velocityScl", "type": "float", "varargs": false}, {"name": "lifetimeScl", "type": "float", "varargs": false}], "return_type": "Bullet"}, {"modifiers": ["public"], "name": "create", "parameters": [{"name": "owner", "type": "Entityc", "varargs": false}, {"name": "team", "type": "Team", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "angle", "type": "float", "varargs": false}, {"name": "velocityScl", "type": "float", "varargs": false}, {"name": "lifetimeScl", "type": "float", "varargs": false}, {"name": "mover", "type": "Mover", "varargs": false}], "return_type": "Bullet"}, {"modifiers": ["public"], "name": "create", "parameters": [{"name": "parent", "type": "Bullet", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "angle", "type": "float", "varargs": false}], "return_type": "Bullet"}, {"modifiers": ["public"], "name": "create", "parameters": [{"name": "parent", "type": "Bullet", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "angle", "type": "float", "varargs": false}, {"name": "velocityScl", "type": "float", "varargs": false}, {"name": "lifeScale", "type": "float", "varargs": false}], "return_type": "Bullet"}, {"modifiers": ["public"], "name": "create", "parameters": [{"name": "parent", "type": "Bullet", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "angle", "type": "float", "varargs": false}, {"name": "velocityScl", "type": "float", "varargs": false}], "return_type": "Bullet"}, {"modifiers": ["public"], "name": "create", "parameters": [{"name": "owner", "type": "Entityc", "varargs": false}, {"name": "team", "type": "Team", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "angle", "type": "float", "varargs": false}, {"name": "damage", "type": "float", "varargs": false}, {"name": "velocityScl", "type": "float", "varargs": false}, {"name": "lifetimeScl", "type": "float", "varargs": false}, {"name": "data", "type": "Object", "varargs": false}], "return_type": "Bullet"}, {"modifiers": ["public"], "name": "create", "parameters": [{"name": "owner", "type": "Entityc", "varargs": false}, {"name": "team", "type": "Team", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "angle", "type": "float", "varargs": false}, {"name": "damage", "type": "float", "varargs": false}, {"name": "velocityScl", "type": "float", "varargs": false}, {"name": "lifetimeScl", "type": "float", "varargs": false}, {"name": "data", "type": "Object", "varargs": false}, {"name": "mover", "type": "Mover", "varargs": false}], "return_type": "Bullet"}, {"modifiers": ["public"], "name": "create", "parameters": [{"name": "owner", "type": "Entityc", "varargs": false}, {"name": "team", "type": "Team", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "angle", "type": "float", "varargs": false}, {"name": "damage", "type": "float", "varargs": false}, {"name": "velocityScl", "type": "float", "varargs": false}, {"name": "lifetimeScl", "type": "float", "varargs": false}, {"name": "data", "type": "Object", "varargs": false}, {"name": "mover", "type": "Mover", "varargs": false}, {"name": "aimX", "type": "float", "varargs": false}, {"name": "aimY", "type": "float", "varargs": false}], "return_type": "Bullet"}, {"modifiers": ["public"], "name": "create", "parameters": [{"name": "owner", "type": "Entityc", "varargs": false}, {"name": "shooter", "type": "Entityc", "varargs": false}, {"name": "team", "type": "Team", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "angle", "type": "float", "varargs": false}, {"name": "damage", "type": "float", "varargs": false}, {"name": "velocityScl", "type": "float", "varargs": false}, {"name": "lifetimeScl", "type": "float", "varargs": false}, {"name": "data", "type": "Object", "varargs": false}, {"name": "mover", "type": "Mover", "varargs": false}, {"name": "aimX", "type": "float", "varargs": false}, {"name": "aimY", "type": "float", "varargs": false}], "return_type": "Bullet"}, {"modifiers": ["public"], "name": "create", "parameters": [{"name": "owner", "type": "Entityc", "varargs": false}, {"name": "shooter", "type": "Entityc", "varargs": false}, {"name": "team", "type": "Team", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "angle", "type": "float", "varargs": false}, {"name": "damage", "type": "float", "varargs": false}, {"name": "velocityScl", "type": "float", "varargs": false}, {"name": "lifetimeScl", "type": "float", "varargs": false}, {"name": "data", "type": "Object", "varargs": false}, {"name": "mover", "type": "Mover", "varargs": false}, {"name": "aimX", "type": "float", "varargs": false}, {"name": "aimY", "type": "float", "varargs": false}, {"name": "target", "type": "Teamc", "varargs": false}], "return_type": "Bullet"}, {"modifiers": ["public"], "name": "createNet", "parameters": [{"name": "team", "type": "Team", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "angle", "type": "float", "varargs": false}, {"name": "damage", "type": "float", "varargs": false}, {"name": "velocityScl", "type": "float", "varargs": false}, {"name": "lifetimeScl", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "createBullet", "parameters": [{"name": "type", "type": "BulletType", "varargs": false}, {"name": "team", "type": "Team", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "angle", "type": "float", "varargs": false}, {"name": "damage", "type": "float", "varargs": false}, {"name": "velocityScl", "type": "float", "varargs": false}, {"name": "lifetimeScl", "type": "float", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_copy_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_afterPatch_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_load_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_estimateDPS_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_calculateRange_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_continuousDamage_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_heals_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_testCollision_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hitTile_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hitEntity_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_handlePierce_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_damageMultiplier_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hit_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hit_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hit_14(_args: Array = []) -> Variant:
+	return null
+
+func java_method_createIncend_15(_args: Array = []) -> Variant:
+	return null
+
+func java_method_createPuddles_16(_args: Array = []) -> Variant:
+	return null
+
+func java_method_createSplashDamage_17(_args: Array = []) -> Variant:
+	return null
+
+func java_method_createFrags_18(_args: Array = []) -> Variant:
+	return null
+
+func java_method_createUnits_19(_args: Array = []) -> Variant:
+	return null
+
+func java_method_despawned_20(_args: Array = []) -> Variant:
+	return null
+
+func java_method_removed_21(_args: Array = []) -> Variant:
+	return null
+
+func java_method_buildingDamage_22(_args: Array = []) -> Variant:
+	return null
+
+func java_method_shieldDamage_23(_args: Array = []) -> Variant:
+	return null
+
+func java_method_draw_24(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawTrail_25(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawParts_26(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawLight_27(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_28(_args: Array = []) -> Variant:
+	return null
+
+func java_method_update_29(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateBulletInterval_30(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateHoming_31(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateWeaving_32(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateTrailEffects_33(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateTrail_34(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_35(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getContentType_36(_args: Array = []) -> Variant:
+	return null
+
+func java_method_create_37(_args: Array = []) -> Variant:
+	return null
+
+func java_method_create_38(_args: Array = []) -> Variant:
+	return null
+
+func java_method_create_39(_args: Array = []) -> Variant:
+	return null
+
+func java_method_create_40(_args: Array = []) -> Variant:
+	return null
+
+func java_method_create_41(_args: Array = []) -> Variant:
+	return null
+
+func java_method_create_42(_args: Array = []) -> Variant:
+	return null
+
+func java_method_create_43(_args: Array = []) -> Variant:
+	return null
+
+func java_method_create_44(_args: Array = []) -> Variant:
+	return null
+
+func java_method_create_45(_args: Array = []) -> Variant:
+	return null
+
+func java_method_create_46(_args: Array = []) -> Variant:
+	return null
+
+func java_method_create_47(_args: Array = []) -> Variant:
+	return null
+
+func java_method_create_48(_args: Array = []) -> Variant:
+	return null
+
+func java_method_create_49(_args: Array = []) -> Variant:
+	return null
+
+func java_method_createNet_50(_args: Array = []) -> Variant:
+	return null
+
+func java_method_createBullet_51(_args: Array = []) -> Variant:
+	return null

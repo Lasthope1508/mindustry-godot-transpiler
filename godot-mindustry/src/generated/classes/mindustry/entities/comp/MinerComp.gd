@@ -12,3 +12,27 @@ const JAVA_FIELDS := [{"modifiers": [], "name": "x", "type": "float"}, {"modifie
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "canMine", "parameters": [{"name": "item", "type": "Item", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "offloadImmediately", "parameters": [], "return_type": "boolean"}, {"modifiers": [], "name": "mining", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "getMineResult", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": "Item"}, {"modifiers": ["public"], "name": "validMine", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "checkDst", "type": "boolean", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "validMine", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "canMine", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "update", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_canMine_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_offloadImmediately_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_mining_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getMineResult_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_validMine_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_validMine_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_canMine_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_update_7(_args: Array = []) -> Variant:
+	return null

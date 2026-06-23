@@ -12,3 +12,42 @@ const JAVA_FIELDS := [{"modifiers": ["public", "static"], "name": "growSprites",
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "FloorRenderer", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "getVertexBuffer", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "recacheTile", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "recacheTile", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawFloor", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "drawFloor", "parameters": [{"name": "processChanges", "type": "boolean", "varargs": false}, {"name": "cacheIgnoreWalls", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawUnderwater", "parameters": [{"name": "run", "type": "Runnable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "beginDraw", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "drawLayer", "parameters": [{"name": "layer", "type": "CacheLayer", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawLayer", "parameters": [{"name": "layer", "type": "CacheLayer", "varargs": false}, {"name": "checkChanges", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["private"], "name": "cacheChunk", "parameters": [{"name": "cx", "type": "int", "varargs": false}, {"name": "cy", "type": "int", "varargs": false}, {"name": "ignoreWalls", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["private"], "name": "cacheChunkLayer", "parameters": [{"name": "cx", "type": "int", "varargs": false}, {"name": "cy", "type": "int", "varargs": false}, {"name": "layer", "type": "CacheLayer", "varargs": false}, {"name": "ignoreWalls", "type": "boolean", "varargs": false}], "return_type": "ChunkMesh"}, {"modifiers": ["public"], "name": "reload", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "reload", "parameters": [{"name": "ignoreWalls", "type": "boolean", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_getVertexBuffer_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_recacheTile_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_recacheTile_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawFloor_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawFloor_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawUnderwater_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_beginDraw_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawLayer_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawLayer_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_cacheChunk_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_cacheChunkLayer_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_reload_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_reload_12(_args: Array = []) -> Variant:
+	return null

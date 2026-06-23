@@ -12,3 +12,15 @@ const JAVA_FIELDS := [{"modifiers": [], "name": "type", "type": "UnitType"}]
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "draw", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "collisionLayer", "parameters": [], "return_type": "int"}, {"modifiers": ["public"], "name": "hittable", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "targetable", "parameters": [{"name": "targeter", "type": "Team", "varargs": false}], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_draw_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_collisionLayer_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hittable_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_targetable_3(_args: Array = []) -> Variant:
+	return null

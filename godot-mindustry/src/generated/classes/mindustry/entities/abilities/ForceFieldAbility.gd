@@ -12,3 +12,24 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "radius", "type": "float
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ForceFieldAbility", "parameters": [{"name": "radius", "type": "float", "varargs": false}, {"name": "regen", "type": "float", "varargs": false}, {"name": "max", "type": "float", "varargs": false}, {"name": "cooldown", "type": "float", "varargs": false}]}, {"modifiers": ["public"], "name": "ForceFieldAbility", "parameters": [{"name": "radius", "type": "float", "varargs": false}, {"name": "regen", "type": "float", "varargs": false}, {"name": "max", "type": "float", "varargs": false}, {"name": "cooldown", "type": "float", "varargs": false}, {"name": "sides", "type": "int", "varargs": false}, {"name": "rotation", "type": "float", "varargs": false}]}, {"modifiers": [], "name": "ForceFieldAbility", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "addStats", "parameters": [{"name": "t", "type": "Table", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "update", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "death", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "draw", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "displayBars", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "bars", "type": "Table", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "created", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "checkRadius", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_addStats_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_update_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_death_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_draw_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_displayBars_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_created_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkRadius_6(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,18 @@ const JAVA_FIELDS := [{"modifiers": [], "name": "health", "type": "float"}, {"mo
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "damage", "parameters": [{"name": "amount", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "damagePierce", "parameters": [{"name": "amount", "type": "float", "varargs": false}, {"name": "withEffect", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "damageArmorMult", "parameters": [{"name": "amount", "type": "float", "varargs": false}, {"name": "armorMult", "type": "float", "varargs": false}, {"name": "withEffect", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["protected"], "name": "rawDamage", "parameters": [{"name": "amount", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "update", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_damage_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_damagePierce_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_damageArmorMult_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_rawDamage_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_update_4(_args: Array = []) -> Variant:
+	return null

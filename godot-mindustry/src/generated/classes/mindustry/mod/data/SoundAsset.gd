@@ -12,3 +12,6 @@ const JAVA_FIELDS := []
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "getType", "parameters": [], "return_type": "DataAssetType"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_getType_0(_args: Array = []) -> Variant:
+	return null

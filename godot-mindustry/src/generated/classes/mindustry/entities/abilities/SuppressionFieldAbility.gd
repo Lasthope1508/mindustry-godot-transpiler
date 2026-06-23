@@ -12,3 +12,15 @@ const JAVA_FIELDS := [{"modifiers": ["protected", "static"], "name": "rand", "ty
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "init", "parameters": [{"name": "type", "type": "UnitType", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "addStats", "parameters": [{"name": "t", "type": "Table", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "update", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "draw", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_init_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_addStats_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_update_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_draw_3(_args: Array = []) -> Variant:
+	return null

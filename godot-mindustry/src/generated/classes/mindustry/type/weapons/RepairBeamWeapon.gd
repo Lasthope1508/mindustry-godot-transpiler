@@ -12,3 +12,30 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "targetBuildings", "type
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "RepairBeamWeapon", "parameters": [{"name": "name", "type": "String", "varargs": false}]}, {"modifiers": ["public"], "name": "RepairBeamWeapon", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "addStats", "parameters": [{"name": "u", "type": "UnitType", "varargs": false}, {"name": "w", "type": "Table", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "dps", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "load", "parameters": [], "return_type": ""}, {"modifiers": ["protected"], "name": "findTarget", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "range", "type": "float", "varargs": false}, {"name": "air", "type": "boolean", "varargs": false}, {"name": "ground", "type": "boolean", "varargs": false}], "return_type": "Teamc"}, {"modifiers": ["protected"], "name": "checkTarget", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "target", "type": "Teamc", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "range", "type": "float", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["protected"], "name": "shoot", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "mount", "type": "WeaponMount", "varargs": false}, {"name": "shootX", "type": "float", "varargs": false}, {"name": "shootY", "type": "float", "varargs": false}, {"name": "rotation", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "update", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "mount", "type": "WeaponMount", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "draw", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "mount", "type": "WeaponMount", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_addStats_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_dps_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_load_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_findTarget_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkTarget_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_shoot_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_update_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_draw_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_8(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "blending", "type": "Ble
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "DrawGlowRegion", "parameters": []}, {"modifiers": ["public"], "name": "DrawGlowRegion", "parameters": [{"name": "layer", "type": "float", "varargs": false}]}, {"modifiers": ["public"], "name": "DrawGlowRegion", "parameters": [{"name": "rotate", "type": "boolean", "varargs": false}]}, {"modifiers": ["public"], "name": "DrawGlowRegion", "parameters": [{"name": "suffix", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "draw", "parameters": [{"name": "build", "type": "Building", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "load", "parameters": [{"name": "block", "type": "Block", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_draw_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_load_1(_args: Array = []) -> Variant:
+	return null

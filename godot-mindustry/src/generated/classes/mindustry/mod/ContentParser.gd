@@ -12,3 +12,117 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "ign
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "readBlockConsumers", "parameters": [{"name": "block", "type": "Block", "varargs": false}, {"name": "value", "type": "JsonValue", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "unitType", "parameters": [{"name": "value", "type": "JsonValue", "varargs": false}], "return_type": "Prov"}, {"modifiers": ["private"], "name": "getString", "parameters": [{"name": "value", "type": "JsonValue", "varargs": false}, {"name": "key", "type": "String", "varargs": false}], "return_type": "String"}, {"modifiers": ["private"], "name": "getType", "parameters": [{"name": "value", "type": "JsonValue", "varargs": false}], "return_type": "String"}, {"modifiers": ["private"], "name": "find", "parameters": [{"name": "type", "type": "ContentType", "varargs": false}, {"name": "name", "type": "String", "varargs": false}], "return_type": "T"}, {"modifiers": ["private"], "name": "parser", "parameters": [{"name": "type", "type": "ContentType", "varargs": false}, {"name": "constructor", "type": "Func", "varargs": false}], "return_type": "TypeParser"}, {"modifiers": ["private"], "name": "readBundle", "parameters": [{"name": "type", "type": "ContentType", "varargs": false}, {"name": "name", "type": "String", "varargs": false}, {"name": "value", "type": "JsonValue", "varargs": false}], "return_type": ""}, {"modifiers": ["private"], "name": "read", "parameters": [{"name": "run", "type": "Runnable", "varargs": false}], "return_type": ""}, {"modifiers": ["private"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["private"], "name": "attempt", "parameters": [{"name": "run", "type": "Runnable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "finishParsing", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "parse", "parameters": [{"name": "mod", "type": "LoadedMod", "varargs": false}, {"name": "name", "type": "String", "varargs": false}, {"name": "json", "type": "String", "varargs": false}, {"name": "file", "type": "Fi", "varargs": false}, {"name": "type", "type": "ContentType", "varargs": false}], "return_type": "Content"}, {"modifiers": ["public"], "name": "checkInit", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "markError", "parameters": [{"name": "content", "type": "Content", "varargs": false}, {"name": "mod", "type": "LoadedMod", "varargs": false}, {"name": "file", "type": "Fi", "varargs": false}, {"name": "error", "type": "Throwable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "markError", "parameters": [{"name": "content", "type": "Content", "varargs": false}, {"name": "error", "type": "Throwable", "varargs": false}], "return_type": ""}, {"modifiers": ["private"], "name": "makeError", "parameters": [{"name": "t", "type": "Throwable", "varargs": false}, {"name": "file", "type": "Fi", "varargs": false}], "return_type": "String"}, {"modifiers": ["private"], "name": "locate", "parameters": [{"name": "type", "type": "ContentType", "varargs": false}, {"name": "name", "type": "String", "varargs": false}], "return_type": "T"}, {"modifiers": ["private"], "name": "locateAny", "parameters": [{"name": "name", "type": "String", "varargs": false}], "return_type": "T"}, {"modifiers": ["private"], "name": "parseMeshes", "parameters": [{"name": "planet", "type": "Planet", "varargs": false}, {"name": "array", "type": "JsonValue", "varargs": false}], "return_type": "GenericMesh"}, {"modifiers": ["private"], "name": "parseMesh", "parameters": [{"name": "planet", "type": "Planet", "varargs": false}, {"name": "data", "type": "JsonValue", "varargs": false}], "return_type": "GenericMesh"}, {"modifiers": ["private"], "name": "parseProgressOp", "parameters": [{"name": "base", "type": "PartProgress", "varargs": false}, {"name": "op", "type": "String", "varargs": false}, {"name": "data", "type": "JsonValue", "varargs": false}], "return_type": "PartProgress"}, {"modifiers": [], "name": "make", "parameters": [{"name": "type", "type": "Class", "varargs": false}], "return_type": "T"}, {"modifiers": ["private"], "name": "make", "parameters": [{"name": "type", "type": "Class", "varargs": false}, {"name": "name", "type": "String", "varargs": false}], "return_type": "T"}, {"modifiers": ["private"], "name": "supply", "parameters": [{"name": "type", "type": "Class", "varargs": false}], "return_type": "Prov"}, {"modifiers": [], "name": "resolveController", "parameters": [{"name": "type", "type": "String", "varargs": false}], "return_type": "Prov"}, {"modifiers": [], "name": "field", "parameters": [{"name": "type", "type": "Class", "varargs": false}, {"name": "value", "type": "JsonValue", "varargs": false}], "return_type": "Object"}, {"modifiers": ["private"], "name": "field", "parameters": [{"name": "type", "type": "Class", "varargs": false}, {"name": "name", "type": "String", "varargs": false}], "return_type": "Object"}, {"modifiers": [], "name": "fieldOpt", "parameters": [{"name": "type", "type": "Class", "varargs": false}, {"name": "value", "type": "JsonValue", "varargs": false}], "return_type": "Object"}, {"modifiers": [], "name": "checkNullFields", "parameters": [{"name": "object", "type": "Object", "varargs": false}], "return_type": ""}, {"modifiers": ["private"], "name": "readFields", "parameters": [{"name": "object", "type": "Object", "varargs": false}, {"name": "jsonMap", "type": "JsonValue", "varargs": false}, {"name": "stripType", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "readFields", "parameters": [{"name": "object", "type": "Object", "varargs": false}, {"name": "jsonMap", "type": "JsonValue", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "resolve", "parameters": [{"name": "base", "type": "String", "varargs": false}], "return_type": "Class"}, {"modifiers": [], "name": "resolve", "parameters": [{"name": "base", "type": "String", "varargs": false}, {"name": "def", "type": "Class", "varargs": false}], "return_type": "Class"}, {"modifiers": [], "name": "resolve", "parameters": [{"name": "base", "type": "String", "varargs": false}, {"name": "def", "type": "Class", "varargs": false}, {"name": "warn", "type": "boolean", "varargs": false}], "return_type": "Class"}, {"modifiers": [], "name": "warn", "parameters": [{"name": "string", "type": "String", "varargs": false}, {"name": "format", "type": "Object", "varargs": true}], "return_type": ""}, {"modifiers": [], "name": "warnContext", "parameters": [{"name": "currentContent", "type": "Content", "varargs": false}, {"name": "currentFile", "type": "Fi", "varargs": false}, {"name": "string", "type": "String", "varargs": false}, {"name": "format", "type": "Object", "varargs": true}], "return_type": ""}, {"modifiers": [], "name": "onNewInstance", "parameters": [{"name": "object", "type": "Object", "varargs": false}, {"name": "type", "type": "Class", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getJson", "parameters": [], "return_type": "Json"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_readBlockConsumers_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_unitType_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getString_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getType_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_find_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_parser_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_readBundle_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_read_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_attempt_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_finishParsing_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_parse_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkInit_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_markError_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_markError_14(_args: Array = []) -> Variant:
+	return null
+
+func java_method_makeError_15(_args: Array = []) -> Variant:
+	return null
+
+func java_method_locate_16(_args: Array = []) -> Variant:
+	return null
+
+func java_method_locateAny_17(_args: Array = []) -> Variant:
+	return null
+
+func java_method_parseMeshes_18(_args: Array = []) -> Variant:
+	return null
+
+func java_method_parseMesh_19(_args: Array = []) -> Variant:
+	return null
+
+func java_method_parseProgressOp_20(_args: Array = []) -> Variant:
+	return null
+
+func java_method_make_21(_args: Array = []) -> Variant:
+	return null
+
+func java_method_make_22(_args: Array = []) -> Variant:
+	return null
+
+func java_method_supply_23(_args: Array = []) -> Variant:
+	return null
+
+func java_method_resolveController_24(_args: Array = []) -> Variant:
+	return null
+
+func java_method_field_25(_args: Array = []) -> Variant:
+	return null
+
+func java_method_field_26(_args: Array = []) -> Variant:
+	return null
+
+func java_method_fieldOpt_27(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkNullFields_28(_args: Array = []) -> Variant:
+	return null
+
+func java_method_readFields_29(_args: Array = []) -> Variant:
+	return null
+
+func java_method_readFields_30(_args: Array = []) -> Variant:
+	return null
+
+func java_method_resolve_31(_args: Array = []) -> Variant:
+	return null
+
+func java_method_resolve_32(_args: Array = []) -> Variant:
+	return null
+
+func java_method_resolve_33(_args: Array = []) -> Variant:
+	return null
+
+func java_method_warn_34(_args: Array = []) -> Variant:
+	return null
+
+func java_method_warnContext_35(_args: Array = []) -> Variant:
+	return null
+
+func java_method_onNewInstance_36(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getJson_37(_args: Array = []) -> Variant:
+	return null

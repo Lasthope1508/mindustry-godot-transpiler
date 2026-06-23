@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "all"
 const JAVA_CONSTRUCTORS := [{"modifiers": [], "name": "ConditionOp", "parameters": [{"name": "symbol", "type": "String", "varargs": false}, {"name": "function", "type": "CondOpLambda", "varargs": false}]}, {"modifiers": [], "name": "ConditionOp", "parameters": [{"name": "symbol", "type": "String", "varargs": false}, {"name": "function", "type": "CondOpLambda", "varargs": false}, {"name": "objFunction", "type": "CondObjOpLambda", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "test", "parameters": [{"name": "va", "type": "LVar", "varargs": false}, {"name": "vb", "type": "LVar", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "toString", "parameters": [], "return_type": "String"}]
 const JAVA_ENUM_CONSTANTS := ["equal", "notEqual", "lessThan", "lessThanEq", "greaterThan", "greaterThanEq", "strictEqual", "always"]
+
+func java_method_test_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_toString_1(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,15 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public"], "name": "timerTarget", 
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "BuildTurret", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "afterPatch", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "setStats", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "icons", "parameters": [], "return_type": "TextureRegion"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_init_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_afterPatch_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setStats_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_icons_3(_args: Array = []) -> Variant:
+	return null

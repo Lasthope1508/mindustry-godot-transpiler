@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "mining", "type": "boole
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "stanceChanged", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "updateMovement", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_stanceChanged_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateMovement_1(_args: Array = []) -> Variant:
+	return null

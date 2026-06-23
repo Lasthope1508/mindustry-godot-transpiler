@@ -12,3 +12,15 @@ const JAVA_FIELDS := [{"modifiers": ["private"], "name": "buffer", "type": "Fram
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "drawPixelate", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "register", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "enabled", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "dispose", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_drawPixelate_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_register_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_enabled_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_dispose_3(_args: Array = []) -> Variant:
+	return null

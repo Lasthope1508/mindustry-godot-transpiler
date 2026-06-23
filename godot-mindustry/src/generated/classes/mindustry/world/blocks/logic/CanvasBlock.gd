@@ -12,3 +12,18 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "padding", "type": "floa
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "CanvasBlock", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "setPaletteFromString", "parameters": [{"name": "value", "type": "String", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "drawPlanRegion", "parameters": [{"name": "plan", "type": "BuildPlan", "varargs": false}, {"name": "list", "type": "Eachable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "makePixmap", "parameters": [{"name": "data", "type": "byte", "varargs": false}, {"name": "target", "type": "Pixmap", "varargs": false}], "return_type": "Pixmap"}, {"modifiers": ["protected"], "name": "getByte", "parameters": [{"name": "data", "type": "byte", "varargs": false}, {"name": "bitOffset", "type": "int", "varargs": false}], "return_type": "int"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_setPaletteFromString_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawPlanRegion_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_makePixmap_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getByte_4(_args: Array = []) -> Variant:
+	return null

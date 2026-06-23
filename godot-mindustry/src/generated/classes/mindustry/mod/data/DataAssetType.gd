@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public"], "name": "folder", "type
 const JAVA_CONSTRUCTORS := [{"modifiers": [], "name": "DataAssetType", "parameters": [{"name": "folder", "type": "String", "varargs": false}, {"name": "extensions", "type": "Seq", "varargs": false}, {"name": "constructor", "type": "Prov", "varargs": false}, {"name": "embedded", "type": "boolean", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "create", "parameters": [], "return_type": "DataAsset"}, {"modifiers": ["public"], "name": "localized", "parameters": [], "return_type": "String"}]
 const JAVA_ENUM_CONSTANTS := ["patch", "content", "bundle", "image", "sound", "music"]
+
+func java_method_create_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_localized_1(_args: Array = []) -> Variant:
+	return null

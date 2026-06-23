@@ -12,3 +12,24 @@ const JAVA_FIELDS := [{"modifiers": ["private"], "name": "buffer", "type": "long
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ItemBuffer", "parameters": [{"name": "capacity", "type": "int", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "accepts", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "accept", "parameters": [{"name": "item", "type": "Item", "varargs": false}, {"name": "data", "type": "short", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "accept", "parameters": [{"name": "item", "type": "Item", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "poll", "parameters": [{"name": "speed", "type": "float", "varargs": false}], "return_type": "Item"}, {"modifiers": ["public"], "name": "remove", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "write", "parameters": [{"name": "write", "type": "Writes", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "read", "parameters": [{"name": "read", "type": "Reads", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_accepts_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_accept_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_accept_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_poll_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_remove_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_write_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_read_6(_args: Array = []) -> Variant:
+	return null

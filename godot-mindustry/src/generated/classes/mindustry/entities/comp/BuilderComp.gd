@@ -12,3 +12,54 @@ const JAVA_FIELDS := [{"modifiers": [], "name": "x", "type": "float"}, {"modifie
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "canBuild", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "update", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "afterRead", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "validatePlans", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "updateBuildLogic", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "drawPlan", "parameters": [{"name": "plan", "type": "BuildPlan", "varargs": false}, {"name": "alpha", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "drawPlanTop", "parameters": [{"name": "plan", "type": "BuildPlan", "varargs": false}, {"name": "alpha", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "shouldSkip", "parameters": [{"name": "plan", "type": "BuildPlan", "varargs": false}, {"name": "core", "type": "Building", "varargs": false}], "return_type": "boolean"}, {"modifiers": [], "name": "removeBuild", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}, {"name": "breaking", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "isBuilding", "parameters": [], "return_type": "boolean"}, {"modifiers": [], "name": "clearBuilding", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "addBuild", "parameters": [{"name": "place", "type": "BuildPlan", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "addBuild", "parameters": [{"name": "place", "type": "BuildPlan", "varargs": false}, {"name": "tail", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "activelyBuilding", "parameters": [], "return_type": "boolean"}, {"modifiers": [], "name": "buildPlan", "parameters": [], "return_type": "BuildPlan"}, {"modifiers": ["public"], "name": "drawBuilding", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "drawBuildingBeam", "parameters": [{"name": "px", "type": "float", "varargs": false}, {"name": "py", "type": "float", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_canBuild_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_update_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_afterRead_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_validatePlans_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateBuildLogic_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawPlan_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawPlanTop_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_shouldSkip_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_removeBuild_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isBuilding_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_clearBuilding_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_addBuild_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_addBuild_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_activelyBuilding_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_buildPlan_14(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawBuilding_15(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawBuildingBeam_16(_args: Array = []) -> Variant:
+	return null

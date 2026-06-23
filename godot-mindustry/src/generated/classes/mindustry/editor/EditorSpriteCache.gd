@@ -12,3 +12,21 @@ const JAVA_FIELDS := [{"modifiers": ["final", "static"], "name": "vertexSize", "
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "EditorSpriteCache", "parameters": [{"name": "tmpVertices", "type": "float", "varargs": false}, {"name": "packX", "type": "float", "varargs": false}, {"name": "packY", "type": "float", "varargs": false}, {"name": "packW", "type": "float", "varargs": false}, {"name": "packH", "type": "float", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "isEmpty", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "build", "parameters": [{"name": "indices", "type": "IndexData", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "draw", "parameters": [{"name": "region", "type": "TextureRegion", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "originX", "type": "float", "varargs": false}, {"name": "originY", "type": "float", "varargs": false}, {"name": "width", "type": "float", "varargs": false}, {"name": "height", "type": "float", "varargs": false}, {"name": "rotation", "type": "float", "varargs": false}, {"name": "colorPacked", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["private"], "name": "pack", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "render", "parameters": [{"name": "shader", "type": "Shader", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "dispose", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_isEmpty_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_build_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_draw_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_pack_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_render_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_dispose_5(_args: Array = []) -> Variant:
+	return null

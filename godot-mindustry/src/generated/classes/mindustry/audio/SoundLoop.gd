@@ -12,3 +12,12 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "fad
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "SoundLoop", "parameters": [{"name": "sound", "type": "Sound", "varargs": false}, {"name": "baseVolume", "type": "float", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "update", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "play", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "update", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "play", "type": "boolean", "varargs": false}, {"name": "volumeScl", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "stop", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_update_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_update_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_stop_2(_args: Array = []) -> Variant:
+	return null

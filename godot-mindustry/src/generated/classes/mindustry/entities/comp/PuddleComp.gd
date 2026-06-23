@@ -12,3 +12,24 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "rec
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "getFlammability", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "update", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "draw", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "clipSize", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "remove", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "afterRead", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "afterSync", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_getFlammability_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_update_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_draw_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_clipSize_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_remove_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_afterRead_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_afterSync_6(_args: Array = []) -> Variant:
+	return null

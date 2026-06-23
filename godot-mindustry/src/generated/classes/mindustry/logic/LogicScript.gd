@@ -12,3 +12,12 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "defa
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "LogicScript", "parameters": [{"name": "script", "type": "String", "varargs": false}]}, {"modifiers": [], "name": "LogicScript", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "run", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "write", "parameters": [{"name": "json", "type": "Json", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "read", "parameters": [{"name": "json", "type": "Json", "varargs": false}, {"name": "jsonData", "type": "JsonValue", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_run_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_write_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_read_2(_args: Array = []) -> Variant:
+	return null

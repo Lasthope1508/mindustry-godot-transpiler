@@ -12,3 +12,6 @@ const JAVA_FIELDS := [{"modifiers": [], "name": "x", "type": "float"}, {"modifie
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "solidity", "parameters": [], "return_type": "SolidPred"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_solidity_0(_args: Array = []) -> Variant:
+	return null

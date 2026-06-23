@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "clickSound", "type": "S
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "SwitchBlock", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "accessible", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "canBreak", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_accessible_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_canBreak_1(_args: Array = []) -> Variant:
+	return null

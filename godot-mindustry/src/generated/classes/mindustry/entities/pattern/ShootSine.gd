@@ -12,3 +12,6 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "scl", "type": "float"},
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ShootSine", "parameters": [{"name": "scl", "type": "float", "varargs": false}, {"name": "mag", "type": "float", "varargs": false}]}, {"modifiers": ["public"], "name": "ShootSine", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "shoot", "parameters": [{"name": "totalShots", "type": "int", "varargs": false}, {"name": "handler", "type": "BulletHandler", "varargs": false}, {"name": "barrelIncrementer", "type": "Runnable", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_shoot_0(_args: Array = []) -> Variant:
+	return null

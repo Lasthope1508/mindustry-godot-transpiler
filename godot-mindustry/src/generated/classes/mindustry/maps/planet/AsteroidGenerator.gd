@@ -12,3 +12,12 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "min", "type": "int"}, {
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": [], "name": "asteroid", "parameters": [{"name": "ax", "type": "int", "varargs": false}, {"name": "ay", "type": "int", "varargs": false}, {"name": "radius", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "generate", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "getSectorSize", "parameters": [{"name": "sector", "type": "Sector", "varargs": false}], "return_type": "int"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_asteroid_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_generate_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getSectorSize_2(_args: Array = []) -> Variant:
+	return null

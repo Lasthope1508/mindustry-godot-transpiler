@@ -12,3 +12,12 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public"], "name": "processes", "t
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "AsyncCore", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "begin", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "end", "parameters": [], "return_type": ""}, {"modifiers": ["private"], "name": "complete", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_begin_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_end_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_complete_2(_args: Array = []) -> Variant:
+	return null

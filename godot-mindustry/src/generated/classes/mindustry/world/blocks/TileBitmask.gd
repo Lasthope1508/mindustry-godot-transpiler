@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "valu
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "load", "parameters": [{"name": "name", "type": "String", "varargs": false}], "return_type": "TextureRegion"}, {"modifiers": ["public", "static"], "name": "loadVariants", "parameters": [{"name": "name", "type": "String", "varargs": false}, {"name": "variants", "type": "int", "varargs": false}], "return_type": "TextureRegion"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_load_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadVariants_1(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,6 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private"], "name": "consume", "ty
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ConsumePowerCondition", "parameters": [{"name": "usage", "type": "float", "varargs": false}, {"name": "consume", "type": "Boolf", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "requestedPower", "parameters": [{"name": "entity", "type": "Building", "varargs": false}], "return_type": "float"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_requestedPower_0(_args: Array = []) -> Variant:
+	return null

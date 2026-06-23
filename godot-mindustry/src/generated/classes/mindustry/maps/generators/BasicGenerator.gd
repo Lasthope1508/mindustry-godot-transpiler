@@ -12,3 +12,108 @@ const JAVA_FIELDS := [{"modifiers": ["final", "protected", "static"], "name": "i
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "generate", "parameters": [{"name": "tiles", "type": "Tiles", "varargs": false}, {"name": "params", "type": "WorldParams", "varargs": false}], "return_type": ""}, {"modifiers": ["protected"], "name": "generate", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "median", "parameters": [{"name": "radius", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "median", "parameters": [{"name": "radius", "type": "int", "varargs": false}, {"name": "percentile", "type": "double", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "median", "parameters": [{"name": "radius", "type": "int", "varargs": false}, {"name": "percentile", "type": "double", "varargs": false}, {"name": "targetFloor", "type": "Block", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "ores", "parameters": [{"name": "ores", "type": "Seq", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "ore", "parameters": [{"name": "dest", "type": "Block", "varargs": false}, {"name": "src", "type": "Block", "varargs": false}, {"name": "i", "type": "float", "varargs": false}, {"name": "thresh", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "oreAround", "parameters": [{"name": "ore", "type": "Block", "varargs": false}, {"name": "wall", "type": "Block", "varargs": false}, {"name": "radius", "type": "int", "varargs": false}, {"name": "scl", "type": "float", "varargs": false}, {"name": "thresh", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "wallOre", "parameters": [{"name": "src", "type": "Block", "varargs": false}, {"name": "dest", "type": "Block", "varargs": false}, {"name": "scl", "type": "float", "varargs": false}, {"name": "thresh", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "cliffs", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "terrain", "parameters": [{"name": "dst", "type": "Block", "varargs": false}, {"name": "scl", "type": "float", "varargs": false}, {"name": "mag", "type": "float", "varargs": false}, {"name": "cmag", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "noise", "parameters": [{"name": "floor", "type": "Block", "varargs": false}, {"name": "block", "type": "Block", "varargs": false}, {"name": "octaves", "type": "int", "varargs": false}, {"name": "falloff", "type": "float", "varargs": false}, {"name": "scl", "type": "float", "varargs": false}, {"name": "threshold", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "overlay", "parameters": [{"name": "floor", "type": "Block", "varargs": false}, {"name": "block", "type": "Block", "varargs": false}, {"name": "chance", "type": "float", "varargs": false}, {"name": "octaves", "type": "int", "varargs": false}, {"name": "falloff", "type": "float", "varargs": false}, {"name": "scl", "type": "float", "varargs": false}, {"name": "threshold", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "tech", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "tech", "parameters": [{"name": "floor1", "type": "Block", "varargs": false}, {"name": "floor2", "type": "Block", "varargs": false}, {"name": "wall", "type": "Block", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "distort", "parameters": [{"name": "scl", "type": "float", "varargs": false}, {"name": "mag", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "scatter", "parameters": [{"name": "target", "type": "Block", "varargs": false}, {"name": "dst", "type": "Block", "varargs": false}, {"name": "chance", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "each", "parameters": [{"name": "r", "type": "Intc2", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "cells", "parameters": [{"name": "iterations", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "cells", "parameters": [{"name": "iterations", "type": "int", "varargs": false}, {"name": "birthLimit", "type": "int", "varargs": false}, {"name": "deathLimit", "type": "int", "varargs": false}, {"name": "cradius", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["protected"], "name": "noise", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "scl", "type": "double", "varargs": false}, {"name": "mag", "type": "double", "varargs": false}], "return_type": "float"}, {"modifiers": ["abstract", "protected"], "name": "noise", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "octaves", "type": "double", "varargs": false}, {"name": "falloff", "type": "double", "varargs": false}, {"name": "scl", "type": "double", "varargs": false}, {"name": "mag", "type": "double", "varargs": false}], "return_type": "float"}, {"modifiers": ["protected"], "name": "noise", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "octaves", "type": "double", "varargs": false}, {"name": "falloff", "type": "double", "varargs": false}, {"name": "scl", "type": "double", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "pass", "parameters": [{"name": "r", "type": "Intc2", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "nearWall", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "nearAir", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "removeWall", "parameters": [{"name": "cx", "type": "int", "varargs": false}, {"name": "cy", "type": "int", "varargs": false}, {"name": "rad", "type": "int", "varargs": false}, {"name": "pred", "type": "Boolf", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "near", "parameters": [{"name": "cx", "type": "int", "varargs": false}, {"name": "cy", "type": "int", "varargs": false}, {"name": "rad", "type": "int", "varargs": false}, {"name": "block", "type": "Block", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "decoration", "parameters": [{"name": "chance", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "blend", "parameters": [{"name": "floor", "type": "Block", "varargs": false}, {"name": "around", "type": "Block", "varargs": false}, {"name": "radius", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "brush", "parameters": [{"name": "path", "type": "Seq", "varargs": false}, {"name": "rad", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "erase", "parameters": [{"name": "cx", "type": "int", "varargs": false}, {"name": "cy", "type": "int", "varargs": false}, {"name": "rad", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "pathfind", "parameters": [{"name": "startX", "type": "int", "varargs": false}, {"name": "startY", "type": "int", "varargs": false}, {"name": "endX", "type": "int", "varargs": false}, {"name": "endY", "type": "int", "varargs": false}, {"name": "th", "type": "TileHeuristic", "varargs": false}, {"name": "dh", "type": "DistanceHeuristic", "varargs": false}], "return_type": "Seq"}, {"modifiers": ["public"], "name": "trimDark", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "inverseFloodFill", "parameters": [{"name": "start", "type": "Tile", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_generate_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_generate_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_median_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_median_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_median_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_ores_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_ore_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_oreAround_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_wallOre_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_cliffs_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_terrain_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_noise_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_overlay_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_tech_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_tech_14(_args: Array = []) -> Variant:
+	return null
+
+func java_method_distort_15(_args: Array = []) -> Variant:
+	return null
+
+func java_method_scatter_16(_args: Array = []) -> Variant:
+	return null
+
+func java_method_each_17(_args: Array = []) -> Variant:
+	return null
+
+func java_method_cells_18(_args: Array = []) -> Variant:
+	return null
+
+func java_method_cells_19(_args: Array = []) -> Variant:
+	return null
+
+func java_method_noise_20(_args: Array = []) -> Variant:
+	return null
+
+func java_method_noise_21(_args: Array = []) -> Variant:
+	return null
+
+func java_method_noise_22(_args: Array = []) -> Variant:
+	return null
+
+func java_method_pass_23(_args: Array = []) -> Variant:
+	return null
+
+func java_method_nearWall_24(_args: Array = []) -> Variant:
+	return null
+
+func java_method_nearAir_25(_args: Array = []) -> Variant:
+	return null
+
+func java_method_removeWall_26(_args: Array = []) -> Variant:
+	return null
+
+func java_method_near_27(_args: Array = []) -> Variant:
+	return null
+
+func java_method_decoration_28(_args: Array = []) -> Variant:
+	return null
+
+func java_method_blend_29(_args: Array = []) -> Variant:
+	return null
+
+func java_method_brush_30(_args: Array = []) -> Variant:
+	return null
+
+func java_method_erase_31(_args: Array = []) -> Variant:
+	return null
+
+func java_method_pathfind_32(_args: Array = []) -> Variant:
+	return null
+
+func java_method_trimDark_33(_args: Array = []) -> Variant:
+	return null
+
+func java_method_inverseFloodFill_34(_args: Array = []) -> Variant:
+	return null

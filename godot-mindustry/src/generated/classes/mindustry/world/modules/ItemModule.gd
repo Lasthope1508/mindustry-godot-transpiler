@@ -12,3 +12,129 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "empt
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "copy", "parameters": [], "return_type": "ItemModule"}, {"modifiers": ["public"], "name": "set", "parameters": [{"name": "other", "type": "ItemModule", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "updateFlow", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "stopFlow", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "length", "parameters": [], "return_type": "int"}, {"modifiers": ["public"], "name": "getFlowRate", "parameters": [{"name": "item", "type": "Item", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "hasFlowItem", "parameters": [{"name": "item", "type": "Item", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "each", "parameters": [{"name": "cons", "type": "ItemConsumer", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "sum", "parameters": [{"name": "calc", "type": "ItemCalculator", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "has", "parameters": [{"name": "id", "type": "int", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "has", "parameters": [{"name": "item", "type": "Item", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "has", "parameters": [{"name": "item", "type": "Item", "varargs": false}, {"name": "amount", "type": "int", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "has", "parameters": [{"name": "stacks", "type": "ItemStack", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "has", "parameters": [{"name": "items", "type": "ItemSeq", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "has", "parameters": [{"name": "stacks", "type": "Iterable", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "has", "parameters": [{"name": "stacks", "type": "ItemStack", "varargs": false}, {"name": "multiplier", "type": "float", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "hasOne", "parameters": [{"name": "stacks", "type": "ItemStack", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "empty", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "total", "parameters": [], "return_type": "int"}, {"modifiers": ["public"], "name": "any", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "first", "parameters": [], "return_type": "Item"}, {"modifiers": ["public"], "name": "take", "parameters": [], "return_type": "Item"}, {"modifiers": ["public"], "name": "get", "parameters": [{"name": "id", "type": "int", "varargs": false}], "return_type": "int"}, {"modifiers": ["public"], "name": "get", "parameters": [{"name": "item", "type": "Item", "varargs": false}], "return_type": "int"}, {"modifiers": ["public"], "name": "set", "parameters": [{"name": "item", "type": "Item", "varargs": false}, {"name": "amount", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "add", "parameters": [{"name": "stacks", "type": "Iterable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "add", "parameters": [{"name": "stacks", "type": "ItemSeq", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "add", "parameters": [{"name": "items", "type": "ItemModule", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "add", "parameters": [{"name": "item", "type": "Item", "varargs": false}, {"name": "amount", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["private"], "name": "add", "parameters": [{"name": "item", "type": "int", "varargs": false}, {"name": "amount", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "handleFlow", "parameters": [{"name": "item", "type": "Item", "varargs": false}, {"name": "amount", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "undoFlow", "parameters": [{"name": "item", "type": "Item", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "remove", "parameters": [{"name": "item", "type": "Item", "varargs": false}, {"name": "amount", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "remove", "parameters": [{"name": "stacks", "type": "ItemStack", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "remove", "parameters": [{"name": "stacks", "type": "ItemSeq", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "remove", "parameters": [{"name": "stacks", "type": "Iterable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "remove", "parameters": [{"name": "stack", "type": "ItemStack", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "clear", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "checkArrayCapacity", "parameters": [{"name": "size", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "write", "parameters": [{"name": "write", "type": "Writes", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "read", "parameters": [{"name": "read", "type": "Reads", "varargs": false}, {"name": "legacy", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "toString", "parameters": [], "return_type": "String"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_copy_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_set_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_updateFlow_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_stopFlow_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_length_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getFlowRate_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hasFlowItem_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_each_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_sum_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_has_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_has_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_has_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_has_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_has_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_has_14(_args: Array = []) -> Variant:
+	return null
+
+func java_method_has_15(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hasOne_16(_args: Array = []) -> Variant:
+	return null
+
+func java_method_empty_17(_args: Array = []) -> Variant:
+	return null
+
+func java_method_total_18(_args: Array = []) -> Variant:
+	return null
+
+func java_method_any_19(_args: Array = []) -> Variant:
+	return null
+
+func java_method_first_20(_args: Array = []) -> Variant:
+	return null
+
+func java_method_take_21(_args: Array = []) -> Variant:
+	return null
+
+func java_method_get_22(_args: Array = []) -> Variant:
+	return null
+
+func java_method_get_23(_args: Array = []) -> Variant:
+	return null
+
+func java_method_set_24(_args: Array = []) -> Variant:
+	return null
+
+func java_method_add_25(_args: Array = []) -> Variant:
+	return null
+
+func java_method_add_26(_args: Array = []) -> Variant:
+	return null
+
+func java_method_add_27(_args: Array = []) -> Variant:
+	return null
+
+func java_method_add_28(_args: Array = []) -> Variant:
+	return null
+
+func java_method_add_29(_args: Array = []) -> Variant:
+	return null
+
+func java_method_handleFlow_30(_args: Array = []) -> Variant:
+	return null
+
+func java_method_undoFlow_31(_args: Array = []) -> Variant:
+	return null
+
+func java_method_remove_32(_args: Array = []) -> Variant:
+	return null
+
+func java_method_remove_33(_args: Array = []) -> Variant:
+	return null
+
+func java_method_remove_34(_args: Array = []) -> Variant:
+	return null
+
+func java_method_remove_35(_args: Array = []) -> Variant:
+	return null
+
+func java_method_remove_36(_args: Array = []) -> Variant:
+	return null
+
+func java_method_clear_37(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkArrayCapacity_38(_args: Array = []) -> Variant:
+	return null
+
+func java_method_write_39(_args: Array = []) -> Variant:
+	return null
+
+func java_method_read_40(_args: Array = []) -> Variant:
+	return null
+
+func java_method_toString_41(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,24 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "isT
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "build", "parameters": [{"name": "parent", "type": "Group", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "checkNext", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "display", "parameters": [{"name": "hint", "type": "Hint", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "complete", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "hide", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "shown", "parameters": [], "return_type": "boolean"}, {"modifiers": ["static"], "name": "isSerpulo", "parameters": [], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_build_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkNext_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_display_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_complete_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hide_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_shown_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isSerpulo_6(_args: Array = []) -> Variant:
+	return null

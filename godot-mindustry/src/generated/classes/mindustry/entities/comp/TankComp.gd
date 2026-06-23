@@ -12,3 +12,18 @@ const JAVA_FIELDS := [{"modifiers": [], "name": "x", "type": "float"}, {"modifie
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "update", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "floorSpeedMultiplier", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "drownFloor", "parameters": [], "return_type": "Floor"}, {"modifiers": ["public"], "name": "moveAt", "parameters": [{"name": "vector", "type": "Vec2", "varargs": false}, {"name": "acceleration", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "approach", "parameters": [{"name": "vector", "type": "Vec2", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_update_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_floorSpeedMultiplier_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drownFloor_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_moveAt_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_approach_4(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["private"], "name": "cons", "type": "Cons"}
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "PaletteDialog", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["private"], "name": "build", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "show", "parameters": [{"name": "cons", "type": "Cons", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_build_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_show_1(_args: Array = []) -> Variant:
+	return null

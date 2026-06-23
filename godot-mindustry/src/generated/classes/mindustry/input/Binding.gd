@@ -12,3 +12,6 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "move
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "init", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_init_0(_args: Array = []) -> Variant:
+	return null

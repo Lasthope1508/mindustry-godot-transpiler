@@ -12,3 +12,18 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public"], "name": "items", "type"
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ConsumeItemDynamic", "parameters": [{"name": "items", "type": "Func", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "apply", "parameters": [{"name": "block", "type": "Block", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "build", "parameters": [{"name": "build", "type": "Building", "varargs": false}, {"name": "table", "type": "Table", "varargs": false}], "return_type": ""}, {"modifiers": ["private"], "name": "rebuild", "parameters": [{"name": "build", "type": "Building", "varargs": false}, {"name": "table", "type": "Table", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "trigger", "parameters": [{"name": "build", "type": "Building", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "efficiency", "parameters": [{"name": "build", "type": "Building", "varargs": false}], "return_type": "float"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_apply_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_build_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_rebuild_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_trigger_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_efficiency_4(_args: Array = []) -> Variant:
+	return null

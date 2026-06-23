@@ -12,3 +12,24 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "canvas", "type": "LCanv
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "LogicDialog", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "typeColor", "parameters": [{"name": "s", "type": "LVar", "varargs": false}, {"name": "color", "type": "Color", "varargs": false}], "return_type": "Color"}, {"modifiers": ["public", "static"], "name": "typeName", "parameters": [{"name": "s", "type": "LVar", "varargs": false}], "return_type": "String"}, {"modifiers": ["private"], "name": "setup", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "shouldShowVariables", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "showAddDialog", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "showAddDialog", "parameters": [{"name": "position", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "show", "parameters": [{"name": "code", "type": "String", "varargs": false}, {"name": "executor", "type": "LExecutor", "varargs": false}, {"name": "privileged", "type": "boolean", "varargs": false}, {"name": "modified", "type": "Cons", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_typeColor_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_typeName_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setup_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_shouldShowVariables_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showAddDialog_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_showAddDialog_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_show_6(_args: Array = []) -> Variant:
+	return null

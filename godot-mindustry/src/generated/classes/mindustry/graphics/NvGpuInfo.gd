@@ -12,3 +12,12 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "GL_
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "getMaxMemoryKB", "parameters": [], "return_type": "int"}, {"modifiers": ["public", "static"], "name": "getAvailableMemoryKB", "parameters": [], "return_type": "int"}, {"modifiers": ["public", "static"], "name": "hasMemoryInfo", "parameters": [], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_getMaxMemoryKB_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getAvailableMemoryKB_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_hasMemoryInfo_2(_args: Array = []) -> Variant:
+	return null

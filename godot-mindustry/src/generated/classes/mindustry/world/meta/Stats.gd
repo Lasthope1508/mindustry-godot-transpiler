@@ -12,3 +12,60 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "useCategories", "type":
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "add", "parameters": [{"name": "stat", "type": "Stat", "varargs": false}, {"name": "value", "type": "float", "varargs": false}, {"name": "unit", "type": "StatUnit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "add", "parameters": [{"name": "stat", "type": "Stat", "varargs": false}, {"name": "value", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "addPercent", "parameters": [{"name": "stat", "type": "Stat", "varargs": false}, {"name": "value", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "addMultModifier", "parameters": [{"name": "stat", "type": "Stat", "varargs": false}, {"name": "value", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "addPercentModifier", "parameters": [{"name": "stat", "type": "Stat", "varargs": false}, {"name": "value", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "add", "parameters": [{"name": "stat", "type": "Stat", "varargs": false}, {"name": "value", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "add", "parameters": [{"name": "stat", "type": "Stat", "varargs": false}, {"name": "item", "type": "Item", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "add", "parameters": [{"name": "stat", "type": "Stat", "varargs": false}, {"name": "item", "type": "ItemStack", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "add", "parameters": [{"name": "stat", "type": "Stat", "varargs": false}, {"name": "liquid", "type": "Liquid", "varargs": false}, {"name": "amount", "type": "float", "varargs": false}, {"name": "perSecond", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "add", "parameters": [{"name": "stat", "type": "Stat", "varargs": false}, {"name": "attr", "type": "Attribute", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "add", "parameters": [{"name": "stat", "type": "Stat", "varargs": false}, {"name": "attr", "type": "Attribute", "varargs": false}, {"name": "scale", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "add", "parameters": [{"name": "stat", "type": "Stat", "varargs": false}, {"name": "attr", "type": "Attribute", "varargs": false}, {"name": "floating", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "add", "parameters": [{"name": "stat", "type": "Stat", "varargs": false}, {"name": "attr", "type": "Attribute", "varargs": false}, {"name": "floating", "type": "boolean", "varargs": false}, {"name": "scale", "type": "float", "varargs": false}, {"name": "startZero", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "add", "parameters": [{"name": "stat", "type": "Stat", "varargs": false}, {"name": "format", "type": "String", "varargs": false}, {"name": "args", "type": "Object", "varargs": true}], "return_type": ""}, {"modifiers": ["public"], "name": "replace", "parameters": [{"name": "stat", "type": "Stat", "varargs": false}, {"name": "value", "type": "StatValue", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "add", "parameters": [{"name": "stat", "type": "Stat", "varargs": false}, {"name": "value", "type": "StatValue", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "remove", "parameters": [{"name": "stat", "type": "Stat", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "toMap", "parameters": [], "return_type": "OrderedMap"}, {"modifiers": ["public"], "name": "statInfo", "parameters": [{"name": "cell", "type": "Cell", "varargs": false}, {"name": "stat", "type": "Stat", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_add_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_add_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_addPercent_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_addMultModifier_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_addPercentModifier_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_add_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_add_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_add_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_add_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_add_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_add_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_add_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_add_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_add_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_replace_14(_args: Array = []) -> Variant:
+	return null
+
+func java_method_add_15(_args: Array = []) -> Variant:
+	return null
+
+func java_method_remove_16(_args: Array = []) -> Variant:
+	return null
+
+func java_method_toMap_17(_args: Array = []) -> Variant:
+	return null
+
+func java_method_statInfo_18(_args: Array = []) -> Variant:
+	return null

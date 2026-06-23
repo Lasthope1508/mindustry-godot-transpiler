@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "backColor", "type": "Co
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "BasicBulletType", "parameters": [{"name": "speed", "type": "float", "varargs": false}, {"name": "damage", "type": "float", "varargs": false}, {"name": "bulletSprite", "type": "String", "varargs": false}]}, {"modifiers": ["public"], "name": "BasicBulletType", "parameters": [{"name": "speed", "type": "float", "varargs": false}, {"name": "damage", "type": "float", "varargs": false}]}, {"modifiers": ["public"], "name": "BasicBulletType", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "load", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "draw", "parameters": [{"name": "b", "type": "Bullet", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_load_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_draw_1(_args: Array = []) -> Variant:
+	return null

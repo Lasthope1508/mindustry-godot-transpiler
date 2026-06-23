@@ -12,3 +12,24 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "generator", "type": "Fi
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "SectorPreset", "parameters": [{"name": "name", "type": "String", "varargs": false}, {"name": "planet", "type": "Planet", "varargs": false}, {"name": "sector", "type": "int", "varargs": false}]}, {"modifiers": ["public"], "name": "SectorPreset", "parameters": [{"name": "name", "type": "String", "varargs": false}, {"name": "fileName", "type": "String", "varargs": false}, {"name": "planet", "type": "Planet", "varargs": false}, {"name": "sector", "type": "int", "varargs": false}]}, {"modifiers": ["public"], "name": "SectorPreset", "parameters": [{"name": "name", "type": "String", "varargs": false}, {"name": "mod", "type": "LoadedMod", "varargs": false}]}, {"modifiers": ["public"], "name": "SectorPreset", "parameters": [{"name": "name", "type": "String", "varargs": false}, {"name": "fileName", "type": "String", "varargs": false}, {"name": "mod", "type": "LoadedMod", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "initialize", "parameters": [{"name": "planet", "type": "Planet", "varargs": false}, {"name": "sector", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "initialize", "parameters": [{"name": "planet", "type": "Planet", "varargs": false}, {"name": "sector", "type": "int", "varargs": false}, {"name": "override", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "removeContent", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "loadIcon", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "isHidden", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "getContentType", "parameters": [], "return_type": "ContentType"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_initialize_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_initialize_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_removeContent_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_loadIcon_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isHidden_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getContentType_6(_args: Array = []) -> Variant:
+	return null

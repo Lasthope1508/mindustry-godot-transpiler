@@ -12,3 +12,24 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "sca
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "add", "parameters": [{"name": "run", "type": "Runnable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "add", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "radius", "type": "float", "varargs": false}, {"name": "color", "type": "Color", "varargs": false}, {"name": "opacity", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "add", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "region", "type": "TextureRegion", "varargs": false}, {"name": "color", "type": "Color", "varargs": false}, {"name": "opacity", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "add", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "region", "type": "TextureRegion", "varargs": false}, {"name": "rotation", "type": "float", "varargs": false}, {"name": "color", "type": "Color", "varargs": false}, {"name": "opacity", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "line", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "x2", "type": "float", "varargs": false}, {"name": "y2", "type": "float", "varargs": false}, {"name": "stroke", "type": "float", "varargs": false}, {"name": "tint", "type": "Color", "varargs": false}, {"name": "alpha", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "enabled", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "draw", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_add_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_add_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_add_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_add_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_line_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_enabled_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_draw_6(_args: Array = []) -> Variant:
+	return null

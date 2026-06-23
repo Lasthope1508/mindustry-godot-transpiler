@@ -12,3 +12,24 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "max
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "BeamNode", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "setBars", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "setStats", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "drawPlace", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}, {"name": "rotation", "type": "int", "varargs": false}, {"name": "valid", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "changePlacementPath", "parameters": [{"name": "points", "type": "Seq", "varargs": false}, {"name": "rotation", "type": "int", "varargs": false}, {"name": "diagonal", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "getNodeLinks", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "block", "type": "Block", "varargs": false}, {"name": "team", "type": "Team", "varargs": false}, {"name": "others", "type": "Cons", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawLaser", "parameters": [{"name": "x1", "type": "float", "varargs": false}, {"name": "y1", "type": "float", "varargs": false}, {"name": "x2", "type": "float", "varargs": false}, {"name": "y2", "type": "float", "varargs": false}, {"name": "size1", "type": "int", "varargs": false}, {"name": "size2", "type": "int", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_setBars_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setStats_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawPlace_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_changePlacementPath_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getNodeLinks_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawLaser_6(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,21 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "sideRegion1", "type": "
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "UnitAssemblerModule", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "setStats", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "drawPlace", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}, {"name": "rotation", "type": "int", "varargs": false}, {"name": "valid", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "canPlaceOn", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "team", "type": "Team", "varargs": false}, {"name": "rotation", "type": "int", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "drawPlanRegion", "parameters": [{"name": "plan", "type": "BuildPlan", "varargs": false}, {"name": "list", "type": "Eachable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "icons", "parameters": [], "return_type": "TextureRegion"}, {"modifiers": ["public"], "name": "getLink", "parameters": [{"name": "team", "type": "Team", "varargs": false}, {"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}, {"name": "rotation", "type": "int", "varargs": false}], "return_type": "UnitAssemblerBuild"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_setStats_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawPlace_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_canPlaceOn_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawPlanRegion_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_icons_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getLink_5(_args: Array = []) -> Variant:
+	return null

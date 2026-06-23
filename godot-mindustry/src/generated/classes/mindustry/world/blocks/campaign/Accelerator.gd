@@ -12,3 +12,15 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "arrowRegion", "type": "
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "Accelerator", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "checkContentArrayCapacity", "parameters": [{"name": "items", "type": "int", "varargs": false}, {"name": "liquids", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "setBars", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "outputsItems", "parameters": [], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_init_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkContentArrayCapacity_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setBars_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_outputsItems_3(_args: Array = []) -> Variant:
+	return null

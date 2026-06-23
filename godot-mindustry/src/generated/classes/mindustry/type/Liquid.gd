@@ -12,3 +12,45 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "anim
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "Liquid", "parameters": [{"name": "name", "type": "String", "varargs": false}, {"name": "color", "type": "Color", "varargs": false}]}, {"modifiers": ["public"], "name": "Liquid", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "isHidden", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "getAnimationFrame", "parameters": [], "return_type": "int"}, {"modifiers": ["public"], "name": "willBoil", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "canExtinguish", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "barColor", "parameters": [], "return_type": "Color"}, {"modifiers": ["public"], "name": "drawPuddle", "parameters": [{"name": "puddle", "type": "Puddle", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "update", "parameters": [{"name": "puddle", "type": "Puddle", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "react", "parameters": [{"name": "other", "type": "Liquid", "varargs": false}, {"name": "amount", "type": "float", "varargs": false}, {"name": "tile", "type": "Tile", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "setStats", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "sense", "parameters": [{"name": "sensor", "type": "LAccess", "varargs": false}], "return_type": "double"}, {"modifiers": ["public"], "name": "senseObject", "parameters": [{"name": "sensor", "type": "LAccess", "varargs": false}], "return_type": "Object"}, {"modifiers": ["public"], "name": "toString", "parameters": [], "return_type": "String"}, {"modifiers": ["public"], "name": "getContentType", "parameters": [], "return_type": "ContentType"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_init_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isHidden_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getAnimationFrame_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_willBoil_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_canExtinguish_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_barColor_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawPuddle_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_update_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_react_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_setStats_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_sense_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_senseObject_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_toString_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getContentType_13(_args: Array = []) -> Variant:
+	return null

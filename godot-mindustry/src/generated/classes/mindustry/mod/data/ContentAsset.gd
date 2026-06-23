@@ -12,3 +12,27 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "load
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ContentAsset", "parameters": [{"name": "path", "type": "String", "varargs": false}, {"name": "type", "type": "ContentType", "varargs": false}, {"name": "data", "type": "String", "varargs": false}]}, {"modifiers": ["public"], "name": "ContentAsset", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "hashData", "parameters": [], "return_type": "String"}, {"modifiers": ["public"], "name": "readOverride", "parameters": [{"name": "path", "type": "String", "varargs": false}, {"name": "file", "type": "Fi", "varargs": false}, {"name": "type", "type": "ContentType", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getFullPath", "parameters": [], "return_type": "String"}, {"modifiers": ["public"], "name": "getData", "parameters": [], "return_type": "byte"}, {"modifiers": ["public"], "name": "getType", "parameters": [], "return_type": "DataAssetType"}, {"modifiers": ["public"], "name": "read", "parameters": [{"name": "stream", "type": "DataInput", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "write", "parameters": [{"name": "stream", "type": "DataOutput", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "compareTo", "parameters": [{"name": "asset", "type": "DataAsset", "varargs": false}], "return_type": "int"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_hashData_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_readOverride_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getFullPath_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getData_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getType_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_read_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_write_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_compareTo_7(_args: Array = []) -> Variant:
+	return null

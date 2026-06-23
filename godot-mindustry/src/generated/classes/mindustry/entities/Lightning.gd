@@ -12,3 +12,15 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "ran
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public", "static"], "name": "create", "parameters": [{"name": "bulletCreated", "type": "BulletType", "varargs": false}, {"name": "team", "type": "Team", "varargs": false}, {"name": "color", "type": "Color", "varargs": false}, {"name": "damage", "type": "float", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "targetAngle", "type": "float", "varargs": false}, {"name": "length", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "create", "parameters": [{"name": "team", "type": "Team", "varargs": false}, {"name": "color", "type": "Color", "varargs": false}, {"name": "damage", "type": "float", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "targetAngle", "type": "float", "varargs": false}, {"name": "length", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public", "static"], "name": "create", "parameters": [{"name": "bullet", "type": "Bullet", "varargs": false}, {"name": "color", "type": "Color", "varargs": false}, {"name": "damage", "type": "float", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "targetAngle", "type": "float", "varargs": false}, {"name": "length", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["private", "static"], "name": "createLightningInternal", "parameters": [{"name": "hitter", "type": "Bullet", "varargs": false}, {"name": "hitCreate", "type": "BulletType", "varargs": false}, {"name": "seed", "type": "int", "varargs": false}, {"name": "team", "type": "Team", "varargs": false}, {"name": "color", "type": "Color", "varargs": false}, {"name": "damage", "type": "float", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "rotation", "type": "float", "varargs": false}, {"name": "length", "type": "int", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_create_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_create_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_create_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_createLightningInternal_3(_args: Array = []) -> Variant:
+	return null

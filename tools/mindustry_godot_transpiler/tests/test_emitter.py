@@ -26,6 +26,7 @@ public class Sample extends BaseSample implements Named{
     private String displayName;
     public Sample(int health){}
     public boolean enabled(Item item){ return true; }
+    private void enabled(){ }
 }
 """,
                 encoding="utf-8",
@@ -52,8 +53,14 @@ const JAVA_EXTENDS := "BaseSample"
 const JAVA_IMPLEMENTS := ["Named"]
 const JAVA_FIELDS := [{"modifiers": ["public"], "name": "health", "type": "int"}, {"modifiers": ["private"], "name": "displayName", "type": "String"}]
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "Sample", "parameters": [{"name": "health", "type": "int", "varargs": false}]}]
-const JAVA_METHODS := [{"modifiers": ["public"], "name": "enabled", "parameters": [{"name": "item", "type": "Item", "varargs": false}], "return_type": "boolean"}]
+const JAVA_METHODS := [{"modifiers": ["public"], "name": "enabled", "parameters": [{"name": "item", "type": "Item", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["private"], "name": "enabled", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_enabled_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_enabled_1(_args: Array = []) -> Variant:
+	return null
 """)
             self.assertEqual(registry.read_text(encoding="utf-8"), """# Generated from Mindustry upstream.
 # Source: emitted_classes.json

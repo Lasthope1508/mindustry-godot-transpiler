@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "targetPos", "type": "Ve
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "updateMovement", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "inPosition", "parameters": [], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_updateMovement_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_inPosition_1(_args: Array = []) -> Variant:
+	return null

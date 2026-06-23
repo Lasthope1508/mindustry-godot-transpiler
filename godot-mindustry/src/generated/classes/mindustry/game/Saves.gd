@@ -12,3 +12,48 @@ const JAVA_FIELDS := [{"modifiers": ["final", "private", "static"], "name": "dat
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "Saves", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["private"], "name": "clearOldMegabaseSectors", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "load", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "getLastSector", "parameters": [], "return_type": "SaveSlot"}, {"modifiers": ["public"], "name": "getCurrent", "parameters": [], "return_type": "SaveSlot"}, {"modifiers": ["public"], "name": "update", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "getTotalPlaytime", "parameters": [], "return_type": "long"}, {"modifiers": ["public"], "name": "resetSave", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "isSaving", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "getSectorFile", "parameters": [{"name": "sector", "type": "Sector", "varargs": false}], "return_type": "Fi"}, {"modifiers": ["public"], "name": "saveSector", "parameters": [{"name": "sector", "type": "Sector", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "addSave", "parameters": [{"name": "name", "type": "String", "varargs": false}], "return_type": "SaveSlot"}, {"modifiers": ["public"], "name": "importSave", "parameters": [{"name": "file", "type": "Fi", "varargs": false}], "return_type": "SaveSlot"}, {"modifiers": ["public"], "name": "getNextSlotFile", "parameters": [], "return_type": "Fi"}, {"modifiers": ["public"], "name": "getSaveSlots", "parameters": [], "return_type": "Seq"}, {"modifiers": ["public"], "name": "deleteAll", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_clearOldMegabaseSectors_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_load_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getLastSector_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getCurrent_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_update_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getTotalPlaytime_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_resetSave_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_isSaving_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getSectorFile_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_saveSector_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_addSave_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_importSave_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getNextSlotFile_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getSaveSlots_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_deleteAll_14(_args: Array = []) -> Variant:
+	return null

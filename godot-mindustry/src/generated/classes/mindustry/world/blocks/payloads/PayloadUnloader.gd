@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "offloadSpeed", "type": 
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "PayloadUnloader", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "outputsItems", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "rotatedOutput", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_outputsItems_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_rotatedOutput_1(_args: Array = []) -> Variant:
+	return null

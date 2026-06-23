@@ -12,3 +12,6 @@ const JAVA_FIELDS := []
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "Save2", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "readEntities", "parameters": [{"name": "stream", "type": "DataInput", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_readEntities_0(_args: Array = []) -> Variant:
+	return null

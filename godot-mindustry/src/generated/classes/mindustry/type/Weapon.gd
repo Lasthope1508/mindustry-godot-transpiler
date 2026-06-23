@@ -12,3 +12,60 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "name", "type": "String"
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "Weapon", "parameters": [{"name": "name", "type": "String", "varargs": false}]}, {"modifiers": ["public"], "name": "Weapon", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "hasStats", "parameters": [{"name": "u", "type": "UnitType", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "addStats", "parameters": [{"name": "u", "type": "UnitType", "varargs": false}, {"name": "t", "type": "Table", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "dps", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "shotsPerSec", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "drawOutline", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "mount", "type": "WeaponMount", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "draw", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "mount", "type": "WeaponMount", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "range", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "update", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "mount", "type": "WeaponMount", "varargs": false}], "return_type": ""}, {"modifiers": ["protected"], "name": "findTarget", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "range", "type": "float", "varargs": false}, {"name": "air", "type": "boolean", "varargs": false}, {"name": "ground", "type": "boolean", "varargs": false}], "return_type": "Teamc"}, {"modifiers": ["protected"], "name": "checkTarget", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "target", "type": "Teamc", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "range", "type": "float", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["protected"], "name": "bulletRotation", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "mount", "type": "WeaponMount", "varargs": false}, {"name": "bulletX", "type": "float", "varargs": false}, {"name": "bulletY", "type": "float", "varargs": false}], "return_type": "float"}, {"modifiers": ["protected"], "name": "shoot", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "mount", "type": "WeaponMount", "varargs": false}, {"name": "shootX", "type": "float", "varargs": false}, {"name": "shootY", "type": "float", "varargs": false}, {"name": "rotation", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["protected"], "name": "bullet", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "mount", "type": "WeaponMount", "varargs": false}, {"name": "xOffset", "type": "float", "varargs": false}, {"name": "yOffset", "type": "float", "varargs": false}, {"name": "angleOffset", "type": "float", "varargs": false}, {"name": "mover", "type": "Mover", "varargs": false}], "return_type": ""}, {"modifiers": ["protected"], "name": "handleBullet", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "mount", "type": "WeaponMount", "varargs": false}, {"name": "bullet", "type": "Bullet", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "flip", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "copy", "parameters": [], "return_type": "Weapon"}, {"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "load", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "toString", "parameters": [], "return_type": "String"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_hasStats_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_addStats_1(_args: Array = []) -> Variant:
+	return null
+
+func java_method_dps_2(_args: Array = []) -> Variant:
+	return null
+
+func java_method_shotsPerSec_3(_args: Array = []) -> Variant:
+	return null
+
+func java_method_drawOutline_4(_args: Array = []) -> Variant:
+	return null
+
+func java_method_draw_5(_args: Array = []) -> Variant:
+	return null
+
+func java_method_range_6(_args: Array = []) -> Variant:
+	return null
+
+func java_method_update_7(_args: Array = []) -> Variant:
+	return null
+
+func java_method_findTarget_8(_args: Array = []) -> Variant:
+	return null
+
+func java_method_checkTarget_9(_args: Array = []) -> Variant:
+	return null
+
+func java_method_bulletRotation_10(_args: Array = []) -> Variant:
+	return null
+
+func java_method_shoot_11(_args: Array = []) -> Variant:
+	return null
+
+func java_method_bullet_12(_args: Array = []) -> Variant:
+	return null
+
+func java_method_handleBullet_13(_args: Array = []) -> Variant:
+	return null
+
+func java_method_flip_14(_args: Array = []) -> Variant:
+	return null
+
+func java_method_copy_15(_args: Array = []) -> Variant:
+	return null
+
+func java_method_init_16(_args: Array = []) -> Variant:
+	return null
+
+func java_method_load_17(_args: Array = []) -> Variant:
+	return null
+
+func java_method_toString_18(_args: Array = []) -> Variant:
+	return null

@@ -12,3 +12,6 @@ const JAVA_FIELDS := [{"modifiers": ["private"], "name": "selected", "type": "Ma
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "MapLoadDialog", "parameters": [{"name": "loader", "type": "Cons", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "rebuild", "parameters": [], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_rebuild_0(_args: Array = []) -> Variant:
+	return null

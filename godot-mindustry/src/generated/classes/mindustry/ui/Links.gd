@@ -12,3 +12,9 @@ const JAVA_FIELDS := [{"modifiers": ["private", "static"], "name": "links", "typ
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["private", "static"], "name": "createLinks", "parameters": [], "return_type": ""}, {"modifiers": ["public", "static"], "name": "getLinks", "parameters": [], "return_type": "LinkEntry"}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_createLinks_0(_args: Array = []) -> Variant:
+	return null
+
+func java_method_getLinks_1(_args: Array = []) -> Variant:
+	return null

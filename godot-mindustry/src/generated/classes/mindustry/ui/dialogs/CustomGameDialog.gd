@@ -12,3 +12,6 @@ const JAVA_FIELDS := [{"modifiers": ["private"], "name": "dialog", "type": "MapP
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "CustomGameDialog", "parameters": []}]
 const JAVA_METHODS := [{"modifiers": [], "name": "showMap", "parameters": [{"name": "map", "type": "Map", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+
+func java_method_showMap_0(_args: Array = []) -> Variant:
+	return null
