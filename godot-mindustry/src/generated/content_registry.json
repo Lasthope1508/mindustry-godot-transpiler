@@ -2369,6 +2369,7 @@
       "implementation": "MendProjector",
       "properties": {
         "category": "effect",
+        "health": 320,
         "range": 85.0,
         "reload": 250.0,
         "requirements": [
@@ -2389,6 +2390,7 @@
             "item": "copper"
           }
         ],
+        "scaledHealth": 80,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/mend-projector.png"
@@ -4000,6 +4002,7 @@
       "implementation": "BeamNode",
       "properties": {
         "category": "power",
+        "health": 810,
         "range": 23,
         "requirements": [
           {
@@ -4015,6 +4018,7 @@
             "item": "silicon"
           }
         ],
+        "scaledHealth": 90,
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/beam-tower.png"
@@ -4025,6 +4029,7 @@
       "implementation": "LongPowerNode",
       "properties": {
         "category": "power",
+        "health": 1170,
         "requirements": [
           {
             "amount": 250,
@@ -4051,6 +4056,7 @@
             "item": "phase-fabric"
           }
         ],
+        "scaledHealth": 130,
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/beam-link.png"
@@ -4738,6 +4744,7 @@
       "implementation": "StorageBlock",
       "properties": {
         "category": "effect",
+        "health": 220,
         "itemCapacity": 300,
         "requirements": [
           {
@@ -4745,6 +4752,7 @@
             "item": "titanium"
           }
         ],
+        "scaledHealth": 55,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/storage/container.png"
@@ -4755,6 +4763,7 @@
       "implementation": "StorageBlock",
       "properties": {
         "category": "effect",
+        "health": 495,
         "itemCapacity": 1000,
         "requirements": [
           {
@@ -4766,6 +4775,7 @@
             "item": "thorium"
           }
         ],
+        "scaledHealth": 55,
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/storage/vault.png"
@@ -4776,6 +4786,7 @@
       "implementation": "StorageBlock",
       "properties": {
         "category": "effect",
+        "health": 480,
         "itemCapacity": 160,
         "requirements": [
           {
@@ -4787,6 +4798,7 @@
             "item": "graphite"
           }
         ],
+        "scaledHealth": 120,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/storage/reinforced-container.png"
@@ -4797,6 +4809,7 @@
       "implementation": "StorageBlock",
       "properties": {
         "category": "effect",
+        "health": 1080,
         "itemCapacity": 900,
         "requirements": [
           {
@@ -4812,6 +4825,7 @@
             "item": "beryllium"
           }
         ],
+        "scaledHealth": 120,
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/storage/reinforced-vault.png"
@@ -4891,6 +4905,7 @@
         "ammoPerShot": 1,
         "category": "turret",
         "consumeAmmoOnce": true,
+        "health": 800,
         "inaccuracy": 17.0,
         "maxAmmo": 30,
         "range": 220.0,
@@ -4907,6 +4922,7 @@
           }
         ],
         "rotateSpeed": 15.0,
+        "scaledHealth": 200,
         "shootCone": 35.0,
         "size": 2
       },
@@ -4974,6 +4990,7 @@
       "implementation": "LiquidTurret",
       "properties": {
         "category": "turret",
+        "health": 1000,
         "inaccuracy": 5.0,
         "range": 110.0,
         "recoil": 0.0,
@@ -4992,6 +5009,7 @@
             "item": "copper"
           }
         ],
+        "scaledHealth": 250,
         "shootCone": 50.0,
         "size": 2
       },
@@ -5003,6 +5021,7 @@
       "implementation": "PowerTurret",
       "properties": {
         "category": "turret",
+        "health": 1120,
         "range": 165.0,
         "recoil": 2.0,
         "reload": 80.0,
@@ -5024,6 +5043,7 @@
             "item": "titanium"
           }
         ],
+        "scaledHealth": 280,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/lancer.png"
@@ -5060,6 +5080,7 @@
       "implementation": "TractorBeamTurret",
       "properties": {
         "category": "turret",
+        "health": 640,
         "range": 300.0,
         "requirements": [
           {
@@ -5076,6 +5097,7 @@
           }
         ],
         "rotateSpeed": 12,
+        "scaledHealth": 160,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/parallax.png"
@@ -5088,6 +5110,7 @@
         "ammoPerShot": 1,
         "category": "turret",
         "consumeAmmoOnce": false,
+        "health": 1200,
         "inaccuracy": 10.0,
         "maxAmmo": 30,
         "range": 240.0,
@@ -5109,6 +5132,7 @@
             "item": "silicon"
           }
         ],
+        "scaledHealth": 300,
         "shootY": 4.5,
         "size": 2
       },
@@ -5176,6 +5200,7 @@
         "ammoPerShot": 1,
         "category": "turret",
         "consumeAmmoOnce": false,
+        "health": 960,
         "limitRangeMargin": 9.0,
         "maxAmmo": 30,
         "range": 190.0,
@@ -5195,6 +5220,7 @@
             "item": "titanium"
           }
         ],
+        "scaledHealth": 240,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/salvo/salvo-preview.png"
@@ -5205,6 +5231,7 @@
       "implementation": "PointDefenseTurret",
       "properties": {
         "category": "turret",
+        "health": 1000,
         "range": 180.0,
         "reload": 8.0,
         "requirements": [
@@ -5225,6 +5252,7 @@
             "item": "titanium"
           }
         ],
+        "scaledHealth": 250,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/segment.png"
@@ -5235,6 +5263,7 @@
       "implementation": "LiquidTurret",
       "properties": {
         "category": "turret",
+        "health": 2250,
         "inaccuracy": 3.0,
         "range": 190.0,
         "recoil": 1.0,
@@ -5257,6 +5286,7 @@
             "item": "thorium"
           }
         ],
+        "scaledHealth": 250,
         "shootCone": 45.0,
         "shootPattern": {
           "spread": 4.0,
@@ -5275,6 +5305,7 @@
         "ammoPerShot": 1,
         "category": "turret",
         "consumeAmmoOnce": true,
+        "health": 1980,
         "maxAmmo": 30,
         "range": 90.0,
         "recoil": 5.0,
@@ -5293,6 +5324,7 @@
             "item": "thorium"
           }
         ],
+        "scaledHealth": 220,
         "shootCone": 30,
         "size": 3
       },
@@ -5306,6 +5338,7 @@
         "ammoPerShot": 2,
         "category": "turret",
         "consumeAmmoOnce": true,
+        "health": 1170,
         "inaccuracy": 11.0,
         "maxAmmo": 30,
         "range": 290.0,
@@ -5325,6 +5358,7 @@
             "item": "titanium"
           }
         ],
+        "scaledHealth": 130,
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/ripple.png"
@@ -5337,6 +5371,7 @@
         "ammoPerShot": 1,
         "category": "turret",
         "consumeAmmoOnce": true,
+        "health": 1305,
         "inaccuracy": 10.0,
         "maxAmmo": 30,
         "range": 200.0,
@@ -5358,6 +5393,7 @@
           }
         ],
         "rotateSpeed": 10.0,
+        "scaledHealth": 145,
         "shootCone": 30.0,
         "shootY": 10.0,
         "size": 3
@@ -5372,6 +5408,7 @@
         "ammoPerShot": 5,
         "category": "turret",
         "consumeAmmoOnce": true,
+        "health": 2400,
         "maxAmmo": 40,
         "range": 500.0,
         "recoil": 5.0,
@@ -5399,6 +5436,7 @@
           }
         ],
         "rotateSpeed": 2.0,
+        "scaledHealth": 150,
         "shootCone": 2.0,
         "size": 4
       },
@@ -5447,6 +5485,7 @@
         "ammoPerShot": 1,
         "category": "turret",
         "consumeAmmoOnce": true,
+        "health": 2560,
         "inaccuracy": 3.0,
         "limitRangeMargin": 9.0,
         "maxAmmo": 30,
@@ -5475,6 +5514,7 @@
             "item": "thorium"
           }
         ],
+        "scaledHealth": 160,
         "shootCone": 24.0,
         "shootPattern": {
           "spread": 8.0,
@@ -5490,6 +5530,7 @@
       "implementation": "LaserTurret",
       "properties": {
         "category": "turret",
+        "health": 3200,
         "range": 195.0,
         "recoil": 4.0,
         "reload": 90.0,
@@ -5515,6 +5556,7 @@
             "item": "silicon"
           }
         ],
+        "scaledHealth": 200,
         "shootCone": 40.0,
         "size": 4
       },
@@ -5566,6 +5608,7 @@
         "ammoPerShot": 2,
         "category": "turret",
         "consumeAmmoOnce": true,
+        "health": 1620,
         "limitRangeMargin": 12.0,
         "maxAmmo": 30,
         "range": 190,
@@ -5586,6 +5629,7 @@
           }
         ],
         "rotateSpeed": 1.5,
+        "scaledHealth": 180,
         "shootCone": 3.0,
         "size": 3
       },
@@ -5634,6 +5678,7 @@
         "ammoPerShot": 3,
         "category": "turret",
         "consumeAmmoOnce": true,
+        "health": 1890,
         "inaccuracy": 0.2,
         "limitRangeMargin": 25.0,
         "maxAmmo": 30,
@@ -5659,6 +5704,7 @@
           }
         ],
         "rotateSpeed": 3.0,
+        "scaledHealth": 210,
         "shootCone": 40.0,
         "shootY": 5.0,
         "size": 3
@@ -5671,6 +5717,7 @@
       "implementation": "ContinuousLiquidTurret",
       "properties": {
         "category": "turret",
+        "health": 1890,
         "range": 130.0,
         "requirements": [
           {
@@ -5690,6 +5737,7 @@
             "item": "beryllium"
           }
         ],
+        "scaledHealth": 210,
         "shootY": 8.0,
         "size": 3
       },
@@ -5703,6 +5751,7 @@
         "ammoPerShot": 4,
         "category": "turret",
         "consumeAmmoOnce": true,
+        "health": 4000,
         "range": 390.0,
         "recoil": 1.0,
         "requirements": [
@@ -5720,6 +5769,7 @@
           }
         ],
         "rotateSpeed": 1.4,
+        "scaledHealth": 250,
         "shootY": 7.0,
         "size": 4
       },
@@ -5733,6 +5783,7 @@
         "ammoPerShot": 1,
         "category": "turret",
         "consumeAmmoOnce": true,
+        "health": 4480,
         "inaccuracy": 8.0,
         "maxAmmo": 30,
         "range": 310.0,
@@ -5756,6 +5807,7 @@
           }
         ],
         "rotateSpeed": 5.0,
+        "scaledHealth": 280,
         "shootCone": 30.0,
         "shootY": 15.0,
         "size": 4,
@@ -5769,6 +5821,7 @@
       "implementation": "PowerTurret",
       "properties": {
         "category": "turret",
+        "health": 3520,
         "inaccuracy": 1.0,
         "range": 368,
         "recoil": 3.0,
@@ -5792,6 +5845,7 @@
           }
         ],
         "rotateSpeed": 1.5,
+        "scaledHealth": 220,
         "shootCone": 20.0,
         "shootY": 4,
         "size": 4,
@@ -5805,6 +5859,7 @@
       "implementation": "ContinuousTurret",
       "properties": {
         "category": "turret",
+        "health": 3360,
         "range": 250.0,
         "requirements": [
           {
@@ -5825,6 +5880,7 @@
           }
         ],
         "rotateSpeed": 0.9,
+        "scaledHealth": 210,
         "shootCone": 360.0,
         "shootY": 0.5,
         "size": 4
@@ -5867,6 +5923,7 @@
           }
         ],
         "rotateSpeed": 0.25,
+        "scaledHealth": 220,
         "shootCone": 360.0,
         "size": 4,
         "speed": 4.6
@@ -5894,6 +5951,7 @@
         "ammoPerShot": 2,
         "category": "turret",
         "consumeAmmoOnce": true,
+        "health": 8750,
         "limitRangeMargin": 9.0,
         "maxAmmo": 30,
         "range": 300,
@@ -5922,6 +5980,7 @@
           }
         ],
         "rotateSpeed": 1.5,
+        "scaledHealth": 350,
         "shootCone": 30.0,
         "shootY": 15.0,
         "size": 5
@@ -5934,6 +5993,7 @@
       "implementation": "PowerTurret",
       "properties": {
         "category": "turret",
+        "health": 9250,
         "range": 410,
         "recoil": 0.5,
         "reload": 3.5,
@@ -5960,6 +6020,7 @@
           }
         ],
         "rotateSpeed": 2.6,
+        "scaledHealth": 370,
         "shootCone": 100.0,
         "size": 5
       },
@@ -7006,6 +7067,7 @@
       "implementation": "Accelerator",
       "properties": {
         "category": "effect",
+        "health": 3920,
         "requirements": [
           {
             "amount": 16000,
@@ -7032,6 +7094,7 @@
             "item": "phase-fabric"
           }
         ],
+        "scaledHealth": 80,
         "size": 7
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/campaign/interplanetary-accelerator.png"

@@ -235,6 +235,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return float(block.properties.get("health", 0.0))', source)
         self.assertIn('"core_max_health": core_max_health', source)
 
+    def test_port_game_exposes_selected_build_scaled_health(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func selected_build_health() -> float:", source)
+        self.assertIn('return float(selected.properties.get("health", 0.0))', source)
+        self.assertIn("func selected_build_scaled_health() -> float:", source)
+        self.assertIn('return float(selected.properties.get("scaledHealth", 0.0))', source)
+        self.assertIn('"selected_build_health": selected_build_health()', source)
+        self.assertIn('"selected_build_scaled_health": selected_build_scaled_health()', source)
+
     def test_port_game_enforces_source_core_item_capacity(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -205,5 +205,58 @@ public class Waves{
         self.assertEqual(gdscript_literal({"name": "core-shard", "enabled": True, "size": 3}), '{"enabled": true, "name": "core-shard", "size": 3}')
 
 
+    def test_build_registry_computes_block_health_from_scaled_health(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = root / "upstream" / "core" / "src" / "mindustry" / "content"
+            source.mkdir(parents=True)
+            (source / "Items.java").write_text(
+                """
+package mindustry.content;
+public class Items{
+    public static Item lead;
+    public static void load(){
+        lead = new Item("lead", Color.valueOf("8c7fa9"));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            (source / "Liquids.java").write_text(
+                """
+package mindustry.content;
+public class Liquids{
+    public static Liquid water;
+    public static void load(){
+        water = new Liquid("water", Color.valueOf("596ab8"));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            (source / "Blocks.java").write_text(
+                """
+package mindustry.content;
+public class Blocks{
+    public static Block mendProjector;
+    public static void load(){
+        mendProjector = new MendProjector("mend-projector"){{
+            requirements(Category.effect, with(Items.lead, 100));
+            size = 2;
+            scaledHealth = 80;
+            reload = 250f;
+            range = 85f;
+        }};
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            registry = build_content_registry(root / "upstream", root / "godot")
+
+        self.assertEqual(registry["blocks"][0]["properties"].get("scaledHealth"), 80)
+        self.assertEqual(registry["blocks"][0]["properties"].get("health"), 320)
+
 if __name__ == "__main__":
     unittest.main()

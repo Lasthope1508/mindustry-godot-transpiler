@@ -272,6 +272,18 @@ func select_build_block_by_id(block_id: String) -> bool:
 			return true
 	return false
 
+func selected_build_health() -> float:
+	if build_palette.is_empty():
+		return 0.0
+	var selected = build_palette[selected_build_index]
+	return float(selected.properties.get("health", 0.0))
+
+func selected_build_scaled_health() -> float:
+	if build_palette.is_empty():
+		return 0.0
+	var selected = build_palette[selected_build_index]
+	return float(selected.properties.get("scaledHealth", 0.0))
+
 func place_selected_block_at_mouse() -> void:
 	place_selected_block_at_world(get_global_mouse_position())
 
@@ -1316,6 +1328,8 @@ func get_runtime_summary() -> Dictionary:
 		"last_place_blocked": last_place_blocked,
 		"selected_build_index": selected_build_index,
 		"selected_build_id": selected.id if selected else "",
+		"selected_build_health": selected_build_health(),
+		"selected_build_scaled_health": selected_build_scaled_health(),
 		"core_inventory": core_inventory,
 		"core_items": core_items.duplicate(),
 		"core_item_capacity": core_item_capacity,

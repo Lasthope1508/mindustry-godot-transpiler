@@ -7,6 +7,7 @@ ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "tools" / "mindustry_godot_transpiler"))
 
 from mindustry_port.source_parity import verify_duo_source_parity
+from mindustry_port import source_parity
 
 
 class SourceParityTests(unittest.TestCase):
@@ -35,6 +36,15 @@ class SourceParityTests(unittest.TestCase):
         self.assertEqual(report["checked"]["ammo"]["graphite"]["reloadMultiplier"], 0.8)
         self.assertEqual(report["checked"]["ammo"]["silicon"]["reloadMultiplier"], 1.5)
 
+
+    def test_generated_mend_projector_scaled_health_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_mend_projector_scaled_health_parity"))
+        report = source_parity.verify_mend_projector_scaled_health_parity(ROOT / "mindustry-upstream", ROOT / "godot-mindustry")
+
+        self.assertEqual(report["source"], "core/src/mindustry/content/Blocks.java")
+        self.assertEqual(report["block"], "mend-projector")
+        self.assertEqual(report["mismatches"], [])
+        self.assertEqual(report["checked"], {"size": 2, "scaledHealth": 80, "health": 320})
 
 if __name__ == "__main__":
     unittest.main()
