@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 43 |
-| Done | 43 |
+| Total tracked work items | 44 |
+| Done | 44 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -64,6 +64,7 @@
 | N39 | Use source unit hit size for sprite scale | `UnitType.java` defines `hitSize` as the size of one side of the unit hitbox; `UnitTypes.java` sets dagger `hitSize=8f`; generated dagger has `hitSize=8`; `PortGame.gd` scales enemy unit sprites from `source_unit_hit_size(unit_type)` instead of one tile, exposes `selected_enemy_hit_size`, and keeps generic terrain/item sprite scaling unchanged; Python suite reports `45` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_enemy_hit_size=8`, with debug `errors: []` |
 | N40 | Use source turret reload | `ReloadTurret.java` defaults `reload=10f`; `Blocks.java` sets duo `reload=20f`; generated duo has `reload=20`; `PortGame.gd` converts turret reload frames to seconds with `reload / 60.0`, uses it for turret cooldowns, exposes `selected_turret_reload_seconds`, and removes the previous `max(0.1, reload / 60.0)` runtime guard; Python suite reports `46` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_turret_reload_seconds=0.333333333333333`, with debug `errors: []` |
 | N41 | Use source turret range | `BaseTurret.java` defaults `range=80f`; `Blocks.java` sets duo `range=160`; generated duo has `range=160`; `PortGame.gd` reads turret range through `source_turret_range(turret)` for targeting and exposes `selected_turret_range`; Python suite reports `47` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_turret_range=160`, with debug `errors: []` |
+| N42 | Use source bullet dimensions | `Blocks.java` sets duo copper `BasicBulletType.width=7f` and `height=9f`; `content_registry.py` extracts block ammo width/height into generated duo ammo; `PortGame.gd` scales turret bullet sprites through `source_bullet_scale(data, texture_size)` and exposes `selected_turret_ammo_dimensions`; Python suite reports `48` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_turret_ammo_dimensions={width:7,height:9}`, with debug `errors: []` |
 
 ## Not Done
 
@@ -308,3 +309,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-23 | M38 source unit hit size: enemy unit sprites now scale from generated `UnitType.hitSize` instead of one tile. |
 | 2026-06-23 | M39 source turret reload: duo turret cooldown now uses generated `ReloadTurret.reload` frames converted to seconds with `reload / 60.0`. |
 | 2026-06-23 | M40 source turret range: duo turret targeting range now flows through generated `BaseTurret.range` data and runtime summary exposes `selected_turret_range=160`. |
+| 2026-06-23 | M41 source bullet dimensions: duo copper ammo now carries generated `BasicBulletType.width/height`, and turret bullet sprites scale from `width=7`, `height=9` instead of a tile-size constant. |

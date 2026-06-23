@@ -276,6 +276,12 @@ def _block_ammo(initializer: str) -> list[dict[str, Any]]:
         lifetime = _numeric_assignment(bullet_body, "lifetime")
         if lifetime is not None:
             entry["lifetime"] = lifetime
+        width = _numeric_assignment(bullet_body, "width")
+        if width is not None:
+            entry["width"] = width
+        height = _numeric_assignment(bullet_body, "height")
+        if height is not None:
+            entry["height"] = height
         ammo.append(entry)
     return ammo
 
