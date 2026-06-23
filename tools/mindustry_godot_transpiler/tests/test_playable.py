@@ -282,6 +282,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return source_bullet_lifetime_seconds(data)', source)
         self.assertIn('"selected_turret_ammo_lifetime_seconds": selected_turret_ammo_lifetime_seconds()', source)
 
+    def test_port_game_uses_source_bullet_speed(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_world_speed(data: Dictionary) -> float:", source)
+        self.assertIn('return float(data.get("speed", 1.0)) * 60.0', source)
+        self.assertIn('"speed": source_bullet_world_speed(data)', source)
+        self.assertNotIn('float(data.get("speed", 2.5)) * float(tile_size) * 4.0', source)
+        self.assertIn("func selected_turret_ammo_world_speed() -> float:", source)
+        self.assertIn('return source_bullet_world_speed(data)', source)
+        self.assertIn('"selected_turret_ammo_world_speed": selected_turret_ammo_world_speed()', source)
+
     def test_port_game_uses_source_drill_rate(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
