@@ -557,7 +557,8 @@ func spawn_enemy_unit(unit_type, index: int) -> void:
 	if sprite.texture:
 		var size := sprite.texture.get_size()
 		if size.x > 0 and size.y > 0:
-			sprite.scale = Vector2(tile_size / size.x, tile_size / size.y)
+			var hit_size := source_unit_hit_size(unit_type)
+			sprite.scale = Vector2(hit_size / size.x, hit_size / size.y)
 	units_layer.add_child(sprite)
 	enemy_units.append({"sprite": sprite, "type": unit_type, "health": float(unit_type.properties.get("health", 100.0))})
 
@@ -603,6 +604,11 @@ func source_unit_world_speed(unit_type) -> float:
 	if unit_type == null:
 		return 0.0
 	return float(unit_type.properties.get("speed", 0.0)) * 60.0
+
+func source_unit_hit_size(unit_type) -> float:
+	if unit_type == null:
+		return 0.0
+	return float(unit_type.properties.get("hitSize", 6.0))
 
 func simulate_turrets(delta: float) -> void:
 	if content_catalog == null or turret_cells.is_empty():
@@ -777,6 +783,7 @@ func get_runtime_summary() -> Dictionary:
 		"selected_turret_ammo_world_speed": selected_turret_ammo_world_speed(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
+		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
 		"core_max_health": core_max_health,
 		"core_health": core_health,
 	}

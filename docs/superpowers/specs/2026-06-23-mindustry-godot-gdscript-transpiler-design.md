@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 40 |
-| Done | 40 |
+| Total tracked work items | 41 |
+| Done | 41 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -61,6 +61,7 @@
 | N36 | Use source bullet lifetime | `PortGame.gd` converts generated bullet `lifetime` frames to seconds with `lifetime / 60.0`, stores `lifetime_remaining` on turret bullets, removes expired bullets, and exposes `selected_turret_ammo_lifetime_seconds`; Python suite reports `42` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_turret_ammo_lifetime_seconds=1` from generated duo copper bullet `lifetime=60`, with debug `errors: []` |
 | N37 | Use source bullet speed | `BulletType.java` defines bullet `speed` as units/tick and `BulletComp.java` exposes speed stats as `type.speed * 60f / tilesize`; generated duo copper ammo has `speed=2.5`; `PortGame.gd` converts bullet movement to world pixels/second with `speed * 60.0`, exposes `selected_turret_ammo_world_speed`, and removes the previous `speed * tile_size * 4.0` runtime constant; Python suite reports `43` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_turret_ammo_world_speed=150`, with debug `errors: []` |
 | N38 | Use source unit speed | `UnitComp.java` returns `type.speed` for base unit speed and `UnitType.java` exposes speed stats as `speed * 60f / tilesize`; generated dagger has `speed=0.5`; `PortGame.gd` converts unit movement to world pixels/second with `speed * 60.0`, exposes `selected_enemy_world_speed`, and removes the previous `max(20.0, speed * tile_size * 5.0)` runtime constant; Python suite reports `44` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_enemy_world_speed=30`, with debug `errors: []` |
+| N39 | Use source unit hit size for sprite scale | `UnitType.java` defines `hitSize` as the size of one side of the unit hitbox; `UnitTypes.java` sets dagger `hitSize=8f`; generated dagger has `hitSize=8`; `PortGame.gd` scales enemy unit sprites from `source_unit_hit_size(unit_type)` instead of one tile, exposes `selected_enemy_hit_size`, and keeps generic terrain/item sprite scaling unchanged; Python suite reports `45` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_enemy_hit_size=8`, with debug `errors: []` |
 
 ## Not Done
 
@@ -302,3 +303,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-23 | M35 source bullet lifetime: turret bullets now use generated `BasicBulletType.lifetime` seconds and expire instead of living until hit/target removal only. |
 | 2026-06-23 | M36 source bullet speed: turret bullets now use generated `BasicBulletType.speed` as units/tick converted to world pixels/second with `speed * 60.0`. |
 | 2026-06-23 | M37 source unit speed: enemy units now use generated `UnitType.speed` as units/tick converted to world pixels/second with `speed * 60.0`. |
+| 2026-06-23 | M38 source unit hit size: enemy unit sprites now scale from generated `UnitType.hitSize` instead of one tile. |
