@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 45 |
-| Done | 45 |
+| Total tracked work items | 46 |
+| Done | 46 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -66,6 +66,7 @@
 | N41 | Use source turret range | `BaseTurret.java` defaults `range=80f`; `Blocks.java` sets duo `range=160`; generated duo has `range=160`; `PortGame.gd` reads turret range through `source_turret_range(turret)` for targeting and exposes `selected_turret_range`; Python suite reports `47` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_turret_range=160`, with debug `errors: []` |
 | N42 | Use source bullet dimensions | `Blocks.java` sets duo copper `BasicBulletType.width=7f` and `height=9f`; `content_registry.py` extracts block ammo width/height into generated duo ammo; `PortGame.gd` scales turret bullet sprites through `source_bullet_scale(data, texture_size)` and exposes `selected_turret_ammo_dimensions`; Python suite reports `48` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_turret_ammo_dimensions={width:7,height:9}`, with debug `errors: []` |
 | N43 | Use source bullet hit size | `BulletType.java` defaults `hitSize=4` and `BulletType.create()` assigns `bullet.hitSize=hitSize`; `content_registry.py` extracts explicit block ammo `hitSize` assignments where source provides them; `PortGame.gd` stores bullet `hit_size` from `source_bullet_hit_size(data)` and uses it for projectile collision instead of `6.0`; Python suite reports `49` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_turret_ammo_hit_size=4`, with debug `errors: []` |
+| N44 | Use source bullet damage helper | `BulletType.java` defaults `damage=1f` and `BulletType(float speed, float damage)` assigns constructor damage; generated duo copper ammo has `damage=9`; `PortGame.gd` stores bullet damage through `source_bullet_damage(data)` and exposes `selected_turret_ammo_damage`; Python suite reports `50` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime summary returns `selected_turret_ammo_damage=9`, with debug `errors: []` |
 
 ## Not Done
 
@@ -312,3 +313,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-23 | M40 source turret range: duo turret targeting range now flows through generated `BaseTurret.range` data and runtime summary exposes `selected_turret_range=160`. |
 | 2026-06-23 | M41 source bullet dimensions: duo copper ammo now carries generated `BasicBulletType.width/height`, and turret bullet sprites scale from `width=7`, `height=9` instead of a tile-size constant. |
 | 2026-06-23 | M42 source bullet hit size: turret bullet collision now uses source `BulletType.hitSize` default `4` and generated explicit ammo `hitSize` values instead of hardcoded `6.0`. |
+| 2026-06-23 | M43 source bullet damage helper: turret bullets now store damage through `source_bullet_damage()` and runtime summary exposes generated duo ammo damage `9`. |

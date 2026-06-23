@@ -689,6 +689,18 @@ func selected_turret_ammo_hit_size() -> float:
 	var data: Dictionary = ammo[0]
 	return source_bullet_hit_size(data)
 
+func selected_turret_ammo_damage() -> float:
+	if content_catalog == null:
+		return 0.0
+	var duo = content_catalog.get_by_id("duo")
+	if duo == null:
+		return 0.0
+	var ammo: Array = duo.properties.get("ammo", [])
+	if ammo.is_empty():
+		return 0.0
+	var data: Dictionary = ammo[0]
+	return source_bullet_damage(data)
+
 func selected_turret_reload_seconds() -> float:
 	if content_catalog == null:
 		return 0.0
@@ -724,6 +736,9 @@ func source_bullet_world_speed(data: Dictionary) -> float:
 func source_bullet_hit_size(data: Dictionary) -> float:
 	return float(data.get("hitSize", 4.0))
 
+func source_bullet_damage(data: Dictionary) -> float:
+	return float(data.get("damage", 1.0))
+
 func source_bullet_scale(data: Dictionary, texture_size: Vector2) -> Vector2:
 	var width := float(data.get("width", 4.0))
 	var height := float(data.get("height", width))
@@ -757,7 +772,7 @@ func spawn_turret_bullet(origin: Vector2, target, turret) -> void:
 		if size.x > 0 and size.y > 0:
 			sprite.scale = source_bullet_scale(data, size)
 	get_node("World/BulletLayer").add_child(sprite)
-	bullets.append({"sprite": sprite, "target": target, "speed": source_bullet_world_speed(data), "damage": float(data.get("damage", 1.0)), "hit_size": source_bullet_hit_size(data), "lifetime_remaining": source_bullet_lifetime_seconds(data)})
+	bullets.append({"sprite": sprite, "target": target, "speed": source_bullet_world_speed(data), "damage": source_bullet_damage(data), "hit_size": source_bullet_hit_size(data), "lifetime_remaining": source_bullet_lifetime_seconds(data)})
 
 func simulate_bullets(delta: float) -> void:
 	var active: Array = []
@@ -844,6 +859,7 @@ func get_runtime_summary() -> Dictionary:
 		"selected_turret_ammo_world_speed": selected_turret_ammo_world_speed(),
 		"selected_turret_ammo_dimensions": selected_turret_ammo_dimensions(),
 		"selected_turret_ammo_hit_size": selected_turret_ammo_hit_size(),
+		"selected_turret_ammo_damage": selected_turret_ammo_damage(),
 		"selected_turret_reload_seconds": selected_turret_reload_seconds(),
 		"selected_turret_range": selected_turret_range(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
