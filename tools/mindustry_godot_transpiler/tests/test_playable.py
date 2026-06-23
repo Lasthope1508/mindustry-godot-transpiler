@@ -113,6 +113,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("selected_build_index = (selected_build_index - 1 + build_palette.size()) % build_palette.size()", source)
         self.assertIn('"selected_build_id": selected.id if selected else ""', source)
 
+    def test_port_game_selects_build_block_by_id_for_mcp(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func select_build_block_by_id(block_id: String) -> bool:", source)
+        self.assertIn("for index in build_palette.size():", source)
+        self.assertIn("if build_palette[index].id == block_id:", source)
+        self.assertIn("selected_build_index = index", source)
+        self.assertIn("return true", source)
+        self.assertIn("return false", source)
+
 
 if __name__ == "__main__":
     unittest.main()

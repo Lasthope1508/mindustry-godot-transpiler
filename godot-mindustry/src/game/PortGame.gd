@@ -212,6 +212,13 @@ func select_previous_build_slot() -> void:
 		return
 	selected_build_index = (selected_build_index - 1 + build_palette.size()) % build_palette.size()
 
+func select_build_block_by_id(block_id: String) -> bool:
+	for index in build_palette.size():
+		if build_palette[index].id == block_id:
+			selected_build_index = index
+			return true
+	return false
+
 func place_selected_block_at_mouse() -> void:
 	place_selected_block_at_world(get_global_mouse_position())
 

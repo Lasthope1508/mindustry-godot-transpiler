@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 26 |
-| Done | 26 |
+| Total tracked work items | 27 |
+| Done | 27 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -47,6 +47,7 @@
 | N22 | Verify block placement through Godot runtime MCP input | `_unhandled_input()` routes `InputEventMouseButton.position` into `place_selected_block_at_world()`, making runtime-injected mouse clicks place blocks; `get_runtime_summary()` reports `placed_block_count` and `selected_build_index`; Python suite reports `28` tests passing; MCP runtime sets inventory, injects key `2` and mouse click `(320, 320)`, and verifies `placed_block_count` increases from `1` to `2` with debug `errors: []` |
 | N23 | Instantiate all generated class skeletons in the playable scene | `PortGame.gd` walks `GeneratedClassRegistry.all_classes()`, loads every `gdscript_path`, creates `RefCounted` instances keyed by `java_package.java_name`, and reports counts/failure arrays in HUD/runtime summary; Python suite reports `29` tests passing; MCP runtime summary returns `generated_class_count=801`, `all_generated_script_count=801`, `all_generated_instance_count=801`, and empty load/instance failure arrays; MCP debug output returns `errors: []` |
 | N24 | Populate build palette with all textured source-derived blocks | `PortGame.gd` keeps six pinned blocks first, then appends every textured block from `content_catalog.get_many("block")`; `Tab`/`Shift+Tab` cycle selection and runtime summary reports `selected_build_id`; Python suite reports `30` tests passing; MCP runtime summary returns `build_palette_size=416`, injected `Tab` changes selected id from `conveyor` to `router`, and debug output returns `errors: []` |
+| N25 | Select and place any build palette block by source id through MCP | `PortGame.gd` exposes `select_build_block_by_id(block_id: String) -> bool`, allowing runtime selection of non-pinned source blocks; Python suite reports `31` tests passing; MCP runtime call selects `titanium-conveyor` at palette index `237`, then places it at `Vector2(384, 320)`, increasing `placed_block_count` from `1` to `2`; MCP debug output returns `errors: []` |
 
 ## Not Done
 
@@ -274,3 +275,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-23 | M21 MCP placement input: runtime-injected key/mouse events now place source-derived blocks, and runtime summary exposes placement counters for MCP verification. |
 | 2026-06-23 | M22 all generated instances: playable scene now loads and instantiates all `801` generated class skeletons, with MCP runtime proving zero load/instance failures. |
 | 2026-06-23 | M23 source-wide build palette: playable scene now exposes `416` textured source-derived blocks in the build palette and MCP input verifies palette cycling. |
+| 2026-06-23 | M24 build selection by id: MCP runtime can now select and place non-pinned source-derived blocks such as `titanium-conveyor` by content id. |
