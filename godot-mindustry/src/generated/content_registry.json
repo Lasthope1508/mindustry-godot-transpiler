@@ -4825,6 +4825,24 @@
             "speed": 2.5,
             "sprite": "bullet",
             "width": 7.0
+          },
+          {
+            "damage": 18,
+            "height": 12.0,
+            "item": "graphite",
+            "lifetime": 60.0,
+            "speed": 3.5,
+            "sprite": "bullet",
+            "width": 9.0
+          },
+          {
+            "damage": 12,
+            "height": 9.0,
+            "item": "silicon",
+            "lifetime": 60.0,
+            "speed": 3.0,
+            "sprite": "bullet",
+            "width": 7.0
           }
         ],
         "category": "turret",
@@ -5053,6 +5071,42 @@
             "speed": 2.5,
             "sprite": "bullet",
             "width": 7.0
+          },
+          {
+            "damage": 31,
+            "height": 12.0,
+            "item": "graphite",
+            "lifetime": 60.0,
+            "speed": 3.5,
+            "sprite": "bullet",
+            "width": 9.0
+          },
+          {
+            "damage": 25,
+            "height": 12.0,
+            "item": "pyratite",
+            "lifetime": 60.0,
+            "speed": 3.2,
+            "sprite": "bullet",
+            "width": 10.0
+          },
+          {
+            "damage": 23,
+            "height": 10.0,
+            "item": "silicon",
+            "lifetime": 60.0,
+            "speed": 3.0,
+            "sprite": "bullet",
+            "width": 8.0
+          },
+          {
+            "damage": 28,
+            "height": 13.0,
+            "item": "thorium",
+            "lifetime": 60.0,
+            "speed": 4.0,
+            "sprite": "bullet",
+            "width": 8.0
           }
         ],
         "category": "turret",
@@ -5263,6 +5317,24 @@
             "speed": 7.5,
             "sprite": "bullet",
             "width": 15.0
+          },
+          {
+            "damage": 80,
+            "height": 23.0,
+            "hitSize": 5,
+            "item": "thorium",
+            "speed": 8.0,
+            "sprite": "bullet",
+            "width": 16.0
+          },
+          {
+            "damage": 70,
+            "height": 21.0,
+            "hitSize": 5,
+            "item": "pyratite",
+            "speed": 7.0,
+            "sprite": "bullet",
+            "width": 16.0
           }
         ],
         "category": "turret",
@@ -5342,6 +5414,25 @@
             "speed": 7.5,
             "sprite": "bullet",
             "width": 12.0
+          },
+          {
+            "damage": 95,
+            "height": 19.0,
+            "hitSize": 7.0,
+            "item": "tungsten",
+            "speed": 8.0,
+            "sprite": "bullet",
+            "width": 13.0
+          },
+          {
+            "damage": 325.0,
+            "height": 21.0,
+            "hitSize": 7.0,
+            "item": "carbide",
+            "lifetime": 8.0,
+            "speed": 12.0,
+            "sprite": "bullet",
+            "width": 15.0
           }
         ],
         "category": "turret",
@@ -5376,6 +5467,24 @@
             "height": 20.0,
             "hitSize": 7.0,
             "item": "graphite",
+            "speed": 8.0,
+            "sprite": "bullet",
+            "width": 25.0
+          },
+          {
+            "damage": 90,
+            "height": 20.0,
+            "hitSize": 7.0,
+            "item": "oxide",
+            "speed": 8.0,
+            "sprite": "bullet",
+            "width": 25.0
+          },
+          {
+            "damage": 35,
+            "height": 20.0,
+            "hitSize": 7.0,
+            "item": "silicon",
             "speed": 8.0,
             "sprite": "bullet",
             "width": 25.0

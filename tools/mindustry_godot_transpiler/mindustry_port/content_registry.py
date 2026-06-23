@@ -267,7 +267,7 @@ def _numeric_assignment(source: str, key: str) -> int | float | None:
     return _number_literal(match.group(1)) if match else None
 
 def _block_ammo(initializer: str) -> list[dict[str, Any]]:
-    pattern = re.compile(r"ammo\s*\(\s*Items\.([A-Za-z_]\w*)\s*,\s*new\s+BasicBulletType\s*\(\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?)\s*,\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?)(?:\s*,\s*\"([^\"]+)\")?", re.MULTILINE)
+    pattern = re.compile(r"Items\.([A-Za-z_]\w*)\s*,\s*new\s+BasicBulletType\s*\(\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?)\s*,\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?)(?:\s*,\s*\"([^\"]+)\")?", re.MULTILINE)
     ammo = []
     for match in pattern.finditer(initializer):
         item, speed, damage, sprite = match.groups()
