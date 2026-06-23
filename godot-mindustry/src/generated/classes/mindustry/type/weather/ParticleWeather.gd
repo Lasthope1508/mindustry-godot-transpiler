@@ -1,0 +1,14 @@
+# Generated from Mindustry upstream.
+# Source: mindustry/type/weather/ParticleWeather.java
+# Do not edit by hand.
+extends RefCounted
+
+const JAVA_PACKAGE := "mindustry.type.weather"
+const JAVA_KIND := "class"
+const JAVA_NAME := "ParticleWeather"
+const JAVA_EXTENDS := "Weather"
+const JAVA_IMPLEMENTS := []
+const JAVA_FIELDS := [{"modifiers": ["public"], "name": "particleRegion", "type": "String"}, {"modifiers": ["public"], "name": "color", "type": "Color"}, {"modifiers": ["public"], "name": "region", "type": "TextureRegion"}, {"modifiers": ["public"], "name": "yspeed", "type": "float"}, {"modifiers": ["public"], "name": "xspeed", "type": "float"}, {"modifiers": ["public"], "name": "padding", "type": "float"}, {"modifiers": ["public"], "name": "sizeMin", "type": "float"}, {"modifiers": ["public"], "name": "sizeMax", "type": "float"}, {"modifiers": ["public"], "name": "density", "type": "float"}, {"modifiers": ["public"], "name": "minAlpha", "type": "float"}, {"modifiers": ["public"], "name": "maxAlpha", "type": "float"}, {"modifiers": ["public"], "name": "force", "type": "float"}, {"modifiers": ["public"], "name": "noiseScale", "type": "float"}, {"modifiers": ["public"], "name": "baseSpeed", "type": "float"}, {"modifiers": ["public"], "name": "sinSclMin", "type": "float"}, {"modifiers": ["public"], "name": "sinSclMax", "type": "float"}, {"modifiers": ["public"], "name": "sinMagMin", "type": "float"}, {"modifiers": ["public"], "name": "sinMagMax", "type": "float"}, {"modifiers": ["public"], "name": "noiseColor", "type": "Color"}, {"modifiers": ["public"], "name": "drawNoise", "type": "boolean"}, {"modifiers": ["public"], "name": "drawParticles", "type": "boolean"}, {"modifiers": ["public"], "name": "useWindVector", "type": "boolean"}, {"modifiers": ["public"], "name": "randomParticleRotation", "type": "boolean"}, {"modifiers": ["public"], "name": "noiseLayers", "type": "int"}, {"modifiers": ["public"], "name": "noiseLayerSpeedM", "type": "float"}, {"modifiers": ["public"], "name": "noiseLayerAlphaM", "type": "float"}, {"modifiers": ["public"], "name": "noiseLayerSclM", "type": "float"}, {"modifiers": ["public"], "name": "noiseLayerColorM", "type": "float"}, {"modifiers": ["public"], "name": "noisePath", "type": "String"}, {"modifiers": ["public"], "name": "noise", "type": "Texture"}]
+const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ParticleWeather", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
+const JAVA_METHODS := [{"modifiers": ["public"], "name": "load", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "update", "parameters": [{"name": "state", "type": "WeatherState", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawOver", "parameters": [{"name": "state", "type": "WeatherState", "varargs": false}], "return_type": ""}]
+const JAVA_ENUM_CONSTANTS := []

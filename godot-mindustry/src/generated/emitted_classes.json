@@ -1,0 +1,1567 @@
+{
+  "emitted_file_count": 612,
+  "failures": [
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/BaseBuilderAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/BaseRegistry.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/RtsAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/types/BoostAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/types/BuilderAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/types/CargoAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/types/CommandAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/types/DefenderAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/types/FlyingFollowAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/types/GroundAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/types/HugAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/types/LogicAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/types/MinerAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/types/MissileAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/types/PrebuildAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/types/RepairAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ai/types/SuicideAI.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ClientLauncher.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/content/Blocks.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/content/ErekirTechTree.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/content/Fx.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/content/TechTree.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/content/UnitTypes.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/core/ContentLoader.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/core/Control.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/core/Logic.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/core/NetClient.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/core/NetServer.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/core/Renderer.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/core/World.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ctype/UnlockableContent.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/editor/data/MapAudioView.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/editor/data/MapContentView.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/editor/data/MapImagesView.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/editor/DrawOperation.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/editor/EditorRenderer.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/editor/EditorTool.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/editor/MapLocalesDialog.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/editor/MapObjectivesCanvas.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/editor/MapObjectivesDialog.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/editor/MapProcessorsDialog.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/editor/WaveGraph.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/entities/abilities/EnergyFieldAbility.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/entities/bullet/BulletType.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/entities/bullet/ContinuousBulletType.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/entities/bullet/InterceptorBulletType.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/entities/bullet/MassDriverBolt.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/entities/bullet/SapBulletType.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/entities/bullet/SpaceLiquidBulletType.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/entities/comp/BuilderComp.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/entities/comp/BuildingComp.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/entities/comp/BulletComp.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/entities/comp/ChildComp.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/entities/comp/EntityComp.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/entities/comp/PayloadComp.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/entities/comp/PlayerComp.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/entities/comp/SegmentComp.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/entities/comp/UnitComp.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/entities/Damage.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/entities/Effect.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/entities/Predict.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/entities/units/AIController.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/entities/units/BuildPlan.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/entities/Units.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/game/MapObjectives.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/game/Schematic.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/game/Schematics.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/game/SpawnGroup.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/game/Team.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/game/Teams.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/graphics/DebugCollisionRenderer.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/graphics/FloorRenderer.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/graphics/g3d/MeshBuilder.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/graphics/OverlayRenderer.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/graphics/ParticleRenderer.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/input/InputHandler.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/input/MobileInput.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/input/Placement.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/io/JsonIO.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/io/TypeIO.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/logic/GlobalVars.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/logic/LAssembler.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/logic/LCanvas.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/logic/LExecutor.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/logic/LParser.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/logic/LStatement.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/logic/LStatements.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/logic/LVar.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/maps/filters/GenerateFilter.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/maps/generators/BaseGenerator.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/mod/ClassLoaderCloser.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/mod/ContentParser.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/mod/data/ContentAsset.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/mod/DataPatcher.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/mod/Mods.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/mod/Scripts.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/net/ArcNetProvider.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/net/Net.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/net/NetworkIO.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/service/GameService.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/type/ItemStack.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/type/LiquidStack.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/type/PayloadStack.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/type/UnitType.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/type/Weapon.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/type/weapons/PointDefenseBulletWeapon.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/type/weapons/PointDefenseWeapon.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/type/weapons/RepairBeamWeapon.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ui/BorderImage.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ui/dialogs/DatabaseDialog.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ui/dialogs/ModsDialog.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ui/dialogs/PlanetDialog.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ui/dialogs/SettingsMenuDialog.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ui/fragments/HintsFragment.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ui/fragments/HudFragment.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ui/fragments/PlacementFragment.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/ui/fragments/PlanConfigFragment.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/Block.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/Autotiler.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/campaign/LandingPad.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/campaign/LaunchPad.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/ConstructBlock.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/defense/AutoDoor.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/defense/BuildTurret.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/defense/Door.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/defense/ForceProjector.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/defense/MendProjector.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/defense/OverdriveProjector.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/defense/RegenProjector.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/defense/turrets/ContinuousTurret.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/defense/turrets/ItemTurret.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/defense/turrets/LiquidTurret.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/defense/turrets/PowerTurret.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/defense/turrets/ReloadTurret.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/defense/turrets/Turret.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/defense/Wall.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/distribution/Conveyor.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/distribution/DirectionalUnloader.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/distribution/DirectionBridge.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/distribution/DirectionLiquidBridge.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/distribution/Duct.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/distribution/ItemBridge.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/distribution/MassDriver.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/distribution/StackConveyor.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/environment/CharacterOverlay.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/environment/ColoredFloor.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/environment/ColoredWall.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/environment/RuneOverlay.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/environment/SteamVent.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/liquid/Conduit.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/logic/CanvasBlock.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/logic/LogicBlock.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/logic/LogicDisplay.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/logic/MemoryBlock.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/logic/MessageBlock.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/logic/TileableLogicDisplay.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/payloads/BuildPayload.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/payloads/PayloadBlock.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/payloads/PayloadConveyor.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/payloads/PayloadDeconstructor.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/payloads/PayloadLoader.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/payloads/PayloadMassDriver.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/payloads/PayloadRouter.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/payloads/UnitPayload.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/power/BeamNode.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/power/ConsumeGenerator.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/power/PowerNode.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/production/BeamDrill.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/production/BurstDrill.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/production/Drill.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/production/WallCrafter.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/storage/CoreBlock.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/storage/StorageBlock.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/storage/Unloader.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/units/Reconstructor.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/units/RepairTurret.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/units/UnitAssembler.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/units/UnitBlock.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/blocks/units/UnitCargoLoader.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/Build.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/draw/DrawBlock.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/draw/DrawHeatInput.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/draw/DrawHeatOutput.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/draw/DrawHeatRegion.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/draw/DrawPumpLiquid.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/meta/StatValues.java"
+    },
+    {
+      "error": "",
+      "error_type": "JavaSyntaxError",
+      "path": "mindustry/world/Tile.java"
+    }
+  ],
+  "files": [
+    "mindustry/ai/Astar.gd",
+    "mindustry/ai/BlockIndexer.gd",
+    "mindustry/ai/ControlPathfinder.gd",
+    "mindustry/ai/ItemUnitStance.gd",
+    "mindustry/ai/Pathfinder.gd",
+    "mindustry/ai/PathfindQueue.gd",
+    "mindustry/ai/types/AssemblerAI.gd",
+    "mindustry/ai/types/FlyingAI.gd",
+    "mindustry/ai/UnitCommand.gd",
+    "mindustry/ai/UnitGroup.gd",
+    "mindustry/ai/UnitStance.gd",
+    "mindustry/ai/WaveSpawner.gd",
+    "mindustry/async/AsyncCore.gd",
+    "mindustry/async/AsyncProcess.gd",
+    "mindustry/async/AvoidanceProcess.gd",
+    "mindustry/async/PhysicsProcess.gd",
+    "mindustry/audio/MusicContainer.gd",
+    "mindustry/audio/SoundControl.gd",
+    "mindustry/audio/SoundLoop.gd",
+    "mindustry/audio/SoundPriority.gd",
+    "mindustry/content/Bullets.gd",
+    "mindustry/content/Items.gd",
+    "mindustry/content/Liquids.gd",
+    "mindustry/content/Loadouts.gd",
+    "mindustry/content/Planets.gd",
+    "mindustry/content/SectorPresets.gd",
+    "mindustry/content/SerpuloTechTree.gd",
+    "mindustry/content/StatusEffects.gd",
+    "mindustry/content/TeamEntries.gd",
+    "mindustry/content/Weathers.gd",
+    "mindustry/core/FileTree.gd",
+    "mindustry/core/GameState.gd",
+    "mindustry/core/PerfCounter.gd",
+    "mindustry/core/Platform.gd",
+    "mindustry/core/UI.gd",
+    "mindustry/core/Version.gd",
+    "mindustry/ctype/Content.gd",
+    "mindustry/ctype/ContentType.gd",
+    "mindustry/ctype/MappableContent.gd",
+    "mindustry/editor/BannedContentDialog.gd",
+    "mindustry/editor/data/AssetView.gd",
+    "mindustry/editor/data/MapAssetsDialog.gd",
+    "mindustry/editor/data/MapBundlesView.gd",
+    "mindustry/editor/data/MapPatchesView.gd",
+    "mindustry/editor/EditorSpriteCache.gd",
+    "mindustry/editor/EditorTile.gd",
+    "mindustry/editor/MapEditor.gd",
+    "mindustry/editor/MapEditorDialog.gd",
+    "mindustry/editor/MapGenerateDialog.gd",
+    "mindustry/editor/MapInfoDialog.gd",
+    "mindustry/editor/MapLoadDialog.gd",
+    "mindustry/editor/MapResizeDialog.gd",
+    "mindustry/editor/MapView.gd",
+    "mindustry/editor/OperationStack.gd",
+    "mindustry/editor/SectorGenerateDialog.gd",
+    "mindustry/editor/WaveInfoDialog.gd",
+    "mindustry/entities/abilities/Ability.gd",
+    "mindustry/entities/abilities/ArmorPlateAbility.gd",
+    "mindustry/entities/abilities/EmptyDataAbility.gd",
+    "mindustry/entities/abilities/ForceFieldAbility.gd",
+    "mindustry/entities/abilities/LiquidExplodeAbility.gd",
+    "mindustry/entities/abilities/LiquidRegenAbility.gd",
+    "mindustry/entities/abilities/MoveEffectAbility.gd",
+    "mindustry/entities/abilities/MoveLightningAbility.gd",
+    "mindustry/entities/abilities/RegenAbility.gd",
+    "mindustry/entities/abilities/RepairFieldAbility.gd",
+    "mindustry/entities/abilities/ShieldArcAbility.gd",
+    "mindustry/entities/abilities/ShieldRegenFieldAbility.gd",
+    "mindustry/entities/abilities/SpawnDeathAbility.gd",
+    "mindustry/entities/abilities/StatusFieldAbility.gd",
+    "mindustry/entities/abilities/SuppressionFieldAbility.gd",
+    "mindustry/entities/abilities/UnitSpawnAbility.gd",
+    "mindustry/entities/bullet/ArtilleryBulletType.gd",
+    "mindustry/entities/bullet/BasicBulletType.gd",
+    "mindustry/entities/bullet/BombBulletType.gd",
+    "mindustry/entities/bullet/ContinuousFlameBulletType.gd",
+    "mindustry/entities/bullet/ContinuousLaserBulletType.gd",
+    "mindustry/entities/bullet/EmpBulletType.gd",
+    "mindustry/entities/bullet/EmptyBulletType.gd",
+    "mindustry/entities/bullet/ExplosionBulletType.gd",
+    "mindustry/entities/bullet/FireBulletType.gd",
+    "mindustry/entities/bullet/FlakBulletType.gd",
+    "mindustry/entities/bullet/LaserBoltBulletType.gd",
+    "mindustry/entities/bullet/LaserBulletType.gd",
+    "mindustry/entities/bullet/LightningBulletType.gd",
+    "mindustry/entities/bullet/LiquidBulletType.gd",
+    "mindustry/entities/bullet/MissileBulletType.gd",
+    "mindustry/entities/bullet/MultiBulletType.gd",
+    "mindustry/entities/bullet/PointBulletType.gd",
+    "mindustry/entities/bullet/PointLaserBulletType.gd",
+    "mindustry/entities/bullet/RailBulletType.gd",
+    "mindustry/entities/bullet/ShrapnelBulletType.gd",
+    "mindustry/entities/comp/BlockUnitComp.gd",
+    "mindustry/entities/comp/BuildingTetherComp.gd",
+    "mindustry/entities/comp/CrawlComp.gd",
+    "mindustry/entities/comp/DamageComp.gd",
+    "mindustry/entities/comp/DecalComp.gd",
+    "mindustry/entities/comp/DrawComp.gd",
+    "mindustry/entities/comp/EffectStateComp.gd",
+    "mindustry/entities/comp/ElevationMoveComp.gd",
+    "mindustry/entities/comp/FireComp.gd",
+    "mindustry/entities/comp/HealthComp.gd",
+    "mindustry/entities/comp/HitboxComp.gd",
+    "mindustry/entities/comp/ItemsComp.gd",
+    "mindustry/entities/comp/LaunchCoreComp.gd",
+    "mindustry/entities/comp/LegsComp.gd",
+    "mindustry/entities/comp/MechComp.gd",
+    "mindustry/entities/comp/MinerComp.gd",
+    "mindustry/entities/comp/OwnerComp.gd",
+    "mindustry/entities/comp/PhysicsComp.gd",
+    "mindustry/entities/comp/PosComp.gd",
+    "mindustry/entities/comp/PosTeamDef.gd",
+    "mindustry/entities/comp/PowerGraphUpdaterComp.gd",
+    "mindustry/entities/comp/PuddleComp.gd",
+    "mindustry/entities/comp/RotComp.gd",
+    "mindustry/entities/comp/ShieldComp.gd",
+    "mindustry/entities/comp/ShielderComp.gd",
+    "mindustry/entities/comp/StatusComp.gd",
+    "mindustry/entities/comp/SyncComp.gd",
+    "mindustry/entities/comp/TankComp.gd",
+    "mindustry/entities/comp/TeamComp.gd",
+    "mindustry/entities/comp/TimedComp.gd",
+    "mindustry/entities/comp/TimedKillComp.gd",
+    "mindustry/entities/comp/TimerComp.gd",
+    "mindustry/entities/comp/UnderwaterMoveComp.gd",
+    "mindustry/entities/comp/UnitTetherComp.gd",
+    "mindustry/entities/comp/VelComp.gd",
+    "mindustry/entities/comp/WaterCrawlComp.gd",
+    "mindustry/entities/comp/WaterMoveComp.gd",
+    "mindustry/entities/comp/WeaponsComp.gd",
+    "mindustry/entities/comp/WorldLabelComp.gd",
+    "mindustry/entities/effect/ExplosionEffect.gd",
+    "mindustry/entities/effect/MultiEffect.gd",
+    "mindustry/entities/effect/ParticleEffect.gd",
+    "mindustry/entities/effect/RadialEffect.gd",
+    "mindustry/entities/effect/SeqEffect.gd",
+    "mindustry/entities/effect/SoundEffect.gd",
+    "mindustry/entities/effect/WaveEffect.gd",
+    "mindustry/entities/effect/WrapEffect.gd",
+    "mindustry/entities/EntityCollisions.gd",
+    "mindustry/entities/EntityGroup.gd",
+    "mindustry/entities/EntityIndexer.gd",
+    "mindustry/entities/Fires.gd",
+    "mindustry/entities/GroupDefs.gd",
+    "mindustry/entities/Leg.gd",
+    "mindustry/entities/LegDestroyData.gd",
+    "mindustry/entities/Lightning.gd",
+    "mindustry/entities/Mover.gd",
+    "mindustry/entities/part/DrawPart.gd",
+    "mindustry/entities/part/EffectSpawnerPart.gd",
+    "mindustry/entities/part/FlarePart.gd",
+    "mindustry/entities/part/HaloPart.gd",
+    "mindustry/entities/part/HoverPart.gd",
+    "mindustry/entities/part/RegionPart.gd",
+    "mindustry/entities/part/ShapePart.gd",
+    "mindustry/entities/pattern/ShootAlternate.gd",
+    "mindustry/entities/pattern/ShootBarrel.gd",
+    "mindustry/entities/pattern/ShootHelix.gd",
+    "mindustry/entities/pattern/ShootMulti.gd",
+    "mindustry/entities/pattern/ShootPattern.gd",
+    "mindustry/entities/pattern/ShootSine.gd",
+    "mindustry/entities/pattern/ShootSpread.gd",
+    "mindustry/entities/pattern/ShootSummon.gd",
+    "mindustry/entities/Puddles.gd",
+    "mindustry/entities/Sized.gd",
+    "mindustry/entities/TargetPriority.gd",
+    "mindustry/entities/units/StatusEntry.gd",
+    "mindustry/entities/units/UnitController.gd",
+    "mindustry/entities/units/WeaponMount.gd",
+    "mindustry/entities/UnitSorts.gd",
+    "mindustry/game/AttackIndicators.gd",
+    "mindustry/game/CampaignRules.gd",
+    "mindustry/game/CampaignStats.gd",
+    "mindustry/game/Difficulty.gd",
+    "mindustry/game/EventType.gd",
+    "mindustry/game/FogControl.gd",
+    "mindustry/game/Gamemode.gd",
+    "mindustry/game/GameStats.gd",
+    "mindustry/game/MapMarkers.gd",
+    "mindustry/game/Objectives.gd",
+    "mindustry/game/Rules.gd",
+    "mindustry/game/Saves.gd",
+    "mindustry/game/SectorInfo.gd",
+    "mindustry/game/Universe.gd",
+    "mindustry/game/Waves.gd",
+    "mindustry/graphics/BlockRenderer.gd",
+    "mindustry/graphics/BuildingCacheLayer.gd",
+    "mindustry/graphics/CacheLayer.gd",
+    "mindustry/graphics/CubemapMesh.gd",
+    "mindustry/graphics/Drawf.gd",
+    "mindustry/graphics/EnvRenderers.gd",
+    "mindustry/graphics/FogRenderer.gd",
+    "mindustry/graphics/g3d/GenericMesh.gd",
+    "mindustry/graphics/g3d/HexMesh.gd",
+    "mindustry/graphics/g3d/HexMesher.gd",
+    "mindustry/graphics/g3d/HexSkyMesh.gd",
+    "mindustry/graphics/g3d/MatMesh.gd",
+    "mindustry/graphics/g3d/MultiMesh.gd",
+    "mindustry/graphics/g3d/NoiseMesh.gd",
+    "mindustry/graphics/g3d/PlanetGrid.gd",
+    "mindustry/graphics/g3d/PlanetMesh.gd",
+    "mindustry/graphics/g3d/PlanetParams.gd",
+    "mindustry/graphics/g3d/PlanetRenderer.gd",
+    "mindustry/graphics/g3d/ShaderSphereMesh.gd",
+    "mindustry/graphics/g3d/SunMesh.gd",
+    "mindustry/graphics/IntelGpuCheck.gd",
+    "mindustry/graphics/InverseKinematics.gd",
+    "mindustry/graphics/Layer.gd",
+    "mindustry/graphics/LightRenderer.gd",
+    "mindustry/graphics/LoadRenderer.gd",
+    "mindustry/graphics/Lod.gd",
+    "mindustry/graphics/MenuRenderer.gd",
+    "mindustry/graphics/MinimapRenderer.gd",
+    "mindustry/graphics/MultiPacker.gd",
+    "mindustry/graphics/NvGpuInfo.gd",
+    "mindustry/graphics/Pal.gd",
+    "mindustry/graphics/Pixelator.gd",
+    "mindustry/graphics/Shaders.gd",
+    "mindustry/graphics/Trail.gd",
+    "mindustry/graphics/Voronoi.gd",
+    "mindustry/input/Binding.gd",
+    "mindustry/input/DesktopInput.gd",
+    "mindustry/input/PlaceMode.gd",
+    "mindustry/io/MapIO.gd",
+    "mindustry/io/SaveFileReader.gd",
+    "mindustry/io/SaveIO.gd",
+    "mindustry/io/SaveMeta.gd",
+    "mindustry/io/SaveOptions.gd",
+    "mindustry/io/SavePreviewLoader.gd",
+    "mindustry/io/SaveVersion.gd",
+    "mindustry/io/versions/LegacyIO.gd",
+    "mindustry/io/versions/LegacyRegionSaveVersion.gd",
+    "mindustry/io/versions/LegacySaveVersion.gd",
+    "mindustry/io/versions/LegacySaveVersion2.gd",
+    "mindustry/io/versions/Save1.gd",
+    "mindustry/io/versions/Save10.gd",
+    "mindustry/io/versions/Save11.gd",
+    "mindustry/io/versions/Save12.gd",
+    "mindustry/io/versions/Save13.gd",
+    "mindustry/io/versions/Save2.gd",
+    "mindustry/io/versions/Save3.gd",
+    "mindustry/io/versions/Save4.gd",
+    "mindustry/io/versions/Save5.gd",
+    "mindustry/io/versions/Save6.gd",
+    "mindustry/io/versions/Save7.gd",
+    "mindustry/io/versions/Save8.gd",
+    "mindustry/io/versions/Save9.gd",
+    "mindustry/io/versions/ShortChunkSaveVersion.gd",
+    "mindustry/logic/ConditionOp.gd",
+    "mindustry/logic/Controllable.gd",
+    "mindustry/logic/CutsceneAction.gd",
+    "mindustry/logic/FetchType.gd",
+    "mindustry/logic/GlobalVarsDialog.gd",
+    "mindustry/logic/LAccess.gd",
+    "mindustry/logic/LCategory.gd",
+    "mindustry/logic/LLocate.gd",
+    "mindustry/logic/LMarkerControl.gd",
+    "mindustry/logic/LogicDialog.gd",
+    "mindustry/logic/LogicFx.gd",
+    "mindustry/logic/LogicOp.gd",
+    "mindustry/logic/LogicRule.gd",
+    "mindustry/logic/LogicScript.gd",
+    "mindustry/logic/LReadable.gd",
+    "mindustry/logic/LUnitControl.gd",
+    "mindustry/logic/LWritable.gd",
+    "mindustry/logic/MessageType.gd",
+    "mindustry/logic/QueryShape.gd",
+    "mindustry/logic/QueryType.gd",
+    "mindustry/logic/RadarSort.gd",
+    "mindustry/logic/RadarTarget.gd",
+    "mindustry/logic/Ranged.gd",
+    "mindustry/logic/Senseable.gd",
+    "mindustry/logic/Settable.gd",
+    "mindustry/logic/TileLayer.gd",
+    "mindustry/maps/filters/BlendFilter.gd",
+    "mindustry/maps/filters/ClearFilter.gd",
+    "mindustry/maps/filters/CoreSpawnFilter.gd",
+    "mindustry/maps/filters/DistortFilter.gd",
+    "mindustry/maps/filters/EnemySpawnFilter.gd",
+    "mindustry/maps/filters/FilterOption.gd",
+    "mindustry/maps/filters/LogicFilter.gd",
+    "mindustry/maps/filters/MedianFilter.gd",
+    "mindustry/maps/filters/MirrorFilter.gd",
+    "mindustry/maps/filters/NoiseFilter.gd",
+    "mindustry/maps/filters/OreFilter.gd",
+    "mindustry/maps/filters/OreMedianFilter.gd",
+    "mindustry/maps/filters/RandomItemFilter.gd",
+    "mindustry/maps/filters/RiverNoiseFilter.gd",
+    "mindustry/maps/filters/ScatterFilter.gd",
+    "mindustry/maps/filters/SpawnPathFilter.gd",
+    "mindustry/maps/filters/TerrainFilter.gd",
+    "mindustry/maps/generators/BasicGenerator.gd",
+    "mindustry/maps/generators/BlankPlanetGenerator.gd",
+    "mindustry/maps/generators/FileMapGenerator.gd",
+    "mindustry/maps/generators/PlanetGenerator.gd",
+    "mindustry/maps/generators/WorldGenerator.gd",
+    "mindustry/maps/Map.gd",
+    "mindustry/maps/MapException.gd",
+    "mindustry/maps/MapPreviewLoader.gd",
+    "mindustry/maps/Maps.gd",
+    "mindustry/maps/planet/AsteroidGenerator.gd",
+    "mindustry/maps/planet/ErekirPlanetGenerator.gd",
+    "mindustry/maps/planet/SerpuloPlanetGenerator.gd",
+    "mindustry/maps/planet/TantrosPlanetGenerator.gd",
+    "mindustry/maps/SectorDamage.gd",
+    "mindustry/maps/SectorSubmissions.gd",
+    "mindustry/mod/ClassMap.gd",
+    "mindustry/mod/data/BundleAsset.gd",
+    "mindustry/mod/data/DataAsset.gd",
+    "mindustry/mod/data/DataAssetType.gd",
+    "mindustry/mod/data/ImageAsset.gd",
+    "mindustry/mod/data/MusicAsset.gd",
+    "mindustry/mod/data/PatchAsset.gd",
+    "mindustry/mod/data/SoundAsset.gd",
+    "mindustry/mod/DataAssetCache.gd",
+    "mindustry/mod/DataAudioLoader.gd",
+    "mindustry/mod/DataBundleLoader.gd",
+    "mindustry/mod/DataImagePacker.gd",
+    "mindustry/mod/DataManager.gd",
+    "mindustry/mod/Mod.gd",
+    "mindustry/mod/ModClassLoader.gd",
+    "mindustry/mod/ModListing.gd",
+    "mindustry/mod/NoPatch.gd",
+    "mindustry/mod/Plugin.gd",
+    "mindustry/net/Administration.gd",
+    "mindustry/net/BeControl.gd",
+    "mindustry/net/CrashHandler.gd",
+    "mindustry/net/Host.gd",
+    "mindustry/net/NetConnection.gd",
+    "mindustry/net/Packet.gd",
+    "mindustry/net/Packets.gd",
+    "mindustry/net/ServerGroup.gd",
+    "mindustry/net/SteamAdmin.gd",
+    "mindustry/net/Streamable.gd",
+    "mindustry/net/ValidateException.gd",
+    "mindustry/net/WorldReloader.gd",
+    "mindustry/service/Achievement.gd",
+    "mindustry/service/SStat.gd",
+    "mindustry/type/Category.gd",
+    "mindustry/type/CellLiquid.gd",
+    "mindustry/type/ErrorContent.gd",
+    "mindustry/type/Item.gd",
+    "mindustry/type/ItemSeq.gd",
+    "mindustry/type/Liquid.gd",
+    "mindustry/type/MapLocales.gd",
+    "mindustry/type/PayloadSeq.gd",
+    "mindustry/type/Planet.gd",
+    "mindustry/type/Publishable.gd",
+    "mindustry/type/Sector.gd",
+    "mindustry/type/SectorPreset.gd",
+    "mindustry/type/StatusEffect.gd",
+    "mindustry/type/TeamEntry.gd",
+    "mindustry/type/unit/ErekirUnitType.gd",
+    "mindustry/type/unit/MissileUnitType.gd",
+    "mindustry/type/unit/NeoplasmUnitType.gd",
+    "mindustry/type/unit/TankUnitType.gd",
+    "mindustry/type/weapons/BuildWeapon.gd",
+    "mindustry/type/weapons/MineWeapon.gd",
+    "mindustry/type/weather/MagneticStorm.gd",
+    "mindustry/type/weather/ParticleWeather.gd",
+    "mindustry/type/weather/RainWeather.gd",
+    "mindustry/type/weather/SolarFlare.gd",
+    "mindustry/type/Weather.gd",
+    "mindustry/ui/Bar.gd",
+    "mindustry/ui/CoreItemsDisplay.gd",
+    "mindustry/ui/dialogs/AboutDialog.gd",
+    "mindustry/ui/dialogs/AdminsDialog.gd",
+    "mindustry/ui/dialogs/BansDialog.gd",
+    "mindustry/ui/dialogs/BaseDialog.gd",
+    "mindustry/ui/dialogs/CampaignCompleteDialog.gd",
+    "mindustry/ui/dialogs/CampaignRulesDialog.gd",
+    "mindustry/ui/dialogs/CanvasEditDialog.gd",
+    "mindustry/ui/dialogs/ColorPicker.gd",
+    "mindustry/ui/dialogs/ContentInfoDialog.gd",
+    "mindustry/ui/dialogs/CustomGameDialog.gd",
+    "mindustry/ui/dialogs/CustomRulesDialog.gd",
+    "mindustry/ui/dialogs/DiscordDialog.gd",
+    "mindustry/ui/dialogs/EditorMapsDialog.gd",
+    "mindustry/ui/dialogs/EffectsDialog.gd",
+    "mindustry/ui/dialogs/FileChooserDialog.gd",
+    "mindustry/ui/dialogs/FullTextDialog.gd",
+    "mindustry/ui/dialogs/GameOverDialog.gd",
+    "mindustry/ui/dialogs/HostDialog.gd",
+    "mindustry/ui/dialogs/IconSelectDialog.gd",
+    "mindustry/ui/dialogs/JoinDialog.gd",
+    "mindustry/ui/dialogs/KeybindDialog.gd",
+    "mindustry/ui/dialogs/LanguageDialog.gd",
+    "mindustry/ui/dialogs/LaunchLoadoutDialog.gd",
+    "mindustry/ui/dialogs/LoadDialog.gd",
+    "mindustry/ui/dialogs/LoadoutDialog.gd",
+    "mindustry/ui/dialogs/MapListDialog.gd",
+    "mindustry/ui/dialogs/MapPlayDialog.gd",
+    "mindustry/ui/dialogs/PaletteDialog.gd",
+    "mindustry/ui/dialogs/PausedDialog.gd",
+    "mindustry/ui/dialogs/ResearchDialog.gd",
+    "mindustry/ui/dialogs/SaveDialog.gd",
+    "mindustry/ui/dialogs/SchematicsDialog.gd",
+    "mindustry/ui/dialogs/SectorSelectDialog.gd",
+    "mindustry/ui/dialogs/TraceDialog.gd",
+    "mindustry/ui/Displayable.gd",
+    "mindustry/ui/FileChooser.gd",
+    "mindustry/ui/Fonts.gd",
+    "mindustry/ui/fragments/BlockConfigFragment.gd",
+    "mindustry/ui/fragments/BlockInventoryFragment.gd",
+    "mindustry/ui/fragments/ChatFragment.gd",
+    "mindustry/ui/fragments/ConsoleFragment.gd",
+    "mindustry/ui/fragments/FadeInFragment.gd",
+    "mindustry/ui/fragments/LoadingFragment.gd",
+    "mindustry/ui/fragments/MenuFragment.gd",
+    "mindustry/ui/fragments/MinimapFragment.gd",
+    "mindustry/ui/fragments/PlayerListFragment.gd",
+    "mindustry/ui/GridImage.gd",
+    "mindustry/ui/IntFormat.gd",
+    "mindustry/ui/ItemsDisplay.gd",
+    "mindustry/ui/layout/BranchTreeLayout.gd",
+    "mindustry/ui/layout/RadialTreeLayout.gd",
+    "mindustry/ui/layout/RowTreeLayout.gd",
+    "mindustry/ui/layout/TreeLayout.gd",
+    "mindustry/ui/Links.gd",
+    "mindustry/ui/Menus.gd",
+    "mindustry/ui/Minimap.gd",
+    "mindustry/ui/MobileButton.gd",
+    "mindustry/ui/MultiReqImage.gd",
+    "mindustry/ui/ReqImage.gd",
+    "mindustry/ui/Styles.gd",
+    "mindustry/ui/WarningBar.gd",
+    "mindustry/Vars.gd",
+    "mindustry/world/blocks/Attributes.gd",
+    "mindustry/world/blocks/campaign/Accelerator.gd",
+    "mindustry/world/blocks/ControlBlock.gd",
+    "mindustry/world/blocks/defense/BaseShield.gd",
+    "mindustry/world/blocks/defense/Radar.gd",
+    "mindustry/world/blocks/defense/ShieldWall.gd",
+    "mindustry/world/blocks/defense/ShockMine.gd",
+    "mindustry/world/blocks/defense/ShockwaveTower.gd",
+    "mindustry/world/blocks/defense/Thruster.gd",
+    "mindustry/world/blocks/defense/turrets/BaseTurret.gd",
+    "mindustry/world/blocks/defense/turrets/LaserTurret.gd",
+    "mindustry/world/blocks/defense/turrets/PointDefenseTurret.gd",
+    "mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd",
+    "mindustry/world/blocks/distribution/ArmoredConveyor.gd",
+    "mindustry/world/blocks/distribution/BufferedItemBridge.gd",
+    "mindustry/world/blocks/distribution/ChainedBuilding.gd",
+    "mindustry/world/blocks/distribution/DuctBridge.gd",
+    "mindustry/world/blocks/distribution/DuctJunction.gd",
+    "mindustry/world/blocks/distribution/DuctRouter.gd",
+    "mindustry/world/blocks/distribution/Junction.gd",
+    "mindustry/world/blocks/distribution/OverflowDuct.gd",
+    "mindustry/world/blocks/distribution/OverflowGate.gd",
+    "mindustry/world/blocks/distribution/Router.gd",
+    "mindustry/world/blocks/distribution/Sorter.gd",
+    "mindustry/world/blocks/distribution/StackRouter.gd",
+    "mindustry/world/blocks/environment/AirBlock.gd",
+    "mindustry/world/blocks/environment/Cliff.gd",
+    "mindustry/world/blocks/environment/EmptyFloor.gd",
+    "mindustry/world/blocks/environment/Floor.gd",
+    "mindustry/world/blocks/environment/OreBlock.gd",
+    "mindustry/world/blocks/environment/OverlayFloor.gd",
+    "mindustry/world/blocks/environment/Prop.gd",
+    "mindustry/world/blocks/environment/RemoveOre.gd",
+    "mindustry/world/blocks/environment/RemoveWall.gd",
+    "mindustry/world/blocks/environment/SeaBush.gd",
+    "mindustry/world/blocks/environment/Seaweed.gd",
+    "mindustry/world/blocks/environment/ShallowLiquid.gd",
+    "mindustry/world/blocks/environment/SpawnBlock.gd",
+    "mindustry/world/blocks/environment/StaticProp.gd",
+    "mindustry/world/blocks/environment/StaticTree.gd",
+    "mindustry/world/blocks/environment/StaticWall.gd",
+    "mindustry/world/blocks/environment/TallBlock.gd",
+    "mindustry/world/blocks/environment/TiledFloor.gd",
+    "mindustry/world/blocks/environment/TiledWall.gd",
+    "mindustry/world/blocks/environment/TreeBlock.gd",
+    "mindustry/world/blocks/environment/WobbleProp.gd",
+    "mindustry/world/blocks/ExplosionShield.gd",
+    "mindustry/world/blocks/heat/HeatBlock.gd",
+    "mindustry/world/blocks/heat/HeatConductor.gd",
+    "mindustry/world/blocks/heat/HeatConsumer.gd",
+    "mindustry/world/blocks/heat/HeatProducer.gd",
+    "mindustry/world/blocks/ItemSelection.gd",
+    "mindustry/world/blocks/LaunchAnimator.gd",
+    "mindustry/world/blocks/legacy/LegacyBlock.gd",
+    "mindustry/world/blocks/legacy/LegacyCommandCenter.gd",
+    "mindustry/world/blocks/legacy/LegacyMechPad.gd",
+    "mindustry/world/blocks/legacy/LegacyUnitFactory.gd",
+    "mindustry/world/blocks/liquid/ArmoredConduit.gd",
+    "mindustry/world/blocks/liquid/LiquidBlock.gd",
+    "mindustry/world/blocks/liquid/LiquidBridge.gd",
+    "mindustry/world/blocks/liquid/LiquidJunction.gd",
+    "mindustry/world/blocks/liquid/LiquidRouter.gd",
+    "mindustry/world/blocks/logic/SwitchBlock.gd",
+    "mindustry/world/blocks/payloads/BlockProducer.gd",
+    "mindustry/world/blocks/payloads/Constructor.gd",
+    "mindustry/world/blocks/payloads/Payload.gd",
+    "mindustry/world/blocks/payloads/PayloadSource.gd",
+    "mindustry/world/blocks/payloads/PayloadUnloader.gd",
+    "mindustry/world/blocks/payloads/PayloadVoid.gd",
+    "mindustry/world/blocks/power/Battery.gd",
+    "mindustry/world/blocks/power/HeaterGenerator.gd",
+    "mindustry/world/blocks/power/ImpactReactor.gd",
+    "mindustry/world/blocks/power/LightBlock.gd",
+    "mindustry/world/blocks/power/LongPowerNode.gd",
+    "mindustry/world/blocks/power/NuclearReactor.gd",
+    "mindustry/world/blocks/power/PowerBlock.gd",
+    "mindustry/world/blocks/power/PowerDiode.gd",
+    "mindustry/world/blocks/power/PowerDistributor.gd",
+    "mindustry/world/blocks/power/PowerGenerator.gd",
+    "mindustry/world/blocks/power/PowerGraph.gd",
+    "mindustry/world/blocks/power/SolarGenerator.gd",
+    "mindustry/world/blocks/power/ThermalGenerator.gd",
+    "mindustry/world/blocks/power/VariableReactor.gd",
+    "mindustry/world/blocks/production/AttributeCrafter.gd",
+    "mindustry/world/blocks/production/Fracker.gd",
+    "mindustry/world/blocks/production/GenericCrafter.gd",
+    "mindustry/world/blocks/production/HeatCrafter.gd",
+    "mindustry/world/blocks/production/Incinerator.gd",
+    "mindustry/world/blocks/production/ItemIncinerator.gd",
+    "mindustry/world/blocks/production/Pump.gd",
+    "mindustry/world/blocks/production/Separator.gd",
+    "mindustry/world/blocks/production/SingleBlockProducer.gd",
+    "mindustry/world/blocks/production/SolidPump.gd",
+    "mindustry/world/blocks/RotBlock.gd",
+    "mindustry/world/blocks/sandbox/ItemSource.gd",
+    "mindustry/world/blocks/sandbox/ItemVoid.gd",
+    "mindustry/world/blocks/sandbox/LiquidSource.gd",
+    "mindustry/world/blocks/sandbox/LiquidVoid.gd",
+    "mindustry/world/blocks/sandbox/PowerSource.gd",
+    "mindustry/world/blocks/sandbox/PowerVoid.gd",
+    "mindustry/world/blocks/TileBitmask.gd",
+    "mindustry/world/blocks/units/RepairTower.gd",
+    "mindustry/world/blocks/units/UnitAssemblerModule.gd",
+    "mindustry/world/blocks/units/UnitCargoUnloadPoint.gd",
+    "mindustry/world/blocks/units/UnitFactory.gd",
+    "mindustry/world/blocks/UnitTetherBlock.gd",
+    "mindustry/world/CachedTile.gd",
+    "mindustry/world/ColorMapper.gd",
+    "mindustry/world/consumers/Consume.gd",
+    "mindustry/world/consumers/ConsumeCoolant.gd",
+    "mindustry/world/consumers/ConsumeItemCharged.gd",
+    "mindustry/world/consumers/ConsumeItemDynamic.gd",
+    "mindustry/world/consumers/ConsumeItemEfficiency.gd",
+    "mindustry/world/consumers/ConsumeItemExplode.gd",
+    "mindustry/world/consumers/ConsumeItemExplosive.gd",
+    "mindustry/world/consumers/ConsumeItemFilter.gd",
+    "mindustry/world/consumers/ConsumeItemFlammable.gd",
+    "mindustry/world/consumers/ConsumeItemList.gd",
+    "mindustry/world/consumers/ConsumeItemRadioactive.gd",
+    "mindustry/world/consumers/ConsumeItems.gd",
+    "mindustry/world/consumers/ConsumeLiquid.gd",
+    "mindustry/world/consumers/ConsumeLiquidBase.gd",
+    "mindustry/world/consumers/ConsumeLiquidFilter.gd",
+    "mindustry/world/consumers/ConsumeLiquidFlammable.gd",
+    "mindustry/world/consumers/ConsumeLiquids.gd",
+    "mindustry/world/consumers/ConsumeLiquidsDynamic.gd",
+    "mindustry/world/consumers/ConsumePayloadDynamic.gd",
+    "mindustry/world/consumers/ConsumePayloadFilter.gd",
+    "mindustry/world/consumers/ConsumePayloads.gd",
+    "mindustry/world/consumers/ConsumePower.gd",
+    "mindustry/world/consumers/ConsumePowerCondition.gd",
+    "mindustry/world/consumers/ConsumePowerDynamic.gd",
+    "mindustry/world/DirectionalItemBuffer.gd",
+    "mindustry/world/draw/DrawArcSmelt.gd",
+    "mindustry/world/draw/DrawBlockParts.gd",
+    "mindustry/world/draw/DrawBlurSpin.gd",
+    "mindustry/world/draw/DrawBubbles.gd",
+    "mindustry/world/draw/DrawCells.gd",
+    "mindustry/world/draw/DrawCircles.gd",
+    "mindustry/world/draw/DrawCrucibleFlame.gd",
+    "mindustry/world/draw/DrawCultivator.gd",
+    "mindustry/world/draw/DrawDefault.gd",
+    "mindustry/world/draw/DrawFade.gd",
+    "mindustry/world/draw/DrawFlame.gd",
+    "mindustry/world/draw/DrawFrames.gd",
+    "mindustry/world/draw/DrawGlowRegion.gd",
+    "mindustry/world/draw/DrawLiquidOutputs.gd",
+    "mindustry/world/draw/DrawLiquidRegion.gd",
+    "mindustry/world/draw/DrawLiquidTile.gd",
+    "mindustry/world/draw/DrawMulti.gd",
+    "mindustry/world/draw/DrawMultiWeave.gd",
+    "mindustry/world/draw/DrawParticles.gd",
+    "mindustry/world/draw/DrawPistons.gd",
+    "mindustry/world/draw/DrawPlasma.gd",
+    "mindustry/world/draw/DrawPower.gd",
+    "mindustry/world/draw/DrawPulseShape.gd",
+    "mindustry/world/draw/DrawRegion.gd",
+    "mindustry/world/draw/DrawShape.gd",
+    "mindustry/world/draw/DrawSideRegion.gd",
+    "mindustry/world/draw/DrawSoftParticles.gd",
+    "mindustry/world/draw/DrawSpikes.gd",
+    "mindustry/world/draw/DrawTurret.gd",
+    "mindustry/world/draw/DrawWarmupRegion.gd",
+    "mindustry/world/draw/DrawWeave.gd",
+    "mindustry/world/Edges.gd",
+    "mindustry/world/ItemBuffer.gd",
+    "mindustry/world/meta/Attribute.gd",
+    "mindustry/world/meta/BlockFlag.gd",
+    "mindustry/world/meta/BlockGroup.gd",
+    "mindustry/world/meta/BlockStatus.gd",
+    "mindustry/world/meta/BuildVisibility.gd",
+    "mindustry/world/meta/Env.gd",
+    "mindustry/world/meta/Stat.gd",
+    "mindustry/world/meta/StatCat.gd",
+    "mindustry/world/meta/Stats.gd",
+    "mindustry/world/meta/StatUnit.gd",
+    "mindustry/world/meta/StatValue.gd",
+    "mindustry/world/modules/BlockModule.gd",
+    "mindustry/world/modules/ItemModule.gd",
+    "mindustry/world/modules/LiquidModule.gd",
+    "mindustry/world/modules/PowerModule.gd",
+    "mindustry/world/TileGen.gd",
+    "mindustry/world/Tiles.gd",
+    "mindustry/world/WorldContext.gd",
+    "mindustry/world/WorldParams.gd"
+  ],
+  "output_root": "godot-mindustry/src/generated/classes",
+  "skipped_failure_count": 189,
+  "source_root": "mindustry-upstream/core/src"
+}

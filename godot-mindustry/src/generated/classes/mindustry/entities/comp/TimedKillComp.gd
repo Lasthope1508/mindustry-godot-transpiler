@@ -1,0 +1,14 @@
+# Generated from Mindustry upstream.
+# Source: mindustry/entities/comp/TimedKillComp.java
+# Do not edit by hand.
+extends RefCounted
+
+const JAVA_PACKAGE := "mindustry.entities.comp"
+const JAVA_KIND := "class"
+const JAVA_NAME := "TimedKillComp"
+const JAVA_EXTENDS := ""
+const JAVA_IMPLEMENTS := ["Entityc", "Healthc", "Scaled"]
+const JAVA_FIELDS := [{"modifiers": [], "name": "time", "type": "float"}, {"modifiers": [], "name": "lifetime", "type": "float"}]
+const JAVA_CONSTRUCTORS := []
+const JAVA_METHODS := [{"modifiers": ["public"], "name": "update", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "fin", "parameters": [], "return_type": "float"}]
+const JAVA_ENUM_CONSTANTS := []

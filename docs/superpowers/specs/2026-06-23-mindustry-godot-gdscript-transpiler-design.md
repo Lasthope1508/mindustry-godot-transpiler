@@ -13,8 +13,8 @@
 | Bucket | Count |
 | --- | ---: |
 | Total tracked work items | 17 |
-| Done | 16 |
-| Not done | 1 |
+| Done | 17 |
+| Not done | 0 |
 | Blocked | 0 |
 
 ## Done
@@ -28,6 +28,7 @@
 | N3 | Build source scanner | Full run writes `source_manifest.json` and reports `801` core Java files |
 | N4 | Add Java AST parser | `test_java_ast.py` passes class and enum parser fixtures; `parse --limit 20` writes `ast_manifest.json` |
 | N5 | Define Java-to-GDScript mapping table | `test_mapping.py` verifies class, enum, method, field, constructor, static initializer, overload, package, import mappings |
+| N6 | Emit GDScript classes | `emit` command writes `612` parseable GDScript class skeletons under `src/generated/classes`; Godot MCP project scan sees `638` scripts and representative generated class LSP diagnostics return `diagnostics: []` |
 | N7 | Create compatibility runtime | Runtime stubs exist for `Seq`, `ObjectMap`, `Time`, `Mathf`, `ColorCompat`, `Vec2`, `Vars`, `Events`, `Core`; MCP project scan sees scripts |
 | N8 | Port base content model | `MindustryContent`, `MindustryUnlockableContent`, `MindustryItem`, `MindustryLiquid`, `MindustryBlock`, and `MindustryContentCatalog` load generated registry objects; MCP runtime starts scene with `errors=[]` |
 | N9 | Generate first content data | `content` command writes `content_registry.json` and `MindustryContentRegistry.gd`; MCP LSP diagnostics pass for generated registry; registry includes `22` items, `11` liquids, `417` source-declared block constructors |
@@ -42,7 +43,7 @@
 
 | ID | Item | Required verification before marking done |
 | --- | --- | --- |
-| N6 | Emit GDScript classes | Generated `.gd` files pass Godot parse check |
+| None | No open tracked item | Add new tracked work before next milestone |
 ## Scope
 
 This project does not attempt a blind one-shot conversion of all Java source into working Godot gameplay. It builds a repeatable transpiler pipeline that gradually converts Mindustry source into a Godot 4.6.2 GDScript project while preserving traceability back to upstream files.
@@ -254,3 +255,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-23 | M11 source waves: generator extracts `waveVersion` and `SpawnGroup` unit timing/count fields from `Waves.java`; `PortGame.gd` spawns waves from generated groups with Mindustry-equivalent count formula; MCP runtime output shows zero errors. |
 | 2026-06-23 | M12 unsupported report: report generation now scans upstream Java source for unsupported lambdas and anonymous double-brace initializers with exact source path, line number, feature name, and snippet; generated report records `6986` locations. |
 | 2026-06-23 | M13 regression fixtures: generated `MindustryContentRegistry.gd` output is compared against a checked expected GDScript fixture; full test suite now has `16` passing tests. |
+| 2026-06-23 | M14 class emitter: added `emit` command that generates `612` GDScript class skeletons from parseable Java AST metadata; full test suite has `18` passing tests and Godot MCP LSP diagnostics pass for representative generated classes. |

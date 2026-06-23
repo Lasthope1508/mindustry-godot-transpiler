@@ -1,0 +1,14 @@
+# Generated from Mindustry upstream.
+# Source: mindustry/entities/abilities/MoveLightningAbility.java
+# Do not edit by hand.
+extends RefCounted
+
+const JAVA_PACKAGE := "mindustry.entities.abilities"
+const JAVA_KIND := "class"
+const JAVA_NAME := "MoveLightningAbility"
+const JAVA_EXTENDS := "Ability"
+const JAVA_IMPLEMENTS := []
+const JAVA_FIELDS := [{"modifiers": ["public"], "name": "damage", "type": "float"}, {"modifiers": ["public"], "name": "chance", "type": "float"}, {"modifiers": ["public"], "name": "length", "type": "int"}, {"modifiers": ["public"], "name": "minSpeed", "type": "float"}, {"modifiers": ["public"], "name": "maxSpeed", "type": "float"}, {"modifiers": ["public"], "name": "color", "type": "Color"}, {"modifiers": ["public"], "name": "y", "type": "float"}, {"modifiers": ["public"], "name": "x", "type": "float"}, {"modifiers": ["public"], "name": "alternate", "type": "boolean"}, {"modifiers": ["public"], "name": "heatRegion", "type": "String"}, {"modifiers": ["public"], "name": "bullet", "type": "BulletType"}, {"modifiers": ["public"], "name": "bulletAngle", "type": "float"}, {"modifiers": ["public"], "name": "bulletSpread", "type": "float"}, {"modifiers": ["public"], "name": "shootEffect", "type": "Effect"}, {"modifiers": ["public"], "name": "parentizeEffects", "type": "boolean"}, {"modifiers": ["public"], "name": "shootSound", "type": "Sound"}, {"modifiers": ["protected"], "name": "side", "type": "float"}]
+const JAVA_CONSTRUCTORS := [{"modifiers": [], "name": "MoveLightningAbility", "parameters": []}, {"modifiers": ["public"], "name": "MoveLightningAbility", "parameters": [{"name": "damage", "type": "float", "varargs": false}, {"name": "length", "type": "int", "varargs": false}, {"name": "chance", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "minSpeed", "type": "float", "varargs": false}, {"name": "maxSpeed", "type": "float", "varargs": false}, {"name": "color", "type": "Color", "varargs": false}, {"name": "heatRegion", "type": "String", "varargs": false}]}, {"modifiers": ["public"], "name": "MoveLightningAbility", "parameters": [{"name": "damage", "type": "float", "varargs": false}, {"name": "length", "type": "int", "varargs": false}, {"name": "chance", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "minSpeed", "type": "float", "varargs": false}, {"name": "maxSpeed", "type": "float", "varargs": false}, {"name": "color", "type": "Color", "varargs": false}]}]
+const JAVA_METHODS := [{"modifiers": ["public"], "name": "addStats", "parameters": [{"name": "t", "type": "Table", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "update", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "draw", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}]
+const JAVA_ENUM_CONSTANTS := []

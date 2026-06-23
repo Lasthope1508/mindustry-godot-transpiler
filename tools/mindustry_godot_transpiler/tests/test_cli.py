@@ -22,6 +22,7 @@ class CliTests(unittest.TestCase):
         self.assertIn("assets", result.stdout)
         self.assertIn("report", result.stdout)
         self.assertIn("content", result.stdout)
+        self.assertIn("emit", result.stdout)
         self.assertIn("all", result.stdout)
 
     def test_all_command_writes_manifests_and_report(self):
@@ -108,6 +109,22 @@ class CliTests(unittest.TestCase):
             self.assertIn("content items=1 liquids=1 blocks=1 units=0", result.stdout)
             self.assertTrue((godot / "src" / "generated" / "content_registry.json").exists())
             self.assertTrue((godot / "src" / "generated" / "MindustryContentRegistry.gd").exists())
+
+    def test_emit_command_writes_gdscript_classes_and_manifest(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            upstream = root / "mindustry-upstream"
+            source = upstream / "core" / "src" / "mindustry" / "content"
+            source.mkdir(parents=True)
+            (source / "Sample.java").write_text("package mindustry.content; public class Sample { public int health; }", encoding="utf-8")
+            godot = root / "godot-mindustry"
+
+            result = run_cli("emit", "--upstream", str(upstream), "--godot", str(godot))
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("emitted classes=1", result.stdout)
+            self.assertTrue((godot / "src" / "generated" / "classes" / "mindustry" / "content" / "Sample.gd").exists())
+            self.assertTrue((godot / "src" / "generated" / "emitted_classes.json").exists())
 
 
 if __name__ == "__main__":

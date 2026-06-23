@@ -1,0 +1,14 @@
+# Generated from Mindustry upstream.
+# Source: mindustry/world/modules/PowerModule.java
+# Do not edit by hand.
+extends RefCounted
+
+const JAVA_PACKAGE := "mindustry.world.modules"
+const JAVA_KIND := "class"
+const JAVA_NAME := "PowerModule"
+const JAVA_EXTENDS := "BlockModule"
+const JAVA_IMPLEMENTS := []
+const JAVA_FIELDS := [{"modifiers": ["public"], "name": "status", "type": "float"}, {"modifiers": ["public"], "name": "init", "type": "boolean"}, {"modifiers": ["public"], "name": "graph", "type": "PowerGraph"}, {"modifiers": ["public"], "name": "links", "type": "IntSeq"}]
+const JAVA_CONSTRUCTORS := []
+const JAVA_METHODS := [{"modifiers": ["public"], "name": "write", "parameters": [{"name": "write", "type": "Writes", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "read", "parameters": [{"name": "read", "type": "Reads", "varargs": false}], "return_type": ""}]
+const JAVA_ENUM_CONSTANTS := []

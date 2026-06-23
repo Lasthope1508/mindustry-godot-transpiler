@@ -3,6 +3,7 @@ from pathlib import Path
 
 from mindustry_port.assets import copy_assets
 from mindustry_port.content_registry import write_content_registry
+from mindustry_port.emitter import emit_gdscript_classes
 from mindustry_port.java_ast import parse_source_tree
 from mindustry_port.playable import write_playable_manifest
 from mindustry_port.reports import write_json, write_report
@@ -27,6 +28,7 @@ def build_parser() -> argparse.ArgumentParser:
         "assets": "Copy Mindustry assets into Godot project",
         "report": "Write pipeline status report",
         "parse": "Parse Java files into normalized AST manifest",
+        "emit": "Emit parseable Java classes as GDScript skeletons",
         "playable": "Write playable slice manifest",
         "content": "Write source-derived content registry",
         "all": "Run scan, assets, and report",
@@ -36,6 +38,8 @@ def build_parser() -> argparse.ArgumentParser:
         add_common_options(subparser)
         if command == "parse":
             subparser.add_argument("--limit", type=int, default=None, help="Maximum Java files to parse")
+        if command == "emit":
+            subparser.add_argument("--limit", type=int, default=None, help="Maximum Java files to parse and emit")
     return parser
 
 
@@ -54,6 +58,11 @@ def run_assets(upstream: Path, godot: Path) -> dict:
 def run_parse(upstream: Path, godot: Path, limit: int | None = None) -> dict:
     manifest = parse_source_tree(upstream / "core" / "src", limit)
     write_json(generated_dir(godot) / "ast_manifest.json", manifest)
+    return manifest
+
+def run_emit(upstream: Path, godot: Path, limit: int | None = None) -> dict:
+    manifest = emit_gdscript_classes(upstream / "core" / "src", generated_dir(godot) / "classes", limit)
+    write_json(generated_dir(godot) / "emitted_classes.json", manifest)
     return manifest
 
 
@@ -84,6 +93,9 @@ def main(argv=None) -> int:
     elif args.command == "parse":
         manifest = run_parse(upstream, godot, args.limit)
         print(f"parsed {manifest['parsed_file_count']} Java files failures={manifest['failed_file_count']}")
+    elif args.command == "emit":
+        manifest = run_emit(upstream, godot, args.limit)
+        print(f"emitted classes={manifest['emitted_file_count']} failures={manifest['skipped_failure_count']}")
     elif args.command == "report":
         report = run_report(upstream, godot)
         print(f"report java={report['java_file_count']} assets={report['asset_count']}")

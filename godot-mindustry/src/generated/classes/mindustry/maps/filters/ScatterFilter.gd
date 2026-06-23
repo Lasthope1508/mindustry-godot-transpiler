@@ -1,0 +1,14 @@
+# Generated from Mindustry upstream.
+# Source: mindustry/maps/filters/ScatterFilter.java
+# Do not edit by hand.
+extends RefCounted
+
+const JAVA_PACKAGE := "mindustry.maps.filters"
+const JAVA_KIND := "class"
+const JAVA_NAME := "ScatterFilter"
+const JAVA_EXTENDS := "GenerateFilter"
+const JAVA_IMPLEMENTS := []
+const JAVA_FIELDS := [{"modifiers": ["public"], "name": "chance", "type": "float"}, {"modifiers": ["public"], "name": "flooronto", "type": "Block"}, {"modifiers": ["public"], "name": "floor", "type": "Block"}, {"modifiers": ["public"], "name": "block", "type": "Block"}]
+const JAVA_CONSTRUCTORS := []
+const JAVA_METHODS := [{"modifiers": ["public"], "name": "options", "parameters": [], "return_type": "FilterOption"}, {"modifiers": ["public"], "name": "icon", "parameters": [], "return_type": "char"}, {"modifiers": ["public"], "name": "apply", "parameters": [{"name": "in", "type": "GenerateInput", "varargs": false}], "return_type": ""}]
+const JAVA_ENUM_CONSTANTS := []
