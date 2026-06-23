@@ -345,7 +345,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_bullet_hit_size(data: Dictionary) -> float:", source)
         self.assertIn('return float(data.get("hitSize", 4.0))', source)
         self.assertIn('"hit_size": source_bullet_hit_size(data)', source)
-        self.assertIn('if direction.length() <= float(bullet.get("hit_size", 4.0)):', source)
+        self.assertIn('if target_direction.length() <= float(bullet.get("hit_size", 4.0)):', source)
         self.assertNotIn("if direction.length() <= 6.0:", source)
         self.assertIn("func selected_turret_ammo_hit_size() -> float:", source)
         self.assertIn('"selected_turret_ammo_hit_size": selected_turret_ammo_hit_size()', source)
@@ -432,8 +432,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var data := peek_turret_ammo(cell, duo)", source)
         self.assertIn("data = use_turret_ammo(cell, duo)", source)
         self.assertIn("if not data.is_empty():", source)
-        self.assertIn("spawn_turret_bullet(bullet_origin, target, data)", source)
-        self.assertIn("func spawn_turret_bullet(origin: Vector2, target, data: Dictionary) -> void:", source)
+        self.assertIn("spawn_turret_bullet(bullet_origin, target, data, inaccuracy_offset)", source)
+        self.assertIn("func spawn_turret_bullet(origin: Vector2, target, data: Dictionary, inaccuracy_degrees := 0.0) -> void:", source)
         self.assertNotIn("spawn_turret_bullet(grid_to_world(cell), target, duo)", source)
         self.assertIn("var turret_shot_count := 0", source)
         self.assertIn("var last_turret_fired_ammo_item := \"\"", source)
@@ -489,7 +489,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return shoot_y_origin + side * shoot_x_offset", source)
         self.assertIn("var bullet_origin := source_turret_bullet_origin(grid_to_world(cell), target, duo, shoot_x_offset)", source)
         self.assertIn("last_turret_fired_shoot_y = source_turret_shoot_y(duo)", source)
-        self.assertIn("spawn_turret_bullet(bullet_origin, target, data)", source)
+        self.assertIn("spawn_turret_bullet(bullet_origin, target, data, inaccuracy_offset)", source)
         self.assertIn('"last_turret_fired_shoot_y": last_turret_fired_shoot_y', source)
         self.assertIn('"selected_turret_shoot_y": selected_turret_shoot_y()', source)
 
@@ -511,6 +511,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("source_turret_bullet_origin(grid_to_world(cell), target, duo, shoot_x_offset)", source)
         self.assertIn('"last_turret_fired_shoot_x_offset": last_turret_fired_shoot_x_offset', source)
         self.assertIn('"selected_turret_shoot_pattern": selected_turret_shoot_pattern()', source)
+
+    def test_port_game_uses_source_turret_inaccuracy(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var last_turret_fired_inaccuracy_range := 0.0", source)
+        self.assertIn("var last_turret_fired_inaccuracy_offset := 0.0", source)
+        self.assertIn("func source_turret_inaccuracy(turret) -> float:", source)
+        self.assertIn('return float(turret.properties.get("inaccuracy", 0.0))', source)
+        self.assertIn("func source_bullet_inaccuracy(data: Dictionary) -> float:", source)
+        self.assertIn('return float(data.get("inaccuracy", 0.0))', source)
+        self.assertIn("func source_turret_total_inaccuracy(turret, data: Dictionary) -> float:", source)
+        self.assertIn("return source_turret_inaccuracy(turret) + source_bullet_inaccuracy(data)", source)
+        self.assertIn("var inaccuracy_range := source_turret_total_inaccuracy(duo, data)", source)
+        self.assertIn("var inaccuracy_offset := randf_range(-inaccuracy_range, inaccuracy_range)", source)
+        self.assertIn("last_turret_fired_inaccuracy_range = inaccuracy_range", source)
+        self.assertIn("last_turret_fired_inaccuracy_offset = inaccuracy_offset", source)
+        self.assertIn("spawn_turret_bullet(bullet_origin, target, data, inaccuracy_offset)", source)
+        self.assertIn("var velocity := source_bullet_velocity(origin, target, data, inaccuracy_degrees)", source)
+        self.assertIn('"velocity": velocity', source)
+        self.assertIn('"last_turret_fired_inaccuracy_range": last_turret_fired_inaccuracy_range', source)
+        self.assertIn('"last_turret_fired_inaccuracy_offset": last_turret_fired_inaccuracy_offset', source)
+        self.assertIn('"selected_turret_inaccuracy": selected_turret_inaccuracy()', source)
 
     def test_port_game_uses_source_drill_rate(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

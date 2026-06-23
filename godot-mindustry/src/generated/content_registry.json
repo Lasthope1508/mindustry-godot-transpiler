@@ -4855,6 +4855,7 @@
         "category": "turret",
         "consumeAmmoOnce": true,
         "health": 250,
+        "inaccuracy": 2.0,
         "maxAmmo": 30,
         "range": 160,
         "reload": 20.0,
@@ -4880,6 +4881,7 @@
         "ammoPerShot": 1,
         "category": "turret",
         "consumeAmmoOnce": true,
+        "inaccuracy": 17.0,
         "maxAmmo": 30,
         "range": 220.0,
         "reload": 18.0,
@@ -4932,6 +4934,7 @@
         "category": "turret",
         "consumeAmmoOnce": true,
         "health": 260,
+        "inaccuracy": 1.0,
         "maxAmmo": 30,
         "range": 235.0,
         "reload": 60.0,
@@ -4954,6 +4957,7 @@
       "implementation": "LiquidTurret",
       "properties": {
         "category": "turret",
+        "inaccuracy": 5.0,
         "range": 110.0,
         "reload": 3.0,
         "requirements": [
@@ -5060,6 +5064,7 @@
         "ammoPerShot": 1,
         "category": "turret",
         "consumeAmmoOnce": false,
+        "inaccuracy": 10.0,
         "maxAmmo": 30,
         "range": 240.0,
         "requirements": [
@@ -5204,6 +5209,7 @@
       "implementation": "LiquidTurret",
       "properties": {
         "category": "turret",
+        "inaccuracy": 3.0,
         "range": 190.0,
         "reload": 3.0,
         "requirements": [
@@ -5270,6 +5276,7 @@
         "ammoPerShot": 2,
         "category": "turret",
         "consumeAmmoOnce": true,
+        "inaccuracy": 11.0,
         "maxAmmo": 30,
         "range": 290.0,
         "reload": 120.0,
@@ -5299,6 +5306,7 @@
         "ammoPerShot": 1,
         "category": "turret",
         "consumeAmmoOnce": true,
+        "inaccuracy": 10.0,
         "maxAmmo": 30,
         "range": 200.0,
         "reload": 10.0,
@@ -5398,6 +5406,7 @@
         "ammoPerShot": 1,
         "category": "turret",
         "consumeAmmoOnce": true,
+        "inaccuracy": 3.0,
         "maxAmmo": 30,
         "range": 260.0,
         "reload": 7.0,
@@ -5570,6 +5579,7 @@
         "ammoPerShot": 3,
         "category": "turret",
         "consumeAmmoOnce": true,
+        "inaccuracy": 0.2,
         "maxAmmo": 30,
         "range": 125,
         "reload": 30.0,
@@ -5662,6 +5672,7 @@
         "ammoPerShot": 1,
         "category": "turret",
         "consumeAmmoOnce": true,
+        "inaccuracy": 8.0,
         "maxAmmo": 30,
         "range": 310.0,
         "reload": 9.0,
@@ -5695,6 +5706,7 @@
       "implementation": "PowerTurret",
       "properties": {
         "category": "turret",
+        "inaccuracy": 1.0,
         "range": 368,
         "reload": 50.0,
         "requirements": [

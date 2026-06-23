@@ -67,6 +67,8 @@ var last_turret_fired_reload_multiplier := 1.0
 var last_turret_fired_range := 0.0
 var last_turret_fired_shoot_y := 0.0
 var last_turret_fired_shoot_x_offset := 0.0
+var last_turret_fired_inaccuracy_range := 0.0
+var last_turret_fired_inaccuracy_offset := 0.0
 var wave_index := 1
 var wave_cooldown := 0.0
 var path_points: Array[Vector2] = []
@@ -655,10 +657,14 @@ func simulate_turrets(delta: float) -> void:
 				if not data.is_empty():
 					var shoot_x_offset := use_turret_shoot_x_offset(cell, duo)
 					var bullet_origin := source_turret_bullet_origin(grid_to_world(cell), target, duo, shoot_x_offset)
+					var inaccuracy_range := source_turret_total_inaccuracy(duo, data)
+					var inaccuracy_offset := randf_range(-inaccuracy_range, inaccuracy_range)
 					last_turret_fired_range = range_pixels
 					last_turret_fired_shoot_y = source_turret_shoot_y(duo)
 					last_turret_fired_shoot_x_offset = shoot_x_offset
-					spawn_turret_bullet(bullet_origin, target, data)
+					last_turret_fired_inaccuracy_range = inaccuracy_range
+					last_turret_fired_inaccuracy_offset = inaccuracy_offset
+					spawn_turret_bullet(bullet_origin, target, data, inaccuracy_offset)
 					cooldown = source_turret_reload_seconds_for_ammo(duo, data)
 		turret_cooldowns[key] = cooldown
 
@@ -963,6 +969,14 @@ func selected_turret_shoot_pattern() -> Dictionary:
 		return {}
 	return source_turret_shoot_pattern(duo)
 
+func selected_turret_inaccuracy() -> float:
+	if content_catalog == null:
+		return 0.0
+	var duo = content_catalog.get_by_id("duo")
+	if duo == null:
+		return 0.0
+	return source_turret_inaccuracy(duo)
+
 func source_turret_reload_seconds(turret) -> float:
 	if turret == null:
 		return 0.0
@@ -982,6 +996,11 @@ func source_turret_shoot_y(turret) -> float:
 	if turret == null:
 		return 0.0
 	return float(turret.properties.get("shootY", 0.0))
+
+func source_turret_inaccuracy(turret) -> float:
+	if turret == null:
+		return 0.0
+	return float(turret.properties.get("inaccuracy", 0.0))
 
 func source_turret_shoot_pattern(turret) -> Dictionary:
 	if turret == null:
@@ -1016,6 +1035,12 @@ func source_turret_bullet_origin(origin: Vector2, target, turret, shoot_x_offset
 func source_bullet_range_change(data: Dictionary) -> float:
 	return float(data.get("rangeChange", 0.0))
 
+func source_bullet_inaccuracy(data: Dictionary) -> float:
+	return float(data.get("inaccuracy", 0.0))
+
+func source_turret_total_inaccuracy(turret, data: Dictionary) -> float:
+	return source_turret_inaccuracy(turret) + source_bullet_inaccuracy(data)
+
 func source_turret_range_for_ammo(turret, data: Dictionary) -> float:
 	return source_turret_range(turret) + source_bullet_range_change(data)
 
@@ -1024,6 +1049,17 @@ func source_bullet_lifetime_seconds(data: Dictionary) -> float:
 
 func source_bullet_world_speed(data: Dictionary) -> float:
 	return float(data.get("speed", 1.0)) * 60.0
+
+func source_bullet_velocity(origin: Vector2, target, data: Dictionary, inaccuracy_degrees: float) -> Vector2:
+	if target == null:
+		return Vector2.ZERO
+	var sprite = target.get("sprite")
+	if not is_instance_valid(sprite):
+		return Vector2.ZERO
+	var direction: Vector2 = sprite.position - origin
+	if direction == Vector2.ZERO:
+		return Vector2.ZERO
+	return direction.normalized().rotated(deg_to_rad(inaccuracy_degrees)) * source_bullet_world_speed(data)
 
 func source_bullet_hit_size(data: Dictionary) -> float:
 	return float(data.get("hitSize", 4.0))
@@ -1057,13 +1093,14 @@ func find_enemy_target(origin: Vector2, range_pixels: float):
 			best = enemy
 	return best
 
-func spawn_turret_bullet(origin: Vector2, target, data: Dictionary) -> void:
+func spawn_turret_bullet(origin: Vector2, target, data: Dictionary, inaccuracy_degrees := 0.0) -> void:
 	if data.is_empty():
 		return
 	last_turret_fired_ammo_item = str(data.get("item", ""))
 	last_turret_fired_damage = source_bullet_damage(data)
 	last_turret_fired_reload_multiplier = source_bullet_reload_multiplier(data)
 	turret_shot_count += 1
+	var velocity := source_bullet_velocity(origin, target, data, inaccuracy_degrees)
 	var sprite := Sprite2D.new()
 	sprite.texture = source_bullet_texture(str(data.get("sprite", "bullet")))
 	sprite.position = origin
@@ -1072,7 +1109,7 @@ func spawn_turret_bullet(origin: Vector2, target, data: Dictionary) -> void:
 		if size.x > 0 and size.y > 0:
 			sprite.scale = source_bullet_scale(data, size)
 	get_node("World/BulletLayer").add_child(sprite)
-	bullets.append({"sprite": sprite, "target": target, "speed": source_bullet_world_speed(data), "damage": source_bullet_damage(data), "hit_size": source_bullet_hit_size(data), "lifetime_remaining": source_bullet_lifetime_seconds(data)})
+	bullets.append({"sprite": sprite, "target": target, "velocity": velocity, "speed": source_bullet_world_speed(data), "damage": source_bullet_damage(data), "hit_size": source_bullet_hit_size(data), "lifetime_remaining": source_bullet_lifetime_seconds(data)})
 
 func simulate_bullets(delta: float) -> void:
 	var active: Array = []
@@ -1090,14 +1127,14 @@ func simulate_bullets(delta: float) -> void:
 		if not is_instance_valid(target_sprite):
 			sprite.queue_free()
 			continue
-		var direction: Vector2 = target_sprite.position - sprite.position
-		if direction.length() <= float(bullet.get("hit_size", 4.0)):
+		var target_direction: Vector2 = target_sprite.position - sprite.position
+		if target_direction.length() <= float(bullet.get("hit_size", 4.0)):
 			target["health"] = float(target.get("health", 0.0)) - float(bullet.get("damage", 1.0))
 			if float(target.get("health", 0.0)) <= 0.0:
 				target_sprite.queue_free()
 			sprite.queue_free()
 			continue
-		sprite.position += direction.normalized() * float(bullet.get("speed", 100.0)) * delta
+		sprite.position += (bullet.get("velocity", Vector2.ZERO) as Vector2) * delta
 		active.append(bullet)
 	bullets = active
 
@@ -1161,6 +1198,8 @@ func get_runtime_summary() -> Dictionary:
 		"last_turret_fired_range": last_turret_fired_range,
 		"last_turret_fired_shoot_y": last_turret_fired_shoot_y,
 		"last_turret_fired_shoot_x_offset": last_turret_fired_shoot_x_offset,
+		"last_turret_fired_inaccuracy_range": last_turret_fired_inaccuracy_range,
+		"last_turret_fired_inaccuracy_offset": last_turret_fired_inaccuracy_offset,
 		"selected_turret_ammo_sprite": selected_turret_ammo_sprite(),
 		"selected_turret_ammo_lifetime_seconds": selected_turret_ammo_lifetime_seconds(),
 		"selected_turret_ammo_world_speed": selected_turret_ammo_world_speed(),
@@ -1182,6 +1221,7 @@ func get_runtime_summary() -> Dictionary:
 		"selected_turret_range": selected_turret_range(),
 		"selected_turret_shoot_y": selected_turret_shoot_y(),
 		"selected_turret_shoot_pattern": selected_turret_shoot_pattern(),
+		"selected_turret_inaccuracy": selected_turret_inaccuracy(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

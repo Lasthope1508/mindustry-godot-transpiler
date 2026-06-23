@@ -253,7 +253,7 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
         match = re.search(rf"\b{key}\s*=\s*([0-9_]+)\s*;", initializer)
         if match:
             properties[key] = int(match.group(1).replace("_", ""))
-    for key in ["range", "reload", "drillTime", "speed", "displayedSpeed", "shootY"]:
+    for key in ["range", "reload", "drillTime", "speed", "displayedSpeed", "shootY", "inaccuracy"]:
         value = _numeric_assignment(initializer, key)
         if value is not None:
             properties[key] = value
@@ -325,6 +325,9 @@ def _block_ammo(initializer: str) -> list[dict[str, Any]]:
         range_change = _numeric_assignment(bullet_body, "rangeChange")
         if range_change is not None:
             entry["rangeChange"] = range_change
+        inaccuracy = _numeric_assignment(bullet_body, "inaccuracy")
+        if inaccuracy is not None:
+            entry["inaccuracy"] = inaccuracy
         ammo.append(entry)
     return ammo
 
