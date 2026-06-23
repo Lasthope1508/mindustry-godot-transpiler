@@ -1473,7 +1473,8 @@
             "amount": 25,
             "item": "lead"
           }
-        ]
+        ],
+        "rotateSpeed": 2.0
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/pulverizer.png"
     },
@@ -1909,6 +1910,7 @@
             "item": "tungsten"
           }
         ],
+        "rotateSpeed": 0.5,
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/phase-synthesizer.png"
@@ -3793,6 +3795,7 @@
             "item": "silicon"
           }
         ],
+        "rotateSpeed": 2.0,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/steam-generator.png"
@@ -4290,6 +4293,7 @@
             "item": "thorium"
           }
         ],
+        "rotateSpeed": 6.0,
         "size": 4,
         "tier": 5
       },
@@ -4319,6 +4323,7 @@
             "item": "copper"
           }
         ],
+        "rotateSpeed": 1.4,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/water-extractor.png"
@@ -4865,6 +4870,8 @@
             "item": "copper"
           }
         ],
+        "rotateSpeed": 10.0,
+        "shootCone": 15.0,
         "shootPattern": {
           "spread": 3.5,
           "type": "ShootAlternate"
@@ -4895,6 +4902,8 @@
             "item": "lead"
           }
         ],
+        "rotateSpeed": 15.0,
+        "shootCone": 35.0,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/scatter/scatter.png"
@@ -4921,6 +4930,7 @@
             "item": "graphite"
           }
         ],
+        "shootCone": 50.0,
         "shootY": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/scorch.png"
@@ -4947,7 +4957,8 @@
             "amount": 17,
             "item": "graphite"
           }
-        ]
+        ],
+        "shootCone": 10.0
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/hail.png"
     },
@@ -4974,6 +4985,7 @@
             "item": "copper"
           }
         ],
+        "shootCone": 50.0,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/wave.png"
@@ -5027,6 +5039,8 @@
             "item": "lead"
           }
         ],
+        "rotateSpeed": 8.0,
+        "shootCone": 40.0,
         "size": 1
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/arc.png"
@@ -5052,6 +5066,7 @@
             "item": "graphite"
           }
         ],
+        "rotateSpeed": 12,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/parallax.png"
@@ -5230,6 +5245,7 @@
             "item": "thorium"
           }
         ],
+        "shootCone": 45.0,
         "shootPattern": {
           "spread": 4.0,
           "type": "ShootAlternate"
@@ -5264,6 +5280,7 @@
             "item": "thorium"
           }
         ],
+        "shootCone": 30,
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/fuse.png"
@@ -5324,6 +5341,8 @@
             "item": "plastanium"
           }
         ],
+        "rotateSpeed": 10.0,
+        "shootCone": 30.0,
         "shootY": 10.0,
         "size": 3
       },
@@ -5362,6 +5381,8 @@
             "item": "silicon"
           }
         ],
+        "rotateSpeed": 2.0,
+        "shootCone": 2.0,
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/foreshadow.png"
@@ -5432,6 +5453,7 @@
             "item": "thorium"
           }
         ],
+        "shootCone": 24.0,
         "shootPattern": {
           "spread": 8.0,
           "type": "ShootAlternate"
@@ -5470,6 +5492,7 @@
             "item": "silicon"
           }
         ],
+        "shootCone": 40.0,
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/meltdown.png"
@@ -5535,6 +5558,8 @@
             "item": "graphite"
           }
         ],
+        "rotateSpeed": 1.5,
+        "shootCone": 3.0,
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/breach.png"
@@ -5601,6 +5626,8 @@
             "item": "tungsten"
           }
         ],
+        "rotateSpeed": 3.0,
+        "shootCone": 40.0,
         "shootY": 5.0,
         "size": 3
       },
@@ -5659,6 +5686,7 @@
             "item": "thorium"
           }
         ],
+        "rotateSpeed": 1.4,
         "shootY": 7.0,
         "size": 4
       },
@@ -5694,6 +5722,8 @@
             "item": "beryllium"
           }
         ],
+        "rotateSpeed": 5.0,
+        "shootCone": 30.0,
         "shootY": 15.0,
         "size": 4,
         "speed": 8.5
@@ -5727,6 +5757,8 @@
             "item": "oxide"
           }
         ],
+        "rotateSpeed": 1.5,
+        "shootCone": 20.0,
         "shootY": 4,
         "size": 4,
         "speed": 5.0
@@ -5758,6 +5790,8 @@
             "item": "carbide"
           }
         ],
+        "rotateSpeed": 0.9,
+        "shootCone": 360.0,
         "shootY": 0.5,
         "size": 4
       },
@@ -5797,6 +5831,8 @@
             "item": "carbide"
           }
         ],
+        "rotateSpeed": 0.25,
+        "shootCone": 360.0,
         "size": 4,
         "speed": 4.6
       },
@@ -5848,6 +5884,8 @@
             "item": "phase-fabric"
           }
         ],
+        "rotateSpeed": 1.5,
+        "shootCone": 30.0,
         "shootY": 15.0,
         "size": 5
       },
@@ -5883,6 +5921,8 @@
             "item": "phase-fabric"
           }
         ],
+        "rotateSpeed": 2.6,
+        "shootCone": 100.0,
         "size": 5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/malign/malign-preview.png"

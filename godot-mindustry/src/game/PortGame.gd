@@ -11,6 +11,7 @@ const PINNED_BUILD_BLOCK_IDS := ["conveyor", "router", "junction", "mechanical-d
 const SELECTED_GENERATED_CLASS_NAMES := ["Items", "Blocks", "UnitTypes", "Damage"]
 const SOURCE_DRILL_HARDNESS_MULTIPLIER := 50.0
 const SOURCE_CONVEYOR_TILE_SPEED_SCALE := 55.0
+const SOURCE_TICK_RATE := 60.0
 
 var tile_size := 32
 var config: Dictionary = {}
@@ -60,6 +61,7 @@ var turret_cooldowns: Dictionary = {}
 var turret_ammo_stacks: Dictionary = {}
 var turret_total_ammo: Dictionary = {}
 var turret_barrel_counters: Dictionary = {}
+var turret_rotations: Dictionary = {}
 var turret_shot_count := 0
 var last_turret_fired_ammo_item := ""
 var last_turret_fired_damage := 0.0
@@ -69,6 +71,9 @@ var last_turret_fired_shoot_y := 0.0
 var last_turret_fired_shoot_x_offset := 0.0
 var last_turret_fired_inaccuracy_range := 0.0
 var last_turret_fired_inaccuracy_offset := 0.0
+var last_turret_target_rotation := 0.0
+var last_turret_rotation := 0.0
+var last_turret_angle_delta := 0.0
 var wave_index := 1
 var wave_cooldown := 0.0
 var path_points: Array[Vector2] = []
@@ -410,6 +415,8 @@ func register_turret_cell(cell: Vector2i, block) -> void:
 		turret_total_ammo[key] = 0
 	if not turret_barrel_counters.has(key):
 		turret_barrel_counters[key] = 0
+	if not turret_rotations.has(key):
+		turret_rotations[key] = 0.0
 
 func unregister_turret_cell(cell: Vector2i) -> void:
 	var key := cell_key(cell)
@@ -417,6 +424,7 @@ func unregister_turret_cell(cell: Vector2i) -> void:
 		return
 	turret_cooldowns.erase(key)
 	turret_barrel_counters.erase(key)
+	turret_rotations.erase(key)
 	var kept: Array = []
 	for existing in turret_cells:
 		if cell_key(existing) != key:
@@ -653,18 +661,30 @@ func simulate_turrets(delta: float) -> void:
 			var range_pixels := source_turret_range_for_ammo(duo, data)
 			var target = find_enemy_target(grid_to_world(cell), range_pixels)
 			if target != null:
+				var target_rotation := source_angle_to_target(grid_to_world(cell), target)
+				var current_rotation := float(turret_rotations.get(key, target_rotation))
+				current_rotation = source_move_angle_toward(current_rotation, target_rotation, source_turret_rotate_speed(duo) * delta * SOURCE_TICK_RATE)
+				turret_rotations[key] = current_rotation
+				var angle_delta := source_angle_distance(current_rotation, target_rotation)
+				last_turret_target_rotation = target_rotation
+				last_turret_rotation = current_rotation
+				last_turret_angle_delta = angle_delta
+				if angle_delta >= source_turret_shoot_cone(duo):
+					turret_cooldowns[key] = cooldown
+					continue
 				data = use_turret_ammo(cell, duo)
 				if not data.is_empty():
 					var shoot_x_offset := use_turret_shoot_x_offset(cell, duo)
 					var bullet_origin := source_turret_bullet_origin(grid_to_world(cell), target, duo, shoot_x_offset)
 					var inaccuracy_range := source_turret_total_inaccuracy(duo, data)
 					var inaccuracy_offset := randf_range(-inaccuracy_range, inaccuracy_range)
+					var shoot_angle_degrees := current_rotation + inaccuracy_offset
 					last_turret_fired_range = range_pixels
 					last_turret_fired_shoot_y = source_turret_shoot_y(duo)
 					last_turret_fired_shoot_x_offset = shoot_x_offset
 					last_turret_fired_inaccuracy_range = inaccuracy_range
 					last_turret_fired_inaccuracy_offset = inaccuracy_offset
-					spawn_turret_bullet(bullet_origin, target, data, inaccuracy_offset)
+					spawn_turret_bullet(bullet_origin, target, data, shoot_angle_degrees)
 					cooldown = source_turret_reload_seconds_for_ammo(duo, data)
 		turret_cooldowns[key] = cooldown
 
@@ -977,6 +997,22 @@ func selected_turret_inaccuracy() -> float:
 		return 0.0
 	return source_turret_inaccuracy(duo)
 
+func selected_turret_rotate_speed() -> float:
+	if content_catalog == null:
+		return 0.0
+	var duo = content_catalog.get_by_id("duo")
+	if duo == null:
+		return 0.0
+	return source_turret_rotate_speed(duo)
+
+func selected_turret_shoot_cone() -> float:
+	if content_catalog == null:
+		return 0.0
+	var duo = content_catalog.get_by_id("duo")
+	if duo == null:
+		return 0.0
+	return source_turret_shoot_cone(duo)
+
 func source_turret_reload_seconds(turret) -> float:
 	if turret == null:
 		return 0.0
@@ -1001,6 +1037,16 @@ func source_turret_inaccuracy(turret) -> float:
 	if turret == null:
 		return 0.0
 	return float(turret.properties.get("inaccuracy", 0.0))
+
+func source_turret_rotate_speed(turret) -> float:
+	if turret == null:
+		return 0.0
+	return float(turret.properties.get("rotateSpeed", 5.0))
+
+func source_turret_shoot_cone(turret) -> float:
+	if turret == null:
+		return 0.0
+	return float(turret.properties.get("shootCone", 8.0))
 
 func source_turret_shoot_pattern(turret) -> Dictionary:
 	if turret == null:
@@ -1032,6 +1078,26 @@ func source_turret_bullet_origin(origin: Vector2, target, turret, shoot_x_offset
 	var side := Vector2(-direction.y, direction.x).normalized()
 	return shoot_y_origin + side * shoot_x_offset
 
+func source_angle_to_target(origin: Vector2, target) -> float:
+	if target == null:
+		return 0.0
+	var sprite = target.get("sprite")
+	if not is_instance_valid(sprite):
+		return 0.0
+	var direction: Vector2 = sprite.position - origin
+	if direction == Vector2.ZERO:
+		return 0.0
+	return rad_to_deg(direction.angle())
+
+func source_angle_distance(current_degrees: float, target_degrees: float) -> float:
+	return abs(wrapf(target_degrees - current_degrees, -180.0, 180.0))
+
+func source_move_angle_toward(current_degrees: float, target_degrees: float, max_delta: float) -> float:
+	var delta := wrapf(target_degrees - current_degrees, -180.0, 180.0)
+	if abs(delta) <= max_delta:
+		return target_degrees
+	return current_degrees + sign(delta) * max_delta
+
 func source_bullet_range_change(data: Dictionary) -> float:
 	return float(data.get("rangeChange", 0.0))
 
@@ -1050,16 +1116,8 @@ func source_bullet_lifetime_seconds(data: Dictionary) -> float:
 func source_bullet_world_speed(data: Dictionary) -> float:
 	return float(data.get("speed", 1.0)) * 60.0
 
-func source_bullet_velocity(origin: Vector2, target, data: Dictionary, inaccuracy_degrees: float) -> Vector2:
-	if target == null:
-		return Vector2.ZERO
-	var sprite = target.get("sprite")
-	if not is_instance_valid(sprite):
-		return Vector2.ZERO
-	var direction: Vector2 = sprite.position - origin
-	if direction == Vector2.ZERO:
-		return Vector2.ZERO
-	return direction.normalized().rotated(deg_to_rad(inaccuracy_degrees)) * source_bullet_world_speed(data)
+func source_bullet_velocity(data: Dictionary, shoot_angle_degrees: float) -> Vector2:
+	return Vector2.RIGHT.rotated(deg_to_rad(shoot_angle_degrees)) * source_bullet_world_speed(data)
 
 func source_bullet_hit_size(data: Dictionary) -> float:
 	return float(data.get("hitSize", 4.0))
@@ -1093,14 +1151,14 @@ func find_enemy_target(origin: Vector2, range_pixels: float):
 			best = enemy
 	return best
 
-func spawn_turret_bullet(origin: Vector2, target, data: Dictionary, inaccuracy_degrees := 0.0) -> void:
+func spawn_turret_bullet(origin: Vector2, target, data: Dictionary, shoot_angle_degrees := 0.0) -> void:
 	if data.is_empty():
 		return
 	last_turret_fired_ammo_item = str(data.get("item", ""))
 	last_turret_fired_damage = source_bullet_damage(data)
 	last_turret_fired_reload_multiplier = source_bullet_reload_multiplier(data)
 	turret_shot_count += 1
-	var velocity := source_bullet_velocity(origin, target, data, inaccuracy_degrees)
+	var velocity := source_bullet_velocity(data, shoot_angle_degrees)
 	var sprite := Sprite2D.new()
 	sprite.texture = source_bullet_texture(str(data.get("sprite", "bullet")))
 	sprite.position = origin
@@ -1200,6 +1258,9 @@ func get_runtime_summary() -> Dictionary:
 		"last_turret_fired_shoot_x_offset": last_turret_fired_shoot_x_offset,
 		"last_turret_fired_inaccuracy_range": last_turret_fired_inaccuracy_range,
 		"last_turret_fired_inaccuracy_offset": last_turret_fired_inaccuracy_offset,
+		"last_turret_target_rotation": last_turret_target_rotation,
+		"last_turret_rotation": last_turret_rotation,
+		"last_turret_angle_delta": last_turret_angle_delta,
 		"selected_turret_ammo_sprite": selected_turret_ammo_sprite(),
 		"selected_turret_ammo_lifetime_seconds": selected_turret_ammo_lifetime_seconds(),
 		"selected_turret_ammo_world_speed": selected_turret_ammo_world_speed(),
@@ -1222,6 +1283,8 @@ func get_runtime_summary() -> Dictionary:
 		"selected_turret_shoot_y": selected_turret_shoot_y(),
 		"selected_turret_shoot_pattern": selected_turret_shoot_pattern(),
 		"selected_turret_inaccuracy": selected_turret_inaccuracy(),
+		"selected_turret_rotate_speed": selected_turret_rotate_speed(),
+		"selected_turret_shoot_cone": selected_turret_shoot_cone(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
