@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 29 |
-| Done | 29 |
+| Total tracked work items | 30 |
+| Done | 30 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -50,6 +50,7 @@
 | N25 | Select and place any build palette block by source id through MCP | `PortGame.gd` exposes `select_build_block_by_id(block_id: String) -> bool`, allowing runtime selection of non-pinned source blocks; Python suite reports `31` tests passing; MCP runtime call selects `titanium-conveyor` at palette index `237`, then places it at `Vector2(384, 320)`, increasing `placed_block_count` from `1` to `2`; MCP debug output returns `errors: []` |
 | N26 | Render placed source blocks at source-derived block size | `PortGame.gd` uses `block_size`, `block_world_size`, and `configure_block_sprite` for manual placement and source blocks, and exposes `last_placed_block_id`, `last_placed_block_size`, and `last_placed_cell` in runtime summary; Python suite reports `32` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime selects `solar-panel-large`, places it at cell `(11, 10)`, returns `last_placed_block_size=3`, and debug output returns `errors: []` |
 | N27 | Enforce source-sized block footprint occupancy | `PortGame.gd` tracks occupied cells separately from block origins, returns `bool` from placement, rejects overlapping and out-of-bounds source-sized blocks before spending resources, and exposes `occupied_cell_count`, `last_placed_occupied_cell_count`, and `last_place_blocked` in runtime summary; Python suite reports `33` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime places `solar-panel-large`, returns `last_placed_occupied_cell_count=9`, rejects overlap/out-of-bounds placements, keeps `occupied_cell_count=10`, and debug output returns `errors: []` |
+| N28 | Populate starting world blocks from source content occupancy | `PortGame.gd` now creates starting mechanical drill, conveyors, core shard, and duo through `add_source_block()` using source content ids instead of raw sprite aliases, records `initial_world_block_count` and `initial_occupied_cell_count`, and blocks new placement over the prebuilt world footprint; Python suite reports `34` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime reports `initial_world_block_count=12`, `initial_occupied_cell_count=22`, rejects placement on conveyor/core cells with `last_place_blocked=true`, keeps counts unchanged, and debug output returns `errors: []` |
 
 ## Not Done
 
@@ -280,3 +281,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-23 | M24 build selection by id: MCP runtime can now select and place non-pinned source-derived blocks such as `titanium-conveyor` by content id. |
 | 2026-06-23 | M25 source block size rendering: placed/source block sprites now scale and center from source `size`; MCP runtime verifies `solar-panel-large` places with `last_placed_block_size=3`. |
 | 2026-06-23 | M26 footprint occupancy: source-sized blocks now occupy all cells in their footprint and MCP runtime verifies overlap/out-of-bounds placement rejection. |
+| 2026-06-23 | M27 source world occupancy: starting block layer now uses source content ids and MCP runtime verifies prebuilt conveyor/core cells reject placement. |

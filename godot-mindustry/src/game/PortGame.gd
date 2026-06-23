@@ -29,6 +29,8 @@ var build_palette: Array = []
 var selected_build_index := 0
 var placed_blocks: Dictionary = {}
 var placed_block_origins: Dictionary = {}
+var initial_world_block_count := 0
+var initial_occupied_cell_count := 0
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_cell := Vector2i.ZERO
@@ -175,11 +177,13 @@ func build_world() -> void:
 	for y in range(6, 11):
 		for x in range(5, 8):
 			add_sprite(terrain, "ore_copper", grid_to_world(Vector2i(x, y)))
-	add_sprite(blocks, "mechanical_drill", grid_to_world(drill_pos))
+	add_source_block(blocks, "mechanical-drill", drill_pos)
 	for x in range(drill_pos.x + 1, core_pos.x):
-		add_sprite(blocks, "conveyor", grid_to_world(Vector2i(x, drill_pos.y)))
-	add_sprite(blocks, "core_shard", grid_to_world(core_pos))
+		add_source_block(blocks, "conveyor", Vector2i(x, drill_pos.y))
+	add_source_block(blocks, "core-shard", core_pos)
 	add_source_block(blocks, "duo", duo_pos)
+	initial_world_block_count = placed_block_origins.size()
+	initial_occupied_cell_count = placed_blocks.size()
 	path_points.clear()
 	for x in range(drill_pos.x + 1, core_pos.x + 1):
 		path_points.append(grid_to_world(Vector2i(x, drill_pos.y)))
@@ -574,6 +578,8 @@ func get_runtime_summary() -> Dictionary:
 		"loaded_generated_instance_names": loaded_generated_instance_names.duplicate(),
 		"content_counts": content_counts.duplicate(),
 		"build_palette_size": build_palette.size(),
+		"initial_world_block_count": initial_world_block_count,
+		"initial_occupied_cell_count": initial_occupied_cell_count,
 		"placed_block_count": placed_block_origins.size(),
 		"occupied_cell_count": placed_blocks.size(),
 		"last_placed_block_id": last_placed_block_id,

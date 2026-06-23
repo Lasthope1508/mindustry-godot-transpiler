@@ -180,5 +180,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"last_placed_occupied_cell_count": last_placed_occupied_cell_count', source)
         self.assertIn('"last_place_blocked": last_place_blocked', source)
 
+    def test_port_game_records_initial_source_world_occupancy(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var initial_world_block_count := 0", source)
+        self.assertIn("var initial_occupied_cell_count := 0", source)
+        self.assertNotIn('add_sprite(blocks, "mechanical_drill", grid_to_world(drill_pos))', source)
+        self.assertNotIn('add_sprite(blocks, "conveyor", grid_to_world(Vector2i(x, drill_pos.y)))', source)
+        self.assertNotIn('add_sprite(blocks, "core_shard", grid_to_world(core_pos))', source)
+        self.assertIn('add_source_block(blocks, "mechanical-drill", drill_pos)', source)
+        self.assertIn('add_source_block(blocks, "conveyor", Vector2i(x, drill_pos.y))', source)
+        self.assertIn('add_source_block(blocks, "core-shard", core_pos)', source)
+        self.assertIn('add_source_block(blocks, "duo", duo_pos)', source)
+        self.assertIn("initial_world_block_count = placed_block_origins.size()", source)
+        self.assertIn("initial_occupied_cell_count = placed_blocks.size()", source)
+        self.assertIn('"initial_world_block_count": initial_world_block_count', source)
+        self.assertIn('"initial_occupied_cell_count": initial_occupied_cell_count', source)
+
 if __name__ == "__main__":
     unittest.main()
