@@ -296,6 +296,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"selected_build_overdrive_place_state": selected_build_overdrive_place_state()', source)
         self.assertIn('"selected_build_overdrive_phase_select_state": selected_build_overdrive_phase_select_state()', source)
 
+    def test_port_game_exposes_overdrive_projector_boost_bar_like_source(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_overdrive_projector_boost_bar_fraction(overdrive_projector, phase_heat := 0.0, efficiency := 1.0) -> float:", source)
+        self.assertIn('var speed_boost := float(overdrive_projector.properties.get("speedBoost", 0.0))', source)
+        self.assertIn('var speed_boost_phase := float(overdrive_projector.properties.get("speedBoostPhase", 0.0))', source)
+        self.assertIn('var has_boost := bool(overdrive_projector.properties.get("hasBoost", false))', source)
+        self.assertIn("var denominator := speed_boost + speed_boost_phase if has_boost else speed_boost", source)
+        self.assertIn("return source_overdrive_projector_real_boost(overdrive_projector, phase_heat, efficiency) / denominator", source)
+        self.assertIn("func selected_build_overdrive_boost_bar_fraction() -> float:", source)
+        self.assertIn("return source_overdrive_projector_boost_bar_fraction(selected)", source)
+        self.assertIn("func selected_build_overdrive_phase_boost_bar_fraction() -> float:", source)
+        self.assertIn("return source_overdrive_projector_boost_bar_fraction(selected, 1.0)", source)
+        self.assertIn('"selected_build_overdrive_boost_bar_fraction": selected_build_overdrive_boost_bar_fraction()', source)
+        self.assertIn('"selected_build_overdrive_phase_boost_bar_fraction": selected_build_overdrive_phase_boost_bar_fraction()', source)
+
     def test_port_game_uses_source_mend_projector_repair_amount_formula(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
