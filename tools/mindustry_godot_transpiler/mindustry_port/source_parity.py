@@ -120,6 +120,19 @@ def verify_drill_warmup_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_drill_time_drilled_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / DRILL_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    time_drilled = "timeDrilled += warmup * delta();"
+    missing = []
+    if time_drilled not in source:
+        missing.append(time_drilled)
+    return {
+        "source": DRILL_SOURCE,
+        "checked": {"time_drilled": time_drilled},
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

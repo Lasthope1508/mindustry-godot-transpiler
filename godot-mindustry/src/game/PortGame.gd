@@ -74,6 +74,7 @@ var drill_output_item_id := "copper"
 var drill_ore_cell_count := 0
 var drill_output_rate := 0.0
 var drill_warmups: Dictionary = {}
+var drill_time_drilled: Dictionary = {}
 var produced_total := 0
 var item_progress := 0.0
 var transport_progress := 0.0
@@ -939,6 +940,24 @@ func drill_warmup_at_cell(x: int, y: int) -> float:
 func set_drill_warmup_at_cell(x: int, y: int, warmup: float) -> void:
 	drill_warmups[cell_key(Vector2i(x, y))] = warmup
 
+func source_drill_time_drilled_delta(warmup: float, seconds: float, time_scale := 1.0) -> float:
+	return warmup * source_building_delta(seconds * SOURCE_TICK_RATE, time_scale)
+
+func drill_time_drilled_at_cell(x: int, y: int) -> float:
+	return float(drill_time_drilled.get(cell_key(Vector2i(x, y)), 0.0))
+
+func set_drill_time_drilled_at_cell(x: int, y: int, value: float) -> void:
+	drill_time_drilled[cell_key(Vector2i(x, y))] = value
+
+func step_drill_time_drilled_cell(x: int, y: int, seconds: float, warmup: float) -> float:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	if not is_instance_valid(sprite):
+		return 0.0
+	var key := cell_key(Vector2i(x, y))
+	var value := float(drill_time_drilled.get(key, 0.0)) + source_drill_time_drilled_delta(warmup, seconds, float(sprite.get_meta("source_block_time_scale", 1.0)))
+	drill_time_drilled[key] = value
+	return value
+
 func step_drill_warmup_cell(x: int, y: int, seconds: float, speed := 1.0) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
 	if not is_instance_valid(sprite):
@@ -1128,6 +1147,7 @@ func simulate_factory(delta: float) -> void:
 	if path_points.is_empty():
 		return
 	if drill_output_rate > 0.0:
+		step_drill_time_drilled_cell(drill_pos.x, drill_pos.y, delta, drill_warmup_at_cell(drill_pos.x, drill_pos.y))
 		var drill_warmup := step_drill_warmup_cell(drill_pos.x, drill_pos.y, delta)
 		item_progress += source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_output_item_id, drill_ore_cell_count, delta, drill_warmup)
 		while item_progress >= 1.0:
@@ -1165,6 +1185,7 @@ func step_factory_drill(seconds: float) -> Dictionary:
 		"item_progress_before": before,
 		"drill_warmup_before": warmup_before,
 		"drill_warmup": drill_warmup_at_cell(drill_pos.x, drill_pos.y),
+		"drill_time_drilled": drill_time_drilled_at_cell(drill_pos.x, drill_pos.y),
 		"drill_output_delta": output_delta,
 		"item_progress": item_progress,
 		"drill_time_scale": source_block_time_scale_at_cell(drill_pos.x, drill_pos.y),

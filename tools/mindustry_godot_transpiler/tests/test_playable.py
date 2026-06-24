@@ -1044,6 +1044,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return source_drill_output_rate(block_id, item_id, ore_count) * scaled_source_delta / SOURCE_TICK_RATE * warmup", source)
         self.assertIn('"drill_warmup": drill_warmup_at_cell(drill_pos.x, drill_pos.y)', source)
 
+    def test_port_game_tracks_source_drill_time_drilled(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var drill_time_drilled: Dictionary = {}", source)
+        self.assertIn("func source_drill_time_drilled_delta(warmup: float, seconds: float, time_scale := 1.0) -> float:", source)
+        self.assertIn("return warmup * source_building_delta(seconds * SOURCE_TICK_RATE, time_scale)", source)
+        self.assertIn("func drill_time_drilled_at_cell(x: int, y: int) -> float:", source)
+        self.assertIn("func set_drill_time_drilled_at_cell(x: int, y: int, value: float) -> void:", source)
+        self.assertIn("func step_drill_time_drilled_cell(x: int, y: int, seconds: float, warmup: float) -> float:", source)
+        self.assertIn("step_drill_time_drilled_cell(drill_pos.x, drill_pos.y, delta, drill_warmup_at_cell(drill_pos.x, drill_pos.y))", source)
+        self.assertIn('"drill_time_drilled": drill_time_drilled_at_cell(drill_pos.x, drill_pos.y)', source)
+
     def test_port_game_uses_source_conveyor_speed_for_item_motion(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

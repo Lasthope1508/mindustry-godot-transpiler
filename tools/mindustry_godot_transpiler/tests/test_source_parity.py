@@ -158,5 +158,14 @@ class SourceParityTests(unittest.TestCase):
             "warmup_active": "warmup = Mathf.approachDelta(warmup, speed, warmupSpeed);",
             "warmup_inactive": "warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);",
         })
+
+    def test_drill_time_drilled_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_drill_time_drilled_source"))
+        report = source_parity.verify_drill_time_drilled_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/production/Drill.java")
+        self.assertEqual(report["checked"], {
+            "time_drilled": "timeDrilled += warmup * delta();",
+        })
 if __name__ == "__main__":
     unittest.main()
