@@ -1180,6 +1180,12 @@ func source_building_accept_stack_state(accepts_item: bool, has_items: bool, sam
 		return mini(maximum_accepted - item_count, amount)
 	return 0
 
+func source_building_remove_stack_state(has_items_module: bool, item_count: int, amount: int) -> Dictionary:
+	if not has_items_module:
+		return {"removed": 0, "remaining": item_count}
+	var removed := mini(amount, item_count)
+	return {"removed": removed, "remaining": item_count - removed}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

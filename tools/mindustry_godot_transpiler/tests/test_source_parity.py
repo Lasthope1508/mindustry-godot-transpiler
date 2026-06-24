@@ -379,5 +379,20 @@ class SourceParityTests(unittest.TestCase):
         self.assertEqual(report["missing"], [])
 
 
+    def test_building_remove_stack_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_remove_stack_source"))
+        report = source_parity.verify_building_remove_stack_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "remove_stack_method": "public int removeStack(Item item, int amount){",
+            "remove_stack_null_guard": "if(items == null) return 0;",
+            "remove_stack_clamp": "amount = Math.min(amount, items.get(item));",
+            "remove_stack_no_sleep": "noSleep();",
+            "remove_stack_remove": "items.remove(item, amount);",
+            "remove_stack_return": "return amount;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

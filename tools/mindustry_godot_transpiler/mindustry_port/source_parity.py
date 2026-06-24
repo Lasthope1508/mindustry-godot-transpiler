@@ -550,6 +550,32 @@ def verify_building_accept_stack_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_building_remove_stack_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    remove_stack_method = "public int removeStack(Item item, int amount){"
+    remove_stack_null_guard = "if(items == null) return 0;"
+    remove_stack_clamp = "amount = Math.min(amount, items.get(item));"
+    remove_stack_no_sleep = "noSleep();"
+    remove_stack_remove = "items.remove(item, amount);"
+    remove_stack_return = "return amount;"
+    missing = []
+    for snippet in [remove_stack_method, remove_stack_null_guard, remove_stack_clamp, remove_stack_no_sleep, remove_stack_remove, remove_stack_return]:
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": {
+            "remove_stack_method": remove_stack_method,
+            "remove_stack_null_guard": remove_stack_null_guard,
+            "remove_stack_clamp": remove_stack_clamp,
+            "remove_stack_no_sleep": remove_stack_no_sleep,
+            "remove_stack_remove": remove_stack_remove,
+            "remove_stack_return": remove_stack_return,
+        },
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

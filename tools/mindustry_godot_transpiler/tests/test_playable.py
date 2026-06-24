@@ -1231,6 +1231,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return mini(maximum_accepted - item_count, amount)", source)
         self.assertIn("return 0", source)
 
+    def test_port_game_exposes_source_building_remove_stack_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_remove_stack_state(has_items_module: bool, item_count: int, amount: int) -> Dictionary:", source)
+        self.assertIn("if not has_items_module:", source)
+        self.assertIn('return {"removed": 0, "remaining": item_count}', source)
+        self.assertIn("var removed := mini(amount, item_count)", source)
+        self.assertIn('return {"removed": removed, "remaining": item_count - removed}', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
