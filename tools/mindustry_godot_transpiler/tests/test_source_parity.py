@@ -756,5 +756,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_on_repaired_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_on_repaired_source"))
+        report = source_parity.verify_building_on_repaired_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "on_repaired_call_super": "@CallSuper",
+            "on_repaired_method": "public void onRepaired(){",
+            "on_repaired_placed": "placed();",
+            "on_repaired_fog_guard": "if(block.flags.contains(BlockFlag.hasFogRadius)){",
+            "on_repaired_force_update": "fogControl.forceUpdate(team, self());",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

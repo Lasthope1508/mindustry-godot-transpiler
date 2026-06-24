@@ -1546,6 +1546,14 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var configure := not linked_to_self", source)
         self.assertIn('"configure_pos": source_pos if configure else -1', source)
 
+    def test_port_game_exposes_source_building_on_repaired_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_on_repaired_state(has_fog_radius: bool) -> Dictionary:", source)
+        self.assertIn('"placed": true', source)
+        self.assertIn('"fog_force_update": has_fog_radius', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

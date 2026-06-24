@@ -1501,6 +1501,9 @@ func source_building_placed_state(net_client: bool, consumes_power: bool, output
 	var configure := not linked_to_self
 	return {"returned": false, "power_link_scan": true, "configure": configure, "configure_pos": source_pos if configure else -1}
 
+func source_building_on_repaired_state(has_fog_radius: bool) -> Dictionary:
+	return {"placed": true, "fog_force_update": has_fog_radius}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
