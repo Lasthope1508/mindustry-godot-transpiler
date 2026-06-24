@@ -1723,6 +1723,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('flammability += float(liquid_state.get("flammability", 0.0)) * float(liquid_state.get("amount", 0.0)) / 2.0', source)
         self.assertIn('explosiveness += float(liquid_state.get("explosiveness", 0.0)) * float(liquid_state.get("amount", 0.0)) / 2.0', source)
 
+    def test_port_game_exposes_source_building_on_destroyed_buffered_power_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_on_destroyed_buffered_power_state(current_power: float, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float) -> float:", source)
+        self.assertIn("if has_cons_power and cons_power_buffered:", source)
+        self.assertIn("return current_power + power_status * cons_power_capacity", source)
+        self.assertIn("return current_power", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

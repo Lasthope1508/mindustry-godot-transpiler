@@ -1629,6 +1629,11 @@ func source_building_on_destroyed_liquid_explosion_state(current_explosiveness: 
 			explosiveness += float(liquid_state.get("explosiveness", 0.0)) * float(liquid_state.get("amount", 0.0)) / 2.0
 	return {"explosiveness": explosiveness, "flammability": flammability}
 
+func source_building_on_destroyed_buffered_power_state(current_power: float, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float) -> float:
+	if has_cons_power and cons_power_buffered:
+		return current_power + power_status * cons_power_capacity
+	return current_power
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

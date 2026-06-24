@@ -1029,5 +1029,16 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_on_destroyed_buffered_power_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_on_destroyed_buffered_power_source"))
+        report = source_parity.verify_building_on_destroyed_buffered_power_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "on_destroyed_buffered_power_guard": "if(block.consPower != null && block.consPower.buffered){",
+            "on_destroyed_buffered_power_add": "power += this.power.status * block.consPower.capacity;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
