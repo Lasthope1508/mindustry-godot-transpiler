@@ -1736,6 +1736,38 @@ def verify_building_on_destroyed_base_sound_source(upstream_root: Path) -> dict[
         "missing": missing,
     }
 
+def verify_building_on_destroyed_reactive_sound_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    mathf_path = Path(upstream_root).parent / "arc-upstream" / ARC_MATHF_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "on_destroyed_explosive_sound_guard": "if(explosiveness > 40f){",
+        "on_destroyed_explosive_sound_call": "(Mathf.chance(0.5) ? Sounds.blockExplodeExplosive : Sounds.blockExplodeExplosiveAlt).at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);",
+        "on_destroyed_flammable_sound_guard": "}else if(flammability > 5f){",
+        "on_destroyed_flammable_sound_call": "Sounds.blockExplodeFlammable.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);",
+        "mathf_chance_method": "public static boolean chance(double d){",
+        "mathf_chance_body": "return d >= 1f || rand.nextFloat() < d;",
+    }
+    lookup = {
+        "on_destroyed_explosive_sound_guard": source,
+        "on_destroyed_explosive_sound_call": source,
+        "on_destroyed_flammable_sound_guard": source,
+        "on_destroyed_flammable_sound_call": source,
+        "mathf_chance_method": mathf_source,
+        "mathf_chance_body": mathf_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in lookup[key]:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "arc_mathf_source": ARC_MATHF_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

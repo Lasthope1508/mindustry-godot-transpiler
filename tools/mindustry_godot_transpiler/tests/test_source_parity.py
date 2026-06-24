@@ -1086,5 +1086,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_on_destroyed_reactive_sound_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_on_destroyed_reactive_sound_source"))
+        report = source_parity.verify_building_on_destroyed_reactive_sound_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["arc_mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "on_destroyed_explosive_sound_guard": "if(explosiveness > 40f){",
+            "on_destroyed_explosive_sound_call": "(Mathf.chance(0.5) ? Sounds.blockExplodeExplosive : Sounds.blockExplodeExplosiveAlt).at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);",
+            "on_destroyed_flammable_sound_guard": "}else if(flammability > 5f){",
+            "on_destroyed_flammable_sound_call": "Sounds.blockExplodeFlammable.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);",
+            "mathf_chance_method": "public static boolean chance(double d){",
+            "mathf_chance_body": "return d >= 1f || rand.nextFloat() < d;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

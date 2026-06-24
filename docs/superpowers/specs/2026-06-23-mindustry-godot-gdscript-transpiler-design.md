@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 156 |
-| Done | 156 |
+| Total tracked work items | 157 |
+| Done | 157 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -32,6 +32,7 @@
 - [x] N152: Source BuildingComp onDestroyed dynamicExplosion call argument state.
 - [x] N153: Source BuildingComp onDestroyed rubble effect gate state.
 - [x] N154: Source BuildingComp onDestroyed base destroy sound gate state.
+- [x] N155: Source BuildingComp onDestroyed explosive/flammable reactive sound state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -206,6 +207,8 @@ Current cube: `Building lifecycle / destroy-deconstruct`. Current source path st
 | N153 | Apply source BuildingComp onDestroyed rubble effect gate state | The next `BuildingComp.onDestroyed()` slice creates rubble only inside `if(block.createRubble && !floor().solid && !floor().isLiquid)`, then calls `Effect.rubble(x, y, block.size);`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` now exposes `source_building_on_destroyed_rubble_state()` for that effect call gate only; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `235` tests passing; MCP editor bridge connected, MCP LSP diagnostics timed out during `initialize`, and MCP runtime proof reports enabled non-solid non-liquid floor creates rubble `{create_rubble=true,size=3,x=10,y=20}`, while disabled, solid floor, and liquid floor states skip rubble with `size=0`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 | N154 | Apply source BuildingComp onDestroyed base destroy sound gate state | The next `BuildingComp.onDestroyed()` slice enters sound work only inside `if(!headless)` and calls `playDestroySound();`; `BuildingComp.playDestroySound()` then calls `block.destroySound.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` now exposes `source_building_on_destroyed_base_sound_state()` for the headless gate plus destroy sound, pitch range, and volume without inventing the random pitch result; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `237` tests passing; MCP editor bridge connected, MCP LSP diagnostics timed out during `initialize`, and MCP runtime proof reports headless skips sound while client state plays `boom` with `pitch_min=0.8`, `pitch_max=1.2`, and `volume=0.7`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
+
+| N155 | Apply source BuildingComp onDestroyed explosive/flammable reactive sound state | The next `BuildingComp.onDestroyed()` sound slice checks `if(explosiveness > 40f)` and plays `(Mathf.chance(0.5) ? Sounds.blockExplodeExplosive : Sounds.blockExplodeExplosiveAlt).at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);`, else checks `}else if(flammability > 5f){` and plays `Sounds.blockExplodeFlammable.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);`; `source_parity.py` checks those exact upstream lines plus Arc `Mathf.chance(double)` lines, and `PortGame.gd` now exposes `source_building_on_destroyed_reactive_sound_state()` for branch selection without inventing random pitch or chance outcome; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `239` tests passing; MCP editor bridge connected, MCP LSP diagnostics timed out during `initialize`, and MCP runtime proof reports headless and threshold-boundary states skip reactive sound, flammable state selects `blockExplodeFlammable`, and explosive state exposes choices `[blockExplodeExplosive, blockExplodeExplosiveAlt]` with chance `0.5`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 ## Not Done
 

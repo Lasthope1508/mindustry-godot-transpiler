@@ -1771,6 +1771,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"pitch_max": destroy_pitch_max', source)
         self.assertIn('"volume": destroy_sound_volume', source)
 
+    def test_port_game_exposes_source_building_on_destroyed_reactive_sound_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_on_destroyed_reactive_sound_state(headless: bool, explosiveness: float, flammability: float, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:", source)
+        self.assertIn("var should_play_reactive_sound := not headless", source)
+        self.assertIn('"reactive_sound_kind": "explosive"', source)
+        self.assertIn('"reactive_sound_kind": "flammable"', source)
+        self.assertIn('"chance": 0.5', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

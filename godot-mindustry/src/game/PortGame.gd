@@ -1674,6 +1674,44 @@ func source_building_on_destroyed_base_sound_state(headless: bool, destroy_sound
 		"volume": destroy_sound_volume,
 	}
 
+func source_building_on_destroyed_reactive_sound_state(headless: bool, explosiveness: float, flammability: float, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:
+	var should_play_reactive_sound := not headless
+	var silent_state := {
+		"play_reactive_sound": false,
+		"reactive_sound_kind": "",
+		"sound": "",
+		"sound_choices": [],
+		"chance": 0.0,
+		"pitch_min": destroy_pitch_min,
+		"pitch_max": destroy_pitch_max,
+		"volume": destroy_sound_volume,
+	}
+	if not should_play_reactive_sound:
+		return silent_state
+	if explosiveness > 40.0:
+		return {
+			"play_reactive_sound": true,
+			"reactive_sound_kind": "explosive",
+			"sound": "",
+			"sound_choices": ["blockExplodeExplosive", "blockExplodeExplosiveAlt"],
+			"chance": 0.5,
+			"pitch_min": destroy_pitch_min,
+			"pitch_max": destroy_pitch_max,
+			"volume": destroy_sound_volume,
+		}
+	if flammability > 5.0:
+		return {
+			"play_reactive_sound": true,
+			"reactive_sound_kind": "flammable",
+			"sound": "blockExplodeFlammable",
+			"sound_choices": [],
+			"chance": 0.0,
+			"pitch_min": destroy_pitch_min,
+			"pitch_max": destroy_pitch_max,
+			"volume": destroy_sound_volume,
+		}
+	return silent_state
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
