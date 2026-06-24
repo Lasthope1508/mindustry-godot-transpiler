@@ -528,6 +528,28 @@ def verify_building_maximum_accepted_stack_source(upstream_root: Path) -> dict[s
         "missing": missing,
     }
 
+def verify_building_accept_stack_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    accept_stack_method = "public int acceptStack(Item item, int amount, Teamc source){"
+    accept_stack_guard = "if(acceptItem(self(), item) && block.hasItems && (source == null || source.team() == team)){"
+    accept_stack_amount = "return Math.min(getMaximumAccepted(item) - items.get(item), amount);"
+    accept_stack_failure = "return 0;"
+    missing = []
+    for snippet in [accept_stack_method, accept_stack_guard, accept_stack_amount, accept_stack_failure]:
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": {
+            "accept_stack_method": accept_stack_method,
+            "accept_stack_guard": accept_stack_guard,
+            "accept_stack_amount": accept_stack_amount,
+            "accept_stack_failure": accept_stack_failure,
+        },
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

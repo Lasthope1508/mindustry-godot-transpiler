@@ -1175,6 +1175,11 @@ func source_building_maximum_accepted(block_item_capacity: int) -> int:
 func source_building_handle_stack_count(current_count: int, amount: int) -> int:
 	return current_count + amount
 
+func source_building_accept_stack_state(accepts_item: bool, has_items: bool, same_team_or_null_source: bool, maximum_accepted: int, item_count: int, amount: int) -> int:
+	if accepts_item and has_items and same_team_or_null_source:
+		return mini(maximum_accepted - item_count, amount)
+	return 0
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

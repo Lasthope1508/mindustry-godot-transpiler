@@ -1222,6 +1222,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_handle_stack_count(current_count: int, amount: int) -> int:", source)
         self.assertIn("return current_count + amount", source)
 
+    def test_port_game_exposes_source_building_accept_stack_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_accept_stack_state(accepts_item: bool, has_items: bool, same_team_or_null_source: bool, maximum_accepted: int, item_count: int, amount: int) -> int:", source)
+        self.assertIn("if accepts_item and has_items and same_team_or_null_source:", source)
+        self.assertIn("return mini(maximum_accepted - item_count, amount)", source)
+        self.assertIn("return 0", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

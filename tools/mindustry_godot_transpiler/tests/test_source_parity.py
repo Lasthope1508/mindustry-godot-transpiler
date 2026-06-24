@@ -365,6 +365,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_accept_stack_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_accept_stack_source"))
+        report = source_parity.verify_building_accept_stack_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "accept_stack_method": "public int acceptStack(Item item, int amount, Teamc source){",
+            "accept_stack_guard": "if(acceptItem(self(), item) && block.hasItems && (source == null || source.team() == team)){",
+            "accept_stack_amount": "return Math.min(getMaximumAccepted(item) - items.get(item), amount);",
+            "accept_stack_failure": "return 0;",
+        })
+        self.assertEqual(report["missing"], [])
+
 
 if __name__ == "__main__":
     unittest.main()
