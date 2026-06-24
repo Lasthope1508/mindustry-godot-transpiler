@@ -551,5 +551,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_draw_disabled_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_draw_disabled_source"))
+        report = source_parity.verify_building_draw_disabled_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "draw_disabled_method": "public void drawDisabled(){",
+            "draw_disabled_color": "Draw.color(Color.scarlet);",
+            "draw_disabled_alpha": "Draw.alpha(0.8f);",
+            "draw_disabled_size": "float size = 6f;",
+            "draw_disabled_rect": "Draw.rect(Icon.cancel.getRegion(), x, y, size, size);",
+            "draw_disabled_reset": "Draw.reset();",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

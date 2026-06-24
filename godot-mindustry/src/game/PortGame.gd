@@ -1274,6 +1274,10 @@ func source_building_draw_item_selection_state(has_selection: bool, source_x: fl
 	var selection_height := icon_small / 4.0
 	return {"visible": true, "dx": dx, "dy": dy, "shadow_color": "darkGray", "shadow_alpha": 1.0, "shadow_y": dy - 1.0, "foreground_y": dy, "selection_width": selection_width, "selection_height": selection_height}
 
+func source_building_draw_disabled_state(source_x: float, source_y: float) -> Dictionary:
+	var disabled_icon_size := 6.0
+	return {"visible": true, "icon": "cancel", "color": "scarlet", "alpha": 0.8, "x": source_x, "y": source_y, "width": disabled_icon_size, "height": disabled_icon_size}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

@@ -1375,6 +1375,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"selection_width": selection_width', source)
         self.assertIn('"selection_height": selection_height', source)
 
+    def test_port_game_exposes_source_building_draw_disabled_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_draw_disabled_state(source_x: float, source_y: float) -> Dictionary:", source)
+        self.assertIn("var disabled_icon_size := 6.0", source)
+        self.assertIn('"visible": true', source)
+        self.assertIn('"icon": "cancel"', source)
+        self.assertIn('"color": "scarlet"', source)
+        self.assertIn('"alpha": 0.8', source)
+        self.assertIn('"x": source_x', source)
+        self.assertIn('"y": source_y', source)
+        self.assertIn('"width": disabled_icon_size', source)
+        self.assertIn('"height": disabled_icon_size', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

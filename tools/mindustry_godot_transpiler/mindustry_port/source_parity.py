@@ -860,6 +860,33 @@ def verify_building_draw_item_selection_source(upstream_root: Path) -> dict[str,
         "missing": missing,
     }
 
+def verify_building_draw_disabled_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    draw_disabled_method = "public void drawDisabled(){"
+    draw_disabled_color = "Draw.color(Color.scarlet);"
+    draw_disabled_alpha = "Draw.alpha(0.8f);"
+    draw_disabled_size = "float size = 6f;"
+    draw_disabled_rect = "Draw.rect(Icon.cancel.getRegion(), x, y, size, size);"
+    draw_disabled_reset = "Draw.reset();"
+    checked = {
+        "draw_disabled_method": draw_disabled_method,
+        "draw_disabled_color": draw_disabled_color,
+        "draw_disabled_alpha": draw_disabled_alpha,
+        "draw_disabled_size": draw_disabled_size,
+        "draw_disabled_rect": draw_disabled_rect,
+        "draw_disabled_reset": draw_disabled_reset,
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
