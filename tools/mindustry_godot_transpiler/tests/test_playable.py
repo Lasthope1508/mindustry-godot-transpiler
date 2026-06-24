@@ -1639,6 +1639,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"handler_type": configured_type', source)
         self.assertIn('"value": value_state', source)
 
+    def test_port_game_exposes_source_building_configured_copy_config_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_configured_copy_config_state(value_is_building: bool, copied_config: Variant, copied_config_is_building: bool) -> Dictionary:", source)
+        self.assertIn('"copy_branch": value_is_building', source)
+        self.assertIn('"recurse": false', source)
+        self.assertIn('if value_is_building and copied_config != null and not copied_config_is_building:', source)
+        self.assertIn('result["config"] = copied_config', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

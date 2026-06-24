@@ -1553,6 +1553,13 @@ func source_building_configured_last_access_state(builder_state: Dictionary, cur
 func source_building_configured_direct_handler_state(has_configuration: bool, configured_type: String, value_state: Variant) -> Dictionary:
 	return {"handled": has_configuration, "handler_type": configured_type, "value": value_state}
 
+func source_building_configured_copy_config_state(value_is_building: bool, copied_config: Variant, copied_config_is_building: bool) -> Dictionary:
+	var result := {"copy_branch": value_is_building, "recurse": false, "config": null}
+	if value_is_building and copied_config != null and not copied_config_is_building:
+		result["recurse"] = true
+		result["config"] = copied_config
+	return result
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

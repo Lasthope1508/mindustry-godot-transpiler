@@ -1426,6 +1426,26 @@ def verify_building_configured_direct_handler_source(upstream_root: Path) -> dic
         "missing": missing,
     }
 
+def verify_building_configured_copy_config_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "configured_building_copy_branch": "}else if(value instanceof Building build){",
+        "configured_copy_comment": "//copy config of another building",
+        "configured_copy_config_line": "var conf = build.config();",
+        "configured_copy_config_guard": "if(conf != null && !(conf instanceof Building)){",
+        "configured_copy_config_recurse": "configured(builder, conf);",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

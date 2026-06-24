@@ -905,5 +905,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_configured_copy_config_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_configured_copy_config_source"))
+        report = source_parity.verify_building_configured_copy_config_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "configured_building_copy_branch": "}else if(value instanceof Building build){",
+            "configured_copy_comment": "//copy config of another building",
+            "configured_copy_config_line": "var conf = build.config();",
+            "configured_copy_config_guard": "if(conf != null && !(conf instanceof Building)){",
+            "configured_copy_config_recurse": "configured(builder, conf);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
