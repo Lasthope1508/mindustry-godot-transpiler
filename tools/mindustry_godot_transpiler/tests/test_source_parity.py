@@ -708,5 +708,25 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_check_suppression_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_check_suppression_source"))
+        report = source_parity.verify_building_check_suppression_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["arc_mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "is_heal_suppressed_method": "public boolean isHealSuppressed(){",
+            "is_heal_suppressed_return": "return block.suppressable && Time.time <= healSuppressionTime;",
+            "check_suppression_method": "public boolean checkSuppression(){",
+            "check_suppression_guard": "if(isHealSuppressed()){",
+            "check_suppression_chance": "if(Mathf.chanceDelta(0.03)){",
+            "check_suppression_effect": "Fx.regenSuppressParticle.at(x + Mathf.range(block.size * tilesize/2f - 1f), y + Mathf.range(block.size * tilesize/2f - 1f), suppressColor);",
+            "check_suppression_true": "return true;",
+            "check_suppression_false": "return false;",
+            "mathf_range_float": "return random(-range, range);",
+            "mathf_chance_delta": "return rand.nextFloat() < d * Time.delta;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

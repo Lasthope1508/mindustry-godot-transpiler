@@ -1508,6 +1508,24 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"y": source_y - block_size_value * source_tilesize / 2.0 + 4.0', source)
         self.assertIn('"color_reset": true', source)
 
+    def test_port_game_exposes_source_building_check_suppression_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_is_heal_suppressed_state(block_suppressable: bool, source_time: float, heal_suppression_time: float) -> bool:", source)
+        self.assertIn("return block_suppressable and source_time <= heal_suppression_time", source)
+        self.assertIn("func source_arc_chance_delta_threshold(chance: float, source_delta: float) -> float:", source)
+        self.assertIn("return chance * source_delta", source)
+        self.assertIn("func source_building_check_suppression_state(block_suppressable: bool, source_time: float, heal_suppression_time: float, source_delta: float, source_x: float, source_y: float, block_size_value: int, source_tilesize: float, suppress_color: String) -> Dictionary:", source)
+        self.assertIn("var suppressed := source_building_is_heal_suppressed_state(block_suppressable, source_time, heal_suppression_time)", source)
+        self.assertIn("if not suppressed:", source)
+        self.assertIn('"suppressed": false', source)
+        self.assertIn("var particle_range := block_size_value * source_tilesize / 2.0 - 1.0", source)
+        self.assertIn("var chance_threshold := source_arc_chance_delta_threshold(0.03, source_delta)", source)
+        self.assertIn('"effect": "regenSuppressParticle"', source)
+        self.assertIn('"x_min": source_x - particle_range', source)
+        self.assertIn('"x_max": source_x + particle_range', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

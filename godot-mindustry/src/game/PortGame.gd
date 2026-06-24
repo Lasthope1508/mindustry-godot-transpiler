@@ -1422,6 +1422,9 @@ func source_arc_random_seed_int(source_seed: int, min_value: int, max_value: int
 func source_arc_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:
 	return lerp(from_value, to_value, clamp(progress * source_delta, 0.0, 1.0))
 
+func source_arc_chance_delta_threshold(chance: float, source_delta: float) -> float:
+	return chance * source_delta
+
 func source_building_draw_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:
 	var draw_rotation := source_building_drawrot_state(block_rotate, block_rotate_draw, rotation_quadrants)
 	if variants == 0 or not has_variant_regions:
@@ -1474,6 +1477,17 @@ func source_building_draw_light_state(has_liquids: bool, draw_liquid_light: bool
 
 func source_building_draw_team_state(team_color: String, source_x: float, source_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:
 	return {"visible": true, "region": "block-border", "color": team_color, "x": source_x - block_size_value * source_tilesize / 2.0 + 4.0, "y": source_y - block_size_value * source_tilesize / 2.0 + 4.0, "color_reset": true}
+
+func source_building_is_heal_suppressed_state(block_suppressable: bool, source_time: float, heal_suppression_time: float) -> bool:
+	return block_suppressable and source_time <= heal_suppression_time
+
+func source_building_check_suppression_state(block_suppressable: bool, source_time: float, heal_suppression_time: float, source_delta: float, source_x: float, source_y: float, block_size_value: int, source_tilesize: float, suppress_color: String) -> Dictionary:
+	var suppressed := source_building_is_heal_suppressed_state(block_suppressable, source_time, heal_suppression_time)
+	if not suppressed:
+		return {"suppressed": false, "particle_visible": false}
+	var particle_range := block_size_value * source_tilesize / 2.0 - 1.0
+	var chance_threshold := source_arc_chance_delta_threshold(0.03, source_delta)
+	return {"suppressed": true, "particle_visible": "chanceDelta", "chance_threshold": chance_threshold, "effect": "regenSuppressParticle", "color": suppress_color, "particle_range": particle_range, "x_min": source_x - particle_range, "x_max": source_x + particle_range, "y_min": source_y - particle_range, "y_max": source_y + particle_range}
 
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount

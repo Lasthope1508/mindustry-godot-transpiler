@@ -1125,6 +1125,46 @@ def verify_building_draw_team_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_building_check_suppression_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    mathf_path = Path(arc_root) / ARC_MATHF_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "is_heal_suppressed_method": "public boolean isHealSuppressed(){",
+        "is_heal_suppressed_return": "return block.suppressable && Time.time <= healSuppressionTime;",
+        "check_suppression_method": "public boolean checkSuppression(){",
+        "check_suppression_guard": "if(isHealSuppressed()){",
+        "check_suppression_chance": "if(Mathf.chanceDelta(0.03)){",
+        "check_suppression_effect": "Fx.regenSuppressParticle.at(x + Mathf.range(block.size * tilesize/2f - 1f), y + Mathf.range(block.size * tilesize/2f - 1f), suppressColor);",
+        "check_suppression_true": "return true;",
+        "check_suppression_false": "return false;",
+        "mathf_range_float": "return random(-range, range);",
+        "mathf_chance_delta": "return rand.nextFloat() < d * Time.delta;",
+    }
+    source_lookup = {
+        "is_heal_suppressed_method": source,
+        "is_heal_suppressed_return": source,
+        "check_suppression_method": source,
+        "check_suppression_guard": source,
+        "check_suppression_chance": source,
+        "check_suppression_effect": source,
+        "check_suppression_true": source,
+        "check_suppression_false": source,
+        "mathf_range_float": mathf_source,
+        "mathf_chance_delta": mathf_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_lookup[key]:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "arc_mathf_source": ARC_MATHF_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
