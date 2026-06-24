@@ -1836,6 +1836,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return "..."', source)
         self.assertIn('return source_arc_strings_fixed_one_decimal(flow_rate) + " " + per_second_label', source)
 
+    def test_port_game_exposes_source_building_cursor_gate_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_cursor_state(block_configurable: bool, interactable_player_team: bool) -> String:", source)
+        self.assertIn('return "hand" if block_configurable and interactable_player_team else "arrow"', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

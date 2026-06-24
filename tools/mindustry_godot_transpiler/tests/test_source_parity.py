@@ -1180,5 +1180,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_cursor_gate_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_cursor_gate_source"))
+        report = source_parity.verify_building_cursor_gate_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "building_cursor_method": "public Cursor getCursor(){",
+            "building_cursor_comment": "/** Returns whether a hand cursor should be shown over this block. */",
+            "building_cursor_hand": "return block.configurable && interactable(player.team()) ? SystemCursor.hand : SystemCursor.arrow;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

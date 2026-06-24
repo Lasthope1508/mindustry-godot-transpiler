@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 162 |
-| Done | 162 |
+| Total tracked work items | 163 |
+| Done | 163 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -38,6 +38,7 @@
 - [x] N158: Source BuildingComp display icon and flow items state.
 - [x] N159: Source BuildingComp display UI gate state.
 - [x] N160: Source BuildingComp display flow rate label state.
+- [x] N161: Source BuildingComp cursor gate state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -224,6 +225,8 @@ Current cube: `Building lifecycle / destroy-deconstruct`. Current source path st
 | N159 | Apply source BuildingComp display UI gate state | The next `BuildingComp.display(Table table)` slice always builds the header from `block.getDisplayIcon(tile)` and `block.getDisplayName(tile)`, gates bars and `displayConsumption` inside `if(team == player.team())`, computes `displayFlow` from `(block.category == Category.distribution || block.category == Category.liquid) && block.displayFlow`, and gates last-access text with `if(net.active() && lastAccessed != null)`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` now exposes `source_building_display_ui_gates_state()` for header/details/bars/consumption/flow/last-access visibility without inventing UI table widgets; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `247` tests passing; MCP editor bridge connected, MCP LSP diagnostics timed out during `initialize`, and MCP runtime proof reports same-team distribution flow enabled, same-team crafting flow disabled, enemy-team details disabled, displayFlow false when block disables it, and lastAccessed false when net is inactive; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 | N160 | Apply source BuildingComp display flow rate label state | The next `BuildingComp.display(Table table)` slice keeps upstream flow labels exact: `String ps = " " + StatUnit.perSecond.localized();`, both item and liquid rows use `l.label(() -> ... ? "..." : Strings.fixed(..., 1) + ps).color(Color.lightGray);`, and Arc `Strings.fixed(float, int)` truncates with `Math.abs`, `Math.pow`, and `+ 0.0001f` before string assembly; `source_parity.py` checks those exact upstream lines in `BuildingComp.java` and `Strings.java`, and `PortGame.gd` now exposes `source_arc_strings_fixed_one_decimal()` plus `source_building_display_flow_rate_label()` without inventing formatting or unit text; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `249` tests passing; MCP editor bridge connected, MCP LSP diagnostics timed out during `initialize`, and MCP runtime proof reports `...`, `1.2 items/s`, `12.3 items/s`, and `0.0`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
+
+| N161 | Apply source BuildingComp cursor gate state | The next `BuildingComp.getCursor()` slice preserves the upstream comment `/** Returns whether a hand cursor should be shown over this block. */` and returns `block.configurable && interactable(player.team()) ? SystemCursor.hand : SystemCursor.arrow;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` now exposes `source_building_cursor_state()` for configurable/interactable hand-vs-arrow selection without inventing cursor objects; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `251` tests passing; MCP editor bridge connected, MCP LSP diagnostics timed out during `initialize`, and MCP runtime proof reports `hand`, `arrow`, `arrow`, and `arrow`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 ## Not Done
 

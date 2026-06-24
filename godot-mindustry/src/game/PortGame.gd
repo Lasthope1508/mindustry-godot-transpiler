@@ -1782,6 +1782,9 @@ func source_building_display_flow_rate_label(flow_rate: float, per_second_label:
 		return "..."
 	return source_arc_strings_fixed_one_decimal(flow_rate) + " " + per_second_label
 
+func source_building_cursor_state(block_configurable: bool, interactable_player_team: bool) -> String:
+	return "hand" if block_configurable and interactable_player_team else "arrow"
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
