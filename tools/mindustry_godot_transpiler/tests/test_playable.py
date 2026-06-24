@@ -1676,6 +1676,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"team": team_id if destroy_bullet_same_team else "derelict"', source)
         self.assertIn("source_arc_random_seed_float_max(building_id, 360.0)", source)
 
+    def test_port_game_exposes_source_building_explosion_item_cap_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_explosion_item_cap_state(item_capacity: int) -> int:", source)
+        self.assertIn("return item_capacity", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

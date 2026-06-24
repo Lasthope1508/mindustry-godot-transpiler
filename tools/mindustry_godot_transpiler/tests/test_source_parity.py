@@ -949,5 +949,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_explosion_item_cap_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_explosion_item_cap_source"))
+        report = source_parity.verify_building_explosion_item_cap_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "explosion_item_cap_comment": "@return the cap for item amount calculations, used when this block explodes.",
+            "explosion_item_cap_method": "public int explosionItemCap(){",
+            "explosion_item_cap_return": "return block.itemCapacity;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

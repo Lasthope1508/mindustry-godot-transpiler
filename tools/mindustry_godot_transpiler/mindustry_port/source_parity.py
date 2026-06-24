@@ -1506,6 +1506,24 @@ def verify_building_after_destroyed_source(upstream_root: Path) -> dict[str, Any
         "missing": missing,
     }
 
+def verify_building_explosion_item_cap_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "explosion_item_cap_comment": "@return the cap for item amount calculations, used when this block explodes.",
+        "explosion_item_cap_method": "public int explosionItemCap(){",
+        "explosion_item_cap_return": "return block.itemCapacity;",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
