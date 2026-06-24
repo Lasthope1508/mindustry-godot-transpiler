@@ -1642,6 +1642,19 @@ func source_building_on_destroyed_splash_liquid_state(has_liquids: bool, damage_
 		"liquids": liquid_states.duplicate() if should_splash else [],
 	}
 
+func source_building_on_destroyed_dynamic_explosion_call_state(source_x: float, source_y: float, flammability: float, explosiveness: float, power: float, flammability_scale: float, explosiveness_scale: float, source_tilesize: float, source_block_size: int, damage_explosions: bool, destroy_effect: String, base_shake: float) -> Dictionary:
+	return {
+		"x": source_x,
+		"y": source_y,
+		"flammability": flammability * flammability_scale,
+		"explosiveness": explosiveness * 3.5 * explosiveness_scale,
+		"power": power,
+		"radius": source_tilesize * float(source_block_size) / 2.0,
+		"damage_explosions": damage_explosions,
+		"effect": destroy_effect,
+		"shake": base_shake,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

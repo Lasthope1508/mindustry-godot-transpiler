@@ -1741,6 +1741,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"splash_liquids": should_splash', source)
         self.assertIn('"liquid_count": liquid_states.size() if should_splash else 0', source)
 
+    def test_port_game_exposes_source_building_on_destroyed_dynamic_explosion_call_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_on_destroyed_dynamic_explosion_call_state(source_x: float, source_y: float, flammability: float, explosiveness: float, power: float, flammability_scale: float, explosiveness_scale: float, source_tilesize: float, source_block_size: int, damage_explosions: bool, destroy_effect: String, base_shake: float) -> Dictionary:", source)
+        self.assertIn('"flammability": flammability * flammability_scale', source)
+        self.assertIn('"explosiveness": explosiveness * 3.5 * explosiveness_scale', source)
+        self.assertIn('"radius": source_tilesize * float(source_block_size) / 2.0', source)
+        self.assertIn('"damage_explosions": damage_explosions', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
