@@ -21,6 +21,7 @@ const SOURCE_INT64_MAX := 9223372036854775807
 const SOURCE_RAND_MURMUR_CONST1 := -49064778989728563
 const SOURCE_RAND_MURMUR_CONST2 := -4265267296055464877
 const SOURCE_UINT16_MASK := 65535
+const SOURCE_RAND_NORM_FLOAT := 1.0 / 16777216.0
 const SOURCE_RAND_MURMUR_CONST1_WORDS := [0x8ccd, 0xed55, 0xafd7, 0xff51]
 const SOURCE_RAND_MURMUR_CONST2_WORDS := [0xec53, 0x1a85, 0xb9fe, 0xc4ce]
 const SOURCE_LONG_MIN_WORDS := [0, 0, 0, 0x8000]
@@ -1413,11 +1414,18 @@ func _source_arc_rand_next_long_bound(rand_state: Dictionary, bound: int) -> int
 func _source_arc_rand_next_int_bound(rand_state: Dictionary, bound: int) -> int:
 	return _source_arc_rand_next_long_bound(rand_state, bound)
 
+func _source_arc_rand_next_float(rand_state: Dictionary) -> float:
+	return float(_source_words_to_nonnegative(_source_words_unsigned_shift_right(_source_arc_rand_next_long_words(rand_state), 40))) * SOURCE_RAND_NORM_FLOAT
+
 func source_arc_random_seed_int(source_seed: int, min_value: int, max_value: int) -> int:
 	var rand_state := _source_arc_rand_set_seed(source_seed)
 	if source_arc_is_power_of_two(max_value):
 		_source_arc_rand_next_int_unbounded(rand_state)
 	return _source_arc_rand_next_int_bound(rand_state, max_value - min_value + 1) + min_value
+
+func source_arc_random_seed_float_max(source_seed: int, max_value: float) -> float:
+	var rand_state := _source_arc_rand_set_seed(source_seed * 99999)
+	return _source_arc_rand_next_float(rand_state) * max_value
 
 func source_arc_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:
 	return lerp(from_value, to_value, clamp(progress * source_delta, 0.0, 1.0))
@@ -1562,6 +1570,17 @@ func source_building_configured_copy_config_state(value_is_building: bool, copie
 
 func source_building_tapped_state(current_state: Variant) -> Variant:
 	return current_state
+
+func source_building_after_destroyed_state(has_destroy_bullet: bool, destroy_bullet_same_team: bool, team_id: String, source_x: float, source_y: float, building_id: int) -> Dictionary:
+	if not has_destroy_bullet:
+		return {"create_bullet": false}
+	return {
+		"create_bullet": true,
+		"team": team_id if destroy_bullet_same_team else "derelict",
+		"x": source_x,
+		"y": source_y,
+		"rotation": source_arc_random_seed_float_max(building_id, 360.0),
+	}
 
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount

@@ -1411,6 +1411,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("_source_arc_rand_next_int_unbounded(rand_state)", source)
         self.assertIn("return _source_arc_rand_next_int_bound(rand_state, max_value - min_value + 1) + min_value", source)
 
+    def test_port_game_exposes_source_arc_random_seed_float(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("const SOURCE_RAND_NORM_FLOAT := 1.0 / 16777216.0", source)
+        self.assertIn("func _source_arc_rand_next_float(rand_state: Dictionary) -> float:", source)
+        self.assertIn("return float(_source_words_to_nonnegative(_source_words_unsigned_shift_right(_source_arc_rand_next_long_words(rand_state), 40))) * SOURCE_RAND_NORM_FLOAT", source)
+        self.assertIn("func source_arc_random_seed_float_max(source_seed: int, max_value: float) -> float:", source)
+        self.assertIn("var rand_state := _source_arc_rand_set_seed(source_seed * 99999)", source)
+        self.assertIn("return _source_arc_rand_next_float(rand_state) * max_value", source)
+
     def test_port_game_exposes_source_building_draw_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -1655,6 +1666,15 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_building_tapped_state(current_state: Variant) -> Variant:", source)
         self.assertIn("return current_state", source)
+
+    def test_port_game_exposes_source_building_after_destroyed_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_after_destroyed_state(has_destroy_bullet: bool, destroy_bullet_same_team: bool, team_id: String, source_x: float, source_y: float, building_id: int) -> Dictionary:", source)
+        self.assertIn('"create_bullet": false', source)
+        self.assertIn('"team": team_id if destroy_bullet_same_team else "derelict"', source)
+        self.assertIn("source_arc_random_seed_float_max(building_id, 360.0)", source)
 
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

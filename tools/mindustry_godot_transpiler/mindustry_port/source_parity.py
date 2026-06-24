@@ -1464,6 +1464,48 @@ def verify_building_tapped_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_building_after_destroyed_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    arc_root = Path(upstream_root).parent / "arc-upstream"
+    mathf_path = arc_root / ARC_MATHF_SOURCE
+    rand_path = arc_root / ARC_RAND_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    rand_source = rand_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "after_destroyed_comment": "Called *after* the tile has been removed.",
+        "after_destroyed_method": "public void afterDestroyed(){",
+        "after_destroyed_guard": "if(block.destroyBullet != null){",
+        "after_destroyed_team": "block.destroyBullet.create(this, block.destroyBulletSameTeam ? team : Team.derelict, x, y, Mathf.randomSeed(id(), 360f));",
+        "mathf_random_seed_float_max": "public static float randomSeed(long seed, float max){",
+        "mathf_random_seed_float_max_seed": "seedr.setSeed(seed * 99999);",
+        "mathf_random_seed_float_max_body": "return seedr.nextFloat() * max;",
+        "rand_next_float": "return (float)((nextLong() >>> 40) * NORM_FLOAT);",
+        "rand_norm_float": "private static final double NORM_FLOAT = 1.0 / (1L << 24);",
+    }
+    lookup = {
+        "after_destroyed_comment": source,
+        "after_destroyed_method": source,
+        "after_destroyed_guard": source,
+        "after_destroyed_team": source,
+        "mathf_random_seed_float_max": mathf_source,
+        "mathf_random_seed_float_max_seed": mathf_source,
+        "mathf_random_seed_float_max_body": mathf_source,
+        "rand_next_float": rand_source,
+        "rand_norm_float": rand_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in lookup[key]:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "arc_mathf_source": ARC_MATHF_SOURCE,
+        "arc_rand_source": ARC_RAND_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

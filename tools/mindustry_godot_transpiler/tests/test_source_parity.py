@@ -931,5 +931,23 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_after_destroyed_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_after_destroyed_source"))
+        report = source_parity.verify_building_after_destroyed_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "after_destroyed_comment": "Called *after* the tile has been removed.",
+            "after_destroyed_method": "public void afterDestroyed(){",
+            "after_destroyed_guard": "if(block.destroyBullet != null){",
+            "after_destroyed_team": "block.destroyBullet.create(this, block.destroyBulletSameTeam ? team : Team.derelict, x, y, Mathf.randomSeed(id(), 360f));",
+            "mathf_random_seed_float_max": "public static float randomSeed(long seed, float max){",
+            "mathf_random_seed_float_max_seed": "seedr.setSeed(seed * 99999);",
+            "mathf_random_seed_float_max_body": "return seedr.nextFloat() * max;",
+            "rand_next_float": "return (float)((nextLong() >>> 40) * NORM_FLOAT);",
+            "rand_norm_float": "private static final double NORM_FLOAT = 1.0 / (1L << 24);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
