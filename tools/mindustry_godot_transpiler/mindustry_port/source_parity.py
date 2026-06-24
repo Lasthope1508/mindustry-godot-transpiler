@@ -1183,6 +1183,28 @@ def verify_building_player_placed_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_building_placed_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "placed_call_super": "@CallSuper",
+        "placed_method": "public void placed(){",
+        "placed_client_guard": "if(net.client()) return;",
+        "placed_power_guard": "if((block.consumesPower || block.outputsPower) && block.hasPower && block.connectedPower){",
+        "placed_links": "PowerNode.getNodeLinks(tile, block, team, other -> {",
+        "placed_link_missing_guard": "if(!other.power.links.contains(pos())){",
+        "placed_configure": "other.configureAny(pos());",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

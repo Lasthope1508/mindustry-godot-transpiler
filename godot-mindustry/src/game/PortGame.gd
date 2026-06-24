@@ -1492,6 +1492,15 @@ func source_building_check_suppression_state(block_suppressable: bool, source_ti
 func source_building_player_placed_state(config_state: Variant) -> Variant:
 	return config_state
 
+func source_building_placed_state(net_client: bool, consumes_power: bool, outputs_power: bool, has_power: bool, connected_power: bool, linked_to_self: bool, source_pos: int) -> Dictionary:
+	if net_client:
+		return {"returned": true, "power_link_scan": false, "configure": false, "configure_pos": -1}
+	var should_link_power := (consumes_power or outputs_power) and has_power and connected_power
+	if not should_link_power:
+		return {"returned": false, "power_link_scan": false, "configure": false, "configure_pos": -1}
+	var configure := not linked_to_self
+	return {"returned": false, "power_link_scan": true, "configure": configure, "configure_pos": source_pos if configure else -1}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

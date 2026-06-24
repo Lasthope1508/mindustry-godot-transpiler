@@ -740,5 +740,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_placed_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_placed_source"))
+        report = source_parity.verify_building_placed_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "placed_call_super": "@CallSuper",
+            "placed_method": "public void placed(){",
+            "placed_client_guard": "if(net.client()) return;",
+            "placed_power_guard": "if((block.consumesPower || block.outputsPower) && block.hasPower && block.connectedPower){",
+            "placed_links": "PowerNode.getNodeLinks(tile, block, team, other -> {",
+            "placed_link_missing_guard": "if(!other.power.links.contains(pos())){",
+            "placed_configure": "other.configureAny(pos());",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
