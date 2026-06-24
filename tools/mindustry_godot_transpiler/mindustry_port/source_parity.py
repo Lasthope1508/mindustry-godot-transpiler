@@ -389,6 +389,51 @@ def verify_building_dump_cursor_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_building_dump_accumulate_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    accum_field = "private transient float dumpAccum;"
+    accum_no_arg = "public boolean dumpAccumulate(){"
+    accum_no_arg_call = "return dumpAccumulate(null);"
+    accum_method = "public boolean dumpAccumulate(Item item){"
+    accum_result = "boolean res = false;"
+    accum_add_delta = "dumpAccum += delta();"
+    accum_loop = "while(dumpAccum >= 1f){"
+    accum_dump = "res |= dump(item);"
+    accum_subtract = "dumpAccum -=1f;"
+    accum_return = "return res;"
+    missing = []
+    for snippet in [
+        accum_field,
+        accum_no_arg,
+        accum_no_arg_call,
+        accum_method,
+        accum_result,
+        accum_add_delta,
+        accum_loop,
+        accum_dump,
+        accum_subtract,
+        accum_return,
+    ]:
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": {
+            "accum_field": accum_field,
+            "accum_no_arg": accum_no_arg,
+            "accum_no_arg_call": accum_no_arg_call,
+            "accum_method": accum_method,
+            "accum_result": accum_result,
+            "accum_add_delta": accum_add_delta,
+            "accum_loop": accum_loop,
+            "accum_dump": accum_dump,
+            "accum_subtract": accum_subtract,
+            "accum_return": accum_return,
+        },
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

@@ -80,6 +80,7 @@ var drill_last_speeds: Dictionary = {}
 var drill_items: Dictionary = {}
 var drill_dump_timer := 0.0
 var drill_dump_cursor := 0
+var building_dump_accum := 0.0
 var produced_total := 0
 var item_progress := 0.0
 var transport_progress := 0.0
@@ -1173,6 +1174,19 @@ func set_drill_dump_cursor(value: int) -> void:
 func increment_drill_dump(proximity_size: int) -> int:
 	drill_dump_cursor = source_increment_dump_cursor(drill_dump_cursor, proximity_size)
 	return drill_dump_cursor
+
+func source_dump_accumulate_attempt_state(current_accum: float, source_delta: float) -> Dictionary:
+	var next_accum := current_accum + source_delta
+	var dump_attempts := 0
+	while next_accum >= 1.0:
+		dump_attempts += 1
+		next_accum -= 1.0
+	return {"dump_attempts": dump_attempts, "dump_accum": next_accum}
+
+func step_building_dump_accum(source_delta: float) -> Dictionary:
+	var state := source_dump_accumulate_attempt_state(building_dump_accum, source_delta)
+	building_dump_accum = float(state["dump_accum"])
+	return state
 
 func drill_item_count(item_id: String) -> int:
 	return int(drill_items.get(item_id, 0))
@@ -2268,6 +2282,7 @@ func get_runtime_summary() -> Dictionary:
 		"drill_items_total": drill_items_total(),
 		"drill_dump_timer": drill_dump_timer,
 		"drill_dump_cursor": drill_dump_cursor,
+		"building_dump_accum": building_dump_accum,
 		"conveyor_world_speed": conveyor_world_speed,
 		"conveyor_path_progress_rate": conveyor_path_progress_rate,
 		"wave_index": wave_index,

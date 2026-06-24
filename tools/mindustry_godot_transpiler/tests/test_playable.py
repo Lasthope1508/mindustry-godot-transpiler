@@ -1169,6 +1169,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("increment_drill_dump(1)", source[dump_start:])
         self.assertIn('"drill_dump_cursor": drill_dump_cursor', source)
 
+    def test_port_game_exposes_source_dump_accumulate_attempt_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var building_dump_accum := 0.0", source)
+        self.assertIn("func source_dump_accumulate_attempt_state(current_accum: float, source_delta: float) -> Dictionary:", source)
+        self.assertIn("var next_accum := current_accum + source_delta", source)
+        self.assertIn("var dump_attempts := 0", source)
+        self.assertIn("while next_accum >= 1.0:", source)
+        self.assertIn("dump_attempts += 1", source)
+        self.assertIn("next_accum -= 1.0", source)
+        self.assertIn('return {"dump_attempts": dump_attempts, "dump_accum": next_accum}', source)
+        self.assertIn("func step_building_dump_accum(source_delta: float) -> Dictionary:", source)
+        self.assertIn("building_dump_accum = float(state[\"dump_accum\"])", source)
+        self.assertIn('"building_dump_accum": building_dump_accum', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

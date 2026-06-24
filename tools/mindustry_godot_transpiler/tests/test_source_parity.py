@@ -291,5 +291,23 @@ class SourceParityTests(unittest.TestCase):
             "increment_guard": "if(prox != 0){",
             "increment_modulo": "cdump = ((cdump + 1) % prox);",
         })
+
+    def test_building_dump_accumulate_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_dump_accumulate_source"))
+        report = source_parity.verify_building_dump_accumulate_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "accum_field": "private transient float dumpAccum;",
+            "accum_no_arg": "public boolean dumpAccumulate(){",
+            "accum_no_arg_call": "return dumpAccumulate(null);",
+            "accum_method": "public boolean dumpAccumulate(Item item){",
+            "accum_result": "boolean res = false;",
+            "accum_add_delta": "dumpAccum += delta();",
+            "accum_loop": "while(dumpAccum >= 1f){",
+            "accum_dump": "res |= dump(item);",
+            "accum_subtract": "dumpAccum -=1f;",
+            "accum_return": "return res;",
+        })
 if __name__ == "__main__":
     unittest.main()
