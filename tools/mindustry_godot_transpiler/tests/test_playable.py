@@ -340,6 +340,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func selected_build_overdrive_draw_state_for_inputs(heat: float, phase_heat: float, source_time_ticks := 0.0) -> Dictionary:", source)
         self.assertIn("return source_overdrive_projector_draw_state(selected, heat, phase_heat, source_time_ticks)", source)
 
+    def test_port_game_advances_overdrive_projector_update_state_like_source(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var overdrive_projector_charges: Dictionary = {}", source)
+        self.assertIn("var overdrive_projector_smooth_efficiency: Dictionary = {}", source)
+        self.assertIn("var overdrive_projector_heat: Dictionary = {}", source)
+        self.assertIn("var overdrive_projector_phase_heat: Dictionary = {}", source)
+        self.assertIn("var overdrive_projector_optional_efficiency: Dictionary = {}", source)
+        self.assertIn("var overdrive_projector_booster_items: Dictionary = {}", source)
+        self.assertIn("var overdrive_projector_use_progress: Dictionary = {}", source)
+        self.assertIn("func boost_overdrive_projector_at_cell(x: int, y: int) -> bool:", source)
+        self.assertIn("func simulate_overdrive_projectors(delta: float) -> void:", source)
+        self.assertIn("overdrive_projector_smooth_efficiency[key] = source_lerp_delta(float(overdrive_projector_smooth_efficiency.get(key, 0.0)), 1.0, 0.08, source_delta)", source)
+        self.assertIn("overdrive_projector_heat[key] = source_lerp_delta(float(overdrive_projector_heat.get(key, 0.0)), 1.0, 0.08, source_delta)", source)
+        self.assertIn('if bool(block.properties.get("hasBoost", false)):', source)
+        self.assertIn("overdrive_projector_phase_heat[key] = source_lerp_delta(float(overdrive_projector_phase_heat.get(key, 0.0)), float(overdrive_projector_optional_efficiency.get(key, 0.0)), 0.1, source_delta)", source)
+        self.assertIn("overdrive_projector_charges[key] = float(overdrive_projector_charges.get(key, 0.0)) + float(overdrive_projector_heat.get(key, 0.0)) * source_delta", source)
+        self.assertIn('last_overdrive_projector_boost_duration = float(block.properties.get("reload", 0.0)) + 1.0', source)
+        self.assertIn('overdrive_projector_use_progress[key] = fmod(float(overdrive_projector_use_progress.get(key, 0.0)), float(block.properties.get("useTime", 0.0)))', source)
+        self.assertIn("func step_overdrive_projectors(seconds: float) -> Dictionary:", source)
+
     def test_port_game_uses_source_mend_projector_repair_amount_formula(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

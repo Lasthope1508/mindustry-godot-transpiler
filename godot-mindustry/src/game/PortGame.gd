@@ -42,6 +42,13 @@ var mend_projector_phase_heat: Dictionary = {}
 var mend_projector_optional_efficiency: Dictionary = {}
 var mend_projector_booster_items: Dictionary = {}
 var mend_projector_booster_timers: Dictionary = {}
+var overdrive_projector_charges: Dictionary = {}
+var overdrive_projector_smooth_efficiency: Dictionary = {}
+var overdrive_projector_heat: Dictionary = {}
+var overdrive_projector_phase_heat: Dictionary = {}
+var overdrive_projector_optional_efficiency: Dictionary = {}
+var overdrive_projector_booster_items: Dictionary = {}
+var overdrive_projector_use_progress: Dictionary = {}
 var initial_world_block_count := 0
 var initial_occupied_cell_count := 0
 var last_placed_block_id := ""
@@ -52,6 +59,9 @@ var last_place_blocked := false
 var last_mend_projector_healed_amount := 0.0
 var last_mend_projector_healed_block_id := ""
 var last_mend_projector_healed_cell := Vector2i.ZERO
+var last_overdrive_projector_boost_range := 0.0
+var last_overdrive_projector_boost := 0.0
+var last_overdrive_projector_boost_duration := 0.0
 var core_inventory := 0
 var core_items: Dictionary = {"copper": 0}
 var core_item_capacity := 0
@@ -697,6 +707,80 @@ func mend_projector_draw_state_at_cell(x: int, y: int, source_time_ticks := 0.0)
 	if block == null or block.implementation != "MendProjector":
 		return source_mend_projector_draw_state(null, 0.0, 0.0, source_time_ticks, false, 0.0)
 	return source_mend_projector_draw_state(block, mend_projector_heat_at_cell(x, y), mend_projector_phase_heat_at_cell(x, y), source_time_ticks)
+
+func boost_overdrive_projector_at_cell(x: int, y: int) -> bool:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	var block = block_from_sprite(sprite)
+	if block == null or block.implementation != "OverdriveProjector":
+		return false
+	var item_id := str(block.properties.get("boosterItem", ""))
+	if item_id == "" or core_item_count(item_id) <= 0:
+		return false
+	core_items[item_id] = int(core_items.get(item_id, 0)) - 1
+	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+	var key := cell_key(origin_cell)
+	overdrive_projector_booster_items[key] = int(overdrive_projector_booster_items.get(key, 0)) + 1
+	overdrive_projector_optional_efficiency[key] = 1.0
+	return true
+
+func overdrive_projector_phase_heat_at_cell(x: int, y: int) -> float:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	if not is_instance_valid(sprite):
+		return 0.0
+	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+	return float(overdrive_projector_phase_heat.get(cell_key(origin_cell), 0.0))
+
+func overdrive_projector_smooth_efficiency_at_cell(x: int, y: int) -> float:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	if not is_instance_valid(sprite):
+		return 0.0
+	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+	return float(overdrive_projector_smooth_efficiency.get(cell_key(origin_cell), 0.0))
+
+func overdrive_projector_heat_at_cell(x: int, y: int) -> float:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	if not is_instance_valid(sprite):
+		return 0.0
+	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+	return float(overdrive_projector_heat.get(cell_key(origin_cell), 0.0))
+
+func overdrive_projector_charge_at_cell(x: int, y: int) -> float:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	if not is_instance_valid(sprite):
+		return 0.0
+	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+	return float(overdrive_projector_charges.get(cell_key(origin_cell), 0.0))
+
+func overdrive_projector_use_progress_at_cell(x: int, y: int) -> float:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	if not is_instance_valid(sprite):
+		return 0.0
+	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+	return float(overdrive_projector_use_progress.get(cell_key(origin_cell), 0.0))
+
+func overdrive_projector_light_state_at_cell(x: int, y: int) -> Dictionary:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	var block = block_from_sprite(sprite)
+	if block == null or block.implementation != "OverdriveProjector":
+		return {"color": "", "radius": 0.0, "alpha": 0.0}
+	return source_overdrive_projector_light_state(block, overdrive_projector_smooth_efficiency_at_cell(x, y))
+
+func overdrive_projector_draw_state_at_cell(x: int, y: int, source_time_ticks := 0.0) -> Dictionary:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	var block = block_from_sprite(sprite)
+	if block == null or block.implementation != "OverdriveProjector":
+		return source_overdrive_projector_draw_state(null, 0.0, 0.0, source_time_ticks, false, 0.0)
+	return source_overdrive_projector_draw_state(block, overdrive_projector_heat_at_cell(x, y), overdrive_projector_phase_heat_at_cell(x, y), source_time_ticks)
+
+func overdrive_projector_state_at_cell(x: int, y: int) -> Dictionary:
+	return {
+		"heat": overdrive_projector_heat_at_cell(x, y),
+		"smooth_efficiency": overdrive_projector_smooth_efficiency_at_cell(x, y),
+		"phase_heat": overdrive_projector_phase_heat_at_cell(x, y),
+		"charge": overdrive_projector_charge_at_cell(x, y),
+		"use_progress": overdrive_projector_use_progress_at_cell(x, y),
+	}
+
 func block_size(block) -> int:
 	return max(1, int(block.properties.get("size", 1)))
 
@@ -887,6 +971,7 @@ func _process(delta: float) -> void:
 	MindustryTime.update(delta)
 	simulate_factory(delta)
 	simulate_mend_projectors(delta)
+	simulate_overdrive_projectors(delta)
 	simulate_turrets(delta)
 	simulate_bullets(delta)
 	simulate_enemy_units(delta)
@@ -976,6 +1061,56 @@ func step_mend_projectors(seconds: float) -> Dictionary:
 		"last_mend_projector_healed_amount": last_mend_projector_healed_amount,
 		"last_mend_projector_healed_block_id": last_mend_projector_healed_block_id,
 		"last_mend_projector_healed_cell": {"x": last_mend_projector_healed_cell.x, "y": last_mend_projector_healed_cell.y},
+	}
+
+func simulate_overdrive_projectors(delta: float) -> void:
+	var source_delta := delta * SOURCE_TICK_RATE
+	for key in placed_block_origins.keys():
+		var sprite = placed_block_origins.get(key)
+		var block = block_from_sprite(sprite)
+		if block == null:
+			continue
+		if block.implementation != "OverdriveProjector":
+			continue
+		overdrive_projector_smooth_efficiency[key] = source_lerp_delta(float(overdrive_projector_smooth_efficiency.get(key, 0.0)), 1.0, 0.08, source_delta)
+		overdrive_projector_heat[key] = source_lerp_delta(float(overdrive_projector_heat.get(key, 0.0)), 1.0, 0.08, source_delta)
+		overdrive_projector_charges[key] = float(overdrive_projector_charges.get(key, 0.0)) + float(overdrive_projector_heat.get(key, 0.0)) * source_delta
+		overdrive_projector_optional_efficiency[key] = 1.0 if int(overdrive_projector_booster_items.get(key, 0)) > 0 else 0.0
+		if bool(block.properties.get("hasBoost", false)):
+			overdrive_projector_phase_heat[key] = source_lerp_delta(float(overdrive_projector_phase_heat.get(key, 0.0)), float(overdrive_projector_optional_efficiency.get(key, 0.0)), 0.1, source_delta)
+		if float(overdrive_projector_charges.get(key, 0.0)) >= float(block.properties.get("reload", 0.0)):
+			var phase_heat := float(overdrive_projector_phase_heat.get(key, 0.0))
+			overdrive_projector_charges[key] = 0.0
+			last_overdrive_projector_boost_range = source_overdrive_projector_range(block, phase_heat)
+			last_overdrive_projector_boost = source_overdrive_projector_real_boost(block, phase_heat, 1.0)
+			last_overdrive_projector_boost_duration = float(block.properties.get("reload", 0.0)) + 1.0
+		overdrive_projector_use_progress[key] = float(overdrive_projector_use_progress.get(key, 0.0)) + source_delta
+		if float(block.properties.get("useTime", 0.0)) > 0.0 and float(overdrive_projector_use_progress.get(key, 0.0)) >= float(block.properties.get("useTime", 0.0)):
+			overdrive_projector_booster_items[key] = max(0, int(overdrive_projector_booster_items.get(key, 0)) - 1)
+			overdrive_projector_use_progress[key] = fmod(float(overdrive_projector_use_progress.get(key, 0.0)), float(block.properties.get("useTime", 0.0)))
+			overdrive_projector_optional_efficiency[key] = 1.0 if int(overdrive_projector_booster_items.get(key, 0)) > 0 else 0.0
+
+func step_overdrive_projectors(seconds: float) -> Dictionary:
+	simulate_overdrive_projectors(seconds)
+	for key in placed_block_origins.keys():
+		var sprite = placed_block_origins.get(key)
+		var block = block_from_sprite(sprite)
+		if block != null and block.implementation == "OverdriveProjector":
+			var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+			var state := overdrive_projector_state_at_cell(origin_cell.x, origin_cell.y)
+			state["last_overdrive_projector_boost_range"] = last_overdrive_projector_boost_range
+			state["last_overdrive_projector_boost"] = last_overdrive_projector_boost
+			state["last_overdrive_projector_boost_duration"] = last_overdrive_projector_boost_duration
+			return state
+	return {
+		"heat": 0.0,
+		"smooth_efficiency": 0.0,
+		"phase_heat": 0.0,
+		"charge": 0.0,
+		"use_progress": 0.0,
+		"last_overdrive_projector_boost_range": last_overdrive_projector_boost_range,
+		"last_overdrive_projector_boost": last_overdrive_projector_boost,
+		"last_overdrive_projector_boost_duration": last_overdrive_projector_boost_duration,
 	}
 
 func selected_enemy_unit():
@@ -1752,6 +1887,9 @@ func get_runtime_summary() -> Dictionary:
 		"selected_build_overdrive_phase_boost_bar_fraction": selected_build_overdrive_phase_boost_bar_fraction(),
 		"selected_build_overdrive_place_state": selected_build_overdrive_place_state(),
 		"selected_build_overdrive_phase_select_state": selected_build_overdrive_phase_select_state(),
+		"last_overdrive_projector_boost_range": last_overdrive_projector_boost_range,
+		"last_overdrive_projector_boost": last_overdrive_projector_boost,
+		"last_overdrive_projector_boost_duration": last_overdrive_projector_boost_duration,
 		"selected_build_booster_item": selected_build_booster_item(),
 		"selected_build_booster_use_time": selected_build_booster_use_time(),
 		"selected_build_repair_amount": selected_build_repair_amount(),
