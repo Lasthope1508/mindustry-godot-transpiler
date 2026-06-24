@@ -1801,6 +1801,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("if team_is_player or team_emoji.is_empty():", source)
         self.assertIn('return localized_name + " " + team_emoji', source)
 
+    def test_port_game_exposes_source_building_display_icon_and_flow_items_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_display_icon_state(block_ui_icon: Variant) -> Variant:", source)
+        self.assertIn("return block_ui_icon", source)
+        self.assertIn("func source_building_flow_items_state(items_module: Variant) -> Variant:", source)
+        self.assertIn("return items_module", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

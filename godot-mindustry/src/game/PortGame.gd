@@ -1751,6 +1751,12 @@ func source_building_display_name_state(localized_name: String, team_is_derelict
 		return localized_name
 	return localized_name + " " + team_emoji
 
+func source_building_display_icon_state(block_ui_icon: Variant) -> Variant:
+	return block_ui_icon
+
+func source_building_flow_items_state(items_module: Variant) -> Variant:
+	return items_module
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

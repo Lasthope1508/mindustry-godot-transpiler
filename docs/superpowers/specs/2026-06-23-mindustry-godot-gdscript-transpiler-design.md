@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 159 |
-| Done | 159 |
+| Total tracked work items | 160 |
+| Done | 160 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -35,6 +35,7 @@
 - [x] N155: Source BuildingComp onDestroyed explosive/flammable reactive sound state.
 - [x] N156: Source BuildingComp onDestroyed electric power sound state.
 - [x] N157: Source BuildingComp display name state.
+- [x] N158: Source BuildingComp display icon and flow items state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -215,6 +216,8 @@ Current cube: `Building lifecycle / destroy-deconstruct`. Current source path st
 | N156 | Apply source BuildingComp onDestroyed electric power sound state | The next `BuildingComp.onDestroyed()` sound slice checks `if(power > 30000f)` and plays `Sounds.blockExplodeElectricBig.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);`, else checks `}else if(power > 2000f){` and plays `Sounds.blockExplodeElectric.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` now exposes `source_building_on_destroyed_power_sound_state()` for the headless gate plus big/normal electric sound selection without inventing random pitch; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `241` tests passing; MCP editor bridge connected, MCP LSP diagnostics timed out during `initialize`, and MCP runtime proof reports headless and threshold-boundary states skip power sound, normal state selects `blockExplodeElectric`, and big state selects `blockExplodeElectricBig`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 | N157 | Apply source BuildingComp display name state | The next `BuildingComp.getDisplayName()` slice preserves the upstream comment `//derelict team icon currently doesn't display`, returns `block.localizedName + "\n" + Core.bundle.get("block.derelict")` for `Team.derelict`, and otherwise returns `block.localizedName + (team == player.team() || team.emoji.isEmpty() ? "" : " " + team.emoji);`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` now exposes `source_building_display_name_state()` for derelict, player team, empty emoji, and enemy emoji branch selection without inventing labels or emoji; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `243` tests passing; MCP editor bridge connected, MCP LSP diagnostics timed out during `initialize`, and MCP runtime proof reports `Router\nDerelict`, `Router`, `Router`, and `Router B`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
+
+| N158 | Apply source BuildingComp display icon and flow items state | The next adjacent `BuildingComp` slice returns `block.uiIcon` from `getDisplayIcon()` and returns `items` from `flowItems()` after the upstream comment `/** @return the item module to use for flow rate calculations */`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` now exposes `source_building_display_icon_state()` plus `source_building_flow_items_state()` as pass-through helpers without inventing texture or module fields; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `245` tests passing; MCP editor bridge connected, MCP LSP diagnostics timed out during `initialize`, and MCP runtime proof reports icon `router-ui`, flow items `items-module`, and null flow items `null`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 ## Not Done
 

@@ -1128,5 +1128,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_display_icon_and_flow_items_match_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_display_icon_flow_items_source"))
+        report = source_parity.verify_building_display_icon_flow_items_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "building_display_icon_method": "public TextureRegion getDisplayIcon(){",
+            "building_display_icon_return": "return block.uiIcon;",
+            "building_flow_items_comment": "/** @return the item module to use for flow rate calculations */",
+            "building_flow_items_method": "public ItemModule flowItems(){",
+            "building_flow_items_return": "return items;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
