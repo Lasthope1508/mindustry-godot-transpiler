@@ -1192,6 +1192,12 @@ func source_building_accept_payload_state() -> bool:
 func source_building_handle_payload_state(payload_state: Variant) -> Variant:
 	return payload_state
 
+func source_payload_forward_offset(payload_block_size: int) -> int:
+	return floori(float(payload_block_size) / 2.0) + 1
+
+func source_move_payload_state(has_next_tile: bool, has_next_build: bool, same_team: bool, accepts_payload: bool) -> bool:
+	return has_next_tile and has_next_build and same_team and accepts_payload
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

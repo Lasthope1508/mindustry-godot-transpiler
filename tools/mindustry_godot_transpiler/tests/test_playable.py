@@ -1250,6 +1250,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_handle_payload_state(payload_state: Variant) -> Variant:", source)
         self.assertIn("return payload_state", source)
 
+    def test_port_game_exposes_source_move_payload_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_payload_forward_offset(payload_block_size: int) -> int:", source)
+        self.assertIn("return floori(float(payload_block_size) / 2.0) + 1", source)
+        self.assertNotIn("func source_payload_forward_offset(block_size: int) -> int:", source)
+        self.assertIn("func source_move_payload_state(has_next_tile: bool, has_next_build: bool, same_team: bool, accepts_payload: bool) -> bool:", source)
+        self.assertIn("return has_next_tile and has_next_build and same_team and accepts_payload", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

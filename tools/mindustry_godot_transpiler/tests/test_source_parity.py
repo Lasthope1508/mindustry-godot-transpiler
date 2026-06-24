@@ -407,5 +407,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_move_payload_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_move_payload_source"))
+        report = source_parity.verify_building_move_payload_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "move_payload_method": "public boolean movePayload(Payload todump){",
+            "move_payload_offset": "int trns = block.size/2 + 1;",
+            "move_payload_next": "Tile next = tile.nearby(Geometry.d4(rotation).x * trns, Geometry.d4(rotation).y * trns);",
+            "move_payload_guard": "if(next != null && next.build != null && next.build.team == team && next.build.acceptPayload(self(), todump)){",
+            "move_payload_handle": "next.build.handlePayload(self(), todump);",
+            "move_payload_success": "return true;",
+            "move_payload_failure": "return false;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

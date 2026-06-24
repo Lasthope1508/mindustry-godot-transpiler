@@ -598,6 +598,34 @@ def verify_building_payload_default_source(upstream_root: Path) -> dict[str, Any
         "missing": missing,
     }
 
+def verify_building_move_payload_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    move_payload_method = "public boolean movePayload(Payload todump){"
+    move_payload_offset = "int trns = block.size/2 + 1;"
+    move_payload_next = "Tile next = tile.nearby(Geometry.d4(rotation).x * trns, Geometry.d4(rotation).y * trns);"
+    move_payload_guard = "if(next != null && next.build != null && next.build.team == team && next.build.acceptPayload(self(), todump)){"
+    move_payload_handle = "next.build.handlePayload(self(), todump);"
+    move_payload_success = "return true;"
+    move_payload_failure = "return false;"
+    missing = []
+    for snippet in [move_payload_method, move_payload_offset, move_payload_next, move_payload_guard, move_payload_handle, move_payload_success, move_payload_failure]:
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": {
+            "move_payload_method": move_payload_method,
+            "move_payload_offset": move_payload_offset,
+            "move_payload_next": move_payload_next,
+            "move_payload_guard": move_payload_guard,
+            "move_payload_handle": move_payload_handle,
+            "move_payload_success": move_payload_success,
+            "move_payload_failure": move_payload_failure,
+        },
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
