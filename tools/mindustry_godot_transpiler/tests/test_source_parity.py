@@ -647,5 +647,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_draw_team_top_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_draw_team_top_source"))
+        report = source_parity.verify_building_draw_team_top_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "draw_team_top_method": "public void drawTeamTop(){",
+            "draw_team_top_found_guard": "if(block.teamRegion.found()){",
+            "draw_team_top_color_guard": "if(block.teamRegions[team.id] == block.teamRegion) Draw.color(team.color);",
+            "draw_team_top_rect": "Draw.rect(block.teamRegions[team.id], x, y);",
+            "draw_team_top_color_reset": "Draw.color();",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

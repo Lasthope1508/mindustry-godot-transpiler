@@ -1457,6 +1457,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"cached_z": building_cache_layer_z', source)
         self.assertIn('"dynamic_z": current_z', source)
 
+    def test_port_game_exposes_source_building_draw_team_top_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_draw_team_top_state(team_region_found: bool, team_region_matches_team: bool, team_color: String, source_x: float, source_y: float) -> Dictionary:", source)
+        self.assertIn("if not team_region_found:", source)
+        self.assertIn('"visible": false', source)
+        self.assertIn('"visible": true', source)
+        self.assertIn('"tint_color": team_color if team_region_matches_team else ""', source)
+        self.assertIn('"x": source_x', source)
+        self.assertIn('"y": source_y', source)
+        self.assertIn('"color_reset": true', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
