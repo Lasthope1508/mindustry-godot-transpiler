@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 152 |
-| Done | 152 |
+| Total tracked work items | 153 |
+| Done | 153 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -28,6 +28,7 @@
 - [x] N124-N148: Source BuildingComp drawLiquidLight state, drawLight state, drawTeam state, checkSuppression state, playerPlaced no-op state, placed power-link state, onRepaired fog update state, isCommandable state, isPayload state, overwrote no-op state, onRemoved no-op state, unitOn no-op state, unitOnAny no-op state, unitRemoved no-op state, configured type normalization state, configured last-access state, configured direct handler state, configured copy-config state, tapped no-op state, afterDestroyed destroy-bullet state, explosionItemCap item-cap state, splashLiquid scheduling state, onDeconstructed liquid deposit state, and onDestroyed item explosion contribution state.
 - [x] N149: Source BuildingComp onDestroyed liquid explosion contribution state.
 - [x] N150: Source BuildingComp onDestroyed buffered power contribution state.
+- [x] N151: Source BuildingComp onDestroyed splashLiquid call gate state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -194,6 +195,8 @@ Current cube: `Building lifecycle / destroy-deconstruct`. Current source path st
 | N149 | Apply source BuildingComp onDestroyed liquid explosion contribution state | The next `BuildingComp.onDestroyed()` slice adds liquid contributions only inside `if(block.hasLiquids)`: `flammability += liquids.sum((liquid, amount) -> liquid.flammability * amount / 2f)` and `explosiveness += liquids.sum((liquid, amount) -> liquid.explosiveness * amount / 2f)`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` now exposes `source_building_on_destroyed_liquid_explosion_state()` that composes after the item contribution slice without claiming power/splash/dynamicExplosion yet; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `227` tests passing; MCP editor bridge connected, MCP LSP diagnostics timed out during `initialize`, and MCP runtime proof reports no-liquids state `{explosiveness=4.5, flammability=1.5}` preserved plus liquid state `{explosiveness=7.6, flammability=4.9}`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 | N150 | Apply source BuildingComp onDestroyed buffered power contribution state | The next `BuildingComp.onDestroyed()` slice adds buffered consumer power only inside `if(block.consPower != null && block.consPower.buffered)`: `power += this.power.status * block.consPower.capacity;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` now exposes `source_building_on_destroyed_buffered_power_state()` that composes after item power without claiming splash or final dynamicExplosion yet; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `229` tests passing; MCP editor bridge connected, MCP LSP diagnostics timed out during `initialize`, and MCP runtime proof reports no-consPower and non-buffered states preserve `730.063306464656`, while buffered state returns `1230.06330646466` with float diff `4.092726157978177e-12` under `1e-9`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
+
+| N151 | Apply source BuildingComp onDestroyed splashLiquid call gate state | The next `BuildingComp.onDestroyed()` slice calls `splashLiquid` only inside `if(block.hasLiquids && state.rules.damageExplosions)`: `liquids.each(this::splashLiquid);`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` now exposes `source_building_on_destroyed_splash_liquid_state()` that records whether the existing source `splashLiquid()` schedule should run and how many liquid entries are passed through, without inventing random tile positions; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `231` tests passing; MCP editor bridge connected, MCP LSP diagnostics timed out during `initialize`, and MCP runtime proof reports no-liquids and damage-explosions-off states skip splash with count `0`, while enabled state passes `2` liquids through; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 ## Not Done
 

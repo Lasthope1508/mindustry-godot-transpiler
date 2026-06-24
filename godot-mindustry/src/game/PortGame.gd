@@ -1634,6 +1634,14 @@ func source_building_on_destroyed_buffered_power_state(current_power: float, has
 		return current_power + power_status * cons_power_capacity
 	return current_power
 
+func source_building_on_destroyed_splash_liquid_state(has_liquids: bool, damage_explosions: bool, liquid_states: Array) -> Dictionary:
+	var should_splash := has_liquids and damage_explosions
+	return {
+		"splash_liquids": should_splash,
+		"liquid_count": liquid_states.size() if should_splash else 0,
+		"liquids": liquid_states.duplicate() if should_splash else [],
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

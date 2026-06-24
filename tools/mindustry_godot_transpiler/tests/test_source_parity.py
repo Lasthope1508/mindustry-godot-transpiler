@@ -1040,5 +1040,16 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_on_destroyed_splash_liquid_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_on_destroyed_splash_liquid_source"))
+        report = source_parity.verify_building_on_destroyed_splash_liquid_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "on_destroyed_splash_liquid_guard": "if(block.hasLiquids && state.rules.damageExplosions){",
+            "on_destroyed_splash_liquid_each": "liquids.each(this::splashLiquid);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

@@ -1732,6 +1732,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return current_power + power_status * cons_power_capacity", source)
         self.assertIn("return current_power", source)
 
+    def test_port_game_exposes_source_building_on_destroyed_splash_liquid_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_on_destroyed_splash_liquid_state(has_liquids: bool, damage_explosions: bool, liquid_states: Array) -> Dictionary:", source)
+        self.assertIn("var should_splash := has_liquids and damage_explosions", source)
+        self.assertIn('"splash_liquids": should_splash', source)
+        self.assertIn('"liquid_count": liquid_states.size() if should_splash else 0', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
