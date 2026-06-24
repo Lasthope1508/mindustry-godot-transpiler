@@ -353,6 +353,42 @@ def verify_core_handle_item_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_building_dump_cursor_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    cursor_field = "transient int cdump;"
+    cursor_snapshot = "int dump = this.cdump;"
+    cursor_index = "Building other = proximity.get((i + dump) % proximity.size);"
+    increment_call = "incrementDump(proximity.size);"
+    increment_method = "public void incrementDump(int prox){"
+    increment_guard = "if(prox != 0){"
+    increment_modulo = "cdump = ((cdump + 1) % prox);"
+    missing = []
+    for snippet in [
+        cursor_field,
+        cursor_snapshot,
+        cursor_index,
+        increment_call,
+        increment_method,
+        increment_guard,
+        increment_modulo,
+    ]:
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": {
+            "cursor_field": cursor_field,
+            "cursor_snapshot": cursor_snapshot,
+            "cursor_index": cursor_index,
+            "increment_call": increment_call,
+            "increment_method": increment_method,
+            "increment_guard": increment_guard,
+            "increment_modulo": increment_modulo,
+        },
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

@@ -276,5 +276,20 @@ class SourceParityTests(unittest.TestCase):
             "core_super_handle": "super.handleItem(source, item);",
             "building_handle_add": "items.add(item, 1);",
         })
+
+    def test_building_dump_cursor_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_dump_cursor_source"))
+        report = source_parity.verify_building_dump_cursor_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "cursor_field": "transient int cdump;",
+            "cursor_snapshot": "int dump = this.cdump;",
+            "cursor_index": "Building other = proximity.get((i + dump) % proximity.size);",
+            "increment_call": "incrementDump(proximity.size);",
+            "increment_method": "public void incrementDump(int prox){",
+            "increment_guard": "if(prox != 0){",
+            "increment_modulo": "cdump = ((cdump + 1) % prox);",
+        })
 if __name__ == "__main__":
     unittest.main()

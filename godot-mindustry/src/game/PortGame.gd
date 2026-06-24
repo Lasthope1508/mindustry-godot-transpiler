@@ -79,6 +79,7 @@ var drill_time_drilled: Dictionary = {}
 var drill_last_speeds: Dictionary = {}
 var drill_items: Dictionary = {}
 var drill_dump_timer := 0.0
+var drill_dump_cursor := 0
 var produced_total := 0
 var item_progress := 0.0
 var transport_progress := 0.0
@@ -1161,6 +1162,18 @@ func source_core_handle_item(item_id: String) -> bool:
 	add_core_item(item_id, 1)
 	return true
 
+func source_increment_dump_cursor(current_dump: int, proximity_size: int) -> int:
+	if proximity_size != 0:
+		return (current_dump + 1) % proximity_size
+	return current_dump
+
+func set_drill_dump_cursor(value: int) -> void:
+	drill_dump_cursor = value
+
+func increment_drill_dump(proximity_size: int) -> int:
+	drill_dump_cursor = source_increment_dump_cursor(drill_dump_cursor, proximity_size)
+	return drill_dump_cursor
+
 func drill_item_count(item_id: String) -> int:
 	return int(drill_items.get(item_id, 0))
 
@@ -1185,10 +1198,13 @@ func source_dump_drill_item_to_core(item_id: String) -> bool:
 	if drill_item_count(item_id) <= 0:
 		return false
 	if not source_core_accept_item(item_id):
+		increment_drill_dump(1)
 		return false
 	if not source_core_handle_item(item_id):
+		increment_drill_dump(1)
 		return false
 	remove_drill_item(item_id, 1)
+	increment_drill_dump(1)
 	return true
 
 func requirements_text(block) -> String:
@@ -2251,6 +2267,7 @@ func get_runtime_summary() -> Dictionary:
 		"drill_items": drill_items.duplicate(),
 		"drill_items_total": drill_items_total(),
 		"drill_dump_timer": drill_dump_timer,
+		"drill_dump_cursor": drill_dump_cursor,
 		"conveyor_world_speed": conveyor_world_speed,
 		"conveyor_path_progress_rate": conveyor_path_progress_rate,
 		"wave_index": wave_index,

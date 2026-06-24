@@ -1153,6 +1153,22 @@ class PlayableManifestTests(unittest.TestCase):
         dump_start = source.index("func source_dump_drill_item_to_core(item_id: String) -> bool:")
         self.assertLess(source.index("source_core_handle_item(item_id)", dump_start), source.index("remove_drill_item(item_id, 1)", dump_start))
 
+    def test_port_game_tracks_source_dump_cursor(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var drill_dump_cursor := 0", source)
+        self.assertIn("func source_increment_dump_cursor(current_dump: int, proximity_size: int) -> int:", source)
+        self.assertIn("if proximity_size != 0:", source)
+        self.assertIn("return (current_dump + 1) % proximity_size", source)
+        self.assertIn("return current_dump", source)
+        self.assertIn("func set_drill_dump_cursor(value: int) -> void:", source)
+        self.assertIn("func increment_drill_dump(proximity_size: int) -> int:", source)
+        self.assertIn("drill_dump_cursor = source_increment_dump_cursor(drill_dump_cursor, proximity_size)", source)
+        dump_start = source.index("func source_dump_drill_item_to_core(item_id: String) -> bool:")
+        self.assertIn("increment_drill_dump(1)", source[dump_start:])
+        self.assertIn('"drill_dump_cursor": drill_dump_cursor', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
