@@ -338,6 +338,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_handle_accept_liquid_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_handle_accept_liquid_source"))
+        report = source_parity.verify_building_handle_accept_liquid_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "accept_method": "public boolean acceptLiquid(Building source, Liquid liquid){",
+            "accept_guard": "return block.hasLiquids && block.consumesLiquid(liquid);",
+            "handle_method": "public void handleLiquid(Building source, Liquid liquid, float amount){",
+            "handle_add": "liquids.add(liquid, amount);",
+        })
+        self.assertEqual(report["missing"], [])
+
 
 if __name__ == "__main__":
     unittest.main()

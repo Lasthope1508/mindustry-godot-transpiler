@@ -1204,6 +1204,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_accept_item_state(consumes_item: bool, item_count: int, maximum_accepted: int) -> bool:", source)
         self.assertIn("return consumes_item and item_count < maximum_accepted", source)
 
+    def test_port_game_exposes_source_building_handle_accept_liquid_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:", source)
+        self.assertIn("return current_amount + amount", source)
+        self.assertIn("func source_building_accept_liquid_state(has_liquids: bool, consumes_liquid: bool) -> bool:", source)
+        self.assertIn("return has_liquids and consumes_liquid", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

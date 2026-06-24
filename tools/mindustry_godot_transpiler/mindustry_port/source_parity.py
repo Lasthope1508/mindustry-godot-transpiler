@@ -482,6 +482,28 @@ def verify_building_handle_accept_item_source(upstream_root: Path) -> dict[str, 
         "missing": missing,
     }
 
+def verify_building_handle_accept_liquid_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    accept_method = "public boolean acceptLiquid(Building source, Liquid liquid){"
+    accept_guard = "return block.hasLiquids && block.consumesLiquid(liquid);"
+    handle_method = "public void handleLiquid(Building source, Liquid liquid, float amount){"
+    handle_add = "liquids.add(liquid, amount);"
+    missing = []
+    for snippet in [accept_method, accept_guard, handle_method, handle_add]:
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": {
+            "accept_method": accept_method,
+            "accept_guard": accept_guard,
+            "handle_method": handle_method,
+            "handle_add": handle_add,
+        },
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
