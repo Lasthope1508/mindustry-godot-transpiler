@@ -1195,6 +1195,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("if not source_move_forward_accept_state(has_front, same_team, source_core_accept_item(item_id)):", source)
         self.assertIn("return source_core_handle_item(item_id)", source)
 
+    def test_port_game_exposes_source_building_handle_accept_item_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_handle_item_count(current_count: int) -> int:", source)
+        self.assertIn("return current_count + 1", source)
+        self.assertIn("func source_building_accept_item_state(consumes_item: bool, item_count: int, maximum_accepted: int) -> bool:", source)
+        self.assertIn("return consumes_item and item_count < maximum_accepted", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

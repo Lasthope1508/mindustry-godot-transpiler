@@ -1163,6 +1163,12 @@ func source_core_handle_item(item_id: String) -> bool:
 	add_core_item(item_id, 1)
 	return true
 
+func source_building_handle_item_count(current_count: int) -> int:
+	return current_count + 1
+
+func source_building_accept_item_state(consumes_item: bool, item_count: int, maximum_accepted: int) -> bool:
+	return consumes_item and item_count < maximum_accepted
+
 func source_move_forward_accept_state(has_front: bool, same_team: bool, front_accepts: bool) -> bool:
 	return has_front and same_team and front_accepts
 

@@ -325,6 +325,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_handle_accept_item_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_handle_accept_item_source"))
+        report = source_parity.verify_building_handle_accept_item_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "handle_method": "public void handleItem(Building source, Item item){",
+            "handle_add": "items.add(item, 1);",
+            "accept_method": "public boolean acceptItem(Building source, Item item){",
+            "accept_guard": "return block.consumesItem(item) && items.get(item) < getMaximumAccepted(item);",
+        })
+        self.assertEqual(report["missing"], [])
+
 
 if __name__ == "__main__":
     unittest.main()
