@@ -1431,6 +1431,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_draw_cached_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:", source)
         self.assertIn("return source_building_draw_state(variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants)", source)
 
+    def test_port_game_exposes_source_building_recache_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_recache_state(headless: bool, building_cache_layer: Variant, tile_state: Variant) -> Dictionary:", source)
+        self.assertIn("if headless:", source)
+        self.assertIn('"recache": false', source)
+        self.assertIn('"recache": true', source)
+        self.assertIn('"building_cache_layer": building_cache_layer', source)
+        self.assertIn('"tile": tile_state', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
