@@ -1608,6 +1608,18 @@ func source_building_on_deconstructed_liquid_state(has_liquids_module: bool, cur
 		"per_cell": current_amount / float(source_block_size * source_block_size) * 2.0,
 	}
 
+func source_building_on_destroyed_item_explosion_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int) -> Dictionary:
+	var explosiveness := base_explosiveness
+	var flammability := 0.0
+	var power := 0.0
+	if has_items:
+		for item_state in item_states:
+			var item_amount: int = min(int(item_state.get("amount", 0)), item_cap)
+			explosiveness += float(item_state.get("explosiveness", 0.0)) * float(item_amount)
+			flammability += float(item_state.get("flammability", 0.0)) * float(item_amount)
+			power += float(item_state.get("charge", 0.0)) * pow(float(item_amount), 1.1) * 150.0
+	return {"explosiveness": explosiveness, "flammability": flammability, "power": power}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

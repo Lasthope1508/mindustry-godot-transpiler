@@ -1702,6 +1702,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("float(source_block_size * source_block_size) * 2.0", source)
         self.assertIn('"deposit_linked_tiles": true', source)
 
+    def test_port_game_exposes_source_building_on_destroyed_item_explosion_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_on_destroyed_item_explosion_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int) -> Dictionary:", source)
+        self.assertIn('var explosiveness := base_explosiveness', source)
+        self.assertIn('var flammability := 0.0', source)
+        self.assertIn('var power := 0.0', source)
+        self.assertIn('var item_amount: int = min(int(item_state.get("amount", 0)), item_cap)', source)
+        self.assertIn('explosiveness += float(item_state.get("explosiveness", 0.0)) * float(item_amount)', source)
+        self.assertIn('flammability += float(item_state.get("flammability", 0.0)) * float(item_amount)', source)
+        self.assertIn('power += float(item_state.get("charge", 0.0)) * pow(float(item_amount), 1.1) * 150.0', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -1585,6 +1585,52 @@ def verify_building_on_deconstructed_liquid_source(upstream_root: Path) -> dict[
         "missing": missing,
     }
 
+def verify_building_on_destroyed_item_explosion_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    mathf_path = Path(upstream_root).parent / "arc-upstream" / ARC_MATHF_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "on_destroyed_comment": "Called when the block is destroyed. The tile is still intact at this stage.",
+        "on_destroyed_method": "public void onDestroyed(){",
+        "on_destroyed_base_explosiveness": "float explosiveness = block.baseExplosiveness;",
+        "on_destroyed_flammability_zero": "float flammability = 0f;",
+        "on_destroyed_power_zero": "float power = 0f;",
+        "on_destroyed_has_items_guard": "if(block.hasItems){",
+        "on_destroyed_item_loop": "for(Item item : content.items()){",
+        "on_destroyed_item_cap": "int amount = Math.min(items.get(item), explosionItemCap());",
+        "on_destroyed_item_explosiveness": "explosiveness += item.explosiveness * amount;",
+        "on_destroyed_item_flammability": "flammability += item.flammability * amount;",
+        "on_destroyed_item_power": "power += item.charge * Mathf.pow(amount, 1.1f) * 150f;",
+        "mathf_pow_float": "public static float pow(float a, float b){",
+        "mathf_pow_float_body": "return (float)Math.pow(a, b);",
+    }
+    lookup = {
+        "on_destroyed_comment": source,
+        "on_destroyed_method": source,
+        "on_destroyed_base_explosiveness": source,
+        "on_destroyed_flammability_zero": source,
+        "on_destroyed_power_zero": source,
+        "on_destroyed_has_items_guard": source,
+        "on_destroyed_item_loop": source,
+        "on_destroyed_item_cap": source,
+        "on_destroyed_item_explosiveness": source,
+        "on_destroyed_item_flammability": source,
+        "on_destroyed_item_power": source,
+        "mathf_pow_float": mathf_source,
+        "mathf_pow_float_body": mathf_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in lookup[key]:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "arc_mathf_source": ARC_MATHF_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
