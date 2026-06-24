@@ -919,5 +919,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_tapped_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_tapped_source"))
+        report = source_parity.verify_building_tapped_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "tapped_comment": "Called when the block is tapped by the local player.",
+            "tapped_method": "public void tapped(){",
+            "tapped_empty_body": "public void tapped(){\n\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

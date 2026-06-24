@@ -1560,6 +1560,9 @@ func source_building_configured_copy_config_state(value_is_building: bool, copie
 		result["config"] = copied_config
 	return result
 
+func source_building_tapped_state(current_state: Variant) -> Variant:
+	return current_state
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

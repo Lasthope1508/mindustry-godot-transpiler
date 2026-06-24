@@ -1649,6 +1649,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('if value_is_building and copied_config != null and not copied_config_is_building:', source)
         self.assertIn('result["config"] = copied_config', source)
 
+    def test_port_game_exposes_source_building_tapped_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_tapped_state(current_state: Variant) -> Variant:", source)
+        self.assertIn("return current_state", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
