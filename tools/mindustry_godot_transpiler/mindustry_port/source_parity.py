@@ -1389,6 +1389,25 @@ def verify_building_configured_type_source(upstream_root: Path) -> dict[str, Any
         "missing": missing,
     }
 
+def verify_building_configured_last_access_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "configured_player_guard": "if(builder != null && builder.isPlayer()){",
+        "configured_update_last_access_call": "updateLastAccess(builder.getPlayer());",
+        "update_last_access_method": "public void updateLastAccess(Player player){",
+        "update_last_access_assignment": "lastAccessed = player.coloredName();",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

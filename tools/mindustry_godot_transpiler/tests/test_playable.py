@@ -1621,6 +1621,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('if value_kind == "Liquid":', source)
         self.assertIn('if value_kind == "UnitType":', source)
 
+    def test_port_game_exposes_source_building_configured_last_access_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_configured_last_access_state(builder_state: Dictionary, current_last_accessed: String) -> Dictionary:", source)
+        self.assertIn('"last_accessed": current_last_accessed', source)
+        self.assertIn('bool(builder_state.get("exists", false)) and bool(builder_state.get("is_player", false))', source)
+        self.assertIn('result["last_accessed"] = str(builder_state.get("colored_name", ""))', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

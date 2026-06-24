@@ -1543,6 +1543,13 @@ func source_building_configured_type_state(value_state: Dictionary) -> String:
 		type_name = "UnitType"
 	return type_name
 
+func source_building_configured_last_access_state(builder_state: Dictionary, current_last_accessed: String) -> Dictionary:
+	var result := {"last_accessed": current_last_accessed, "updated": false}
+	if bool(builder_state.get("exists", false)) and bool(builder_state.get("is_player", false)):
+		result["last_accessed"] = str(builder_state.get("colored_name", ""))
+		result["updated"] = true
+	return result
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

@@ -880,5 +880,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_configured_last_access_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_configured_last_access_source"))
+        report = source_parity.verify_building_configured_last_access_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "configured_player_guard": "if(builder != null && builder.isPlayer()){",
+            "configured_update_last_access_call": "updateLastAccess(builder.getPlayer());",
+            "update_last_access_method": "public void updateLastAccess(Player player){",
+            "update_last_access_assignment": "lastAccessed = player.coloredName();",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
