@@ -77,6 +77,7 @@ var drill_output_rate := 0.0
 var drill_warmups: Dictionary = {}
 var drill_time_drilled: Dictionary = {}
 var drill_last_speeds: Dictionary = {}
+var drill_items: Dictionary = {}
 var produced_total := 0
 var item_progress := 0.0
 var transport_progress := 0.0
@@ -1150,6 +1151,21 @@ func core_item_count(item_id: String) -> int:
 		core_items["copper"] = core_inventory
 	return int(core_items.get(item_id, 0))
 
+func drill_item_count(item_id: String) -> int:
+	return int(drill_items.get(item_id, 0))
+
+func drill_items_total() -> int:
+	var total := 0
+	for amount in drill_items.values():
+		total += int(amount)
+	return total
+
+func add_drill_item(item_id: String, amount: int) -> void:
+	drill_items[item_id] = drill_item_count(item_id) + amount
+
+func source_offload_to_inventory(item_id: String, amount: int) -> void:
+	add_drill_item(item_id, amount)
+
 func requirements_text(block) -> String:
 	var parts: Array[String] = []
 	for requirement in block.properties.get("requirements", []):
@@ -1205,9 +1221,9 @@ func simulate_factory(delta: float) -> void:
 		var drill_delay := source_drill_delay("mechanical-drill", drill_output_item_id)
 		var raw_progress := item_progress * drill_delay
 		raw_progress += source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_output_item_id, drill_ore_cell_count, delta, drill_warmup) * drill_delay
-		var output_batch := source_drill_output_batch(raw_progress, drill_delay, drill_ore_cell_count, 0, source_block_item_capacity("mechanical-drill"))
+		var output_batch := source_drill_output_batch(raw_progress, drill_delay, drill_ore_cell_count, drill_items_total(), source_block_item_capacity("mechanical-drill"))
 		item_progress = source_drill_progress_fraction(float(output_batch["progress"]), drill_delay, drill_ore_cell_count > 0)
-		add_core_item(drill_output_item_id, int(output_batch["amount"]))
+		source_offload_to_inventory(drill_output_item_id, int(output_batch["amount"]))
 		produced_total += int(output_batch["amount"])
 	else:
 		set_drill_last_speed_at_cell(drill_pos.x, drill_pos.y, 0.0)
@@ -2197,6 +2213,8 @@ func get_runtime_summary() -> Dictionary:
 		"drill_output_item_id": drill_output_item_id,
 		"drill_ore_cell_count": drill_ore_cell_count,
 		"drill_output_rate": drill_output_rate,
+		"drill_items": drill_items.duplicate(),
+		"drill_items_total": drill_items_total(),
 		"conveyor_world_speed": conveyor_world_speed,
 		"conveyor_path_progress_rate": conveyor_path_progress_rate,
 		"wave_index": wave_index,

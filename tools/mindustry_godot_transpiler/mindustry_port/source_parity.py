@@ -10,6 +10,8 @@ OVERDRIVE_PROJECTOR_SOURCE = "core/src/mindustry/world/blocks/defense/OverdriveP
 BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
 CONVEYOR_SOURCE = "core/src/mindustry/world/blocks/distribution/Conveyor.java"
 DRILL_SOURCE = "core/src/mindustry/world/blocks/production/Drill.java"
+BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
+ITEM_MODULE_SOURCE = "core/src/mindustry/world/modules/ItemModule.java"
 
 def verify_overdrive_projector_params_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     blocks_path = Path(upstream_root) / DUO_SOURCE
@@ -225,6 +227,38 @@ def verify_drill_progress_fraction_source(upstream_root: Path) -> dict[str, Any]
     return {
         "source": DRILL_SOURCE,
         "checked": {"progress_method": progress_method, "progress_fraction": progress_fraction},
+        "missing": missing,
+    }
+
+def verify_building_offload_inventory_fallback_source(upstream_root: Path) -> dict[str, Any]:
+    building_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    item_module_path = Path(upstream_root) / ITEM_MODULE_SOURCE
+    building_source = building_path.read_text(encoding="utf-8", errors="replace")
+    item_module_source = item_module_path.read_text(encoding="utf-8", errors="replace")
+    offload_method = "public void offload(Item item){"
+    offload_produced = "produced(item, 1);"
+    offload_neighbor = "other.handleItem(self(), item);"
+    offload_fallback = "handleItem(self(), item);"
+    item_module_add = "items[item] += amount;"
+    missing = []
+    for snippet, source in [
+        (offload_method, building_source),
+        (offload_produced, building_source),
+        (offload_neighbor, building_source),
+        (offload_fallback, building_source),
+        (item_module_add, item_module_source),
+    ]:
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": {
+            "offload_method": offload_method,
+            "offload_produced": offload_produced,
+            "offload_neighbor": offload_neighbor,
+            "offload_fallback": offload_fallback,
+            "item_module_add": item_module_add,
+        },
         "missing": missing,
     }
 

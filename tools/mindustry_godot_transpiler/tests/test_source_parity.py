@@ -222,5 +222,18 @@ class SourceParityTests(unittest.TestCase):
             "progress_method": "public float progress(){",
             "progress_fraction": "return dominantItem == null ? 0f : Mathf.clamp(progress / getDrillTime(dominantItem));",
         })
+
+    def test_building_offload_fallback_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_offload_inventory_fallback_source"))
+        report = source_parity.verify_building_offload_inventory_fallback_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "offload_method": "public void offload(Item item){",
+            "offload_produced": "produced(item, 1);",
+            "offload_neighbor": "other.handleItem(self(), item);",
+            "offload_fallback": "handleItem(self(), item);",
+            "item_module_add": "items[item] += amount;",
+        })
 if __name__ == "__main__":
     unittest.main()

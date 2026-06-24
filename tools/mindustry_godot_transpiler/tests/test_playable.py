@@ -219,7 +219,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("if item_id != \"\" and core_item_count(item_id) < amount:", source)
         self.assertIn("set_core_item_count(item_id, core_item_count(item_id) - amount)", source)
         self.assertNotIn('requirement.get("item", "") == "copper"', source)
-        self.assertIn('add_core_item(drill_output_item_id, int(output_batch["amount"]))', source)
+        self.assertIn('source_offload_to_inventory(drill_output_item_id, int(output_batch["amount"]))', source)
         self.assertIn('"core_items": core_items.duplicate()', source)
 
     def test_port_game_initializes_core_health_from_source_block(self):
@@ -1010,7 +1010,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('drill_output_rate = source_drill_output_rate("mechanical-drill", drill_output_item_id, drill_ore_cell_count)', source)
         self.assertIn("raw_progress += source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_output_item_id, drill_ore_cell_count, delta, drill_warmup) * drill_delay", source)
         self.assertNotIn("item_progress += delta * 0.45", source)
-        self.assertIn('add_core_item(drill_output_item_id, int(output_batch["amount"]))', source)
+        self.assertIn('source_offload_to_inventory(drill_output_item_id, int(output_batch["amount"]))', source)
         self.assertNotIn('add_core_item("copper", 1)', source)
         self.assertIn("func source_drill_output_rate(block_id: String, item_id: String, ore_count: int) -> float:", source)
         self.assertIn("func source_drill_delay(block_id: String, item_id: String) -> float:", source)
@@ -1090,9 +1090,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return {\"amount\": amount, \"progress\": fmod(progress, delay)}", source)
         self.assertIn("var raw_progress := item_progress * drill_delay", source)
         self.assertIn("raw_progress += source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_output_item_id, drill_ore_cell_count, delta, drill_warmup) * drill_delay", source)
-        self.assertIn("var output_batch := source_drill_output_batch(raw_progress, drill_delay, drill_ore_cell_count, 0, source_block_item_capacity(\"mechanical-drill\"))", source)
+        self.assertIn("var output_batch := source_drill_output_batch(raw_progress, drill_delay, drill_ore_cell_count, drill_items_total(), source_block_item_capacity(\"mechanical-drill\"))", source)
         self.assertIn("item_progress = source_drill_progress_fraction(float(output_batch[\"progress\"]), drill_delay, drill_ore_cell_count > 0)", source)
-        self.assertIn("add_core_item(drill_output_item_id, int(output_batch[\"amount\"]))", source)
+        self.assertIn("source_offload_to_inventory(drill_output_item_id, int(output_batch[\"amount\"]))", source)
+
+    def test_port_game_tracks_source_drill_internal_inventory(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var drill_items: Dictionary = {}", source)
+        self.assertIn("func drill_item_count(item_id: String) -> int:", source)
+        self.assertIn("return int(drill_items.get(item_id, 0))", source)
+        self.assertIn("func drill_items_total() -> int:", source)
+        self.assertIn("for amount in drill_items.values():", source)
+        self.assertIn("func add_drill_item(item_id: String, amount: int) -> void:", source)
+        self.assertIn("drill_items[item_id] = drill_item_count(item_id) + amount", source)
+        self.assertIn("func source_offload_to_inventory(item_id: String, amount: int) -> void:", source)
+        self.assertIn("add_drill_item(item_id, amount)", source)
+        self.assertIn('"drill_items": drill_items.duplicate()', source)
+        self.assertIn('"drill_items_total": drill_items_total()', source)
 
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
