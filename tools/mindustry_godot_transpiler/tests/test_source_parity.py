@@ -840,5 +840,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_unit_removed_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_unit_removed_source"))
+        report = source_parity.verify_building_unit_removed_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "unit_removed_comment": "Called when a unit that spawned at this tile is removed.",
+            "unit_removed_method": "public void unitRemoved(Unit unit){",
+            "unit_removed_empty_body": "public void unitRemoved(Unit unit){\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

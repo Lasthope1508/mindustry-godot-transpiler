@@ -1522,6 +1522,9 @@ func source_building_unit_on_state(unit_state: Variant) -> Variant:
 func source_building_unit_on_any_state(unit_state: Variant) -> Variant:
 	return unit_state
 
+func source_building_unit_removed_state(unit_state: Variant) -> Variant:
+	return unit_state
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
