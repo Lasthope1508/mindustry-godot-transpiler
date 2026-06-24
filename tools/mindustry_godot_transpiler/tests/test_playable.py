@@ -374,6 +374,18 @@ class PlayableManifestTests(unittest.TestCase):
             source.index("mend_projector_charges[key] = float(mend_projector_charges.get(key, 0.0)) + float(mend_projector_heat.get(key, 0.0)) * source_delta"),
         )
 
+    def test_port_game_lerps_mend_projector_smooth_efficiency_like_source(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var mend_projector_smooth_efficiency: Dictionary = {}", source)
+        self.assertIn("func mend_projector_smooth_efficiency_at_cell(x: int, y: int) -> float:", source)
+        self.assertIn("mend_projector_smooth_efficiency[key] = source_lerp_delta(float(mend_projector_smooth_efficiency.get(key, 0.0)), 1.0, 0.08, source_delta)", source)
+        self.assertLess(
+            source.index("mend_projector_smooth_efficiency[key] = source_lerp_delta"),
+            source.index("mend_projector_heat[key] = source_lerp_delta"),
+        )
+
     def test_port_game_enforces_source_core_item_capacity(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
