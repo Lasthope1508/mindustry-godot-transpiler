@@ -276,6 +276,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"selected_build_overdrive_real_boost": selected_build_overdrive_real_boost()', source)
         self.assertIn('"selected_build_overdrive_phase_real_boost": selected_build_overdrive_phase_real_boost()', source)
 
+    def test_port_game_exposes_overdrive_projector_range_state_like_source(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_overdrive_projector_range(overdrive_projector, phase_heat := 0.0) -> float:", source)
+        self.assertIn('var base_range := float(overdrive_projector.properties.get("range", 0.0))', source)
+        self.assertIn('var phase_range_boost := float(overdrive_projector.properties.get("phaseRangeBoost", 0.0))', source)
+        self.assertIn("return base_range + phase_heat * phase_range_boost", source)
+        self.assertIn("func source_overdrive_projector_select_state(overdrive_projector, phase_heat := 0.0) -> Dictionary:", source)
+        self.assertIn('"range": source_overdrive_projector_range(overdrive_projector, phase_heat)', source)
+        self.assertIn('"color": str(overdrive_projector.properties.get("baseColor", ""))', source)
+        self.assertIn("func source_overdrive_projector_place_state(overdrive_projector) -> Dictionary:", source)
+        self.assertIn("return source_overdrive_projector_select_state(overdrive_projector, 0.0)", source)
+        self.assertIn("func selected_build_overdrive_place_state() -> Dictionary:", source)
+        self.assertIn("return source_overdrive_projector_place_state(selected)", source)
+        self.assertIn("func selected_build_overdrive_phase_select_state() -> Dictionary:", source)
+        self.assertIn("return source_overdrive_projector_select_state(selected, 1.0)", source)
+        self.assertIn('"selected_build_overdrive_place_state": selected_build_overdrive_place_state()', source)
+        self.assertIn('"selected_build_overdrive_phase_select_state": selected_build_overdrive_phase_select_state()', source)
+
     def test_port_game_uses_source_mend_projector_repair_amount_formula(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -313,6 +313,24 @@ func selected_build_phase_range_boost() -> float:
 	var selected = build_palette[selected_build_index]
 	return float(selected.properties.get("phaseRangeBoost", 0.0))
 
+func source_overdrive_projector_range(overdrive_projector, phase_heat := 0.0) -> float:
+	if overdrive_projector == null:
+		return 0.0
+	var base_range := float(overdrive_projector.properties.get("range", 0.0))
+	var phase_range_boost := float(overdrive_projector.properties.get("phaseRangeBoost", 0.0))
+	return base_range + phase_heat * phase_range_boost
+
+func source_overdrive_projector_select_state(overdrive_projector, phase_heat := 0.0) -> Dictionary:
+	if overdrive_projector == null:
+		return {"range": 0.0, "color": ""}
+	return {
+		"range": source_overdrive_projector_range(overdrive_projector, phase_heat),
+		"color": str(overdrive_projector.properties.get("baseColor", "")),
+	}
+
+func source_overdrive_projector_place_state(overdrive_projector) -> Dictionary:
+	return source_overdrive_projector_select_state(overdrive_projector, 0.0)
+
 func source_overdrive_projector_real_boost(overdrive_projector, phase_heat := 0.0, efficiency := 1.0) -> float:
 	if overdrive_projector == null:
 		return 0.0
@@ -335,6 +353,22 @@ func selected_build_overdrive_phase_real_boost() -> float:
 	if selected.implementation != "OverdriveProjector":
 		return 0.0
 	return source_overdrive_projector_real_boost(selected, 1.0)
+
+func selected_build_overdrive_place_state() -> Dictionary:
+	if build_palette.is_empty():
+		return {"range": 0.0, "color": ""}
+	var selected = build_palette[selected_build_index]
+	if selected.implementation != "OverdriveProjector":
+		return {"range": 0.0, "color": ""}
+	return source_overdrive_projector_place_state(selected)
+
+func selected_build_overdrive_phase_select_state() -> Dictionary:
+	if build_palette.is_empty():
+		return {"range": 0.0, "color": ""}
+	var selected = build_palette[selected_build_index]
+	if selected.implementation != "OverdriveProjector":
+		return {"range": 0.0, "color": ""}
+	return source_overdrive_projector_select_state(selected, 1.0)
 
 func selected_build_booster_item() -> String:
 	if build_palette.is_empty():
@@ -1644,6 +1678,8 @@ func get_runtime_summary() -> Dictionary:
 		"selected_build_phase_range_boost": selected_build_phase_range_boost(),
 		"selected_build_overdrive_real_boost": selected_build_overdrive_real_boost(),
 		"selected_build_overdrive_phase_real_boost": selected_build_overdrive_phase_real_boost(),
+		"selected_build_overdrive_place_state": selected_build_overdrive_place_state(),
+		"selected_build_overdrive_phase_select_state": selected_build_overdrive_phase_select_state(),
 		"selected_build_booster_item": selected_build_booster_item(),
 		"selected_build_booster_use_time": selected_build_booster_use_time(),
 		"selected_build_repair_amount": selected_build_repair_amount(),
