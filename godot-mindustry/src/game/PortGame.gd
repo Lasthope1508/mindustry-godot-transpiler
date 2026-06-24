@@ -13,6 +13,7 @@ const SOURCE_DRILL_HARDNESS_MULTIPLIER := 50.0
 const SOURCE_CONVEYOR_TILE_SPEED_SCALE := 55.0
 const SOURCE_TICK_RATE := 60.0
 const SOURCE_RECOIL_POW := 1.8
+const SOURCE_PI2 := PI * 2.0
 
 var tile_size := 32
 var config: Dictionary = {}
@@ -331,6 +332,7 @@ func selected_build_place_state() -> Dictionary:
 	if selected.implementation != "MendProjector":
 		return {"range": 0.0, "color": ""}
 	return source_mend_projector_place_state(selected)
+
 func source_mend_projector_repair_amount(mend_projector, target_block, phase_heat := 0.0, efficiency := 1.0) -> float:
 	if mend_projector == null or target_block == null:
 		return 0.0
@@ -366,6 +368,26 @@ func source_mend_projector_select_state(mend_projector, phase_heat := 0.0) -> Di
 
 func source_mend_projector_place_state(mend_projector) -> Dictionary:
 	return source_mend_projector_select_state(mend_projector, 0.0)
+func source_mend_projector_draw_state(mend_projector, heat: float, phase_heat: float, source_time_ticks := 0.0, lod_l2 := true, lod_alpha2 := 1.0) -> Dictionary:
+	var f := 1.0 - fmod(source_time_ticks / 100.0, 1.0)
+	if mend_projector == null or not lod_l2:
+		return {"visible": false, "f": f, "base_color": "", "phase_color": "", "phase_heat": phase_heat, "top_alpha": 0.0, "square_alpha": 0.0, "square_stroke": 0.0, "square_radius": 0.0}
+	return {
+		"visible": true,
+		"f": f,
+		"base_color": str(mend_projector.properties.get("baseColor", "")),
+		"phase_color": str(mend_projector.properties.get("phaseColor", mend_projector.properties.get("baseColor", ""))),
+		"phase_heat": phase_heat,
+		"top_alpha": heat * source_absin(source_time_ticks, 50.0 / SOURCE_PI2, 1.0) * 0.5 * lod_alpha2,
+		"square_alpha": lod_alpha2,
+		"square_stroke": (2.0 * f + 0.2) * heat,
+		"square_radius": min(1.0 + (1.0 - f) * float(block_size(mend_projector)) * float(tile_size) / 2.0, float(block_size(mend_projector)) * float(tile_size) / 2.0),
+	}
+
+func source_absin(value: float, scl: float, mag: float) -> float:
+	if scl == 0.0:
+		return 0.0
+	return (sin(value / scl) * mag + mag) / 2.0
 func source_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:
 	return from_value + (to_value - from_value) * clamp(progress * source_delta, 0.0, 1.0)
 
@@ -542,6 +564,12 @@ func mend_projector_select_state_at_cell(x: int, y: int) -> Dictionary:
 	if block == null or block.implementation != "MendProjector":
 		return {"range": 0.0, "color": ""}
 	return source_mend_projector_select_state(block, mend_projector_phase_heat_at_cell(x, y))
+func mend_projector_draw_state_at_cell(x: int, y: int, source_time_ticks := 0.0) -> Dictionary:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	var block = block_from_sprite(sprite)
+	if block == null or block.implementation != "MendProjector":
+		return source_mend_projector_draw_state(null, 0.0, 0.0, source_time_ticks, false, 0.0)
+	return source_mend_projector_draw_state(block, mend_projector_heat_at_cell(x, y), mend_projector_phase_heat_at_cell(x, y), source_time_ticks)
 func block_size(block) -> int:
 	return max(1, int(block.properties.get("size", 1)))
 

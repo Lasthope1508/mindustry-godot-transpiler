@@ -422,6 +422,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return source_mend_projector_place_state(selected)", source)
         self.assertIn('"selected_build_place_state": selected_build_place_state()', source)
 
+    def test_port_game_exposes_mend_projector_draw_state_like_source_draw(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("const SOURCE_PI2 := PI * 2.0", source)
+        self.assertIn("func source_absin(value: float, scl: float, mag: float) -> float:", source)
+        self.assertIn("return (sin(value / scl) * mag + mag) / 2.0", source)
+        self.assertIn("func source_mend_projector_draw_state(mend_projector, heat: float, phase_heat: float, source_time_ticks := 0.0, lod_l2 := true, lod_alpha2 := 1.0) -> Dictionary:", source)
+        self.assertIn("var f := 1.0 - fmod(source_time_ticks / 100.0, 1.0)", source)
+        self.assertIn("if mend_projector == null or not lod_l2:", source)
+        self.assertIn('"visible": false', source)
+        self.assertIn('"top_alpha": heat * source_absin(source_time_ticks, 50.0 / SOURCE_PI2, 1.0) * 0.5 * lod_alpha2', source)
+        self.assertIn('"square_alpha": lod_alpha2', source)
+        self.assertIn('"square_stroke": (2.0 * f + 0.2) * heat', source)
+        self.assertIn('"square_radius": min(1.0 + (1.0 - f) * float(block_size(mend_projector)) * float(tile_size) / 2.0, float(block_size(mend_projector)) * float(tile_size) / 2.0)', source)
+        self.assertIn("func mend_projector_draw_state_at_cell(x: int, y: int, source_time_ticks := 0.0) -> Dictionary:", source)
+        self.assertIn("return source_mend_projector_draw_state(block, mend_projector_heat_at_cell(x, y), mend_projector_phase_heat_at_cell(x, y), source_time_ticks)", source)
     def test_port_game_enforces_source_core_item_capacity(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
