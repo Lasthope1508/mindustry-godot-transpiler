@@ -1683,6 +1683,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_explosion_item_cap_state(item_capacity: int) -> int:", source)
         self.assertIn("return item_capacity", source)
 
+    def test_port_game_exposes_source_building_splash_liquid_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_splash_liquid_state(amount: float, source_block_size: int, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn("var splash := clampf(amount / 4.0, 0.0, 10.0)", source)
+        self.assertIn("var deposit_count := int(ceil(clampf(amount / 5.0, 0.0, 30.0)))", source)
+        self.assertIn("delays.append(float(i) / 2.0)", source)
+        self.assertIn('"random_range": float(source_block_size) * source_tilesize / 2.0', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

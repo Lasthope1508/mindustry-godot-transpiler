@@ -1585,6 +1585,20 @@ func source_building_after_destroyed_state(has_destroy_bullet: bool, destroy_bul
 func source_building_explosion_item_cap_state(item_capacity: int) -> int:
 	return item_capacity
 
+func source_building_splash_liquid_state(amount: float, source_block_size: int, source_tilesize: float) -> Dictionary:
+	var splash := clampf(amount / 4.0, 0.0, 10.0)
+	var deposit_count := int(ceil(clampf(amount / 5.0, 0.0, 30.0)))
+	var delays: Array[float] = []
+	for i in deposit_count:
+		delays.append(float(i) / 2.0)
+	return {
+		"splash": splash,
+		"deposit_count": deposit_count,
+		"delays": delays,
+		"random_range": float(source_block_size) * source_tilesize / 2.0,
+		"deposit_if_tile_exists": true,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

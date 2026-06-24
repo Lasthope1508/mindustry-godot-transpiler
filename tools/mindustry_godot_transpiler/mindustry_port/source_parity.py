@@ -1524,6 +1524,46 @@ def verify_building_explosion_item_cap_source(upstream_root: Path) -> dict[str, 
         "missing": missing,
     }
 
+def verify_building_splash_liquid_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    mathf_path = Path(upstream_root).parent / "arc-upstream" / ARC_MATHF_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "splash_liquid_method": "public void splashLiquid(Liquid liquid, float amount){",
+        "splash_liquid_splash": "float splash = Mathf.clamp(amount / 4f, 0f, 10f);",
+        "splash_liquid_loop": "for(int i = 0; i < Mathf.clamp(amount / 5, 0, 30); i++){",
+        "splash_liquid_delay": "Time.run(i / 2f, () -> {",
+        "splash_liquid_tile_world": "Tile other = world.tileWorld(x + Mathf.range(block.size * tilesize / 2), y + Mathf.range(block.size * tilesize / 2));",
+        "splash_liquid_deposit_guard": "if(other != null){",
+        "splash_liquid_deposit": "Puddles.deposit(other, liquid, splash);",
+        "mathf_clamp_float": "return Math.max(Math.min(value, max), min);",
+        "mathf_range_float": "public static float range(float range){",
+        "mathf_range_float_body": "return random(-range, range);",
+    }
+    lookup = {
+        "splash_liquid_method": source,
+        "splash_liquid_splash": source,
+        "splash_liquid_loop": source,
+        "splash_liquid_delay": source,
+        "splash_liquid_tile_world": source,
+        "splash_liquid_deposit_guard": source,
+        "splash_liquid_deposit": source,
+        "mathf_clamp_float": mathf_source,
+        "mathf_range_float": mathf_source,
+        "mathf_range_float_body": mathf_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in lookup[key]:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "arc_mathf_source": ARC_MATHF_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

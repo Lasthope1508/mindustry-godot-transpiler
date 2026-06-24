@@ -961,5 +961,24 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_splash_liquid_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_splash_liquid_source"))
+        report = source_parity.verify_building_splash_liquid_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "splash_liquid_method": "public void splashLiquid(Liquid liquid, float amount){",
+            "splash_liquid_splash": "float splash = Mathf.clamp(amount / 4f, 0f, 10f);",
+            "splash_liquid_loop": "for(int i = 0; i < Mathf.clamp(amount / 5, 0, 30); i++){",
+            "splash_liquid_delay": "Time.run(i / 2f, () -> {",
+            "splash_liquid_tile_world": "Tile other = world.tileWorld(x + Mathf.range(block.size * tilesize / 2), y + Mathf.range(block.size * tilesize / 2));",
+            "splash_liquid_deposit_guard": "if(other != null){",
+            "splash_liquid_deposit": "Puddles.deposit(other, liquid, splash);",
+            "mathf_clamp_float": "return Math.max(Math.min(value, max), min);",
+            "mathf_range_float": "public static float range(float range){",
+            "mathf_range_float_body": "return random(-range, range);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
