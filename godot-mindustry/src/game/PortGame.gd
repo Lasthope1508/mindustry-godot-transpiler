@@ -1550,6 +1550,9 @@ func source_building_configured_last_access_state(builder_state: Dictionary, cur
 		result["updated"] = true
 	return result
 
+func source_building_configured_direct_handler_state(has_configuration: bool, configured_type: String, value_state: Variant) -> Dictionary:
+	return {"handled": has_configuration, "handler_type": configured_type, "value": value_state}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

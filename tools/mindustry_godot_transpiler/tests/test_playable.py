@@ -1630,6 +1630,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('bool(builder_state.get("exists", false)) and bool(builder_state.get("is_player", false))', source)
         self.assertIn('result["last_accessed"] = str(builder_state.get("colored_name", ""))', source)
 
+    def test_port_game_exposes_source_building_configured_direct_handler_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_configured_direct_handler_state(has_configuration: bool, configured_type: String, value_state: Variant) -> Dictionary:", source)
+        self.assertIn('"handled": has_configuration', source)
+        self.assertIn('"handler_type": configured_type', source)
+        self.assertIn('"value": value_state', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

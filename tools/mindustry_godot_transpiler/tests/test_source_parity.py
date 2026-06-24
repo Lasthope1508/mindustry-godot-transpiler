@@ -893,5 +893,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_configured_direct_handler_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_configured_direct_handler_source"))
+        report = source_parity.verify_building_configured_direct_handler_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "configured_handler_guard": "if(block.configurations.containsKey(type)){",
+            "configured_handler_call": "block.configurations.get(type).get(this, value);",
+            "configured_building_copy_branch": "}else if(value instanceof Building build){",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
