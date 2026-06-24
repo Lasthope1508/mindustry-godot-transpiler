@@ -1751,6 +1751,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"radius": source_tilesize * float(source_block_size) / 2.0', source)
         self.assertIn('"damage_explosions": damage_explosions', source)
 
+    def test_port_game_exposes_source_building_on_destroyed_rubble_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_on_destroyed_rubble_state(source_x: float, source_y: float, create_rubble: bool, floor_solid: bool, floor_is_liquid: bool, source_block_size: int) -> Dictionary:", source)
+        self.assertIn("var should_create_rubble := create_rubble and not floor_solid and not floor_is_liquid", source)
+        self.assertIn('"create_rubble": should_create_rubble', source)
+        self.assertIn('"size": source_block_size if should_create_rubble else 0', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

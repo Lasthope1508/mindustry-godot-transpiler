@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 154 |
-| Done | 154 |
+| Total tracked work items | 155 |
+| Done | 155 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -30,6 +30,7 @@
 - [x] N150: Source BuildingComp onDestroyed buffered power contribution state.
 - [x] N151: Source BuildingComp onDestroyed splashLiquid call gate state.
 - [x] N152: Source BuildingComp onDestroyed dynamicExplosion call argument state.
+- [x] N153: Source BuildingComp onDestroyed rubble effect gate state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -200,6 +201,8 @@ Current cube: `Building lifecycle / destroy-deconstruct`. Current source path st
 | N151 | Apply source BuildingComp onDestroyed splashLiquid call gate state | The next `BuildingComp.onDestroyed()` slice calls `splashLiquid` only inside `if(block.hasLiquids && state.rules.damageExplosions)`: `liquids.each(this::splashLiquid);`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` now exposes `source_building_on_destroyed_splash_liquid_state()` that records whether the existing source `splashLiquid()` schedule should run and how many liquid entries are passed through, without inventing random tile positions; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `231` tests passing; MCP editor bridge connected, MCP LSP diagnostics timed out during `initialize`, and MCP runtime proof reports no-liquids and damage-explosions-off states skip splash with count `0`, while enabled state passes `2` liquids through; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 | N152 | Apply source BuildingComp onDestroyed dynamicExplosion call argument state | The next `BuildingComp.onDestroyed()` slice uses the upstream comment `//cap explosiveness so fluid tanks/vaults don't instakill units` and calls `Damage.dynamicExplosion(x, y, flammability * block.flammabilityScale, explosiveness * 3.5f * block.explosivenessScale, power, tilesize * block.size / 2f, state.rules.damageExplosions, block.destroyEffect, block.baseShake);`; `source_parity.py` checks that exact comment and call line, and `PortGame.gd` now exposes `source_building_on_destroyed_dynamic_explosion_call_state()` for those call arguments only, without claiming the body of `Damage.dynamicExplosion`; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `233` tests passing; MCP editor bridge connected, MCP LSP diagnostics timed out during `initialize`, and MCP runtime proof reports `{x=10,y=20,flammability=6.125,explosiveness=21.28,power=1230.06330646466,radius=12,damage_explosions=true,effect="blockExplosion",shake=2.75}` from source expressions; debug output returns `errors: []`, and stop returns `finalErrors: []` |
+
+| N153 | Apply source BuildingComp onDestroyed rubble effect gate state | The next `BuildingComp.onDestroyed()` slice creates rubble only inside `if(block.createRubble && !floor().solid && !floor().isLiquid)`, then calls `Effect.rubble(x, y, block.size);`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` now exposes `source_building_on_destroyed_rubble_state()` for that effect call gate only; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `235` tests passing; MCP editor bridge connected, MCP LSP diagnostics timed out during `initialize`, and MCP runtime proof reports enabled non-solid non-liquid floor creates rubble `{create_rubble=true,size=3,x=10,y=20}`, while disabled, solid floor, and liquid floor states skip rubble with `size=0`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 ## Not Done
 

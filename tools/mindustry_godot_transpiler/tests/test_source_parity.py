@@ -1062,5 +1062,16 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_on_destroyed_rubble_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_on_destroyed_rubble_source"))
+        report = source_parity.verify_building_on_destroyed_rubble_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "on_destroyed_rubble_guard": "if(block.createRubble && !floor().solid && !floor().isLiquid){",
+            "on_destroyed_rubble_effect": "Effect.rubble(x, y, block.size);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

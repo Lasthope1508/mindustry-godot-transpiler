@@ -1655,6 +1655,15 @@ func source_building_on_destroyed_dynamic_explosion_call_state(source_x: float, 
 		"shake": base_shake,
 	}
 
+func source_building_on_destroyed_rubble_state(source_x: float, source_y: float, create_rubble: bool, floor_solid: bool, floor_is_liquid: bool, source_block_size: int) -> Dictionary:
+	var should_create_rubble := create_rubble and not floor_solid and not floor_is_liquid
+	return {
+		"create_rubble": should_create_rubble,
+		"x": source_x,
+		"y": source_y,
+		"size": source_block_size if should_create_rubble else 0,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
