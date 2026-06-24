@@ -14,6 +14,8 @@ BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
 BLOCK_SOURCE = "core/src/mindustry/world/Block.java"
 CORE_BLOCK_SOURCE = "core/src/mindustry/world/blocks/storage/CoreBlock.java"
 ITEM_MODULE_SOURCE = "core/src/mindustry/world/modules/ItemModule.java"
+ARC_MATHF_SOURCE = "arc-core/src/arc/math/Mathf.java"
+ARC_RAND_SOURCE = "arc-core/src/arc/math/Rand.java"
 
 def verify_overdrive_projector_params_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     blocks_path = Path(upstream_root) / DUO_SOURCE
@@ -902,6 +904,69 @@ def verify_building_drawrot_source(upstream_root: Path) -> dict[str, Any]:
             missing.append(snippet)
     return {
         "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_building_draw_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    mathf_path = Path(arc_root) / ARC_MATHF_SOURCE
+    rand_path = Path(arc_root) / ARC_RAND_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    rand_source = rand_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "draw_method": "public void draw(){",
+        "draw_region_guard": "if(block.variants == 0 || block.variantRegions == null){",
+        "draw_region_rect": "Draw.rect(block.region, x, y, drawrot());",
+        "draw_variant_rect": "Draw.rect(block.variantRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0, block.variantRegions.length - 1))], x, y, drawrot());",
+        "draw_team_top": "drawTeamTop();",
+        "mathf_random_seed_int": "public static int randomSeed(long seed, int min, int max){",
+        "mathf_random_seed_set_seed": "seedr.setSeed(seed);",
+        "mathf_random_seed_power_two_skip": "if(isPowerOfTwo(max)){",
+        "mathf_random_seed_return": "return seedr.nextInt(max - min + 1) + min;",
+        "mathf_is_power_of_two": "return value != 0 && (value & value - 1) == 0;",
+        "rand_murmur_method": "private static long murmurHash3(long x){",
+        "rand_murmur_const1": "x *= 0xff51afd7ed558ccdL;",
+        "rand_murmur_const2": "x *= 0xc4ceb9fe1a85ec53L;",
+        "rand_next_long_method": "public long nextLong(){",
+        "rand_next_long_shift": "s1 ^= s1 << 23;",
+        "rand_next_long_return": "return (this.seed1 = (s1 ^ s0 ^ (s1 >>> 17) ^ (s0 >>> 26))) + s0;",
+        "rand_next_int_bound": "return (int)nextLong(n);",
+        "rand_next_long_bound_bits": "final long bits = nextLong() >>> 1;",
+        "rand_next_long_bound_accept": "if(bits - value + (n - 1) >= 0) return value;",
+        "rand_set_seed": "long seed0 = murmurHash3(seed == 0 ? Long.MIN_VALUE : seed);",
+    }
+    source_lookup = {
+        "draw_method": source,
+        "draw_region_guard": source,
+        "draw_region_rect": source,
+        "draw_variant_rect": source,
+        "draw_team_top": source,
+        "mathf_random_seed_int": mathf_source,
+        "mathf_random_seed_set_seed": mathf_source,
+        "mathf_random_seed_power_two_skip": mathf_source,
+        "mathf_random_seed_return": mathf_source,
+        "mathf_is_power_of_two": mathf_source,
+        "rand_murmur_method": rand_source,
+        "rand_murmur_const1": rand_source,
+        "rand_murmur_const2": rand_source,
+        "rand_next_long_method": rand_source,
+        "rand_next_long_shift": rand_source,
+        "rand_next_long_return": rand_source,
+        "rand_next_int_bound": rand_source,
+        "rand_next_long_bound_bits": rand_source,
+        "rand_next_long_bound_accept": rand_source,
+        "rand_set_seed": rand_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_lookup[key]:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "arc_mathf_source": ARC_MATHF_SOURCE,
+        "arc_rand_source": ARC_RAND_SOURCE,
         "checked": checked,
         "missing": missing,
     }

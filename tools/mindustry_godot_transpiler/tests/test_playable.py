@@ -1397,6 +1397,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_drawrot_state(block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> float:", source)
         self.assertIn("return float(rotation_quadrants * 90) if block_rotate and block_rotate_draw else 0.0", source)
 
+    def test_port_game_exposes_source_arc_random_seed_int(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("const SOURCE_INT64_MIN := -9223372036854775807 - 1", source)
+        self.assertIn("const SOURCE_RAND_MURMUR_CONST1 := -49064778989728563", source)
+        self.assertIn("const SOURCE_RAND_MURMUR_CONST2 := -4265267296055464877", source)
+        self.assertIn("func source_arc_is_power_of_two(value: int) -> bool:", source)
+        self.assertIn("return value != 0 and (value & (value - 1)) == 0", source)
+        self.assertIn("func source_arc_random_seed_int(source_seed: int, min_value: int, max_value: int) -> int:", source)
+        self.assertIn("if source_arc_is_power_of_two(max_value):", source)
+        self.assertIn("_source_arc_rand_next_int_unbounded(rand_state)", source)
+        self.assertIn("return _source_arc_rand_next_int_bound(rand_state, max_value - min_value + 1) + min_value", source)
+
+    def test_port_game_exposes_source_building_draw_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_draw_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:", source)
+        self.assertIn("var draw_rotation := source_building_drawrot_state(block_rotate, block_rotate_draw, rotation_quadrants)", source)
+        self.assertIn("if variants == 0 or not has_variant_regions:", source)
+        self.assertIn('"region_kind": "region"', source)
+        self.assertIn("var max_variant_index: int = max(0, variant_region_count - 1)", source)
+        self.assertIn("var variant_index: int = source_arc_random_seed_int(tile_pos, 0, max_variant_index)", source)
+        self.assertIn('"region_kind": "variant_region"', source)
+        self.assertIn('"draw_team_top": true', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

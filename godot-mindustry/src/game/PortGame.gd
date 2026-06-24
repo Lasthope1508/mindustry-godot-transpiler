@@ -16,6 +16,14 @@ const SOURCE_CONVEYOR_TILE_SPEED_SCALE := 55.0
 const SOURCE_TICK_RATE := 60.0
 const SOURCE_RECOIL_POW := 1.8
 const SOURCE_PI2 := PI * 2.0
+const SOURCE_INT64_MIN := -9223372036854775807 - 1
+const SOURCE_INT64_MAX := 9223372036854775807
+const SOURCE_RAND_MURMUR_CONST1 := -49064778989728563
+const SOURCE_RAND_MURMUR_CONST2 := -4265267296055464877
+const SOURCE_UINT16_MASK := 65535
+const SOURCE_RAND_MURMUR_CONST1_WORDS := [0x8ccd, 0xed55, 0xafd7, 0xff51]
+const SOURCE_RAND_MURMUR_CONST2_WORDS := [0xec53, 0x1a85, 0xb9fe, 0xc4ce]
+const SOURCE_LONG_MIN_WORDS := [0, 0, 0, 0x8000]
 
 var tile_size := 32
 var config: Dictionary = {}
@@ -1280,6 +1288,144 @@ func source_building_draw_disabled_state(source_x: float, source_y: float) -> Di
 
 func source_building_drawrot_state(block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> float:
 	return float(rotation_quadrants * 90) if block_rotate and block_rotate_draw else 0.0
+
+func source_arc_is_power_of_two(value: int) -> bool:
+	return value != 0 and (value & (value - 1)) == 0
+
+func _source_words_from_nonnegative(value: int) -> Array:
+	var remaining: int = value
+	var words: Array = []
+	for _index in 4:
+		words.append(remaining & SOURCE_UINT16_MASK)
+		remaining = remaining >> 16
+	return words
+
+func _source_words_clone(words: Array) -> Array:
+	return [int(words[0]), int(words[1]), int(words[2]), int(words[3])]
+
+func _source_words_xor(left: Array, right: Array) -> Array:
+	return [int(left[0]) ^ int(right[0]), int(left[1]) ^ int(right[1]), int(left[2]) ^ int(right[2]), int(left[3]) ^ int(right[3])]
+
+func _source_words_add(left: Array, right: Array) -> Array:
+	var result: Array = [0, 0, 0, 0]
+	var carry := 0
+	for index in 4:
+		var sum_value: int = int(left[index]) + int(right[index]) + carry
+		result[index] = sum_value & SOURCE_UINT16_MASK
+		carry = sum_value >> 16
+	return result
+
+func _source_words_shift_left(words: Array, bits: int) -> Array:
+	var result: Array = [0, 0, 0, 0]
+	var word_shift: int = bits >> 4
+	var bit_shift: int = bits % 16
+	for index in 4:
+		var source_index: int = index - word_shift
+		var value := 0
+		if source_index >= 0:
+			value = int(words[source_index]) << bit_shift
+			if bit_shift > 0 and source_index > 0:
+				value |= int(words[source_index - 1]) >> (16 - bit_shift)
+		result[index] = value & SOURCE_UINT16_MASK
+	return result
+
+func _source_words_unsigned_shift_right(words: Array, bits: int) -> Array:
+	var result: Array = [0, 0, 0, 0]
+	var word_shift: int = bits >> 4
+	var bit_shift: int = bits % 16
+	for index in 4:
+		var source_index: int = index + word_shift
+		var value := 0
+		if source_index < 4:
+			value = int(words[source_index]) >> bit_shift
+			if bit_shift > 0 and source_index < 3:
+				value |= int(words[source_index + 1]) << (16 - bit_shift)
+		result[index] = value & SOURCE_UINT16_MASK
+	return result
+
+func _source_words_mul(left: Array, right: Array) -> Array:
+	var accum: Array = [0, 0, 0, 0]
+	for left_index in 4:
+		for right_index in 4:
+			var target_index: int = left_index + right_index
+			if target_index < 4:
+				accum[target_index] = int(accum[target_index]) + int(left[left_index]) * int(right[right_index])
+	var result: Array = [0, 0, 0, 0]
+	var carry := 0
+	for index in 4:
+		var total: int = int(accum[index]) + carry
+		result[index] = total & SOURCE_UINT16_MASK
+		carry = total >> 16
+	return result
+
+func _source_words_to_nonnegative(words: Array) -> int:
+	return int(words[0]) + (int(words[1]) << 16) + (int(words[2]) << 32) + (int(words[3]) << 48)
+
+func _source_words_to_signed(words: Array) -> int:
+	if (int(words[3]) & 0x8000) == 0:
+		return _source_words_to_nonnegative(words)
+	var inverted: Array = [int(words[0]) ^ SOURCE_UINT16_MASK, int(words[1]) ^ SOURCE_UINT16_MASK, int(words[2]) ^ SOURCE_UINT16_MASK, int(words[3]) ^ SOURCE_UINT16_MASK]
+	var magnitude_words: Array = _source_words_add(inverted, [1, 0, 0, 0])
+	if int(magnitude_words[3]) == 0x8000 and int(magnitude_words[2]) == 0 and int(magnitude_words[1]) == 0 and int(magnitude_words[0]) == 0:
+		return SOURCE_INT64_MIN
+	return -_source_words_to_nonnegative(magnitude_words)
+
+func _source_arc_rand_murmur_hash3_words(words: Array) -> Array:
+	var x: Array = _source_words_clone(words)
+	x = _source_words_xor(x, _source_words_unsigned_shift_right(x, 33))
+	x = _source_words_mul(x, SOURCE_RAND_MURMUR_CONST1_WORDS)
+	x = _source_words_xor(x, _source_words_unsigned_shift_right(x, 33))
+	x = _source_words_mul(x, SOURCE_RAND_MURMUR_CONST2_WORDS)
+	x = _source_words_xor(x, _source_words_unsigned_shift_right(x, 33))
+	return x
+
+func _source_arc_rand_murmur_hash3(value: int) -> int:
+	return _source_words_to_signed(_source_arc_rand_murmur_hash3_words(_source_words_from_nonnegative(value)))
+
+func _source_arc_rand_set_seed(source_seed: int) -> Dictionary:
+	var seed_words: Array = SOURCE_LONG_MIN_WORDS.duplicate() if source_seed == 0 else _source_words_from_nonnegative(source_seed)
+	var seed0: Array = _source_arc_rand_murmur_hash3_words(seed_words)
+	return {"seed0": seed0, "seed1": _source_arc_rand_murmur_hash3_words(seed0)}
+
+func _source_arc_rand_next_long_words(rand_state: Dictionary) -> Array:
+	var s1: Array = (rand_state["seed0"] as Array).duplicate()
+	var s0: Array = (rand_state["seed1"] as Array).duplicate()
+	rand_state["seed0"] = s0
+	s1 = _source_words_xor(s1, _source_words_shift_left(s1, 23))
+	var seed1: Array = _source_words_xor(_source_words_xor(_source_words_xor(s1, s0), _source_words_unsigned_shift_right(s1, 17)), _source_words_unsigned_shift_right(s0, 26))
+	rand_state["seed1"] = seed1
+	return _source_words_add(seed1, s0)
+
+func _source_arc_rand_next_int_unbounded(rand_state: Dictionary) -> int:
+	return _source_words_to_signed(_source_arc_rand_next_long_words(rand_state))
+
+func _source_arc_rand_next_long_bound(rand_state: Dictionary, bound: int) -> int:
+	if bound <= 0:
+		push_error("Rand.nextLong bound must be positive")
+		return 0
+	while true:
+		var bits: int = _source_words_to_nonnegative(_source_words_unsigned_shift_right(_source_arc_rand_next_long_words(rand_state), 1))
+		var value: int = bits % bound
+		if bits - value + (bound - 1) >= 0:
+			return value
+	return 0
+
+func _source_arc_rand_next_int_bound(rand_state: Dictionary, bound: int) -> int:
+	return _source_arc_rand_next_long_bound(rand_state, bound)
+
+func source_arc_random_seed_int(source_seed: int, min_value: int, max_value: int) -> int:
+	var rand_state := _source_arc_rand_set_seed(source_seed)
+	if source_arc_is_power_of_two(max_value):
+		_source_arc_rand_next_int_unbounded(rand_state)
+	return _source_arc_rand_next_int_bound(rand_state, max_value - min_value + 1) + min_value
+
+func source_building_draw_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:
+	var draw_rotation := source_building_drawrot_state(block_rotate, block_rotate_draw, rotation_quadrants)
+	if variants == 0 or not has_variant_regions:
+		return {"visible": true, "region_kind": "region", "variant_index": -1, "x": source_x, "y": source_y, "rotation_degrees": draw_rotation, "draw_team_top": true}
+	var max_variant_index: int = max(0, variant_region_count - 1)
+	var variant_index: int = source_arc_random_seed_int(tile_pos, 0, max_variant_index)
+	return {"visible": true, "region_kind": "variant_region", "variant_index": variant_index, "x": source_x, "y": source_y, "rotation_degrees": draw_rotation, "draw_team_top": true}
 
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
