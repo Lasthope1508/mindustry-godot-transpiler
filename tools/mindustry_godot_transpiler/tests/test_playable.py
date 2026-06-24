@@ -1760,6 +1760,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"create_rubble": should_create_rubble', source)
         self.assertIn('"size": source_block_size if should_create_rubble else 0', source)
 
+    def test_port_game_exposes_source_building_on_destroyed_base_sound_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_on_destroyed_base_sound_state(headless: bool, destroy_sound: String, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:", source)
+        self.assertIn("var should_play_sound := not headless", source)
+        self.assertIn('"play_destroy_sound": should_play_sound', source)
+        self.assertIn('"pitch_min": destroy_pitch_min', source)
+        self.assertIn('"pitch_max": destroy_pitch_max', source)
+        self.assertIn('"volume": destroy_sound_volume', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

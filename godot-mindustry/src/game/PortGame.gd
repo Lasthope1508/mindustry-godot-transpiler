@@ -1664,6 +1664,16 @@ func source_building_on_destroyed_rubble_state(source_x: float, source_y: float,
 		"size": source_block_size if should_create_rubble else 0,
 	}
 
+func source_building_on_destroyed_base_sound_state(headless: bool, destroy_sound: String, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:
+	var should_play_sound := not headless
+	return {
+		"play_destroy_sound": should_play_sound,
+		"sound": destroy_sound if should_play_sound else "",
+		"pitch_min": destroy_pitch_min,
+		"pitch_max": destroy_pitch_max,
+		"volume": destroy_sound_volume,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
