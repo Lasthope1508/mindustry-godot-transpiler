@@ -1507,6 +1507,9 @@ func source_building_on_repaired_state(has_fog_radius: bool) -> Dictionary:
 func source_building_is_commandable_state(block_commandable: bool) -> bool:
 	return block_commandable
 
+func source_building_is_payload_state(tile_is_empty_tile: bool) -> bool:
+	return tile_is_empty_tile
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
