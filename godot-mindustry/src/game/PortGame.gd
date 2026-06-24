@@ -341,6 +341,14 @@ func source_mend_projector_light_state(mend_projector, smooth_efficiency: float)
 		"alpha": 0.7 * smooth_efficiency,
 	}
 
+func source_mend_projector_progress(mend_projector, charge: float) -> float:
+	if mend_projector == null:
+		return 0.0
+	var reload := float(mend_projector.properties.get("reload", 0.0))
+	if reload <= 0.0:
+		return 0.0
+	return clamp(charge / reload, 0.0, 1.0)
+
 func source_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:
 	return from_value + (to_value - from_value) * clamp(progress * source_delta, 0.0, 1.0)
 
@@ -503,6 +511,13 @@ func mend_projector_charge_at_cell(x: int, y: int) -> float:
 		return 0.0
 	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 	return float(mend_projector_charges.get(cell_key(origin_cell), 0.0))
+
+func mend_projector_progress_at_cell(x: int, y: int) -> float:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	var block = block_from_sprite(sprite)
+	if block == null or block.implementation != "MendProjector":
+		return 0.0
+	return source_mend_projector_progress(block, mend_projector_charge_at_cell(x, y))
 
 func block_size(block) -> int:
 	return max(1, int(block.properties.get("size", 1)))

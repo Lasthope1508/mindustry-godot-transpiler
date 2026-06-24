@@ -397,6 +397,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func mend_projector_light_state_at_cell(x: int, y: int) -> Dictionary:", source)
         self.assertIn("return source_mend_projector_light_state(block, mend_projector_smooth_efficiency_at_cell(x, y))", source)
 
+    def test_port_game_exposes_mend_projector_progress_like_source_sense(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_mend_projector_progress(mend_projector, charge: float) -> float:", source)
+        self.assertIn('var reload := float(mend_projector.properties.get("reload", 0.0))', source)
+        self.assertIn("return clamp(charge / reload, 0.0, 1.0)", source)
+        self.assertIn("func mend_projector_progress_at_cell(x: int, y: int) -> float:", source)
+        self.assertIn("return source_mend_projector_progress(block, mend_projector_charge_at_cell(x, y))", source)
+
     def test_port_game_enforces_source_core_item_capacity(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
