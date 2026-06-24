@@ -1005,6 +1005,29 @@ def verify_building_recache_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_building_payload_draw_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "payload_draw_method": "public void payloadDraw(){",
+        "payload_draw_saved_z": "float z = Draw.z();",
+        "payload_draw_cached_guard": "if(block.drawCached){",
+        "payload_draw_cached_z": "Draw.z(block.buildingCacheLayer.layer);",
+        "payload_draw_cached_call": "drawCached();",
+        "payload_draw_dynamic_guard": "if(block.drawDynamic){",
+        "payload_draw_restore_z": "Draw.z(z);",
+        "payload_draw_dynamic_call": "draw();",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

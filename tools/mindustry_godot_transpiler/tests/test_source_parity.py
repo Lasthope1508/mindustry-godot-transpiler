@@ -630,5 +630,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_payload_draw_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_payload_draw_source"))
+        report = source_parity.verify_building_payload_draw_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "payload_draw_method": "public void payloadDraw(){",
+            "payload_draw_saved_z": "float z = Draw.z();",
+            "payload_draw_cached_guard": "if(block.drawCached){",
+            "payload_draw_cached_z": "Draw.z(block.buildingCacheLayer.layer);",
+            "payload_draw_cached_call": "drawCached();",
+            "payload_draw_dynamic_guard": "if(block.drawDynamic){",
+            "payload_draw_restore_z": "Draw.z(z);",
+            "payload_draw_dynamic_call": "draw();",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

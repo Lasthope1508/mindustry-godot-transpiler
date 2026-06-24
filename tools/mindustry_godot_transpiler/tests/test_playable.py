@@ -1442,6 +1442,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"building_cache_layer": building_cache_layer', source)
         self.assertIn('"tile": tile_state', source)
 
+    def test_port_game_exposes_source_building_payload_draw_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_payload_draw_state(draw_cached: bool, draw_dynamic: bool, current_z: float, building_cache_layer_z: float, variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:", source)
+        self.assertIn("var cached_draw := {}", source)
+        self.assertIn("var dynamic_draw := {}", source)
+        self.assertIn("if draw_cached:", source)
+        self.assertIn("cached_draw = source_building_draw_cached_state(variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants)", source)
+        self.assertIn("if draw_dynamic:", source)
+        self.assertIn("dynamic_draw = source_building_draw_state(variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants)", source)
+        self.assertIn('"saved_z": current_z', source)
+        self.assertIn('"cached_z": building_cache_layer_z', source)
+        self.assertIn('"dynamic_z": current_z', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
