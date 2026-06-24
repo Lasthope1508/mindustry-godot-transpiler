@@ -380,6 +380,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return bool(selected.properties.get("canOverdrive", true))', source)
         self.assertIn('"selected_build_can_overdrive": selected_build_can_overdrive()', source)
 
+    def test_port_game_exposes_overdrive_projector_target_filter_like_source(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_overdrive_projector_target_filter_state(overdrive_projector, target_block, distance: float, phase_heat := 0.0) -> Dictionary:", source)
+        self.assertIn("var real_range := source_overdrive_projector_range(overdrive_projector, phase_heat)", source)
+        self.assertIn('var can_overdrive := bool(target_block.properties.get("canOverdrive", true))', source)
+        self.assertIn("var in_range := distance <= real_range", source)
+        self.assertIn('"eligible": in_range and can_overdrive', source)
+        self.assertIn("func selected_build_overdrive_target_filter_state_for_block_id(target_block_id: String, distance: float, phase_heat := 0.0) -> Dictionary:", source)
+        self.assertIn("return source_overdrive_projector_target_filter_state(selected, target, distance, phase_heat)", source)
+
     def test_port_game_uses_source_mend_projector_repair_amount_formula(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

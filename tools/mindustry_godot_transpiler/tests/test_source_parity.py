@@ -99,5 +99,15 @@ class SourceParityTests(unittest.TestCase):
             "hasBoost": True,
             "canOverdrive": False,
         })
+
+    def test_overdrive_projector_target_filter_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_overdrive_projector_target_filter_source"))
+        report = source_parity.verify_overdrive_projector_target_filter_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/OverdriveProjector.java")
+        self.assertEqual(report["checked"], {
+            "predicate": "other.block.canOverdrive",
+            "action": "other.applyBoost(realBoost(), reload + 1f)",
+        })
 if __name__ == "__main__":
     unittest.main()

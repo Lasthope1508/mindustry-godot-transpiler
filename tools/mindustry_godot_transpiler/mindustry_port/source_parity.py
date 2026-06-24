@@ -26,6 +26,23 @@ def verify_overdrive_projector_params_parity(upstream_root: Path, godot_root: Pa
         "checked": expected,
         "mismatches": mismatches,
     }
+
+def verify_overdrive_projector_target_filter_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / OVERDRIVE_PROJECTOR_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    predicate = "other.block.canOverdrive"
+    action = "other.applyBoost(realBoost(), reload + 1f)"
+    missing = []
+    if predicate not in source:
+        missing.append(predicate)
+    if action not in source:
+        missing.append(action)
+    return {
+        "source": OVERDRIVE_PROJECTOR_SOURCE,
+        "checked": {"predicate": predicate, "action": action},
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

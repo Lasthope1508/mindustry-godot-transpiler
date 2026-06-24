@@ -347,6 +347,29 @@ func source_overdrive_projector_select_state(overdrive_projector, phase_heat := 
 func source_overdrive_projector_place_state(overdrive_projector) -> Dictionary:
 	return source_overdrive_projector_select_state(overdrive_projector, 0.0)
 
+func source_overdrive_projector_target_filter_state(overdrive_projector, target_block, distance: float, phase_heat := 0.0) -> Dictionary:
+	if overdrive_projector == null or target_block == null:
+		return {"real_range": 0.0, "distance": distance, "can_overdrive": false, "in_range": false, "eligible": false}
+	var real_range := source_overdrive_projector_range(overdrive_projector, phase_heat)
+	var can_overdrive := bool(target_block.properties.get("canOverdrive", true))
+	var in_range := distance <= real_range
+	return {
+		"real_range": real_range,
+		"distance": distance,
+		"can_overdrive": can_overdrive,
+		"in_range": in_range,
+		"eligible": in_range and can_overdrive,
+	}
+
+func selected_build_overdrive_target_filter_state_for_block_id(target_block_id: String, distance: float, phase_heat := 0.0) -> Dictionary:
+	if build_palette.is_empty() or content_catalog == null:
+		return {"real_range": 0.0, "distance": distance, "can_overdrive": false, "in_range": false, "eligible": false}
+	var selected = build_palette[selected_build_index]
+	var target = content_catalog.get_by_id(target_block_id)
+	if selected.implementation != "OverdriveProjector":
+		return {"real_range": 0.0, "distance": distance, "can_overdrive": false, "in_range": false, "eligible": false}
+	return source_overdrive_projector_target_filter_state(selected, target, distance, phase_heat)
+
 func source_building_apply_boost_state(current_time_scale: float, current_duration: float, intensity: float, duration: float, can_overdrive := true) -> Dictionary:
 	var result := {"time_scale": current_time_scale, "time_scale_duration": current_duration}
 	if not can_overdrive:
