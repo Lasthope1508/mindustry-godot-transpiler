@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 65 |
-| Done | 65 |
+| Total tracked work items | 66 |
+| Done | 66 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -24,7 +24,7 @@
 - [x] N13-N24: Source-derived units, turrets, waves, parser failure cleanup, class registry, method stubs, HUD/runtime MCP, generated script loading/instancing, MCP placement input, all generated instances, and full textured build palette.
 - [x] N25-N36: Source block selection, source block size, footprint occupancy, source world occupancy, multi-item requirements, core health, unit weapon damage, bullet sprite assets, core item capacity, drill rate, conveyor speed, and bullet lifetime.
 - [x] N37-N48: Bullet speed, unit speed, unit hit size, turret reload/range, bullet dimensions/hit size/damage, unit health, full duo ammo list, ammo multiplier, and item turret ammo storage defaults.
-- [x] N49-N63: Item turret ammo stack/use, loaded-ammo firing, reload multiplier, anti-fabrication rangeChange gate, shootY, ShootAlternate spread, turret inaccuracy, turret rotation cone, turret recoil, source limitRange ammo lifetime, source scaledHealth block health, source MendProjector repair params, source MendProjector repair amount formula, source MendProjector runtime heal cycle, and source MendProjector phase-fabric boost.
+- [x] N49-N64: Item turret ammo stack/use, loaded-ammo firing, reload multiplier, anti-fabrication rangeChange gate, shootY, ShootAlternate spread, turret inaccuracy, turret rotation cone, turret recoil, source limitRange ammo lifetime, source scaledHealth block health, source MendProjector repair params, source MendProjector repair amount formula, source MendProjector runtime heal cycle, source MendProjector phase-fabric boost, and source MendProjector phaseHeat lerp.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Done
@@ -96,6 +96,7 @@
 | N61 | Apply source `MendProjector` repair amount formula | `MendProjector.java` heals damaged blocks with `other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency`; using source `mend-projector.healPercent=11`, generated `health=320`, `phaseHeat=0`, and `efficiency=1` yields `35.2`; `source_parity.py` now checks this derived amount against generated registry data; `PortGame.gd` exposes `source_mend_projector_repair_amount()` and `selected_build_repair_amount` in runtime summary; Python suite reports `70` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime selects `mend-projector` and reports `selected_build_repair_amount=35.2`, and debug `errors: []` |
 | N62 | Simulate source `MendProjector` runtime heal cycle | `MendProjector.java` advances `charge += heat * delta()`, checks `charge >= reload`, scans damaged blocks in `range + phaseHeat * phaseRangeBoost`, and heals with the source formula; `PortGame.gd` now stores source block health metadata on placed block sprites, exposes MCP helpers to place/damage/read block health, advances `mend_projector_charges` by `delta * SOURCE_TICK_RATE`, and heals damaged blocks in generated source range; Python suite reports `72` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime places `mend-projector`, damages it from `320` to `280`, steps `4.2` seconds, heals `35.2`, reports health `315.2`, and debug `errors: []` |
 | N63 | Port source `MendProjector` phase-fabric boost | `Blocks.java` calls `consumeItem(Items.phaseFabric).boost()` for `mendProjector`, and `MendProjector.java` defaults `useTime=400f`, lerps `phaseHeat` from `optionalEfficiency`, expands range by `phaseHeat * phaseRangeBoost`, and heals with `healPercent + phaseHeat * phaseBoost`; `content_registry.py` now extracts generated `boosterItem="phase-fabric"` and `boosterUseTime=400.0`, `source_parity.py` checks those values against upstream source, and `PortGame.gd` stores per-cell phase heat, exposes `boost_mend_projector_at_cell()`, consumes one phase fabric item, and passes phase heat into source range/heal math; Python suite reports `73` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; MCP runtime selects `mend-projector` with `selected_build_booster_item="phase-fabric"`, consumes `phase-fabric` from `1` to `0`, damages health `320 -> 200`, steps `4.2` seconds, heals `83.2`, reports health `283.2`, and debug `errors: []` |
+| N64 | Lerp source `MendProjector` phaseHeat | `MendProjector.java` updates `phaseHeat = Mathf.lerpDelta(phaseHeat, optionalEfficiency, 0.1f)`, and Arc `Mathf.java` at dependency commit `f30acd23ec` defines `lerpDelta` as `lerp(from, to, clamp(progress * Time.delta))`; `PortGame.gd` now stores per-cell optional efficiency separately from phase heat, exposes `source_lerp_delta()` and `mend_projector_phase_heat_at_cell()`, and advances phase heat with `delta * SOURCE_TICK_RATE` before range/heal math; Python suite reports `74` tests passing; MCP LSP diagnostics for `PortGame.gd` return `diagnostics: []`; deterministic MCP runtime disables `_process`, boosts a placed `mend-projector`, reports phase heat `0.0` before stepping, then `0.1` after one `1/60s` source tick, with debug `errors: []` |
 
 ## Not Done
 
@@ -362,3 +363,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-06-24 | M60 source MendProjector repair amount: runtime now exposes the Java repair formula and MCP proves `mend-projector` non-phase self-repair amount `35.2`. |
 | 2026-06-24 | M61 source MendProjector runtime heal: placed blocks now carry source health state and `MendProjector` charge/range/heal simulation runs in Godot with MCP proof of damaged block healing. |
 | 2026-06-24 | M62 source MendProjector phase boost: generated `mend-projector` now carries source `boosterItem="phase-fabric"` and `boosterUseTime=400`, runtime consumes one phase fabric item, applies `phaseHeat=1` to repair/range math, and MCP proves boosted heal `83.2` with health `200 -> 283.2` and debug `errors: []`. |
+| 2026-06-24 | M63 source MendProjector phaseHeat lerp: runtime now ports Arc `Mathf.lerpDelta(phaseHeat, optionalEfficiency, 0.1f)` using source ticks, with MCP proof phase heat moves `0.0 -> 0.1` after one `1/60s` tick and debug `errors: []`. |

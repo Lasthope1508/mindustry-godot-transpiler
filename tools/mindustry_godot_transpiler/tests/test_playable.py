@@ -299,7 +299,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("simulate_mend_projectors(delta)", source)
         self.assertIn("func simulate_mend_projectors(delta: float) -> void:", source)
         self.assertIn('if block.implementation != "MendProjector":', source)
-        self.assertIn("mend_projector_charges[key] = float(mend_projector_charges.get(key, 0.0)) + delta * SOURCE_TICK_RATE", source)
+        self.assertIn("mend_projector_charges[key] = float(mend_projector_charges.get(key, 0.0)) + source_delta", source)
         self.assertIn('if float(mend_projector_charges.get(key, 0.0)) < float(block.properties.get("reload", 0.0)):', source)
         self.assertIn("func find_damaged_block_in_mend_range(mend_cell: Vector2i, mend_projector, phase_heat := 0.0):", source)
         self.assertIn("func source_mend_projector_range(mend_projector, phase_heat := 0.0) -> float:", source)
@@ -320,7 +320,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func boost_mend_projector_at_cell(x: int, y: int) -> bool:", source)
         self.assertIn('var item_id := str(block.properties.get("boosterItem", ""))', source)
         self.assertIn('core_items[item_id] = int(core_items.get(item_id, 0)) - 1', source)
-        self.assertIn("mend_projector_phase_heat[key] = 1.0", source)
+        self.assertIn("mend_projector_optional_efficiency[key] = 1.0", source)
         self.assertIn("func find_damaged_block_in_mend_range(mend_cell: Vector2i, mend_projector, phase_heat := 0.0):", source)
         self.assertIn("var real_range := source_mend_projector_range(mend_projector, phase_heat)", source)
         self.assertIn("var phase_heat := float(mend_projector_phase_heat.get(key, 0.0))", source)
@@ -328,6 +328,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("source_mend_projector_repair_amount(block, target_block, phase_heat)", source)
         self.assertIn('"selected_build_booster_item": selected_build_booster_item()', source)
         self.assertIn('"selected_build_booster_use_time": selected_build_booster_use_time()', source)
+
+    def test_port_game_lerps_mend_projector_phase_heat_like_source(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var mend_projector_optional_efficiency: Dictionary = {}", source)
+        self.assertIn("func source_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:", source)
+        self.assertIn("return from_value + (to_value - from_value) * clamp(progress * source_delta, 0.0, 1.0)", source)
+        self.assertIn("mend_projector_optional_efficiency[key] = 1.0", source)
+        self.assertNotIn("mend_projector_phase_heat[key] = 1.0", source)
+        self.assertIn("func mend_projector_phase_heat_at_cell(x: int, y: int) -> float:", source)
+        self.assertIn("var source_delta := delta * SOURCE_TICK_RATE", source)
+        self.assertIn("mend_projector_phase_heat[key] = source_lerp_delta(float(mend_projector_phase_heat.get(key, 0.0)), float(mend_projector_optional_efficiency.get(key, 0.0)), 0.1, source_delta)", source)
 
     def test_port_game_enforces_source_core_item_capacity(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

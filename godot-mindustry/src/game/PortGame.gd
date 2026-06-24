@@ -36,6 +36,7 @@ var placed_blocks: Dictionary = {}
 var placed_block_origins: Dictionary = {}
 var mend_projector_charges: Dictionary = {}
 var mend_projector_phase_heat: Dictionary = {}
+var mend_projector_optional_efficiency: Dictionary = {}
 var initial_world_block_count := 0
 var initial_occupied_cell_count := 0
 var last_placed_block_id := ""
@@ -327,6 +328,9 @@ func source_mend_projector_repair_amount(mend_projector, target_block, phase_hea
 	var target_health := float(target_block.properties.get("health", 0.0))
 	return target_health * (heal_percent + phase_heat * phase_boost) / 100.0 * efficiency
 
+func source_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:
+	return from_value + (to_value - from_value) * clamp(progress * source_delta, 0.0, 1.0)
+
 func selected_build_repair_amount() -> float:
 	if build_palette.is_empty() or content_catalog == null:
 		return 0.0
@@ -448,8 +452,15 @@ func boost_mend_projector_at_cell(x: int, y: int) -> bool:
 	core_items[item_id] = int(core_items.get(item_id, 0)) - 1
 	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 	var key := cell_key(origin_cell)
-	mend_projector_phase_heat[key] = 1.0
+	mend_projector_optional_efficiency[key] = 1.0
 	return true
+
+func mend_projector_phase_heat_at_cell(x: int, y: int) -> float:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	if not is_instance_valid(sprite):
+		return 0.0
+	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+	return float(mend_projector_phase_heat.get(cell_key(origin_cell), 0.0))
 
 func block_size(block) -> int:
 	return max(1, int(block.properties.get("size", 1)))
@@ -692,6 +703,7 @@ func find_damaged_block_in_mend_range(mend_cell: Vector2i, mend_projector, phase
 	return null
 
 func simulate_mend_projectors(delta: float) -> void:
+	var source_delta := delta * SOURCE_TICK_RATE
 	for key in placed_block_origins.keys():
 		var sprite = placed_block_origins.get(key)
 		var block = block_from_sprite(sprite)
@@ -699,7 +711,8 @@ func simulate_mend_projectors(delta: float) -> void:
 			continue
 		if block.implementation != "MendProjector":
 			continue
-		mend_projector_charges[key] = float(mend_projector_charges.get(key, 0.0)) + delta * SOURCE_TICK_RATE
+		mend_projector_phase_heat[key] = source_lerp_delta(float(mend_projector_phase_heat.get(key, 0.0)), float(mend_projector_optional_efficiency.get(key, 0.0)), 0.1, source_delta)
+		mend_projector_charges[key] = float(mend_projector_charges.get(key, 0.0)) + source_delta
 		if float(mend_projector_charges.get(key, 0.0)) < float(block.properties.get("reload", 0.0)):
 			continue
 		mend_projector_charges[key] = 0.0
