@@ -1526,6 +1526,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"x_min": source_x - particle_range', source)
         self.assertIn('"x_max": source_x + particle_range', source)
 
+    def test_port_game_exposes_source_building_player_placed_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_player_placed_state(config_state: Variant) -> Variant:", source)
+        self.assertIn("return config_state", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

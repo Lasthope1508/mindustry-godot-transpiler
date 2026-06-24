@@ -1489,6 +1489,9 @@ func source_building_check_suppression_state(block_suppressable: bool, source_ti
 	var chance_threshold := source_arc_chance_delta_threshold(0.03, source_delta)
 	return {"suppressed": true, "particle_visible": "chanceDelta", "chance_threshold": chance_threshold, "effect": "regenSuppressParticle", "color": suppress_color, "particle_range": particle_range, "x_min": source_x - particle_range, "x_max": source_x + particle_range, "y_min": source_y - particle_range, "y_max": source_y + particle_range}
 
+func source_building_player_placed_state(config_state: Variant) -> Variant:
+	return config_state
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

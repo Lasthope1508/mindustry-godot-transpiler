@@ -1165,6 +1165,24 @@ def verify_building_check_suppression_source(upstream_root: Path, arc_root: Path
         "missing": missing,
     }
 
+def verify_building_player_placed_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "player_placed_call_super": "@CallSuper",
+        "player_placed_method": "public void playerPlaced(Object config){",
+        "player_placed_empty_body": "public void playerPlaced(Object config){\n\n    }",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
