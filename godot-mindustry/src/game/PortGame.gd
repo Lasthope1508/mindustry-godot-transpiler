@@ -331,6 +331,15 @@ func source_overdrive_projector_select_state(overdrive_projector, phase_heat := 
 func source_overdrive_projector_place_state(overdrive_projector) -> Dictionary:
 	return source_overdrive_projector_select_state(overdrive_projector, 0.0)
 
+func source_overdrive_projector_light_state(overdrive_projector, smooth_efficiency: float) -> Dictionary:
+	if overdrive_projector == null or not bool(overdrive_projector.properties.get("emitLight", false)):
+		return {"color": "", "radius": 0.0, "alpha": 0.0}
+	return {
+		"color": str(overdrive_projector.properties.get("baseColor", "")),
+		"radius": float(overdrive_projector.properties.get("lightRadius", 0.0)) * smooth_efficiency,
+		"alpha": 0.7 * smooth_efficiency,
+	}
+
 func source_overdrive_projector_real_boost(overdrive_projector, phase_heat := 0.0, efficiency := 1.0) -> float:
 	if overdrive_projector == null:
 		return 0.0
@@ -396,6 +405,14 @@ func selected_build_overdrive_phase_select_state() -> Dictionary:
 	if selected.implementation != "OverdriveProjector":
 		return {"range": 0.0, "color": ""}
 	return source_overdrive_projector_select_state(selected, 1.0)
+
+func selected_build_overdrive_light_state_for_smooth_efficiency(smooth_efficiency: float) -> Dictionary:
+	if build_palette.is_empty():
+		return {"color": "", "radius": 0.0, "alpha": 0.0}
+	var selected = build_palette[selected_build_index]
+	if selected.implementation != "OverdriveProjector":
+		return {"color": "", "radius": 0.0, "alpha": 0.0}
+	return source_overdrive_projector_light_state(selected, smooth_efficiency)
 
 func selected_build_booster_item() -> String:
 	if build_palette.is_empty():

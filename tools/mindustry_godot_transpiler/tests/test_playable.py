@@ -313,6 +313,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"selected_build_overdrive_boost_bar_fraction": selected_build_overdrive_boost_bar_fraction()', source)
         self.assertIn('"selected_build_overdrive_phase_boost_bar_fraction": selected_build_overdrive_phase_boost_bar_fraction()', source)
 
+    def test_port_game_exposes_overdrive_projector_draw_light_like_source(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_overdrive_projector_light_state(overdrive_projector, smooth_efficiency: float) -> Dictionary:", source)
+        self.assertIn('if overdrive_projector == null or not bool(overdrive_projector.properties.get("emitLight", false)):', source)
+        self.assertIn('"color": str(overdrive_projector.properties.get("baseColor", ""))', source)
+        self.assertIn('"radius": float(overdrive_projector.properties.get("lightRadius", 0.0)) * smooth_efficiency', source)
+        self.assertIn('"alpha": 0.7 * smooth_efficiency', source)
+        self.assertIn("func selected_build_overdrive_light_state_for_smooth_efficiency(smooth_efficiency: float) -> Dictionary:", source)
+        self.assertIn("return source_overdrive_projector_light_state(selected, smooth_efficiency)", source)
+
     def test_port_game_uses_source_mend_projector_repair_amount_formula(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
