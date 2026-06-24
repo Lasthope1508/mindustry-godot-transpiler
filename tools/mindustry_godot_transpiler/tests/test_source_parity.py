@@ -864,5 +864,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_configured_type_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_configured_type_source"))
+        report = source_parity.verify_building_configured_type_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "configured_comment": "Called when arbitrary configuration is applied to a tile.",
+            "configured_method": "public void configured(@Nullable Unit builder, @Nullable Object value){",
+            "configured_type_line": "Class<?> type = value == null ? void.class : value.getClass().isAnonymousClass() ? value.getClass().getSuperclass() : value.getClass();",
+            "configured_item_type": "if(value instanceof Item) type = Item.class;",
+            "configured_block_type": "if(value instanceof Block) type = Block.class;",
+            "configured_liquid_type": "if(value instanceof Liquid) type = Liquid.class;",
+            "configured_unit_type": "if(value instanceof UnitType) type = UnitType.class;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

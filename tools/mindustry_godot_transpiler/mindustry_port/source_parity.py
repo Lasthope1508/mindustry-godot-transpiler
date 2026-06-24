@@ -1367,6 +1367,28 @@ def verify_building_puddle_on_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_building_configured_type_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "configured_comment": "Called when arbitrary configuration is applied to a tile.",
+        "configured_method": "public void configured(@Nullable Unit builder, @Nullable Object value){",
+        "configured_type_line": "Class<?> type = value == null ? void.class : value.getClass().isAnonymousClass() ? value.getClass().getSuperclass() : value.getClass();",
+        "configured_item_type": "if(value instanceof Item) type = Item.class;",
+        "configured_block_type": "if(value instanceof Block) type = Block.class;",
+        "configured_liquid_type": "if(value instanceof Liquid) type = Liquid.class;",
+        "configured_unit_type": "if(value instanceof UnitType) type = UnitType.class;",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

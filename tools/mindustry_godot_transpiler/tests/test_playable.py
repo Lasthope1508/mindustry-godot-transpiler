@@ -1610,6 +1610,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_puddle_on_state(puddle_state: Variant) -> Variant:", source)
         self.assertIn("return puddle_state", source)
 
+    def test_port_game_exposes_source_building_configured_type_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_configured_type_state(value_state: Dictionary) -> String:", source)
+        self.assertIn('return "void"', source)
+        self.assertIn('if value_kind == "Item":', source)
+        self.assertIn('if value_kind == "Block":', source)
+        self.assertIn('if value_kind == "Liquid":', source)
+        self.assertIn('if value_kind == "UnitType":', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

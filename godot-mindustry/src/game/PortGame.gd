@@ -1528,6 +1528,21 @@ func source_building_unit_removed_state(unit_state: Variant) -> Variant:
 func source_building_puddle_on_state(puddle_state: Variant) -> Variant:
 	return puddle_state
 
+func source_building_configured_type_state(value_state: Dictionary) -> String:
+	if bool(value_state.get("is_null", false)):
+		return "void"
+	var type_name := str(value_state.get("superclass", "")) if bool(value_state.get("is_anonymous_class", false)) else str(value_state.get("class", ""))
+	var value_kind := str(value_state.get("kind", ""))
+	if value_kind == "Item":
+		type_name = "Item"
+	if value_kind == "Block":
+		type_name = "Block"
+	if value_kind == "Liquid":
+		type_name = "Liquid"
+	if value_kind == "UnitType":
+		type_name = "UnitType"
+	return type_name
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
