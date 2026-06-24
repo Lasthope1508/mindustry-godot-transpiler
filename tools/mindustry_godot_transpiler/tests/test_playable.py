@@ -1390,6 +1390,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"width": disabled_icon_size', source)
         self.assertIn('"height": disabled_icon_size', source)
 
+    def test_port_game_exposes_source_building_drawrot_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_drawrot_state(block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> float:", source)
+        self.assertIn("return float(rotation_quadrants * 90) if block_rotate and block_rotate_draw else 0.0", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

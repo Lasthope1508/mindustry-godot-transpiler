@@ -1278,6 +1278,9 @@ func source_building_draw_disabled_state(source_x: float, source_y: float) -> Di
 	var disabled_icon_size := 6.0
 	return {"visible": true, "icon": "cancel", "color": "scarlet", "alpha": 0.8, "x": source_x, "y": source_y, "width": disabled_icon_size, "height": disabled_icon_size}
 
+func source_building_drawrot_state(block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> float:
+	return float(rotation_quadrants * 90) if block_rotate and block_rotate_draw else 0.0
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

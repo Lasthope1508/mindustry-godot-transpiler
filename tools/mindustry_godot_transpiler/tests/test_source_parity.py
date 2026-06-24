@@ -566,5 +566,16 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_drawrot_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_drawrot_source"))
+        report = source_parity.verify_building_drawrot_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "drawrot_method": "public float drawrot(){",
+            "drawrot_return": "return block.rotate && block.rotateDraw ? rotation * 90 : 0f;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
