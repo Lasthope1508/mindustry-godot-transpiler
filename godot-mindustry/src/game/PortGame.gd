@@ -324,6 +324,13 @@ func selected_build_booster_use_time() -> float:
 	var selected = build_palette[selected_build_index]
 	return float(selected.properties.get("boosterUseTime", 0.0))
 
+func selected_build_place_state() -> Dictionary:
+	if build_palette.is_empty():
+		return {"range": 0.0, "color": ""}
+	var selected = build_palette[selected_build_index]
+	if selected.implementation != "MendProjector":
+		return {"range": 0.0, "color": ""}
+	return source_mend_projector_place_state(selected)
 func source_mend_projector_repair_amount(mend_projector, target_block, phase_heat := 0.0, efficiency := 1.0) -> float:
 	if mend_projector == null or target_block == null:
 		return 0.0
@@ -349,6 +356,16 @@ func source_mend_projector_progress(mend_projector, charge: float) -> float:
 		return 0.0
 	return clamp(charge / reload, 0.0, 1.0)
 
+func source_mend_projector_select_state(mend_projector, phase_heat := 0.0) -> Dictionary:
+	if mend_projector == null:
+		return {"range": 0.0, "color": ""}
+	return {
+		"range": source_mend_projector_range(mend_projector, phase_heat),
+		"color": str(mend_projector.properties.get("baseColor", "")),
+	}
+
+func source_mend_projector_place_state(mend_projector) -> Dictionary:
+	return source_mend_projector_select_state(mend_projector, 0.0)
 func source_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:
 	return from_value + (to_value - from_value) * clamp(progress * source_delta, 0.0, 1.0)
 
@@ -519,6 +536,12 @@ func mend_projector_progress_at_cell(x: int, y: int) -> float:
 		return 0.0
 	return source_mend_projector_progress(block, mend_projector_charge_at_cell(x, y))
 
+func mend_projector_select_state_at_cell(x: int, y: int) -> Dictionary:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	var block = block_from_sprite(sprite)
+	if block == null or block.implementation != "MendProjector":
+		return {"range": 0.0, "color": ""}
+	return source_mend_projector_select_state(block, mend_projector_phase_heat_at_cell(x, y))
 func block_size(block) -> int:
 	return max(1, int(block.properties.get("size", 1)))
 
@@ -1571,6 +1594,7 @@ func get_runtime_summary() -> Dictionary:
 		"selected_build_booster_item": selected_build_booster_item(),
 		"selected_build_booster_use_time": selected_build_booster_use_time(),
 		"selected_build_repair_amount": selected_build_repair_amount(),
+		"selected_build_place_state": selected_build_place_state(),
 		"last_mend_projector_healed_amount": last_mend_projector_healed_amount,
 		"last_mend_projector_healed_block_id": last_mend_projector_healed_block_id,
 		"last_mend_projector_healed_cell": {"x": last_mend_projector_healed_cell.x, "y": last_mend_projector_healed_cell.y},

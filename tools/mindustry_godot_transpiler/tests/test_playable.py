@@ -407,6 +407,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func mend_projector_progress_at_cell(x: int, y: int) -> float:", source)
         self.assertIn("return source_mend_projector_progress(block, mend_projector_charge_at_cell(x, y))", source)
 
+    def test_port_game_exposes_mend_projector_select_range_like_source_draw_select(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_mend_projector_select_state(mend_projector, phase_heat := 0.0) -> Dictionary:", source)
+        self.assertIn('"range": source_mend_projector_range(mend_projector, phase_heat)', source)
+        self.assertIn('"color": str(mend_projector.properties.get("baseColor", ""))', source)
+        self.assertIn("func source_mend_projector_place_state(mend_projector) -> Dictionary:", source)
+        self.assertIn('return source_mend_projector_select_state(mend_projector, 0.0)', source)
+        self.assertIn("func mend_projector_select_state_at_cell(x: int, y: int) -> Dictionary:", source)
+        self.assertIn("return source_mend_projector_select_state(block, mend_projector_phase_heat_at_cell(x, y))", source)
+        self.assertIn("func selected_build_place_state() -> Dictionary:", source)
+        self.assertIn("return source_mend_projector_place_state(selected)", source)
+        self.assertIn('"selected_build_place_state": selected_build_place_state()', source)
+
     def test_port_game_enforces_source_core_item_capacity(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
