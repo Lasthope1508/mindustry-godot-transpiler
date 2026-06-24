@@ -781,6 +781,33 @@ def verify_building_draw_status_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_building_draw_cracks_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    draw_cracks_method = "public void drawCracks(){"
+    draw_cracks_guard = "if(!block.drawCracks || !damaged() || block.size > BlockRenderer.maxCrackSize) return;"
+    draw_cracks_id = "int id = pos();"
+    draw_cracks_region = "TextureRegion region = renderer.blocks.cracks[block.size - 1][Mathf.clamp((int)((1f - healthf()) * BlockRenderer.crackRegions), 0, BlockRenderer.crackRegions-1)];"
+    draw_cracks_color = "Draw.colorl(0.2f, 0.1f + (1f - healthf())* 0.6f);"
+    draw_cracks_rotation = "Draw.rect(region, x, y, (id%4)*90);"
+    checked = {
+        "draw_cracks_method": draw_cracks_method,
+        "draw_cracks_guard": draw_cracks_guard,
+        "draw_cracks_id": draw_cracks_id,
+        "draw_cracks_region": draw_cracks_region,
+        "draw_cracks_color": draw_cracks_color,
+        "draw_cracks_rotation": draw_cracks_rotation,
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

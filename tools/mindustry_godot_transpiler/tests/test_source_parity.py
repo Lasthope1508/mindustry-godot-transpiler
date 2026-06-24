@@ -507,5 +507,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_draw_cracks_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_draw_cracks_source"))
+        report = source_parity.verify_building_draw_cracks_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "draw_cracks_method": "public void drawCracks(){",
+            "draw_cracks_guard": "if(!block.drawCracks || !damaged() || block.size > BlockRenderer.maxCrackSize) return;",
+            "draw_cracks_id": "int id = pos();",
+            "draw_cracks_region": "TextureRegion region = renderer.blocks.cracks[block.size - 1][Mathf.clamp((int)((1f - healthf()) * BlockRenderer.crackRegions), 0, BlockRenderer.crackRegions-1)];",
+            "draw_cracks_color": "Draw.colorl(0.2f, 0.1f + (1f - healthf())* 0.6f);",
+            "draw_cracks_rotation": "Draw.rect(region, x, y, (id%4)*90);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
