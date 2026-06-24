@@ -9,6 +9,7 @@ MEND_PROJECTOR_SOURCE = "core/src/mindustry/world/blocks/defense/MendProjector.j
 OVERDRIVE_PROJECTOR_SOURCE = "core/src/mindustry/world/blocks/defense/OverdriveProjector.java"
 BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
 CONVEYOR_SOURCE = "core/src/mindustry/world/blocks/distribution/Conveyor.java"
+DRILL_SOURCE = "core/src/mindustry/world/blocks/production/Drill.java"
 
 def verify_overdrive_projector_params_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     blocks_path = Path(upstream_root) / DUO_SOURCE
@@ -87,6 +88,19 @@ def verify_conveyor_edelta_source(upstream_root: Path) -> dict[str, Any]:
     return {
         "source": CONVEYOR_SOURCE,
         "checked": {"movement": movement},
+        "missing": missing,
+    }
+
+def verify_drill_delta_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / DRILL_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    progress = "progress += delta() * dominantItems * speed * warmup;"
+    missing = []
+    if progress not in source:
+        missing.append(progress)
+    return {
+        "source": DRILL_SOURCE,
+        "checked": {"progress": progress},
         "missing": missing,
     }
 

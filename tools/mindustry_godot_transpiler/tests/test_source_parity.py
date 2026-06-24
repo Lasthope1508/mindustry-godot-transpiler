@@ -138,5 +138,14 @@ class SourceParityTests(unittest.TestCase):
         self.assertEqual(report["checked"], {
             "movement": "float moved = speed * edelta();",
         })
+
+    def test_drill_update_uses_delta_progress_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_drill_delta_source"))
+        report = source_parity.verify_drill_delta_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/production/Drill.java")
+        self.assertEqual(report["checked"], {
+            "progress": "progress += delta() * dominantItems * speed * warmup;",
+        })
 if __name__ == "__main__":
     unittest.main()

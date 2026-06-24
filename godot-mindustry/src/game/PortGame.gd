@@ -913,6 +913,16 @@ func source_drill_output_rate(block_id: String, item_id: String, ore_count: int)
 		return 0.0
 	return 60.0 * float(ore_count) / delay
 
+func source_drill_output_delta(block_id: String, item_id: String, ore_count: int, seconds: float, time_scale := 1.0) -> float:
+	var scaled_source_delta := source_building_delta(seconds * SOURCE_TICK_RATE, time_scale)
+	return source_drill_output_rate(block_id, item_id, ore_count) * scaled_source_delta / SOURCE_TICK_RATE
+
+func source_drill_output_delta_for_cell(x: int, y: int, item_id: String, ore_count: int, seconds: float) -> float:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	if not is_instance_valid(sprite):
+		return 0.0
+	return source_drill_output_delta(str(sprite.get_meta("source_block_id", "")), item_id, ore_count, seconds, float(sprite.get_meta("source_block_time_scale", 1.0)))
+
 func source_conveyor_world_speed(block_id: String) -> float:
 	if content_catalog == null:
 		return 0.0
@@ -1082,7 +1092,7 @@ func simulate_factory(delta: float) -> void:
 	if path_points.is_empty():
 		return
 	if drill_output_rate > 0.0:
-		item_progress += delta * drill_output_rate
+		item_progress += source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_output_item_id, drill_ore_cell_count, delta)
 		while item_progress >= 1.0:
 			item_progress -= 1.0
 			add_core_item(drill_output_item_id, 1)
@@ -1106,6 +1116,18 @@ func step_factory_transport(seconds: float) -> Dictionary:
 		"transport_progress": transport_progress,
 		"conveyor_time_scale": source_block_time_scale_at_cell(drill_pos.x + 1, drill_pos.y),
 		"conveyor_progress_delta": progress_delta,
+	}
+
+func step_factory_drill(seconds: float) -> Dictionary:
+	var before := item_progress
+	var output_delta := source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_output_item_id, drill_ore_cell_count, seconds)
+	simulate_factory(seconds)
+	return {
+		"item_progress_before": before,
+		"drill_output_delta": output_delta,
+		"item_progress": item_progress,
+		"drill_time_scale": source_block_time_scale_at_cell(drill_pos.x, drill_pos.y),
+		"produced_total": produced_total,
 	}
 
 func source_block_is_damaged(sprite) -> bool:
