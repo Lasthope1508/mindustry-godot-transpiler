@@ -793,5 +793,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_overwrote_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_overwrote_source"))
+        report = source_parity.verify_building_overwrote_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "overwrote_comment": "Called when a block is placed over some other blocks. This seq will always have at least one item.",
+            "overwrote_method": "public void overwrote(Seq<Building> previous){",
+            "overwrote_empty_body": "public void overwrote(Seq<Building> previous){\n\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
