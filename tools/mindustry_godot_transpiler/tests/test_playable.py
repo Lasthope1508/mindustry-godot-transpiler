@@ -1213,6 +1213,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_accept_liquid_state(has_liquids: bool, consumes_liquid: bool) -> bool:", source)
         self.assertIn("return has_liquids and consumes_liquid", source)
 
+    def test_port_game_exposes_source_building_maximum_accepted_and_stack_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_maximum_accepted(block_item_capacity: int) -> int:", source)
+        self.assertIn("return block_item_capacity", source)
+        self.assertIn("func source_building_handle_stack_count(current_count: int, amount: int) -> int:", source)
+        self.assertIn("return current_count + amount", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

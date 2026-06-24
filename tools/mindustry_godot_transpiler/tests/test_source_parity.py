@@ -351,6 +351,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_maximum_accepted_and_handle_stack_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_maximum_accepted_stack_source"))
+        report = source_parity.verify_building_maximum_accepted_stack_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "maximum_method": "public int getMaximumAccepted(Item item){",
+            "maximum_return": "return block.itemCapacity;",
+            "stack_method": "public void handleStack(Item item, int amount, @Nullable Teamc source){",
+            "stack_no_sleep": "noSleep();",
+            "stack_add": "items.add(item, amount);",
+        })
+        self.assertEqual(report["missing"], [])
+
 
 if __name__ == "__main__":
     unittest.main()

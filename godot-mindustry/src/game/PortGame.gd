@@ -1169,6 +1169,12 @@ func source_building_handle_item_count(current_count: int) -> int:
 func source_building_accept_item_state(consumes_item: bool, item_count: int, maximum_accepted: int) -> bool:
 	return consumes_item and item_count < maximum_accepted
 
+func source_building_maximum_accepted(block_item_capacity: int) -> int:
+	return block_item_capacity
+
+func source_building_handle_stack_count(current_count: int, amount: int) -> int:
+	return current_count + amount
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
