@@ -1757,6 +1757,17 @@ func source_building_display_icon_state(block_ui_icon: Variant) -> Variant:
 func source_building_flow_items_state(items_module: Variant) -> Variant:
 	return items_module
 
+func source_building_display_ui_gates_state(team_is_player: bool, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:
+	var display_flow := (block_category == "distribution" or block_category == "liquid") and block_display_flow
+	return {
+		"display_header": true,
+		"display_same_team_details": team_is_player,
+		"display_bars": team_is_player,
+		"display_consumption": team_is_player,
+		"display_flow": team_is_player and display_flow,
+		"display_last_accessed": team_is_player and net_active and has_last_accessed,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

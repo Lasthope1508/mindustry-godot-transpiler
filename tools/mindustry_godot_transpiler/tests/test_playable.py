@@ -1810,6 +1810,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_flow_items_state(items_module: Variant) -> Variant:", source)
         self.assertIn("return items_module", source)
 
+    def test_port_game_exposes_source_building_display_ui_gates_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_display_ui_gates_state(team_is_player: bool, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:", source)
+        self.assertIn('var display_flow := (block_category == "distribution" or block_category == "liquid") and block_display_flow', source)
+        self.assertIn('"display_header": true', source)
+        self.assertIn('"display_same_team_details": team_is_player', source)
+        self.assertIn('"display_flow": team_is_player and display_flow', source)
+        self.assertIn('"display_last_accessed": team_is_player and net_active and has_last_accessed', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

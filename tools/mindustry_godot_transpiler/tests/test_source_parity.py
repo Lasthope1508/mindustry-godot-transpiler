@@ -1142,5 +1142,24 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_display_ui_gates_match_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_display_ui_gates_source"))
+        report = source_parity.verify_building_display_ui_gates_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "building_display_method": "public void display(Table table){",
+            "building_display_header_comment": "//display the block stuff",
+            "building_display_icon_line": "t.add(new Image(block.getDisplayIcon(tile))).scaling(Scaling.fit).size(8 * 4);",
+            "building_display_name_line": "t.labelWrap(block.getDisplayName(tile)).left().width(190f).padLeft(5);",
+            "building_display_same_team_comment": "//only display everything else if the team is the same",
+            "building_display_same_team_guard": "if(team == player.team()){",
+            "building_display_bars_call": "displayBars(bars);",
+            "building_display_consumption_call": "table.table(this::displayConsumption).growX();",
+            "building_display_flow_gate": "boolean displayFlow = (block.category == Category.distribution || block.category == Category.liquid) && block.displayFlow;",
+            "building_display_last_accessed_guard": "if(net.active() && lastAccessed != null){",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

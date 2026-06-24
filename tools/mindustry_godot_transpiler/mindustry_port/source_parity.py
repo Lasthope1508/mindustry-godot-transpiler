@@ -1826,6 +1826,31 @@ def verify_building_display_icon_flow_items_source(upstream_root: Path) -> dict[
         "missing": missing,
     }
 
+def verify_building_display_ui_gates_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "building_display_method": "public void display(Table table){",
+        "building_display_header_comment": "//display the block stuff",
+        "building_display_icon_line": "t.add(new Image(block.getDisplayIcon(tile))).scaling(Scaling.fit).size(8 * 4);",
+        "building_display_name_line": "t.labelWrap(block.getDisplayName(tile)).left().width(190f).padLeft(5);",
+        "building_display_same_team_comment": "//only display everything else if the team is the same",
+        "building_display_same_team_guard": "if(team == player.team()){",
+        "building_display_bars_call": "displayBars(bars);",
+        "building_display_consumption_call": "table.table(this::displayConsumption).growX();",
+        "building_display_flow_gate": "boolean displayFlow = (block.category == Category.distribution || block.category == Category.liquid) && block.displayFlow;",
+        "building_display_last_accessed_guard": "if(net.active() && lastAccessed != null){",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
