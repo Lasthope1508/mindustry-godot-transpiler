@@ -1582,6 +1582,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_on_removed_state(current_state: Variant) -> Variant:", source)
         self.assertIn("return current_state", source)
 
+    def test_port_game_exposes_source_building_unit_on_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_unit_on_state(unit_state: Variant) -> Variant:", source)
+        self.assertIn("return unit_state", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

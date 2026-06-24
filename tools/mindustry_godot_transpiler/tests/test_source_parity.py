@@ -816,5 +816,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_unit_on_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_unit_on_source"))
+        report = source_parity.verify_building_unit_on_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "unit_on_comment": "Called every frame a unit is on this. Hovering/flying/steppy units do not apply.",
+            "unit_on_method": "public void unitOn(Unit unit){",
+            "unit_on_empty_body": "public void unitOn(Unit unit){\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
