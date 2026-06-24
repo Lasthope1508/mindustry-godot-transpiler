@@ -75,6 +75,7 @@ var drill_ore_cell_count := 0
 var drill_output_rate := 0.0
 var drill_warmups: Dictionary = {}
 var drill_time_drilled: Dictionary = {}
+var drill_last_speeds: Dictionary = {}
 var produced_total := 0
 var item_progress := 0.0
 var transport_progress := 0.0
@@ -911,14 +912,19 @@ func source_drill_ore_count(block_id: String, cell: Vector2i, item_id: String) -
 			count += 1
 	return count
 
-func source_drill_output_rate(block_id: String, item_id: String, ore_count: int) -> float:
-	if content_catalog == null or ore_count <= 0:
+func source_drill_delay(block_id: String, item_id: String) -> float:
+	if content_catalog == null:
 		return 0.0
 	var block = content_catalog.get_by_id(block_id)
 	var item = content_catalog.get_by_id(item_id)
 	if block == null or item == null:
 		return 0.0
-	var delay := float(block.properties.get("drillTime", 300.0)) + SOURCE_DRILL_HARDNESS_MULTIPLIER * float(item.properties.get("hardness", 0))
+	return float(block.properties.get("drillTime", 300.0)) + SOURCE_DRILL_HARDNESS_MULTIPLIER * float(item.properties.get("hardness", 0))
+
+func source_drill_output_rate(block_id: String, item_id: String, ore_count: int) -> float:
+	if ore_count <= 0:
+		return 0.0
+	var delay := source_drill_delay(block_id, item_id)
 	if delay <= 0.0:
 		return 0.0
 	return 60.0 * float(ore_count) / delay
@@ -939,6 +945,26 @@ func drill_warmup_at_cell(x: int, y: int) -> float:
 
 func set_drill_warmup_at_cell(x: int, y: int, warmup: float) -> void:
 	drill_warmups[cell_key(Vector2i(x, y))] = warmup
+
+func source_drill_last_speed(block_id: String, item_id: String, ore_count: int, warmup: float, speed := 1.0) -> float:
+	if ore_count <= 0:
+		return 0.0
+	var delay := source_drill_delay(block_id, item_id)
+	if delay <= 0.0:
+		return 0.0
+	return speed * float(ore_count) * warmup / delay
+
+func source_drill_last_speed_for_cell(x: int, y: int, item_id: String, ore_count: int, warmup: float, speed := 1.0) -> float:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	if not is_instance_valid(sprite):
+		return 0.0
+	return source_drill_last_speed(str(sprite.get_meta("source_block_id", "")), item_id, ore_count, warmup, speed)
+
+func drill_last_speed_at_cell(x: int, y: int) -> float:
+	return float(drill_last_speeds.get(cell_key(Vector2i(x, y)), 0.0))
+
+func set_drill_last_speed_at_cell(x: int, y: int, value: float) -> void:
+	drill_last_speeds[cell_key(Vector2i(x, y))] = value
 
 func source_drill_time_drilled_delta(warmup: float, seconds: float, time_scale := 1.0) -> float:
 	return warmup * source_building_delta(seconds * SOURCE_TICK_RATE, time_scale)
@@ -1148,12 +1174,15 @@ func simulate_factory(delta: float) -> void:
 		return
 	if drill_output_rate > 0.0:
 		step_drill_time_drilled_cell(drill_pos.x, drill_pos.y, delta, drill_warmup_at_cell(drill_pos.x, drill_pos.y))
+		set_drill_last_speed_at_cell(drill_pos.x, drill_pos.y, source_drill_last_speed_for_cell(drill_pos.x, drill_pos.y, drill_output_item_id, drill_ore_cell_count, drill_warmup_at_cell(drill_pos.x, drill_pos.y)))
 		var drill_warmup := step_drill_warmup_cell(drill_pos.x, drill_pos.y, delta)
 		item_progress += source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_output_item_id, drill_ore_cell_count, delta, drill_warmup)
 		while item_progress >= 1.0:
 			item_progress -= 1.0
 			add_core_item(drill_output_item_id, 1)
 			produced_total += 1
+	else:
+		set_drill_last_speed_at_cell(drill_pos.x, drill_pos.y, 0.0)
 	transport_progress = fmod(transport_progress + source_conveyor_path_progress_delta_for_cell(drill_pos.x + 1, drill_pos.y, delta), 1.0)
 	for i in item_sprites.size():
 		var phase := fmod(transport_progress + float(i) / float(item_sprites.size()), 1.0)
@@ -1186,6 +1215,7 @@ func step_factory_drill(seconds: float) -> Dictionary:
 		"drill_warmup_before": warmup_before,
 		"drill_warmup": drill_warmup_at_cell(drill_pos.x, drill_pos.y),
 		"drill_time_drilled": drill_time_drilled_at_cell(drill_pos.x, drill_pos.y),
+		"drill_last_speed": drill_last_speed_at_cell(drill_pos.x, drill_pos.y),
 		"drill_output_delta": output_delta,
 		"item_progress": item_progress,
 		"drill_time_scale": source_block_time_scale_at_cell(drill_pos.x, drill_pos.y),

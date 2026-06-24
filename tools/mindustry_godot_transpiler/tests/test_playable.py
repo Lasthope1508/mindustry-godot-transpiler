@@ -1013,7 +1013,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("add_core_item(drill_output_item_id, 1)", source)
         self.assertNotIn('add_core_item("copper", 1)', source)
         self.assertIn("func source_drill_output_rate(block_id: String, item_id: String, ore_count: int) -> float:", source)
-        self.assertIn('var delay := float(block.properties.get("drillTime", 300.0)) + SOURCE_DRILL_HARDNESS_MULTIPLIER * float(item.properties.get("hardness", 0))', source)
+        self.assertIn("func source_drill_delay(block_id: String, item_id: String) -> float:", source)
+        self.assertIn('return float(block.properties.get("drillTime", 300.0)) + SOURCE_DRILL_HARDNESS_MULTIPLIER * float(item.properties.get("hardness", 0))', source)
+        self.assertIn("var delay := source_drill_delay(block_id, item_id)", source)
         self.assertIn("return 60.0 * float(ore_count) / delay", source)
         self.assertIn("func source_drill_output_delta(block_id: String, item_id: String, ore_count: int, seconds: float, time_scale := 1.0, warmup := 1.0) -> float:", source)
         self.assertIn("var scaled_source_delta := source_building_delta(seconds * SOURCE_TICK_RATE, time_scale)", source)
@@ -1056,6 +1058,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func step_drill_time_drilled_cell(x: int, y: int, seconds: float, warmup: float) -> float:", source)
         self.assertIn("step_drill_time_drilled_cell(drill_pos.x, drill_pos.y, delta, drill_warmup_at_cell(drill_pos.x, drill_pos.y))", source)
         self.assertIn('"drill_time_drilled": drill_time_drilled_at_cell(drill_pos.x, drill_pos.y)', source)
+
+    def test_port_game_tracks_source_drill_last_speed(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var drill_last_speeds: Dictionary = {}", source)
+        self.assertIn("func source_drill_last_speed(block_id: String, item_id: String, ore_count: int, warmup: float, speed := 1.0) -> float:", source)
+        self.assertIn('var delay := source_drill_delay(block_id, item_id)', source)
+        self.assertIn("return speed * float(ore_count) * warmup / delay", source)
+        self.assertIn("func drill_last_speed_at_cell(x: int, y: int) -> float:", source)
+        self.assertIn("func set_drill_last_speed_at_cell(x: int, y: int, value: float) -> void:", source)
+        self.assertIn("set_drill_last_speed_at_cell(drill_pos.x, drill_pos.y, source_drill_last_speed_for_cell(drill_pos.x, drill_pos.y, drill_output_item_id, drill_ore_cell_count, drill_warmup_at_cell(drill_pos.x, drill_pos.y)))", source)
+        self.assertIn('"drill_last_speed": drill_last_speed_at_cell(drill_pos.x, drill_pos.y)', source)
 
     def test_port_game_uses_source_conveyor_speed_for_item_motion(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

@@ -167,5 +167,16 @@ class SourceParityTests(unittest.TestCase):
         self.assertEqual(report["checked"], {
             "time_drilled": "timeDrilled += warmup * delta();",
         })
+
+    def test_drill_last_drill_speed_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_drill_last_speed_source"))
+        report = source_parity.verify_drill_last_speed_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/production/Drill.java")
+        self.assertEqual(report["checked"], {
+            "speed": "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;",
+            "last_speed_active": "lastDrillSpeed = (speed * dominantItems * warmup) / delay;",
+            "last_speed_inactive": "lastDrillSpeed = 0f;",
+        })
 if __name__ == "__main__":
     unittest.main()

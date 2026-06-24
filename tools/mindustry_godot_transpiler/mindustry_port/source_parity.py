@@ -133,6 +133,22 @@ def verify_drill_time_drilled_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_drill_last_speed_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / DRILL_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    speed = "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;"
+    last_speed_active = "lastDrillSpeed = (speed * dominantItems * warmup) / delay;"
+    last_speed_inactive = "lastDrillSpeed = 0f;"
+    missing = []
+    for snippet in [speed, last_speed_active, last_speed_inactive]:
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": DRILL_SOURCE,
+        "checked": {"speed": speed, "last_speed_active": last_speed_active, "last_speed_inactive": last_speed_inactive},
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
