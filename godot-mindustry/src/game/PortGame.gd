@@ -1472,6 +1472,9 @@ func source_building_draw_light_state(has_liquids: bool, draw_liquid_light: bool
 	light_state["visual_liquid"] = next_visual_liquid
 	return light_state
 
+func source_building_draw_team_state(team_color: String, source_x: float, source_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:
+	return {"visible": true, "region": "block-border", "color": team_color, "x": source_x - block_size_value * source_tilesize / 2.0 + 4.0, "y": source_y - block_size_value * source_tilesize / 2.0 + 4.0, "color_reset": true}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

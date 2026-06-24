@@ -1497,6 +1497,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var next_visual_liquid := source_arc_lerp_delta(visual_liquid, target, 0.06, source_delta)", source)
         self.assertIn("var light_state := source_building_draw_liquid_light_state(source_x, source_y, block_size_value, selected_color, selected_alpha, next_visual_liquid)", source)
 
+    def test_port_game_exposes_source_building_draw_team_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_draw_team_state(team_color: String, source_x: float, source_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn('"region": "block-border"', source)
+        self.assertIn('"color": team_color', source)
+        self.assertIn('"x": source_x - block_size_value * source_tilesize / 2.0 + 4.0', source)
+        self.assertIn('"y": source_y - block_size_value * source_tilesize / 2.0 + 4.0', source)
+        self.assertIn('"color_reset": true', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
