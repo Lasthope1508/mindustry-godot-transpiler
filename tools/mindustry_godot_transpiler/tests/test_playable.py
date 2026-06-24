@@ -1121,7 +1121,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_dump_drill_item_to_core(item_id: String) -> bool:", source)
         self.assertIn("if drill_item_count(item_id) <= 0:", source)
         self.assertIn("remove_drill_item(item_id, 1)", source)
-        self.assertIn("add_core_item(item_id, 1)", source)
+        self.assertIn("source_core_handle_item(item_id)", source)
         self.assertIn("func simulate_drill_dump(delta: float) -> void:", source)
         self.assertIn("drill_dump_timer += delta * SOURCE_TICK_RATE", source)
         self.assertIn("var dump_interval := source_drill_dump_interval(\"mechanical-drill\", source_block_time_scale_at_cell(drill_pos.x, drill_pos.y))", source)
@@ -1138,8 +1138,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return core_item_count(item_id) < core_item_capacity", source)
         self.assertIn("if not source_core_accept_item(item_id):", source)
         self.assertIn("return false", source)
-        self.assertLess(source.index("if not source_core_accept_item(item_id):"), source.index("remove_drill_item(item_id, 1)"))
-        self.assertLess(source.index("remove_drill_item(item_id, 1)"), source.index("add_core_item(item_id, 1)"))
+        dump_start = source.index("func source_dump_drill_item_to_core(item_id: String) -> bool:")
+        self.assertLess(source.index("if not source_core_accept_item(item_id):", dump_start), source.index("source_core_handle_item(item_id)", dump_start))
+        self.assertLess(source.index("source_core_handle_item(item_id)", dump_start), source.index("remove_drill_item(item_id, 1)", dump_start))
+
+    def test_port_game_handles_core_item_like_source_before_dump_remove(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_core_handle_item(item_id: String) -> bool:", source)
+        self.assertIn("if not source_core_accept_item(item_id):", source)
+        self.assertIn("add_core_item(item_id, 1)", source)
+        self.assertIn("return true", source)
+        dump_start = source.index("func source_dump_drill_item_to_core(item_id: String) -> bool:")
+        self.assertLess(source.index("source_core_handle_item(item_id)", dump_start), source.index("remove_drill_item(item_id, 1)", dump_start))
 
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

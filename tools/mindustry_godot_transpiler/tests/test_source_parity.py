@@ -262,5 +262,19 @@ class SourceParityTests(unittest.TestCase):
             "core_accept_item": "return state.rules.coreIncinerates || items.get(item) < getMaximumAccepted(item);",
             "core_maximum_accepted": "return state.rules.coreIncinerates ? Integer.MAX_VALUE/2 : storageCapacity;",
         })
+
+    def test_core_handle_item_capacity_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_core_handle_item_source"))
+        report = source_parity.verify_core_handle_item_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/storage/CoreBlock.java")
+        self.assertEqual(report["building_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "core_handle_method": "public void handleItem(Building source, Item item){",
+            "core_full_gate": "if(items.get(item) >= storageCapacity || incinerate){",
+            "core_handle_else": "}else{",
+            "core_super_handle": "super.handleItem(source, item);",
+            "building_handle_add": "items.add(item, 1);",
+        })
 if __name__ == "__main__":
     unittest.main()

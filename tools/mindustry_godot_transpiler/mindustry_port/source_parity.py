@@ -320,6 +320,39 @@ def verify_building_dump_accept_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_core_handle_item_source(upstream_root: Path) -> dict[str, Any]:
+    core_path = Path(upstream_root) / CORE_BLOCK_SOURCE
+    building_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    core_source = core_path.read_text(encoding="utf-8", errors="replace")
+    building_source = building_path.read_text(encoding="utf-8", errors="replace")
+    core_handle_method = "public void handleItem(Building source, Item item){"
+    core_full_gate = "if(items.get(item) >= storageCapacity || incinerate){"
+    core_handle_else = "}else{"
+    core_super_handle = "super.handleItem(source, item);"
+    building_handle_add = "items.add(item, 1);"
+    missing = []
+    for snippet, source in [
+        (core_handle_method, core_source),
+        (core_full_gate, core_source),
+        (core_handle_else, core_source),
+        (core_super_handle, core_source),
+        (building_handle_add, building_source),
+    ]:
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": CORE_BLOCK_SOURCE,
+        "building_source": BUILDING_COMP_SOURCE,
+        "checked": {
+            "core_handle_method": core_handle_method,
+            "core_full_gate": core_full_gate,
+            "core_handle_else": core_handle_else,
+            "core_super_handle": core_super_handle,
+            "building_handle_add": building_handle_add,
+        },
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

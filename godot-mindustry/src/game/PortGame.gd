@@ -1155,6 +1155,12 @@ func core_item_count(item_id: String) -> int:
 func source_core_accept_item(item_id: String) -> bool:
 	return core_item_count(item_id) < core_item_capacity
 
+func source_core_handle_item(item_id: String) -> bool:
+	if not source_core_accept_item(item_id):
+		return false
+	add_core_item(item_id, 1)
+	return true
+
 func drill_item_count(item_id: String) -> int:
 	return int(drill_items.get(item_id, 0))
 
@@ -1180,8 +1186,9 @@ func source_dump_drill_item_to_core(item_id: String) -> bool:
 		return false
 	if not source_core_accept_item(item_id):
 		return false
+	if not source_core_handle_item(item_id):
+		return false
 	remove_drill_item(item_id, 1)
-	add_core_item(item_id, 1)
 	return true
 
 func requirements_text(block) -> String:
