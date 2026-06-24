@@ -35,6 +35,7 @@ var ore_items_by_cell: Dictionary = {}
 var placed_blocks: Dictionary = {}
 var placed_block_origins: Dictionary = {}
 var mend_projector_charges: Dictionary = {}
+var mend_projector_heat: Dictionary = {}
 var mend_projector_phase_heat: Dictionary = {}
 var mend_projector_optional_efficiency: Dictionary = {}
 var mend_projector_booster_items: Dictionary = {}
@@ -465,6 +466,20 @@ func mend_projector_phase_heat_at_cell(x: int, y: int) -> float:
 	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 	return float(mend_projector_phase_heat.get(cell_key(origin_cell), 0.0))
 
+func mend_projector_heat_at_cell(x: int, y: int) -> float:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	if not is_instance_valid(sprite):
+		return 0.0
+	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+	return float(mend_projector_heat.get(cell_key(origin_cell), 0.0))
+
+func mend_projector_charge_at_cell(x: int, y: int) -> float:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	if not is_instance_valid(sprite):
+		return 0.0
+	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+	return float(mend_projector_charges.get(cell_key(origin_cell), 0.0))
+
 func block_size(block) -> int:
 	return max(1, int(block.properties.get("size", 1)))
 
@@ -714,6 +729,7 @@ func simulate_mend_projectors(delta: float) -> void:
 			continue
 		if block.implementation != "MendProjector":
 			continue
+		mend_projector_heat[key] = source_lerp_delta(float(mend_projector_heat.get(key, 0.0)), 1.0, 0.08, source_delta)
 		mend_projector_optional_efficiency[key] = 1.0 if int(mend_projector_booster_items.get(key, 0)) > 0 else 0.0
 		mend_projector_phase_heat[key] = source_lerp_delta(float(mend_projector_phase_heat.get(key, 0.0)), float(mend_projector_optional_efficiency.get(key, 0.0)), 0.1, source_delta)
 		mend_projector_booster_timers[key] = float(mend_projector_booster_timers.get(key, 0.0)) + source_delta
@@ -721,7 +737,7 @@ func simulate_mend_projectors(delta: float) -> void:
 			mend_projector_booster_items[key] = max(0, int(mend_projector_booster_items.get(key, 0)) - 1)
 			mend_projector_booster_timers[key] = 0.0
 			mend_projector_optional_efficiency[key] = 1.0 if int(mend_projector_booster_items.get(key, 0)) > 0 else 0.0
-		mend_projector_charges[key] = float(mend_projector_charges.get(key, 0.0)) + source_delta
+		mend_projector_charges[key] = float(mend_projector_charges.get(key, 0.0)) + float(mend_projector_heat.get(key, 0.0)) * source_delta
 		if float(mend_projector_charges.get(key, 0.0)) < float(block.properties.get("reload", 0.0)):
 			continue
 		mend_projector_charges[key] = 0.0

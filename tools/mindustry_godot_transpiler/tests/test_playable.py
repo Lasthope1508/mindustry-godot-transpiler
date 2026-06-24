@@ -299,7 +299,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("simulate_mend_projectors(delta)", source)
         self.assertIn("func simulate_mend_projectors(delta: float) -> void:", source)
         self.assertIn('if block.implementation != "MendProjector":', source)
-        self.assertIn("mend_projector_charges[key] = float(mend_projector_charges.get(key, 0.0)) + source_delta", source)
+        self.assertIn("mend_projector_charges[key] = float(mend_projector_charges.get(key, 0.0)) + float(mend_projector_heat.get(key, 0.0)) * source_delta", source)
         self.assertIn('if float(mend_projector_charges.get(key, 0.0)) < float(block.properties.get("reload", 0.0)):', source)
         self.assertIn("func find_damaged_block_in_mend_range(mend_cell: Vector2i, mend_projector, phase_heat := 0.0):", source)
         self.assertIn("func source_mend_projector_range(mend_projector, phase_heat := 0.0) -> float:", source)
@@ -357,6 +357,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertLess(
             source.index("mend_projector_phase_heat[key] = source_lerp_delta"),
             source.index('if float(mend_projector_booster_timers.get(key, 0.0)) >= float(block.properties.get("boosterUseTime", 0.0)):'),
+        )
+
+    def test_port_game_advances_mend_projector_charge_with_source_heat(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var mend_projector_heat: Dictionary = {}", source)
+        self.assertIn("mend_projector_heat[key] = source_lerp_delta(float(mend_projector_heat.get(key, 0.0)), 1.0, 0.08, source_delta)", source)
+        self.assertIn("mend_projector_charges[key] = float(mend_projector_charges.get(key, 0.0)) + float(mend_projector_heat.get(key, 0.0)) * source_delta", source)
+        self.assertNotIn("mend_projector_charges[key] = float(mend_projector_charges.get(key, 0.0)) + source_delta", source)
+        self.assertIn("func mend_projector_heat_at_cell(x: int, y: int) -> float:", source)
+        self.assertIn("func mend_projector_charge_at_cell(x: int, y: int) -> float:", source)
+        self.assertLess(
+            source.index("mend_projector_heat[key] = source_lerp_delta"),
+            source.index("mend_projector_charges[key] = float(mend_projector_charges.get(key, 0.0)) + float(mend_projector_heat.get(key, 0.0)) * source_delta"),
         )
 
     def test_port_game_enforces_source_core_item_capacity(self):
