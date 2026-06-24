@@ -1241,6 +1241,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var removed := mini(amount, item_count)", source)
         self.assertIn('return {"removed": removed, "remaining": item_count - removed}', source)
 
+    def test_port_game_exposes_source_building_payload_default_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_accept_payload_state() -> bool:", source)
+        self.assertIn("return false", source)
+        self.assertIn("func source_building_handle_payload_state(payload_state: Variant) -> Variant:", source)
+        self.assertIn("return payload_state", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

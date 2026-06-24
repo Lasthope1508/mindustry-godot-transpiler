@@ -576,6 +576,28 @@ def verify_building_remove_stack_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_building_payload_default_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    accept_payload_method = "public boolean acceptPayload(Building source, Payload payload){"
+    accept_payload_return = "return false;"
+    handle_payload_method = "public void handlePayload(Building source, Payload payload){"
+    handle_payload_empty_body = "public void handlePayload(Building source, Payload payload){\n\n    }"
+    missing = []
+    for snippet in [accept_payload_method, accept_payload_return, handle_payload_method, handle_payload_empty_body]:
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": {
+            "accept_payload_method": accept_payload_method,
+            "accept_payload_return": accept_payload_return,
+            "handle_payload_method": handle_payload_method,
+            "handle_payload_empty_body": handle_payload_empty_body,
+        },
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

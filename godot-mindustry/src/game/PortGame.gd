@@ -1186,6 +1186,12 @@ func source_building_remove_stack_state(has_items_module: bool, item_count: int,
 	var removed := mini(amount, item_count)
 	return {"removed": removed, "remaining": item_count - removed}
 
+func source_building_accept_payload_state() -> bool:
+	return false
+
+func source_building_handle_payload_state(payload_state: Variant) -> Variant:
+	return payload_state
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
