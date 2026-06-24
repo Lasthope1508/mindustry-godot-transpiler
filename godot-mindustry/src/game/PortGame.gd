@@ -332,6 +332,15 @@ func source_mend_projector_repair_amount(mend_projector, target_block, phase_hea
 	var target_health := float(target_block.properties.get("health", 0.0))
 	return target_health * (heal_percent + phase_heat * phase_boost) / 100.0 * efficiency
 
+func source_mend_projector_light_state(mend_projector, smooth_efficiency: float) -> Dictionary:
+	if mend_projector == null or not bool(mend_projector.properties.get("emitLight", false)):
+		return {"color": "", "radius": 0.0, "alpha": 0.0}
+	return {
+		"color": str(mend_projector.properties.get("baseColor", "")),
+		"radius": float(mend_projector.properties.get("lightRadius", 0.0)) * smooth_efficiency,
+		"alpha": 0.7 * smooth_efficiency,
+	}
+
 func source_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:
 	return from_value + (to_value - from_value) * clamp(progress * source_delta, 0.0, 1.0)
 
@@ -473,6 +482,13 @@ func mend_projector_smooth_efficiency_at_cell(x: int, y: int) -> float:
 		return 0.0
 	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 	return float(mend_projector_smooth_efficiency.get(cell_key(origin_cell), 0.0))
+
+func mend_projector_light_state_at_cell(x: int, y: int) -> Dictionary:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	var block = block_from_sprite(sprite)
+	if block == null or block.implementation != "MendProjector":
+		return {"color": "", "radius": 0.0, "alpha": 0.0}
+	return source_mend_projector_light_state(block, mend_projector_smooth_efficiency_at_cell(x, y))
 
 func mend_projector_heat_at_cell(x: int, y: int) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))

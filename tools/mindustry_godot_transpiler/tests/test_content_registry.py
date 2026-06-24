@@ -246,6 +246,9 @@ public class Blocks{
             scaledHealth = 80;
             healPercent = 11f;
             phaseBoost = 15f;
+            baseColor = Color.valueOf("84f491");
+            emitLight = true;
+            lightRadius = 50f;
             reload = 250f;
             range = 85f;
             consumeItem(Items.phaseFabric).boost();
@@ -265,6 +268,9 @@ public class Blocks{
         self.assertEqual(registry["blocks"][0]["properties"].get("phaseRangeBoost"), 50.0)
         self.assertEqual(registry["blocks"][0]["properties"].get("boosterItem"), "phase-fabric")
         self.assertEqual(registry["blocks"][0]["properties"].get("boosterUseTime"), 400.0)
+        self.assertEqual(registry["blocks"][0]["properties"].get("baseColor"), "84f491")
+        self.assertEqual(registry["blocks"][0]["properties"].get("emitLight"), True)
+        self.assertEqual(registry["blocks"][0]["properties"].get("lightRadius"), 50.0)
 
 if __name__ == "__main__":
     unittest.main()

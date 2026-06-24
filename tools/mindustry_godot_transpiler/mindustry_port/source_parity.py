@@ -5,6 +5,24 @@ from typing import Any
 
 
 DUO_SOURCE = "core/src/mindustry/content/Blocks.java"
+MEND_PROJECTOR_SOURCE = "core/src/mindustry/world/blocks/defense/MendProjector.java"
+
+def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
+    registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    registry = json.loads(registry_path.read_text(encoding="utf-8"))
+    expected = _extract_mend_projector_light(source)
+    actual_props = _registry_block(registry, "mend-projector").get("properties", {})
+    mismatches: list[dict[str, Any]] = []
+    for key, expected_value in expected.items():
+        _append_mismatch(mismatches, f"properties.{key}", expected_value, actual_props.get(key))
+    return {
+        "source": MEND_PROJECTOR_SOURCE,
+        "block": "mend-projector",
+        "checked": expected,
+        "mismatches": mismatches,
+    }
 
 def verify_mend_projector_scaled_health_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / DUO_SOURCE
@@ -243,3 +261,23 @@ def _mend_projector_repair_amount(health: Any, heal_percent: Any, phase_boost: A
 def _boost_item(source: str) -> str | None:
     match = re.search(r"\bconsumeItem\s*\(\s*Items\.([A-Za-z_]\w*)\s*(?:,\s*[0-9_]+)?\s*\)\s*\.\s*boost\s*\(", source)
     return _camel_to_kebab(match.group(1)) if match else None
+
+def _extract_mend_projector_light(source: str) -> dict[str, Any]:
+    base_color = _color_value_assignment(source, "baseColor")
+    emit_light = _boolean_assignment(source, "emitLight")
+    light_radius = _numeric_assignment(source, "lightRadius")
+    if base_color is None:
+        raise ValueError("MendProjector baseColor default not found")
+    if emit_light is None:
+        raise ValueError("MendProjector emitLight assignment not found")
+    if light_radius is None:
+        raise ValueError("MendProjector lightRadius assignment not found")
+    return {"baseColor": base_color, "emitLight": emit_light, "lightRadius": float(light_radius)}
+
+def _boolean_assignment(source: str, key: str) -> bool | None:
+    match = re.search(rf"\b{key}\s*=\s*(true|false)\s*;", source)
+    return match.group(1) == "true" if match else None
+
+def _color_value_assignment(source: str, key: str) -> str | None:
+    match = re.search(rf"\b{key}\s*=\s*Color\.valueOf\(\s*\"([0-9A-Fa-f]+)\"\s*\)\s*;", source)
+    return match.group(1).lower() if match else None

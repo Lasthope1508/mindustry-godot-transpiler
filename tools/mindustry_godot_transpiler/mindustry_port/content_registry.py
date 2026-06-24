@@ -253,10 +253,16 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
         match = re.search(rf"\b{key}\s*=\s*([0-9_]+)\s*;", initializer)
         if match:
             properties[key] = int(match.group(1).replace("_", ""))
-    for key in ["range", "reload", "drillTime", "speed", "displayedSpeed", "shootY", "inaccuracy", "rotateSpeed", "shootCone", "recoil", "scaledHealth", "healPercent", "phaseBoost", "phaseRangeBoost"]:
+    for key in ["range", "reload", "drillTime", "speed", "displayedSpeed", "shootY", "inaccuracy", "rotateSpeed", "shootCone", "recoil", "scaledHealth", "healPercent", "phaseBoost", "phaseRangeBoost", "lightRadius"]:
         value = _numeric_assignment(initializer, key)
         if value is not None:
             properties[key] = value
+    base_color = _color_value_assignment(initializer, "baseColor")
+    if base_color is not None:
+        properties["baseColor"] = base_color
+    emit_light = _boolean_assignment(initializer, "emitLight")
+    if emit_light is not None:
+        properties["emitLight"] = emit_light
     if "scaledHealth" in properties and "health" not in properties and not _has_assignment(initializer, "health"):
         properties["health"] = int(int(properties.get("size", 1)) * int(properties.get("size", 1)) * float(properties["scaledHealth"]))
     if implementation == "MendProjector":
@@ -297,6 +303,12 @@ def _apply_mend_projector_defaults(properties: dict[str, Any], initializer: str)
     for key, default in {"healPercent": 12.0, "phaseBoost": 12.0, "phaseRangeBoost": 50.0}.items():
         if key not in properties and not _has_assignment(initializer, key):
             properties[key] = default
+    if "baseColor" not in properties and not _has_assignment(initializer, "baseColor"):
+        properties["baseColor"] = "84f491"
+    if "emitLight" not in properties and not _has_assignment(initializer, "emitLight"):
+        properties["emitLight"] = True
+    if "lightRadius" not in properties and not _has_assignment(initializer, "lightRadius"):
+        properties["lightRadius"] = 50.0
 
 def _boost_item(source: str) -> str | None:
     match = re.search(r"\bconsumeItem\s*\(\s*Items\.([A-Za-z_]\w*)\s*(?:,\s*[0-9_]+)?\s*\)\s*\.\s*boost\s*\(", source)
@@ -308,6 +320,10 @@ def _has_assignment(source: str, key: str) -> bool:
 def _boolean_assignment(source: str, key: str) -> bool | None:
     match = re.search(rf"\b{key}\s*=\s*(true|false)\s*;", source)
     return match.group(1) == "true" if match else None
+
+def _color_value_assignment(source: str, key: str) -> str | None:
+    match = re.search(rf"\b{key}\s*=\s*Color\.valueOf\(\s*\"([0-9A-Fa-f]+)\"\s*\)\s*;", source)
+    return match.group(1).lower() if match else None
 
 def _numeric_assignment(source: str, key: str) -> int | float | None:
     match = re.search(rf"\b{key}\s*=\s*([0-9_]+(?:\.[0-9_]+)?[fFdDlL]?)\s*;", source)

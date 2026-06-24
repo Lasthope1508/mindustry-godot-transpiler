@@ -68,5 +68,14 @@ class SourceParityTests(unittest.TestCase):
         self.assertEqual(report["checked"]["efficiency"], 1.0)
         self.assertAlmostEqual(report["checked"]["repairAmount"], 35.2)
 
+    def test_generated_mend_projector_light_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_mend_projector_light_parity"))
+        report = source_parity.verify_mend_projector_light_parity(ROOT / "mindustry-upstream", ROOT / "godot-mindustry")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/MendProjector.java")
+        self.assertEqual(report["block"], "mend-projector")
+        self.assertEqual(report["mismatches"], [])
+        self.assertEqual(report["checked"], {"baseColor": "84f491", "emitLight": True, "lightRadius": 50.0})
+
 if __name__ == "__main__":
     unittest.main()

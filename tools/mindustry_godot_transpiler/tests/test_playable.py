@@ -386,6 +386,17 @@ class PlayableManifestTests(unittest.TestCase):
             source.index("mend_projector_heat[key] = source_lerp_delta"),
         )
 
+    def test_port_game_computes_mend_projector_light_state_like_source(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_mend_projector_light_state(mend_projector, smooth_efficiency: float) -> Dictionary:", source)
+        self.assertIn('"color": str(mend_projector.properties.get("baseColor", ""))', source)
+        self.assertIn('"radius": float(mend_projector.properties.get("lightRadius", 0.0)) * smooth_efficiency', source)
+        self.assertIn('"alpha": 0.7 * smooth_efficiency', source)
+        self.assertIn("func mend_projector_light_state_at_cell(x: int, y: int) -> Dictionary:", source)
+        self.assertIn("return source_mend_projector_light_state(block, mend_projector_smooth_efficiency_at_cell(x, y))", source)
+
     def test_port_game_enforces_source_core_item_capacity(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

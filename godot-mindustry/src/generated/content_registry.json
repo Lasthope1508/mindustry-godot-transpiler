@@ -95,14 +95,20 @@
       "field": "cryofluid",
       "id": "pooled-cryofluid",
       "implementation": "Floor",
-      "properties": {},
+      "properties": {
+        "emitLight": true,
+        "lightRadius": 25.0
+      },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/pooled-cryofluid.png"
     },
     {
       "field": "slag",
       "id": "molten-slag",
       "implementation": "Floor",
-      "properties": {},
+      "properties": {
+        "emitLight": true,
+        "lightRadius": 40.0
+      },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/molten-slag.png"
     },
     {
@@ -151,14 +157,20 @@
       "field": "hotrock",
       "id": "hotrock",
       "implementation": "Floor",
-      "properties": {},
+      "properties": {
+        "emitLight": true,
+        "lightRadius": 30.0
+      },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/hotrock1.png"
     },
     {
       "field": "magmarock",
       "id": "magmarock",
       "implementation": "Floor",
-      "properties": {},
+      "properties": {
+        "emitLight": true,
+        "lightRadius": 50.0
+      },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/magmarock1.png"
     },
     {
@@ -928,7 +940,10 @@
       "field": "metalTiles6",
       "id": "metal-tiles-6",
       "implementation": "Floor",
-      "properties": {},
+      "properties": {
+        "emitLight": true,
+        "lightRadius": 30.0
+      },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-6-autotile.png"
     },
     {
@@ -970,7 +985,10 @@
       "field": "metalTiles12",
       "id": "metal-tiles-12",
       "implementation": "Floor",
-      "properties": {},
+      "properties": {
+        "emitLight": true,
+        "lightRadius": 30.0
+      },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-12.png"
     },
     {
@@ -2345,11 +2363,14 @@
       "id": "mender",
       "implementation": "MendProjector",
       "properties": {
+        "baseColor": "84f491",
         "boosterItem": "silicon",
         "boosterUseTime": 400.0,
         "category": "effect",
+        "emitLight": true,
         "healPercent": 4.0,
         "health": 80,
+        "lightRadius": 50.0,
         "phaseBoost": 4.0,
         "phaseRangeBoost": 20.0,
         "range": 40.0,
@@ -2373,11 +2394,14 @@
       "id": "mend-projector",
       "implementation": "MendProjector",
       "properties": {
+        "baseColor": "84f491",
         "boosterItem": "phase-fabric",
         "boosterUseTime": 400.0,
         "category": "effect",
+        "emitLight": true,
         "healPercent": 11.0,
         "health": 320,
+        "lightRadius": 50.0,
         "phaseBoost": 15.0,
         "phaseRangeBoost": 50.0,
         "range": 85.0,
@@ -5910,6 +5934,7 @@
         "category": "turret",
         "consumeAmmoOnce": true,
         "health": 240,
+        "lightRadius": 30.0,
         "maxAmmo": 45,
         "range": 1350,
         "recoil": 0.5,
