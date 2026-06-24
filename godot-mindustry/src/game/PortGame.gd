@@ -1244,6 +1244,14 @@ func source_building_display_efficiency(edelta_value: float) -> float:
 func source_building_should_ambient_sound(should_consume_state: bool) -> bool:
 	return should_consume_state
 
+func source_building_draw_status_state(enable_draw_status: bool, consumers_length: int, block_size_value: int, source_x: float, source_y: float, source_tilesize: float) -> Dictionary:
+	if not (enable_draw_status and consumers_length > 0):
+		return {"visible": false}
+	var multiplier := 1.0 if block_size_value > 1 else 0.64
+	var brcx := source_x + (float(block_size_value) * source_tilesize / 2.0) - (source_tilesize * multiplier / 2.0)
+	var brcy := source_y - (float(block_size_value) * source_tilesize / 2.0) + (source_tilesize * multiplier / 2.0)
+	return {"visible": true, "multiplier": multiplier, "brcx": brcx, "brcy": brcy, "gray_square_size": 2.5 * multiplier, "status_square_size": 1.5 * multiplier}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

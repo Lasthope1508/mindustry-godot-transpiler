@@ -491,5 +491,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_draw_status_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_draw_status_source"))
+        report = source_parity.verify_building_draw_status_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "draw_status_method": "public void drawStatus(){",
+            "draw_status_guard": "if(block.enableDrawStatus && block.consumers.length > 0){",
+            "draw_status_multiplier": "float multiplier = block.size > 1 ? 1 : 0.64f;",
+            "draw_status_brcx": "float brcx = x + (block.size * tilesize / 2f) - (tilesize * multiplier / 2f);",
+            "draw_status_brcy": "float brcy = y - (block.size * tilesize / 2f) + (tilesize * multiplier / 2f);",
+            "draw_status_gray_square": "Fill.square(brcx, brcy, 2.5f * multiplier, 45);",
+            "draw_status_color_square": "Fill.square(brcx, brcy, 1.5f * multiplier, 45);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

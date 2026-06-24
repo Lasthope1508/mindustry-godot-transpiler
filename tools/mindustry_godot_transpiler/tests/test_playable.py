@@ -1312,6 +1312,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_should_ambient_sound(should_consume_state: bool) -> bool:", source)
         self.assertIn("return should_consume_state", source)
 
+    def test_port_game_exposes_source_building_draw_status_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_draw_status_state(enable_draw_status: bool, consumers_length: int, block_size_value: int, source_x: float, source_y: float, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn("if not (enable_draw_status and consumers_length > 0):", source)
+        self.assertIn('return {"visible": false}', source)
+        self.assertIn("var multiplier := 1.0 if block_size_value > 1 else 0.64", source)
+        self.assertIn("var brcx := source_x + (float(block_size_value) * source_tilesize / 2.0) - (source_tilesize * multiplier / 2.0)", source)
+        self.assertIn("var brcy := source_y - (float(block_size_value) * source_tilesize / 2.0) + (source_tilesize * multiplier / 2.0)", source)
+        self.assertIn('"gray_square_size": 2.5 * multiplier', source)
+        self.assertIn('"status_square_size": 1.5 * multiplier', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

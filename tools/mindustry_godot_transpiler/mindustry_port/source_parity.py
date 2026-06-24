@@ -752,6 +752,35 @@ def verify_building_progress_display_ambient_source(upstream_root: Path) -> dict
         "missing": missing,
     }
 
+def verify_building_draw_status_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    draw_status_method = "public void drawStatus(){"
+    draw_status_guard = "if(block.enableDrawStatus && block.consumers.length > 0){"
+    draw_status_multiplier = "float multiplier = block.size > 1 ? 1 : 0.64f;"
+    draw_status_brcx = "float brcx = x + (block.size * tilesize / 2f) - (tilesize * multiplier / 2f);"
+    draw_status_brcy = "float brcy = y - (block.size * tilesize / 2f) + (tilesize * multiplier / 2f);"
+    draw_status_gray_square = "Fill.square(brcx, brcy, 2.5f * multiplier, 45);"
+    draw_status_color_square = "Fill.square(brcx, brcy, 1.5f * multiplier, 45);"
+    checked = {
+        "draw_status_method": draw_status_method,
+        "draw_status_guard": draw_status_guard,
+        "draw_status_multiplier": draw_status_multiplier,
+        "draw_status_brcx": draw_status_brcx,
+        "draw_status_brcy": draw_status_brcy,
+        "draw_status_gray_square": draw_status_gray_square,
+        "draw_status_color_square": draw_status_color_square,
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
