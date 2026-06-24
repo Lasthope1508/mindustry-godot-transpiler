@@ -342,6 +342,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var source_delta := delta * SOURCE_TICK_RATE", source)
         self.assertIn("mend_projector_phase_heat[key] = source_lerp_delta(float(mend_projector_phase_heat.get(key, 0.0)), float(mend_projector_optional_efficiency.get(key, 0.0)), 0.1, source_delta)", source)
 
+    def test_port_game_consumes_mend_projector_booster_stock_on_source_timer(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var mend_projector_booster_items: Dictionary = {}", source)
+        self.assertIn("var mend_projector_booster_timers: Dictionary = {}", source)
+        self.assertIn("mend_projector_booster_items[key] = int(mend_projector_booster_items.get(key, 0)) + 1", source)
+        self.assertIn("mend_projector_optional_efficiency[key] = 1.0 if int(mend_projector_booster_items.get(key, 0)) > 0 else 0.0", source)
+        self.assertIn("mend_projector_booster_timers[key] = float(mend_projector_booster_timers.get(key, 0.0)) + source_delta", source)
+        self.assertIn('if float(mend_projector_booster_timers.get(key, 0.0)) >= float(block.properties.get("boosterUseTime", 0.0)):', source)
+        self.assertIn("mend_projector_booster_items[key] = max(0, int(mend_projector_booster_items.get(key, 0)) - 1)", source)
+        self.assertIn("mend_projector_booster_timers[key] = 0.0", source)
+        self.assertLess(
+            source.index("mend_projector_phase_heat[key] = source_lerp_delta"),
+            source.index('if float(mend_projector_booster_timers.get(key, 0.0)) >= float(block.properties.get("boosterUseTime", 0.0)):'),
+        )
+
     def test_port_game_enforces_source_core_item_capacity(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
