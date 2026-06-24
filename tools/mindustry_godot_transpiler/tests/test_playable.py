@@ -392,6 +392,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func selected_build_overdrive_target_filter_state_for_block_id(target_block_id: String, distance: float, phase_heat := 0.0) -> Dictionary:", source)
         self.assertIn("return source_overdrive_projector_target_filter_state(selected, target, distance, phase_heat)", source)
 
+    def test_port_game_applies_overdrive_projector_boost_to_eligible_target_like_source(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn('sprite.set_meta("source_block_time_scale", 1.0)', source)
+        self.assertIn('sprite.set_meta("source_block_time_scale_duration", 0.0)', source)
+        self.assertIn("var last_overdrive_projector_boosted_block_id := \"\"", source)
+        self.assertIn("func source_block_time_scale_at_cell(x: int, y: int) -> float:", source)
+        self.assertIn("func source_block_time_scale_duration_at_cell(x: int, y: int) -> float:", source)
+        self.assertIn("func find_overdrive_boost_target(overdrive_cell: Vector2i, overdrive_projector, phase_heat := 0.0):", source)
+        self.assertIn("var filter_state := source_overdrive_projector_target_filter_state(overdrive_projector, target_block, distance, phase_heat)", source)
+        self.assertIn('if bool(filter_state.get("eligible", false)):', source)
+        self.assertIn("func apply_overdrive_boost_to_sprite(target, intensity: float, duration: float) -> void:", source)
+        self.assertIn("var result := source_building_apply_boost_state(float(target.get_meta(\"source_block_time_scale\", 1.0)), float(target.get_meta(\"source_block_time_scale_duration\", 0.0)), intensity, duration, bool(target_block.properties.get(\"canOverdrive\", true)))", source)
+        self.assertIn('target.set_meta("source_block_time_scale", float(result.get("time_scale", 1.0)))', source)
+        self.assertIn('target.set_meta("source_block_time_scale_duration", float(result.get("time_scale_duration", 0.0)))', source)
+        self.assertIn("var target = find_overdrive_boost_target(overdrive_cell, block, phase_heat)", source)
+        self.assertIn("apply_overdrive_boost_to_sprite(target, last_overdrive_projector_boost, last_overdrive_projector_boost_duration)", source)
+        self.assertIn('"last_overdrive_projector_boosted_block_id": last_overdrive_projector_boosted_block_id', source)
+
     def test_port_game_uses_source_mend_projector_repair_amount_formula(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

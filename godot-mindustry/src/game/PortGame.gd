@@ -62,6 +62,8 @@ var last_mend_projector_healed_cell := Vector2i.ZERO
 var last_overdrive_projector_boost_range := 0.0
 var last_overdrive_projector_boost := 0.0
 var last_overdrive_projector_boost_duration := 0.0
+var last_overdrive_projector_boosted_block_id := ""
+var last_overdrive_projector_boosted_cell := Vector2i.ZERO
 var core_inventory := 0
 var core_items: Dictionary = {"copper": 0}
 var core_item_capacity := 0
@@ -646,6 +648,8 @@ func record_placed_block(sprite: Sprite2D, block, cell: Vector2i) -> void:
 	sprite.set_meta("source_block_id", block.id)
 	sprite.set_meta("source_block_max_health", float(block.properties.get("health", 0.0)))
 	sprite.set_meta("source_block_health", float(block.properties.get("health", 0.0)))
+	sprite.set_meta("source_block_time_scale", 1.0)
+	sprite.set_meta("source_block_time_scale_duration", 0.0)
 
 func block_sprite_at_cell(cell: Vector2i):
 	return placed_blocks.get(cell_key(cell))
@@ -660,6 +664,18 @@ func source_block_health_at_cell(x: int, y: int) -> float:
 	if not is_instance_valid(sprite):
 		return 0.0
 	return float(sprite.get_meta("source_block_health", 0.0))
+
+func source_block_time_scale_at_cell(x: int, y: int) -> float:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	if not is_instance_valid(sprite):
+		return 1.0
+	return float(sprite.get_meta("source_block_time_scale", 1.0))
+
+func source_block_time_scale_duration_at_cell(x: int, y: int) -> float:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	if not is_instance_valid(sprite):
+		return 0.0
+	return float(sprite.get_meta("source_block_time_scale_duration", 0.0))
 
 func damage_block_at_cell(x: int, y: int, amount: float) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
@@ -1101,6 +1117,35 @@ func step_mend_projectors(seconds: float) -> Dictionary:
 		"last_mend_projector_healed_cell": {"x": last_mend_projector_healed_cell.x, "y": last_mend_projector_healed_cell.y},
 	}
 
+func find_overdrive_boost_target(overdrive_cell: Vector2i, overdrive_projector, phase_heat := 0.0):
+	if overdrive_projector == null:
+		return null
+	var overdrive_origin := source_block_sprite_base_position(overdrive_projector, overdrive_cell)
+	for origin_key in placed_block_origins.keys():
+		var target = placed_block_origins.get(origin_key)
+		var target_block = block_from_sprite(target)
+		if target_block == null:
+			continue
+		var target_cell: Vector2i = target.get_meta("origin_cell", Vector2i.ZERO)
+		var target_origin := source_block_sprite_base_position(target_block, target_cell)
+		var distance := overdrive_origin.distance_to(target_origin)
+		var filter_state := source_overdrive_projector_target_filter_state(overdrive_projector, target_block, distance, phase_heat)
+		if bool(filter_state.get("eligible", false)):
+			return target
+	return null
+
+func apply_overdrive_boost_to_sprite(target, intensity: float, duration: float) -> void:
+	if not is_instance_valid(target):
+		return
+	var target_block = block_from_sprite(target)
+	if target_block == null:
+		return
+	var result := source_building_apply_boost_state(float(target.get_meta("source_block_time_scale", 1.0)), float(target.get_meta("source_block_time_scale_duration", 0.0)), intensity, duration, bool(target_block.properties.get("canOverdrive", true)))
+	target.set_meta("source_block_time_scale", float(result.get("time_scale", 1.0)))
+	target.set_meta("source_block_time_scale_duration", float(result.get("time_scale_duration", 0.0)))
+	last_overdrive_projector_boosted_block_id = str(target.get_meta("source_block_id", ""))
+	last_overdrive_projector_boosted_cell = target.get_meta("origin_cell", Vector2i.ZERO)
+
 func simulate_overdrive_projectors(delta: float) -> void:
 	var source_delta := delta * SOURCE_TICK_RATE
 	for key in placed_block_origins.keys():
@@ -1122,6 +1167,9 @@ func simulate_overdrive_projectors(delta: float) -> void:
 			last_overdrive_projector_boost_range = source_overdrive_projector_range(block, phase_heat)
 			last_overdrive_projector_boost = source_overdrive_projector_real_boost(block, phase_heat, 1.0)
 			last_overdrive_projector_boost_duration = float(block.properties.get("reload", 0.0)) + 1.0
+			var overdrive_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+			var target = find_overdrive_boost_target(overdrive_cell, block, phase_heat)
+			apply_overdrive_boost_to_sprite(target, last_overdrive_projector_boost, last_overdrive_projector_boost_duration)
 		overdrive_projector_use_progress[key] = float(overdrive_projector_use_progress.get(key, 0.0)) + source_delta
 		if float(block.properties.get("useTime", 0.0)) > 0.0 and float(overdrive_projector_use_progress.get(key, 0.0)) >= float(block.properties.get("useTime", 0.0)):
 			overdrive_projector_booster_items[key] = max(0, int(overdrive_projector_booster_items.get(key, 0)) - 1)
@@ -1139,6 +1187,8 @@ func step_overdrive_projectors(seconds: float) -> Dictionary:
 			state["last_overdrive_projector_boost_range"] = last_overdrive_projector_boost_range
 			state["last_overdrive_projector_boost"] = last_overdrive_projector_boost
 			state["last_overdrive_projector_boost_duration"] = last_overdrive_projector_boost_duration
+			state["last_overdrive_projector_boosted_block_id"] = last_overdrive_projector_boosted_block_id
+			state["last_overdrive_projector_boosted_cell"] = {"x": last_overdrive_projector_boosted_cell.x, "y": last_overdrive_projector_boosted_cell.y}
 			return state
 	return {
 		"heat": 0.0,
@@ -1149,6 +1199,8 @@ func step_overdrive_projectors(seconds: float) -> Dictionary:
 		"last_overdrive_projector_boost_range": last_overdrive_projector_boost_range,
 		"last_overdrive_projector_boost": last_overdrive_projector_boost,
 		"last_overdrive_projector_boost_duration": last_overdrive_projector_boost_duration,
+		"last_overdrive_projector_boosted_block_id": last_overdrive_projector_boosted_block_id,
+		"last_overdrive_projector_boosted_cell": {"x": last_overdrive_projector_boosted_cell.x, "y": last_overdrive_projector_boosted_cell.y},
 	}
 
 func selected_enemy_unit():
@@ -1929,6 +1981,8 @@ func get_runtime_summary() -> Dictionary:
 		"last_overdrive_projector_boost_range": last_overdrive_projector_boost_range,
 		"last_overdrive_projector_boost": last_overdrive_projector_boost,
 		"last_overdrive_projector_boost_duration": last_overdrive_projector_boost_duration,
+		"last_overdrive_projector_boosted_block_id": last_overdrive_projector_boosted_block_id,
+		"last_overdrive_projector_boosted_cell": {"x": last_overdrive_projector_boosted_cell.x, "y": last_overdrive_projector_boosted_cell.y},
 		"selected_build_booster_item": selected_build_booster_item(),
 		"selected_build_booster_use_time": selected_build_booster_use_time(),
 		"selected_build_repair_amount": selected_build_repair_amount(),
