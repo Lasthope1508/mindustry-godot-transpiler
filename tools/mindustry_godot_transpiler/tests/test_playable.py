@@ -1110,6 +1110,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"drill_items": drill_items.duplicate()', source)
         self.assertIn('"drill_items_total": drill_items_total()', source)
 
+    def test_port_game_dumps_source_drill_inventory_to_core(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var drill_dump_timer := 0.0", source)
+        self.assertIn("func remove_drill_item(item_id: String, amount: int) -> int:", source)
+        self.assertIn("var removed = mini(amount, drill_item_count(item_id))", source)
+        self.assertIn("drill_items[item_id] = drill_item_count(item_id) - removed", source)
+        self.assertIn("func source_dump_drill_item_to_core(item_id: String) -> bool:", source)
+        self.assertIn("if drill_item_count(item_id) <= 0:", source)
+        self.assertIn("remove_drill_item(item_id, 1)", source)
+        self.assertIn("add_core_item(item_id, 1)", source)
+        self.assertIn("func simulate_drill_dump(delta: float) -> void:", source)
+        self.assertIn("drill_dump_timer += delta * SOURCE_TICK_RATE", source)
+        self.assertIn("var dump_interval := source_drill_dump_interval(\"mechanical-drill\", source_block_time_scale_at_cell(drill_pos.x, drill_pos.y))", source)
+        self.assertIn("if drill_dump_timer >= dump_interval:", source)
+        self.assertIn("source_dump_drill_item_to_core(drill_output_item_id)", source)
+        self.assertIn("simulate_drill_dump(delta)", source)
+        self.assertIn('"drill_dump_timer": drill_dump_timer', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

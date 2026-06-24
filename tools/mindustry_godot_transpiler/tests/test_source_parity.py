@@ -235,5 +235,18 @@ class SourceParityTests(unittest.TestCase):
             "offload_fallback": "handleItem(self(), item);",
             "item_module_add": "items[item] += amount;",
         })
+
+    def test_building_dump_removes_inventory_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_dump_remove_source"))
+        report = source_parity.verify_building_dump_remove_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "dump_method": "public boolean dump(Item todump){",
+            "dump_guard": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+            "dump_neighbor": "other.handleItem(self(), todump);",
+            "dump_remove": "items.remove(todump, 1);",
+            "dump_success": "return true;",
+        })
 if __name__ == "__main__":
     unittest.main()

@@ -262,6 +262,30 @@ def verify_building_offload_inventory_fallback_source(upstream_root: Path) -> di
         "missing": missing,
     }
 
+def verify_building_dump_remove_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    dump_method = "public boolean dump(Item todump){"
+    dump_guard = "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;"
+    dump_neighbor = "other.handleItem(self(), todump);"
+    dump_remove = "items.remove(todump, 1);"
+    dump_success = "return true;"
+    missing = []
+    for snippet in [dump_method, dump_guard, dump_neighbor, dump_remove, dump_success]:
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": {
+            "dump_method": dump_method,
+            "dump_guard": dump_guard,
+            "dump_neighbor": dump_neighbor,
+            "dump_remove": dump_remove,
+            "dump_success": dump_success,
+        },
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

@@ -78,6 +78,7 @@ var drill_warmups: Dictionary = {}
 var drill_time_drilled: Dictionary = {}
 var drill_last_speeds: Dictionary = {}
 var drill_items: Dictionary = {}
+var drill_dump_timer := 0.0
 var produced_total := 0
 var item_progress := 0.0
 var transport_progress := 0.0
@@ -1166,6 +1167,18 @@ func add_drill_item(item_id: String, amount: int) -> void:
 func source_offload_to_inventory(item_id: String, amount: int) -> void:
 	add_drill_item(item_id, amount)
 
+func remove_drill_item(item_id: String, amount: int) -> int:
+	var removed = mini(amount, drill_item_count(item_id))
+	drill_items[item_id] = drill_item_count(item_id) - removed
+	return removed
+
+func source_dump_drill_item_to_core(item_id: String) -> bool:
+	if drill_item_count(item_id) <= 0:
+		return false
+	remove_drill_item(item_id, 1)
+	add_core_item(item_id, 1)
+	return true
+
 func requirements_text(block) -> String:
 	var parts: Array[String] = []
 	for requirement in block.properties.get("requirements", []):
@@ -1228,6 +1241,7 @@ func simulate_factory(delta: float) -> void:
 	else:
 		set_drill_last_speed_at_cell(drill_pos.x, drill_pos.y, 0.0)
 		set_drill_warmup_at_cell(drill_pos.x, drill_pos.y, source_drill_inactive_warmup_state(drill_warmup_at_cell(drill_pos.x, drill_pos.y), source_drill_warmup_speed("mechanical-drill"), delta * SOURCE_TICK_RATE))
+	simulate_drill_dump(delta)
 	transport_progress = fmod(transport_progress + source_conveyor_path_progress_delta_for_cell(drill_pos.x + 1, drill_pos.y, delta), 1.0)
 	for i in item_sprites.size():
 		var phase := fmod(transport_progress + float(i) / float(item_sprites.size()), 1.0)
@@ -1236,6 +1250,15 @@ func simulate_factory(delta: float) -> void:
 		var local_t := fmod(phase * float(path_points.size() - 1), 1.0)
 		item_sprites[i].position = path_points[idx].lerp(path_points[next_idx], local_t)
 		item_sprites[i].visible = true
+
+func simulate_drill_dump(delta: float) -> void:
+	drill_dump_timer += delta * SOURCE_TICK_RATE
+	var dump_interval := source_drill_dump_interval("mechanical-drill", source_block_time_scale_at_cell(drill_pos.x, drill_pos.y))
+	if dump_interval <= 0.0:
+		return
+	if drill_dump_timer >= dump_interval:
+		drill_dump_timer -= dump_interval
+		source_dump_drill_item_to_core(drill_output_item_id)
 
 func step_factory_transport(seconds: float) -> Dictionary:
 	var before := transport_progress
@@ -2215,6 +2238,7 @@ func get_runtime_summary() -> Dictionary:
 		"drill_output_rate": drill_output_rate,
 		"drill_items": drill_items.duplicate(),
 		"drill_items_total": drill_items_total(),
+		"drill_dump_timer": drill_dump_timer,
 		"conveyor_world_speed": conveyor_world_speed,
 		"conveyor_path_progress_rate": conveyor_path_progress_rate,
 		"wave_index": wave_index,
