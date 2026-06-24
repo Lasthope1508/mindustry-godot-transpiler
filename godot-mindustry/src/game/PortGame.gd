@@ -1004,6 +1004,12 @@ func source_drill_output_delta_for_cell(x: int, y: int, item_id: String, ore_cou
 		return 0.0
 	return source_drill_output_delta(str(sprite.get_meta("source_block_id", "")), item_id, ore_count, seconds, float(sprite.get_meta("source_block_time_scale", 1.0)), warmup)
 
+func source_drill_output_batch(progress: float, delay: float, dominant_items: int, items_total: int, item_capacity: int) -> Dictionary:
+	if dominant_items > 0 and progress >= delay and items_total < item_capacity:
+		var amount := int(progress / delay)
+		return {"amount": amount, "progress": fmod(progress, delay)}
+	return {"amount": 0, "progress": progress}
+
 func source_conveyor_world_speed(block_id: String) -> float:
 	if content_catalog == null:
 		return 0.0
@@ -1176,11 +1182,13 @@ func simulate_factory(delta: float) -> void:
 		step_drill_time_drilled_cell(drill_pos.x, drill_pos.y, delta, drill_warmup_at_cell(drill_pos.x, drill_pos.y))
 		set_drill_last_speed_at_cell(drill_pos.x, drill_pos.y, source_drill_last_speed_for_cell(drill_pos.x, drill_pos.y, drill_output_item_id, drill_ore_cell_count, drill_warmup_at_cell(drill_pos.x, drill_pos.y)))
 		var drill_warmup := step_drill_warmup_cell(drill_pos.x, drill_pos.y, delta)
-		item_progress += source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_output_item_id, drill_ore_cell_count, delta, drill_warmup)
-		while item_progress >= 1.0:
-			item_progress -= 1.0
-			add_core_item(drill_output_item_id, 1)
-			produced_total += 1
+		var drill_delay := source_drill_delay("mechanical-drill", drill_output_item_id)
+		var raw_progress := item_progress * drill_delay
+		raw_progress += source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_output_item_id, drill_ore_cell_count, delta, drill_warmup) * drill_delay
+		var output_batch := source_drill_output_batch(raw_progress, drill_delay, drill_ore_cell_count, 0, source_block_item_capacity("mechanical-drill"))
+		item_progress = float(output_batch["progress"]) / drill_delay
+		add_core_item(drill_output_item_id, int(output_batch["amount"]))
+		produced_total += int(output_batch["amount"])
 	else:
 		set_drill_last_speed_at_cell(drill_pos.x, drill_pos.y, 0.0)
 	transport_progress = fmod(transport_progress + source_conveyor_path_progress_delta_for_cell(drill_pos.x + 1, drill_pos.y, delta), 1.0)

@@ -188,5 +188,17 @@ class SourceParityTests(unittest.TestCase):
             "block_item_capacity_default": "public int itemCapacity = 10;",
             "drill_has_items": "hasItems = true;",
         })
+
+    def test_drill_output_batch_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_drill_output_batch_source"))
+        report = source_parity.verify_drill_output_batch_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/production/Drill.java")
+        self.assertEqual(report["checked"], {
+            "output_gate": "if(dominantItems > 0 && progress >= delay && items.total() < itemCapacity){",
+            "amount": "int amount = (int)(progress / delay);",
+            "offload": "offload(dominantItem);",
+            "progress_modulo": "progress %= delay;",
+        })
 if __name__ == "__main__":
     unittest.main()
