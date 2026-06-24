@@ -11,6 +11,7 @@ BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
 CONVEYOR_SOURCE = "core/src/mindustry/world/blocks/distribution/Conveyor.java"
 DRILL_SOURCE = "core/src/mindustry/world/blocks/production/Drill.java"
 BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
+CORE_BLOCK_SOURCE = "core/src/mindustry/world/blocks/storage/CoreBlock.java"
 ITEM_MODULE_SOURCE = "core/src/mindustry/world/modules/ItemModule.java"
 
 def verify_overdrive_projector_params_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
@@ -282,6 +283,39 @@ def verify_building_dump_remove_source(upstream_root: Path) -> dict[str, Any]:
             "dump_neighbor": dump_neighbor,
             "dump_remove": dump_remove,
             "dump_success": dump_success,
+        },
+        "missing": missing,
+    }
+
+def verify_building_dump_accept_source(upstream_root: Path) -> dict[str, Any]:
+    building_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    core_path = Path(upstream_root) / CORE_BLOCK_SOURCE
+    building_source = building_path.read_text(encoding="utf-8", errors="replace")
+    core_source = core_path.read_text(encoding="utf-8", errors="replace")
+    dump_accept_guard = "if(other.acceptItem(self(), todump) && canDump(other, todump)){"
+    dump_neighbor = "other.handleItem(self(), todump);"
+    dump_remove = "items.remove(todump, 1);"
+    core_accept_item = "return state.rules.coreIncinerates || items.get(item) < getMaximumAccepted(item);"
+    core_maximum_accepted = "return state.rules.coreIncinerates ? Integer.MAX_VALUE/2 : storageCapacity;"
+    missing = []
+    for snippet, source in [
+        (dump_accept_guard, building_source),
+        (dump_neighbor, building_source),
+        (dump_remove, building_source),
+        (core_accept_item, core_source),
+        (core_maximum_accepted, core_source),
+    ]:
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "core_source": CORE_BLOCK_SOURCE,
+        "checked": {
+            "dump_accept_guard": dump_accept_guard,
+            "dump_neighbor": dump_neighbor,
+            "dump_remove": dump_remove,
+            "core_accept_item": core_accept_item,
+            "core_maximum_accepted": core_maximum_accepted,
         },
         "missing": missing,
     }

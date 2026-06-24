@@ -1130,6 +1130,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("simulate_drill_dump(delta)", source)
         self.assertIn('"drill_dump_timer": drill_dump_timer', source)
 
+    def test_port_game_dump_respects_source_core_accept_item_capacity(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_core_accept_item(item_id: String) -> bool:", source)
+        self.assertIn("return core_item_count(item_id) < core_item_capacity", source)
+        self.assertIn("if not source_core_accept_item(item_id):", source)
+        self.assertIn("return false", source)
+        self.assertLess(source.index("if not source_core_accept_item(item_id):"), source.index("remove_drill_item(item_id, 1)"))
+        self.assertLess(source.index("remove_drill_item(item_id, 1)"), source.index("add_core_item(item_id, 1)"))
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -248,5 +248,19 @@ class SourceParityTests(unittest.TestCase):
             "dump_remove": "items.remove(todump, 1);",
             "dump_success": "return true;",
         })
+
+    def test_building_dump_accept_guard_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_dump_accept_source"))
+        report = source_parity.verify_building_dump_accept_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["core_source"], "core/src/mindustry/world/blocks/storage/CoreBlock.java")
+        self.assertEqual(report["checked"], {
+            "dump_accept_guard": "if(other.acceptItem(self(), todump) && canDump(other, todump)){",
+            "dump_neighbor": "other.handleItem(self(), todump);",
+            "dump_remove": "items.remove(todump, 1);",
+            "core_accept_item": "return state.rules.coreIncinerates || items.get(item) < getMaximumAccepted(item);",
+            "core_maximum_accepted": "return state.rules.coreIncinerates ? Integer.MAX_VALUE/2 : storageCapacity;",
+        })
 if __name__ == "__main__":
     unittest.main()

@@ -1152,6 +1152,9 @@ func core_item_count(item_id: String) -> int:
 		core_items["copper"] = core_inventory
 	return int(core_items.get(item_id, 0))
 
+func source_core_accept_item(item_id: String) -> bool:
+	return core_item_count(item_id) < core_item_capacity
+
 func drill_item_count(item_id: String) -> int:
 	return int(drill_items.get(item_id, 0))
 
@@ -1174,6 +1177,8 @@ func remove_drill_item(item_id: String, amount: int) -> int:
 
 func source_dump_drill_item_to_core(item_id: String) -> bool:
 	if drill_item_count(item_id) <= 0:
+		return false
+	if not source_core_accept_item(item_id):
 		return false
 	remove_drill_item(item_id, 1)
 	add_core_item(item_id, 1)
