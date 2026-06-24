@@ -661,5 +661,39 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_draw_liquid_light_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_draw_liquid_light_source"))
+        report = source_parity.verify_building_draw_liquid_light_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "draw_liquid_light_method": "public void drawLiquidLight(Liquid liquid, float amount){",
+            "draw_liquid_light_amount_guard": "if(amount > 0.01f){",
+            "draw_liquid_light_color": "Color color = liquid.lightColor;",
+            "draw_liquid_light_fract": "float fract = 1f;",
+            "draw_liquid_light_opacity": "float opacity = color.a * fract;",
+            "draw_liquid_light_opacity_guard": "if(opacity > 0.001f){",
+            "draw_liquid_light_call": "Drawf.light(x, y, block.size * 30f * fract, color, opacity * amount);",
+        })
+        self.assertEqual(report["missing"], [])
+
+    def test_building_draw_light_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_draw_light_source"))
+        report = source_parity.verify_building_draw_light_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["arc_mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "draw_light_method": "public void drawLight(){",
+            "draw_light_liquid_select": "Liquid liq = block.hasLiquids && block.lightLiquid == null ? liquids.current() : block.lightLiquid;",
+            "draw_light_guard": "if(block.hasLiquids && block.drawLiquidLight && liq.lightColor.a > 0.001f){",
+            "draw_light_lerp": "visualLiquid = Mathf.lerpDelta(visualLiquid, liquids.get(liq)>= 0.01f ? 1f : 0f, 0.06f);",
+            "draw_light_call": "drawLiquidLight(liq, visualLiquid);",
+            "mathf_lerp": "return fromValue + (toValue - fromValue) * progress;",
+            "mathf_clamp_01": "return Math.max(Math.min(value, 1f), 0f);",
+            "mathf_lerp_delta": "return lerp(fromValue, toValue, clamp(progress * Time.delta));",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

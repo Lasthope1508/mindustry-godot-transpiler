@@ -1048,6 +1048,64 @@ def verify_building_draw_team_top_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_building_draw_liquid_light_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "draw_liquid_light_method": "public void drawLiquidLight(Liquid liquid, float amount){",
+        "draw_liquid_light_amount_guard": "if(amount > 0.01f){",
+        "draw_liquid_light_color": "Color color = liquid.lightColor;",
+        "draw_liquid_light_fract": "float fract = 1f;",
+        "draw_liquid_light_opacity": "float opacity = color.a * fract;",
+        "draw_liquid_light_opacity_guard": "if(opacity > 0.001f){",
+        "draw_liquid_light_call": "Drawf.light(x, y, block.size * 30f * fract, color, opacity * amount);",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_building_draw_light_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    mathf_path = Path(arc_root) / ARC_MATHF_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "draw_light_method": "public void drawLight(){",
+        "draw_light_liquid_select": "Liquid liq = block.hasLiquids && block.lightLiquid == null ? liquids.current() : block.lightLiquid;",
+        "draw_light_guard": "if(block.hasLiquids && block.drawLiquidLight && liq.lightColor.a > 0.001f){",
+        "draw_light_lerp": "visualLiquid = Mathf.lerpDelta(visualLiquid, liquids.get(liq)>= 0.01f ? 1f : 0f, 0.06f);",
+        "draw_light_call": "drawLiquidLight(liq, visualLiquid);",
+        "mathf_lerp": "return fromValue + (toValue - fromValue) * progress;",
+        "mathf_clamp_01": "return Math.max(Math.min(value, 1f), 0f);",
+        "mathf_lerp_delta": "return lerp(fromValue, toValue, clamp(progress * Time.delta));",
+    }
+    source_lookup = {
+        "draw_light_method": source,
+        "draw_light_liquid_select": source,
+        "draw_light_guard": source,
+        "draw_light_lerp": source,
+        "draw_light_call": source,
+        "mathf_lerp": mathf_source,
+        "mathf_clamp_01": mathf_source,
+        "mathf_lerp_delta": mathf_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_lookup[key]:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "arc_mathf_source": ARC_MATHF_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

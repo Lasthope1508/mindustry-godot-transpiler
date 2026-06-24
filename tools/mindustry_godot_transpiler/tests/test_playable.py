@@ -1470,6 +1470,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"y": source_y', source)
         self.assertIn('"color_reset": true', source)
 
+    def test_port_game_exposes_source_building_draw_liquid_light_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_draw_liquid_light_state(source_x: float, source_y: float, block_size_value: int, light_color: String, light_alpha: float, amount: float) -> Dictionary:", source)
+        self.assertIn("if amount <= 0.01:", source)
+        self.assertIn('"visible": false', source)
+        self.assertIn("var fract := 1.0", source)
+        self.assertIn("var opacity := light_alpha * fract", source)
+        self.assertIn("if opacity <= 0.001:", source)
+        self.assertIn('"radius": block_size_value * 30.0 * fract', source)
+        self.assertIn('"alpha": opacity * amount', source)
+
+    def test_port_game_exposes_source_building_draw_light_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_arc_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:", source)
+        self.assertIn("return lerp(from_value, to_value, clamp(progress * source_delta, 0.0, 1.0))", source)
+        self.assertIn("func source_building_draw_light_state(has_liquids: bool, draw_liquid_light: bool, light_liquid_is_null: bool, current_liquid_color: String, current_liquid_alpha: float, light_liquid_color: String, light_liquid_alpha: float, selected_liquid_amount: float, visual_liquid: float, source_delta: float, source_x: float, source_y: float, block_size_value: int) -> Dictionary:", source)
+        self.assertIn("var selected_color := current_liquid_color if light_liquid_is_null else light_liquid_color", source)
+        self.assertIn("var selected_alpha := current_liquid_alpha if light_liquid_is_null else light_liquid_alpha", source)
+        self.assertIn("if not has_liquids or not draw_liquid_light or selected_alpha <= 0.001:", source)
+        self.assertIn("var target := 1.0 if selected_liquid_amount >= 0.01 else 0.0", source)
+        self.assertIn("var next_visual_liquid := source_arc_lerp_delta(visual_liquid, target, 0.06, source_delta)", source)
+        self.assertIn("var light_state := source_building_draw_liquid_light_state(source_x, source_y, block_size_value, selected_color, selected_alpha, next_visual_liquid)", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -1419,6 +1419,9 @@ func source_arc_random_seed_int(source_seed: int, min_value: int, max_value: int
 		_source_arc_rand_next_int_unbounded(rand_state)
 	return _source_arc_rand_next_int_bound(rand_state, max_value - min_value + 1) + min_value
 
+func source_arc_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:
+	return lerp(from_value, to_value, clamp(progress * source_delta, 0.0, 1.0))
+
 func source_building_draw_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:
 	var draw_rotation := source_building_drawrot_state(block_rotate, block_rotate_draw, rotation_quadrants)
 	if variants == 0 or not has_variant_regions:
@@ -1448,6 +1451,26 @@ func source_building_draw_team_top_state(team_region_found: bool, team_region_ma
 	if not team_region_found:
 		return {"visible": false}
 	return {"visible": true, "tint_color": team_color if team_region_matches_team else "", "x": source_x, "y": source_y, "color_reset": true}
+
+func source_building_draw_liquid_light_state(source_x: float, source_y: float, block_size_value: int, light_color: String, light_alpha: float, amount: float) -> Dictionary:
+	if amount <= 0.01:
+		return {"visible": false}
+	var fract := 1.0
+	var opacity := light_alpha * fract
+	if opacity <= 0.001:
+		return {"visible": false}
+	return {"visible": true, "x": source_x, "y": source_y, "radius": block_size_value * 30.0 * fract, "color": light_color, "opacity": opacity, "alpha": opacity * amount, "fract": fract}
+
+func source_building_draw_light_state(has_liquids: bool, draw_liquid_light: bool, light_liquid_is_null: bool, current_liquid_color: String, current_liquid_alpha: float, light_liquid_color: String, light_liquid_alpha: float, selected_liquid_amount: float, visual_liquid: float, source_delta: float, source_x: float, source_y: float, block_size_value: int) -> Dictionary:
+	var selected_color := current_liquid_color if light_liquid_is_null else light_liquid_color
+	var selected_alpha := current_liquid_alpha if light_liquid_is_null else light_liquid_alpha
+	if not has_liquids or not draw_liquid_light or selected_alpha <= 0.001:
+		return {"visible": false, "visual_liquid": visual_liquid}
+	var target := 1.0 if selected_liquid_amount >= 0.01 else 0.0
+	var next_visual_liquid := source_arc_lerp_delta(visual_liquid, target, 0.06, source_delta)
+	var light_state := source_building_draw_liquid_light_state(source_x, source_y, block_size_value, selected_color, selected_alpha, next_visual_liquid)
+	light_state["visual_liquid"] = next_visual_liquid
+	return light_state
 
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
