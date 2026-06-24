@@ -434,6 +434,32 @@ def verify_building_dump_accumulate_source(upstream_root: Path) -> dict[str, Any
         "missing": missing,
     }
 
+def verify_building_move_forward_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    move_method = "public boolean moveForward(Item item){"
+    front_lookup = "Building other = front();"
+    move_guard = "if(other != null && other.team == team && other.acceptItem(self(), item)){"
+    move_handle = "other.handleItem(self(), item);"
+    move_success = "return true;"
+    move_failure = "return false;"
+    missing = []
+    for snippet in [move_method, front_lookup, move_guard, move_handle, move_success, move_failure]:
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": {
+            "move_method": move_method,
+            "front_lookup": front_lookup,
+            "move_guard": move_guard,
+            "move_handle": move_handle,
+            "move_success": move_success,
+            "move_failure": move_failure,
+        },
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

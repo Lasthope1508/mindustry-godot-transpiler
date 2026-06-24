@@ -1185,6 +1185,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("building_dump_accum = float(state[\"dump_accum\"])", source)
         self.assertIn('"building_dump_accum": building_dump_accum', source)
 
+    def test_port_game_exposes_source_move_forward_to_core(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_move_forward_accept_state(has_front: bool, same_team: bool, front_accepts: bool) -> bool:", source)
+        self.assertIn("return has_front and same_team and front_accepts", source)
+        self.assertIn("func source_move_forward_to_core(item_id: String, has_front := true, same_team := true) -> bool:", source)
+        self.assertIn("if not source_move_forward_accept_state(has_front, same_team, source_core_accept_item(item_id)):", source)
+        self.assertIn("return source_core_handle_item(item_id)", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

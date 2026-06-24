@@ -1163,6 +1163,14 @@ func source_core_handle_item(item_id: String) -> bool:
 	add_core_item(item_id, 1)
 	return true
 
+func source_move_forward_accept_state(has_front: bool, same_team: bool, front_accepts: bool) -> bool:
+	return has_front and same_team and front_accepts
+
+func source_move_forward_to_core(item_id: String, has_front := true, same_team := true) -> bool:
+	if not source_move_forward_accept_state(has_front, same_team, source_core_accept_item(item_id)):
+		return false
+	return source_core_handle_item(item_id)
+
 func source_increment_dump_cursor(current_dump: int, proximity_size: int) -> int:
 	if proximity_size != 0:
 		return (current_dump + 1) % proximity_size

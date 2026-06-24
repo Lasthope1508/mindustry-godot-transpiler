@@ -309,5 +309,22 @@ class SourceParityTests(unittest.TestCase):
             "accum_subtract": "dumpAccum -=1f;",
             "accum_return": "return res;",
         })
+
+    def test_building_move_forward_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_move_forward_source"))
+        report = source_parity.verify_building_move_forward_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "move_method": "public boolean moveForward(Item item){",
+            "front_lookup": "Building other = front();",
+            "move_guard": "if(other != null && other.team == team && other.acceptItem(self(), item)){",
+            "move_handle": "other.handleItem(self(), item);",
+            "move_success": "return true;",
+            "move_failure": "return false;",
+        })
+        self.assertEqual(report["missing"], [])
+
+
 if __name__ == "__main__":
     unittest.main()
