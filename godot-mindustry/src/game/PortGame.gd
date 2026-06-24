@@ -1513,6 +1513,9 @@ func source_building_is_payload_state(tile_is_empty_tile: bool) -> bool:
 func source_building_overwrote_state(previous_state: Variant) -> Variant:
 	return previous_state
 
+func source_building_on_removed_state(current_state: Variant) -> Variant:
+	return current_state
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
