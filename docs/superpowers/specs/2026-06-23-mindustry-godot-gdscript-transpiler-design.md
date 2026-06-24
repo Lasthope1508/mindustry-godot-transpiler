@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 161 |
-| Done | 161 |
+| Total tracked work items | 162 |
+| Done | 162 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -37,6 +37,7 @@
 - [x] N157: Source BuildingComp display name state.
 - [x] N158: Source BuildingComp display icon and flow items state.
 - [x] N159: Source BuildingComp display UI gate state.
+- [x] N160: Source BuildingComp display flow rate label state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -221,6 +222,8 @@ Current cube: `Building lifecycle / destroy-deconstruct`. Current source path st
 | N158 | Apply source BuildingComp display icon and flow items state | The next adjacent `BuildingComp` slice returns `block.uiIcon` from `getDisplayIcon()` and returns `items` from `flowItems()` after the upstream comment `/** @return the item module to use for flow rate calculations */`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` now exposes `source_building_display_icon_state()` plus `source_building_flow_items_state()` as pass-through helpers without inventing texture or module fields; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `245` tests passing; MCP editor bridge connected, MCP LSP diagnostics timed out during `initialize`, and MCP runtime proof reports icon `router-ui`, flow items `items-module`, and null flow items `null`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 | N159 | Apply source BuildingComp display UI gate state | The next `BuildingComp.display(Table table)` slice always builds the header from `block.getDisplayIcon(tile)` and `block.getDisplayName(tile)`, gates bars and `displayConsumption` inside `if(team == player.team())`, computes `displayFlow` from `(block.category == Category.distribution || block.category == Category.liquid) && block.displayFlow`, and gates last-access text with `if(net.active() && lastAccessed != null)`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` now exposes `source_building_display_ui_gates_state()` for header/details/bars/consumption/flow/last-access visibility without inventing UI table widgets; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `247` tests passing; MCP editor bridge connected, MCP LSP diagnostics timed out during `initialize`, and MCP runtime proof reports same-team distribution flow enabled, same-team crafting flow disabled, enemy-team details disabled, displayFlow false when block disables it, and lastAccessed false when net is inactive; debug output returns `errors: []`, and stop returns `finalErrors: []` |
+
+| N160 | Apply source BuildingComp display flow rate label state | The next `BuildingComp.display(Table table)` slice keeps upstream flow labels exact: `String ps = " " + StatUnit.perSecond.localized();`, both item and liquid rows use `l.label(() -> ... ? "..." : Strings.fixed(..., 1) + ps).color(Color.lightGray);`, and Arc `Strings.fixed(float, int)` truncates with `Math.abs`, `Math.pow`, and `+ 0.0001f` before string assembly; `source_parity.py` checks those exact upstream lines in `BuildingComp.java` and `Strings.java`, and `PortGame.gd` now exposes `source_arc_strings_fixed_one_decimal()` plus `source_building_display_flow_rate_label()` without inventing formatting or unit text; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `249` tests passing; MCP editor bridge connected, MCP LSP diagnostics timed out during `initialize`, and MCP runtime proof reports `...`, `1.2 items/s`, `12.3 items/s`, and `0.0`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 ## Not Done
 

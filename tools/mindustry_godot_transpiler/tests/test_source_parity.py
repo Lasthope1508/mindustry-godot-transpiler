@@ -1161,5 +1161,24 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_display_flow_rate_label_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_display_flow_rate_label_source"))
+        report = source_parity.verify_building_display_flow_rate_label_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["arc_source"], "arc-core/src/arc/util/Strings.java")
+        self.assertEqual(report["checked"], {
+            "building_display_flow_per_second_label": 'String ps = " " + StatUnit.perSecond.localized();',
+            "building_display_flow_item_label": 'l.label(() -> flowItems.getFlowRate(item) < 0 ? "..." : Strings.fixed(flowItems.getFlowRate(item), 1) + ps).color(Color.lightGray);',
+            "building_display_flow_liquid_label": 'l.label(() -> liquids.getFlowRate(liquid) < 0 ? "..." : Strings.fixed(liquids.getFlowRate(liquid), 1) + ps).color(Color.lightGray);',
+            "arc_strings_fixed_method": 'public static String fixed(float d, int decimalPlaces){',
+            "arc_strings_fixed_negative": 'boolean negative = d < 0;',
+            "arc_strings_fixed_abs": 'd = Math.abs(d);',
+            "arc_strings_fixed_scaled": 'dec.append((int)(float)(d * Math.pow(10, decimalPlaces) + 0.0001f));',
+            "arc_strings_fixed_zero_case": 'if(decimalPlaces == 0){',
+            "arc_strings_fixed_zero_prefix": 'result.append("0.");',
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

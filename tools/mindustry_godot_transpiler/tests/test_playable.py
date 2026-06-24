@@ -1821,6 +1821,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"display_flow": team_is_player and display_flow', source)
         self.assertIn('"display_last_accessed": team_is_player and net_active and has_last_accessed', source)
 
+    def test_port_game_exposes_source_building_display_flow_rate_label_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_arc_strings_fixed_one_decimal(value: float) -> String:", source)
+        self.assertIn("var abs_value: float = absf(value)", source)
+        self.assertIn("var scaled: int = int(floor(abs_value * 10.0 + 0.0001))", source)
+        self.assertIn("var whole: int = int(float(scaled) / 10.0)", source)
+        self.assertIn("var prefix: String = \"-\" if negative else \"\"", source)
+        self.assertIn('return prefix + str(whole) + "." + str(decimal)', source)
+        self.assertIn("func source_building_display_flow_rate_label(flow_rate: float, per_second_label: String) -> String:", source)
+        self.assertIn('if flow_rate < 0.0:', source)
+        self.assertIn('return "..."', source)
+        self.assertIn('return source_arc_strings_fixed_one_decimal(flow_rate) + " " + per_second_label', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

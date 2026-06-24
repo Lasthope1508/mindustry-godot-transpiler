@@ -1768,6 +1768,20 @@ func source_building_display_ui_gates_state(team_is_player: bool, block_category
 		"display_last_accessed": team_is_player and net_active and has_last_accessed,
 	}
 
+func source_arc_strings_fixed_one_decimal(value: float) -> String:
+	var negative: bool = value < 0.0
+	var abs_value: float = absf(value)
+	var scaled: int = int(floor(abs_value * 10.0 + 0.0001))
+	var whole: int = int(float(scaled) / 10.0)
+	var decimal: int = scaled % 10
+	var prefix: String = "-" if negative else ""
+	return prefix + str(whole) + "." + str(decimal)
+
+func source_building_display_flow_rate_label(flow_rate: float, per_second_label: String) -> String:
+	if flow_rate < 0.0:
+		return "..."
+	return source_arc_strings_fixed_one_decimal(flow_rate) + " " + per_second_label
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

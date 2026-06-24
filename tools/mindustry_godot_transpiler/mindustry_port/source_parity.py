@@ -16,6 +16,7 @@ CORE_BLOCK_SOURCE = "core/src/mindustry/world/blocks/storage/CoreBlock.java"
 ITEM_MODULE_SOURCE = "core/src/mindustry/world/modules/ItemModule.java"
 ARC_MATHF_SOURCE = "arc-core/src/arc/math/Mathf.java"
 ARC_RAND_SOURCE = "arc-core/src/arc/math/Rand.java"
+ARC_STRINGS_SOURCE = "arc-core/src/arc/util/Strings.java"
 
 def verify_overdrive_projector_params_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     blocks_path = Path(upstream_root) / DUO_SOURCE
@@ -1847,6 +1848,44 @@ def verify_building_display_ui_gates_source(upstream_root: Path) -> dict[str, An
             missing.append(snippet)
     return {
         "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_building_display_flow_rate_label_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    strings_path = Path(upstream_root).parent / "arc-upstream" / ARC_STRINGS_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    strings_source = strings_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "building_display_flow_per_second_label": 'String ps = " " + StatUnit.perSecond.localized();',
+        "building_display_flow_item_label": 'l.label(() -> flowItems.getFlowRate(item) < 0 ? "..." : Strings.fixed(flowItems.getFlowRate(item), 1) + ps).color(Color.lightGray);',
+        "building_display_flow_liquid_label": 'l.label(() -> liquids.getFlowRate(liquid) < 0 ? "..." : Strings.fixed(liquids.getFlowRate(liquid), 1) + ps).color(Color.lightGray);',
+        "arc_strings_fixed_method": 'public static String fixed(float d, int decimalPlaces){',
+        "arc_strings_fixed_negative": 'boolean negative = d < 0;',
+        "arc_strings_fixed_abs": 'd = Math.abs(d);',
+        "arc_strings_fixed_scaled": 'dec.append((int)(float)(d * Math.pow(10, decimalPlaces) + 0.0001f));',
+        "arc_strings_fixed_zero_case": 'if(decimalPlaces == 0){',
+        "arc_strings_fixed_zero_prefix": 'result.append("0.");',
+    }
+    lookup = {
+        "building_display_flow_per_second_label": source,
+        "building_display_flow_item_label": source,
+        "building_display_flow_liquid_label": source,
+        "arc_strings_fixed_method": strings_source,
+        "arc_strings_fixed_negative": strings_source,
+        "arc_strings_fixed_abs": strings_source,
+        "arc_strings_fixed_scaled": strings_source,
+        "arc_strings_fixed_zero_case": strings_source,
+        "arc_strings_fixed_zero_prefix": strings_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in lookup[key]:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "arc_source": ARC_STRINGS_SOURCE,
         "checked": checked,
         "missing": missing,
     }
