@@ -852,5 +852,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_puddle_on_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_puddle_on_source"))
+        report = source_parity.verify_building_puddle_on_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "puddle_on_comment": "Called when a puddle is on this building. Only called at an interval (40 ticks).",
+            "puddle_on_method": "public void puddleOn(Puddle puddle){",
+            "puddle_on_empty_body": "public void puddleOn(Puddle puddle){\n\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
