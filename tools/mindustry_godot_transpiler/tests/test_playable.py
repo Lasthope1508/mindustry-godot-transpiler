@@ -325,6 +325,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func selected_build_overdrive_light_state_for_smooth_efficiency(smooth_efficiency: float) -> Dictionary:", source)
         self.assertIn("return source_overdrive_projector_light_state(selected, smooth_efficiency)", source)
 
+    def test_port_game_exposes_overdrive_projector_draw_state_like_source(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_overdrive_projector_draw_state(overdrive_projector, heat: float, phase_heat: float, source_time_ticks := 0.0, lod_l2 := true, lod_alpha2 := 1.0) -> Dictionary:", source)
+        self.assertIn("var f := 1.0 - fmod(source_time_ticks / 100.0, 1.0)", source)
+        self.assertIn("var line_r: float = max(0.0, clamp(2.0 - f * 2.0, 0.0, 1.0) * float(block_size(overdrive_projector)) * float(tile_size) / 2.0 - f - 0.2)", source)
+        self.assertIn("var line_w: float = clamp(0.5 - f, 0.0, 1.0) * float(block_size(overdrive_projector)) * float(tile_size)", source)
+        self.assertIn('"base_color": str(overdrive_projector.properties.get("baseColor", ""))', source)
+        self.assertIn('"phase_color": str(overdrive_projector.properties.get("phaseColor", overdrive_projector.properties.get("baseColor", "")))', source)
+        self.assertIn('"top_alpha": heat * source_absin(source_time_ticks, 50.0 / SOURCE_PI2, 1.0) * 0.5 * lod_alpha2', source)
+        self.assertIn('"stroke": (2.0 * f + 0.1) * heat', source)
+        self.assertIn("func selected_build_overdrive_draw_state_for_inputs(heat: float, phase_heat: float, source_time_ticks := 0.0) -> Dictionary:", source)
+        self.assertIn("return source_overdrive_projector_draw_state(selected, heat, phase_heat, source_time_ticks)", source)
+
     def test_port_game_uses_source_mend_projector_repair_amount_formula(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

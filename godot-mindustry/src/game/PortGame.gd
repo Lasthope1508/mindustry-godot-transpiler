@@ -340,6 +340,24 @@ func source_overdrive_projector_light_state(overdrive_projector, smooth_efficien
 		"alpha": 0.7 * smooth_efficiency,
 	}
 
+func source_overdrive_projector_draw_state(overdrive_projector, heat: float, phase_heat: float, source_time_ticks := 0.0, lod_l2 := true, lod_alpha2 := 1.0) -> Dictionary:
+	var f := 1.0 - fmod(source_time_ticks / 100.0, 1.0)
+	if overdrive_projector == null or not lod_l2:
+		return {"visible": false, "f": f, "base_color": "", "phase_color": "", "phase_heat": phase_heat, "top_alpha": 0.0, "stroke": 0.0, "line_r": 0.0, "line_w": 0.0}
+	var line_r: float = max(0.0, clamp(2.0 - f * 2.0, 0.0, 1.0) * float(block_size(overdrive_projector)) * float(tile_size) / 2.0 - f - 0.2)
+	var line_w: float = clamp(0.5 - f, 0.0, 1.0) * float(block_size(overdrive_projector)) * float(tile_size)
+	return {
+		"visible": true,
+		"f": f,
+		"base_color": str(overdrive_projector.properties.get("baseColor", "")),
+		"phase_color": str(overdrive_projector.properties.get("phaseColor", overdrive_projector.properties.get("baseColor", ""))),
+		"phase_heat": phase_heat,
+		"top_alpha": heat * source_absin(source_time_ticks, 50.0 / SOURCE_PI2, 1.0) * 0.5 * lod_alpha2,
+		"stroke": (2.0 * f + 0.1) * heat,
+		"line_r": line_r,
+		"line_w": line_w,
+	}
+
 func source_overdrive_projector_real_boost(overdrive_projector, phase_heat := 0.0, efficiency := 1.0) -> float:
 	if overdrive_projector == null:
 		return 0.0
@@ -413,6 +431,14 @@ func selected_build_overdrive_light_state_for_smooth_efficiency(smooth_efficienc
 	if selected.implementation != "OverdriveProjector":
 		return {"color": "", "radius": 0.0, "alpha": 0.0}
 	return source_overdrive_projector_light_state(selected, smooth_efficiency)
+
+func selected_build_overdrive_draw_state_for_inputs(heat: float, phase_heat: float, source_time_ticks := 0.0) -> Dictionary:
+	if build_palette.is_empty():
+		return {"visible": false, "f": 0.0, "base_color": "", "phase_color": "", "phase_heat": phase_heat, "top_alpha": 0.0, "stroke": 0.0, "line_r": 0.0, "line_w": 0.0}
+	var selected = build_palette[selected_build_index]
+	if selected.implementation != "OverdriveProjector":
+		return {"visible": false, "f": 0.0, "base_color": "", "phase_color": "", "phase_heat": phase_heat, "top_alpha": 0.0, "stroke": 0.0, "line_r": 0.0, "line_w": 0.0}
+	return source_overdrive_projector_draw_state(selected, heat, phase_heat, source_time_ticks)
 
 func selected_build_booster_item() -> String:
 	if build_palette.is_empty():
