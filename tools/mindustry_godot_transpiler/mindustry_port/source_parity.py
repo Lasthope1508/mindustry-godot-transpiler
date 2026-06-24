@@ -306,6 +306,12 @@ def _extract_overdrive_projector_params(blocks_source: str, overdrive_source: st
     if has_boost is None:
         raise ValueError("OverdriveProjector hasBoost assignment not found")
     expected["hasBoost"] = has_boost
+    can_overdrive = _boolean_assignment(body, "canOverdrive")
+    if can_overdrive is None:
+        can_overdrive = _boolean_assignment(overdrive_source, "canOverdrive")
+    if can_overdrive is None:
+        raise ValueError("OverdriveProjector canOverdrive assignment not found")
+    expected["canOverdrive"] = can_overdrive
     return expected
 def _mend_projector_repair_amount(health: Any, heal_percent: Any, phase_boost: Any, phase_heat: float = 0.0, efficiency: float = 1.0) -> dict[str, Any]:
     health_value = float(health)

@@ -88,7 +88,13 @@ class CliTests(unittest.TestCase):
             root = Path(tmp)
             upstream = root / "mindustry-upstream"
             source = upstream / "core" / "src" / "mindustry" / "content"
+            world_source = upstream / "core" / "src" / "mindustry" / "world"
             source.mkdir(parents=True)
+            world_source.mkdir(parents=True)
+            (world_source / "Block.java").write_text(
+                "package mindustry.world; public class Block{ public boolean canOverdrive = true; }",
+                encoding="utf-8",
+            )
             (source / "Items.java").write_text(
                 'package mindustry.content; import arc.graphics.*; import mindustry.type.*; public class Items{ public static Item copper; public static void load(){ copper = new Item("copper", Color.valueOf("d99d73")); } }',
                 encoding="utf-8",

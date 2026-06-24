@@ -15,6 +15,9 @@ def _source_content_dir(upstream_root: Path) -> Path:
 def _source_game_dir(upstream_root: Path) -> Path:
     return Path(upstream_root) / "core" / "src" / "mindustry" / "game"
 
+def _source_world_dir(upstream_root: Path) -> Path:
+    return Path(upstream_root) / "core" / "src" / "mindustry" / "world"
+
 
 def _asset_root(godot_root: Path) -> Path:
     return Path(godot_root) / "assets"
@@ -228,21 +231,39 @@ def extract_blocks(upstream_root: Path, godot_root: Path | None = None) -> list[
     source = (_source_content_dir(upstream_root) / "Blocks.java").read_text(encoding="utf-8", errors="replace")
     declared = _declared_block_fields(source)
     asset_root = _asset_root(godot_root) if godot_root is not None else None
+    can_overdrive_defaults = _can_overdrive_defaults(upstream_root)
     pattern = re.compile(r"\b([A-Za-z_]\w*)\s*=\s*new\s+([A-Za-z_]\w*)\s*\(\s*\"([^\"]+)\"", re.MULTILINE)
     blocks = []
     for match in pattern.finditer(source):
         field, implementation, content_id = match.groups()
         if field not in declared:
             continue
-        entry = {"field": field, "id": content_id, "implementation": implementation, "properties": _block_properties(source, match.end(), implementation)}
+        entry = {"field": field, "id": content_id, "implementation": implementation, "properties": _block_properties(source, match.end(), implementation, can_overdrive_defaults)}
         if asset_root is not None:
             entry["texture"] = _block_texture_path(asset_root, content_id)
         blocks.append(entry)
     return blocks
 
-def _block_properties(source: str, assignment_end: int, implementation: str = "") -> dict[str, Any]:
+def _can_overdrive_defaults(upstream_root: Path) -> dict[str, bool]:
+    block_source = (_source_world_dir(upstream_root) / "Block.java").read_text(encoding="utf-8", errors="replace")
+    default = _boolean_assignment(block_source, "canOverdrive")
+    if default is None:
+        raise ValueError("Block.canOverdrive default not found in Block.java")
+    defaults = {"Block": default}
+    blocks_root = _source_world_dir(upstream_root) / "blocks"
+    for source_path in blocks_root.rglob("*.java"):
+        source = source_path.read_text(encoding="utf-8", errors="replace")
+        class_match = re.search(r"\bclass\s+([A-Za-z_]\w*)", source)
+        assignment = _boolean_assignment(source, "canOverdrive")
+        if class_match and assignment is not None:
+            defaults[class_match.group(1)] = assignment
+    return defaults
+
+def _block_properties(source: str, assignment_end: int, implementation: str = "", can_overdrive_defaults: dict[str, bool] | None = None) -> dict[str, Any]:
     initializer = _initializer_body(source, assignment_end)
     properties: dict[str, Any] = {}
+    if can_overdrive_defaults is not None:
+        properties["canOverdrive"] = can_overdrive_defaults.get(implementation, can_overdrive_defaults["Block"])
     category = re.search(r"requirements\s*\(\s*Category\.([A-Za-z_]\w*)", initializer)
     if category:
         properties["category"] = category.group(1)
@@ -269,6 +290,9 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
     has_boost = _boolean_assignment(initializer, "hasBoost")
     if has_boost is not None:
         properties["hasBoost"] = has_boost
+    can_overdrive = _boolean_assignment(initializer, "canOverdrive")
+    if can_overdrive is not None:
+        properties["canOverdrive"] = can_overdrive
     if "scaledHealth" in properties and "health" not in properties and not _has_assignment(initializer, "health"):
         properties["health"] = int(int(properties.get("size", 1)) * int(properties.get("size", 1)) * float(properties["scaledHealth"]))
     if implementation == "MendProjector":

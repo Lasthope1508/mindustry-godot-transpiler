@@ -97,6 +97,7 @@ class SourceParityTests(unittest.TestCase):
             "emitLight": True,
             "lightRadius": 50.0,
             "hasBoost": True,
+            "canOverdrive": False,
         })
 if __name__ == "__main__":
     unittest.main()

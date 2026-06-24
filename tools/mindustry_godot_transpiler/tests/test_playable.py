@@ -372,6 +372,14 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('result["time_scale_duration"] = max(current_duration, duration)', source)
         self.assertIn('result["time_scale"] = max(current_time_scale, intensity)', source)
 
+    def test_port_game_exposes_selected_build_can_overdrive_from_source_metadata(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func selected_build_can_overdrive() -> bool:", source)
+        self.assertIn('return bool(selected.properties.get("canOverdrive", true))', source)
+        self.assertIn('"selected_build_can_overdrive": selected_build_can_overdrive()', source)
+
     def test_port_game_uses_source_mend_projector_repair_amount_formula(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -323,6 +323,12 @@ func selected_build_phase_range_boost() -> float:
 	var selected = build_palette[selected_build_index]
 	return float(selected.properties.get("phaseRangeBoost", 0.0))
 
+func selected_build_can_overdrive() -> bool:
+	if build_palette.is_empty():
+		return true
+	var selected = build_palette[selected_build_index]
+	return bool(selected.properties.get("canOverdrive", true))
+
 func source_overdrive_projector_range(overdrive_projector, phase_heat := 0.0) -> float:
 	if overdrive_projector == null:
 		return 0.0
@@ -1890,6 +1896,7 @@ func get_runtime_summary() -> Dictionary:
 		"selected_build_heal_percent": selected_build_heal_percent(),
 		"selected_build_phase_boost": selected_build_phase_boost(),
 		"selected_build_phase_range_boost": selected_build_phase_range_boost(),
+		"selected_build_can_overdrive": selected_build_can_overdrive(),
 		"selected_build_overdrive_real_boost": selected_build_overdrive_real_boost(),
 		"selected_build_overdrive_phase_real_boost": selected_build_overdrive_phase_real_boost(),
 		"selected_build_overdrive_boost_bar_fraction": selected_build_overdrive_boost_bar_fraction(),
