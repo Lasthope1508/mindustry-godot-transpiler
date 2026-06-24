@@ -60,6 +60,22 @@ def verify_building_time_scale_decay_source(upstream_root: Path) -> dict[str, An
         "missing": missing,
     }
 
+def verify_building_delta_edelta_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    delta = "return Time.delta * timeScale;"
+    edelta = "return efficiency * delta();"
+    missing = []
+    if delta not in source:
+        missing.append(delta)
+    if edelta not in source:
+        missing.append(edelta)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": {"delta": delta, "edelta": edelta},
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

@@ -119,5 +119,15 @@ class SourceParityTests(unittest.TestCase):
             "duration_decay": "if((timeScaleDuration -= Time.delta) <= 0f)",
             "reset": "timeScale = 1f;",
         })
+
+    def test_building_delta_edelta_helpers_match_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_delta_edelta_source"))
+        report = source_parity.verify_building_delta_edelta_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "delta": "return Time.delta * timeScale;",
+            "edelta": "return efficiency * delta();",
+        })
 if __name__ == "__main__":
     unittest.main()

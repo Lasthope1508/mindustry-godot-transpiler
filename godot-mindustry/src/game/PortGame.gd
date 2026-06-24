@@ -388,6 +388,12 @@ func source_building_time_scale_decay_state(current_time_scale: float, current_d
 		result["time_scale_duration"] = 0.0
 	return result
 
+func source_building_delta(source_delta: float, time_scale: float) -> float:
+	return source_delta * time_scale
+
+func source_building_edelta(source_delta: float, time_scale: float, efficiency: float) -> float:
+	return efficiency * source_building_delta(source_delta, time_scale)
+
 func source_overdrive_projector_light_state(overdrive_projector, smooth_efficiency: float) -> Dictionary:
 	if overdrive_projector == null or not bool(overdrive_projector.properties.get("emitLight", false)):
 		return {"color": "", "radius": 0.0, "alpha": 0.0}

@@ -427,6 +427,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func step_block_time_scales(seconds: float) -> Dictionary:", source)
         self.assertIn("simulate_block_time_scales(delta)", source)
 
+    def test_port_game_exposes_building_delta_edelta_helpers_like_source(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_delta(source_delta: float, time_scale: float) -> float:", source)
+        self.assertIn("return source_delta * time_scale", source)
+        self.assertIn("func source_building_edelta(source_delta: float, time_scale: float, efficiency: float) -> float:", source)
+        self.assertIn("return efficiency * source_building_delta(source_delta, time_scale)", source)
+
     def test_port_game_uses_source_mend_projector_repair_amount_formula(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
