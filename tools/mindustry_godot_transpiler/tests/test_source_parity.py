@@ -1102,5 +1102,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_on_destroyed_power_sound_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_on_destroyed_power_sound_source"))
+        report = source_parity.verify_building_on_destroyed_power_sound_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "on_destroyed_big_power_sound_guard": "if(power > 30000f){",
+            "on_destroyed_big_power_sound_call": "Sounds.blockExplodeElectricBig.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);",
+            "on_destroyed_power_sound_guard": "}else if(power > 2000f){",
+            "on_destroyed_power_sound_call": "Sounds.blockExplodeElectric.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

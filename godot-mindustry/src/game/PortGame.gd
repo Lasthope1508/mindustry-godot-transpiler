@@ -1712,6 +1712,38 @@ func source_building_on_destroyed_reactive_sound_state(headless: bool, explosive
 		}
 	return silent_state
 
+func source_building_on_destroyed_power_sound_state(headless: bool, power: float, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:
+	var should_play_power_sound := not headless
+	var silent_state := {
+		"play_power_sound": false,
+		"power_sound_kind": "",
+		"sound": "",
+		"pitch_min": destroy_pitch_min,
+		"pitch_max": destroy_pitch_max,
+		"volume": destroy_sound_volume,
+	}
+	if not should_play_power_sound:
+		return silent_state
+	if power > 30000.0:
+		return {
+			"play_power_sound": true,
+			"power_sound_kind": "big",
+			"sound": "blockExplodeElectricBig",
+			"pitch_min": destroy_pitch_min,
+			"pitch_max": destroy_pitch_max,
+			"volume": destroy_sound_volume,
+		}
+	if power > 2000.0:
+		return {
+			"play_power_sound": true,
+			"power_sound_kind": "normal",
+			"sound": "blockExplodeElectric",
+			"pitch_min": destroy_pitch_min,
+			"pitch_max": destroy_pitch_max,
+			"volume": destroy_sound_volume,
+		}
+	return silent_state
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
