@@ -1022,6 +1022,11 @@ func source_drill_output_batch(progress: float, delay: float, dominant_items: in
 		return {"amount": amount, "progress": fmod(progress, delay)}
 	return {"amount": 0, "progress": progress}
 
+func source_drill_progress_fraction(progress: float, delay: float, has_dominant_item: bool) -> float:
+	if not has_dominant_item:
+		return 0.0
+	return clampf(progress / delay, 0.0, 1.0)
+
 func source_conveyor_world_speed(block_id: String) -> float:
 	if content_catalog == null:
 		return 0.0
@@ -1198,7 +1203,7 @@ func simulate_factory(delta: float) -> void:
 		var raw_progress := item_progress * drill_delay
 		raw_progress += source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_output_item_id, drill_ore_cell_count, delta, drill_warmup) * drill_delay
 		var output_batch := source_drill_output_batch(raw_progress, drill_delay, drill_ore_cell_count, 0, source_block_item_capacity("mechanical-drill"))
-		item_progress = float(output_batch["progress"]) / drill_delay
+		item_progress = source_drill_progress_fraction(float(output_batch["progress"]), drill_delay, drill_ore_cell_count > 0)
 		add_core_item(drill_output_item_id, int(output_batch["amount"]))
 		produced_total += int(output_batch["amount"])
 	else:

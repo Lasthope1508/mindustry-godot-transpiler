@@ -212,5 +212,15 @@ class SourceParityTests(unittest.TestCase):
             "dump_gate": "if(timer(timerDump, dumpTime / timeScale)){",
             "dump_call": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
         })
+
+    def test_drill_progress_fraction_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_drill_progress_fraction_source"))
+        report = source_parity.verify_drill_progress_fraction_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/production/Drill.java")
+        self.assertEqual(report["checked"], {
+            "progress_method": "public float progress(){",
+            "progress_fraction": "return dominantItem == null ? 0f : Mathf.clamp(progress / getDrillTime(dominantItem));",
+        })
 if __name__ == "__main__":
     unittest.main()

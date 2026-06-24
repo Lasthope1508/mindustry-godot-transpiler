@@ -1083,7 +1083,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var raw_progress := item_progress * drill_delay", source)
         self.assertIn("raw_progress += source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_output_item_id, drill_ore_cell_count, delta, drill_warmup) * drill_delay", source)
         self.assertIn("var output_batch := source_drill_output_batch(raw_progress, drill_delay, drill_ore_cell_count, 0, source_block_item_capacity(\"mechanical-drill\"))", source)
-        self.assertIn("item_progress = float(output_batch[\"progress\"]) / drill_delay", source)
+        self.assertIn("item_progress = source_drill_progress_fraction(float(output_batch[\"progress\"]), drill_delay, drill_ore_cell_count > 0)", source)
         self.assertIn("add_core_item(drill_output_item_id, int(output_batch[\"amount\"]))", source)
 
     def test_port_game_exposes_source_drill_dump_interval(self):
@@ -1095,6 +1095,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return float(block.properties.get("dumpTime", SOURCE_BLOCK_DUMP_TIME))', source)
         self.assertIn("func source_drill_dump_interval(block_id: String, time_scale := 1.0) -> float:", source)
         self.assertIn("return source_block_dump_time(block_id) / time_scale", source)
+
+    def test_port_game_exposes_source_drill_progress_fraction(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_drill_progress_fraction(progress: float, delay: float, has_dominant_item: bool) -> float:", source)
+        self.assertIn("if not has_dominant_item:", source)
+        self.assertIn("return clampf(progress / delay, 0.0, 1.0)", source)
+        self.assertIn("item_progress = source_drill_progress_fraction(float(output_batch[\"progress\"]), drill_delay, drill_ore_cell_count > 0)", source)
 
     def test_port_game_uses_source_conveyor_speed_for_item_motion(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

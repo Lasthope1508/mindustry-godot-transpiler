@@ -213,6 +213,21 @@ def verify_drill_dump_timer_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_drill_progress_fraction_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / DRILL_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    progress_method = "public float progress(){"
+    progress_fraction = "return dominantItem == null ? 0f : Mathf.clamp(progress / getDrillTime(dominantItem));"
+    missing = []
+    for snippet in [progress_method, progress_fraction]:
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": DRILL_SOURCE,
+        "checked": {"progress_method": progress_method, "progress_fraction": progress_fraction},
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
