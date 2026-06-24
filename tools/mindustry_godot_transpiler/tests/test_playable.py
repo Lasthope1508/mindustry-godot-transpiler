@@ -1357,6 +1357,24 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"place_text_tile_x": tile_x', source)
         self.assertIn('"place_text_tile_y": tile_y', source)
 
+    def test_port_game_exposes_source_building_draw_item_selection_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_draw_item_selection_state(has_selection: bool, source_x: float, source_y: float, block_size_value: int, source_tilesize: float, icon_small: float, selection_icon_ratio: float) -> Dictionary:", source)
+        self.assertIn("if not has_selection:", source)
+        self.assertIn('return {"visible": false}', source)
+        self.assertIn("var dx := source_x - float(block_size_value) * source_tilesize / 2.0", source)
+        self.assertIn("var dy := source_y + float(block_size_value) * source_tilesize / 2.0", source)
+        self.assertIn("var selection_width := icon_small / 4.0 * selection_icon_ratio", source)
+        self.assertIn("var selection_height := icon_small / 4.0", source)
+        self.assertIn('"shadow_color": "darkGray"', source)
+        self.assertIn('"shadow_alpha": 1.0', source)
+        self.assertIn('"shadow_y": dy - 1.0', source)
+        self.assertIn('"foreground_y": dy', source)
+        self.assertIn('"selection_width": selection_width', source)
+        self.assertIn('"selection_height": selection_height', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

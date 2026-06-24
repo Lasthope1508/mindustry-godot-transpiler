@@ -831,6 +831,35 @@ def verify_building_draw_select_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_building_draw_item_selection_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    draw_item_selection_method = "public void drawItemSelection(@Nullable UnlockableContent selection){"
+    draw_item_selection_guard = "if(selection != null){"
+    draw_item_selection_geometry = "float dx = x - block.size * tilesize/2f, dy = y + block.size * tilesize/2f, s = iconSmall / 4f * selection.fullIcon.ratio(), h = iconSmall / 4f;"
+    draw_item_selection_shadow_mix = "Draw.mixcol(Color.darkGray, 1f);"
+    draw_item_selection_shadow_rect = "Draw.rect(selection.fullIcon, dx, dy - 1, s, h);"
+    draw_item_selection_reset = "Draw.reset();"
+    draw_item_selection_rect = "Draw.rect(selection.fullIcon, dx, dy, s, h);"
+    checked = {
+        "draw_item_selection_method": draw_item_selection_method,
+        "draw_item_selection_guard": draw_item_selection_guard,
+        "draw_item_selection_geometry": draw_item_selection_geometry,
+        "draw_item_selection_shadow_mix": draw_item_selection_shadow_mix,
+        "draw_item_selection_shadow_rect": draw_item_selection_shadow_rect,
+        "draw_item_selection_reset": draw_item_selection_reset,
+        "draw_item_selection_rect": draw_item_selection_rect,
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

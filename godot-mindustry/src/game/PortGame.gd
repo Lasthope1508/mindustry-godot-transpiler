@@ -1265,6 +1265,15 @@ func source_building_draw_select_state(block_status: String, source_x: float, so
 	var remaining_activation_delay := maxf(0.0, unit_activation_delay - state_tick)
 	return {"overlay_visible": true, "overlay_x": source_x, "overlay_y": source_y, "overlay_rotation": source_rotation, "place_text_visible": inactive_unit_factory, "place_text_bundle_key": "rules.unitfactoryactivation.objective", "place_text_time": remaining_activation_delay, "place_text_tile_x": tile_x, "place_text_tile_y": tile_y}
 
+func source_building_draw_item_selection_state(has_selection: bool, source_x: float, source_y: float, block_size_value: int, source_tilesize: float, icon_small: float, selection_icon_ratio: float) -> Dictionary:
+	if not has_selection:
+		return {"visible": false}
+	var dx := source_x - float(block_size_value) * source_tilesize / 2.0
+	var dy := source_y + float(block_size_value) * source_tilesize / 2.0
+	var selection_width := icon_small / 4.0 * selection_icon_ratio
+	var selection_height := icon_small / 4.0
+	return {"visible": true, "dx": dx, "dy": dy, "shadow_color": "darkGray", "shadow_alpha": 1.0, "shadow_y": dy - 1.0, "foreground_y": dy, "selection_width": selection_width, "selection_height": selection_height}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

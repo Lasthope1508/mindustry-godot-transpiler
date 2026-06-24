@@ -535,5 +535,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_draw_item_selection_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_draw_item_selection_source"))
+        report = source_parity.verify_building_draw_item_selection_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "draw_item_selection_method": "public void drawItemSelection(@Nullable UnlockableContent selection){",
+            "draw_item_selection_guard": "if(selection != null){",
+            "draw_item_selection_geometry": "float dx = x - block.size * tilesize/2f, dy = y + block.size * tilesize/2f, s = iconSmall / 4f * selection.fullIcon.ratio(), h = iconSmall / 4f;",
+            "draw_item_selection_shadow_mix": "Draw.mixcol(Color.darkGray, 1f);",
+            "draw_item_selection_shadow_rect": "Draw.rect(selection.fullIcon, dx, dy - 1, s, h);",
+            "draw_item_selection_reset": "Draw.reset();",
+            "draw_item_selection_rect": "Draw.rect(selection.fullIcon, dx, dy, s, h);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
