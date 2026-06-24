@@ -522,5 +522,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_draw_select_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_draw_select_source"))
+        report = source_parity.verify_building_draw_select_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "draw_select_method": "public void drawSelect(){",
+            "draw_select_overlay": "block.drawOverlay(x, y, rotation);",
+            "draw_select_status_guard": "if(status() == BlockStatus.inactiveUnitFactory){",
+            "draw_select_place_text": "block.drawPlaceText(Core.bundle.format(\"rules.unitfactoryactivation.objective\", UI.formatTime((float)Math.max(0f, state.rules.unitActivationDelay(team) - state.tick))), tile.x, tile.y, false);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

@@ -1260,6 +1260,11 @@ func source_building_draw_cracks_state(draw_cracks: bool, damaged_state: bool, b
 	var crack_rotation_degrees := (position_id % 4) * 90
 	return {"visible": true, "region_size_index": block_size_value - 1, "crack_index": crack_index, "lightness": lightness, "rotation_degrees": crack_rotation_degrees}
 
+func source_building_draw_select_state(block_status: String, source_x: float, source_y: float, source_rotation: float, tile_x: int, tile_y: int, unit_activation_delay: float, state_tick: float) -> Dictionary:
+	var inactive_unit_factory := block_status == "inactiveUnitFactory"
+	var remaining_activation_delay := maxf(0.0, unit_activation_delay - state_tick)
+	return {"overlay_visible": true, "overlay_x": source_x, "overlay_y": source_y, "overlay_rotation": source_rotation, "place_text_visible": inactive_unit_factory, "place_text_bundle_key": "rules.unitfactoryactivation.objective", "place_text_time": remaining_activation_delay, "place_text_tile_x": tile_x, "place_text_tile_y": tile_y}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

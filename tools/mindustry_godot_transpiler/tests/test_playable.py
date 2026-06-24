@@ -1340,6 +1340,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"crack_index": crack_index', source)
         self.assertIn('"rotation_degrees": crack_rotation_degrees', source)
 
+    def test_port_game_exposes_source_building_draw_select_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_draw_select_state(block_status: String, source_x: float, source_y: float, source_rotation: float, tile_x: int, tile_y: int, unit_activation_delay: float, state_tick: float) -> Dictionary:", source)
+        self.assertIn("var inactive_unit_factory := block_status == \"inactiveUnitFactory\"", source)
+        self.assertIn("var remaining_activation_delay := maxf(0.0, unit_activation_delay - state_tick)", source)
+        self.assertIn('"overlay_visible": true', source)
+        self.assertIn('"overlay_x": source_x', source)
+        self.assertIn('"overlay_y": source_y', source)
+        self.assertIn('"overlay_rotation": source_rotation', source)
+        self.assertIn('"place_text_visible": inactive_unit_factory', source)
+        self.assertIn('"place_text_bundle_key": "rules.unitfactoryactivation.objective"', source)
+        self.assertIn('"place_text_time": remaining_activation_delay', source)
+        self.assertIn('"place_text_tile_x": tile_x', source)
+        self.assertIn('"place_text_tile_y": tile_y', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

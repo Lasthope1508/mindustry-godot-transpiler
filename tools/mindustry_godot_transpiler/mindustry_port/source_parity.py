@@ -808,6 +808,29 @@ def verify_building_draw_cracks_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_building_draw_select_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    draw_select_method = "public void drawSelect(){"
+    draw_select_overlay = "block.drawOverlay(x, y, rotation);"
+    draw_select_status_guard = "if(status() == BlockStatus.inactiveUnitFactory){"
+    draw_select_place_text = "block.drawPlaceText(Core.bundle.format(\"rules.unitfactoryactivation.objective\", UI.formatTime((float)Math.max(0f, state.rules.unitActivationDelay(team) - state.tick))), tile.x, tile.y, false);"
+    checked = {
+        "draw_select_method": draw_select_method,
+        "draw_select_overlay": draw_select_overlay,
+        "draw_select_status_guard": draw_select_status_guard,
+        "draw_select_place_text": draw_select_place_text,
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
