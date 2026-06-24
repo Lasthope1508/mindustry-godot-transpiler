@@ -184,6 +184,35 @@ def verify_drill_output_batch_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_drill_dump_timer_source(upstream_root: Path) -> dict[str, Any]:
+    drill_path = Path(upstream_root) / DRILL_SOURCE
+    block_path = Path(upstream_root) / "core/src/mindustry/world/Block.java"
+    drill_source = drill_path.read_text(encoding="utf-8", errors="replace")
+    block_source = block_path.read_text(encoding="utf-8", errors="replace")
+    timer_dump = "protected final int timerDump = timers++;"
+    dump_time_default = "public int dumpTime = 5;"
+    dump_gate = "if(timer(timerDump, dumpTime / timeScale)){"
+    dump_call = "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);"
+    missing = []
+    for snippet, source in [
+        (timer_dump, block_source),
+        (dump_time_default, block_source),
+        (dump_gate, drill_source),
+        (dump_call, drill_source),
+    ]:
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": DRILL_SOURCE,
+        "checked": {
+            "timer_dump": timer_dump,
+            "dump_time_default": dump_time_default,
+            "dump_gate": dump_gate,
+            "dump_call": dump_call,
+        },
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

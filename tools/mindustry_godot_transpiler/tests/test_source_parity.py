@@ -200,5 +200,17 @@ class SourceParityTests(unittest.TestCase):
             "offload": "offload(dominantItem);",
             "progress_modulo": "progress %= delay;",
         })
+
+    def test_drill_dump_timer_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_drill_dump_timer_source"))
+        report = source_parity.verify_drill_dump_timer_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/production/Drill.java")
+        self.assertEqual(report["checked"], {
+            "timer_dump": "protected final int timerDump = timers++;",
+            "dump_time_default": "public int dumpTime = 5;",
+            "dump_gate": "if(timer(timerDump, dumpTime / timeScale)){",
+            "dump_call": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+        })
 if __name__ == "__main__":
     unittest.main()

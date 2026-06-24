@@ -11,6 +11,7 @@ const PINNED_BUILD_BLOCK_IDS := ["conveyor", "router", "junction", "mechanical-d
 const SELECTED_GENERATED_CLASS_NAMES := ["Items", "Blocks", "UnitTypes", "Damage"]
 const SOURCE_DRILL_HARDNESS_MULTIPLIER := 50.0
 const SOURCE_DRILL_WARMUP_SPEED := 0.015
+const SOURCE_BLOCK_DUMP_TIME := 5.0
 const SOURCE_CONVEYOR_TILE_SPEED_SCALE := 55.0
 const SOURCE_TICK_RATE := 60.0
 const SOURCE_RECOIL_POW := 1.8
@@ -899,6 +900,17 @@ func source_block_item_capacity(block_id: String) -> int:
 	if block == null:
 		return 0
 	return int(block.properties.get("itemCapacity", 0))
+
+func source_block_dump_time(block_id: String) -> float:
+	if content_catalog == null:
+		return SOURCE_BLOCK_DUMP_TIME
+	var block = content_catalog.get_by_id(block_id)
+	if block == null:
+		return SOURCE_BLOCK_DUMP_TIME
+	return float(block.properties.get("dumpTime", SOURCE_BLOCK_DUMP_TIME))
+
+func source_drill_dump_interval(block_id: String, time_scale := 1.0) -> float:
+	return source_block_dump_time(block_id) / time_scale
 
 func source_drill_ore_count(block_id: String, cell: Vector2i, item_id: String) -> int:
 	if content_catalog == null:

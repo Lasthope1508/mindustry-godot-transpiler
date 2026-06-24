@@ -1086,6 +1086,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("item_progress = float(output_batch[\"progress\"]) / drill_delay", source)
         self.assertIn("add_core_item(drill_output_item_id, int(output_batch[\"amount\"]))", source)
 
+    def test_port_game_exposes_source_drill_dump_interval(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("const SOURCE_BLOCK_DUMP_TIME := 5.0", source)
+        self.assertIn("func source_block_dump_time(block_id: String) -> float:", source)
+        self.assertIn('return float(block.properties.get("dumpTime", SOURCE_BLOCK_DUMP_TIME))', source)
+        self.assertIn("func source_drill_dump_interval(block_id: String, time_scale := 1.0) -> float:", source)
+        self.assertIn("return source_block_dump_time(block_id) / time_scale", source)
+
     def test_port_game_uses_source_conveyor_speed_for_item_motion(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
