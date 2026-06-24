@@ -301,12 +301,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('if block.implementation != "MendProjector":', source)
         self.assertIn("mend_projector_charges[key] = float(mend_projector_charges.get(key, 0.0)) + delta * SOURCE_TICK_RATE", source)
         self.assertIn('if float(mend_projector_charges.get(key, 0.0)) < float(block.properties.get("reload", 0.0)):', source)
-        self.assertIn("func find_damaged_block_in_mend_range(mend_cell: Vector2i, mend_projector):", source)
+        self.assertIn("func find_damaged_block_in_mend_range(mend_cell: Vector2i, mend_projector, phase_heat := 0.0):", source)
         self.assertIn("func source_mend_projector_range(mend_projector, phase_heat := 0.0) -> float:", source)
         self.assertIn("return float(mend_projector.properties.get(\"range\", 0.0)) + phase_heat * float(mend_projector.properties.get(\"phaseRangeBoost\", 0.0))", source)
-        self.assertIn("var healed := repair_block_sprite(target, source_mend_projector_repair_amount(block, target_block))", source)
+        self.assertIn("var healed := repair_block_sprite(target, source_mend_projector_repair_amount(block, target_block, phase_heat))", source)
         self.assertIn("func step_mend_projectors(seconds: float) -> Dictionary:", source)
         self.assertIn('"last_mend_projector_healed_amount": last_mend_projector_healed_amount', source)
+
+    def test_port_game_simulates_source_mend_projector_phase_boost(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var mend_projector_phase_heat: Dictionary = {}", source)
+        self.assertIn("func selected_build_booster_item() -> String:", source)
+        self.assertIn('return str(selected.properties.get("boosterItem", ""))', source)
+        self.assertIn("func selected_build_booster_use_time() -> float:", source)
+        self.assertIn('return float(selected.properties.get("boosterUseTime", 0.0))', source)
+        self.assertIn("func boost_mend_projector_at_cell(x: int, y: int) -> bool:", source)
+        self.assertIn('var item_id := str(block.properties.get("boosterItem", ""))', source)
+        self.assertIn('core_items[item_id] = int(core_items.get(item_id, 0)) - 1', source)
+        self.assertIn("mend_projector_phase_heat[key] = 1.0", source)
+        self.assertIn("func find_damaged_block_in_mend_range(mend_cell: Vector2i, mend_projector, phase_heat := 0.0):", source)
+        self.assertIn("var real_range := source_mend_projector_range(mend_projector, phase_heat)", source)
+        self.assertIn("var phase_heat := float(mend_projector_phase_heat.get(key, 0.0))", source)
+        self.assertIn("find_damaged_block_in_mend_range(mend_cell, block, phase_heat)", source)
+        self.assertIn("source_mend_projector_repair_amount(block, target_block, phase_heat)", source)
+        self.assertIn('"selected_build_booster_item": selected_build_booster_item()', source)
+        self.assertIn('"selected_build_booster_use_time": selected_build_booster_use_time()', source)
 
     def test_port_game_enforces_source_core_item_capacity(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

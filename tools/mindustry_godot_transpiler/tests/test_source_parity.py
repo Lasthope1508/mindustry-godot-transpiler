@@ -53,7 +53,7 @@ class SourceParityTests(unittest.TestCase):
         self.assertEqual(report["source"], "core/src/mindustry/content/Blocks.java")
         self.assertEqual(report["block"], "mend-projector")
         self.assertEqual(report["mismatches"], [])
-        self.assertEqual(report["checked"], {"healPercent": 11.0, "phaseBoost": 15.0, "phaseRangeBoost": 50.0})
+        self.assertEqual(report["checked"], {"healPercent": 11.0, "phaseBoost": 15.0, "phaseRangeBoost": 50.0, "boosterItem": "phase-fabric", "boosterUseTime": 400.0})
 
     def test_generated_mend_projector_repair_amount_matches_source_formula(self):
         self.assertTrue(hasattr(source_parity, "verify_mend_projector_repair_amount_parity"))

@@ -261,6 +261,11 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
         properties["health"] = int(int(properties.get("size", 1)) * int(properties.get("size", 1)) * float(properties["scaledHealth"]))
     if implementation == "MendProjector":
         _apply_mend_projector_defaults(properties, initializer)
+    booster_item = _boost_item(initializer)
+    if booster_item is not None:
+        properties["boosterItem"] = booster_item
+        if implementation == "MendProjector":
+            properties["boosterUseTime"] = float(_numeric_assignment(initializer, "useTime") or 400.0)
     shoot_pattern = _shoot_alternate_pattern(initializer)
     if shoot_pattern is not None:
         properties["shootPattern"] = shoot_pattern
@@ -292,6 +297,10 @@ def _apply_mend_projector_defaults(properties: dict[str, Any], initializer: str)
     for key, default in {"healPercent": 12.0, "phaseBoost": 12.0, "phaseRangeBoost": 50.0}.items():
         if key not in properties and not _has_assignment(initializer, key):
             properties[key] = default
+
+def _boost_item(source: str) -> str | None:
+    match = re.search(r"\bconsumeItem\s*\(\s*Items\.([A-Za-z_]\w*)\s*(?:,\s*[0-9_]+)?\s*\)\s*\.\s*boost\s*\(", source)
+    return _camel_to_kebab(match.group(1)) if match else None
 
 def _has_assignment(source: str, key: str) -> bool:
     return re.search(rf"\b{key}\s*=", source) is not None

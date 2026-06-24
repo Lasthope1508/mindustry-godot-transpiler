@@ -248,6 +248,7 @@ public class Blocks{
             phaseBoost = 15f;
             reload = 250f;
             range = 85f;
+            consumeItem(Items.phaseFabric).boost();
         }};
     }
 }
@@ -262,6 +263,8 @@ public class Blocks{
         self.assertEqual(registry["blocks"][0]["properties"].get("healPercent"), 11.0)
         self.assertEqual(registry["blocks"][0]["properties"].get("phaseBoost"), 15.0)
         self.assertEqual(registry["blocks"][0]["properties"].get("phaseRangeBoost"), 50.0)
+        self.assertEqual(registry["blocks"][0]["properties"].get("boosterItem"), "phase-fabric")
+        self.assertEqual(registry["blocks"][0]["properties"].get("boosterUseTime"), 400.0)
 
 if __name__ == "__main__":
     unittest.main()

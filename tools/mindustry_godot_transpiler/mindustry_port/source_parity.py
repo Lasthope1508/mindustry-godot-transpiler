@@ -221,6 +221,10 @@ def _extract_mend_projector_repair(source: str, field: str, implementation: str)
     for key, default in {"healPercent": 12.0, "phaseBoost": 12.0, "phaseRangeBoost": 50.0}.items():
         value = _numeric_assignment(body, key)
         expected[key] = float(value) if value is not None else default
+    booster_item = _boost_item(body)
+    if booster_item is not None:
+        expected["boosterItem"] = booster_item
+        expected["boosterUseTime"] = float(_numeric_assignment(body, "useTime") or 400.0)
     return expected
 
 def _mend_projector_repair_amount(health: Any, heal_percent: Any, phase_boost: Any, phase_heat: float = 0.0, efficiency: float = 1.0) -> dict[str, Any]:
@@ -235,3 +239,7 @@ def _mend_projector_repair_amount(health: Any, heal_percent: Any, phase_boost: A
         "efficiency": efficiency,
         "repairAmount": health_value * (heal_value + phase_heat * phase_boost_value) / 100.0 * efficiency,
     }
+
+def _boost_item(source: str) -> str | None:
+    match = re.search(r"\bconsumeItem\s*\(\s*Items\.([A-Za-z_]\w*)\s*(?:,\s*[0-9_]+)?\s*\)\s*\.\s*boost\s*\(", source)
+    return _camel_to_kebab(match.group(1)) if match else None

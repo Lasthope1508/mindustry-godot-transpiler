@@ -35,6 +35,7 @@ var ore_items_by_cell: Dictionary = {}
 var placed_blocks: Dictionary = {}
 var placed_block_origins: Dictionary = {}
 var mend_projector_charges: Dictionary = {}
+var mend_projector_phase_heat: Dictionary = {}
 var initial_world_block_count := 0
 var initial_occupied_cell_count := 0
 var last_placed_block_id := ""
@@ -306,6 +307,18 @@ func selected_build_phase_range_boost() -> float:
 	var selected = build_palette[selected_build_index]
 	return float(selected.properties.get("phaseRangeBoost", 0.0))
 
+func selected_build_booster_item() -> String:
+	if build_palette.is_empty():
+		return ""
+	var selected = build_palette[selected_build_index]
+	return str(selected.properties.get("boosterItem", ""))
+
+func selected_build_booster_use_time() -> float:
+	if build_palette.is_empty():
+		return 0.0
+	var selected = build_palette[selected_build_index]
+	return float(selected.properties.get("boosterUseTime", 0.0))
+
 func source_mend_projector_repair_amount(mend_projector, target_block, phase_heat := 0.0, efficiency := 1.0) -> float:
 	if mend_projector == null or target_block == null:
 		return 0.0
@@ -423,6 +436,20 @@ func repair_block_sprite(sprite, amount: float) -> float:
 	var after: float = min(float(sprite.get_meta("source_block_max_health", 0.0)), before + amount)
 	sprite.set_meta("source_block_health", after)
 	return after - before
+
+func boost_mend_projector_at_cell(x: int, y: int) -> bool:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	var block = block_from_sprite(sprite)
+	if block == null or block.implementation != "MendProjector":
+		return false
+	var item_id := str(block.properties.get("boosterItem", ""))
+	if item_id == "" or core_item_count(item_id) <= 0:
+		return false
+	core_items[item_id] = int(core_items.get(item_id, 0)) - 1
+	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+	var key := cell_key(origin_cell)
+	mend_projector_phase_heat[key] = 1.0
+	return true
 
 func block_size(block) -> int:
 	return max(1, int(block.properties.get("size", 1)))
@@ -648,9 +675,9 @@ func source_mend_projector_range(mend_projector, phase_heat := 0.0) -> float:
 		return 0.0
 	return float(mend_projector.properties.get("range", 0.0)) + phase_heat * float(mend_projector.properties.get("phaseRangeBoost", 0.0))
 
-func find_damaged_block_in_mend_range(mend_cell: Vector2i, mend_projector):
+func find_damaged_block_in_mend_range(mend_cell: Vector2i, mend_projector, phase_heat := 0.0):
 	var mend_origin := source_block_sprite_base_position(mend_projector, mend_cell)
-	var real_range := source_mend_projector_range(mend_projector)
+	var real_range := source_mend_projector_range(mend_projector, phase_heat)
 	for origin_key in placed_block_origins.keys():
 		var sprite = placed_block_origins.get(origin_key)
 		if not source_block_is_damaged(sprite):
@@ -677,11 +704,12 @@ func simulate_mend_projectors(delta: float) -> void:
 			continue
 		mend_projector_charges[key] = 0.0
 		var mend_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
-		var target = find_damaged_block_in_mend_range(mend_cell, block)
+		var phase_heat := float(mend_projector_phase_heat.get(key, 0.0))
+		var target = find_damaged_block_in_mend_range(mend_cell, block, phase_heat)
 		var target_block = block_from_sprite(target)
 		if target_block == null:
 			continue
-		var healed := repair_block_sprite(target, source_mend_projector_repair_amount(block, target_block))
+		var healed := repair_block_sprite(target, source_mend_projector_repair_amount(block, target_block, phase_heat))
 		last_mend_projector_healed_amount = healed
 		last_mend_projector_healed_block_id = str(target.get_meta("source_block_id", ""))
 		last_mend_projector_healed_cell = target.get_meta("origin_cell", Vector2i.ZERO)
@@ -1462,6 +1490,8 @@ func get_runtime_summary() -> Dictionary:
 		"selected_build_heal_percent": selected_build_heal_percent(),
 		"selected_build_phase_boost": selected_build_phase_boost(),
 		"selected_build_phase_range_boost": selected_build_phase_range_boost(),
+		"selected_build_booster_item": selected_build_booster_item(),
+		"selected_build_booster_use_time": selected_build_booster_use_time(),
 		"selected_build_repair_amount": selected_build_repair_amount(),
 		"last_mend_projector_healed_amount": last_mend_projector_healed_amount,
 		"last_mend_projector_healed_block_id": last_mend_projector_healed_block_id,
