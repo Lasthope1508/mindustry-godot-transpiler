@@ -11,6 +11,7 @@ BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
 CONVEYOR_SOURCE = "core/src/mindustry/world/blocks/distribution/Conveyor.java"
 DRILL_SOURCE = "core/src/mindustry/world/blocks/production/Drill.java"
 BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
+BLOCK_SOURCE = "core/src/mindustry/world/Block.java"
 CORE_BLOCK_SOURCE = "core/src/mindustry/world/blocks/storage/CoreBlock.java"
 ITEM_MODULE_SOURCE = "core/src/mindustry/world/modules/ItemModule.java"
 
@@ -657,6 +658,39 @@ def verify_building_dump_payload_source(upstream_root: Path) -> dict[str, Any]:
             "dump_payload_success": dump_payload_success,
             "dump_payload_failure": dump_payload_failure,
         },
+        "missing": missing,
+    }
+
+def verify_building_can_be_replaced_source(upstream_root: Path) -> dict[str, Any]:
+    building_source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    block_source_path = Path(upstream_root) / BLOCK_SOURCE
+    building_source = building_source_path.read_text(encoding="utf-8", errors="replace")
+    block_source = block_source_path.read_text(encoding="utf-8", errors="replace")
+    building_can_be_replaced_method = "public boolean canBeReplaced(Block other){"
+    building_can_be_replaced_delegate = "return other.canReplace(block);"
+    block_can_replace_method = "public boolean canReplace(Block other){"
+    block_can_replace_always = "if(other.alwaysReplace) return true;"
+    block_can_replace_privileged = "if(other.privileged) return false;"
+    block_can_replace_replaceable = "return other.replaceable && (other != this || (rotate && quickRotate)) && ((this.group != BlockGroup.none && other.group == this.group) || other == this) &&"
+    block_can_replace_size = "(size == other.size || (size >= other.size && ((subclass != null && subclass == other.subclass) || group.anyReplace)));"
+    checks = {
+        "building_can_be_replaced_method": building_can_be_replaced_method,
+        "building_can_be_replaced_delegate": building_can_be_replaced_delegate,
+        "block_can_replace_method": block_can_replace_method,
+        "block_can_replace_always": block_can_replace_always,
+        "block_can_replace_privileged": block_can_replace_privileged,
+        "block_can_replace_replaceable": block_can_replace_replaceable,
+        "block_can_replace_size": block_can_replace_size,
+    }
+    missing = []
+    for key, snippet in checks.items():
+        source = building_source if key.startswith("building_") else block_source
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "block_source": BLOCK_SOURCE,
+        "checked": checks,
         "missing": missing,
     }
 

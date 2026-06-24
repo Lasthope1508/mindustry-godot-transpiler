@@ -442,5 +442,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_can_be_replaced_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_can_be_replaced_source"))
+        report = source_parity.verify_building_can_be_replaced_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["block_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "building_can_be_replaced_method": "public boolean canBeReplaced(Block other){",
+            "building_can_be_replaced_delegate": "return other.canReplace(block);",
+            "block_can_replace_method": "public boolean canReplace(Block other){",
+            "block_can_replace_always": "if(other.alwaysReplace) return true;",
+            "block_can_replace_privileged": "if(other.privileged) return false;",
+            "block_can_replace_replaceable": "return other.replaceable && (other != this || (rotate && quickRotate)) && ((this.group != BlockGroup.none && other.group == this.group) || other == this) &&",
+            "block_can_replace_size": "(size == other.size || (size >= other.size && ((subclass != null && subclass == other.subclass) || group.anyReplace)));",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

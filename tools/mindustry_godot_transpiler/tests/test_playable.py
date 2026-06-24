@@ -1277,6 +1277,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return {"moved": true, "cdump": next_dump, "handled_index": other_index}', source)
         self.assertIn('return {"moved": false, "cdump": next_dump, "handled_index": -1}', source)
 
+    def test_port_game_exposes_source_building_can_be_replaced_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_can_replace_state(existing_always_replace: bool, existing_privileged: bool, existing_replaceable: bool, same_block: bool, new_rotate: bool, new_quick_rotate: bool, new_group_is_none: bool, same_group: bool, new_size: int, existing_size: int, same_subclass: bool, group_any_replace: bool) -> bool:", source)
+        self.assertIn("if existing_always_replace:", source)
+        self.assertIn("if existing_privileged:", source)
+        self.assertIn("return existing_replaceable and (not same_block or (new_rotate and new_quick_rotate)) and ((not new_group_is_none and same_group) or same_block) and (new_size == existing_size or (new_size >= existing_size and (same_subclass or group_any_replace)))", source)
+        self.assertIn("func source_building_can_be_replaced_state(other_can_replace_block: bool) -> bool:", source)
+        self.assertIn("return other_can_replace_block", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

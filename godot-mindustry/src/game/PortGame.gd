@@ -1213,6 +1213,16 @@ func source_dump_payload_state(proximity_size: int, dump_cursor: int, accepts_pa
 			return {"moved": true, "cdump": next_dump, "handled_index": other_index}
 	return {"moved": false, "cdump": next_dump, "handled_index": -1}
 
+func source_block_can_replace_state(existing_always_replace: bool, existing_privileged: bool, existing_replaceable: bool, same_block: bool, new_rotate: bool, new_quick_rotate: bool, new_group_is_none: bool, same_group: bool, new_size: int, existing_size: int, same_subclass: bool, group_any_replace: bool) -> bool:
+	if existing_always_replace:
+		return true
+	if existing_privileged:
+		return false
+	return existing_replaceable and (not same_block or (new_rotate and new_quick_rotate)) and ((not new_group_is_none and same_group) or same_block) and (new_size == existing_size or (new_size >= existing_size and (same_subclass or group_any_replace)))
+
+func source_building_can_be_replaced_state(other_can_replace_block: bool) -> bool:
+	return other_can_replace_block
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
