@@ -476,5 +476,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_progress_display_ambient_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_progress_display_ambient_source"))
+        report = source_parity.verify_building_progress_display_ambient_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "progress_method": "public float getProgressIncrease(float baseTime){",
+            "progress_return": "return 1f / baseTime * edelta();",
+            "display_efficiency_method": "public float getDisplayEfficiency(){",
+            "display_efficiency_return": "return getProgressIncrease(1f) / edelta();",
+            "ambient_method": "public boolean shouldAmbientSound(){",
+            "ambient_return": "return shouldConsume();",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

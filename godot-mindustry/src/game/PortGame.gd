@@ -1235,6 +1235,15 @@ func source_building_consume_trigger_valid_state() -> bool:
 func source_building_power_production_state() -> float:
 	return 0.0
 
+func source_building_progress_increase(base_time: float, edelta_value: float) -> float:
+	return 1.0 / base_time * edelta_value
+
+func source_building_display_efficiency(edelta_value: float) -> float:
+	return source_building_progress_increase(1.0, edelta_value) / edelta_value
+
+func source_building_should_ambient_sound(should_consume_state: bool) -> bool:
+	return should_consume_state
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

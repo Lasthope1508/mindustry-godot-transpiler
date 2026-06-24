@@ -1301,6 +1301,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_power_production_state() -> float:", source)
         self.assertIn("return 0.0", source)
 
+    def test_port_game_exposes_source_building_progress_display_ambient_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_progress_increase(base_time: float, edelta_value: float) -> float:", source)
+        self.assertIn("return 1.0 / base_time * edelta_value", source)
+        self.assertIn("func source_building_display_efficiency(edelta_value: float) -> float:", source)
+        self.assertIn("return source_building_progress_increase(1.0, edelta_value) / edelta_value", source)
+        self.assertIn("func source_building_should_ambient_sound(should_consume_state: bool) -> bool:", source)
+        self.assertIn("return should_consume_state", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

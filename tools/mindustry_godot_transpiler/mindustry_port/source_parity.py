@@ -725,6 +725,33 @@ def verify_building_default_activity_source(upstream_root: Path) -> dict[str, An
         "missing": missing,
     }
 
+def verify_building_progress_display_ambient_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    progress_method = "public float getProgressIncrease(float baseTime){"
+    progress_return = "return 1f / baseTime * edelta();"
+    display_efficiency_method = "public float getDisplayEfficiency(){"
+    display_efficiency_return = "return getProgressIncrease(1f) / edelta();"
+    ambient_method = "public boolean shouldAmbientSound(){"
+    ambient_return = "return shouldConsume();"
+    checked = {
+        "progress_method": progress_method,
+        "progress_return": progress_return,
+        "display_efficiency_method": display_efficiency_method,
+        "display_efficiency_return": display_efficiency_return,
+        "ambient_method": ambient_method,
+        "ambient_return": ambient_return,
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
