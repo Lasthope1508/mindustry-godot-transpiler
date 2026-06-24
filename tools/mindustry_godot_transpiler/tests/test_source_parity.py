@@ -980,5 +980,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_on_deconstructed_liquid_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_on_deconstructed_liquid_source"))
+        report = source_parity.verify_building_on_deconstructed_liquid_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "on_deconstructed_comment": "Called when a block begins (not finishes!) deconstruction. The building is still present at this point.",
+            "on_deconstructed_method": "public void onDeconstructed(@Nullable Unit builder){",
+            "on_deconstructed_liquid_comment": "//deposit non-incinerable liquid on ground",
+            "on_deconstructed_liquid_guard": "if(liquids != null && liquids.currentAmount() > 0 && (!liquids.current().incinerable || block.deconstructDropAllLiquid)){",
+            "on_deconstructed_per_cell": "float perCell = liquids.currentAmount() / (block.size * block.size) * 2f;",
+            "on_deconstructed_deposit": "tile.getLinkedTiles(other -> Puddles.deposit(other, liquids.current(), perCell));",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

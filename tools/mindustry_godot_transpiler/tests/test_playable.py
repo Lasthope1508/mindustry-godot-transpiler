@@ -1693,6 +1693,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("delays.append(float(i) / 2.0)", source)
         self.assertIn('"random_range": float(source_block_size) * source_tilesize / 2.0', source)
 
+    def test_port_game_exposes_source_building_on_deconstructed_liquid_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_on_deconstructed_liquid_state(has_liquids_module: bool, current_amount: float, current_incinerable: bool, deconstruct_drop_all_liquid: bool, source_block_size: int) -> Dictionary:", source)
+        self.assertIn("not current_incinerable or deconstruct_drop_all_liquid", source)
+        self.assertIn("float(source_block_size * source_block_size) * 2.0", source)
+        self.assertIn('"deposit_linked_tiles": true', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
