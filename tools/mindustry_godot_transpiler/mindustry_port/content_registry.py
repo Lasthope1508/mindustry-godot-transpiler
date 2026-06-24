@@ -253,25 +253,33 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
         match = re.search(rf"\b{key}\s*=\s*([0-9_]+)\s*;", initializer)
         if match:
             properties[key] = int(match.group(1).replace("_", ""))
-    for key in ["range", "reload", "drillTime", "speed", "displayedSpeed", "shootY", "inaccuracy", "rotateSpeed", "shootCone", "recoil", "scaledHealth", "healPercent", "phaseBoost", "phaseRangeBoost", "lightRadius"]:
+    for key in ["range", "reload", "drillTime", "speed", "displayedSpeed", "shootY", "inaccuracy", "rotateSpeed", "shootCone", "recoil", "scaledHealth", "healPercent", "phaseBoost", "phaseRangeBoost", "speedBoost", "speedBoostPhase", "useTime", "lightRadius"]:
         value = _numeric_assignment(initializer, key)
         if value is not None:
             properties[key] = value
     base_color = _color_value_assignment(initializer, "baseColor")
     if base_color is not None:
         properties["baseColor"] = base_color
+    phase_color = _color_value_assignment(initializer, "phaseColor")
+    if phase_color is not None:
+        properties["phaseColor"] = phase_color
     emit_light = _boolean_assignment(initializer, "emitLight")
     if emit_light is not None:
         properties["emitLight"] = emit_light
+    has_boost = _boolean_assignment(initializer, "hasBoost")
+    if has_boost is not None:
+        properties["hasBoost"] = has_boost
     if "scaledHealth" in properties and "health" not in properties and not _has_assignment(initializer, "health"):
         properties["health"] = int(int(properties.get("size", 1)) * int(properties.get("size", 1)) * float(properties["scaledHealth"]))
     if implementation == "MendProjector":
         _apply_mend_projector_defaults(properties, initializer)
+    if implementation == "OverdriveProjector":
+        _apply_overdrive_projector_defaults(properties, initializer)
     booster_item = _boost_item(initializer)
     if booster_item is not None:
         properties["boosterItem"] = booster_item
-        if implementation == "MendProjector":
-            properties["boosterUseTime"] = float(_numeric_assignment(initializer, "useTime") or 400.0)
+        if implementation in ["MendProjector", "OverdriveProjector"]:
+            properties["boosterUseTime"] = float(_numeric_assignment(initializer, "useTime") or properties.get("useTime", 400.0))
     shoot_pattern = _shoot_alternate_pattern(initializer)
     if shoot_pattern is not None:
         properties["shootPattern"] = shoot_pattern
@@ -310,6 +318,20 @@ def _apply_mend_projector_defaults(properties: dict[str, Any], initializer: str)
     if "lightRadius" not in properties and not _has_assignment(initializer, "lightRadius"):
         properties["lightRadius"] = 50.0
 
+def _apply_overdrive_projector_defaults(properties: dict[str, Any], initializer: str) -> None:
+    for key, default in {"reload": 60.0, "range": 80.0, "speedBoost": 1.5, "speedBoostPhase": 0.75, "useTime": 400.0, "phaseRangeBoost": 20.0}.items():
+        if key not in properties and not _has_assignment(initializer, key):
+            properties[key] = default
+    if "hasBoost" not in properties and not _has_assignment(initializer, "hasBoost"):
+        properties["hasBoost"] = True
+    if "baseColor" not in properties and not _has_assignment(initializer, "baseColor"):
+        properties["baseColor"] = "feb380"
+    if "phaseColor" not in properties and not _has_assignment(initializer, "phaseColor"):
+        properties["phaseColor"] = "ffd59e"
+    if "emitLight" not in properties and not _has_assignment(initializer, "emitLight"):
+        properties["emitLight"] = True
+    if "lightRadius" not in properties and not _has_assignment(initializer, "lightRadius"):
+        properties["lightRadius"] = 50.0
 def _boost_item(source: str) -> str | None:
     match = re.search(r"\bconsumeItem\s*\(\s*Items\.([A-Za-z_]\w*)\s*(?:,\s*[0-9_]+)?\s*\)\s*\.\s*boost\s*\(", source)
     return _camel_to_kebab(match.group(1)) if match else None

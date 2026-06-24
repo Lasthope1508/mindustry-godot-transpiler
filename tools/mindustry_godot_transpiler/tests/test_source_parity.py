@@ -77,5 +77,26 @@ class SourceParityTests(unittest.TestCase):
         self.assertEqual(report["mismatches"], [])
         self.assertEqual(report["checked"], {"baseColor": "84f491", "emitLight": True, "lightRadius": 50.0})
 
+    def test_generated_overdrive_projector_params_match_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_overdrive_projector_params_parity"))
+        report = source_parity.verify_overdrive_projector_params_parity(ROOT / "mindustry-upstream", ROOT / "godot-mindustry")
+
+        self.assertEqual(report["source"], "core/src/mindustry/content/Blocks.java")
+        self.assertEqual(report["block"], "overdrive-projector")
+        self.assertEqual(report["mismatches"], [])
+        self.assertEqual(report["checked"], {
+            "range": 80.0,
+            "reload": 60.0,
+            "speedBoost": 1.5,
+            "speedBoostPhase": 0.75,
+            "phaseRangeBoost": 20.0,
+            "boosterItem": "phase-fabric",
+            "boosterUseTime": 400.0,
+            "baseColor": "feb380",
+            "phaseColor": "ffd59e",
+            "emitLight": True,
+            "lightRadius": 50.0,
+            "hasBoost": True,
+        })
 if __name__ == "__main__":
     unittest.main()

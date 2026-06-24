@@ -1,4 +1,4 @@
-import tempfile
+﻿import tempfile
 import unittest
 from pathlib import Path
 
@@ -272,5 +272,62 @@ public class Blocks{
         self.assertEqual(registry["blocks"][0]["properties"].get("emitLight"), True)
         self.assertEqual(registry["blocks"][0]["properties"].get("lightRadius"), 50.0)
 
+    def test_block_registry_extracts_overdrive_projector_source_params(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = root / "upstream" / "core" / "src" / "mindustry" / "content"
+            assets = root / "godot" / "assets" / "core" / "assets-raw" / "sprites" / "blocks" / "effect"
+            source.mkdir(parents=True)
+            assets.mkdir(parents=True)
+            (assets / "overdrive-projector.png").write_bytes(b"png")
+            (source / "Items.java").write_text(
+                """
+package mindustry.content;
+public class Items{
+    public static Item phaseFabric, lead;
+}
+""",
+                encoding="utf-8",
+            )
+            (source / "Liquids.java").write_text(
+                """
+package mindustry.content;
+public class Liquids{}
+""",
+                encoding="utf-8",
+            )
+            (source / "Blocks.java").write_text(
+                """
+package mindustry.content;
+public class Blocks{
+    public static Block overdriveProjector;
+    public static void load(){
+        overdriveProjector = new OverdriveProjector("overdrive-projector"){{
+            requirements(Category.effect, with(Items.lead, 100));
+            size = 2;
+            consumeItem(Items.phaseFabric).boost();
+            ambientSoundVolume = 0.08f;
+        }};
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            registry = build_content_registry(root / "upstream", root / "godot")
+
+        props = registry["blocks"][0]["properties"]
+        self.assertEqual(props.get("range"), 80.0)
+        self.assertEqual(props.get("reload"), 60.0)
+        self.assertEqual(props.get("speedBoost"), 1.5)
+        self.assertEqual(props.get("speedBoostPhase"), 0.75)
+        self.assertEqual(props.get("phaseRangeBoost"), 20.0)
+        self.assertEqual(props.get("boosterUseTime"), 400.0)
+        self.assertEqual(props.get("boosterItem"), "phase-fabric")
+        self.assertEqual(props.get("baseColor"), "feb380")
+        self.assertEqual(props.get("phaseColor"), "ffd59e")
+        self.assertEqual(props.get("emitLight"), True)
+        self.assertEqual(props.get("lightRadius"), 50.0)
+        self.assertEqual(props.get("hasBoost"), True)
 if __name__ == "__main__":
     unittest.main()

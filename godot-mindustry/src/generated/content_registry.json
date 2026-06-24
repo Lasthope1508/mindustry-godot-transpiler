@@ -2434,8 +2434,17 @@
       "id": "overdrive-projector",
       "implementation": "OverdriveProjector",
       "properties": {
+        "baseColor": "feb380",
         "boosterItem": "phase-fabric",
+        "boosterUseTime": 400.0,
         "category": "effect",
+        "emitLight": true,
+        "hasBoost": true,
+        "lightRadius": 50.0,
+        "phaseColor": "ffd59e",
+        "phaseRangeBoost": 20.0,
+        "range": 80.0,
+        "reload": 60.0,
         "requirements": [
           {
             "amount": 100,
@@ -2454,7 +2463,10 @@
             "item": "plastanium"
           }
         ],
-        "size": 2
+        "size": 2,
+        "speedBoost": 1.5,
+        "speedBoostPhase": 0.75,
+        "useTime": 400.0
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/overdrive-projector.png"
     },
@@ -2463,8 +2475,15 @@
       "id": "overdrive-dome",
       "implementation": "OverdriveProjector",
       "properties": {
+        "baseColor": "feb380",
         "category": "effect",
+        "emitLight": true,
+        "hasBoost": false,
+        "lightRadius": 50.0,
+        "phaseColor": "ffd59e",
+        "phaseRangeBoost": 20.0,
         "range": 200.0,
+        "reload": 60.0,
         "requirements": [
           {
             "amount": 200,
@@ -2487,7 +2506,10 @@
             "item": "surge-alloy"
           }
         ],
-        "size": 3
+        "size": 3,
+        "speedBoost": 2.5,
+        "speedBoostPhase": 0.75,
+        "useTime": 300.0
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/overdrive-dome.png"
     },

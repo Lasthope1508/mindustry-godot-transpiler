@@ -6,7 +6,26 @@ from typing import Any
 
 DUO_SOURCE = "core/src/mindustry/content/Blocks.java"
 MEND_PROJECTOR_SOURCE = "core/src/mindustry/world/blocks/defense/MendProjector.java"
+OVERDRIVE_PROJECTOR_SOURCE = "core/src/mindustry/world/blocks/defense/OverdriveProjector.java"
 
+def verify_overdrive_projector_params_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
+    blocks_path = Path(upstream_root) / DUO_SOURCE
+    overdrive_path = Path(upstream_root) / OVERDRIVE_PROJECTOR_SOURCE
+    registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
+    blocks_source = blocks_path.read_text(encoding="utf-8", errors="replace")
+    overdrive_source = overdrive_path.read_text(encoding="utf-8", errors="replace")
+    registry = json.loads(registry_path.read_text(encoding="utf-8"))
+    expected = _extract_overdrive_projector_params(blocks_source, overdrive_source, "overdriveProjector", "OverdriveProjector")
+    actual_props = _registry_block(registry, "overdrive-projector").get("properties", {})
+    mismatches: list[dict[str, Any]] = []
+    for key, expected_value in expected.items():
+        _append_mismatch(mismatches, f"properties.{key}", expected_value, actual_props.get(key))
+    return {
+        "source": DUO_SOURCE,
+        "block": "overdrive-projector",
+        "checked": expected,
+        "mismatches": mismatches,
+    }
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
@@ -245,6 +264,49 @@ def _extract_mend_projector_repair(source: str, field: str, implementation: str)
         expected["boosterUseTime"] = float(_numeric_assignment(body, "useTime") or 400.0)
     return expected
 
+def _extract_overdrive_projector_params(blocks_source: str, overdrive_source: str, field: str, implementation: str) -> dict[str, Any]:
+    match = re.search(rf'\b{field}\s*=\s*new\s+{implementation}\s*\(\s*"[^"]+"\s*\)', blocks_source)
+    if not match:
+        raise ValueError(f"{field} {implementation} initializer not found in Blocks.java")
+    body = _double_brace_body(blocks_source, match.end())
+    expected: dict[str, Any] = {}
+    for key in ["range", "reload", "speedBoost", "speedBoostPhase", "phaseRangeBoost"]:
+        value = _numeric_assignment(body, key)
+        if value is None:
+            value = _numeric_assignment(overdrive_source, key)
+        if value is None:
+            raise ValueError(f"OverdriveProjector {key} default not found")
+        expected[key] = float(value)
+    booster_item = _boost_item(body)
+    if booster_item is not None:
+        expected["boosterItem"] = booster_item
+        expected["boosterUseTime"] = float(_numeric_assignment(body, "useTime") or _numeric_assignment(overdrive_source, "useTime") or 400.0)
+    for key in ["baseColor", "phaseColor"]:
+        value = _color_value_assignment(body, key)
+        if value is None:
+            value = _color_value_assignment(overdrive_source, key)
+        if value is None:
+            raise ValueError(f"OverdriveProjector {key} default not found")
+        expected[key] = value
+    emit_light = _boolean_assignment(body, "emitLight")
+    if emit_light is None:
+        emit_light = _boolean_assignment(overdrive_source, "emitLight")
+    if emit_light is None:
+        raise ValueError("OverdriveProjector emitLight assignment not found")
+    expected["emitLight"] = emit_light
+    light_radius = _numeric_assignment(body, "lightRadius")
+    if light_radius is None:
+        light_radius = _numeric_assignment(overdrive_source, "lightRadius")
+    if light_radius is None:
+        raise ValueError("OverdriveProjector lightRadius assignment not found")
+    expected["lightRadius"] = float(light_radius)
+    has_boost = _boolean_assignment(body, "hasBoost")
+    if has_boost is None:
+        has_boost = _boolean_assignment(overdrive_source, "hasBoost")
+    if has_boost is None:
+        raise ValueError("OverdriveProjector hasBoost assignment not found")
+    expected["hasBoost"] = has_boost
+    return expected
 def _mend_projector_repair_amount(health: Any, heal_percent: Any, phase_boost: Any, phase_heat: float = 0.0, efficiency: float = 1.0) -> dict[str, Any]:
     health_value = float(health)
     heal_value = float(heal_percent)
