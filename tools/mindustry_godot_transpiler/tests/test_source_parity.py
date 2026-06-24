@@ -770,5 +770,16 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_is_commandable_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_is_commandable_source"))
+        report = source_parity.verify_building_is_commandable_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "is_commandable_method": "public boolean isCommandable(){",
+            "is_commandable_return": "return block.commandable;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

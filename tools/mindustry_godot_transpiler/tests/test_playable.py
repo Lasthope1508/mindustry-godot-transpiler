@@ -1554,6 +1554,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"placed": true', source)
         self.assertIn('"fog_force_update": has_fog_radius', source)
 
+    def test_port_game_exposes_source_building_is_commandable_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_is_commandable_state(block_commandable: bool) -> bool:", source)
+        self.assertIn("return block_commandable", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

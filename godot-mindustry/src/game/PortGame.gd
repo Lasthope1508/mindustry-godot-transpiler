@@ -1504,6 +1504,9 @@ func source_building_placed_state(net_client: bool, consumes_power: bool, output
 func source_building_on_repaired_state(has_fog_radius: bool) -> Dictionary:
 	return {"placed": true, "fog_force_update": has_fog_radius}
 
+func source_building_is_commandable_state(block_commandable: bool) -> bool:
+	return block_commandable
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
