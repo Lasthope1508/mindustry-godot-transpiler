@@ -178,5 +178,15 @@ class SourceParityTests(unittest.TestCase):
             "last_speed_active": "lastDrillSpeed = (speed * dominantItems * warmup) / delay;",
             "last_speed_inactive": "lastDrillSpeed = 0f;",
         })
+
+    def test_drill_item_capacity_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_drill_item_capacity_source"))
+        report = source_parity.verify_drill_item_capacity_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "block_item_capacity_default": "public int itemCapacity = 10;",
+            "drill_has_items": "hasItems = true;",
+        })
 if __name__ == "__main__":
     unittest.main()

@@ -232,17 +232,37 @@ def extract_blocks(upstream_root: Path, godot_root: Path | None = None) -> list[
     declared = _declared_block_fields(source)
     asset_root = _asset_root(godot_root) if godot_root is not None else None
     can_overdrive_defaults = _can_overdrive_defaults(upstream_root)
+    has_items_defaults = _has_items_defaults(upstream_root)
+    default_item_capacity = _block_item_capacity_default(upstream_root)
     pattern = re.compile(r"\b([A-Za-z_]\w*)\s*=\s*new\s+([A-Za-z_]\w*)\s*\(\s*\"([^\"]+)\"", re.MULTILINE)
     blocks = []
     for match in pattern.finditer(source):
         field, implementation, content_id = match.groups()
         if field not in declared:
             continue
-        entry = {"field": field, "id": content_id, "implementation": implementation, "properties": _block_properties(source, match.end(), implementation, can_overdrive_defaults)}
+        entry = {"field": field, "id": content_id, "implementation": implementation, "properties": _block_properties(source, match.end(), implementation, can_overdrive_defaults, has_items_defaults, default_item_capacity)}
         if asset_root is not None:
             entry["texture"] = _block_texture_path(asset_root, content_id)
         blocks.append(entry)
     return blocks
+
+def _block_item_capacity_default(upstream_root: Path) -> int:
+    block_source = (_source_world_dir(upstream_root) / "Block.java").read_text(encoding="utf-8", errors="replace")
+    match = re.search(r"\bpublic\s+int\s+itemCapacity\s*=\s*([0-9_]+)\s*;", block_source)
+    if not match:
+        raise ValueError("Block.itemCapacity default not found in Block.java")
+    return int(match.group(1).replace("_", ""))
+
+def _has_items_defaults(upstream_root: Path) -> dict[str, bool]:
+    defaults: dict[str, bool] = {}
+    blocks_root = _source_world_dir(upstream_root) / "blocks"
+    for source_path in blocks_root.rglob("*.java"):
+        source = source_path.read_text(encoding="utf-8", errors="replace")
+        class_match = re.search(r"\bclass\s+([A-Za-z_]\w*)", source)
+        assignment = _boolean_assignment(source, "hasItems")
+        if class_match and assignment is not None:
+            defaults[class_match.group(1)] = assignment
+    return defaults
 
 def _can_overdrive_defaults(upstream_root: Path) -> dict[str, bool]:
     block_source = (_source_world_dir(upstream_root) / "Block.java").read_text(encoding="utf-8", errors="replace")
@@ -259,11 +279,13 @@ def _can_overdrive_defaults(upstream_root: Path) -> dict[str, bool]:
             defaults[class_match.group(1)] = assignment
     return defaults
 
-def _block_properties(source: str, assignment_end: int, implementation: str = "", can_overdrive_defaults: dict[str, bool] | None = None) -> dict[str, Any]:
+def _block_properties(source: str, assignment_end: int, implementation: str = "", can_overdrive_defaults: dict[str, bool] | None = None, has_items_defaults: dict[str, bool] | None = None, default_item_capacity: int | None = None) -> dict[str, Any]:
     initializer = _initializer_body(source, assignment_end)
     properties: dict[str, Any] = {}
     if can_overdrive_defaults is not None:
         properties["canOverdrive"] = can_overdrive_defaults.get(implementation, can_overdrive_defaults["Block"])
+    if has_items_defaults is not None and implementation in has_items_defaults:
+        properties["hasItems"] = has_items_defaults[implementation]
     category = re.search(r"requirements\s*\(\s*Category\.([A-Za-z_]\w*)", initializer)
     if category:
         properties["category"] = category.group(1)
@@ -274,6 +296,11 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
         match = re.search(rf"\b{key}\s*=\s*([0-9_]+)\s*;", initializer)
         if match:
             properties[key] = int(match.group(1).replace("_", ""))
+    has_items = _boolean_assignment(initializer, "hasItems")
+    if has_items is not None:
+        properties["hasItems"] = has_items
+    if properties.get("hasItems") is True and "itemCapacity" not in properties and default_item_capacity is not None:
+        properties["itemCapacity"] = default_item_capacity
     for key in ["range", "reload", "drillTime", "speed", "displayedSpeed", "shootY", "inaccuracy", "rotateSpeed", "shootCone", "recoil", "scaledHealth", "healPercent", "phaseBoost", "phaseRangeBoost", "speedBoost", "speedBoostPhase", "useTime", "lightRadius"]:
         value = _numeric_assignment(initializer, key)
         if value is not None:

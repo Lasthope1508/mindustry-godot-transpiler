@@ -19,6 +19,20 @@ class ContentRegistryTests(unittest.TestCase):
 package mindustry.world;
 public class Block{
     public boolean canOverdrive = true;
+    public int itemCapacity = 10;
+}
+""",
+            encoding="utf-8",
+        )
+        blocks_source = root / "upstream" / "core" / "src" / "mindustry" / "world" / "blocks" / "production"
+        blocks_source.mkdir(parents=True, exist_ok=True)
+        (blocks_source / "Drill.java").write_text(
+            """
+package mindustry.world.blocks.production;
+public class Drill extends Block{
+    public Drill(String name){
+        hasItems = true;
+    }
 }
 """,
             encoding="utf-8",
@@ -210,7 +224,7 @@ public class Waves{
         self.assertEqual(registry["blocks"][2], {"field": "coreShard", "id": "core-shard", "implementation": "CoreBlock", "properties": {"canOverdrive": True, "itemCapacity": 4000}, "texture": ""})
         self.assertEqual(registry["blocks"][3], {"field": "router", "id": "router", "implementation": "Router", "properties": {"canOverdrive": True, "category": "distribution", "health": 90, "requirements": [{"amount": 3, "item": "copper"}], "size": 2}, "texture": ""})
         self.assertEqual(registry["blocks"][4], {"field": "duo", "id": "duo", "implementation": "ItemTurret", "properties": {"ammo": [{"ammoMultiplier": 2, "damage": 9, "height": 9, "hitSize": 5, "item": "copper", "lifetime": 50.0, "speed": 2.5, "sprite": "bullet", "width": 7}, {"ammoMultiplier": 4, "damage": 18, "height": 12, "item": "graphite", "lifetime": 40.285714285714285, "rangeChange": 16.0, "reloadMultiplier": 0.8, "speed": 3.5, "sprite": "bullet", "width": 9}, {"ammoMultiplier": 5, "damage": 12, "height": 9, "item": "silicon", "lifetime": 41.666666666666664, "reloadMultiplier": 1.5, "speed": 3, "sprite": "bullet", "width": 7}], "ammoPerShot": 1, "canOverdrive": True, "category": "turret", "consumeAmmoOnce": True, "inaccuracy": 2.0, "limitRangeMargin": 5.0, "maxAmmo": 30, "range": 110.0, "recoil": 0.5, "recoils": 2, "reload": 20.0, "requirements": [{"amount": 35, "item": "copper"}], "rotateSpeed": 10.0, "shootCone": 15.0, "shootPattern": {"spread": 3.5, "type": "ShootAlternate"}, "shootY": 3.0}, "texture": ""})
-        self.assertEqual(registry["blocks"][5], {"field": "mechanicalDrill", "id": "mechanical-drill", "implementation": "Drill", "properties": {"canOverdrive": True, "category": "production", "drillTime": 600, "requirements": [{"amount": 12, "item": "copper"}], "size": 2, "tier": 2}, "texture": ""})
+        self.assertEqual(registry["blocks"][5], {"field": "mechanicalDrill", "id": "mechanical-drill", "implementation": "Drill", "properties": {"canOverdrive": True, "category": "production", "drillTime": 600, "hasItems": True, "itemCapacity": 10, "requirements": [{"amount": 12, "item": "copper"}], "size": 2, "tier": 2}, "texture": ""})
         self.assertEqual(registry["units"][0], {"field": "dagger", "id": "dagger", "implementation": "UnitType", "properties": {"health": 150, "hitSize": 8.0, "speed": 0.5, "weapons": [{"bullet": {"damage": 9, "lifetime": 60.0, "speed": 2.5, "sprite": "bullet"}, "reload": 13.0}]}, "texture": "res://assets/core/assets-raw/sprites/units/dagger.png"})
         self.assertEqual(registry["waves"], {"version": 7, "groups": [{"unit": "dagger", "end": 10, "max": 30, "unitScaling": 2.0}, {"unit": "crawler", "begin": 4, "end": 13, "unitAmount": 2, "unitScaling": 1.5}]})
         self.assertEqual(registry["counts"], {"items": 2, "liquids": 1, "blocks": 6, "units": 2})

@@ -92,7 +92,7 @@ class CliTests(unittest.TestCase):
             source.mkdir(parents=True)
             world_source.mkdir(parents=True)
             (world_source / "Block.java").write_text(
-                "package mindustry.world; public class Block{ public boolean canOverdrive = true; }",
+                "package mindustry.world; public class Block{ public boolean canOverdrive = true; public int itemCapacity = 10; }",
                 encoding="utf-8",
             )
             (source / "Items.java").write_text(

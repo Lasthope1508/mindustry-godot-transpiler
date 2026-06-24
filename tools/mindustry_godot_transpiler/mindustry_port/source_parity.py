@@ -149,6 +149,24 @@ def verify_drill_last_speed_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_drill_item_capacity_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / "core/src/mindustry/world/Block.java"
+    drill_path = Path(upstream_root) / DRILL_SOURCE
+    block_source = block_path.read_text(encoding="utf-8", errors="replace")
+    drill_source = drill_path.read_text(encoding="utf-8", errors="replace")
+    block_item_capacity_default = "public int itemCapacity = 10;"
+    drill_has_items = "hasItems = true;"
+    missing = []
+    if block_item_capacity_default not in block_source:
+        missing.append(block_item_capacity_default)
+    if drill_has_items not in drill_source:
+        missing.append(drill_has_items)
+    return {
+        "source": "core/src/mindustry/world/Block.java",
+        "checked": {"block_item_capacity_default": block_item_capacity_default, "drill_has_items": drill_has_items},
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
