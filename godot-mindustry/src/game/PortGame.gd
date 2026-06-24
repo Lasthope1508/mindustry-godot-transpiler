@@ -313,6 +313,29 @@ func selected_build_phase_range_boost() -> float:
 	var selected = build_palette[selected_build_index]
 	return float(selected.properties.get("phaseRangeBoost", 0.0))
 
+func source_overdrive_projector_real_boost(overdrive_projector, phase_heat := 0.0, efficiency := 1.0) -> float:
+	if overdrive_projector == null:
+		return 0.0
+	var speed_boost := float(overdrive_projector.properties.get("speedBoost", 0.0))
+	var speed_boost_phase := float(overdrive_projector.properties.get("speedBoostPhase", 0.0))
+	return (speed_boost + phase_heat * speed_boost_phase) * efficiency
+
+func selected_build_overdrive_real_boost() -> float:
+	if build_palette.is_empty():
+		return 0.0
+	var selected = build_palette[selected_build_index]
+	if selected.implementation != "OverdriveProjector":
+		return 0.0
+	return source_overdrive_projector_real_boost(selected)
+
+func selected_build_overdrive_phase_real_boost() -> float:
+	if build_palette.is_empty():
+		return 0.0
+	var selected = build_palette[selected_build_index]
+	if selected.implementation != "OverdriveProjector":
+		return 0.0
+	return source_overdrive_projector_real_boost(selected, 1.0)
+
 func selected_build_booster_item() -> String:
 	if build_palette.is_empty():
 		return ""
@@ -1619,6 +1642,8 @@ func get_runtime_summary() -> Dictionary:
 		"selected_build_heal_percent": selected_build_heal_percent(),
 		"selected_build_phase_boost": selected_build_phase_boost(),
 		"selected_build_phase_range_boost": selected_build_phase_range_boost(),
+		"selected_build_overdrive_real_boost": selected_build_overdrive_real_boost(),
+		"selected_build_overdrive_phase_real_boost": selected_build_overdrive_phase_real_boost(),
 		"selected_build_booster_item": selected_build_booster_item(),
 		"selected_build_booster_use_time": selected_build_booster_use_time(),
 		"selected_build_repair_amount": selected_build_repair_amount(),

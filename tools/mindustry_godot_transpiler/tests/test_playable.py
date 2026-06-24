@@ -260,6 +260,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"selected_build_phase_boost": selected_build_phase_boost()', source)
         self.assertIn('"selected_build_phase_range_boost": selected_build_phase_range_boost()', source)
 
+    def test_port_game_exposes_overdrive_projector_real_boost_like_source(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_overdrive_projector_real_boost(overdrive_projector, phase_heat := 0.0, efficiency := 1.0) -> float:", source)
+        self.assertIn('var speed_boost := float(overdrive_projector.properties.get("speedBoost", 0.0))', source)
+        self.assertIn('var speed_boost_phase := float(overdrive_projector.properties.get("speedBoostPhase", 0.0))', source)
+        self.assertIn("return (speed_boost + phase_heat * speed_boost_phase) * efficiency", source)
+        self.assertIn("func selected_build_overdrive_real_boost() -> float:", source)
+        self.assertIn('if selected.implementation != "OverdriveProjector":', source)
+        self.assertIn("return source_overdrive_projector_real_boost(selected)", source)
+        self.assertIn("func selected_build_overdrive_phase_real_boost() -> float:", source)
+        self.assertIn("return source_overdrive_projector_real_boost(selected, 1.0)", source)
+        self.assertIn('"selected_build_overdrive_real_boost": selected_build_overdrive_real_boost()', source)
+        self.assertIn('"selected_build_overdrive_phase_real_boost": selected_build_overdrive_phase_real_boost()', source)
+
     def test_port_game_uses_source_mend_projector_repair_amount_formula(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
