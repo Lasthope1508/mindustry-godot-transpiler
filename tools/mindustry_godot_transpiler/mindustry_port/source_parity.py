@@ -8,6 +8,7 @@ DUO_SOURCE = "core/src/mindustry/content/Blocks.java"
 MEND_PROJECTOR_SOURCE = "core/src/mindustry/world/blocks/defense/MendProjector.java"
 OVERDRIVE_PROJECTOR_SOURCE = "core/src/mindustry/world/blocks/defense/OverdriveProjector.java"
 BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
+CONVEYOR_SOURCE = "core/src/mindustry/world/blocks/distribution/Conveyor.java"
 
 def verify_overdrive_projector_params_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     blocks_path = Path(upstream_root) / DUO_SOURCE
@@ -73,6 +74,19 @@ def verify_building_delta_edelta_source(upstream_root: Path) -> dict[str, Any]:
     return {
         "source": BUILDING_COMP_SOURCE,
         "checked": {"delta": delta, "edelta": edelta},
+        "missing": missing,
+    }
+
+def verify_conveyor_edelta_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / CONVEYOR_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    movement = "float moved = speed * edelta();"
+    missing = []
+    if movement not in source:
+        missing.append(movement)
+    return {
+        "source": CONVEYOR_SOURCE,
+        "checked": {"movement": movement},
         "missing": missing,
     }
 

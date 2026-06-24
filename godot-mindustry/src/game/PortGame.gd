@@ -927,6 +927,16 @@ func source_conveyor_path_progress_rate(block_id: String) -> float:
 	var path_length := float(max(1, path_points.size() - 1) * tile_size)
 	return source_conveyor_world_speed(block_id) / path_length
 
+func source_conveyor_path_progress_delta(block_id: String, seconds: float, time_scale := 1.0, efficiency := 1.0) -> float:
+	var scaled_source_delta := source_building_edelta(seconds * SOURCE_TICK_RATE, time_scale, efficiency)
+	return source_conveyor_path_progress_rate(block_id) * scaled_source_delta / SOURCE_TICK_RATE
+
+func source_conveyor_path_progress_delta_for_cell(x: int, y: int, seconds: float, efficiency := 1.0) -> float:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	if not is_instance_valid(sprite):
+		return 0.0
+	return source_conveyor_path_progress_delta(str(sprite.get_meta("source_block_id", "")), seconds, float(sprite.get_meta("source_block_time_scale", 1.0)), efficiency)
+
 func block_world_size(block) -> float:
 	return float(tile_size * block_size(block))
 
@@ -1077,7 +1087,7 @@ func simulate_factory(delta: float) -> void:
 			item_progress -= 1.0
 			add_core_item(drill_output_item_id, 1)
 			produced_total += 1
-	transport_progress = fmod(transport_progress + delta * conveyor_path_progress_rate, 1.0)
+	transport_progress = fmod(transport_progress + source_conveyor_path_progress_delta_for_cell(drill_pos.x + 1, drill_pos.y, delta), 1.0)
 	for i in item_sprites.size():
 		var phase := fmod(transport_progress + float(i) / float(item_sprites.size()), 1.0)
 		var idx := int(floor(phase * float(path_points.size() - 1)))
@@ -1085,6 +1095,18 @@ func simulate_factory(delta: float) -> void:
 		var local_t := fmod(phase * float(path_points.size() - 1), 1.0)
 		item_sprites[i].position = path_points[idx].lerp(path_points[next_idx], local_t)
 		item_sprites[i].visible = true
+
+func step_factory_transport(seconds: float) -> Dictionary:
+	var before := transport_progress
+	var progress_delta := source_conveyor_path_progress_delta_for_cell(drill_pos.x + 1, drill_pos.y, seconds)
+	simulate_factory(seconds)
+	return {
+		"transport_progress_before": before,
+		"transport_progress_delta": progress_delta,
+		"transport_progress": transport_progress,
+		"conveyor_time_scale": source_block_time_scale_at_cell(drill_pos.x + 1, drill_pos.y),
+		"conveyor_progress_delta": progress_delta,
+	}
 
 func source_block_is_damaged(sprite) -> bool:
 	if not is_instance_valid(sprite):

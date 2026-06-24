@@ -129,5 +129,14 @@ class SourceParityTests(unittest.TestCase):
             "delta": "return Time.delta * timeScale;",
             "edelta": "return efficiency * delta();",
         })
+
+    def test_conveyor_update_uses_edelta_movement_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_conveyor_edelta_source"))
+        report = source_parity.verify_conveyor_edelta_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/distribution/Conveyor.java")
+        self.assertEqual(report["checked"], {
+            "movement": "float moved = speed * edelta();",
+        })
 if __name__ == "__main__":
     unittest.main()
