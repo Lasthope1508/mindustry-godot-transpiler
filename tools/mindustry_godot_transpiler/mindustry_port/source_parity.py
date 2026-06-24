@@ -7,6 +7,7 @@ from typing import Any
 DUO_SOURCE = "core/src/mindustry/content/Blocks.java"
 MEND_PROJECTOR_SOURCE = "core/src/mindustry/world/blocks/defense/MendProjector.java"
 OVERDRIVE_PROJECTOR_SOURCE = "core/src/mindustry/world/blocks/defense/OverdriveProjector.java"
+BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
 
 def verify_overdrive_projector_params_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     blocks_path = Path(upstream_root) / DUO_SOURCE
@@ -40,6 +41,22 @@ def verify_overdrive_projector_target_filter_source(upstream_root: Path) -> dict
     return {
         "source": OVERDRIVE_PROJECTOR_SOURCE,
         "checked": {"predicate": predicate, "action": action},
+        "missing": missing,
+    }
+
+def verify_building_time_scale_decay_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    duration_decay = "if((timeScaleDuration -= Time.delta) <= 0f)"
+    reset = "timeScale = 1f;"
+    missing = []
+    if duration_decay not in source:
+        missing.append(duration_decay)
+    if reset not in source:
+        missing.append(reset)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": {"duration_decay": duration_decay, "reset": reset},
         "missing": missing,
     }
 

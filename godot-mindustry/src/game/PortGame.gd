@@ -381,6 +381,13 @@ func source_building_apply_boost_state(current_time_scale: float, current_durati
 	result["time_scale"] = max(current_time_scale, intensity)
 	return result
 
+func source_building_time_scale_decay_state(current_time_scale: float, current_duration: float, source_delta: float) -> Dictionary:
+	var result := {"time_scale": current_time_scale, "time_scale_duration": current_duration - source_delta}
+	if float(result["time_scale_duration"]) <= 0.0:
+		result["time_scale"] = 1.0
+		result["time_scale_duration"] = 0.0
+	return result
+
 func source_overdrive_projector_light_state(overdrive_projector, smooth_efficiency: float) -> Dictionary:
 	if overdrive_projector == null or not bool(overdrive_projector.properties.get("emitLight", false)):
 		return {"color": "", "radius": 0.0, "alpha": 0.0}
@@ -676,6 +683,28 @@ func source_block_time_scale_duration_at_cell(x: int, y: int) -> float:
 	if not is_instance_valid(sprite):
 		return 0.0
 	return float(sprite.get_meta("source_block_time_scale_duration", 0.0))
+
+func decay_block_time_scale_sprite(sprite, source_delta: float) -> void:
+	if not is_instance_valid(sprite):
+		return
+	var result := source_building_time_scale_decay_state(float(sprite.get_meta("source_block_time_scale", 1.0)), float(sprite.get_meta("source_block_time_scale_duration", 0.0)), source_delta)
+	sprite.set_meta("source_block_time_scale", float(result.get("time_scale", 1.0)))
+	sprite.set_meta("source_block_time_scale_duration", float(result.get("time_scale_duration", 0.0)))
+
+func simulate_block_time_scales(delta: float) -> void:
+	var source_delta := delta * SOURCE_TICK_RATE
+	for key in placed_block_origins.keys():
+		var sprite = placed_block_origins.get(key)
+		decay_block_time_scale_sprite(sprite, source_delta)
+
+func step_block_time_scales(seconds: float) -> Dictionary:
+	simulate_block_time_scales(seconds)
+	return {
+		"last_overdrive_projector_boosted_block_id": last_overdrive_projector_boosted_block_id,
+		"last_overdrive_projector_boosted_cell": {"x": last_overdrive_projector_boosted_cell.x, "y": last_overdrive_projector_boosted_cell.y},
+		"time_scale": source_block_time_scale_at_cell(last_overdrive_projector_boosted_cell.x, last_overdrive_projector_boosted_cell.y),
+		"time_scale_duration": source_block_time_scale_duration_at_cell(last_overdrive_projector_boosted_cell.x, last_overdrive_projector_boosted_cell.y),
+	}
 
 func damage_block_at_cell(x: int, y: int, amount: float) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
@@ -1023,6 +1052,7 @@ func build_hud() -> void:
 
 func _process(delta: float) -> void:
 	MindustryTime.update(delta)
+	simulate_block_time_scales(delta)
 	simulate_factory(delta)
 	simulate_mend_projectors(delta)
 	simulate_overdrive_projectors(delta)

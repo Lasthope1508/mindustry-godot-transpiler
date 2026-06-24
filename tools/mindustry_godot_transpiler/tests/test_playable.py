@@ -412,6 +412,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("apply_overdrive_boost_to_sprite(target, last_overdrive_projector_boost, last_overdrive_projector_boost_duration)", source)
         self.assertIn('"last_overdrive_projector_boosted_block_id": last_overdrive_projector_boosted_block_id', source)
 
+    def test_port_game_decays_building_time_scale_like_source(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_time_scale_decay_state(current_time_scale: float, current_duration: float, source_delta: float) -> Dictionary:", source)
+        self.assertIn('var result := {"time_scale": current_time_scale, "time_scale_duration": current_duration - source_delta}', source)
+        self.assertIn('if float(result["time_scale_duration"]) <= 0.0:', source)
+        self.assertIn('result["time_scale"] = 1.0', source)
+        self.assertIn("func decay_block_time_scale_sprite(sprite, source_delta: float) -> void:", source)
+        self.assertIn("var result := source_building_time_scale_decay_state(float(sprite.get_meta(\"source_block_time_scale\", 1.0)), float(sprite.get_meta(\"source_block_time_scale_duration\", 0.0)), source_delta)", source)
+        self.assertIn("func simulate_block_time_scales(delta: float) -> void:", source)
+        self.assertIn("decay_block_time_scale_sprite(sprite, source_delta)", source)
+        self.assertIn("func step_block_time_scales(seconds: float) -> Dictionary:", source)
+        self.assertIn("simulate_block_time_scales(delta)", source)
+
     def test_port_game_uses_source_mend_projector_repair_amount_formula(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

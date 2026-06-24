@@ -109,5 +109,15 @@ class SourceParityTests(unittest.TestCase):
             "predicate": "other.block.canOverdrive",
             "action": "other.applyBoost(realBoost(), reload + 1f)",
         })
+
+    def test_building_time_scale_decay_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_time_scale_decay_source"))
+        report = source_parity.verify_building_time_scale_decay_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "duration_decay": "if((timeScaleDuration -= Time.delta) <= 0f)",
+            "reset": "timeScale = 1f;",
+        })
 if __name__ == "__main__":
     unittest.main()
