@@ -694,6 +694,37 @@ def verify_building_can_be_replaced_source(upstream_root: Path) -> dict[str, Any
         "missing": missing,
     }
 
+def verify_building_default_activity_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    should_consume_method = "public boolean shouldConsume(){"
+    should_consume_return = "return enabled;"
+    production_valid_method = "public boolean productionValid(){"
+    production_valid_return = "return true;"
+    consume_trigger_valid_method = "public boolean consumeTriggerValid(){"
+    consume_trigger_valid_return = "return false;"
+    power_production_method = "public float getPowerProduction(){"
+    power_production_return = "return 0f;"
+    checked = {
+        "should_consume_method": should_consume_method,
+        "should_consume_return": should_consume_return,
+        "production_valid_method": production_valid_method,
+        "production_valid_return": production_valid_return,
+        "consume_trigger_valid_method": consume_trigger_valid_method,
+        "consume_trigger_valid_return": consume_trigger_valid_return,
+        "power_production_method": power_production_method,
+        "power_production_return": power_production_return,
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

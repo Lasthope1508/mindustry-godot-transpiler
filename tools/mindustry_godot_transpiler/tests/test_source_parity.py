@@ -459,5 +459,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_default_activity_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_default_activity_source"))
+        report = source_parity.verify_building_default_activity_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "should_consume_method": "public boolean shouldConsume(){",
+            "should_consume_return": "return enabled;",
+            "production_valid_method": "public boolean productionValid(){",
+            "production_valid_return": "return true;",
+            "consume_trigger_valid_method": "public boolean consumeTriggerValid(){",
+            "consume_trigger_valid_return": "return false;",
+            "power_production_method": "public float getPowerProduction(){",
+            "power_production_return": "return 0f;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

@@ -1288,6 +1288,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_can_be_replaced_state(other_can_replace_block: bool) -> bool:", source)
         self.assertIn("return other_can_replace_block", source)
 
+    def test_port_game_exposes_source_building_default_activity_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_should_consume_state(enabled_state: bool) -> bool:", source)
+        self.assertIn("return enabled_state", source)
+        self.assertIn("func source_building_production_valid_state() -> bool:", source)
+        self.assertIn("return true", source)
+        self.assertIn("func source_building_consume_trigger_valid_state() -> bool:", source)
+        self.assertIn("return false", source)
+        self.assertIn("func source_building_power_production_state() -> float:", source)
+        self.assertIn("return 0.0", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

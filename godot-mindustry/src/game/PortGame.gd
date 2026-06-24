@@ -1223,6 +1223,18 @@ func source_block_can_replace_state(existing_always_replace: bool, existing_priv
 func source_building_can_be_replaced_state(other_can_replace_block: bool) -> bool:
 	return other_can_replace_block
 
+func source_building_should_consume_state(enabled_state: bool) -> bool:
+	return enabled_state
+
+func source_building_production_valid_state() -> bool:
+	return true
+
+func source_building_consume_trigger_valid_state() -> bool:
+	return false
+
+func source_building_power_production_state() -> float:
+	return 0.0
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
