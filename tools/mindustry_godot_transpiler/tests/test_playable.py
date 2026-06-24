@@ -274,6 +274,40 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return source_mend_projector_repair_amount(mend_projector, selected)', source)
         self.assertIn('"selected_build_repair_amount": selected_build_repair_amount()', source)
 
+    def test_port_game_tracks_source_health_for_placed_blocks(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func place_selected_block_at_cell(x: int, y: int) -> bool:", source)
+        self.assertIn("return place_selected_block_at_world(grid_to_world(Vector2i(x, y)))", source)
+        self.assertIn('sprite.set_meta("source_block_id", block.id)', source)
+        self.assertIn('sprite.set_meta("source_block_max_health", float(block.properties.get("health", 0.0)))', source)
+        self.assertIn('sprite.set_meta("source_block_health", float(block.properties.get("health", 0.0)))', source)
+        self.assertIn("func source_block_health_at_cell(x: int, y: int) -> float:", source)
+        self.assertIn('return float(sprite.get_meta("source_block_health", 0.0))', source)
+        self.assertIn("func damage_block_at_cell(x: int, y: int, amount: float) -> float:", source)
+        self.assertIn('sprite.set_meta("source_block_health", max(0.0, float(sprite.get_meta("source_block_health", 0.0)) - amount))', source)
+        self.assertIn("func repair_block_sprite(sprite, amount: float) -> float:", source)
+        self.assertIn('min(float(sprite.get_meta("source_block_max_health", 0.0)), before + amount)', source)
+
+    def test_port_game_simulates_source_mend_projector_heal_cycle(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var mend_projector_charges: Dictionary = {}", source)
+        self.assertIn("var last_mend_projector_healed_amount := 0.0", source)
+        self.assertIn("simulate_mend_projectors(delta)", source)
+        self.assertIn("func simulate_mend_projectors(delta: float) -> void:", source)
+        self.assertIn('if block.implementation != "MendProjector":', source)
+        self.assertIn("mend_projector_charges[key] = float(mend_projector_charges.get(key, 0.0)) + delta * SOURCE_TICK_RATE", source)
+        self.assertIn('if float(mend_projector_charges.get(key, 0.0)) < float(block.properties.get("reload", 0.0)):', source)
+        self.assertIn("func find_damaged_block_in_mend_range(mend_cell: Vector2i, mend_projector):", source)
+        self.assertIn("func source_mend_projector_range(mend_projector, phase_heat := 0.0) -> float:", source)
+        self.assertIn("return float(mend_projector.properties.get(\"range\", 0.0)) + phase_heat * float(mend_projector.properties.get(\"phaseRangeBoost\", 0.0))", source)
+        self.assertIn("var healed := repair_block_sprite(target, source_mend_projector_repair_amount(block, target_block))", source)
+        self.assertIn("func step_mend_projectors(seconds: float) -> Dictionary:", source)
+        self.assertIn('"last_mend_projector_healed_amount": last_mend_projector_healed_amount', source)
+
     def test_port_game_enforces_source_core_item_capacity(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

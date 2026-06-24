@@ -34,6 +34,7 @@ var selected_build_index := 0
 var ore_items_by_cell: Dictionary = {}
 var placed_blocks: Dictionary = {}
 var placed_block_origins: Dictionary = {}
+var mend_projector_charges: Dictionary = {}
 var initial_world_block_count := 0
 var initial_occupied_cell_count := 0
 var last_placed_block_id := ""
@@ -41,6 +42,9 @@ var last_placed_block_size := 0
 var last_placed_cell := Vector2i.ZERO
 var last_placed_occupied_cell_count := 0
 var last_place_blocked := false
+var last_mend_projector_healed_amount := 0.0
+var last_mend_projector_healed_block_id := ""
+var last_mend_projector_healed_cell := Vector2i.ZERO
 var core_inventory := 0
 var core_items: Dictionary = {"copper": 0}
 var core_item_capacity := 0
@@ -320,6 +324,9 @@ func selected_build_repair_amount() -> float:
 func place_selected_block_at_mouse() -> void:
 	place_selected_block_at_world(get_global_mouse_position())
 
+func place_selected_block_at_cell(x: int, y: int) -> bool:
+	return place_selected_block_at_world(grid_to_world(Vector2i(x, y)))
+
 func place_selected_block_at_world(world_pos: Vector2) -> bool:
 	if build_palette.is_empty():
 		last_place_blocked = true
@@ -384,6 +391,38 @@ func record_placed_block(sprite: Sprite2D, block, cell: Vector2i) -> void:
 		placed_blocks[cell_key(occupied_cell)] = sprite
 	sprite.set_meta("occupied_cells", cell_keys)
 	sprite.set_meta("origin_cell", cell)
+	sprite.set_meta("source_block_id", block.id)
+	sprite.set_meta("source_block_max_health", float(block.properties.get("health", 0.0)))
+	sprite.set_meta("source_block_health", float(block.properties.get("health", 0.0)))
+
+func block_sprite_at_cell(cell: Vector2i):
+	return placed_blocks.get(cell_key(cell))
+
+func block_from_sprite(sprite):
+	if content_catalog == null or not is_instance_valid(sprite):
+		return null
+	return content_catalog.get_by_id(str(sprite.get_meta("source_block_id", "")))
+
+func source_block_health_at_cell(x: int, y: int) -> float:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	if not is_instance_valid(sprite):
+		return 0.0
+	return float(sprite.get_meta("source_block_health", 0.0))
+
+func damage_block_at_cell(x: int, y: int, amount: float) -> float:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	if not is_instance_valid(sprite):
+		return 0.0
+	sprite.set_meta("source_block_health", max(0.0, float(sprite.get_meta("source_block_health", 0.0)) - amount))
+	return float(sprite.get_meta("source_block_health", 0.0))
+
+func repair_block_sprite(sprite, amount: float) -> float:
+	if not is_instance_valid(sprite):
+		return 0.0
+	var before := float(sprite.get_meta("source_block_health", 0.0))
+	var after: float = min(float(sprite.get_meta("source_block_max_health", 0.0)), before + amount)
+	sprite.set_meta("source_block_health", after)
+	return after - before
 
 func block_size(block) -> int:
 	return max(1, int(block.properties.get("size", 1)))
@@ -574,6 +613,7 @@ func build_hud() -> void:
 func _process(delta: float) -> void:
 	MindustryTime.update(delta)
 	simulate_factory(delta)
+	simulate_mend_projectors(delta)
 	simulate_turrets(delta)
 	simulate_bullets(delta)
 	simulate_enemy_units(delta)
@@ -597,6 +637,62 @@ func simulate_factory(delta: float) -> void:
 		var local_t := fmod(phase * float(path_points.size() - 1), 1.0)
 		item_sprites[i].position = path_points[idx].lerp(path_points[next_idx], local_t)
 		item_sprites[i].visible = true
+
+func source_block_is_damaged(sprite) -> bool:
+	if not is_instance_valid(sprite):
+		return false
+	return float(sprite.get_meta("source_block_health", 0.0)) < float(sprite.get_meta("source_block_max_health", 0.0))
+
+func source_mend_projector_range(mend_projector, phase_heat := 0.0) -> float:
+	if mend_projector == null:
+		return 0.0
+	return float(mend_projector.properties.get("range", 0.0)) + phase_heat * float(mend_projector.properties.get("phaseRangeBoost", 0.0))
+
+func find_damaged_block_in_mend_range(mend_cell: Vector2i, mend_projector):
+	var mend_origin := source_block_sprite_base_position(mend_projector, mend_cell)
+	var real_range := source_mend_projector_range(mend_projector)
+	for origin_key in placed_block_origins.keys():
+		var sprite = placed_block_origins.get(origin_key)
+		if not source_block_is_damaged(sprite):
+			continue
+		var target_block = block_from_sprite(sprite)
+		if target_block == null:
+			continue
+		var target_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+		var target_origin := source_block_sprite_base_position(target_block, target_cell)
+		if mend_origin.distance_to(target_origin) <= real_range:
+			return sprite
+	return null
+
+func simulate_mend_projectors(delta: float) -> void:
+	for key in placed_block_origins.keys():
+		var sprite = placed_block_origins.get(key)
+		var block = block_from_sprite(sprite)
+		if block == null:
+			continue
+		if block.implementation != "MendProjector":
+			continue
+		mend_projector_charges[key] = float(mend_projector_charges.get(key, 0.0)) + delta * SOURCE_TICK_RATE
+		if float(mend_projector_charges.get(key, 0.0)) < float(block.properties.get("reload", 0.0)):
+			continue
+		mend_projector_charges[key] = 0.0
+		var mend_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+		var target = find_damaged_block_in_mend_range(mend_cell, block)
+		var target_block = block_from_sprite(target)
+		if target_block == null:
+			continue
+		var healed := repair_block_sprite(target, source_mend_projector_repair_amount(block, target_block))
+		last_mend_projector_healed_amount = healed
+		last_mend_projector_healed_block_id = str(target.get_meta("source_block_id", ""))
+		last_mend_projector_healed_cell = target.get_meta("origin_cell", Vector2i.ZERO)
+
+func step_mend_projectors(seconds: float) -> Dictionary:
+	simulate_mend_projectors(seconds)
+	return {
+		"last_mend_projector_healed_amount": last_mend_projector_healed_amount,
+		"last_mend_projector_healed_block_id": last_mend_projector_healed_block_id,
+		"last_mend_projector_healed_cell": {"x": last_mend_projector_healed_cell.x, "y": last_mend_projector_healed_cell.y},
+	}
 
 func selected_enemy_unit():
 	if content_catalog == null:
@@ -1367,6 +1463,9 @@ func get_runtime_summary() -> Dictionary:
 		"selected_build_phase_boost": selected_build_phase_boost(),
 		"selected_build_phase_range_boost": selected_build_phase_range_boost(),
 		"selected_build_repair_amount": selected_build_repair_amount(),
+		"last_mend_projector_healed_amount": last_mend_projector_healed_amount,
+		"last_mend_projector_healed_block_id": last_mend_projector_healed_block_id,
+		"last_mend_projector_healed_cell": {"x": last_mend_projector_healed_cell.x, "y": last_mend_projector_healed_cell.y},
 		"core_inventory": core_inventory,
 		"core_items": core_items.duplicate(),
 		"core_item_capacity": core_item_capacity,
