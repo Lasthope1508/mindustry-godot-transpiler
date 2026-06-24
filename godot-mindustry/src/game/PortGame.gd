@@ -1744,6 +1744,13 @@ func source_building_on_destroyed_power_sound_state(headless: bool, power: float
 		}
 	return silent_state
 
+func source_building_display_name_state(localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String) -> String:
+	if team_is_derelict:
+		return localized_name + "\n" + derelict_label
+	if team_is_player or team_emoji.is_empty():
+		return localized_name
+	return localized_name + " " + team_emoji
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

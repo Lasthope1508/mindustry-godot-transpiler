@@ -1792,6 +1792,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"power_sound_kind": "normal"', source)
         self.assertIn('"sound": "blockExplodeElectric"', source)
 
+    def test_port_game_exposes_source_building_display_name_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_display_name_state(localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String) -> String:", source)
+        self.assertIn('return localized_name + "\\n" + derelict_label', source)
+        self.assertIn("if team_is_player or team_emoji.is_empty():", source)
+        self.assertIn('return localized_name + " " + team_emoji', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -1115,5 +1115,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_display_name_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_display_name_source"))
+        report = source_parity.verify_building_display_name_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "building_display_name_method": "public String getDisplayName(){",
+            "building_display_name_comment": "//derelict team icon currently doesn't display",
+            "building_display_name_derelict": 'block.localizedName + "\\n" + Core.bundle.get("block.derelict")',
+            "building_display_name_regular": 'block.localizedName + (team == player.team() || team.emoji.isEmpty() ? "" : " " + team.emoji);',
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
