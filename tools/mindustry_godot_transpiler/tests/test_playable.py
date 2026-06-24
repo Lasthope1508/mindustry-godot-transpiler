@@ -1046,6 +1046,14 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return source_drill_output_rate(block_id, item_id, ore_count) * scaled_source_delta / SOURCE_TICK_RATE * warmup", source)
         self.assertIn('"drill_warmup": drill_warmup_at_cell(drill_pos.x, drill_pos.y)', source)
 
+    def test_port_game_decays_source_drill_warmup_when_inactive(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_drill_inactive_warmup_state(current_warmup: float, warmup_speed: float, source_delta: float) -> float:", source)
+        self.assertIn("return source_approach_delta(current_warmup, 0.0, warmup_speed, source_delta)", source)
+        self.assertIn("set_drill_warmup_at_cell(drill_pos.x, drill_pos.y, source_drill_inactive_warmup_state(drill_warmup_at_cell(drill_pos.x, drill_pos.y), source_drill_warmup_speed(\"mechanical-drill\"), delta * SOURCE_TICK_RATE))", source)
+
     def test_port_game_tracks_source_drill_time_drilled(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

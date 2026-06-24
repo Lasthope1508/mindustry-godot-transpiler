@@ -952,6 +952,9 @@ func source_drill_warmup_speed(block_id: String) -> float:
 func source_drill_warmup_state(current_warmup: float, speed: float, warmup_speed: float, source_delta: float) -> float:
 	return source_approach_delta(current_warmup, speed, warmup_speed, source_delta)
 
+func source_drill_inactive_warmup_state(current_warmup: float, warmup_speed: float, source_delta: float) -> float:
+	return source_approach_delta(current_warmup, 0.0, warmup_speed, source_delta)
+
 func drill_warmup_at_cell(x: int, y: int) -> float:
 	return float(drill_warmups.get(cell_key(Vector2i(x, y)), 0.0))
 
@@ -1208,6 +1211,7 @@ func simulate_factory(delta: float) -> void:
 		produced_total += int(output_batch["amount"])
 	else:
 		set_drill_last_speed_at_cell(drill_pos.x, drill_pos.y, 0.0)
+		set_drill_warmup_at_cell(drill_pos.x, drill_pos.y, source_drill_inactive_warmup_state(drill_warmup_at_cell(drill_pos.x, drill_pos.y), source_drill_warmup_speed("mechanical-drill"), delta * SOURCE_TICK_RATE))
 	transport_progress = fmod(transport_progress + source_conveyor_path_progress_delta_for_cell(drill_pos.x + 1, drill_pos.y, delta), 1.0)
 	for i in item_sprites.size():
 		var phase := fmod(transport_progress + float(i) / float(item_sprites.size()), 1.0)
