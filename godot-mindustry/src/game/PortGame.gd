@@ -10,6 +10,7 @@ const WORLD_H := 16
 const PINNED_BUILD_BLOCK_IDS := ["conveyor", "router", "junction", "mechanical-drill", "duo", "copper-wall"]
 const SELECTED_GENERATED_CLASS_NAMES := ["Items", "Blocks", "UnitTypes", "Damage"]
 const SOURCE_DRILL_HARDNESS_MULTIPLIER := 50.0
+const SOURCE_DRILL_WARMUP_SPEED := 0.015
 const SOURCE_CONVEYOR_TILE_SPEED_SCALE := 55.0
 const SOURCE_TICK_RATE := 60.0
 const SOURCE_RECOIL_POW := 1.8
@@ -72,6 +73,7 @@ var core_health := 0.0
 var drill_output_item_id := "copper"
 var drill_ore_cell_count := 0
 var drill_output_rate := 0.0
+var drill_warmups: Dictionary = {}
 var produced_total := 0
 var item_progress := 0.0
 var transport_progress := 0.0
@@ -578,6 +580,13 @@ func source_absin(value: float, scl: float, mag: float) -> float:
 	if scl == 0.0:
 		return 0.0
 	return (sin(value / scl) * mag + mag) / 2.0
+
+func source_approach(from_value: float, to_value: float, speed: float) -> float:
+	return from_value + clamp(to_value - from_value, -speed, speed)
+
+func source_approach_delta(from_value: float, to_value: float, speed: float, source_delta: float) -> float:
+	return source_approach(from_value, to_value, source_delta * speed)
+
 func source_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:
 	return from_value + (to_value - from_value) * clamp(progress * source_delta, 0.0, 1.0)
 
@@ -913,15 +922,42 @@ func source_drill_output_rate(block_id: String, item_id: String, ore_count: int)
 		return 0.0
 	return 60.0 * float(ore_count) / delay
 
-func source_drill_output_delta(block_id: String, item_id: String, ore_count: int, seconds: float, time_scale := 1.0) -> float:
-	var scaled_source_delta := source_building_delta(seconds * SOURCE_TICK_RATE, time_scale)
-	return source_drill_output_rate(block_id, item_id, ore_count) * scaled_source_delta / SOURCE_TICK_RATE
+func source_drill_warmup_speed(block_id: String) -> float:
+	if content_catalog == null:
+		return SOURCE_DRILL_WARMUP_SPEED
+	var block = content_catalog.get_by_id(block_id)
+	if block == null:
+		return SOURCE_DRILL_WARMUP_SPEED
+	return float(block.properties.get("warmupSpeed", SOURCE_DRILL_WARMUP_SPEED))
 
-func source_drill_output_delta_for_cell(x: int, y: int, item_id: String, ore_count: int, seconds: float) -> float:
+func source_drill_warmup_state(current_warmup: float, speed: float, warmup_speed: float, source_delta: float) -> float:
+	return source_approach_delta(current_warmup, speed, warmup_speed, source_delta)
+
+func drill_warmup_at_cell(x: int, y: int) -> float:
+	return float(drill_warmups.get(cell_key(Vector2i(x, y)), 0.0))
+
+func set_drill_warmup_at_cell(x: int, y: int, warmup: float) -> void:
+	drill_warmups[cell_key(Vector2i(x, y))] = warmup
+
+func step_drill_warmup_cell(x: int, y: int, seconds: float, speed := 1.0) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
 	if not is_instance_valid(sprite):
 		return 0.0
-	return source_drill_output_delta(str(sprite.get_meta("source_block_id", "")), item_id, ore_count, seconds, float(sprite.get_meta("source_block_time_scale", 1.0)))
+	var key := cell_key(Vector2i(x, y))
+	var source_delta := seconds * SOURCE_TICK_RATE
+	var warmup := source_drill_warmup_state(float(drill_warmups.get(key, 0.0)), speed, source_drill_warmup_speed(str(sprite.get_meta("source_block_id", ""))), source_delta)
+	drill_warmups[key] = warmup
+	return warmup
+
+func source_drill_output_delta(block_id: String, item_id: String, ore_count: int, seconds: float, time_scale := 1.0, warmup := 1.0) -> float:
+	var scaled_source_delta := source_building_delta(seconds * SOURCE_TICK_RATE, time_scale)
+	return source_drill_output_rate(block_id, item_id, ore_count) * scaled_source_delta / SOURCE_TICK_RATE * warmup
+
+func source_drill_output_delta_for_cell(x: int, y: int, item_id: String, ore_count: int, seconds: float, warmup := 1.0) -> float:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	if not is_instance_valid(sprite):
+		return 0.0
+	return source_drill_output_delta(str(sprite.get_meta("source_block_id", "")), item_id, ore_count, seconds, float(sprite.get_meta("source_block_time_scale", 1.0)), warmup)
 
 func source_conveyor_world_speed(block_id: String) -> float:
 	if content_catalog == null:
@@ -1092,7 +1128,8 @@ func simulate_factory(delta: float) -> void:
 	if path_points.is_empty():
 		return
 	if drill_output_rate > 0.0:
-		item_progress += source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_output_item_id, drill_ore_cell_count, delta)
+		var drill_warmup := step_drill_warmup_cell(drill_pos.x, drill_pos.y, delta)
+		item_progress += source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_output_item_id, drill_ore_cell_count, delta, drill_warmup)
 		while item_progress >= 1.0:
 			item_progress -= 1.0
 			add_core_item(drill_output_item_id, 1)
@@ -1120,10 +1157,14 @@ func step_factory_transport(seconds: float) -> Dictionary:
 
 func step_factory_drill(seconds: float) -> Dictionary:
 	var before := item_progress
-	var output_delta := source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_output_item_id, drill_ore_cell_count, seconds)
+	var warmup_before := drill_warmup_at_cell(drill_pos.x, drill_pos.y)
 	simulate_factory(seconds)
+	var warmup_after := drill_warmup_at_cell(drill_pos.x, drill_pos.y)
+	var output_delta := source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_output_item_id, drill_ore_cell_count, seconds, warmup_after)
 	return {
 		"item_progress_before": before,
+		"drill_warmup_before": warmup_before,
+		"drill_warmup": drill_warmup_at_cell(drill_pos.x, drill_pos.y),
 		"drill_output_delta": output_delta,
 		"item_progress": item_progress,
 		"drill_time_scale": source_block_time_scale_at_cell(drill_pos.x, drill_pos.y),

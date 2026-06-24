@@ -104,6 +104,22 @@ def verify_drill_delta_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_drill_warmup_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / DRILL_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    warmup_default = "public float warmupSpeed = 0.015f;"
+    warmup_active = "warmup = Mathf.approachDelta(warmup, speed, warmupSpeed);"
+    warmup_inactive = "warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);"
+    missing = []
+    for snippet in [warmup_default, warmup_active, warmup_inactive]:
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": DRILL_SOURCE,
+        "checked": {"warmup_default": warmup_default, "warmup_active": warmup_active, "warmup_inactive": warmup_inactive},
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
