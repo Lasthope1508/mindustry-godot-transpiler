@@ -362,6 +362,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('overdrive_projector_use_progress[key] = fmod(float(overdrive_projector_use_progress.get(key, 0.0)), float(block.properties.get("useTime", 0.0)))', source)
         self.assertIn("func step_overdrive_projectors(seconds: float) -> Dictionary:", source)
 
+    def test_port_game_exposes_building_apply_boost_state_like_source(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_apply_boost_state(current_time_scale: float, current_duration: float, intensity: float, duration: float, can_overdrive := true) -> Dictionary:", source)
+        self.assertIn("if not can_overdrive:", source)
+        self.assertIn("if intensity >= current_time_scale - 0.001:", source)
+        self.assertIn('result["time_scale_duration"] = max(current_duration, duration)', source)
+        self.assertIn('result["time_scale"] = max(current_time_scale, intensity)', source)
+
     def test_port_game_uses_source_mend_projector_repair_amount_formula(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

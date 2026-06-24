@@ -341,6 +341,15 @@ func source_overdrive_projector_select_state(overdrive_projector, phase_heat := 
 func source_overdrive_projector_place_state(overdrive_projector) -> Dictionary:
 	return source_overdrive_projector_select_state(overdrive_projector, 0.0)
 
+func source_building_apply_boost_state(current_time_scale: float, current_duration: float, intensity: float, duration: float, can_overdrive := true) -> Dictionary:
+	var result := {"time_scale": current_time_scale, "time_scale_duration": current_duration}
+	if not can_overdrive:
+		return result
+	if intensity >= current_time_scale - 0.001:
+		result["time_scale_duration"] = max(current_duration, duration)
+	result["time_scale"] = max(current_time_scale, intensity)
+	return result
+
 func source_overdrive_projector_light_state(overdrive_projector, smooth_efficiency: float) -> Dictionary:
 	if overdrive_projector == null or not bool(overdrive_projector.properties.get("emitLight", false)):
 		return {"color": "", "radius": 0.0, "alpha": 0.0}
