@@ -1260,6 +1260,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_move_payload_state(has_next_tile: bool, has_next_build: bool, same_team: bool, accepts_payload: bool) -> bool:", source)
         self.assertIn("return has_next_tile and has_next_build and same_team and accepts_payload", source)
 
+    def test_port_game_exposes_source_dump_payload_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_dump_payload_index(loop_index: int, dump_cursor: int, proximity_size: int) -> int:", source)
+        self.assertIn("return (loop_index + dump_cursor) % proximity_size", source)
+        self.assertIn("func source_dump_payload_state(proximity_size: int, dump_cursor: int, accepts_payload_by_index: Array) -> Dictionary:", source)
+        self.assertIn("if proximity_size == 0:", source)
+        self.assertIn('return {"moved": false, "cdump": dump_cursor, "handled_index": -1}', source)
+        self.assertIn("var dump := dump_cursor", source)
+        self.assertIn("for i in range(proximity_size):", source)
+        self.assertIn("var other_index := source_dump_payload_index(i, dump, proximity_size)", source)
+        self.assertIn("next_dump = source_increment_dump_cursor(next_dump, proximity_size)", source)
+        self.assertIn("if other_index < accepts_payload_by_index.size() and bool(accepts_payload_by_index[other_index]):", source)
+        self.assertIn('return {"moved": true, "cdump": next_dump, "handled_index": other_index}', source)
+        self.assertIn('return {"moved": false, "cdump": next_dump, "handled_index": -1}', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

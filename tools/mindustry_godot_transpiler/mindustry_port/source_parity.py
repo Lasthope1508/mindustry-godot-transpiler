@@ -626,6 +626,40 @@ def verify_building_move_payload_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_building_dump_payload_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    dump_payload_method = "public boolean dumpPayload(Payload todump){"
+    dump_payload_empty_guard = "if(proximity.size == 0) return false;"
+    dump_payload_cursor_snapshot = "int dump = this.cdump;"
+    dump_payload_loop = "for(int i = 0; i < proximity.size; i++){"
+    dump_payload_index = "Building other = proximity.get((i + dump) % proximity.size);"
+    dump_payload_accept_guard = "if(other.acceptPayload(self(), todump)){"
+    dump_payload_handle = "other.handlePayload(self(), todump);"
+    dump_payload_increment = "incrementDump(proximity.size);"
+    dump_payload_success = "return true;"
+    dump_payload_failure = "return false;"
+    missing = []
+    for snippet in [dump_payload_method, dump_payload_empty_guard, dump_payload_cursor_snapshot, dump_payload_loop, dump_payload_index, dump_payload_accept_guard, dump_payload_handle, dump_payload_increment, dump_payload_success, dump_payload_failure]:
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": {
+            "dump_payload_method": dump_payload_method,
+            "dump_payload_empty_guard": dump_payload_empty_guard,
+            "dump_payload_cursor_snapshot": dump_payload_cursor_snapshot,
+            "dump_payload_loop": dump_payload_loop,
+            "dump_payload_index": dump_payload_index,
+            "dump_payload_accept_guard": dump_payload_accept_guard,
+            "dump_payload_handle": dump_payload_handle,
+            "dump_payload_increment": dump_payload_increment,
+            "dump_payload_success": dump_payload_success,
+            "dump_payload_failure": dump_payload_failure,
+        },
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

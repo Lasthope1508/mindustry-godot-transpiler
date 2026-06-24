@@ -423,5 +423,24 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_dump_payload_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_dump_payload_source"))
+        report = source_parity.verify_building_dump_payload_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "dump_payload_method": "public boolean dumpPayload(Payload todump){",
+            "dump_payload_empty_guard": "if(proximity.size == 0) return false;",
+            "dump_payload_cursor_snapshot": "int dump = this.cdump;",
+            "dump_payload_loop": "for(int i = 0; i < proximity.size; i++){",
+            "dump_payload_index": "Building other = proximity.get((i + dump) % proximity.size);",
+            "dump_payload_accept_guard": "if(other.acceptPayload(self(), todump)){",
+            "dump_payload_handle": "other.handlePayload(self(), todump);",
+            "dump_payload_increment": "incrementDump(proximity.size);",
+            "dump_payload_success": "return true;",
+            "dump_payload_failure": "return false;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

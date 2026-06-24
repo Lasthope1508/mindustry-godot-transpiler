@@ -1198,6 +1198,21 @@ func source_payload_forward_offset(payload_block_size: int) -> int:
 func source_move_payload_state(has_next_tile: bool, has_next_build: bool, same_team: bool, accepts_payload: bool) -> bool:
 	return has_next_tile and has_next_build and same_team and accepts_payload
 
+func source_dump_payload_index(loop_index: int, dump_cursor: int, proximity_size: int) -> int:
+	return (loop_index + dump_cursor) % proximity_size
+
+func source_dump_payload_state(proximity_size: int, dump_cursor: int, accepts_payload_by_index: Array) -> Dictionary:
+	if proximity_size == 0:
+		return {"moved": false, "cdump": dump_cursor, "handled_index": -1}
+	var dump := dump_cursor
+	var next_dump := dump_cursor
+	for i in range(proximity_size):
+		var other_index := source_dump_payload_index(i, dump, proximity_size)
+		next_dump = source_increment_dump_cursor(next_dump, proximity_size)
+		if other_index < accepts_payload_by_index.size() and bool(accepts_payload_by_index[other_index]):
+			return {"moved": true, "cdump": next_dump, "handled_index": other_index}
+	return {"moved": false, "cdump": next_dump, "handled_index": -1}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
