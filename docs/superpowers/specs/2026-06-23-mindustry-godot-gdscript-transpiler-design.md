@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 170 |
-| Done | 170 |
+| Total tracked work items | 171 |
+| Done | 171 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -46,6 +46,7 @@
 - [x] N166: Source BuildingComp shouldHideConfigure canonical visibility state.
 - [x] N167: Source BuildingComp drawConfigure canonical square state.
 - [x] N168: Source BuildingComp checkSolid default state.
+- [x] N169: Source BuildingComp handleDamage passthrough state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -241,6 +242,7 @@ Current cube: `Building lifecycle / destroy-deconstruct`. Current source path st
 | N166 | Apply source BuildingComp shouldHideConfigure canonical visibility state | The next `BuildingComp.shouldHideConfigure(Player player)` slice preserves the every-frame hide comment, exact method signature, and `return false;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` now uses one canonical `source_building_configure_menu_visibility_state(_player)` result with `should_show=true` and `should_hide=false`, while show/hide wrappers read from that state to avoid duplicate definitions; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `260` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol calls on `/root/Main` returned `{should_show:true, should_hide:false}`, `true`, and `false`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N167 | Apply source BuildingComp drawConfigure canonical square state | The next `BuildingComp.drawConfigure()` slice preserves `Draw.color(Pal.accent);`, `Lines.stroke(1f);`, `Lines.square(x, y, block.size * tilesize / 2f + 1f);`, and `Draw.reset();`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_block_half_extent()` plus `source_building_draw_configure_state()` so the block half-extent math has one canonical definition; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `262` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol call on `/root/Main` returned `{color:Pal.accent, stroke:1.0, shape:square, x:10.0, y:20.0, radius:49.0, reset:true}` for args `(10.0, 20.0, 3, 32.0)`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N168 | Apply source BuildingComp checkSolid default state | The next `BuildingComp.checkSolid()` slice preserves `public boolean checkSolid(){` and exact `return false;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_check_solid_state()` returning false without invented solid-block gates; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `264` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol call on `/root/Main` returned `false`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
+| N169 | Apply source BuildingComp handleDamage passthrough state | The next `BuildingComp.handleDamage(float amount)` slice preserves the exact method signature and `return amount;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_handle_damage_state(amount)` returning the input amount without invented damage math; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `266` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol call on `/root/Main` returned `12.5` for arg `12.5`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 ## Not Done
 

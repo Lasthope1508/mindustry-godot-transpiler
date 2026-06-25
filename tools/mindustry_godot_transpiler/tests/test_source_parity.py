@@ -1275,6 +1275,16 @@ class SourceParityTests(unittest.TestCase):
             "building_check_solid_return_false": "return false;",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_handle_damage_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_handle_damage_source"))
+        report = source_parity.verify_building_handle_damage_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "building_handle_damage_method": "public float handleDamage(float amount){",
+            "building_handle_damage_return_amount": "return amount;",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()

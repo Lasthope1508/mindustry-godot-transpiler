@@ -1819,6 +1819,9 @@ func source_building_draw_configure_state(source_x: float, source_y: float, bloc
 func source_building_check_solid_state() -> bool:
 	return false
 
+func source_building_handle_damage_state(amount: float) -> float:
+	return amount
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
