@@ -1894,6 +1894,19 @@ func source_building_change_team_initial_state(current_team: Variant, next_team:
 		"assign_next": true,
 	}
 
+func source_building_change_team_power_proximity_state(power_present: bool, update_power: bool, old_graph: Variant, team: Variant) -> Dictionary:
+	if power_present and update_power:
+		return {
+			"old_graph": old_graph,
+			"team": team,
+			"proximity_reflow": true,
+		}
+	return {
+		"old_graph": old_graph,
+		"team": team,
+		"proximity_reflow": false,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

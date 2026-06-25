@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 178 |
-| Done | 178 |
+| Total tracked work items | 179 |
+| Done | 179 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -54,6 +54,7 @@
 - [x] N174: Source BuildingComp damage delegate/event state.
 - [x] N175: Source BuildingComp changeTeam delegate state.
 - [x] N176: Source BuildingComp changeTeam initial guard state.
+- [x] N177: Source BuildingComp changeTeam power proximity state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -257,6 +258,7 @@ Current cube: `Building lifecycle / destroy-deconstruct`. Current source path st
 | N174 | Apply source BuildingComp damage delegate/event state | The next `BuildingComp.damage(@Nullable Team source, float damage)` and `BuildingComp.damage(Bullet bullet, Team source, float damage)` slices preserve the splash-damage comments, method signatures, `damage(damage);`, `damage(source, damage);`, and `Events.fire(bulletDamageEvent.set(self(), bullet));`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_damage_delegate_state()` and `source_building_bullet_damage_state()` as pure delegate/event helpers without inventing health mutation; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `276` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and corrected MCP runtime protocol calls on `/root/Main` returned `{damage:9.5, delegates_to_damage:true, source_team:"sharded"}` and `{bullet:"bullet-1", damage:6.25, delegates_to_source_damage:true, fires_bullet_damage_event:true, source_team:"crux"}`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N175 | Apply source BuildingComp changeTeam delegate state | The next `BuildingComp.changeTeam(Team next)` slice preserves the safe-change-team comment, exact `public void changeTeam(Team next){` method, and `changeTeam(next, true);` delegate call; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_change_team_delegate_state(next_team)` as a pure delegate helper with `update_power=true` without inventing the full power-graph reflow branch; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `278` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol call on `/root/Main` returned `{delegates_to_change_team:true, next_team:"crux", update_power:true}`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N176 | Apply source BuildingComp changeTeam initial guard state | The next `BuildingComp.changeTeam(Team next, boolean updatePower)` slice preserves `if(this.team == next) return;`, forceTeam override, `Team last = this.team;`, `if(last == next) return;`, `boolean was = isValid();`, `if(was) indexer.removeIndex(tile);`, and `this.team = next;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_change_team_initial_state()` for the initial guard/index-removal/team-assignment state without inventing the later power graph, team-change event, or `checkAllowUpdate()` branches; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `280` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol calls on `/root/Main` returned normal `{assign_next:true, last_team:"sharded", remove_index:true, returned:false, team:"crux"}` and forceTeam short-circuit `{assign_next:false, last_team:"crux", remove_index:false, returned:true, team:"crux"}`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
+| N177 | Apply source BuildingComp changeTeam power proximity state | The next `BuildingComp.changeTeam(Team next, boolean updatePower)` power slice preserves `if(power != null && updatePower){`, `var oldGraph = power.graph;`, the proximity loop, the `other != null && other.team != team && other.power != null && other.power.graph == oldGraph` guard, and `new PowerGraph().reflow(other);`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_change_team_power_proximity_state()` for the power/update gate and proximity reflow state without inventing link-removal or self-reflow behavior; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `282` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol calls on `/root/Main` returned `{old_graph:"graph-a", proximity_reflow:true, team:"crux"}` and `{old_graph:"graph-a", proximity_reflow:false, team:"crux"}`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 ## Not Done
 

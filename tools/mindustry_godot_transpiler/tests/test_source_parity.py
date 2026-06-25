@@ -1375,6 +1375,19 @@ class SourceParityTests(unittest.TestCase):
             "building_change_team_assign_next": "this.team = next;",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_change_team_power_proximity_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_change_team_power_proximity_source"))
+        report = source_parity.verify_building_change_team_power_proximity_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "building_change_team_power_guard": "if(power != null && updatePower){",
+            "building_change_team_old_graph": "var oldGraph = power.graph;",
+            "building_change_team_proximity_loop": "for(var other : proximity){",
+            "building_change_team_proximity_reflow_guard": "if(other != null && other.team != team && other.power != null && other.power.graph == oldGraph){",
+            "building_change_team_proximity_reflow": "new PowerGraph().reflow(other);",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()
