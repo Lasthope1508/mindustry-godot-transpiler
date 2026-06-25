@@ -1988,6 +1988,9 @@ func source_building_consume_state(consumers: Array, self_state: Variant) -> Dic
 		triggered.append({"consumer": consumer, "self": self_state})
 	return {"triggered": triggered}
 
+func source_building_can_consume_state(potential_efficiency: float) -> bool:
+	return potential_efficiency > 0.0
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

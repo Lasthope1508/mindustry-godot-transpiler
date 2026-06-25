@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 188 |
-| Done | 188 |
+| Total tracked work items | 189 |
+| Done | 189 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -64,6 +64,7 @@
 - [x] N184: Source BuildingComp updateProximity state.
 - [x] N185: Source BuildingComp onNearbyBuildAdded no-op state.
 - [x] N186: Source BuildingComp consume trigger-loop state.
+- [x] N187: Source BuildingComp canConsume potential-efficiency state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -277,6 +278,7 @@ Current cube: `Building lifecycle / destroy-deconstruct`. Current source path st
 | N184 | Apply source BuildingComp updateProximity state | The next `BuildingComp.updateProximity()` slice preserves initial `tmpTiles.clear();` and `proximity.clear();`, edge lookup, world-build lookup, same-team guard, `other.proximity.addUnique(self());`, `tmpTiles.add(other);`, duplicate-prevention comment, self proximity add, `onProximityAdded();`, self/other proximity update calls, and `if(!headless && block.drawCached) recache();`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_update_proximity_state()` for same-team add/update counts and recache gate without inventing world-build targets; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `296` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status first timed out then returned `runtimeAddon=connected` on retry with no Godot errors, and MCP runtime protocol calls on `/root/Main` returned `{add_unique_calls:3, nearby_count:4, on_proximity_added:true, other_proximity_updates:3, proximity_cleared:true, recache:true, same_team_count:3, self_proximity_update:true, tmp_tiles_cleared:true}` and capped/headless `{add_unique_calls:2, nearby_count:2, on_proximity_added:true, other_proximity_updates:2, proximity_cleared:true, recache:false, same_team_count:2, self_proximity_update:true, tmp_tiles_cleared:true}`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N185 | Apply source BuildingComp onNearbyBuildAdded no-op state | The next `BuildingComp.onNearbyBuildAdded(Building other)` slice preserves exact single-line empty method `public void onNearbyBuildAdded(Building other){}`; `source_parity.py` checks that exact upstream line, and `PortGame.gd` exposes `source_building_on_nearby_build_added_state(other_state)` as a passthrough no-op without inventing nearby-build behavior; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `298` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol call on `/root/Main` returned `{"other":"router","team":"sharded"}` for same input; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N186 | Apply source BuildingComp consume trigger-loop state | The next `BuildingComp.consume()` slice preserves exact `public void consume(){`, `for(Consume cons : block.consumers){`, and `cons.trigger(self());`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_consume_state(consumers, self_state)` as ordered trigger records using same `self_state` for each consumer without inventing `Consume` internals; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `300` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol call on `/root/Main` returned three ordered trigger records for `power`, `items`, and `liquid` with self `{pos:42, team:"sharded"}`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
+| N187 | Apply source BuildingComp canConsume potential-efficiency state | The next `BuildingComp.canConsume()` slice preserves exact `public boolean canConsume(){` and `return potentialEfficiency > 0;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_can_consume_state(potential_efficiency)` as the direct positive-efficiency gate without inventing consumer availability checks; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `302` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol calls on `/root/Main` returned `false` for `-0.5`, `false` for `0.0`, and `true` for `0.25`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 ## Not Done
 

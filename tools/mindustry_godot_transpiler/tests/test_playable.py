@@ -2041,6 +2041,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('triggered.append({"consumer": consumer, "self": self_state})', source)
         self.assertIn('return {"triggered": triggered}', source)
 
+    def test_port_game_exposes_source_building_can_consume_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_can_consume_state(potential_efficiency: float) -> bool:", source)
+        self.assertIn("return potential_efficiency > 0.0", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

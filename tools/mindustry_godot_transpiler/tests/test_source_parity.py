@@ -1513,6 +1513,16 @@ class SourceParityTests(unittest.TestCase):
             "consume_trigger": "cons.trigger(self());",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_can_consume_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_can_consume_source"))
+        report = source_parity.verify_building_can_consume_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "can_consume_signature": "public boolean canConsume(){",
+            "can_consume_return": "return potentialEfficiency > 0;",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()
