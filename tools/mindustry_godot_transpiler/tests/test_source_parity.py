@@ -1604,6 +1604,22 @@ class SourceParityTests(unittest.TestCase):
             "update_consumption_optional_min": "optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_update_consumption_efficiency_assignment_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_update_consumption_efficiency_assignment_source"))
+        report = source_parity.verify_building_update_consumption_efficiency_assignment_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "update_consumption_efficiency_comment": "//efficiency is now this minimum value",
+            "update_consumption_efficiency_assign": "efficiency = minEfficiency;",
+            "update_consumption_efficiency_optional_min": "optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);",
+            "update_consumption_potential_comment": "//assign \"potential\"",
+            "update_consumption_potential_assign": "potentialEfficiency = efficiency;",
+            "update_consumption_no_update_comment": "//no updating means zero efficiency",
+            "update_consumption_no_update_guard": "if(!update){",
+            "update_consumption_no_update_zero": "efficiency = optionalEfficiency = 0f;",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()

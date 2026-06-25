@@ -2055,6 +2055,19 @@ func source_building_update_consumption_optional_pass_state(optional_consumer_re
 		"optional_efficiency": optional_efficiency,
 	}
 
+func source_building_update_consumption_efficiency_state(min_efficiency: float, optional_efficiency: float, update: bool) -> Dictionary:
+	var efficiency := min_efficiency
+	optional_efficiency = min(optional_efficiency, min_efficiency)
+	var potential_efficiency := efficiency
+	if not update:
+		efficiency = 0.0
+		optional_efficiency = 0.0
+	return {
+		"efficiency": efficiency,
+		"optional_efficiency": optional_efficiency,
+		"potential_efficiency": potential_efficiency,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
