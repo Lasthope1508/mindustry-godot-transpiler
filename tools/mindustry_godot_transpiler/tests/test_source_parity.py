@@ -1798,5 +1798,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_sense_totals_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_sense_totals_source"))
+        report = source_parity.verify_building_sense_totals_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "sense_total_items": "case totalItems -> items == null ? 0 : items.total();",
+            "sense_total_liquids_comment": "//totalLiquids is inherently bad design, but unfortunately it is useful for conduits/tanks",
+            "sense_total_liquids": "case totalLiquids -> liquids == null ? 0 : liquids.currentAmount();",
+            "sense_total_power": "case totalPower -> power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

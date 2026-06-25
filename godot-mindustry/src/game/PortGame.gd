@@ -2168,6 +2168,13 @@ func source_building_sense_health_process_state(health: float, max_health: float
 		"rotation": rotation_value,
 	}
 
+func source_building_sense_totals_state(total_items: float, total_liquids: float, total_power: float) -> Dictionary:
+	return {
+		"total_items": total_items,
+		"total_liquids": total_liquids,
+		"total_power": total_power,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

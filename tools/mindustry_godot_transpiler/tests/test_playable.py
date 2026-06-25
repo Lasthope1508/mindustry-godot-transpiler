@@ -2244,6 +2244,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"range": ranged_range / source_tilesize if has_range else 0.0', source)
         self.assertIn('"rotation": rotation_value', source)
 
+    def test_port_game_exposes_source_building_sense_totals_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_sense_totals_state(total_items: float, total_liquids: float, total_power: float) -> Dictionary:", source)
+        self.assertIn('"total_items": total_items', source)
+        self.assertIn('"total_liquids": total_liquids', source)
+        self.assertIn('"total_power": total_power', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
