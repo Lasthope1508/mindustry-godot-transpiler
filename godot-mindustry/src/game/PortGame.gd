@@ -1831,6 +1831,19 @@ func source_building_is_insulated_state(block_insulated: bool) -> bool:
 func source_building_collide_state(_other: Variant) -> bool:
 	return true
 
+func source_building_collision_damage_state(current_health: float, bullet_building_damage: float, block_armor: float, bullet_pierce_armor: bool, bullet_armor_multiplier: float, bullet_block_armor_multiplier: float) -> Dictionary:
+	var damage := bullet_building_damage
+	var armor := block_armor * bullet_armor_multiplier * bullet_block_armor_multiplier
+	if not bullet_pierce_armor:
+		damage = max(damage - armor, 0.1 * damage)
+	return {
+		"was_dead": current_health <= 0.0,
+		"raw_damage": bullet_building_damage,
+		"armor": armor,
+		"damage": damage,
+		"removed": true,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

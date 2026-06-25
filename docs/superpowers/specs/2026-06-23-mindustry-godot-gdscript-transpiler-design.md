@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 174 |
-| Done | 174 |
+| Total tracked work items | 175 |
+| Done | 175 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -50,6 +50,7 @@
 - [x] N170: Source BuildingComp absorbLasers block-field state.
 - [x] N171: Source BuildingComp isInsulated block-field state.
 - [x] N172: Source BuildingComp collide default state.
+- [x] N173: Source BuildingComp collision damage state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -249,6 +250,7 @@ Current cube: `Building lifecycle / destroy-deconstruct`. Current source path st
 | N170 | Apply source BuildingComp absorbLasers block-field state | The next `BuildingComp.absorbLasers()` slice preserves `public boolean absorbLasers(){` and exact `return block.absorbLasers;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_absorb_lasers_state(block_absorb_lasers)` returning the provided block field without invented defaults; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `268` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol calls on `/root/Main` returned `true` for arg `true` and `false` for arg `false`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N171 | Apply source BuildingComp isInsulated block-field state | The next `BuildingComp.isInsulated()` slice preserves `public boolean isInsulated(){` and exact `return block.insulated;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_is_insulated_state(block_insulated)` returning the provided block field without invented defaults; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `270` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol calls on `/root/Main` returned `true` for arg `true` and `false` for arg `false`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N172 | Apply source BuildingComp collide default state | The next `BuildingComp.collide(Bullet other)` slice preserves `public boolean collide(Bullet other){` and exact `return true;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_collide_state(_other)` returning true without invented bullet gates; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `272` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol call on `/root/Main` returned `true`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
+| N173 | Apply source BuildingComp collision damage state | The next `BuildingComp.collision(Bullet other)` slice preserves `wasDead`, `BulletType t`, `other.type.buildingDamage(other)`, the `!t.pierceArmor` armor gate, `Damage.applyArmor(damage, block.armor * t.armorMultiplier * t.blockArmorMultiplier)`, the damage call, destroy-event gate, and final `return true;`; `Damage.applyArmor()` is verified from `Damage.java` as `Math.max(damage - armor, minArmorDamage * damage)` with `minArmorDamage=0.1f` from `Vars.java`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_collision_damage_state()` as a pure source-state helper without inventing event dispatch or health side effects; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `274` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol call on `/root/Main` returned `{armor:24.0, damage:1.25, raw_damage:12.5, removed:true, was_dead:false}` for args `(10.0, 12.5, 3.0, false, 2.0, 4.0)`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 ## Not Done
 

@@ -2099,6 +2099,31 @@ def verify_building_collide_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_building_collision_damage_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "building_collision_method": "public boolean collision(Bullet other){",
+        "building_collision_was_dead": "boolean wasDead = health <= 0;",
+        "building_collision_type": "BulletType t = other.type;",
+        "building_collision_building_damage": "float damage = other.type.buildingDamage(other);",
+        "building_collision_pierce_gate": "if(!t.pierceArmor){",
+        "building_collision_apply_armor": "damage = Damage.applyArmor(damage, block.armor * t.armorMultiplier * t.blockArmorMultiplier);",
+        "building_collision_damage_call": "damage(other, other.team, damage);",
+        "building_collision_destroy_event_gate": "if(health <= 0 && !wasDead){",
+        "building_collision_destroy_event": "Events.fire(new BuildingBulletDestroyEvent(self(), other));",
+        "building_collision_return_true": "return true;",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

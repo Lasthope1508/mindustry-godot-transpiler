@@ -1315,6 +1315,24 @@ class SourceParityTests(unittest.TestCase):
             "building_collide_return_true": "return true;",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_collision_damage_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_collision_damage_source"))
+        report = source_parity.verify_building_collision_damage_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "building_collision_method": "public boolean collision(Bullet other){",
+            "building_collision_was_dead": "boolean wasDead = health <= 0;",
+            "building_collision_type": "BulletType t = other.type;",
+            "building_collision_building_damage": "float damage = other.type.buildingDamage(other);",
+            "building_collision_pierce_gate": "if(!t.pierceArmor){",
+            "building_collision_apply_armor": "damage = Damage.applyArmor(damage, block.armor * t.armorMultiplier * t.blockArmorMultiplier);",
+            "building_collision_damage_call": "damage(other, other.team, damage);",
+            "building_collision_destroy_event_gate": "if(health <= 0 && !wasDead){",
+            "building_collision_destroy_event": "Events.fire(new BuildingBulletDestroyEvent(self(), other));",
+            "building_collision_return_true": "return true;",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()
