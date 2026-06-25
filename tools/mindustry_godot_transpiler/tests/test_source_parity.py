@@ -1439,6 +1439,20 @@ class SourceParityTests(unittest.TestCase):
             "picked_up_empty_body": "public void pickedUp(){\n\n    }",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_after_picked_up_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_after_picked_up_source"))
+        report = source_parity.verify_building_after_picked_up_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "after_picked_up_comment": "Called right after this building is picked up.",
+            "after_picked_up_signature": "public void afterPickedUp(){",
+            "after_picked_up_power_guard": "if(power != null){",
+            "after_picked_up_new_graph": "power.graph = new PowerGraph();",
+            "after_picked_up_clear_links": "power.links.clear();",
+            "after_picked_up_status_reset": "power.status = 0f;",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()

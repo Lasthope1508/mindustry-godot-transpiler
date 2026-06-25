@@ -1994,6 +1994,15 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_building_picked_up_state(previous_state: Variant) -> Variant:", source)
         self.assertIn("return previous_state", source)
+    def test_port_game_exposes_source_building_after_picked_up_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_after_picked_up_state(power_present: bool, has_cons_power: bool, cons_power_buffered: bool, current_status: float) -> Dictionary:", source)
+        self.assertIn('"new_power_graph": power_present', source)
+        self.assertIn('"clear_links": power_present', source)
+        self.assertIn("if power_present and has_cons_power and not cons_power_buffered:", source)
+        self.assertIn('"status": 0.0', source)
 
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

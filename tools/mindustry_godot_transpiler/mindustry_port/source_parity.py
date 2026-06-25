@@ -2286,6 +2286,27 @@ def verify_building_picked_up_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_building_after_picked_up_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "after_picked_up_comment": "Called right after this building is picked up.",
+        "after_picked_up_signature": "public void afterPickedUp(){",
+        "after_picked_up_power_guard": "if(power != null){",
+        "after_picked_up_new_graph": "power.graph = new PowerGraph();",
+        "after_picked_up_clear_links": "power.links.clear();",
+        "after_picked_up_status_reset": "power.status = 0f;",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

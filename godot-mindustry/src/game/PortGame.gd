@@ -1941,6 +1941,21 @@ func source_building_can_pickup_state(block_can_pickup: bool) -> bool:
 func source_building_picked_up_state(previous_state: Variant) -> Variant:
 	return previous_state
 
+func source_building_after_picked_up_state(power_present: bool, has_cons_power: bool, cons_power_buffered: bool, current_status: float) -> Dictionary:
+	if power_present and has_cons_power and not cons_power_buffered:
+		return {
+			"power_present": power_present,
+			"new_power_graph": power_present,
+			"clear_links": power_present,
+			"status": 0.0,
+		}
+	return {
+		"power_present": power_present,
+		"new_power_graph": power_present,
+		"clear_links": power_present,
+		"status": current_status,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

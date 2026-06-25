@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 183 |
-| Done | 183 |
+| Total tracked work items | 184 |
+| Done | 184 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -59,6 +59,7 @@
 - [x] N179: Source BuildingComp changeTeam final index/event/update state.
 - [x] N180: Source BuildingComp canPickup block-field state.
 - [x] N181: Source BuildingComp pickedUp no-op state.
+- [x] N182: Source BuildingComp afterPickedUp power reset state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -267,6 +268,7 @@ Current cube: `Building lifecycle / destroy-deconstruct`. Current source path st
 | N179 | Apply source BuildingComp changeTeam final index/event/update state | The next `BuildingComp.changeTeam(Team next, boolean updatePower)` final slice preserves `if(was){`, `indexer.addIndex(tile);`, `Events.fire(teamChangeEvent.set(last, self()));`, and `checkAllowUpdate();`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_change_team_final_state()` for add-index/team-change-event/checkAllowUpdate state without inventing event dispatch side effects; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `286` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol calls on `/root/Main` returned `{add_index:true, check_allow_update:true, event_last:"sharded", team_change_event:true, was:true}` and `{add_index:false, check_allow_update:true, event_last:"sharded", team_change_event:false, was:false}`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N180 | Apply source BuildingComp canPickup block-field state | The next `BuildingComp.canPickup()` slice preserves `public boolean canPickup(){` and exact `return block.canPickup;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_can_pickup_state(block_can_pickup)` as a plain bool passthrough without inventing pickup gates; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `288` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol calls on `/root/Main` returned `true` for `true` and `false` for `false`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N181 | Apply source BuildingComp pickedUp no-op state | The next `BuildingComp.pickedUp()` slice preserves the right-before-picked-up comment, exact `public void pickedUp(){` method, and empty body; `source_parity.py` checks those exact upstream lines/body, and `PortGame.gd` exposes `source_building_picked_up_state(previous_state)` as a passthrough no-op state without inventing pickup side effects; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `290` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol call on `/root/Main` returned `{"block":"router","items":3.0}` for input `{"block":"router","items":3}`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
+| N182 | Apply source BuildingComp afterPickedUp power reset state | The next `BuildingComp.afterPickedUp()` slice preserves the right-after-picked-up comment, `if(power != null){`, `power.graph = new PowerGraph();`, `power.links.clear();`, `if(block.consPower != null && !block.consPower.buffered){`, and `power.status = 0f;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_after_picked_up_state()` for new-power-graph/link-clear/status-reset state without inventing power graph objects; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `292` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol calls on `/root/Main` returned no-power `{clear_links:false, new_power_graph:false, power_present:false, status:0.75}`, buffered `{clear_links:true, new_power_graph:true, power_present:true, status:0.75}`, and non-buffered reset `{clear_links:true, new_power_graph:true, power_present:true, status:0.0}`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 ## Not Done
 
