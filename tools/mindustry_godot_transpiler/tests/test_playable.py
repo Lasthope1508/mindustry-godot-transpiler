@@ -1866,12 +1866,16 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_building_on_configure_closed_state() -> void:", source)
         self.assertIn("pass", source)
-    def test_port_game_exposes_source_building_should_show_configure_state(self):
+    def test_port_game_exposes_source_building_configure_visibility_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn("func source_building_configure_menu_visibility_state(_player: Variant) -> Dictionary:", source)
+        self.assertIn('return {"should_show": true, "should_hide": false}', source)
         self.assertIn("func source_building_should_show_configure_state(_player: Variant) -> bool:", source)
-        self.assertIn("return true", source)
+        self.assertIn('return bool(source_building_configure_menu_visibility_state(_player)["should_show"])', source)
+        self.assertIn("func source_building_should_hide_configure_state(_player: Variant) -> bool:", source)
+        self.assertIn('return bool(source_building_configure_menu_visibility_state(_player)["should_hide"])', source)
 
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

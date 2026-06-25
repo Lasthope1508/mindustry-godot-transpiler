@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 167 |
-| Done | 167 |
+| Total tracked work items | 168 |
+| Done | 168 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -43,6 +43,7 @@
 - [x] N163: Source BuildingComp onConfigureTapped position state.
 - [x] N164: Source BuildingComp onConfigureClosed no-op state.
 - [x] N165: Source BuildingComp shouldShowConfigure default state.
+- [x] N166: Source BuildingComp shouldHideConfigure canonical visibility state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -235,6 +236,7 @@ Current cube: `Building lifecycle / destroy-deconstruct`. Current source path st
 | N163 | Apply source BuildingComp onConfigureTapped position state | The next `BuildingComp.onConfigureTapped(float x, float y)` slice preserves the position-tap comment, consumed-return comment, exact method signature, and `return false;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_on_configure_tapped_state(_x, _y)` returning false without invented behavior; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `255` tests passing; MCP editor bridge connected, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol call on `/root/Main` returned `false`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N164 | Apply source BuildingComp onConfigureClosed no-op state | The next `BuildingComp.onConfigureClosed()` slice preserves the config-menu-closed comment and exact `public void onConfigureClosed(){}` no-op; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_on_configure_closed_state()` as a void no-op without invented behavior; targeted tests passed and full Python suite reports `257` tests passing; MCP editor bridge connected, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol call on `/root/Main` returned `null`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N165 | Apply source BuildingComp shouldShowConfigure default state | The next `BuildingComp.shouldShowConfigure(Player player)` slice preserves the config-menu-show comment, exact method signature, and `return true;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_should_show_configure_state(_player)` returning true without invented player gates; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `259` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol call on `/root/Main` returned `true`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
+| N166 | Apply source BuildingComp shouldHideConfigure canonical visibility state | The next `BuildingComp.shouldHideConfigure(Player player)` slice preserves the every-frame hide comment, exact method signature, and `return false;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` now uses one canonical `source_building_configure_menu_visibility_state(_player)` result with `should_show=true` and `should_hide=false`, while show/hide wrappers read from that state to avoid duplicate definitions; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `260` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol calls on `/root/Main` returned `{should_show:true, should_hide:false}`, `true`, and `false`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 ## Not Done
 

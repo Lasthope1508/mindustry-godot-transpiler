@@ -1241,6 +1241,17 @@ class SourceParityTests(unittest.TestCase):
             "building_should_show_configure_return_true": "return true;",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_should_hide_configure_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_should_hide_configure_source"))
+        report = source_parity.verify_building_should_hide_configure_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "building_should_hide_configure_comment": "/** Whether this configuration should be hidden now. Called every frame the config is open. */",
+            "building_should_hide_configure_method": "public boolean shouldHideConfigure(Player player){",
+            "building_should_hide_configure_return_false": "return false;",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()

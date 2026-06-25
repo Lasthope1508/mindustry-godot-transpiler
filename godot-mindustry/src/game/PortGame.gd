@@ -1795,8 +1795,14 @@ func source_building_on_configure_tapped_state(_x: float, _y: float) -> bool:
 	return false
 func source_building_on_configure_closed_state() -> void:
 	pass
+func source_building_configure_menu_visibility_state(_player: Variant) -> Dictionary:
+	return {"should_show": true, "should_hide": false}
+
 func source_building_should_show_configure_state(_player: Variant) -> bool:
-	return true
+	return bool(source_building_configure_menu_visibility_state(_player)["should_show"])
+
+func source_building_should_hide_configure_state(_player: Variant) -> bool:
+	return bool(source_building_configure_menu_visibility_state(_player)["should_hide"])
 
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
