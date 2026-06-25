@@ -1753,5 +1753,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_health_changed_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_health_changed_source"))
+        report = source_parity.verify_building_health_changed_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "health_changed_method": "public void healthChanged(){",
+            "health_changed_server_comment": "//server-side, health updates are batched.",
+            "health_changed_server_guard": "if(net.server()){",
+            "health_changed_server_update": "netServer.buildHealthUpdate(self());",
+            "health_changed_indexer_notify": "indexer.notifyHealthChanged(self());",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

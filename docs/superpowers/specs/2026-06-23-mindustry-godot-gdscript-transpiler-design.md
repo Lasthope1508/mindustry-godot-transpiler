@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 207 |
-| Done | 207 |
+| Total tracked work items | 208 |
+| Done | 208 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -83,6 +83,7 @@
 - [x] N203: Source BuildingComp damage block-health scale state.
 - [x] N204: Source BuildingComp damage handleDamage gate state.
 - [x] N205: Source BuildingComp damage healthChanged call state.
+- [x] N206: Source BuildingComp healthChanged notification state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -315,6 +316,7 @@ Current cube: `Building lifecycle / destroy-deconstruct`. Current source path st
 | N203 | Apply source BuildingComp damage block-health scale state | The next `BuildingComp.damage(float damage)` slice preserves exact `float dm = state.rules.blockHealth(team);`, `lastDamageTime = Time.time;`, `if(Mathf.zero(dm)){`, `damage = health + 1;`, and `damage /= dm;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_damage_block_health_scale_state(damage_amount, health, block_health_multiplier, source_time)` as the same damage scaling and last-damage-time assignment only, without inventing `handleDamage`, `healthChanged`, or destroy call behavior; targeted RED tests failed before implementation, targeted GREEN passed with `310` tests, full Python suite reports `334` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `{"damage":6.0,"last_damage_time":1234.5}` for `12.0/2.0` and `{"damage":101.0,"last_damage_time":1234.5}` for zero block-health multiplier; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N204 | Apply source BuildingComp damage handleDamage gate state | The next `BuildingComp.damage(float damage)` slice preserves exact `//TODO handle this better on the client.`, `if(!net.client()){`, and `health -= handleDamage(damage);`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_damage_handle_damage_gate_state(net_client, health, damage_amount, handled_damage)` as the same net-client gate and server-side health subtraction only, without inventing later `healthChanged` or destroy-call behavior; targeted RED tests failed before implementation, targeted GREEN passed with `312` tests, full Python suite reports `336` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `{"damage":12.0,"handle_damage_called":false,"handled_damage":null,"health":100.0}` for client and `{"damage":12.0,"handle_damage_called":true,"handled_damage":7.5,"health":92.5}` for server; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N205 | Apply source BuildingComp damage healthChanged call state | The next `BuildingComp.damage(float damage)` slice preserves exact `healthChanged();` after the handleDamage gate; `source_parity.py` checks that exact upstream line, and `PortGame.gd` exposes `source_building_damage_health_changed_call_state()` as the call marker only, without inventing `healthChanged()` internals or destroy-call behavior; targeted RED tests failed before implementation, targeted GREEN passed with `314` tests, full Python suite reports `338` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP call on `/root/Main` returned `{"health_changed":true}`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
+| N206 | Apply source BuildingComp healthChanged notification state | The `BuildingComp.healthChanged()` method slice preserves exact method `public void healthChanged(){`, comment `//server-side, health updates are batched.`, server guard `if(net.server()){`, `netServer.buildHealthUpdate(self());`, and `indexer.notifyHealthChanged(self());`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_health_changed_state(net_server, self_state)` as the same server-only batched health update plus unconditional indexer notification, without inventing health replication internals; targeted RED tests failed before implementation, targeted GREEN passed with `316` tests, full Python suite reports `340` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `{"build_health_update":{"pos":42.0,"team":"sharded"},"build_health_update_called":true,"notify_health_changed":{"pos":42.0,"team":"sharded"}}` for server and `{"build_health_update":null,"build_health_update_called":false,"notify_health_changed":{"pos":42.0,"team":"sharded"}}` for non-server; first MCP run caught a GDScript ternary compatibility warning, the helper was rewritten with an explicit temporary, and rerun debug output returned `errors: []` with stop `finalErrors: []` |
 
 ## Not Done
 

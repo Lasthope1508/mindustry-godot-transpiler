@@ -2212,6 +2212,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_damage_health_changed_call_state() -> Dictionary:", source)
         self.assertIn('"health_changed": true', source)
 
+    def test_port_game_exposes_source_building_health_changed_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_health_changed_state(net_server: bool, self_state := {}) -> Dictionary:", source)
+        self.assertIn("var build_health_update = self_state", source)
+        self.assertIn("if not net_server:", source)
+        self.assertIn("build_health_update = null", source)
+        self.assertIn('"build_health_update_called": net_server', source)
+        self.assertIn('"build_health_update": build_health_update', source)
+        self.assertIn('"notify_health_changed": self_state', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

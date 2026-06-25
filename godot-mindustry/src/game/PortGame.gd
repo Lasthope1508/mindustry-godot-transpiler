@@ -2142,6 +2142,16 @@ func source_building_damage_health_changed_call_state() -> Dictionary:
 		"health_changed": true,
 	}
 
+func source_building_health_changed_state(net_server: bool, self_state := {}) -> Dictionary:
+	var build_health_update = self_state
+	if not net_server:
+		build_health_update = null
+	return {
+		"build_health_update_called": net_server,
+		"build_health_update": build_health_update,
+		"notify_health_changed": self_state,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
