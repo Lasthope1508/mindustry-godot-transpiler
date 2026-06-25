@@ -1937,6 +1937,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_bullet_damage_state(bullet: Variant, source_team: Variant, damage_amount: float) -> Dictionary:", source)
         self.assertIn('"delegates_to_source_damage": true', source)
         self.assertIn('"fires_bullet_damage_event": true', source)
+    def test_port_game_exposes_source_building_change_team_delegate_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_change_team_delegate_state(next_team: Variant) -> Dictionary:", source)
+        self.assertIn('"delegates_to_change_team": true', source)
+        self.assertIn('"update_power": true', source)
 
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

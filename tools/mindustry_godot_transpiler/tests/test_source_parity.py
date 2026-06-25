@@ -1348,6 +1348,17 @@ class SourceParityTests(unittest.TestCase):
             "building_damage_bullet_event": "Events.fire(bulletDamageEvent.set(self(), bullet));",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_change_team_delegate_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_change_team_delegate_source"))
+        report = source_parity.verify_building_change_team_delegate_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "building_change_team_comment": "/** Changes this building's team in a safe manner. */",
+            "building_change_team_delegate_method": "public void changeTeam(Team next){",
+            "building_change_team_delegate_call": "changeTeam(next, true);",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()

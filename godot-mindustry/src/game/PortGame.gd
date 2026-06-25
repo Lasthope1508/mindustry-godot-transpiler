@@ -1860,6 +1860,13 @@ func source_building_bullet_damage_state(bullet: Variant, source_team: Variant, 
 		"fires_bullet_damage_event": true,
 	}
 
+func source_building_change_team_delegate_state(next_team: Variant) -> Dictionary:
+	return {
+		"next_team": next_team,
+		"delegates_to_change_team": true,
+		"update_power": true,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

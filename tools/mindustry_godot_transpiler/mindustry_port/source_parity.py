@@ -2146,6 +2146,24 @@ def verify_building_damage_delegates_source(upstream_root: Path) -> dict[str, An
         "missing": missing,
     }
 
+def verify_building_change_team_delegate_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "building_change_team_comment": "/** Changes this building's team in a safe manner. */",
+        "building_change_team_delegate_method": "public void changeTeam(Team next){",
+        "building_change_team_delegate_call": "changeTeam(next, true);",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
