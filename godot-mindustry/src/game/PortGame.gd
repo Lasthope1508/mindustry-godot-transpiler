@@ -2137,6 +2137,11 @@ func source_building_damage_handle_damage_gate_state(net_client: bool, health: f
 		"handle_damage_called": false,
 	}
 
+func source_building_damage_health_changed_call_state() -> Dictionary:
+	return {
+		"health_changed": true,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

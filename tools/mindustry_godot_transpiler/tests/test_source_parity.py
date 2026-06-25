@@ -1743,5 +1743,15 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_damage_health_changed_call_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_damage_health_changed_call_source"))
+        report = source_parity.verify_building_damage_health_changed_call_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "damage_health_changed_call": "healthChanged();",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
