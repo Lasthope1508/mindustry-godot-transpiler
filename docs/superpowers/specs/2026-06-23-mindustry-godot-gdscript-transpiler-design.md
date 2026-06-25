@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 173 |
-| Done | 173 |
+| Total tracked work items | 174 |
+| Done | 174 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -49,6 +49,7 @@
 - [x] N169: Source BuildingComp handleDamage passthrough state.
 - [x] N170: Source BuildingComp absorbLasers block-field state.
 - [x] N171: Source BuildingComp isInsulated block-field state.
+- [x] N172: Source BuildingComp collide default state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -247,6 +248,7 @@ Current cube: `Building lifecycle / destroy-deconstruct`. Current source path st
 | N169 | Apply source BuildingComp handleDamage passthrough state | The next `BuildingComp.handleDamage(float amount)` slice preserves the exact method signature and `return amount;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_handle_damage_state(amount)` returning the input amount without invented damage math; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `266` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol call on `/root/Main` returned `12.5` for arg `12.5`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N170 | Apply source BuildingComp absorbLasers block-field state | The next `BuildingComp.absorbLasers()` slice preserves `public boolean absorbLasers(){` and exact `return block.absorbLasers;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_absorb_lasers_state(block_absorb_lasers)` returning the provided block field without invented defaults; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `268` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol calls on `/root/Main` returned `true` for arg `true` and `false` for arg `false`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N171 | Apply source BuildingComp isInsulated block-field state | The next `BuildingComp.isInsulated()` slice preserves `public boolean isInsulated(){` and exact `return block.insulated;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_is_insulated_state(block_insulated)` returning the provided block field without invented defaults; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `270` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol calls on `/root/Main` returned `true` for arg `true` and `false` for arg `false`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
+| N172 | Apply source BuildingComp collide default state | The next `BuildingComp.collide(Bullet other)` slice preserves `public boolean collide(Bullet other){` and exact `return true;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_collide_state(_other)` returning true without invented bullet gates; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `272` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol call on `/root/Main` returned `true`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 ## Not Done
 

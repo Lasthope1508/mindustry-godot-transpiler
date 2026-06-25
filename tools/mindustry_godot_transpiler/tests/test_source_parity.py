@@ -1305,6 +1305,16 @@ class SourceParityTests(unittest.TestCase):
             "building_is_insulated_return_block_value": "return block.insulated;",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_collide_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_collide_source"))
+        report = source_parity.verify_building_collide_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "building_collide_method": "public boolean collide(Bullet other){",
+            "building_collide_return_true": "return true;",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()
