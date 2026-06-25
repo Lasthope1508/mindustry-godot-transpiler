@@ -1816,6 +1816,8 @@ func source_building_draw_configure_state(source_x: float, source_y: float, bloc
 		"radius": source_building_block_half_extent(block_size_value, source_tilesize) + 1.0,
 		"reset": true,
 	}
+func source_building_check_solid_state() -> bool:
+	return false
 
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount

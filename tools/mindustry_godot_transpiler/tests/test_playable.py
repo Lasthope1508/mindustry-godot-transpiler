@@ -1887,6 +1887,12 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"color": "Pal.accent"', source)
         self.assertIn('"stroke": 1.0', source)
         self.assertIn('"reset": true', source)
+    def test_port_game_exposes_source_building_check_solid_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_check_solid_state() -> bool:", source)
+        self.assertIn("return false", source)
 
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
