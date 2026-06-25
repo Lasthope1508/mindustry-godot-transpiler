@@ -2175,6 +2175,26 @@ func source_building_sense_totals_state(total_items: float, total_liquids: float
 		"total_power": total_power,
 	}
 
+func source_building_sense_capacity_power_net_state(block_has_items: bool, block_item_capacity: float, block_has_liquids: bool, block_liquid_capacity: float, has_cons_power: bool, cons_power_capacity: float, has_power_module: bool, last_scaled_power_in: float, last_scaled_power_out: float, last_power_stored: float, last_power_capacity: float) -> Dictionary:
+	var power_net_in := 0.0
+	var power_net_out := 0.0
+	var power_net_stored := 0.0
+	var power_net_capacity := 0.0
+	if has_power_module:
+		power_net_in = last_scaled_power_in * SOURCE_TICK_RATE
+		power_net_out = last_scaled_power_out * SOURCE_TICK_RATE
+		power_net_stored = last_power_stored
+		power_net_capacity = last_power_capacity
+	return {
+		"item_capacity": block_item_capacity if block_has_items else 0.0,
+		"liquid_capacity": block_liquid_capacity if block_has_liquids else 0.0,
+		"power_capacity": cons_power_capacity if has_cons_power else 0.0,
+		"power_net_in": power_net_in,
+		"power_net_out": power_net_out,
+		"power_net_stored": power_net_stored,
+		"power_net_capacity": power_net_capacity,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

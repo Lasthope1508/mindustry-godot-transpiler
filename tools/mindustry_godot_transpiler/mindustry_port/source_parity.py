@@ -2843,6 +2843,28 @@ def verify_building_sense_totals_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_building_sense_capacity_power_net_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "sense_item_capacity": "case itemCapacity -> block.hasItems ? block.itemCapacity : 0;",
+        "sense_liquid_capacity": "case liquidCapacity -> block.hasLiquids ? block.liquidCapacity : 0;",
+        "sense_power_capacity": "case powerCapacity -> block.consPower != null ? block.consPower.capacity : 0f;",
+        "sense_power_net_in": "case powerNetIn -> power == null ? 0 : power.graph.getLastScaledPowerIn() * 60;",
+        "sense_power_net_out": "case powerNetOut -> power == null ? 0 : power.graph.getLastScaledPowerOut() * 60;",
+        "sense_power_net_stored": "case powerNetStored -> power == null ? 0 : power.graph.getLastPowerStored();",
+        "sense_power_net_capacity": "case powerNetCapacity -> power == null ? 0 : power.graph.getLastCapacity();",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

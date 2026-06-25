@@ -2253,6 +2253,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"total_liquids": total_liquids', source)
         self.assertIn('"total_power": total_power', source)
 
+    def test_port_game_exposes_source_building_sense_capacity_power_net_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_sense_capacity_power_net_state(block_has_items: bool, block_item_capacity: float, block_has_liquids: bool, block_liquid_capacity: float, has_cons_power: bool, cons_power_capacity: float, has_power_module: bool, last_scaled_power_in: float, last_scaled_power_out: float, last_power_stored: float, last_power_capacity: float) -> Dictionary:", source)
+        self.assertIn('"item_capacity": block_item_capacity if block_has_items else 0.0', source)
+        self.assertIn('"liquid_capacity": block_liquid_capacity if block_has_liquids else 0.0', source)
+        self.assertIn('"power_capacity": cons_power_capacity if has_cons_power else 0.0', source)
+        self.assertIn('"power_net_in": power_net_in', source)
+        self.assertIn('"power_net_out": power_net_out', source)
+        self.assertIn('"power_net_stored": power_net_stored', source)
+        self.assertIn('"power_net_capacity": power_net_capacity', source)
+        self.assertIn("power_net_in = last_scaled_power_in * SOURCE_TICK_RATE", source)
+        self.assertIn("power_net_out = last_scaled_power_out * SOURCE_TICK_RATE", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
