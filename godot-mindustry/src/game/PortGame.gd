@@ -2096,6 +2096,9 @@ func source_building_heal_state(_amount: Variant = null) -> Dictionary:
 		"health_changed": true,
 	}
 
+func source_building_hit_size(block_size_value: int, source_tilesize: float) -> float:
+	return float(block_size_value) * source_tilesize
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

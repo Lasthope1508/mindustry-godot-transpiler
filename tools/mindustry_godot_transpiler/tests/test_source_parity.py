@@ -1682,5 +1682,16 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_hit_size_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_hit_size_source"))
+        report = source_parity.verify_building_hit_size_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "hit_size_method": "public float hitSize(){",
+            "hit_size_return": "return tile.block().size * tilesize;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

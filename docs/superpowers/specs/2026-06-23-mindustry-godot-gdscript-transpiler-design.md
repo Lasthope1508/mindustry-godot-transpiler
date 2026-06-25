@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 201 |
-| Done | 201 |
+| Total tracked work items | 202 |
+| Done | 202 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -77,6 +77,7 @@
 - [x] N197: Source BuildingComp config default null state.
 - [x] N198: Source BuildingComp isValid tile/dead gate state.
 - [x] N199: Source BuildingComp heal healthChanged delegate state.
+- [x] N200: Source BuildingComp hitSize block-size state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -303,6 +304,7 @@ Current cube: `Building lifecycle / destroy-deconstruct`. Current source path st
 | N197 | Apply source BuildingComp config default null state | The next `BuildingComp` override slice preserves exact comment `/** Tile configuration. Defaults to null. Used for block rebuilding. */`, `@Nullable`, method `public Object config(){`, and `return null;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_config_default()` as the direct null return without inventing rebuild config content; targeted RED tests failed before implementation, targeted GREEN passed, full Python suite reports `322` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP call on `/root/Main` returned `null`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N198 | Apply source BuildingComp isValid tile/dead gate state | The next `BuildingComp` override slice preserves exact method `public boolean isValid(){` and return `return tile.build == self() && !dead();`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_is_valid(tile_build_matches_self, dead_state)` as the same bool gate without inventing tile lookup or death side effects; targeted RED tests failed before implementation, targeted GREEN passed, full Python suite reports `324` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `true` for tile match and not dead, `false` for wrong tile, and `false` for dead; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N199 | Apply source BuildingComp heal healthChanged delegate state | The next `BuildingComp` override slice preserves exact `@MethodPriority(100)`, `public void heal(){`, `public void heal(float amount){`, and `healthChanged();` in both overloads; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_heal_state(_amount: Variant = null)` as a pure health-changed delegate marker without inventing health mutation; targeted RED tests failed before implementation, first MCP run caught a GDScript parser error on an untyped null default and the helper was corrected to explicit `Variant`, targeted GREEN passed, full Python suite reports `326` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `{"amount":null,"health_changed":true}` for no-arg heal and `{"amount":12.5,"health_changed":true}` for amount heal; debug output returns `errors: []`, and stop returns `finalErrors: []` |
+| N200 | Apply source BuildingComp hitSize block-size state | The next `BuildingComp` override slice preserves exact method `public float hitSize(){` and return `return tile.block().size * tilesize;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_hit_size(block_size_value, source_tilesize)` as the direct multiplication without inventing collision shape behavior; targeted RED tests failed before implementation, targeted GREEN passed, full Python suite reports `328` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `96.0` for block size `3` and tilesize `32.0`, and `8.0` for block size `1` and tilesize `8.0`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 ## Not Done
 

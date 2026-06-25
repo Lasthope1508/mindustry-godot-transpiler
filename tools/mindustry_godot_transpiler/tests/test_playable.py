@@ -2161,6 +2161,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_heal_state(_amount: Variant = null) -> Dictionary:", source)
         self.assertIn('"health_changed": true', source)
 
+    def test_port_game_exposes_source_building_hit_size(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_hit_size(block_size_value: int, source_tilesize: float) -> float:", source)
+        self.assertIn("return float(block_size_value) * source_tilesize", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
