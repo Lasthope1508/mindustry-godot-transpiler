@@ -2496,6 +2496,27 @@ def verify_building_update_consumption_setup_source(upstream_root: Path) -> dict
         "missing": missing,
     }
 
+def verify_building_update_consumption_non_optional_pass_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "update_consumption_non_optional_comment": "//first pass: get the minimum efficiency of any consumer",
+        "update_consumption_non_optional_loop": "for(var cons : block.nonOptionalConsumers){",
+        "update_consumption_non_optional_result": "float result = cons.efficiency(self());",
+        "update_consumption_non_optional_power_gate": "if(cons != block.consPower && result <= 0.0000001f){",
+        "update_consumption_non_optional_power_state": "shouldConsumePower = false;",
+        "update_consumption_non_optional_min": "minEfficiency = Math.min(minEfficiency, result);",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

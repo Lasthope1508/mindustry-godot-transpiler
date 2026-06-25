@@ -1579,6 +1579,20 @@ class SourceParityTests(unittest.TestCase):
             "update_consumption_setup_power": "shouldConsumePower = true;",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_update_consumption_non_optional_pass_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_update_consumption_non_optional_pass_source"))
+        report = source_parity.verify_building_update_consumption_non_optional_pass_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "update_consumption_non_optional_comment": "//first pass: get the minimum efficiency of any consumer",
+            "update_consumption_non_optional_loop": "for(var cons : block.nonOptionalConsumers){",
+            "update_consumption_non_optional_result": "float result = cons.efficiency(self());",
+            "update_consumption_non_optional_power_gate": "if(cons != block.consPower && result <= 0.0000001f){",
+            "update_consumption_non_optional_power_state": "shouldConsumePower = false;",
+            "update_consumption_non_optional_min": "minEfficiency = Math.min(minEfficiency, result);",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()

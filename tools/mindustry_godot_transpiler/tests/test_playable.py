@@ -2092,6 +2092,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"optional_efficiency": 1.0', source)
         self.assertIn('"should_consume_power": true', source)
 
+    def test_port_game_exposes_source_building_update_consumption_non_optional_pass_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_update_consumption_non_optional_pass_state(non_optional_consumer_results: Array) -> Dictionary:", source)
+        self.assertIn('for consumer in non_optional_consumer_results:', source)
+        self.assertIn('"min_efficiency": min_efficiency', source)
+        self.assertIn('"should_consume_power": should_consume_power', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -2034,6 +2034,19 @@ func source_building_update_consumption_setup_state(should_consume_state: bool, 
 		"should_consume_power": true,
 	}
 
+func source_building_update_consumption_non_optional_pass_state(non_optional_consumer_results: Array) -> Dictionary:
+	var min_efficiency := 1.0
+	var should_consume_power := true
+	for consumer in non_optional_consumer_results:
+		var result := float(consumer.get("result", 0.0))
+		if not bool(consumer.get("is_power", false)) and result <= 0.0000001:
+			should_consume_power = false
+		min_efficiency = min(min_efficiency, result)
+	return {
+		"min_efficiency": min_efficiency,
+		"should_consume_power": should_consume_power,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
