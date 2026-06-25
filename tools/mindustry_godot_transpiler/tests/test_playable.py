@@ -1,4 +1,4 @@
-﻿import json
+import json
 import sys
 import tempfile
 import unittest
@@ -1854,6 +1854,12 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"configure_null": true', source)
         self.assertIn('"consumed": false', source)
         self.assertIn('return {"deselect": false, "configure_null": false, "consumed": not same_building}', source)
+    def test_port_game_exposes_source_building_configure_position_tap_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_on_configure_tapped_state(_x: float, _y: float) -> bool:", source)
+        self.assertIn("return false", source)
 
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

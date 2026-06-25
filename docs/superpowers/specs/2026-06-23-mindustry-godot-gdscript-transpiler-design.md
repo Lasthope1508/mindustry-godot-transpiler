@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 164 |
-| Done | 164 |
+| Total tracked work items | 165 |
+| Done | 165 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -40,6 +40,7 @@
 - [x] N160: Source BuildingComp display flow rate label state.
 - [x] N161: Source BuildingComp cursor gate state.
 - [x] N162: Source BuildingComp onConfigureBuildTapped gate state.
+- [x] N163: Source BuildingComp onConfigureTapped position state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -229,6 +230,7 @@ Current cube: `Building lifecycle / destroy-deconstruct`. Current source path st
 
 | N161 | Apply source BuildingComp cursor gate state | The next `BuildingComp.getCursor()` slice preserves the upstream comment `/** Returns whether a hand cursor should be shown over this block. */` and returns `block.configurable && interactable(player.team()) ? SystemCursor.hand : SystemCursor.arrow;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` now exposes `source_building_cursor_state()` for configurable/interactable hand-vs-arrow selection without inventing cursor objects; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `251` tests passing; MCP editor bridge connected, MCP LSP diagnostics timed out during `initialize`, and MCP runtime proof reports `hand`, `arrow`, `arrow`, and `arrow`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N162 | Apply source BuildingComp onConfigureBuildTapped gate state | The next `BuildingComp.onConfigureBuildTapped(Building other)` slice preserves `if(block.clearOnDoubleTap){`, `if(self() == other){`, `deselect();`, `configure(null);`, `return false;`, `return true;`, and fallback `return self() != other;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_on_configure_build_tapped_state()` for deselect/configure-null/consumed-state combinations without invented parameters; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `253` tests passing; MCP editor bridge connected, MCP LSP diagnostics returned `diagnostics: []`, and MCP runtime proof reports same-building clear-on-double-tap returns deselect/configure-null/consumed false, other clear-on-double-tap consumes true, same non-clear consumes false, and other non-clear consumes true; debug output returns `errors: []`, and stop returns `finalErrors: []` |
+| N163 | Apply source BuildingComp onConfigureTapped position state | The next `BuildingComp.onConfigureTapped(float x, float y)` slice preserves the position-tap comment, consumed-return comment, exact method signature, and `return false;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_on_configure_tapped_state(_x, _y)` returning false without invented behavior; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `255` tests passing; MCP editor bridge connected, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol call on `/root/Main` returned `false`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 ## Not Done
 

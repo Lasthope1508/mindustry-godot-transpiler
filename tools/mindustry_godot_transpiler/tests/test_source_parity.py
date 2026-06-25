@@ -1208,6 +1208,18 @@ class SourceParityTests(unittest.TestCase):
             "building_configure_tap_return_not_same": "return self() != other;",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_configure_position_tap_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_configure_position_tap_source"))
+        report = source_parity.verify_building_configure_position_tap_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "building_configure_position_tap_comment": "* Called when a position is tapped while this building is selected.",
+            "building_configure_position_tap_return_comment": "* @return whether the tap event is consumed - if true, the player will not start shooting or interact with things under the cursor.",
+            "building_configure_position_tap_method": "public boolean onConfigureTapped(float x, float y){",
+            "building_configure_position_tap_return_false": "return false;",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()

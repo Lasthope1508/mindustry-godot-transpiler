@@ -1791,6 +1791,8 @@ func source_building_on_configure_build_tapped_state(clear_on_double_tap: bool, 
 			return {"deselect": true, "configure_null": true, "consumed": false}
 		return {"deselect": false, "configure_null": false, "consumed": true}
 	return {"deselect": false, "configure_null": false, "consumed": not same_building}
+func source_building_on_configure_tapped_state(_x: float, _y: float) -> bool:
+	return false
 
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount

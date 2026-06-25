@@ -1930,6 +1930,24 @@ def verify_building_configure_tap_gate_source(upstream_root: Path) -> dict[str, 
         "checked": checked,
         "missing": missing,
     }
+def verify_building_configure_position_tap_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "building_configure_position_tap_comment": "* Called when a position is tapped while this building is selected.",
+        "building_configure_position_tap_return_comment": "* @return whether the tap event is consumed - if true, the player will not start shooting or interact with things under the cursor.",
+        "building_configure_position_tap_method": "public boolean onConfigureTapped(float x, float y){",
+        "building_configure_position_tap_return_false": "return false;",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
 
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
