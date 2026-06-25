@@ -1658,5 +1658,16 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_is_valid_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_is_valid_source"))
+        report = source_parity.verify_building_is_valid_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "is_valid_method": "public boolean isValid(){",
+            "is_valid_return": "return tile.build == self() && !dead();",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
