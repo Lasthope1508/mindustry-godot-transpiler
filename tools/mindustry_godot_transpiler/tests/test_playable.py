@@ -1988,6 +1988,12 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_building_can_pickup_state(block_can_pickup: bool) -> bool:", source)
         self.assertIn("return block_can_pickup", source)
+    def test_port_game_exposes_source_building_picked_up_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_picked_up_state(previous_state: Variant) -> Variant:", source)
+        self.assertIn("return previous_state", source)
 
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

@@ -1938,6 +1938,9 @@ func source_building_change_team_final_state(was: bool, last_team: Variant) -> D
 func source_building_can_pickup_state(block_can_pickup: bool) -> bool:
 	return block_can_pickup
 
+func source_building_picked_up_state(previous_state: Variant) -> Variant:
+	return previous_state
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

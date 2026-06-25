@@ -1428,6 +1428,17 @@ class SourceParityTests(unittest.TestCase):
             "building_can_pickup_block_field": "return block.canPickup;",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_picked_up_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_picked_up_source"))
+        report = source_parity.verify_building_picked_up_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "picked_up_comment": "Called right before this building is picked up.",
+            "picked_up_method": "public void pickedUp(){",
+            "picked_up_empty_body": "public void pickedUp(){\n\n    }",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()
