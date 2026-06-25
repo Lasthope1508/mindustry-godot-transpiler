@@ -1838,5 +1838,16 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_sense_payload_size_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_sense_payload_size_source"))
+        report = source_parity.verify_building_sense_payload_size_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "sense_payload_count": "case payloadCount -> (getPayloads() != null ? getPayloads().total() : 0) + (getPayload() != null ? 1 : 0);",
+            "sense_size": "case size -> block.size;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

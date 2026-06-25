@@ -2276,6 +2276,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"enabled": 1.0 if enabled_state else 0.0', source)
         self.assertIn('"controlled": ctrl_player_value if is_control_block and is_controlled else 0.0', source)
 
+    def test_port_game_exposes_source_building_sense_payload_size_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_sense_payload_size_state(has_payload_seq: bool, payload_seq_total: float, has_single_payload: bool, block_size_value: float) -> Dictionary:", source)
+        self.assertIn("var payload_count := 0.0", source)
+        self.assertIn("payload_count += payload_seq_total", source)
+        self.assertIn("payload_count += 1.0", source)
+        self.assertIn('"payload_count": payload_count', source)
+        self.assertIn('"size": block_size_value', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

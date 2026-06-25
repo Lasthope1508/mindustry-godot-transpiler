@@ -2201,6 +2201,17 @@ func source_building_sense_enabled_controlled_state(enabled_state: bool, is_cont
 		"controlled": ctrl_player_value if is_control_block and is_controlled else 0.0,
 	}
 
+func source_building_sense_payload_size_state(has_payload_seq: bool, payload_seq_total: float, has_single_payload: bool, block_size_value: float) -> Dictionary:
+	var payload_count := 0.0
+	if has_payload_seq:
+		payload_count += payload_seq_total
+	if has_single_payload:
+		payload_count += 1.0
+	return {
+		"payload_count": payload_count,
+		"size": block_size_value,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
