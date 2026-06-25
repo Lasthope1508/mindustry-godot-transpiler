@@ -2084,6 +2084,9 @@ func source_building_update_consumption_second_pass_state(update: bool, efficien
 func source_building_ambient_volume(efficiency: float) -> float:
 	return efficiency
 
+func source_building_config_default() -> Variant:
+	return null
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

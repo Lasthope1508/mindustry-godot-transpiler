@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 198 |
-| Done | 198 |
+| Total tracked work items | 199 |
+| Done | 199 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -74,6 +74,7 @@
 - [x] N194: Source BuildingComp updateConsumption efficiency assignment and no-update zero state.
 - [x] N195: Source BuildingComp updateConsumption efficiency multiplier and update-consumer second pass state.
 - [x] N196: Source BuildingComp ambientVolume efficiency state.
+- [x] N197: Source BuildingComp config default null state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -297,6 +298,7 @@ Current cube: `Building lifecycle / destroy-deconstruct`. Current source path st
 | N194 | Apply source BuildingComp updateConsumption efficiency assignment and no-update zero state | The next `BuildingComp.updateConsumption()` slice preserves exact assignment lines `efficiency = minEfficiency;`, `optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);`, `potentialEfficiency = efficiency;`, and the `if(!update){ efficiency = optionalEfficiency = 0f; }` branch; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_update_consumption_efficiency_state(min_efficiency, optional_efficiency, update)` as the same state transition without inventing the later multiplier or second pass; targeted RED tests failed before implementation, targeted GREEN passed, full Python suite reports `316` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `{"efficiency":0.4,"optional_efficiency":0.4,"potential_efficiency":0.4}` for update true, `{"efficiency":0.7,"optional_efficiency":0.25,"potential_efficiency":0.7}` for lower optional efficiency, and `{"efficiency":0.0,"optional_efficiency":0.0,"potential_efficiency":0.6}` for update false; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N195 | Apply source BuildingComp updateConsumption efficiency multiplier and update-consumer second pass state | The next `BuildingComp.updateConsumption()` slice preserves exact `updateEfficiencyMultiplier();`, comment `//second pass: update every consumer based on efficiency`, guard `if(update && efficiency > 0){`, loop `for(var cons : block.updateConsumers){`, and `cons.update(self());`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_update_consumption_second_pass_state(update, efficiency, update_consumers, self_state)` as the same guarded ordered consumer-update records without inventing `Consume.update()` internals; targeted RED tests failed before implementation, targeted GREEN passed, full Python suite reports `318` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `{"update_count":2,"updated_consumers":[{"consumer":"power","self":{"pos":42.0,"team":"sharded"}},{"consumer":"items","self":{"pos":42.0,"team":"sharded"}}]}` for update true and efficiency `0.5`, `{"update_count":0,"updated_consumers":[]}` for update false, and `{"update_count":0,"updated_consumers":[]}` for zero efficiency; debug output contained only Unicode parsing errors from one rejected frame-prefix TCP probe before successful raw JSON calls, and stop returned the same finalErrors with no script/runtime method errors |
 | N196 | Apply source BuildingComp ambientVolume efficiency state | The next `BuildingComp` slice preserves exact method `public float ambientVolume(){` and return `return efficiency;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_ambient_volume(efficiency)` as the direct returned value without inventing sound falloff or consumer checks; targeted RED tests failed before implementation, targeted GREEN passed, full Python suite reports `320` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `0.75` for efficiency `0.75` and `0.0` for efficiency `0.0`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
+| N197 | Apply source BuildingComp config default null state | The next `BuildingComp` override slice preserves exact comment `/** Tile configuration. Defaults to null. Used for block rebuilding. */`, `@Nullable`, method `public Object config(){`, and `return null;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_config_default()` as the direct null return without inventing rebuild config content; targeted RED tests failed before implementation, targeted GREEN passed, full Python suite reports `322` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP call on `/root/Main` returned `null`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 ## Not Done
 

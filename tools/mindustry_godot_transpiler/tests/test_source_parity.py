@@ -1645,5 +1645,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_config_default_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_config_default_source"))
+        report = source_parity.verify_building_config_default_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "config_comment": "/** Tile configuration. Defaults to null. Used for block rebuilding. */",
+            "config_nullable": "@Nullable",
+            "config_method": "public Object config(){",
+            "config_return": "return null;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

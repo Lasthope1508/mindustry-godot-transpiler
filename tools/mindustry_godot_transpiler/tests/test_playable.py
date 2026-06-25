@@ -2140,6 +2140,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_ambient_volume(efficiency: float) -> float:", source)
         self.assertIn("return efficiency", source)
 
+    def test_port_game_exposes_source_building_config_default(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_config_default() -> Variant:", source)
+        self.assertIn("return null", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
