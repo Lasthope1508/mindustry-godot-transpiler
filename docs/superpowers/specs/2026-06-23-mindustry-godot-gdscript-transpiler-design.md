@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 191 |
-| Done | 191 |
+| Total tracked work items | 192 |
+| Done | 192 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -67,6 +67,7 @@
 - [x] N187: Source BuildingComp canConsume potential-efficiency state.
 - [x] N188: Source BuildingComp efficiency multiplier state.
 - [x] N189: Source BuildingComp updateConsumption initial branch state.
+- [x] N190: Source BuildingComp updateConsumption disabled branch state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -283,6 +284,7 @@ Current cube: `Building lifecycle / destroy-deconstruct`. Current source path st
 | N187 | Apply source BuildingComp canConsume potential-efficiency state | The next `BuildingComp.canConsume()` slice preserves exact `public boolean canConsume(){` and `return potentialEfficiency > 0;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_can_consume_state(potential_efficiency)` as the direct positive-efficiency gate without inventing consumer availability checks; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `302` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol calls on `/root/Main` returned `false` for `-0.5`, `false` for `0.0`, and `true` for `0.25`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N188 | Apply source BuildingComp efficiency multiplier state | The next `BuildingComp.updateEfficiencyMultiplier()` and `efficiencyScale()` slice preserves exact `float scale = efficiencyScale();`, `efficiency *= scale;`, `optionalEfficiency *= scale;`, `public float efficiencyScale(){`, and `return 1f;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_efficiency_scale_state()` plus `source_building_update_efficiency_multiplier_state(efficiency, optional_efficiency, efficiency_scale)` as the same multiplicative update without inventing side effects; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `304` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol calls on `/root/Main` returned `1.0` for scale, `{efficiency:0.75, optional_efficiency:0.5}` for scale `1.0`, and `{efficiency:0.1875, optional_efficiency:0.125}` for scale `0.25`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N189 | Apply source BuildingComp updateConsumption initial branch state | The next `BuildingComp.updateConsumption()` slice preserves the initial cheating/no-consumer guard, the `potentialEfficiency`, `efficiency`, `optionalEfficiency`, `shouldConsumePower`, `updateEfficiencyMultiplier()`, and `return;` branch, without modeling later consumer passes yet; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_update_consumption_initial_state(has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale)` as the same initial branch behavior without inventing consumer loops; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `306` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol calls on `/root/Main` returned `{efficiency:1.0, optional_efficiency:1.0, potential_efficiency:1.0, returned:true, should_consume_power:true}` for no-consumer happy path, `{efficiency:0.0, optional_efficiency:0.0, potential_efficiency:0.0, returned:true, should_consume_power:true}` for no-consumer disabled path, `{efficiency:0.5, optional_efficiency:0.5, potential_efficiency:1.0, returned:true, should_consume_power:true}` for cheating path, and `{returned:false}` for consumer-present path; debug output returns `errors: []`, and stop returns `finalErrors: []` |
+| N190 | Apply source BuildingComp updateConsumption disabled branch state | The next `BuildingComp.updateConsumption()` slice preserves the disabled guard, exact zeroing of `potentialEfficiency`, `efficiency`, and `optionalEfficiency`, `shouldConsumePower = false;`, and `return;` without modeling later consumer passes yet; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_update_consumption_disabled_state(enabled_state)` as the same disabled branch behavior without inventing consumer loops; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `308` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol calls on `/root/Main` returned `{efficiency:0.0, optional_efficiency:0.0, potential_efficiency:0.0, returned:true, should_consume_power:false}` for disabled false and `{returned:false}` for enabled true; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 ## Not Done
 

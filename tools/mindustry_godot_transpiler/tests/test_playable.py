@@ -2069,6 +2069,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"should_consume_power": true', source)
         self.assertIn('"returned": true', source)
 
+    def test_port_game_exposes_source_building_update_consumption_disabled_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_update_consumption_disabled_state(enabled_state: bool) -> Dictionary:", source)
+        self.assertIn("if enabled_state:", source)
+        self.assertIn('"potential_efficiency": 0.0', source)
+        self.assertIn('"efficiency": 0.0', source)
+        self.assertIn('"optional_efficiency": 0.0', source)
+        self.assertIn('"should_consume_power": false', source)
+        self.assertIn('"returned": true', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

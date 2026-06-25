@@ -1553,6 +1553,19 @@ class SourceParityTests(unittest.TestCase):
             "update_consumption_initial_return": "return;",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_update_consumption_disabled_branch_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_update_consumption_disabled_source"))
+        report = source_parity.verify_building_update_consumption_disabled_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "update_consumption_disabled_comment": "//disabled -> nothing works",
+            "update_consumption_disabled_guard": "if(!enabled){",
+            "update_consumption_disabled_efficiencies": "potentialEfficiency = efficiency = optionalEfficiency = 0f;",
+            "update_consumption_disabled_power": "shouldConsumePower = false;",
+            "update_consumption_disabled_return": "return;",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()

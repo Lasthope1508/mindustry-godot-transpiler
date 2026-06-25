@@ -2014,6 +2014,17 @@ func source_building_update_consumption_initial_state(has_consumers: bool, cheat
 		"returned": true,
 	}
 
+func source_building_update_consumption_disabled_state(enabled_state: bool) -> Dictionary:
+	if enabled_state:
+		return {"returned": false}
+	return {
+		"potential_efficiency": 0.0,
+		"efficiency": 0.0,
+		"optional_efficiency": 0.0,
+		"should_consume_power": false,
+		"returned": true,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

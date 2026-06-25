@@ -2456,6 +2456,26 @@ def verify_building_update_consumption_initial_source(upstream_root: Path) -> di
         "missing": missing,
     }
 
+def verify_building_update_consumption_disabled_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "update_consumption_disabled_comment": "//disabled -> nothing works",
+        "update_consumption_disabled_guard": "if(!enabled){",
+        "update_consumption_disabled_efficiencies": "potentialEfficiency = efficiency = optionalEfficiency = 0f;",
+        "update_consumption_disabled_power": "shouldConsumePower = false;",
+        "update_consumption_disabled_return": "return;",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
