@@ -2195,6 +2195,12 @@ func source_building_sense_capacity_power_net_state(block_has_items: bool, block
 		"power_net_capacity": power_net_capacity,
 	}
 
+func source_building_sense_enabled_controlled_state(enabled_state: bool, is_control_block: bool, is_controlled: bool, ctrl_player_value: float) -> Dictionary:
+	return {
+		"enabled": 1.0 if enabled_state else 0.0,
+		"controlled": ctrl_player_value if is_control_block and is_controlled else 0.0,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

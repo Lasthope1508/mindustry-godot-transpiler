@@ -1827,5 +1827,16 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_sense_enabled_controlled_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_sense_enabled_controlled_source"))
+        report = source_parity.verify_building_sense_enabled_controlled_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "sense_enabled": "case enabled -> enabled ? 1 : 0;",
+            "sense_controlled": "case controlled -> this instanceof ControlBlock c && c.isControlled() ? GlobalVars.ctrlPlayer : 0;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
