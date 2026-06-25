@@ -1844,6 +1844,22 @@ func source_building_collision_damage_state(current_health: float, bullet_buildi
 		"removed": true,
 	}
 
+func source_building_damage_delegate_state(source_team: Variant, damage_amount: float) -> Dictionary:
+	return {
+		"source_team": source_team,
+		"damage": damage_amount,
+		"delegates_to_damage": true,
+	}
+
+func source_building_bullet_damage_state(bullet: Variant, source_team: Variant, damage_amount: float) -> Dictionary:
+	return {
+		"bullet": bullet,
+		"source_team": source_team,
+		"damage": damage_amount,
+		"delegates_to_source_damage": true,
+		"fires_bullet_damage_event": true,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

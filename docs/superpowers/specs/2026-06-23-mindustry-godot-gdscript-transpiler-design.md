@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 175 |
-| Done | 175 |
+| Total tracked work items | 176 |
+| Done | 176 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -51,6 +51,7 @@
 - [x] N171: Source BuildingComp isInsulated block-field state.
 - [x] N172: Source BuildingComp collide default state.
 - [x] N173: Source BuildingComp collision damage state.
+- [x] N174: Source BuildingComp damage delegate/event state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -251,6 +252,7 @@ Current cube: `Building lifecycle / destroy-deconstruct`. Current source path st
 | N171 | Apply source BuildingComp isInsulated block-field state | The next `BuildingComp.isInsulated()` slice preserves `public boolean isInsulated(){` and exact `return block.insulated;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_is_insulated_state(block_insulated)` returning the provided block field without invented defaults; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `270` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol calls on `/root/Main` returned `true` for arg `true` and `false` for arg `false`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N172 | Apply source BuildingComp collide default state | The next `BuildingComp.collide(Bullet other)` slice preserves `public boolean collide(Bullet other){` and exact `return true;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_collide_state(_other)` returning true without invented bullet gates; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `272` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol call on `/root/Main` returned `true`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N173 | Apply source BuildingComp collision damage state | The next `BuildingComp.collision(Bullet other)` slice preserves `wasDead`, `BulletType t`, `other.type.buildingDamage(other)`, the `!t.pierceArmor` armor gate, `Damage.applyArmor(damage, block.armor * t.armorMultiplier * t.blockArmorMultiplier)`, the damage call, destroy-event gate, and final `return true;`; `Damage.applyArmor()` is verified from `Damage.java` as `Math.max(damage - armor, minArmorDamage * damage)` with `minArmorDamage=0.1f` from `Vars.java`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_collision_damage_state()` as a pure source-state helper without inventing event dispatch or health side effects; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `274` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol call on `/root/Main` returned `{armor:24.0, damage:1.25, raw_damage:12.5, removed:true, was_dead:false}` for args `(10.0, 12.5, 3.0, false, 2.0, 4.0)`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
+| N174 | Apply source BuildingComp damage delegate/event state | The next `BuildingComp.damage(@Nullable Team source, float damage)` and `BuildingComp.damage(Bullet bullet, Team source, float damage)` slices preserve the splash-damage comments, method signatures, `damage(damage);`, `damage(source, damage);`, and `Events.fire(bulletDamageEvent.set(self(), bullet));`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_damage_delegate_state()` and `source_building_bullet_damage_state()` as pure delegate/event helpers without inventing health mutation; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `276` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and corrected MCP runtime protocol calls on `/root/Main` returned `{damage:9.5, delegates_to_damage:true, source_team:"sharded"}` and `{bullet:"bullet-1", damage:6.25, delegates_to_source_damage:true, fires_bullet_damage_event:true, source_team:"crux"}`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 ## Not Done
 

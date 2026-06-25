@@ -1927,6 +1927,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("damage = max(damage - armor, 0.1 * damage)", source)
         self.assertIn('"was_dead": current_health <= 0.0', source)
         self.assertIn('"removed": true', source)
+    def test_port_game_exposes_source_building_damage_delegate_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_damage_delegate_state(source_team: Variant, damage_amount: float) -> Dictionary:", source)
+        self.assertIn('"delegates_to_damage": true', source)
+        self.assertIn('"damage": damage_amount', source)
+        self.assertIn("func source_building_bullet_damage_state(bullet: Variant, source_team: Variant, damage_amount: float) -> Dictionary:", source)
+        self.assertIn('"delegates_to_source_damage": true', source)
+        self.assertIn('"fires_bullet_damage_event": true', source)
 
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

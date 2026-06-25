@@ -1333,6 +1333,21 @@ class SourceParityTests(unittest.TestCase):
             "building_collision_return_true": "return true;",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_damage_delegates_match_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_damage_delegates_source"))
+        report = source_parity.verify_building_damage_delegates_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "building_damage_team_comment": "/** Used to handle damage from splash damage for certain types of blocks. */",
+            "building_damage_team_method": "public void damage(@Nullable Team source, float damage){",
+            "building_damage_team_delegate": "damage(damage);",
+            "building_damage_bullet_comment": "/** Handles splash damage with a bullet source. */",
+            "building_damage_bullet_method": "public void damage(Bullet bullet, Team source, float damage){",
+            "building_damage_bullet_delegate": "damage(source, damage);",
+            "building_damage_bullet_event": "Events.fire(bulletDamageEvent.set(self(), bullet));",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()
