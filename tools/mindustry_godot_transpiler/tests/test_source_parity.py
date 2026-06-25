@@ -1502,6 +1502,17 @@ class SourceParityTests(unittest.TestCase):
             "on_nearby_build_added_empty": "public void onNearbyBuildAdded(Building other){}",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_consume_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_consume_source"))
+        report = source_parity.verify_building_consume_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "consume_signature": "public void consume(){",
+            "consume_loop": "for(Consume cons : block.consumers){",
+            "consume_trigger": "cons.trigger(self());",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()

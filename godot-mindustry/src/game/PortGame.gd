@@ -1982,6 +1982,12 @@ func source_building_update_proximity_state(nearby_count: int, same_team_count: 
 func source_building_on_nearby_build_added_state(other_state: Variant) -> Variant:
 	return other_state
 
+func source_building_consume_state(consumers: Array, self_state: Variant) -> Dictionary:
+	var triggered: Array = []
+	for consumer in consumers:
+		triggered.append({"consumer": consumer, "self": self_state})
+	return {"triggered": triggered}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

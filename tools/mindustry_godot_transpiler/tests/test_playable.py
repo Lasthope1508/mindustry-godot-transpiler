@@ -2032,6 +2032,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_on_nearby_build_added_state(other_state: Variant) -> Variant:", source)
         self.assertIn("return other_state", source)
 
+    def test_port_game_exposes_source_building_consume_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_consume_state(consumers: Array, self_state: Variant) -> Dictionary:", source)
+        self.assertIn("for consumer in consumers:", source)
+        self.assertIn('triggered.append({"consumer": consumer, "self": self_state})', source)
+        self.assertIn('return {"triggered": triggered}', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
