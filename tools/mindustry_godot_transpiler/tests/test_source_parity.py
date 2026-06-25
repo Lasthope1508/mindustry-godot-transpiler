@@ -1849,5 +1849,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_sense_object_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_sense_object_source"))
+        report = source_parity.verify_building_sense_object_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "sense_object_method": "public Object senseObject(LAccess sensor){",
+            "sense_object_type": "case type -> block;",
+            "sense_object_first_item": "case firstItem -> items == null ? null : items.first();",
+            "sense_object_config": "case config -> block.configSenseable() ? config() : null;",
+            "sense_object_payload_type": "case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;",
+            "sense_object_default": "default -> noSensed;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

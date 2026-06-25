@@ -2287,6 +2287,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"payload_count": payload_count', source)
         self.assertIn('"size": block_size_value', source)
 
+    def test_port_game_exposes_source_building_sense_object_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_sense_object_state(sensor: String, block_value: Variant, has_items_module: bool, first_item_value: Variant, config_senseable: bool, config_value: Variant, single_payload_kind: String, single_payload_content: Variant) -> Dictionary:", source)
+        self.assertIn('return {"no_sensed": false, "value": block_value}', source)
+        self.assertIn('return {"no_sensed": false, "value": first_item_value if has_items_module else null}', source)
+        self.assertIn('return {"no_sensed": false, "value": config_value if config_senseable else null}', source)
+        self.assertIn('if single_payload_kind == "unit" or single_payload_kind == "block":', source)
+        self.assertIn('return {"no_sensed": false, "value": single_payload_content}', source)
+        self.assertIn('return {"no_sensed": true, "value": null}', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

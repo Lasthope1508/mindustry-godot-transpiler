@@ -2899,6 +2899,27 @@ def verify_building_sense_payload_size_source(upstream_root: Path) -> dict[str, 
         "missing": missing,
     }
 
+def verify_building_sense_object_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "sense_object_method": "public Object senseObject(LAccess sensor){",
+        "sense_object_type": "case type -> block;",
+        "sense_object_first_item": "case firstItem -> items == null ? null : items.first();",
+        "sense_object_config": "case config -> block.configSenseable() ? config() : null;",
+        "sense_object_payload_type": "case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;",
+        "sense_object_default": "default -> noSensed;",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

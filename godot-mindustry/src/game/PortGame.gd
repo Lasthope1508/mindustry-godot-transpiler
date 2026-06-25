@@ -2212,6 +2212,21 @@ func source_building_sense_payload_size_state(has_payload_seq: bool, payload_seq
 		"size": block_size_value,
 	}
 
+func source_building_sense_object_state(sensor: String, block_value: Variant, has_items_module: bool, first_item_value: Variant, config_senseable: bool, config_value: Variant, single_payload_kind: String, single_payload_content: Variant) -> Dictionary:
+	match sensor:
+		"type":
+			return {"no_sensed": false, "value": block_value}
+		"firstItem":
+			return {"no_sensed": false, "value": first_item_value if has_items_module else null}
+		"config":
+			return {"no_sensed": false, "value": config_value if config_senseable else null}
+		"payloadType":
+			if single_payload_kind == "unit" or single_payload_kind == "block":
+				return {"no_sensed": false, "value": single_payload_content}
+			return {"no_sensed": false, "value": null}
+		_:
+			return {"no_sensed": true, "value": null}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
