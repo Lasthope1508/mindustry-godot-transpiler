@@ -1803,6 +1803,19 @@ func source_building_should_show_configure_state(_player: Variant) -> bool:
 
 func source_building_should_hide_configure_state(_player: Variant) -> bool:
 	return bool(source_building_configure_menu_visibility_state(_player)["should_hide"])
+func source_building_block_half_extent(block_size_value: int, source_tilesize: float) -> float:
+	return float(block_size_value) * source_tilesize / 2.0
+
+func source_building_draw_configure_state(source_x: float, source_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:
+	return {
+		"color": "Pal.accent",
+		"stroke": 1.0,
+		"shape": "square",
+		"x": source_x,
+		"y": source_y,
+		"radius": source_building_block_half_extent(block_size_value, source_tilesize) + 1.0,
+		"reset": true,
+	}
 
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount

@@ -1998,6 +1998,25 @@ def verify_building_should_hide_configure_source(upstream_root: Path) -> dict[st
         "checked": checked,
         "missing": missing,
     }
+def verify_building_draw_configure_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "building_draw_configure_method": "public void drawConfigure(){",
+        "building_draw_configure_color": "Draw.color(Pal.accent);",
+        "building_draw_configure_stroke": "Lines.stroke(1f);",
+        "building_draw_configure_square": "Lines.square(x, y, block.size * tilesize / 2f + 1f);",
+        "building_draw_configure_reset": "Draw.reset();",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
 
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE

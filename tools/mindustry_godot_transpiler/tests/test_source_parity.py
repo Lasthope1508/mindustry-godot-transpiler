@@ -1252,6 +1252,19 @@ class SourceParityTests(unittest.TestCase):
             "building_should_hide_configure_return_false": "return false;",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_draw_configure_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_draw_configure_source"))
+        report = source_parity.verify_building_draw_configure_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "building_draw_configure_method": "public void drawConfigure(){",
+            "building_draw_configure_color": "Draw.color(Pal.accent);",
+            "building_draw_configure_stroke": "Lines.stroke(1f);",
+            "building_draw_configure_square": "Lines.square(x, y, block.size * tilesize / 2f + 1f);",
+            "building_draw_configure_reset": "Draw.reset();",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()

@@ -1876,6 +1876,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return bool(source_building_configure_menu_visibility_state(_player)["should_show"])', source)
         self.assertIn("func source_building_should_hide_configure_state(_player: Variant) -> bool:", source)
         self.assertIn('return bool(source_building_configure_menu_visibility_state(_player)["should_hide"])', source)
+    def test_port_game_exposes_source_building_draw_configure_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_block_half_extent(block_size_value: int, source_tilesize: float) -> float:", source)
+        self.assertIn("return float(block_size_value) * source_tilesize / 2.0", source)
+        self.assertIn("func source_building_draw_configure_state(source_x: float, source_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn("source_building_block_half_extent(block_size_value, source_tilesize) + 1.0", source)
+        self.assertIn('"color": "Pal.accent"', source)
+        self.assertIn('"stroke": 1.0', source)
+        self.assertIn('"reset": true', source)
 
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
