@@ -1693,5 +1693,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_kill_calls_build_destroyed_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_kill_source"))
+        report = source_parity.verify_building_kill_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "kill_replace": "@Replace",
+            "kill_method": "public void kill(){",
+            "kill_call": "Call.buildDestroyed(self());",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
