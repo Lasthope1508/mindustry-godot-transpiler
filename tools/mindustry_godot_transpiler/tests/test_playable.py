@@ -2154,6 +2154,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_is_valid(tile_build_matches_self: bool, dead_state: bool) -> bool:", source)
         self.assertIn("return tile_build_matches_self and not dead_state", source)
 
+    def test_port_game_exposes_source_building_heal_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_heal_state(_amount: Variant = null) -> Dictionary:", source)
+        self.assertIn('"health_changed": true', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

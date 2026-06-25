@@ -2090,6 +2090,12 @@ func source_building_config_default() -> Variant:
 func source_building_is_valid(tile_build_matches_self: bool, dead_state: bool) -> bool:
 	return tile_build_matches_self and not dead_state
 
+func source_building_heal_state(_amount: Variant = null) -> Dictionary:
+	return {
+		"amount": _amount,
+		"health_changed": true,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

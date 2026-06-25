@@ -1669,5 +1669,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_heal_delegates_health_changed_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_heal_health_changed_source"))
+        report = source_parity.verify_building_heal_health_changed_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "heal_priority": "@MethodPriority(100)",
+            "heal_method": "public void heal(){",
+            "heal_amount_method": "public void heal(float amount){",
+            "health_changed_call": "healthChanged();",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
