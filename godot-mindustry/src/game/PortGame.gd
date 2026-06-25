@@ -1822,6 +1822,9 @@ func source_building_check_solid_state() -> bool:
 func source_building_handle_damage_state(amount: float) -> float:
 	return amount
 
+func source_building_absorb_lasers_state(block_absorb_lasers: bool) -> bool:
+	return block_absorb_lasers
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

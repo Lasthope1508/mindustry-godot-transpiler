@@ -1285,6 +1285,16 @@ class SourceParityTests(unittest.TestCase):
             "building_handle_damage_return_amount": "return amount;",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_absorb_lasers_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_absorb_lasers_source"))
+        report = source_parity.verify_building_absorb_lasers_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "building_absorb_lasers_method": "public boolean absorbLasers(){",
+            "building_absorb_lasers_return_block_value": "return block.absorbLasers;",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()
