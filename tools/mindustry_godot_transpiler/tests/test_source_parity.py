@@ -1717,5 +1717,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_damage_block_health_scale_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_damage_block_health_scale_source"))
+        report = source_parity.verify_building_damage_block_health_scale_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "damage_block_health": "float dm = state.rules.blockHealth(team);",
+            "damage_last_damage_time": "lastDamageTime = Time.time;",
+            "damage_zero_guard": "if(Mathf.zero(dm)){",
+            "damage_zero_assignment": "damage = health + 1;",
+            "damage_scale_assignment": "damage /= dm;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

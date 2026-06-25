@@ -2703,6 +2703,26 @@ def verify_building_damage_dead_guard_source(upstream_root: Path) -> dict[str, A
         "missing": missing,
     }
 
+def verify_building_damage_block_health_scale_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "damage_block_health": "float dm = state.rules.blockHealth(team);",
+        "damage_last_damage_time": "lastDamageTime = Time.time;",
+        "damage_zero_guard": "if(Mathf.zero(dm)){",
+        "damage_zero_assignment": "damage = health + 1;",
+        "damage_scale_assignment": "damage /= dm;",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

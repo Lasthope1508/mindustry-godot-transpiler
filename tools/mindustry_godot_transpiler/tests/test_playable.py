@@ -2184,6 +2184,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"returned": dead_state', source)
         self.assertIn('"continues": not dead_state', source)
 
+    def test_port_game_exposes_source_building_damage_block_health_scale_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_damage_block_health_scale_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float) -> Dictionary:", source)
+        self.assertIn("if is_zero_approx(block_health_multiplier):", source)
+        self.assertIn('"damage": health + 1.0', source)
+        self.assertIn('"damage": damage_amount / block_health_multiplier', source)
+        self.assertIn('"last_damage_time": source_time', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

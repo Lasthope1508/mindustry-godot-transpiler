@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 204 |
-| Done | 204 |
+| Total tracked work items | 205 |
+| Done | 205 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -80,6 +80,7 @@
 - [x] N200: Source BuildingComp hitSize block-size state.
 - [x] N201: Source BuildingComp kill buildDestroyed call state.
 - [x] N202: Source BuildingComp damage dead guard state.
+- [x] N203: Source BuildingComp damage block-health scale state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -309,6 +310,7 @@ Current cube: `Building lifecycle / destroy-deconstruct`. Current source path st
 | N200 | Apply source BuildingComp hitSize block-size state | The next `BuildingComp` override slice preserves exact method `public float hitSize(){` and return `return tile.block().size * tilesize;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_hit_size(block_size_value, source_tilesize)` as the direct multiplication without inventing collision shape behavior; targeted RED tests failed before implementation, targeted GREEN passed, full Python suite reports `328` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `96.0` for block size `3` and tilesize `32.0`, and `8.0` for block size `1` and tilesize `8.0`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N201 | Apply source BuildingComp kill buildDestroyed call state | The next `BuildingComp` override slice preserves exact `@Replace`, method `public void kill(){`, and `Call.buildDestroyed(self());`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_kill_state(self_state)` as the same buildDestroyed call record without inventing destruction side effects; targeted RED tests failed before implementation, targeted GREEN passed, full Python suite reports `330` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP call on `/root/Main` returned `{"call":"buildDestroyed","self":{"pos":42.0,"team":"sharded"}}`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N202 | Apply source BuildingComp damage dead guard state | The next `BuildingComp.damage(float damage)` slice preserves exact `@Replace`, method `public void damage(float damage){`, and first guard `if(dead()) return;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_damage_dead_guard_state(dead_state)` as the return/continue gate only, without inventing later block-health scaling or health mutation; targeted RED tests failed before implementation, targeted GREEN passed, full Python suite reports `332` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `{"returned":true,"continues":false}` for dead and `{"returned":false,"continues":true}` for alive; debug output returns `errors: []`, and stop returns `finalErrors: []` |
+| N203 | Apply source BuildingComp damage block-health scale state | The next `BuildingComp.damage(float damage)` slice preserves exact `float dm = state.rules.blockHealth(team);`, `lastDamageTime = Time.time;`, `if(Mathf.zero(dm)){`, `damage = health + 1;`, and `damage /= dm;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_damage_block_health_scale_state(damage_amount, health, block_health_multiplier, source_time)` as the same damage scaling and last-damage-time assignment only, without inventing `handleDamage`, `healthChanged`, or destroy call behavior; targeted RED tests failed before implementation, targeted GREEN passed with `310` tests, full Python suite reports `334` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `{"damage":6.0,"last_damage_time":1234.5}` for `12.0/2.0` and `{"damage":101.0,"last_damage_time":1234.5}` for zero block-health multiplier; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 ## Not Done
 

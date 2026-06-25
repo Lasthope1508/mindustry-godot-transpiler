@@ -2111,6 +2111,17 @@ func source_building_damage_dead_guard_state(dead_state: bool) -> Dictionary:
 		"continues": not dead_state,
 	}
 
+func source_building_damage_block_health_scale_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float) -> Dictionary:
+	if is_zero_approx(block_health_multiplier):
+		return {
+			"damage": health + 1.0,
+			"last_damage_time": source_time,
+		}
+	return {
+		"damage": damage_amount / block_health_multiplier,
+		"last_damage_time": source_time,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
