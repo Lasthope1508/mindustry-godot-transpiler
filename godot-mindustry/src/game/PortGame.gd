@@ -2122,6 +2122,21 @@ func source_building_damage_block_health_scale_state(damage_amount: float, healt
 		"last_damage_time": source_time,
 	}
 
+func source_building_damage_handle_damage_gate_state(net_client: bool, health: float, damage_amount: float, handled_damage: float) -> Dictionary:
+	if not net_client:
+		return {
+			"health": health - handled_damage,
+			"damage": damage_amount,
+			"handled_damage": handled_damage,
+			"handle_damage_called": true,
+		}
+	return {
+		"health": health,
+		"damage": damage_amount,
+		"handled_damage": null,
+		"handle_damage_called": false,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

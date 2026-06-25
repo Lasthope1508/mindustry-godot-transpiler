@@ -2194,6 +2194,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"damage": damage_amount / block_health_multiplier', source)
         self.assertIn('"last_damage_time": source_time', source)
 
+    def test_port_game_exposes_source_building_damage_handle_damage_gate_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_damage_handle_damage_gate_state(net_client: bool, health: float, damage_amount: float, handled_damage: float) -> Dictionary:", source)
+        self.assertIn("if not net_client:", source)
+        self.assertIn('"health": health - handled_damage', source)
+        self.assertIn('"damage": damage_amount', source)
+        self.assertIn('"handle_damage_called": true', source)
+        self.assertIn('"handle_damage_called": false', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

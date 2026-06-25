@@ -1731,5 +1731,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_damage_handle_damage_gate_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_damage_handle_damage_gate_source"))
+        report = source_parity.verify_building_damage_handle_damage_gate_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "damage_client_todo": "//TODO handle this better on the client.",
+            "damage_non_client_guard": "if(!net.client()){",
+            "damage_handle_damage": "health -= handleDamage(damage);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
