@@ -1230,6 +1230,17 @@ class SourceParityTests(unittest.TestCase):
             "building_configure_closed_method": "public void onConfigureClosed(){}",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_should_show_configure_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_should_show_configure_source"))
+        report = source_parity.verify_building_should_show_configure_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "building_should_show_configure_comment": "/** Returns whether this config menu should show when the specified player taps it. */",
+            "building_should_show_configure_method": "public boolean shouldShowConfigure(Player player){",
+            "building_should_show_configure_return_true": "return true;",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()

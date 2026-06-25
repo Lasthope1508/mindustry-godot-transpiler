@@ -1964,6 +1964,23 @@ def verify_building_configure_closed_source(upstream_root: Path) -> dict[str, An
         "checked": checked,
         "missing": missing,
     }
+def verify_building_should_show_configure_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "building_should_show_configure_comment": "/** Returns whether this config menu should show when the specified player taps it. */",
+        "building_should_show_configure_method": "public boolean shouldShowConfigure(Player player){",
+        "building_should_show_configure_return_true": "return true;",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
 
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE

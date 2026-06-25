@@ -1795,6 +1795,8 @@ func source_building_on_configure_tapped_state(_x: float, _y: float) -> bool:
 	return false
 func source_building_on_configure_closed_state() -> void:
 	pass
+func source_building_should_show_configure_state(_player: Variant) -> bool:
+	return true
 
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
