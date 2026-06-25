@@ -1973,6 +1973,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"remove_index": false', source)
         self.assertIn('"reflow_self": true', source)
         self.assertIn('"update_power_graph": true', source)
+    def test_port_game_exposes_source_building_change_team_final_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_change_team_final_state(was: bool, last_team: Variant) -> Dictionary:", source)
+        self.assertIn('"add_index": was', source)
+        self.assertIn('"team_change_event": was', source)
+        self.assertIn('"event_last": last_team', source)
+        self.assertIn('"check_allow_update": true', source)
 
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

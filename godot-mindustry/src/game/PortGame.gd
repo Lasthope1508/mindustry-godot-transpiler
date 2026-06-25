@@ -1926,6 +1926,15 @@ func source_building_change_team_power_links_state(link_count: int, team: Varian
 		"update_power_graph": true,
 	}
 
+func source_building_change_team_final_state(was: bool, last_team: Variant) -> Dictionary:
+	return {
+		"was": was,
+		"add_index": was,
+		"team_change_event": was,
+		"event_last": last_team,
+		"check_allow_update": true,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

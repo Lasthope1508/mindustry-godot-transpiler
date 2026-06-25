@@ -2232,6 +2232,25 @@ def verify_building_change_team_power_links_source(upstream_root: Path) -> dict[
         "missing": missing,
     }
 
+def verify_building_change_team_final_state_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "building_change_team_was_guard": "if(was){",
+        "building_change_team_add_index": "indexer.addIndex(tile);",
+        "building_change_team_event": "Events.fire(teamChangeEvent.set(last, self()));",
+        "building_change_team_check_allow_update": "checkAllowUpdate();",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
