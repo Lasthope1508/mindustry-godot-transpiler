@@ -1956,6 +1956,16 @@ func source_building_after_picked_up_state(power_present: bool, has_cons_power: 
 		"status": current_status,
 	}
 
+func source_building_remove_from_proximity_state(nearby_count: int, removable_count: int) -> Dictionary:
+	return {
+		"on_proximity_removed": true,
+		"tmp_tiles_cleared": true,
+		"nearby_count": nearby_count,
+		"queued_removals": clampi(removable_count, 0, nearby_count),
+		"proximity_updates": clampi(removable_count, 0, nearby_count),
+		"proximity_cleared": true,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

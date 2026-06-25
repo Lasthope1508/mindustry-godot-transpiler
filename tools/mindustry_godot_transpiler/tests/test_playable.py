@@ -2003,6 +2003,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"clear_links": power_present', source)
         self.assertIn("if power_present and has_cons_power and not cons_power_buffered:", source)
         self.assertIn('"status": 0.0', source)
+    def test_port_game_exposes_source_building_remove_from_proximity_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_remove_from_proximity_state(nearby_count: int, removable_count: int) -> Dictionary:", source)
+        self.assertIn('"on_proximity_removed": true', source)
+        self.assertIn('"tmp_tiles_cleared": true', source)
+        self.assertIn('"nearby_count": nearby_count', source)
+        self.assertIn('"queued_removals": clampi(removable_count, 0, nearby_count)', source)
+        self.assertIn('"proximity_cleared": true', source)
 
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

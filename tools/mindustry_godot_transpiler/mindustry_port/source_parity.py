@@ -2307,6 +2307,31 @@ def verify_building_after_picked_up_source(upstream_root: Path) -> dict[str, Any
         "missing": missing,
     }
 
+def verify_building_remove_from_proximity_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "remove_from_proximity_signature": "public void removeFromProximity(){",
+        "remove_from_proximity_on_removed": "onProximityRemoved();",
+        "remove_from_proximity_tmp_clear": "tmpTiles.clear();",
+        "remove_from_proximity_edges": "Point2[] nearby = Edges.getEdges(block.size);",
+        "remove_from_proximity_comment": "//remove this tile from all nearby tile's proximities",
+        "remove_from_proximity_null_guard": "if(other != null){",
+        "remove_from_proximity_tmp_add": "tmpTiles.add(other);",
+        "remove_from_proximity_remove": "other.proximity.remove(self(), true);",
+        "remove_from_proximity_update": "other.onProximityUpdate();",
+        "remove_from_proximity_clear": "proximity.clear();",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

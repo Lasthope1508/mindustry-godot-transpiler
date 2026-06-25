@@ -1453,6 +1453,24 @@ class SourceParityTests(unittest.TestCase):
             "after_picked_up_status_reset": "power.status = 0f;",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_remove_from_proximity_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_remove_from_proximity_source"))
+        report = source_parity.verify_building_remove_from_proximity_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "remove_from_proximity_signature": "public void removeFromProximity(){",
+            "remove_from_proximity_on_removed": "onProximityRemoved();",
+            "remove_from_proximity_tmp_clear": "tmpTiles.clear();",
+            "remove_from_proximity_edges": "Point2[] nearby = Edges.getEdges(block.size);",
+            "remove_from_proximity_comment": "//remove this tile from all nearby tile's proximities",
+            "remove_from_proximity_null_guard": "if(other != null){",
+            "remove_from_proximity_tmp_add": "tmpTiles.add(other);",
+            "remove_from_proximity_remove": "other.proximity.remove(self(), true);",
+            "remove_from_proximity_update": "other.onProximityUpdate();",
+            "remove_from_proximity_clear": "proximity.clear();",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()
