@@ -1593,6 +1593,17 @@ class SourceParityTests(unittest.TestCase):
             "update_consumption_non_optional_min": "minEfficiency = Math.min(minEfficiency, result);",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_update_consumption_optional_pass_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_update_consumption_optional_pass_source"))
+        report = source_parity.verify_building_update_consumption_optional_pass_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "update_consumption_optional_comment": "//same for optionals",
+            "update_consumption_optional_loop": "for(var cons : block.optionalConsumers){",
+            "update_consumption_optional_min": "optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()

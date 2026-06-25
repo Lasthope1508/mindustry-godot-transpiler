@@ -2047,6 +2047,14 @@ func source_building_update_consumption_non_optional_pass_state(non_optional_con
 		"should_consume_power": should_consume_power,
 	}
 
+func source_building_update_consumption_optional_pass_state(optional_consumer_results: Array) -> Dictionary:
+	var optional_efficiency := 1.0
+	for result in optional_consumer_results:
+		optional_efficiency = min(optional_efficiency, float(result))
+	return {
+		"optional_efficiency": optional_efficiency,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
