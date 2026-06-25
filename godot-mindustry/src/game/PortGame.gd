@@ -2025,6 +2025,15 @@ func source_building_update_consumption_disabled_state(enabled_state: bool) -> D
 		"returned": true,
 	}
 
+func source_building_update_consumption_setup_state(should_consume_state: bool, production_valid: bool) -> Dictionary:
+	return {
+		"update": should_consume_state and production_valid,
+		"min_efficiency": 1.0,
+		"efficiency": 1.0,
+		"optional_efficiency": 1.0,
+		"should_consume_power": true,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
