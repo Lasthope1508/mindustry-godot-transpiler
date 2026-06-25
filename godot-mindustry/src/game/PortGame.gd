@@ -2068,6 +2068,19 @@ func source_building_update_consumption_efficiency_state(min_efficiency: float, 
 		"potential_efficiency": potential_efficiency,
 	}
 
+func source_building_update_consumption_second_pass_state(update: bool, efficiency: float, update_consumers: Array, self_state := {}) -> Dictionary:
+	var updated_consumers := []
+	if update and efficiency > 0.0:
+		for consumer in update_consumers:
+			updated_consumers.append({
+				"consumer": consumer,
+				"self": self_state,
+			})
+	return {
+		"updated_consumers": updated_consumers,
+		"update_count": updated_consumers.size(),
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

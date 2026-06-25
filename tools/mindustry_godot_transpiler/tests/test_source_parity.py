@@ -1620,6 +1620,19 @@ class SourceParityTests(unittest.TestCase):
             "update_consumption_no_update_zero": "efficiency = optionalEfficiency = 0f;",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_update_consumption_second_pass_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_update_consumption_second_pass_source"))
+        report = source_parity.verify_building_update_consumption_second_pass_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "update_consumption_multiplier_call": "updateEfficiencyMultiplier();",
+            "update_consumption_second_pass_comment": "//second pass: update every consumer based on efficiency",
+            "update_consumption_second_pass_guard": "if(update && efficiency > 0){",
+            "update_consumption_second_pass_loop": "for(var cons : block.updateConsumers){",
+            "update_consumption_second_pass_update": "cons.update(self());",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()

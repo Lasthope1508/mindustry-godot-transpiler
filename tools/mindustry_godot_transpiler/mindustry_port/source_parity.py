@@ -2558,6 +2558,26 @@ def verify_building_update_consumption_efficiency_assignment_source(upstream_roo
         "missing": missing,
     }
 
+def verify_building_update_consumption_second_pass_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "update_consumption_multiplier_call": "updateEfficiencyMultiplier();",
+        "update_consumption_second_pass_comment": "//second pass: update every consumer based on efficiency",
+        "update_consumption_second_pass_guard": "if(update && efficiency > 0){",
+        "update_consumption_second_pass_loop": "for(var cons : block.updateConsumers){",
+        "update_consumption_second_pass_update": "cons.update(self());",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

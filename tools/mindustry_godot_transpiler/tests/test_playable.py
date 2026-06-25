@@ -2123,6 +2123,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("optional_efficiency = 0.0", source)
         self.assertIn('"potential_efficiency": potential_efficiency', source)
 
+    def test_port_game_exposes_source_building_update_consumption_second_pass_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_update_consumption_second_pass_state(update: bool, efficiency: float, update_consumers: Array, self_state := {}) -> Dictionary:", source)
+        self.assertIn("if update and efficiency > 0.0:", source)
+        self.assertIn("for consumer in update_consumers:", source)
+        self.assertIn('"updated_consumers": updated_consumers', source)
+        self.assertIn('"update_count": updated_consumers.size()', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
