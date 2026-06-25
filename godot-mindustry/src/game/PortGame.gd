@@ -2152,6 +2152,12 @@ func source_building_health_changed_state(net_server: bool, self_state := {}) ->
 		"notify_health_changed": self_state,
 	}
 
+func source_building_sense_position_state(world_x: float, world_y: float, source_tilesize: float) -> Dictionary:
+	return {
+		"x": world_x / source_tilesize,
+		"y": world_y / source_tilesize,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

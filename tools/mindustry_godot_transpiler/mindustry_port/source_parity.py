@@ -14,6 +14,7 @@ BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
 BLOCK_SOURCE = "core/src/mindustry/world/Block.java"
 CORE_BLOCK_SOURCE = "core/src/mindustry/world/blocks/storage/CoreBlock.java"
 ITEM_MODULE_SOURCE = "core/src/mindustry/world/modules/ItemModule.java"
+WORLD_SOURCE = "core/src/mindustry/core/World.java"
 ARC_MATHF_SOURCE = "arc-core/src/arc/math/Mathf.java"
 ARC_RAND_SOURCE = "arc-core/src/arc/math/Rand.java"
 ARC_STRINGS_SOURCE = "arc-core/src/arc/util/Strings.java"
@@ -2773,6 +2774,31 @@ def verify_building_health_changed_source(upstream_root: Path) -> dict[str, Any]
             missing.append(snippet)
     return {
         "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_building_sense_position_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    world_source_path = Path(upstream_root) / WORLD_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    world_source = world_source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "sense_method": "public double sense(LAccess sensor){",
+        "sense_switch": "return switch(sensor){",
+        "sense_x": "case x -> World.conv(x);",
+        "sense_y": "case y -> World.conv(y);",
+        "world_conv_method": "public static float conv(float coord){",
+        "world_conv_return": "return coord / tilesize;",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        haystack = world_source if key.startswith("world_") else source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "world_source": WORLD_SOURCE,
         "checked": checked,
         "missing": missing,
     }

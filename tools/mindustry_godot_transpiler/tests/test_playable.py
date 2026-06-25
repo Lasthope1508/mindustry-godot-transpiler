@@ -2224,6 +2224,14 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"build_health_update": build_health_update', source)
         self.assertIn('"notify_health_changed": self_state', source)
 
+    def test_port_game_exposes_source_building_sense_position_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_sense_position_state(world_x: float, world_y: float, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn('"x": world_x / source_tilesize', source)
+        self.assertIn('"y": world_y / source_tilesize', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

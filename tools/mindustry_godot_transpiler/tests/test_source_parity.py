@@ -1767,5 +1767,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_sense_position_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_sense_position_source"))
+        report = source_parity.verify_building_sense_position_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["world_source"], "core/src/mindustry/core/World.java")
+        self.assertEqual(report["checked"], {
+            "sense_method": "public double sense(LAccess sensor){",
+            "sense_switch": "return switch(sensor){",
+            "sense_x": "case x -> World.conv(x);",
+            "sense_y": "case y -> World.conv(y);",
+            "world_conv_method": "public static float conv(float coord){",
+            "world_conv_return": "return coord / tilesize;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
