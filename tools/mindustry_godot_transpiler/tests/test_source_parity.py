@@ -1418,6 +1418,16 @@ class SourceParityTests(unittest.TestCase):
             "building_change_team_check_allow_update": "checkAllowUpdate();",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_can_pickup_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_can_pickup_source"))
+        report = source_parity.verify_building_can_pickup_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "building_can_pickup_signature": "public boolean canPickup(){",
+            "building_can_pickup_block_field": "return block.canPickup;",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()
