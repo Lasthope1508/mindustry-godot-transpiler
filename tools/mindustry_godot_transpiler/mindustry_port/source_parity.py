@@ -1908,6 +1908,29 @@ def verify_building_cursor_gate_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_building_configure_tap_gate_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "building_configure_tap_method": "public boolean onConfigureBuildTapped(Building other){",
+        "building_configure_tap_clear_on_double_tap": "if(block.clearOnDoubleTap){",
+        "building_configure_tap_same_building": "if(self() == other){",
+        "building_configure_tap_deselect": "deselect();",
+        "building_configure_tap_configure_null": "configure(null);",
+        "building_configure_tap_return_false": "return false;",
+        "building_configure_tap_return_true": "return true;",
+        "building_configure_tap_return_not_same": "return self() != other;",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

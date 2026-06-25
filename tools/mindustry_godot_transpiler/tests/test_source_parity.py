@@ -1192,5 +1192,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_configure_tap_gate_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_configure_tap_gate_source"))
+        report = source_parity.verify_building_configure_tap_gate_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "building_configure_tap_method": "public boolean onConfigureBuildTapped(Building other){",
+            "building_configure_tap_clear_on_double_tap": "if(block.clearOnDoubleTap){",
+            "building_configure_tap_same_building": "if(self() == other){",
+            "building_configure_tap_deselect": "deselect();",
+            "building_configure_tap_configure_null": "configure(null);",
+            "building_configure_tap_return_false": "return false;",
+            "building_configure_tap_return_true": "return true;",
+            "building_configure_tap_return_not_same": "return self() != other;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
