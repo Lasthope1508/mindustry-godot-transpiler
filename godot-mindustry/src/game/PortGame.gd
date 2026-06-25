@@ -1966,6 +1966,19 @@ func source_building_remove_from_proximity_state(nearby_count: int, removable_co
 		"proximity_cleared": true,
 	}
 
+func source_building_update_proximity_state(nearby_count: int, same_team_count: int, headless: bool, draw_cached: bool) -> Dictionary:
+	return {
+		"tmp_tiles_cleared": true,
+		"proximity_cleared": true,
+		"nearby_count": nearby_count,
+		"same_team_count": clampi(same_team_count, 0, nearby_count),
+		"add_unique_calls": clampi(same_team_count, 0, nearby_count),
+		"on_proximity_added": true,
+		"self_proximity_update": true,
+		"other_proximity_updates": clampi(same_team_count, 0, nearby_count),
+		"recache": (not headless) and draw_cached,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

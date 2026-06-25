@@ -1471,6 +1471,28 @@ class SourceParityTests(unittest.TestCase):
             "remove_from_proximity_clear": "proximity.clear();",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_update_proximity_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_update_proximity_source"))
+        report = source_parity.verify_building_update_proximity_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "update_proximity_signature": "public void updateProximity(){",
+            "update_proximity_tmp_clear": "tmpTiles.clear();",
+            "update_proximity_clear": "proximity.clear();",
+            "update_proximity_edges": "Point2[] nearby = Edges.getEdges(block.size);",
+            "update_proximity_world_build": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+            "update_proximity_team_guard": "if(other == null || other.team != team) continue;",
+            "update_proximity_add_unique": "other.proximity.addUnique(self());",
+            "update_proximity_tmp_add": "tmpTiles.add(other);",
+            "update_proximity_dedup_comment": "//using a set to prevent duplicates",
+            "update_proximity_self_add": "proximity.add(tile);",
+            "update_proximity_added": "onProximityAdded();",
+            "update_proximity_self_update": "onProximityUpdate();",
+            "update_proximity_other_update": "other.onProximityUpdate();",
+            "update_proximity_recache": "if(!headless && block.drawCached) recache();",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()

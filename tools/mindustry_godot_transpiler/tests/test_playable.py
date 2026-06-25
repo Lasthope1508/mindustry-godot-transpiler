@@ -2013,6 +2013,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"nearby_count": nearby_count', source)
         self.assertIn('"queued_removals": clampi(removable_count, 0, nearby_count)', source)
         self.assertIn('"proximity_cleared": true', source)
+    def test_port_game_exposes_source_building_update_proximity_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_update_proximity_state(nearby_count: int, same_team_count: int, headless: bool, draw_cached: bool) -> Dictionary:", source)
+        self.assertIn('"tmp_tiles_cleared": true', source)
+        self.assertIn('"proximity_cleared": true', source)
+        self.assertIn('"same_team_count": clampi(same_team_count, 0, nearby_count)', source)
+        self.assertIn('"add_unique_calls": clampi(same_team_count, 0, nearby_count)', source)
+        self.assertIn('"on_proximity_added": true', source)
+        self.assertIn('"self_proximity_update": true', source)
+        self.assertIn('"recache": (not headless) and draw_cached', source)
 
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
