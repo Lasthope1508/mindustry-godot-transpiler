@@ -2025,6 +2025,12 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"on_proximity_added": true', source)
         self.assertIn('"self_proximity_update": true', source)
         self.assertIn('"recache": (not headless) and draw_cached', source)
+    def test_port_game_exposes_source_building_on_nearby_build_added_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_on_nearby_build_added_state(other_state: Variant) -> Variant:", source)
+        self.assertIn("return other_state", source)
 
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

@@ -1493,6 +1493,15 @@ class SourceParityTests(unittest.TestCase):
             "update_proximity_recache": "if(!headless && block.drawCached) recache();",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_on_nearby_build_added_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_on_nearby_build_added_source"))
+        report = source_parity.verify_building_on_nearby_build_added_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "on_nearby_build_added_empty": "public void onNearbyBuildAdded(Building other){}",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()
