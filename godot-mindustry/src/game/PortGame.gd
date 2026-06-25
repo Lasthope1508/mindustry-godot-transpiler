@@ -2000,6 +2000,20 @@ func source_building_update_efficiency_multiplier_state(efficiency: float, optio
 		"optional_efficiency": optional_efficiency * efficiency_scale,
 	}
 
+func source_building_update_consumption_initial_state(has_consumers: bool, cheating: bool, enabled_state: bool, production_valid: bool, should_consume_state: bool, efficiency_scale := 1.0) -> Dictionary:
+	if has_consumers and not cheating:
+		return {"returned": false}
+	var potential_efficiency := 1.0 if enabled_state and production_valid else 0.0
+	var efficiency := potential_efficiency if should_consume_state else 0.0
+	var multiplied := source_building_update_efficiency_multiplier_state(efficiency, efficiency, efficiency_scale)
+	return {
+		"potential_efficiency": potential_efficiency,
+		"efficiency": multiplied.get("efficiency", efficiency),
+		"optional_efficiency": multiplied.get("optional_efficiency", efficiency),
+		"should_consume_power": true,
+		"returned": true,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

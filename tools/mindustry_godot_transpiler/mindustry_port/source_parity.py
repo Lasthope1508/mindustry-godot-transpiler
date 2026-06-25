@@ -2433,6 +2433,29 @@ def verify_building_efficiency_multiplier_source(upstream_root: Path) -> dict[st
         "missing": missing,
     }
 
+def verify_building_update_consumption_initial_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "update_consumption_signature": "public void updateConsumption(){",
+        "update_consumption_initial_comment": "//everything is valid when cheating",
+        "update_consumption_initial_guard": "if(!block.hasConsumers || cheating()){",
+        "update_consumption_initial_potential": "potentialEfficiency = enabled && productionValid() ? 1f : 0f;",
+        "update_consumption_initial_efficiency": "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;",
+        "update_consumption_initial_power": "shouldConsumePower = true;",
+        "update_consumption_initial_multiplier": "updateEfficiencyMultiplier();",
+        "update_consumption_initial_return": "return;",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

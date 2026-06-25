@@ -1537,6 +1537,22 @@ class SourceParityTests(unittest.TestCase):
             "efficiency_scale_return": "return 1f;",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_update_consumption_initial_branch_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_update_consumption_initial_source"))
+        report = source_parity.verify_building_update_consumption_initial_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "update_consumption_signature": "public void updateConsumption(){",
+            "update_consumption_initial_comment": "//everything is valid when cheating",
+            "update_consumption_initial_guard": "if(!block.hasConsumers || cheating()){",
+            "update_consumption_initial_potential": "potentialEfficiency = enabled && productionValid() ? 1f : 0f;",
+            "update_consumption_initial_efficiency": "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;",
+            "update_consumption_initial_power": "shouldConsumePower = true;",
+            "update_consumption_initial_multiplier": "updateEfficiencyMultiplier();",
+            "update_consumption_initial_return": "return;",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()
