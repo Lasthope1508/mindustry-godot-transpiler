@@ -2048,6 +2048,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_can_consume_state(potential_efficiency: float) -> bool:", source)
         self.assertIn("return potential_efficiency > 0.0", source)
 
+    def test_port_game_exposes_source_building_efficiency_multiplier_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_efficiency_scale_state() -> float:", source)
+        self.assertIn("return 1.0", source)
+        self.assertIn("func source_building_update_efficiency_multiplier_state(efficiency: float, optional_efficiency: float, efficiency_scale := 1.0) -> Dictionary:", source)
+        self.assertIn('"efficiency": efficiency * efficiency_scale', source)
+        self.assertIn('"optional_efficiency": optional_efficiency * efficiency_scale', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

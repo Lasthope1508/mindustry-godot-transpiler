@@ -1523,6 +1523,20 @@ class SourceParityTests(unittest.TestCase):
             "can_consume_return": "return potentialEfficiency > 0;",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_efficiency_multiplier_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_efficiency_multiplier_source"))
+        report = source_parity.verify_building_efficiency_multiplier_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "update_efficiency_multiplier_signature": "public void updateEfficiencyMultiplier(){",
+            "update_efficiency_multiplier_scale": "float scale = efficiencyScale();",
+            "update_efficiency_multiplier_efficiency": "efficiency *= scale;",
+            "update_efficiency_multiplier_optional": "optionalEfficiency *= scale;",
+            "efficiency_scale_signature": "public float efficiencyScale(){",
+            "efficiency_scale_return": "return 1f;",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()

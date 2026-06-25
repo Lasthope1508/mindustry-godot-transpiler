@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 189 |
-| Done | 189 |
+| Total tracked work items | 190 |
+| Done | 190 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -65,6 +65,7 @@
 - [x] N185: Source BuildingComp onNearbyBuildAdded no-op state.
 - [x] N186: Source BuildingComp consume trigger-loop state.
 - [x] N187: Source BuildingComp canConsume potential-efficiency state.
+- [x] N188: Source BuildingComp efficiency multiplier state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -279,6 +280,7 @@ Current cube: `Building lifecycle / destroy-deconstruct`. Current source path st
 | N185 | Apply source BuildingComp onNearbyBuildAdded no-op state | The next `BuildingComp.onNearbyBuildAdded(Building other)` slice preserves exact single-line empty method `public void onNearbyBuildAdded(Building other){}`; `source_parity.py` checks that exact upstream line, and `PortGame.gd` exposes `source_building_on_nearby_build_added_state(other_state)` as a passthrough no-op without inventing nearby-build behavior; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `298` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol call on `/root/Main` returned `{"other":"router","team":"sharded"}` for same input; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N186 | Apply source BuildingComp consume trigger-loop state | The next `BuildingComp.consume()` slice preserves exact `public void consume(){`, `for(Consume cons : block.consumers){`, and `cons.trigger(self());`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_consume_state(consumers, self_state)` as ordered trigger records using same `self_state` for each consumer without inventing `Consume` internals; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `300` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol call on `/root/Main` returned three ordered trigger records for `power`, `items`, and `liquid` with self `{pos:42, team:"sharded"}`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N187 | Apply source BuildingComp canConsume potential-efficiency state | The next `BuildingComp.canConsume()` slice preserves exact `public boolean canConsume(){` and `return potentialEfficiency > 0;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_can_consume_state(potential_efficiency)` as the direct positive-efficiency gate without inventing consumer availability checks; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `302` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol calls on `/root/Main` returned `false` for `-0.5`, `false` for `0.0`, and `true` for `0.25`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
+| N188 | Apply source BuildingComp efficiency multiplier state | The next `BuildingComp.updateEfficiencyMultiplier()` and `efficiencyScale()` slice preserves exact `float scale = efficiencyScale();`, `efficiency *= scale;`, `optionalEfficiency *= scale;`, `public float efficiencyScale(){`, and `return 1f;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_efficiency_scale_state()` plus `source_building_update_efficiency_multiplier_state(efficiency, optional_efficiency, efficiency_scale)` as the same multiplicative update without inventing side effects; targeted RED tests failed before implementation, targeted GREEN passed, and full Python suite reports `304` tests passing; MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, and MCP runtime protocol calls on `/root/Main` returned `1.0` for scale, `{efficiency:0.75, optional_efficiency:0.5}` for scale `1.0`, and `{efficiency:0.1875, optional_efficiency:0.125}` for scale `0.25`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 
 ## Not Done
 

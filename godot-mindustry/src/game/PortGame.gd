@@ -1991,6 +1991,15 @@ func source_building_consume_state(consumers: Array, self_state: Variant) -> Dic
 func source_building_can_consume_state(potential_efficiency: float) -> bool:
 	return potential_efficiency > 0.0
 
+func source_building_efficiency_scale_state() -> float:
+	return 1.0
+
+func source_building_update_efficiency_multiplier_state(efficiency: float, optional_efficiency: float, efficiency_scale := 1.0) -> Dictionary:
+	return {
+		"efficiency": efficiency * efficiency_scale,
+		"optional_efficiency": optional_efficiency * efficiency_scale,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
