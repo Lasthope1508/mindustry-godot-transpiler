@@ -2232,6 +2232,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"x": world_x / source_tilesize', source)
         self.assertIn('"y": world_y / source_tilesize', source)
 
+    def test_port_game_exposes_source_building_sense_health_process_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_sense_health_process_state(health: float, max_health: float, efficiency: float, time_scale: float, ranged_range: float, source_tilesize: float, has_range: bool, rotation_value: float) -> Dictionary:", source)
+        self.assertIn('"health": health', source)
+        self.assertIn('"max_health": max_health', source)
+        self.assertIn('"efficiency": efficiency', source)
+        self.assertIn('"timescale": time_scale', source)
+        self.assertIn('"range": ranged_range / source_tilesize if has_range else 0.0', source)
+        self.assertIn('"rotation": rotation_value', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

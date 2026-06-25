@@ -2158,6 +2158,16 @@ func source_building_sense_position_state(world_x: float, world_y: float, source
 		"y": world_y / source_tilesize,
 	}
 
+func source_building_sense_health_process_state(health: float, max_health: float, efficiency: float, time_scale: float, ranged_range: float, source_tilesize: float, has_range: bool, rotation_value: float) -> Dictionary:
+	return {
+		"health": health,
+		"max_health": max_health,
+		"efficiency": efficiency,
+		"timescale": time_scale,
+		"range": ranged_range / source_tilesize if has_range else 0.0,
+		"rotation": rotation_value,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

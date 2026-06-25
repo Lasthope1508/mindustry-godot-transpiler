@@ -1783,5 +1783,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_sense_health_process_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_sense_health_process_source"))
+        report = source_parity.verify_building_sense_health_process_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "sense_health": "case health -> health;",
+            "sense_max_health": "case maxHealth -> maxHealth;",
+            "sense_efficiency": "case efficiency -> efficiency;",
+            "sense_timescale": "case timescale -> timeScale;",
+            "sense_range": "case range -> this instanceof Ranged r ? r.range() / tilesize : 0;",
+            "sense_rotation": "case rotation -> rotation;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

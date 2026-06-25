@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 209 |
-| Done | 209 |
+| Total tracked work items | 210 |
+| Done | 210 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -85,6 +85,7 @@
 - [x] N205: Source BuildingComp damage healthChanged call state.
 - [x] N206: Source BuildingComp healthChanged notification state.
 - [x] N207: Source BuildingComp sense position state.
+- [x] N208: Source BuildingComp sense health/process state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -319,6 +320,7 @@ Current cube: `Building lifecycle / destroy-deconstruct`. Current source path st
 | N205 | Apply source BuildingComp damage healthChanged call state | The next `BuildingComp.damage(float damage)` slice preserves exact `healthChanged();` after the handleDamage gate; `source_parity.py` checks that exact upstream line, and `PortGame.gd` exposes `source_building_damage_health_changed_call_state()` as the call marker only, without inventing `healthChanged()` internals or destroy-call behavior; targeted RED tests failed before implementation, targeted GREEN passed with `314` tests, full Python suite reports `338` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP call on `/root/Main` returned `{"health_changed":true}`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
 | N206 | Apply source BuildingComp healthChanged notification state | The `BuildingComp.healthChanged()` method slice preserves exact method `public void healthChanged(){`, comment `//server-side, health updates are batched.`, server guard `if(net.server()){`, `netServer.buildHealthUpdate(self());`, and `indexer.notifyHealthChanged(self());`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_health_changed_state(net_server, self_state)` as the same server-only batched health update plus unconditional indexer notification, without inventing health replication internals; targeted RED tests failed before implementation, targeted GREEN passed with `316` tests, full Python suite reports `340` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `{"build_health_update":{"pos":42.0,"team":"sharded"},"build_health_update_called":true,"notify_health_changed":{"pos":42.0,"team":"sharded"}}` for server and `{"build_health_update":null,"build_health_update_called":false,"notify_health_changed":{"pos":42.0,"team":"sharded"}}` for non-server; first MCP run caught a GDScript ternary compatibility warning, the helper was rewritten with an explicit temporary, and rerun debug output returned `errors: []` with stop `finalErrors: []` |
 | N207 | Apply source BuildingComp sense position state | The first `BuildingComp.sense(LAccess sensor)` slice preserves exact `public double sense(LAccess sensor){`, `return switch(sensor){`, `case x -> World.conv(x);`, and `case y -> World.conv(y);`; it also anchors `World.conv(float coord)` from `core/src/mindustry/core/World.java` with exact `return coord / tilesize;`; `source_parity.py` checks those exact upstream lines across both files, and `PortGame.gd` exposes `source_building_sense_position_state(world_x, world_y, source_tilesize)` as the same logic-coordinate division only, without inventing later sensor cases; targeted RED tests failed before implementation, targeted GREEN passed with `318` tests, full Python suite reports `342` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP call on `/root/Main` returned `{"x":8.0,"y":12.0}` for world coordinates `64.0, 96.0` and source tilesize `8.0`; debug output returns `errors: []`, and stop returns `finalErrors: []` |
+| N208 | Apply source BuildingComp sense health/process state | The next `BuildingComp.sense(LAccess sensor)` slice preserves exact `case health -> health;`, `case maxHealth -> maxHealth;`, `case efficiency -> efficiency;`, `case timescale -> timeScale;`, `case range -> this instanceof Ranged r ? r.range() / tilesize : 0;`, and `case rotation -> rotation;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_sense_health_process_state(...)` as the same scalar sensor values, with range divided by `source_tilesize` only when a ranged block is present, without inventing later total/item/power sensors; targeted RED tests failed before implementation, targeted GREEN passed with `320` tests, full Python suite reports `344` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned ranged `{"health":75.0,"max_health":100.0,"efficiency":0.5,"timescale":1.25,"range":20.0,"rotation":90.0}` and non-ranged `{"health":75.0,"max_health":100.0,"efficiency":0.5,"timescale":1.25,"range":0.0,"rotation":90.0}`; first MCP run caught a GDScript parameter shadow warning for `rotation`, the parameter was renamed to `rotation_value`, and rerun debug output returned `errors: []` with stop `finalErrors: []` |
 
 ## Not Done
 
