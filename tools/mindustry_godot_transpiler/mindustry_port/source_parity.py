@@ -2164,6 +2164,29 @@ def verify_building_change_team_delegate_source(upstream_root: Path) -> dict[str
         "missing": missing,
     }
 
+def verify_building_change_team_initial_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "building_change_team_method": "public void changeTeam(Team next, boolean updatePower){",
+        "building_change_team_same_team_return": "if(this.team == next) return;",
+        "building_change_team_force_team": "if(block.forceTeam != null) team = block.forceTeam;",
+        "building_change_team_last_snapshot": "Team last = this.team;",
+        "building_change_team_last_next_return": "if(last == next) return;",
+        "building_change_team_was_valid": "boolean was = isValid();",
+        "building_change_team_remove_index": "if(was) indexer.removeIndex(tile);",
+        "building_change_team_assign_next": "this.team = next;",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

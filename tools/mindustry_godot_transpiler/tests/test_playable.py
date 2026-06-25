@@ -1944,6 +1944,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_change_team_delegate_state(next_team: Variant) -> Dictionary:", source)
         self.assertIn('"delegates_to_change_team": true', source)
         self.assertIn('"update_power": true', source)
+    def test_port_game_exposes_source_building_change_team_initial_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_change_team_initial_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool) -> Dictionary:", source)
+        self.assertIn("if current_team == next_team:", source)
+        self.assertIn("var team_after_force = force_team if force_team != null else current_team", source)
+        self.assertIn("if last_team == next_team:", source)
+        self.assertIn('"remove_index": was_valid', source)
+        self.assertIn('"team": next_team', source)
 
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

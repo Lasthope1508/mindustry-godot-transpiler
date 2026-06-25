@@ -1359,6 +1359,22 @@ class SourceParityTests(unittest.TestCase):
             "building_change_team_delegate_call": "changeTeam(next, true);",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_change_team_initial_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_change_team_initial_source"))
+        report = source_parity.verify_building_change_team_initial_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "building_change_team_method": "public void changeTeam(Team next, boolean updatePower){",
+            "building_change_team_same_team_return": "if(this.team == next) return;",
+            "building_change_team_force_team": "if(block.forceTeam != null) team = block.forceTeam;",
+            "building_change_team_last_snapshot": "Team last = this.team;",
+            "building_change_team_last_next_return": "if(last == next) return;",
+            "building_change_team_was_valid": "boolean was = isValid();",
+            "building_change_team_remove_index": "if(was) indexer.removeIndex(tile);",
+            "building_change_team_assign_next": "this.team = next;",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()

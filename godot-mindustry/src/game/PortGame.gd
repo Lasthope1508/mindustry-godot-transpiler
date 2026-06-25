@@ -1867,6 +1867,33 @@ func source_building_change_team_delegate_state(next_team: Variant) -> Dictionar
 		"update_power": true,
 	}
 
+func source_building_change_team_initial_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool) -> Dictionary:
+	if current_team == next_team:
+		return {
+			"team": current_team,
+			"last_team": current_team,
+			"returned": true,
+			"remove_index": false,
+			"assign_next": false,
+		}
+	var team_after_force = force_team if force_team != null else current_team
+	var last_team = team_after_force
+	if last_team == next_team:
+		return {
+			"team": team_after_force,
+			"last_team": last_team,
+			"returned": true,
+			"remove_index": false,
+			"assign_next": false,
+		}
+	return {
+		"team": next_team,
+		"last_team": last_team,
+		"returned": false,
+		"remove_index": was_valid,
+		"assign_next": true,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
