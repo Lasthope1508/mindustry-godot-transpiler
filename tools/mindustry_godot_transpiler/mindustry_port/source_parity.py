@@ -1948,6 +1948,22 @@ def verify_building_configure_position_tap_source(upstream_root: Path) -> dict[s
         "checked": checked,
         "missing": missing,
     }
+def verify_building_configure_closed_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "building_configure_closed_comment": "* Called when this block's config menu is closed.",
+        "building_configure_closed_method": "public void onConfigureClosed(){}",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
 
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE

@@ -1220,6 +1220,16 @@ class SourceParityTests(unittest.TestCase):
             "building_configure_position_tap_return_false": "return false;",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_configure_closed_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_configure_closed_source"))
+        report = source_parity.verify_building_configure_closed_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "building_configure_closed_comment": "* Called when this block's config menu is closed.",
+            "building_configure_closed_method": "public void onConfigureClosed(){}",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()

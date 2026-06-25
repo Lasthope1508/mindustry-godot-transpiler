@@ -1860,6 +1860,12 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_building_on_configure_tapped_state(_x: float, _y: float) -> bool:", source)
         self.assertIn("return false", source)
+    def test_port_game_exposes_source_building_configure_closed_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_on_configure_closed_state() -> void:", source)
+        self.assertIn("pass", source)
 
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
