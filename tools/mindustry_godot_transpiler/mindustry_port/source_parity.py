@@ -2207,6 +2207,31 @@ def verify_building_change_team_power_proximity_source(upstream_root: Path) -> d
         "missing": missing,
     }
 
+def verify_building_change_team_power_links_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "building_change_team_links_loop": "for(int i = 0; i < power.links.size; i++){",
+        "building_change_team_world_build": "var other = world.build(power.links.items[i]);",
+        "building_change_team_links_comment": "//only reflow links that were connected to the old power graph; ones that have a new one were already covered.",
+        "building_change_team_links_guard": "if(other != null && other.team != team && other.power != null && other.power.graph == oldGraph){",
+        "building_change_team_remove_link": "power.links.removeIndex(i);",
+        "building_change_team_remove_other_link": "other.power.links.removeValue(pos());",
+        "building_change_team_reflow_other": "new PowerGraph().reflow(other);",
+        "building_change_team_decrement_index": "i --;",
+        "building_change_team_reflow_self": "new PowerGraph().reflow(self());",
+        "building_change_team_update_power_graph": "updatePowerGraph();",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

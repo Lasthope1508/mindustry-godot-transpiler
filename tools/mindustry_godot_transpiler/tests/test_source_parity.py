@@ -1388,6 +1388,24 @@ class SourceParityTests(unittest.TestCase):
             "building_change_team_proximity_reflow": "new PowerGraph().reflow(other);",
         })
         self.assertEqual(report["missing"], [])
+    def test_building_change_team_power_links_match_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_change_team_power_links_source"))
+        report = source_parity.verify_building_change_team_power_links_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "building_change_team_links_loop": "for(int i = 0; i < power.links.size; i++){",
+            "building_change_team_world_build": "var other = world.build(power.links.items[i]);",
+            "building_change_team_links_comment": "//only reflow links that were connected to the old power graph; ones that have a new one were already covered.",
+            "building_change_team_links_guard": "if(other != null && other.team != team && other.power != null && other.power.graph == oldGraph){",
+            "building_change_team_remove_link": "power.links.removeIndex(i);",
+            "building_change_team_remove_other_link": "other.power.links.removeValue(pos());",
+            "building_change_team_reflow_other": "new PowerGraph().reflow(other);",
+            "building_change_team_decrement_index": "i --;",
+            "building_change_team_reflow_self": "new PowerGraph().reflow(self());",
+            "building_change_team_update_power_graph": "updatePowerGraph();",
+        })
+        self.assertEqual(report["missing"], [])
 
 if __name__ == "__main__":
     unittest.main()

@@ -1963,6 +1963,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"proximity_reflow": true', source)
         self.assertIn('"proximity_reflow": false', source)
         self.assertIn('"old_graph": old_graph', source)
+    def test_port_game_exposes_source_building_change_team_power_links_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_change_team_power_links_state(link_count: int, team: Variant, old_graph: Variant) -> Dictionary:", source)
+        self.assertIn("if link_count <= 0:", source)
+        self.assertIn('"remove_index": true', source)
+        self.assertIn('"remove_index": false', source)
+        self.assertIn('"reflow_self": true', source)
+        self.assertIn('"update_power_graph": true', source)
 
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

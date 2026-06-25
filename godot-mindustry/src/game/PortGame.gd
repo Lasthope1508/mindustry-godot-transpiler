@@ -1907,6 +1907,25 @@ func source_building_change_team_power_proximity_state(power_present: bool, upda
 		"proximity_reflow": false,
 	}
 
+func source_building_change_team_power_links_state(link_count: int, team: Variant, old_graph: Variant) -> Dictionary:
+	if link_count <= 0:
+		return {
+			"link_count": link_count,
+			"team": team,
+			"old_graph": old_graph,
+			"remove_index": false,
+			"reflow_self": false,
+			"update_power_graph": false,
+		}
+	return {
+		"link_count": link_count,
+		"team": team,
+		"old_graph": old_graph,
+		"remove_index": true,
+		"reflow_self": true,
+		"update_power_graph": true,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
