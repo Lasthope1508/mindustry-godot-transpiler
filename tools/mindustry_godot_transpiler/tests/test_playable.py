@@ -1905,6 +1905,12 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_building_absorb_lasers_state(block_absorb_lasers: bool) -> bool:", source)
         self.assertIn("return block_absorb_lasers", source)
+    def test_port_game_exposes_source_building_is_insulated_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_is_insulated_state(block_insulated: bool) -> bool:", source)
+        self.assertIn("return block_insulated", source)
 
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
