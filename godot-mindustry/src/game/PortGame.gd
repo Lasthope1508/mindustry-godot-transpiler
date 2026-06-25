@@ -2105,6 +2105,12 @@ func source_building_kill_state(self_state := {}) -> Dictionary:
 		"self": self_state,
 	}
 
+func source_building_damage_dead_guard_state(dead_state: bool) -> Dictionary:
+	return {
+		"returned": dead_state,
+		"continues": not dead_state,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

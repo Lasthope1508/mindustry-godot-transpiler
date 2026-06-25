@@ -2176,6 +2176,14 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"call": "buildDestroyed"', source)
         self.assertIn('"self": self_state', source)
 
+    def test_port_game_exposes_source_building_damage_dead_guard_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_damage_dead_guard_state(dead_state: bool) -> Dictionary:", source)
+        self.assertIn('"returned": dead_state', source)
+        self.assertIn('"continues": not dead_state', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
