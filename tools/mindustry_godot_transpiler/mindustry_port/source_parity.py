@@ -4699,6 +4699,42 @@ def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path
         "missing": missing,
     }
 
+def verify_unit_update_drag_formula_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
+    floor_path = Path(upstream_root) / FLOOR_SOURCE
+    rules_path = Path(upstream_root) / RULES_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    floor_source = floor_path.read_text(encoding="utf-8", errors="replace")
+    rules_source = rules_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "unit_import_drag": "@Import float x, y, rotation, maxHealth, drag, armor, hitSize, health, shield, dragMultiplier, armorOverride, speedMultiplier;",
+        "drag_formula": "drag = type.drag * (isGrounded() ? (floorOn().dragMultiplier) : 1f) * dragMultiplier * state.rules.dragMultiplier;",
+        "unit_type_drag_default": "drag = 0.3f,",
+        "floor_drag_multiplier": "public float dragMultiplier = 1f;",
+        "rules_drag_multiplier": "public float dragMultiplier = 1f;",
+    }
+    source_map = {
+        "unit_import_drag": source,
+        "drag_formula": source,
+        "unit_type_drag_default": unit_type_source,
+        "floor_drag_multiplier": floor_source,
+        "rules_drag_multiplier": rules_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "floor_source": FLOOR_SOURCE,
+        "rules_source": RULES_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

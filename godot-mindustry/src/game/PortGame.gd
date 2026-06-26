@@ -3381,6 +3381,22 @@ func source_unit_update_trail_position_state(trail_exists: bool, type_trail_leng
 		"trailUpdate": {"call": "trail.update(cx, cy)", "x": cx, "y": cy},
 	}
 
+func source_unit_update_drag_formula_state(type_drag: float, grounded_value: bool, floor_drag_multiplier: float, unit_drag_multiplier: float, rules_drag_multiplier: float) -> Dictionary:
+	var floor_factor := floor_drag_multiplier if grounded_value else 1.0
+	var unit_drag := type_drag * floor_factor * unit_drag_multiplier * rules_drag_multiplier
+	return {
+		"drag": unit_drag,
+		"floorFactor": floor_factor,
+		"grounded": grounded_value,
+		"formula": "type.drag * (isGrounded() ? floorOn().dragMultiplier : 1f) * dragMultiplier * state.rules.dragMultiplier",
+		"inputs": {
+			"type.drag": type_drag,
+			"floorOn().dragMultiplier": floor_drag_multiplier,
+			"dragMultiplier": unit_drag_multiplier,
+			"state.rules.dragMultiplier": rules_drag_multiplier,
+		},
+	}
+
 func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
 	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
 	var drown_time_before_clamp := current_drown_time

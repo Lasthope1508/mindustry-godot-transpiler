@@ -3055,6 +3055,23 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_drag_formula_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_drag_formula_source"))
+        report = source_parity.verify_unit_update_drag_formula_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["floor_source"], "core/src/mindustry/world/blocks/environment/Floor.java")
+        self.assertEqual(report["rules_source"], "core/src/mindustry/game/Rules.java")
+        self.assertEqual(report["checked"], {
+            "unit_import_drag": "@Import float x, y, rotation, maxHealth, drag, armor, hitSize, health, shield, dragMultiplier, armorOverride, speedMultiplier;",
+            "drag_formula": "drag = type.drag * (isGrounded() ? (floorOn().dragMultiplier) : 1f) * dragMultiplier * state.rules.dragMultiplier;",
+            "unit_type_drag_default": "drag = 0.3f,",
+            "floor_drag_multiplier": "public float dragMultiplier = 1f;",
+            "rules_drag_multiplier": "public float dragMultiplier = 1f;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

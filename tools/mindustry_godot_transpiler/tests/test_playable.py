@@ -2933,6 +2933,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"call": "trail.update(cx, cy)"', source)
         self.assertIn('"lengthSet": {"call": "trail.length = type.trailLength", "length": type_trail_length}', source)
 
+    def test_port_game_exposes_source_unit_update_drag_formula_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_drag_formula_state(type_drag: float, grounded_value: bool, floor_drag_multiplier: float, unit_drag_multiplier: float, rules_drag_multiplier: float) -> Dictionary:", source)
+        self.assertIn("var floor_factor := floor_drag_multiplier if grounded_value else 1.0", source)
+        self.assertIn("var unit_drag := type_drag * floor_factor * unit_drag_multiplier * rules_drag_multiplier", source)
+        self.assertIn('"formula": "type.drag * (isGrounded() ? floorOn().dragMultiplier : 1f) * dragMultiplier * state.rules.dragMultiplier"', source)
+        self.assertIn('"drag": unit_drag', source)
+        self.assertIn('"floorFactor": floor_factor', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
