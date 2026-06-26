@@ -3552,6 +3552,28 @@ func source_unit_update_floor_damage_state(tile_exists: bool, is_grounded_value:
 		"damage": damage_call,
 	}
 
+func source_unit_update_solid_tile_response_state(tile_exists: bool, can_pass_on_value: bool, type_can_boost: bool, current_elevation: float, net_client_value: bool, headless_value: bool, is_remote_value: bool, unit_id: int) -> Dictionary:
+	var guard := tile_exists and not can_pass_on_value
+	var next_elevation := current_elevation
+	var kill_call: Variant = null
+	if guard and type_can_boost:
+		next_elevation = 1.0
+	elif guard and (not net_client_value) and not ((not headless_value) and is_remote_value):
+		kill_call = {
+			"call": "kill()",
+			"unit": unit_id,
+		}
+	return {
+		"guard": guard,
+		"canPassOn": can_pass_on_value,
+		"typeCanBoost": type_can_boost,
+		"elevation": next_elevation,
+		"netClient": net_client_value,
+		"headless": headless_value,
+		"isRemote": is_remote_value,
+		"kill": kill_call,
+	}
+
 func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
 	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
 	var drown_time_before_clamp := current_drown_time

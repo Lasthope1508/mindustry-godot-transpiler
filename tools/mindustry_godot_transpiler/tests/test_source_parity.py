@@ -3272,6 +3272,35 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_solid_tile_response_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_solid_tile_response_source"))
+        report = source_parity.verify_unit_update_solid_tile_response_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["vel_source"], "core/src/mindustry/entities/comp/VelComp.java")
+        self.assertEqual(report["entity_source"], "core/src/mindustry/entities/comp/EntityComp.java")
+        self.assertEqual(report["net_source"], "core/src/mindustry/net/Net.java")
+        self.assertEqual(report["vars_source"], "core/src/mindustry/Vars.java")
+        self.assertEqual(report["checked"], {
+            "solid_tile_comment": "//kill entities on tiles that are solid to them",
+            "solid_tile_guard": "if(tile != null && !canPassOn()){",
+            "boost_comment": "//boost if possible",
+            "can_boost_guard": "if(type.canBoost){",
+            "boost_elevation": "elevation = 1f;",
+            "kill_guard": "else if(!net.client() && !(!headless && isRemote())){",
+            "kill_call": "kill();",
+            "unit_type_can_boost_default": "canBoost = false,",
+            "vel_can_pass_on": "boolean canPassOn(){",
+            "vel_can_pass_on_body": "return canPass(tileX(), tileY());",
+            "entity_is_remote": "boolean isRemote(){",
+            "entity_is_remote_body": "return ((Object)this) instanceof Unitc u && u.isPlayer() && !isLocal();",
+            "net_client": "public boolean client(){",
+            "net_client_body": "return !server && active;",
+            "vars_headless": "public static boolean headless;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

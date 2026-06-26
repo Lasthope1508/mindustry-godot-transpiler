@@ -5148,6 +5148,68 @@ def verify_unit_update_floor_damage_source(upstream_root: Path, arc_root: Path) 
         "missing": missing,
     }
 
+def verify_unit_update_solid_tile_response_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
+    vel_path = Path(upstream_root) / "core/src/mindustry/entities/comp/VelComp.java"
+    entity_path = Path(upstream_root) / "core/src/mindustry/entities/comp/EntityComp.java"
+    net_path = Path(upstream_root) / "core/src/mindustry/net/Net.java"
+    vars_path = Path(upstream_root) / VARS_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    vel_source = vel_path.read_text(encoding="utf-8", errors="replace")
+    entity_source = entity_path.read_text(encoding="utf-8", errors="replace")
+    net_source = net_path.read_text(encoding="utf-8", errors="replace")
+    vars_source = vars_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "solid_tile_comment": "//kill entities on tiles that are solid to them",
+        "solid_tile_guard": "if(tile != null && !canPassOn()){",
+        "boost_comment": "//boost if possible",
+        "can_boost_guard": "if(type.canBoost){",
+        "boost_elevation": "elevation = 1f;",
+        "kill_guard": "else if(!net.client() && !(!headless && isRemote())){",
+        "kill_call": "kill();",
+        "unit_type_can_boost_default": "canBoost = false,",
+        "vel_can_pass_on": "boolean canPassOn(){",
+        "vel_can_pass_on_body": "return canPass(tileX(), tileY());",
+        "entity_is_remote": "boolean isRemote(){",
+        "entity_is_remote_body": "return ((Object)this) instanceof Unitc u && u.isPlayer() && !isLocal();",
+        "net_client": "public boolean client(){",
+        "net_client_body": "return !server && active;",
+        "vars_headless": "public static boolean headless;",
+    }
+    source_map = {
+        "solid_tile_comment": source,
+        "solid_tile_guard": source,
+        "boost_comment": source,
+        "can_boost_guard": source,
+        "boost_elevation": source,
+        "kill_guard": source,
+        "kill_call": source,
+        "unit_type_can_boost_default": unit_type_source,
+        "vel_can_pass_on": vel_source,
+        "vel_can_pass_on_body": vel_source,
+        "entity_is_remote": entity_source,
+        "entity_is_remote_body": entity_source,
+        "net_client": net_source,
+        "net_client_body": net_source,
+        "vars_headless": vars_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "vel_source": "core/src/mindustry/entities/comp/VelComp.java",
+        "entity_source": "core/src/mindustry/entities/comp/EntityComp.java",
+        "net_source": "core/src/mindustry/net/Net.java",
+        "vars_source": VARS_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

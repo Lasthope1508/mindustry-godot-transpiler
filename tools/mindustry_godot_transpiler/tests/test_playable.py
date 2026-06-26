@@ -3041,6 +3041,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"scaledDamage": scaled_damage', source)
         self.assertIn('"withEffect": with_effect', source)
 
+    def test_port_game_exposes_source_unit_update_solid_tile_response_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_solid_tile_response_state(tile_exists: bool, can_pass_on_value: bool, type_can_boost: bool, current_elevation: float, net_client_value: bool, headless_value: bool, is_remote_value: bool, unit_id: int) -> Dictionary:", source)
+        self.assertIn("var guard := tile_exists and not can_pass_on_value", source)
+        self.assertIn("if guard and type_can_boost:", source)
+        self.assertIn("next_elevation = 1.0", source)
+        self.assertIn("elif guard and (not net_client_value) and not ((not headless_value) and is_remote_value):", source)
+        self.assertIn('"call": "kill()"', source)
+        self.assertIn('"unit": unit_id', source)
+        self.assertIn('"elevation": next_elevation', source)
+        self.assertIn('"kill": kill_call', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
