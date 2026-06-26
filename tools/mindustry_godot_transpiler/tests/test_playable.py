@@ -3357,6 +3357,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"effects": ["Core.audio.stop(id)", "id = -1", "volume = 0f"]', source)
         self.assertIn('"stopCall": stop_call', source)
 
+    def test_port_game_exposes_source_weapons_update_dispatch_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapons_update_dispatch_state(mount_states: Array, unit_id: int) -> Dictionary:", source)
+        self.assertIn('"loop": "for(WeaponMount mount : mounts)"', source)
+        self.assertIn('"call": "mount.weapon.update(self(), mount)"', source)
+        self.assertIn('"unitArg": "self()"', source)
+        self.assertIn('"mountArg": "mount"', source)
+        self.assertIn('"weaponUpdateMethod": "public void update(Unit unit, WeaponMount mount)"', source)
+        self.assertIn('"dispatches": dispatches', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

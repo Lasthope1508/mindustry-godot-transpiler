@@ -3818,6 +3818,26 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapons_update_dispatch_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapons_update_dispatch_source"))
+        report = source_parity.verify_weapons_update_dispatch_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/WeaponsComp.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["weapon_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["checked"], {
+            "mounts_field_comment": "/** weapon mount array, never null */",
+            "mounts_field": "@SyncLocal WeaponMount[] mounts = {};",
+            "update_comment": "/** Update shooting and rotation for this unit. */",
+            "update_override": "@Override\n    public void update(){",
+            "update_loop": "for(WeaponMount mount : mounts){",
+            "weapon_update_call": "mount.weapon.update(self(), mount);",
+            "weapon_mount_weapon_comment": "/** weapon associated with this mount */",
+            "weapon_mount_weapon": "public final Weapon weapon;",
+            "weapon_update_method": "public void update(Unit unit, WeaponMount mount){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

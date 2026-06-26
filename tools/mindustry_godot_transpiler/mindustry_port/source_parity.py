@@ -6311,6 +6311,50 @@ def verify_weapons_remove_sound_stop_source(upstream_root: Path) -> dict[str, An
         "missing": missing,
     }
 
+def verify_weapons_update_dispatch_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    weapon_source = "core/src/mindustry/type/Weapon.java"
+    source_path = upstream_root / WEAPONS_COMP_SOURCE
+    weapon_mount_path = upstream_root / weapon_mount_source
+    weapon_path = upstream_root / weapon_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    weapon_text = weapon_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "mounts_field_comment": "/** weapon mount array, never null */",
+        "mounts_field": "@SyncLocal WeaponMount[] mounts = {};",
+        "update_comment": "/** Update shooting and rotation for this unit. */",
+        "update_override": "@Override\n    public void update(){",
+        "update_loop": "for(WeaponMount mount : mounts){",
+        "weapon_update_call": "mount.weapon.update(self(), mount);",
+        "weapon_mount_weapon_comment": "/** weapon associated with this mount */",
+        "weapon_mount_weapon": "public final Weapon weapon;",
+        "weapon_update_method": "public void update(Unit unit, WeaponMount mount){",
+    }
+    source_map = {
+        "mounts_field_comment": source,
+        "mounts_field": source,
+        "update_comment": source,
+        "update_override": source,
+        "update_loop": source,
+        "weapon_update_call": source,
+        "weapon_mount_weapon_comment": weapon_mount_text,
+        "weapon_mount_weapon": weapon_mount_text,
+        "weapon_update_method": weapon_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": WEAPONS_COMP_SOURCE,
+        "weapon_mount_source": weapon_mount_source,
+        "weapon_source": weapon_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

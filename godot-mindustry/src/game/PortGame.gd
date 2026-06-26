@@ -3302,6 +3302,25 @@ func source_weapons_remove_sound_stop_state(mount_states: Array) -> Dictionary:
 		"mounts": mounts,
 	}
 
+func source_weapons_update_dispatch_state(mount_states: Array, unit_id: int) -> Dictionary:
+	var dispatches: Array = []
+	for index in mount_states.size():
+		var mount_state: Dictionary = mount_states[index]
+		dispatches.append({
+			"index": index,
+			"weapon": str(mount_state.get("weapon", "weapon%d" % index)),
+			"unit": unit_id,
+			"call": "mount.weapon.update(self(), mount)",
+			"unitArg": "self()",
+			"mountArg": "mount",
+			"weaponUpdateMethod": "public void update(Unit unit, WeaponMount mount)",
+		})
+	return {
+		"loop": "for(WeaponMount mount : mounts)",
+		"mountsField": "@SyncLocal WeaponMount[] mounts = {}",
+		"dispatches": dispatches,
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
