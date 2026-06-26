@@ -6196,6 +6196,25 @@ def verify_weapons_aim_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_weapons_can_shoot_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / WEAPONS_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "disarmed_import": "@Import boolean disarmed;",
+        "can_shoot_method": "boolean canShoot(){",
+        "can_shoot_return": "return !disarmed;",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": WEAPONS_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

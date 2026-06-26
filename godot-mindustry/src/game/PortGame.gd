@@ -3230,6 +3230,14 @@ func source_weapons_aim_state(mount_states: Array, unit_x: float, unit_y: float,
 func source_weapons_aim_position_state(mount_states: Array, unit_x: float, unit_y: float, position_x: float, position_y: float, aim_dst: float) -> Dictionary:
 	return source_weapons_aim_state(mount_states, unit_x, unit_y, position_x, position_y, aim_dst)
 
+func source_weapons_can_shoot_state(disarmed_value: bool) -> Dictionary:
+	var can_shoot := not disarmed_value
+	return {
+		"return": "!disarmed",
+		"disarmed": disarmed_value,
+		"canShoot": can_shoot,
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

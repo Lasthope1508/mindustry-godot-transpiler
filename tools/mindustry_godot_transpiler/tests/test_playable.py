@@ -3318,6 +3318,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"aimX": final_x', source)
         self.assertIn('"aimY": final_y', source)
 
+    def test_port_game_exposes_source_weapons_can_shoot_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapons_can_shoot_state(disarmed_value: bool) -> Dictionary:", source)
+        self.assertIn("var can_shoot := not disarmed_value", source)
+        self.assertIn('"return": "!disarmed"', source)
+        self.assertIn('"canShoot": can_shoot', source)
+        self.assertIn('"disarmed": disarmed_value', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

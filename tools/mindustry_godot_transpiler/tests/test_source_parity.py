@@ -3763,6 +3763,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapons_can_shoot_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapons_can_shoot_source"))
+        report = source_parity.verify_weapons_can_shoot_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/WeaponsComp.java")
+        self.assertEqual(report["checked"], {
+            "disarmed_import": "@Import boolean disarmed;",
+            "can_shoot_method": "boolean canShoot(){",
+            "can_shoot_return": "return !disarmed;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
