@@ -3938,6 +3938,53 @@ def verify_unit_cap_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_unit_set_type_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "set_type_method": "public void setType(UnitType type){",
+        "assign_type": "this.type = type;",
+        "assign_max_health": "this.maxHealth = type.health;",
+        "assign_drag": "this.drag = type.drag;",
+        "assign_armor": "this.armor = type.armor;",
+        "assign_hit_size": "this.hitSize = type.hitSize;",
+        "setup_weapons_guard": "if(mounts().length != type.weapons.size) setupWeapons(type);",
+        "abilities_guard": "if(abilities.length != type.abilities.size || (abilities.length > 0 && abilities[0] instanceof EmptyDataAbility)){",
+        "abilities_array": "abilities = new Ability[type.abilities.size];",
+        "ability_copy": "abilities[i] = type.abilities.get(i).copy();",
+        "ability_data_carry": "abilities[i].data = old[i].data;",
+        "controller_guard": "if(controller == null) controller(type.createController(self()));",
+        "unit_type_health": "health = 200f,",
+        "unit_type_drag": "drag = 0.3f,",
+        "unit_type_armor": "armor = 0f,",
+        "unit_type_hit_size": "hitSize = 6f,",
+        "unit_type_abilities": "public Seq<Ability> abilities = new Seq<>();",
+        "unit_type_weapons": "public Seq<Weapon> weapons = new Seq<>();",
+        "unit_type_create_controller": "public UnitController createController(Unit unit){",
+    }
+    unit_type_keys = {
+        "unit_type_health",
+        "unit_type_drag",
+        "unit_type_armor",
+        "unit_type_hit_size",
+        "unit_type_abilities",
+        "unit_type_weapons",
+        "unit_type_create_controller",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        haystack = unit_type_source if key in unit_type_keys else source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_move_pref_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

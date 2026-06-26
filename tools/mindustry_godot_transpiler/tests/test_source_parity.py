@@ -2488,6 +2488,35 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_set_type_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_set_type_source"))
+        report = source_parity.verify_unit_set_type_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["checked"], {
+            "set_type_method": "public void setType(UnitType type){",
+            "assign_type": "this.type = type;",
+            "assign_max_health": "this.maxHealth = type.health;",
+            "assign_drag": "this.drag = type.drag;",
+            "assign_armor": "this.armor = type.armor;",
+            "assign_hit_size": "this.hitSize = type.hitSize;",
+            "setup_weapons_guard": "if(mounts().length != type.weapons.size) setupWeapons(type);",
+            "abilities_guard": "if(abilities.length != type.abilities.size || (abilities.length > 0 && abilities[0] instanceof EmptyDataAbility)){",
+            "abilities_array": "abilities = new Ability[type.abilities.size];",
+            "ability_copy": "abilities[i] = type.abilities.get(i).copy();",
+            "ability_data_carry": "abilities[i].data = old[i].data;",
+            "controller_guard": "if(controller == null) controller(type.createController(self()));",
+            "unit_type_health": "health = 200f,",
+            "unit_type_drag": "drag = 0.3f,",
+            "unit_type_armor": "armor = 0f,",
+            "unit_type_hit_size": "hitSize = 6f,",
+            "unit_type_abilities": "public Seq<Ability> abilities = new Seq<>();",
+            "unit_type_weapons": "public Seq<Weapon> weapons = new Seq<>();",
+            "unit_type_create_controller": "public UnitController createController(Unit unit){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

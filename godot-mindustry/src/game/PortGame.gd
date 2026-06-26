@@ -3123,6 +3123,19 @@ func source_unit_cap_state(team_is_wave_team: bool, rules_pvp: bool, state_is_ca
 		"call": "Units.getCap(team)",
 	}
 
+func source_unit_set_type_state(type_id: int, type_health: float, type_drag: float, type_armor: float, type_hit_size: float, mounts_length: int, type_weapons_size: int, abilities_length: int, type_abilities_size: int, first_ability_is_empty_data_ability: bool, controller_is_null: bool) -> Dictionary:
+	return {
+		"assigned_type_id": type_id,
+		"maxHealth": type_health,
+		"drag": type_drag,
+		"armor": type_armor,
+		"hitSize": type_hit_size,
+		"setupWeapons": mounts_length != type_weapons_size,
+		"refreshAbilities": abilities_length != type_abilities_size or (abilities_length > 0 and first_ability_is_empty_data_ability),
+		"createController": controller_is_null,
+		"call": "setType(UnitType type)",
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},

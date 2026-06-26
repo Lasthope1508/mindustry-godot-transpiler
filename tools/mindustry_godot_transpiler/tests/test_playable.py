@@ -2726,6 +2726,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"cap": max(0, rules_unit_cap)', source)
         self.assertIn('"call": "Units.getCap(team)"', source)
 
+    def test_port_game_exposes_source_unit_set_type_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_set_type_state(type_id: int, type_health: float, type_drag: float, type_armor: float, type_hit_size: float, mounts_length: int, type_weapons_size: int, abilities_length: int, type_abilities_size: int, first_ability_is_empty_data_ability: bool, controller_is_null: bool) -> Dictionary:", source)
+        self.assertIn('"assigned_type_id": type_id', source)
+        self.assertIn('"maxHealth": type_health', source)
+        self.assertIn('"drag": type_drag', source)
+        self.assertIn('"armor": type_armor', source)
+        self.assertIn('"hitSize": type_hit_size', source)
+        self.assertIn('"setupWeapons": mounts_length != type_weapons_size', source)
+        self.assertIn('"refreshAbilities": abilities_length != type_abilities_size or (abilities_length > 0 and first_ability_is_empty_data_ability)', source)
+        self.assertIn('"createController": controller_is_null', source)
+        self.assertIn('"call": "setType(UnitType type)"', source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
