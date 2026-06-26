@@ -2938,6 +2938,24 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"color": tile_floor_color', source)
         self.assertIn('"wasFlying": is_flying_value', source)
 
+    def test_port_game_exposes_source_unit_update_walk_effect_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_walk_effect_state(type_hovering: bool, elevation_value: float, type_emit_walk_effect: bool, type_emit_walk_sound: bool, current_splash_timer: float, delta_x: float, delta_y: float, hit_size_value: float, tile_exists: bool, tile_floor_color: String, floor_map_color: String, floor_walk_sound_pitch_min: float, floor_walk_sound_pitch_max: float, floor_walk_sound_volume: float, random_pitch_value: float) -> Dictionary:", source)
+        self.assertIn("var grounded := source_unit_is_grounded(elevation_value)", source)
+        self.assertIn("var gate := (not type_hovering) and grounded and type_emit_walk_effect", source)
+        self.assertIn("var distance := sqrt(delta_x * delta_x + delta_y * delta_y)", source)
+        self.assertIn("var threshold := 7.0 + hit_size_value / 8.0", source)
+        self.assertIn('"call": "floor.walkEffect.at(x, y, hitSize() / 8f, tile != null ? tile.getFloorColor() : floor.mapColor)"', source)
+        self.assertIn('"rotation": hit_size_value / 8.0', source)
+        self.assertIn('"color": tile_floor_color if tile_exists else floor_map_color', source)
+        self.assertIn('"call": "floor.walkSound.at(x, y, Mathf.random(floor.walkSoundPitchMin, floor.walkSoundPitchMax), floor.walkSoundVolume)"', source)
+        self.assertIn('"pitch": random_pitch_value', source)
+        self.assertIn('"pitchMin": floor_walk_sound_pitch_min', source)
+        self.assertIn('"pitchMax": floor_walk_sound_pitch_max', source)
+        self.assertIn('"volume": floor_walk_sound_volume', source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

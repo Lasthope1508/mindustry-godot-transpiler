@@ -2851,6 +2851,42 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_walk_effect_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_walk_effect_source"))
+        report = source_parity.verify_unit_update_walk_effect_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["floor_source"], "core/src/mindustry/world/blocks/environment/Floor.java")
+        self.assertEqual(report["tile_source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["hitbox_source"], "core/src/mindustry/entities/comp/HitboxComp.java")
+        self.assertEqual(report["arc_mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "walk_gate": "if(!type.hovering && isGrounded() && type.emitWalkEffect){",
+            "timer_add_threshold": "if((splashTimer += Mathf.dst(deltaX(), deltaY())) >= (7f + hitSize()/8f)){",
+            "walk_effect_call": "floor.walkEffect.at(x, y, hitSize() / 8f, tile != null ? tile.getFloorColor() : floor.mapColor);",
+            "splash_timer_reset": "splashTimer = 0f;",
+            "walk_sound_guard": "if(type.emitWalkSound){",
+            "walk_sound_call": "floor.walkSound.at(x, y, Mathf.random(floor.walkSoundPitchMin, floor.walkSoundPitchMax), floor.walkSoundVolume);",
+            "floor_walk_effect": "public Effect walkEffect = Fx.none;",
+            "floor_walk_sound": "public Sound walkSound = Sounds.none;",
+            "floor_walk_sound_params": "public float walkSoundVolume = 0.1f, walkSoundPitchMin = 0.8f, walkSoundPitchMax = 1.2f;",
+            "liquid_walk_effect": "walkEffect = Fx.ripple;",
+            "liquid_walk_sound": "walkSound = Sounds.stepWater;",
+            "tile_get_floor_color": "public Color getFloorColor(){",
+            "tile_get_floor_color_body": "return floor.getColor(this);",
+            "unit_type_emit_walk_sound": "public boolean emitWalkSound = true;",
+            "unit_type_emit_walk_effect": "public boolean emitWalkEffect = true;",
+            "hitbox_delta_fields": "transient float lastX, lastY, deltaX, deltaY, hitSize;",
+            "hitbox_delta_x_assign": "deltaX = x - lastX;",
+            "hitbox_delta_y_assign": "deltaY = y - lastY;",
+            "mathf_dst": "public static float dst(float x1, float y1){",
+            "mathf_dst_body": "return (float)Math.sqrt(x1 * x1 + y1*y1);",
+            "mathf_random_float_range": "public static float random(float start, float end){",
+            "mathf_random_float_range_body": "return start + rand.nextFloat() * (end - start);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_heal_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_heal_source"))
         report = source_parity.verify_unit_heal_source(ROOT / "mindustry-upstream")

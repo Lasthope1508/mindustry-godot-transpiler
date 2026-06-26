@@ -9,6 +9,7 @@ MEND_PROJECTOR_SOURCE = "core/src/mindustry/world/blocks/defense/MendProjector.j
 OVERDRIVE_PROJECTOR_SOURCE = "core/src/mindustry/world/blocks/defense/OverdriveProjector.java"
 BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
 UNIT_COMP_SOURCE = "core/src/mindustry/entities/comp/UnitComp.java"
+HITBOX_COMP_SOURCE = "core/src/mindustry/entities/comp/HitboxComp.java"
 PAYLOAD_COMP_SOURCE = "core/src/mindustry/entities/comp/PayloadComp.java"
 UNIT_TYPES_CONTENT_SOURCE = "core/src/mindustry/content/UnitTypes.java"
 TEAM_SOURCE = "core/src/mindustry/game/Team.java"
@@ -4667,6 +4668,82 @@ def verify_unit_update_flying_transition_source(upstream_root: Path) -> dict[str
         "tile_source": "core/src/mindustry/world/Tile.java",
         "fx_source": FX_SOURCE,
         "effect_source": EFFECT_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_unit_update_walk_effect_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    floor_path = Path(upstream_root) / FLOOR_SOURCE
+    tile_path = Path(upstream_root) / "core/src/mindustry/world/Tile.java"
+    unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
+    hitbox_path = Path(upstream_root) / HITBOX_COMP_SOURCE
+    mathf_path = Path(arc_root) / ARC_MATHF_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    floor_source = floor_path.read_text(encoding="utf-8", errors="replace")
+    tile_source = tile_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    hitbox_source = hitbox_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "walk_gate": "if(!type.hovering && isGrounded() && type.emitWalkEffect){",
+        "timer_add_threshold": "if((splashTimer += Mathf.dst(deltaX(), deltaY())) >= (7f + hitSize()/8f)){",
+        "walk_effect_call": "floor.walkEffect.at(x, y, hitSize() / 8f, tile != null ? tile.getFloorColor() : floor.mapColor);",
+        "splash_timer_reset": "splashTimer = 0f;",
+        "walk_sound_guard": "if(type.emitWalkSound){",
+        "walk_sound_call": "floor.walkSound.at(x, y, Mathf.random(floor.walkSoundPitchMin, floor.walkSoundPitchMax), floor.walkSoundVolume);",
+        "floor_walk_effect": "public Effect walkEffect = Fx.none;",
+        "floor_walk_sound": "public Sound walkSound = Sounds.none;",
+        "floor_walk_sound_params": "public float walkSoundVolume = 0.1f, walkSoundPitchMin = 0.8f, walkSoundPitchMax = 1.2f;",
+        "liquid_walk_effect": "walkEffect = Fx.ripple;",
+        "liquid_walk_sound": "walkSound = Sounds.stepWater;",
+        "tile_get_floor_color": "public Color getFloorColor(){",
+        "tile_get_floor_color_body": "return floor.getColor(this);",
+        "unit_type_emit_walk_sound": "public boolean emitWalkSound = true;",
+        "unit_type_emit_walk_effect": "public boolean emitWalkEffect = true;",
+        "hitbox_delta_fields": "transient float lastX, lastY, deltaX, deltaY, hitSize;",
+        "hitbox_delta_x_assign": "deltaX = x - lastX;",
+        "hitbox_delta_y_assign": "deltaY = y - lastY;",
+        "mathf_dst": "public static float dst(float x1, float y1){",
+        "mathf_dst_body": "return (float)Math.sqrt(x1 * x1 + y1*y1);",
+        "mathf_random_float_range": "public static float random(float start, float end){",
+        "mathf_random_float_range_body": "return start + rand.nextFloat() * (end - start);",
+    }
+    source_map = {
+        "walk_gate": source,
+        "timer_add_threshold": source,
+        "walk_effect_call": source,
+        "splash_timer_reset": source,
+        "walk_sound_guard": source,
+        "walk_sound_call": source,
+        "floor_walk_effect": floor_source,
+        "floor_walk_sound": floor_source,
+        "floor_walk_sound_params": floor_source,
+        "liquid_walk_effect": floor_source,
+        "liquid_walk_sound": floor_source,
+        "tile_get_floor_color": tile_source,
+        "tile_get_floor_color_body": tile_source,
+        "unit_type_emit_walk_sound": unit_type_source,
+        "unit_type_emit_walk_effect": unit_type_source,
+        "hitbox_delta_fields": hitbox_source,
+        "hitbox_delta_x_assign": hitbox_source,
+        "hitbox_delta_y_assign": hitbox_source,
+        "mathf_dst": mathf_source,
+        "mathf_dst_body": mathf_source,
+        "mathf_random_float_range": mathf_source,
+        "mathf_random_float_range_body": mathf_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "floor_source": FLOOR_SOURCE,
+        "tile_source": "core/src/mindustry/world/Tile.java",
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "hitbox_source": HITBOX_COMP_SOURCE,
+        "arc_mathf_source": ARC_MATHF_SOURCE,
         "checked": checked,
         "missing": missing,
     }

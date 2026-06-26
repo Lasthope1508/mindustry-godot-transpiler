@@ -3399,6 +3399,41 @@ func source_unit_update_flying_transition_state(is_flying_value: bool, was_flyin
 		"wasFlying": is_flying_value,
 	}
 
+func source_unit_update_walk_effect_state(type_hovering: bool, elevation_value: float, type_emit_walk_effect: bool, type_emit_walk_sound: bool, current_splash_timer: float, delta_x: float, delta_y: float, hit_size_value: float, tile_exists: bool, tile_floor_color: String, floor_map_color: String, floor_walk_sound_pitch_min: float, floor_walk_sound_pitch_max: float, floor_walk_sound_volume: float, random_pitch_value: float) -> Dictionary:
+	var grounded := source_unit_is_grounded(elevation_value)
+	var gate := (not type_hovering) and grounded and type_emit_walk_effect
+	var distance := sqrt(delta_x * delta_x + delta_y * delta_y)
+	var threshold := 7.0 + hit_size_value / 8.0
+	var splash_timer := current_splash_timer
+	var walk_effect: Variant = null
+	var walk_sound: Variant = null
+	if gate:
+		splash_timer += distance
+		if splash_timer >= threshold:
+			walk_effect = {
+				"call": "floor.walkEffect.at(x, y, hitSize() / 8f, tile != null ? tile.getFloorColor() : floor.mapColor)",
+				"rotation": hit_size_value / 8.0,
+				"color": tile_floor_color if tile_exists else floor_map_color,
+			}
+			splash_timer = 0.0
+			if type_emit_walk_sound:
+				walk_sound = {
+					"call": "floor.walkSound.at(x, y, Mathf.random(floor.walkSoundPitchMin, floor.walkSoundPitchMax), floor.walkSoundVolume)",
+					"pitch": random_pitch_value,
+					"pitchMin": floor_walk_sound_pitch_min,
+					"pitchMax": floor_walk_sound_pitch_max,
+					"volume": floor_walk_sound_volume,
+				}
+	return {
+		"grounded": grounded,
+		"gate": gate,
+		"distance": distance,
+		"threshold": threshold,
+		"splashTimer": splash_timer,
+		"walkEffect": walk_effect,
+		"walkSound": walk_sound,
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},
