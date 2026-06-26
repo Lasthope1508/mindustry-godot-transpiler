@@ -1985,5 +1985,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_set_prop_liquid_content_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_set_prop_liquid_content_source"))
+        report = source_parity.verify_building_set_prop_liquid_content_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "set_prop_content_method": "public void setProp(UnlockableContent content, double value){",
+            "set_prop_liquid_guard": "}else if(content instanceof Liquid liquid && liquids != null){",
+            "set_prop_liquid_amount": "float amount = Mathf.clamp((float)value, 0f, block.liquidCapacity);",
+            "set_prop_liquid_decrease_comment": "//decreasing amount is always allowed",
+            "set_prop_liquid_gate": "if(amount < liquids.get(liquid) || (acceptLiquid(self(), liquid) && (liquids.current() == liquid || liquids.currentAmount() <= 0.1f || block.consumesLiquid(liquid)))){",
+            "set_prop_liquid_set": "liquids.set(liquid, amount);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

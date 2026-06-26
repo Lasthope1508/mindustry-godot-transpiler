@@ -3097,6 +3097,27 @@ def verify_building_set_prop_item_content_source(upstream_root: Path) -> dict[st
         "missing": missing,
     }
 
+def verify_building_set_prop_liquid_content_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "set_prop_content_method": "public void setProp(UnlockableContent content, double value){",
+        "set_prop_liquid_guard": "}else if(content instanceof Liquid liquid && liquids != null){",
+        "set_prop_liquid_amount": "float amount = Mathf.clamp((float)value, 0f, block.liquidCapacity);",
+        "set_prop_liquid_decrease_comment": "//decreasing amount is always allowed",
+        "set_prop_liquid_gate": "if(amount < liquids.get(liquid) || (acceptLiquid(self(), liquid) && (liquids.current() == liquid || liquids.currentAmount() <= 0.1f || block.consumesLiquid(liquid)))){",
+        "set_prop_liquid_set": "liquids.set(liquid, amount);",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

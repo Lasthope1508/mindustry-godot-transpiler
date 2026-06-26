@@ -2287,6 +2287,17 @@ func source_building_set_prop_item_content_state(content_type: String, has_items
 		return {"action": "remove_stack", "item": item_value, "amount": amount, "delta": current_amount - amount, "accepted": 0}
 	return {"action": "none", "item": item_value, "amount": amount, "delta": 0, "accepted": 0}
 
+func source_building_set_prop_liquid_content_state(content_type: String, has_liquids_module: bool, liquid_value: Variant, current_amount: float, value: float, block_liquid_capacity: float, accept_liquid_result: bool, current_liquid_matches: bool, block_consumes_liquid: bool) -> Dictionary:
+	if content_type != "liquid" or not has_liquids_module:
+		return {"action": "none", "liquid": liquid_value, "amount": current_amount}
+	var amount := clampf(value, 0.0, block_liquid_capacity)
+	var can_set := amount < current_amount
+	if not can_set:
+		can_set = accept_liquid_result and (current_liquid_matches or current_amount <= 0.1 or block_consumes_liquid)
+	if can_set:
+		return {"action": "set_liquid", "liquid": liquid_value, "amount": amount}
+	return {"action": "none", "liquid": liquid_value, "amount": current_amount}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
