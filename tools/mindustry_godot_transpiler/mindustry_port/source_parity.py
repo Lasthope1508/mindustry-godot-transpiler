@@ -2992,6 +2992,29 @@ def verify_building_control_config_source(upstream_root: Path) -> dict[str, Any]
         "missing": missing,
     }
 
+def verify_building_set_prop_health_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "set_prop_double_method": "public void setProp(LAccess prop, double value){",
+        "set_prop_switch": "switch(prop){",
+        "set_prop_health_case": "case health -> {",
+        "set_prop_health_clamp": "health = (float)Mathf.clamp(value, 0, maxHealth);",
+        "set_prop_health_destroy_guard": "if(health <= 0f && !dead()){",
+        "set_prop_health_destroy_call": "Call.buildDestroyed(self());",
+        "set_prop_health_else": "}else{",
+        "set_prop_health_changed": "healthChanged();",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

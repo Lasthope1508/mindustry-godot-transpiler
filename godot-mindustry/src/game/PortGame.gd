@@ -2248,6 +2248,14 @@ func source_building_control_config_state(control_type: String, block_logic_conf
 		return {"configured_called": true, "builder": null, "value": p1_value}
 	return {"configured_called": false, "builder": null, "value": null}
 
+func source_building_set_prop_health_state(prop: String, current_health: float, max_health_value: float, value: float, dead_state: bool, self_state: Variant) -> Dictionary:
+	if prop != "health":
+		return {"health": current_health, "build_destroyed_called": false, "build_destroyed": null, "health_changed": false}
+	var next_health := clampf(value, 0.0, max_health_value)
+	if next_health <= 0.0 and not dead_state:
+		return {"health": next_health, "build_destroyed_called": true, "build_destroyed": self_state, "health_changed": false}
+	return {"health": next_health, "build_destroyed_called": false, "build_destroyed": null, "health_changed": true}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

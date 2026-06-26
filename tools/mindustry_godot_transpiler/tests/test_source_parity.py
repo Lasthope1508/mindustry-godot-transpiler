@@ -1910,5 +1910,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_set_prop_health_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_set_prop_health_source"))
+        report = source_parity.verify_building_set_prop_health_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "set_prop_double_method": "public void setProp(LAccess prop, double value){",
+            "set_prop_switch": "switch(prop){",
+            "set_prop_health_case": "case health -> {",
+            "set_prop_health_clamp": "health = (float)Mathf.clamp(value, 0, maxHealth);",
+            "set_prop_health_destroy_guard": "if(health <= 0f && !dead()){",
+            "set_prop_health_destroy_call": "Call.buildDestroyed(self());",
+            "set_prop_health_else": "}else{",
+            "set_prop_health_changed": "healthChanged();",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

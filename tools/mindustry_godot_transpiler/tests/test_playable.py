@@ -2331,6 +2331,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return {"configured_called": true, "builder": null, "value": p1_value}', source)
         self.assertIn('return {"configured_called": false, "builder": null, "value": null}', source)
 
+    def test_port_game_exposes_source_building_set_prop_health_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_set_prop_health_state(prop: String, current_health: float, max_health_value: float, value: float, dead_state: bool, self_state: Variant) -> Dictionary:", source)
+        self.assertIn('if prop != "health":', source)
+        self.assertIn('var next_health := clampf(value, 0.0, max_health_value)', source)
+        self.assertIn("if next_health <= 0.0 and not dead_state:", source)
+        self.assertIn('return {"health": next_health, "build_destroyed_called": true, "build_destroyed": self_state, "health_changed": false}', source)
+        self.assertIn('return {"health": next_health, "build_destroyed_called": false, "build_destroyed": null, "health_changed": true}', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
