@@ -2269,5 +2269,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_boosting_default_event_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_boosting_default_event_source"))
+        report = source_parity.verify_unit_update_boosting_default_event_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["checked"], {
+            "update_boosting_default_method": "public void updateBoosting(boolean boost){",
+            "update_boosting_default_call": "updateBoosting(boost, false);",
+            "update_boosting_overload_method": "public void updateBoosting(boolean boost, boolean event){",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

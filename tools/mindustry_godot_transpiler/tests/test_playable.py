@@ -2593,6 +2593,14 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_unit_unloaded_state(unit_state: Variant) -> Variant:", source)
         self.assertIn("return unit_state", source)
 
+    def test_port_game_exposes_source_unit_update_boosting_default_event_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_boosting_default_event_state(boost: bool) -> Dictionary:", source)
+        self.assertIn('"boost": boost', source)
+        self.assertIn('"event": false', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
