@@ -3192,6 +3192,28 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_falling_descent_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_falling_descent_source"))
+        report = source_parity.verify_unit_update_falling_descent_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["units_source"], "core/src/mindustry/entities/Units.java")
+        self.assertEqual(report["arc_time_source"], "arc-core/src/arc/util/Time.java")
+        self.assertEqual(report["checked"], {
+            "move_down_comment": "//move down",
+            "fall_descent": "elevation -= type.fallSpeed * Time.delta;",
+            "destroy_guard": "if(isGrounded() || health <= -maxHealth * type.wreckHealthMultiplier){",
+            "unit_destroy_call": "Call.unitDestroy(id);",
+            "unit_type_fall_speed": "fallSpeed = 0.018f,",
+            "unit_type_wreck_health_multiplier": "wreckHealthMultiplier = 0.25f,",
+            "time_delta": "public static float delta = 1f;",
+            "units_unit_destroy_remote": "@Remote(called = Loc.server)",
+            "units_unit_destroy": "public static void unitDestroy(int uid){",
+            "units_destroy_body": "unit.destroy();",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

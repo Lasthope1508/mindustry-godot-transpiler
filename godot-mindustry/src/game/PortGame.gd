@@ -3477,6 +3477,28 @@ func source_unit_update_falling_engine_trail_state(dead_value: bool, health_valu
 		"effect": effect_call,
 	}
 
+func source_unit_update_falling_descent_state(dead_value: bool, health_value: float, elevation_value: float, type_fall_speed: float, source_delta: float, is_grounded_value: bool, max_health: float, type_wreck_health_multiplier: float, unit_id: int) -> Dictionary:
+	var falling_guard := dead_value or health_value <= 0.0
+	var next_elevation := elevation_value
+	if falling_guard:
+		next_elevation -= type_fall_speed * source_delta
+	var wreck_health_threshold := -max_health * type_wreck_health_multiplier
+	var destroy_call: Variant = null
+	if falling_guard and (is_grounded_value or health_value <= wreck_health_threshold):
+		destroy_call = {
+			"call": "Call.unitDestroy(id)",
+			"id": unit_id,
+		}
+	return {
+		"fallingGuard": falling_guard,
+		"elevationBefore": elevation_value,
+		"elevation": next_elevation,
+		"descent": {"call": "elevation -= type.fallSpeed * Time.delta", "type.fallSpeed": type_fall_speed, "Time.delta": source_delta},
+		"grounded": is_grounded_value,
+		"wreckHealthThreshold": wreck_health_threshold,
+		"destroy": destroy_call,
+	}
+
 func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
 	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
 	var drown_time_before_clamp := current_drown_time

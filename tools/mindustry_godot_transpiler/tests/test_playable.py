@@ -2993,6 +2993,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"range": {"call": "Mathf.range(type.engineSize)", "value": engine_range_value, "type.engineSize": type_engine_size}', source)
         self.assertIn('"offset": offset', source)
 
+    def test_port_game_exposes_source_unit_update_falling_descent_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_falling_descent_state(dead_value: bool, health_value: float, elevation_value: float, type_fall_speed: float, source_delta: float, is_grounded_value: bool, max_health: float, type_wreck_health_multiplier: float, unit_id: int) -> Dictionary:", source)
+        self.assertIn("var falling_guard := dead_value or health_value <= 0.0", source)
+        self.assertIn("next_elevation -= type_fall_speed * source_delta", source)
+        self.assertIn("var wreck_health_threshold := -max_health * type_wreck_health_multiplier", source)
+        self.assertIn("if falling_guard and (is_grounded_value or health_value <= wreck_health_threshold):", source)
+        self.assertIn('"call": "Call.unitDestroy(id)"', source)
+        self.assertIn('"elevation": next_elevation', source)
+        self.assertIn('"wreckHealthThreshold": wreck_health_threshold', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

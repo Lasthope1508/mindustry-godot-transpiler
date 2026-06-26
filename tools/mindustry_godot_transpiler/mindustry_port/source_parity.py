@@ -4981,6 +4981,52 @@ def verify_unit_update_falling_engine_trail_source(upstream_root: Path, arc_root
         "missing": missing,
     }
 
+def verify_unit_update_falling_descent_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
+    units_path = Path(upstream_root) / UNITS_SOURCE
+    time_path = Path(arc_root) / ARC_TIME_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    units_source = units_path.read_text(encoding="utf-8", errors="replace")
+    time_source = time_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "move_down_comment": "//move down",
+        "fall_descent": "elevation -= type.fallSpeed * Time.delta;",
+        "destroy_guard": "if(isGrounded() || health <= -maxHealth * type.wreckHealthMultiplier){",
+        "unit_destroy_call": "Call.unitDestroy(id);",
+        "unit_type_fall_speed": "fallSpeed = 0.018f,",
+        "unit_type_wreck_health_multiplier": "wreckHealthMultiplier = 0.25f,",
+        "time_delta": "public static float delta = 1f;",
+        "units_unit_destroy_remote": "@Remote(called = Loc.server)",
+        "units_unit_destroy": "public static void unitDestroy(int uid){",
+        "units_destroy_body": "unit.destroy();",
+    }
+    source_map = {
+        "move_down_comment": source,
+        "fall_descent": source,
+        "destroy_guard": source,
+        "unit_destroy_call": source,
+        "unit_type_fall_speed": unit_type_source,
+        "unit_type_wreck_health_multiplier": unit_type_source,
+        "time_delta": time_source,
+        "units_unit_destroy_remote": units_source,
+        "units_unit_destroy": units_source,
+        "units_destroy_body": units_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "units_source": UNITS_SOURCE,
+        "arc_time_source": ARC_TIME_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
