@@ -3410,6 +3410,27 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_destroy_explosion_dispatch_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_destroy_explosion_dispatch_source"))
+        report = source_parity.verify_unit_destroy_explosion_dispatch_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["damage_source"], "core/src/mindustry/entities/Damage.java")
+        self.assertEqual(report["rules_source"], "core/src/mindustry/game/Rules.java")
+        self.assertEqual(report["checked"], {
+            "destroy_not_spawned_guard": "if(!spawnedByCore){",
+            "destroy_dynamic_explosion_call": "Damage.dynamicExplosion(x, y, flammability, explosiveness, power, (bounds() + type.legLength/1.7f) / 2f, state.rules.damageExplosions && state.rules.unitCrashDamage(team) > 0, item().flammability > 1, team, type.deathExplosionEffect, 0f);",
+            "destroy_spawned_core_else": "}else{",
+            "destroy_spawned_core_effect": "type.deathExplosionEffect.at(x, y, bounds() / 2f / 8f);",
+            "unit_death_explosion_effect": "public Effect deathExplosionEffect = Fx.dynamicExplosion;",
+            "unit_leg_length": "public float legLength = 10f,",
+            "damage_dynamic_explosion_overload": "public static void dynamicExplosion(float x, float y, float flammability, float explosiveness, float power, float radius, boolean damage, boolean fire, @Nullable Team ignoreTeam, Effect explosionFx, float baseShake){",
+            "rules_unit_crash_damage": "public float unitCrashDamage(Team team){",
+            "rules_unit_crash_damage_body": "return unitDamage(team) * unitCrashDamageMultiplier * teams.get(team).unitCrashDamageMultiplier;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

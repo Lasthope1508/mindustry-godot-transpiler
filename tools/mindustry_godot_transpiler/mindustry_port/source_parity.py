@@ -5433,6 +5433,50 @@ def verify_unit_destroy_initial_payload_source(upstream_root: Path, arc_root: Pa
         "missing": missing,
     }
 
+def verify_unit_destroy_explosion_dispatch_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    unit_type_path = Path(upstream_root) / "core/src/mindustry/type/UnitType.java"
+    damage_path = Path(upstream_root) / "core/src/mindustry/entities/Damage.java"
+    rules_path = Path(upstream_root) / "core/src/mindustry/game/Rules.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    damage_source = damage_path.read_text(encoding="utf-8", errors="replace")
+    rules_source = rules_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "destroy_not_spawned_guard": "if(!spawnedByCore){",
+        "destroy_dynamic_explosion_call": "Damage.dynamicExplosion(x, y, flammability, explosiveness, power, (bounds() + type.legLength/1.7f) / 2f, state.rules.damageExplosions && state.rules.unitCrashDamage(team) > 0, item().flammability > 1, team, type.deathExplosionEffect, 0f);",
+        "destroy_spawned_core_else": "}else{",
+        "destroy_spawned_core_effect": "type.deathExplosionEffect.at(x, y, bounds() / 2f / 8f);",
+        "unit_death_explosion_effect": "public Effect deathExplosionEffect = Fx.dynamicExplosion;",
+        "unit_leg_length": "public float legLength = 10f,",
+        "damage_dynamic_explosion_overload": "public static void dynamicExplosion(float x, float y, float flammability, float explosiveness, float power, float radius, boolean damage, boolean fire, @Nullable Team ignoreTeam, Effect explosionFx, float baseShake){",
+        "rules_unit_crash_damage": "public float unitCrashDamage(Team team){",
+        "rules_unit_crash_damage_body": "return unitDamage(team) * unitCrashDamageMultiplier * teams.get(team).unitCrashDamageMultiplier;",
+    }
+    source_map = {
+        "destroy_not_spawned_guard": source,
+        "destroy_dynamic_explosion_call": source,
+        "destroy_spawned_core_else": source,
+        "destroy_spawned_core_effect": source,
+        "unit_death_explosion_effect": unit_type_source,
+        "unit_leg_length": unit_type_source,
+        "damage_dynamic_explosion_overload": damage_source,
+        "rules_unit_crash_damage": rules_source,
+        "rules_unit_crash_damage_body": rules_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_type_source": "core/src/mindustry/type/UnitType.java",
+        "damage_source": "core/src/mindustry/entities/Damage.java",
+        "rules_source": "core/src/mindustry/game/Rules.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

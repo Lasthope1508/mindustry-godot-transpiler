@@ -3115,6 +3115,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"flammability": flammability', source)
         self.assertIn('"power": power', source)
 
+    def test_port_game_exposes_source_unit_destroy_explosion_dispatch_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_destroy_explosion_dispatch_state(spawned_by_core_value: bool, source_x: float, source_y: float, flammability: float, explosiveness: float, power: float, bounds_value: float, type_leg_length: float, rules_damage_explosions: bool, rules_unit_crash_damage: float, item_flammability: float, team_id: int, death_explosion_effect: String) -> Dictionary:", source)
+        self.assertIn("if not spawned_by_core_value:", source)
+        self.assertIn('"call": "Damage.dynamicExplosion"', source)
+        self.assertIn('"radius": (bounds_value + type_leg_length / 1.7) / 2.0', source)
+        self.assertIn('"damage": rules_damage_explosions and rules_unit_crash_damage > 0.0', source)
+        self.assertIn('"fire": item_flammability > 1.0', source)
+        self.assertIn('"team": team_id', source)
+        self.assertIn('"explosionFx": death_explosion_effect', source)
+        self.assertIn('"baseShake": 0.0', source)
+        self.assertIn('"call": "type.deathExplosionEffect.at"', source)
+        self.assertIn('"rotation": bounds_value / 2.0 / 8.0', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

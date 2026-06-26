@@ -3648,6 +3648,30 @@ func source_unit_destroy_initial_payload_state(is_added_value: bool, killable_va
 		"power": power,
 	}
 
+func source_unit_destroy_explosion_dispatch_state(spawned_by_core_value: bool, source_x: float, source_y: float, flammability: float, explosiveness: float, power: float, bounds_value: float, type_leg_length: float, rules_damage_explosions: bool, rules_unit_crash_damage: float, item_flammability: float, team_id: int, death_explosion_effect: String) -> Dictionary:
+	if not spawned_by_core_value:
+		return {
+			"call": "Damage.dynamicExplosion",
+			"x": source_x,
+			"y": source_y,
+			"flammability": flammability,
+			"explosiveness": explosiveness,
+			"power": power,
+			"radius": (bounds_value + type_leg_length / 1.7) / 2.0,
+			"damage": rules_damage_explosions and rules_unit_crash_damage > 0.0,
+			"fire": item_flammability > 1.0,
+			"team": team_id,
+			"explosionFx": death_explosion_effect,
+			"baseShake": 0.0,
+		}
+	return {
+		"call": "type.deathExplosionEffect.at",
+		"x": source_x,
+		"y": source_y,
+		"rotation": bounds_value / 2.0 / 8.0,
+		"effect": death_explosion_effect,
+	}
+
 func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
 	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
 	var drown_time_before_clamp := current_drown_time
