@@ -5878,6 +5878,65 @@ def verify_unit_destroy_type_killed_remove_source(upstream_root: Path) -> dict[s
         "missing": missing,
     }
 
+def verify_unit_killed_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / UNIT_COMP_SOURCE
+    unit_type_path = upstream_root / UNIT_TYPE_SOURCE
+    entity_path = upstream_root / "core/src/mindustry/entities/comp/EntityComp.java"
+    sound_path = arc_root / "arc-core/src/arc/audio/Sound.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    entity_source = entity_path.read_text(encoding="utf-8", errors="replace")
+    sound_source = sound_path.read_text(encoding="utf-8", errors="replace")
+    killed_start = source.index("public void killed(){")
+    killed_end = source.index("    @Override\n    @Replace\n    public void kill(){", killed_start)
+    killed_source = source[killed_start:killed_end]
+    checked = {
+        "was_player_field": "private transient boolean wasPlayer;",
+        "killed_method": "public void killed(){",
+        "killed_was_player": "wasPlayer = isLocal();",
+        "entity_is_local": "boolean isLocal(){",
+        "entity_is_local_controller": "return ((Object)this) == player || ((Object)this) instanceof Unitc u && u.controller() == player;",
+        "killed_health_clamp": "health = Math.min(health, 0);",
+        "killed_dead_assignment": "dead = true;",
+        "killed_destroy_guard": "if(!type.flying || !type.createWreck){",
+        "killed_destroy_call": "destroy();",
+        "killed_wreck_sound_call": "type.wreckSound.at(this, 1f, type.wreckSoundVolume);",
+        "unit_type_create_wreck": "createWreck = true,",
+        "unit_type_wreck_sound": "public Sound wreckSound = Sounds.unset;",
+        "unit_type_wreck_sound_volume": "public float wreckSoundVolume = 1f;",
+        "sound_at_position_pitch_volume": "public int at(Position pos, float pitch, float volume){",
+    }
+    source_map = {
+        "was_player_field": source,
+        "killed_method": killed_source,
+        "killed_was_player": killed_source,
+        "entity_is_local": entity_source,
+        "entity_is_local_controller": entity_source,
+        "killed_health_clamp": killed_source,
+        "killed_dead_assignment": killed_source,
+        "killed_destroy_guard": killed_source,
+        "killed_destroy_call": killed_source,
+        "killed_wreck_sound_call": killed_source,
+        "unit_type_create_wreck": unit_type_source,
+        "unit_type_wreck_sound": unit_type_source,
+        "unit_type_wreck_sound_volume": unit_type_source,
+        "sound_at_position_pitch_volume": sound_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "entity_source": "core/src/mindustry/entities/comp/EntityComp.java",
+        "sound_source": "arc-core/src/arc/audio/Sound.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

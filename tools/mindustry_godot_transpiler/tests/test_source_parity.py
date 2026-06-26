@@ -3618,6 +3618,32 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_killed_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_killed_state_source"))
+        report = source_parity.verify_unit_killed_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["entity_source"], "core/src/mindustry/entities/comp/EntityComp.java")
+        self.assertEqual(report["sound_source"], "arc-core/src/arc/audio/Sound.java")
+        self.assertEqual(report["checked"], {
+            "was_player_field": "private transient boolean wasPlayer;",
+            "killed_method": "public void killed(){",
+            "killed_was_player": "wasPlayer = isLocal();",
+            "entity_is_local": "boolean isLocal(){",
+            "entity_is_local_controller": "return ((Object)this) == player || ((Object)this) instanceof Unitc u && u.controller() == player;",
+            "killed_health_clamp": "health = Math.min(health, 0);",
+            "killed_dead_assignment": "dead = true;",
+            "killed_destroy_guard": "if(!type.flying || !type.createWreck){",
+            "killed_destroy_call": "destroy();",
+            "killed_wreck_sound_call": "type.wreckSound.at(this, 1f, type.wreckSoundVolume);",
+            "unit_type_create_wreck": "createWreck = true,",
+            "unit_type_wreck_sound": "public Sound wreckSound = Sounds.unset;",
+            "unit_type_wreck_sound_volume": "public float wreckSoundVolume = 1f;",
+            "sound_at_position_pitch_volume": "public int at(Position pos, float pitch, float volume){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

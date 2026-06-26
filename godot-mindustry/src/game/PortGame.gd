@@ -3865,6 +3865,31 @@ func source_unit_destroy_type_killed_remove_state(unit_id: int) -> Dictionary:
 		],
 	}
 
+func source_unit_killed_state(is_local_value: bool, current_health: float, type_flying: bool, type_create_wreck: bool, wreck_sound: String, wreck_sound_volume: float, unit_id: int) -> Dictionary:
+	var should_destroy := not type_flying or not type_create_wreck
+	var clamped_health: float = minf(current_health, 0.0)
+	var destroy_call: Variant = null
+	var wreck_sound_call: Variant = null
+	if should_destroy:
+		destroy_call = "destroy()"
+	else:
+		wreck_sound_call = {
+			"call": "type.wreckSound.at(this, 1f, type.wreckSoundVolume)",
+			"sound": wreck_sound,
+			"pitch": 1.0,
+			"volume": wreck_sound_volume,
+			"unit": unit_id,
+		}
+	return {
+		"wasPlayer": is_local_value,
+		"health": clamped_health,
+		"dead": true,
+		"guard": "!type.flying || !type.createWreck",
+		"destroyCalled": should_destroy,
+		"destroyCall": destroy_call,
+		"wreckSoundCall": wreck_sound_call,
+	}
+
 func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
 	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
 	var drown_time_before_clamp := current_drown_time

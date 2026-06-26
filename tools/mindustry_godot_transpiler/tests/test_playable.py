@@ -3234,6 +3234,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"unitRemoveOverride": "public void remove()"', source)
         self.assertIn('"unit": unit_id', source)
 
+    def test_port_game_exposes_source_unit_killed_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_killed_state(is_local_value: bool, current_health: float, type_flying: bool, type_create_wreck: bool, wreck_sound: String, wreck_sound_volume: float, unit_id: int) -> Dictionary:", source)
+        self.assertIn("var should_destroy := not type_flying or not type_create_wreck", source)
+        self.assertIn("var clamped_health: float = minf(current_health, 0.0)", source)
+        self.assertIn('"wasPlayer": is_local_value', source)
+        self.assertIn('"dead": true', source)
+        self.assertIn('"guard": "!type.flying || !type.createWreck"', source)
+        self.assertIn('"destroyCall": destroy_call', source)
+        self.assertIn('"call": "type.wreckSound.at(this, 1f, type.wreckSoundVolume)"', source)
+        self.assertIn('"unit": unit_id', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
