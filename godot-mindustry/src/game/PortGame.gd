@@ -3629,6 +3629,18 @@ func source_weapon_update_bullet_origin_state(mount_state: Dictionary, weapon_st
 		"bulletRotationSource": "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation",
 	}
 
+func source_weapon_update_always_shooting_state(mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:
+	var shoot := bool(mount_state.get("shoot", false))
+	var always_shooting := bool(weapon_state.get("alwaysShooting", false))
+	if always_shooting:
+		shoot = true
+	return {
+		"shoot": shoot,
+		"alwaysShooting": always_shooting,
+		"alwaysShootingSource": "if(alwaysShooting) mount.shoot = true",
+		"continuousReservedSource": "if(continuous && mount.bullet != null)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

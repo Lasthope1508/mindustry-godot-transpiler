@@ -3520,6 +3520,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"shootAngleSource": "shootAngle = bulletRotation(unit, mount, bulletX, bulletY)"', source)
         self.assertIn('"bulletRotationSource": "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation"', source)
 
+    def test_port_game_exposes_source_weapon_update_always_shooting_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_update_always_shooting_state(mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var shoot := bool(mount_state.get(\"shoot\", false))", source)
+        self.assertIn("var always_shooting := bool(weapon_state.get(\"alwaysShooting\", false))", source)
+        self.assertIn("if always_shooting:", source)
+        self.assertIn("shoot = true", source)
+        self.assertIn('"shoot": shoot', source)
+        self.assertIn('"alwaysShooting": always_shooting', source)
+        self.assertIn('"alwaysShootingSource": "if(alwaysShooting) mount.shoot = true"', source)
+        self.assertIn('"continuousReservedSource": "if(continuous && mount.bullet != null)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

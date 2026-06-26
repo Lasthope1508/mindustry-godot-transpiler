@@ -6936,6 +6936,38 @@ def verify_weapon_update_bullet_origin_source(upstream_root: Path) -> dict[str, 
         "missing": missing,
     }
 
+def verify_weapon_update_always_shooting_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_path = upstream_root / weapon_mount_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "always_shooting_assignment": "if(alwaysShooting) mount.shoot = true;",
+        "weapon_always_shooting": "public boolean alwaysShooting = false;",
+        "weapon_mount_shoot": "public boolean shoot = false;",
+        "continuous_comment": "//update continuous state",
+        "continuous_guard": "if(continuous && mount.bullet != null){",
+    }
+    source_map = {
+        "always_shooting_assignment": source,
+        "weapon_always_shooting": source,
+        "weapon_mount_shoot": weapon_mount_text,
+        "continuous_comment": source,
+        "continuous_guard": source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": weapon_mount_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
