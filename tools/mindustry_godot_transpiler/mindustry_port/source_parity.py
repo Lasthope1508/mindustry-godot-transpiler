@@ -19,6 +19,8 @@ ITEM_MODULE_SOURCE = "core/src/mindustry/world/modules/ItemModule.java"
 WORLD_SOURCE = "core/src/mindustry/core/World.java"
 FLOOR_SOURCE = "core/src/mindustry/world/blocks/environment/Floor.java"
 UNIT_TYPE_SOURCE = "core/src/mindustry/type/UnitType.java"
+AI_CONTROLLER_SOURCE = "core/src/mindustry/entities/units/AIController.java"
+COMMAND_AI_SOURCE = "core/src/mindustry/ai/types/CommandAI.java"
 ARC_MATHF_SOURCE = "arc-core/src/arc/math/Mathf.java"
 ARC_ANGLES_SOURCE = "arc-core/src/arc/math/Angles.java"
 ARC_POSITION_SOURCE = "arc-core/src/arc/math/geom/Position.java"
@@ -3727,6 +3729,43 @@ def verify_unit_look_at_xy_source(upstream_root: Path, arc_root: Path) -> dict[s
         "source": UNIT_COMP_SOURCE,
         "arc_position_source": ARC_POSITION_SOURCE,
         "arc_angles_source": ARC_ANGLES_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_unit_controller_predicates_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    ai_controller_path = Path(upstream_root) / AI_CONTROLLER_SOURCE
+    command_ai_path = Path(upstream_root) / COMMAND_AI_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    ai_controller_source = ai_controller_path.read_text(encoding="utf-8", errors="replace")
+    command_ai_source = command_ai_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "is_ai_method": "public boolean isAI(){",
+        "is_ai_return": "return controller instanceof AIController;",
+        "allow_command_method": "public boolean allowCommand(){",
+        "allow_command_return": "return controller instanceof CommandAI;",
+        "is_commandable_method": "public boolean isCommandable(){",
+        "is_commandable_return": "return controller instanceof CommandAI;",
+        "ai_controller_class": "public class AIController implements UnitController{",
+        "command_ai_class": "public class CommandAI extends AIController{",
+    }
+    ai_controller_keys = {"ai_controller_class"}
+    command_ai_keys = {"command_ai_class"}
+    missing = []
+    for key, snippet in checked.items():
+        if key in ai_controller_keys:
+            haystack = ai_controller_source
+        elif key in command_ai_keys:
+            haystack = command_ai_source
+        else:
+            haystack = source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "ai_controller_source": AI_CONTROLLER_SOURCE,
+        "command_ai_source": COMMAND_AI_SOURCE,
         "checked": checked,
         "missing": missing,
     }

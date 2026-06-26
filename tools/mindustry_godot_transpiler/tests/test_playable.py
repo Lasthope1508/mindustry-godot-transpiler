@@ -2664,6 +2664,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var angle_state := source_unit_look_at_angle_state(current_rotation, target_angle, type_rotate_speed, speed_multiplier_value, source_delta)", source)
         self.assertIn('"call": "lookAt(angleTo(x, y))"', source)
 
+    def test_port_game_exposes_source_unit_controller_predicates_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_controller_predicates_state(controller_is_ai_controller: bool, controller_is_command_ai: bool) -> Dictionary:", source)
+        self.assertIn('"is_ai": controller_is_ai_controller', source)
+        self.assertIn('"allow_command": controller_is_command_ai', source)
+        self.assertIn('"is_commandable": controller_is_command_ai', source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

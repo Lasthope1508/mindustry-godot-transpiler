@@ -3054,6 +3054,13 @@ func source_unit_look_at_xy_state(current_rotation: float, unit_x: float, unit_y
 		"rotation": angle_state["rotation"],
 	}
 
+func source_unit_controller_predicates_state(controller_is_ai_controller: bool, controller_is_command_ai: bool) -> Dictionary:
+	return {
+		"is_ai": controller_is_ai_controller,
+		"allow_command": controller_is_command_ai,
+		"is_commandable": controller_is_command_ai,
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},

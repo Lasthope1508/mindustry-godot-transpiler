@@ -2381,6 +2381,25 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_controller_predicates_match_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_controller_predicates_source"))
+        report = source_parity.verify_unit_controller_predicates_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["ai_controller_source"], "core/src/mindustry/entities/units/AIController.java")
+        self.assertEqual(report["command_ai_source"], "core/src/mindustry/ai/types/CommandAI.java")
+        self.assertEqual(report["checked"], {
+            "is_ai_method": "public boolean isAI(){",
+            "is_ai_return": "return controller instanceof AIController;",
+            "allow_command_method": "public boolean allowCommand(){",
+            "allow_command_return": "return controller instanceof CommandAI;",
+            "is_commandable_method": "public boolean isCommandable(){",
+            "is_commandable_return": "return controller instanceof CommandAI;",
+            "ai_controller_class": "public class AIController implements UnitController{",
+            "command_ai_class": "public class CommandAI extends AIController{",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
