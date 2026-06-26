@@ -1968,5 +1968,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_set_prop_item_content_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_set_prop_item_content_source"))
+        report = source_parity.verify_building_set_prop_item_content_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "set_prop_content_method": "public void setProp(UnlockableContent content, double value){",
+            "set_prop_item_guard": "if(content instanceof Item item && items != null){",
+            "set_prop_item_amount": "int amount = (int)value;",
+            "set_prop_item_diff_guard": "if(items.get(item) != amount){",
+            "set_prop_item_increase_guard": "if(items.get(item) < amount){",
+            "set_prop_item_handle_stack": "handleStack(item, acceptStack(item, amount - items.get(item), null), null);",
+            "set_prop_item_decrease_guard": "}else if(amount >= 0){",
+            "set_prop_item_remove_stack": "removeStack(item, items.get(item) - amount);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

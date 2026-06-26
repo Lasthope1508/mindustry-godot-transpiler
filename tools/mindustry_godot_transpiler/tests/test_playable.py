@@ -2372,6 +2372,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return {"team": team_value, "change_team_called": true, "change_team": team_value}', source)
         self.assertIn('return {"team": current_team_value, "change_team_called": false, "change_team": null}', source)
 
+    def test_port_game_exposes_source_building_set_prop_item_content_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_set_prop_item_content_state(content_type: String, has_items_module: bool, item_value: Variant, current_amount: int, value: float, accepted_stack: int) -> Dictionary:", source)
+        self.assertIn('if content_type != "item" or not has_items_module:', source)
+        self.assertIn("var amount := int(value)", source)
+        self.assertIn("if current_amount == amount:", source)
+        self.assertIn("if current_amount < amount:", source)
+        self.assertIn('return {"action": "handle_stack", "item": item_value, "amount": amount, "delta": amount - current_amount, "accepted": accepted_stack}', source)
+        self.assertIn("if amount >= 0:", source)
+        self.assertIn('return {"action": "remove_stack", "item": item_value, "amount": amount, "delta": current_amount - amount, "accepted": 0}', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

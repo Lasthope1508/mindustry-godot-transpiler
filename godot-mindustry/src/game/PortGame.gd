@@ -2275,6 +2275,18 @@ func source_building_set_prop_team_object_state(prop: String, current_team_value
 		return {"team": team_value, "change_team_called": true, "change_team": team_value}
 	return {"team": current_team_value, "change_team_called": false, "change_team": null}
 
+func source_building_set_prop_item_content_state(content_type: String, has_items_module: bool, item_value: Variant, current_amount: int, value: float, accepted_stack: int) -> Dictionary:
+	if content_type != "item" or not has_items_module:
+		return {"action": "none", "item": item_value, "amount": current_amount, "delta": 0, "accepted": 0}
+	var amount := int(value)
+	if current_amount == amount:
+		return {"action": "none", "item": item_value, "amount": amount, "delta": 0, "accepted": 0}
+	if current_amount < amount:
+		return {"action": "handle_stack", "item": item_value, "amount": amount, "delta": amount - current_amount, "accepted": accepted_stack}
+	if amount >= 0:
+		return {"action": "remove_stack", "item": item_value, "amount": amount, "delta": current_amount - amount, "accepted": 0}
+	return {"action": "none", "item": item_value, "amount": amount, "delta": 0, "accepted": 0}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

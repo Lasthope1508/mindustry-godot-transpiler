@@ -3074,6 +3074,29 @@ def verify_building_set_prop_team_object_source(upstream_root: Path) -> dict[str
         "missing": missing,
     }
 
+def verify_building_set_prop_item_content_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "set_prop_content_method": "public void setProp(UnlockableContent content, double value){",
+        "set_prop_item_guard": "if(content instanceof Item item && items != null){",
+        "set_prop_item_amount": "int amount = (int)value;",
+        "set_prop_item_diff_guard": "if(items.get(item) != amount){",
+        "set_prop_item_increase_guard": "if(items.get(item) < amount){",
+        "set_prop_item_handle_stack": "handleStack(item, acceptStack(item, amount - items.get(item), null), null);",
+        "set_prop_item_decrease_guard": "}else if(amount >= 0){",
+        "set_prop_item_remove_stack": "removeStack(item, items.get(item) - amount);",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
