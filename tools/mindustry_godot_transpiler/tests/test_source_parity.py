@@ -2766,6 +2766,53 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_bounds_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_bounds_source"))
+        report = source_parity.verify_unit_update_bounds_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["vars_source"], "core/src/mindustry/Vars.java")
+        self.assertEqual(report["rules_source"], "core/src/mindustry/game/Rules.java")
+        self.assertEqual(report["world_source"], "core/src/mindustry/core/World.java")
+        self.assertEqual(report["arc_mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["arc_time_source"], "arc-core/src/arc/util/Time.java")
+        self.assertEqual(report["checked"], {
+            "warp_dst": "static final float warpDst = 8f;",
+            "bounded_guard": "if(type.bounded){",
+            "world_bounds": "float bot = 0f, left = 0f, top = world.unitHeight(), right = world.unitWidth();",
+            "limit_area_guard": "if(state.rules.limitMapArea && !team.isAI()){",
+            "limit_bot": "bot = state.rules.limitY * tilesize;",
+            "limit_left": "left = state.rules.limitX * tilesize;",
+            "limit_top": "top = state.rules.limitHeight * tilesize + bot;",
+            "limit_right": "right = state.rules.limitWidth * tilesize + left;",
+            "net_local_guard": "if(!net.client() || isLocal()){",
+            "dx_left": "if(x < left) dx += (-(x - left)/warpDst);",
+            "dy_bot": "if(y < bot) dy += (-(y - bot)/warpDst);",
+            "dx_right": "if(x > right - tilesize) dx -= (x - (right - tilesize))/warpDst;",
+            "dy_top": "if(y > top - tilesize) dy -= (y - (top - tilesize))/warpDst;",
+            "vel_add_net": "velAddNet(dx * Time.delta, dy * Time.delta);",
+            "margin": "float margin = tilesize * 1f;",
+            "margin_clamp_x": "x = Mathf.clamp(x, left - margin, right - tilesize + margin);",
+            "margin_clamp_y": "y = Mathf.clamp(y, bot - margin, top - tilesize + margin);",
+            "grounded_guard": "if(isGrounded()){",
+            "grounded_clamp_x": "x = Mathf.clamp(x, left, right - tilesize);",
+            "grounded_clamp_y": "y = Mathf.clamp(y, bot, top - tilesize);",
+            "kill_guard": "if(x < -finalWorldBounds + left || y < -finalWorldBounds + bot || x >= right + finalWorldBounds || y >= top + finalWorldBounds){",
+            "kill_call": "kill();",
+            "tilesize": "public static final int tilesize = 8;",
+            "final_world_bounds": "public static final float finalWorldBounds = 250;",
+            "rules_limit_map_area": "public boolean limitMapArea = false;",
+            "rules_limit_rect": "public int limitX, limitY, limitWidth = 1, limitHeight = 1;",
+            "world_unit_width": "public int unitWidth(){",
+            "world_unit_width_body": "return width()*tilesize;",
+            "world_unit_height": "public int unitHeight(){",
+            "world_unit_height_body": "return height()*tilesize;",
+            "mathf_clamp_range": "public static float clamp(float value, float min, float max){",
+            "mathf_clamp_range_body": "return Math.max(Math.min(value, max), min);",
+            "time_delta_default": "public static float delta = 1f;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_heal_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_heal_source"))
         report = source_parity.verify_unit_heal_source(ROOT / "mindustry-upstream")

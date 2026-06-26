@@ -14,6 +14,9 @@ const SOURCE_DRILL_WARMUP_SPEED := 0.015
 const SOURCE_BLOCK_DUMP_TIME := 5.0
 const SOURCE_CONVEYOR_TILE_SPEED_SCALE := 55.0
 const SOURCE_TICK_RATE := 60.0
+const SOURCE_TILESIZE := 8.0
+const SOURCE_UNIT_WARP_DST := 8.0
+const SOURCE_FINAL_WORLD_BOUNDS := 250.0
 const SOURCE_FLOAT_ROUNDING_ERROR := 0.000001
 const SOURCE_RECOIL_POW := 1.8
 const SOURCE_PI2 := PI * 2.0
@@ -3313,6 +3316,64 @@ func source_unit_update_type_hook_state() -> Dictionary:
 		"arg": "self()",
 		"unitTypeHook": "public void update(Unit unit)",
 		"order": "first statement in UnitComp.update()",
+	}
+
+func source_unit_update_bounds_state(type_bounded: bool, world_unit_height: float, world_unit_width: float, rules_limit_map_area: bool, team_is_ai: bool, rules_limit_x: int, rules_limit_y: int, rules_limit_width: int, rules_limit_height: int, current_x: float, current_y: float, elevation_value: float, net_client: bool, is_local: bool, source_delta: float) -> Dictionary:
+	var next_x := current_x
+	var next_y := current_y
+	var bot := 0.0
+	var left := 0.0
+	var top := world_unit_height
+	var right := world_unit_width
+	var dx := 0.0
+	var dy := 0.0
+	var vel_add_net: Variant = null
+	var can_apply_net_local := false
+	var grounded: bool = source_unit_is_grounded(elevation_value)
+	var use_limited_area := rules_limit_map_area and not team_is_ai
+	if not type_bounded:
+		return {
+			"bounded": false,
+			"x": next_x,
+			"y": next_y,
+			"velAddNet": vel_add_net,
+			"grounded": grounded,
+			"kill": false,
+		}
+	if use_limited_area:
+		bot = float(rules_limit_y) * SOURCE_TILESIZE
+		left = float(rules_limit_x) * SOURCE_TILESIZE
+		top = float(rules_limit_height) * SOURCE_TILESIZE + bot
+		right = float(rules_limit_width) * SOURCE_TILESIZE + left
+	if (not net_client) or is_local:
+		can_apply_net_local = true
+		if next_x < left:
+			dx += (-(next_x - left) / SOURCE_UNIT_WARP_DST)
+		if next_y < bot:
+			dy += (-(next_y - bot) / SOURCE_UNIT_WARP_DST)
+		if next_x > right - SOURCE_TILESIZE:
+			dx -= (next_x - (right - SOURCE_TILESIZE)) / SOURCE_UNIT_WARP_DST
+		if next_y > top - SOURCE_TILESIZE:
+			dy -= (next_y - (top - SOURCE_TILESIZE)) / SOURCE_UNIT_WARP_DST
+		vel_add_net = {"x": dx * source_delta, "y": dy * source_delta}
+		var margin := SOURCE_TILESIZE * 1.0
+		next_x = clampf(next_x, left - margin, right - SOURCE_TILESIZE + margin)
+		next_y = clampf(next_y, bot - margin, top - SOURCE_TILESIZE + margin)
+	if grounded:
+		next_x = clampf(next_x, left, right - SOURCE_TILESIZE)
+		next_y = clampf(next_y, bot, top - SOURCE_TILESIZE)
+	var kill_unit := next_x < -SOURCE_FINAL_WORLD_BOUNDS + left or next_y < -SOURCE_FINAL_WORLD_BOUNDS + bot or next_x >= right + SOURCE_FINAL_WORLD_BOUNDS or next_y >= top + SOURCE_FINAL_WORLD_BOUNDS
+	return {
+		"bounded": true,
+		"limits": {"bot": bot, "left": left, "top": top, "right": right, "limitedArea": use_limited_area},
+		"canApplyNetLocal": can_apply_net_local,
+		"dx": dx,
+		"dy": dy,
+		"velAddNet": vel_add_net,
+		"grounded": grounded,
+		"x": next_x,
+		"y": next_y,
+		"kill": kill_unit,
 	}
 
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:

@@ -4498,6 +4498,106 @@ def verify_unit_update_type_hook_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_unit_update_bounds_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / UNIT_COMP_SOURCE
+    vars_path = upstream_root / "core/src/mindustry/Vars.java"
+    rules_path = upstream_root / RULES_SOURCE
+    world_path = upstream_root / WORLD_SOURCE
+    mathf_path = arc_root / ARC_MATHF_SOURCE
+    time_path = arc_root / ARC_TIME_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    vars_source = vars_path.read_text(encoding="utf-8", errors="replace")
+    rules_source = rules_path.read_text(encoding="utf-8", errors="replace")
+    world_source = world_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    time_source = time_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "warp_dst": "static final float warpDst = 8f;",
+        "bounded_guard": "if(type.bounded){",
+        "world_bounds": "float bot = 0f, left = 0f, top = world.unitHeight(), right = world.unitWidth();",
+        "limit_area_guard": "if(state.rules.limitMapArea && !team.isAI()){",
+        "limit_bot": "bot = state.rules.limitY * tilesize;",
+        "limit_left": "left = state.rules.limitX * tilesize;",
+        "limit_top": "top = state.rules.limitHeight * tilesize + bot;",
+        "limit_right": "right = state.rules.limitWidth * tilesize + left;",
+        "net_local_guard": "if(!net.client() || isLocal()){",
+        "dx_left": "if(x < left) dx += (-(x - left)/warpDst);",
+        "dy_bot": "if(y < bot) dy += (-(y - bot)/warpDst);",
+        "dx_right": "if(x > right - tilesize) dx -= (x - (right - tilesize))/warpDst;",
+        "dy_top": "if(y > top - tilesize) dy -= (y - (top - tilesize))/warpDst;",
+        "vel_add_net": "velAddNet(dx * Time.delta, dy * Time.delta);",
+        "margin": "float margin = tilesize * 1f;",
+        "margin_clamp_x": "x = Mathf.clamp(x, left - margin, right - tilesize + margin);",
+        "margin_clamp_y": "y = Mathf.clamp(y, bot - margin, top - tilesize + margin);",
+        "grounded_guard": "if(isGrounded()){",
+        "grounded_clamp_x": "x = Mathf.clamp(x, left, right - tilesize);",
+        "grounded_clamp_y": "y = Mathf.clamp(y, bot, top - tilesize);",
+        "kill_guard": "if(x < -finalWorldBounds + left || y < -finalWorldBounds + bot || x >= right + finalWorldBounds || y >= top + finalWorldBounds){",
+        "kill_call": "kill();",
+        "tilesize": "public static final int tilesize = 8;",
+        "final_world_bounds": "public static final float finalWorldBounds = 250;",
+        "rules_limit_map_area": "public boolean limitMapArea = false;",
+        "rules_limit_rect": "public int limitX, limitY, limitWidth = 1, limitHeight = 1;",
+        "world_unit_width": "public int unitWidth(){",
+        "world_unit_width_body": "return width()*tilesize;",
+        "world_unit_height": "public int unitHeight(){",
+        "world_unit_height_body": "return height()*tilesize;",
+        "mathf_clamp_range": "public static float clamp(float value, float min, float max){",
+        "mathf_clamp_range_body": "return Math.max(Math.min(value, max), min);",
+        "time_delta_default": "public static float delta = 1f;",
+    }
+    source_map = {
+        "warp_dst": source,
+        "bounded_guard": source,
+        "world_bounds": source,
+        "limit_area_guard": source,
+        "limit_bot": source,
+        "limit_left": source,
+        "limit_top": source,
+        "limit_right": source,
+        "net_local_guard": source,
+        "dx_left": source,
+        "dy_bot": source,
+        "dx_right": source,
+        "dy_top": source,
+        "vel_add_net": source,
+        "margin": source,
+        "margin_clamp_x": source,
+        "margin_clamp_y": source,
+        "grounded_guard": source,
+        "grounded_clamp_x": source,
+        "grounded_clamp_y": source,
+        "kill_guard": source,
+        "kill_call": source,
+        "tilesize": vars_source,
+        "final_world_bounds": vars_source,
+        "rules_limit_map_area": rules_source,
+        "rules_limit_rect": rules_source,
+        "world_unit_width": world_source,
+        "world_unit_width_body": world_source,
+        "world_unit_height": world_source,
+        "world_unit_height_body": world_source,
+        "mathf_clamp_range": mathf_source,
+        "mathf_clamp_range_body": mathf_source,
+        "time_delta_default": time_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "vars_source": "core/src/mindustry/Vars.java",
+        "rules_source": RULES_SOURCE,
+        "world_source": WORLD_SOURCE,
+        "arc_mathf_source": ARC_MATHF_SOURCE,
+        "arc_time_source": ARC_TIME_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_move_pref_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")
