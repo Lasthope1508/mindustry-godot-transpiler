@@ -20,6 +20,7 @@ SOUND_CONTROL_SOURCE = "core/src/mindustry/audio/SoundControl.java"
 TEAMS_SOURCE = "core/src/mindustry/game/Teams.java"
 RULES_SOURCE = "core/src/mindustry/game/Rules.java"
 UNITS_SOURCE = "core/src/mindustry/entities/Units.java"
+ABILITY_SOURCE = "core/src/mindustry/entities/abilities/Ability.java"
 EFFECT_SOURCE = "core/src/mindustry/entities/Effect.java"
 FX_SOURCE = "core/src/mindustry/content/Fx.java"
 EVENT_TYPE_SOURCE = "core/src/mindustry/game/EventType.java"
@@ -4601,6 +4602,34 @@ def verify_unit_update_unsupported_env_source(upstream_root: Path) -> dict[str, 
         "unit_type_source": UNIT_TYPE_SOURCE,
         "units_source": UNITS_SOURCE,
         "teams_source": TEAMS_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_unit_update_abilities_loop_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    ability_path = Path(upstream_root) / ABILITY_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    ability_source = ability_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "unit_abilities_field": "Ability[] abilities = {};",
+        "abilities_loop": "for(Ability a : abilities){",
+        "ability_update_call": "a.update(self());",
+        "ability_update_method": "public void update(Unit unit){}",
+    }
+    source_map = {
+        "unit_abilities_field": source,
+        "abilities_loop": source,
+        "ability_update_call": source,
+        "ability_update_method": ability_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "ability_source": ABILITY_SOURCE,
         "checked": checked,
         "missing": missing,
     }

@@ -2910,6 +2910,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"call": "team.data().updateCount(type, -1)"', source)
         self.assertIn('"callOrder": ["Call.unitEnvDeath(self())", "team.data().updateCount(type, -1)"] if env_death else []', source)
 
+    def test_port_game_exposes_source_unit_update_abilities_loop_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_abilities_loop_state(ability_ids: Array) -> Dictionary:", source)
+        self.assertIn("for ability_id in ability_ids:", source)
+        self.assertIn('"call": "a.update(self())"', source)
+        self.assertIn('"ability": ability_id', source)
+        self.assertIn('"updateCount": updates.size()', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -3010,6 +3010,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_abilities_loop_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_abilities_loop_source"))
+        report = source_parity.verify_unit_update_abilities_loop_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["ability_source"], "core/src/mindustry/entities/abilities/Ability.java")
+        self.assertEqual(report["checked"], {
+            "unit_abilities_field": "Ability[] abilities = {};",
+            "abilities_loop": "for(Ability a : abilities){",
+            "ability_update_call": "a.update(self());",
+            "ability_update_method": "public void update(Unit unit){}",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
