@@ -3583,6 +3583,32 @@ def verify_unit_update_boosting_should_boost_source(upstream_root: Path) -> dict
         "missing": missing,
     }
 
+def verify_unit_update_boosting_elevation_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    mathf_path = Path(arc_root) / ARC_MATHF_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "elevation_line": "elevation = Mathf.approachDelta(elevation, type.canBoost ? Mathf.num(shouldBoost) : 0f, shouldBoost ? type.riseSpeed : type.descentSpeed);",
+        "mathf_num_method": "public static int num(boolean b){",
+        "mathf_num_return": "return b ? 1 : 0;",
+        "mathf_approach_delta": "return approach(from, to, Time.delta * speed);",
+        "mathf_approach": "return from + Mathf.clamp(to - from, -speed, speed);",
+        "mathf_clamp_float": "public static float clamp(float value, float min, float max){",
+    }
+    unit_keys = {"elevation_line"}
+    missing = []
+    for key, snippet in checked.items():
+        haystack = source if key in unit_keys else mathf_source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "arc_mathf_source": ARC_MATHF_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

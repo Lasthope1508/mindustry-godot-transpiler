@@ -2955,6 +2955,19 @@ func source_unit_update_boosting_should_boost_state(boost: bool, on_solid_result
 		"should_boost": should_boost,
 	}
 
+func source_arc_mathf_num(value: bool) -> int:
+	return 1 if value else 0
+
+func source_unit_update_boosting_elevation_state(current_elevation: float, type_can_boost: bool, should_boost: bool, type_rise_speed: float, type_descent_speed: float, source_delta: float) -> Dictionary:
+	var target_elevation: float = float(source_arc_mathf_num(should_boost)) if type_can_boost else 0.0
+	var speed: float = type_rise_speed if should_boost else type_descent_speed
+	var next_elevation: float = source_approach_delta(current_elevation, target_elevation, speed, source_delta)
+	return {
+		"target_elevation": target_elevation,
+		"speed": speed,
+		"elevation": next_elevation,
+	}
+
 func simulate_turrets(delta: float) -> void:
 	if content_catalog == null or turret_cells.is_empty():
 		return

@@ -2619,6 +2619,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var should_boost: bool = boost or on_solid_result or (flying and not can_land_result)", source)
         self.assertIn('"should_boost": should_boost', source)
 
+    def test_port_game_exposes_source_unit_update_boosting_elevation_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_arc_mathf_num(value: bool) -> int:", source)
+        self.assertIn("return 1 if value else 0", source)
+        self.assertIn("func source_unit_update_boosting_elevation_state(current_elevation: float, type_can_boost: bool, should_boost: bool, type_rise_speed: float, type_descent_speed: float, source_delta: float) -> Dictionary:", source)
+        self.assertIn("var target_elevation: float = float(source_arc_mathf_num(should_boost)) if type_can_boost else 0.0", source)
+        self.assertIn("var speed: float = type_rise_speed if should_boost else type_descent_speed", source)
+        self.assertIn("var next_elevation: float = source_approach_delta(current_elevation, target_elevation, speed, source_delta)", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

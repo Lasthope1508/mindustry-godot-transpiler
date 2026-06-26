@@ -2303,5 +2303,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_boosting_elevation_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_boosting_elevation_source"))
+        report = source_parity.verify_unit_update_boosting_elevation_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["arc_mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "elevation_line": "elevation = Mathf.approachDelta(elevation, type.canBoost ? Mathf.num(shouldBoost) : 0f, shouldBoost ? type.riseSpeed : type.descentSpeed);",
+            "mathf_num_method": "public static int num(boolean b){",
+            "mathf_num_return": "return b ? 1 : 0;",
+            "mathf_approach_delta": "return approach(from, to, Time.delta * speed);",
+            "mathf_approach": "return from + Mathf.clamp(to - from, -speed, speed);",
+            "mathf_clamp_float": "public static float clamp(float value, float min, float max){",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
