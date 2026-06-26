@@ -3341,6 +3341,28 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_spawned_core_despawn_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_spawned_core_despawn_source"))
+        report = source_parity.verify_unit_update_spawned_core_despawn_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["units_source"], "core/src/mindustry/entities/Units.java")
+        self.assertEqual(report["checked"], {
+            "spawned_by_core_field": "boolean spawnedByCore;",
+            "dead_import": "@Import boolean dead, disarmed;",
+            "core_despawn_comment": "//remove units spawned by the core",
+            "core_despawn_guard": "if(spawnedByCore && !isPlayer() && !dead){",
+            "core_despawn_call": "Call.unitDespawn(self());",
+            "is_player_method": "public boolean isPlayer(){",
+            "is_player_body": "return controller instanceof Player;",
+            "unit_despawn_remote": "@Remote(called = Loc.server)",
+            "unit_despawn_method": "public static void unitDespawn(Unit unit){",
+            "unit_despawn_null_guard": "if(unit == null) return;",
+            "unit_despawn_effect": "Fx.unitDespawn.at(unit.x, unit.y, 0, unit);",
+            "unit_despawn_remove": "unit.remove();",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

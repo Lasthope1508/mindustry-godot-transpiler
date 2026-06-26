@@ -5291,6 +5291,50 @@ def verify_unit_update_invalid_controller_reset_source(upstream_root: Path) -> d
         "missing": missing,
     }
 
+def verify_unit_update_spawned_core_despawn_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    units_path = Path(upstream_root) / "core/src/mindustry/entities/Units.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    units_source = units_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "spawned_by_core_field": "boolean spawnedByCore;",
+        "dead_import": "@Import boolean dead, disarmed;",
+        "core_despawn_comment": "//remove units spawned by the core",
+        "core_despawn_guard": "if(spawnedByCore && !isPlayer() && !dead){",
+        "core_despawn_call": "Call.unitDespawn(self());",
+        "is_player_method": "public boolean isPlayer(){",
+        "is_player_body": "return controller instanceof Player;",
+        "unit_despawn_remote": "@Remote(called = Loc.server)",
+        "unit_despawn_method": "public static void unitDespawn(Unit unit){",
+        "unit_despawn_null_guard": "if(unit == null) return;",
+        "unit_despawn_effect": "Fx.unitDespawn.at(unit.x, unit.y, 0, unit);",
+        "unit_despawn_remove": "unit.remove();",
+    }
+    source_map = {
+        "spawned_by_core_field": source,
+        "dead_import": source,
+        "core_despawn_comment": source,
+        "core_despawn_guard": source,
+        "core_despawn_call": source,
+        "is_player_method": source,
+        "is_player_body": source,
+        "unit_despawn_remote": units_source,
+        "unit_despawn_method": units_source,
+        "unit_despawn_null_guard": units_source,
+        "unit_despawn_effect": units_source,
+        "unit_despawn_remove": units_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "units_source": "core/src/mindustry/entities/Units.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

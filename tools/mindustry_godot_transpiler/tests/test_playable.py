@@ -3078,6 +3078,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"unit": unit_id', source)
         self.assertIn('"resetController": reset_controller', source)
 
+    def test_port_game_exposes_source_unit_update_spawned_core_despawn_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_spawned_core_despawn_state(spawned_by_core_value: bool, is_player_value: bool, dead_value: bool, unit_id: int) -> Dictionary:", source)
+        self.assertIn("var guard := spawned_by_core_value and (not is_player_value) and (not dead_value)", source)
+        self.assertIn("if guard:", source)
+        self.assertIn('"call": "Call.unitDespawn(self())"', source)
+        self.assertIn('"effect": "Fx.unitDespawn.at(unit.x, unit.y, 0, unit)"', source)
+        self.assertIn('"remove": "unit.remove()"', source)
+        self.assertIn('"unit": unit_id', source)
+        self.assertIn('"despawn": despawn_call', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

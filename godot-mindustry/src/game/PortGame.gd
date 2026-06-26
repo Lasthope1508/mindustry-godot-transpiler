@@ -3605,6 +3605,24 @@ func source_unit_update_invalid_controller_reset_state(controller_is_valid_value
 		"resetController": reset_controller,
 	}
 
+func source_unit_update_spawned_core_despawn_state(spawned_by_core_value: bool, is_player_value: bool, dead_value: bool, unit_id: int) -> Dictionary:
+	var guard := spawned_by_core_value and (not is_player_value) and (not dead_value)
+	var despawn_call: Variant = null
+	if guard:
+		despawn_call = {
+			"call": "Call.unitDespawn(self())",
+			"effect": "Fx.unitDespawn.at(unit.x, unit.y, 0, unit)",
+			"remove": "unit.remove()",
+			"unit": unit_id,
+		}
+	return {
+		"guard": guard,
+		"spawnedByCore": spawned_by_core_value,
+		"isPlayer": is_player_value,
+		"dead": dead_value,
+		"despawn": despawn_call,
+	}
+
 func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
 	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
 	var drown_time_before_clamp := current_drown_time
