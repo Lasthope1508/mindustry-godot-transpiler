@@ -2920,6 +2920,28 @@ def verify_building_sense_object_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_building_sense_content_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "sense_content_method": "public double sense(Content content){",
+        "sense_content_item": "if(content instanceof Item i && items != null) return items.get(i);",
+        "sense_content_liquid": "if(content instanceof Liquid l && liquids != null) return liquids.get(l);",
+        "sense_content_payloads_guard": "if(getPayloads() != null){",
+        "sense_content_unit": "if(content instanceof UnitType u) return getPayloads().get(u);",
+        "sense_content_block": "if(content instanceof Block b) return getPayloads().get(b);",
+        "sense_content_invalid": "return Float.NaN; //invalid sense",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

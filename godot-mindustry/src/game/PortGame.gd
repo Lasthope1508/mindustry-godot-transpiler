@@ -2227,6 +2227,15 @@ func source_building_sense_object_state(sensor: String, block_value: Variant, ha
 		_:
 			return {"no_sensed": true, "value": null}
 
+func source_building_sense_content_state(content_type: String, has_items_module: bool, item_amount: float, has_liquids_module: bool, liquid_amount: float, has_payloads: bool, payload_amount: float) -> Dictionary:
+	if content_type == "item" and has_items_module:
+		return {"sensed": true, "value": item_amount}
+	if content_type == "liquid" and has_liquids_module:
+		return {"sensed": true, "value": liquid_amount}
+	if (content_type == "unit" or content_type == "block") and has_payloads:
+		return {"sensed": true, "value": payload_amount}
+	return {"sensed": false, "value": null}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

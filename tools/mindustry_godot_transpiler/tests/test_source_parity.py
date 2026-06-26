@@ -1864,5 +1864,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_sense_content_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_sense_content_source"))
+        report = source_parity.verify_building_sense_content_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "sense_content_method": "public double sense(Content content){",
+            "sense_content_item": "if(content instanceof Item i && items != null) return items.get(i);",
+            "sense_content_liquid": "if(content instanceof Liquid l && liquids != null) return liquids.get(l);",
+            "sense_content_payloads_guard": "if(getPayloads() != null){",
+            "sense_content_unit": "if(content instanceof UnitType u) return getPayloads().get(u);",
+            "sense_content_block": "if(content instanceof Block b) return getPayloads().get(b);",
+            "sense_content_invalid": "return Float.NaN; //invalid sense",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
