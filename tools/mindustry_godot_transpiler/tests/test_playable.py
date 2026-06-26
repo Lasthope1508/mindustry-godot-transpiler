@@ -2715,6 +2715,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"type_id": type_id', source)
         self.assertIn('"call": "team.data().countType(type)"', source)
 
+    def test_port_game_exposes_source_unit_cap_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_cap_state(team_is_wave_team: bool, rules_pvp: bool, state_is_campaign: bool, rules_disable_unit_cap: bool, team_ignore_unit_cap: bool, rules_unit_cap_variable: bool, rules_unit_cap: int, team_data_unit_cap: int) -> Dictionary:", source)
+        self.assertIn('"cap": 2147483647', source)
+        self.assertIn('"uncapped": true', source)
+        self.assertIn('"cap": max(0, rules_unit_cap + team_data_unit_cap)', source)
+        self.assertIn('"cap": max(0, rules_unit_cap)', source)
+        self.assertIn('"call": "Units.getCap(team)"', source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

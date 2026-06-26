@@ -2463,6 +2463,31 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_cap_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_cap_source"))
+        report = source_parity.verify_unit_cap_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["units_source"], "core/src/mindustry/entities/Units.java")
+        self.assertEqual(report["rules_source"], "core/src/mindustry/game/Rules.java")
+        self.assertEqual(report["team_source"], "core/src/mindustry/game/Team.java")
+        self.assertEqual(report["teams_source"], "core/src/mindustry/game/Teams.java")
+        self.assertEqual(report["checked"], {
+            "cap_method": "public int cap(){",
+            "cap_return": "return Units.getCap(team);",
+            "get_cap_method": "public static int getCap(Team team){",
+            "get_cap_wave_comment": "wave team has no cap",
+            "get_cap_guard": "if((team == state.rules.waveTeam && !state.rules.pvp) || (state.isCampaign() && team == state.rules.waveTeam) || state.rules.disableUnitCap || team.ignoreUnitCap){",
+            "get_cap_max": "return Integer.MAX_VALUE;",
+            "get_cap_return": "return Math.max(0, state.rules.unitCapVariable ? state.rules.unitCap + team.data().unitCap : state.rules.unitCap);",
+            "rules_unit_cap_variable": "public boolean unitCapVariable = true;",
+            "rules_unit_cap": "public int unitCap = 0;",
+            "rules_disable_unit_cap": "public boolean disableUnitCap;",
+            "team_ignore_unit_cap": "public boolean ignoreUnitCap = false;",
+            "team_data_unit_cap": "public int unitCap;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

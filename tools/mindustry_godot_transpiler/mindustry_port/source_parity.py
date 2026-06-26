@@ -12,6 +12,8 @@ UNIT_COMP_SOURCE = "core/src/mindustry/entities/comp/UnitComp.java"
 UNIT_TYPES_CONTENT_SOURCE = "core/src/mindustry/content/UnitTypes.java"
 TEAM_SOURCE = "core/src/mindustry/game/Team.java"
 TEAMS_SOURCE = "core/src/mindustry/game/Teams.java"
+RULES_SOURCE = "core/src/mindustry/game/Rules.java"
+UNITS_SOURCE = "core/src/mindustry/entities/Units.java"
 EVENT_TYPE_SOURCE = "core/src/mindustry/game/EventType.java"
 CONVEYOR_SOURCE = "core/src/mindustry/world/blocks/distribution/Conveyor.java"
 DRILL_SOURCE = "core/src/mindustry/world/blocks/production/Drill.java"
@@ -3877,6 +3879,59 @@ def verify_unit_count_source(upstream_root: Path) -> dict[str, Any]:
             missing.append(snippet)
     return {
         "source": UNIT_COMP_SOURCE,
+        "team_source": TEAM_SOURCE,
+        "teams_source": TEAMS_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_unit_cap_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    units_path = Path(upstream_root) / UNITS_SOURCE
+    rules_path = Path(upstream_root) / RULES_SOURCE
+    team_path = Path(upstream_root) / TEAM_SOURCE
+    teams_path = Path(upstream_root) / TEAMS_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    units_source = units_path.read_text(encoding="utf-8", errors="replace")
+    rules_source = rules_path.read_text(encoding="utf-8", errors="replace")
+    team_source = team_path.read_text(encoding="utf-8", errors="replace")
+    teams_source = teams_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "cap_method": "public int cap(){",
+        "cap_return": "return Units.getCap(team);",
+        "get_cap_method": "public static int getCap(Team team){",
+        "get_cap_wave_comment": "wave team has no cap",
+        "get_cap_guard": "if((team == state.rules.waveTeam && !state.rules.pvp) || (state.isCampaign() && team == state.rules.waveTeam) || state.rules.disableUnitCap || team.ignoreUnitCap){",
+        "get_cap_max": "return Integer.MAX_VALUE;",
+        "get_cap_return": "return Math.max(0, state.rules.unitCapVariable ? state.rules.unitCap + team.data().unitCap : state.rules.unitCap);",
+        "rules_unit_cap_variable": "public boolean unitCapVariable = true;",
+        "rules_unit_cap": "public int unitCap = 0;",
+        "rules_disable_unit_cap": "public boolean disableUnitCap;",
+        "team_ignore_unit_cap": "public boolean ignoreUnitCap = false;",
+        "team_data_unit_cap": "public int unitCap;",
+    }
+    units_keys = {"get_cap_method", "get_cap_wave_comment", "get_cap_guard", "get_cap_max", "get_cap_return"}
+    rules_keys = {"rules_unit_cap_variable", "rules_unit_cap", "rules_disable_unit_cap"}
+    team_keys = {"team_ignore_unit_cap"}
+    teams_keys = {"team_data_unit_cap"}
+    missing = []
+    for key, snippet in checked.items():
+        if key in units_keys:
+            haystack = units_source
+        elif key in rules_keys:
+            haystack = rules_source
+        elif key in team_keys:
+            haystack = team_source
+        elif key in teams_keys:
+            haystack = teams_source
+        else:
+            haystack = source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "units_source": UNITS_SOURCE,
+        "rules_source": RULES_SOURCE,
         "team_source": TEAM_SOURCE,
         "teams_source": TEAMS_SOURCE,
         "checked": checked,

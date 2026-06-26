@@ -3104,6 +3104,25 @@ func source_unit_count_state(team_data_count_type_result: int, type_id: int) -> 
 		"call": "team.data().countType(type)",
 	}
 
+func source_unit_cap_state(team_is_wave_team: bool, rules_pvp: bool, state_is_campaign: bool, rules_disable_unit_cap: bool, team_ignore_unit_cap: bool, rules_unit_cap_variable: bool, rules_unit_cap: int, team_data_unit_cap: int) -> Dictionary:
+	if (team_is_wave_team and not rules_pvp) or (state_is_campaign and team_is_wave_team) or rules_disable_unit_cap or team_ignore_unit_cap:
+		return {
+			"cap": 2147483647,
+			"uncapped": true,
+			"call": "Units.getCap(team)",
+		}
+	if rules_unit_cap_variable:
+		return {
+			"cap": max(0, rules_unit_cap + team_data_unit_cap),
+			"uncapped": false,
+			"call": "Units.getCap(team)",
+		}
+	return {
+		"cap": max(0, rules_unit_cap),
+		"uncapped": false,
+		"call": "Units.getCap(team)",
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},
