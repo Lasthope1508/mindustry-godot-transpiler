@@ -3131,6 +3131,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"call": "type.deathExplosionEffect.at"', source)
         self.assertIn('"rotation": bounds_value / 2.0 / 8.0', source)
 
+    def test_port_game_exposes_source_unit_destroy_visual_effects_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_destroy_visual_effects_state(source_x: float, source_y: float, hit_size: float, type_death_shake: float, type_create_scorch: bool, unit_id: int) -> Dictionary:", source)
+        self.assertIn("var shake := 3.0 + hit_size / 3.0 if type_death_shake < 0.0 else type_death_shake", source)
+        self.assertIn("if type_create_scorch:", source)
+        self.assertIn('"call": "Effect.scorch(x, y, (int)(hitSize / 5))"', source)
+        self.assertIn('"size": int(hit_size / 5.0)', source)
+        self.assertIn('"call": "Effect.shake(shake, shake, this)"', source)
+        self.assertIn('"intensity": shake', source)
+        self.assertIn('"duration": shake', source)
+        self.assertIn('"unit": unit_id', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

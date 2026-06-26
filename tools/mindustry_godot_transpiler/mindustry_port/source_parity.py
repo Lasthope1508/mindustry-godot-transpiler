@@ -5477,6 +5477,49 @@ def verify_unit_destroy_explosion_dispatch_source(upstream_root: Path) -> dict[s
         "missing": missing,
     }
 
+def verify_unit_destroy_visual_effects_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    unit_type_path = Path(upstream_root) / "core/src/mindustry/type/UnitType.java"
+    effect_path = Path(upstream_root) / "core/src/mindustry/entities/Effect.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    effect_source = effect_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "destroy_shake_formula": "float shake = type.deathShake < 0 ? 3f + hitSize / 3f : type.deathShake;",
+        "destroy_create_scorch_guard": "if(type.createScorch){",
+        "destroy_scorch_call": "Effect.scorch(x, y, (int)(hitSize / 5));",
+        "destroy_shake_call": "Effect.shake(shake, shake, this);",
+        "unit_hit_size_default": "hitSize = 6f,",
+        "unit_death_shake_default": "deathShake = -1f,",
+        "unit_create_scorch_default": "createScorch = true,",
+        "effect_shake_position_overload": "public static void shake(float intensity, float duration, Position loc){",
+        "effect_shake_position_body": "shake(intensity, duration, loc.getX(), loc.getY());",
+        "effect_scorch_method": "public static void scorch(float x, float y, int size){",
+    }
+    source_map = {
+        "destroy_shake_formula": source,
+        "destroy_create_scorch_guard": source,
+        "destroy_scorch_call": source,
+        "destroy_shake_call": source,
+        "unit_hit_size_default": unit_type_source,
+        "unit_death_shake_default": unit_type_source,
+        "unit_create_scorch_default": unit_type_source,
+        "effect_shake_position_overload": effect_source,
+        "effect_shake_position_body": effect_source,
+        "effect_scorch_method": effect_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_type_source": "core/src/mindustry/type/UnitType.java",
+        "effect_source": "core/src/mindustry/entities/Effect.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

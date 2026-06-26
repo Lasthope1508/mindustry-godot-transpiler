@@ -3431,6 +3431,27 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_destroy_visual_effects_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_destroy_visual_effects_source"))
+        report = source_parity.verify_unit_destroy_visual_effects_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["effect_source"], "core/src/mindustry/entities/Effect.java")
+        self.assertEqual(report["checked"], {
+            "destroy_shake_formula": "float shake = type.deathShake < 0 ? 3f + hitSize / 3f : type.deathShake;",
+            "destroy_create_scorch_guard": "if(type.createScorch){",
+            "destroy_scorch_call": "Effect.scorch(x, y, (int)(hitSize / 5));",
+            "destroy_shake_call": "Effect.shake(shake, shake, this);",
+            "unit_hit_size_default": "hitSize = 6f,",
+            "unit_death_shake_default": "deathShake = -1f,",
+            "unit_create_scorch_default": "createScorch = true,",
+            "effect_shake_position_overload": "public static void shake(float intensity, float duration, Position loc){",
+            "effect_shake_position_body": "shake(intensity, duration, loc.getX(), loc.getY());",
+            "effect_scorch_method": "public static void scorch(float x, float y, int size){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

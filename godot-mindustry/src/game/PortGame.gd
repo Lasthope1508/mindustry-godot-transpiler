@@ -3672,6 +3672,27 @@ func source_unit_destroy_explosion_dispatch_state(spawned_by_core_value: bool, s
 		"effect": death_explosion_effect,
 	}
 
+func source_unit_destroy_visual_effects_state(source_x: float, source_y: float, hit_size: float, type_death_shake: float, type_create_scorch: bool, unit_id: int) -> Dictionary:
+	var shake := 3.0 + hit_size / 3.0 if type_death_shake < 0.0 else type_death_shake
+	var scorch_call: Variant = null
+	if type_create_scorch:
+		scorch_call = {
+			"call": "Effect.scorch(x, y, (int)(hitSize / 5))",
+			"x": source_x,
+			"y": source_y,
+			"size": int(hit_size / 5.0),
+		}
+	return {
+		"shake": shake,
+		"scorch": scorch_call,
+		"shakeCall": {
+			"call": "Effect.shake(shake, shake, this)",
+			"intensity": shake,
+			"duration": shake,
+			"unit": unit_id,
+		},
+	}
+
 func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
 	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
 	var drown_time_before_clamp := current_drown_time
