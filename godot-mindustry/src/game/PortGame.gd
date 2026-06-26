@@ -3547,6 +3547,7 @@ func source_weapon_update_rotate_toward_state(mount_state: Dictionary, weapon_st
 	var unit_y := float(unit_state.get("y", 0.0))
 	var unit_rotation := float(unit_state.get("rotation", 0.0))
 	var gate := bool(weapon_state.get("rotate", false)) and (mount_rotate or mount_shoot) and can_shoot
+	var non_rotate_branch := not bool(weapon_state.get("rotate", false))
 	var axis_angle := unit_rotation - 90.0
 	var axis_vec := source_arc_angles_trns_vec(axis_angle, weapon_x, weapon_y)
 	var axis_x := unit_x + float(axis_vec["x"])
@@ -3561,6 +3562,9 @@ func source_weapon_update_rotate_toward_state(mount_state: Dictionary, weapon_st
 		limit_dst = source_arc_angles_angle_dist(next_rotation, base_rotation)
 		if limit_dst > rotation_limit / 2.0:
 			next_rotation = source_arc_angles_move_toward(next_rotation, base_rotation, limit_dst - rotation_limit / 2.0)
+	elif non_rotate_branch:
+		next_rotation = base_rotation
+		target_rotation = source_arc_angles_angle(unit_x, unit_y, aim_x, aim_y)
 	return {
 		"gate": gate,
 		"axisAngle": axis_angle,
@@ -3572,6 +3576,7 @@ func source_weapon_update_rotate_toward_state(mount_state: Dictionary, weapon_st
 		"baseRotation": base_rotation,
 		"limitDistance": limit_dst,
 		"rotationLimitApplied": gate and rotation_limit < 360.0 and limit_dst > rotation_limit / 2.0,
+		"nonRotateApplied": non_rotate_branch,
 		"canShoot": can_shoot,
 		"mountRotate": mount_rotate,
 		"mountShoot": mount_shoot,
@@ -3583,6 +3588,9 @@ func source_weapon_update_rotate_toward_state(mount_state: Dictionary, weapon_st
 		"rotationLimitSource": "if(rotationLimit < 360)",
 		"limitDistanceSource": "float dst = Angles.angleDist(mount.rotation, baseRotation)",
 		"limitMoveSource": "mount.rotation = Angles.moveToward(mount.rotation, baseRotation, dst - rotationLimit/2f)",
+		"nonRotateSource": "else if(!rotate)",
+		"baseRotationSource": "mount.rotation = baseRotation",
+		"angleToSource": "mount.targetRotation = unit.angleTo(mount.aimX, mount.aimY)",
 	}
 
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:

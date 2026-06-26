@@ -3489,6 +3489,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"limitDistanceSource": "float dst = Angles.angleDist(mount.rotation, baseRotation)"', helper_source)
         self.assertIn('"limitMoveSource": "mount.rotation = Angles.moveToward(mount.rotation, baseRotation, dst - rotationLimit/2f)"', helper_source)
 
+    def test_port_game_applies_source_weapon_update_non_rotate_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        helper_source = source[source.find("func source_weapon_update_rotate_toward_state"):source.find("func source_unit_player_controllable_state")]
+
+        self.assertIn("var non_rotate_branch := not bool(weapon_state.get(\"rotate\", false))", helper_source)
+        self.assertIn("elif non_rotate_branch:", helper_source)
+        self.assertIn("next_rotation = base_rotation", helper_source)
+        self.assertIn("target_rotation = source_arc_angles_angle(unit_x, unit_y, aim_x, aim_y)", helper_source)
+        self.assertIn('"nonRotateApplied": non_rotate_branch', helper_source)
+        self.assertIn('"nonRotateSource": "else if(!rotate)"', helper_source)
+        self.assertIn('"baseRotationSource": "mount.rotation = baseRotation"', helper_source)
+        self.assertIn('"angleToSource": "mount.targetRotation = unit.angleTo(mount.aimX, mount.aimY)"', helper_source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

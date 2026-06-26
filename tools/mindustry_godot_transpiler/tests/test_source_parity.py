@@ -4053,6 +4053,28 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_update_non_rotate_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_update_non_rotate_source"))
+        report = source_parity.verify_weapon_update_non_rotate_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["position_source"], "arc-core/src/arc/math/geom/Position.java")
+        self.assertEqual(report["angles_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(report["checked"], {
+            "non_rotate_guard": "}else if(!rotate){",
+            "rotation_base": "mount.rotation = baseRotation;",
+            "target_rotation_angle_to": "mount.targetRotation = unit.angleTo(mount.aimX, mount.aimY);",
+            "weapon_rotate": "public boolean rotate = false;",
+            "weapon_base_rotation": "public float baseRotation = 0f;",
+            "weapon_mount_rotation": "public float rotation;",
+            "weapon_mount_target_rotation": "public float targetRotation;",
+            "weapon_mount_aim": "public float aimX, aimY;",
+            "position_angle_to_float": "default float angleTo(float x, float y){",
+            "position_angle_to_return": "return Angles.angle(getX(), getY(), x, y);",
+            "angles_angle": "public static float angle(float x, float y, float x2, float y2){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

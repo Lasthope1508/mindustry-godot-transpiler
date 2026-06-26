@@ -6824,6 +6824,58 @@ def verify_weapon_update_rotation_limit_source(upstream_root: Path) -> dict[str,
         "missing": missing,
     }
 
+def verify_weapon_update_non_rotate_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    position_source = "arc-core/src/arc/math/geom/Position.java"
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_path = upstream_root / weapon_mount_source
+    position_path = arc_root / position_source
+    angles_path = arc_root / ARC_ANGLES_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    position_text = position_path.read_text(encoding="utf-8", errors="replace")
+    angles_text = angles_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "non_rotate_guard": "}else if(!rotate){",
+        "rotation_base": "mount.rotation = baseRotation;",
+        "target_rotation_angle_to": "mount.targetRotation = unit.angleTo(mount.aimX, mount.aimY);",
+        "weapon_rotate": "public boolean rotate = false;",
+        "weapon_base_rotation": "public float baseRotation = 0f;",
+        "weapon_mount_rotation": "public float rotation;",
+        "weapon_mount_target_rotation": "public float targetRotation;",
+        "weapon_mount_aim": "public float aimX, aimY;",
+        "position_angle_to_float": "default float angleTo(float x, float y){",
+        "position_angle_to_return": "return Angles.angle(getX(), getY(), x, y);",
+        "angles_angle": "public static float angle(float x, float y, float x2, float y2){",
+    }
+    source_map = {
+        "non_rotate_guard": source,
+        "rotation_base": source,
+        "target_rotation_angle_to": source,
+        "weapon_rotate": source,
+        "weapon_base_rotation": source,
+        "weapon_mount_rotation": weapon_mount_text,
+        "weapon_mount_target_rotation": weapon_mount_text,
+        "weapon_mount_aim": weapon_mount_text,
+        "position_angle_to_float": position_text,
+        "position_angle_to_return": position_text,
+        "angles_angle": angles_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": weapon_mount_source,
+        "position_source": position_source,
+        "angles_source": ARC_ANGLES_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
