@@ -6786,6 +6786,44 @@ def verify_weapon_update_rotate_toward_source(upstream_root: Path) -> dict[str, 
         "missing": missing,
     }
 
+def verify_weapon_update_rotation_limit_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    angles_path = arc_root / ARC_ANGLES_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    angles_text = angles_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "rotation_limit_guard": "if(rotationLimit < 360){",
+        "limit_dst": "float dst = Angles.angleDist(mount.rotation, baseRotation);",
+        "limit_guard": "if(dst > rotationLimit/2f){",
+        "limit_move_toward": "mount.rotation = Angles.moveToward(mount.rotation, baseRotation, dst - rotationLimit/2f);",
+        "weapon_rotation_limit": "public float rotationLimit = 361f;",
+        "weapon_base_rotation": "public float baseRotation = 0f;",
+        "angles_angle_dist": "public static float angleDist(float a, float b){",
+        "angles_move_toward": "public static float moveToward(float angle, float to, float speed){",
+    }
+    source_map = {
+        "rotation_limit_guard": source,
+        "limit_dst": source,
+        "limit_guard": source,
+        "limit_move_toward": source,
+        "weapon_rotation_limit": source,
+        "weapon_base_rotation": source,
+        "angles_angle_dist": angles_text,
+        "angles_move_toward": angles_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "angles_source": ARC_ANGLES_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

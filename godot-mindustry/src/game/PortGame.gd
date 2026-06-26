@@ -3541,6 +3541,8 @@ func source_weapon_update_rotate_toward_state(mount_state: Dictionary, weapon_st
 	var weapon_x := float(weapon_state.get("x", 5.0))
 	var weapon_y := float(weapon_state.get("y", 0.0))
 	var rotate_speed := float(weapon_state.get("rotateSpeed", 20.0))
+	var rotation_limit := float(weapon_state.get("rotationLimit", 361.0))
+	var base_rotation := float(weapon_state.get("baseRotation", 0.0))
 	var unit_x := float(unit_state.get("x", 0.0))
 	var unit_y := float(unit_state.get("y", 0.0))
 	var unit_rotation := float(unit_state.get("rotation", 0.0))
@@ -3551,9 +3553,14 @@ func source_weapon_update_rotate_toward_state(mount_state: Dictionary, weapon_st
 	var axis_y := unit_y + float(axis_vec["y"])
 	var target_rotation := current_target_rotation
 	var next_rotation := current_rotation
+	var limit_dst := 0.0
 	if gate:
 		target_rotation = source_arc_angles_angle(axis_x, axis_y, aim_x, aim_y) - unit_rotation
 		next_rotation = source_arc_angles_move_toward(current_rotation, target_rotation, rotate_speed * source_delta)
+	if gate and rotation_limit < 360.0:
+		limit_dst = source_arc_angles_angle_dist(next_rotation, base_rotation)
+		if limit_dst > rotation_limit / 2.0:
+			next_rotation = source_arc_angles_move_toward(next_rotation, base_rotation, limit_dst - rotation_limit / 2.0)
 	return {
 		"gate": gate,
 		"axisAngle": axis_angle,
@@ -3561,6 +3568,10 @@ func source_weapon_update_rotate_toward_state(mount_state: Dictionary, weapon_st
 		"axisY": axis_y,
 		"targetRotation": target_rotation,
 		"rotation": next_rotation,
+		"rotationLimit": rotation_limit,
+		"baseRotation": base_rotation,
+		"limitDistance": limit_dst,
+		"rotationLimitApplied": gate and rotation_limit < 360.0 and limit_dst > rotation_limit / 2.0,
 		"canShoot": can_shoot,
 		"mountRotate": mount_rotate,
 		"mountShoot": mount_shoot,
@@ -3569,6 +3580,9 @@ func source_weapon_update_rotate_toward_state(mount_state: Dictionary, weapon_st
 		"axisYSource": "axisY = unit.y + Angles.trnsy(unit.rotation - 90,  x, y)",
 		"targetRotationSource": "mount.targetRotation = Angles.angle(axisX, axisY, mount.aimX, mount.aimY) - unit.rotation",
 		"rotationSource": "mount.rotation = Angles.moveToward(mount.rotation, mount.targetRotation, rotateSpeed * Time.delta)",
+		"rotationLimitSource": "if(rotationLimit < 360)",
+		"limitDistanceSource": "float dst = Angles.angleDist(mount.rotation, baseRotation)",
+		"limitMoveSource": "mount.rotation = Angles.moveToward(mount.rotation, baseRotation, dst - rotationLimit/2f)",
 	}
 
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:

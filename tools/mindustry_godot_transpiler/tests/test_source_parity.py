@@ -4035,6 +4035,24 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_update_rotation_limit_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_update_rotation_limit_source"))
+        report = source_parity.verify_weapon_update_rotation_limit_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["angles_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(report["checked"], {
+            "rotation_limit_guard": "if(rotationLimit < 360){",
+            "limit_dst": "float dst = Angles.angleDist(mount.rotation, baseRotation);",
+            "limit_guard": "if(dst > rotationLimit/2f){",
+            "limit_move_toward": "mount.rotation = Angles.moveToward(mount.rotation, baseRotation, dst - rotationLimit/2f);",
+            "weapon_rotation_limit": "public float rotationLimit = 361f;",
+            "weapon_base_rotation": "public float baseRotation = 0f;",
+            "angles_angle_dist": "public static float angleDist(float a, float b){",
+            "angles_move_toward": "public static float moveToward(float angle, float to, float speed){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

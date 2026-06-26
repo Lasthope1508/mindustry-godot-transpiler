@@ -3471,7 +3471,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"axisYSource": "axisY = unit.y + Angles.trnsy(unit.rotation - 90,  x, y)"', source)
         self.assertIn('"targetRotationSource": "mount.targetRotation = Angles.angle(axisX, axisY, mount.aimX, mount.aimY) - unit.rotation"', source)
         self.assertIn('"rotationSource": "mount.rotation = Angles.moveToward(mount.rotation, mount.targetRotation, rotateSpeed * Time.delta)"', source)
-        self.assertNotIn("rotationLimit", source[source.find("func source_weapon_update_rotate_toward_state"):source.find("func source_unit_player_controllable_state")])
+
+    def test_port_game_applies_source_weapon_update_rotation_limit_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        helper_source = source[source.find("func source_weapon_update_rotate_toward_state"):source.find("func source_unit_player_controllable_state")]
+
+        self.assertIn("var rotation_limit := float(weapon_state.get(\"rotationLimit\", 361.0))", helper_source)
+        self.assertIn("var base_rotation := float(weapon_state.get(\"baseRotation\", 0.0))", helper_source)
+        self.assertIn("var limit_dst := 0.0", helper_source)
+        self.assertIn("if gate and rotation_limit < 360.0:", helper_source)
+        self.assertIn("limit_dst = source_arc_angles_angle_dist(next_rotation, base_rotation)", helper_source)
+        self.assertIn("if limit_dst > rotation_limit / 2.0:", helper_source)
+        self.assertIn("next_rotation = source_arc_angles_move_toward(next_rotation, base_rotation, limit_dst - rotation_limit / 2.0)", helper_source)
+        self.assertIn('"rotationLimitApplied": gate and rotation_limit < 360.0 and limit_dst > rotation_limit / 2.0', helper_source)
+        self.assertIn('"rotationLimitSource": "if(rotationLimit < 360)"', helper_source)
+        self.assertIn('"limitDistanceSource": "float dst = Angles.angleDist(mount.rotation, baseRotation)"', helper_source)
+        self.assertIn('"limitMoveSource": "mount.rotation = Angles.moveToward(mount.rotation, baseRotation, dst - rotationLimit/2f)"', helper_source)
 
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
