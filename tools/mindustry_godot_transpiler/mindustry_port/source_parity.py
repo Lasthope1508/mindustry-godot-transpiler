@@ -8,6 +8,7 @@ DUO_SOURCE = "core/src/mindustry/content/Blocks.java"
 MEND_PROJECTOR_SOURCE = "core/src/mindustry/world/blocks/defense/MendProjector.java"
 OVERDRIVE_PROJECTOR_SOURCE = "core/src/mindustry/world/blocks/defense/OverdriveProjector.java"
 BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
+UNIT_COMP_SOURCE = "core/src/mindustry/entities/comp/UnitComp.java"
 CONVEYOR_SOURCE = "core/src/mindustry/world/blocks/distribution/Conveyor.java"
 DRILL_SOURCE = "core/src/mindustry/world/blocks/production/Drill.java"
 BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
@@ -3355,6 +3356,27 @@ def verify_building_to_string_source(upstream_root: Path) -> dict[str, Any]:
             missing.append(snippet)
     return {
         "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_unit_grounded_flying_target_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "check_target_method": "public boolean checkTarget(boolean targetAir, boolean targetGround){",
+        "check_target_return": "return (isGrounded() && targetGround) || (isFlying() && targetAir);",
+        "is_grounded_method": "public boolean isGrounded(){",
+        "is_grounded_return": "return elevation < 0.001f;",
+        "is_flying_method": "public boolean isFlying(){",
+        "is_flying_return": "return elevation >= 0.09f;",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
         "checked": checked,
         "missing": missing,
     }

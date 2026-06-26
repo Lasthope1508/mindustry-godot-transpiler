@@ -2518,6 +2518,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_to_string_state(id_value: int, tile_x_value: int, tile_y_value: int, block_value: Variant) -> String:", source)
         self.assertIn('return "Building#" + str(id_value) + "[" + str(tile_x_value) + "," + str(tile_y_value) + "]:" + str(block_value)', source)
 
+    def test_port_game_exposes_source_unit_grounded_flying_target_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_is_grounded(elevation_value: float) -> bool:", source)
+        self.assertIn("return elevation_value < 0.001", source)
+        self.assertIn("func source_unit_is_flying(elevation_value: float) -> bool:", source)
+        self.assertIn("return elevation_value >= 0.09", source)
+        self.assertIn("func source_unit_check_target_state(elevation_value: float, target_air: bool, target_ground: bool) -> Dictionary:", source)
+        self.assertIn("var grounded: bool = source_unit_is_grounded(elevation_value)", source)
+        self.assertIn("var flying: bool = source_unit_is_flying(elevation_value)", source)
+        self.assertIn('"targetable": (grounded and target_ground) or (flying and target_air)', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

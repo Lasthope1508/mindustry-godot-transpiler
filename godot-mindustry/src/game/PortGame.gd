@@ -2830,6 +2830,21 @@ func source_unit_health(unit_type) -> float:
 		return 0.0
 	return float(unit_type.properties.get("health", 200.0))
 
+func source_unit_is_grounded(elevation_value: float) -> bool:
+	return elevation_value < 0.001
+
+func source_unit_is_flying(elevation_value: float) -> bool:
+	return elevation_value >= 0.09
+
+func source_unit_check_target_state(elevation_value: float, target_air: bool, target_ground: bool) -> Dictionary:
+	var grounded: bool = source_unit_is_grounded(elevation_value)
+	var flying: bool = source_unit_is_flying(elevation_value)
+	return {
+		"grounded": grounded,
+		"flying": flying,
+		"targetable": (grounded and target_ground) or (flying and target_air),
+	}
+
 func simulate_turrets(delta: float) -> void:
 	if content_catalog == null or turret_cells.is_empty():
 		return

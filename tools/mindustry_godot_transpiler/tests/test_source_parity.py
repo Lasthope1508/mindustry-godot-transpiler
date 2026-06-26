@@ -2163,5 +2163,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_grounded_flying_target_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_grounded_flying_target_source"))
+        report = source_parity.verify_unit_grounded_flying_target_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["checked"], {
+            "check_target_method": "public boolean checkTarget(boolean targetAir, boolean targetGround){",
+            "check_target_return": "return (isGrounded() && targetGround) || (isFlying() && targetAir);",
+            "is_grounded_method": "public boolean isGrounded(){",
+            "is_grounded_return": "return elevation < 0.001f;",
+            "is_flying_method": "public boolean isFlying(){",
+            "is_flying_return": "return elevation >= 0.09f;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

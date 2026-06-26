@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 237 |
-| Done | 237 |
+| Total tracked work items | 238 |
+| Done | 238 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -113,13 +113,14 @@
 - [x] N233: Source BuildingComp updateFogVisibility state.
 - [x] N234: Source BuildingComp hitbox setCentered state.
 - [x] N235: Source BuildingComp toString state.
+- [x] N236: Source UnitComp grounded/flying target state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
 
 Work now uses dependency cubes for prioritization without changing the verification contract. Each cube groups source Java, Godot runtime wiring, and playable behavior for one gameplay system. Inside a cube, every slice still moves linearly: read upstream Java, write RED tests, prove RED, implement minimal GREEN, run targeted/full tests, prove through Godot MCP runtime, update this checklist, run `git diff --check`, stage only touched tracked files, and commit.
 
-Current cube: `Building logic / sensor-control`. Current source path stays `BuildingComp.java`, continuing through `sense(...)`, `senseObject(...)`, `control(...)`, and adjacent logic-facing behavior.
+Current cube: `Unit logic / movement-targeting`. Current source path is `UnitComp.java`, starting with grounded/flying/targeting and adjacent movement-facing behavior after completing `BuildingComp.java`.
 
 ## Done
 
@@ -375,6 +376,7 @@ Current cube: `Building logic / sensor-control`. Current source path stays `Buil
 | N233 | Apply source BuildingComp updateFogVisibility state | The next `BuildingComp.updateFogVisibility()` slice preserves exact method `public void updateFogVisibility(){`, gate `if(!wasVisible && !inFogTo(player.team())){`, bit update `visibleFlags |= (1L << player.team().id);`, `wasVisible = true;`, `renderer.blocks.updateShadow(self());`, and `renderer.minimap.update(tile);`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_update_fog_visibility_state(was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state)` as the same newly-visible gate, flag OR, shadow update, and minimap update without inventing renderer internals; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `370` tests, full Python suite reports `394` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned visible flags `10`, `was_visible:true`, `update_shadow` self, and `minimap_update` tile for newly visible, plus unchanged flags and null calls for already-visible and still-in-fog cases; debug output returned `errors: []`, and stop returned `finalErrors: []` |
 | N234 | Apply source BuildingComp hitbox setCentered state | The next `BuildingComp.hitbox(Rect out)` slice preserves exact `@Override`, method `public void hitbox(Rect out){`, and `out.setCentered(x, y, block.size * tilesize, block.size * tilesize);`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_hitbox_state(world_x, world_y, block_size_value, source_tilesize)` as the same `setCentered` call argument record without inventing `Rect` internals; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `372` tests, full Python suite reports `396` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `{"set_centered":{"x":64.0,"y":96.0,"width":24.0,"height":24.0}}` for block size `3` and tilesize `8.0`, and `{"set_centered":{"x":10.5,"y":20.25,"width":32.0,"height":32.0}}` for block size `1` and tilesize `32.0`; debug output returned `errors: []`, and stop returned `finalErrors: []` |
 | N235 | Apply source BuildingComp toString state | The final `BuildingComp.toString()` slice preserves exact `@Override`, `@Replace`, method `public String toString(){`, and return `return "Building#" + id() + "[" + tileX() + "," + tileY() + "]:" + block;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_to_string_state(id_value, tile_x_value, tile_y_value, block_value)` as the same string concatenation without inventing block formatting beyond Java `String.valueOf` behavior represented by `str(block_value)`; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `374` tests, full Python suite reports `398` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `Building#42[7,8]:duo` and `Building#5[-1,12]:core-shard`; debug output returned `errors: []`, and stop returned `finalErrors: []` |
+| N236 | Apply source UnitComp grounded/flying target state | The first `UnitComp` movement-targeting slice preserves exact `public boolean checkTarget(boolean targetAir, boolean targetGround){`, return `(isGrounded() && targetGround) || (isFlying() && targetAir);`, `public boolean isGrounded(){ return elevation < 0.001f; }`, and `public boolean isFlying(){ return elevation >= 0.09f; }`; `source_parity.py` checks those exact upstream lines from `UnitComp.java`, and `PortGame.gd` exposes `source_unit_is_grounded(elevation_value)`, `source_unit_is_flying(elevation_value)`, and `source_unit_check_target_state(elevation_value, target_air, target_ground)` as the same elevation gates and target-air/target-ground predicate without inventing live unit type state; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `376` tests, full Python suite reports `400` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned targetable `true` for grounded-ground and flying-air cases, `false` for mid-elevation and wrong-target cases; debug output returned `errors: []`, and stop returned `finalErrors: []` |
 
 ## Not Done
 
