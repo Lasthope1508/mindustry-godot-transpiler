@@ -2899,6 +2899,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"volume": type_move_sound_volume * progress', source)
         self.assertIn('"pitch": pitch', source)
 
+    def test_port_game_exposes_source_unit_update_unsupported_env_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_unsupported_env_state(type_supports_env: bool, dead_value: bool) -> Dictionary:", source)
+        self.assertIn("var env_death := not type_supports_env and not dead_value", source)
+        self.assertIn('"guard": {"!type.supportsEnv(state.rules.env)": not type_supports_env, "!dead": not dead_value}', source)
+        self.assertIn('"call": "Call.unitEnvDeath(self())"', source)
+        self.assertIn('"call": "team.data().updateCount(type, -1)"', source)
+        self.assertIn('"callOrder": ["Call.unitEnvDeath(self())", "team.data().updateCount(type, -1)"] if env_death else []', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

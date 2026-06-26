@@ -4551,6 +4551,60 @@ def verify_unit_update_sound_loop_source(upstream_root: Path, arc_root: Path) ->
         "missing": missing,
     }
 
+def verify_unit_update_unsupported_env_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
+    units_path = Path(upstream_root) / UNITS_SOURCE
+    teams_path = Path(upstream_root) / TEAMS_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    units_source = units_path.read_text(encoding="utf-8", errors="replace")
+    teams_source = teams_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "unsupported_env_comment": "//check if environment is unsupported",
+        "unsupported_env_guard": "if(!type.supportsEnv(state.rules.env) && !dead){",
+        "unit_env_death_call": "Call.unitEnvDeath(self());",
+        "update_count_negative": "team.data().updateCount(type, -1);",
+        "unit_supports_env_method": "public boolean supportsEnv(int env){",
+        "unit_supports_env_body": "return (envEnabled & env) != 0 && (envDisabled & env) == 0 && (envRequired == 0 || (envRequired & env) == envRequired);",
+        "units_unit_env_death": "public static void unitEnvDeath(Unit unit){",
+        "units_unit_env_dead": "unit.dead = true;",
+        "units_unit_env_effect": "Fx.unitEnvKill.at(unit);",
+        "units_unit_env_destroy": "Core.app.post(() -> Call.unitDestroy(unit.id));",
+        "team_data_update_count": "public void updateCount(UnitType type, int amount){",
+        "team_data_update_count_null_guard": "if(type == null) return;",
+        "team_data_update_count_total": "unitCount = Math.max(amount + unitCount, 0);",
+        "team_data_update_count_type": "typeCounts[type.id] = Math.max(amount + typeCounts[type.id], 0);",
+    }
+    source_map = {
+        "unsupported_env_comment": source,
+        "unsupported_env_guard": source,
+        "unit_env_death_call": source,
+        "update_count_negative": source,
+        "unit_supports_env_method": unit_type_source,
+        "unit_supports_env_body": unit_type_source,
+        "units_unit_env_death": units_source,
+        "units_unit_env_dead": units_source,
+        "units_unit_env_effect": units_source,
+        "units_unit_env_destroy": units_source,
+        "team_data_update_count": teams_source,
+        "team_data_update_count_null_guard": teams_source,
+        "team_data_update_count_total": teams_source,
+        "team_data_update_count_type": teams_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "units_source": UNITS_SOURCE,
+        "teams_source": TEAMS_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

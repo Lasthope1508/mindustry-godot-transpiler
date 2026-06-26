@@ -2984,6 +2984,32 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_unsupported_env_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_unsupported_env_source"))
+        report = source_parity.verify_unit_update_unsupported_env_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["units_source"], "core/src/mindustry/entities/Units.java")
+        self.assertEqual(report["teams_source"], "core/src/mindustry/game/Teams.java")
+        self.assertEqual(report["checked"], {
+            "unsupported_env_comment": "//check if environment is unsupported",
+            "unsupported_env_guard": "if(!type.supportsEnv(state.rules.env) && !dead){",
+            "unit_env_death_call": "Call.unitEnvDeath(self());",
+            "update_count_negative": "team.data().updateCount(type, -1);",
+            "unit_supports_env_method": "public boolean supportsEnv(int env){",
+            "unit_supports_env_body": "return (envEnabled & env) != 0 && (envDisabled & env) == 0 && (envRequired == 0 || (envRequired & env) == envRequired);",
+            "units_unit_env_death": "public static void unitEnvDeath(Unit unit){",
+            "units_unit_env_dead": "unit.dead = true;",
+            "units_unit_env_effect": "Fx.unitEnvKill.at(unit);",
+            "units_unit_env_destroy": "Core.app.post(() -> Call.unitDestroy(unit.id));",
+            "team_data_update_count": "public void updateCount(UnitType type, int amount){",
+            "team_data_update_count_null_guard": "if(type == null) return;",
+            "team_data_update_count_total": "unitCount = Math.max(amount + unitCount, 0);",
+            "team_data_update_count_type": "typeCounts[type.id] = Math.max(amount + typeCounts[type.id], 0);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

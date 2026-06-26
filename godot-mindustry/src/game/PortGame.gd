@@ -3325,6 +3325,26 @@ func source_unit_update_sound_loop_state(headless_value: bool, type_loop_sound: 
 		"moveSound": move_sound_call,
 	}
 
+func source_unit_update_unsupported_env_state(type_supports_env: bool, dead_value: bool) -> Dictionary:
+	var env_death := not type_supports_env and not dead_value
+	var unit_env_death_call: Variant = null
+	var update_count_call: Variant = null
+	if env_death:
+		unit_env_death_call = {
+			"call": "Call.unitEnvDeath(self())",
+		}
+		update_count_call = {
+			"call": "team.data().updateCount(type, -1)",
+			"amount": -1,
+		}
+	return {
+		"envDeath": env_death,
+		"guard": {"!type.supportsEnv(state.rules.env)": not type_supports_env, "!dead": not dead_value},
+		"unitEnvDeath": unit_env_death_call,
+		"updateCount": update_count_call,
+		"callOrder": ["Call.unitEnvDeath(self())", "team.data().updateCount(type, -1)"] if env_death else [],
+	}
+
 func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
 	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
 	var drown_time_before_clamp := current_drown_time
