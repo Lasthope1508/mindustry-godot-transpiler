@@ -3666,6 +3666,56 @@ func source_weapon_update_continuous_invalidation_state(mount_state: Dictionary,
 		"clearSource": "mount.bullet = null",
 	}
 
+func source_weapon_update_continuous_live_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, bullet_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float, weapon_rotation: float) -> Dictionary:
+	var continuous := bool(weapon_state.get("continuous", false))
+	var bullet_exists := bool(mount_state.get("bulletExists", false))
+	var bullet_is_added := bool(bullet_state.get("isAdded", false))
+	var bullet_time := float(bullet_state.get("time", 0.0))
+	var bullet_lifetime := float(bullet_state.get("lifetime", 0.0))
+	var bullet_type_matches := bool(bullet_state.get("typeMatches", false))
+	var gate := continuous and bullet_exists
+	var invalid := gate and ((not bullet_is_added) or bullet_time >= bullet_lifetime or (not bullet_type_matches))
+	var live := gate and not invalid
+	var weapon_reload := float(weapon_state.get("reload", 1.0))
+	var bullet_recoil := float(bullet_state.get("recoil", 0.0))
+	var next_reload := float(mount_state.get("reload", 0.0))
+	var next_recoil := float(mount_state.get("recoil", 0.0))
+	var next_bullet_rotation := weapon_rotation + 90.0
+	var next_bullet_x := float(bullet_state.get("x", bullet_x))
+	var next_bullet_y := float(bullet_state.get("y", bullet_y))
+	var next_vel_x := float(unit_state.get("velX", 0.0))
+	var next_vel_y := float(unit_state.get("velY", 0.0))
+	var recoil_vec := source_arc_angles_trns_vec(next_bullet_rotation + 180.0, bullet_recoil * source_delta, 0.0)
+	if live:
+		next_bullet_x = bullet_x
+		next_bullet_y = bullet_y
+		next_reload = weapon_reload
+		next_recoil = 1.0
+		next_vel_x += float(recoil_vec.get("x", 0.0))
+		next_vel_y += float(recoil_vec.get("y", 0.0))
+	else:
+		next_bullet_rotation = float(bullet_state.get("rotation", next_bullet_rotation))
+	return {
+		"gate": gate,
+		"invalid": invalid,
+		"live": live,
+		"bulletRotation": next_bullet_rotation,
+		"bulletX": next_bullet_x,
+		"bulletY": next_bullet_y,
+		"reload": next_reload,
+		"recoil": next_recoil,
+		"velX": next_vel_x,
+		"velY": next_vel_y,
+		"velAddX": float(recoil_vec.get("x", 0.0)) if live else 0.0,
+		"velAddY": float(recoil_vec.get("y", 0.0)) if live else 0.0,
+		"bulletRotationSource": "mount.bullet.rotation(weaponRotation + 90)",
+		"bulletSetSource": "mount.bullet.set(bulletX, bulletY)",
+		"reloadSource": "mount.reload = reload",
+		"recoilSource": "mount.recoil = 1f",
+		"velocityAddSource": "unit.vel.add(Tmp.v1.trns(mount.bullet.rotation() + 180f, mount.bullet.type.recoil * Time.delta))",
+		"soundReservedSource": "if(shootSound != Sounds.none && !headless)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

@@ -4140,6 +4140,36 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_update_continuous_live_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_update_continuous_live_source"))
+        report = source_parity.verify_weapon_update_continuous_live_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["bullet_type_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["unit_comp_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["vec2_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(report["time_source"], "arc-core/src/arc/util/Time.java")
+        self.assertEqual(report["checked"], {
+            "continuous_else": "}else{",
+            "bullet_rotation_set": "mount.bullet.rotation(weaponRotation + 90);",
+            "bullet_position_set": "mount.bullet.set(bulletX, bulletY);",
+            "mount_reload_set": "mount.reload = reload;",
+            "mount_recoil_set": "mount.recoil = 1f;",
+            "unit_vel_recoil_add": "unit.vel.add(Tmp.v1.trns(mount.bullet.rotation() + 180f, mount.bullet.type.recoil * Time.delta));",
+            "sound_guard_reserved": "if(shootSound != Sounds.none && !headless){",
+            "weapon_reload": "public float reload = 1;",
+            "weapon_mount_reload": "public float reload;",
+            "weapon_mount_recoil": "public float recoil;",
+            "bullet_type_recoil": "public float recoil;",
+            "unit_vel": "@Import Vec2 vel;",
+            "vec2_trns_amount": "public Vec2 trns(float angle, float amount){",
+            "vec2_trns_amount_body": "return set(amount, 0).rotate(angle);",
+            "vec2_add": "public Vec2 add(Vec2 v){",
+            "time_delta": "public static float delta = 1f;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

@@ -3548,6 +3548,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"invalidConditionSource": "if(!mount.bullet.isAdded() || mount.bullet.time >= mount.bullet.lifetime || mount.bullet.type != bullet)"', source)
         self.assertIn('"clearSource": "mount.bullet = null"', source)
 
+    def test_port_game_exposes_source_weapon_update_continuous_live_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_update_continuous_live_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, bullet_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float, weapon_rotation: float) -> Dictionary:", source)
+        self.assertIn("var live := gate and not invalid", source)
+        self.assertIn("var next_bullet_rotation := weapon_rotation + 90.0", source)
+        self.assertIn("var recoil_vec := source_arc_angles_trns_vec(next_bullet_rotation + 180.0, bullet_recoil * source_delta, 0.0)", source)
+        self.assertIn("if live:", source)
+        self.assertIn("next_reload = weapon_reload", source)
+        self.assertIn("next_recoil = 1.0", source)
+        self.assertIn('"bulletRotationSource": "mount.bullet.rotation(weaponRotation + 90)"', source)
+        self.assertIn('"bulletSetSource": "mount.bullet.set(bulletX, bulletY)"', source)
+        self.assertIn('"velocityAddSource": "unit.vel.add(Tmp.v1.trns(mount.bullet.rotation() + 180f, mount.bullet.type.recoil * Time.delta))"', source)
+        self.assertIn('"soundReservedSource": "if(shootSound != Sounds.none && !headless)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

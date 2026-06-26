@@ -7022,6 +7022,77 @@ def verify_weapon_update_continuous_invalidation_source(upstream_root: Path) -> 
         "missing": missing,
     }
 
+def verify_weapon_update_continuous_live_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    bullet_type_source = "core/src/mindustry/entities/bullet/BulletType.java"
+    unit_comp_source = "core/src/mindustry/entities/comp/UnitComp.java"
+    vec2_source = "arc-core/src/arc/math/geom/Vec2.java"
+    time_source = "arc-core/src/arc/util/Time.java"
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_path = upstream_root / weapon_mount_source
+    bullet_type_path = upstream_root / bullet_type_source
+    unit_comp_path = upstream_root / unit_comp_source
+    vec2_path = arc_root / vec2_source
+    time_path = arc_root / time_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    bullet_type_text = bullet_type_path.read_text(encoding="utf-8", errors="replace")
+    unit_comp_text = unit_comp_path.read_text(encoding="utf-8", errors="replace")
+    vec2_text = vec2_path.read_text(encoding="utf-8", errors="replace")
+    time_text = time_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "continuous_else": "}else{",
+        "bullet_rotation_set": "mount.bullet.rotation(weaponRotation + 90);",
+        "bullet_position_set": "mount.bullet.set(bulletX, bulletY);",
+        "mount_reload_set": "mount.reload = reload;",
+        "mount_recoil_set": "mount.recoil = 1f;",
+        "unit_vel_recoil_add": "unit.vel.add(Tmp.v1.trns(mount.bullet.rotation() + 180f, mount.bullet.type.recoil * Time.delta));",
+        "sound_guard_reserved": "if(shootSound != Sounds.none && !headless){",
+        "weapon_reload": "public float reload = 1;",
+        "weapon_mount_reload": "public float reload;",
+        "weapon_mount_recoil": "public float recoil;",
+        "bullet_type_recoil": "public float recoil;",
+        "unit_vel": "@Import Vec2 vel;",
+        "vec2_trns_amount": "public Vec2 trns(float angle, float amount){",
+        "vec2_trns_amount_body": "return set(amount, 0).rotate(angle);",
+        "vec2_add": "public Vec2 add(Vec2 v){",
+        "time_delta": "public static float delta = 1f;",
+    }
+    source_map = {
+        "continuous_else": source,
+        "bullet_rotation_set": source,
+        "bullet_position_set": source,
+        "mount_reload_set": source,
+        "mount_recoil_set": source,
+        "unit_vel_recoil_add": source,
+        "sound_guard_reserved": source,
+        "weapon_reload": source,
+        "weapon_mount_reload": weapon_mount_text,
+        "weapon_mount_recoil": weapon_mount_text,
+        "bullet_type_recoil": bullet_type_text,
+        "unit_vel": unit_comp_text,
+        "vec2_trns_amount": vec2_text,
+        "vec2_trns_amount_body": vec2_text,
+        "vec2_add": vec2_text,
+        "time_delta": time_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": weapon_mount_source,
+        "bullet_type_source": bullet_type_source,
+        "unit_comp_source": unit_comp_source,
+        "vec2_source": vec2_source,
+        "time_source": time_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
