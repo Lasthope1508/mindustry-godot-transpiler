@@ -6457,6 +6457,60 @@ def verify_weapon_update_passive_timers_source(upstream_root: Path) -> dict[str,
         "missing": missing,
     }
 
+def verify_weapon_update_mount_origin_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    unit_comp_path = upstream_root / UNIT_COMP_SOURCE
+    angles_path = arc_root / ARC_ANGLES_SOURCE
+    vec2_path = arc_root / ARC_VEC2_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_comp_text = unit_comp_path.read_text(encoding="utf-8", errors="replace")
+    angles_text = angles_path.read_text(encoding="utf-8", errors="replace")
+    vec2_text = vec2_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "weapon_update_method": "public void update(Unit unit, WeaponMount mount){",
+        "mount_origin_block": "float\n        mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),\n        mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y);",
+        "weapon_mount_offsets": "public float x = 5f, y = 0f;",
+        "unit_imports": "@Import float x, y, rotation, maxHealth, drag, armor, hitSize, health, shield, dragMultiplier, armorOverride, speedMultiplier;",
+        "angles_trnsx_vec": "public static float trnsx(float angle, float x, float y){",
+        "angles_trnsx_return": "return rv.set(x, y).rotate(angle).x;",
+        "angles_trnsy_vec": "public static float trnsy(float angle, float x, float y){",
+        "angles_trnsy_return": "return rv.set(x, y).rotate(angle).y;",
+        "vec2_rotate_degrees": "public Vec2 rotate(float degrees){",
+        "vec2_rotate_rad_call": "return rotateRad(degrees * Mathf.degreesToRadians);",
+        "vec2_rotate_rad": "public Vec2 rotateRad(float radians){",
+        "vec2_rotate_new_x": "float newX = this.x * cos - this.y * sin;",
+        "vec2_rotate_new_y": "float newY = this.x * sin + this.y * cos;",
+    }
+    source_map = {
+        "weapon_update_method": source,
+        "mount_origin_block": source,
+        "weapon_mount_offsets": source,
+        "unit_imports": unit_comp_text,
+        "angles_trnsx_vec": angles_text,
+        "angles_trnsx_return": angles_text,
+        "angles_trnsy_vec": angles_text,
+        "angles_trnsy_return": angles_text,
+        "vec2_rotate_degrees": vec2_text,
+        "vec2_rotate_rad_call": vec2_text,
+        "vec2_rotate_rad": vec2_text,
+        "vec2_rotate_new_x": vec2_text,
+        "vec2_rotate_new_y": vec2_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "unit_comp_source": UNIT_COMP_SOURCE,
+        "arc_angles_source": ARC_ANGLES_SOURCE,
+        "arc_vec2_source": ARC_VEC2_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

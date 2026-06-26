@@ -3386,6 +3386,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"reloadAssignment": "mount.reload = Math.max(mount.reload - Time.delta * unit.reloadMultiplier, 0)"', source)
         self.assertIn('"warmupTargetSource": "(can && mount.shoot) || (continuous && mount.bullet != null) || mount.charging ? 1f : 0f"', source)
 
+    def test_port_game_exposes_source_weapon_update_mount_origin_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_arc_angles_trns_vec(angle_degrees: float, x_value: float, y_value: float) -> Dictionary:", source)
+        self.assertIn("var radians := deg_to_rad(angle_degrees)", source)
+        self.assertIn("var new_x := x_value * cos_value - y_value * sin_value", source)
+        self.assertIn("var new_y := x_value * sin_value + y_value * cos_value", source)
+        self.assertIn("func source_weapon_update_mount_origin_state(unit_state: Dictionary, weapon_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var angle_degrees := unit_rotation - 90.0", source)
+        self.assertIn("var rotated := source_arc_angles_trns_vec(angle_degrees, weapon_x, weapon_y)", source)
+        self.assertIn("var mount_x := unit_x + float(rotated[\"x\"])", source)
+        self.assertIn("var mount_y := unit_y + float(rotated[\"y\"])", source)
+        self.assertIn('"mountXSource": "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y)"', source)
+        self.assertIn('"mountYSource": "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y)"', source)
+        self.assertIn('"vec2RotateSource": "newX = this.x * cos - this.y * sin; newY = this.x * sin + this.y * cos"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

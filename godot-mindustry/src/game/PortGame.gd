@@ -3387,6 +3387,42 @@ func source_weapon_update_passive_timers_state(mount_state: Dictionary, weapon_s
 		"deltaSource": "Time.delta",
 	}
 
+func source_arc_angles_trns_vec(angle_degrees: float, x_value: float, y_value: float) -> Dictionary:
+	var radians := deg_to_rad(angle_degrees)
+	var cos_value := cos(radians)
+	var sin_value := sin(radians)
+	var new_x := x_value * cos_value - y_value * sin_value
+	var new_y := x_value * sin_value + y_value * cos_value
+	return {
+		"x": new_x,
+		"y": new_y,
+		"angle": angle_degrees,
+		"source": "rv.set(x, y).rotate(angle)",
+		"vec2RotateSource": "newX = this.x * cos - this.y * sin; newY = this.x * sin + this.y * cos",
+	}
+
+func source_weapon_update_mount_origin_state(unit_state: Dictionary, weapon_state: Dictionary) -> Dictionary:
+	var unit_x := float(unit_state.get("x", 0.0))
+	var unit_y := float(unit_state.get("y", 0.0))
+	var unit_rotation := float(unit_state.get("rotation", 0.0))
+	var weapon_x := float(weapon_state.get("x", 5.0))
+	var weapon_y := float(weapon_state.get("y", 0.0))
+	var angle_degrees := unit_rotation - 90.0
+	var rotated := source_arc_angles_trns_vec(angle_degrees, weapon_x, weapon_y)
+	var mount_x := unit_x + float(rotated["x"])
+	var mount_y := unit_y + float(rotated["y"])
+	return {
+		"angle": angle_degrees,
+		"trnsx": float(rotated["x"]),
+		"trnsy": float(rotated["y"]),
+		"mountX": mount_x,
+		"mountY": mount_y,
+		"mountXSource": "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y)",
+		"mountYSource": "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y)",
+		"anglesSource": "rv.set(x, y).rotate(angle)",
+		"vec2RotateSource": "newX = this.x * cos - this.y * sin; newY = this.x * sin + this.y * cos",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
