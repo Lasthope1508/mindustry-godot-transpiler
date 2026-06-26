@@ -2845,6 +2845,13 @@ func source_unit_check_target_state(elevation_value: float, target_air: bool, ta
 		"targetable": (grounded and target_ground) or (flying and target_air),
 	}
 
+func source_unit_can_drown_state(elevation_value: float, type_can_drown: bool) -> Dictionary:
+	var grounded: bool = source_unit_is_grounded(elevation_value)
+	return {
+		"grounded": grounded,
+		"can_drown": grounded and type_can_drown,
+	}
+
 func simulate_turrets(delta: float) -> void:
 	if content_catalog == null or turret_cells.is_empty():
 		return

@@ -2531,6 +2531,14 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var flying: bool = source_unit_is_flying(elevation_value)", source)
         self.assertIn('"targetable": (grounded and target_ground) or (flying and target_air)', source)
 
+    def test_port_game_exposes_source_unit_can_drown_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_can_drown_state(elevation_value: float, type_can_drown: bool) -> Dictionary:", source)
+        self.assertIn("var grounded: bool = source_unit_is_grounded(elevation_value)", source)
+        self.assertIn('"can_drown": grounded and type_can_drown', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

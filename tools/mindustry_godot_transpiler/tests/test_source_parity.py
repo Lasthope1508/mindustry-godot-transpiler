@@ -2178,5 +2178,16 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_can_drown_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_can_drown_source"))
+        report = source_parity.verify_unit_can_drown_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["checked"], {
+            "can_drown_method": "public boolean canDrown(){",
+            "can_drown_return": "return isGrounded() && type.canDrown;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
