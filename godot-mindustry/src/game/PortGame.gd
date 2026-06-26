@@ -3376,6 +3376,14 @@ func source_unit_update_bounds_state(type_bounded: bool, world_unit_height: floa
 		"kill": kill_unit,
 	}
 
+func source_unit_update_nan_health_state(current_health: float) -> Dictionary:
+	var health_is_nan := is_nan(current_health)
+	return {
+		"guard": "Float.isNaN(health)",
+		"health": 0.0 if health_is_nan else current_health,
+		"kill": health_is_nan,
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},

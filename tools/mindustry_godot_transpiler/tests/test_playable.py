@@ -2915,6 +2915,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("next_y = clampf(next_y, bot, top - SOURCE_TILESIZE)", source)
         self.assertIn("var kill_unit := next_x < -SOURCE_FINAL_WORLD_BOUNDS + left or next_y < -SOURCE_FINAL_WORLD_BOUNDS + bot or next_x >= right + SOURCE_FINAL_WORLD_BOUNDS or next_y >= top + SOURCE_FINAL_WORLD_BOUNDS", source)
 
+    def test_port_game_exposes_source_unit_update_nan_health_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_nan_health_state(current_health: float) -> Dictionary:", source)
+        self.assertIn("var health_is_nan := is_nan(current_health)", source)
+        self.assertIn('"health": 0.0 if health_is_nan else current_health', source)
+        self.assertIn('"kill": health_is_nan', source)
+        self.assertIn('"guard": "Float.isNaN(health)"', source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

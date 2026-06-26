@@ -2813,6 +2813,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_nan_health_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_nan_health_source"))
+        report = source_parity.verify_unit_update_nan_health_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["checked"], {
+            "nan_guard": "if(Float.isNaN(health)){",
+            "health_zero": "health = 0f;",
+            "kill_call": "kill();",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_heal_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_heal_source"))
         report = source_parity.verify_unit_heal_source(ROOT / "mindustry-upstream")
