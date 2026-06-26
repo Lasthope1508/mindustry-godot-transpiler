@@ -3162,6 +3162,36 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_falling_engine_trail_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_falling_engine_trail_source"))
+        report = source_parity.verify_unit_update_falling_engine_trail_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["arc_mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["arc_angles_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(report["checked"], {
+            "thruster_fall_trail_comment": "//thruster fall trail",
+            "thruster_chance": "if(Mathf.chanceDelta(0.2)){",
+            "thruster_offset": "float offset = type.engineOffset/2f + type.engineOffset/2f * elevation;",
+            "thruster_range": "float range = Mathf.range(type.engineSize);",
+            "thruster_effect_call": "type.fallEngineEffect.at(",
+            "thruster_effect_x": "x + Angles.trnsx(rotation + 180, offset) + Mathf.range(range),",
+            "thruster_effect_y": "y + Angles.trnsy(rotation + 180, offset) + Mathf.range(range),",
+            "thruster_effect_rotation": "Mathf.random()",
+            "unit_type_fall_engine_effect": "public Effect fallEngineEffect = Fx.fallSmoke;",
+            "unit_engine_offset": "engineOffset = 5f,",
+            "unit_engine_size": "engineSize = 2.5f,",
+            "mathf_chance_delta": "public static boolean chanceDelta(double d){",
+            "mathf_range_float": "public static float range(float range){",
+            "mathf_random": "public static float random(){",
+            "angles_trnsx": "public static float trnsx(float angle, float len){",
+            "angles_trnsx_body": "return len * Mathf.cosDeg(angle);",
+            "angles_trnsy": "public static float trnsy(float angle, float len){",
+            "angles_trnsy_body": "return len * Mathf.sinDeg(angle);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

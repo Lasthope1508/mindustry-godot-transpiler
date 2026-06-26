@@ -3453,6 +3453,30 @@ func source_unit_update_falling_smoke_state(dead_value: bool, health_value: floa
 		"effect": effect_call,
 	}
 
+func source_unit_update_falling_engine_trail_state(dead_value: bool, health_value: float, chance_delta_result: bool, unit_x: float, unit_y: float, source_rotation_degrees: float, elevation_value: float, type_engine_offset: float, type_engine_size: float, engine_range_value: float, x_range_value: float, y_range_value: float, random_rotation_value: float) -> Dictionary:
+	var falling_guard := dead_value or health_value <= 0.0
+	var offset := type_engine_offset / 2.0 + type_engine_offset / 2.0 * elevation_value
+	var angle := source_rotation_degrees + 180.0
+	var effect_call: Variant = null
+	if falling_guard and chance_delta_result:
+		effect_call = {
+			"call": "type.fallEngineEffect.at(x + Angles.trnsx(rotation + 180, offset) + Mathf.range(range), y + Angles.trnsy(rotation + 180, offset) + Mathf.range(range), Mathf.random())",
+			"x": unit_x + cos(deg_to_rad(angle)) * offset + x_range_value,
+			"y": unit_y + sin(deg_to_rad(angle)) * offset + y_range_value,
+			"rotation": random_rotation_value,
+			"range": {"call": "Mathf.range(type.engineSize)", "value": engine_range_value, "type.engineSize": type_engine_size},
+			"xRange": {"call": "Mathf.range(range)", "value": x_range_value},
+			"yRange": {"call": "Mathf.range(range)", "value": y_range_value},
+			"offset": offset,
+		}
+	return {
+		"fallingGuard": falling_guard,
+		"chance": {"call": "Mathf.chanceDelta(0.2)", "result": chance_delta_result},
+		"angle": angle,
+		"offset": offset,
+		"effect": effect_call,
+	}
+
 func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
 	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
 	var drown_time_before_clamp := current_drown_time

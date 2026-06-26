@@ -4919,6 +4919,68 @@ def verify_unit_update_falling_smoke_source(upstream_root: Path, arc_root: Path)
         "missing": missing,
     }
 
+def verify_unit_update_falling_engine_trail_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
+    mathf_path = Path(arc_root) / ARC_MATHF_SOURCE
+    angles_path = Path(arc_root) / ARC_ANGLES_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    angles_source = angles_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "thruster_fall_trail_comment": "//thruster fall trail",
+        "thruster_chance": "if(Mathf.chanceDelta(0.2)){",
+        "thruster_offset": "float offset = type.engineOffset/2f + type.engineOffset/2f * elevation;",
+        "thruster_range": "float range = Mathf.range(type.engineSize);",
+        "thruster_effect_call": "type.fallEngineEffect.at(",
+        "thruster_effect_x": "x + Angles.trnsx(rotation + 180, offset) + Mathf.range(range),",
+        "thruster_effect_y": "y + Angles.trnsy(rotation + 180, offset) + Mathf.range(range),",
+        "thruster_effect_rotation": "Mathf.random()",
+        "unit_type_fall_engine_effect": "public Effect fallEngineEffect = Fx.fallSmoke;",
+        "unit_engine_offset": "engineOffset = 5f,",
+        "unit_engine_size": "engineSize = 2.5f,",
+        "mathf_chance_delta": "public static boolean chanceDelta(double d){",
+        "mathf_range_float": "public static float range(float range){",
+        "mathf_random": "public static float random(){",
+        "angles_trnsx": "public static float trnsx(float angle, float len){",
+        "angles_trnsx_body": "return len * Mathf.cosDeg(angle);",
+        "angles_trnsy": "public static float trnsy(float angle, float len){",
+        "angles_trnsy_body": "return len * Mathf.sinDeg(angle);",
+    }
+    source_map = {
+        "thruster_fall_trail_comment": source,
+        "thruster_chance": source,
+        "thruster_offset": source,
+        "thruster_range": source,
+        "thruster_effect_call": source,
+        "thruster_effect_x": source,
+        "thruster_effect_y": source,
+        "thruster_effect_rotation": source,
+        "unit_type_fall_engine_effect": unit_type_source,
+        "unit_engine_offset": unit_type_source,
+        "unit_engine_size": unit_type_source,
+        "mathf_chance_delta": mathf_source,
+        "mathf_range_float": mathf_source,
+        "mathf_random": mathf_source,
+        "angles_trnsx": angles_source,
+        "angles_trnsx_body": angles_source,
+        "angles_trnsy": angles_source,
+        "angles_trnsy_body": angles_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "arc_mathf_source": ARC_MATHF_SOURCE,
+        "arc_angles_source": ARC_ANGLES_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

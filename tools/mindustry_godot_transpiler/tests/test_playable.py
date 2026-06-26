@@ -2980,6 +2980,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"tmp": {"call": "Tmp.v1.rnd(Mathf.range(hitSize))", "x": tmp_v1_x, "y": tmp_v1_y}', source)
         self.assertIn('"range": {"call": "Mathf.range(hitSize)", "hitSize": hit_size}', source)
 
+    def test_port_game_exposes_source_unit_update_falling_engine_trail_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_falling_engine_trail_state(dead_value: bool, health_value: float, chance_delta_result: bool, unit_x: float, unit_y: float, source_rotation_degrees: float, elevation_value: float, type_engine_offset: float, type_engine_size: float, engine_range_value: float, x_range_value: float, y_range_value: float, random_rotation_value: float) -> Dictionary:", source)
+        self.assertIn("var falling_guard := dead_value or health_value <= 0.0", source)
+        self.assertIn("var offset := type_engine_offset / 2.0 + type_engine_offset / 2.0 * elevation_value", source)
+        self.assertIn("var angle := source_rotation_degrees + 180.0", source)
+        self.assertIn("if falling_guard and chance_delta_result:", source)
+        self.assertIn('"call": "type.fallEngineEffect.at(x + Angles.trnsx(rotation + 180, offset) + Mathf.range(range), y + Angles.trnsy(rotation + 180, offset) + Mathf.range(range), Mathf.random())"', source)
+        self.assertIn('"range": {"call": "Mathf.range(type.engineSize)", "value": engine_range_value, "type.engineSize": type_engine_size}', source)
+        self.assertIn('"offset": offset', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
