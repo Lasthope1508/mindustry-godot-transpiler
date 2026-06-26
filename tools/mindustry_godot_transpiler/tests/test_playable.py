@@ -3168,6 +3168,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"trigger": trigger', source)
         self.assertIn('"event": "Events.fire(Trigger.suicideBomb)" if trigger else ""', source)
 
+    def test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_destroy_shoot_on_death_mounts_state(mount_states: Array, has_target_value: bool, source_x: float, source_y: float, source_rotation_degrees: float, unit_id: int) -> Dictionary:", source)
+        self.assertIn("var should_update := shoot_on_death and not (bullet_kill_shooter and total_shots > 0)", source)
+        self.assertIn('"guard": "mount.weapon.shootOnDeath && !(mount.weapon.bullet.killShooter && mount.totalShots > 0)"', source)
+        self.assertIn('"allowShootEffects": false', source)
+        self.assertIn('"effectCall": "mount.weapon.shootOnDeathEffect.at(x, y, rotation)"', source)
+        self.assertIn('"reload": 0.0', source)
+        self.assertIn('"shoot": true', source)
+        self.assertIn('"update": "mount.weapon.update(self(), mount)"', source)
+        self.assertIn('"unit": unit_id', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

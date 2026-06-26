@@ -3496,6 +3496,36 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_destroy_shoot_on_death_mounts_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_destroy_shoot_on_death_mounts_source"))
+        report = source_parity.verify_unit_destroy_shoot_on_death_mounts_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["weapon_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["bullet_type_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "mounts_import": "@Import WeaponMount[] mounts;",
+            "has_target_field": "transient boolean hasTarget;",
+            "destroy_mount_loop": "for(WeaponMount mount : mounts){",
+            "destroy_shoot_on_death_guard": "if(mount.weapon.shootOnDeath && !(mount.weapon.bullet.killShooter && mount.totalShots > 0)){",
+            "destroy_shoot_on_death_effect_guard": "if(mount.weapon.shootOnDeathEffect != null && !hasTarget){",
+            "destroy_allow_shoot_effects_false": "mount.allowShootEffects = false;",
+            "destroy_shoot_on_death_effect_at": "mount.weapon.shootOnDeathEffect.at(x, y, rotation);",
+            "destroy_mount_reload_zero": "mount.reload = 0f;",
+            "destroy_mount_shoot_true": "mount.shoot = true;",
+            "destroy_weapon_update": "mount.weapon.update(self(), mount);",
+            "weapon_shoot_on_death": "public boolean shootOnDeath = false;",
+            "weapon_shoot_on_death_effect": "public @Nullable Effect shootOnDeathEffect = null;",
+            "weapon_mount_weapon": "public final Weapon weapon;",
+            "weapon_mount_reload": "public float reload;",
+            "weapon_mount_shoot": "public boolean shoot = false;",
+            "weapon_mount_allow_effects": "public boolean allowShootEffects = true;",
+            "weapon_mount_total_shots": "public int totalShots;",
+            "bullet_type_kill_shooter": "public boolean killShooter;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

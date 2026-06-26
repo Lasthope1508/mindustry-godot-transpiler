@@ -5613,6 +5613,68 @@ def verify_unit_destroy_suicide_bomb_trigger_source(upstream_root: Path, arc_roo
         "missing": missing,
     }
 
+def verify_unit_destroy_shoot_on_death_mounts_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    weapon_path = Path(upstream_root) / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_path = Path(upstream_root) / "core/src/mindustry/entities/units/WeaponMount.java"
+    bullet_type_path = Path(upstream_root) / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_source = weapon_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_source = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    bullet_type_source = bullet_type_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "mounts_import": "@Import WeaponMount[] mounts;",
+        "has_target_field": "transient boolean hasTarget;",
+        "destroy_mount_loop": "for(WeaponMount mount : mounts){",
+        "destroy_shoot_on_death_guard": "if(mount.weapon.shootOnDeath && !(mount.weapon.bullet.killShooter && mount.totalShots > 0)){",
+        "destroy_shoot_on_death_effect_guard": "if(mount.weapon.shootOnDeathEffect != null && !hasTarget){",
+        "destroy_allow_shoot_effects_false": "mount.allowShootEffects = false;",
+        "destroy_shoot_on_death_effect_at": "mount.weapon.shootOnDeathEffect.at(x, y, rotation);",
+        "destroy_mount_reload_zero": "mount.reload = 0f;",
+        "destroy_mount_shoot_true": "mount.shoot = true;",
+        "destroy_weapon_update": "mount.weapon.update(self(), mount);",
+        "weapon_shoot_on_death": "public boolean shootOnDeath = false;",
+        "weapon_shoot_on_death_effect": "public @Nullable Effect shootOnDeathEffect = null;",
+        "weapon_mount_weapon": "public final Weapon weapon;",
+        "weapon_mount_reload": "public float reload;",
+        "weapon_mount_shoot": "public boolean shoot = false;",
+        "weapon_mount_allow_effects": "public boolean allowShootEffects = true;",
+        "weapon_mount_total_shots": "public int totalShots;",
+        "bullet_type_kill_shooter": "public boolean killShooter;",
+    }
+    source_map = {
+        "mounts_import": source,
+        "has_target_field": source,
+        "destroy_mount_loop": source,
+        "destroy_shoot_on_death_guard": source,
+        "destroy_shoot_on_death_effect_guard": source,
+        "destroy_allow_shoot_effects_false": source,
+        "destroy_shoot_on_death_effect_at": source,
+        "destroy_mount_reload_zero": source,
+        "destroy_mount_shoot_true": source,
+        "destroy_weapon_update": source,
+        "weapon_shoot_on_death": weapon_source,
+        "weapon_shoot_on_death_effect": weapon_source,
+        "weapon_mount_weapon": weapon_mount_source,
+        "weapon_mount_reload": weapon_mount_source,
+        "weapon_mount_shoot": weapon_mount_source,
+        "weapon_mount_allow_effects": weapon_mount_source,
+        "weapon_mount_total_shots": weapon_mount_source,
+        "bullet_type_kill_shooter": bullet_type_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "weapon_source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": "core/src/mindustry/entities/units/WeaponMount.java",
+        "bullet_type_source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

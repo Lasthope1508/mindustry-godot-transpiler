@@ -3720,6 +3720,47 @@ func source_unit_destroy_suicide_bomb_trigger_state(explosiveness: float, is_loc
 		"event": "Events.fire(Trigger.suicideBomb)" if trigger else "",
 	}
 
+func source_unit_destroy_shoot_on_death_mounts_state(mount_states: Array, has_target_value: bool, source_x: float, source_y: float, source_rotation_degrees: float, unit_id: int) -> Dictionary:
+	var actions: Array = []
+	for index in mount_states.size():
+		var mount_state: Dictionary = mount_states[index]
+		var shoot_on_death := bool(mount_state.get("shootOnDeath", false))
+		var bullet_kill_shooter := bool(mount_state.get("bulletKillShooter", false))
+		var total_shots := int(mount_state.get("totalShots", 0))
+		var shoot_on_death_effect := str(mount_state.get("shootOnDeathEffect", ""))
+		var should_update := shoot_on_death and not (bullet_kill_shooter and total_shots > 0)
+		var action := {
+			"mount": int(mount_state.get("mount", index)),
+			"guard": "mount.weapon.shootOnDeath && !(mount.weapon.bullet.killShooter && mount.totalShots > 0)",
+			"updateMount": should_update,
+		}
+		if should_update:
+			var effect_call: Variant = null
+			if shoot_on_death_effect != "" and not has_target_value:
+				effect_call = {
+					"allowShootEffects": false,
+					"effectCall": "mount.weapon.shootOnDeathEffect.at(x, y, rotation)",
+					"effect": shoot_on_death_effect,
+					"x": source_x,
+					"y": source_y,
+					"rotation": source_rotation_degrees,
+				}
+			action = {
+				"mount": int(mount_state.get("mount", index)),
+				"guard": "mount.weapon.shootOnDeath && !(mount.weapon.bullet.killShooter && mount.totalShots > 0)",
+				"updateMount": should_update,
+				"effect": effect_call,
+				"reload": 0.0,
+				"shoot": true,
+				"update": "mount.weapon.update(self(), mount)",
+				"unit": unit_id,
+			}
+		actions.append(action)
+	return {
+		"hasTarget": has_target_value,
+		"actions": actions,
+	}
+
 func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
 	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
 	var drown_time_before_clamp := current_drown_time
