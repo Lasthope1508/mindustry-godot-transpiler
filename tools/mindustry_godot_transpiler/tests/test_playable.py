@@ -2363,6 +2363,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return {"power_status": next_status, "updated": true}', source)
         self.assertIn('return {"power_status": current_power_status, "updated": false}', source)
 
+    def test_port_game_exposes_source_building_set_prop_team_object_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_set_prop_team_object_state(prop: String, current_team_value: Variant, value_is_team: bool, team_value: Variant) -> Dictionary:", source)
+        self.assertIn('if prop == "team" and value_is_team and current_team_value != team_value:', source)
+        self.assertIn('return {"team": team_value, "change_team_called": true, "change_team": team_value}', source)
+        self.assertIn('return {"team": current_team_value, "change_team_called": false, "change_team": null}', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -1954,5 +1954,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_set_prop_team_object_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_set_prop_team_object_source"))
+        report = source_parity.verify_building_set_prop_team_object_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "set_prop_object_method": "public void setProp(LAccess prop, Object value){",
+            "set_prop_object_switch": "switch(prop){",
+            "set_prop_object_team_case": "case team -> {",
+            "set_prop_object_team_guard": "if(value instanceof Team team && this.team != team){",
+            "set_prop_object_team_change": "changeTeam(team);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

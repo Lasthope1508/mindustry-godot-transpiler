@@ -3054,6 +3054,26 @@ def verify_building_set_prop_total_power_source(upstream_root: Path) -> dict[str
         "missing": missing,
     }
 
+def verify_building_set_prop_team_object_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "set_prop_object_method": "public void setProp(LAccess prop, Object value){",
+        "set_prop_object_switch": "switch(prop){",
+        "set_prop_object_team_case": "case team -> {",
+        "set_prop_object_team_guard": "if(value instanceof Team team && this.team != team){",
+        "set_prop_object_team_change": "changeTeam(team);",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

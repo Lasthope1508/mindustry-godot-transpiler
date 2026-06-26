@@ -2270,6 +2270,11 @@ func source_building_set_prop_total_power_state(prop: String, current_power_stat
 		return {"power_status": next_status, "updated": true}
 	return {"power_status": current_power_status, "updated": false}
 
+func source_building_set_prop_team_object_state(prop: String, current_team_value: Variant, value_is_team: bool, team_value: Variant) -> Dictionary:
+	if prop == "team" and value_is_team and current_team_value != team_value:
+		return {"team": team_value, "change_team_called": true, "change_team": team_value}
+	return {"team": current_team_value, "change_team_called": false, "change_team": null}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
