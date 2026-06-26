@@ -2328,6 +2328,23 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_look_at_angle_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_look_at_angle_source"))
+        report = source_parity.verify_unit_look_at_angle_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["arc_angles_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(report["arc_mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "look_at_angle_method": "public void lookAt(float angle){",
+            "look_at_angle_rotation": "rotation = Angles.moveToward(rotation, angle, type.rotateSpeed * Time.delta * speedMultiplier());",
+            "angles_move_toward": "public static float moveToward(float angle, float to, float speed){",
+            "angles_move_snap": "if(Math.abs(angleDist(angle, to)) < speed) return to;",
+            "angles_move_branch": "if(angle > to == backwardDistance(angle, to) > forwardDistance(angle, to)){",
+            "mathf_mod_float": "return ((f % n) + n) % n;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

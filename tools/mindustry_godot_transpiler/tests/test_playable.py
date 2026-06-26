@@ -2634,6 +2634,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"look_at_call": "lookAt(float, float)"', source)
         self.assertIn('"call_order": ["aim", "lookAt"]', source)
 
+    def test_port_game_exposes_source_unit_look_at_angle_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_look_at_angle_state(current_rotation: float, target_angle: float, type_rotate_speed: float, speed_multiplier_value: float, source_delta: float) -> Dictionary:", source)
+        self.assertIn("var rotation_speed := type_rotate_speed * source_delta * speed_multiplier_value", source)
+        self.assertIn("var next_rotation := source_arc_angles_move_toward(current_rotation, target_angle, rotation_speed)", source)
+        self.assertIn('"target_angle": target_angle', source)
+        self.assertIn('"rotation": next_rotation', source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

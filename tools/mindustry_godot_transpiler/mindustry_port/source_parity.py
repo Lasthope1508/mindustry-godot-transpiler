@@ -3623,6 +3623,41 @@ def verify_unit_aim_look_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_unit_look_at_angle_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    angles_path = Path(arc_root) / ARC_ANGLES_SOURCE
+    mathf_path = Path(arc_root) / ARC_MATHF_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    angles_source = angles_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "look_at_angle_method": "public void lookAt(float angle){",
+        "look_at_angle_rotation": "rotation = Angles.moveToward(rotation, angle, type.rotateSpeed * Time.delta * speedMultiplier());",
+        "angles_move_toward": "public static float moveToward(float angle, float to, float speed){",
+        "angles_move_snap": "if(Math.abs(angleDist(angle, to)) < speed) return to;",
+        "angles_move_branch": "if(angle > to == backwardDistance(angle, to) > forwardDistance(angle, to)){",
+        "mathf_mod_float": "return ((f % n) + n) % n;",
+    }
+    unit_keys = {"look_at_angle_method", "look_at_angle_rotation"}
+    mathf_keys = {"mathf_mod_float"}
+    missing = []
+    for key, snippet in checked.items():
+        if key in unit_keys:
+            haystack = source
+        elif key in mathf_keys:
+            haystack = mathf_source
+        else:
+            haystack = angles_source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "arc_angles_source": ARC_ANGLES_SOURCE,
+        "arc_mathf_source": ARC_MATHF_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_move_pref_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

@@ -3017,6 +3017,15 @@ func source_unit_aim_look_xy_state(target_x: float, target_y: float) -> Dictiona
 		"call_order": ["aim", "lookAt"],
 	}
 
+func source_unit_look_at_angle_state(current_rotation: float, target_angle: float, type_rotate_speed: float, speed_multiplier_value: float, source_delta: float) -> Dictionary:
+	var rotation_speed := type_rotate_speed * source_delta * speed_multiplier_value
+	var next_rotation := source_arc_angles_move_toward(current_rotation, target_angle, rotation_speed)
+	return {
+		"target_angle": target_angle,
+		"rotation_speed": rotation_speed,
+		"rotation": next_rotation,
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},
