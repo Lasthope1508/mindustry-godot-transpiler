@@ -2644,6 +2644,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"target_angle": target_angle', source)
         self.assertIn('"rotation": next_rotation', source)
 
+    def test_port_game_exposes_source_unit_look_at_position_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_arc_angles_angle(from_x: float, from_y: float, to_x: float, to_y: float) -> float:", source)
+        self.assertIn("var angle := rad_to_deg(atan2(to_y - from_y, to_x - from_x))", source)
+        self.assertIn("func source_unit_look_at_position_state(current_rotation: float, unit_x: float, unit_y: float, target_x: float, target_y: float, type_rotate_speed: float, speed_multiplier_value: float, source_delta: float) -> Dictionary:", source)
+        self.assertIn("var target_angle := source_arc_angles_angle(unit_x, unit_y, target_x, target_y)", source)
+        self.assertIn("var angle_state := source_unit_look_at_angle_state(current_rotation, target_angle, type_rotate_speed, speed_multiplier_value, source_delta)", source)
+        self.assertIn('"call": "lookAt(angleTo(pos))"', source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -21,6 +21,7 @@ FLOOR_SOURCE = "core/src/mindustry/world/blocks/environment/Floor.java"
 UNIT_TYPE_SOURCE = "core/src/mindustry/type/UnitType.java"
 ARC_MATHF_SOURCE = "arc-core/src/arc/math/Mathf.java"
 ARC_ANGLES_SOURCE = "arc-core/src/arc/math/Angles.java"
+ARC_POSITION_SOURCE = "arc-core/src/arc/math/geom/Position.java"
 ARC_VEC2_SOURCE = "arc-core/src/arc/math/geom/Vec2.java"
 ARC_RAND_SOURCE = "arc-core/src/arc/math/Rand.java"
 ARC_STRINGS_SOURCE = "arc-core/src/arc/util/Strings.java"
@@ -3654,6 +3655,42 @@ def verify_unit_look_at_angle_source(upstream_root: Path, arc_root: Path) -> dic
         "source": UNIT_COMP_SOURCE,
         "arc_angles_source": ARC_ANGLES_SOURCE,
         "arc_mathf_source": ARC_MATHF_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_unit_look_at_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    position_path = Path(arc_root) / ARC_POSITION_SOURCE
+    angles_path = Path(arc_root) / ARC_ANGLES_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    position_source = position_path.read_text(encoding="utf-8", errors="replace")
+    angles_source = angles_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "look_at_position_method": "public void lookAt(Position pos){",
+        "look_at_position_call": "lookAt(angleTo(pos));",
+        "position_angle_to_method": "default float angleTo(Position other){",
+        "position_angle_to_return": "return Angles.angle(getX(), getY(), other.getX(), other.getY());",
+        "angles_angle_method": "public static float angle(float x, float y, float x2, float y2){",
+        "angles_angle_delta": "float ang = Mathf.atan2(x2 - x, y2 - y) * Mathf.radDeg;",
+        "angles_angle_wrap": "if(ang < 0) ang += 360f;",
+    }
+    unit_keys = {"look_at_position_method", "look_at_position_call"}
+    position_keys = {"position_angle_to_method", "position_angle_to_return"}
+    missing = []
+    for key, snippet in checked.items():
+        if key in unit_keys:
+            haystack = source
+        elif key in position_keys:
+            haystack = position_source
+        else:
+            haystack = angles_source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "arc_position_source": ARC_POSITION_SOURCE,
+        "arc_angles_source": ARC_ANGLES_SOURCE,
         "checked": checked,
         "missing": missing,
     }
