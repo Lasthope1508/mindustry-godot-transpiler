@@ -3775,6 +3775,27 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapons_remove_continuous_bullet_cleanup_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapons_remove_continuous_bullet_cleanup_source"))
+        report = source_parity.verify_weapons_remove_continuous_bullet_cleanup_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/WeaponsComp.java")
+        self.assertEqual(report["weapon_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["bullet_comp_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(report["checked"], {
+            "remove_override": "@Override\n    public void remove(){",
+            "remove_loop": "for(WeaponMount mount : mounts){",
+            "continuous_bullet_guard": "if(mount.weapon.continuous && mount.bullet != null && mount.bullet.owner == self()){",
+            "bullet_time_assignment": "mount.bullet.time = mount.bullet.lifetime - 10f;",
+            "bullet_clear": "mount.bullet = null;",
+            "weapon_continuous": "public boolean continuous;",
+            "weapon_mount_bullet": "public @Nullable Bullet bullet;",
+            "bullet_owner": "@Import Entityc owner;",
+            "bullet_time_lifetime": "@Import float x, y, damage, lastX, lastY, time, lifetime;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

@@ -3238,6 +3238,45 @@ func source_weapons_can_shoot_state(disarmed_value: bool) -> Dictionary:
 		"canShoot": can_shoot,
 	}
 
+func source_weapons_remove_continuous_bullet_cleanup_state(mount_states: Array, unit_id: int) -> Dictionary:
+	var mounts: Array = []
+	for index in mount_states.size():
+		var mount_state: Dictionary = mount_states[index]
+		var bullet_state: Dictionary = mount_state.get("bullet", {})
+		var has_bullet := not bullet_state.is_empty()
+		var owns_bullet := has_bullet and int(bullet_state.get("owner", -1)) == unit_id
+		var continuous := bool(mount_state.get("continuous", false))
+		var cleanup := continuous and has_bullet and owns_bullet
+		var result_bullet = null
+		var bullet_time = null
+		if has_bullet:
+			bullet_time = float(bullet_state.get("lifetime", 0.0)) - 10.0
+			if not cleanup:
+				bullet_time = float(bullet_state.get("time", 0.0))
+				result_bullet = {
+					"owner": int(bullet_state.get("owner", -1)),
+					"time": bullet_time,
+					"lifetime": float(bullet_state.get("lifetime", 0.0)),
+				}
+		mounts.append({
+			"index": index,
+			"weapon": str(mount_state.get("weapon", "weapon%d" % index)),
+			"guard": "mount.weapon.continuous && mount.bullet != null && mount.bullet.owner == self()",
+			"continuous": continuous,
+			"hadBullet": has_bullet,
+			"ownsBullet": owns_bullet,
+			"cleanup": cleanup,
+			"timeAssignment": "mount.bullet.time = mount.bullet.lifetime - 10f",
+			"clearAssignment": "mount.bullet = null",
+			"bulletTime": bullet_time,
+			"bullet": result_bullet,
+		})
+	return {
+		"loop": "for(WeaponMount mount : mounts)",
+		"unit": unit_id,
+		"mounts": mounts,
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

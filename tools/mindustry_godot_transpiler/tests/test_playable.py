@@ -3328,6 +3328,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"canShoot": can_shoot', source)
         self.assertIn('"disarmed": disarmed_value', source)
 
+    def test_port_game_exposes_source_weapons_remove_continuous_bullet_cleanup_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapons_remove_continuous_bullet_cleanup_state(mount_states: Array, unit_id: int) -> Dictionary:", source)
+        self.assertIn("var cleanup := continuous and has_bullet and owns_bullet", source)
+        self.assertIn("bullet_time = float(bullet_state.get(\"lifetime\", 0.0)) - 10.0", source)
+        self.assertIn("result_bullet = null", source)
+        self.assertIn('"guard": "mount.weapon.continuous && mount.bullet != null && mount.bullet.owner == self()"', source)
+        self.assertIn('"timeAssignment": "mount.bullet.time = mount.bullet.lifetime - 10f"', source)
+        self.assertIn('"clearAssignment": "mount.bullet = null"', source)
+        self.assertIn('"cleanup": cleanup', source)
+        self.assertIn('"bullet": result_bullet', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

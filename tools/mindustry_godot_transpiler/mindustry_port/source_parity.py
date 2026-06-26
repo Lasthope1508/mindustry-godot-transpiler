@@ -6215,6 +6215,54 @@ def verify_weapons_can_shoot_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_weapons_remove_continuous_bullet_cleanup_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    weapon_source = "core/src/mindustry/type/Weapon.java"
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    bullet_comp_source = "core/src/mindustry/entities/comp/BulletComp.java"
+    source_path = upstream_root / WEAPONS_COMP_SOURCE
+    weapon_path = upstream_root / weapon_source
+    weapon_mount_path = upstream_root / weapon_mount_source
+    bullet_comp_path = upstream_root / bullet_comp_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_text = weapon_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    bullet_comp_text = bullet_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "remove_override": "@Override\n    public void remove(){",
+        "remove_loop": "for(WeaponMount mount : mounts){",
+        "continuous_bullet_guard": "if(mount.weapon.continuous && mount.bullet != null && mount.bullet.owner == self()){",
+        "bullet_time_assignment": "mount.bullet.time = mount.bullet.lifetime - 10f;",
+        "bullet_clear": "mount.bullet = null;",
+        "weapon_continuous": "public boolean continuous;",
+        "weapon_mount_bullet": "public @Nullable Bullet bullet;",
+        "bullet_owner": "@Import Entityc owner;",
+        "bullet_time_lifetime": "@Import float x, y, damage, lastX, lastY, time, lifetime;",
+    }
+    source_map = {
+        "remove_override": source,
+        "remove_loop": source,
+        "continuous_bullet_guard": source,
+        "bullet_time_assignment": source,
+        "bullet_clear": source,
+        "weapon_continuous": weapon_text,
+        "weapon_mount_bullet": weapon_mount_text,
+        "bullet_owner": bullet_comp_text,
+        "bullet_time_lifetime": bullet_comp_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": WEAPONS_COMP_SOURCE,
+        "weapon_source": weapon_source,
+        "weapon_mount_source": weapon_mount_source,
+        "bullet_comp_source": bullet_comp_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
