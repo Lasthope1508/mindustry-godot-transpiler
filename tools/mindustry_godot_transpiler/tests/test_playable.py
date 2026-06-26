@@ -3182,6 +3182,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"update": "mount.weapon.update(self(), mount)"', source)
         self.assertIn('"unit": unit_id', source)
 
+    def test_port_game_exposes_source_unit_destroy_crash_landing_damage_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_destroy_crash_landing_damage_state(type_flying: bool, spawned_by_core_value: bool, type_create_wreck: bool, rules_unit_crash_damage: float, hit_size: float, type_crash_damage_multiplier: float, shields_empty: bool, shield_absorbed: bool, team_id: int, source_x: float, source_y: float) -> Dictionary:", source)
+        self.assertIn("var should_check_crash := type_flying and not spawned_by_core_value and type_create_wreck and rules_unit_crash_damage > 0.0", source)
+        self.assertIn("var crash_damage := pow(hit_size, 0.75) * type_crash_damage_multiplier * 2.5 * rules_unit_crash_damage", source)
+        self.assertIn("var damage_radius := pow(hit_size, 0.94) * 1.25", source)
+        self.assertIn('shield_lookup = "indexer.getEnemy(team, BlockFlag.shield)"', source)
+        self.assertIn('shield_guard = "shields.isEmpty() || !shields.contains(b -> b instanceof ExplosionShield s && s.absorbExplosion(x, y, crashDamage))"', source)
+        self.assertIn('"damageCall": "Damage.damage(team, x, y, Mathf.pow(hitSize, 0.94f) * 1.25f, crashDamage, true, false, true)"', source)
+        self.assertIn('"complete": true', source)
+        self.assertIn('"air": false', source)
+        self.assertIn('"ground": true', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

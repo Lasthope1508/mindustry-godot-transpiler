@@ -5675,6 +5675,75 @@ def verify_unit_destroy_shoot_on_death_mounts_source(upstream_root: Path) -> dic
         "missing": missing,
     }
 
+def verify_unit_destroy_crash_landing_damage_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = Path(arc_root)
+    source_path = upstream_root / UNIT_COMP_SOURCE
+    unit_type_path = upstream_root / UNIT_TYPE_SOURCE
+    rules_path = upstream_root / RULES_SOURCE
+    damage_path = upstream_root / "core/src/mindustry/entities/Damage.java"
+    explosion_shield_path = upstream_root / "core/src/mindustry/world/blocks/ExplosionShield.java"
+    block_flag_path = upstream_root / "core/src/mindustry/world/meta/BlockFlag.java"
+    mathf_path = arc_root / ARC_MATHF_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    rules_source = rules_path.read_text(encoding="utf-8", errors="replace")
+    damage_source = damage_path.read_text(encoding="utf-8", errors="replace")
+    explosion_shield_source = explosion_shield_path.read_text(encoding="utf-8", errors="replace")
+    block_flag_source = block_flag_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "destroy_crash_landing_comment": "//if this unit crash landed (was flying), damage stuff in a radius",
+        "destroy_crash_landing_guard": "if(type.flying && !spawnedByCore && type.createWreck && state.rules.unitCrashDamage(team) > 0){",
+        "destroy_shield_lookup": "var shields = indexer.getEnemy(team, BlockFlag.shield);",
+        "destroy_crash_damage_formula": "float crashDamage = Mathf.pow(hitSize, 0.75f) * type.crashDamageMultiplier * 2.5f * state.rules.unitCrashDamage(team);",
+        "destroy_shield_absorb_guard": "if(shields.isEmpty() || !shields.contains(b -> b instanceof ExplosionShield s && s.absorbExplosion(x, y, crashDamage))){",
+        "destroy_damage_call": "Damage.damage(team, x, y, Mathf.pow(hitSize, 0.94f) * 1.25f, crashDamage, true, false, true);",
+        "unit_type_crash_damage_multiplier": "crashDamageMultiplier = 1f,",
+        "unit_type_flying": "flying = false,",
+        "unit_type_create_wreck": "createWreck = true,",
+        "rules_unit_crash_damage_multiplier": "public float unitCrashDamageMultiplier = 1f;",
+        "rules_unit_crash_damage": "return unitDamage(team) * unitCrashDamageMultiplier * teams.get(team).unitCrashDamageMultiplier;",
+        "team_rules_unit_crash_damage_multiplier": "public float unitCrashDamageMultiplier = 1f;",
+        "explosion_shield_absorb": "boolean absorbExplosion(float x, float y, float damage);",
+        "block_flag_shield": "shield,",
+        "damage_overload": "public static void damage(Team team, float x, float y, float radius, float damage, boolean complete, boolean air, boolean ground){",
+        "mathf_pow_float": "public static float pow(float a, float b){",
+    }
+    source_map = {
+        "destroy_crash_landing_comment": source,
+        "destroy_crash_landing_guard": source,
+        "destroy_shield_lookup": source,
+        "destroy_crash_damage_formula": source,
+        "destroy_shield_absorb_guard": source,
+        "destroy_damage_call": source,
+        "unit_type_crash_damage_multiplier": unit_type_source,
+        "unit_type_flying": unit_type_source,
+        "unit_type_create_wreck": unit_type_source,
+        "rules_unit_crash_damage_multiplier": rules_source,
+        "rules_unit_crash_damage": rules_source,
+        "team_rules_unit_crash_damage_multiplier": rules_source,
+        "explosion_shield_absorb": explosion_shield_source,
+        "block_flag_shield": block_flag_source,
+        "damage_overload": damage_source,
+        "mathf_pow_float": mathf_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "rules_source": RULES_SOURCE,
+        "damage_source": "core/src/mindustry/entities/Damage.java",
+        "explosion_shield_source": "core/src/mindustry/world/blocks/ExplosionShield.java",
+        "block_flag_source": "core/src/mindustry/world/meta/BlockFlag.java",
+        "mathf_source": ARC_MATHF_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

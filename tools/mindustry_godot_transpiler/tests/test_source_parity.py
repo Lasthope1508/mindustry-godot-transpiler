@@ -3526,6 +3526,37 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_destroy_crash_landing_damage_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_destroy_crash_landing_damage_source"))
+        report = source_parity.verify_unit_destroy_crash_landing_damage_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["rules_source"], "core/src/mindustry/game/Rules.java")
+        self.assertEqual(report["damage_source"], "core/src/mindustry/entities/Damage.java")
+        self.assertEqual(report["explosion_shield_source"], "core/src/mindustry/world/blocks/ExplosionShield.java")
+        self.assertEqual(report["block_flag_source"], "core/src/mindustry/world/meta/BlockFlag.java")
+        self.assertEqual(report["mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "destroy_crash_landing_comment": "//if this unit crash landed (was flying), damage stuff in a radius",
+            "destroy_crash_landing_guard": "if(type.flying && !spawnedByCore && type.createWreck && state.rules.unitCrashDamage(team) > 0){",
+            "destroy_shield_lookup": "var shields = indexer.getEnemy(team, BlockFlag.shield);",
+            "destroy_crash_damage_formula": "float crashDamage = Mathf.pow(hitSize, 0.75f) * type.crashDamageMultiplier * 2.5f * state.rules.unitCrashDamage(team);",
+            "destroy_shield_absorb_guard": "if(shields.isEmpty() || !shields.contains(b -> b instanceof ExplosionShield s && s.absorbExplosion(x, y, crashDamage))){",
+            "destroy_damage_call": "Damage.damage(team, x, y, Mathf.pow(hitSize, 0.94f) * 1.25f, crashDamage, true, false, true);",
+            "unit_type_crash_damage_multiplier": "crashDamageMultiplier = 1f,",
+            "unit_type_flying": "flying = false,",
+            "unit_type_create_wreck": "createWreck = true,",
+            "rules_unit_crash_damage_multiplier": "public float unitCrashDamageMultiplier = 1f;",
+            "rules_unit_crash_damage": "return unitDamage(team) * unitCrashDamageMultiplier * teams.get(team).unitCrashDamageMultiplier;",
+            "team_rules_unit_crash_damage_multiplier": "public float unitCrashDamageMultiplier = 1f;",
+            "explosion_shield_absorb": "boolean absorbExplosion(float x, float y, float damage);",
+            "block_flag_shield": "shield,",
+            "damage_overload": "public static void damage(Team team, float x, float y, float radius, float damage, boolean complete, boolean air, boolean ground){",
+            "mathf_pow_float": "public static float pow(float a, float b){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

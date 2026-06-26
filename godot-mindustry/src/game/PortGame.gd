@@ -3761,6 +3761,44 @@ func source_unit_destroy_shoot_on_death_mounts_state(mount_states: Array, has_ta
 		"actions": actions,
 	}
 
+func source_unit_destroy_crash_landing_damage_state(type_flying: bool, spawned_by_core_value: bool, type_create_wreck: bool, rules_unit_crash_damage: float, hit_size: float, type_crash_damage_multiplier: float, shields_empty: bool, shield_absorbed: bool, team_id: int, source_x: float, source_y: float) -> Dictionary:
+	var should_check_crash := type_flying and not spawned_by_core_value and type_create_wreck and rules_unit_crash_damage > 0.0
+	var crash_damage_value: Variant = null
+	var damage_radius_value: Variant = null
+	var shield_lookup: Variant = null
+	var shield_guard: Variant = null
+	var damage_call: Variant = null
+	if should_check_crash:
+		shield_lookup = "indexer.getEnemy(team, BlockFlag.shield)"
+		var crash_damage := pow(hit_size, 0.75) * type_crash_damage_multiplier * 2.5 * rules_unit_crash_damage
+		var damage_radius := pow(hit_size, 0.94) * 1.25
+		crash_damage_value = crash_damage
+		damage_radius_value = damage_radius
+		var should_damage := shields_empty or not shield_absorbed
+		shield_guard = "shields.isEmpty() || !shields.contains(b -> b instanceof ExplosionShield s && s.absorbExplosion(x, y, crashDamage))"
+		if should_damage:
+			damage_call = {
+				"damageCall": "Damage.damage(team, x, y, Mathf.pow(hitSize, 0.94f) * 1.25f, crashDamage, true, false, true)",
+				"team": team_id,
+				"x": source_x,
+				"y": source_y,
+				"radius": damage_radius,
+				"damage": crash_damage,
+				"complete": true,
+				"air": false,
+				"ground": true,
+			}
+	return {
+		"guard": "type.flying && !spawnedByCore && type.createWreck && state.rules.unitCrashDamage(team) > 0",
+		"shouldCheckCrash": should_check_crash,
+		"shieldLookup": shield_lookup,
+		"crashDamage": crash_damage_value,
+		"shieldGuard": shield_guard,
+		"shieldAbsorbed": shield_absorbed if should_check_crash else false,
+		"damageRadius": damage_radius_value,
+		"damageCall": damage_call,
+	}
+
 func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
 	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
 	var drown_time_before_clamp := current_drown_time
