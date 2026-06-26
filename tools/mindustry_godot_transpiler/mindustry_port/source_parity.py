@@ -3566,6 +3566,23 @@ def verify_unit_update_boosting_guard_source(upstream_root: Path) -> dict[str, A
         "missing": missing,
     }
 
+def verify_unit_update_boosting_should_boost_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "should_boost_line": "boolean shouldBoost = boost || onSolid() || (isFlying() && !canLand());",
+        "is_flying_return": "return elevation >= 0.09f;",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

@@ -2610,6 +2610,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"returned": returned', source)
         self.assertIn('"elevation": elevation_value', source)
 
+    def test_port_game_exposes_source_unit_update_boosting_should_boost_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_boosting_should_boost_state(boost: bool, on_solid_result: bool, elevation_value: float, can_land_result: bool) -> Dictionary:", source)
+        self.assertIn("var flying: bool = source_unit_is_flying(elevation_value)", source)
+        self.assertIn("var should_boost: bool = boost or on_solid_result or (flying and not can_land_result)", source)
+        self.assertIn('"should_boost": should_boost', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

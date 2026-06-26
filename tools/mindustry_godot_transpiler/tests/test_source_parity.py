@@ -2292,5 +2292,16 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_boosting_should_boost_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_boosting_should_boost_source"))
+        report = source_parity.verify_unit_update_boosting_should_boost_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["checked"], {
+            "should_boost_line": "boolean shouldBoost = boost || onSolid() || (isFlying() && !canLand());",
+            "is_flying_return": "return elevation >= 0.09f;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
