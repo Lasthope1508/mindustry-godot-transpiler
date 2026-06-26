@@ -3574,6 +3574,22 @@ func source_unit_update_solid_tile_response_state(tile_exists: bool, can_pass_on
 		"kill": kill_call,
 	}
 
+func source_unit_update_ai_controller_server_gate_state(net_client_value: bool, dead_value: bool, should_update_controller_value: bool, unit_id: int) -> Dictionary:
+	var guard := (not net_client_value) and (not dead_value) and should_update_controller_value
+	var controller_update: Variant = null
+	if guard:
+		controller_update = {
+			"call": "controller.updateUnit()",
+			"unit": unit_id,
+		}
+	return {
+		"guard": guard,
+		"netClient": net_client_value,
+		"dead": dead_value,
+		"shouldUpdateController": should_update_controller_value,
+		"controllerUpdate": controller_update,
+	}
+
 func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
 	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
 	var drown_time_before_clamp := current_drown_time

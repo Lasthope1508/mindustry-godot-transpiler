@@ -5210,6 +5210,49 @@ def verify_unit_update_solid_tile_response_source(upstream_root: Path) -> dict[s
         "missing": missing,
     }
 
+def verify_unit_update_ai_controller_server_gate_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    unit_controller_path = Path(upstream_root) / "core/src/mindustry/entities/units/UnitController.java"
+    net_path = Path(upstream_root) / "core/src/mindustry/net/Net.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_controller_source = unit_controller_path.read_text(encoding="utf-8", errors="replace")
+    net_source = net_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "controller_field": "private UnitController controller;",
+        "dead_import": "@Import boolean dead, disarmed;",
+        "ai_server_comment": "//AI only updates on the server",
+        "ai_server_guard": "if(!net.client() && !dead && shouldUpdateController()){",
+        "controller_update_call": "controller.updateUnit();",
+        "should_update_method": "public boolean shouldUpdateController(){",
+        "should_update_default": "return true;",
+        "unit_controller_update": "default void updateUnit(){",
+        "net_client": "public boolean client(){",
+        "net_client_body": "return !server && active;",
+    }
+    source_map = {
+        "controller_field": source,
+        "dead_import": source,
+        "ai_server_comment": source,
+        "ai_server_guard": source,
+        "controller_update_call": source,
+        "should_update_method": source,
+        "should_update_default": source,
+        "unit_controller_update": unit_controller_source,
+        "net_client": net_source,
+        "net_client_body": net_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_controller_source": "core/src/mindustry/entities/units/UnitController.java",
+        "net_source": "core/src/mindustry/net/Net.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

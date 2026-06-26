@@ -3055,6 +3055,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"elevation": next_elevation', source)
         self.assertIn('"kill": kill_call', source)
 
+    def test_port_game_exposes_source_unit_update_ai_controller_server_gate_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_ai_controller_server_gate_state(net_client_value: bool, dead_value: bool, should_update_controller_value: bool, unit_id: int) -> Dictionary:", source)
+        self.assertIn("var guard := (not net_client_value) and (not dead_value) and should_update_controller_value", source)
+        self.assertIn("if guard:", source)
+        self.assertIn('"call": "controller.updateUnit()"', source)
+        self.assertIn('"unit": unit_id', source)
+        self.assertIn('"controllerUpdate": controller_update', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

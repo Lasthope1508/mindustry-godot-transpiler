@@ -3301,6 +3301,27 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_ai_controller_server_gate_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_ai_controller_server_gate_source"))
+        report = source_parity.verify_unit_update_ai_controller_server_gate_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["unit_controller_source"], "core/src/mindustry/entities/units/UnitController.java")
+        self.assertEqual(report["net_source"], "core/src/mindustry/net/Net.java")
+        self.assertEqual(report["checked"], {
+            "controller_field": "private UnitController controller;",
+            "dead_import": "@Import boolean dead, disarmed;",
+            "ai_server_comment": "//AI only updates on the server",
+            "ai_server_guard": "if(!net.client() && !dead && shouldUpdateController()){",
+            "controller_update_call": "controller.updateUnit();",
+            "should_update_method": "public boolean shouldUpdateController(){",
+            "should_update_default": "return true;",
+            "unit_controller_update": "default void updateUnit(){",
+            "net_client": "public boolean client(){",
+            "net_client_body": "return !server && active;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
