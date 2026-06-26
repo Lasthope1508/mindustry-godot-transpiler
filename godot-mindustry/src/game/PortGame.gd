@@ -2256,6 +2256,14 @@ func source_building_set_prop_health_state(prop: String, current_health: float, 
 		return {"health": next_health, "build_destroyed_called": true, "build_destroyed": self_state, "health_changed": false}
 	return {"health": next_health, "build_destroyed_called": false, "build_destroyed": null, "health_changed": true}
 
+func source_building_set_prop_team_double_state(prop: String, current_team_id: int, value: float) -> Dictionary:
+	if prop != "team":
+		return {"team_id": current_team_id, "change_team_called": false, "change_team": null}
+	var next_team_id := int(value)
+	if current_team_id != next_team_id:
+		return {"team_id": next_team_id, "change_team_called": true, "change_team": next_team_id}
+	return {"team_id": current_team_id, "change_team_called": false, "change_team": null}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

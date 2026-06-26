@@ -2342,6 +2342,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return {"health": next_health, "build_destroyed_called": true, "build_destroyed": self_state, "health_changed": false}', source)
         self.assertIn('return {"health": next_health, "build_destroyed_called": false, "build_destroyed": null, "health_changed": true}', source)
 
+    def test_port_game_exposes_source_building_set_prop_team_double_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_set_prop_team_double_state(prop: String, current_team_id: int, value: float) -> Dictionary:", source)
+        self.assertIn('if prop != "team":', source)
+        self.assertIn("var next_team_id := int(value)", source)
+        self.assertIn("if current_team_id != next_team_id:", source)
+        self.assertIn('return {"team_id": next_team_id, "change_team_called": true, "change_team": next_team_id}', source)
+        self.assertIn('return {"team_id": current_team_id, "change_team_called": false, "change_team": null}', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

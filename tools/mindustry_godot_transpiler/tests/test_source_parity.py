@@ -1927,5 +1927,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_set_prop_team_double_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_set_prop_team_double_source"))
+        report = source_parity.verify_building_set_prop_team_double_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "set_prop_double_method": "public void setProp(LAccess prop, double value){",
+            "set_prop_team_case": "case team -> {",
+            "set_prop_team_get": "Team team = Team.get((int)value);",
+            "set_prop_team_guard": "if(this.team != team){",
+            "set_prop_team_change": "changeTeam(team);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
