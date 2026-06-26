@@ -3436,6 +3436,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"clearSource": "mount.target = null"', source)
         self.assertIn('"checkTargetSource": "Units.invalidateTarget(target, unit.team, x, y, range + Math.abs(shootY))"', source)
 
+    def test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_update_auto_target_shoot_aim_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, can_shoot: bool, mount_x: float, mount_y: float, target_within_result: bool, predicted_aim: Dictionary) -> Dictionary:", source)
+        self.assertIn("var target_exists := bool(mount_state.get(\"targetExists\", false))", source)
+        self.assertIn("var within_range := bullet_range + absf(shoot_y) + target_hit_size / 2.0", source)
+        self.assertIn("if target_exists:", source)
+        self.assertIn("shoot = target_within_result and can_shoot", source)
+        self.assertIn("if predict_target:", source)
+        self.assertIn("aim_x = float(predicted_aim.get(\"x\", aim_x))", source)
+        self.assertIn("aim_x = float(mount_state.get(\"targetX\", aim_x))", source)
+        self.assertIn("var next_rotate := shoot", source)
+        self.assertNotIn("var rotate := shoot", source)
+        self.assertIn('"withinSource": "mount.target.within(mountX, mountY, bullet.range + Math.abs(shootY) + (mount.target instanceof Sized s ? s.hitSize()/2f : 0f))"', source)
+        self.assertIn('"predictSource": "Predict.intercept(unit, mount.target, bullet)"', source)
+        self.assertIn('"directAimSource": "mount.target.x()/mount.target.y()"', source)
+        self.assertIn('"shootRotateSource": "mount.shoot = mount.rotate = shoot"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

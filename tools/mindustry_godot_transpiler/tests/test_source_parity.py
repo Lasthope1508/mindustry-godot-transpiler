@@ -3965,6 +3965,40 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_update_auto_target_shoot_aim_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_update_auto_target_shoot_aim_source"))
+        report = source_parity.verify_weapon_update_auto_target_shoot_aim_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["predict_source"], "core/src/mindustry/entities/Predict.java")
+        self.assertEqual(report["bullet_type_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "shoot_init": "boolean shoot = false;",
+            "target_guard": "if(mount.target != null){",
+            "shoot_assignment": "shoot = mount.target.within(mountX, mountY, bullet.range + Math.abs(shootY) + (mount.target instanceof Sized s ? s.hitSize()/2f : 0f)) && can;",
+            "predict_guard": "if(predictTarget){",
+            "predict_call": "Vec2 to = Predict.intercept(unit, mount.target, bullet);",
+            "predict_aim_x": "mount.aimX = to.x;",
+            "predict_aim_y": "mount.aimY = to.y;",
+            "direct_aim_x": "mount.aimX = mount.target.x();",
+            "direct_aim_y": "mount.aimY = mount.target.y();",
+            "shoot_rotate_assignment": "mount.shoot = mount.rotate = shoot;",
+            "logic_note": "//note that shooting state is not affected, as these cannot be controlled",
+            "weapon_predict_target": "public boolean predictTarget = true;",
+            "weapon_shoot_y": "public float shootX = 0f, shootY = 3f;",
+            "weapon_mount_target": "public @Nullable Teamc target;",
+            "weapon_mount_aim": "public float aimX, aimY;",
+            "weapon_mount_shoot": "public boolean shoot = false;",
+            "weapon_mount_rotate": "public boolean rotate = false;",
+            "predict_intercept_bullet": "public static Vec2 intercept(Position src, Position dst, BulletType bullet){",
+            "predict_intercept_bullet_return": "return intercept(src, dst, 0f, 0f, bullet.keepVelocity, bullet.speed);",
+            "bullet_speed": "public float speed = 1f;",
+            "bullet_keep_velocity": "public boolean keepVelocity = true;",
+            "bullet_range": "public float range = 0f;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

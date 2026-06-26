@@ -3493,6 +3493,44 @@ func source_weapon_update_auto_target_invalidation_state(mount_state: Dictionary
 		"invalidateTargetSource": "target == null || out of range || same team || invalid health || unit not targetable",
 	}
 
+func source_weapon_update_auto_target_shoot_aim_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, can_shoot: bool, mount_x: float, mount_y: float, target_within_result: bool, predicted_aim: Dictionary) -> Dictionary:
+	var target_exists := bool(mount_state.get("targetExists", false))
+	var aim_x := float(mount_state.get("aimX", 0.0))
+	var aim_y := float(mount_state.get("aimY", 0.0))
+	var bullet_range := float(bullet_state.get("range", 0.0))
+	var shoot_y := float(weapon_state.get("shootY", 3.0))
+	var target_hit_size := float(mount_state.get("targetHitSize", 0.0)) if bool(mount_state.get("targetSized", false)) else 0.0
+	var predict_target := bool(weapon_state.get("predictTarget", true))
+	var within_range := bullet_range + absf(shoot_y) + target_hit_size / 2.0
+	var shoot := false
+	if target_exists:
+		shoot = target_within_result and can_shoot
+		if predict_target:
+			aim_x = float(predicted_aim.get("x", aim_x))
+			aim_y = float(predicted_aim.get("y", aim_y))
+		else:
+			aim_x = float(mount_state.get("targetX", aim_x))
+			aim_y = float(mount_state.get("targetY", aim_y))
+	var next_rotate := shoot
+	return {
+		"targetExists": target_exists,
+		"withinRange": within_range,
+		"targetWithin": target_within_result if target_exists else false,
+		"canShoot": can_shoot,
+		"shoot": shoot,
+		"rotate": next_rotate,
+		"aimX": aim_x,
+		"aimY": aim_y,
+		"predictTarget": predict_target,
+		"mountX": mount_x,
+		"mountY": mount_y,
+		"withinSource": "mount.target.within(mountX, mountY, bullet.range + Math.abs(shootY) + (mount.target instanceof Sized s ? s.hitSize()/2f : 0f))",
+		"shootSource": "shoot = mount.target.within(...) && can",
+		"predictSource": "Predict.intercept(unit, mount.target, bullet)",
+		"directAimSource": "mount.target.x()/mount.target.y()",
+		"shootRotateSource": "mount.shoot = mount.rotate = shoot",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

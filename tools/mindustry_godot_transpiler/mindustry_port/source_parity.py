@@ -6634,6 +6634,80 @@ def verify_weapon_update_auto_target_invalidation_source(upstream_root: Path) ->
         "missing": missing,
     }
 
+def verify_weapon_update_auto_target_shoot_aim_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    predict_source = "core/src/mindustry/entities/Predict.java"
+    bullet_type_source = "core/src/mindustry/entities/bullet/BulletType.java"
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_path = upstream_root / weapon_mount_source
+    predict_path = upstream_root / predict_source
+    bullet_type_path = upstream_root / bullet_type_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    predict_text = predict_path.read_text(encoding="utf-8", errors="replace")
+    bullet_type_text = bullet_type_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "shoot_init": "boolean shoot = false;",
+        "target_guard": "if(mount.target != null){",
+        "shoot_assignment": "shoot = mount.target.within(mountX, mountY, bullet.range + Math.abs(shootY) + (mount.target instanceof Sized s ? s.hitSize()/2f : 0f)) && can;",
+        "predict_guard": "if(predictTarget){",
+        "predict_call": "Vec2 to = Predict.intercept(unit, mount.target, bullet);",
+        "predict_aim_x": "mount.aimX = to.x;",
+        "predict_aim_y": "mount.aimY = to.y;",
+        "direct_aim_x": "mount.aimX = mount.target.x();",
+        "direct_aim_y": "mount.aimY = mount.target.y();",
+        "shoot_rotate_assignment": "mount.shoot = mount.rotate = shoot;",
+        "logic_note": "//note that shooting state is not affected, as these cannot be controlled",
+        "weapon_predict_target": "public boolean predictTarget = true;",
+        "weapon_shoot_y": "public float shootX = 0f, shootY = 3f;",
+        "weapon_mount_target": "public @Nullable Teamc target;",
+        "weapon_mount_aim": "public float aimX, aimY;",
+        "weapon_mount_shoot": "public boolean shoot = false;",
+        "weapon_mount_rotate": "public boolean rotate = false;",
+        "predict_intercept_bullet": "public static Vec2 intercept(Position src, Position dst, BulletType bullet){",
+        "predict_intercept_bullet_return": "return intercept(src, dst, 0f, 0f, bullet.keepVelocity, bullet.speed);",
+        "bullet_speed": "public float speed = 1f;",
+        "bullet_keep_velocity": "public boolean keepVelocity = true;",
+        "bullet_range": "public float range = 0f;",
+    }
+    source_map = {
+        "shoot_init": source,
+        "target_guard": source,
+        "shoot_assignment": source,
+        "predict_guard": source,
+        "predict_call": source,
+        "predict_aim_x": source,
+        "predict_aim_y": source,
+        "direct_aim_x": source,
+        "direct_aim_y": source,
+        "shoot_rotate_assignment": source,
+        "logic_note": source,
+        "weapon_predict_target": source,
+        "weapon_shoot_y": source,
+        "weapon_mount_target": weapon_mount_text,
+        "weapon_mount_aim": weapon_mount_text,
+        "weapon_mount_shoot": weapon_mount_text,
+        "weapon_mount_rotate": weapon_mount_text,
+        "predict_intercept_bullet": predict_text,
+        "predict_intercept_bullet_return": predict_text,
+        "bullet_speed": bullet_type_text,
+        "bullet_keep_velocity": bullet_type_text,
+        "bullet_range": bullet_type_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": weapon_mount_source,
+        "predict_source": predict_source,
+        "bullet_type_source": bullet_type_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
