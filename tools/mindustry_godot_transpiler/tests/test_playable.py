@@ -2822,6 +2822,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"rollbackUpdateCount": rollback_update_count', source)
         self.assertIn('"unitCapDeath": over_cap', source)
 
+    def test_port_game_exposes_source_unit_remove_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_remove_state(trail_exists: bool, trail_size: int, trail_width: float, type_trail_color_exists: bool, team_color: String, type_trail_color: String) -> Dictionary:", source)
+        self.assertIn("var fade_trail := trail_exists and trail_size > 0", source)
+        self.assertIn("var trail_color := type_trail_color if type_trail_color_exists else team_color", source)
+        self.assertIn("var trail_fade_call: Variant = null", source)
+        self.assertIn('"call": "Fx.trailFade.at"', source)
+        self.assertIn('"rotationArg": "trail.width()"', source)
+        self.assertIn('"dataArg": "trail.copy()"', source)
+        self.assertIn('"call_order": ["team.data().updateCount(-1)", "controller.removed", "Fx.trailFade.at"] if fade_trail else ["team.data().updateCount(-1)", "controller.removed"]', source)
+        self.assertIn('"controllerRemoved": {"call": "controller.removed(self())", "arg": "self()"}', source)
+        self.assertIn('"trailFade": fade_trail', source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

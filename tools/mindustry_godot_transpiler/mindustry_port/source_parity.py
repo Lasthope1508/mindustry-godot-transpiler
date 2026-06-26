@@ -15,6 +15,7 @@ TEAM_SOURCE = "core/src/mindustry/game/Team.java"
 TEAMS_SOURCE = "core/src/mindustry/game/Teams.java"
 RULES_SOURCE = "core/src/mindustry/game/Rules.java"
 UNITS_SOURCE = "core/src/mindustry/entities/Units.java"
+FX_SOURCE = "core/src/mindustry/content/Fx.java"
 EVENT_TYPE_SOURCE = "core/src/mindustry/game/EventType.java"
 CONVEYOR_SOURCE = "core/src/mindustry/world/blocks/distribution/Conveyor.java"
 DRILL_SOURCE = "core/src/mindustry/world/blocks/production/Drill.java"
@@ -29,6 +30,7 @@ UNIT_CONTROLLER_SOURCE = "core/src/mindustry/entities/units/UnitController.java"
 AI_CONTROLLER_SOURCE = "core/src/mindustry/entities/units/AIController.java"
 COMMAND_AI_SOURCE = "core/src/mindustry/ai/types/CommandAI.java"
 LOGIC_AI_SOURCE = "core/src/mindustry/ai/types/LogicAI.java"
+TRAIL_SOURCE = "core/src/mindustry/graphics/Trail.java"
 ARC_MATHF_SOURCE = "arc-core/src/arc/math/Mathf.java"
 ARC_ANGLES_SOURCE = "arc-core/src/arc/math/Angles.java"
 ARC_POSITION_SOURCE = "arc-core/src/arc/math/geom/Position.java"
@@ -4257,6 +4259,63 @@ def verify_unit_add_source(upstream_root: Path) -> dict[str, Any]:
         "units_source": UNITS_SOURCE,
         "unit_type_source": UNIT_TYPE_SOURCE,
         "rules_source": RULES_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_unit_remove_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    teams_path = Path(upstream_root) / TEAMS_SOURCE
+    unit_controller_path = Path(upstream_root) / UNIT_CONTROLLER_SOURCE
+    fx_path = Path(upstream_root) / FX_SOURCE
+    unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
+    trail_path = Path(upstream_root) / TRAIL_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    teams_source = teams_path.read_text(encoding="utf-8", errors="replace")
+    unit_controller_source = unit_controller_path.read_text(encoding="utf-8", errors="replace")
+    fx_source = fx_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    trail_source = trail_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "remove_override": "@Override\n    public void remove(){",
+        "remove_update_count": "team.data().updateCount(type, -1);",
+        "remove_controller_removed": "controller.removed(self());",
+        "remove_trail_comment": "make sure trail doesn't just go poof",
+        "remove_trail_guard": "if(trail != null && trail.size() > 0){",
+        "remove_trail_fade": "Fx.trailFade.at(x, y, trail.width(), type.trailColor == null ? team.color : type.trailColor, trail.copy());",
+        "team_data_update_count": "public void updateCount(UnitType type, int amount){",
+        "team_data_update_type_count": "typeCounts[type.id] = Math.max(amount + typeCounts[type.id], 0);",
+        "unit_controller_removed": "default void removed(Unit unit){",
+        "fx_trail_fade": "trailFade = new Effect(400f, e -> {",
+        "fx_trail_instance_guard": "if(!(e.data instanceof Trail trail)) return;",
+        "unit_type_trail_color": "public @Nullable Color trailColor;",
+        "trail_copy": "public Trail copy(){",
+        "trail_width": "public float width(){",
+        "trail_size": "public int size(){",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if key.startswith("team_data_"):
+            haystack = teams_source
+        elif key.startswith("unit_controller_"):
+            haystack = unit_controller_source
+        elif key.startswith("fx_"):
+            haystack = fx_source
+        elif key.startswith("unit_type_"):
+            haystack = unit_type_source
+        elif key.startswith("trail_"):
+            haystack = trail_source
+        else:
+            haystack = source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "teams_source": TEAMS_SOURCE,
+        "unit_controller_source": UNIT_CONTROLLER_SOURCE,
+        "fx_source": FX_SOURCE,
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "trail_source": TRAIL_SOURCE,
         "checked": checked,
         "missing": missing,
     }

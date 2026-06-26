@@ -3217,6 +3217,34 @@ func source_unit_add_state(type_use_unit_cap: bool, count_after_add: int, cap_va
 		"call_order": ["team.data().updateCount(+1)", "Call.unitCapDeath", "team.data().updateCount(-1)"] if over_cap else ["team.data().updateCount(+1)"],
 	}
 
+func source_unit_remove_state(trail_exists: bool, trail_size: int, trail_width: float, type_trail_color_exists: bool, team_color: String, type_trail_color: String) -> Dictionary:
+	var fade_trail := trail_exists and trail_size > 0
+	var trail_color := type_trail_color if type_trail_color_exists else team_color
+	var trail_fade_call: Variant = null
+	if fade_trail:
+		trail_fade_call = {
+			"call": "Fx.trailFade.at",
+			"xArg": "x",
+			"yArg": "y",
+			"rotationArg": "trail.width()",
+			"rotation": trail_width,
+			"color": trail_color,
+			"dataArg": "trail.copy()",
+		}
+	return {
+		"updateCount": {"call": "team.data().updateCount(type, -1)", "amount": -1},
+		"controllerRemoved": {"call": "controller.removed(self())", "arg": "self()"},
+		"trail": {
+			"exists": trail_exists,
+			"size": trail_size,
+			"width": trail_width,
+			"typeTrailColorExists": type_trail_color_exists,
+		},
+		"trailFade": fade_trail,
+		"trailFadeCall": trail_fade_call,
+		"call_order": ["team.data().updateCount(-1)", "controller.removed", "Fx.trailFade.at"] if fade_trail else ["team.data().updateCount(-1)", "controller.removed"],
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},

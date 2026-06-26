@@ -2666,6 +2666,35 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_remove_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_remove_source"))
+        report = source_parity.verify_unit_remove_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["teams_source"], "core/src/mindustry/game/Teams.java")
+        self.assertEqual(report["unit_controller_source"], "core/src/mindustry/entities/units/UnitController.java")
+        self.assertEqual(report["fx_source"], "core/src/mindustry/content/Fx.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["trail_source"], "core/src/mindustry/graphics/Trail.java")
+        self.assertEqual(report["checked"], {
+            "remove_override": "@Override\n    public void remove(){",
+            "remove_update_count": "team.data().updateCount(type, -1);",
+            "remove_controller_removed": "controller.removed(self());",
+            "remove_trail_comment": "make sure trail doesn't just go poof",
+            "remove_trail_guard": "if(trail != null && trail.size() > 0){",
+            "remove_trail_fade": "Fx.trailFade.at(x, y, trail.width(), type.trailColor == null ? team.color : type.trailColor, trail.copy());",
+            "team_data_update_count": "public void updateCount(UnitType type, int amount){",
+            "team_data_update_type_count": "typeCounts[type.id] = Math.max(amount + typeCounts[type.id], 0);",
+            "unit_controller_removed": "default void removed(Unit unit){",
+            "fx_trail_fade": "trailFade = new Effect(400f, e -> {",
+            "fx_trail_instance_guard": "if(!(e.data instanceof Trail trail)) return;",
+            "unit_type_trail_color": "public @Nullable Color trailColor;",
+            "trail_copy": "public Trail copy(){",
+            "trail_width": "public float width(){",
+            "trail_size": "public int size(){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
