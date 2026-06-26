@@ -3097,6 +3097,13 @@ func source_unit_is_missile_state(unit_is_timed_killc: bool) -> Dictionary:
 		"instanceof": "TimedKillc",
 	}
 
+func source_unit_count_state(team_data_count_type_result: int, type_id: int) -> Dictionary:
+	return {
+		"count": team_data_count_type_result,
+		"type_id": type_id,
+		"call": "team.data().countType(type)",
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},

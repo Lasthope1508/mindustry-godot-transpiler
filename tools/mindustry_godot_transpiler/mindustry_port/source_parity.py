@@ -10,6 +10,8 @@ OVERDRIVE_PROJECTOR_SOURCE = "core/src/mindustry/world/blocks/defense/OverdriveP
 BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
 UNIT_COMP_SOURCE = "core/src/mindustry/entities/comp/UnitComp.java"
 UNIT_TYPES_CONTENT_SOURCE = "core/src/mindustry/content/UnitTypes.java"
+TEAM_SOURCE = "core/src/mindustry/game/Team.java"
+TEAMS_SOURCE = "core/src/mindustry/game/Teams.java"
 EVENT_TYPE_SOURCE = "core/src/mindustry/game/EventType.java"
 CONVEYOR_SOURCE = "core/src/mindustry/world/blocks/distribution/Conveyor.java"
 DRILL_SOURCE = "core/src/mindustry/world/blocks/production/Drill.java"
@@ -3842,6 +3844,41 @@ def verify_unit_is_missile_source(upstream_root: Path) -> dict[str, Any]:
     return {
         "source": UNIT_COMP_SOURCE,
         "unit_types_source": UNIT_TYPES_CONTENT_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_unit_count_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    team_path = Path(upstream_root) / TEAM_SOURCE
+    teams_path = Path(upstream_root) / TEAMS_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    team_source = team_path.read_text(encoding="utf-8", errors="replace")
+    teams_source = teams_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "count_method": "public int count(){",
+        "count_return": "return team.data().countType(type);",
+        "team_data_method": "public TeamData data(){",
+        "team_data_return": "return state.teams.get(this);",
+        "team_count_type_method": "public int countType(UnitType type){",
+        "team_count_type_return": "return typeCounts == null || typeCounts.length <= type.id ? 0 : typeCounts[type.id];",
+    }
+    team_keys = {"team_data_method", "team_data_return"}
+    teams_keys = {"team_count_type_method", "team_count_type_return"}
+    missing = []
+    for key, snippet in checked.items():
+        if key in team_keys:
+            haystack = team_source
+        elif key in teams_keys:
+            haystack = teams_source
+        else:
+            haystack = source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "team_source": TEAM_SOURCE,
+        "teams_source": TEAMS_SOURCE,
         "checked": checked,
         "missing": missing,
     }

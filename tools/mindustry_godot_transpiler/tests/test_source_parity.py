@@ -2446,6 +2446,23 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_count_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_count_source"))
+        report = source_parity.verify_unit_count_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["team_source"], "core/src/mindustry/game/Team.java")
+        self.assertEqual(report["teams_source"], "core/src/mindustry/game/Teams.java")
+        self.assertEqual(report["checked"], {
+            "count_method": "public int count(){",
+            "count_return": "return team.data().countType(type);",
+            "team_data_method": "public TeamData data(){",
+            "team_data_return": "return state.teams.get(this);",
+            "team_count_type_method": "public int countType(UnitType type){",
+            "team_count_type_return": "return typeCounts == null || typeCounts.length <= type.id ? 0 : typeCounts[type.id];",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

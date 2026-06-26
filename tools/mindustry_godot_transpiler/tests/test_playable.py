@@ -2706,6 +2706,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"is_missile": unit_is_timed_killc', source)
         self.assertIn('"instanceof": "TimedKillc"', source)
 
+    def test_port_game_exposes_source_unit_count_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_count_state(team_data_count_type_result: int, type_id: int) -> Dictionary:", source)
+        self.assertIn('"count": team_data_count_type_result', source)
+        self.assertIn('"type_id": type_id', source)
+        self.assertIn('"call": "team.data().countType(type)"', source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
