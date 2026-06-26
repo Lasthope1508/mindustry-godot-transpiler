@@ -2013,5 +2013,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_in_fog_discovery_gate_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_in_fog_discovery_gate_source"))
+        report = source_parity.verify_building_in_fog_discovery_gate_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "in_fog_method": "public boolean inFogTo(Team viewer){",
+            "in_fog_grid_snapshot": "int size = block.size, of = block.sizeOffset, tx = tile.x, ty = tile.y;",
+            "in_fog_discovered_gate": "if(!isDiscovered(viewer)) return true;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

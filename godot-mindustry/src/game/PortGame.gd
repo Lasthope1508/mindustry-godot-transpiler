@@ -2303,6 +2303,17 @@ func source_building_in_fog_initial_gate_state(same_team: bool, rules_fog: bool)
 		return {"returned": true, "value": false}
 	return {"returned": false, "value": null}
 
+func source_building_in_fog_discovery_gate_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, is_discovered: bool) -> Dictionary:
+	var grid := {
+		"size": block_size_value,
+		"offset": block_size_offset,
+		"tile_x": tile_x,
+		"tile_y": tile_y,
+	}
+	if not is_discovered:
+		return {"returned": true, "value": true, "grid": grid}
+	return {"returned": false, "value": null, "grid": grid}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

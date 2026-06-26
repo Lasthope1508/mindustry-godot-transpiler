@@ -2405,6 +2405,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return {"returned": true, "value": false}', source)
         self.assertIn('return {"returned": false, "value": null}', source)
 
+    def test_port_game_exposes_source_building_in_fog_discovery_gate_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_in_fog_discovery_gate_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, is_discovered: bool) -> Dictionary:", source)
+        self.assertIn('"size": block_size_value,', source)
+        self.assertIn('"offset": block_size_offset,', source)
+        self.assertIn('"tile_x": tile_x,', source)
+        self.assertIn('"tile_y": tile_y,', source)
+        self.assertIn("if not is_discovered:", source)
+        self.assertIn('return {"returned": true, "value": true, "grid": grid}', source)
+        self.assertIn('return {"returned": false, "value": null, "grid": grid}', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
