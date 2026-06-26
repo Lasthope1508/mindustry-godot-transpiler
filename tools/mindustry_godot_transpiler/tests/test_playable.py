@@ -2431,6 +2431,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return {"in_fog": false, "checked_tiles": checked_tiles, "visible_tile": {"x": check_x, "y": check_y}}', source)
         self.assertIn('return {"in_fog": true, "checked_tiles": checked_tiles, "visible_tile": null}', source)
 
+    def test_port_game_exposes_source_building_killed_initial_side_effects_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_killed_initial_side_effects_state(tile_value: Variant) -> Dictionary:", source)
+        self.assertIn('"dead": true,', source)
+        self.assertIn('"event": {"type": "BlockDestroyEvent", "tile": tile_value},', source)
+        self.assertIn('"on_destroyed_called": true,', source)
+        self.assertIn('"next_step": "tile_remove_gate",', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

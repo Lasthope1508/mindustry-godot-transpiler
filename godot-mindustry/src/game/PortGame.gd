@@ -2326,6 +2326,14 @@ func source_building_in_fog_visibility_loop_state(block_size_value: int, block_s
 					return {"in_fog": false, "checked_tiles": checked_tiles, "visible_tile": {"x": check_x, "y": check_y}}
 	return {"in_fog": true, "checked_tiles": checked_tiles, "visible_tile": null}
 
+func source_building_killed_initial_side_effects_state(tile_value: Variant) -> Dictionary:
+	return {
+		"dead": true,
+		"event": {"type": "BlockDestroyEvent", "tile": tile_value},
+		"on_destroyed_called": true,
+		"next_step": "tile_remove_gate",
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

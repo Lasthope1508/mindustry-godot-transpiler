@@ -2039,5 +2039,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_killed_initial_side_effects_match_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_killed_initial_side_effects_source"))
+        report = source_parity.verify_building_killed_initial_side_effects_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "killed_method": "public void killed(){",
+            "killed_dead_assignment": "dead = true;",
+            "killed_destroy_event": "Events.fire(new BlockDestroyEvent(tile));",
+            "killed_on_destroyed": "onDestroyed();",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
