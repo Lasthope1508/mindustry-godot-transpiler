@@ -2150,5 +2150,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_to_string_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_to_string_source"))
+        report = source_parity.verify_building_to_string_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "to_string_override": "@Override",
+            "to_string_replace": "@Replace",
+            "to_string_method": "public String toString(){",
+            "to_string_return": 'return "Building#" + id() + "[" + tileX() + "," + tileY() + "]:" + block;',
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 236 |
-| Done | 236 |
+| Total tracked work items | 237 |
+| Done | 237 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -112,6 +112,7 @@
 - [x] N232: Source BuildingComp updateTile disabled gate state.
 - [x] N233: Source BuildingComp updateFogVisibility state.
 - [x] N234: Source BuildingComp hitbox setCentered state.
+- [x] N235: Source BuildingComp toString state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -373,6 +374,7 @@ Current cube: `Building logic / sensor-control`. Current source path stays `Buil
 | N232 | Apply source BuildingComp updateTile disabled gate state | The next `BuildingComp.update()` slice preserves exact `if(enabled || !block.noUpdateDisabled){` and `updateTile();`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_update_tile_gate_state(enabled_state, block_no_update_disabled)` as the same `enabled || !block.noUpdateDisabled` update-tile gate without inventing `updateTile()` internals; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `368` tests, full Python suite reports `392` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `update_tile_called:true` for enabled and disabled-but-allowed cases, and `update_tile_called:false` for disabled-and-blocked; debug output returned `errors: []`, and stop returned `finalErrors: []` |
 | N233 | Apply source BuildingComp updateFogVisibility state | The next `BuildingComp.updateFogVisibility()` slice preserves exact method `public void updateFogVisibility(){`, gate `if(!wasVisible && !inFogTo(player.team())){`, bit update `visibleFlags |= (1L << player.team().id);`, `wasVisible = true;`, `renderer.blocks.updateShadow(self());`, and `renderer.minimap.update(tile);`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_update_fog_visibility_state(was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state)` as the same newly-visible gate, flag OR, shadow update, and minimap update without inventing renderer internals; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `370` tests, full Python suite reports `394` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned visible flags `10`, `was_visible:true`, `update_shadow` self, and `minimap_update` tile for newly visible, plus unchanged flags and null calls for already-visible and still-in-fog cases; debug output returned `errors: []`, and stop returned `finalErrors: []` |
 | N234 | Apply source BuildingComp hitbox setCentered state | The next `BuildingComp.hitbox(Rect out)` slice preserves exact `@Override`, method `public void hitbox(Rect out){`, and `out.setCentered(x, y, block.size * tilesize, block.size * tilesize);`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_hitbox_state(world_x, world_y, block_size_value, source_tilesize)` as the same `setCentered` call argument record without inventing `Rect` internals; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `372` tests, full Python suite reports `396` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `{"set_centered":{"x":64.0,"y":96.0,"width":24.0,"height":24.0}}` for block size `3` and tilesize `8.0`, and `{"set_centered":{"x":10.5,"y":20.25,"width":32.0,"height":32.0}}` for block size `1` and tilesize `32.0`; debug output returned `errors: []`, and stop returned `finalErrors: []` |
+| N235 | Apply source BuildingComp toString state | The final `BuildingComp.toString()` slice preserves exact `@Override`, `@Replace`, method `public String toString(){`, and return `return "Building#" + id() + "[" + tileX() + "," + tileY() + "]:" + block;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_to_string_state(id_value, tile_x_value, tile_y_value, block_value)` as the same string concatenation without inventing block formatting beyond Java `String.valueOf` behavior represented by `str(block_value)`; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `374` tests, full Python suite reports `398` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `Building#42[7,8]:duo` and `Building#5[-1,12]:core-shard`; debug output returned `errors: []`, and stop returned `finalErrors: []` |
 
 ## Not Done
 

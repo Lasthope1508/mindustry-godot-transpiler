@@ -2388,6 +2388,9 @@ func source_building_hitbox_state(world_x: float, world_y: float, block_size_val
 		"set_centered": {"x": world_x, "y": world_y, "width": hitbox_size, "height": hitbox_size},
 	}
 
+func source_building_to_string_state(id_value: int, tile_x_value: int, tile_y_value: int, block_value: Variant) -> String:
+	return "Building#" + str(id_value) + "[" + str(tile_x_value) + "," + str(tile_y_value) + "]:" + str(block_value)
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
