@@ -3295,6 +3295,36 @@ func source_unit_update_captured_sector_death_state(team_is_only_ai: bool, state
 		"call": "kill()" if kill_unit else "",
 	}
 
+func source_unit_update_sound_loop_state(headless_value: bool, type_loop_sound: String, type_loop_sound_volume: float, type_move_sound: String, type_move_sound_volume: float, type_move_sound_pitch_min: float, type_move_sound_pitch_max: float, velocity_x: float, velocity_y: float, type_speed: float) -> Dictionary:
+	var sound_enabled := not headless_value
+	var velocity_len := sqrt(velocity_x * velocity_x + velocity_y * velocity_y)
+	var progress := clampf(velocity_len / type_speed, 0.0, 1.0) if type_speed != 0.0 else 1.0
+	var pitch := type_move_sound_pitch_min + (type_move_sound_pitch_max - type_move_sound_pitch_min) * progress
+	var loop_sound_call: Variant = null
+	var move_sound_call: Variant = null
+	if sound_enabled:
+		loop_sound_call = {
+			"call": "control.sound.loop(type.loopSound, this, type.loopSoundVolume)",
+			"sound": type_loop_sound,
+			"volume": type_loop_sound_volume,
+		}
+		if type_move_sound != "Sounds.none":
+			move_sound_call = {
+				"call": "control.sound.loop(type.moveSound, this, type.moveSoundVolume * progress, pitch)",
+				"sound": type_move_sound,
+				"progress": progress,
+				"volume": type_move_sound_volume * progress,
+				"pitch": pitch,
+			}
+	return {
+		"soundEnabled": sound_enabled,
+		"velocityLen": velocity_len,
+		"progress": progress,
+		"pitch": pitch,
+		"loopSound": loop_sound_call,
+		"moveSound": move_sound_call,
+	}
+
 func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
 	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
 	var drown_time_before_clamp := current_drown_time

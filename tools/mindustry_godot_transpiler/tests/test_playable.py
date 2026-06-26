@@ -2885,6 +2885,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"call": "kill()" if kill_unit else ""', source)
         self.assertIn('"guard": {"team.isOnlyAI()": team_is_only_ai, "state.isCampaign()": state_is_campaign, "state.getSector().isCaptured()": sector_is_captured}', source)
 
+    def test_port_game_exposes_source_unit_update_sound_loop_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_sound_loop_state(headless_value: bool, type_loop_sound: String, type_loop_sound_volume: float, type_move_sound: String, type_move_sound_volume: float, type_move_sound_pitch_min: float, type_move_sound_pitch_max: float, velocity_x: float, velocity_y: float, type_speed: float) -> Dictionary:", source)
+        self.assertIn("var sound_enabled := not headless_value", source)
+        self.assertIn("var velocity_len := sqrt(velocity_x * velocity_x + velocity_y * velocity_y)", source)
+        self.assertIn("var progress := clampf(velocity_len / type_speed, 0.0, 1.0) if type_speed != 0.0 else 1.0", source)
+        self.assertIn("var pitch := type_move_sound_pitch_min + (type_move_sound_pitch_max - type_move_sound_pitch_min) * progress", source)
+        self.assertIn('"call": "control.sound.loop(type.loopSound, this, type.loopSoundVolume)"', source)
+        self.assertIn('"call": "control.sound.loop(type.moveSound, this, type.moveSoundVolume * progress, pitch)"', source)
+        self.assertIn('"volume": type_move_sound_volume * progress', source)
+        self.assertIn('"pitch": pitch', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

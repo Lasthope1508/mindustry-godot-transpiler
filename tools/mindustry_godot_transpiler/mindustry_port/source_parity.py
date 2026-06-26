@@ -15,6 +15,8 @@ UNIT_TYPES_CONTENT_SOURCE = "core/src/mindustry/content/UnitTypes.java"
 TEAM_SOURCE = "core/src/mindustry/game/Team.java"
 GAME_STATE_SOURCE = "core/src/mindustry/core/GameState.java"
 SECTOR_SOURCE = "core/src/mindustry/type/Sector.java"
+VARS_SOURCE = "core/src/mindustry/Vars.java"
+SOUND_CONTROL_SOURCE = "core/src/mindustry/audio/SoundControl.java"
 TEAMS_SOURCE = "core/src/mindustry/game/Teams.java"
 RULES_SOURCE = "core/src/mindustry/game/Rules.java"
 UNITS_SOURCE = "core/src/mindustry/entities/Units.java"
@@ -4473,6 +4475,78 @@ def verify_unit_update_captured_sector_death_source(upstream_root: Path) -> dict
         "team_source": TEAM_SOURCE,
         "game_state_source": GAME_STATE_SOURCE,
         "sector_source": SECTOR_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_unit_update_sound_loop_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    vars_path = Path(upstream_root) / VARS_SOURCE
+    unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
+    sound_control_path = Path(upstream_root) / SOUND_CONTROL_SOURCE
+    mathf_path = Path(arc_root) / ARC_MATHF_SOURCE
+    vec2_path = Path(arc_root) / ARC_VEC2_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    vars_source = vars_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    sound_control_source = sound_control_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    vec2_source = vec2_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "headless_guard": "if(!headless){",
+        "loop_sound_call": "control.sound.loop(type.loopSound, this, type.loopSoundVolume);",
+        "move_sound_guard": "if(type.moveSound != Sounds.none){",
+        "move_progress": "float progress = Mathf.clamp(vel.len() / type.speed);",
+        "move_pitch": "float pitch = Mathf.lerp(type.moveSoundPitchMin,  type.moveSoundPitchMax, progress);",
+        "move_sound_call": "control.sound.loop(type.moveSound, this, type.moveSoundVolume * progress, pitch);",
+        "vars_headless": "public static boolean headless;",
+        "unit_loop_sound": "public Sound loopSound = Sounds.none;",
+        "unit_loop_sound_volume": "public float loopSoundVolume = 0.5f;",
+        "unit_move_sound": "public Sound moveSound = Sounds.none;",
+        "unit_move_sound_volume": "public float moveSoundVolume = 1f;",
+        "unit_move_sound_pitch": "public float moveSoundPitchMin = 1f, moveSoundPitchMax = 1f;",
+        "sound_control_loop_pos": "public void loop(Sound sound, Position pos, float volume, float pitch){",
+        "sound_control_guard": "if(Vars.headless || sound == Sounds.none || volume <= 0.00001f) return;",
+        "mathf_clamp_unit": "public static float clamp(float value){",
+        "mathf_clamp_unit_body": "return Math.max(Math.min(value, 1f), 0f);",
+        "mathf_lerp": "public static float lerp(float fromValue, float toValue, float progress){",
+        "mathf_lerp_body": "return fromValue + (toValue - fromValue) * progress;",
+        "vec2_len": "public float len(){",
+        "vec2_len_body": "return (float)Math.sqrt(x * x + y * y);",
+    }
+    source_map = {
+        "headless_guard": source,
+        "loop_sound_call": source,
+        "move_sound_guard": source,
+        "move_progress": source,
+        "move_pitch": source,
+        "move_sound_call": source,
+        "vars_headless": vars_source,
+        "unit_loop_sound": unit_type_source,
+        "unit_loop_sound_volume": unit_type_source,
+        "unit_move_sound": unit_type_source,
+        "unit_move_sound_volume": unit_type_source,
+        "unit_move_sound_pitch": unit_type_source,
+        "sound_control_loop_pos": sound_control_source,
+        "sound_control_guard": sound_control_source,
+        "mathf_clamp_unit": mathf_source,
+        "mathf_clamp_unit_body": mathf_source,
+        "mathf_lerp": mathf_source,
+        "mathf_lerp_body": mathf_source,
+        "vec2_len": vec2_source,
+        "vec2_len_body": vec2_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "vars_source": VARS_SOURCE,
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "sound_control_source": SOUND_CONTROL_SOURCE,
+        "arc_mathf_source": ARC_MATHF_SOURCE,
+        "arc_vec2_source": ARC_VEC2_SOURCE,
         "checked": checked,
         "missing": missing,
     }

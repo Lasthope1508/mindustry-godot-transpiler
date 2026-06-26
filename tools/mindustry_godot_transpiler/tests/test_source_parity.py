@@ -2950,6 +2950,40 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_sound_loop_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_sound_loop_source"))
+        report = source_parity.verify_unit_update_sound_loop_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["vars_source"], "core/src/mindustry/Vars.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["sound_control_source"], "core/src/mindustry/audio/SoundControl.java")
+        self.assertEqual(report["arc_mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["arc_vec2_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(report["checked"], {
+            "headless_guard": "if(!headless){",
+            "loop_sound_call": "control.sound.loop(type.loopSound, this, type.loopSoundVolume);",
+            "move_sound_guard": "if(type.moveSound != Sounds.none){",
+            "move_progress": "float progress = Mathf.clamp(vel.len() / type.speed);",
+            "move_pitch": "float pitch = Mathf.lerp(type.moveSoundPitchMin,  type.moveSoundPitchMax, progress);",
+            "move_sound_call": "control.sound.loop(type.moveSound, this, type.moveSoundVolume * progress, pitch);",
+            "vars_headless": "public static boolean headless;",
+            "unit_loop_sound": "public Sound loopSound = Sounds.none;",
+            "unit_loop_sound_volume": "public float loopSoundVolume = 0.5f;",
+            "unit_move_sound": "public Sound moveSound = Sounds.none;",
+            "unit_move_sound_volume": "public float moveSoundVolume = 1f;",
+            "unit_move_sound_pitch": "public float moveSoundPitchMin = 1f, moveSoundPitchMax = 1f;",
+            "sound_control_loop_pos": "public void loop(Sound sound, Position pos, float volume, float pitch){",
+            "sound_control_guard": "if(Vars.headless || sound == Sounds.none || volume <= 0.00001f) return;",
+            "mathf_clamp_unit": "public static float clamp(float value){",
+            "mathf_clamp_unit_body": "return Math.max(Math.min(value, 1f), 0f);",
+            "mathf_lerp": "public static float lerp(float fromValue, float toValue, float progress){",
+            "mathf_lerp_body": "return fromValue + (toValue - fromValue) * progress;",
+            "vec2_len": "public float len(){",
+            "vec2_len_body": "return (float)Math.sqrt(x * x + y * y);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
