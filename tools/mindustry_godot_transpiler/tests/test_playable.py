@@ -2879,6 +2879,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("drown_time_before_clamp -= source_delta / 50.0", source)
         self.assertIn("var clamped_drown_time: float = clampf(drown_time_before_clamp, 0.0, 1.0)", source)
 
+    def test_port_game_exposes_source_unit_update_type_hook_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_type_hook_state() -> Dictionary:", source)
+        self.assertIn('"call": "type.update(self())"', source)
+        self.assertIn('"arg": "self()"', source)
+        self.assertIn('"unitTypeHook": "public void update(Unit unit)"', source)
+        self.assertIn('"order": "first statement in UnitComp.update()"', source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

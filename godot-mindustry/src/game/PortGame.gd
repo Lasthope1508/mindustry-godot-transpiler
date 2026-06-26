@@ -3307,6 +3307,14 @@ func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool
 		"netClient": net_client,
 	}
 
+func source_unit_update_type_hook_state() -> Dictionary:
+	return {
+		"call": "type.update(self())",
+		"arg": "self()",
+		"unitTypeHook": "public void update(Unit unit)",
+		"order": "first statement in UnitComp.update()",
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},

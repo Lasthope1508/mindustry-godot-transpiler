@@ -2753,6 +2753,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_type_hook_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_type_hook_source"))
+        report = source_parity.verify_unit_update_type_hook_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["checked"], {
+            "update_override": "@Override\n    public void update(){",
+            "type_update_call": "type.update(self());",
+            "unit_type_update_hook": "public void update(Unit unit){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_heal_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_heal_source"))
         report = source_parity.verify_unit_heal_source(ROOT / "mindustry-upstream")
