@@ -1463,6 +1463,13 @@ func source_arc_mathf_sin_scaled(radians: float, scl: float, mag: float) -> floa
 func source_arc_mathf_cos_scaled(radians: float, scl: float, mag: float) -> float:
 	return source_arc_mathf_cos_lookup(radians / scl) * mag
 
+func source_arc_vec2_limit(vec: Vector2, limit: float) -> Vector2:
+	var limit2 := limit * limit
+	var len2 := vec.length_squared()
+	if len2 > limit2:
+		return vec * sqrt(limit2 / len2)
+	return vec
+
 func source_building_draw_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:
 	var draw_rotation := source_building_drawrot_state(block_rotate, block_rotate_draw, rotation_quadrants)
 	if variants == 0 or not has_variant_regions:
@@ -2894,6 +2901,21 @@ func source_unit_wobble_state(current_x: float, current_y: float, source_time: f
 		"dx": dx,
 		"dy": dy,
 		"wobble_input": wobble_input,
+	}
+
+func source_unit_move_at_state(vel_x: float, vel_y: float, vector_x: float, vector_y: float, acceleration: float, source_delta: float) -> Dictionary:
+	var vel := Vector2(vel_x, vel_y)
+	var target := Vector2(vector_x, vector_y)
+	var delta := source_arc_vec2_limit(target - vel, acceleration * target.length() * source_delta)
+	var next_vel := vel + delta
+	return {
+		"vel_x": next_vel.x,
+		"vel_y": next_vel.y,
+		"delta_x": delta.x,
+		"delta_y": delta.y,
+		"target_x": target.x,
+		"target_y": target.y,
+		"limit": acceleration * target.length() * source_delta,
 	}
 
 func simulate_turrets(delta: float) -> void:

@@ -2220,5 +2220,26 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_move_at_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_move_at_source"))
+        report = source_parity.verify_unit_move_at_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["arc_vec2_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(report["checked"], {
+            "move_at_method": "public void moveAt(Vec2 vector, float acceleration){",
+            "move_at_target": "Vec2 t = tmp1.set(vector); //target vector",
+            "move_at_delta": "tmp2.set(t).sub(vel).limit(acceleration * vector.len() * Time.delta); //delta vector",
+            "move_at_add": "vel.add(tmp2);",
+            "vec2_len": "return (float)Math.sqrt(x * x + y * y);",
+            "vec2_set": "public Vec2 set(Vec2 v){",
+            "vec2_sub": "public Vec2 sub(Vec2 v){",
+            "vec2_add": "public Vec2 add(Vec2 v){",
+            "vec2_limit": "public Vec2 limit(float limit){",
+            "vec2_limit2": "if(len2 > limit2){",
+            "vec2_limit2_scale": "return scl((float)Math.sqrt(limit2 / len2));",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

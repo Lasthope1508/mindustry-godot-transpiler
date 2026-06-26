@@ -17,6 +17,7 @@ CORE_BLOCK_SOURCE = "core/src/mindustry/world/blocks/storage/CoreBlock.java"
 ITEM_MODULE_SOURCE = "core/src/mindustry/world/modules/ItemModule.java"
 WORLD_SOURCE = "core/src/mindustry/core/World.java"
 ARC_MATHF_SOURCE = "arc-core/src/arc/math/Mathf.java"
+ARC_VEC2_SOURCE = "arc-core/src/arc/math/geom/Vec2.java"
 ARC_RAND_SOURCE = "arc-core/src/arc/math/Rand.java"
 ARC_STRINGS_SOURCE = "arc-core/src/arc/util/Strings.java"
 
@@ -3441,6 +3442,37 @@ def verify_unit_wobble_source(upstream_root: Path, arc_root: Path) -> dict[str, 
     return {
         "source": UNIT_COMP_SOURCE,
         "arc_mathf_source": ARC_MATHF_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_unit_move_at_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    vec2_path = Path(arc_root) / ARC_VEC2_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    vec2_source = vec2_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "move_at_method": "public void moveAt(Vec2 vector, float acceleration){",
+        "move_at_target": "Vec2 t = tmp1.set(vector); //target vector",
+        "move_at_delta": "tmp2.set(t).sub(vel).limit(acceleration * vector.len() * Time.delta); //delta vector",
+        "move_at_add": "vel.add(tmp2);",
+        "vec2_len": "return (float)Math.sqrt(x * x + y * y);",
+        "vec2_set": "public Vec2 set(Vec2 v){",
+        "vec2_sub": "public Vec2 sub(Vec2 v){",
+        "vec2_add": "public Vec2 add(Vec2 v){",
+        "vec2_limit": "public Vec2 limit(float limit){",
+        "vec2_limit2": "if(len2 > limit2){",
+        "vec2_limit2_scale": "return scl((float)Math.sqrt(limit2 / len2));",
+    }
+    unit_keys = {"move_at_method", "move_at_target", "move_at_delta", "move_at_add"}
+    missing = []
+    for key, snippet in checked.items():
+        haystack = source if key in unit_keys else vec2_source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "arc_vec2_source": ARC_VEC2_SOURCE,
         "checked": checked,
         "missing": missing,
     }

@@ -2563,6 +2563,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var dx := source_arc_mathf_sin_scaled(wobble_input, 25.0, 0.05) * source_delta * elevation_value", source)
         self.assertIn("var dy := source_arc_mathf_cos_scaled(wobble_input, 25.0, 0.05) * source_delta * elevation_value", source)
 
+    def test_port_game_exposes_source_unit_move_at_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_arc_vec2_limit(vec: Vector2, limit: float) -> Vector2:", source)
+        self.assertIn("var limit2 := limit * limit", source)
+        self.assertIn("return vec * sqrt(limit2 / len2)", source)
+        self.assertIn("func source_unit_move_at_state(vel_x: float, vel_y: float, vector_x: float, vector_y: float, acceleration: float, source_delta: float) -> Dictionary:", source)
+        self.assertIn("var vel := Vector2(vel_x, vel_y)", source)
+        self.assertIn("var target := Vector2(vector_x, vector_y)", source)
+        self.assertIn("var delta := source_arc_vec2_limit(target - vel, acceleration * target.length() * source_delta)", source)
+        self.assertIn("var next_vel := vel + delta", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
