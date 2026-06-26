@@ -2920,6 +2920,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"ability": ability_id', source)
         self.assertIn('"updateCount": updates.size()', source)
 
+    def test_port_game_exposes_source_unit_update_trail_position_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_trail_position_state(trail_exists: bool, type_trail_length: int, type_use_engine_elevation: bool, elevation_value: float, type_engine_offset: float, x_value: float, y_value: float, source_rotation_degrees: float) -> Dictionary:", source)
+        self.assertIn("var trail_scale := elevation_value if type_use_engine_elevation else 1.0", source)
+        self.assertIn("var offset := type_engine_offset / 2.0 + type_engine_offset / 2.0 * trail_scale", source)
+        self.assertIn("var angle := source_rotation_degrees + 180.0", source)
+        self.assertIn("var cx := x_value + cos(deg_to_rad(angle)) * offset", source)
+        self.assertIn("var cy := y_value + sin(deg_to_rad(angle)) * offset", source)
+        self.assertIn('"call": "trail.update(cx, cy)"', source)
+        self.assertIn('"lengthSet": {"call": "trail.length = type.trailLength", "length": type_trail_length}', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

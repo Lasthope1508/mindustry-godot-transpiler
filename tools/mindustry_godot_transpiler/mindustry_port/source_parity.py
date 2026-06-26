@@ -4634,6 +4634,71 @@ def verify_unit_update_abilities_loop_source(upstream_root: Path) -> dict[str, A
         "missing": missing,
     }
 
+def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
+    trail_path = Path(upstream_root) / TRAIL_SOURCE
+    angles_path = Path(arc_root) / ARC_ANGLES_SOURCE
+    mathf_path = Path(arc_root) / ARC_MATHF_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    trail_source = trail_path.read_text(encoding="utf-8", errors="replace")
+    angles_source = angles_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "trail_field": "transient @Nullable Trail trail;",
+        "trail_guard": "if(trail != null){",
+        "trail_length_set": "trail.length = type.trailLength;",
+        "trail_scale": "float scale = type.useEngineElevation ? elevation : 1f;",
+        "trail_offset": "float offset = type.engineOffset/2f + type.engineOffset/2f*scale;",
+        "trail_position": "float cx = x + Angles.trnsx(rotation + 180, offset), cy = y + Angles.trnsy(rotation + 180, offset);",
+        "trail_update_call": "trail.update(cx, cy);",
+        "unit_engine_offset": "engineOffset = 5f,",
+        "unit_use_engine_elevation": "public boolean useEngineElevation = true;",
+        "unit_trail_length": "public int trailLength = 0;",
+        "trail_update_xy": "public void update(float x, float y){",
+        "trail_update_width_delegate": "update(x, y, 1f);",
+        "angles_trnsx": "public static float trnsx(float angle, float len){",
+        "angles_trnsx_body": "return len * Mathf.cosDeg(angle);",
+        "angles_trnsy": "public static float trnsy(float angle, float len){",
+        "angles_trnsy_body": "return len * Mathf.sinDeg(angle);",
+        "mathf_sin_deg": "public static float sinDeg(float degrees){",
+        "mathf_cos_deg": "public static float cosDeg(float degrees){",
+    }
+    source_map = {
+        "trail_field": source,
+        "trail_guard": source,
+        "trail_length_set": source,
+        "trail_scale": source,
+        "trail_offset": source,
+        "trail_position": source,
+        "trail_update_call": source,
+        "unit_engine_offset": unit_type_source,
+        "unit_use_engine_elevation": unit_type_source,
+        "unit_trail_length": unit_type_source,
+        "trail_update_xy": trail_source,
+        "trail_update_width_delegate": trail_source,
+        "angles_trnsx": angles_source,
+        "angles_trnsx_body": angles_source,
+        "angles_trnsy": angles_source,
+        "angles_trnsy_body": angles_source,
+        "mathf_sin_deg": mathf_source,
+        "mathf_cos_deg": mathf_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "trail_source": TRAIL_SOURCE,
+        "arc_angles_source": ARC_ANGLES_SOURCE,
+        "arc_mathf_source": ARC_MATHF_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

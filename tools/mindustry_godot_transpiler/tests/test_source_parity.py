@@ -3024,6 +3024,37 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_trail_position_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
+        report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["trail_source"], "core/src/mindustry/graphics/Trail.java")
+        self.assertEqual(report["arc_angles_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(report["arc_mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "trail_field": "transient @Nullable Trail trail;",
+            "trail_guard": "if(trail != null){",
+            "trail_length_set": "trail.length = type.trailLength;",
+            "trail_scale": "float scale = type.useEngineElevation ? elevation : 1f;",
+            "trail_offset": "float offset = type.engineOffset/2f + type.engineOffset/2f*scale;",
+            "trail_position": "float cx = x + Angles.trnsx(rotation + 180, offset), cy = y + Angles.trnsy(rotation + 180, offset);",
+            "trail_update_call": "trail.update(cx, cy);",
+            "unit_engine_offset": "engineOffset = 5f,",
+            "unit_use_engine_elevation": "public boolean useEngineElevation = true;",
+            "unit_trail_length": "public int trailLength = 0;",
+            "trail_update_xy": "public void update(float x, float y){",
+            "trail_update_width_delegate": "update(x, y, 1f);",
+            "angles_trnsx": "public static float trnsx(float angle, float len){",
+            "angles_trnsx_body": "return len * Mathf.cosDeg(angle);",
+            "angles_trnsy": "public static float trnsy(float angle, float len){",
+            "angles_trnsy_body": "return len * Mathf.sinDeg(angle);",
+            "mathf_sin_deg": "public static float sinDeg(float degrees){",
+            "mathf_cos_deg": "public static float cosDeg(float degrees){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

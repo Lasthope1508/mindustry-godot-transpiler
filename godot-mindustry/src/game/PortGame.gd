@@ -3357,6 +3357,30 @@ func source_unit_update_abilities_loop_state(ability_ids: Array) -> Dictionary:
 		"updateCount": updates.size(),
 	}
 
+func source_unit_update_trail_position_state(trail_exists: bool, type_trail_length: int, type_use_engine_elevation: bool, elevation_value: float, type_engine_offset: float, x_value: float, y_value: float, source_rotation_degrees: float) -> Dictionary:
+	var trail_scale := elevation_value if type_use_engine_elevation else 1.0
+	var offset := type_engine_offset / 2.0 + type_engine_offset / 2.0 * trail_scale
+	var angle := source_rotation_degrees + 180.0
+	var cx := x_value + cos(deg_to_rad(angle)) * offset
+	var cy := y_value + sin(deg_to_rad(angle)) * offset
+	if not trail_exists:
+		return {
+			"trailExists": false,
+			"scale": trail_scale,
+			"offset": offset,
+			"position": {"x": cx, "y": cy},
+			"lengthSet": null,
+			"trailUpdate": null,
+		}
+	return {
+		"trailExists": true,
+		"scale": trail_scale,
+		"offset": offset,
+		"position": {"x": cx, "y": cy},
+		"lengthSet": {"call": "trail.length = type.trailLength", "length": type_trail_length},
+		"trailUpdate": {"call": "trail.update(cx, cy)", "x": cx, "y": cy},
+	}
+
 func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
 	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
 	var drown_time_before_clamp := current_drown_time
