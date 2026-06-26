@@ -2469,6 +2469,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return {"time_scale": 1.0, "time_scale_duration": next_duration}', source)
         self.assertIn('return {"time_scale": current_time_scale, "time_scale_duration": next_duration}', source)
 
+    def test_port_game_exposes_source_building_update_ambient_sound_gate_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_update_ambient_sound_gate_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:", source)
+        self.assertIn("var should_loop: bool = not headless_mode and ambient_sound_value != sounds_none_value and should_ambient_sound_result", source)
+        self.assertIn('return {"loop_called": false, "sound": ambient_sound_value, "volume": 0.0}', source)
+        self.assertIn('return {"loop_called": true, "sound": ambient_sound_value, "volume": block_ambient_sound_volume * ambient_volume_value}', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

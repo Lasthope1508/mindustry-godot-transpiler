@@ -2090,5 +2090,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_update_ambient_sound_gate_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_update_ambient_sound_gate_source"))
+        report = source_parity.verify_building_update_ambient_sound_gate_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "update_ambient_sound_comment": "//TODO separate multithreaded system for sound? AudioSource, etc",
+            "update_ambient_sound_gate": "if(!headless && block.ambientSound != Sounds.none && shouldAmbientSound()){",
+            "update_ambient_sound_loop": "control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

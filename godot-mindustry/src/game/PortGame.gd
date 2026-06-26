@@ -2352,6 +2352,12 @@ func source_building_update_timescale_decay_state(current_time_scale: float, cur
 		return {"time_scale": 1.0, "time_scale_duration": next_duration}
 	return {"time_scale": current_time_scale, "time_scale_duration": next_duration}
 
+func source_building_update_ambient_sound_gate_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:
+	var should_loop: bool = not headless_mode and ambient_sound_value != sounds_none_value and should_ambient_sound_result
+	if not should_loop:
+		return {"loop_called": false, "sound": ambient_sound_value, "volume": 0.0}
+	return {"loop_called": true, "sound": ambient_sound_value, "volume": block_ambient_sound_volume * ambient_volume_value}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
