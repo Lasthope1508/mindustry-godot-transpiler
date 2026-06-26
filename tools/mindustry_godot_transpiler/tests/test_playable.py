@@ -2837,6 +2837,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"controllerRemoved": {"call": "controller.removed(self())", "arg": "self()"}', source)
         self.assertIn('"trailFade": fade_trail', source)
 
+    def test_port_game_exposes_source_unit_landed_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_landed_state(type_mech_land_shake: float) -> Dictionary:", source)
+        self.assertIn("var shake := type_mech_land_shake > 0.0", source)
+        self.assertIn("var shake_call: Variant = null", source)
+        self.assertIn('"call": "Effect.shake(type.mechLandShake, type.mechLandShake, this)"', source)
+        self.assertIn('"intensity": type_mech_land_shake', source)
+        self.assertIn('"duration": type_mech_land_shake', source)
+        self.assertIn('"locArg": "this"', source)
+        self.assertIn('"typeLanded": {"call": "type.landed(self())", "arg": "self()"}', source)
+        self.assertIn('"call_order": ["Effect.shake", "type.landed"] if shake else ["type.landed"]', source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

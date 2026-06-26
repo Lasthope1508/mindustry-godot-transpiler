@@ -2695,6 +2695,25 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_landed_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_landed_source"))
+        report = source_parity.verify_unit_landed_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["effect_source"], "core/src/mindustry/entities/Effect.java")
+        self.assertEqual(report["checked"], {
+            "landed_override": "@Override\n    public void landed(){",
+            "landed_shake_guard": "if(type.mechLandShake > 0f){",
+            "landed_shake_call": "Effect.shake(type.mechLandShake, type.mechLandShake, this);",
+            "landed_type_call": "type.landed(self());",
+            "unit_type_mech_land_shake": "public float mechLandShake = 0f;",
+            "unit_type_landed": "public void landed(Unit unit){}",
+            "effect_shake_position": "public static void shake(float intensity, float duration, Position loc){",
+            "effect_shake_position_call": "shake(intensity, duration, loc.getX(), loc.getY());",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

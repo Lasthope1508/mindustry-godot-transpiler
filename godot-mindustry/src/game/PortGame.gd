@@ -3245,6 +3245,23 @@ func source_unit_remove_state(trail_exists: bool, trail_size: int, trail_width: 
 		"call_order": ["team.data().updateCount(-1)", "controller.removed", "Fx.trailFade.at"] if fade_trail else ["team.data().updateCount(-1)", "controller.removed"],
 	}
 
+func source_unit_landed_state(type_mech_land_shake: float) -> Dictionary:
+	var shake := type_mech_land_shake > 0.0
+	var shake_call: Variant = null
+	if shake:
+		shake_call = {
+			"call": "Effect.shake(type.mechLandShake, type.mechLandShake, this)",
+			"intensity": type_mech_land_shake,
+			"duration": type_mech_land_shake,
+			"locArg": "this",
+		}
+	return {
+		"shake": shake,
+		"shakeCall": shake_call,
+		"typeLanded": {"call": "type.landed(self())", "arg": "self()"},
+		"call_order": ["Effect.shake", "type.landed"] if shake else ["type.landed"],
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},

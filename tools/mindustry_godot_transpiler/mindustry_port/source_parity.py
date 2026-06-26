@@ -15,6 +15,7 @@ TEAM_SOURCE = "core/src/mindustry/game/Team.java"
 TEAMS_SOURCE = "core/src/mindustry/game/Teams.java"
 RULES_SOURCE = "core/src/mindustry/game/Rules.java"
 UNITS_SOURCE = "core/src/mindustry/entities/Units.java"
+EFFECT_SOURCE = "core/src/mindustry/entities/Effect.java"
 FX_SOURCE = "core/src/mindustry/content/Fx.java"
 EVENT_TYPE_SOURCE = "core/src/mindustry/game/EventType.java"
 CONVEYOR_SOURCE = "core/src/mindustry/world/blocks/distribution/Conveyor.java"
@@ -4316,6 +4317,41 @@ def verify_unit_remove_source(upstream_root: Path) -> dict[str, Any]:
         "fx_source": FX_SOURCE,
         "unit_type_source": UNIT_TYPE_SOURCE,
         "trail_source": TRAIL_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_unit_landed_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
+    effect_path = Path(upstream_root) / EFFECT_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    effect_source = effect_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "landed_override": "@Override\n    public void landed(){",
+        "landed_shake_guard": "if(type.mechLandShake > 0f){",
+        "landed_shake_call": "Effect.shake(type.mechLandShake, type.mechLandShake, this);",
+        "landed_type_call": "type.landed(self());",
+        "unit_type_mech_land_shake": "public float mechLandShake = 0f;",
+        "unit_type_landed": "public void landed(Unit unit){}",
+        "effect_shake_position": "public static void shake(float intensity, float duration, Position loc){",
+        "effect_shake_position_call": "shake(intensity, duration, loc.getX(), loc.getY());",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if key.startswith("unit_type_"):
+            haystack = unit_type_source
+        elif key.startswith("effect_"):
+            haystack = effect_source
+        else:
+            haystack = source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "effect_source": EFFECT_SOURCE,
         "checked": checked,
         "missing": missing,
     }
