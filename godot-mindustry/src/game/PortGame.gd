@@ -2918,6 +2918,12 @@ func source_unit_move_at_state(vel_x: float, vel_y: float, vector_x: float, vect
 		"limit": acceleration * target.length() * source_delta,
 	}
 
+func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
+	return {
+		"movement": {"x": movement_x, "y": movement_y},
+		"call": "moveAt" if type_omni_movement else "rotateMove",
+	}
+
 func source_unit_floor_speed_multiplier_state(elevation_value: float, type_hovering: bool, floor_on_speed_multiplier: float, type_floor_multiplier: float, speed_multiplier_value: float) -> Dictionary:
 	var flying: bool = source_unit_is_flying(elevation_value)
 	var uses_air_floor: bool = flying or type_hovering

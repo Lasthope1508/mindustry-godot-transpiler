@@ -2241,6 +2241,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_move_pref_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
+        report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["checked"], {
+            "move_pref_comment": "Move based on preferred unit movement type.",
+            "move_pref_method": "public void movePref(Vec2 movement){",
+            "omni_gate": "if(type.omniMovement){",
+            "omni_call": "moveAt(movement);",
+            "rotate_call": "rotateMove(movement);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_floor_speed_multiplier_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_floor_speed_multiplier_source"))
         report = source_parity.verify_unit_floor_speed_multiplier_source(ROOT / "mindustry-upstream")

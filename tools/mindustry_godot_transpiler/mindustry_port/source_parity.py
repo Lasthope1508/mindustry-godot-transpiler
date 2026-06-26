@@ -3480,6 +3480,26 @@ def verify_unit_move_at_source(upstream_root: Path, arc_root: Path) -> dict[str,
         "missing": missing,
     }
 
+def verify_unit_move_pref_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "move_pref_comment": "Move based on preferred unit movement type.",
+        "move_pref_method": "public void movePref(Vec2 movement){",
+        "omni_gate": "if(type.omniMovement){",
+        "omni_call": "moveAt(movement);",
+        "rotate_call": "rotateMove(movement);",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_floor_speed_multiplier_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     floor_path = Path(upstream_root) / FLOOR_SOURCE
