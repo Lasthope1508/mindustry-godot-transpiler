@@ -3838,6 +3838,52 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_update_passive_timers_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_update_passive_timers_source"))
+        report = source_parity.verify_weapon_update_passive_timers_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["unit_comp_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["status_comp_source"], "core/src/mindustry/entities/comp/StatusComp.java")
+        self.assertEqual(report["shoot_pattern_source"], "core/src/mindustry/entities/pattern/ShootPattern.java")
+        self.assertEqual(report["arc_time_source"], "arc-core/src/arc/util/Time.java")
+        self.assertEqual(report["arc_mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "weapon_update_method": "public void update(Unit unit, WeaponMount mount){",
+            "can_shoot_call": "boolean can = unit.canShoot();",
+            "last_reload": "float lastReload = mount.reload;",
+            "reload_decay": "mount.reload = Math.max(mount.reload - Time.delta * unit.reloadMultiplier, 0);",
+            "recoil_approach": "mount.recoil = Mathf.approachDelta(mount.recoil, 0, unit.reloadMultiplier / recoilTime);",
+            "recoils_guard": "if(recoils > 0){",
+            "recoils_init": "if(mount.recoils == null) mount.recoils = new float[recoils];",
+            "recoils_loop": "for(int i = 0; i < recoils; i++){",
+            "recoils_approach": "mount.recoils[i] = Mathf.approachDelta(mount.recoils[i], 0, unit.reloadMultiplier / recoilTime);",
+            "smooth_reload": "mount.smoothReload = Mathf.lerpDelta(mount.smoothReload, mount.reload / reload, smoothReloadSpeed);",
+            "charge_update": "mount.charge = mount.charging && shoot.firstShotDelay > 0 ? Mathf.approachDelta(mount.charge, 1, 1 / shoot.firstShotDelay) : 0;",
+            "warmup_target": "float warmupTarget = (can && mount.shoot) || (continuous && mount.bullet != null) || mount.charging ? 1f : 0f;",
+            "linear_warmup_guard": "if(linearWarmup){",
+            "warmup_approach": "mount.warmup = Mathf.approachDelta(mount.warmup, warmupTarget, shootWarmupSpeed);",
+            "warmup_lerp": "mount.warmup = Mathf.lerpDelta(mount.warmup, warmupTarget, shootWarmupSpeed);",
+            "weapon_reload_field": "public float reload = 1;",
+            "weapon_recoils_field": "public int recoils = -1;",
+            "weapon_recoil_time_field": "public float recoilTime = -1f;",
+            "weapon_warmup_fields": "public float shootWarmupSpeed = 0.1f, smoothReloadSpeed = 0.15f;",
+            "weapon_linear_warmup": "public boolean linearWarmup = false;",
+            "weapon_mount_reload": "public float reload;",
+            "weapon_mount_recoils": "public @Nullable float[] recoils;",
+            "weapon_mount_warmup": "public float warmup;",
+            "unit_can_shoot": "return !disarmed && !(type.canBoost && isFlying());",
+            "status_reload_multiplier": "reloadMultiplier = 1",
+            "shoot_first_delay": "public float firstShotDelay = 0;",
+            "time_delta": "public static float delta = 1f;",
+            "mathf_approach_delta": "public static float approachDelta(float from, float to, float speed){",
+            "mathf_approach_delta_return": "return approach(from, to, Time.delta * speed);",
+            "mathf_lerp_delta": "public static float lerpDelta(float fromValue, float toValue, float progress){",
+            "mathf_lerp_delta_return": "return lerp(fromValue, toValue, clamp(progress * Time.delta));",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

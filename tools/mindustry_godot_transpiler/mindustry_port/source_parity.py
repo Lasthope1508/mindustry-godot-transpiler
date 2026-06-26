@@ -6355,6 +6355,108 @@ def verify_weapons_update_dispatch_source(upstream_root: Path) -> dict[str, Any]
         "missing": missing,
     }
 
+def verify_weapon_update_passive_timers_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    status_comp_source = "core/src/mindustry/entities/comp/StatusComp.java"
+    shoot_pattern_source = "core/src/mindustry/entities/pattern/ShootPattern.java"
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_path = upstream_root / weapon_mount_source
+    unit_comp_path = upstream_root / UNIT_COMP_SOURCE
+    status_comp_path = upstream_root / status_comp_source
+    shoot_pattern_path = upstream_root / shoot_pattern_source
+    time_path = arc_root / ARC_TIME_SOURCE
+    mathf_path = arc_root / ARC_MATHF_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    unit_comp_text = unit_comp_path.read_text(encoding="utf-8", errors="replace")
+    status_comp_text = status_comp_path.read_text(encoding="utf-8", errors="replace")
+    shoot_pattern_text = shoot_pattern_path.read_text(encoding="utf-8", errors="replace")
+    time_text = time_path.read_text(encoding="utf-8", errors="replace")
+    mathf_text = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "weapon_update_method": "public void update(Unit unit, WeaponMount mount){",
+        "can_shoot_call": "boolean can = unit.canShoot();",
+        "last_reload": "float lastReload = mount.reload;",
+        "reload_decay": "mount.reload = Math.max(mount.reload - Time.delta * unit.reloadMultiplier, 0);",
+        "recoil_approach": "mount.recoil = Mathf.approachDelta(mount.recoil, 0, unit.reloadMultiplier / recoilTime);",
+        "recoils_guard": "if(recoils > 0){",
+        "recoils_init": "if(mount.recoils == null) mount.recoils = new float[recoils];",
+        "recoils_loop": "for(int i = 0; i < recoils; i++){",
+        "recoils_approach": "mount.recoils[i] = Mathf.approachDelta(mount.recoils[i], 0, unit.reloadMultiplier / recoilTime);",
+        "smooth_reload": "mount.smoothReload = Mathf.lerpDelta(mount.smoothReload, mount.reload / reload, smoothReloadSpeed);",
+        "charge_update": "mount.charge = mount.charging && shoot.firstShotDelay > 0 ? Mathf.approachDelta(mount.charge, 1, 1 / shoot.firstShotDelay) : 0;",
+        "warmup_target": "float warmupTarget = (can && mount.shoot) || (continuous && mount.bullet != null) || mount.charging ? 1f : 0f;",
+        "linear_warmup_guard": "if(linearWarmup){",
+        "warmup_approach": "mount.warmup = Mathf.approachDelta(mount.warmup, warmupTarget, shootWarmupSpeed);",
+        "warmup_lerp": "mount.warmup = Mathf.lerpDelta(mount.warmup, warmupTarget, shootWarmupSpeed);",
+        "weapon_reload_field": "public float reload = 1;",
+        "weapon_recoils_field": "public int recoils = -1;",
+        "weapon_recoil_time_field": "public float recoilTime = -1f;",
+        "weapon_warmup_fields": "public float shootWarmupSpeed = 0.1f, smoothReloadSpeed = 0.15f;",
+        "weapon_linear_warmup": "public boolean linearWarmup = false;",
+        "weapon_mount_reload": "public float reload;",
+        "weapon_mount_recoils": "public @Nullable float[] recoils;",
+        "weapon_mount_warmup": "public float warmup;",
+        "unit_can_shoot": "return !disarmed && !(type.canBoost && isFlying());",
+        "status_reload_multiplier": "reloadMultiplier = 1",
+        "shoot_first_delay": "public float firstShotDelay = 0;",
+        "time_delta": "public static float delta = 1f;",
+        "mathf_approach_delta": "public static float approachDelta(float from, float to, float speed){",
+        "mathf_approach_delta_return": "return approach(from, to, Time.delta * speed);",
+        "mathf_lerp_delta": "public static float lerpDelta(float fromValue, float toValue, float progress){",
+        "mathf_lerp_delta_return": "return lerp(fromValue, toValue, clamp(progress * Time.delta));",
+    }
+    source_map = {
+        "weapon_update_method": source,
+        "can_shoot_call": source,
+        "last_reload": source,
+        "reload_decay": source,
+        "recoil_approach": source,
+        "recoils_guard": source,
+        "recoils_init": source,
+        "recoils_loop": source,
+        "recoils_approach": source,
+        "smooth_reload": source,
+        "charge_update": source,
+        "warmup_target": source,
+        "linear_warmup_guard": source,
+        "warmup_approach": source,
+        "warmup_lerp": source,
+        "weapon_reload_field": source,
+        "weapon_recoils_field": source,
+        "weapon_recoil_time_field": source,
+        "weapon_warmup_fields": source,
+        "weapon_linear_warmup": source,
+        "weapon_mount_reload": weapon_mount_text,
+        "weapon_mount_recoils": weapon_mount_text,
+        "weapon_mount_warmup": weapon_mount_text,
+        "unit_can_shoot": unit_comp_text,
+        "status_reload_multiplier": status_comp_text,
+        "shoot_first_delay": shoot_pattern_text,
+        "time_delta": time_text,
+        "mathf_approach_delta": mathf_text,
+        "mathf_approach_delta_return": mathf_text,
+        "mathf_lerp_delta": mathf_text,
+        "mathf_lerp_delta_return": mathf_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": weapon_mount_source,
+        "unit_comp_source": UNIT_COMP_SOURCE,
+        "status_comp_source": status_comp_source,
+        "shoot_pattern_source": shoot_pattern_source,
+        "arc_time_source": ARC_TIME_SOURCE,
+        "arc_mathf_source": ARC_MATHF_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

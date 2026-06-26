@@ -3369,6 +3369,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"weaponUpdateMethod": "public void update(Unit unit, WeaponMount mount)"', source)
         self.assertIn('"dispatches": dispatches', source)
 
+    def test_port_game_exposes_source_weapon_update_passive_timers_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_update_passive_timers_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, source_delta: float) -> Dictionary:", source)
+        self.assertIn("var can_shoot := bool(unit_state.get(\"canShoot\", false))", source)
+        self.assertIn("var new_reload: float = maxf(current_reload - source_delta * reload_multiplier, 0.0)", source)
+        self.assertIn("var new_recoil := source_mathf_approach_delta(current_recoil, 0.0, reload_multiplier / recoil_time, source_delta)", source)
+        self.assertIn("if recoils_count > 0:", source)
+        self.assertIn("new_recoils.append(source_mathf_approach_delta(recoil_value, 0.0, reload_multiplier / recoil_time, source_delta))", source)
+        self.assertIn("var new_smooth_reload := source_mathf_lerp_delta(current_smooth_reload, new_reload / reload_time, smooth_reload_speed, source_delta)", source)
+        self.assertIn("new_charge = source_mathf_approach_delta(current_charge, 1.0, 1.0 / first_shot_delay, source_delta)", source)
+        self.assertIn("var warmup_target := 1.0 if ((can_shoot and mount_shoot) or (continuous and has_bullet) or charging) else 0.0", source)
+        self.assertIn("if linear_warmup:", source)
+        self.assertIn('"reloadAssignment": "mount.reload = Math.max(mount.reload - Time.delta * unit.reloadMultiplier, 0)"', source)
+        self.assertIn('"warmupTargetSource": "(can && mount.shoot) || (continuous && mount.bullet != null) || mount.charging ? 1f : 0f"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -3321,6 +3321,72 @@ func source_weapons_update_dispatch_state(mount_states: Array, unit_id: int) -> 
 		"dispatches": dispatches,
 	}
 
+func source_mathf_approach_delta(from_value: float, to_value: float, speed: float, source_delta: float) -> float:
+	return from_value + clampf(to_value - from_value, -source_delta * speed, source_delta * speed)
+
+func source_mathf_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:
+	return from_value + (to_value - from_value) * clampf(progress * source_delta, 0.0, 1.0)
+
+func source_weapon_update_passive_timers_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, source_delta: float) -> Dictionary:
+	var can_shoot := bool(unit_state.get("canShoot", false))
+	var reload_multiplier := float(unit_state.get("reloadMultiplier", 1.0))
+	var current_reload := float(mount_state.get("reload", 0.0))
+	var current_recoil := float(mount_state.get("recoil", 0.0))
+	var current_smooth_reload := float(mount_state.get("smoothReload", 0.0))
+	var current_charge := float(mount_state.get("charge", 0.0))
+	var current_warmup := float(mount_state.get("warmup", 0.0))
+	var charging := bool(mount_state.get("charging", false))
+	var mount_shoot := bool(mount_state.get("shoot", false))
+	var bullet_state = mount_state.get("bullet", null)
+	var has_bullet: bool = bullet_state != null and not (bullet_state is Dictionary and bullet_state.is_empty())
+	var reload_time := float(weapon_state.get("reload", 1.0))
+	var recoil_time := float(weapon_state.get("recoilTime", reload_time))
+	var recoils_count := int(weapon_state.get("recoils", -1))
+	var smooth_reload_speed := float(weapon_state.get("smoothReloadSpeed", 0.15))
+	var first_shot_delay := float(weapon_state.get("firstShotDelay", 0.0))
+	var continuous := bool(weapon_state.get("continuous", false))
+	var shoot_warmup_speed := float(weapon_state.get("shootWarmupSpeed", 0.1))
+	var linear_warmup := bool(weapon_state.get("linearWarmup", false))
+	var new_reload: float = maxf(current_reload - source_delta * reload_multiplier, 0.0)
+	var new_recoil := source_mathf_approach_delta(current_recoil, 0.0, reload_multiplier / recoil_time, source_delta)
+	var new_recoils: Array = []
+	var mount_recoils = mount_state.get("recoils", [])
+	if recoils_count > 0:
+		for i in range(recoils_count):
+			var recoil_value := 0.0
+			if mount_recoils is Array and i < mount_recoils.size():
+				recoil_value = float(mount_recoils[i])
+			new_recoils.append(source_mathf_approach_delta(recoil_value, 0.0, reload_multiplier / recoil_time, source_delta))
+	var new_smooth_reload := source_mathf_lerp_delta(current_smooth_reload, new_reload / reload_time, smooth_reload_speed, source_delta)
+	var new_charge := 0.0
+	if charging and first_shot_delay > 0.0:
+		new_charge = source_mathf_approach_delta(current_charge, 1.0, 1.0 / first_shot_delay, source_delta)
+	var warmup_target := 1.0 if ((can_shoot and mount_shoot) or (continuous and has_bullet) or charging) else 0.0
+	var new_warmup := 0.0
+	if linear_warmup:
+		new_warmup = source_mathf_approach_delta(current_warmup, warmup_target, shoot_warmup_speed, source_delta)
+	else:
+		new_warmup = source_mathf_lerp_delta(current_warmup, warmup_target, shoot_warmup_speed, source_delta)
+	return {
+		"canShootCall": "boolean can = unit.canShoot()",
+		"canShoot": can_shoot,
+		"lastReload": current_reload,
+		"reload": new_reload,
+		"recoil": new_recoil,
+		"recoils": new_recoils,
+		"smoothReload": new_smooth_reload,
+		"charge": new_charge,
+		"warmupTarget": warmup_target,
+		"warmup": new_warmup,
+		"reloadAssignment": "mount.reload = Math.max(mount.reload - Time.delta * unit.reloadMultiplier, 0)",
+		"recoilAssignment": "mount.recoil = Mathf.approachDelta(mount.recoil, 0, unit.reloadMultiplier / recoilTime)",
+		"smoothReloadAssignment": "mount.smoothReload = Mathf.lerpDelta(mount.smoothReload, mount.reload / reload, smoothReloadSpeed)",
+		"chargeAssignment": "mount.charge = mount.charging && shoot.firstShotDelay > 0 ? Mathf.approachDelta(mount.charge, 1, 1 / shoot.firstShotDelay) : 0",
+		"warmupTargetSource": "(can && mount.shoot) || (continuous && mount.bullet != null) || mount.charging ? 1f : 0f",
+		"warmupMode": "Mathf.approachDelta" if linear_warmup else "Mathf.lerpDelta",
+		"deltaSource": "Time.delta",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
