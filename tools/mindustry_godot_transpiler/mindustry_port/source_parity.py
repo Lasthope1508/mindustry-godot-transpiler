@@ -16,6 +16,8 @@ BLOCK_SOURCE = "core/src/mindustry/world/Block.java"
 CORE_BLOCK_SOURCE = "core/src/mindustry/world/blocks/storage/CoreBlock.java"
 ITEM_MODULE_SOURCE = "core/src/mindustry/world/modules/ItemModule.java"
 WORLD_SOURCE = "core/src/mindustry/core/World.java"
+FLOOR_SOURCE = "core/src/mindustry/world/blocks/environment/Floor.java"
+UNIT_TYPE_SOURCE = "core/src/mindustry/type/UnitType.java"
 ARC_MATHF_SOURCE = "arc-core/src/arc/math/Mathf.java"
 ARC_VEC2_SOURCE = "arc-core/src/arc/math/geom/Vec2.java"
 ARC_RAND_SOURCE = "arc-core/src/arc/math/Rand.java"
@@ -3473,6 +3475,40 @@ def verify_unit_move_at_source(upstream_root: Path, arc_root: Path) -> dict[str,
     return {
         "source": UNIT_COMP_SOURCE,
         "arc_vec2_source": ARC_VEC2_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_unit_floor_speed_multiplier_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    floor_path = Path(upstream_root) / FLOOR_SOURCE
+    unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    floor_source = floor_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "floor_speed_method": "public float floorSpeedMultiplier(){",
+        "floor_speed_floor": "Floor on = isFlying() || type.hovering ? Blocks.air.asFloor() : floorOn();",
+        "floor_speed_return": "return (float)Math.pow(on.speedMultiplier, type.floorMultiplier) * speedMultiplier;",
+        "floor_speed_default": "public float speedMultiplier = 1f;",
+        "unit_floor_multiplier_default": "floorMultiplier = 1f,",
+    }
+    unit_keys = {"floor_speed_method", "floor_speed_floor", "floor_speed_return"}
+    floor_keys = {"floor_speed_default"}
+    missing = []
+    for key, snippet in checked.items():
+        if key in unit_keys:
+            haystack = source
+        elif key in floor_keys:
+            haystack = floor_source
+        else:
+            haystack = unit_type_source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "floor_source": FLOOR_SOURCE,
+        "unit_type_source": UNIT_TYPE_SOURCE,
         "checked": checked,
         "missing": missing,
     }

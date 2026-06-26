@@ -2918,6 +2918,18 @@ func source_unit_move_at_state(vel_x: float, vel_y: float, vector_x: float, vect
 		"limit": acceleration * target.length() * source_delta,
 	}
 
+func source_unit_floor_speed_multiplier_state(elevation_value: float, type_hovering: bool, floor_on_speed_multiplier: float, type_floor_multiplier: float, speed_multiplier_value: float) -> Dictionary:
+	var flying: bool = source_unit_is_flying(elevation_value)
+	var uses_air_floor: bool = flying or type_hovering
+	var on_speed_multiplier: float = 1.0 if uses_air_floor else floor_on_speed_multiplier
+	var result: float = pow(on_speed_multiplier, type_floor_multiplier) * speed_multiplier_value
+	return {
+		"flying": flying,
+		"uses_air_floor": uses_air_floor,
+		"on_speed_multiplier": on_speed_multiplier,
+		"speed_multiplier": result,
+	}
+
 func simulate_turrets(delta: float) -> void:
 	if content_catalog == null or turret_cells.is_empty():
 		return

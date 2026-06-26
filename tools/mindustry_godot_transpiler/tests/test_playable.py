@@ -2576,6 +2576,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var delta := source_arc_vec2_limit(target - vel, acceleration * target.length() * source_delta)", source)
         self.assertIn("var next_vel := vel + delta", source)
 
+    def test_port_game_exposes_source_unit_floor_speed_multiplier_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_floor_speed_multiplier_state(elevation_value: float, type_hovering: bool, floor_on_speed_multiplier: float, type_floor_multiplier: float, speed_multiplier_value: float) -> Dictionary:", source)
+        self.assertIn("var flying: bool = source_unit_is_flying(elevation_value)", source)
+        self.assertIn("var uses_air_floor: bool = flying or type_hovering", source)
+        self.assertIn("var on_speed_multiplier: float = 1.0 if uses_air_floor else floor_on_speed_multiplier", source)
+        self.assertIn("var result: float = pow(on_speed_multiplier, type_floor_multiplier) * speed_multiplier_value", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -2241,5 +2241,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_floor_speed_multiplier_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_floor_speed_multiplier_source"))
+        report = source_parity.verify_unit_floor_speed_multiplier_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["floor_source"], "core/src/mindustry/world/blocks/environment/Floor.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["checked"], {
+            "floor_speed_method": "public float floorSpeedMultiplier(){",
+            "floor_speed_floor": "Floor on = isFlying() || type.hovering ? Blocks.air.asFloor() : floorOn();",
+            "floor_speed_return": "return (float)Math.pow(on.speedMultiplier, type.floorMultiplier) * speedMultiplier;",
+            "floor_speed_default": "public float speedMultiplier = 1f;",
+            "unit_floor_multiplier_default": "floorMultiplier = 1f,",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
