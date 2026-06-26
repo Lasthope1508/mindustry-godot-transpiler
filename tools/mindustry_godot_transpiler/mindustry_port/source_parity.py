@@ -13,6 +13,8 @@ HITBOX_COMP_SOURCE = "core/src/mindustry/entities/comp/HitboxComp.java"
 PAYLOAD_COMP_SOURCE = "core/src/mindustry/entities/comp/PayloadComp.java"
 UNIT_TYPES_CONTENT_SOURCE = "core/src/mindustry/content/UnitTypes.java"
 TEAM_SOURCE = "core/src/mindustry/game/Team.java"
+GAME_STATE_SOURCE = "core/src/mindustry/core/GameState.java"
+SECTOR_SOURCE = "core/src/mindustry/type/Sector.java"
 TEAMS_SOURCE = "core/src/mindustry/game/Teams.java"
 RULES_SOURCE = "core/src/mindustry/game/Rules.java"
 UNITS_SOURCE = "core/src/mindustry/entities/Units.java"
@@ -4421,6 +4423,56 @@ def verify_unit_update_heal_time_source(upstream_root: Path, arc_root: Path) -> 
     return {
         "source": UNIT_COMP_SOURCE,
         "arc_time_source": ARC_TIME_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_unit_update_captured_sector_death_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    team_path = Path(upstream_root) / TEAM_SOURCE
+    game_state_path = Path(upstream_root) / GAME_STATE_SOURCE
+    sector_path = Path(upstream_root) / SECTOR_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    team_source = team_path.read_text(encoding="utf-8", errors="replace")
+    game_state_source = game_state_path.read_text(encoding="utf-8", errors="replace")
+    sector_source = sector_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "captured_comment": "//die on captured sectors immediately",
+        "captured_guard": "if(team.isOnlyAI() && state.isCampaign() && state.getSector().isCaptured()){",
+        "kill_call": "kill();",
+        "team_is_only_ai": "public boolean isOnlyAI(){",
+        "team_is_only_ai_body": "return isAI() && data().players.size == 0;",
+        "state_is_campaign": "public boolean isCampaign(){",
+        "state_is_campaign_body": "return rules.sector != null;",
+        "state_get_sector": "public @Nullable Sector getSector(){",
+        "state_get_sector_body": "return rules.sector;",
+        "sector_is_captured": "public boolean isCaptured(){",
+        "sector_playing_capture": "if(isBeingPlayed()) return !state.rules.waves && !state.rules.attackMode;",
+        "sector_save_capture": "return save != null && !info.waves && !info.attack;",
+    }
+    source_map = {
+        "captured_comment": source,
+        "captured_guard": source,
+        "kill_call": source,
+        "team_is_only_ai": team_source,
+        "team_is_only_ai_body": team_source,
+        "state_is_campaign": game_state_source,
+        "state_is_campaign_body": game_state_source,
+        "state_get_sector": game_state_source,
+        "state_get_sector_body": game_state_source,
+        "sector_is_captured": sector_source,
+        "sector_playing_capture": sector_source,
+        "sector_save_capture": sector_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "team_source": TEAM_SOURCE,
+        "game_state_source": GAME_STATE_SOURCE,
+        "sector_source": SECTOR_SOURCE,
         "checked": checked,
         "missing": missing,
     }

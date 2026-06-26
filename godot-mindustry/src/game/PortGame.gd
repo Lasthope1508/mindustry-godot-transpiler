@@ -3287,6 +3287,14 @@ func source_unit_update_heal_time_state(was_healed_value: bool, current_heal_tim
 		"order": ["updateDrowning", "healTime gate", "healTime decay", "wasHealed reset"],
 	}
 
+func source_unit_update_captured_sector_death_state(team_is_only_ai: bool, state_is_campaign: bool, sector_is_captured: bool) -> Dictionary:
+	var kill_unit := team_is_only_ai and state_is_campaign and sector_is_captured
+	return {
+		"guard": {"team.isOnlyAI()": team_is_only_ai, "state.isCampaign()": state_is_campaign, "state.getSector().isCaptured()": sector_is_captured},
+		"kill": kill_unit,
+		"call": "kill()" if kill_unit else "",
+	}
+
 func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
 	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
 	var drown_time_before_clamp := current_drown_time

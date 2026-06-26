@@ -2926,6 +2926,30 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_captured_sector_death_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_captured_sector_death_source"))
+        report = source_parity.verify_unit_update_captured_sector_death_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["team_source"], "core/src/mindustry/game/Team.java")
+        self.assertEqual(report["game_state_source"], "core/src/mindustry/core/GameState.java")
+        self.assertEqual(report["sector_source"], "core/src/mindustry/type/Sector.java")
+        self.assertEqual(report["checked"], {
+            "captured_comment": "//die on captured sectors immediately",
+            "captured_guard": "if(team.isOnlyAI() && state.isCampaign() && state.getSector().isCaptured()){",
+            "kill_call": "kill();",
+            "team_is_only_ai": "public boolean isOnlyAI(){",
+            "team_is_only_ai_body": "return isAI() && data().players.size == 0;",
+            "state_is_campaign": "public boolean isCampaign(){",
+            "state_is_campaign_body": "return rules.sector != null;",
+            "state_get_sector": "public @Nullable Sector getSector(){",
+            "state_get_sector_body": "return rules.sector;",
+            "sector_is_captured": "public boolean isCaptured(){",
+            "sector_playing_capture": "if(isBeingPlayed()) return !state.rules.waves && !state.rules.attackMode;",
+            "sector_save_capture": "return save != null && !info.waves && !info.attack;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
