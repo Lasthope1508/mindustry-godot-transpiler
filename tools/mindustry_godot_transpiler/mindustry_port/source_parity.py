@@ -3035,6 +3035,25 @@ def verify_building_set_prop_team_double_source(upstream_root: Path) -> dict[str
         "missing": missing,
     }
 
+def verify_building_set_prop_total_power_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "set_prop_double_method": "public void setProp(LAccess prop, double value){",
+        "set_prop_total_power_case": "case totalPower -> {",
+        "set_prop_total_power_guard": "if(power != null && block.consPower != null && block.consPower.buffered){",
+        "set_prop_total_power_status": "power.status = Mathf.clamp((float)(value / block.consPower.capacity));",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

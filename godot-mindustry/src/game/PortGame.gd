@@ -2264,6 +2264,12 @@ func source_building_set_prop_team_double_state(prop: String, current_team_id: i
 		return {"team_id": next_team_id, "change_team_called": true, "change_team": next_team_id}
 	return {"team_id": current_team_id, "change_team_called": false, "change_team": null}
 
+func source_building_set_prop_total_power_state(prop: String, current_power_status: float, has_power: bool, has_cons_power: bool, cons_power_buffered: bool, cons_power_capacity: float, value: float) -> Dictionary:
+	if prop == "totalPower" and has_power and has_cons_power and cons_power_buffered:
+		var next_status := clampf(value / cons_power_capacity, 0.0, 1.0)
+		return {"power_status": next_status, "updated": true}
+	return {"power_status": current_power_status, "updated": false}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
