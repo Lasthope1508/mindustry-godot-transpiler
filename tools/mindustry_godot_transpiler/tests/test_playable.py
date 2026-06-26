@@ -3272,6 +3272,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"constructor": "public WeaponMount(Weapon weapon)"', source)
         self.assertIn('"rotation": float(weapon_state.get("baseRotation", 0.0))', source)
 
+    def test_port_game_exposes_source_weapons_set_rotation_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapons_set_rotation_state(mount_states: Array, source_rotation: float) -> Dictionary:", source)
+        self.assertIn("for index in mount_states.size():", source)
+        self.assertIn('"loop": "for(WeaponMount mount : mounts)"', source)
+        self.assertIn('"assignment": "mount.rotation = rotation"', source)
+        self.assertIn('"sourceParameter": "rotation"', source)
+        self.assertIn('"rotation": source_rotation', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

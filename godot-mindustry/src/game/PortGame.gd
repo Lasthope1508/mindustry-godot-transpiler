@@ -3156,6 +3156,22 @@ func source_weapons_setup_mounts_state(weapon_states: Array) -> Dictionary:
 		"mounts": mounts,
 	}
 
+func source_weapons_set_rotation_state(mount_states: Array, source_rotation: float) -> Dictionary:
+	var mounts: Array = []
+	for index in mount_states.size():
+		var mount_state: Dictionary = mount_states[index]
+		mounts.append({
+			"index": index,
+			"weapon": str(mount_state.get("weapon", "weapon%d" % index)),
+			"assignment": "mount.rotation = rotation",
+			"sourceParameter": "rotation",
+			"rotation": source_rotation,
+		})
+	return {
+		"loop": "for(WeaponMount mount : mounts)",
+		"mounts": mounts,
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

@@ -3687,6 +3687,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapons_set_rotation_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapons_set_rotation_source"))
+        report = source_parity.verify_weapons_set_rotation_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/WeaponsComp.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["checked"], {
+            "mounts_field": "@SyncLocal WeaponMount[] mounts = {};",
+            "set_rotation_method": "void setWeaponRotation(float rotation){",
+            "set_rotation_loop": "for(WeaponMount mount : mounts){",
+            "set_rotation_assignment": "mount.rotation = rotation;",
+            "weapon_mount_rotation": "public float rotation;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

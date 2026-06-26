@@ -6034,6 +6034,37 @@ def verify_weapons_setup_mounts_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_weapons_set_rotation_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / WEAPONS_COMP_SOURCE
+    weapon_mount_path = upstream_root / "core/src/mindustry/entities/units/WeaponMount.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_source = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "mounts_field": "@SyncLocal WeaponMount[] mounts = {};",
+        "set_rotation_method": "void setWeaponRotation(float rotation){",
+        "set_rotation_loop": "for(WeaponMount mount : mounts){",
+        "set_rotation_assignment": "mount.rotation = rotation;",
+        "weapon_mount_rotation": "public float rotation;",
+    }
+    source_map = {
+        "mounts_field": source,
+        "set_rotation_method": source,
+        "set_rotation_loop": source,
+        "set_rotation_assignment": source,
+        "weapon_mount_rotation": weapon_mount_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": WEAPONS_COMP_SOURCE,
+        "weapon_mount_source": "core/src/mindustry/entities/units/WeaponMount.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
