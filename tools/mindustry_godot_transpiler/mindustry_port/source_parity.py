@@ -5027,6 +5027,39 @@ def verify_unit_update_falling_descent_source(upstream_root: Path, arc_root: Pat
         "missing": missing,
     }
 
+def verify_unit_update_tile_unit_on_any_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    building_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    tile_source_path = Path(upstream_root) / "core/src/mindustry/world/Tile.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    building_source = building_path.read_text(encoding="utf-8", errors="replace")
+    tile_source = tile_source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "tile_build_guard": "if(tile != null && tile.build != null){",
+        "tile_build_unit_on_any": "tile.build.unitOnAny(self());",
+        "tile_build_field": "public @Nullable Building build;",
+        "building_unit_on_any_comment": "/** Called every frame a unit is on this. Applies to any unit.  */",
+        "building_unit_on_any": "public void unitOnAny(Unit unit){",
+    }
+    source_map = {
+        "tile_build_guard": source,
+        "tile_build_unit_on_any": source,
+        "tile_build_field": tile_source,
+        "building_unit_on_any_comment": building_source,
+        "building_unit_on_any": building_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "building_source": BUILDING_COMP_SOURCE,
+        "tile_source": "core/src/mindustry/world/Tile.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

@@ -3214,6 +3214,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_tile_unit_on_any_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_tile_unit_on_any_source"))
+        report = source_parity.verify_unit_update_tile_unit_on_any_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["building_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["tile_source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["checked"], {
+            "tile_build_guard": "if(tile != null && tile.build != null){",
+            "tile_build_unit_on_any": "tile.build.unitOnAny(self());",
+            "tile_build_field": "public @Nullable Building build;",
+            "building_unit_on_any_comment": "/** Called every frame a unit is on this. Applies to any unit.  */",
+            "building_unit_on_any": "public void unitOnAny(Unit unit){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

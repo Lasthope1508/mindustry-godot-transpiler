@@ -3006,6 +3006,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"elevation": next_elevation', source)
         self.assertIn('"wreckHealthThreshold": wreck_health_threshold', source)
 
+    def test_port_game_exposes_source_unit_update_tile_unit_on_any_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_tile_unit_on_any_state(tile_exists: bool, tile_build_exists: bool, unit_id: int) -> Dictionary:", source)
+        self.assertIn("var guard := tile_exists and tile_build_exists", source)
+        self.assertIn("if guard:", source)
+        self.assertIn('"call": "tile.build.unitOnAny(self())"', source)
+        self.assertIn('"unit": unit_id', source)
+        self.assertIn('"unitOnAny": callback', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
