@@ -3527,6 +3527,34 @@ def verify_unit_approach_source(upstream_root: Path, arc_root: Path) -> dict[str
         "missing": missing,
     }
 
+def verify_unit_rotate_move_motion_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    vec2_path = Path(arc_root) / ARC_VEC2_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    vec2_source = vec2_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "rotate_move_method": "public void rotateMove(Vec2 vec){",
+        "rotate_move_motion": "moveAt(Tmp.v2.trns(rotation, vec.len()));",
+        "vec2_trns": "return set(amount, 0).rotate(angle);",
+        "vec2_len": "return (float)Math.sqrt(x * x + y * y);",
+        "vec2_rotate": "return rotateRad(degrees * Mathf.degreesToRadians);",
+        "vec2_rotate_rad": "public Vec2 rotateRad(float radians){",
+        "vec2_rotate_new_x": "float newX = this.x * cos - this.y * sin;",
+        "vec2_rotate_new_y": "float newY = this.x * sin + this.y * cos;",
+    }
+    unit_keys = {"rotate_move_method", "rotate_move_motion"}
+    missing = []
+    for key, snippet in checked.items():
+        haystack = source if key in unit_keys else vec2_source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "arc_vec2_source": ARC_VEC2_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_move_pref_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

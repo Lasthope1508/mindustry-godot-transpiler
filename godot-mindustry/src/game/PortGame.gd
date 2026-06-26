@@ -2946,6 +2946,16 @@ func source_unit_approach_state(vel_x: float, vel_y: float, vector_x: float, vec
 		"target_y": target.y,
 	}
 
+func source_unit_rotate_move_motion_state(unit_rotation_degrees: float, vec_x: float, vec_y: float) -> Dictionary:
+	var amount := Vector2(vec_x, vec_y).length()
+	var radians := deg_to_rad(unit_rotation_degrees)
+	var movement := Vector2(amount * source_arc_mathf_cos_lookup(radians), amount * source_arc_mathf_sin_lookup(radians))
+	return {
+		"call": "moveAt",
+		"movement": {"x": movement.x, "y": movement.y},
+		"amount": amount,
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},

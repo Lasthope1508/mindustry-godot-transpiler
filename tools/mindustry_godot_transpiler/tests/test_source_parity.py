@@ -2272,6 +2272,24 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_rotate_move_motion_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_rotate_move_motion_source"))
+        report = source_parity.verify_unit_rotate_move_motion_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["arc_vec2_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(report["checked"], {
+            "rotate_move_method": "public void rotateMove(Vec2 vec){",
+            "rotate_move_motion": "moveAt(Tmp.v2.trns(rotation, vec.len()));",
+            "vec2_trns": "return set(amount, 0).rotate(angle);",
+            "vec2_len": "return (float)Math.sqrt(x * x + y * y);",
+            "vec2_rotate": "return rotateRad(degrees * Mathf.degreesToRadians);",
+            "vec2_rotate_rad": "public Vec2 rotateRad(float radians){",
+            "vec2_rotate_new_x": "float newX = this.x * cos - this.y * sin;",
+            "vec2_rotate_new_y": "float newY = this.x * sin + this.y * cos;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
