@@ -3028,6 +3028,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"unit": unit_id', source)
         self.assertIn('"unitOn": callback', source)
 
+    def test_port_game_exposes_source_unit_update_floor_damage_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_floor_damage_state(tile_exists: bool, is_grounded_value: bool, type_hovering: bool, floor_damage_taken: float, source_delta: float, hit_time: float, hit_duration: float) -> Dictionary:", source)
+        self.assertIn("var guard := tile_exists and is_grounded_value and not type_hovering", source)
+        self.assertIn("if guard and floor_damage_taken > 0.0:", source)
+        self.assertIn("var scaled_damage := floor_damage_taken * source_delta", source)
+        self.assertIn("var with_effect := hit_time <= -10.0 + hit_duration", source)
+        self.assertIn('"call": "damageContinuous(floor.damageTaken)"', source)
+        self.assertIn('"scaledDamage": scaled_damage', source)
+        self.assertIn('"withEffect": with_effect', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

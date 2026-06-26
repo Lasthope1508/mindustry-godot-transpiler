@@ -3251,6 +3251,27 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_floor_damage_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_floor_damage_source"))
+        report = source_parity.verify_unit_update_floor_damage_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["floor_source"], "core/src/mindustry/world/blocks/environment/Floor.java")
+        self.assertEqual(report["health_source"], "core/src/mindustry/entities/comp/HealthComp.java")
+        self.assertEqual(report["arc_time_source"], "arc-core/src/arc/util/Time.java")
+        self.assertEqual(report["checked"], {
+            "grounded_tile_guard": "if(tile != null && isGrounded() && !type.hovering){",
+            "apply_damage_comment": "//apply damage",
+            "floor_damage_guard": "if(floor.damageTaken > 0f){",
+            "floor_damage_call": "damageContinuous(floor.damageTaken);",
+            "floor_damage_taken_default": "public float damageTaken = 0f;",
+            "floor_damages": "return damageTaken > 0f || (status != null && status.damage > 0f);",
+            "health_damage_continuous": "void damageContinuous(float amount){",
+            "health_damage_continuous_body": "damage(amount * Time.delta, hitTime <= -10 + hitDuration);",
+            "time_delta": "public static float delta = 1f;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

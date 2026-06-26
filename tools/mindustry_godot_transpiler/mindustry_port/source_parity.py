@@ -5104,6 +5104,50 @@ def verify_unit_update_tile_unit_on_source(upstream_root: Path) -> dict[str, Any
         "missing": missing,
     }
 
+def verify_unit_update_floor_damage_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    floor_path = Path(upstream_root) / FLOOR_SOURCE
+    health_path = Path(upstream_root) / HEALTH_COMP_SOURCE
+    time_path = Path(arc_root) / ARC_TIME_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    floor_source = floor_path.read_text(encoding="utf-8", errors="replace")
+    health_source = health_path.read_text(encoding="utf-8", errors="replace")
+    time_source = time_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "grounded_tile_guard": "if(tile != null && isGrounded() && !type.hovering){",
+        "apply_damage_comment": "//apply damage",
+        "floor_damage_guard": "if(floor.damageTaken > 0f){",
+        "floor_damage_call": "damageContinuous(floor.damageTaken);",
+        "floor_damage_taken_default": "public float damageTaken = 0f;",
+        "floor_damages": "return damageTaken > 0f || (status != null && status.damage > 0f);",
+        "health_damage_continuous": "void damageContinuous(float amount){",
+        "health_damage_continuous_body": "damage(amount * Time.delta, hitTime <= -10 + hitDuration);",
+        "time_delta": "public static float delta = 1f;",
+    }
+    source_map = {
+        "grounded_tile_guard": source,
+        "apply_damage_comment": source,
+        "floor_damage_guard": source,
+        "floor_damage_call": source,
+        "floor_damage_taken_default": floor_source,
+        "floor_damages": floor_source,
+        "health_damage_continuous": health_source,
+        "health_damage_continuous_body": health_source,
+        "time_delta": time_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "floor_source": FLOOR_SOURCE,
+        "health_source": HEALTH_COMP_SOURCE,
+        "arc_time_source": ARC_TIME_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
