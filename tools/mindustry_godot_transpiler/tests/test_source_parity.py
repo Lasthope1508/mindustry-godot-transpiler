@@ -3644,6 +3644,27 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_kill_sync_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_kill_sync_source"))
+        report = source_parity.verify_unit_kill_sync_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["units_source"], "core/src/mindustry/entities/Units.java")
+        self.assertEqual(report["checked"], {
+            "kill_replace": "@Replace\n    public void kill(){",
+            "kill_guard": "if(dead || net.client() || !killable()) return;",
+            "kill_sync_comment": "//deaths are synced; this calls killed()",
+            "kill_call": "Call.unitDeath(id);",
+            "unit_killable": "public boolean killable(){",
+            "unit_killable_delegate": "return type.killable(self());",
+            "unit_death_remote": "@Remote(called = Loc.server)",
+            "unit_death_method": "public static void unitDeath(int uid){",
+            "unit_death_lookup": "Unit unit = Groups.unit.getByID(uid);",
+            "unit_death_removed_entity": "netClient.addRemovedEntity(uid);",
+            "unit_death_killed": "unit.killed();",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

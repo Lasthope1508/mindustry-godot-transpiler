@@ -3248,6 +3248,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"call": "type.wreckSound.at(this, 1f, type.wreckSoundVolume)"', source)
         self.assertIn('"unit": unit_id', source)
 
+    def test_port_game_exposes_source_unit_kill_sync_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_kill_sync_state(dead_value: bool, net_client: bool, killable_value: bool, unit_id: int) -> Dictionary:", source)
+        self.assertIn("var should_return := dead_value or net_client or not killable_value", source)
+        self.assertIn('"guard": "dead || net.client() || !killable()"', source)
+        self.assertIn('"call": "Call.unitDeath(id)"', source)
+        self.assertIn('"remote": "@Remote(called = Loc.server)"', source)
+        self.assertIn('"serverHandler": "unit.killed()"', source)
+        self.assertIn('"unit": unit_id', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

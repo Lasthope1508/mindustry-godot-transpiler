@@ -5937,6 +5937,55 @@ def verify_unit_killed_state_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_unit_kill_sync_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / UNIT_COMP_SOURCE
+    units_path = upstream_root / UNITS_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    units_source = units_path.read_text(encoding="utf-8", errors="replace")
+    kill_start = source.index("@Replace\n    public void kill(){")
+    kill_end = source.index("    @Override\n    @Replace\n    public String toString(){", kill_start)
+    kill_source = source[kill_start:kill_end]
+    unit_death_start = units_source.index("@Remote(called = Loc.server)\n    public static void unitDeath(int uid){")
+    unit_death_end = units_source.index("    //destroys immediately", unit_death_start)
+    unit_death_source = units_source[unit_death_start:unit_death_end]
+    checked = {
+        "kill_replace": "@Replace\n    public void kill(){",
+        "kill_guard": "if(dead || net.client() || !killable()) return;",
+        "kill_sync_comment": "//deaths are synced; this calls killed()",
+        "kill_call": "Call.unitDeath(id);",
+        "unit_killable": "public boolean killable(){",
+        "unit_killable_delegate": "return type.killable(self());",
+        "unit_death_remote": "@Remote(called = Loc.server)",
+        "unit_death_method": "public static void unitDeath(int uid){",
+        "unit_death_lookup": "Unit unit = Groups.unit.getByID(uid);",
+        "unit_death_removed_entity": "netClient.addRemovedEntity(uid);",
+        "unit_death_killed": "unit.killed();",
+    }
+    source_map = {
+        "kill_replace": kill_source,
+        "kill_guard": kill_source,
+        "kill_sync_comment": kill_source,
+        "kill_call": kill_source,
+        "unit_killable": source,
+        "unit_killable_delegate": source,
+        "unit_death_remote": unit_death_source,
+        "unit_death_method": unit_death_source,
+        "unit_death_lookup": unit_death_source,
+        "unit_death_removed_entity": unit_death_source,
+        "unit_death_killed": unit_death_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "units_source": UNITS_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
