@@ -3513,6 +3513,24 @@ def verify_unit_floor_speed_multiplier_source(upstream_root: Path) -> dict[str, 
         "missing": missing,
     }
 
+def verify_unit_unloaded_noop_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "unloaded_comment": "Called when this unit was unloaded from a factory or spawn point.",
+        "unloaded_method": "public void unloaded(){",
+        "unloaded_empty_body": "public void unloaded(){\n\n    }",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

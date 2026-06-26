@@ -2257,5 +2257,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_unloaded_noop_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_unloaded_noop_source"))
+        report = source_parity.verify_unit_unloaded_noop_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["checked"], {
+            "unloaded_comment": "Called when this unit was unloaded from a factory or spawn point.",
+            "unloaded_method": "public void unloaded(){",
+            "unloaded_empty_body": "public void unloaded(){\n\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

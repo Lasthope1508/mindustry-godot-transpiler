@@ -2930,6 +2930,9 @@ func source_unit_floor_speed_multiplier_state(elevation_value: float, type_hover
 		"speed_multiplier": result,
 	}
 
+func source_unit_unloaded_state(unit_state: Variant) -> Variant:
+	return unit_state
+
 func simulate_turrets(delta: float) -> void:
 	if content_catalog == null or turret_cells.is_empty():
 		return

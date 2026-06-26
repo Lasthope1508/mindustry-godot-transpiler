@@ -2586,6 +2586,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var on_speed_multiplier: float = 1.0 if uses_air_floor else floor_on_speed_multiplier", source)
         self.assertIn("var result: float = pow(on_speed_multiplier, type_floor_multiplier) * speed_multiplier_value", source)
 
+    def test_port_game_exposes_source_unit_unloaded_noop_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_unloaded_state(unit_state: Variant) -> Variant:", source)
+        self.assertIn("return unit_state", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
