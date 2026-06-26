@@ -3144,6 +3144,15 @@ func source_unit_player_controllable_state(type_player_controllable: bool, contr
 		"call": "playerControllable()",
 	}
 
+func source_unit_targetable_state(type_targetable: bool, type_vulnerable_with_payloads: bool, unit_is_payloadc: bool, unit_has_payload: bool, targeter_id: int) -> Dictionary:
+	var payload_targetable := type_vulnerable_with_payloads and unit_is_payloadc and unit_has_payload
+	return {
+		"targetable": type_targetable or payload_targetable,
+		"payloadTargetable": payload_targetable,
+		"targeter_id": targeter_id,
+		"call": "type.targetable(self(), targeter)",
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},

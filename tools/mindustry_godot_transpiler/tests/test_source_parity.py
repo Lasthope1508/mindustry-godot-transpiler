@@ -2535,6 +2535,25 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_targetable_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_targetable_source"))
+        report = source_parity.verify_unit_targetable_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["payload_comp_source"], "core/src/mindustry/entities/comp/PayloadComp.java")
+        self.assertEqual(report["checked"], {
+            "unit_targetable_method": "public boolean targetable(Team targeter){",
+            "unit_targetable_return": "return type.targetable(self(), targeter);",
+            "type_targetable_method": "public boolean targetable(Unit unit, Team targeter){",
+            "type_targetable_return": "return targetable || (vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload());",
+            "type_targetable_default": "targetable = true,",
+            "type_vulnerable_with_payloads_default": "vulnerableWithPayloads = false,",
+            "payload_comp_has_payload": "boolean hasPayload(){",
+            "payload_comp_has_payload_return": "return payloads.size > 0;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

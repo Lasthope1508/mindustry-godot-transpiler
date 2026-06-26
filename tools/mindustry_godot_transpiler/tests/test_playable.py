@@ -2751,6 +2751,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"logicPrivilegedBlocked": logic_privileged_blocked', source)
         self.assertIn('"call": "playerControllable()"', source)
 
+    def test_port_game_exposes_source_unit_targetable_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_targetable_state(type_targetable: bool, type_vulnerable_with_payloads: bool, unit_is_payloadc: bool, unit_has_payload: bool, targeter_id: int) -> Dictionary:", source)
+        self.assertIn("var payload_targetable := type_vulnerable_with_payloads and unit_is_payloadc and unit_has_payload", source)
+        self.assertIn('"targetable": type_targetable or payload_targetable', source)
+        self.assertIn('"targeter_id": targeter_id', source)
+        self.assertIn('"call": "type.targetable(self(), targeter)"', source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

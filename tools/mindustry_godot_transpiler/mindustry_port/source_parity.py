@@ -9,6 +9,7 @@ MEND_PROJECTOR_SOURCE = "core/src/mindustry/world/blocks/defense/MendProjector.j
 OVERDRIVE_PROJECTOR_SOURCE = "core/src/mindustry/world/blocks/defense/OverdriveProjector.java"
 BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
 UNIT_COMP_SOURCE = "core/src/mindustry/entities/comp/UnitComp.java"
+PAYLOAD_COMP_SOURCE = "core/src/mindustry/entities/comp/PayloadComp.java"
 UNIT_TYPES_CONTENT_SOURCE = "core/src/mindustry/content/UnitTypes.java"
 TEAM_SOURCE = "core/src/mindustry/game/Team.java"
 TEAMS_SOURCE = "core/src/mindustry/game/Teams.java"
@@ -4020,6 +4021,41 @@ def verify_unit_player_controllable_source(upstream_root: Path) -> dict[str, Any
         "unit_type_source": UNIT_TYPE_SOURCE,
         "logic_ai_source": LOGIC_AI_SOURCE,
         "block_source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_unit_targetable_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
+    payload_comp_path = Path(upstream_root) / PAYLOAD_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    payload_comp_source = payload_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "unit_targetable_method": "public boolean targetable(Team targeter){",
+        "unit_targetable_return": "return type.targetable(self(), targeter);",
+        "type_targetable_method": "public boolean targetable(Unit unit, Team targeter){",
+        "type_targetable_return": "return targetable || (vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload());",
+        "type_targetable_default": "targetable = true,",
+        "type_vulnerable_with_payloads_default": "vulnerableWithPayloads = false,",
+        "payload_comp_has_payload": "boolean hasPayload(){",
+        "payload_comp_has_payload_return": "return payloads.size > 0;",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if key.startswith("type_"):
+            haystack = unit_type_source
+        elif key.startswith("payload_comp_"):
+            haystack = payload_comp_source
+        else:
+            haystack = source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "payload_comp_source": PAYLOAD_COMP_SOURCE,
         "checked": checked,
         "missing": missing,
     }
