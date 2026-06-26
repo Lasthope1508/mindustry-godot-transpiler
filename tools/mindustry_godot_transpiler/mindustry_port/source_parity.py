@@ -3118,6 +3118,25 @@ def verify_building_set_prop_liquid_content_source(upstream_root: Path) -> dict[
         "missing": missing,
     }
 
+def verify_building_in_fog_initial_gate_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "in_fog_replace": "@Replace",
+        "in_fog_override": "@Override",
+        "in_fog_method": "public boolean inFogTo(Team viewer){",
+        "in_fog_initial_gate": "if(team == viewer || !state.rules.fog) return false;",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

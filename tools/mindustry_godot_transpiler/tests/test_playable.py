@@ -2396,6 +2396,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("can_set = accept_liquid_result and (current_liquid_matches or current_amount <= 0.1 or block_consumes_liquid)", source)
         self.assertIn('return {"action": "set_liquid", "liquid": liquid_value, "amount": amount}', source)
 
+    def test_port_game_exposes_source_building_in_fog_initial_gate_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_in_fog_initial_gate_state(same_team: bool, rules_fog: bool) -> Dictionary:", source)
+        self.assertIn("if same_team or not rules_fog:", source)
+        self.assertIn('return {"returned": true, "value": false}', source)
+        self.assertIn('return {"returned": false, "value": null}', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

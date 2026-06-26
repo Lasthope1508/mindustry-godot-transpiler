@@ -2298,6 +2298,11 @@ func source_building_set_prop_liquid_content_state(content_type: String, has_liq
 		return {"action": "set_liquid", "liquid": liquid_value, "amount": amount}
 	return {"action": "none", "liquid": liquid_value, "amount": current_amount}
 
+func source_building_in_fog_initial_gate_state(same_team: bool, rules_fog: bool) -> Dictionary:
+	if same_team or not rules_fog:
+		return {"returned": true, "value": false}
+	return {"returned": false, "value": null}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
