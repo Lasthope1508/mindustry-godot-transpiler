@@ -4117,6 +4117,29 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_update_continuous_invalidation_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_update_continuous_invalidation_source"))
+        report = source_parity.verify_weapon_update_continuous_invalidation_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["bullet_comp_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(report["timed_comp_source"], "core/src/mindustry/entities/comp/TimedComp.java")
+        self.assertEqual(report["entity_comp_source"], "core/src/mindustry/entities/comp/EntityComp.java")
+        self.assertEqual(report["checked"], {
+            "continuous_comment": "//update continuous state",
+            "continuous_guard": "if(continuous && mount.bullet != null){",
+            "continuous_invalid_condition": "if(!mount.bullet.isAdded() || mount.bullet.time >= mount.bullet.lifetime || mount.bullet.type != bullet){",
+            "continuous_clear_bullet": "mount.bullet = null;",
+            "weapon_continuous": "public boolean continuous;",
+            "weapon_bullet": "public BulletType bullet = Bullets.placeholder;",
+            "weapon_mount_bullet": "public @Nullable Bullet bullet;",
+            "bullet_comp_type": "BulletType type;",
+            "timed_comp_time_lifetime": "float time, lifetime;",
+            "entity_comp_is_added": "boolean isAdded(){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

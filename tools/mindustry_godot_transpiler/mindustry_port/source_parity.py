@@ -6968,6 +6968,60 @@ def verify_weapon_update_always_shooting_source(upstream_root: Path) -> dict[str
         "missing": missing,
     }
 
+def verify_weapon_update_continuous_invalidation_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    bullet_comp_source = "core/src/mindustry/entities/comp/BulletComp.java"
+    timed_comp_source = "core/src/mindustry/entities/comp/TimedComp.java"
+    entity_comp_source = "core/src/mindustry/entities/comp/EntityComp.java"
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_path = upstream_root / weapon_mount_source
+    bullet_comp_path = upstream_root / bullet_comp_source
+    timed_comp_path = upstream_root / timed_comp_source
+    entity_comp_path = upstream_root / entity_comp_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    bullet_comp_text = bullet_comp_path.read_text(encoding="utf-8", errors="replace")
+    timed_comp_text = timed_comp_path.read_text(encoding="utf-8", errors="replace")
+    entity_comp_text = entity_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "continuous_comment": "//update continuous state",
+        "continuous_guard": "if(continuous && mount.bullet != null){",
+        "continuous_invalid_condition": "if(!mount.bullet.isAdded() || mount.bullet.time >= mount.bullet.lifetime || mount.bullet.type != bullet){",
+        "continuous_clear_bullet": "mount.bullet = null;",
+        "weapon_continuous": "public boolean continuous;",
+        "weapon_bullet": "public BulletType bullet = Bullets.placeholder;",
+        "weapon_mount_bullet": "public @Nullable Bullet bullet;",
+        "bullet_comp_type": "BulletType type;",
+        "timed_comp_time_lifetime": "float time, lifetime;",
+        "entity_comp_is_added": "boolean isAdded(){",
+    }
+    source_map = {
+        "continuous_comment": source,
+        "continuous_guard": source,
+        "continuous_invalid_condition": source,
+        "continuous_clear_bullet": source,
+        "weapon_continuous": source,
+        "weapon_bullet": source,
+        "weapon_mount_bullet": weapon_mount_text,
+        "bullet_comp_type": bullet_comp_text,
+        "timed_comp_time_lifetime": timed_comp_text,
+        "entity_comp_is_added": entity_comp_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": weapon_mount_source,
+        "bullet_comp_source": bullet_comp_source,
+        "timed_comp_source": timed_comp_source,
+        "entity_comp_source": entity_comp_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

@@ -3534,6 +3534,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"alwaysShootingSource": "if(alwaysShooting) mount.shoot = true"', source)
         self.assertIn('"continuousReservedSource": "if(continuous && mount.bullet != null)"', source)
 
+    def test_port_game_exposes_source_weapon_update_continuous_invalidation_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_update_continuous_invalidation_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var continuous := bool(weapon_state.get(\"continuous\", false))", source)
+        self.assertIn("var bullet_exists := bool(mount_state.get(\"bulletExists\", false))", source)
+        self.assertIn("var invalid := gate and ((not bullet_is_added) or bullet_time >= bullet_lifetime or (not bullet_type_matches))", source)
+        self.assertIn("if invalid:", source)
+        self.assertIn("bullet_exists = false", source)
+        self.assertIn('"guardSource": "if(continuous && mount.bullet != null)"', source)
+        self.assertIn('"invalidConditionSource": "if(!mount.bullet.isAdded() || mount.bullet.time >= mount.bullet.lifetime || mount.bullet.type != bullet)"', source)
+        self.assertIn('"clearSource": "mount.bullet = null"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

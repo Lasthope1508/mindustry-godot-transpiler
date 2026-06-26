@@ -3641,6 +3641,31 @@ func source_weapon_update_always_shooting_state(mount_state: Dictionary, weapon_
 		"continuousReservedSource": "if(continuous && mount.bullet != null)",
 	}
 
+func source_weapon_update_continuous_invalidation_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary) -> Dictionary:
+	var continuous := bool(weapon_state.get("continuous", false))
+	var bullet_exists := bool(mount_state.get("bulletExists", false))
+	var bullet_is_added := bool(bullet_state.get("isAdded", false))
+	var bullet_time := float(bullet_state.get("time", 0.0))
+	var bullet_lifetime := float(bullet_state.get("lifetime", 0.0))
+	var bullet_type_matches := bool(bullet_state.get("typeMatches", false))
+	var gate := continuous and bullet_exists
+	var invalid := gate and ((not bullet_is_added) or bullet_time >= bullet_lifetime or (not bullet_type_matches))
+	if invalid:
+		bullet_exists = false
+	return {
+		"gate": gate,
+		"invalid": invalid,
+		"bulletExists": bullet_exists,
+		"continuous": continuous,
+		"bulletIsAdded": bullet_is_added,
+		"bulletTime": bullet_time,
+		"bulletLifetime": bullet_lifetime,
+		"bulletTypeMatches": bullet_type_matches,
+		"guardSource": "if(continuous && mount.bullet != null)",
+		"invalidConditionSource": "if(!mount.bullet.isAdded() || mount.bullet.time >= mount.bullet.lifetime || mount.bullet.type != bullet)",
+		"clearSource": "mount.bullet = null",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
