@@ -2714,6 +2714,27 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_heal_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_heal_source"))
+        report = source_parity.verify_unit_heal_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["health_comp_source"], "core/src/mindustry/entities/comp/HealthComp.java")
+        self.assertEqual(report["checked"], {
+            "was_healed_field": "private transient boolean wasHealed;",
+            "heal_override": "@Override\n    public void heal(float amount){",
+            "heal_guard": "if(health < maxHealth && amount > 0){",
+            "heal_was_healed": "wasHealed = true;",
+            "update_was_healed_gate": "if(wasHealed && healTime <= -1f){",
+            "update_heal_time": "healTime = 1f;",
+            "update_was_healed_reset": "wasHealed = false;",
+            "health_comp_heal_comment": "Heals by a flat amount.",
+            "health_comp_heal_method": "void heal(float amount){",
+            "health_comp_heal_add": "health += amount;",
+            "health_comp_heal_clamp": "clampHealth();",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

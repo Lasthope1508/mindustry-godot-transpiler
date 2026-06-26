@@ -21,6 +21,7 @@ EVENT_TYPE_SOURCE = "core/src/mindustry/game/EventType.java"
 CONVEYOR_SOURCE = "core/src/mindustry/world/blocks/distribution/Conveyor.java"
 DRILL_SOURCE = "core/src/mindustry/world/blocks/production/Drill.java"
 BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
+HEALTH_COMP_SOURCE = "core/src/mindustry/entities/comp/HealthComp.java"
 BLOCK_SOURCE = "core/src/mindustry/world/Block.java"
 CORE_BLOCK_SOURCE = "core/src/mindustry/world/blocks/storage/CoreBlock.java"
 ITEM_MODULE_SOURCE = "core/src/mindustry/world/modules/ItemModule.java"
@@ -4352,6 +4353,36 @@ def verify_unit_landed_source(upstream_root: Path) -> dict[str, Any]:
         "source": UNIT_COMP_SOURCE,
         "unit_type_source": UNIT_TYPE_SOURCE,
         "effect_source": EFFECT_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_unit_heal_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    health_comp_path = Path(upstream_root) / HEALTH_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    health_comp_source = health_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "was_healed_field": "private transient boolean wasHealed;",
+        "heal_override": "@Override\n    public void heal(float amount){",
+        "heal_guard": "if(health < maxHealth && amount > 0){",
+        "heal_was_healed": "wasHealed = true;",
+        "update_was_healed_gate": "if(wasHealed && healTime <= -1f){",
+        "update_heal_time": "healTime = 1f;",
+        "update_was_healed_reset": "wasHealed = false;",
+        "health_comp_heal_comment": "Heals by a flat amount.",
+        "health_comp_heal_method": "void heal(float amount){",
+        "health_comp_heal_add": "health += amount;",
+        "health_comp_heal_clamp": "clampHealth();",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        haystack = health_comp_source if key.startswith("health_comp_") else source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "health_comp_source": HEALTH_COMP_SOURCE,
         "checked": checked,
         "missing": missing,
     }

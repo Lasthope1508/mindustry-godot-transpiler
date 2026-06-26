@@ -3262,6 +3262,16 @@ func source_unit_landed_state(type_mech_land_shake: float) -> Dictionary:
 		"call_order": ["Effect.shake", "type.landed"] if shake else ["type.landed"],
 	}
 
+func source_unit_heal_state(current_health: float, max_health: float, amount: float, current_was_healed: bool) -> Dictionary:
+	var set_was_healed := current_health < max_health and amount > 0.0
+	return {
+		"guard": {"healthLessThanMax": current_health < max_health, "amountPositive": amount > 0.0},
+		"wasHealed": true if set_was_healed else current_was_healed,
+		"setWasHealed": set_was_healed,
+		"unitCompHealthDelta": 0.0,
+		"healthMutationSource": "HealthComp.heal(float amount)",
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},

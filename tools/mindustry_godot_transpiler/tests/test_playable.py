@@ -2851,6 +2851,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"typeLanded": {"call": "type.landed(self())", "arg": "self()"}', source)
         self.assertIn('"call_order": ["Effect.shake", "type.landed"] if shake else ["type.landed"]', source)
 
+    def test_port_game_exposes_source_unit_heal_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_heal_state(current_health: float, max_health: float, amount: float, current_was_healed: bool) -> Dictionary:", source)
+        self.assertIn("var set_was_healed := current_health < max_health and amount > 0.0", source)
+        self.assertIn('"wasHealed": true if set_was_healed else current_was_healed', source)
+        self.assertIn('"guard": {"healthLessThanMax": current_health < max_health, "amountPositive": amount > 0.0}', source)
+        self.assertIn('"unitCompHealthDelta": 0.0', source)
+        self.assertIn('"healthMutationSource": "HealthComp.heal(float amount)"', source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
