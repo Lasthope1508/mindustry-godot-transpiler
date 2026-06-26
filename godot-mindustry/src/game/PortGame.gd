@@ -3799,6 +3799,40 @@ func source_unit_destroy_crash_landing_damage_state(type_flying: bool, spawned_b
 		"damageCall": damage_call,
 	}
 
+func source_unit_destroy_wreck_decal_state(headless_value: bool, type_create_scorch: bool, wreck_regions: Array, tmp_offsets: Array, source_x: float, source_y: float, source_rotation_degrees: float, type_hit_size: float) -> Dictionary:
+	var should_create_decals := not headless_value and type_create_scorch
+	var range_value := type_hit_size / 4.0
+	var reported_range: Variant = null
+	var decals: Array = []
+	if should_create_decals:
+		reported_range = range_value
+		for index in wreck_regions.size():
+			var region_state: Dictionary = wreck_regions[index]
+			if bool(region_state.get("found", false)):
+				var offset_state: Dictionary = {}
+				if index < tmp_offsets.size():
+					offset_state = tmp_offsets[index]
+				var offset_x := float(offset_state.get("x", 0.0))
+				var offset_y := float(offset_state.get("y", 0.0))
+				decals.append({
+					"region": str(region_state.get("region", "wreck%d" % index)),
+					"index": index,
+					"foundGuard": "type.wreckRegions[i].found()",
+					"randomCall": "Tmp.v1.rnd(range)",
+					"range": range_value,
+					"x": source_x + offset_x,
+					"y": source_y + offset_y,
+					"rotation": source_rotation_degrees - 90.0,
+					"decalCall": "Effect.decal(type.wreckRegions[i], x + Tmp.v1.x, y + Tmp.v1.y, rotation - 90)",
+				})
+	return {
+		"guard": "!headless && type.createScorch",
+		"shouldCreateDecals": should_create_decals,
+		"loop": "for(int i = 0; i < type.wreckRegions.length; i++)",
+		"range": reported_range,
+		"decals": decals,
+	}
+
 func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
 	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
 	var drown_time_before_clamp := current_drown_time

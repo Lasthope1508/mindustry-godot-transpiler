@@ -3197,6 +3197,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"air": false', source)
         self.assertIn('"ground": true', source)
 
+    def test_port_game_exposes_source_unit_destroy_wreck_decal_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_destroy_wreck_decal_state(headless_value: bool, type_create_scorch: bool, wreck_regions: Array, tmp_offsets: Array, source_x: float, source_y: float, source_rotation_degrees: float, type_hit_size: float) -> Dictionary:", source)
+        self.assertIn("var should_create_decals := not headless_value and type_create_scorch", source)
+        self.assertIn("var range_value := type_hit_size / 4.0", source)
+        self.assertIn("for index in wreck_regions.size():", source)
+        self.assertIn("if bool(region_state.get(\"found\", false)):", source)
+        self.assertIn('"foundGuard": "type.wreckRegions[i].found()"', source)
+        self.assertIn('"randomCall": "Tmp.v1.rnd(range)"', source)
+        self.assertIn('"decalCall": "Effect.decal(type.wreckRegions[i], x + Tmp.v1.x, y + Tmp.v1.y, rotation - 90)"', source)
+        self.assertIn('"rotation": source_rotation_degrees - 90.0', source)
+        self.assertIn('"range": range_value', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

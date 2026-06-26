@@ -5744,6 +5744,77 @@ def verify_unit_destroy_crash_landing_damage_source(upstream_root: Path, arc_roo
         "missing": missing,
     }
 
+def verify_unit_destroy_wreck_decal_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = Path(arc_root)
+    source_path = upstream_root / UNIT_COMP_SOURCE
+    unit_type_path = upstream_root / UNIT_TYPE_SOURCE
+    effect_path = upstream_root / EFFECT_SOURCE
+    vars_path = upstream_root / VARS_SOURCE
+    texture_region_path = arc_root / "arc-core/src/arc/graphics/g2d/TextureRegion.java"
+    tmp_path = arc_root / ARC_TMP_SOURCE
+    vec2_path = arc_root / ARC_VEC2_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    effect_source = effect_path.read_text(encoding="utf-8", errors="replace")
+    vars_source = vars_path.read_text(encoding="utf-8", errors="replace")
+    texture_region_source = texture_region_path.read_text(encoding="utf-8", errors="replace")
+    tmp_source = tmp_path.read_text(encoding="utf-8", errors="replace")
+    vec2_source = vec2_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "vars_static_import": "import static mindustry.Vars.*;",
+        "destroy_wreck_decal_guard": "if(!headless && type.createScorch){",
+        "destroy_wreck_region_loop": "for(int i = 0; i < type.wreckRegions.length; i++){",
+        "destroy_wreck_region_found_guard": "if(type.wreckRegions[i].found()){",
+        "destroy_wreck_range": "float range = type.hitSize /4f;",
+        "destroy_tmp_rnd": "Tmp.v1.rnd(range);",
+        "destroy_decal_call": "Effect.decal(type.wreckRegions[i], x + Tmp.v1.x, y + Tmp.v1.y, rotation - 90);",
+        "unit_type_hit_size": "hitSize = 6f,",
+        "unit_type_create_scorch": "createScorch = true,",
+        "unit_type_wreck_regions": "public TextureRegion[] wreckRegions, segmentRegions, segmentCellRegions, segmentOutlineRegions;",
+        "unit_type_wreck_region_init": "wreckRegions = new TextureRegion[3];",
+        "unit_type_wreck_region_load": "wreckRegions[i] = Core.atlas.find(name + \"-wreck\" + i);",
+        "vars_headless": "public static boolean headless;",
+        "texture_region_found": "public boolean found(){",
+        "effect_decal_overload": "public static void decal(TextureRegion region, float x, float y, float rotation){",
+        "tmp_v1": "public static final Vec2 v1 = new Vec2();",
+        "vec2_rnd": "public Vec2 rnd(float length){",
+    }
+    source_map = {
+        "vars_static_import": source,
+        "destroy_wreck_decal_guard": source,
+        "destroy_wreck_region_loop": source,
+        "destroy_wreck_region_found_guard": source,
+        "destroy_wreck_range": source,
+        "destroy_tmp_rnd": source,
+        "destroy_decal_call": source,
+        "unit_type_hit_size": unit_type_source,
+        "unit_type_create_scorch": unit_type_source,
+        "unit_type_wreck_regions": unit_type_source,
+        "unit_type_wreck_region_init": unit_type_source,
+        "unit_type_wreck_region_load": unit_type_source,
+        "vars_headless": vars_source,
+        "texture_region_found": texture_region_source,
+        "effect_decal_overload": effect_source,
+        "tmp_v1": tmp_source,
+        "vec2_rnd": vec2_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "effect_source": EFFECT_SOURCE,
+        "vars_source": VARS_SOURCE,
+        "texture_region_source": "arc-core/src/arc/graphics/g2d/TextureRegion.java",
+        "tmp_source": ARC_TMP_SOURCE,
+        "vec2_source": ARC_VEC2_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

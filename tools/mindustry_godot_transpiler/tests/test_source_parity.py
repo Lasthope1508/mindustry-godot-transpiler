@@ -3557,6 +3557,38 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_destroy_wreck_decal_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_destroy_wreck_decal_source"))
+        report = source_parity.verify_unit_destroy_wreck_decal_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["effect_source"], "core/src/mindustry/entities/Effect.java")
+        self.assertEqual(report["vars_source"], "core/src/mindustry/Vars.java")
+        self.assertEqual(report["texture_region_source"], "arc-core/src/arc/graphics/g2d/TextureRegion.java")
+        self.assertEqual(report["tmp_source"], "arc-core/src/arc/util/Tmp.java")
+        self.assertEqual(report["vec2_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(report["checked"], {
+            "vars_static_import": "import static mindustry.Vars.*;",
+            "destroy_wreck_decal_guard": "if(!headless && type.createScorch){",
+            "destroy_wreck_region_loop": "for(int i = 0; i < type.wreckRegions.length; i++){",
+            "destroy_wreck_region_found_guard": "if(type.wreckRegions[i].found()){",
+            "destroy_wreck_range": "float range = type.hitSize /4f;",
+            "destroy_tmp_rnd": "Tmp.v1.rnd(range);",
+            "destroy_decal_call": "Effect.decal(type.wreckRegions[i], x + Tmp.v1.x, y + Tmp.v1.y, rotation - 90);",
+            "unit_type_hit_size": "hitSize = 6f,",
+            "unit_type_create_scorch": "createScorch = true,",
+            "unit_type_wreck_regions": "public TextureRegion[] wreckRegions, segmentRegions, segmentCellRegions, segmentOutlineRegions;",
+            "unit_type_wreck_region_init": "wreckRegions = new TextureRegion[3];",
+            "unit_type_wreck_region_load": "wreckRegions[i] = Core.atlas.find(name + \"-wreck\" + i);",
+            "vars_headless": "public static boolean headless;",
+            "texture_region_found": "public boolean found(){",
+            "effect_decal_overload": "public static void decal(TextureRegion region, float x, float y, float rotation){",
+            "tmp_v1": "public static final Vec2 v1 = new Vec2();",
+            "vec2_rnd": "public Vec2 rnd(float length){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
