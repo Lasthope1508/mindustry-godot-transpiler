@@ -2361,6 +2361,10 @@ func source_building_update_ambient_sound_gate_state(headless_mode: bool, ambien
 func source_building_update_consumption_call_state() -> Dictionary:
 	return {"update_consumption_called": true}
 
+func source_building_update_tile_gate_state(enabled_state: bool, block_no_update_disabled: bool) -> Dictionary:
+	var update_tile_called: bool = enabled_state or not block_no_update_disabled
+	return {"update_tile_called": update_tile_called}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
