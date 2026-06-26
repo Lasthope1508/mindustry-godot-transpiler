@@ -2789,6 +2789,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"controller_exists": controller_exists', source)
         self.assertIn('"type_id": type_id', source)
 
+    def test_port_game_exposes_source_unit_after_read_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_after_read_state(type_id: int, controller_is_ai_controller: bool, ai_keep_state: bool, controller_exists: bool) -> Dictionary:", source)
+        self.assertIn("var reset_controller := not (controller_is_ai_controller and ai_keep_state)", source)
+        self.assertIn('"call_order": ["setType", "controller.unit", "controller(type.createController)"] if reset_controller else ["setType", "controller.unit"]', source)
+        self.assertIn('"resetController": reset_controller', source)
+        self.assertIn('"createControllerArg": "self()"', source)
+        self.assertIn('"type_id": type_id', source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

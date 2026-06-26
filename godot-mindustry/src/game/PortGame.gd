@@ -3176,6 +3176,20 @@ func source_unit_after_sync_state(type_id: int, controller_exists: bool) -> Dict
 		"controllerUnitArg": "self()",
 	}
 
+func source_unit_after_read_state(type_id: int, controller_is_ai_controller: bool, ai_keep_state: bool, controller_exists: bool) -> Dictionary:
+	var reset_controller := not (controller_is_ai_controller and ai_keep_state)
+	return {
+		"type_id": type_id,
+		"controller_exists": controller_exists,
+		"controllerIsAIController": controller_is_ai_controller,
+		"aiKeepState": ai_keep_state,
+		"resetController": reset_controller,
+		"call_order": ["setType", "controller.unit", "controller(type.createController)"] if reset_controller else ["setType", "controller.unit"],
+		"setType_arg": "this.type",
+		"controllerUnitArg": "self()",
+		"createControllerArg": "self()",
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},

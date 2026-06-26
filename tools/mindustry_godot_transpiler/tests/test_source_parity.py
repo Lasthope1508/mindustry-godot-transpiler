@@ -2604,6 +2604,28 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_after_read_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_after_read_source"))
+        report = source_parity.verify_unit_after_read_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["ai_controller_source"], "core/src/mindustry/entities/units/AIController.java")
+        self.assertEqual(report["command_ai_source"], "core/src/mindustry/ai/types/CommandAI.java")
+        self.assertEqual(report["logic_ai_source"], "core/src/mindustry/ai/types/LogicAI.java")
+        self.assertEqual(report["checked"], {
+            "after_read_override": "@Override\n    public void afterRead(){",
+            "after_read_set_type": "setType(this.type);",
+            "after_read_controller_unit": "controller.unit(self());",
+            "after_read_reset_comment": "reset controller state",
+            "after_read_reset_guard": "if(!(controller instanceof AIController ai && ai.keepState())){",
+            "after_read_create_controller": "controller(type.createController(self()));",
+            "ai_keep_state_method": "public boolean keepState(){",
+            "ai_keep_state_return": "return false;",
+            "command_ai_keep_state": "public boolean keepState(){\n        return true;\n    }",
+            "logic_ai_keep_state_comment": "LogicAI state should not be reset after reading.",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

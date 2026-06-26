@@ -4146,6 +4146,48 @@ def verify_unit_after_sync_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_unit_after_read_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    ai_controller_path = Path(upstream_root) / AI_CONTROLLER_SOURCE
+    command_ai_path = Path(upstream_root) / COMMAND_AI_SOURCE
+    logic_ai_path = Path(upstream_root) / LOGIC_AI_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    ai_controller_source = ai_controller_path.read_text(encoding="utf-8", errors="replace")
+    command_ai_source = command_ai_path.read_text(encoding="utf-8", errors="replace")
+    logic_ai_source = logic_ai_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "after_read_override": "@Override\n    public void afterRead(){",
+        "after_read_set_type": "setType(this.type);",
+        "after_read_controller_unit": "controller.unit(self());",
+        "after_read_reset_comment": "reset controller state",
+        "after_read_reset_guard": "if(!(controller instanceof AIController ai && ai.keepState())){",
+        "after_read_create_controller": "controller(type.createController(self()));",
+        "ai_keep_state_method": "public boolean keepState(){",
+        "ai_keep_state_return": "return false;",
+        "command_ai_keep_state": "public boolean keepState(){\n        return true;\n    }",
+        "logic_ai_keep_state_comment": "LogicAI state should not be reset after reading.",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if key.startswith("ai_"):
+            haystack = ai_controller_source
+        elif key.startswith("command_ai_"):
+            haystack = command_ai_source
+        elif key.startswith("logic_ai_"):
+            haystack = logic_ai_source
+        else:
+            haystack = source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "ai_controller_source": AI_CONTROLLER_SOURCE,
+        "command_ai_source": COMMAND_AI_SOURCE,
+        "logic_ai_source": LOGIC_AI_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_move_pref_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")
