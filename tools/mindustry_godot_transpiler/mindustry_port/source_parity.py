@@ -6263,6 +6263,54 @@ def verify_weapons_remove_continuous_bullet_cleanup_source(upstream_root: Path) 
         "missing": missing,
     }
 
+def verify_weapons_remove_sound_stop_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    sound_loop_source = "core/src/mindustry/audio/SoundLoop.java"
+    source_path = upstream_root / WEAPONS_COMP_SOURCE
+    weapon_mount_path = upstream_root / weapon_mount_source
+    sound_loop_path = upstream_root / sound_loop_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    sound_loop_text = sound_loop_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "remove_override": "@Override\n    public void remove(){",
+        "remove_loop": "for(WeaponMount mount : mounts){",
+        "sound_guard": "if(mount.sound != null){",
+        "sound_stop_call": "mount.sound.stop();",
+        "weapon_mount_sound_comment": "/** sound loop for continuous weapons */",
+        "weapon_mount_sound": "public @Nullable SoundLoop sound;",
+        "sound_loop_stop_method": "public void stop(){",
+        "sound_loop_id_guard": "if(id != -1){",
+        "sound_loop_core_stop": "Core.audio.stop(id);",
+        "sound_loop_id_reset": "id = -1;",
+        "sound_loop_volume_reset": "volume = 0f;",
+    }
+    source_map = {
+        "remove_override": source,
+        "remove_loop": source,
+        "sound_guard": source,
+        "sound_stop_call": source,
+        "weapon_mount_sound_comment": weapon_mount_text,
+        "weapon_mount_sound": weapon_mount_text,
+        "sound_loop_stop_method": sound_loop_text,
+        "sound_loop_id_guard": sound_loop_text,
+        "sound_loop_core_stop": sound_loop_text,
+        "sound_loop_id_reset": sound_loop_text,
+        "sound_loop_volume_reset": sound_loop_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": WEAPONS_COMP_SOURCE,
+        "weapon_mount_source": weapon_mount_source,
+        "sound_loop_source": sound_loop_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

@@ -3796,6 +3796,28 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapons_remove_sound_stop_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapons_remove_sound_stop_source"))
+        report = source_parity.verify_weapons_remove_sound_stop_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/WeaponsComp.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["sound_loop_source"], "core/src/mindustry/audio/SoundLoop.java")
+        self.assertEqual(report["checked"], {
+            "remove_override": "@Override\n    public void remove(){",
+            "remove_loop": "for(WeaponMount mount : mounts){",
+            "sound_guard": "if(mount.sound != null){",
+            "sound_stop_call": "mount.sound.stop();",
+            "weapon_mount_sound_comment": "/** sound loop for continuous weapons */",
+            "weapon_mount_sound": "public @Nullable SoundLoop sound;",
+            "sound_loop_stop_method": "public void stop(){",
+            "sound_loop_id_guard": "if(id != -1){",
+            "sound_loop_core_stop": "Core.audio.stop(id);",
+            "sound_loop_id_reset": "id = -1;",
+            "sound_loop_volume_reset": "volume = 0f;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

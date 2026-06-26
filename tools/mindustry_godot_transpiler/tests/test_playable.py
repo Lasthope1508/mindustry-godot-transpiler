@@ -3342,6 +3342,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"cleanup": cleanup', source)
         self.assertIn('"bullet": result_bullet', source)
 
+    def test_port_game_exposes_source_weapons_remove_sound_stop_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapons_remove_sound_stop_state(mount_states: Array) -> Dictionary:", source)
+        self.assertIn("var has_sound := bool(mount_state.get(\"sound\", false))", source)
+        self.assertIn("var stop_call = null", source)
+        self.assertIn("if has_sound:", source)
+        self.assertIn('"guard": "mount.sound != null"', source)
+        self.assertIn('"call": "mount.sound.stop()"', source)
+        self.assertIn('"method": "public void stop()"', source)
+        self.assertIn('"idGuard": "if(id != -1)"', source)
+        self.assertIn('"effects": ["Core.audio.stop(id)", "id = -1", "volume = 0f"]', source)
+        self.assertIn('"stopCall": stop_call', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

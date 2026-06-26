@@ -3277,6 +3277,31 @@ func source_weapons_remove_continuous_bullet_cleanup_state(mount_states: Array, 
 		"mounts": mounts,
 	}
 
+func source_weapons_remove_sound_stop_state(mount_states: Array) -> Dictionary:
+	var mounts: Array = []
+	for index in mount_states.size():
+		var mount_state: Dictionary = mount_states[index]
+		var has_sound := bool(mount_state.get("sound", false))
+		var stop_call = null
+		if has_sound:
+			stop_call = {
+				"call": "mount.sound.stop()",
+				"method": "public void stop()",
+				"idGuard": "if(id != -1)",
+				"effects": ["Core.audio.stop(id)", "id = -1", "volume = 0f"],
+			}
+		mounts.append({
+			"index": index,
+			"weapon": str(mount_state.get("weapon", "weapon%d" % index)),
+			"guard": "mount.sound != null",
+			"hasSound": has_sound,
+			"stopCall": stop_call,
+		})
+	return {
+		"loop": "for(WeaponMount mount : mounts)",
+		"mounts": mounts,
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
