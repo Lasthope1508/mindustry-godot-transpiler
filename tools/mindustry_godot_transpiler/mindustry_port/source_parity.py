@@ -3155,6 +3155,26 @@ def verify_building_in_fog_discovery_gate_source(upstream_root: Path) -> dict[st
         "missing": missing,
     }
 
+def verify_building_in_fog_visibility_loop_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "in_fog_x_loop": "for(int x = 0; x < size; x++){",
+        "in_fog_y_loop": "for(int y = 0; y < size; y++){",
+        "in_fog_visible_check": "if(fogControl.isVisibleTile(viewer, tx + x + of, ty + y + of)){",
+        "in_fog_visible_return": "return false;",
+        "in_fog_final_return": "return true;",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

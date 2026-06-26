@@ -2418,6 +2418,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return {"returned": true, "value": true, "grid": grid}', source)
         self.assertIn('return {"returned": false, "value": null, "grid": grid}', source)
 
+    def test_port_game_exposes_source_building_in_fog_visibility_loop_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_in_fog_visibility_loop_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, visible_tiles: Array) -> Dictionary:", source)
+        self.assertIn("for x in range(block_size_value):", source)
+        self.assertIn("for y in range(block_size_value):", source)
+        self.assertIn("var check_x := tile_x + x + block_size_offset", source)
+        self.assertIn("var check_y := tile_y + y + block_size_offset", source)
+        self.assertIn('if int(visible_tile.get("x", -2147483648)) == check_x and int(visible_tile.get("y", -2147483648)) == check_y:', source)
+        self.assertIn('return {"in_fog": false, "checked_tiles": checked_tiles, "visible_tile": {"x": check_x, "y": check_y}}', source)
+        self.assertIn('return {"in_fog": true, "checked_tiles": checked_tiles, "visible_tile": null}', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -2025,5 +2025,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_in_fog_visibility_loop_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_in_fog_visibility_loop_source"))
+        report = source_parity.verify_building_in_fog_visibility_loop_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "in_fog_x_loop": "for(int x = 0; x < size; x++){",
+            "in_fog_y_loop": "for(int y = 0; y < size; y++){",
+            "in_fog_visible_check": "if(fogControl.isVisibleTile(viewer, tx + x + of, ty + y + of)){",
+            "in_fog_visible_return": "return false;",
+            "in_fog_final_return": "return true;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

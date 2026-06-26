@@ -2314,6 +2314,18 @@ func source_building_in_fog_discovery_gate_state(block_size_value: int, block_si
 		return {"returned": true, "value": true, "grid": grid}
 	return {"returned": false, "value": null, "grid": grid}
 
+func source_building_in_fog_visibility_loop_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, visible_tiles: Array) -> Dictionary:
+	var checked_tiles: Array = []
+	for x in range(block_size_value):
+		for y in range(block_size_value):
+			var check_x := tile_x + x + block_size_offset
+			var check_y := tile_y + y + block_size_offset
+			checked_tiles.append({"x": check_x, "y": check_y})
+			for visible_tile in visible_tiles:
+				if int(visible_tile.get("x", -2147483648)) == check_x and int(visible_tile.get("y", -2147483648)) == check_y:
+					return {"in_fog": false, "checked_tiles": checked_tiles, "visible_tile": {"x": check_x, "y": check_y}}
+	return {"in_fog": true, "checked_tiles": checked_tiles, "visible_tile": null}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
