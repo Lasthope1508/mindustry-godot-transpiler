@@ -20,6 +20,7 @@ WORLD_SOURCE = "core/src/mindustry/core/World.java"
 FLOOR_SOURCE = "core/src/mindustry/world/blocks/environment/Floor.java"
 UNIT_TYPE_SOURCE = "core/src/mindustry/type/UnitType.java"
 ARC_MATHF_SOURCE = "arc-core/src/arc/math/Mathf.java"
+ARC_ANGLES_SOURCE = "arc-core/src/arc/math/Angles.java"
 ARC_VEC2_SOURCE = "arc-core/src/arc/math/geom/Vec2.java"
 ARC_RAND_SOURCE = "arc-core/src/arc/math/Rand.java"
 ARC_STRINGS_SOURCE = "arc-core/src/arc/util/Strings.java"
@@ -3551,6 +3552,52 @@ def verify_unit_rotate_move_motion_source(upstream_root: Path, arc_root: Path) -
     return {
         "source": UNIT_COMP_SOURCE,
         "arc_vec2_source": ARC_VEC2_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_unit_rotate_move_rotation_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    vec2_path = Path(arc_root) / ARC_VEC2_SOURCE
+    angles_path = Path(arc_root) / ARC_ANGLES_SOURCE
+    mathf_path = Path(arc_root) / ARC_MATHF_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    vec2_source = vec2_path.read_text(encoding="utf-8", errors="replace")
+    angles_source = angles_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "rotate_move_gate": "if(!vec.isZero()){",
+        "rotate_move_rotation": "rotation = Angles.moveToward(rotation, vec.angle(), type.rotateSpeed * Time.delta * speedMultiplier);",
+        "vec2_is_zero": "return x == 0 && y == 0;",
+        "vec2_angle": "float angle = Mathf.atan2(x, y) * Mathf.radiansToDegrees;",
+        "vec2_angle_wrap": "if(angle < 0) angle += 360;",
+        "angles_move_toward": "public static float moveToward(float angle, float to, float speed){",
+        "angles_move_snap": "if(Math.abs(angleDist(angle, to)) < speed) return to;",
+        "angles_move_branch": "if(angle > to == backwardDistance(angle, to) > forwardDistance(angle, to)){",
+        "angles_forward_distance": "return Math.abs(angle1 - angle2);",
+        "angles_backward_distance": "return 360 - Math.abs(angle1 - angle2);",
+        "mathf_mod_float": "return ((f % n) + n) % n;",
+    }
+    unit_keys = {"rotate_move_gate", "rotate_move_rotation"}
+    vec2_keys = {"vec2_is_zero", "vec2_angle", "vec2_angle_wrap"}
+    mathf_keys = {"mathf_mod_float"}
+    missing = []
+    for key, snippet in checked.items():
+        if key in unit_keys:
+            haystack = source
+        elif key in vec2_keys:
+            haystack = vec2_source
+        elif key in mathf_keys:
+            haystack = mathf_source
+        else:
+            haystack = angles_source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "arc_vec2_source": ARC_VEC2_SOURCE,
+        "arc_angles_source": ARC_ANGLES_SOURCE,
+        "arc_mathf_source": ARC_MATHF_SOURCE,
         "checked": checked,
         "missing": missing,
     }

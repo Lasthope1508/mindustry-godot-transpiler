@@ -2956,6 +2956,51 @@ func source_unit_rotate_move_motion_state(unit_rotation_degrees: float, vec_x: f
 		"amount": amount,
 	}
 
+func source_arc_mathf_mod_float(value: float, divisor: float) -> float:
+	return fmod(fmod(value, divisor) + divisor, divisor)
+
+func source_arc_angles_forward_distance(angle1: float, angle2: float) -> float:
+	return abs(angle1 - angle2)
+
+func source_arc_angles_backward_distance(angle1: float, angle2: float) -> float:
+	return 360.0 - abs(angle1 - angle2)
+
+func source_arc_angles_angle_dist(angle_a: float, angle_b: float) -> float:
+	angle_a = source_arc_mathf_mod_float(angle_a, 360.0)
+	angle_b = source_arc_mathf_mod_float(angle_b, 360.0)
+	var forward := angle_a - angle_b + 360.0 if (angle_a - angle_b) < 0.0 else angle_a - angle_b
+	var backward := angle_b - angle_a + 360.0 if (angle_b - angle_a) < 0.0 else angle_b - angle_a
+	return min(forward, backward)
+
+func source_arc_angles_move_toward(angle: float, to: float, speed: float) -> float:
+	if abs(source_arc_angles_angle_dist(angle, to)) < speed:
+		return to
+	angle = source_arc_mathf_mod_float(angle, 360.0)
+	to = source_arc_mathf_mod_float(to, 360.0)
+	if (angle > to) == (source_arc_angles_backward_distance(angle, to) > source_arc_angles_forward_distance(angle, to)):
+		angle -= speed
+	else:
+		angle += speed
+	return angle
+
+func source_unit_vec2_angle(vec_x: float, vec_y: float) -> float:
+	var angle := rad_to_deg(atan2(vec_y, vec_x))
+	if angle < 0.0:
+		angle += 360.0
+	return angle
+
+func source_unit_rotate_move_rotation_state(current_rotation: float, vec_x: float, vec_y: float, type_rotate_speed: float, speed_multiplier_value: float, source_delta: float) -> Dictionary:
+	var vector_is_zero := vec_x == 0.0 and vec_y == 0.0
+	var target_rotation := source_unit_vec2_angle(vec_x, vec_y) if not vector_is_zero else current_rotation
+	var next_rotation := current_rotation
+	if not vector_is_zero:
+		next_rotation = source_arc_angles_move_toward(current_rotation, target_rotation, type_rotate_speed * source_delta * speed_multiplier_value)
+	return {
+		"vector_is_zero": vector_is_zero,
+		"target_rotation": target_rotation,
+		"rotation": next_rotation,
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},

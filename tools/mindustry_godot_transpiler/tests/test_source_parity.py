@@ -2290,6 +2290,29 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_rotate_move_rotation_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_rotate_move_rotation_source"))
+        report = source_parity.verify_unit_rotate_move_rotation_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["arc_vec2_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(report["arc_angles_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(report["arc_mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "rotate_move_gate": "if(!vec.isZero()){",
+            "rotate_move_rotation": "rotation = Angles.moveToward(rotation, vec.angle(), type.rotateSpeed * Time.delta * speedMultiplier);",
+            "vec2_is_zero": "return x == 0 && y == 0;",
+            "vec2_angle": "float angle = Mathf.atan2(x, y) * Mathf.radiansToDegrees;",
+            "vec2_angle_wrap": "if(angle < 0) angle += 360;",
+            "angles_move_toward": "public static float moveToward(float angle, float to, float speed){",
+            "angles_move_snap": "if(Math.abs(angleDist(angle, to)) < speed) return to;",
+            "angles_move_branch": "if(angle > to == backwardDistance(angle, to) > forwardDistance(angle, to)){",
+            "angles_forward_distance": "return Math.abs(angle1 - angle2);",
+            "angles_backward_distance": "return 360 - Math.abs(angle1 - angle2);",
+            "mathf_mod_float": "return ((f % n) + n) % n;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

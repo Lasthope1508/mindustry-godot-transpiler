@@ -2607,6 +2607,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var movement := Vector2(amount * source_arc_mathf_cos_lookup(radians), amount * source_arc_mathf_sin_lookup(radians))", source)
         self.assertIn('"call": "moveAt"', source)
 
+    def test_port_game_exposes_source_unit_rotate_move_rotation_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_arc_mathf_mod_float(value: float, divisor: float) -> float:", source)
+        self.assertIn("return fmod(fmod(value, divisor) + divisor, divisor)", source)
+        self.assertIn("func source_arc_angles_move_toward(angle: float, to: float, speed: float) -> float:", source)
+        self.assertIn("if abs(source_arc_angles_angle_dist(angle, to)) < speed:", source)
+        self.assertIn("if (angle > to) == (source_arc_angles_backward_distance(angle, to) > source_arc_angles_forward_distance(angle, to)):", source)
+        self.assertIn("func source_unit_vec2_angle(vec_x: float, vec_y: float) -> float:", source)
+        self.assertIn("var angle := rad_to_deg(atan2(vec_y, vec_x))", source)
+        self.assertIn("func source_unit_rotate_move_rotation_state(current_rotation: float, vec_x: float, vec_y: float, type_rotate_speed: float, speed_multiplier_value: float, source_delta: float) -> Dictionary:", source)
+        self.assertIn("var vector_is_zero := vec_x == 0.0 and vec_y == 0.0", source)
+        self.assertIn("next_rotation = source_arc_angles_move_toward(current_rotation, target_rotation, type_rotate_speed * source_delta * speed_multiplier_value)", source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
