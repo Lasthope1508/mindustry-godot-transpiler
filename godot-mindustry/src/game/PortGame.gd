@@ -3693,6 +3693,22 @@ func source_unit_destroy_visual_effects_state(source_x: float, source_y: float, 
 		},
 	}
 
+func source_unit_destroy_sound_and_event_state(death_sound: String, death_sound_volume: float, unit_id: int) -> Dictionary:
+	return {
+		"soundCall": {
+			"call": "type.deathSound.at(this, 1f, type.deathSoundVolume)",
+			"sound": death_sound,
+			"pitch": 1.0,
+			"volume": death_sound_volume,
+			"unit": unit_id,
+		},
+		"eventCall": {
+			"event": "Events.fire(new UnitDestroyEvent(self()))",
+			"eventClass": "UnitDestroyEvent",
+			"unit": unit_id,
+		},
+	}
+
 func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
 	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
 	var drown_time_before_clamp := current_drown_time

@@ -5520,6 +5520,57 @@ def verify_unit_destroy_visual_effects_source(upstream_root: Path) -> dict[str, 
         "missing": missing,
     }
 
+def verify_unit_destroy_sound_and_event_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    unit_type_path = Path(upstream_root) / "core/src/mindustry/type/UnitType.java"
+    event_type_path = Path(upstream_root) / "core/src/mindustry/game/EventType.java"
+    sound_path = Path(arc_root) / "arc-core/src/arc/audio/Sound.java"
+    events_path = Path(arc_root) / "arc-core/src/arc/Events.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    event_type_source = event_type_path.read_text(encoding="utf-8", errors="replace")
+    sound_source = sound_path.read_text(encoding="utf-8", errors="replace")
+    events_source = events_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "destroy_death_sound_call": "type.deathSound.at(this, 1f, type.deathSoundVolume);",
+        "destroy_unit_destroy_event": "Events.fire(new UnitDestroyEvent(self()));",
+        "unit_death_sound_field": "public Sound deathSound = Sounds.unset;",
+        "unit_death_sound_volume": "public float deathSoundVolume = 1f;",
+        "sound_at_position": "public int at(Position pos, float pitch, float volume){",
+        "sound_at_position_body": "return at(pos.getX(), pos.getY(), pitch, volume);",
+        "unit_destroy_event_class": "public static class UnitDestroyEvent{",
+        "unit_destroy_event_unit": "public final Unit unit;",
+        "unit_destroy_event_constructor": "public UnitDestroyEvent(Unit unit){",
+        "arc_events_fire_object": "public static <T> void fire(T type){",
+        "arc_events_fire_object_body": "fire(type.getClass(), type);",
+    }
+    source_map = {
+        "destroy_death_sound_call": source,
+        "destroy_unit_destroy_event": source,
+        "unit_death_sound_field": unit_type_source,
+        "unit_death_sound_volume": unit_type_source,
+        "sound_at_position": sound_source,
+        "sound_at_position_body": sound_source,
+        "unit_destroy_event_class": event_type_source,
+        "unit_destroy_event_unit": event_type_source,
+        "unit_destroy_event_constructor": event_type_source,
+        "arc_events_fire_object": events_source,
+        "arc_events_fire_object_body": events_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_type_source": "core/src/mindustry/type/UnitType.java",
+        "event_type_source": "core/src/mindustry/game/EventType.java",
+        "arc_sound_source": "arc-core/src/arc/audio/Sound.java",
+        "arc_events_source": "arc-core/src/arc/Events.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

@@ -3452,6 +3452,30 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_destroy_sound_and_event_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_destroy_sound_and_event_source"))
+        report = source_parity.verify_unit_destroy_sound_and_event_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["event_type_source"], "core/src/mindustry/game/EventType.java")
+        self.assertEqual(report["arc_sound_source"], "arc-core/src/arc/audio/Sound.java")
+        self.assertEqual(report["arc_events_source"], "arc-core/src/arc/Events.java")
+        self.assertEqual(report["checked"], {
+            "destroy_death_sound_call": "type.deathSound.at(this, 1f, type.deathSoundVolume);",
+            "destroy_unit_destroy_event": "Events.fire(new UnitDestroyEvent(self()));",
+            "unit_death_sound_field": "public Sound deathSound = Sounds.unset;",
+            "unit_death_sound_volume": "public float deathSoundVolume = 1f;",
+            "sound_at_position": "public int at(Position pos, float pitch, float volume){",
+            "sound_at_position_body": "return at(pos.getX(), pos.getY(), pitch, volume);",
+            "unit_destroy_event_class": "public static class UnitDestroyEvent{",
+            "unit_destroy_event_unit": "public final Unit unit;",
+            "unit_destroy_event_constructor": "public UnitDestroyEvent(Unit unit){",
+            "arc_events_fire_object": "public static <T> void fire(T type){",
+            "arc_events_fire_object_body": "fire(type.getClass(), type);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

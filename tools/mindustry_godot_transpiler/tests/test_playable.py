@@ -3145,6 +3145,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"duration": shake', source)
         self.assertIn('"unit": unit_id', source)
 
+    def test_port_game_exposes_source_unit_destroy_sound_and_event_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_destroy_sound_and_event_state(death_sound: String, death_sound_volume: float, unit_id: int) -> Dictionary:", source)
+        self.assertIn('"call": "type.deathSound.at(this, 1f, type.deathSoundVolume)"', source)
+        self.assertIn('"sound": death_sound', source)
+        self.assertIn('"pitch": 1.0', source)
+        self.assertIn('"volume": death_sound_volume', source)
+        self.assertIn('"event": "Events.fire(new UnitDestroyEvent(self()))"', source)
+        self.assertIn('"eventClass": "UnitDestroyEvent"', source)
+        self.assertIn('"unit": unit_id', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
