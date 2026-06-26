@@ -2346,6 +2346,12 @@ func source_building_check_allow_update_state(current_enabled: bool, allow_updat
 		return {"enabled": false, "changed": current_enabled}
 	return {"enabled": current_enabled, "changed": false}
 
+func source_building_update_timescale_decay_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:
+	var next_duration := current_time_scale_duration - time_delta
+	if next_duration <= 0.0:
+		return {"time_scale": 1.0, "time_scale_duration": next_duration}
+	return {"time_scale": current_time_scale, "time_scale_duration": next_duration}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

@@ -2459,6 +2459,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return {"enabled": false, "changed": current_enabled}', source)
         self.assertIn('return {"enabled": current_enabled, "changed": false}', source)
 
+    def test_port_game_exposes_source_building_update_timescale_decay_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_update_timescale_decay_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:", source)
+        self.assertIn("var next_duration := current_time_scale_duration - time_delta", source)
+        self.assertIn("if next_duration <= 0.0:", source)
+        self.assertIn('return {"time_scale": 1.0, "time_scale_duration": next_duration}', source)
+        self.assertIn('return {"time_scale": current_time_scale, "time_scale_duration": next_duration}', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

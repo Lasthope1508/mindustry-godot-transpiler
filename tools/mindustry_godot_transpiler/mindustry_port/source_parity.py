@@ -3231,6 +3231,25 @@ def verify_building_check_allow_update_source(upstream_root: Path) -> dict[str, 
         "missing": missing,
     }
 
+def verify_building_update_timescale_decay_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "update_final_replace": "@Replace",
+        "update_method": "public void update(){",
+        "update_timescale_decay_gate": "if((timeScaleDuration -= Time.delta) <= 0f){",
+        "update_timescale_reset": "timeScale = 1f;",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

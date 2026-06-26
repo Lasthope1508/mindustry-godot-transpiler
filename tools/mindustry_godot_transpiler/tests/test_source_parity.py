@@ -2077,5 +2077,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_update_timescale_decay_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_update_timescale_decay_source"))
+        report = source_parity.verify_building_update_timescale_decay_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "update_final_replace": "@Replace",
+            "update_method": "public void update(){",
+            "update_timescale_decay_gate": "if((timeScaleDuration -= Time.delta) <= 0f){",
+            "update_timescale_reset": "timeScale = 1f;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
