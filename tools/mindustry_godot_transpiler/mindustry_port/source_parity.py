@@ -3497,6 +3497,36 @@ def verify_unit_move_at_default_accel_source(upstream_root: Path) -> dict[str, A
         "missing": missing,
     }
 
+def verify_unit_approach_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    vec2_path = Path(arc_root) / ARC_VEC2_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    vec2_source = vec2_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "unit_approach_method": "public void approach(Vec2 vector){",
+        "unit_approach_call": "vel.approachDelta(vector, type.accel * speed());",
+        "vec2_approach_delta": "return approach(target, Time.delta * alpha);",
+        "vec2_approach_method": "public Vec2 approach(Vec2 target, float alpha){",
+        "vec2_dx_dy": "float dx = x - target.x, dy = y - target.y;",
+        "vec2_alpha2": "float alpha2 = alpha*alpha;",
+        "vec2_len2": "float len2 = Mathf.len2(dx, dy);",
+        "vec2_scl": "float scl = Mathf.sqrt(alpha2 / len2);",
+        "vec2_sub": "return sub(dx, dy);",
+        "vec2_set": "return set(target);",
+    }
+    unit_keys = {"unit_approach_method", "unit_approach_call"}
+    missing = []
+    for key, snippet in checked.items():
+        haystack = source if key in unit_keys else vec2_source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "arc_vec2_source": ARC_VEC2_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_move_pref_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

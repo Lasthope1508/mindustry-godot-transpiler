@@ -2252,6 +2252,26 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_approach_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_approach_source"))
+        report = source_parity.verify_unit_approach_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["arc_vec2_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(report["checked"], {
+            "unit_approach_method": "public void approach(Vec2 vector){",
+            "unit_approach_call": "vel.approachDelta(vector, type.accel * speed());",
+            "vec2_approach_delta": "return approach(target, Time.delta * alpha);",
+            "vec2_approach_method": "public Vec2 approach(Vec2 target, float alpha){",
+            "vec2_dx_dy": "float dx = x - target.x, dy = y - target.y;",
+            "vec2_alpha2": "float alpha2 = alpha*alpha;",
+            "vec2_len2": "float len2 = Mathf.len2(dx, dy);",
+            "vec2_scl": "float scl = Mathf.sqrt(alpha2 / len2);",
+            "vec2_sub": "return sub(dx, dy);",
+            "vec2_set": "return set(target);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

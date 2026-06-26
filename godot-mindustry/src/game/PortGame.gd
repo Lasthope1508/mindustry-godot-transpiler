@@ -2925,6 +2925,27 @@ func source_unit_move_at_default_accel_state(vector_x: float, vector_y: float, t
 		"call": "moveAt",
 	}
 
+func source_unit_approach_state(vel_x: float, vel_y: float, vector_x: float, vector_y: float, type_accel: float, speed_value: float, source_delta: float) -> Dictionary:
+	var vel := Vector2(vel_x, vel_y)
+	var target := Vector2(vector_x, vector_y)
+	var alpha := source_delta * type_accel * speed_value
+	var diff := vel - target
+	var alpha2 := alpha * alpha
+	var len2 := diff.length_squared()
+	var next_vel := Vector2.ZERO
+	if len2 > alpha2:
+		var scl := sqrt(alpha2 / len2)
+		next_vel = vel - diff * scl
+	else:
+		next_vel = target
+	return {
+		"alpha": alpha,
+		"vel_x": next_vel.x,
+		"vel_y": next_vel.y,
+		"target_x": target.x,
+		"target_y": target.y,
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},

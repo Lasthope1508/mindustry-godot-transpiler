@@ -2585,6 +2585,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"acceleration": type_accel', source)
         self.assertIn('"call": "moveAt"', source)
 
+    def test_port_game_exposes_source_unit_approach_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_approach_state(vel_x: float, vel_y: float, vector_x: float, vector_y: float, type_accel: float, speed_value: float, source_delta: float) -> Dictionary:", source)
+        self.assertIn("var alpha := source_delta * type_accel * speed_value", source)
+        self.assertIn("var diff := vel - target", source)
+        self.assertIn("if len2 > alpha2:", source)
+        self.assertIn("var scl := sqrt(alpha2 / len2)", source)
+        self.assertIn("next_vel = vel - diff * scl", source)
+        self.assertIn("next_vel = target", source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
