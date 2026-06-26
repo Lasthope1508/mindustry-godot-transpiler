@@ -2200,5 +2200,25 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_wobble_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_wobble_source"))
+        report = source_parity.verify_unit_wobble_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["arc_mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "wobble_method": "public void wobble(){",
+            "wobble_x": "x += Mathf.sin(Time.time + (id % 10) * 12, 25f, 0.05f) * Time.delta * elevation;",
+            "wobble_y": "y += Mathf.cos(Time.time + (id % 10) * 12, 25f, 0.05f) * Time.delta * elevation;",
+            "sin_bits": "private static final int sinBits = 14;",
+            "sin_mask": "private static final int sinMask = ~(-1 << sinBits);",
+            "sin_table_fill": "sinTable[i] = (float)Math.sin((i + 0.5f) / sinCount * radFull);",
+            "sin_lookup": "return sinTable[(int)(radians * radToIndex) & sinMask];",
+            "cos_lookup": "return sinTable[(int)((radians + PI / 2) * radToIndex) & sinMask];",
+            "sin_scaled": "return sin(radians / scl) * mag;",
+            "cos_scaled": "return cos(radians / scl) * mag;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

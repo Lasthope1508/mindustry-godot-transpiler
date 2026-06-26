@@ -3415,6 +3415,36 @@ def verify_unit_drown_floor_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_unit_wobble_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    mathf_path = Path(arc_root) / ARC_MATHF_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "wobble_method": "public void wobble(){",
+        "wobble_x": "x += Mathf.sin(Time.time + (id % 10) * 12, 25f, 0.05f) * Time.delta * elevation;",
+        "wobble_y": "y += Mathf.cos(Time.time + (id % 10) * 12, 25f, 0.05f) * Time.delta * elevation;",
+        "sin_bits": "private static final int sinBits = 14;",
+        "sin_mask": "private static final int sinMask = ~(-1 << sinBits);",
+        "sin_table_fill": "sinTable[i] = (float)Math.sin((i + 0.5f) / sinCount * radFull);",
+        "sin_lookup": "return sinTable[(int)(radians * radToIndex) & sinMask];",
+        "cos_lookup": "return sinTable[(int)((radians + PI / 2) * radToIndex) & sinMask];",
+        "sin_scaled": "return sin(radians / scl) * mag;",
+        "cos_scaled": "return cos(radians / scl) * mag;",
+    }
+    unit_keys = {"wobble_method", "wobble_x", "wobble_y"}
+    missing = []
+    for key, snippet in checked.items():
+        haystack = source if key in unit_keys else mathf_source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "arc_mathf_source": ARC_MATHF_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

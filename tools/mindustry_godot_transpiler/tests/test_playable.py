@@ -2546,6 +2546,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_unit_drown_floor_state(floor_on_value: Variant) -> Variant:", source)
         self.assertIn("return floor_on_value", source)
 
+    def test_port_game_exposes_source_unit_wobble_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("const SOURCE_ARC_SIN_BITS := 14", source)
+        self.assertIn("const SOURCE_ARC_SIN_MASK := 16383", source)
+        self.assertIn("func source_arc_mathf_sin_lookup(radians: float) -> float:", source)
+        self.assertIn("return sin((float(index) + 0.5) / float(SOURCE_ARC_SIN_COUNT) * SOURCE_ARC_RAD_FULL)", source)
+        self.assertIn("func source_arc_mathf_sin_scaled(radians: float, scl: float, mag: float) -> float:", source)
+        self.assertIn("return source_arc_mathf_sin_lookup(radians / scl) * mag", source)
+        self.assertIn("func source_arc_mathf_cos_scaled(radians: float, scl: float, mag: float) -> float:", source)
+        self.assertIn("return source_arc_mathf_cos_lookup(radians / scl) * mag", source)
+        self.assertIn("func source_unit_wobble_state(current_x: float, current_y: float, source_time: float, source_delta: float, elevation_value: float, unit_id: int) -> Dictionary:", source)
+        self.assertIn("var wobble_input := source_time + float(unit_id % 10) * 12.0", source)
+        self.assertIn("var dx := source_arc_mathf_sin_scaled(wobble_input, 25.0, 0.05) * source_delta * elevation_value", source)
+        self.assertIn("var dy := source_arc_mathf_cos_scaled(wobble_input, 25.0, 0.05) * source_delta * elevation_value", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

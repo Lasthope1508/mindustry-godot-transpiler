@@ -17,6 +17,12 @@ const SOURCE_TICK_RATE := 60.0
 const SOURCE_FLOAT_ROUNDING_ERROR := 0.000001
 const SOURCE_RECOIL_POW := 1.8
 const SOURCE_PI2 := PI * 2.0
+const SOURCE_ARC_PI := 3.1415927
+const SOURCE_ARC_RAD_FULL := SOURCE_ARC_PI * 2.0
+const SOURCE_ARC_SIN_BITS := 14
+const SOURCE_ARC_SIN_MASK := 16383
+const SOURCE_ARC_SIN_COUNT := SOURCE_ARC_SIN_MASK + 1
+const SOURCE_ARC_RAD_TO_INDEX := SOURCE_ARC_SIN_COUNT / SOURCE_ARC_RAD_FULL
 const SOURCE_INT64_MIN := -9223372036854775807 - 1
 const SOURCE_INT64_MAX := 9223372036854775807
 const SOURCE_RAND_MURMUR_CONST1 := -49064778989728563
@@ -1433,6 +1439,29 @@ func source_arc_lerp_delta(from_value: float, to_value: float, progress: float, 
 
 func source_arc_chance_delta_threshold(chance: float, source_delta: float) -> float:
 	return chance * source_delta
+
+func source_arc_mathf_sin_table_value(index: int) -> float:
+	if index == 0 or index == 8192:
+		return 0.0
+	if index == 4096:
+		return 1.0
+	if index == 12288:
+		return -1.0
+	return sin((float(index) + 0.5) / float(SOURCE_ARC_SIN_COUNT) * SOURCE_ARC_RAD_FULL)
+
+func source_arc_mathf_sin_lookup(radians: float) -> float:
+	var index := int(radians * SOURCE_ARC_RAD_TO_INDEX) & SOURCE_ARC_SIN_MASK
+	return source_arc_mathf_sin_table_value(index)
+
+func source_arc_mathf_cos_lookup(radians: float) -> float:
+	var index := int((radians + SOURCE_ARC_PI / 2.0) * SOURCE_ARC_RAD_TO_INDEX) & SOURCE_ARC_SIN_MASK
+	return source_arc_mathf_sin_table_value(index)
+
+func source_arc_mathf_sin_scaled(radians: float, scl: float, mag: float) -> float:
+	return source_arc_mathf_sin_lookup(radians / scl) * mag
+
+func source_arc_mathf_cos_scaled(radians: float, scl: float, mag: float) -> float:
+	return source_arc_mathf_cos_lookup(radians / scl) * mag
 
 func source_building_draw_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:
 	var draw_rotation := source_building_drawrot_state(block_rotate, block_rotate_draw, rotation_quadrants)
@@ -2854,6 +2883,18 @@ func source_unit_can_drown_state(elevation_value: float, type_can_drown: bool) -
 
 func source_unit_drown_floor_state(floor_on_value: Variant) -> Variant:
 	return floor_on_value
+
+func source_unit_wobble_state(current_x: float, current_y: float, source_time: float, source_delta: float, elevation_value: float, unit_id: int) -> Dictionary:
+	var wobble_input := source_time + float(unit_id % 10) * 12.0
+	var dx := source_arc_mathf_sin_scaled(wobble_input, 25.0, 0.05) * source_delta * elevation_value
+	var dy := source_arc_mathf_cos_scaled(wobble_input, 25.0, 0.05) * source_delta * elevation_value
+	return {
+		"x": current_x + dx,
+		"y": current_y + dy,
+		"dx": dx,
+		"dy": dy,
+		"wobble_input": wobble_input,
+	}
 
 func simulate_turrets(delta: float) -> void:
 	if content_catalog == null or turret_cells.is_empty():
