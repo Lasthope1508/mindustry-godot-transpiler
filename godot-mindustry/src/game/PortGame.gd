@@ -3461,6 +3461,38 @@ func source_weapon_update_auto_target_retarget_state(mount_state: Dictionary, we
 		"intervalSource": "mount.retarget = mount.target == null ? targetInterval : targetSwitchInterval",
 	}
 
+func source_weapon_update_auto_target_invalidation_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, mount_x: float, mount_y: float, check_target_result: bool) -> Dictionary:
+	var controllable := bool(weapon_state.get("controllable", true))
+	var auto_target := bool(weapon_state.get("autoTarget", false))
+	var target_exists := bool(mount_state.get("targetExists", false))
+	var gate := (not controllable) and auto_target
+	var check_called := gate and target_exists
+	var check_call: Variant = null
+	if check_called:
+		check_call = {
+			"call": "checkTarget(unit, mount.target, mountX, mountY, bullet.range)",
+			"mountX": mount_x,
+			"mountY": mount_y,
+			"range": float(bullet_state.get("range", 0.0)),
+			"shootY": float(weapon_state.get("shootY", 3.0)),
+			"rangeWithShootY": float(bullet_state.get("range", 0.0)) + absf(float(weapon_state.get("shootY", 3.0))),
+		}
+	if check_called and check_target_result:
+		target_exists = false
+	return {
+		"gate": gate,
+		"checkTargetCalled": check_called,
+		"checkTargetCall": check_call,
+		"checkTargetResult": check_target_result if check_called else false,
+		"targetExists": target_exists,
+		"targetCleared": check_called and check_target_result,
+		"gateSource": "if(!controllable && autoTarget)",
+		"guardSource": "if(mount.target != null && checkTarget(unit, mount.target, mountX, mountY, bullet.range))",
+		"clearSource": "mount.target = null",
+		"checkTargetSource": "Units.invalidateTarget(target, unit.team, x, y, range + Math.abs(shootY))",
+		"invalidateTargetSource": "target == null || out of range || same team || invalid health || unit not targetable",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

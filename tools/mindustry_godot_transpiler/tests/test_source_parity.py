@@ -3937,6 +3937,34 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_update_auto_target_invalidation_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_update_auto_target_invalidation_source"))
+        report = source_parity.verify_weapon_update_auto_target_invalidation_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["units_source"], "core/src/mindustry/entities/Units.java")
+        self.assertEqual(report["bullet_type_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "auto_target_gate": "if(!controllable && autoTarget){",
+            "check_target_guard": "if(mount.target != null && checkTarget(unit, mount.target, mountX, mountY, bullet.range)){",
+            "target_clear": "mount.target = null;",
+            "check_target_method": "protected boolean checkTarget(Unit unit, Teamc target, float x, float y, float range){",
+            "check_target_return": "return Units.invalidateTarget(target, unit.team, x, y, range + Math.abs(shootY));",
+            "units_invalidate_method": "public static boolean invalidateTarget(Posc target, Team team, float x, float y, float range){",
+            "units_invalidate_null": "return target == null ||",
+            "units_invalidate_range": "(range != Float.MAX_VALUE && !target.within(x, y, range + (target instanceof Sized hb ? hb.hitSize()/2f : 0f))) ||",
+            "units_invalidate_team": "(target instanceof Teamc t && t.team() == team) ||",
+            "units_invalidate_health": "(target instanceof Healthc h && !h.isValid()) ||",
+            "units_invalidate_unit": "(target instanceof Unit u && !u.targetable(team));",
+            "weapon_mount_target": "public @Nullable Teamc target;",
+            "weapon_auto_target": "public boolean autoTarget = false;",
+            "weapon_controllable": "public boolean controllable = true;",
+            "weapon_shoot_offsets": "public float shootX = 0f, shootY = 3f;",
+            "bullet_range_field": "public float range = 0f;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

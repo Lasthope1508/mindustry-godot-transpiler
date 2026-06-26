@@ -6573,6 +6573,67 @@ def verify_weapon_update_auto_target_retarget_source(upstream_root: Path) -> dic
         "missing": missing,
     }
 
+def verify_weapon_update_auto_target_invalidation_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    bullet_type_source = "core/src/mindustry/entities/bullet/BulletType.java"
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_path = upstream_root / weapon_mount_source
+    units_path = upstream_root / UNITS_SOURCE
+    bullet_type_path = upstream_root / bullet_type_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    units_text = units_path.read_text(encoding="utf-8", errors="replace")
+    bullet_type_text = bullet_type_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "auto_target_gate": "if(!controllable && autoTarget){",
+        "check_target_guard": "if(mount.target != null && checkTarget(unit, mount.target, mountX, mountY, bullet.range)){",
+        "target_clear": "mount.target = null;",
+        "check_target_method": "protected boolean checkTarget(Unit unit, Teamc target, float x, float y, float range){",
+        "check_target_return": "return Units.invalidateTarget(target, unit.team, x, y, range + Math.abs(shootY));",
+        "units_invalidate_method": "public static boolean invalidateTarget(Posc target, Team team, float x, float y, float range){",
+        "units_invalidate_null": "return target == null ||",
+        "units_invalidate_range": "(range != Float.MAX_VALUE && !target.within(x, y, range + (target instanceof Sized hb ? hb.hitSize()/2f : 0f))) ||",
+        "units_invalidate_team": "(target instanceof Teamc t && t.team() == team) ||",
+        "units_invalidate_health": "(target instanceof Healthc h && !h.isValid()) ||",
+        "units_invalidate_unit": "(target instanceof Unit u && !u.targetable(team));",
+        "weapon_mount_target": "public @Nullable Teamc target;",
+        "weapon_auto_target": "public boolean autoTarget = false;",
+        "weapon_controllable": "public boolean controllable = true;",
+        "weapon_shoot_offsets": "public float shootX = 0f, shootY = 3f;",
+        "bullet_range_field": "public float range = 0f;",
+    }
+    source_map = {
+        "auto_target_gate": source,
+        "check_target_guard": source,
+        "target_clear": source,
+        "check_target_method": source,
+        "check_target_return": source,
+        "units_invalidate_method": units_text,
+        "units_invalidate_null": units_text,
+        "units_invalidate_range": units_text,
+        "units_invalidate_team": units_text,
+        "units_invalidate_health": units_text,
+        "units_invalidate_unit": units_text,
+        "weapon_mount_target": weapon_mount_text,
+        "weapon_auto_target": source,
+        "weapon_controllable": source,
+        "weapon_shoot_offsets": source,
+        "bullet_range_field": bullet_type_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": weapon_mount_source,
+        "units_source": UNITS_SOURCE,
+        "bullet_type_source": bullet_type_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
