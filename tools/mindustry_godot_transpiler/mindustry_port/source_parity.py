@@ -5253,6 +5253,44 @@ def verify_unit_update_ai_controller_server_gate_source(upstream_root: Path) -> 
         "missing": missing,
     }
 
+def verify_unit_update_invalid_controller_reset_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    unit_controller_path = Path(upstream_root) / "core/src/mindustry/entities/units/UnitController.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_controller_source = unit_controller_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "clear_controller_comment": "//clear controller when it becomes invalid",
+        "invalid_controller_guard": "if(!controller.isValidController()){",
+        "reset_controller_call": "resetController();",
+        "reset_controller_method": "public void resetController(){",
+        "reset_controller_body": "controller(type.createController(self()));",
+        "controller_setter": "public void controller(UnitController next){",
+        "controller_unit_sync": "if(controller.unit() != self()) controller.unit(self());",
+        "unit_controller_is_valid": "default boolean isValidController(){",
+        "unit_controller_is_valid_default": "return true;",
+    }
+    source_map = {
+        "clear_controller_comment": source,
+        "invalid_controller_guard": source,
+        "reset_controller_call": source,
+        "reset_controller_method": source,
+        "reset_controller_body": source,
+        "controller_setter": source,
+        "controller_unit_sync": source,
+        "unit_controller_is_valid": unit_controller_source,
+        "unit_controller_is_valid_default": unit_controller_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_controller_source": "core/src/mindustry/entities/units/UnitController.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

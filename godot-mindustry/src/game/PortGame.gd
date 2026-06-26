@@ -3590,6 +3590,21 @@ func source_unit_update_ai_controller_server_gate_state(net_client_value: bool, 
 		"controllerUpdate": controller_update,
 	}
 
+func source_unit_update_invalid_controller_reset_state(controller_is_valid_value: bool, unit_id: int) -> Dictionary:
+	var guard := not controller_is_valid_value
+	var reset_controller: Variant = null
+	if guard:
+		reset_controller = {
+			"call": "resetController()",
+			"effect": "controller(type.createController(self()))",
+			"unit": unit_id,
+		}
+	return {
+		"guard": guard,
+		"controllerIsValid": controller_is_valid_value,
+		"resetController": reset_controller,
+	}
+
 func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
 	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
 	var drown_time_before_clamp := current_drown_time

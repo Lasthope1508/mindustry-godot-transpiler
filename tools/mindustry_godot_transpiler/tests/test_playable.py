@@ -3066,6 +3066,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"unit": unit_id', source)
         self.assertIn('"controllerUpdate": controller_update', source)
 
+    def test_port_game_exposes_source_unit_update_invalid_controller_reset_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_invalid_controller_reset_state(controller_is_valid_value: bool, unit_id: int) -> Dictionary:", source)
+        self.assertIn("var guard := not controller_is_valid_value", source)
+        self.assertIn("if guard:", source)
+        self.assertIn('"call": "resetController()"', source)
+        self.assertIn('"effect": "controller(type.createController(self()))"', source)
+        self.assertIn('"unit": unit_id', source)
+        self.assertIn('"resetController": reset_controller', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

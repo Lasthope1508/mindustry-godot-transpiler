@@ -3322,6 +3322,25 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_invalid_controller_reset_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_invalid_controller_reset_source"))
+        report = source_parity.verify_unit_update_invalid_controller_reset_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["unit_controller_source"], "core/src/mindustry/entities/units/UnitController.java")
+        self.assertEqual(report["checked"], {
+            "clear_controller_comment": "//clear controller when it becomes invalid",
+            "invalid_controller_guard": "if(!controller.isValidController()){",
+            "reset_controller_call": "resetController();",
+            "reset_controller_method": "public void resetController(){",
+            "reset_controller_body": "controller(type.createController(self()));",
+            "controller_setter": "public void controller(UnitController next){",
+            "controller_unit_sync": "if(controller.unit() != self()) controller.unit(self());",
+            "unit_controller_is_valid": "default boolean isValidController(){",
+            "unit_controller_is_valid_default": "return true;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
