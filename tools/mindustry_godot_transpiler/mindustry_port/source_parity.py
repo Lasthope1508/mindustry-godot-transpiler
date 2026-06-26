@@ -6511,6 +6511,68 @@ def verify_weapon_update_mount_origin_source(upstream_root: Path) -> dict[str, A
         "missing": missing,
     }
 
+def verify_weapon_update_auto_target_retarget_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    bullet_type_source = "core/src/mindustry/entities/bullet/BulletType.java"
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_path = upstream_root / weapon_mount_source
+    bullet_type_path = upstream_root / bullet_type_source
+    time_path = arc_root / ARC_TIME_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    bullet_type_text = bullet_type_path.read_text(encoding="utf-8", errors="replace")
+    time_text = time_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "find_target_comment": "//find a new target",
+        "auto_target_gate": "if(!controllable && autoTarget){",
+        "retarget_decrement_gate": "if((mount.retarget -= Time.delta) <= 0f){",
+        "find_target_call": "mount.target = findTarget(unit, mountX, mountY, bullet.range, bullet.collidesAir, bullet.collidesGround);",
+        "retarget_assignment": "mount.retarget = mount.target == null ? targetInterval : targetSwitchInterval;",
+        "weapon_controllable": "public boolean controllable = true;",
+        "weapon_auto_target": "public boolean autoTarget = false;",
+        "weapon_target_intervals": "public float targetInterval = 40f, targetSwitchInterval = 70f;",
+        "weapon_mount_target": "public @Nullable Teamc target;",
+        "weapon_mount_retarget_comment": "/** retarget counter */",
+        "weapon_mount_retarget": "public float retarget = 0f;",
+        "find_target_method": "protected Teamc findTarget(Unit unit, float x, float y, float range, boolean air, boolean ground){",
+        "find_target_return": "return Units.closestTarget(unit.team, x, y, range + Math.abs(shootY), u -> u.checkTarget(air, ground), t -> ground && (unit.type.targetUnderBlocks || !t.block.underBullets));",
+        "bullet_collision_fields": "public boolean collidesAir = true, collidesGround = true;",
+        "bullet_range_field": "public float range = 0f;",
+        "time_delta": "public static float delta = 1f;",
+    }
+    source_map = {
+        "find_target_comment": source,
+        "auto_target_gate": source,
+        "retarget_decrement_gate": source,
+        "find_target_call": source,
+        "retarget_assignment": source,
+        "weapon_controllable": source,
+        "weapon_auto_target": source,
+        "weapon_target_intervals": source,
+        "weapon_mount_target": weapon_mount_text,
+        "weapon_mount_retarget_comment": weapon_mount_text,
+        "weapon_mount_retarget": weapon_mount_text,
+        "find_target_method": source,
+        "find_target_return": source,
+        "bullet_collision_fields": bullet_type_text,
+        "bullet_range_field": bullet_type_text,
+        "time_delta": time_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": weapon_mount_source,
+        "bullet_type_source": bullet_type_source,
+        "arc_time_source": ARC_TIME_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

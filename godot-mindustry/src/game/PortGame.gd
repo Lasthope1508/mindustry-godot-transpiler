@@ -3423,6 +3423,44 @@ func source_weapon_update_mount_origin_state(unit_state: Dictionary, weapon_stat
 		"vec2RotateSource": "newX = this.x * cos - this.y * sin; newY = this.x * sin + this.y * cos",
 	}
 
+func source_weapon_update_auto_target_retarget_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, source_delta: float, mount_x: float, mount_y: float, find_target_result_exists: bool) -> Dictionary:
+	var controllable := bool(weapon_state.get("controllable", true))
+	var auto_target := bool(weapon_state.get("autoTarget", false))
+	var current_retarget := float(mount_state.get("retarget", 0.0))
+	var target_interval := float(weapon_state.get("targetInterval", 40.0))
+	var target_switch_interval := float(weapon_state.get("targetSwitchInterval", 70.0))
+	var current_target_exists := bool(mount_state.get("targetExists", false))
+	var gate := (not controllable) and auto_target
+	var retarget_after_decrement := current_retarget - source_delta
+	var next_retarget := current_retarget
+	var target_exists := current_target_exists
+	var finder_call: Variant = null
+	if gate:
+		next_retarget = retarget_after_decrement
+	if gate and retarget_after_decrement <= 0.0:
+		finder_call = {
+			"call": "findTarget(unit, mountX, mountY, bullet.range, bullet.collidesAir, bullet.collidesGround)",
+			"mountX": mount_x,
+			"mountY": mount_y,
+			"range": float(bullet_state.get("range", 0.0)),
+			"air": bool(bullet_state.get("collidesAir", true)),
+			"ground": bool(bullet_state.get("collidesGround", true)),
+		}
+		target_exists = find_target_result_exists
+		next_retarget = target_switch_interval if target_exists else target_interval
+	return {
+		"gate": gate,
+		"retarget": next_retarget,
+		"retargetAfterDecrement": retarget_after_decrement,
+		"findTargetCalled": finder_call != null,
+		"findTargetCall": finder_call,
+		"targetExists": target_exists,
+		"gateSource": "if(!controllable && autoTarget)",
+		"retargetSource": "if((mount.retarget -= Time.delta) <= 0f)",
+		"findTargetSource": "mount.target = findTarget(unit, mountX, mountY, bullet.range, bullet.collidesAir, bullet.collidesGround)",
+		"intervalSource": "mount.retarget = mount.target == null ? targetInterval : targetSwitchInterval",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

@@ -3909,6 +3909,34 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_update_auto_target_retarget_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_update_auto_target_retarget_source"))
+        report = source_parity.verify_weapon_update_auto_target_retarget_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["bullet_type_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["arc_time_source"], "arc-core/src/arc/util/Time.java")
+        self.assertEqual(report["checked"], {
+            "find_target_comment": "//find a new target",
+            "auto_target_gate": "if(!controllable && autoTarget){",
+            "retarget_decrement_gate": "if((mount.retarget -= Time.delta) <= 0f){",
+            "find_target_call": "mount.target = findTarget(unit, mountX, mountY, bullet.range, bullet.collidesAir, bullet.collidesGround);",
+            "retarget_assignment": "mount.retarget = mount.target == null ? targetInterval : targetSwitchInterval;",
+            "weapon_controllable": "public boolean controllable = true;",
+            "weapon_auto_target": "public boolean autoTarget = false;",
+            "weapon_target_intervals": "public float targetInterval = 40f, targetSwitchInterval = 70f;",
+            "weapon_mount_target": "public @Nullable Teamc target;",
+            "weapon_mount_retarget_comment": "/** retarget counter */",
+            "weapon_mount_retarget": "public float retarget = 0f;",
+            "find_target_method": "protected Teamc findTarget(Unit unit, float x, float y, float range, boolean air, boolean ground){",
+            "find_target_return": "return Units.closestTarget(unit.team, x, y, range + Math.abs(shootY), u -> u.checkTarget(air, ground), t -> ground && (unit.type.targetUnderBlocks || !t.block.underBullets));",
+            "bullet_collision_fields": "public boolean collidesAir = true, collidesGround = true;",
+            "bullet_range_field": "public float range = 0f;",
+            "time_delta": "public static float delta = 1f;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

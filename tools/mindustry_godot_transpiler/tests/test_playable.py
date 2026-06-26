@@ -3403,6 +3403,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"mountYSource": "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y)"', source)
         self.assertIn('"vec2RotateSource": "newX = this.x * cos - this.y * sin; newY = this.x * sin + this.y * cos"', source)
 
+    def test_port_game_exposes_source_weapon_update_auto_target_retarget_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_update_auto_target_retarget_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, source_delta: float, mount_x: float, mount_y: float, find_target_result_exists: bool) -> Dictionary:", source)
+        self.assertIn("var gate := (not controllable) and auto_target", source)
+        self.assertIn("var retarget_after_decrement := current_retarget - source_delta", source)
+        self.assertIn("if gate and retarget_after_decrement <= 0.0:", source)
+        self.assertIn('"call": "findTarget(unit, mountX, mountY, bullet.range, bullet.collidesAir, bullet.collidesGround)"', source)
+        self.assertIn('"range": float(bullet_state.get("range", 0.0))', source)
+        self.assertIn('"air": bool(bullet_state.get("collidesAir", true))', source)
+        self.assertIn('"ground": bool(bullet_state.get("collidesGround", true))', source)
+        self.assertIn("next_retarget = target_switch_interval if target_exists else target_interval", source)
+        self.assertIn('"gateSource": "if(!controllable && autoTarget)"', source)
+        self.assertIn('"retargetSource": "if((mount.retarget -= Time.delta) <= 0f)"', source)
+        self.assertIn('"intervalSource": "mount.retarget = mount.target == null ? targetInterval : targetSwitchInterval"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
