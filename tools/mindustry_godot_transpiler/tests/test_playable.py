@@ -2622,6 +2622,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var vector_is_zero := vec_x == 0.0 and vec_y == 0.0", source)
         self.assertIn("next_rotation = source_arc_angles_move_toward(current_rotation, target_rotation, type_rotate_speed * source_delta * speed_multiplier_value)", source)
 
+    def test_port_game_exposes_source_unit_aim_look_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_aim_look_position_state(pos_x: float, pos_y: float) -> Dictionary:", source)
+        self.assertIn('"aim_call": "aim(Position)"', source)
+        self.assertIn('"look_at_call": "lookAt(Position)"', source)
+        self.assertIn("func source_unit_aim_look_xy_state(target_x: float, target_y: float) -> Dictionary:", source)
+        self.assertIn('"aim_call": "aim(float, float)"', source)
+        self.assertIn('"look_at_call": "lookAt(float, float)"', source)
+        self.assertIn('"call_order": ["aim", "lookAt"]', source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

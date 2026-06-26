@@ -3602,6 +3602,27 @@ def verify_unit_rotate_move_rotation_source(upstream_root: Path, arc_root: Path)
         "missing": missing,
     }
 
+def verify_unit_aim_look_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "aim_look_position_method": "public void aimLook(Position pos){",
+        "aim_look_position_aim": "aim(pos);",
+        "aim_look_position_look_at": "lookAt(pos);",
+        "aim_look_xy_method": "public void aimLook(float x, float y){",
+        "aim_look_xy_aim": "aim(x, y);",
+        "aim_look_xy_look_at": "lookAt(x, y);",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_move_pref_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

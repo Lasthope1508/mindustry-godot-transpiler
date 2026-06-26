@@ -3001,6 +3001,22 @@ func source_unit_rotate_move_rotation_state(current_rotation: float, vec_x: floa
 		"rotation": next_rotation,
 	}
 
+func source_unit_aim_look_position_state(pos_x: float, pos_y: float) -> Dictionary:
+	return {
+		"target": {"x": pos_x, "y": pos_y},
+		"aim_call": "aim(Position)",
+		"look_at_call": "lookAt(Position)",
+		"call_order": ["aim", "lookAt"],
+	}
+
+func source_unit_aim_look_xy_state(target_x: float, target_y: float) -> Dictionary:
+	return {
+		"target": {"x": target_x, "y": target_y},
+		"aim_call": "aim(float, float)",
+		"look_at_call": "lookAt(float, float)",
+		"call_order": ["aim", "lookAt"],
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},

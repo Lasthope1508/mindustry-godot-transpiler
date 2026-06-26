@@ -2313,6 +2313,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_aim_look_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_aim_look_source"))
+        report = source_parity.verify_unit_aim_look_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["checked"], {
+            "aim_look_position_method": "public void aimLook(Position pos){",
+            "aim_look_position_aim": "aim(pos);",
+            "aim_look_position_look_at": "lookAt(pos);",
+            "aim_look_xy_method": "public void aimLook(float x, float y){",
+            "aim_look_xy_aim": "aim(x, y);",
+            "aim_look_xy_look_at": "lookAt(x, y);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
