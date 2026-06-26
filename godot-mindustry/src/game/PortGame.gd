@@ -14,6 +14,7 @@ const SOURCE_DRILL_WARMUP_SPEED := 0.015
 const SOURCE_BLOCK_DUMP_TIME := 5.0
 const SOURCE_CONVEYOR_TILE_SPEED_SCALE := 55.0
 const SOURCE_TICK_RATE := 60.0
+const SOURCE_FLOAT_ROUNDING_ERROR := 0.000001
 const SOURCE_RECOIL_POW := 1.8
 const SOURCE_PI2 := PI * 2.0
 const SOURCE_INT64_MIN := -9223372036854775807 - 1
@@ -2235,6 +2236,12 @@ func source_building_sense_content_state(content_type: String, has_items_module:
 	if (content_type == "unit" or content_type == "block") and has_payloads:
 		return {"sensed": true, "value": payload_amount}
 	return {"sensed": false, "value": null}
+
+func source_building_control_enabled_state(current_enabled: bool, control_type: String, p1: float) -> Dictionary:
+	var next_enabled := current_enabled
+	if control_type == "enabled":
+		next_enabled = not absf(p1) <= SOURCE_FLOAT_ROUNDING_ERROR
+	return {"enabled": next_enabled}
 
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount

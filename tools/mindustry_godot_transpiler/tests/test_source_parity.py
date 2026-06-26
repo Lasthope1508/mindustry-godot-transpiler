@@ -1880,5 +1880,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_control_enabled_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_control_enabled_source"))
+        report = source_parity.verify_building_control_enabled_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "control_enabled_method": "public void control(LAccess type, double p1, double p2, double p3, double p4){",
+            "control_enabled_guard": "if(type == LAccess.enabled){",
+            "control_enabled_assignment": "enabled = !Mathf.zero((float)p1);",
+            "mathf_float_rounding_error": "public static final float FLOAT_ROUNDING_ERROR = 0.000001f; // 32 bits",
+            "mathf_zero_float_method": "public static boolean zero(float value){",
+            "mathf_zero_float_return": "return Math.abs(value) <= FLOAT_ROUNDING_ERROR;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

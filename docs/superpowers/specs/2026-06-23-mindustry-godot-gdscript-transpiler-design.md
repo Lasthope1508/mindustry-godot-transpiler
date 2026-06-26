@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 216 |
-| Done | 216 |
+| Total tracked work items | 217 |
+| Done | 217 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -92,13 +92,14 @@
 - [x] N212: Source BuildingComp sense payload/size state.
 - [x] N213: Source BuildingComp senseObject state.
 - [x] N214: Source BuildingComp sense content state.
+- [x] N215: Source BuildingComp control enabled state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
 
 Work now uses dependency cubes for prioritization without changing the verification contract. Each cube groups source Java, Godot runtime wiring, and playable behavior for one gameplay system. Inside a cube, every slice still moves linearly: read upstream Java, write RED tests, prove RED, implement minimal GREEN, run targeted/full tests, prove through Godot MCP runtime, update this checklist, run `git diff --check`, stage only touched tracked files, and commit.
 
-Current cube: `Building lifecycle / destroy-deconstruct`. Current source path stays `BuildingComp.java`, continuing from N144-N147 into `onDestroyed()` and adjacent destroy/deconstruct behavior.
+Current cube: `Building logic / sensor-control`. Current source path stays `BuildingComp.java`, continuing through `sense(...)`, `senseObject(...)`, `control(...)`, and adjacent logic-facing behavior.
 
 ## Done
 
@@ -333,6 +334,7 @@ Current cube: `Building lifecycle / destroy-deconstruct`. Current source path st
 | N212 | Apply source BuildingComp sense payload/size state | The next `BuildingComp.sense(LAccess sensor)` slice preserves exact `case payloadCount -> (getPayloads() != null ? getPayloads().total() : 0) + (getPayload() != null ? 1 : 0);` and `case size -> block.size;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_sense_payload_size_state(has_payload_seq, payload_seq_total, has_single_payload, block_size_value)` as the same payload sequence plus single-payload count and block size value, without porting camera sensors or payload internals yet; targeted RED tests failed before implementation, targeted GREEN passed with `328` tests, full Python suite reports `352` tests passing, MCP editor status returned connected bridge on `127.0.0.1:6505`, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `{"payload_count":4.0,"size":4.0}` for sequence total `3` plus single payload and `{"payload_count":0.0,"size":2.0}` for no payloads; debug output returned `errors: []`, and stop returned `finalErrors: []` |
 | N213 | Apply source BuildingComp senseObject state | The next `BuildingComp.senseObject(LAccess sensor)` slice preserves exact `public Object senseObject(LAccess sensor){`, `case type -> block;`, `case firstItem -> items == null ? null : items.first();`, `case config -> block.configSenseable() ? config() : null;`, `case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;`, and `default -> noSensed;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_sense_object_state(...)` with explicit `no_sensed` boolean so real `null` object results stay distinct from the upstream sentinel fallback; targeted RED tests failed before implementation, targeted GREEN passed with `330` tests, full Python suite reports `354` tests passing, MCP editor status returned connected bridge on `127.0.0.1:6505`, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned block object for `type`, valid `null` with `no_sensed:false` for missing first item module, unit object for `payloadType`, and `{"no_sensed":true,"value":null}` for default fallback; debug output returned `errors: []`, and stop returned `finalErrors: []` |
 | N214 | Apply source BuildingComp sense content state | The next `BuildingComp.sense(Content content)` slice preserves exact `public double sense(Content content){`, `if(content instanceof Item i && items != null) return items.get(i);`, `if(content instanceof Liquid l && liquids != null) return liquids.get(l);`, `if(getPayloads() != null){`, `if(content instanceof UnitType u) return getPayloads().get(u);`, `if(content instanceof Block b) return getPayloads().get(b);`, and `return Float.NaN; //invalid sense`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_sense_content_state(...)` with `{sensed, value}` so invalid `Float.NaN` semantics do not emit unsafe JSON `NaN`; targeted RED tests failed before implementation, targeted GREEN passed with `332` tests, full Python suite reports `356` tests passing, MCP editor status returned connected bridge on `127.0.0.1:6505`, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned sensed item `7.0`, liquid `3.5`, unit payload `2.0`, block payload `4.0`, and invalid item without module as `{"sensed":false,"value":null}`; debug output returned `errors: []`, and stop returned `finalErrors: []` |
+| N215 | Apply source BuildingComp control enabled state | The next `BuildingComp.control(LAccess type, double p1, double p2, double p3, double p4)` slice preserves exact `public void control(LAccess type, double p1, double p2, double p3, double p4){`, `if(type == LAccess.enabled){`, and `enabled = !Mathf.zero((float)p1);`; it also anchors `Mathf.FLOAT_ROUNDING_ERROR` and `Mathf.zero(float)` from `arc-core/src/arc/math/Mathf.java` with exact `public static final float FLOAT_ROUNDING_ERROR = 0.000001f; // 32 bits`, `public static boolean zero(float value){`, and `return Math.abs(value) <= FLOAT_ROUNDING_ERROR;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_control_enabled_state(current_enabled, control_type, p1)` as the same enabled-control transition without bundling the object config overload; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `334` tests, full Python suite reports `358` tests passing, MCP editor status returned connected bridge on `127.0.0.1:6505`, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `{"enabled":false}` for enabled control `0.0`, `{"enabled":false}` for enabled control `0.000001`, `{"enabled":true}` for enabled control `0.000002`, and `{"enabled":true}` for non-enabled control preserving current true state; debug output returned `errors: []`, and stop returned `finalErrors: []` |
 
 ## Not Done
 

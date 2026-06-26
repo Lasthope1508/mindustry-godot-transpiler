@@ -2942,6 +2942,36 @@ def verify_building_sense_content_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_building_control_enabled_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    mathf_path = Path(arc_root) / ARC_MATHF_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "control_enabled_method": "public void control(LAccess type, double p1, double p2, double p3, double p4){",
+        "control_enabled_guard": "if(type == LAccess.enabled){",
+        "control_enabled_assignment": "enabled = !Mathf.zero((float)p1);",
+        "mathf_float_rounding_error": "public static final float FLOAT_ROUNDING_ERROR = 0.000001f; // 32 bits",
+        "mathf_zero_float_method": "public static boolean zero(float value){",
+        "mathf_zero_float_return": "return Math.abs(value) <= FLOAT_ROUNDING_ERROR;",
+    }
+    building_keys = {
+        "control_enabled_method",
+        "control_enabled_guard",
+        "control_enabled_assignment",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        haystack = source if key in building_keys else mathf_source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "mathf_source": ARC_MATHF_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
