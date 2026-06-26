@@ -3564,6 +3564,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"velocityAddSource": "unit.vel.add(Tmp.v1.trns(mount.bullet.rotation() + 180f, mount.bullet.type.recoil * Time.delta))"', source)
         self.assertIn('"soundReservedSource": "if(shootSound != Sounds.none && !headless)"', source)
 
+    def test_port_game_exposes_source_weapon_update_continuous_sound_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_update_continuous_sound_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, runtime_state: Dictionary, bullet_x: float, bullet_y: float) -> Dictionary:", source)
+        self.assertIn("var sound_gate := live and (not shoot_sound_is_none) and (not headless)", source)
+        self.assertIn("var created_sound := sound_gate and not has_sound", source)
+        self.assertIn("if created_sound:", source)
+        self.assertIn("has_sound = true", source)
+        self.assertIn("if sound_gate:", source)
+        self.assertIn('"soundGuardSource": "if(shootSound != Sounds.none && !headless)"', source)
+        self.assertIn('"soundCreateSource": "if(mount.sound == null) mount.sound = new SoundLoop(shootSound, 1f)"', source)
+        self.assertIn('"soundUpdateSource": "mount.sound.update(bulletX, bulletY, true)"', source)
+        self.assertIn('"laserLengthReservedSource": "//target length of laser"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

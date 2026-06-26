@@ -4170,6 +4170,29 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_update_continuous_sound_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_update_continuous_sound_source"))
+        report = source_parity.verify_weapon_update_continuous_sound_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["sound_loop_source"], "core/src/mindustry/audio/SoundLoop.java")
+        self.assertEqual(report["vars_source"], "core/src/mindustry/Vars.java")
+        self.assertEqual(report["checked"], {
+            "sound_guard": "if(shootSound != Sounds.none && !headless){",
+            "sound_create_guard": "if(mount.sound == null) mount.sound = new SoundLoop(shootSound, 1f);",
+            "sound_update_call": "mount.sound.update(bulletX, bulletY, true);",
+            "laser_length_reserved": "//target length of laser",
+            "weapon_shoot_sound": "public Sound shootSound = Sounds.shoot;",
+            "weapon_mount_sound_comment": "/** sound loop for continuous weapons */",
+            "weapon_mount_sound": "public @Nullable SoundLoop sound;",
+            "sound_loop_constructor": "public SoundLoop(Sound sound, float baseVolume){",
+            "sound_loop_update": "public void update(float x, float y, boolean play){",
+            "sound_loop_update_delegate": "update(x, y, play, 1f);",
+            "vars_headless": "public static boolean headless;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

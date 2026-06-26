@@ -3716,6 +3716,48 @@ func source_weapon_update_continuous_live_state(mount_state: Dictionary, weapon_
 		"soundReservedSource": "if(shootSound != Sounds.none && !headless)",
 	}
 
+func source_weapon_update_continuous_sound_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, runtime_state: Dictionary, bullet_x: float, bullet_y: float) -> Dictionary:
+	var continuous := bool(weapon_state.get("continuous", false))
+	var bullet_exists := bool(mount_state.get("bulletExists", false))
+	var bullet_is_added := bool(bullet_state.get("isAdded", false))
+	var bullet_time := float(bullet_state.get("time", 0.0))
+	var bullet_lifetime := float(bullet_state.get("lifetime", 0.0))
+	var bullet_type_matches := bool(bullet_state.get("typeMatches", false))
+	var gate := continuous and bullet_exists
+	var invalid := gate and ((not bullet_is_added) or bullet_time >= bullet_lifetime or (not bullet_type_matches))
+	var live := gate and not invalid
+	var shoot_sound_is_none := bool(weapon_state.get("shootSoundIsNone", false))
+	var headless := bool(runtime_state.get("headless", false))
+	var sound_gate := live and (not shoot_sound_is_none) and (not headless)
+	var has_sound := bool(mount_state.get("hasSound", false))
+	var created_sound := sound_gate and not has_sound
+	var sound_update_call = null
+	if created_sound:
+		has_sound = true
+	if sound_gate:
+		sound_update_call = {
+			"x": bullet_x,
+			"y": bullet_y,
+			"play": true,
+			"call": "mount.sound.update(bulletX, bulletY, true)",
+		}
+	return {
+		"gate": gate,
+		"invalid": invalid,
+		"live": live,
+		"soundGate": sound_gate,
+		"hasSound": has_sound,
+		"createdSound": created_sound,
+		"soundUpdateCall": sound_update_call,
+		"shootSoundIsNone": shoot_sound_is_none,
+		"headless": headless,
+		"soundGuardSource": "if(shootSound != Sounds.none && !headless)",
+		"soundCreateSource": "if(mount.sound == null) mount.sound = new SoundLoop(shootSound, 1f)",
+		"soundUpdateSource": "mount.sound.update(bulletX, bulletY, true)",
+		"soundLoopUpdateSource": "update(x, y, play, 1f)",
+		"laserLengthReservedSource": "//target length of laser",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

@@ -7093,6 +7093,58 @@ def verify_weapon_update_continuous_live_source(upstream_root: Path) -> dict[str
         "missing": missing,
     }
 
+def verify_weapon_update_continuous_sound_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    sound_loop_source = "core/src/mindustry/audio/SoundLoop.java"
+    vars_source = "core/src/mindustry/Vars.java"
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_path = upstream_root / weapon_mount_source
+    sound_loop_path = upstream_root / sound_loop_source
+    vars_path = upstream_root / vars_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    sound_loop_text = sound_loop_path.read_text(encoding="utf-8", errors="replace")
+    vars_text = vars_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "sound_guard": "if(shootSound != Sounds.none && !headless){",
+        "sound_create_guard": "if(mount.sound == null) mount.sound = new SoundLoop(shootSound, 1f);",
+        "sound_update_call": "mount.sound.update(bulletX, bulletY, true);",
+        "laser_length_reserved": "//target length of laser",
+        "weapon_shoot_sound": "public Sound shootSound = Sounds.shoot;",
+        "weapon_mount_sound_comment": "/** sound loop for continuous weapons */",
+        "weapon_mount_sound": "public @Nullable SoundLoop sound;",
+        "sound_loop_constructor": "public SoundLoop(Sound sound, float baseVolume){",
+        "sound_loop_update": "public void update(float x, float y, boolean play){",
+        "sound_loop_update_delegate": "update(x, y, play, 1f);",
+        "vars_headless": "public static boolean headless;",
+    }
+    source_map = {
+        "sound_guard": source,
+        "sound_create_guard": source,
+        "sound_update_call": source,
+        "laser_length_reserved": source,
+        "weapon_shoot_sound": source,
+        "weapon_mount_sound_comment": weapon_mount_text,
+        "weapon_mount_sound": weapon_mount_text,
+        "sound_loop_constructor": sound_loop_text,
+        "sound_loop_update": sound_loop_text,
+        "sound_loop_update_delegate": sound_loop_text,
+        "vars_headless": vars_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": weapon_mount_source,
+        "sound_loop_source": sound_loop_source,
+        "vars_source": vars_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
