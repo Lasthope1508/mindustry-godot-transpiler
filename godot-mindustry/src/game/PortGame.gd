@@ -3076,6 +3076,21 @@ func source_unit_can_target_state(other_exists: bool, other_is_unit: bool, other
 		"can_target": other_is_building and type_target_ground,
 	}
 
+func source_unit_command_state(controller_is_command_ai: bool) -> Dictionary:
+	if controller_is_command_ai:
+		return {
+			"returned_command_ai": true,
+			"throws": false,
+			"exception_type": "",
+			"message": "",
+		}
+	return {
+		"returned_command_ai": false,
+		"throws": true,
+		"exception_type": "IllegalArgumentException",
+		"message": "Unit cannot be commanded - check isCommandable() first.",
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},

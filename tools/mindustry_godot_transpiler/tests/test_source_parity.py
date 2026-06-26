@@ -2416,6 +2416,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_command_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_command_source"))
+        report = source_parity.verify_unit_command_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["command_ai_source"], "core/src/mindustry/ai/types/CommandAI.java")
+        self.assertEqual(report["checked"], {
+            "command_method": "public CommandAI command(){",
+            "command_ai_gate": "if(controller instanceof CommandAI ai){",
+            "command_return": "return ai;",
+            "command_else": "}else{",
+            "command_throw": "throw new IllegalArgumentException(\"Unit cannot be commanded - check isCommandable() first.\");",
+            "command_ai_class": "public class CommandAI extends AIController{",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

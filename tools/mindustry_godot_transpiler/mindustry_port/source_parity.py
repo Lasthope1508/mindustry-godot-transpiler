@@ -3796,6 +3796,31 @@ def verify_unit_can_target_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_unit_command_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    command_ai_path = Path(upstream_root) / COMMAND_AI_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    command_ai_source = command_ai_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "command_method": "public CommandAI command(){",
+        "command_ai_gate": "if(controller instanceof CommandAI ai){",
+        "command_return": "return ai;",
+        "command_else": "}else{",
+        "command_throw": "throw new IllegalArgumentException(\"Unit cannot be commanded - check isCommandable() first.\");",
+        "command_ai_class": "public class CommandAI extends AIController{",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        haystack = command_ai_source if key == "command_ai_class" else source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "command_ai_source": COMMAND_AI_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_move_pref_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")
