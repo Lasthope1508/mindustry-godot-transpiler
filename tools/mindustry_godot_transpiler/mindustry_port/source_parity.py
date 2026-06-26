@@ -25,6 +25,7 @@ ITEM_MODULE_SOURCE = "core/src/mindustry/world/modules/ItemModule.java"
 WORLD_SOURCE = "core/src/mindustry/core/World.java"
 FLOOR_SOURCE = "core/src/mindustry/world/blocks/environment/Floor.java"
 UNIT_TYPE_SOURCE = "core/src/mindustry/type/UnitType.java"
+UNIT_CONTROLLER_SOURCE = "core/src/mindustry/entities/units/UnitController.java"
 AI_CONTROLLER_SOURCE = "core/src/mindustry/entities/units/AIController.java"
 COMMAND_AI_SOURCE = "core/src/mindustry/ai/types/CommandAI.java"
 LOGIC_AI_SOURCE = "core/src/mindustry/ai/types/LogicAI.java"
@@ -4115,6 +4116,32 @@ def verify_unit_hittable_source(upstream_root: Path) -> dict[str, Any]:
         "source": UNIT_COMP_SOURCE,
         "unit_type_source": UNIT_TYPE_SOURCE,
         "payload_comp_source": PAYLOAD_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_unit_after_sync_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    unit_controller_path = Path(upstream_root) / UNIT_CONTROLLER_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_controller_source = unit_controller_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "after_sync_override": "@Override\n    public void afterSync(){",
+        "after_sync_comment": "set up type info after reading",
+        "after_sync_set_type": "setType(this.type);",
+        "after_sync_controller_unit": "controller.unit(self());",
+        "unit_controller_unit": "void unit(Unit unit);",
+        "unit_controller_unit_getter": "@Nullable Unit unit();",
+    }
+    unit_controller_keys = {"unit_controller_unit", "unit_controller_unit_getter"}
+    missing = []
+    for key, snippet in checked.items():
+        haystack = unit_controller_source if key in unit_controller_keys else source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_controller_source": UNIT_CONTROLLER_SOURCE,
         "checked": checked,
         "missing": missing,
     }

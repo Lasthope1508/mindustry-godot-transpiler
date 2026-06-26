@@ -3167,6 +3167,15 @@ func source_unit_hittable_state(type_hittable: bool, type_vulnerable_with_payloa
 		"call": "type.hittable(self())",
 	}
 
+func source_unit_after_sync_state(type_id: int, controller_exists: bool) -> Dictionary:
+	return {
+		"type_id": type_id,
+		"controller_exists": controller_exists,
+		"call_order": ["setType", "controller.unit"],
+		"setType_arg": "this.type",
+		"controllerUnitArg": "self()",
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},

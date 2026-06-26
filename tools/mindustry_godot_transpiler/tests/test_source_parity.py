@@ -2588,6 +2588,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_after_sync_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_after_sync_source"))
+        report = source_parity.verify_unit_after_sync_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["unit_controller_source"], "core/src/mindustry/entities/units/UnitController.java")
+        self.assertEqual(report["checked"], {
+            "after_sync_override": "@Override\n    public void afterSync(){",
+            "after_sync_comment": "set up type info after reading",
+            "after_sync_set_type": "setType(this.type);",
+            "after_sync_controller_unit": "controller.unit(self());",
+            "unit_controller_unit": "void unit(Unit unit);",
+            "unit_controller_unit_getter": "@Nullable Unit unit();",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
