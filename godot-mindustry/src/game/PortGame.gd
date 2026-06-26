@@ -3514,6 +3514,23 @@ func source_unit_update_tile_unit_on_any_state(tile_exists: bool, tile_build_exi
 		"unitOnAny": callback,
 	}
 
+func source_unit_update_tile_unit_on_state(tile_exists: bool, is_grounded_value: bool, type_hovering: bool, tile_build_exists: bool, unit_id: int) -> Dictionary:
+	var guard := tile_exists and is_grounded_value and not type_hovering
+	var callback: Variant = null
+	if guard and tile_build_exists:
+		callback = {
+			"call": "tile.build.unitOn(self())",
+			"unit": unit_id,
+		}
+	return {
+		"guard": guard,
+		"tileExists": tile_exists,
+		"isGrounded": is_grounded_value,
+		"typeHovering": type_hovering,
+		"tileBuildExists": tile_build_exists,
+		"unitOn": callback,
+	}
+
 func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
 	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
 	var drown_time_before_clamp := current_drown_time

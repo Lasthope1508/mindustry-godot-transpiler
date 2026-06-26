@@ -3017,6 +3017,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"unit": unit_id', source)
         self.assertIn('"unitOnAny": callback', source)
 
+    def test_port_game_exposes_source_unit_update_tile_unit_on_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_tile_unit_on_state(tile_exists: bool, is_grounded_value: bool, type_hovering: bool, tile_build_exists: bool, unit_id: int) -> Dictionary:", source)
+        self.assertIn("var guard := tile_exists and is_grounded_value and not type_hovering", source)
+        self.assertIn("if guard and tile_build_exists:", source)
+        self.assertIn('"call": "tile.build.unitOn(self())"', source)
+        self.assertIn('"unit": unit_id', source)
+        self.assertIn('"unitOn": callback', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

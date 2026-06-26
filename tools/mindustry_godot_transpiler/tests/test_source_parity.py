@@ -3230,6 +3230,27 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_tile_unit_on_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_tile_unit_on_source"))
+        report = source_parity.verify_unit_update_tile_unit_on_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["building_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["tile_source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["checked"], {
+            "grounded_tile_guard": "if(tile != null && isGrounded() && !type.hovering){",
+            "unit_block_update_comment": "//unit block update",
+            "tile_build_guard": "if(tile.build != null){",
+            "tile_build_unit_on": "tile.build.unitOn(self());",
+            "apply_damage_comment": "//apply damage",
+            "tile_build_field": "public @Nullable Building build;",
+            "unit_type_hovering_default": "hovering = false,",
+            "building_unit_on_comment": "/** Called every frame a unit is on this. Hovering/flying/steppy units do not apply.  */",
+            "building_unit_on": "public void unitOn(Unit unit){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

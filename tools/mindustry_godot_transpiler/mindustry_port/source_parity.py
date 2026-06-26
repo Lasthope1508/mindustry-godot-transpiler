@@ -5060,6 +5060,50 @@ def verify_unit_update_tile_unit_on_any_source(upstream_root: Path) -> dict[str,
         "missing": missing,
     }
 
+def verify_unit_update_tile_unit_on_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    building_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    tile_source_path = Path(upstream_root) / "core/src/mindustry/world/Tile.java"
+    unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    building_source = building_path.read_text(encoding="utf-8", errors="replace")
+    tile_source = tile_source_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "grounded_tile_guard": "if(tile != null && isGrounded() && !type.hovering){",
+        "unit_block_update_comment": "//unit block update",
+        "tile_build_guard": "if(tile.build != null){",
+        "tile_build_unit_on": "tile.build.unitOn(self());",
+        "apply_damage_comment": "//apply damage",
+        "tile_build_field": "public @Nullable Building build;",
+        "unit_type_hovering_default": "hovering = false,",
+        "building_unit_on_comment": "/** Called every frame a unit is on this. Hovering/flying/steppy units do not apply.  */",
+        "building_unit_on": "public void unitOn(Unit unit){",
+    }
+    source_map = {
+        "grounded_tile_guard": source,
+        "unit_block_update_comment": source,
+        "tile_build_guard": source,
+        "tile_build_unit_on": source,
+        "apply_damage_comment": source,
+        "tile_build_field": tile_source,
+        "unit_type_hovering_default": unit_type_source,
+        "building_unit_on_comment": building_source,
+        "building_unit_on": building_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "building_source": BUILDING_COMP_SOURCE,
+        "tile_source": "core/src/mindustry/world/Tile.java",
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
