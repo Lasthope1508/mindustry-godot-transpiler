@@ -4188,6 +4188,28 @@ def verify_unit_after_read_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_unit_after_read_all_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    unit_controller_path = Path(upstream_root) / UNIT_CONTROLLER_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_controller_source = unit_controller_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "after_read_all_override": "@Override\n    public void afterReadAll(){",
+        "after_read_all_controller_after_read": "controller.afterRead(self());",
+        "unit_controller_after_read": "default void afterRead(Unit unit){",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        haystack = unit_controller_source if key.startswith("unit_controller_") else source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_controller_source": UNIT_CONTROLLER_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_move_pref_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

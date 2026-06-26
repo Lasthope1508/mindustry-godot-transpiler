@@ -2800,6 +2800,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"createControllerArg": "self()"', source)
         self.assertIn('"type_id": type_id', source)
 
+    def test_port_game_exposes_source_unit_after_read_all_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_after_read_all_state(controller_exists: bool) -> Dictionary:", source)
+        self.assertIn('"call": "controller.afterRead(self())"', source)
+        self.assertIn('"controller_exists": controller_exists', source)
+        self.assertIn('"afterReadArg": "self()"', source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

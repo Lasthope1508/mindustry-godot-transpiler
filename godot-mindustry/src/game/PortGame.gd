@@ -3190,6 +3190,13 @@ func source_unit_after_read_state(type_id: int, controller_is_ai_controller: boo
 		"createControllerArg": "self()",
 	}
 
+func source_unit_after_read_all_state(controller_exists: bool) -> Dictionary:
+	return {
+		"controller_exists": controller_exists,
+		"call": "controller.afterRead(self())",
+		"afterReadArg": "self()",
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},
