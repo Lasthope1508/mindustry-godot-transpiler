@@ -4210,6 +4210,57 @@ def verify_unit_after_read_all_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_unit_add_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    teams_path = Path(upstream_root) / TEAMS_SOURCE
+    units_path = Path(upstream_root) / UNITS_SOURCE
+    unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
+    rules_path = Path(upstream_root) / RULES_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    teams_source = teams_path.read_text(encoding="utf-8", errors="replace")
+    units_source = units_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    rules_source = rules_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "add_override": "@Override\n    public void add(){",
+        "add_update_count": "team.data().updateCount(type, 1);",
+        "add_unit_cap_comment": "check if over unit cap",
+        "add_cap_guard": "if(type.useUnitCap && count() > cap() && !spawnedByCore && !dead && !state.rules.editor){",
+        "add_unit_cap_death": "Call.unitCapDeath(self());",
+        "add_update_count_negative": "team.data().updateCount(type, -1);",
+        "team_data_update_count": "public void updateCount(UnitType type, int amount){",
+        "team_data_update_null": "if(type == null) return;",
+        "team_data_update_unit_count": "unitCount = Math.max(amount + unitCount, 0);",
+        "team_data_update_type_count": "typeCounts[type.id] = Math.max(amount + typeCounts[type.id], 0);",
+        "units_unit_cap_death": "public static void unitCapDeath(Unit unit){",
+        "unit_cap_death_dead": "unit.dead = true;",
+        "unit_type_use_unit_cap_default": "useUnitCap = true,",
+        "rules_editor_default": "public boolean editor = false;",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if key.startswith("team_data_"):
+            haystack = teams_source
+        elif key.startswith("units_") or key.startswith("unit_cap_death_"):
+            haystack = units_source
+        elif key.startswith("unit_type_"):
+            haystack = unit_type_source
+        elif key.startswith("rules_"):
+            haystack = rules_source
+        else:
+            haystack = source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "teams_source": TEAMS_SOURCE,
+        "units_source": UNITS_SOURCE,
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "rules_source": RULES_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_move_pref_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

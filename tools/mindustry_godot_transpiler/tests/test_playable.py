@@ -2809,6 +2809,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"controller_exists": controller_exists', source)
         self.assertIn('"afterReadArg": "self()"', source)
 
+    def test_port_game_exposes_source_unit_add_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_add_state(type_use_unit_cap: bool, count_after_add: int, cap_value: int, spawned_by_core: bool, dead: bool, rules_editor: bool) -> Dictionary:", source)
+        self.assertIn("var over_cap := type_use_unit_cap and count_after_add > cap_value and not spawned_by_core and not dead and not rules_editor", source)
+        self.assertIn("var rollback_update_count: Variant = null", source)
+        self.assertIn('rollback_update_count = {"call": "team.data().updateCount(type, -1)", "amount": -1}', source)
+        self.assertIn('"call_order": ["team.data().updateCount(+1)", "Call.unitCapDeath", "team.data().updateCount(-1)"] if over_cap else ["team.data().updateCount(+1)"]', source)
+        self.assertIn('"initialUpdateCount": {"call": "team.data().updateCount(type, 1)", "amount": 1}', source)
+        self.assertIn('"rollbackUpdateCount": rollback_update_count', source)
+        self.assertIn('"unitCapDeath": over_cap', source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

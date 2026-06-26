@@ -3197,6 +3197,26 @@ func source_unit_after_read_all_state(controller_exists: bool) -> Dictionary:
 		"afterReadArg": "self()",
 	}
 
+func source_unit_add_state(type_use_unit_cap: bool, count_after_add: int, cap_value: int, spawned_by_core: bool, dead: bool, rules_editor: bool) -> Dictionary:
+	var over_cap := type_use_unit_cap and count_after_add > cap_value and not spawned_by_core and not dead and not rules_editor
+	var rollback_update_count: Variant = null
+	if over_cap:
+		rollback_update_count = {"call": "team.data().updateCount(type, -1)", "amount": -1}
+	return {
+		"initialUpdateCount": {"call": "team.data().updateCount(type, 1)", "amount": 1},
+		"guard": {
+			"typeUseUnitCap": type_use_unit_cap,
+			"countAfterAdd": count_after_add,
+			"cap": cap_value,
+			"spawnedByCore": spawned_by_core,
+			"dead": dead,
+			"rulesEditor": rules_editor,
+		},
+		"unitCapDeath": over_cap,
+		"rollbackUpdateCount": rollback_update_count,
+		"call_order": ["team.data().updateCount(+1)", "Call.unitCapDeath", "team.data().updateCount(-1)"] if over_cap else ["team.data().updateCount(+1)"],
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},

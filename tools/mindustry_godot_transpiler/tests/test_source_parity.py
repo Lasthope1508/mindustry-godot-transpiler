@@ -2639,6 +2639,33 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_add_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_add_source"))
+        report = source_parity.verify_unit_add_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["teams_source"], "core/src/mindustry/game/Teams.java")
+        self.assertEqual(report["units_source"], "core/src/mindustry/entities/Units.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["rules_source"], "core/src/mindustry/game/Rules.java")
+        self.assertEqual(report["checked"], {
+            "add_override": "@Override\n    public void add(){",
+            "add_update_count": "team.data().updateCount(type, 1);",
+            "add_unit_cap_comment": "check if over unit cap",
+            "add_cap_guard": "if(type.useUnitCap && count() > cap() && !spawnedByCore && !dead && !state.rules.editor){",
+            "add_unit_cap_death": "Call.unitCapDeath(self());",
+            "add_update_count_negative": "team.data().updateCount(type, -1);",
+            "team_data_update_count": "public void updateCount(UnitType type, int amount){",
+            "team_data_update_null": "if(type == null) return;",
+            "team_data_update_unit_count": "unitCount = Math.max(amount + unitCount, 0);",
+            "team_data_update_type_count": "typeCounts[type.id] = Math.max(amount + typeCounts[type.id], 0);",
+            "units_unit_cap_death": "public static void unitCapDeath(Unit unit){",
+            "unit_cap_death_dead": "unit.dead = true;",
+            "unit_type_use_unit_cap_default": "useUnitCap = true,",
+            "rules_editor_default": "public boolean editor = false;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
