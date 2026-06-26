@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 232 |
-| Done | 232 |
+| Total tracked work items | 233 |
+| Done | 233 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -108,6 +108,7 @@
 - [x] N228: Source BuildingComp checkAllowUpdate state.
 - [x] N229: Source BuildingComp update timescale decay state.
 - [x] N230: Source BuildingComp update ambient sound gate state.
+- [x] N231: Source BuildingComp updateConsumption call state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -365,6 +366,7 @@ Current cube: `Building logic / sensor-control`. Current source path stays `Buil
 | N228 | Apply source BuildingComp checkAllowUpdate state | The `BuildingComp.checkAllowUpdate()` slice preserves exact `public void checkAllowUpdate(){`, `if(!allowUpdate()){`, and `enabled = false;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_check_allow_update_state(current_enabled, allow_update_result)` with `allowUpdate()` supplied explicitly, disabling only when false and otherwise preserving current enabled state; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `360` tests, full Python suite reports `384` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `{"enabled":false,"changed":true}` for enabled building with disallowed update, `{"enabled":false,"changed":false}` for disabled building with disallowed update, and `{"enabled":true,"changed":false}` when update is allowed; debug output returned `errors: []`, and stop returned `finalErrors: []` |
 | N229 | Apply source BuildingComp update timescale decay state | The first `BuildingComp.update()` slice preserves exact `@Replace`, `public void update(){`, `if((timeScaleDuration -= Time.delta) <= 0f){`, and `timeScale = 1f;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_update_timescale_decay_state(current_time_scale, current_time_scale_duration, time_delta)` with `Time.delta` supplied explicitly, subtracting duration and resetting `time_scale` to `1.0` only when duration expires; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `362` tests, full Python suite reports `386` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `{"time_scale":2.0,"time_scale_duration":2.0}` for remaining duration and `{"time_scale":1.0,"time_scale_duration":-0.5}` for expired duration; debug output returned `errors: []`, and stop returned `finalErrors: []` |
 | N230 | Apply source BuildingComp update ambient sound gate state | The next `BuildingComp.update()` slice preserves exact `if(!headless && block.ambientSound != Sounds.none && shouldAmbientSound()){` and `control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_update_ambient_sound_gate_state(headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value)` as the same sound-loop gate and volume multiplication without inventing `control.sound` internals; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `364` tests, full Python suite reports `388` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `{"loop_called":true,"sound":"hum","volume":0.4}` for live ambient sound and `loop_called:false` with `volume:0.0` for headless, `Sounds.none`, and false `shouldAmbientSound()` gates; debug output returned `errors: []`, and stop returned `finalErrors: []` |
+| N231 | Apply source BuildingComp updateConsumption call state | The next `BuildingComp.update()` slice preserves exact `updateConsumption();` after the ambient sound gate and before the disabled-update `updateTile()` gate; `source_parity.py` checks that exact upstream line, and `PortGame.gd` exposes `source_building_update_consumption_call_state()` as the same call marker without duplicating `updateConsumption()` internals already split into N189-N195; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `366` tests, full Python suite reports `390` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP call on `/root/Main` returned `{"update_consumption_called":true}`; debug output returned `errors: []`, and stop returned `finalErrors: []` |
 
 ## Not Done
 

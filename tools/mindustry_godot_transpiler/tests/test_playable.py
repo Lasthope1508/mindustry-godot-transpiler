@@ -2478,6 +2478,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return {"loop_called": false, "sound": ambient_sound_value, "volume": 0.0}', source)
         self.assertIn('return {"loop_called": true, "sound": ambient_sound_value, "volume": block_ambient_sound_volume * ambient_volume_value}', source)
 
+    def test_port_game_exposes_source_building_update_consumption_call_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_update_consumption_call_state() -> Dictionary:", source)
+        self.assertIn('return {"update_consumption_called": true}', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

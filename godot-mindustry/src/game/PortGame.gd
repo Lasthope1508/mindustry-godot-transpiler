@@ -2358,6 +2358,9 @@ func source_building_update_ambient_sound_gate_state(headless_mode: bool, ambien
 		return {"loop_called": false, "sound": ambient_sound_value, "volume": 0.0}
 	return {"loop_called": true, "sound": ambient_sound_value, "volume": block_ambient_sound_volume * ambient_volume_value}
 
+func source_building_update_consumption_call_state() -> Dictionary:
+	return {"update_consumption_called": true}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
