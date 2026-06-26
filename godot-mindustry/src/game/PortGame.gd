@@ -3397,6 +3397,35 @@ func source_unit_update_drag_formula_state(type_drag: float, grounded_value: boo
 		},
 	}
 
+func source_unit_update_spawn_knockback_state(team_is_wave_team: bool, state_has_spawns_value: bool, net_client_value: bool, is_local_value: bool, hittable_value: bool, drop_zone_radius: float, hit_size: float, unit_x: float, unit_y: float, spawns: Array, source_delta: float) -> Dictionary:
+	var guard := (not team_is_wave_team) and state_has_spawns_value and ((not net_client_value) or is_local_value) and hittable_value
+	var relative_size := drop_zone_radius + hit_size / 2.0 + 1.0
+	var knockbacks := []
+	if guard:
+		for spawn in spawns:
+			var spawn_x := float(spawn.get("x", 0.0))
+			var spawn_y := float(spawn.get("y", 0.0))
+			var dx := unit_x - spawn_x
+			var dy := unit_y - spawn_y
+			var distance := sqrt(dx * dx + dy * dy)
+			var within_spawn := distance * distance < relative_size * relative_size
+			if within_spawn:
+				var strength := 0.1 + 1.0 - distance / relative_size
+				var knockback_scale := 0.45 * source_delta
+				var length_factor := strength / distance if distance != 0.0 else 0.0
+				knockbacks.append({
+					"call": "velAddNet(Tmp.v1.set(this).sub(spawn.worldx(), spawn.worldy()).setLength(0.1f + 1f - dst(spawn) / relativeSize).scl(0.45f * Time.delta))",
+					"spawn": {"x": spawn_x, "y": spawn_y},
+					"distance": distance,
+					"strength": strength,
+					"velocity": {"x": dx * length_factor * knockback_scale, "y": dy * length_factor * knockback_scale},
+				})
+	return {
+		"guard": guard,
+		"relativeSize": relative_size,
+		"knockbacks": knockbacks,
+	}
+
 func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
 	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
 	var drown_time_before_clamp := current_drown_time

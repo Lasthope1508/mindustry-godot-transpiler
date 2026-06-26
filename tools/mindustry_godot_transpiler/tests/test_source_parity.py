@@ -3072,6 +3072,51 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_spawn_knockback_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_spawn_knockback_source"))
+        report = source_parity.verify_unit_update_spawn_knockback_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["rules_source"], "core/src/mindustry/game/Rules.java")
+        self.assertEqual(report["game_state_source"], "core/src/mindustry/core/GameState.java")
+        self.assertEqual(report["wave_spawner_source"], "core/src/mindustry/ai/WaveSpawner.java")
+        self.assertEqual(report["net_source"], "core/src/mindustry/net/Net.java")
+        self.assertEqual(report["vel_comp_source"], "core/src/mindustry/entities/comp/VelComp.java")
+        self.assertEqual(report["arc_position_source"], "arc-core/src/arc/math/geom/Position.java")
+        self.assertEqual(report["arc_vec2_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(report["arc_time_source"], "arc-core/src/arc/util/Time.java")
+        self.assertEqual(report["checked"], {
+            "spawn_knockback_comment": "//apply knockback based on spawns",
+            "spawn_knockback_guard": "if(team != state.rules.waveTeam && state.hasSpawns() && (!net.client() || isLocal()) && hittable()){",
+            "relative_size": "float relativeSize = state.rules.dropZoneRadius + hitSize/2f + 1f;",
+            "spawn_loop": "for(Tile spawn : spawner.getSpawns()){",
+            "spawn_within_guard": "if(within(spawn.worldx(), spawn.worldy(), relativeSize)){",
+            "vel_add_net_call": "velAddNet(Tmp.v1.set(this).sub(spawn.worldx(), spawn.worldy()).setLength(0.1f + 1f - dst(spawn) / relativeSize).scl(0.45f * Time.delta));",
+            "rules_drop_zone_radius": "public float dropZoneRadius = 300f;",
+            "rules_wave_team": "public Team waveTeam = Team.crux;",
+            "state_has_spawns": "public boolean hasSpawns(){",
+            "state_has_spawns_body": "return rules.waves && ((rules.waveTeam.cores().size > 0 && rules.attackMode) || rules.spawns.size > 0);",
+            "spawner_get_spawns": "public Seq<Tile> getSpawns(){",
+            "spawner_get_spawns_body": "return spawns;",
+            "net_client": "public boolean client(){",
+            "net_client_body": "return !server && active;",
+            "vel_add_net_vec": "void velAddNet(Vec2 v){",
+            "vel_add_net_add": "vel.add(v);",
+            "vel_add_net_remote_x": "x += v.x;",
+            "vel_add_net_remote_y": "y += v.y;",
+            "position_within": "default boolean within(float x, float y, float dst){",
+            "position_within_body": "return Mathf.dst2(getX(), getY(), x, y) < dst*dst;",
+            "position_dst": "default float dst(float x, float y){",
+            "position_dst_body": "return Mathf.sqrt(xd * xd + yd * yd);",
+            "vec2_set_position": "public Vec2 set(Position v){",
+            "vec2_set_position_x": "x = v.getX();",
+            "vec2_sub": "public Vec2 sub(float x, float y){",
+            "vec2_set_length": "public Vec2 setLength(float len){",
+            "vec2_scl": "public Vec2 scl(float scalar){",
+            "time_delta_default": "public static float delta = 1f;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

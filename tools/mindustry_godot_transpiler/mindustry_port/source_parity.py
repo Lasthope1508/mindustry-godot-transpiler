@@ -4735,6 +4735,103 @@ def verify_unit_update_drag_formula_source(upstream_root: Path) -> dict[str, Any
         "missing": missing,
     }
 
+def verify_unit_update_spawn_knockback_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    rules_path = Path(upstream_root) / RULES_SOURCE
+    game_state_path = Path(upstream_root) / GAME_STATE_SOURCE
+    wave_spawner_path = Path(upstream_root) / "core/src/mindustry/ai/WaveSpawner.java"
+    net_path = Path(upstream_root) / "core/src/mindustry/net/Net.java"
+    vel_comp_path = Path(upstream_root) / "core/src/mindustry/entities/comp/VelComp.java"
+    position_path = Path(arc_root) / ARC_POSITION_SOURCE
+    vec2_path = Path(arc_root) / ARC_VEC2_SOURCE
+    time_path = Path(arc_root) / "arc-core/src/arc/util/Time.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    rules_source = rules_path.read_text(encoding="utf-8", errors="replace")
+    game_state_source = game_state_path.read_text(encoding="utf-8", errors="replace")
+    wave_spawner_source = wave_spawner_path.read_text(encoding="utf-8", errors="replace")
+    net_source = net_path.read_text(encoding="utf-8", errors="replace")
+    vel_comp_source = vel_comp_path.read_text(encoding="utf-8", errors="replace")
+    position_source = position_path.read_text(encoding="utf-8", errors="replace")
+    vec2_source = vec2_path.read_text(encoding="utf-8", errors="replace")
+    time_source = time_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "spawn_knockback_comment": "//apply knockback based on spawns",
+        "spawn_knockback_guard": "if(team != state.rules.waveTeam && state.hasSpawns() && (!net.client() || isLocal()) && hittable()){",
+        "relative_size": "float relativeSize = state.rules.dropZoneRadius + hitSize/2f + 1f;",
+        "spawn_loop": "for(Tile spawn : spawner.getSpawns()){",
+        "spawn_within_guard": "if(within(spawn.worldx(), spawn.worldy(), relativeSize)){",
+        "vel_add_net_call": "velAddNet(Tmp.v1.set(this).sub(spawn.worldx(), spawn.worldy()).setLength(0.1f + 1f - dst(spawn) / relativeSize).scl(0.45f * Time.delta));",
+        "rules_drop_zone_radius": "public float dropZoneRadius = 300f;",
+        "rules_wave_team": "public Team waveTeam = Team.crux;",
+        "state_has_spawns": "public boolean hasSpawns(){",
+        "state_has_spawns_body": "return rules.waves && ((rules.waveTeam.cores().size > 0 && rules.attackMode) || rules.spawns.size > 0);",
+        "spawner_get_spawns": "public Seq<Tile> getSpawns(){",
+        "spawner_get_spawns_body": "return spawns;",
+        "net_client": "public boolean client(){",
+        "net_client_body": "return !server && active;",
+        "vel_add_net_vec": "void velAddNet(Vec2 v){",
+        "vel_add_net_add": "vel.add(v);",
+        "vel_add_net_remote_x": "x += v.x;",
+        "vel_add_net_remote_y": "y += v.y;",
+        "position_within": "default boolean within(float x, float y, float dst){",
+        "position_within_body": "return Mathf.dst2(getX(), getY(), x, y) < dst*dst;",
+        "position_dst": "default float dst(float x, float y){",
+        "position_dst_body": "return Mathf.sqrt(xd * xd + yd * yd);",
+        "vec2_set_position": "public Vec2 set(Position v){",
+        "vec2_set_position_x": "x = v.getX();",
+        "vec2_sub": "public Vec2 sub(float x, float y){",
+        "vec2_set_length": "public Vec2 setLength(float len){",
+        "vec2_scl": "public Vec2 scl(float scalar){",
+        "time_delta_default": "public static float delta = 1f;",
+    }
+    source_map = {
+        "spawn_knockback_comment": source,
+        "spawn_knockback_guard": source,
+        "relative_size": source,
+        "spawn_loop": source,
+        "spawn_within_guard": source,
+        "vel_add_net_call": source,
+        "rules_drop_zone_radius": rules_source,
+        "rules_wave_team": rules_source,
+        "state_has_spawns": game_state_source,
+        "state_has_spawns_body": game_state_source,
+        "spawner_get_spawns": wave_spawner_source,
+        "spawner_get_spawns_body": wave_spawner_source,
+        "net_client": net_source,
+        "net_client_body": net_source,
+        "vel_add_net_vec": vel_comp_source,
+        "vel_add_net_add": vel_comp_source,
+        "vel_add_net_remote_x": vel_comp_source,
+        "vel_add_net_remote_y": vel_comp_source,
+        "position_within": position_source,
+        "position_within_body": position_source,
+        "position_dst": position_source,
+        "position_dst_body": position_source,
+        "vec2_set_position": vec2_source,
+        "vec2_set_position_x": vec2_source,
+        "vec2_sub": vec2_source,
+        "vec2_set_length": vec2_source,
+        "vec2_scl": vec2_source,
+        "time_delta_default": time_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "rules_source": RULES_SOURCE,
+        "game_state_source": GAME_STATE_SOURCE,
+        "wave_spawner_source": "core/src/mindustry/ai/WaveSpawner.java",
+        "net_source": "core/src/mindustry/net/Net.java",
+        "vel_comp_source": "core/src/mindustry/entities/comp/VelComp.java",
+        "arc_position_source": ARC_POSITION_SOURCE,
+        "arc_vec2_source": ARC_VEC2_SOURCE,
+        "arc_time_source": "arc-core/src/arc/util/Time.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

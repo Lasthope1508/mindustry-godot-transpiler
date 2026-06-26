@@ -2944,6 +2944,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"drag": unit_drag', source)
         self.assertIn('"floorFactor": floor_factor', source)
 
+    def test_port_game_exposes_source_unit_update_spawn_knockback_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_spawn_knockback_state(team_is_wave_team: bool, state_has_spawns_value: bool, net_client_value: bool, is_local_value: bool, hittable_value: bool, drop_zone_radius: float, hit_size: float, unit_x: float, unit_y: float, spawns: Array, source_delta: float) -> Dictionary:", source)
+        self.assertIn("var guard := (not team_is_wave_team) and state_has_spawns_value and ((not net_client_value) or is_local_value) and hittable_value", source)
+        self.assertIn("var relative_size := drop_zone_radius + hit_size / 2.0 + 1.0", source)
+        self.assertIn("var strength := 0.1 + 1.0 - distance / relative_size", source)
+        self.assertIn("var knockback_scale := 0.45 * source_delta", source)
+        self.assertIn('"call": "velAddNet(Tmp.v1.set(this).sub(spawn.worldx(), spawn.worldy()).setLength(0.1f + 1f - dst(spawn) / relativeSize).scl(0.45f * Time.delta))"', source)
+        self.assertIn('"relativeSize": relative_size', source)
+        self.assertIn('"knockbacks": knockbacks', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
