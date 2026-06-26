@@ -2319,5 +2319,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_boosting_event_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_boosting_event_source"))
+        report = source_parity.verify_unit_update_boosting_event_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["event_source"], "core/src/mindustry/game/EventType.java")
+        self.assertEqual(report["checked"], {
+            "event_gate": "if(event){",
+            "fire_trigger": "Events.fire(Trigger.unitCommandBoost);",
+            "trigger_enum": "public enum Trigger{",
+            "unit_command_boost": "unitCommandBoost,",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

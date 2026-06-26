@@ -9,6 +9,7 @@ MEND_PROJECTOR_SOURCE = "core/src/mindustry/world/blocks/defense/MendProjector.j
 OVERDRIVE_PROJECTOR_SOURCE = "core/src/mindustry/world/blocks/defense/OverdriveProjector.java"
 BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
 UNIT_COMP_SOURCE = "core/src/mindustry/entities/comp/UnitComp.java"
+EVENT_TYPE_SOURCE = "core/src/mindustry/game/EventType.java"
 CONVEYOR_SOURCE = "core/src/mindustry/world/blocks/distribution/Conveyor.java"
 DRILL_SOURCE = "core/src/mindustry/world/blocks/production/Drill.java"
 BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
@@ -3605,6 +3606,30 @@ def verify_unit_update_boosting_elevation_source(upstream_root: Path, arc_root: 
     return {
         "source": UNIT_COMP_SOURCE,
         "arc_mathf_source": ARC_MATHF_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_unit_update_boosting_event_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    event_path = Path(upstream_root) / EVENT_TYPE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    event_source = event_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "event_gate": "if(event){",
+        "fire_trigger": "Events.fire(Trigger.unitCommandBoost);",
+        "trigger_enum": "public enum Trigger{",
+        "unit_command_boost": "unitCommandBoost,",
+    }
+    unit_keys = {"event_gate", "fire_trigger"}
+    missing = []
+    for key, snippet in checked.items():
+        haystack = source if key in unit_keys else event_source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "event_source": EVENT_TYPE_SOURCE,
         "checked": checked,
         "missing": missing,
     }

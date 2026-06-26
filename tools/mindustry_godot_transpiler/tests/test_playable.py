@@ -2630,6 +2630,14 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var speed: float = type_rise_speed if should_boost else type_descent_speed", source)
         self.assertIn("var next_elevation: float = source_approach_delta(current_elevation, target_elevation, speed, source_delta)", source)
 
+    def test_port_game_exposes_source_unit_update_boosting_event_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_boosting_event_state(event: bool) -> Dictionary:", source)
+        self.assertIn('"event_fired": event', source)
+        self.assertIn('"trigger": "unitCommandBoost" if event else ""', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

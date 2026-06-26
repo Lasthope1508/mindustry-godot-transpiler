@@ -2968,6 +2968,12 @@ func source_unit_update_boosting_elevation_state(current_elevation: float, type_
 		"elevation": next_elevation,
 	}
 
+func source_unit_update_boosting_event_state(event: bool) -> Dictionary:
+	return {
+		"event_fired": event,
+		"trigger": "unitCommandBoost" if event else "",
+	}
+
 func simulate_turrets(delta: float) -> void:
 	if content_catalog == null or turret_cells.is_empty():
 		return
