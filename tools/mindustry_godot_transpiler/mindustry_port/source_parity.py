@@ -46,6 +46,7 @@ ARC_VEC2_SOURCE = "arc-core/src/arc/math/geom/Vec2.java"
 ARC_RAND_SOURCE = "arc-core/src/arc/math/Rand.java"
 ARC_STRINGS_SOURCE = "arc-core/src/arc/util/Strings.java"
 ARC_TIME_SOURCE = "arc-core/src/arc/util/Time.java"
+ARC_TMP_SOURCE = "arc-core/src/arc/util/Tmp.java"
 
 def verify_overdrive_projector_params_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     blocks_path = Path(upstream_root) / DUO_SOURCE
@@ -4849,6 +4850,71 @@ def verify_unit_update_falling_drag_source(upstream_root: Path) -> dict[str, Any
             missing.append(snippet)
     return {
         "source": UNIT_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_unit_update_falling_smoke_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
+    fx_path = Path(upstream_root) / FX_SOURCE
+    effect_path = Path(upstream_root) / EFFECT_SOURCE
+    mathf_path = Path(arc_root) / ARC_MATHF_SOURCE
+    vec2_path = Path(arc_root) / ARC_VEC2_SOURCE
+    tmp_path = Path(arc_root) / ARC_TMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    fx_source = fx_path.read_text(encoding="utf-8", errors="replace")
+    effect_source = effect_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    vec2_source = vec2_path.read_text(encoding="utf-8", errors="replace")
+    tmp_source = tmp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "standard_fall_smoke_comment": "//standard fall smoke",
+        "standard_fall_smoke_chance": "if(Mathf.chanceDelta(0.1)){",
+        "standard_fall_smoke_tmp": "Tmp.v1.rnd(Mathf.range(hitSize));",
+        "standard_fall_smoke_effect": "type.fallEffect.at(x + Tmp.v1.x, y + Tmp.v1.y);",
+        "unit_type_fall_effect": "public Effect fallEffect = Fx.fallSmoke;",
+        "fx_fall_smoke": "fallSmoke = new Effect(110, e -> {",
+        "mathf_range_float": "public static float range(float range){",
+        "mathf_range_float_body": "return random(-range, range);",
+        "mathf_chance_delta": "public static boolean chanceDelta(double d){",
+        "mathf_chance_delta_body": "return rand.nextFloat() < d * Time.delta;",
+        "tmp_v1": "public static final Vec2 v1 = new Vec2();",
+        "vec2_rnd": "public Vec2 rnd(float length){",
+        "vec2_rnd_body": "setToRandomDirection().scl(length);",
+        "effect_at_xy": "public void at(float x, float y){",
+        "effect_at_xy_body": "create(x, y, 0, Color.white, null);",
+    }
+    source_map = {
+        "standard_fall_smoke_comment": source,
+        "standard_fall_smoke_chance": source,
+        "standard_fall_smoke_tmp": source,
+        "standard_fall_smoke_effect": source,
+        "unit_type_fall_effect": unit_type_source,
+        "fx_fall_smoke": fx_source,
+        "mathf_range_float": mathf_source,
+        "mathf_range_float_body": mathf_source,
+        "mathf_chance_delta": mathf_source,
+        "mathf_chance_delta_body": mathf_source,
+        "tmp_v1": tmp_source,
+        "vec2_rnd": vec2_source,
+        "vec2_rnd_body": vec2_source,
+        "effect_at_xy": effect_source,
+        "effect_at_xy_body": effect_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "fx_source": FX_SOURCE,
+        "effect_source": EFFECT_SOURCE,
+        "arc_mathf_source": ARC_MATHF_SOURCE,
+        "arc_vec2_source": ARC_VEC2_SOURCE,
+        "arc_tmp_source": ARC_TMP_SOURCE,
         "checked": checked,
         "missing": missing,
     }

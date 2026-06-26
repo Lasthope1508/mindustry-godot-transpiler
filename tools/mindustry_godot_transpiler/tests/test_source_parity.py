@@ -3132,6 +3132,36 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_falling_smoke_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_falling_smoke_source"))
+        report = source_parity.verify_unit_update_falling_smoke_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["fx_source"], "core/src/mindustry/content/Fx.java")
+        self.assertEqual(report["effect_source"], "core/src/mindustry/entities/Effect.java")
+        self.assertEqual(report["arc_mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["arc_vec2_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(report["arc_tmp_source"], "arc-core/src/arc/util/Tmp.java")
+        self.assertEqual(report["checked"], {
+            "standard_fall_smoke_comment": "//standard fall smoke",
+            "standard_fall_smoke_chance": "if(Mathf.chanceDelta(0.1)){",
+            "standard_fall_smoke_tmp": "Tmp.v1.rnd(Mathf.range(hitSize));",
+            "standard_fall_smoke_effect": "type.fallEffect.at(x + Tmp.v1.x, y + Tmp.v1.y);",
+            "unit_type_fall_effect": "public Effect fallEffect = Fx.fallSmoke;",
+            "fx_fall_smoke": "fallSmoke = new Effect(110, e -> {",
+            "mathf_range_float": "public static float range(float range){",
+            "mathf_range_float_body": "return random(-range, range);",
+            "mathf_chance_delta": "public static boolean chanceDelta(double d){",
+            "mathf_chance_delta_body": "return rand.nextFloat() < d * Time.delta;",
+            "tmp_v1": "public static final Vec2 v1 = new Vec2();",
+            "vec2_rnd": "public Vec2 rnd(float length){",
+            "vec2_rnd_body": "setToRandomDirection().scl(length);",
+            "effect_at_xy": "public void at(float x, float y){",
+            "effect_at_xy_body": "create(x, y, 0, Color.white, null);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

@@ -3436,6 +3436,23 @@ func source_unit_update_falling_drag_state(dead_value: bool, health_value: float
 		"source": "if(dead || health <= 0){",
 	}
 
+func source_unit_update_falling_smoke_state(dead_value: bool, health_value: float, chance_delta_result: bool, unit_x: float, unit_y: float, hit_size: float, tmp_v1_x: float, tmp_v1_y: float) -> Dictionary:
+	var falling_guard := dead_value or health_value <= 0.0
+	var effect_call: Variant = null
+	if falling_guard and chance_delta_result:
+		effect_call = {
+			"call": "type.fallEffect.at(x + Tmp.v1.x, y + Tmp.v1.y)",
+			"x": unit_x + tmp_v1_x,
+			"y": unit_y + tmp_v1_y,
+			"tmp": {"call": "Tmp.v1.rnd(Mathf.range(hitSize))", "x": tmp_v1_x, "y": tmp_v1_y},
+			"range": {"call": "Mathf.range(hitSize)", "hitSize": hit_size},
+		}
+	return {
+		"fallingGuard": falling_guard,
+		"chance": {"call": "Mathf.chanceDelta(0.1)", "result": chance_delta_result},
+		"effect": effect_call,
+	}
+
 func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
 	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
 	var drown_time_before_clamp := current_drown_time

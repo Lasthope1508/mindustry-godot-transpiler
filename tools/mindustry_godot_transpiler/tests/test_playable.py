@@ -2968,6 +2968,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"drag": next_drag', source)
         self.assertIn('"call": "drag = 0.01f" if guard else ""', source)
 
+    def test_port_game_exposes_source_unit_update_falling_smoke_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_falling_smoke_state(dead_value: bool, health_value: float, chance_delta_result: bool, unit_x: float, unit_y: float, hit_size: float, tmp_v1_x: float, tmp_v1_y: float) -> Dictionary:", source)
+        self.assertIn("var falling_guard := dead_value or health_value <= 0.0", source)
+        self.assertIn("var effect_call: Variant = null", source)
+        self.assertIn("if falling_guard and chance_delta_result:", source)
+        self.assertIn('"call": "type.fallEffect.at(x + Tmp.v1.x, y + Tmp.v1.y)"', source)
+        self.assertIn('"tmp": {"call": "Tmp.v1.rnd(Mathf.range(hitSize))", "x": tmp_v1_x, "y": tmp_v1_y}', source)
+        self.assertIn('"range": {"call": "Mathf.range(hitSize)", "hitSize": hit_size}', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
