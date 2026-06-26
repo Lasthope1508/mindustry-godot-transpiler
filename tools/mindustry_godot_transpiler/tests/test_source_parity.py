@@ -2065,5 +2065,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_check_allow_update_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_check_allow_update_source"))
+        report = source_parity.verify_building_check_allow_update_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "check_allow_update_method": "public void checkAllowUpdate(){",
+            "check_allow_update_gate": "if(!allowUpdate()){",
+            "check_allow_update_disable": "enabled = false;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

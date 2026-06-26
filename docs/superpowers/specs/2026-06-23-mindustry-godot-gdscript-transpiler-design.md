@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 229 |
-| Done | 229 |
+| Total tracked work items | 230 |
+| Done | 230 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -105,6 +105,7 @@
 - [x] N225: Source BuildingComp inFogTo visibility loop state.
 - [x] N226: Source BuildingComp killed initial side effects state.
 - [x] N227: Source BuildingComp killed removal side effects state.
+- [x] N228: Source BuildingComp checkAllowUpdate state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -359,6 +360,7 @@ Current cube: `Building logic / sensor-control`. Current source path stays `Buil
 | N225 | Apply source BuildingComp inFogTo visibility loop state | The final `BuildingComp.inFogTo(Team viewer)` loop slice preserves exact `for(int x = 0; x < size; x++){`, `for(int y = 0; y < size; y++){`, `if(fogControl.isVisibleTile(viewer, tx + x + of, ty + y + of)){`, `return false;`, and final `return true;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_in_fog_visibility_loop_state(block_size_value, block_size_offset, tile_x, tile_y, visible_tiles)` as explicit coordinate checks against provided visible tiles, without inventing `fogControl` internals; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `354` tests, full Python suite reports `378` tests passing, MCP editor status returned connected bridge on `127.0.0.1:6505`, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `in_fog:false` after checking `{"x":11,"y":21}` and `{"x":11,"y":22}` for visible hit, and `in_fog:true` after checking all four coordinates for no visible tile; debug output returned `errors: []`, and stop returned `finalErrors: []` |
 | N226 | Apply source BuildingComp killed initial side effects state | The first `BuildingComp.killed()` slice preserves exact `public void killed(){`, `dead = true;`, `Events.fire(new BlockDestroyEvent(tile));`, and `onDestroyed();`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_killed_initial_side_effects_state(tile_value)` as a dead flag, `BlockDestroyEvent` record, and `on_destroyed_called` record only, leaving `tile.remove()`, `remove()`, and `afterDestroyed()` for later slices; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `356` tests, full Python suite reports `380` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP call on `/root/Main` returned `{"dead":true,"event":{"type":"BlockDestroyEvent","tile":{"x":7.0,"y":8.0,"block":"duo"}},"on_destroyed_called":true,"next_step":"tile_remove_gate"}`; debug output returned `errors: []`, and stop returned `finalErrors: []` |
 | N227 | Apply source BuildingComp killed removal side effects state | The final `BuildingComp.killed()` slice preserves exact `if(tile != emptyTile){`, `tile.remove();`, `remove();`, and `afterDestroyed();`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_killed_removal_side_effects_state(tile_is_empty_tile)` as the same tile-remove gate plus unconditional remove and afterDestroyed records; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `358` tests, full Python suite reports `382` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `tile_remove_called:true`, `remove_called:true`, `after_destroyed_called:true` for normal tile and `tile_remove_called:false`, `remove_called:true`, `after_destroyed_called:true` for empty tile; debug output returned `errors: []`, and stop returned `finalErrors: []` |
+| N228 | Apply source BuildingComp checkAllowUpdate state | The `BuildingComp.checkAllowUpdate()` slice preserves exact `public void checkAllowUpdate(){`, `if(!allowUpdate()){`, and `enabled = false;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_check_allow_update_state(current_enabled, allow_update_result)` with `allowUpdate()` supplied explicitly, disabling only when false and otherwise preserving current enabled state; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `360` tests, full Python suite reports `384` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `{"enabled":false,"changed":true}` for enabled building with disallowed update, `{"enabled":false,"changed":false}` for disabled building with disallowed update, and `{"enabled":true,"changed":false}` when update is allowed; debug output returned `errors: []`, and stop returned `finalErrors: []` |
 
 ## Not Done
 

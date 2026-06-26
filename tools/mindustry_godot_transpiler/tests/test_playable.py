@@ -2450,6 +2450,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"remove_called": true,', source)
         self.assertIn('"after_destroyed_called": true,', source)
 
+    def test_port_game_exposes_source_building_check_allow_update_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_check_allow_update_state(current_enabled: bool, allow_update_result: bool) -> Dictionary:", source)
+        self.assertIn("if not allow_update_result:", source)
+        self.assertIn('return {"enabled": false, "changed": current_enabled}', source)
+        self.assertIn('return {"enabled": current_enabled, "changed": false}', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

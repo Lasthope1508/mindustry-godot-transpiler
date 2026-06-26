@@ -2341,6 +2341,11 @@ func source_building_killed_removal_side_effects_state(tile_is_empty_tile: bool)
 		"after_destroyed_called": true,
 	}
 
+func source_building_check_allow_update_state(current_enabled: bool, allow_update_result: bool) -> Dictionary:
+	if not allow_update_result:
+		return {"enabled": false, "changed": current_enabled}
+	return {"enabled": current_enabled, "changed": false}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
