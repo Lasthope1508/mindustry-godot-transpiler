@@ -9,6 +9,7 @@ MEND_PROJECTOR_SOURCE = "core/src/mindustry/world/blocks/defense/MendProjector.j
 OVERDRIVE_PROJECTOR_SOURCE = "core/src/mindustry/world/blocks/defense/OverdriveProjector.java"
 BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
 UNIT_COMP_SOURCE = "core/src/mindustry/entities/comp/UnitComp.java"
+UNIT_TYPES_CONTENT_SOURCE = "core/src/mindustry/content/UnitTypes.java"
 EVENT_TYPE_SOURCE = "core/src/mindustry/game/EventType.java"
 CONVEYOR_SOURCE = "core/src/mindustry/world/blocks/distribution/Conveyor.java"
 DRILL_SOURCE = "core/src/mindustry/world/blocks/production/Drill.java"
@@ -3817,6 +3818,30 @@ def verify_unit_command_source(upstream_root: Path) -> dict[str, Any]:
     return {
         "source": UNIT_COMP_SOURCE,
         "command_ai_source": COMMAND_AI_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_unit_is_missile_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    unit_types_path = Path(upstream_root) / UNIT_TYPES_CONTENT_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_types_source = unit_types_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "is_missile_method": "public boolean isMissile(){",
+        "is_missile_return": "return this instanceof TimedKillc;",
+        "missile_comment": "missile definition, unused here but needed for codegen",
+        "missile_entity_def": "public static @EntityDef({Unitc.class, TimedKillc.class}) UnitType missile;",
+    }
+    unit_types_keys = {"missile_comment", "missile_entity_def"}
+    missing = []
+    for key, snippet in checked.items():
+        haystack = unit_types_source if key in unit_types_keys else source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_types_source": UNIT_TYPES_CONTENT_SOURCE,
         "checked": checked,
         "missing": missing,
     }

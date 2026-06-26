@@ -3091,6 +3091,12 @@ func source_unit_command_state(controller_is_command_ai: bool) -> Dictionary:
 		"message": "Unit cannot be commanded - check isCommandable() first.",
 	}
 
+func source_unit_is_missile_state(unit_is_timed_killc: bool) -> Dictionary:
+	return {
+		"is_missile": unit_is_timed_killc,
+		"instanceof": "TimedKillc",
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},

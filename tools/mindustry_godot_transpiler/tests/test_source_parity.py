@@ -2432,6 +2432,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_is_missile_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_is_missile_source"))
+        report = source_parity.verify_unit_is_missile_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["unit_types_source"], "core/src/mindustry/content/UnitTypes.java")
+        self.assertEqual(report["checked"], {
+            "is_missile_method": "public boolean isMissile(){",
+            "is_missile_return": "return this instanceof TimedKillc;",
+            "missile_comment": "missile definition, unused here but needed for codegen",
+            "missile_entity_def": "public static @EntityDef({Unitc.class, TimedKillc.class}) UnitType missile;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
