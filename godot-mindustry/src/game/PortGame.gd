@@ -3043,6 +3043,17 @@ func source_unit_look_at_position_state(current_rotation: float, unit_x: float, 
 		"rotation": angle_state["rotation"],
 	}
 
+func source_unit_look_at_xy_state(current_rotation: float, unit_x: float, unit_y: float, target_x: float, target_y: float, type_rotate_speed: float, speed_multiplier_value: float, source_delta: float) -> Dictionary:
+	var target_angle := source_arc_angles_angle(unit_x, unit_y, target_x, target_y)
+	var angle_state := source_unit_look_at_angle_state(current_rotation, target_angle, type_rotate_speed, speed_multiplier_value, source_delta)
+	return {
+		"call": "lookAt(angleTo(x, y))",
+		"target": {"x": target_x, "y": target_y},
+		"target_angle": angle_state["target_angle"],
+		"rotation_speed": angle_state["rotation_speed"],
+		"rotation": angle_state["rotation"],
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},

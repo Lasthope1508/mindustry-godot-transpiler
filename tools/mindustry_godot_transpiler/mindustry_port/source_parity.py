@@ -3695,6 +3695,42 @@ def verify_unit_look_at_position_source(upstream_root: Path, arc_root: Path) -> 
         "missing": missing,
     }
 
+def verify_unit_look_at_xy_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    position_path = Path(arc_root) / ARC_POSITION_SOURCE
+    angles_path = Path(arc_root) / ARC_ANGLES_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    position_source = position_path.read_text(encoding="utf-8", errors="replace")
+    angles_source = angles_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "look_at_xy_method": "public void lookAt(float x, float y){",
+        "look_at_xy_call": "lookAt(angleTo(x, y));",
+        "position_angle_to_xy_method": "default float angleTo(float x, float y){",
+        "position_angle_to_xy_return": "return Angles.angle(getX(), getY(), x, y);",
+        "angles_angle_method": "public static float angle(float x, float y, float x2, float y2){",
+        "angles_angle_delta": "float ang = Mathf.atan2(x2 - x, y2 - y) * Mathf.radDeg;",
+        "angles_angle_wrap": "if(ang < 0) ang += 360f;",
+    }
+    unit_keys = {"look_at_xy_method", "look_at_xy_call"}
+    position_keys = {"position_angle_to_xy_method", "position_angle_to_xy_return"}
+    missing = []
+    for key, snippet in checked.items():
+        if key in unit_keys:
+            haystack = source
+        elif key in position_keys:
+            haystack = position_source
+        else:
+            haystack = angles_source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "arc_position_source": ARC_POSITION_SOURCE,
+        "arc_angles_source": ARC_ANGLES_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_move_pref_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")
