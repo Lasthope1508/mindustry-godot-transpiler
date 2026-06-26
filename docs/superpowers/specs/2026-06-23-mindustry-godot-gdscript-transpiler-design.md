@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 235 |
-| Done | 235 |
+| Total tracked work items | 236 |
+| Done | 236 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -111,6 +111,7 @@
 - [x] N231: Source BuildingComp updateConsumption call state.
 - [x] N232: Source BuildingComp updateTile disabled gate state.
 - [x] N233: Source BuildingComp updateFogVisibility state.
+- [x] N234: Source BuildingComp hitbox setCentered state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -371,6 +372,7 @@ Current cube: `Building logic / sensor-control`. Current source path stays `Buil
 | N231 | Apply source BuildingComp updateConsumption call state | The next `BuildingComp.update()` slice preserves exact `updateConsumption();` after the ambient sound gate and before the disabled-update `updateTile()` gate; `source_parity.py` checks that exact upstream line, and `PortGame.gd` exposes `source_building_update_consumption_call_state()` as the same call marker without duplicating `updateConsumption()` internals already split into N189-N195; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `366` tests, full Python suite reports `390` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP call on `/root/Main` returned `{"update_consumption_called":true}`; debug output returned `errors: []`, and stop returned `finalErrors: []` |
 | N232 | Apply source BuildingComp updateTile disabled gate state | The next `BuildingComp.update()` slice preserves exact `if(enabled || !block.noUpdateDisabled){` and `updateTile();`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_update_tile_gate_state(enabled_state, block_no_update_disabled)` as the same `enabled || !block.noUpdateDisabled` update-tile gate without inventing `updateTile()` internals; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `368` tests, full Python suite reports `392` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `update_tile_called:true` for enabled and disabled-but-allowed cases, and `update_tile_called:false` for disabled-and-blocked; debug output returned `errors: []`, and stop returned `finalErrors: []` |
 | N233 | Apply source BuildingComp updateFogVisibility state | The next `BuildingComp.updateFogVisibility()` slice preserves exact method `public void updateFogVisibility(){`, gate `if(!wasVisible && !inFogTo(player.team())){`, bit update `visibleFlags |= (1L << player.team().id);`, `wasVisible = true;`, `renderer.blocks.updateShadow(self());`, and `renderer.minimap.update(tile);`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_update_fog_visibility_state(was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state)` as the same newly-visible gate, flag OR, shadow update, and minimap update without inventing renderer internals; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `370` tests, full Python suite reports `394` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned visible flags `10`, `was_visible:true`, `update_shadow` self, and `minimap_update` tile for newly visible, plus unchanged flags and null calls for already-visible and still-in-fog cases; debug output returned `errors: []`, and stop returned `finalErrors: []` |
+| N234 | Apply source BuildingComp hitbox setCentered state | The next `BuildingComp.hitbox(Rect out)` slice preserves exact `@Override`, method `public void hitbox(Rect out){`, and `out.setCentered(x, y, block.size * tilesize, block.size * tilesize);`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_hitbox_state(world_x, world_y, block_size_value, source_tilesize)` as the same `setCentered` call argument record without inventing `Rect` internals; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `372` tests, full Python suite reports `396` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `{"set_centered":{"x":64.0,"y":96.0,"width":24.0,"height":24.0}}` for block size `3` and tilesize `8.0`, and `{"set_centered":{"x":10.5,"y":20.25,"width":32.0,"height":32.0}}` for block size `1` and tilesize `32.0`; debug output returned `errors: []`, and stop returned `finalErrors: []` |
 
 ## Not Done
 

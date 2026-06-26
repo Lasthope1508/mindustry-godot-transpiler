@@ -2138,5 +2138,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_hitbox_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_hitbox_source"))
+        report = source_parity.verify_building_hitbox_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "hitbox_override": "@Override",
+            "hitbox_method": "public void hitbox(Rect out){",
+            "hitbox_set_centered": "out.setCentered(x, y, block.size * tilesize, block.size * tilesize);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

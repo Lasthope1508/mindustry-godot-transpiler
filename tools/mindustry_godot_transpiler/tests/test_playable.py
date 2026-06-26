@@ -2503,6 +2503,14 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"update_shadow": self_state', source)
         self.assertIn('"minimap_update": tile_state', source)
 
+    def test_port_game_exposes_source_building_hitbox_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_hitbox_state(world_x: float, world_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn("var hitbox_size: float = float(block_size_value) * source_tilesize", source)
+        self.assertIn('"set_centered": {"x": world_x, "y": world_y, "width": hitbox_size, "height": hitbox_size}', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -2382,6 +2382,12 @@ func source_building_update_fog_visibility_state(was_visible: bool, in_fog_to_pl
 		"minimap_update": tile_state,
 	}
 
+func source_building_hitbox_state(world_x: float, world_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:
+	var hitbox_size: float = float(block_size_value) * source_tilesize
+	return {
+		"set_centered": {"x": world_x, "y": world_y, "width": hitbox_size, "height": hitbox_size},
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
