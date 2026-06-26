@@ -3159,6 +3159,14 @@ func source_unit_killable_state(type_killable: bool) -> Dictionary:
 		"call": "type.killable(self())",
 	}
 
+func source_unit_hittable_state(type_hittable: bool, type_vulnerable_with_payloads: bool, unit_is_payloadc: bool, unit_has_payload: bool) -> Dictionary:
+	var payload_hittable := type_vulnerable_with_payloads and unit_is_payloadc and unit_has_payload
+	return {
+		"hittable": type_hittable or payload_hittable,
+		"payloadHittable": payload_hittable,
+		"call": "type.hittable(self())",
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},

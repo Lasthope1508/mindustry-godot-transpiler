@@ -4084,6 +4084,41 @@ def verify_unit_killable_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_unit_hittable_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
+    payload_comp_path = Path(upstream_root) / PAYLOAD_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    payload_comp_source = payload_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "unit_hittable_method": "public boolean hittable(){",
+        "unit_hittable_return": "return type.hittable(self());",
+        "type_hittable_method": "public boolean hittable(Unit unit){",
+        "type_hittable_return": "return hittable || (vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload());",
+        "type_hittable_default": "hittable = true,",
+        "type_vulnerable_with_payloads_default": "vulnerableWithPayloads = false,",
+        "payload_comp_has_payload": "boolean hasPayload(){",
+        "payload_comp_has_payload_return": "return payloads.size > 0;",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if key.startswith("type_"):
+            haystack = unit_type_source
+        elif key.startswith("payload_comp_"):
+            haystack = payload_comp_source
+        else:
+            haystack = source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "payload_comp_source": PAYLOAD_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_move_pref_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

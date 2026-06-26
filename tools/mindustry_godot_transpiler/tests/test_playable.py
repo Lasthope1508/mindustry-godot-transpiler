@@ -2769,6 +2769,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"killable": type_killable', source)
         self.assertIn('"call": "type.killable(self())"', source)
 
+    def test_port_game_exposes_source_unit_hittable_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_hittable_state(type_hittable: bool, type_vulnerable_with_payloads: bool, unit_is_payloadc: bool, unit_has_payload: bool) -> Dictionary:", source)
+        self.assertIn("var payload_hittable := type_vulnerable_with_payloads and unit_is_payloadc and unit_has_payload", source)
+        self.assertIn('"hittable": type_hittable or payload_hittable', source)
+        self.assertIn('"call": "type.hittable(self())"', source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
