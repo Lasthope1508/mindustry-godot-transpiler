@@ -3153,6 +3153,12 @@ func source_unit_targetable_state(type_targetable: bool, type_vulnerable_with_pa
 		"call": "type.targetable(self(), targeter)",
 	}
 
+func source_unit_killable_state(type_killable: bool) -> Dictionary:
+	return {
+		"killable": type_killable,
+		"call": "type.killable(self())",
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},

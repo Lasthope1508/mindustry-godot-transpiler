@@ -2554,6 +2554,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_killable_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_killable_source"))
+        report = source_parity.verify_unit_killable_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["checked"], {
+            "unit_killable_method": "public boolean killable(){",
+            "unit_killable_return": "return type.killable(self());",
+            "type_killable_method": "public boolean killable(Unit unit){",
+            "type_killable_return": "return killable;",
+            "type_killable_default": "killable = true,",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

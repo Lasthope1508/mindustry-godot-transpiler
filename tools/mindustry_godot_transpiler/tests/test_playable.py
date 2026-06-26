@@ -2761,6 +2761,14 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"targeter_id": targeter_id', source)
         self.assertIn('"call": "type.targetable(self(), targeter)"', source)
 
+    def test_port_game_exposes_source_unit_killable_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_killable_state(type_killable: bool) -> Dictionary:", source)
+        self.assertIn('"killable": type_killable', source)
+        self.assertIn('"call": "type.killable(self())"', source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

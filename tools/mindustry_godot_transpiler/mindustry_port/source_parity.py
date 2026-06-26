@@ -4060,6 +4060,30 @@ def verify_unit_targetable_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_unit_killable_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "unit_killable_method": "public boolean killable(){",
+        "unit_killable_return": "return type.killable(self());",
+        "type_killable_method": "public boolean killable(Unit unit){",
+        "type_killable_return": "return killable;",
+        "type_killable_default": "killable = true,",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        haystack = unit_type_source if key.startswith("type_") else source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_move_pref_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")
