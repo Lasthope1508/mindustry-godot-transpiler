@@ -3727,6 +3727,42 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapons_aim_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapons_aim_source"))
+        report = source_parity.verify_weapons_aim_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/WeaponsComp.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["weapon_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["arc_position_source"], "arc-core/src/arc/math/geom/Position.java")
+        self.assertEqual(report["arc_tmp_source"], "arc-core/src/arc/util/Tmp.java")
+        self.assertEqual(report["arc_vec2_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(report["checked"], {
+            "aim_position_method": "void aim(Position pos){",
+            "aim_position_delegate": "aim(pos.getX(), pos.getY());",
+            "aim_float_method": "void aim(float x, float y){",
+            "aim_tmp_set_sub": "Tmp.v1.set(x, y).sub(this.x, this.y);",
+            "aim_dst_guard": "if(Tmp.v1.len() < type.aimDst) Tmp.v1.setLength(type.aimDst);",
+            "aim_x_adjust": "x = Tmp.v1.x + this.x;",
+            "aim_y_adjust": "y = Tmp.v1.y + this.y;",
+            "aim_loop": "for(WeaponMount mount : mounts){",
+            "aim_controllable_guard": "if(mount.weapon.controllable){",
+            "aim_mount_x": "mount.aimX = x;",
+            "aim_mount_y": "mount.aimY = y;",
+            "aim_unit_x": "aimX = x;",
+            "aim_unit_y": "aimY = y;",
+            "unit_type_aim_dst": "aimDst = -1f,",
+            "weapon_controllable": "public boolean controllable = true;",
+            "weapon_mount_aim": "public float aimX, aimY;",
+            "position_get_x": "float getX();",
+            "position_get_y": "float getY();",
+            "tmp_v1": "public static final Vec2 v1 = new Vec2();",
+            "vec2_set_length": "public Vec2 setLength(float len){",
+            "vec2_set_length_zero_noop": "return (oldLen2 == 0 || oldLen2 == len2) ? this : scl((float)Math.sqrt(len2 / oldLen2));",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

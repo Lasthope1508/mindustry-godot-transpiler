@@ -3198,6 +3198,38 @@ func source_weapons_control_state(mount_states: Array, rotate_value: bool, shoot
 func source_weapons_control_rotate_shoot_state(mount_states: Array, rotate_shoot: bool) -> Dictionary:
 	return source_weapons_control_state(mount_states, rotate_shoot, rotate_shoot)
 
+func source_weapons_aim_state(mount_states: Array, unit_x: float, unit_y: float, target_x: float, target_y: float, aim_dst: float) -> Dictionary:
+	var aim_vector := Vector2(target_x, target_y) - Vector2(unit_x, unit_y)
+	if aim_vector.length() < aim_dst and aim_vector.length_squared() > 0.0:
+		aim_vector = aim_vector.normalized() * aim_dst
+	var final_x := aim_vector.x + unit_x
+	var final_y := aim_vector.y + unit_y
+	var mounts: Array = []
+	for index in mount_states.size():
+		var mount_state: Dictionary = mount_states[index]
+		var controllable := bool(mount_state.get("controllable", true))
+		mounts.append({
+			"index": index,
+			"weapon": str(mount_state.get("weapon", "weapon%d" % index)),
+			"controlled": controllable,
+			"guard": "mount.weapon.controllable",
+			"aimXAssignment": "mount.aimX = x",
+			"aimYAssignment": "mount.aimY = y",
+			"aimX": final_x if controllable else float(mount_state.get("aimX", 0.0)),
+			"aimY": final_y if controllable else float(mount_state.get("aimY", 0.0)),
+		})
+	return {
+		"tmp": "Tmp.v1.set(x, y).sub(this.x, this.y)",
+		"minDistance": "if(Tmp.v1.len() < type.aimDst) Tmp.v1.setLength(type.aimDst)",
+		"zeroVectorSetLength": "oldLen2 == 0 returns this",
+		"aimX": final_x,
+		"aimY": final_y,
+		"mounts": mounts,
+	}
+
+func source_weapons_aim_position_state(mount_states: Array, unit_x: float, unit_y: float, position_x: float, position_y: float, aim_dst: float) -> Dictionary:
+	return source_weapons_aim_state(mount_states, unit_x, unit_y, position_x, position_y, aim_dst)
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

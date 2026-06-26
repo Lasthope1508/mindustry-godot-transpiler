@@ -3299,6 +3299,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"isShooting": shoot_value', source)
         self.assertIn('"controlled": controllable', source)
 
+    def test_port_game_exposes_source_weapons_aim_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapons_aim_state(mount_states: Array, unit_x: float, unit_y: float, target_x: float, target_y: float, aim_dst: float) -> Dictionary:", source)
+        self.assertIn("func source_weapons_aim_position_state(mount_states: Array, unit_x: float, unit_y: float, position_x: float, position_y: float, aim_dst: float) -> Dictionary:", source)
+        self.assertIn("return source_weapons_aim_state(mount_states, unit_x, unit_y, position_x, position_y, aim_dst)", source)
+        self.assertIn("var aim_vector := Vector2(target_x, target_y) - Vector2(unit_x, unit_y)", source)
+        self.assertIn("if aim_vector.length() < aim_dst and aim_vector.length_squared() > 0.0:", source)
+        self.assertIn("aim_vector = aim_vector.normalized() * aim_dst", source)
+        self.assertIn('"tmp": "Tmp.v1.set(x, y).sub(this.x, this.y)"', source)
+        self.assertIn('"minDistance": "if(Tmp.v1.len() < type.aimDst) Tmp.v1.setLength(type.aimDst)"', source)
+        self.assertIn('"zeroVectorSetLength": "oldLen2 == 0 returns this"', source)
+        self.assertIn('"guard": "mount.weapon.controllable"', source)
+        self.assertIn('"aimXAssignment": "mount.aimX = x"', source)
+        self.assertIn('"aimYAssignment": "mount.aimY = y"', source)
+        self.assertIn('"aimX": final_x', source)
+        self.assertIn('"aimY": final_y', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

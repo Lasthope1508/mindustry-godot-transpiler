@@ -6117,6 +6117,85 @@ def verify_weapons_control_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_weapons_aim_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / WEAPONS_COMP_SOURCE
+    unit_type_path = upstream_root / UNIT_TYPE_SOURCE
+    weapon_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_path = upstream_root / "core/src/mindustry/entities/units/WeaponMount.java"
+    position_path = arc_root / ARC_POSITION_SOURCE
+    tmp_path = arc_root / ARC_TMP_SOURCE
+    vec2_path = arc_root / ARC_VEC2_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    weapon_source = weapon_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_source = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    position_source = position_path.read_text(encoding="utf-8", errors="replace")
+    tmp_source = tmp_path.read_text(encoding="utf-8", errors="replace")
+    vec2_source = vec2_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "aim_position_method": "void aim(Position pos){",
+        "aim_position_delegate": "aim(pos.getX(), pos.getY());",
+        "aim_float_method": "void aim(float x, float y){",
+        "aim_tmp_set_sub": "Tmp.v1.set(x, y).sub(this.x, this.y);",
+        "aim_dst_guard": "if(Tmp.v1.len() < type.aimDst) Tmp.v1.setLength(type.aimDst);",
+        "aim_x_adjust": "x = Tmp.v1.x + this.x;",
+        "aim_y_adjust": "y = Tmp.v1.y + this.y;",
+        "aim_loop": "for(WeaponMount mount : mounts){",
+        "aim_controllable_guard": "if(mount.weapon.controllable){",
+        "aim_mount_x": "mount.aimX = x;",
+        "aim_mount_y": "mount.aimY = y;",
+        "aim_unit_x": "aimX = x;",
+        "aim_unit_y": "aimY = y;",
+        "unit_type_aim_dst": "aimDst = -1f,",
+        "weapon_controllable": "public boolean controllable = true;",
+        "weapon_mount_aim": "public float aimX, aimY;",
+        "position_get_x": "float getX();",
+        "position_get_y": "float getY();",
+        "tmp_v1": "public static final Vec2 v1 = new Vec2();",
+        "vec2_set_length": "public Vec2 setLength(float len){",
+        "vec2_set_length_zero_noop": "return (oldLen2 == 0 || oldLen2 == len2) ? this : scl((float)Math.sqrt(len2 / oldLen2));",
+    }
+    source_map = {
+        "aim_position_method": source,
+        "aim_position_delegate": source,
+        "aim_float_method": source,
+        "aim_tmp_set_sub": source,
+        "aim_dst_guard": source,
+        "aim_x_adjust": source,
+        "aim_y_adjust": source,
+        "aim_loop": source,
+        "aim_controllable_guard": source,
+        "aim_mount_x": source,
+        "aim_mount_y": source,
+        "aim_unit_x": source,
+        "aim_unit_y": source,
+        "unit_type_aim_dst": unit_type_source,
+        "weapon_controllable": weapon_source,
+        "weapon_mount_aim": weapon_mount_source,
+        "position_get_x": position_source,
+        "position_get_y": position_source,
+        "tmp_v1": tmp_source,
+        "vec2_set_length": vec2_source,
+        "vec2_set_length_zero_noop": vec2_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": WEAPONS_COMP_SOURCE,
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "weapon_source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": "core/src/mindustry/entities/units/WeaponMount.java",
+        "arc_position_source": ARC_POSITION_SOURCE,
+        "arc_tmp_source": ARC_TMP_SOURCE,
+        "arc_vec2_source": ARC_VEC2_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
