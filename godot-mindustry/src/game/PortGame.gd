@@ -3593,6 +3593,42 @@ func source_weapon_update_rotate_toward_state(mount_state: Dictionary, weapon_st
 		"angleToSource": "mount.targetRotation = unit.angleTo(mount.aimX, mount.aimY)",
 	}
 
+func source_weapon_update_bullet_origin_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, mount_x: float, mount_y: float) -> Dictionary:
+	var rotate_weapon := bool(weapon_state.get("rotate", false))
+	var mount_rotation := float(mount_state.get("rotation", 0.0))
+	var aim_x := float(mount_state.get("aimX", 0.0))
+	var aim_y := float(mount_state.get("aimY", 0.0))
+	var base_rotation := float(weapon_state.get("baseRotation", 0.0))
+	var shoot_x := float(weapon_state.get("shootX", 0.0))
+	var shoot_y := float(weapon_state.get("shootY", 3.0))
+	var unit_x := float(unit_state.get("x", 0.0))
+	var unit_y := float(unit_state.get("y", 0.0))
+	var unit_rotation := float(unit_state.get("rotation", 0.0))
+	var weapon_rotation := unit_rotation - 90.0 + (mount_rotation if rotate_weapon else base_rotation)
+	var bullet_vec := source_arc_angles_trns_vec(weapon_rotation, shoot_x, shoot_y)
+	var bullet_x := mount_x + float(bullet_vec["x"])
+	var bullet_y := mount_y + float(bullet_vec["y"])
+	var shoot_angle := unit_rotation + mount_rotation
+	if not rotate_weapon:
+		shoot_angle = source_arc_angles_angle(bullet_x, bullet_y, aim_x, aim_y) + (unit_rotation - source_arc_angles_angle(unit_x, unit_y, aim_x, aim_y)) + base_rotation
+	return {
+		"rotate": rotate_weapon,
+		"weaponRotation": weapon_rotation,
+		"bulletX": bullet_x,
+		"bulletY": bullet_y,
+		"shootAngle": shoot_angle,
+		"mountX": mount_x,
+		"mountY": mount_y,
+		"shootX": shoot_x,
+		"shootY": shoot_y,
+		"baseRotation": base_rotation,
+		"weaponRotationSource": "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation)",
+		"bulletXSource": "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY)",
+		"bulletYSource": "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY)",
+		"shootAngleSource": "shootAngle = bulletRotation(unit, mount, bulletX, bulletY)",
+		"bulletRotationSource": "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

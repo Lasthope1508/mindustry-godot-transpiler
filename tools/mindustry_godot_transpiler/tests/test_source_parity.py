@@ -4075,6 +4075,33 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_update_bullet_origin_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_update_bullet_origin_source"))
+        report = source_parity.verify_weapon_update_bullet_origin_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["position_source"], "arc-core/src/arc/math/geom/Position.java")
+        self.assertEqual(report["angles_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(report["checked"], {
+            "weapon_rotation": "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),",
+            "bullet_x": "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY),",
+            "bullet_y": "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY),",
+            "shoot_angle": "shootAngle = bulletRotation(unit, mount, bulletX, bulletY);",
+            "bullet_rotation_method": "protected float bulletRotation(Unit unit, WeaponMount mount, float bulletX, float bulletY){",
+            "bullet_rotation_return": "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation;",
+            "weapon_rotate": "public boolean rotate = false;",
+            "weapon_base_rotation": "public float baseRotation = 0f;",
+            "weapon_shoot_offsets": "public float shootX = 0f, shootY = 3f;",
+            "weapon_mount_rotation": "public float rotation;",
+            "weapon_mount_aim": "public float aimX, aimY;",
+            "angles_trnsx_vec": "public static float trnsx(float angle, float x, float y){",
+            "angles_trnsy_vec": "public static float trnsy(float angle, float x, float y){",
+            "angles_angle": "public static float angle(float x, float y, float x2, float y2){",
+            "position_angle_to_float": "default float angleTo(float x, float y){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

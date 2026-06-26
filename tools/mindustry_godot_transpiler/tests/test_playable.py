@@ -3503,6 +3503,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"baseRotationSource": "mount.rotation = baseRotation"', helper_source)
         self.assertIn('"angleToSource": "mount.targetRotation = unit.angleTo(mount.aimX, mount.aimY)"', helper_source)
 
+    def test_port_game_exposes_source_weapon_update_bullet_origin_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_update_bullet_origin_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, mount_x: float, mount_y: float) -> Dictionary:", source)
+        self.assertIn("var weapon_rotation := unit_rotation - 90.0 + (mount_rotation if rotate_weapon else base_rotation)", source)
+        self.assertIn("var bullet_vec := source_arc_angles_trns_vec(weapon_rotation, shoot_x, shoot_y)", source)
+        self.assertIn("var bullet_x := mount_x + float(bullet_vec[\"x\"])", source)
+        self.assertIn("var bullet_y := mount_y + float(bullet_vec[\"y\"])", source)
+        self.assertIn("var shoot_angle := unit_rotation + mount_rotation", source)
+        self.assertIn("shoot_angle = source_arc_angles_angle(bullet_x, bullet_y, aim_x, aim_y) + (unit_rotation - source_arc_angles_angle(unit_x, unit_y, aim_x, aim_y)) + base_rotation", source)
+        self.assertIn('"weaponRotationSource": "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation)"', source)
+        self.assertIn('"bulletXSource": "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY)"', source)
+        self.assertIn('"bulletYSource": "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY)"', source)
+        self.assertIn('"shootAngleSource": "shootAngle = bulletRotation(unit, mount, bulletX, bulletY)"', source)
+        self.assertIn('"bulletRotationSource": "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
