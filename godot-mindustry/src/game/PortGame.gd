@@ -2365,6 +2365,23 @@ func source_building_update_tile_gate_state(enabled_state: bool, block_no_update
 	var update_tile_called: bool = enabled_state or not block_no_update_disabled
 	return {"update_tile_called": update_tile_called}
 
+func source_building_update_fog_visibility_state(was_visible: bool, in_fog_to_player_team: bool, visible_flags: int, player_team_id: int, self_state := {}, tile_state := {}) -> Dictionary:
+	var should_update: bool = not was_visible and not in_fog_to_player_team
+	if not should_update:
+		return {
+			"visible_flags": visible_flags,
+			"was_visible": was_visible,
+			"update_shadow": null,
+			"minimap_update": null,
+		}
+	var updated_flags: int = visible_flags | (1 << player_team_id)
+	return {
+		"visible_flags": updated_flags,
+		"was_visible": true,
+		"update_shadow": self_state,
+		"minimap_update": tile_state,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

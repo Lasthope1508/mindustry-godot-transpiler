@@ -2123,5 +2123,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_update_fog_visibility_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_update_fog_visibility_source"))
+        report = source_parity.verify_building_update_fog_visibility_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "update_fog_visibility_method": "public void updateFogVisibility(){",
+            "update_fog_visibility_gate": "if(!wasVisible && !inFogTo(player.team())){",
+            "update_fog_visibility_flag": "visibleFlags |= (1L << player.team().id);",
+            "update_fog_visibility_was_visible": "wasVisible = true;",
+            "update_fog_visibility_shadow": "renderer.blocks.updateShadow(self());",
+            "update_fog_visibility_minimap": "renderer.minimap.update(tile);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

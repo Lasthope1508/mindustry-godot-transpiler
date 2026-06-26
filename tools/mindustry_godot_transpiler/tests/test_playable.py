@@ -2493,6 +2493,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var update_tile_called: bool = enabled_state or not block_no_update_disabled", source)
         self.assertIn('return {"update_tile_called": update_tile_called}', source)
 
+    def test_port_game_exposes_source_building_update_fog_visibility_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_update_fog_visibility_state(was_visible: bool, in_fog_to_player_team: bool, visible_flags: int, player_team_id: int, self_state := {}, tile_state := {}) -> Dictionary:", source)
+        self.assertIn("var should_update: bool = not was_visible and not in_fog_to_player_team", source)
+        self.assertIn("var updated_flags: int = visible_flags | (1 << player_team_id)", source)
+        self.assertIn('"update_shadow": self_state', source)
+        self.assertIn('"minimap_update": tile_state', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

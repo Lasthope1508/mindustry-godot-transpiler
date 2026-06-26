@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 234 |
-| Done | 234 |
+| Total tracked work items | 235 |
+| Done | 235 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -110,6 +110,7 @@
 - [x] N230: Source BuildingComp update ambient sound gate state.
 - [x] N231: Source BuildingComp updateConsumption call state.
 - [x] N232: Source BuildingComp updateTile disabled gate state.
+- [x] N233: Source BuildingComp updateFogVisibility state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -369,6 +370,7 @@ Current cube: `Building logic / sensor-control`. Current source path stays `Buil
 | N230 | Apply source BuildingComp update ambient sound gate state | The next `BuildingComp.update()` slice preserves exact `if(!headless && block.ambientSound != Sounds.none && shouldAmbientSound()){` and `control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_update_ambient_sound_gate_state(headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value)` as the same sound-loop gate and volume multiplication without inventing `control.sound` internals; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `364` tests, full Python suite reports `388` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `{"loop_called":true,"sound":"hum","volume":0.4}` for live ambient sound and `loop_called:false` with `volume:0.0` for headless, `Sounds.none`, and false `shouldAmbientSound()` gates; debug output returned `errors: []`, and stop returned `finalErrors: []` |
 | N231 | Apply source BuildingComp updateConsumption call state | The next `BuildingComp.update()` slice preserves exact `updateConsumption();` after the ambient sound gate and before the disabled-update `updateTile()` gate; `source_parity.py` checks that exact upstream line, and `PortGame.gd` exposes `source_building_update_consumption_call_state()` as the same call marker without duplicating `updateConsumption()` internals already split into N189-N195; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `366` tests, full Python suite reports `390` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP call on `/root/Main` returned `{"update_consumption_called":true}`; debug output returned `errors: []`, and stop returned `finalErrors: []` |
 | N232 | Apply source BuildingComp updateTile disabled gate state | The next `BuildingComp.update()` slice preserves exact `if(enabled || !block.noUpdateDisabled){` and `updateTile();`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_update_tile_gate_state(enabled_state, block_no_update_disabled)` as the same `enabled || !block.noUpdateDisabled` update-tile gate without inventing `updateTile()` internals; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `368` tests, full Python suite reports `392` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `update_tile_called:true` for enabled and disabled-but-allowed cases, and `update_tile_called:false` for disabled-and-blocked; debug output returned `errors: []`, and stop returned `finalErrors: []` |
+| N233 | Apply source BuildingComp updateFogVisibility state | The next `BuildingComp.updateFogVisibility()` slice preserves exact method `public void updateFogVisibility(){`, gate `if(!wasVisible && !inFogTo(player.team())){`, bit update `visibleFlags |= (1L << player.team().id);`, `wasVisible = true;`, `renderer.blocks.updateShadow(self());`, and `renderer.minimap.update(tile);`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_update_fog_visibility_state(was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state)` as the same newly-visible gate, flag OR, shadow update, and minimap update without inventing renderer internals; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `370` tests, full Python suite reports `394` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned visible flags `10`, `was_visible:true`, `update_shadow` self, and `minimap_update` tile for newly visible, plus unchanged flags and null calls for already-visible and still-in-fog cases; debug output returned `errors: []`, and stop returned `finalErrors: []` |
 
 ## Not Done
 
