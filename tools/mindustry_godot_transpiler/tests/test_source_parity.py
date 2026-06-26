@@ -2825,6 +2825,32 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_flying_transition_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_flying_transition_source"))
+        report = source_parity.verify_unit_update_flying_transition_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["floor_source"], "core/src/mindustry/world/blocks/environment/Floor.java")
+        self.assertEqual(report["tile_source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["fx_source"], "core/src/mindustry/content/Fx.java")
+        self.assertEqual(report["effect_source"], "core/src/mindustry/entities/Effect.java")
+        self.assertEqual(report["checked"], {
+            "floor_lookup": "Floor floor = floorOn();",
+            "tile_lookup": "Tile tile = tileOn();",
+            "transition_guard": "if(isFlying() != wasFlying){",
+            "was_flying_guard": "if(wasFlying){",
+            "tile_guard": "if(tile != null){",
+            "unit_land_call": "Fx.unitLand.at(x, y, floor.isLiquid ? 1f : 0.5f, tile.getFloorColor());",
+            "was_flying_assign": "wasFlying = isFlying();",
+            "floor_is_liquid": "public boolean isLiquid;",
+            "tile_get_floor_color": "public Color getFloorColor(){",
+            "tile_get_floor_color_body": "return floor.getColor(this);",
+            "fx_unit_land": "unitLand = new Effect(30, e -> {",
+            "effect_at_rotation_color": "public void at(float x, float y, float rotation, Color color){",
+            "effect_at_rotation_color_body": "create(x, y, rotation, color, null);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_heal_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_heal_source"))
         report = source_parity.verify_unit_heal_source(ROOT / "mindustry-upstream")

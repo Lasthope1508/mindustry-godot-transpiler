@@ -2925,6 +2925,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"kill": health_is_nan', source)
         self.assertIn('"guard": "Float.isNaN(health)"', source)
 
+    def test_port_game_exposes_source_unit_update_flying_transition_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_flying_transition_state(is_flying_value: bool, was_flying_value: bool, tile_exists: bool, floor_is_liquid: bool, tile_floor_color: String) -> Dictionary:", source)
+        self.assertIn("var changed := is_flying_value != was_flying_value", source)
+        self.assertIn("var land_effect: Variant = null", source)
+        self.assertIn("if changed and was_flying_value and tile_exists:", source)
+        self.assertIn('"call": "Fx.unitLand.at(x, y, floor.isLiquid ? 1f : 0.5f, tile.getFloorColor())"', source)
+        self.assertIn('"rotation": 1.0 if floor_is_liquid else 0.5', source)
+        self.assertIn('"color": tile_floor_color', source)
+        self.assertIn('"wasFlying": is_flying_value', source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

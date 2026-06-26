@@ -3384,6 +3384,21 @@ func source_unit_update_nan_health_state(current_health: float) -> Dictionary:
 		"kill": health_is_nan,
 	}
 
+func source_unit_update_flying_transition_state(is_flying_value: bool, was_flying_value: bool, tile_exists: bool, floor_is_liquid: bool, tile_floor_color: String) -> Dictionary:
+	var changed := is_flying_value != was_flying_value
+	var land_effect: Variant = null
+	if changed and was_flying_value and tile_exists:
+		land_effect = {
+			"call": "Fx.unitLand.at(x, y, floor.isLiquid ? 1f : 0.5f, tile.getFloorColor())",
+			"rotation": 1.0 if floor_is_liquid else 0.5,
+			"color": tile_floor_color,
+		}
+	return {
+		"changed": changed,
+		"landEffect": land_effect,
+		"wasFlying": is_flying_value,
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},

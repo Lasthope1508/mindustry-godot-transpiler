@@ -4616,6 +4616,61 @@ def verify_unit_update_nan_health_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_unit_update_flying_transition_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    floor_path = Path(upstream_root) / FLOOR_SOURCE
+    tile_path = Path(upstream_root) / "core/src/mindustry/world/Tile.java"
+    fx_path = Path(upstream_root) / FX_SOURCE
+    effect_path = Path(upstream_root) / EFFECT_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    floor_source = floor_path.read_text(encoding="utf-8", errors="replace")
+    tile_source = tile_path.read_text(encoding="utf-8", errors="replace")
+    fx_source = fx_path.read_text(encoding="utf-8", errors="replace")
+    effect_source = effect_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "floor_lookup": "Floor floor = floorOn();",
+        "tile_lookup": "Tile tile = tileOn();",
+        "transition_guard": "if(isFlying() != wasFlying){",
+        "was_flying_guard": "if(wasFlying){",
+        "tile_guard": "if(tile != null){",
+        "unit_land_call": "Fx.unitLand.at(x, y, floor.isLiquid ? 1f : 0.5f, tile.getFloorColor());",
+        "was_flying_assign": "wasFlying = isFlying();",
+        "floor_is_liquid": "public boolean isLiquid;",
+        "tile_get_floor_color": "public Color getFloorColor(){",
+        "tile_get_floor_color_body": "return floor.getColor(this);",
+        "fx_unit_land": "unitLand = new Effect(30, e -> {",
+        "effect_at_rotation_color": "public void at(float x, float y, float rotation, Color color){",
+        "effect_at_rotation_color_body": "create(x, y, rotation, color, null);",
+    }
+    source_map = {
+        "floor_lookup": source,
+        "tile_lookup": source,
+        "transition_guard": source,
+        "was_flying_guard": source,
+        "tile_guard": source,
+        "unit_land_call": source,
+        "was_flying_assign": source,
+        "floor_is_liquid": floor_source,
+        "tile_get_floor_color": tile_source,
+        "tile_get_floor_color_body": tile_source,
+        "fx_unit_land": fx_source,
+        "effect_at_rotation_color": effect_source,
+        "effect_at_rotation_color_body": effect_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "floor_source": FLOOR_SOURCE,
+        "tile_source": "core/src/mindustry/world/Tile.java",
+        "fx_source": FX_SOURCE,
+        "effect_source": EFFECT_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_move_pref_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")
