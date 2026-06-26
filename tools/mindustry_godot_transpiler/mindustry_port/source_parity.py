@@ -4389,6 +4389,42 @@ def verify_unit_heal_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_unit_update_heal_time_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    time_path = Path(arc_root) / ARC_TIME_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    time_source = time_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "heal_time_field": "transient float shadowAlpha = -1f, healTime;",
+        "was_healed_field": "private transient boolean wasHealed;",
+        "drowning_before_heal": "updateDrowning();",
+        "was_healed_gate": "if(wasHealed && healTime <= -1f){",
+        "heal_time_reset": "healTime = 1f;",
+        "heal_time_decay": "healTime -= Time.delta / 20f;",
+        "was_healed_reset": "wasHealed = false;",
+        "time_delta_default": "public static float delta = 1f;",
+    }
+    source_map = {
+        "heal_time_field": source,
+        "was_healed_field": source,
+        "drowning_before_heal": source,
+        "was_healed_gate": source,
+        "heal_time_reset": source,
+        "heal_time_decay": source,
+        "was_healed_reset": source,
+        "time_delta_default": time_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "arc_time_source": ARC_TIME_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

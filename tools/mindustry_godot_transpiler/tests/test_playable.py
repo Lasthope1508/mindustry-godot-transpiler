@@ -2862,6 +2862,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"unitCompHealthDelta": 0.0', source)
         self.assertIn('"healthMutationSource": "HealthComp.heal(float amount)"', source)
 
+    def test_port_game_exposes_source_unit_update_heal_time_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_heal_time_state(was_healed_value: bool, current_heal_time: float, source_delta: float) -> Dictionary:", source)
+        self.assertIn("var reset_heal_time := was_healed_value and current_heal_time <= -1.0", source)
+        self.assertIn("var heal_time := 1.0 if reset_heal_time else current_heal_time", source)
+        self.assertIn("heal_time -= source_delta / 20.0", source)
+        self.assertIn('"wasHealed": false', source)
+        self.assertIn('"resetHealTime": reset_heal_time', source)
+        self.assertIn('"decay": source_delta / 20.0', source)
+        self.assertIn('"order": ["updateDrowning", "healTime gate", "healTime decay", "wasHealed reset"]', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

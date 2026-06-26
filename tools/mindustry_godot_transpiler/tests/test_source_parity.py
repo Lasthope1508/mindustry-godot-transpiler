@@ -2908,6 +2908,24 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_heal_time_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_heal_time_source"))
+        report = source_parity.verify_unit_update_heal_time_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["arc_time_source"], "arc-core/src/arc/util/Time.java")
+        self.assertEqual(report["checked"], {
+            "heal_time_field": "transient float shadowAlpha = -1f, healTime;",
+            "was_healed_field": "private transient boolean wasHealed;",
+            "drowning_before_heal": "updateDrowning();",
+            "was_healed_gate": "if(wasHealed && healTime <= -1f){",
+            "heal_time_reset": "healTime = 1f;",
+            "heal_time_decay": "healTime -= Time.delta / 20f;",
+            "was_healed_reset": "wasHealed = false;",
+            "time_delta_default": "public static float delta = 1f;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
