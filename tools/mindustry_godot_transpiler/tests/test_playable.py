@@ -2741,6 +2741,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"createController": controller_is_null', source)
         self.assertIn('"call": "setType(UnitType type)"', source)
 
+    def test_port_game_exposes_source_unit_player_controllable_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:", source)
+        self.assertIn("var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged", source)
+        self.assertIn('"playerControllable": type_player_controllable and not logic_privileged_blocked', source)
+        self.assertIn('"logicPrivilegedBlocked": logic_privileged_blocked', source)
+        self.assertIn('"call": "playerControllable()"', source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

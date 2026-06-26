@@ -26,6 +26,7 @@ FLOOR_SOURCE = "core/src/mindustry/world/blocks/environment/Floor.java"
 UNIT_TYPE_SOURCE = "core/src/mindustry/type/UnitType.java"
 AI_CONTROLLER_SOURCE = "core/src/mindustry/entities/units/AIController.java"
 COMMAND_AI_SOURCE = "core/src/mindustry/ai/types/CommandAI.java"
+LOGIC_AI_SOURCE = "core/src/mindustry/ai/types/LogicAI.java"
 ARC_MATHF_SOURCE = "arc-core/src/arc/math/Mathf.java"
 ARC_ANGLES_SOURCE = "arc-core/src/arc/math/Angles.java"
 ARC_POSITION_SOURCE = "arc-core/src/arc/math/geom/Position.java"
@@ -3981,6 +3982,44 @@ def verify_unit_set_type_source(upstream_root: Path) -> dict[str, Any]:
     return {
         "source": UNIT_COMP_SOURCE,
         "unit_type_source": UNIT_TYPE_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_unit_player_controllable_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
+    logic_ai_path = Path(upstream_root) / LOGIC_AI_SOURCE
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    logic_ai_source = logic_ai_path.read_text(encoding="utf-8", errors="replace")
+    block_source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "player_controllable_method": "public boolean playerControllable(){",
+        "player_controllable_return": "return type.playerControllable && !(controller instanceof LogicAI ai && ai.controller != null && ai.controller.block.privileged);",
+        "unit_type_player_controllable": "playerControllable = true,",
+        "logic_ai_class": "public class LogicAI extends AIController{",
+        "logic_ai_controller": "public @Nullable Building controller;",
+        "block_privileged": "public boolean privileged = false;",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if key.startswith("unit_type_"):
+            haystack = unit_type_source
+        elif key.startswith("logic_ai_"):
+            haystack = logic_ai_source
+        elif key.startswith("block_"):
+            haystack = block_source
+        else:
+            haystack = source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "logic_ai_source": LOGIC_AI_SOURCE,
+        "block_source": BLOCK_SOURCE,
         "checked": checked,
         "missing": missing,
     }

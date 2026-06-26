@@ -2517,6 +2517,24 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_player_controllable_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_player_controllable_source"))
+        report = source_parity.verify_unit_player_controllable_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["logic_ai_source"], "core/src/mindustry/ai/types/LogicAI.java")
+        self.assertEqual(report["block_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "player_controllable_method": "public boolean playerControllable(){",
+            "player_controllable_return": "return type.playerControllable && !(controller instanceof LogicAI ai && ai.controller != null && ai.controller.block.privileged);",
+            "unit_type_player_controllable": "playerControllable = true,",
+            "logic_ai_class": "public class LogicAI extends AIController{",
+            "logic_ai_controller": "public @Nullable Building controller;",
+            "block_privileged": "public boolean privileged = false;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

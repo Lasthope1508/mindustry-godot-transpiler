@@ -3136,6 +3136,14 @@ func source_unit_set_type_state(type_id: int, type_health: float, type_drag: flo
 		"call": "setType(UnitType type)",
 	}
 
+func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
+	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
+	return {
+		"playerControllable": type_player_controllable and not logic_privileged_blocked,
+		"logicPrivilegedBlocked": logic_privileged_blocked,
+		"call": "playerControllable()",
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},
