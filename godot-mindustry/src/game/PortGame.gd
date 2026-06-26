@@ -2852,6 +2852,9 @@ func source_unit_can_drown_state(elevation_value: float, type_can_drown: bool) -
 		"can_drown": grounded and type_can_drown,
 	}
 
+func source_unit_drown_floor_state(floor_on_value: Variant) -> Variant:
+	return floor_on_value
+
 func simulate_turrets(delta: float) -> void:
 	if content_catalog == null or turret_cells.is_empty():
 		return

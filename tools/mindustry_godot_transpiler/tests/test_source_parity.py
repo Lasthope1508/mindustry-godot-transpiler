@@ -2189,5 +2189,16 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_drown_floor_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_drown_floor_source"))
+        report = source_parity.verify_unit_drown_floor_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["checked"], {
+            "drown_floor_method": "public @Nullable Floor drownFloor(){",
+            "drown_floor_return": "return floorOn();",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

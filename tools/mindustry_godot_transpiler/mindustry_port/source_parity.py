@@ -3398,6 +3398,23 @@ def verify_unit_can_drown_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_unit_drown_floor_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "drown_floor_method": "public @Nullable Floor drownFloor(){",
+        "drown_floor_return": "return floorOn();",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

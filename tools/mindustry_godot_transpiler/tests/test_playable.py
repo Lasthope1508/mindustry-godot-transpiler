@@ -2539,6 +2539,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var grounded: bool = source_unit_is_grounded(elevation_value)", source)
         self.assertIn('"can_drown": grounded and type_can_drown', source)
 
+    def test_port_game_exposes_source_unit_drown_floor_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_drown_floor_state(floor_on_value: Variant) -> Variant:", source)
+        self.assertIn("return floor_on_value", source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

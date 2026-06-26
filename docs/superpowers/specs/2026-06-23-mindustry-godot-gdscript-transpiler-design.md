@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 239 |
-| Done | 239 |
+| Total tracked work items | 240 |
+| Done | 240 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -115,6 +115,7 @@
 - [x] N235: Source BuildingComp toString state.
 - [x] N236: Source UnitComp grounded/flying target state.
 - [x] N237: Source UnitComp canDrown state.
+- [x] N238: Source UnitComp drownFloor state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -379,6 +380,7 @@ Current cube: `Unit logic / movement-targeting`. Current source path is `UnitCom
 | N235 | Apply source BuildingComp toString state | The final `BuildingComp.toString()` slice preserves exact `@Override`, `@Replace`, method `public String toString(){`, and return `return "Building#" + id() + "[" + tileX() + "," + tileY() + "]:" + block;`; `source_parity.py` checks those exact upstream lines, and `PortGame.gd` exposes `source_building_to_string_state(id_value, tile_x_value, tile_y_value, block_value)` as the same string concatenation without inventing block formatting beyond Java `String.valueOf` behavior represented by `str(block_value)`; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `374` tests, full Python suite reports `398` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned `Building#42[7,8]:duo` and `Building#5[-1,12]:core-shard`; debug output returned `errors: []`, and stop returned `finalErrors: []` |
 | N236 | Apply source UnitComp grounded/flying target state | The first `UnitComp` movement-targeting slice preserves exact `public boolean checkTarget(boolean targetAir, boolean targetGround){`, return `(isGrounded() && targetGround) || (isFlying() && targetAir);`, `public boolean isGrounded(){ return elevation < 0.001f; }`, and `public boolean isFlying(){ return elevation >= 0.09f; }`; `source_parity.py` checks those exact upstream lines from `UnitComp.java`, and `PortGame.gd` exposes `source_unit_is_grounded(elevation_value)`, `source_unit_is_flying(elevation_value)`, and `source_unit_check_target_state(elevation_value, target_air, target_ground)` as the same elevation gates and target-air/target-ground predicate without inventing live unit type state; targeted RED tests failed before implementation with 2 expected failures, targeted GREEN passed with `376` tests, full Python suite reports `400` tests passing, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, runtime TCP calls on `/root/Main` returned targetable `true` for grounded-ground and flying-air cases, `false` for mid-elevation and wrong-target cases; debug output returned `errors: []`, and stop returned `finalErrors: []` |
 | N237 | Apply source UnitComp canDrown state | The `UnitComp` drowning gate slice preserves exact upstream `public boolean canDrown(){` and return `isGrounded() && type.canDrown;`; `source_parity.py` checks those exact lines from `core/src/mindustry/entities/comp/UnitComp.java`, and `PortGame.gd` exposes `source_unit_can_drown_state(elevation_value, type_can_drown)` using the existing source-backed `source_unit_is_grounded(elevation_value)` gate with no invented unit type object; targeted RED failed before implementation on missing `verify_unit_can_drown_source` and missing GDScript function, targeted GREEN passed 2 tests, broader targeted `test_source_parity` + `test_playable` passed `378` tests, full Python suite passed `402` tests, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, TCP calls on `/root/Main.source_unit_can_drown_state` returned `can_drown=true` for `[0.0, true]` and `[0.0009, true]`, `false` for `[0.0, false]`, `[0.001, true]`, and `[0.1, true]`; debug output returned `errors: []`, and stop returned `finalErrors: []` |
+| N238 | Apply source UnitComp drownFloor state | The `UnitComp` drown-floor slice preserves exact upstream `public @Nullable Floor drownFloor(){` and return `floorOn();`; `source_parity.py` checks those exact lines from `core/src/mindustry/entities/comp/UnitComp.java`, and `PortGame.gd` exposes `source_unit_drown_floor_state(floor_on_value)` as a direct `floorOn()` passthrough with no invented Floor fields; targeted RED failed before implementation on missing `verify_unit_drown_floor_source` and missing GDScript function, targeted GREEN passed 2 tests, broader targeted `test_source_parity` + `test_playable` passed `380` tests, full Python suite passed `404` tests, MCP LSP diagnostics returned `diagnostics: []`, MCP runtime status returned `runtimeAddon=connected`, TCP calls on `/root/Main.source_unit_drown_floor_state` returned the same string, dictionary, and null values supplied as `floorOn()` stand-ins; debug output returned `errors: []`, and stop returned `finalErrors: []` |
 
 ## Not Done
 
