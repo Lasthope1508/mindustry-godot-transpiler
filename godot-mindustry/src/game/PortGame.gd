@@ -2939,6 +2939,14 @@ func source_unit_update_boosting_default_event_state(boost: bool) -> Dictionary:
 		"event": false,
 	}
 
+func source_unit_update_boosting_guard_state(type_can_boost: bool, dead_state: bool, elevation_value: float) -> Dictionary:
+	var returned: bool = (not type_can_boost) or dead_state
+	return {
+		"returned": returned,
+		"can_update_boosting": not returned,
+		"elevation": elevation_value,
+	}
+
 func simulate_turrets(delta: float) -> void:
 	if content_catalog == null or turret_cells.is_empty():
 		return

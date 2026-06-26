@@ -2601,6 +2601,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"boost": boost', source)
         self.assertIn('"event": false', source)
 
+    def test_port_game_exposes_source_unit_update_boosting_guard_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_boosting_guard_state(type_can_boost: bool, dead_state: bool, elevation_value: float) -> Dictionary:", source)
+        self.assertIn("var returned: bool = (not type_can_boost) or dead_state", source)
+        self.assertIn('"returned": returned', source)
+        self.assertIn('"elevation": elevation_value', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
