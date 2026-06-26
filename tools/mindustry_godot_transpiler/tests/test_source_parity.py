@@ -2241,6 +2241,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_move_at_default_accel_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_move_at_default_accel_source"))
+        report = source_parity.verify_unit_move_at_default_accel_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["checked"], {
+            "move_at_default_method": "public void moveAt(Vec2 vector){",
+            "move_at_default_call": "moveAt(vector, type.accel);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

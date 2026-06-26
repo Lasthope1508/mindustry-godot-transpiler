@@ -2576,6 +2576,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var delta := source_arc_vec2_limit(target - vel, acceleration * target.length() * source_delta)", source)
         self.assertIn("var next_vel := vel + delta", source)
 
+    def test_port_game_exposes_source_unit_move_at_default_accel_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_move_at_default_accel_state(vector_x: float, vector_y: float, type_accel: float) -> Dictionary:", source)
+        self.assertIn('"vector": {"x": vector_x, "y": vector_y}', source)
+        self.assertIn('"acceleration": type_accel', source)
+        self.assertIn('"call": "moveAt"', source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

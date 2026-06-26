@@ -2918,6 +2918,13 @@ func source_unit_move_at_state(vel_x: float, vel_y: float, vector_x: float, vect
 		"limit": acceleration * target.length() * source_delta,
 	}
 
+func source_unit_move_at_default_accel_state(vector_x: float, vector_y: float, type_accel: float) -> Dictionary:
+	return {
+		"vector": {"x": vector_x, "y": vector_y},
+		"acceleration": type_accel,
+		"call": "moveAt",
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},

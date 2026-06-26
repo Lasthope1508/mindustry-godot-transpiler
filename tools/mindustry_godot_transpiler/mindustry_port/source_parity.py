@@ -3480,6 +3480,23 @@ def verify_unit_move_at_source(upstream_root: Path, arc_root: Path) -> dict[str,
         "missing": missing,
     }
 
+def verify_unit_move_at_default_accel_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "move_at_default_method": "public void moveAt(Vec2 vector){",
+        "move_at_default_call": "moveAt(vector, type.accel);",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_move_pref_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")
