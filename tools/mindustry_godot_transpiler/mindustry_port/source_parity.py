@@ -5846,6 +5846,38 @@ def verify_unit_destroy_ability_death_source(upstream_root: Path) -> dict[str, A
         "missing": missing,
     }
 
+def verify_unit_destroy_type_killed_remove_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / UNIT_COMP_SOURCE
+    unit_type_path = upstream_root / UNIT_TYPE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    destroy_start = source.index("public void destroy(){")
+    destroy_end = source.index("    @Override\n    public void killed(){", destroy_start)
+    destroy_source = source[destroy_start:destroy_end]
+    checked = {
+        "destroy_type_killed_call": "type.killed(self());",
+        "destroy_remove_call": "remove();",
+        "unit_type_killed_default": "public void killed(Unit unit){}",
+        "unit_remove_override": "@Override\n    public void remove(){",
+    }
+    source_map = {
+        "destroy_type_killed_call": destroy_source,
+        "destroy_remove_call": destroy_source,
+        "unit_type_killed_default": unit_type_source,
+        "unit_remove_override": source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

@@ -3223,6 +3223,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"abilityDefault": "public void death(Unit unit){}"', source)
         self.assertIn('"unit": unit_id', source)
 
+    def test_port_game_exposes_source_unit_destroy_type_killed_remove_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_destroy_type_killed_remove_state(unit_id: int) -> Dictionary:", source)
+        self.assertIn('"call": "type.killed(self())"', source)
+        self.assertIn('"unitTypeDefault": "public void killed(Unit unit){}"', source)
+        self.assertIn('"call": "remove()"', source)
+        self.assertIn('"unitRemoveOverride": "public void remove()"', source)
+        self.assertIn('"unit": unit_id', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
