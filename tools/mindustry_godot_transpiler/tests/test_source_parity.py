@@ -3363,6 +3363,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_icon_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_icon_source"))
+        report = source_parity.verify_unit_icon_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["unlockable_content_source"], "core/src/mindustry/ctype/UnlockableContent.java")
+        self.assertEqual(report["checked"], {
+            "icon_comment": "/** @return a preview UI icon for this unit. */",
+            "icon_method": "public TextureRegion icon(){",
+            "icon_return": "return type.uiIcon;",
+            "unlockable_ui_icon": "public TextureRegion uiIcon;",
+            "unlockable_ui_icon_load": "uiIcon = Core.atlas.find(getContentType().name() + \"-\" + name + \"-ui\", fullIcon);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

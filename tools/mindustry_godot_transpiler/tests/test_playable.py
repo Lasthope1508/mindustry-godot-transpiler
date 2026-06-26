@@ -3091,6 +3091,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"unit": unit_id', source)
         self.assertIn('"despawn": despawn_call', source)
 
+    def test_port_game_exposes_source_unit_icon_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_icon_state(type_ui_icon: String) -> Dictionary:", source)
+        self.assertIn('"call": "icon()"', source)
+        self.assertIn('"return": "type.uiIcon"', source)
+        self.assertIn('"uiIcon": type_ui_icon', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -5335,6 +5335,36 @@ def verify_unit_update_spawned_core_despawn_source(upstream_root: Path) -> dict[
         "missing": missing,
     }
 
+def verify_unit_icon_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    unlockable_path = Path(upstream_root) / "core/src/mindustry/ctype/UnlockableContent.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unlockable_source = unlockable_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "icon_comment": "/** @return a preview UI icon for this unit. */",
+        "icon_method": "public TextureRegion icon(){",
+        "icon_return": "return type.uiIcon;",
+        "unlockable_ui_icon": "public TextureRegion uiIcon;",
+        "unlockable_ui_icon_load": "uiIcon = Core.atlas.find(getContentType().name() + \"-\" + name + \"-ui\", fullIcon);",
+    }
+    source_map = {
+        "icon_comment": source,
+        "icon_method": source,
+        "icon_return": source,
+        "unlockable_ui_icon": unlockable_source,
+        "unlockable_ui_icon_load": unlockable_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unlockable_content_source": "core/src/mindustry/ctype/UnlockableContent.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
