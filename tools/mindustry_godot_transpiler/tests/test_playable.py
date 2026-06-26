@@ -2322,6 +2322,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("next_enabled = not absf(p1) <= SOURCE_FLOAT_ROUNDING_ERROR", source)
         self.assertIn('return {"enabled": next_enabled}', source)
 
+    def test_port_game_exposes_source_building_control_config_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_control_config_state(control_type: String, block_logic_configurable: bool, p1_is_logic_build: bool, p1_value: Variant) -> Dictionary:", source)
+        self.assertIn('if control_type == "config" and block_logic_configurable and not p1_is_logic_build:', source)
+        self.assertIn('return {"configured_called": true, "builder": null, "value": p1_value}', source)
+        self.assertIn('return {"configured_called": false, "builder": null, "value": null}', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

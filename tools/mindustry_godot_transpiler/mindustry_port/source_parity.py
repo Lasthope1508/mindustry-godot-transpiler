@@ -2972,6 +2972,26 @@ def verify_building_control_enabled_source(upstream_root: Path, arc_root: Path) 
         "missing": missing,
     }
 
+def verify_building_control_config_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "control_config_method": "public void control(LAccess type, Object p1, double p2, double p3, double p4){",
+        "control_config_lag_comment": "//don't execute configure instructions that copy logic building configures; this can cause extreme lag",
+        "control_config_guard": "if(type == LAccess.config && block.logicConfigurable && !(p1 instanceof LogicBuild)){",
+        "control_config_new_comment": "//change config only if it's new",
+        "control_config_call": "configured(null, p1);",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_mend_projector_light_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / MEND_PROJECTOR_SOURCE
     registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"

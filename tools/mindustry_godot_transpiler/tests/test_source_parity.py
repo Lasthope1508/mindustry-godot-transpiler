@@ -1896,5 +1896,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_control_config_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_control_config_source"))
+        report = source_parity.verify_building_control_config_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "control_config_method": "public void control(LAccess type, Object p1, double p2, double p3, double p4){",
+            "control_config_lag_comment": "//don't execute configure instructions that copy logic building configures; this can cause extreme lag",
+            "control_config_guard": "if(type == LAccess.config && block.logicConfigurable && !(p1 instanceof LogicBuild)){",
+            "control_config_new_comment": "//change config only if it's new",
+            "control_config_call": "configured(null, p1);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

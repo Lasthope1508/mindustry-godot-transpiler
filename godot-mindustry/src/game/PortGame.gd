@@ -2243,6 +2243,11 @@ func source_building_control_enabled_state(current_enabled: bool, control_type: 
 		next_enabled = not absf(p1) <= SOURCE_FLOAT_ROUNDING_ERROR
 	return {"enabled": next_enabled}
 
+func source_building_control_config_state(control_type: String, block_logic_configurable: bool, p1_is_logic_build: bool, p1_value: Variant) -> Dictionary:
+	if control_type == "config" and block_logic_configurable and not p1_is_logic_build:
+		return {"configured_called": true, "builder": null, "value": p1_value}
+	return {"configured_called": false, "builder": null, "value": null}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 
