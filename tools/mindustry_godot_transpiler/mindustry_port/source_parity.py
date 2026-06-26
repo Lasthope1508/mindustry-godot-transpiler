@@ -4832,6 +4832,27 @@ def verify_unit_update_spawn_knockback_source(upstream_root: Path, arc_root: Pat
         "missing": missing,
     }
 
+def verify_unit_update_falling_drag_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "unit_import_dead": "@Import boolean dead, disarmed;",
+        "unit_import_health_drag": "@Import float x, y, rotation, maxHealth, drag, armor, hitSize, health, shield, dragMultiplier, armorOverride, speedMultiplier;",
+        "falling_comment": "//simulate falling down",
+        "falling_guard": "if(dead || health <= 0){",
+        "less_drag_comment": "//less drag when dead",
+        "falling_drag": "drag = 0.01f;",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

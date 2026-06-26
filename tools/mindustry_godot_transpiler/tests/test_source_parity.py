@@ -3117,6 +3117,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_falling_drag_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_falling_drag_source"))
+        report = source_parity.verify_unit_update_falling_drag_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["checked"], {
+            "unit_import_dead": "@Import boolean dead, disarmed;",
+            "unit_import_health_drag": "@Import float x, y, rotation, maxHealth, drag, armor, hitSize, health, shield, dragMultiplier, armorOverride, speedMultiplier;",
+            "falling_comment": "//simulate falling down",
+            "falling_guard": "if(dead || health <= 0){",
+            "less_drag_comment": "//less drag when dead",
+            "falling_drag": "drag = 0.01f;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

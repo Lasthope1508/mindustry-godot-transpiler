@@ -3426,6 +3426,16 @@ func source_unit_update_spawn_knockback_state(team_is_wave_team: bool, state_has
 		"knockbacks": knockbacks,
 	}
 
+func source_unit_update_falling_drag_state(dead_value: bool, health_value: float, current_drag: float) -> Dictionary:
+	var guard := dead_value or health_value <= 0.0
+	var next_drag := 0.01 if guard else current_drag
+	return {
+		"guard": guard,
+		"drag": next_drag,
+		"call": "drag = 0.01f" if guard else "",
+		"source": "if(dead || health <= 0){",
+	}
+
 func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
 	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
 	var drown_time_before_clamp := current_drown_time

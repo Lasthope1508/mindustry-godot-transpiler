@@ -2957,6 +2957,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"relativeSize": relative_size', source)
         self.assertIn('"knockbacks": knockbacks', source)
 
+    def test_port_game_exposes_source_unit_update_falling_drag_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_falling_drag_state(dead_value: bool, health_value: float, current_drag: float) -> Dictionary:", source)
+        self.assertIn("var guard := dead_value or health_value <= 0.0", source)
+        self.assertIn("var next_drag := 0.01 if guard else current_drag", source)
+        self.assertIn('"guard": guard', source)
+        self.assertIn('"drag": next_drag', source)
+        self.assertIn('"call": "drag = 0.01f" if guard else ""', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
