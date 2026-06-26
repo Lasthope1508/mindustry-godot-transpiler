@@ -6708,6 +6708,84 @@ def verify_weapon_update_auto_target_shoot_aim_source(upstream_root: Path) -> di
         "missing": missing,
     }
 
+def verify_weapon_update_rotate_toward_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_path = upstream_root / weapon_mount_source
+    angles_path = arc_root / ARC_ANGLES_SOURCE
+    mathf_path = arc_root / ARC_MATHF_SOURCE
+    time_path = arc_root / ARC_TIME_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    angles_text = angles_path.read_text(encoding="utf-8", errors="replace")
+    mathf_text = mathf_path.read_text(encoding="utf-8", errors="replace")
+    time_text = time_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "rotate_comment": "//rotate if applicable",
+        "rotate_gate": "if(rotate && (mount.rotate || mount.shoot) && can){",
+        "axis_x": "float axisX = unit.x + Angles.trnsx(unit.rotation - 90,  x, y),",
+        "axis_y": "axisY = unit.y + Angles.trnsy(unit.rotation - 90,  x, y);",
+        "target_rotation": "mount.targetRotation = Angles.angle(axisX, axisY, mount.aimX, mount.aimY) - unit.rotation;",
+        "rotation_move_toward": "mount.rotation = Angles.moveToward(mount.rotation, mount.targetRotation, rotateSpeed * Time.delta);",
+        "weapon_rotate": "public boolean rotate = false;",
+        "weapon_offsets": "public float x = 5f, y = 0f;",
+        "weapon_rotate_speed": "public float rotateSpeed = 20f;",
+        "weapon_mount_rotation": "public float rotation;",
+        "weapon_mount_target_rotation": "public float targetRotation;",
+        "weapon_mount_aim": "public float aimX, aimY;",
+        "weapon_mount_shoot": "public boolean shoot = false;",
+        "weapon_mount_rotate": "public boolean rotate = false;",
+        "angles_angle": "public static float angle(float x, float y, float x2, float y2){",
+        "angles_angle_body": "float ang = Mathf.atan2(x2 - x, y2 - y) * Mathf.radDeg;",
+        "angles_move_toward": "public static float moveToward(float angle, float to, float speed){",
+        "angles_move_toward_snap": "if(Math.abs(angleDist(angle, to)) < speed) return to;",
+        "angles_move_toward_mod_angle": "angle = Mathf.mod(angle, 360f);",
+        "angles_move_toward_mod_to": "to = Mathf.mod(to, 360f);",
+        "angles_angle_dist": "public static float angleDist(float a, float b){",
+        "mathf_mod": "public static float mod(float f, float n){",
+        "time_delta": "public static float delta = 1f;",
+    }
+    source_map = {
+        "rotate_comment": source,
+        "rotate_gate": source,
+        "axis_x": source,
+        "axis_y": source,
+        "target_rotation": source,
+        "rotation_move_toward": source,
+        "weapon_rotate": source,
+        "weapon_offsets": source,
+        "weapon_rotate_speed": source,
+        "weapon_mount_rotation": weapon_mount_text,
+        "weapon_mount_target_rotation": weapon_mount_text,
+        "weapon_mount_aim": weapon_mount_text,
+        "weapon_mount_shoot": weapon_mount_text,
+        "weapon_mount_rotate": weapon_mount_text,
+        "angles_angle": angles_text,
+        "angles_angle_body": angles_text,
+        "angles_move_toward": angles_text,
+        "angles_move_toward_snap": angles_text,
+        "angles_move_toward_mod_angle": angles_text,
+        "angles_move_toward_mod_to": angles_text,
+        "angles_angle_dist": angles_text,
+        "mathf_mod": mathf_text,
+        "time_delta": time_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": weapon_mount_source,
+        "angles_source": ARC_ANGLES_SOURCE,
+        "mathf_source": ARC_MATHF_SOURCE,
+        "time_source": ARC_TIME_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

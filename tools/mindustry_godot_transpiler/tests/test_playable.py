@@ -3455,6 +3455,24 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"directAimSource": "mount.target.x()/mount.target.y()"', source)
         self.assertIn('"shootRotateSource": "mount.shoot = mount.rotate = shoot"', source)
 
+    def test_port_game_exposes_source_weapon_update_rotate_toward_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_update_rotate_toward_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, can_shoot: bool, source_delta: float) -> Dictionary:", source)
+        self.assertIn("var gate := bool(weapon_state.get(\"rotate\", false)) and (mount_rotate or mount_shoot) and can_shoot", source)
+        self.assertIn("var axis_angle := unit_rotation - 90.0", source)
+        self.assertIn("var axis_vec := source_arc_angles_trns_vec(axis_angle, weapon_x, weapon_y)", source)
+        self.assertIn("if gate:", source)
+        self.assertIn("target_rotation = source_arc_angles_angle(axis_x, axis_y, aim_x, aim_y) - unit_rotation", source)
+        self.assertIn("next_rotation = source_arc_angles_move_toward(current_rotation, target_rotation, rotate_speed * source_delta)", source)
+        self.assertIn('"gateSource": "if(rotate && (mount.rotate || mount.shoot) && can)"', source)
+        self.assertIn('"axisXSource": "axisX = unit.x + Angles.trnsx(unit.rotation - 90,  x, y)"', source)
+        self.assertIn('"axisYSource": "axisY = unit.y + Angles.trnsy(unit.rotation - 90,  x, y)"', source)
+        self.assertIn('"targetRotationSource": "mount.targetRotation = Angles.angle(axisX, axisY, mount.aimX, mount.aimY) - unit.rotation"', source)
+        self.assertIn('"rotationSource": "mount.rotation = Angles.moveToward(mount.rotation, mount.targetRotation, rotateSpeed * Time.delta)"', source)
+        self.assertNotIn("rotationLimit", source[source.find("func source_weapon_update_rotate_toward_state"):source.find("func source_unit_player_controllable_state")])
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

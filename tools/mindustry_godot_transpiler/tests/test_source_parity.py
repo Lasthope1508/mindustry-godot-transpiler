@@ -3999,6 +3999,42 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_update_rotate_toward_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_update_rotate_toward_source"))
+        report = source_parity.verify_weapon_update_rotate_toward_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["angles_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(report["mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["time_source"], "arc-core/src/arc/util/Time.java")
+        self.assertEqual(report["checked"], {
+            "rotate_comment": "//rotate if applicable",
+            "rotate_gate": "if(rotate && (mount.rotate || mount.shoot) && can){",
+            "axis_x": "float axisX = unit.x + Angles.trnsx(unit.rotation - 90,  x, y),",
+            "axis_y": "axisY = unit.y + Angles.trnsy(unit.rotation - 90,  x, y);",
+            "target_rotation": "mount.targetRotation = Angles.angle(axisX, axisY, mount.aimX, mount.aimY) - unit.rotation;",
+            "rotation_move_toward": "mount.rotation = Angles.moveToward(mount.rotation, mount.targetRotation, rotateSpeed * Time.delta);",
+            "weapon_rotate": "public boolean rotate = false;",
+            "weapon_offsets": "public float x = 5f, y = 0f;",
+            "weapon_rotate_speed": "public float rotateSpeed = 20f;",
+            "weapon_mount_rotation": "public float rotation;",
+            "weapon_mount_target_rotation": "public float targetRotation;",
+            "weapon_mount_aim": "public float aimX, aimY;",
+            "weapon_mount_shoot": "public boolean shoot = false;",
+            "weapon_mount_rotate": "public boolean rotate = false;",
+            "angles_angle": "public static float angle(float x, float y, float x2, float y2){",
+            "angles_angle_body": "float ang = Mathf.atan2(x2 - x, y2 - y) * Mathf.radDeg;",
+            "angles_move_toward": "public static float moveToward(float angle, float to, float speed){",
+            "angles_move_toward_snap": "if(Math.abs(angleDist(angle, to)) < speed) return to;",
+            "angles_move_toward_mod_angle": "angle = Mathf.mod(angle, 360f);",
+            "angles_move_toward_mod_to": "to = Mathf.mod(to, 360f);",
+            "angles_angle_dist": "public static float angleDist(float a, float b){",
+            "mathf_mod": "public static float mod(float f, float n){",
+            "time_delta": "public static float delta = 1f;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
