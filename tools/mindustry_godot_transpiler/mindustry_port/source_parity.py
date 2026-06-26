@@ -3770,6 +3770,32 @@ def verify_unit_controller_predicates_source(upstream_root: Path) -> dict[str, A
         "missing": missing,
     }
 
+def verify_unit_can_target_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "can_target_method": "public boolean canTarget(Teamc other){",
+        "can_target_return": "return other != null && (other instanceof Unit u ? u.checkTarget(type.targetAir, type.targetGround) : (other instanceof Building b && type.targetGround));",
+        "check_target_method": "public boolean checkTarget(boolean targetAir, boolean targetGround){",
+        "check_target_return": "return (isGrounded() && targetGround) || (isFlying() && targetAir);",
+        "unit_type_target_air": "targetAir = true,",
+        "unit_type_target_ground": "targetGround = true,",
+    }
+    unit_type_keys = {"unit_type_target_air", "unit_type_target_ground"}
+    missing = []
+    for key, snippet in checked.items():
+        haystack = unit_type_source if key in unit_type_keys else source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_move_pref_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

@@ -2400,6 +2400,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_can_target_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_can_target_source"))
+        report = source_parity.verify_unit_can_target_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["checked"], {
+            "can_target_method": "public boolean canTarget(Teamc other){",
+            "can_target_return": "return other != null && (other instanceof Unit u ? u.checkTarget(type.targetAir, type.targetGround) : (other instanceof Building b && type.targetGround));",
+            "check_target_method": "public boolean checkTarget(boolean targetAir, boolean targetGround){",
+            "check_target_return": "return (isGrounded() && targetGround) || (isFlying() && targetAir);",
+            "unit_type_target_air": "targetAir = true,",
+            "unit_type_target_ground": "targetGround = true,",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

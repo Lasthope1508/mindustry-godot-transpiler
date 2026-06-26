@@ -3061,6 +3061,21 @@ func source_unit_controller_predicates_state(controller_is_ai_controller: bool, 
 		"is_commandable": controller_is_command_ai,
 	}
 
+func source_unit_can_target_state(other_exists: bool, other_is_unit: bool, other_unit_check_target_result: bool, other_is_building: bool, type_target_air: bool, type_target_ground: bool) -> Dictionary:
+	if not other_exists:
+		return {"branch": "null", "can_target": false}
+	if other_is_unit:
+		return {
+			"branch": "unit",
+			"can_target": other_unit_check_target_result,
+			"unit_check_target_air": type_target_air,
+			"unit_check_target_ground": type_target_ground,
+		}
+	return {
+		"branch": "building" if other_is_building else "other",
+		"can_target": other_is_building and type_target_ground,
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},

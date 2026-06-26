@@ -2673,6 +2673,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"allow_command": controller_is_command_ai', source)
         self.assertIn('"is_commandable": controller_is_command_ai', source)
 
+    def test_port_game_exposes_source_unit_can_target_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_can_target_state(other_exists: bool, other_is_unit: bool, other_unit_check_target_result: bool, other_is_building: bool, type_target_air: bool, type_target_ground: bool) -> Dictionary:", source)
+        self.assertIn('"can_target": false', source)
+        self.assertIn('"branch": "unit"', source)
+        self.assertIn('"can_target": other_unit_check_target_result', source)
+        self.assertIn('"unit_check_target_air": type_target_air', source)
+        self.assertIn('"unit_check_target_ground": type_target_ground', source)
+        self.assertIn('"branch": "building"', source)
+        self.assertIn('"can_target": other_is_building and type_target_ground', source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
