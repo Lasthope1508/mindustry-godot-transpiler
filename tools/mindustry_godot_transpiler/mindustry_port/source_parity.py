@@ -39,6 +39,7 @@ ARC_POSITION_SOURCE = "arc-core/src/arc/math/geom/Position.java"
 ARC_VEC2_SOURCE = "arc-core/src/arc/math/geom/Vec2.java"
 ARC_RAND_SOURCE = "arc-core/src/arc/math/Rand.java"
 ARC_STRINGS_SOURCE = "arc-core/src/arc/util/Strings.java"
+ARC_TIME_SOURCE = "arc-core/src/arc/util/Time.java"
 
 def verify_overdrive_projector_params_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     blocks_path = Path(upstream_root) / DUO_SOURCE
@@ -4383,6 +4384,90 @@ def verify_unit_heal_source(upstream_root: Path) -> dict[str, Any]:
     return {
         "source": UNIT_COMP_SOURCE,
         "health_comp_source": HEALTH_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / UNIT_COMP_SOURCE
+    floor_path = upstream_root / FLOOR_SOURCE
+    event_type_path = upstream_root / EVENT_TYPE_SOURCE
+    unit_type_path = upstream_root / UNIT_TYPE_SOURCE
+    mathf_path = arc_root / ARC_MATHF_SOURCE
+    time_path = arc_root / ARC_TIME_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    floor_source = floor_path.read_text(encoding="utf-8", errors="replace")
+    event_type_source = event_type_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    time_source = time_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "drown_time_field": "transient float drownTime;",
+        "last_drown_floor_field": "transient @Nullable Floor lastDrownFloor;",
+        "method": "public void updateDrowning(){",
+        "floor_lookup": "Floor floor = drownFloor();",
+        "drown_guard": "if(floor != null && floor.isLiquid && floor.drownTime > 0 && canDrown()){",
+        "last_floor_set": "lastDrownFloor = floor;",
+        "drown_increment": "drownTime += Time.delta / (hitSize / 8f * type.drownTimeMultiplier * floor.drownTime);",
+        "chance_gate": "if(Mathf.chanceDelta(0.05f)){",
+        "drown_effect_call": "floor.drownUpdateEffect.at(x, y, hitSize, floor.mapColor);",
+        "kill_guard": "if(drownTime >= 0.999f && !net.client()){",
+        "kill_call": "kill();",
+        "event_call": "Events.fire(new UnitDrownEvent(self()));",
+        "dry_decay": "drownTime -= Time.delta / 50f;",
+        "clamp": "drownTime = Mathf.clamp(drownTime);",
+        "floor_drown_time": "public float drownTime = 0f;",
+        "floor_drown_update_effect": "public Effect drownUpdateEffect = Fx.bubble;",
+        "floor_is_liquid": "public boolean isLiquid;",
+        "unit_drown_event": "public static class UnitDrownEvent{",
+        "unit_drown_event_unit": "public final Unit unit;",
+        "unit_type_drown_multiplier": "drownTimeMultiplier = 1f,",
+        "mathf_chance_delta": "public static boolean chanceDelta(double d){",
+        "mathf_chance_delta_delta": "return rand.nextFloat() < d * Time.delta;",
+        "mathf_clamp_unit": "public static float clamp(float value){",
+        "mathf_clamp_unit_body": "return Math.max(Math.min(value, 1f), 0f);",
+        "time_delta_default": "public static float delta = 1f;",
+    }
+    source_map = {
+        "drown_time_field": source,
+        "last_drown_floor_field": source,
+        "method": source,
+        "floor_lookup": source,
+        "drown_guard": source,
+        "last_floor_set": source,
+        "drown_increment": source,
+        "chance_gate": source,
+        "drown_effect_call": source,
+        "kill_guard": source,
+        "kill_call": source,
+        "event_call": source,
+        "dry_decay": source,
+        "clamp": source,
+        "floor_drown_time": floor_source,
+        "floor_drown_update_effect": floor_source,
+        "floor_is_liquid": floor_source,
+        "unit_drown_event": event_type_source,
+        "unit_drown_event_unit": event_type_source,
+        "unit_type_drown_multiplier": unit_type_source,
+        "mathf_chance_delta": mathf_source,
+        "mathf_chance_delta_delta": mathf_source,
+        "mathf_clamp_unit": mathf_source,
+        "mathf_clamp_unit_body": mathf_source,
+        "time_delta_default": time_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "floor_source": FLOOR_SOURCE,
+        "event_type_source": EVENT_TYPE_SOURCE,
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "arc_mathf_source": ARC_MATHF_SOURCE,
+        "arc_time_source": ARC_TIME_SOURCE,
         "checked": checked,
         "missing": missing,
     }

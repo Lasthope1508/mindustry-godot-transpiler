@@ -2714,6 +2714,45 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_update_drowning_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_update_drowning_source"))
+        report = source_parity.verify_unit_update_drowning_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["floor_source"], "core/src/mindustry/world/blocks/environment/Floor.java")
+        self.assertEqual(report["event_type_source"], "core/src/mindustry/game/EventType.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["arc_mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["arc_time_source"], "arc-core/src/arc/util/Time.java")
+        self.assertEqual(report["checked"], {
+            "drown_time_field": "transient float drownTime;",
+            "last_drown_floor_field": "transient @Nullable Floor lastDrownFloor;",
+            "method": "public void updateDrowning(){",
+            "floor_lookup": "Floor floor = drownFloor();",
+            "drown_guard": "if(floor != null && floor.isLiquid && floor.drownTime > 0 && canDrown()){",
+            "last_floor_set": "lastDrownFloor = floor;",
+            "drown_increment": "drownTime += Time.delta / (hitSize / 8f * type.drownTimeMultiplier * floor.drownTime);",
+            "chance_gate": "if(Mathf.chanceDelta(0.05f)){",
+            "drown_effect_call": "floor.drownUpdateEffect.at(x, y, hitSize, floor.mapColor);",
+            "kill_guard": "if(drownTime >= 0.999f && !net.client()){",
+            "kill_call": "kill();",
+            "event_call": "Events.fire(new UnitDrownEvent(self()));",
+            "dry_decay": "drownTime -= Time.delta / 50f;",
+            "clamp": "drownTime = Mathf.clamp(drownTime);",
+            "floor_drown_time": "public float drownTime = 0f;",
+            "floor_drown_update_effect": "public Effect drownUpdateEffect = Fx.bubble;",
+            "floor_is_liquid": "public boolean isLiquid;",
+            "unit_drown_event": "public static class UnitDrownEvent{",
+            "unit_drown_event_unit": "public final Unit unit;",
+            "unit_type_drown_multiplier": "drownTimeMultiplier = 1f,",
+            "mathf_chance_delta": "public static boolean chanceDelta(double d){",
+            "mathf_chance_delta_delta": "return rand.nextFloat() < d * Time.delta;",
+            "mathf_clamp_unit": "public static float clamp(float value){",
+            "mathf_clamp_unit_body": "return Math.max(Math.min(value, 1f), 0f);",
+            "time_delta_default": "public static float delta = 1f;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_heal_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_heal_source"))
         report = source_parity.verify_unit_heal_source(ROOT / "mindustry-upstream")

@@ -3272,6 +3272,41 @@ func source_unit_heal_state(current_health: float, max_health: float, amount: fl
 		"healthMutationSource": "HealthComp.heal(float amount)",
 	}
 
+func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
+	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
+	var drown_time_before_clamp := current_drown_time
+	var drown_increment := 0.0
+	var effect_call: Variant = null
+	var kill_unit := false
+	var event_call: Variant = null
+	var last_drown_floor_set := false
+	if can_drown_on_floor:
+		last_drown_floor_set = true
+		drown_increment = source_delta / (hit_size / 8.0 * type_drown_time_multiplier * floor_drown_time)
+		drown_time_before_clamp += drown_increment
+		if chance_delta_result:
+			effect_call = {
+				"call": "floor.drownUpdateEffect.at(x, y, hitSize, floor.mapColor)",
+				"chance": "Mathf.chanceDelta(0.05f)",
+			}
+		kill_unit = drown_time_before_clamp >= 0.999 and not net_client
+		if kill_unit:
+			event_call = {"event": "Events.fire(new UnitDrownEvent(self()))"}
+	else:
+		drown_time_before_clamp -= source_delta / 50.0
+	var clamped_drown_time: float = clampf(drown_time_before_clamp, 0.0, 1.0)
+	return {
+		"canDrownOnFloor": can_drown_on_floor,
+		"lastDrownFloorSet": last_drown_floor_set,
+		"drownIncrement": drown_increment,
+		"drownTimeBeforeClamp": drown_time_before_clamp,
+		"drownTime": clamped_drown_time,
+		"effectCall": effect_call,
+		"kill": kill_unit,
+		"eventCall": event_call,
+		"netClient": net_client,
+	}
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
 		"movement": {"x": movement_x, "y": movement_y},

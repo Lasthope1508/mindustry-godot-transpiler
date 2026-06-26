@@ -2862,6 +2862,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"unitCompHealthDelta": 0.0', source)
         self.assertIn('"healthMutationSource": "HealthComp.heal(float amount)"', source)
 
+    def test_port_game_exposes_source_unit_update_drowning_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:", source)
+        self.assertIn("var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value", source)
+        self.assertIn("var drown_time_before_clamp := current_drown_time", source)
+        self.assertIn("var drown_increment := 0.0", source)
+        self.assertIn("drown_increment = source_delta / (hit_size / 8.0 * type_drown_time_multiplier * floor_drown_time)", source)
+        self.assertIn("drown_time_before_clamp += drown_increment", source)
+        self.assertIn("effect_call = {", source)
+        self.assertIn('"call": "floor.drownUpdateEffect.at(x, y, hitSize, floor.mapColor)"', source)
+        self.assertIn("kill_unit = drown_time_before_clamp >= 0.999 and not net_client", source)
+        self.assertIn('"event": "Events.fire(new UnitDrownEvent(self()))"', source)
+        self.assertIn("drown_time_before_clamp -= source_delta / 50.0", source)
+        self.assertIn("var clamped_drown_time: float = clampf(drown_time_before_clamp, 0.0, 1.0)", source)
+
     def test_port_game_exposes_source_unit_move_pref_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
