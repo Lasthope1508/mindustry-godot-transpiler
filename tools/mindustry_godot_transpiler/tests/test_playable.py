@@ -3260,6 +3260,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"serverHandler": "unit.killed()"', source)
         self.assertIn('"unit": unit_id', source)
 
+    def test_port_game_exposes_source_weapons_setup_mounts_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapons_setup_mounts_state(weapon_states: Array) -> Dictionary:", source)
+        self.assertIn("for index in weapon_states.size():", source)
+        self.assertIn('"array": "mounts = new WeaponMount[def.weapons.size]"', source)
+        self.assertIn('"loop": "for(int i = 0; i < mounts.length; i++)"', source)
+        self.assertIn('"call": "def.weapons.get(i).mountType.get(def.weapons.get(i))"', source)
+        self.assertIn('"constructor": "public WeaponMount(Weapon weapon)"', source)
+        self.assertIn('"rotation": float(weapon_state.get("baseRotation", 0.0))', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

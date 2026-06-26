@@ -3139,6 +3139,23 @@ func source_unit_set_type_state(type_id: int, type_health: float, type_drag: flo
 		"call": "setType(UnitType type)",
 	}
 
+func source_weapons_setup_mounts_state(weapon_states: Array) -> Dictionary:
+	var mounts: Array = []
+	for index in weapon_states.size():
+		var weapon_state: Dictionary = weapon_states[index]
+		mounts.append({
+			"index": index,
+			"weapon": str(weapon_state.get("weapon", "weapon%d" % index)),
+			"call": "def.weapons.get(i).mountType.get(def.weapons.get(i))",
+			"constructor": "public WeaponMount(Weapon weapon)",
+			"rotation": float(weapon_state.get("baseRotation", 0.0)),
+		})
+	return {
+		"array": "mounts = new WeaponMount[def.weapons.size]",
+		"loop": "for(int i = 0; i < mounts.length; i++)",
+		"mounts": mounts,
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

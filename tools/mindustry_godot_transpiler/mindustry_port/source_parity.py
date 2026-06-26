@@ -9,6 +9,7 @@ MEND_PROJECTOR_SOURCE = "core/src/mindustry/world/blocks/defense/MendProjector.j
 OVERDRIVE_PROJECTOR_SOURCE = "core/src/mindustry/world/blocks/defense/OverdriveProjector.java"
 BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
 UNIT_COMP_SOURCE = "core/src/mindustry/entities/comp/UnitComp.java"
+WEAPONS_COMP_SOURCE = "core/src/mindustry/entities/comp/WeaponsComp.java"
 HITBOX_COMP_SOURCE = "core/src/mindustry/entities/comp/HitboxComp.java"
 PAYLOAD_COMP_SOURCE = "core/src/mindustry/entities/comp/PayloadComp.java"
 UNIT_TYPES_CONTENT_SOURCE = "core/src/mindustry/content/UnitTypes.java"
@@ -5982,6 +5983,53 @@ def verify_unit_kill_sync_source(upstream_root: Path) -> dict[str, Any]:
     return {
         "source": UNIT_COMP_SOURCE,
         "units_source": UNITS_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_weapons_setup_mounts_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / WEAPONS_COMP_SOURCE
+    unit_type_path = upstream_root / UNIT_TYPE_SOURCE
+    weapon_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_path = upstream_root / "core/src/mindustry/entities/units/WeaponMount.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    weapon_source = weapon_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_source = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "mounts_field": "@SyncLocal WeaponMount[] mounts = {};",
+        "setup_method": "void setupWeapons(UnitType def){",
+        "setup_array": "mounts = new WeaponMount[def.weapons.size];",
+        "setup_loop": "for(int i = 0; i < mounts.length; i++){",
+        "setup_mount_type_get": "mounts[i] = def.weapons.get(i).mountType.get(def.weapons.get(i));",
+        "unit_type_weapons": "public Seq<Weapon> weapons = new Seq<>();",
+        "weapon_mount_type": "public Func<Weapon, WeaponMount> mountType = WeaponMount::new;",
+        "weapon_mount_constructor": "public WeaponMount(Weapon weapon){",
+        "weapon_mount_weapon": "this.weapon = weapon;",
+        "weapon_mount_base_rotation": "this.rotation = weapon.baseRotation;",
+    }
+    source_map = {
+        "mounts_field": source,
+        "setup_method": source,
+        "setup_array": source,
+        "setup_loop": source,
+        "setup_mount_type_get": source,
+        "unit_type_weapons": unit_type_source,
+        "weapon_mount_type": weapon_source,
+        "weapon_mount_constructor": weapon_mount_source,
+        "weapon_mount_weapon": weapon_mount_source,
+        "weapon_mount_base_rotation": weapon_mount_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": WEAPONS_COMP_SOURCE,
+        "unit_type_source": UNIT_TYPE_SOURCE,
+        "weapon_source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": "core/src/mindustry/entities/units/WeaponMount.java",
         "checked": checked,
         "missing": missing,
     }

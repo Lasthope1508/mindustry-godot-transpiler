@@ -3665,6 +3665,28 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapons_setup_mounts_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapons_setup_mounts_source"))
+        report = source_parity.verify_weapons_setup_mounts_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/WeaponsComp.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["weapon_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["checked"], {
+            "mounts_field": "@SyncLocal WeaponMount[] mounts = {};",
+            "setup_method": "void setupWeapons(UnitType def){",
+            "setup_array": "mounts = new WeaponMount[def.weapons.size];",
+            "setup_loop": "for(int i = 0; i < mounts.length; i++){",
+            "setup_mount_type_get": "mounts[i] = def.weapons.get(i).mountType.get(def.weapons.get(i));",
+            "unit_type_weapons": "public Seq<Weapon> weapons = new Seq<>();",
+            "weapon_mount_type": "public Func<Weapon, WeaponMount> mountType = WeaponMount::new;",
+            "weapon_mount_constructor": "public WeaponMount(Weapon weapon){",
+            "weapon_mount_weapon": "this.weapon = weapon;",
+            "weapon_mount_base_rotation": "this.rotation = weapon.baseRotation;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
