@@ -3702,6 +3702,31 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapons_control_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapons_control_source"))
+        report = source_parity.verify_weapons_control_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/WeaponsComp.java")
+        self.assertEqual(report["weapon_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["checked"], {
+            "is_rotate_field": "@ReadOnly transient boolean isRotate;",
+            "is_shooting_field": "boolean isShooting;",
+            "control_single_method": "void controlWeapons(boolean rotateShoot){",
+            "control_single_delegate": "controlWeapons(rotateShoot, rotateShoot);",
+            "control_pair_method": "void controlWeapons(boolean rotate, boolean shoot){",
+            "control_loop": "for(WeaponMount mount : mounts){",
+            "control_controllable_guard": "if(mount.weapon.controllable){",
+            "control_rotate_assignment": "mount.rotate = rotate;",
+            "control_shoot_assignment": "mount.shoot = shoot;",
+            "control_is_rotate": "isRotate = rotate;",
+            "control_is_shooting": "isShooting = shoot;",
+            "weapon_controllable": "public boolean controllable = true;",
+            "weapon_mount_shoot": "public boolean shoot = false;",
+            "weapon_mount_rotate": "public boolean rotate = false;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

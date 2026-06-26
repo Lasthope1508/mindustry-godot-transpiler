@@ -3283,6 +3283,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"sourceParameter": "rotation"', source)
         self.assertIn('"rotation": source_rotation', source)
 
+    def test_port_game_exposes_source_weapons_control_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapons_control_state(mount_states: Array, rotate_value: bool, shoot_value: bool) -> Dictionary:", source)
+        self.assertIn("func source_weapons_control_rotate_shoot_state(mount_states: Array, rotate_shoot: bool) -> Dictionary:", source)
+        self.assertIn("return source_weapons_control_state(mount_states, rotate_shoot, rotate_shoot)", source)
+        self.assertIn("for index in mount_states.size():", source)
+        self.assertIn('var controllable := bool(mount_state.get("controllable", true))', source)
+        self.assertIn('"guard": "mount.weapon.controllable"', source)
+        self.assertIn('"rotateAssignment": "mount.rotate = rotate"', source)
+        self.assertIn('"shootAssignment": "mount.shoot = shoot"', source)
+        self.assertIn('"isRotate": rotate_value', source)
+        self.assertIn('"isShooting": shoot_value', source)
+        self.assertIn('"controlled": controllable', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

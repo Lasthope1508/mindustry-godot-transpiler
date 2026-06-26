@@ -6065,6 +6065,58 @@ def verify_weapons_set_rotation_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_weapons_control_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / WEAPONS_COMP_SOURCE
+    weapon_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_path = upstream_root / "core/src/mindustry/entities/units/WeaponMount.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_source = weapon_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_source = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "is_rotate_field": "@ReadOnly transient boolean isRotate;",
+        "is_shooting_field": "boolean isShooting;",
+        "control_single_method": "void controlWeapons(boolean rotateShoot){",
+        "control_single_delegate": "controlWeapons(rotateShoot, rotateShoot);",
+        "control_pair_method": "void controlWeapons(boolean rotate, boolean shoot){",
+        "control_loop": "for(WeaponMount mount : mounts){",
+        "control_controllable_guard": "if(mount.weapon.controllable){",
+        "control_rotate_assignment": "mount.rotate = rotate;",
+        "control_shoot_assignment": "mount.shoot = shoot;",
+        "control_is_rotate": "isRotate = rotate;",
+        "control_is_shooting": "isShooting = shoot;",
+        "weapon_controllable": "public boolean controllable = true;",
+        "weapon_mount_shoot": "public boolean shoot = false;",
+        "weapon_mount_rotate": "public boolean rotate = false;",
+    }
+    source_map = {
+        "is_rotate_field": source,
+        "is_shooting_field": source,
+        "control_single_method": source,
+        "control_single_delegate": source,
+        "control_pair_method": source,
+        "control_loop": source,
+        "control_controllable_guard": source,
+        "control_rotate_assignment": source,
+        "control_shoot_assignment": source,
+        "control_is_rotate": source,
+        "control_is_shooting": source,
+        "weapon_controllable": weapon_source,
+        "weapon_mount_shoot": weapon_mount_source,
+        "weapon_mount_rotate": weapon_mount_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": WEAPONS_COMP_SOURCE,
+        "weapon_source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": "core/src/mindustry/entities/units/WeaponMount.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

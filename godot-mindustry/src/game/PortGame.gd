@@ -3172,6 +3172,32 @@ func source_weapons_set_rotation_state(mount_states: Array, source_rotation: flo
 		"mounts": mounts,
 	}
 
+func source_weapons_control_state(mount_states: Array, rotate_value: bool, shoot_value: bool) -> Dictionary:
+	var mounts: Array = []
+	for index in mount_states.size():
+		var mount_state: Dictionary = mount_states[index]
+		var controllable := bool(mount_state.get("controllable", true))
+		mounts.append({
+			"index": index,
+			"weapon": str(mount_state.get("weapon", "weapon%d" % index)),
+			"controlled": controllable,
+			"guard": "mount.weapon.controllable",
+			"rotateAssignment": "mount.rotate = rotate",
+			"shootAssignment": "mount.shoot = shoot",
+			"rotate": rotate_value if controllable else bool(mount_state.get("rotate", false)),
+			"shoot": shoot_value if controllable else bool(mount_state.get("shoot", false)),
+		})
+	return {
+		"loop": "for(WeaponMount mount : mounts)",
+		"delegate": "controlWeapons(rotateShoot, rotateShoot)",
+		"isRotate": rotate_value,
+		"isShooting": shoot_value,
+		"mounts": mounts,
+	}
+
+func source_weapons_control_rotate_shoot_state(mount_states: Array, rotate_shoot: bool) -> Dictionary:
+	return source_weapons_control_state(mount_states, rotate_shoot, rotate_shoot)
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
