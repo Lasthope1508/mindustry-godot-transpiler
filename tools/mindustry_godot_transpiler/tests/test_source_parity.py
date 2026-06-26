@@ -3378,6 +3378,38 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_destroy_initial_payload_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_destroy_initial_payload_source"))
+        report = source_parity.verify_unit_destroy_initial_payload_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["entity_source"], "core/src/mindustry/entities/comp/EntityComp.java")
+        self.assertEqual(report["items_source"], "core/src/mindustry/entities/comp/ItemsComp.java")
+        self.assertEqual(report["item_source"], "core/src/mindustry/type/Item.java")
+        self.assertEqual(report["item_stack_source"], "core/src/mindustry/type/ItemStack.java")
+        self.assertEqual(report["arc_mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "destroy_comment": "/** Actually destroys the unit, removing it and creating explosions. **/",
+            "destroy_method": "public void destroy(){",
+            "destroy_guard": "if(!isAdded() || !killable()) return;",
+            "explosiveness_formula": "float explosiveness = 2f + item().explosiveness * stack().amount * 1.53f;",
+            "flammability_formula": "float flammability = item().flammability * stack().amount / 1.9f;",
+            "power_formula": "float power = item().charge * Mathf.pow(stack().amount, 1.11f) * 160f;",
+            "entity_is_added": "boolean isAdded(){",
+            "entity_is_added_body": "return added;",
+            "unit_killable": "public boolean killable(){",
+            "unit_killable_body": "return type.killable(self());",
+            "items_item": "Item item(){",
+            "items_item_body": "return stack.item;",
+            "item_explosiveness": "public float explosiveness = 0f;",
+            "item_flammability": "public float flammability = 0f;",
+            "item_charge": "public float charge = 0f;",
+            "item_stack_amount": "public int amount = 0;",
+            "mathf_pow": "public static float pow(float a, float b){",
+            "mathf_pow_body": "return (float)Math.pow(a, b);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

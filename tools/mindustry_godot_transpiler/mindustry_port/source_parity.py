@@ -5365,6 +5365,74 @@ def verify_unit_icon_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_unit_destroy_initial_payload_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    entity_path = Path(upstream_root) / "core/src/mindustry/entities/comp/EntityComp.java"
+    items_path = Path(upstream_root) / "core/src/mindustry/entities/comp/ItemsComp.java"
+    item_path = Path(upstream_root) / "core/src/mindustry/type/Item.java"
+    item_stack_path = Path(upstream_root) / "core/src/mindustry/type/ItemStack.java"
+    mathf_path = Path(arc_root) / ARC_MATHF_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    entity_source = entity_path.read_text(encoding="utf-8", errors="replace")
+    items_source = items_path.read_text(encoding="utf-8", errors="replace")
+    item_source = item_path.read_text(encoding="utf-8", errors="replace")
+    item_stack_source = item_stack_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "destroy_comment": "/** Actually destroys the unit, removing it and creating explosions. **/",
+        "destroy_method": "public void destroy(){",
+        "destroy_guard": "if(!isAdded() || !killable()) return;",
+        "explosiveness_formula": "float explosiveness = 2f + item().explosiveness * stack().amount * 1.53f;",
+        "flammability_formula": "float flammability = item().flammability * stack().amount / 1.9f;",
+        "power_formula": "float power = item().charge * Mathf.pow(stack().amount, 1.11f) * 160f;",
+        "entity_is_added": "boolean isAdded(){",
+        "entity_is_added_body": "return added;",
+        "unit_killable": "public boolean killable(){",
+        "unit_killable_body": "return type.killable(self());",
+        "items_item": "Item item(){",
+        "items_item_body": "return stack.item;",
+        "item_explosiveness": "public float explosiveness = 0f;",
+        "item_flammability": "public float flammability = 0f;",
+        "item_charge": "public float charge = 0f;",
+        "item_stack_amount": "public int amount = 0;",
+        "mathf_pow": "public static float pow(float a, float b){",
+        "mathf_pow_body": "return (float)Math.pow(a, b);",
+    }
+    source_map = {
+        "destroy_comment": source,
+        "destroy_method": source,
+        "destroy_guard": source,
+        "explosiveness_formula": source,
+        "flammability_formula": source,
+        "power_formula": source,
+        "entity_is_added": entity_source,
+        "entity_is_added_body": entity_source,
+        "unit_killable": source,
+        "unit_killable_body": source,
+        "items_item": items_source,
+        "items_item_body": items_source,
+        "item_explosiveness": item_source,
+        "item_flammability": item_source,
+        "item_charge": item_source,
+        "item_stack_amount": item_stack_source,
+        "mathf_pow": mathf_source,
+        "mathf_pow_body": mathf_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "entity_source": "core/src/mindustry/entities/comp/EntityComp.java",
+        "items_source": "core/src/mindustry/entities/comp/ItemsComp.java",
+        "item_source": "core/src/mindustry/type/Item.java",
+        "item_stack_source": "core/src/mindustry/type/ItemStack.java",
+        "arc_mathf_source": ARC_MATHF_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

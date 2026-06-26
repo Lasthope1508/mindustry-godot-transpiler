@@ -3630,6 +3630,24 @@ func source_unit_icon_state(type_ui_icon: String) -> Dictionary:
 		"uiIcon": type_ui_icon,
 	}
 
+func source_unit_destroy_initial_payload_state(is_added_value: bool, killable_value: bool, item_explosiveness: float, item_flammability: float, item_charge: float, stack_amount: int) -> Dictionary:
+	var should_return := (not is_added_value) or (not killable_value)
+	var explosiveness: Variant = null
+	var flammability: Variant = null
+	var power: Variant = null
+	if not should_return:
+		explosiveness = 2.0 + item_explosiveness * float(stack_amount) * 1.53
+		flammability = item_flammability * float(stack_amount) / 1.9
+		power = item_charge * pow(float(stack_amount), 1.11) * 160.0
+	return {
+		"returnGuard": should_return,
+		"isAdded": is_added_value,
+		"killable": killable_value,
+		"explosiveness": explosiveness,
+		"flammability": flammability,
+		"power": power,
+	}
+
 func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
 	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
 	var drown_time_before_clamp := current_drown_time

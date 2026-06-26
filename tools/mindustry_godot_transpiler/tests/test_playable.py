@@ -3100,6 +3100,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"return": "type.uiIcon"', source)
         self.assertIn('"uiIcon": type_ui_icon', source)
 
+    def test_port_game_exposes_source_unit_destroy_initial_payload_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_destroy_initial_payload_state(is_added_value: bool, killable_value: bool, item_explosiveness: float, item_flammability: float, item_charge: float, stack_amount: int) -> Dictionary:", source)
+        self.assertIn("var should_return := (not is_added_value) or (not killable_value)", source)
+        self.assertIn("if not should_return:", source)
+        self.assertIn("explosiveness = 2.0 + item_explosiveness * float(stack_amount) * 1.53", source)
+        self.assertIn("flammability = item_flammability * float(stack_amount) / 1.9", source)
+        self.assertIn("power = item_charge * pow(float(stack_amount), 1.11) * 160.0", source)
+        self.assertIn('"returnGuard": should_return', source)
+        self.assertIn('"explosiveness": explosiveness', source)
+        self.assertIn('"flammability": flammability', source)
+        self.assertIn('"power": power', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
