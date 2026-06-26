@@ -2441,6 +2441,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"on_destroyed_called": true,', source)
         self.assertIn('"next_step": "tile_remove_gate",', source)
 
+    def test_port_game_exposes_source_building_killed_removal_side_effects_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_killed_removal_side_effects_state(tile_is_empty_tile: bool) -> Dictionary:", source)
+        self.assertIn('"tile_remove_called": not tile_is_empty_tile,', source)
+        self.assertIn('"remove_called": true,', source)
+        self.assertIn('"after_destroyed_called": true,', source)
+
     def test_port_game_exposes_source_drill_dump_interval(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

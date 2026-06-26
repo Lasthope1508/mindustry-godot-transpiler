@@ -2052,5 +2052,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_killed_removal_side_effects_match_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_killed_removal_side_effects_source"))
+        report = source_parity.verify_building_killed_removal_side_effects_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "killed_tile_gate": "if(tile != emptyTile){",
+            "killed_tile_remove": "tile.remove();",
+            "killed_remove": "remove();",
+            "killed_after_destroyed": "afterDestroyed();",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
