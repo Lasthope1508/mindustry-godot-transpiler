@@ -3589,6 +3589,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_destroy_ability_death_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_destroy_ability_death_source"))
+        report = source_parity.verify_unit_destroy_ability_death_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["ability_source"], "core/src/mindustry/entities/abilities/Ability.java")
+        self.assertEqual(report["checked"], {
+            "ability_import": "import mindustry.entities.abilities.*;",
+            "abilities_field": "Ability[] abilities = {};",
+            "destroy_ability_loop": "for(Ability a : abilities){",
+            "destroy_ability_death_call": "a.death(self());",
+            "ability_death_default": "public void death(Unit unit){}",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

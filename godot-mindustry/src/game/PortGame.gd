@@ -3833,6 +3833,22 @@ func source_unit_destroy_wreck_decal_state(headless_value: bool, type_create_sco
 		"decals": decals,
 	}
 
+func source_unit_destroy_ability_death_state(ability_states: Array, unit_id: int) -> Dictionary:
+	var calls: Array = []
+	for index in ability_states.size():
+		var ability_state: Dictionary = ability_states[index]
+		calls.append({
+			"index": index,
+			"ability": str(ability_state.get("ability", "ability%d" % index)),
+			"call": "a.death(self())",
+			"unit": unit_id,
+			"abilityDefault": "public void death(Unit unit){}",
+		})
+	return {
+		"loop": "for(Ability a : abilities)",
+		"calls": calls,
+	}
+
 func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
 	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
 	var drown_time_before_clamp := current_drown_time

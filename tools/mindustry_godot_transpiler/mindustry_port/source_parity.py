@@ -5815,6 +5815,37 @@ def verify_unit_destroy_wreck_decal_source(upstream_root: Path, arc_root: Path) 
         "missing": missing,
     }
 
+def verify_unit_destroy_ability_death_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / UNIT_COMP_SOURCE
+    ability_path = upstream_root / ABILITY_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    ability_source = ability_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "ability_import": "import mindustry.entities.abilities.*;",
+        "abilities_field": "Ability[] abilities = {};",
+        "destroy_ability_loop": "for(Ability a : abilities){",
+        "destroy_ability_death_call": "a.death(self());",
+        "ability_death_default": "public void death(Unit unit){}",
+    }
+    source_map = {
+        "ability_import": source,
+        "abilities_field": source,
+        "destroy_ability_loop": source,
+        "destroy_ability_death_call": source,
+        "ability_death_default": ability_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "ability_source": ABILITY_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

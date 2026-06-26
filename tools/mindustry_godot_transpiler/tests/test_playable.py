@@ -3212,6 +3212,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"rotation": source_rotation_degrees - 90.0', source)
         self.assertIn('"range": range_value', source)
 
+    def test_port_game_exposes_source_unit_destroy_ability_death_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_destroy_ability_death_state(ability_states: Array, unit_id: int) -> Dictionary:", source)
+        self.assertIn("for index in ability_states.size():", source)
+        self.assertIn('"loop": "for(Ability a : abilities)"', source)
+        self.assertIn('"call": "a.death(self())"', source)
+        self.assertIn('"abilityDefault": "public void death(Unit unit){}"', source)
+        self.assertIn('"unit": unit_id', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
