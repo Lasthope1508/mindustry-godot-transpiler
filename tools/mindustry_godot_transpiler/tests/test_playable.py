@@ -3158,6 +3158,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"eventClass": "UnitDestroyEvent"', source)
         self.assertIn('"unit": unit_id', source)
 
+    def test_port_game_exposes_source_unit_destroy_suicide_bomb_trigger_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_destroy_suicide_bomb_trigger_state(explosiveness: float, is_local_value: bool, was_player_value: bool) -> Dictionary:", source)
+        self.assertIn("var trigger := explosiveness > 7.0 and (is_local_value or was_player_value)", source)
+        self.assertIn('"guard": "explosiveness > 7f && (isLocal() || wasPlayer)"', source)
+        self.assertIn('"trigger": trigger', source)
+        self.assertIn('"event": "Events.fire(Trigger.suicideBomb)" if trigger else ""', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

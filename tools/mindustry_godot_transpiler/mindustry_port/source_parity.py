@@ -5571,6 +5571,48 @@ def verify_unit_destroy_sound_and_event_source(upstream_root: Path, arc_root: Pa
         "missing": missing,
     }
 
+def verify_unit_destroy_suicide_bomb_trigger_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    entity_path = Path(upstream_root) / "core/src/mindustry/entities/comp/EntityComp.java"
+    event_type_path = Path(upstream_root) / "core/src/mindustry/game/EventType.java"
+    events_path = Path(arc_root) / "arc-core/src/arc/Events.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    entity_source = entity_path.read_text(encoding="utf-8", errors="replace")
+    event_type_source = event_type_path.read_text(encoding="utf-8", errors="replace")
+    events_source = events_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "was_player_field": "private transient boolean wasPlayer;",
+        "destroy_suicide_bomb_guard": "if(explosiveness > 7f && (isLocal() || wasPlayer)){",
+        "destroy_suicide_bomb_event": "Events.fire(Trigger.suicideBomb);",
+        "entity_is_local": "boolean isLocal(){",
+        "entity_is_local_body": "return ((Object)this) == player || ((Object)this) instanceof Unitc u && u.controller() == player;",
+        "killed_was_player": "wasPlayer = isLocal();",
+        "trigger_suicide_bomb": "suicideBomb,",
+        "arc_events_fire_enum": "public static <T extends Enum<T>> void fire(Enum<T> type){",
+    }
+    source_map = {
+        "was_player_field": source,
+        "destroy_suicide_bomb_guard": source,
+        "destroy_suicide_bomb_event": source,
+        "entity_is_local": entity_source,
+        "entity_is_local_body": entity_source,
+        "killed_was_player": source,
+        "trigger_suicide_bomb": event_type_source,
+        "arc_events_fire_enum": events_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "entity_source": "core/src/mindustry/entities/comp/EntityComp.java",
+        "event_type_source": "core/src/mindustry/game/EventType.java",
+        "arc_events_source": "arc-core/src/arc/Events.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

@@ -3476,6 +3476,26 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_destroy_suicide_bomb_trigger_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_destroy_suicide_bomb_trigger_source"))
+        report = source_parity.verify_unit_destroy_suicide_bomb_trigger_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["entity_source"], "core/src/mindustry/entities/comp/EntityComp.java")
+        self.assertEqual(report["event_type_source"], "core/src/mindustry/game/EventType.java")
+        self.assertEqual(report["arc_events_source"], "arc-core/src/arc/Events.java")
+        self.assertEqual(report["checked"], {
+            "was_player_field": "private transient boolean wasPlayer;",
+            "destroy_suicide_bomb_guard": "if(explosiveness > 7f && (isLocal() || wasPlayer)){",
+            "destroy_suicide_bomb_event": "Events.fire(Trigger.suicideBomb);",
+            "entity_is_local": "boolean isLocal(){",
+            "entity_is_local_body": "return ((Object)this) == player || ((Object)this) instanceof Unitc u && u.controller() == player;",
+            "killed_was_player": "wasPlayer = isLocal();",
+            "trigger_suicide_bomb": "suicideBomb,",
+            "arc_events_fire_enum": "public static <T extends Enum<T>> void fire(Enum<T> type){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
