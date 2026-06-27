@@ -4539,6 +4539,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var heals := heal_percent > 0.0 or heal_amount > 0.0", source)
         self.assertIn('"healsReturnSource": "return healPercent > 0 || healAmount > 0"', source)
 
+    def test_port_game_exposes_source_bullet_type_building_damage_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_building_damage_state(bullet_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var update_bullet_state: Dictionary = bullet_state.duplicate(true)", source)
+        self.assertIn("var damage := float(update_bullet_state.get(\"damage\", 0.0))", source)
+        self.assertIn("var building_damage_multiplier := float(update_bullet_state.get(\"buildingDamageMultiplier\", 1.0))", source)
+        self.assertIn("var building_damage := damage * building_damage_multiplier", source)
+        self.assertIn('"buildingDamageReturnSource": "return b.damage() * b.buildingDamageMultiplier"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -6016,6 +6016,19 @@ func source_bullet_type_heals_state(bullet_type_state: Dictionary) -> Dictionary
 		"healsReturnSource": "return healPercent > 0 || healAmount > 0",
 	}
 
+func source_bullet_type_building_damage_state(bullet_state: Dictionary) -> Dictionary:
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var damage := float(update_bullet_state.get("damage", 0.0))
+	var building_damage_multiplier := float(update_bullet_state.get("buildingDamageMultiplier", 1.0))
+	var building_damage := damage * building_damage_multiplier
+	return {
+		"bullet": update_bullet_state,
+		"damage": damage,
+		"buildingDamageMultiplier": building_damage_multiplier,
+		"buildingDamage": building_damage,
+		"buildingDamageReturnSource": "return b.damage() * b.buildingDamageMultiplier",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

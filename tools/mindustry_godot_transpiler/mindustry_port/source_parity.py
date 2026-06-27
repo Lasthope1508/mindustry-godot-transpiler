@@ -9923,6 +9923,38 @@ def verify_bullet_type_heals_state_source(upstream_root: Path) -> dict[str, Any]
         "missing": missing,
     }
 
+def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    bullet_comp_source = "core/src/mindustry/entities/comp/BulletComp.java"
+    bullet_comp_path = upstream_root / bullet_comp_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    bullet_comp_text = bullet_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "building_damage_multiplier_field": "public float buildingDamageMultiplier = 1f;",
+        "method": "public float buildingDamage(Bullet b){",
+        "return_building_damage": "return b.damage() * b.buildingDamageMultiplier;",
+        "create_assigns_building_damage_multiplier": "bullet.buildingDamageMultiplier = buildingDamageMultiplier;",
+        "bullet_comp_field": "transient float buildingDamageMultiplier;",
+    }
+    source_map = {
+        "building_damage_multiplier_field": source,
+        "method": source,
+        "return_building_damage": source,
+        "create_assigns_building_damage_multiplier": source,
+        "bullet_comp_field": bullet_comp_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "bullet_comp_source": bullet_comp_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

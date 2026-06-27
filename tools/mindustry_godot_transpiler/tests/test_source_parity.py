@@ -5494,6 +5494,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_building_damage_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_building_damage_state_source"))
+        report = source_parity.verify_bullet_type_building_damage_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["bullet_comp_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(report["checked"], {
+            "building_damage_multiplier_field": "public float buildingDamageMultiplier = 1f;",
+            "method": "public float buildingDamage(Bullet b){",
+            "return_building_damage": "return b.damage() * b.buildingDamageMultiplier;",
+            "create_assigns_building_damage_multiplier": "bullet.buildingDamageMultiplier = buildingDamageMultiplier;",
+            "bullet_comp_field": "transient float buildingDamageMultiplier;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
