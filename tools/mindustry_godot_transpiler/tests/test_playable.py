@@ -3706,6 +3706,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"anglesWithinSource": "return angleDist(a, b) <= margin"', source)
         self.assertIn('"shootCallReservedSource": "shoot(unit, mount, bulletX, bulletY, shootAngle)"', source)
 
+    def test_port_game_exposes_source_weapon_update_shoot_call_reload_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_update_shoot_call_reload_state(mount_state: Dictionary, weapon_state: Dictionary, unit_id: int, bullet_x: float, bullet_y: float, shoot_angle: float, shoot_gate: bool) -> Dictionary:", source)
+        self.assertIn("var next_reload := weapon_reload if shoot_gate else current_reload", source)
+        self.assertIn("shoot_call = {", source)
+        self.assertIn('"unit": unit_id', source)
+        self.assertIn('"x": bullet_x', source)
+        self.assertIn('"y": bullet_y', source)
+        self.assertIn('"rotation": shoot_angle', source)
+        self.assertIn('"shootCallSource": "shoot(unit, mount, bulletX, bulletY, shootAngle)"', source)
+        self.assertIn('"reloadResetSource": "mount.reload = reload"', source)
+        self.assertIn('"shootMethodReservedSource": "protected void shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

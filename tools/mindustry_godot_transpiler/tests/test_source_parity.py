@@ -4415,6 +4415,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_update_shoot_call_reload_reset_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_update_shoot_call_reload_reset_source"))
+        report = source_parity.verify_weapon_update_shoot_call_reload_reset_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["checked"], {
+            "shoot_call": "shoot(unit, mount, bulletX, bulletY, shootAngle);",
+            "reload_reset": "mount.reload = reload;",
+            "shoot_method": "protected void shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation){",
+            "shoot_status_apply_reserved": "unit.apply(shootStatus, shootStatusDuration);",
+            "weapon_reload": "public float reload = 1;",
+            "mount_reload": "public float reload;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

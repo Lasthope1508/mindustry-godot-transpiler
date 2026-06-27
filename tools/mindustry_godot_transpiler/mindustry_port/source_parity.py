@@ -7651,6 +7651,40 @@ def verify_weapon_update_cone_gate_source(upstream_root: Path) -> dict[str, Any]
         "missing": missing,
     }
 
+def verify_weapon_update_shoot_call_reload_reset_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    weapon_mount_path = upstream_root / weapon_mount_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "shoot_call": "shoot(unit, mount, bulletX, bulletY, shootAngle);",
+        "reload_reset": "mount.reload = reload;",
+        "shoot_method": "protected void shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation){",
+        "shoot_status_apply_reserved": "unit.apply(shootStatus, shootStatusDuration);",
+        "weapon_reload": "public float reload = 1;",
+        "mount_reload": "public float reload;",
+    }
+    source_map = {
+        "shoot_call": source,
+        "reload_reset": source,
+        "shoot_method": source,
+        "shoot_status_apply_reserved": source,
+        "weapon_reload": source,
+        "mount_reload": weapon_mount_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": weapon_mount_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

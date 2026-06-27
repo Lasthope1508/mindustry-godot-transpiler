@@ -4073,6 +4073,30 @@ func source_weapon_update_cone_gate_state(mount_state: Dictionary, weapon_state:
 		"shootCallReservedSource": "shoot(unit, mount, bulletX, bulletY, shootAngle)",
 	}
 
+func source_weapon_update_shoot_call_reload_state(mount_state: Dictionary, weapon_state: Dictionary, unit_id: int, bullet_x: float, bullet_y: float, shoot_angle: float, shoot_gate: bool) -> Dictionary:
+	var current_reload := float(mount_state.get("reload", 0.0))
+	var weapon_reload := float(weapon_state.get("reload", 1.0))
+	var next_reload := weapon_reload if shoot_gate else current_reload
+	var shoot_call = null
+	if shoot_gate:
+		shoot_call = {
+			"unit": unit_id,
+			"x": bullet_x,
+			"y": bullet_y,
+			"rotation": shoot_angle,
+		}
+	return {
+		"shootGate": shoot_gate,
+		"mountReload": next_reload,
+		"previousReload": current_reload,
+		"weaponReload": weapon_reload,
+		"shootCall": shoot_call,
+		"shootCallSource": "shoot(unit, mount, bulletX, bulletY, shootAngle)",
+		"reloadResetSource": "mount.reload = reload",
+		"shootMethodReservedSource": "protected void shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation)",
+		"shootStatusApplyReservedSource": "unit.apply(shootStatus, shootStatusDuration)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
