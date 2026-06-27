@@ -4438,6 +4438,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"lightRadiusGateSource": "if(lightRadius <= -1){"', source)
         self.assertIn('"lightRadiusAssignSource": "lightRadius = Math.max(18, hitSize * 5f)"', source)
 
+    def test_port_game_exposes_source_bullet_type_init_draw_size_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_init_draw_size_state(light_radius_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var update_type_state: Dictionary = light_radius_state.get(\"bulletType\", {}).duplicate(true)", source)
+        self.assertIn("var draw_size := float(update_type_state.get(\"drawSize\", 40.0))", source)
+        self.assertIn("var computed_draw_size := float(update_type_state.get(\"trailLength\", -1)) * float(update_type_state.get(\"speed\", 1.0)) * 2.0", source)
+        self.assertIn("var resolved_draw_size: float = max(draw_size, computed_draw_size)", source)
+        self.assertIn("update_type_state[\"drawSize\"] = resolved_draw_size", source)
+        self.assertIn('"drawSizeAssignSource": "drawSize = Math.max(drawSize, trailLength * speed * 2f)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -9711,6 +9711,27 @@ def verify_bullet_type_init_light_radius_state_source(upstream_root: Path) -> di
         "missing": missing,
     }
 
+def verify_bullet_type_init_draw_size_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "speed_field": "public float speed = 1f;",
+        "draw_size_field": "public float drawSize = 40f;",
+        "trail_length_field": "public int trailLength = -1;",
+        "method": "public void init(){",
+        "draw_size_assign": "drawSize = Math.max(drawSize, trailLength * speed * 2f);",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

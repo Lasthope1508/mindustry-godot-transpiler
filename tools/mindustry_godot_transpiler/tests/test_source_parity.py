@@ -5376,6 +5376,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_init_draw_size_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_init_draw_size_state_source"))
+        report = source_parity.verify_bullet_type_init_draw_size_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "speed_field": "public float speed = 1f;",
+            "draw_size_field": "public float drawSize = 40f;",
+            "trail_length_field": "public int trailLength = -1;",
+            "method": "public void init(){",
+            "draw_size_assign": "drawSize = Math.max(drawSize, trailLength * speed * 2f);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

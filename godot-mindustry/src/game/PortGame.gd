@@ -5880,6 +5880,22 @@ func source_bullet_type_init_light_radius_state(lightning_type_state: Dictionary
 		"lightRadiusAssignSource": "lightRadius = Math.max(18, hitSize * 5f)",
 	}
 
+func source_bullet_type_init_draw_size_state(light_radius_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = light_radius_state.get("bulletType", {}).duplicate(true)
+	var draw_size := float(update_type_state.get("drawSize", 40.0))
+	var computed_draw_size := float(update_type_state.get("trailLength", -1)) * float(update_type_state.get("speed", 1.0)) * 2.0
+	var resolved_draw_size: float = max(draw_size, computed_draw_size)
+	update_type_state["drawSize"] = resolved_draw_size
+	return {
+		"bulletType": update_type_state,
+		"drawSize": resolved_draw_size,
+		"drawSizeBefore": draw_size,
+		"computedDrawSize": computed_draw_size,
+		"trailLength": int(update_type_state.get("trailLength", -1)),
+		"speed": float(update_type_state.get("speed", 1.0)),
+		"drawSizeAssignSource": "drawSize = Math.max(drawSize, trailLength * speed * 2f)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
