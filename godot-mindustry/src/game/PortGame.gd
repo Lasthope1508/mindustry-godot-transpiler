@@ -6820,6 +6820,65 @@ func source_bullet_type_create_splash_damage_heal_dispatch_state(bullet_type_sta
 		"makeFireBoundarySource": "if(makeFire)",
 	}
 
+func source_bullet_type_create_splash_damage_make_fire_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_splash_damage_heal_dispatch_state: Dictionary, nearby_blocks_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_heal_dispatch_state: Dictionary = create_splash_damage_heal_dispatch_state.duplicate(true)
+	var update_nearby_blocks_state: Dictionary = nearby_blocks_state.duplicate(true)
+	var hit_x := float(update_heal_dispatch_state.get("x", 0.0))
+	var hit_y := float(update_heal_dispatch_state.get("y", 0.0))
+	var bullet_team: Variant = update_bullet_state.get("team", null)
+	var splash_damage_radius := float(update_heal_dispatch_state.get("splashDamageRadius", update_type_state.get("splashDamageRadius", -1.0)))
+	var splash_damage_gate_passed := bool(update_heal_dispatch_state.get("splashDamageGatePassed", false))
+	var make_fire := bool(update_type_state.get("makeFire", false))
+	var make_fire_gate_passed := splash_damage_gate_passed and make_fire
+	var nearby_blocks: Array = update_nearby_blocks_state.get("blocks", [])
+	var each_block_call := {}
+	var fire_applications: Array = []
+	if make_fire_gate_passed:
+		each_block_call = {
+			"call": "indexer.eachBlock(null, x, y, splashDamageRadius, other -> other.team != b.team, other -> Fires.create(other.tile))",
+			"team": null,
+			"x": hit_x,
+			"y": hit_y,
+			"radius": splash_damage_radius,
+			"predicate": "other.team != b.team",
+			"called": true,
+		}
+		for raw_block in nearby_blocks:
+			if not raw_block is Dictionary:
+				continue
+			var other: Dictionary = raw_block.duplicate(true)
+			if other.get("team", null) == bullet_team:
+				continue
+			var other_tile: Variant = other.get("tile", null)
+			fire_applications.append({
+				"other": other,
+				"firesCreateCall": {
+					"call": "Fires.create(other.tile)",
+					"tile": other_tile,
+				},
+			})
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createSplashDamageHealDispatch": update_heal_dispatch_state,
+		"nearbyBlocks": update_nearby_blocks_state,
+		"x": hit_x,
+		"y": hit_y,
+		"bulletTeam": bullet_team,
+		"splashDamageRadius": splash_damage_radius,
+		"splashDamageGatePassed": splash_damage_gate_passed,
+		"makeFire": make_fire,
+		"makeFireGatePassed": make_fire_gate_passed,
+		"eachBlockCall": each_block_call,
+		"fireApplications": fire_applications,
+		"makeFireGateSource": "if(makeFire)",
+		"eachBlockCallSource": "indexer.eachBlock(null, x, y, splashDamageRadius, other -> other.team != b.team, other -> Fires.create(other.tile))",
+		"firesCreateCallSource": "Fires.create(other.tile)",
+		"createFragsBoundarySource": "public void createFrags(Bullet b, float x, float y){",
+	}
+
 func source_bullet_type_hit_entity_damage_cap_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, hit_entity_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

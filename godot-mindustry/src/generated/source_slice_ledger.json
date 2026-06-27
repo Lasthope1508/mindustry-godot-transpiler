@@ -740,6 +740,34 @@
         "test_port_game_exposes_source_bullet_type_create_splash_damage_heal_dispatch_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_heal_dispatch_state"
+    },
+    "N427": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_make_fire_dispatch_state",
+      "exact_exprs": [
+        "if(makeFire)",
+        "indexer.eachBlock(null, x, y, splashDamageRadius, other -> other.team != b.team, other -> Fires.create(other.tile))",
+        "Fires.create(other.tile)"
+      ],
+      "deferred_exprs": [
+        "public void createFrags(Bullet b, float x, float y){"
+      ],
+      "source_symbols": [
+        "create_splash_damage.make_fire_dispatch.make_fire",
+        "create_splash_damage.make_fire_dispatch.gate",
+        "create_splash_damage.make_fire_dispatch.each_block_call",
+        "create_splash_damage.make_fire_dispatch.enemy_team_predicate",
+        "create_splash_damage.make_fire_dispatch.fires_create_call",
+        "create_splash_damage.make_fire_dispatch.create_frags_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_splash_damage_make_fire_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_make_fire_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_make_fire_dispatch_state"
     }
   },
   "version": 1

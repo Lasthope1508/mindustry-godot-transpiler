@@ -10474,6 +10474,30 @@ def verify_bullet_type_create_splash_damage_heal_dispatch_state_source(upstream_
         "missing": missing,
     }
 
+def verify_bullet_type_create_splash_damage_make_fire_dispatch_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "make_fire_field": "public boolean makeFire = false;",
+        "method": "public void createSplashDamage(Bullet b, float x, float y){",
+        "damage_gate": "if(splashDamageRadius > 0 && !b.absorbed){",
+        "make_fire_gate": "if(makeFire){",
+        "each_block_call": "indexer.eachBlock(null, x, y, splashDamageRadius, other -> other.team != b.team, other -> Fires.create(other.tile));",
+        "enemy_team_predicate": "other -> other.team != b.team",
+        "fires_create_call": "Fires.create(other.tile)",
+        "create_frags_boundary": "public void createFrags(Bullet b, float x, float y){",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

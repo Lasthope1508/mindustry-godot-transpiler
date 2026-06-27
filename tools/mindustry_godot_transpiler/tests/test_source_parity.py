@@ -5866,6 +5866,23 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_create_splash_damage_make_fire_dispatch_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_create_splash_damage_make_fire_dispatch_state_source"))
+        report = source_parity.verify_bullet_type_create_splash_damage_make_fire_dispatch_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "make_fire_field": "public boolean makeFire = false;",
+            "method": "public void createSplashDamage(Bullet b, float x, float y){",
+            "damage_gate": "if(splashDamageRadius > 0 && !b.absorbed){",
+            "make_fire_gate": "if(makeFire){",
+            "each_block_call": "indexer.eachBlock(null, x, y, splashDamageRadius, other -> other.team != b.team, other -> Fires.create(other.tile));",
+            "enemy_team_predicate": "other -> other.team != b.team",
+            "fires_create_call": "Fires.create(other.tile)",
+            "create_frags_boundary": "public void createFrags(Bullet b, float x, float y){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_bullet_type_building_damage_state_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_bullet_type_building_damage_state_source"))
         report = source_parity.verify_bullet_type_building_damage_state_source(ROOT / "mindustry-upstream")
