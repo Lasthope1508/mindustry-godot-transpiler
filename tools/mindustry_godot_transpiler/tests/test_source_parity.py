@@ -5204,6 +5204,33 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_update_weaving_circle_shooter_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_update_weaving_circle_shooter_state_source"))
+        report = source_parity.verify_bullet_type_update_weaving_circle_shooter_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["vec2_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(report["mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "circle_shooter_field": "public boolean circleShooter = false;",
+            "circle_shooter_radius_field": "public float circleShooterRadius = 13f;",
+            "circle_shooter_radius_smooth_field": "public float circleShooterRadiusSmooth = 10f;",
+            "circle_shooter_rotate_speed_field": "public float circleShooterRotateSpeed = 0.3f;",
+            "speed_field": "public float speed = 1f;",
+            "gate": "if(circleShooter && b.owner instanceof Healthc h && h.isValid()){",
+            "tmp_set_sub": "Tmp.v1.set(h).sub(b);",
+            "tmp_rotate": "Tmp.v1.rotate(90f * Mathf.lerp(0f, 1f, 1f - Mathf.clamp((Tmp.v1.len() - circleShooterRadius) / circleShooterRadiusSmooth)));",
+            "vel_add_limit": "b.vel.add(Tmp.v1.limit(speed * circleShooterRotateSpeed * Time.delta)).limit(speed);",
+            "mathf_lerp": "public static float lerp(float fromValue, float toValue, float progress){\n        return fromValue + (toValue - fromValue) * progress;\n    }",
+            "mathf_clamp": "public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }",
+            "vec2_set_position": "public Vec2 set(Position v){\n        x = v.getX();\n        y = v.getY();\n        return this;\n    }",
+            "vec2_sub_position": "public Vec2 sub(Position v){\n        return sub(v.getX(), v.getY());\n    }",
+            "vec2_rotate": "public Vec2 rotate(float degrees){\n        return rotateRad(degrees * Mathf.degreesToRadians);\n    }",
+            "vec2_add": "public Vec2 add(Vec2 v){\n        x += v.x;\n        y += v.y;\n        return this;\n    }",
+            "vec2_limit": "public Vec2 limit(float limit){\n        return limit2(limit * limit);\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

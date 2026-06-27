@@ -5615,6 +5615,60 @@ func source_bullet_type_update_weaving_rotate_speed_state(weaving_state: Diction
 		"vec2RotateSource": "return rotateRad(degrees * Mathf.degreesToRadians)",
 	}
 
+func source_vec2_limit(vector_state: Dictionary, limit: float) -> Dictionary:
+	var vector_x := float(vector_state.get("x", 0.0))
+	var vector_y := float(vector_state.get("y", 0.0))
+	var len2 := vector_x * vector_x + vector_y * vector_y
+	var limit2 := limit * limit
+	if len2 > limit2:
+		var limit_scale := sqrt(limit2 / len2)
+		return {"x": vector_x * limit_scale, "y": vector_y * limit_scale}
+	return {"x": vector_x, "y": vector_y}
+
+func source_bullet_type_update_weaving_circle_shooter_state(rotate_speed_state: Dictionary, bullet_type_state: Dictionary, owner_health_state: Dictionary, source_delta: float) -> Dictionary:
+	var update_bullet_state: Dictionary = rotate_speed_state.get("bullet", {}).duplicate(true)
+	var gate_passed := bool(bullet_type_state.get("circleShooter", false)) and bool(owner_health_state.get("isHealthc", false)) and bool(owner_health_state.get("isValid", false))
+	if not gate_passed:
+		return {
+			"bullet": update_bullet_state,
+			"circleShooterApplied": false,
+			"circleShooterGatePassed": false,
+			"circleShooterGateSource": "if(circleShooter && b.owner instanceof Healthc h && h.isValid()){",
+			"circleShooterVelocitySource": "b.vel.add(Tmp.v1.limit(speed * circleShooterRotateSpeed * Time.delta)).limit(speed)",
+		}
+	var velocity_state: Dictionary = update_bullet_state.get("velocity", {})
+	var velocity_x := float(velocity_state.get("x", 0.0))
+	var velocity_y := float(velocity_state.get("y", 0.0))
+	var tmp_x := float(owner_health_state.get("x", 0.0)) - float(update_bullet_state.get("x", 0.0))
+	var tmp_y := float(owner_health_state.get("y", 0.0)) - float(update_bullet_state.get("y", 0.0))
+	var tmp_len := sqrt(tmp_x * tmp_x + tmp_y * tmp_y)
+	var circle_radius := float(bullet_type_state.get("circleShooterRadius", 13.0))
+	var circle_radius_smooth := float(bullet_type_state.get("circleShooterRadiusSmooth", 10.0))
+	var circle_rotate_speed := float(bullet_type_state.get("circleShooterRotateSpeed", 0.3))
+	var speed := float(bullet_type_state.get("speed", 1.0))
+	var circle_rotation_degrees: float = 90.0 * (0.0 + (1.0 - 0.0) * (1.0 - clamp((tmp_len - circle_radius) / circle_radius_smooth, 0.0, 1.0)))
+	var rotation_radians := circle_rotation_degrees * deg_to_rad(1.0)
+	var tmp_rotated := {"x": tmp_x * cos(rotation_radians) - tmp_y * sin(rotation_radians), "y": tmp_x * sin(rotation_radians) + tmp_y * cos(rotation_radians)}
+	var tmp_limit := speed * circle_rotate_speed * source_delta
+	var limited_tmp := source_vec2_limit(tmp_rotated, tmp_limit)
+	var limited_velocity := source_vec2_limit({"x": velocity_x + float(limited_tmp.get("x", 0.0)), "y": velocity_y + float(limited_tmp.get("y", 0.0))}, speed)
+	update_bullet_state["velocity"] = {"x": float(limited_velocity.get("x", 0.0)), "y": float(limited_velocity.get("y", 0.0)), "angle": source_arc_angles_angle(0.0, 0.0, float(limited_velocity.get("x", 0.0)), float(limited_velocity.get("y", 0.0))), "speed": sqrt(float(limited_velocity.get("x", 0.0)) * float(limited_velocity.get("x", 0.0)) + float(limited_velocity.get("y", 0.0)) * float(limited_velocity.get("y", 0.0)))}
+	return {
+		"bullet": update_bullet_state,
+		"circleShooterApplied": true,
+		"circleShooterGatePassed": true,
+		"tmpBeforeRotate": {"x": tmp_x, "y": tmp_y, "len": tmp_len},
+		"rotationDegrees": circle_rotation_degrees,
+		"rotationRadians": rotation_radians,
+		"tmpLimit": tmp_limit,
+		"limitedTmp": limited_tmp,
+		"velocity": update_bullet_state["velocity"],
+		"circleShooterGateSource": "if(circleShooter && b.owner instanceof Healthc h && h.isValid()){",
+		"circleShooterTmpSource": "Tmp.v1.set(h).sub(b)",
+		"circleShooterRotateSource": "Tmp.v1.rotate(90f * Mathf.lerp(0f, 1f, 1f - Mathf.clamp((Tmp.v1.len() - circleShooterRadius) / circleShooterRadiusSmooth)))",
+		"circleShooterVelocitySource": "b.vel.add(Tmp.v1.limit(speed * circleShooterRotateSpeed * Time.delta)).limit(speed)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

@@ -9356,6 +9356,65 @@ def verify_bullet_type_update_weaving_rotate_speed_state_source(upstream_root: P
         "missing": missing,
     }
 
+def verify_bullet_type_update_weaving_circle_shooter_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    vec2_source = "arc-core/src/arc/math/geom/Vec2.java"
+    mathf_source = "arc-core/src/arc/math/Mathf.java"
+    vec2_path = arc_root / vec2_source
+    mathf_path = arc_root / mathf_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    vec2_text = vec2_path.read_text(encoding="utf-8", errors="replace")
+    mathf_text = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "circle_shooter_field": "public boolean circleShooter = false;",
+        "circle_shooter_radius_field": "public float circleShooterRadius = 13f;",
+        "circle_shooter_radius_smooth_field": "public float circleShooterRadiusSmooth = 10f;",
+        "circle_shooter_rotate_speed_field": "public float circleShooterRotateSpeed = 0.3f;",
+        "speed_field": "public float speed = 1f;",
+        "gate": "if(circleShooter && b.owner instanceof Healthc h && h.isValid()){",
+        "tmp_set_sub": "Tmp.v1.set(h).sub(b);",
+        "tmp_rotate": "Tmp.v1.rotate(90f * Mathf.lerp(0f, 1f, 1f - Mathf.clamp((Tmp.v1.len() - circleShooterRadius) / circleShooterRadiusSmooth)));",
+        "vel_add_limit": "b.vel.add(Tmp.v1.limit(speed * circleShooterRotateSpeed * Time.delta)).limit(speed);",
+        "mathf_lerp": "public static float lerp(float fromValue, float toValue, float progress){\n        return fromValue + (toValue - fromValue) * progress;\n    }",
+        "mathf_clamp": "public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }",
+        "vec2_set_position": "public Vec2 set(Position v){\n        x = v.getX();\n        y = v.getY();\n        return this;\n    }",
+        "vec2_sub_position": "public Vec2 sub(Position v){\n        return sub(v.getX(), v.getY());\n    }",
+        "vec2_rotate": "public Vec2 rotate(float degrees){\n        return rotateRad(degrees * Mathf.degreesToRadians);\n    }",
+        "vec2_add": "public Vec2 add(Vec2 v){\n        x += v.x;\n        y += v.y;\n        return this;\n    }",
+        "vec2_limit": "public Vec2 limit(float limit){\n        return limit2(limit * limit);\n    }",
+    }
+    source_map = {
+        "circle_shooter_field": source,
+        "circle_shooter_radius_field": source,
+        "circle_shooter_radius_smooth_field": source,
+        "circle_shooter_rotate_speed_field": source,
+        "speed_field": source,
+        "gate": source,
+        "tmp_set_sub": source,
+        "tmp_rotate": source,
+        "vel_add_limit": source,
+        "mathf_lerp": mathf_text,
+        "mathf_clamp": mathf_text,
+        "vec2_set_position": vec2_text,
+        "vec2_sub_position": vec2_text,
+        "vec2_rotate": vec2_text,
+        "vec2_add": vec2_text,
+        "vec2_limit": vec2_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "vec2_source": vec2_source,
+        "mathf_source": mathf_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
