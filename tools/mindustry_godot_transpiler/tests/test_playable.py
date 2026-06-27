@@ -4657,6 +4657,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"lifestealResultSource": "float result = Math.max(Math.min(h.health(), damage), 0)"', source)
         self.assertIn('"ownerHealSource": "o.heal(result * lifesteal)"', source)
 
+    def test_port_game_exposes_source_bullet_type_hit_entity_armor_damage_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_hit_entity_armor_damage_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, hit_entity_state: Dictionary, damage_cap_state: Dictionary, lifesteal_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var healthc_gate_passed := bool(update_damage_cap_state.get(\"healthcGatePassed\", false))", source)
+        self.assertIn("var damage := float(update_damage_cap_state.get(\"damage\", update_bullet_state.get(\"damage\", 0.0)))", source)
+        self.assertIn("var pierce_armor := bool(update_type_state.get(\"pierceArmor\", false))", source)
+        self.assertIn("var armor_multiplier := float(update_type_state.get(\"armorMultiplier\", 1.0))", source)
+        self.assertIn("var pierce_armor_gate_passed := healthc_gate_passed and pierce_armor", source)
+        self.assertIn("var armor_multiplier_gate_passed := healthc_gate_passed and not pierce_armor and armor_multiplier != 1.0", source)
+        self.assertIn("var damage_gate_passed := healthc_gate_passed and not pierce_armor and armor_multiplier == 1.0", source)
+        self.assertIn('"call": "h.damagePierce(damage)"', source)
+        self.assertIn('"call": "h.damageArmorMult(damage, armorMultiplier)"', source)
+        self.assertIn('"call": "h.damage(damage)"', source)
+        self.assertIn('"pierceArmorSource": "if(pierceArmor)"', source)
+        self.assertIn('"armorMultiplierSource": "}else if(armorMultiplier != 1)"', source)
+        self.assertIn('"damageSource": "}else{ h.damage(damage); }"', source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

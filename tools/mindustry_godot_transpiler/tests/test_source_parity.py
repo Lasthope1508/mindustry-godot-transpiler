@@ -5619,6 +5619,24 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_hit_entity_armor_damage_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_hit_entity_armor_damage_state_source"))
+        report = source_parity.verify_bullet_type_hit_entity_armor_damage_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "hit_entity_method": "public void hitEntity(Bullet b, Hitboxc entity, float health){",
+            "healthc_gate": "if(entity instanceof Healthc h){",
+            "damage_assignment": "float damage = b.damage;",
+            "pierce_armor_gate": "if(pierceArmor){",
+            "damage_pierce_call": "h.damagePierce(damage);",
+            "armor_multiplier_gate": "}else if(armorMultiplier != 1){",
+            "damage_armor_mult_call": "h.damageArmorMult(damage, armorMultiplier);",
+            "damage_call_else": "}else{\n                h.damage(damage);",
+            "unit_boundary": "if(entity instanceof Unit unit){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_bullet_type_building_damage_state_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_bullet_type_building_damage_state_source"))
         report = source_parity.verify_bullet_type_building_damage_state_source(ROOT / "mindustry-upstream")

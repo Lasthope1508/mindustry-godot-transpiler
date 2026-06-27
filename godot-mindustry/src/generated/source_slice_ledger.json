@@ -298,6 +298,42 @@
         "test_port_game_exposes_source_bullet_type_hit_entity_lifesteal_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_entity_lifesteal_state"
+    },
+    "N412": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_armor_damage_state",
+      "exact_exprs": [
+        "if(pierceArmor)",
+        "h.damagePierce(damage)",
+        "}else if(armorMultiplier != 1)",
+        "h.damageArmorMult(damage, armorMultiplier)",
+        "h.damage(damage)"
+      ],
+      "deferred_exprs": [
+        "if(entity instanceof Unit unit)",
+        "Tmp.v3.set(unit).sub(b).nor().scl(knockback * 80f)",
+        "unit.apply(status, statusDuration)",
+        "Events.fire(bulletDamageEvent.set(unit, b))",
+        "if(!wasDead && entity instanceof Unit unit && unit.dead)",
+        "handlePierce(b, health, entity.x(), entity.y())"
+      ],
+      "source_symbols": [
+        "hit_entity.entity.is_healthc",
+        "hit_entity.damage_after_cap",
+        "hit_entity.pierce_armor",
+        "hit_entity.armor_multiplier",
+        "hit_entity.damage_pierce_call",
+        "hit_entity.damage_armor_mult_call",
+        "hit_entity.damage_call"
+      ],
+      "tests": [
+        "test_bullet_type_hit_entity_armor_damage_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_armor_damage_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_armor_damage_state"
     }
   },
   "version": 1

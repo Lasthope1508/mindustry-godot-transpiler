@@ -471,6 +471,79 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_entity_lifesteal_state",
       "rule": "Public runtime contract for BulletType.hitEntity lifesteal branch only; armor damage, unit effects, events, and handlePierce remain later slices."
+    },
+    "PortGame.source_bullet_type_hit_entity_armor_damage_state": {
+      "status": "active",
+      "source_slice": "N412",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "entity_state",
+          "type": "Dictionary",
+          "schema": "entity_state"
+        },
+        {
+          "name": "hit_entity_state",
+          "type": "Dictionary",
+          "schema": "hit_entity_state"
+        },
+        {
+          "name": "damage_cap_state",
+          "type": "Dictionary",
+          "schema": "hit_entity_damage_cap_result"
+        },
+        {
+          "name": "lifesteal_state",
+          "type": "Dictionary",
+          "schema": "hit_entity_lifesteal_result"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "entity",
+        "hitEntity",
+        "damageCap",
+        "lifesteal",
+        "healthcGatePassed",
+        "damage",
+        "pierceArmor",
+        "armorMultiplier",
+        "pierceArmorGatePassed",
+        "armorMultiplierGatePassed",
+        "damageGatePassed",
+        "damagePierceCalled",
+        "damageArmorMultCalled",
+        "damageCalled",
+        "healthDamageCall",
+        "unitImpulseDeferred",
+        "pierceDeferred",
+        "healthcGateSource",
+        "damageLocalSource",
+        "pierceArmorSource",
+        "damagePierceSource",
+        "armorMultiplierSource",
+        "damageArmorMultSource",
+        "damageSource",
+        "unitBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_entity_armor_damage_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_armor_damage_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_armor_damage_state",
+      "rule": "Public runtime contract for BulletType.hitEntity Healthc armor damage branch; unit effects, events, and handlePierce remain later slices."
     }
   },
   "policy": {

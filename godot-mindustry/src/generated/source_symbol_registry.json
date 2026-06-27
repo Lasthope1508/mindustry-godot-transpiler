@@ -1229,6 +1229,76 @@
         "test_port_game_exposes_source_bullet_type_hit_entity_lifesteal_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_entity_lifesteal_state"
+    },
+    "hit_entity.pierce_armor": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "pierceArmor",
+      "godot_symbol": "bullet_type_state.pierceArmor",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_armor_damage_state",
+      "rule": "Use BulletType.pierceArmor as the first armor damage branch gate.",
+      "tests": [
+        "test_bullet_type_hit_entity_armor_damage_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_armor_damage_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_armor_damage_state"
+    },
+    "hit_entity.armor_multiplier": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "armorMultiplier",
+      "godot_symbol": "bullet_type_state.armorMultiplier",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_armor_damage_state",
+      "rule": "Use BulletType.armorMultiplier for the else-if armor damage branch.",
+      "tests": [
+        "test_bullet_type_hit_entity_armor_damage_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_armor_damage_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_armor_damage_state"
+    },
+    "hit_entity.damage_pierce_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "h.damagePierce(damage)",
+      "godot_symbol": "hit_entity_armor_damage_result.damagePierceCalled",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_armor_damage_state",
+      "rule": "Record h.damagePierce(damage) only when Healthc and pierceArmor gates pass.",
+      "tests": [
+        "test_bullet_type_hit_entity_armor_damage_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_armor_damage_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_armor_damage_state"
+    },
+    "hit_entity.damage_armor_mult_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "h.damageArmorMult(damage, armorMultiplier)",
+      "godot_symbol": "hit_entity_armor_damage_result.damageArmorMultCalled",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_armor_damage_state",
+      "rule": "Record h.damageArmorMult(damage, armorMultiplier) only in the exact else-if branch.",
+      "tests": [
+        "test_bullet_type_hit_entity_armor_damage_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_armor_damage_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_armor_damage_state"
+    },
+    "hit_entity.damage_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "h.damage(damage)",
+      "godot_symbol": "hit_entity_armor_damage_result.damageCalled",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_armor_damage_state",
+      "rule": "Record h.damage(damage) only in the final else branch.",
+      "tests": [
+        "test_bullet_type_hit_entity_armor_damage_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_armor_damage_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_armor_damage_state"
     }
   }
 }

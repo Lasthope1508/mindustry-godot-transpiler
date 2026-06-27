@@ -6436,6 +6436,67 @@ func source_bullet_type_hit_entity_lifesteal_state(bullet_type_state: Dictionary
 		"pierceArmorBoundarySource": "if(pierceArmor)",
 	}
 
+func source_bullet_type_hit_entity_armor_damage_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, hit_entity_state: Dictionary, damage_cap_state: Dictionary, lifesteal_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_entity_state: Dictionary = entity_state.duplicate(true)
+	var update_hit_entity_state: Dictionary = hit_entity_state.duplicate(true)
+	var update_damage_cap_state: Dictionary = damage_cap_state.duplicate(true)
+	var update_lifesteal_state: Dictionary = lifesteal_state.duplicate(true)
+	var healthc_gate_passed := bool(update_damage_cap_state.get("healthcGatePassed", false))
+	var damage := float(update_damage_cap_state.get("damage", update_bullet_state.get("damage", 0.0)))
+	var pierce_armor := bool(update_type_state.get("pierceArmor", false))
+	var armor_multiplier := float(update_type_state.get("armorMultiplier", 1.0))
+	var pierce_armor_gate_passed := healthc_gate_passed and pierce_armor
+	var armor_multiplier_gate_passed := healthc_gate_passed and not pierce_armor and armor_multiplier != 1.0
+	var damage_gate_passed := healthc_gate_passed and not pierce_armor and armor_multiplier == 1.0
+	var health_damage_call: Variant = null
+	if pierce_armor_gate_passed:
+		health_damage_call = {
+			"call": "h.damagePierce(damage)",
+			"damage": damage,
+		}
+	elif armor_multiplier_gate_passed:
+		health_damage_call = {
+			"call": "h.damageArmorMult(damage, armorMultiplier)",
+			"damage": damage,
+			"armorMultiplier": armor_multiplier,
+		}
+	elif damage_gate_passed:
+		health_damage_call = {
+			"call": "h.damage(damage)",
+			"damage": damage,
+		}
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"entity": update_entity_state,
+		"hitEntity": update_hit_entity_state,
+		"damageCap": update_damage_cap_state,
+		"lifesteal": update_lifesteal_state,
+		"healthcGatePassed": healthc_gate_passed,
+		"damage": damage,
+		"pierceArmor": pierce_armor,
+		"armorMultiplier": armor_multiplier,
+		"pierceArmorGatePassed": pierce_armor_gate_passed,
+		"armorMultiplierGatePassed": armor_multiplier_gate_passed,
+		"damageGatePassed": damage_gate_passed,
+		"damagePierceCalled": pierce_armor_gate_passed,
+		"damageArmorMultCalled": armor_multiplier_gate_passed,
+		"damageCalled": damage_gate_passed,
+		"healthDamageCall": health_damage_call,
+		"unitImpulseDeferred": true,
+		"pierceDeferred": true,
+		"healthcGateSource": "if(entity instanceof Healthc h)",
+		"damageLocalSource": "float damage = b.damage",
+		"pierceArmorSource": "if(pierceArmor)",
+		"damagePierceSource": "h.damagePierce(damage)",
+		"armorMultiplierSource": "}else if(armorMultiplier != 1)",
+		"damageArmorMultSource": "h.damageArmorMult(damage, armorMultiplier)",
+		"damageSource": "}else{ h.damage(damage); }",
+		"unitBoundarySource": "if(entity instanceof Unit unit)",
+	}
+
 func source_bullet_type_building_damage_state(bullet_state: Dictionary) -> Dictionary:
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
 	var damage := float(update_bullet_state.get("damage", 0.0))

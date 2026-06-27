@@ -240,6 +240,30 @@
             "PortGame.source_bullet_type_hit_entity_damage_cap_state"
           ],
           "rule": "Canonical BulletType.maxDamageFraction field for hitEntity cap gate."
+        },
+        "pierceArmor": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "pierceArmor",
+          "godot_symbol": "bullet_type_state.pierceArmor",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_armor_damage_state"
+          ],
+          "rule": "Canonical BulletType.pierceArmor field for hitEntity armor damage branch."
+        },
+        "armorMultiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "armorMultiplier",
+          "godot_symbol": "bullet_type_state.armorMultiplier",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_armor_damage_state"
+          ],
+          "rule": "Canonical BulletType.armorMultiplier field for hitEntity armor damage branch."
         }
       }
     },
@@ -1393,7 +1417,8 @@
           "java_expr": "entity instanceof Healthc h",
           "godot_symbol": "entity_state.isHealthc",
           "used_by": [
-            "PortGame.source_bullet_type_hit_entity_damage_cap_state"
+            "PortGame.source_bullet_type_hit_entity_damage_cap_state",
+            "PortGame.source_bullet_type_hit_entity_armor_damage_state"
           ],
           "rule": "Explicit input until Healthc interface is ported."
         },
@@ -1487,7 +1512,8 @@
           "java_expr": "entity instanceof Healthc h",
           "godot_symbol": "hit_entity_damage_cap_result.healthcGatePassed",
           "used_by": [
-            "PortGame.source_bullet_type_hit_entity_damage_cap_state"
+            "PortGame.source_bullet_type_hit_entity_damage_cap_state",
+            "PortGame.source_bullet_type_hit_entity_armor_damage_state"
           ],
           "rule": "Exact Healthc branch gate."
         },
@@ -1499,7 +1525,8 @@
           "java_expr": "damage",
           "godot_symbol": "hit_entity_damage_cap_result.damage",
           "used_by": [
-            "PortGame.source_bullet_type_hit_entity_damage_cap_state"
+            "PortGame.source_bullet_type_hit_entity_damage_cap_state",
+            "PortGame.source_bullet_type_hit_entity_armor_damage_state"
           ],
           "rule": "Current source local after optional cap."
         },
@@ -1669,6 +1696,131 @@
           "status": "generated",
           "alias_of": "o.heal(result * lifesteal)",
           "rule": "Runtime call record for source side effect."
+        }
+      }
+    },
+    "hit_entity_armor_damage_result": {
+      "status": "active",
+      "keys": {
+        "healthcGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "entity instanceof Healthc h",
+          "godot_symbol": "hit_entity_armor_damage_result.healthcGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_armor_damage_state"
+          ],
+          "rule": "Reused from N410 damage cap state to preserve source branch nesting."
+        },
+        "damage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "damage",
+          "godot_symbol": "hit_entity_armor_damage_result.damage",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_armor_damage_state"
+          ],
+          "rule": "Source damage local after prior cap slice."
+        },
+        "pierceArmor": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "pierceArmor",
+          "godot_symbol": "hit_entity_armor_damage_result.pierceArmor",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_armor_damage_state"
+          ],
+          "rule": "BulletType.pierceArmor field for first branch."
+        },
+        "armorMultiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "armorMultiplier",
+          "godot_symbol": "hit_entity_armor_damage_result.armorMultiplier",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_armor_damage_state"
+          ],
+          "rule": "BulletType.armorMultiplier field for else-if branch."
+        },
+        "pierceArmorGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "pierceArmor",
+          "godot_symbol": "hit_entity_armor_damage_result.pierceArmorGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_armor_damage_state"
+          ],
+          "rule": "Exact first branch gate, nested inside Healthc."
+        },
+        "armorMultiplierGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "armorMultiplier != 1",
+          "godot_symbol": "hit_entity_armor_damage_result.armorMultiplierGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_armor_damage_state"
+          ],
+          "rule": "Exact else-if branch gate, nested after pierceArmor false."
+        },
+        "damageGatePassed": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "hit_entity_armor_damage_result.final_else_branch",
+          "rule": "Records whether final else h.damage(damage) branch would run."
+        },
+        "damagePierceCalled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "h.damagePierce(damage)",
+          "godot_symbol": "hit_entity_armor_damage_result.damagePierceCalled",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_armor_damage_state"
+          ],
+          "rule": "True only when exact source pierceArmor branch calls damagePierce."
+        },
+        "damageArmorMultCalled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "h.damageArmorMult(damage, armorMultiplier)",
+          "godot_symbol": "hit_entity_armor_damage_result.damageArmorMultCalled",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_armor_damage_state"
+          ],
+          "rule": "True only when exact source armorMultiplier branch calls damageArmorMult."
+        },
+        "damageCalled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "h.damage(damage)",
+          "godot_symbol": "hit_entity_armor_damage_result.damageCalled",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_armor_damage_state"
+          ],
+          "rule": "True only when exact source final else branch calls damage."
+        },
+        "healthDamageCall": {
+          "type": "Dictionary|null",
+          "status": "generated",
+          "alias_of": "one of h.damagePierce(damage), h.damageArmorMult(damage, armorMultiplier), h.damage(damage)",
+          "rule": "Runtime call record for the selected source side effect."
         }
       }
     }
