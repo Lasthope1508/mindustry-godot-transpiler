@@ -5091,6 +5091,66 @@ func source_bullet_type_create_velocity_position_state(aim_state: Dictionary, in
 		"lifetimeReservedSource": "bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f)",
 	}
 
+func source_bullet_type_create_lifetime_payload_damage_state(velocity_position_state: Dictionary, create_call_state: Dictionary, bullet_type_state: Dictionary, life_scale_random_factor: float, damage_multiplier_factor: float) -> Dictionary:
+	var bullet_create_call: Dictionary = create_call_state.get("bulletCreateCall", {})
+	var raw_bullet_state = velocity_position_state.get("bullet", {})
+	var bullet_state: Dictionary = raw_bullet_state if raw_bullet_state is Dictionary else {}
+	if not bool(velocity_position_state.get("bulletVelocityPositionApplied", false)) or bullet_state.is_empty():
+		return {
+			"bulletContinues": bool(velocity_position_state.get("bulletContinues", false)),
+			"bulletLifetimePayloadDamageApplied": false,
+			"bullet": null,
+			"lifetimeSource": "bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f)",
+			"dataSource": "bullet.data = data",
+			"hitSizeSource": "bullet.hitSize = hitSize",
+			"moverSource": "bullet.mover = mover",
+			"damageSource": "bullet.damage = (damage < 0 ? this.damage : damage) * bullet.damageMultiplier()",
+			"damageMultiplierSource": "return type.damageMultiplier(self())",
+			"buildingDamageMultiplierSource": "bullet.buildingDamageMultiplier = buildingDamageMultiplier",
+			"trailClearReservedSource": "if(bullet.trail != null){",
+			"addReservedSource": "bullet.add()",
+		}
+	var lifetime := float(bullet_type_state.get("lifetime", 40.0))
+	var lifetime_scl := float(bullet_create_call.get("lifetimeScl", 1.0))
+	var life_scale_rand_min := float(bullet_type_state.get("lifeScaleRandMin", 1.0))
+	var life_scale_rand_max := float(bullet_type_state.get("lifeScaleRandMax", 1.0))
+	var life_random_multiplier := life_scale_random_factor if life_scale_rand_min != 1.0 or life_scale_rand_max != 1.0 else 1.0
+	var lifetime_amount := lifetime * lifetime_scl * life_random_multiplier
+	var create_damage := float(bullet_create_call.get("damage", -1.0))
+	var type_damage := float(bullet_type_state.get("damage", 1.0))
+	var base_damage := type_damage if create_damage < 0.0 else create_damage
+	var hit_size := float(bullet_type_state.get("hitSize", 4.0))
+	var building_damage_multiplier := float(bullet_type_state.get("buildingDamageMultiplier", 1.0))
+	bullet_state = bullet_state.duplicate()
+	bullet_state["lifetime"] = lifetime_amount
+	bullet_state["data"] = bullet_create_call.get("data", null)
+	bullet_state["hitSize"] = hit_size
+	bullet_state["mover"] = bullet_create_call.get("mover", null)
+	bullet_state["damage"] = base_damage * damage_multiplier_factor
+	bullet_state["buildingDamageMultiplier"] = building_damage_multiplier
+	return {
+		"bulletContinues": true,
+		"bulletLifetimePayloadDamageApplied": true,
+		"lifeScaleRandMin": life_scale_rand_min,
+		"lifeScaleRandMax": life_scale_rand_max,
+		"lifeScaleRandomFactor": life_scale_random_factor,
+		"lifeRandomMultiplier": life_random_multiplier,
+		"lifetimeAmount": lifetime_amount,
+		"baseDamage": base_damage,
+		"damageMultiplierFactor": damage_multiplier_factor,
+		"damageAmount": base_damage * damage_multiplier_factor,
+		"bullet": bullet_state,
+		"lifetimeSource": "bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f)",
+		"dataSource": "bullet.data = data",
+		"hitSizeSource": "bullet.hitSize = hitSize",
+		"moverSource": "bullet.mover = mover",
+		"damageSource": "bullet.damage = (damage < 0 ? this.damage : damage) * bullet.damageMultiplier()",
+		"damageMultiplierSource": "return type.damageMultiplier(self())",
+		"buildingDamageMultiplierSource": "bullet.buildingDamageMultiplier = buildingDamageMultiplier",
+		"trailClearReservedSource": "if(bullet.trail != null){",
+		"addReservedSource": "bullet.add()",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

@@ -4916,6 +4916,29 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_create_lifetime_payload_damage_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_create_lifetime_payload_damage_state_source"))
+        report = source_parity.verify_bullet_type_create_lifetime_payload_damage_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["bullet_comp_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(report["checked"], {
+            "lifetime_assignment": "bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f);",
+            "data_assignment": "bullet.data = data;",
+            "hit_size_assignment": "bullet.hitSize = hitSize;",
+            "mover_assignment": "bullet.mover = mover;",
+            "damage_assignment": "bullet.damage = (damage < 0 ? this.damage : damage) * bullet.damageMultiplier();",
+            "building_damage_multiplier_assignment": "bullet.buildingDamageMultiplier = buildingDamageMultiplier;",
+            "trail_clear_reserved": "if(bullet.trail != null){",
+            "bullet_add_reserved": "bullet.add();",
+            "bullet_comp_data": "Object data;",
+            "bullet_comp_building_damage_multiplier": "transient float buildingDamageMultiplier;",
+            "bullet_comp_mover": "transient @Nullable Mover mover;",
+            "bullet_comp_damage_multiplier": "public float damageMultiplier(){\n        return type.damageMultiplier(self());\n    }",
+            "bullet_type_damage_multiplier": "public float damageMultiplier(Bullet b){\n        if(b.owner instanceof Unit u) return u.damageMultiplier() * state.rules.unitDamage(b.team);\n        if(b.owner instanceof Building) return state.rules.blockDamage(b.team);\n\n        return 1f;\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

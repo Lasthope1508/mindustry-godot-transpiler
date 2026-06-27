@@ -8726,6 +8726,54 @@ def verify_bullet_type_create_velocity_position_state_source(upstream_root: Path
         "missing": missing,
     }
 
+def verify_bullet_type_create_lifetime_payload_damage_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    bullet_comp_source = "core/src/mindustry/entities/comp/BulletComp.java"
+    bullet_comp_path = upstream_root / bullet_comp_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    bullet_comp_text = bullet_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "lifetime_assignment": "bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f);",
+        "data_assignment": "bullet.data = data;",
+        "hit_size_assignment": "bullet.hitSize = hitSize;",
+        "mover_assignment": "bullet.mover = mover;",
+        "damage_assignment": "bullet.damage = (damage < 0 ? this.damage : damage) * bullet.damageMultiplier();",
+        "building_damage_multiplier_assignment": "bullet.buildingDamageMultiplier = buildingDamageMultiplier;",
+        "trail_clear_reserved": "if(bullet.trail != null){",
+        "bullet_add_reserved": "bullet.add();",
+        "bullet_comp_data": "Object data;",
+        "bullet_comp_building_damage_multiplier": "transient float buildingDamageMultiplier;",
+        "bullet_comp_mover": "transient @Nullable Mover mover;",
+        "bullet_comp_damage_multiplier": "public float damageMultiplier(){\n        return type.damageMultiplier(self());\n    }",
+        "bullet_type_damage_multiplier": "public float damageMultiplier(Bullet b){\n        if(b.owner instanceof Unit u) return u.damageMultiplier() * state.rules.unitDamage(b.team);\n        if(b.owner instanceof Building) return state.rules.blockDamage(b.team);\n\n        return 1f;\n    }",
+    }
+    source_map = {
+        "lifetime_assignment": source,
+        "data_assignment": source,
+        "hit_size_assignment": source,
+        "mover_assignment": source,
+        "damage_assignment": source,
+        "building_damage_multiplier_assignment": source,
+        "trail_clear_reserved": source,
+        "bullet_add_reserved": source,
+        "bullet_comp_data": bullet_comp_text,
+        "bullet_comp_building_damage_multiplier": bullet_comp_text,
+        "bullet_comp_mover": bullet_comp_text,
+        "bullet_comp_damage_multiplier": bullet_comp_text,
+        "bullet_type_damage_multiplier": source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "bullet_comp_source": bullet_comp_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

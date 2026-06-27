@@ -4081,6 +4081,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"lastYSource": "bullet.lastY = y"', source)
         self.assertIn('"lifetimeReservedSource": "bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f)"', source)
 
+    def test_port_game_exposes_source_bullet_type_create_lifetime_payload_damage_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_create_lifetime_payload_damage_state(velocity_position_state: Dictionary, create_call_state: Dictionary, bullet_type_state: Dictionary, life_scale_random_factor: float, damage_multiplier_factor: float) -> Dictionary:", source)
+        self.assertIn("var bullet_create_call: Dictionary = create_call_state.get(\"bulletCreateCall\", {})", source)
+        self.assertIn("var raw_bullet_state = velocity_position_state.get(\"bullet\", {})", source)
+        self.assertIn("var bullet_state: Dictionary = raw_bullet_state if raw_bullet_state is Dictionary else {}", source)
+        self.assertIn("var life_random_multiplier := life_scale_random_factor if life_scale_rand_min != 1.0 or life_scale_rand_max != 1.0 else 1.0", source)
+        self.assertIn("var base_damage := type_damage if create_damage < 0.0 else create_damage", source)
+        self.assertIn("bullet_state[\"lifetime\"] = lifetime_amount", source)
+        self.assertIn("bullet_state[\"data\"] = bullet_create_call.get(\"data\", null)", source)
+        self.assertIn("bullet_state[\"hitSize\"] = hit_size", source)
+        self.assertIn("bullet_state[\"mover\"] = bullet_create_call.get(\"mover\", null)", source)
+        self.assertIn("bullet_state[\"damage\"] = base_damage * damage_multiplier_factor", source)
+        self.assertIn("bullet_state[\"buildingDamageMultiplier\"] = building_damage_multiplier", source)
+        self.assertIn('"lifetimeSource": "bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f)"', source)
+        self.assertIn('"damageSource": "bullet.damage = (damage < 0 ? this.damage : damage) * bullet.damageMultiplier()"', source)
+        self.assertIn('"damageMultiplierSource": "return type.damageMultiplier(self())"', source)
+        self.assertIn('"trailClearReservedSource": "if(bullet.trail != null){"', source)
+        self.assertIn('"addReservedSource": "bullet.add()"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
