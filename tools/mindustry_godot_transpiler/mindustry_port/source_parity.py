@@ -8077,6 +8077,40 @@ def verify_weapon_bullet_create_call_source(upstream_root: Path) -> dict[str, An
         "missing": missing,
     }
 
+def verify_weapon_bullet_handle_call_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    weapon_mount_path = upstream_root / weapon_mount_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "handle_bullet_call": "handleBullet(unit, mount, mount.bullet);",
+        "sound_reserved": "if(!continuous){",
+        "handle_bullet_comment": "//override to do special things to a bullet after spawning",
+        "handle_bullet_method": "protected void handleBullet(Unit unit, WeaponMount mount, Bullet bullet){",
+        "handle_bullet_continuous_reserved": "if(continuous){",
+        "mount_bullet_field": "public @Nullable Bullet bullet;",
+    }
+    source_map = {
+        "handle_bullet_call": source,
+        "sound_reserved": source,
+        "handle_bullet_comment": source,
+        "handle_bullet_method": source,
+        "handle_bullet_continuous_reserved": source,
+        "mount_bullet_field": weapon_mount_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": weapon_mount_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

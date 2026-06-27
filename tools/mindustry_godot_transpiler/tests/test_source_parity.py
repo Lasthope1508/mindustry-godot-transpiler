@@ -4605,6 +4605,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_bullet_handle_call_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_bullet_handle_call_source"))
+        report = source_parity.verify_weapon_bullet_handle_call_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["checked"], {
+            "handle_bullet_call": "handleBullet(unit, mount, mount.bullet);",
+            "sound_reserved": "if(!continuous){",
+            "handle_bullet_comment": "//override to do special things to a bullet after spawning",
+            "handle_bullet_method": "protected void handleBullet(Unit unit, WeaponMount mount, Bullet bullet){",
+            "handle_bullet_continuous_reserved": "if(continuous){",
+            "mount_bullet_field": "public @Nullable Bullet bullet;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

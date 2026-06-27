@@ -4410,6 +4410,32 @@ func source_weapon_bullet_create_call_state(unit_state: Dictionary, mount_state:
 		"handleBulletReservedSource": "handleBullet(unit, mount, mount.bullet)",
 	}
 
+func source_weapon_bullet_handle_call_state(unit_state: Dictionary, mount_state: Dictionary, create_call_state: Dictionary, created_bullet: Variant) -> Dictionary:
+	var bullet_continues := bool(create_call_state.get("bulletContinues", false))
+	if not bullet_continues:
+		return {
+			"bulletContinues": false,
+			"handleBulletCalled": false,
+			"handleBulletCall": null,
+			"handleBulletSource": "handleBullet(unit, mount, mount.bullet)",
+		}
+	var handle_bullet_call := {
+		"unit": unit_state.get("id", null),
+		"mount": mount_state.get("id", null),
+		"mountBullet": created_bullet,
+		"bullet": created_bullet,
+	}
+	return {
+		"bulletContinues": true,
+		"handleBulletCalled": true,
+		"handleBulletCall": handle_bullet_call,
+		"mountBullet": created_bullet,
+		"handleBulletSource": "handleBullet(unit, mount, mount.bullet)",
+		"handleBulletInternalsReservedSource": "protected void handleBullet(Unit unit, WeaponMount mount, Bullet bullet)",
+		"continuousBranchReservedSource": "if(continuous)",
+		"soundReservedSource": "if(!continuous)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

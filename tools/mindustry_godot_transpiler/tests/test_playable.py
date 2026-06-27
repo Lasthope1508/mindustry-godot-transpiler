@@ -3857,6 +3857,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"mountBulletSetFromCreateCall": true', source)
         self.assertIn('"bulletCreateCallSource": "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target)"', source)
 
+    def test_port_game_exposes_source_weapon_bullet_handle_call_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_bullet_handle_call_state(unit_state: Dictionary, mount_state: Dictionary, create_call_state: Dictionary, created_bullet: Variant) -> Dictionary:", source)
+        self.assertIn("var bullet_continues := bool(create_call_state.get(\"bulletContinues\", false))", source)
+        self.assertIn("var handle_bullet_call := {", source)
+        self.assertIn('"unit": unit_state.get("id", null)', source)
+        self.assertIn('"mountBullet": created_bullet', source)
+        self.assertIn('"bullet": created_bullet', source)
+        self.assertIn('"handleBulletCalled": true', source)
+        self.assertIn('"handleBulletSource": "handleBullet(unit, mount, mount.bullet)"', source)
+        self.assertIn('"handleBulletInternalsReservedSource": "protected void handleBullet(Unit unit, WeaponMount mount, Bullet bullet)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
