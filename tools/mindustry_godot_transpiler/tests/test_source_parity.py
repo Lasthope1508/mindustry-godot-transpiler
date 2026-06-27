@@ -5321,6 +5321,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_init_frag_velocity_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_init_frag_velocity_state_source"))
+        report = source_parity.verify_bullet_type_init_frag_velocity_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "keep_velocity_field": "public boolean keepVelocity = true;",
+            "scale_keep_velocity_field": "public boolean scaleKeepVelocity = false;",
+            "frag_bullet_field": "public @Nullable BulletType fragBullet = null;",
+            "method": "public void init(){",
+            "frag_gate": "if(fragBullet != null){",
+            "frag_keep_velocity_assign": "fragBullet.keepVelocity = false;",
+            "frag_scale_keep_velocity_assign": "fragBullet.scaleKeepVelocity = false;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

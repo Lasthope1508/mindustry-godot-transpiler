@@ -5798,6 +5798,33 @@ func source_bullet_type_init_type_defaults_state(bullet_type_state: Dictionary) 
 		"despawnHitAssignSource": "despawnHit = true",
 	}
 
+func source_bullet_type_init_frag_velocity_state(type_defaults_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = type_defaults_state.get("bulletType", {}).duplicate(true)
+	var frag_bullet_value = update_type_state.get("fragBullet", null)
+	var gate_passed := frag_bullet_value != null
+	if not gate_passed:
+		return {
+			"bulletType": update_type_state,
+			"fragBulletVelocityApplied": false,
+			"fragGatePassed": false,
+			"fragGateSource": "if(fragBullet != null){",
+			"fragKeepVelocitySource": "fragBullet.keepVelocity = false",
+			"fragScaleKeepVelocitySource": "fragBullet.scaleKeepVelocity = false",
+		}
+	var frag_bullet_state := (frag_bullet_value as Dictionary).duplicate(true)
+	frag_bullet_state["keepVelocity"] = false
+	frag_bullet_state["scaleKeepVelocity"] = false
+	update_type_state["fragBullet"] = frag_bullet_state
+	return {
+		"bulletType": update_type_state,
+		"fragBulletVelocityApplied": true,
+		"fragGatePassed": true,
+		"fragBullet": frag_bullet_state,
+		"fragGateSource": "if(fragBullet != null){",
+		"fragKeepVelocitySource": "fragBullet.keepVelocity = false",
+		"fragScaleKeepVelocitySource": "fragBullet.scaleKeepVelocity = false",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

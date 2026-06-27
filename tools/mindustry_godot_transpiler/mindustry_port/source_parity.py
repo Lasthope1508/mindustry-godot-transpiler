@@ -9615,6 +9615,29 @@ def verify_bullet_type_init_type_defaults_state_source(upstream_root: Path) -> d
         "missing": missing,
     }
 
+def verify_bullet_type_init_frag_velocity_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "keep_velocity_field": "public boolean keepVelocity = true;",
+        "scale_keep_velocity_field": "public boolean scaleKeepVelocity = false;",
+        "frag_bullet_field": "public @Nullable BulletType fragBullet = null;",
+        "method": "public void init(){",
+        "frag_gate": "if(fragBullet != null){",
+        "frag_keep_velocity_assign": "fragBullet.keepVelocity = false;",
+        "frag_scale_keep_velocity_assign": "fragBullet.scaleKeepVelocity = false;",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

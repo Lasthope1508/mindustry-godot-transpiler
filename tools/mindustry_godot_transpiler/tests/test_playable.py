@@ -4393,6 +4393,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"statusAssignSource": "status = StatusEffects.shocked"', source)
         self.assertIn('"despawnHitGateSource": "if(fragBullet != null || splashDamageRadius > 0 || lightning > 0){"', source)
 
+    def test_port_game_exposes_source_bullet_type_init_frag_velocity_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_init_frag_velocity_state(type_defaults_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var update_type_state: Dictionary = type_defaults_state.get(\"bulletType\", {}).duplicate(true)", source)
+        self.assertIn("var frag_bullet_value = update_type_state.get(\"fragBullet\", null)", source)
+        self.assertIn("var gate_passed := frag_bullet_value != null", source)
+        self.assertIn("var frag_bullet_state := (frag_bullet_value as Dictionary).duplicate(true)", source)
+        self.assertIn("frag_bullet_state[\"keepVelocity\"] = false", source)
+        self.assertIn("frag_bullet_state[\"scaleKeepVelocity\"] = false", source)
+        self.assertIn("update_type_state[\"fragBullet\"] = frag_bullet_state", source)
+        self.assertIn('"fragGateSource": "if(fragBullet != null){"', source)
+        self.assertIn('"fragKeepVelocitySource": "fragBullet.keepVelocity = false"', source)
+        self.assertIn('"fragScaleKeepVelocitySource": "fragBullet.scaleKeepVelocity = false"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
