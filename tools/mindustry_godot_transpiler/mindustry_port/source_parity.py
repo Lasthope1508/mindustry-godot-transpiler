@@ -9122,6 +9122,52 @@ def verify_bullet_type_update_trail_state_source(upstream_root: Path) -> dict[st
         "missing": missing,
     }
 
+def verify_bullet_type_update_homing_initial_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    bullet_comp_source = "core/src/mindustry/entities/comp/BulletComp.java"
+    bullet_comp_path = upstream_root / bullet_comp_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    bullet_comp_text = bullet_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "homing_power_field": "public float homingPower = 0f;",
+        "homing_range_field": "public float homingRange = 50f;",
+        "homing_delay_field": "public float homingDelay = -1f;",
+        "follow_aim_speed_field": "public float followAimSpeed = 0f;",
+        "method": "public void updateHoming(Bullet b){",
+        "gate": "if(homingPower > 0.0001f && b.time >= homingDelay){",
+        "real_aim_x": "float realAimX = b.aimX < 0 ? b.x : b.aimX;",
+        "real_aim_y": "float realAimY = b.aimY < 0 ? b.y : b.aimY;",
+        "target_reserved": "Teamc target;",
+        "follow_aim_reserved": "if(followAimSpeed > 0f && b.shooter instanceof Unit u){",
+        "bullet_comp_xy_time": "@Import float x, y, damage, lastX, lastY, time, lifetime;",
+        "bullet_comp_aim": "transient float aimX, aimY;",
+    }
+    source_map = {
+        "homing_power_field": source,
+        "homing_range_field": source,
+        "homing_delay_field": source,
+        "follow_aim_speed_field": source,
+        "method": source,
+        "gate": source,
+        "real_aim_x": source,
+        "real_aim_y": source,
+        "target_reserved": source,
+        "follow_aim_reserved": source,
+        "bullet_comp_xy_time": bullet_comp_text,
+        "bullet_comp_aim": bullet_comp_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "bullet_comp_source": bullet_comp_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

@@ -4241,6 +4241,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"gateSource": "if(!headless && trailLength > 0){"', source)
         self.assertIn('"updateSource": "b.trail.update(b.x, b.y, trailInterp.apply(b.fin()) * (1f + (trailSinMag > 0 ? Mathf.absin(Time.time, trailSinScl, trailSinMag) : 0f)))"', source)
 
+    def test_port_game_exposes_source_bullet_type_update_homing_initial_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_update_homing_initial_state(bullet_state: Dictionary, bullet_type_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var update_bullet_state := bullet_state.duplicate(true)", source)
+        self.assertIn("var homing_power := float(bullet_type_state.get(\"homingPower\", 0.0))", source)
+        self.assertIn("var homing_delay := float(bullet_type_state.get(\"homingDelay\", -1.0))", source)
+        self.assertIn("var gate_passed := homing_power > 0.0001 and float(update_bullet_state.get(\"time\", 0.0)) >= homing_delay", source)
+        self.assertIn("var aim_x := float(update_bullet_state.get(\"aimX\", -1.0))", source)
+        self.assertIn("var real_aim_x := float(update_bullet_state.get(\"x\", 0.0)) if aim_x < 0.0 else aim_x", source)
+        self.assertIn("var real_aim_y := float(update_bullet_state.get(\"y\", 0.0)) if aim_y < 0.0 else aim_y", source)
+        self.assertIn('"gateSource": "if(homingPower > 0.0001f && b.time >= homingDelay){"', source)
+        self.assertIn('"realAimXSource": "float realAimX = b.aimX < 0 ? b.x : b.aimX"', source)
+        self.assertIn('"targetSelectionDeferred": true', source)
+        self.assertIn('"followAimDeferred": true', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

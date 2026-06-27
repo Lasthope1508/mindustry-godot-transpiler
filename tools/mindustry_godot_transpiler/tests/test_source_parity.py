@@ -5102,6 +5102,28 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_update_homing_initial_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_update_homing_initial_state_source"))
+        report = source_parity.verify_bullet_type_update_homing_initial_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["bullet_comp_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(report["checked"], {
+            "homing_power_field": "public float homingPower = 0f;",
+            "homing_range_field": "public float homingRange = 50f;",
+            "homing_delay_field": "public float homingDelay = -1f;",
+            "follow_aim_speed_field": "public float followAimSpeed = 0f;",
+            "method": "public void updateHoming(Bullet b){",
+            "gate": "if(homingPower > 0.0001f && b.time >= homingDelay){",
+            "real_aim_x": "float realAimX = b.aimX < 0 ? b.x : b.aimX;",
+            "real_aim_y": "float realAimY = b.aimY < 0 ? b.y : b.aimY;",
+            "target_reserved": "Teamc target;",
+            "follow_aim_reserved": "if(followAimSpeed > 0f && b.shooter instanceof Unit u){",
+            "bullet_comp_xy_time": "@Import float x, y, damage, lastX, lastY, time, lifetime;",
+            "bullet_comp_aim": "transient float aimX, aimY;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

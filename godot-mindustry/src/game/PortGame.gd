@@ -5440,6 +5440,40 @@ func source_bullet_type_update_trail_state(bullet_state: Dictionary, bullet_type
 		"updateSource": "b.trail.update(b.x, b.y, trailInterp.apply(b.fin()) * (1f + (trailSinMag > 0 ? Mathf.absin(Time.time, trailSinScl, trailSinMag) : 0f)))",
 	}
 
+func source_bullet_type_update_homing_initial_state(bullet_state: Dictionary, bullet_type_state: Dictionary) -> Dictionary:
+	var update_bullet_state := bullet_state.duplicate(true)
+	var homing_power := float(bullet_type_state.get("homingPower", 0.0))
+	var homing_delay := float(bullet_type_state.get("homingDelay", -1.0))
+	var gate_passed := homing_power > 0.0001 and float(update_bullet_state.get("time", 0.0)) >= homing_delay
+	var aim_x := float(update_bullet_state.get("aimX", -1.0))
+	var aim_y := float(update_bullet_state.get("aimY", -1.0))
+	var real_aim_x := float(update_bullet_state.get("x", 0.0)) if aim_x < 0.0 else aim_x
+	var real_aim_y := float(update_bullet_state.get("y", 0.0)) if aim_y < 0.0 else aim_y
+	var reported_real_aim_x: Variant = null
+	var reported_real_aim_y: Variant = null
+	if gate_passed:
+		reported_real_aim_x = real_aim_x
+		reported_real_aim_y = real_aim_y
+	return {
+		"bullet": update_bullet_state,
+		"gatePassed": gate_passed,
+		"realAimComputed": gate_passed,
+		"realAimX": reported_real_aim_x,
+		"realAimY": reported_real_aim_y,
+		"aimX": aim_x,
+		"aimY": aim_y,
+		"homingPower": homing_power,
+		"homingDelay": homing_delay,
+		"homingRange": float(bullet_type_state.get("homingRange", 50.0)),
+		"targetSelectionDeferred": true,
+		"followAimDeferred": true,
+		"gateSource": "if(homingPower > 0.0001f && b.time >= homingDelay){",
+		"realAimXSource": "float realAimX = b.aimX < 0 ? b.x : b.aimX",
+		"realAimYSource": "float realAimY = b.aimY < 0 ? b.y : b.aimY",
+		"targetReservedSource": "Teamc target",
+		"followAimReservedSource": "if(followAimSpeed > 0f && b.shooter instanceof Unit u)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
