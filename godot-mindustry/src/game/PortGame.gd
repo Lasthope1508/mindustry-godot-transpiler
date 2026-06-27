@@ -8069,6 +8069,7 @@ func source_bullet_type_draw_light_state(bullet_type_state: Dictionary, bullet_s
 		"drawfLightCall": drawf_light_call,
 		"earlyReturnSource": "if(lightOpacity <= 0f || lightRadius <= 0f) return",
 		"drawfLightSource": "Drawf.light(b, lightRadius, lightColor, lightOpacity)",
+		"initBoundarySource": "public void init(Bullet b){",
 	}
 
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:

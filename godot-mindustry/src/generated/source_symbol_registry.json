@@ -4668,6 +4668,66 @@
       "java_expr": "public void drawParts(Bullet b){",
       "godot_symbol": "draw_trail_result.drawPartsBoundarySource",
       "rule": "Boundary marker; following drawParts method remains a later source slice."
+    },
+    "draw_light.early_return": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "drawLight(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_draw_light_state",
+      "tests": [
+        "test_bullet_type_draw_light_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_light_state",
+        "test_bullet_type_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_light_state",
+      "java_expr": "if(lightOpacity <= 0f || lightRadius <= 0f) return;",
+      "godot_symbol": "draw_light_result.gatePassed",
+      "rule": "Record inverse runtime gate for exact BulletType.drawLight early return."
+    },
+    "draw_light.drawf_light_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "drawLight(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_draw_light_state",
+      "tests": [
+        "test_bullet_type_draw_light_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_light_state",
+        "test_bullet_type_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_light_state",
+      "java_expr": "Drawf.light(b, lightRadius, lightColor, lightOpacity);",
+      "godot_symbol": "draw_light_result.drawfLightCall",
+      "rule": "Record exact Drawf.light call from BulletType.drawLight."
+    },
+    "draw_light.light_color": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "drawLight(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_draw_light_state",
+      "tests": [
+        "test_bullet_type_draw_light_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_light_state",
+        "test_bullet_type_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_light_state",
+      "java_expr": "lightColor",
+      "godot_symbol": "draw_light_result.lightColor",
+      "rule": "Record light color used by Drawf.light."
+    },
+    "draw_light.init_boundary": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "drawLight(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_draw_light_state",
+      "tests": [
+        "test_bullet_type_draw_light_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_light_state",
+        "test_bullet_type_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_light_state",
+      "java_expr": "public void init(Bullet b){",
+      "godot_symbol": "draw_light_result.initBoundarySource",
+      "rule": "Boundary marker; following init method remains a later source slice."
     }
   }
 }

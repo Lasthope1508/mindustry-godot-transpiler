@@ -1410,6 +1410,32 @@
         "test_bullet_type_draw_trail_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_draw_trail_state"
+    },
+    "N451": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "drawLight(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_draw_light_state",
+      "exact_exprs": [
+        "if(lightOpacity <= 0f || lightRadius <= 0f) return;",
+        "Drawf.light(b, lightRadius, lightColor, lightOpacity);"
+      ],
+      "deferred_exprs": [
+        "public void init(Bullet b){"
+      ],
+      "source_symbols": [
+        "draw_light.early_return",
+        "draw_light.drawf_light_call",
+        "draw_light.light_color",
+        "draw_light.init_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_draw_light_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_light_state",
+        "test_bullet_type_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_light_state"
     }
   },
   "version": 1

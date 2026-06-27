@@ -2291,6 +2291,44 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_draw_trail_state",
       "rule": "Public runtime contract for BulletType.drawTrail trail draw record."
+    },
+    "PortGame.source_bullet_type_draw_light_state": {
+      "status": "active",
+      "source_slice": "N451",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "drawLight(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "gatePassed",
+        "lightDrawn",
+        "lightOpacity",
+        "lightRadius",
+        "lightColor",
+        "drawfLightCall",
+        "earlyReturnSource",
+        "drawfLightSource",
+        "initBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_draw_light_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_light_state",
+        "test_bullet_type_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_light_state",
+      "rule": "Public runtime contract for BulletType.drawLight light draw record."
     }
   },
   "policy": {

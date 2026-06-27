@@ -1097,14 +1097,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(draw_parts_boundary["status"], "deferred")
         self.assertEqual(draw_parts_boundary["java_expr"], "public void drawParts(Bullet b){")
 
+    def test_bullet_type_draw_light_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        early_return = source_symbols.source_symbol(registry, "draw_light.early_return")
+        self.assertEqual(early_return["java_expr"], "if(lightOpacity <= 0f || lightRadius <= 0f) return;")
+        self.assertEqual(early_return["godot_symbol"], "draw_light_result.gatePassed")
+        self.assertEqual(early_return["godot_owner"], "PortGame.source_bullet_type_draw_light_state")
+        self.assertEqual(early_return["runtime_proof"], "/root/Main.source_bullet_type_draw_light_state")
+
+        drawf_light_call = source_symbols.source_symbol(registry, "draw_light.drawf_light_call")
+        self.assertEqual(drawf_light_call["java_expr"], "Drawf.light(b, lightRadius, lightColor, lightOpacity);")
+        self.assertEqual(drawf_light_call["godot_symbol"], "draw_light_result.drawfLightCall")
+
+        light_color = source_symbols.source_symbol(registry, "draw_light.light_color")
+        self.assertEqual(light_color["java_expr"], "lightColor")
+        self.assertEqual(light_color["godot_symbol"], "draw_light_result.lightColor")
+
+        init_boundary = source_symbols.source_symbol(registry, "draw_light.init_boundary")
+        self.assertEqual(init_boundary["status"], "deferred")
+        self.assertEqual(init_boundary["java_expr"], "public void init(Bullet b){")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 48)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 49)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 53)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 54)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1158,6 +1182,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_shield_damage_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_draw_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_draw_trail_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_draw_light_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -1463,6 +1488,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(trailLength > 0 && b.trail != null){", draw_trail["exact_exprs"])
         self.assertIn("b.trail.draw(trailColor, trailWidth)", draw_trail["exact_exprs"])
         self.assertIn("public void drawParts(Bullet b){", draw_trail["deferred_exprs"])
+
+        draw_light = source_symbols.source_slice(ledger, "N451")
+        self.assertEqual(draw_light["java_method"], "drawLight(Bullet b)")
+        self.assertEqual(draw_light["godot_owner"], "PortGame.source_bullet_type_draw_light_state")
+        self.assertIn("if(lightOpacity <= 0f || lightRadius <= 0f) return;", draw_light["exact_exprs"])
+        self.assertIn("Drawf.light(b, lightRadius, lightColor, lightOpacity);", draw_light["exact_exprs"])
+        self.assertIn("public void init(Bullet b){", draw_light["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -1855,6 +1887,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("drawPartsBoundarySource", draw_trail["return_keys"])
         self.assertEqual(draw_trail["source_method"], "drawTrail(Bullet b)")
 
+        draw_light = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_draw_light_state")
+        self.assertEqual([param["name"] for param in draw_light["params"]], ["bullet_type_state", "bullet_state"])
+        self.assertIn("gatePassed", draw_light["return_keys"])
+        self.assertIn("lightDrawn", draw_light["return_keys"])
+        self.assertIn("drawfLightCall", draw_light["return_keys"])
+        self.assertIn("initBoundarySource", draw_light["return_keys"])
+        self.assertEqual(draw_light["source_method"], "drawLight(Bullet b)")
+
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_state_schema(schema)
@@ -2197,6 +2237,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(bullet_type_state["keys"]["trailWidth"]["java_expr"], "trailWidth")
         self.assertEqual(bullet_type_state["keys"]["trailColor"]["java_expr"], "trailColor")
         self.assertEqual(bullet_type_state["keys"]["fragOnDespawn"]["java_expr"], "fragOnDespawn")
+        self.assertEqual(bullet_type_state["keys"]["lightOpacity"]["java_expr"], "lightOpacity")
+        self.assertEqual(bullet_type_state["keys"]["lightRadius"]["java_expr"], "lightRadius")
+        self.assertEqual(bullet_type_state["keys"]["lightColor"]["java_expr"], "lightColor")
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")
@@ -2230,6 +2273,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(draw_trail_output["keys"]["trailDrawCall"]["java_expr"], "b.trail.draw(trailColor, trailWidth)")
         self.assertEqual(draw_trail_output["keys"]["drawZBelow"]["java_expr"], "Draw.z(z - 0.0001f)")
         self.assertEqual(draw_trail_output["keys"]["drawPartsBoundarySource"]["status"], "deferred")
+
+        draw_light_output = source_symbols.state_schema(schema, "draw_light_result")
+        self.assertEqual(draw_light_output["keys"]["gatePassed"]["java_expr"], "lightOpacity > 0f && lightRadius > 0f")
+        self.assertEqual(draw_light_output["keys"]["drawfLightCall"]["java_expr"], "Drawf.light(b, lightRadius, lightColor, lightOpacity)")
+        self.assertEqual(draw_light_output["keys"]["lightColor"]["java_expr"], "lightColor")
+        self.assertEqual(draw_light_output["keys"]["initBoundarySource"]["status"], "deferred")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

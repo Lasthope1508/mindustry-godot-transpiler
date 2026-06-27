@@ -7,7 +7,7 @@
     "PortGame.source_symbol_audit_state",
     "PortGame.source_symbol_registry_state"
   ],
-  "legacyUnregisteredOwnerCount": 435,
+  "legacyUnregisteredOwnerCount": 434,
   "legacyUnregisteredOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -218,7 +218,6 @@
     "PortGame.source_bullet_type_create_spawn_unit_state",
     "PortGame.source_bullet_type_create_trail_add_state",
     "PortGame.source_bullet_type_create_velocity_position_state",
-    "PortGame.source_bullet_type_draw_light_state",
     "PortGame.source_bullet_type_heals_state",
     "PortGame.source_bullet_type_init_draw_size_state",
     "PortGame.source_bullet_type_init_frag_velocity_state",
@@ -449,7 +448,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 48,
+  "registeredSourceOwnerCount": 49,
   "registeredSourceOwners": [
     "PortGame.source_bullet_type_building_damage_state",
     "PortGame.source_bullet_type_create_frags_create_call_state",
@@ -474,6 +473,7 @@
     "PortGame.source_bullet_type_despawned_effect_state",
     "PortGame.source_bullet_type_despawned_shake_state",
     "PortGame.source_bullet_type_despawned_sound_state",
+    "PortGame.source_bullet_type_draw_light_state",
     "PortGame.source_bullet_type_draw_parts_state",
     "PortGame.source_bullet_type_draw_state",
     "PortGame.source_bullet_type_draw_trail_state",
