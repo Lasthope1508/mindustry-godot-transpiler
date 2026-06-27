@@ -5004,6 +5004,44 @@ func source_bullet_type_create_bullet_identity_state(create_call_state: Dictiona
 		"aimTileReservedSource": "if(!(aimX == -1f && aimY == -1f)){",
 	}
 
+func source_bullet_type_create_aim_state(identity_state: Dictionary, create_call_state: Dictionary, target_state: Dictionary, world_tile_from_aim: Variant) -> Dictionary:
+	var bullet_create_call: Dictionary = create_call_state.get("bulletCreateCall", {})
+	var raw_bullet_state = identity_state.get("bullet", {})
+	var bullet_state: Dictionary = raw_bullet_state if raw_bullet_state is Dictionary else {}
+	if not bool(identity_state.get("bulletAllocated", false)) or bullet_state.is_empty():
+		return {
+			"bulletContinues": bool(identity_state.get("bulletContinues", false)),
+			"bulletAimApplied": false,
+			"bullet": null,
+			"aimTileSource": "bullet.aimTile = target instanceof Building b ? b.tile : world.tileWorld(aimX, aimY)",
+			"worldTileWorldSource": "return tile(Math.round(x / tilesize), Math.round(y / tilesize))",
+			"initVelReservedSource": "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f))",
+		}
+	var aim_x := float(bullet_create_call.get("aimX", -1.0))
+	var aim_y := float(bullet_create_call.get("aimY", -1.0))
+	var has_aim_tile := not (aim_x == -1.0 and aim_y == -1.0)
+	var aim_tile: Variant = null
+	if has_aim_tile:
+		if str(target_state.get("kind", "")) == "Building":
+			aim_tile = target_state.get("tile", null)
+		else:
+			aim_tile = world_tile_from_aim
+	bullet_state = bullet_state.duplicate()
+	bullet_state["aimTile"] = aim_tile
+	bullet_state["aimX"] = aim_x
+	bullet_state["aimY"] = aim_y
+	return {
+		"bulletContinues": true,
+		"bulletAimApplied": true,
+		"hasAimTile": has_aim_tile,
+		"bullet": bullet_state,
+		"aimTileSource": "bullet.aimTile = target instanceof Building b ? b.tile : world.tileWorld(aimX, aimY)",
+		"aimXSource": "bullet.aimX = aimX",
+		"aimYSource": "bullet.aimY = aimY",
+		"worldTileWorldSource": "return tile(Math.round(x / tilesize), Math.round(y / tilesize))",
+		"initVelReservedSource": "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f))",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

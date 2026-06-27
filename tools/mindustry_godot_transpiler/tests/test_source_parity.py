@@ -4878,6 +4878,27 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_create_aim_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_create_aim_state_source"))
+        report = source_parity.verify_bullet_type_create_aim_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["bullet_comp_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(report["building_comp_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["world_source"], "core/src/mindustry/core/World.java")
+        self.assertEqual(report["checked"], {
+            "aim_gate": "if(!(aimX == -1f && aimY == -1f)){",
+            "aim_tile_assignment": "bullet.aimTile = target instanceof Building b ? b.tile : world.tileWorld(aimX, aimY);",
+            "aim_x_assignment": "bullet.aimX = aimX;",
+            "aim_y_assignment": "bullet.aimY = aimY;",
+            "init_vel_reserved": "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));",
+            "bullet_comp_aim_tile": "transient @Nullable Tile aimTile;",
+            "bullet_comp_aim_xy": "transient float aimX, aimY;",
+            "building_comp_tile": "transient Tile tile;",
+            "world_tile_world": "public @Nullable Tile tileWorld(float x, float y){\n        return tile(Math.round(x / tilesize), Math.round(y / tilesize));\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

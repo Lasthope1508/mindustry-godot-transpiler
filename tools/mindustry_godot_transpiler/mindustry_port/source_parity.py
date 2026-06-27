@@ -8642,6 +8642,54 @@ def verify_bullet_type_create_bullet_identity_source(upstream_root: Path) -> dic
         "missing": missing,
     }
 
+def verify_bullet_type_create_aim_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    bullet_comp_source = "core/src/mindustry/entities/comp/BulletComp.java"
+    building_comp_source = "core/src/mindustry/entities/comp/BuildingComp.java"
+    world_source = "core/src/mindustry/core/World.java"
+    bullet_comp_path = upstream_root / bullet_comp_source
+    building_comp_path = upstream_root / building_comp_source
+    world_path = upstream_root / world_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    bullet_comp_text = bullet_comp_path.read_text(encoding="utf-8", errors="replace")
+    building_comp_text = building_comp_path.read_text(encoding="utf-8", errors="replace")
+    world_text = world_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "aim_gate": "if(!(aimX == -1f && aimY == -1f)){",
+        "aim_tile_assignment": "bullet.aimTile = target instanceof Building b ? b.tile : world.tileWorld(aimX, aimY);",
+        "aim_x_assignment": "bullet.aimX = aimX;",
+        "aim_y_assignment": "bullet.aimY = aimY;",
+        "init_vel_reserved": "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));",
+        "bullet_comp_aim_tile": "transient @Nullable Tile aimTile;",
+        "bullet_comp_aim_xy": "transient float aimX, aimY;",
+        "building_comp_tile": "transient Tile tile;",
+        "world_tile_world": "public @Nullable Tile tileWorld(float x, float y){\n        return tile(Math.round(x / tilesize), Math.round(y / tilesize));\n    }",
+    }
+    source_map = {
+        "aim_gate": source,
+        "aim_tile_assignment": source,
+        "aim_x_assignment": source,
+        "aim_y_assignment": source,
+        "init_vel_reserved": source,
+        "bullet_comp_aim_tile": bullet_comp_text,
+        "bullet_comp_aim_xy": bullet_comp_text,
+        "building_comp_tile": building_comp_text,
+        "world_tile_world": world_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "bullet_comp_source": bullet_comp_source,
+        "building_comp_source": building_comp_source,
+        "world_source": world_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

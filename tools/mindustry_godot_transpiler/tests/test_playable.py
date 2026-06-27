@@ -4036,6 +4036,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"shooterSource": "bullet.shooter = (shooter == null ? owner : shooter)"', source)
         self.assertIn('"aimTileReservedSource": "if(!(aimX == -1f && aimY == -1f)){"', source)
 
+    def test_port_game_exposes_source_bullet_type_create_aim_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_create_aim_state(identity_state: Dictionary, create_call_state: Dictionary, target_state: Dictionary, world_tile_from_aim: Variant) -> Dictionary:", source)
+        self.assertIn("var bullet_create_call: Dictionary = create_call_state.get(\"bulletCreateCall\", {})", source)
+        self.assertIn("var raw_bullet_state = identity_state.get(\"bullet\", {})", source)
+        self.assertIn("var bullet_state: Dictionary = raw_bullet_state if raw_bullet_state is Dictionary else {}", source)
+        self.assertNotIn("var bullet_state: Dictionary = identity_state.get(\"bullet\", {})", source)
+        self.assertIn("var aim_x := float(bullet_create_call.get(\"aimX\", -1.0))", source)
+        self.assertIn("var aim_y := float(bullet_create_call.get(\"aimY\", -1.0))", source)
+        self.assertIn("var has_aim_tile := not (aim_x == -1.0 and aim_y == -1.0)", source)
+        self.assertIn("if str(target_state.get(\"kind\", \"\")) == \"Building\":", source)
+        self.assertIn("aim_tile = target_state.get(\"tile\", null)", source)
+        self.assertIn("aim_tile = world_tile_from_aim", source)
+        self.assertIn("bullet_state[\"aimX\"] = aim_x", source)
+        self.assertIn("bullet_state[\"aimY\"] = aim_y", source)
+        self.assertIn('"aimTileSource": "bullet.aimTile = target instanceof Building b ? b.tile : world.tileWorld(aimX, aimY)"', source)
+        self.assertIn('"worldTileWorldSource": "return tile(Math.round(x / tilesize), Math.round(y / tilesize))"', source)
+        self.assertIn('"initVelReservedSource": "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f))"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
