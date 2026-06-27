@@ -7981,6 +7981,7 @@ func source_bullet_type_draw_state(bullet_state: Dictionary) -> Dictionary:
 		"drawTrailCalled": true,
 		"drawPartsCalled": true,
 		"drawReturnSource": "drawTrail(b); drawParts(b);",
+		"drawTrailBoundarySource": "public void drawTrail(Bullet b){",
 	}
 
 func source_bullet_type_draw_trail_state(bullet_type_state: Dictionary, bullet_state: Dictionary, current_draw_z: float) -> Dictionary:

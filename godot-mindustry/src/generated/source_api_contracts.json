@@ -2216,6 +2216,34 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_shield_damage_state",
       "rule": "Public runtime contract for BulletType.shieldDamage return record."
+    },
+    "PortGame.source_bullet_type_draw_state": {
+      "status": "active",
+      "source_slice": "N449",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "draw(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "drawCalls",
+        "drawTrailCalled",
+        "drawPartsCalled",
+        "drawReturnSource",
+        "drawTrailBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_draw_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_state",
+        "test_bullet_type_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_state",
+      "rule": "Public runtime contract for BulletType.draw dispatch record."
     }
   },
   "policy": {

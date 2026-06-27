@@ -7164,6 +7164,77 @@
           "rule": "Boundary marker; following draw method remains a later source slice."
         }
       }
+    },
+    "draw_result": {
+      "status": "active",
+      "keys": {
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime echo of input bullet_state."
+        },
+        "drawCalls": {
+          "type": "Array",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "draw(Bullet b)",
+          "java_expr": "drawTrail(b); drawParts(b);",
+          "godot_symbol": "draw_result.drawCalls",
+          "used_by": [
+            "PortGame.source_bullet_type_draw_state"
+          ],
+          "rule": "Runtime call-order list for BulletType.draw dispatch."
+        },
+        "drawTrailCalled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "draw(Bullet b)",
+          "java_expr": "drawTrail(b);",
+          "godot_symbol": "draw_result.drawTrailCalled",
+          "used_by": [
+            "PortGame.source_bullet_type_draw_state"
+          ],
+          "rule": "Runtime record for drawTrail dispatch call."
+        },
+        "drawPartsCalled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "draw(Bullet b)",
+          "java_expr": "drawParts(b);",
+          "godot_symbol": "draw_result.drawPartsCalled",
+          "used_by": [
+            "PortGame.source_bullet_type_draw_state"
+          ],
+          "rule": "Runtime record for drawParts dispatch call."
+        },
+        "drawReturnSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "draw(Bullet b)",
+          "java_expr": "drawTrail(b); drawParts(b);",
+          "godot_symbol": "draw_result.drawReturnSource",
+          "used_by": [
+            "PortGame.source_bullet_type_draw_state"
+          ],
+          "rule": "Runtime source snippet label preserving draw dispatch order."
+        },
+        "drawTrailBoundarySource": {
+          "type": "String",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "drawTrail(Bullet b)",
+          "java_expr": "public void drawTrail(Bullet b){",
+          "godot_symbol": "draw_result.drawTrailBoundarySource",
+          "used_by": [
+            "PortGame.source_bullet_type_draw_state"
+          ],
+          "rule": "Boundary marker; following drawTrail method remains a later source slice."
+        }
+      }
     }
   },
   "version": 1
