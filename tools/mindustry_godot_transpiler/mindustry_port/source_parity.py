@@ -9168,6 +9168,57 @@ def verify_bullet_type_update_homing_initial_state_source(upstream_root: Path) -
         "missing": missing,
     }
 
+def verify_bullet_type_update_homing_target_velocity_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    bullet_comp_source = "core/src/mindustry/entities/comp/BulletComp.java"
+    angles_source = "arc-core/src/arc/math/Angles.java"
+    position_source = "arc-core/src/arc/math/geom/Position.java"
+    vec2_source = "arc-core/src/arc/math/geom/Vec2.java"
+    bullet_comp_path = upstream_root / bullet_comp_source
+    angles_path = arc_root / angles_source
+    position_path = arc_root / position_source
+    vec2_path = arc_root / vec2_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    bullet_comp_text = bullet_comp_path.read_text(encoding="utf-8", errors="replace")
+    angles_text = angles_path.read_text(encoding="utf-8", errors="replace")
+    position_text = position_path.read_text(encoding="utf-8", errors="replace")
+    vec2_text = vec2_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "target_gate": "if(target != null){",
+        "homing_set_angle": "b.vel.setAngle(Angles.moveToward(b.rotation(), b.angleTo(target), homingPower * Time.delta * 50f));",
+        "bullet_rotation": "public float rotation(){\n        return vel.isZero(0.001f) ? rotation : vel.angle();\n    }",
+        "position_angle_to": "default float angleTo(Position other){\n        return Angles.angle(getX(), getY(), other.getX(), other.getY());\n    }",
+        "angles_move_toward": "public static float moveToward(float angle, float to, float speed){",
+        "angles_angle": "public static float angle(float x, float y, float x2, float y2){",
+        "vec2_set_angle": "public Vec2 setAngle(float degrees){",
+        "vec2_set_angle_rad": "this.set(len(), 0f);\n        this.rotateRad(radians);",
+    }
+    source_map = {
+        "target_gate": source,
+        "homing_set_angle": source,
+        "bullet_rotation": bullet_comp_text,
+        "position_angle_to": position_text,
+        "angles_move_toward": angles_text,
+        "angles_angle": angles_text,
+        "vec2_set_angle": vec2_text,
+        "vec2_set_angle_rad": vec2_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "bullet_comp_source": bullet_comp_source,
+        "angles_source": angles_source,
+        "position_source": position_source,
+        "vec2_source": vec2_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

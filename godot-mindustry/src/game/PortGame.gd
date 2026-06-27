@@ -5474,6 +5474,45 @@ func source_bullet_type_update_homing_initial_state(bullet_state: Dictionary, bu
 		"followAimReservedSource": "if(followAimSpeed > 0f && b.shooter instanceof Unit u)",
 	}
 
+func source_bullet_type_update_homing_target_velocity_state(homing_initial_state: Dictionary, target_state: Variant, source_delta: float) -> Dictionary:
+	var update_bullet_state: Dictionary = homing_initial_state.get("bullet", {}).duplicate(true)
+	var gate_passed := bool(homing_initial_state.get("gatePassed", false)) and target_state is Dictionary
+	if not gate_passed:
+		return {
+			"bullet": update_bullet_state,
+			"homingVelocityApplied": false,
+			"targetGatePassed": false,
+			"targetGateSource": "if(target != null){",
+			"setAngleSource": "b.vel.setAngle(Angles.moveToward(b.rotation(), b.angleTo(target), homingPower * Time.delta * 50f))",
+		}
+	var velocity_state: Dictionary = update_bullet_state.get("velocity", {})
+	var velocity_x := float(velocity_state.get("x", 0.0))
+	var velocity_y := float(velocity_state.get("y", 0.0))
+	var current_rotation := float(update_bullet_state.get("rotation", float(velocity_state.get("angle", 0.0))))
+	var homing_power := float(homing_initial_state.get("homingPower", 0.0))
+	var target_angle := source_arc_angles_angle(float(update_bullet_state.get("x", 0.0)), float(update_bullet_state.get("y", 0.0)), float(target_state.get("x", 0.0)), float(target_state.get("y", 0.0)))
+	var max_turn := homing_power * source_delta * 50.0
+	var next_angle := source_arc_angles_move_toward(current_rotation, target_angle, max_turn)
+	var speed := float(velocity_state.get("speed", sqrt(velocity_x * velocity_x + velocity_y * velocity_y)))
+	var next_velocity := source_arc_angles_trns_vec(next_angle, speed, 0.0)
+	update_bullet_state["rotation"] = next_angle
+	update_bullet_state["velocity"] = {"angle": next_angle, "speed": speed, "x": next_velocity["x"], "y": next_velocity["y"]}
+	return {
+		"bullet": update_bullet_state,
+		"homingVelocityApplied": true,
+		"targetGatePassed": true,
+		"currentRotation": current_rotation,
+		"targetAngle": target_angle,
+		"maxTurn": max_turn,
+		"nextAngle": next_angle,
+		"speed": speed,
+		"velocity": update_bullet_state["velocity"],
+		"targetGateSource": "if(target != null){",
+		"setAngleSource": "b.vel.setAngle(Angles.moveToward(b.rotation(), b.angleTo(target), homingPower * Time.delta * 50f))",
+		"angleToSource": "return Angles.angle(getX(), getY(), other.getX(), other.getY())",
+		"vec2SetAngleSource": "this.set(len(), 0f); this.rotateRad(radians)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

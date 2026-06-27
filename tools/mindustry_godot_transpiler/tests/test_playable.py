@@ -4258,6 +4258,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"targetSelectionDeferred": true', source)
         self.assertIn('"followAimDeferred": true', source)
 
+    def test_port_game_exposes_source_bullet_type_update_homing_target_velocity_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_update_homing_target_velocity_state(homing_initial_state: Dictionary, target_state: Variant, source_delta: float) -> Dictionary:", source)
+        self.assertIn("var update_bullet_state: Dictionary = homing_initial_state.get(\"bullet\", {}).duplicate(true)", source)
+        self.assertIn("var gate_passed := bool(homing_initial_state.get(\"gatePassed\", false)) and target_state is Dictionary", source)
+        self.assertIn("var current_rotation := float(update_bullet_state.get(\"rotation\", float(velocity_state.get(\"angle\", 0.0))))", source)
+        self.assertIn("var target_angle := source_arc_angles_angle(float(update_bullet_state.get(\"x\", 0.0)), float(update_bullet_state.get(\"y\", 0.0)), float(target_state.get(\"x\", 0.0)), float(target_state.get(\"y\", 0.0)))", source)
+        self.assertIn("var max_turn := homing_power * source_delta * 50.0", source)
+        self.assertIn("var next_angle := source_arc_angles_move_toward(current_rotation, target_angle, max_turn)", source)
+        self.assertIn("var speed := float(velocity_state.get(\"speed\", sqrt(velocity_x * velocity_x + velocity_y * velocity_y)))", source)
+        self.assertIn("var next_velocity := source_arc_angles_trns_vec(next_angle, speed, 0.0)", source)
+        self.assertIn("update_bullet_state[\"velocity\"] = {\"angle\": next_angle, \"speed\": speed, \"x\": next_velocity[\"x\"], \"y\": next_velocity[\"y\"]}", source)
+        self.assertIn('"setAngleSource": "b.vel.setAngle(Angles.moveToward(b.rotation(), b.angleTo(target), homingPower * Time.delta * 50f))"', source)
+        self.assertIn('"targetGateSource": "if(target != null){"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

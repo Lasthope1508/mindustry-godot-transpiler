@@ -5124,6 +5124,27 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_update_homing_target_velocity_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_update_homing_target_velocity_state_source"))
+        report = source_parity.verify_bullet_type_update_homing_target_velocity_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["bullet_comp_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(report["angles_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(report["position_source"], "arc-core/src/arc/math/geom/Position.java")
+        self.assertEqual(report["vec2_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(report["checked"], {
+            "target_gate": "if(target != null){",
+            "homing_set_angle": "b.vel.setAngle(Angles.moveToward(b.rotation(), b.angleTo(target), homingPower * Time.delta * 50f));",
+            "bullet_rotation": "public float rotation(){\n        return vel.isZero(0.001f) ? rotation : vel.angle();\n    }",
+            "position_angle_to": "default float angleTo(Position other){\n        return Angles.angle(getX(), getY(), other.getX(), other.getY());\n    }",
+            "angles_move_toward": "public static float moveToward(float angle, float to, float speed){",
+            "angles_angle": "public static float angle(float x, float y, float x2, float y2){",
+            "vec2_set_angle": "public Vec2 setAngle(float degrees){",
+            "vec2_set_angle_rad": "this.set(len(), 0f);\n        this.rotateRad(radians);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
