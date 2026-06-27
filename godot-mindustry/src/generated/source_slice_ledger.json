@@ -625,6 +625,29 @@
         "test_port_game_exposes_source_bullet_type_hit_suppression_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_suppression_state"
+    },
+    "N423": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "godot_owner": "PortGame.source_bullet_type_hit_splash_damage_dispatch_state",
+      "exact_exprs": [
+        "createSplashDamage(b, x, y)"
+      ],
+      "deferred_exprs": [
+        "public void createSplashDamage(Bullet b, float x, float y)",
+        "for(int i = 0; i < lightning; i++)"
+      ],
+      "source_symbols": [
+        "hit.splash_damage_dispatch.create_splash_damage_call",
+        "hit.splash_damage_dispatch.lightning_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_hit_splash_damage_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_splash_damage_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_splash_damage_dispatch_state"
     }
   },
   "version": 1

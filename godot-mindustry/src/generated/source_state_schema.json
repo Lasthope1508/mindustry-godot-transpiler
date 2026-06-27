@@ -3345,6 +3345,89 @@
           "rule": "Boundary marker; createSplashDamage body is not migrated in N422."
         }
       }
+    },
+    "hit_splash_damage_dispatch_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_type_state",
+          "rule": "Runtime key preserves input BulletType state."
+        },
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime key preserves input bullet state."
+        },
+        "hitXY": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "hit_xy_state",
+          "rule": "Runtime key preserves explicit hit x/y params."
+        },
+        "hitSuppression": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "hit_suppression_result",
+          "rule": "Runtime key preserves prior suppression state."
+        },
+        "x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "hit_suppression_result.x",
+          "rule": "Runtime key aliases hit x from prior suppression state."
+        },
+        "y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "hit_suppression_result.y",
+          "rule": "Runtime key aliases hit y from prior suppression state."
+        },
+        "createSplashDamageCall": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "createSplashDamage(b, x, y)",
+          "godot_symbol": "hit_splash_damage_dispatch_result.createSplashDamageCall",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_splash_damage_dispatch_state"
+          ],
+          "rule": "Runtime call record for createSplashDamage dispatch."
+        },
+        "createSplashDamageCallSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "hit.splash_damage_dispatch.create_splash_damage_call",
+          "rule": "Runtime source snippet label."
+        },
+        "createSplashDamageMethodBoundarySource": {
+          "type": "String",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createSplashDamage(Bullet b, float x, float y)",
+          "java_expr": "public void createSplashDamage(Bullet b, float x, float y)",
+          "godot_symbol": "hit_splash_damage_dispatch_result.createSplashDamageMethodBoundarySource",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_splash_damage_dispatch_state"
+          ],
+          "rule": "Boundary marker; createSplashDamage body is not migrated in N423."
+        },
+        "lightningBoundarySource": {
+          "type": "String",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "for(int i = 0; i < lightning; i++)",
+          "godot_symbol": "hit_splash_damage_dispatch_result.lightningBoundarySource",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_splash_damage_dispatch_state"
+          ],
+          "rule": "Boundary marker; lightning loop remains a later source slice."
+        }
+      }
     }
   },
   "version": 1

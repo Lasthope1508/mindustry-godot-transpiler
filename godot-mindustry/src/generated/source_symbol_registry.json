@@ -2195,6 +2195,34 @@
         "test_port_game_exposes_source_bullet_type_hit_suppression_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_suppression_state"
+    },
+    "hit.splash_damage_dispatch.create_splash_damage_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "java_expr": "createSplashDamage(b, x, y)",
+      "godot_symbol": "hit_splash_damage_dispatch_result.createSplashDamageCall",
+      "godot_owner": "PortGame.source_bullet_type_hit_splash_damage_dispatch_state",
+      "rule": "Record createSplashDamage(b, x, y) dispatch after suppression; createSplashDamage body remains deferred.",
+      "tests": [
+        "test_bullet_type_hit_splash_damage_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_splash_damage_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_splash_damage_dispatch_state"
+    },
+    "hit.splash_damage_dispatch.lightning_boundary": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "java_expr": "for(int i = 0; i < lightning; i++)",
+      "godot_symbol": "hit_splash_damage_dispatch_result.lightningBoundarySource",
+      "godot_owner": "PortGame.source_bullet_type_hit_splash_damage_dispatch_state",
+      "rule": "Boundary marker; lightning loop remains a later source slice.",
+      "tests": [
+        "test_bullet_type_hit_splash_damage_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_splash_damage_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_splash_damage_dispatch_state"
     }
   }
 }

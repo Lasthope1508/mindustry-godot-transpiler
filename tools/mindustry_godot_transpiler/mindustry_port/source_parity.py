@@ -10359,6 +10359,26 @@ def verify_bullet_type_hit_suppression_state_source(upstream_root: Path) -> dict
         "missing": missing,
     }
 
+def verify_bullet_type_hit_splash_damage_dispatch_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void hit(Bullet b, float x, float y, boolean createFrags){",
+        "create_splash_damage_call": "createSplashDamage(b, x, y);",
+        "lightning_boundary": "for(int i = 0; i < lightning; i++){",
+        "create_splash_damage_method_boundary": "public void createSplashDamage(Bullet b, float x, float y){",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

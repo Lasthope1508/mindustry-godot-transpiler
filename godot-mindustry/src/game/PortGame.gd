@@ -6604,6 +6604,31 @@ func source_bullet_type_hit_suppression_state(bullet_type_state: Dictionary, bul
 		"splashDamageBoundarySource": "createSplashDamage(b, x, y)",
 	}
 
+func source_bullet_type_hit_splash_damage_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_suppression_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_hit_xy_state: Dictionary = hit_xy_state.duplicate(true)
+	var update_hit_suppression_state: Dictionary = hit_suppression_state.duplicate(true)
+	var hit_x := float(update_hit_suppression_state.get("x", update_hit_xy_state.get("x", 0.0)))
+	var hit_y := float(update_hit_suppression_state.get("y", update_hit_xy_state.get("y", 0.0)))
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"hitXY": update_hit_xy_state,
+		"hitSuppression": update_hit_suppression_state,
+		"x": hit_x,
+		"y": hit_y,
+		"createSplashDamageCall": {
+			"call": "createSplashDamage(b, x, y)",
+			"x": hit_x,
+			"y": hit_y,
+			"called": true,
+		},
+		"createSplashDamageCallSource": "createSplashDamage(b, x, y)",
+		"createSplashDamageMethodBoundarySource": "public void createSplashDamage(Bullet b, float x, float y)",
+		"lightningBoundarySource": "for(int i = 0; i < lightning; i++)",
+	}
+
 func source_bullet_type_hit_entity_damage_cap_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, hit_entity_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

@@ -1031,6 +1031,52 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_suppression_state",
       "rule": "Public runtime contract for BulletType.hit suppression branch only; createSplashDamage and lightning remain deferred."
+    },
+    "PortGame.source_bullet_type_hit_splash_damage_dispatch_state": {
+      "status": "active",
+      "source_slice": "N423",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "hit_xy_state",
+          "type": "Dictionary",
+          "schema": "hit_xy_state"
+        },
+        {
+          "name": "hit_suppression_state",
+          "type": "Dictionary",
+          "schema": "hit_suppression_result"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "hitXY",
+        "hitSuppression",
+        "x",
+        "y",
+        "createSplashDamageCall",
+        "createSplashDamageCallSource",
+        "createSplashDamageMethodBoundarySource",
+        "lightningBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_splash_damage_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_splash_damage_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_splash_damage_dispatch_state",
+      "rule": "Public runtime contract for BulletType.hit createSplashDamage dispatch only; createSplashDamage body and lightning loop remain deferred."
     }
   },
   "policy": {
