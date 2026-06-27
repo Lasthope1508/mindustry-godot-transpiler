@@ -1942,6 +1942,46 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_init_frag_velocity_state",
       "rule": "Backfills SSOT for existing BulletType.init frag velocity runtime state from N383; lightning type, light radius, draw size, and range assignment remain separate source-backed slices."
+    },
+    "N467": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "init()",
+      "godot_owner": "PortGame.source_bullet_type_init_lightning_type_state",
+      "exact_exprs": [
+        "if(lightningType == null){",
+        "lightningType =",
+        "!collidesAir ? Bullets.damageLightningGround :",
+        "!collidesGround ? Bullets.damageLightningAir :",
+        "Bullets.damageLightning;"
+      ],
+      "deferred_exprs": [
+        "if(lightRadius <= -1){",
+        "drawSize = Math.max(drawSize, trailLength * speed * 2f);",
+        "range = calculateRange();"
+      ],
+      "source_symbols": [
+        "init_lightning_type.gate",
+        "init_lightning_type.assign",
+        "init_lightning_type.choice",
+        "init_lightning_type.collides_air_ground_field",
+        "init_lightning_type.lightning_type_field",
+        "init_lightning_type.bullets_fields",
+        "init_lightning_type.damage_lightning_init",
+        "init_lightning_type.damage_lightning_ground_copy",
+        "init_lightning_type.damage_lightning_ground_collides_air",
+        "init_lightning_type.damage_lightning_air_copy",
+        "init_lightning_type.damage_lightning_air_collides_ground",
+        "init_lightning_type.damage_lightning_air_collides_tiles"
+      ],
+      "tests": [
+        "test_bullet_type_init_lightning_type_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_lightning_type_state",
+        "test_bullet_type_init_lightning_type_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_lightning_type_state",
+      "rule": "Backfills SSOT for existing BulletType.init lightningType runtime state from N384; light radius, draw size, and range assignment remain separate source-backed slices."
     }
   },
   "version": 1

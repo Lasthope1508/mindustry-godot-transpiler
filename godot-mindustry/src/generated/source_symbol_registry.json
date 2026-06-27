@@ -6558,6 +6558,186 @@
         "test_bullet_type_init_frag_velocity_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_init_frag_velocity_state"
+    },
+    "init_lightning_type.gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init()",
+      "java_expr": "if(lightningType == null){",
+      "godot_symbol": "init_lightning_type_result.lightningTypeGatePassed",
+      "godot_owner": "PortGame.source_bullet_type_init_lightning_type_state",
+      "rule": "Exact init lightningType null gate.",
+      "tests": [
+        "test_bullet_type_init_lightning_type_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_lightning_type_state",
+        "test_bullet_type_init_lightning_type_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_lightning_type_state"
+    },
+    "init_lightning_type.assign": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init()",
+      "java_expr": "lightningType =",
+      "godot_symbol": "init_lightning_type_result.lightningType",
+      "godot_owner": "PortGame.source_bullet_type_init_lightning_type_state",
+      "rule": "Exact lightningType assignment start.",
+      "tests": [
+        "test_bullet_type_init_lightning_type_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_lightning_type_state",
+        "test_bullet_type_init_lightning_type_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_lightning_type_state"
+    },
+    "init_lightning_type.choice": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init()",
+      "java_expr": "!collidesAir ? Bullets.damageLightningGround : !collidesGround ? Bullets.damageLightningAir : Bullets.damageLightning;",
+      "godot_symbol": "init_lightning_type_result.lightningType",
+      "godot_owner": "PortGame.source_bullet_type_init_lightning_type_state",
+      "rule": "Exact ternary choice among internal lightning bullet types.",
+      "tests": [
+        "test_bullet_type_init_lightning_type_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_lightning_type_state",
+        "test_bullet_type_init_lightning_type_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_lightning_type_state"
+    },
+    "init_lightning_type.collides_air_ground_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "field",
+      "java_expr": "public boolean collidesAir = true, collidesGround = true;",
+      "godot_symbol": "bullet_type_state.collidesAir",
+      "godot_owner": "PortGame.source_bullet_type_init_lightning_type_state",
+      "rule": "BulletType collidesAir/collidesGround defaults used by lightningType choice.",
+      "tests": [
+        "test_bullet_type_init_lightning_type_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_lightning_type_state",
+        "test_bullet_type_init_lightning_type_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_lightning_type_state"
+    },
+    "init_lightning_type.lightning_type_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "field",
+      "java_expr": "public @Nullable BulletType lightningType = null;",
+      "godot_symbol": "bullet_type_state.lightningType",
+      "godot_owner": "PortGame.source_bullet_type_init_lightning_type_state",
+      "rule": "BulletType lightningType nullable field default.",
+      "tests": [
+        "test_bullet_type_init_lightning_type_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_lightning_type_state",
+        "test_bullet_type_init_lightning_type_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_lightning_type_state"
+    },
+    "init_lightning_type.bullets_fields": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/content/Bullets.java",
+      "java_method": "load()",
+      "java_expr": "placeholder, spaceLiquid, damageLightning, damageLightningGround, damageLightningAir, fireball;",
+      "godot_symbol": "init_lightning_type_result.lightningType",
+      "godot_owner": "PortGame.source_bullet_type_init_lightning_type_state",
+      "rule": "Internal Bullets fields available for lightningType assignment.",
+      "tests": [
+        "test_bullet_type_init_lightning_type_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_lightning_type_state",
+        "test_bullet_type_init_lightning_type_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_lightning_type_state"
+    },
+    "init_lightning_type.damage_lightning_init": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/content/Bullets.java",
+      "java_method": "load()",
+      "java_expr": "damageLightning = new BulletType(0.0001f, 0f){{",
+      "godot_symbol": "init_lightning_type_result.lightningType",
+      "godot_owner": "PortGame.source_bullet_type_init_lightning_type_state",
+      "rule": "Base internal lightning bullet definition.",
+      "tests": [
+        "test_bullet_type_init_lightning_type_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_lightning_type_state",
+        "test_bullet_type_init_lightning_type_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_lightning_type_state"
+    },
+    "init_lightning_type.damage_lightning_ground_copy": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/content/Bullets.java",
+      "java_method": "load()",
+      "java_expr": "damageLightningGround = damageLightning.copy();",
+      "godot_symbol": "init_lightning_type_result.lightningType",
+      "godot_owner": "PortGame.source_bullet_type_init_lightning_type_state",
+      "rule": "Ground-only lightning bullet copies base damageLightning.",
+      "tests": [
+        "test_bullet_type_init_lightning_type_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_lightning_type_state",
+        "test_bullet_type_init_lightning_type_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_lightning_type_state"
+    },
+    "init_lightning_type.damage_lightning_ground_collides_air": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/content/Bullets.java",
+      "java_method": "load()",
+      "java_expr": "damageLightningGround.collidesAir = false;",
+      "godot_symbol": "init_lightning_type_result.lightningType",
+      "godot_owner": "PortGame.source_bullet_type_init_lightning_type_state",
+      "rule": "Ground lightning bullet disables air collision.",
+      "tests": [
+        "test_bullet_type_init_lightning_type_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_lightning_type_state",
+        "test_bullet_type_init_lightning_type_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_lightning_type_state"
+    },
+    "init_lightning_type.damage_lightning_air_copy": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/content/Bullets.java",
+      "java_method": "load()",
+      "java_expr": "damageLightningAir = damageLightning.copy();",
+      "godot_symbol": "init_lightning_type_result.lightningType",
+      "godot_owner": "PortGame.source_bullet_type_init_lightning_type_state",
+      "rule": "Air-only lightning bullet copies base damageLightning.",
+      "tests": [
+        "test_bullet_type_init_lightning_type_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_lightning_type_state",
+        "test_bullet_type_init_lightning_type_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_lightning_type_state"
+    },
+    "init_lightning_type.damage_lightning_air_collides_ground": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/content/Bullets.java",
+      "java_method": "load()",
+      "java_expr": "damageLightningAir.collidesGround = false;",
+      "godot_symbol": "init_lightning_type_result.lightningType",
+      "godot_owner": "PortGame.source_bullet_type_init_lightning_type_state",
+      "rule": "Air lightning bullet disables ground collision.",
+      "tests": [
+        "test_bullet_type_init_lightning_type_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_lightning_type_state",
+        "test_bullet_type_init_lightning_type_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_lightning_type_state"
+    },
+    "init_lightning_type.damage_lightning_air_collides_tiles": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/content/Bullets.java",
+      "java_method": "load()",
+      "java_expr": "damageLightningAir.collidesTiles = false;",
+      "godot_symbol": "init_lightning_type_result.lightningType",
+      "godot_owner": "PortGame.source_bullet_type_init_lightning_type_state",
+      "rule": "Air lightning bullet disables tile collision.",
+      "tests": [
+        "test_bullet_type_init_lightning_type_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_lightning_type_state",
+        "test_bullet_type_init_lightning_type_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_lightning_type_state"
     }
   }
 }

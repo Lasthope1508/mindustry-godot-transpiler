@@ -2992,6 +2992,36 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_init_frag_velocity_state",
       "rule": "Public runtime contract for BulletType.init fragBullet keepVelocity and scaleKeepVelocity assignments."
+    },
+    "PortGame.source_bullet_type_init_lightning_type_state": {
+      "status": "active",
+      "source_slice": "N467",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "init()",
+      "params": [
+        {
+          "name": "frag_velocity_state",
+          "type": "Dictionary",
+          "schema": "init_frag_velocity_result"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "lightningTypeApplied",
+        "lightningTypeGatePassed",
+        "lightningType",
+        "collidesAir",
+        "collidesGround",
+        "lightningTypeGateSource",
+        "lightningTypeChoiceSource"
+      ],
+      "tests": [
+        "test_bullet_type_init_lightning_type_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_lightning_type_state",
+        "test_bullet_type_init_lightning_type_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_lightning_type_state",
+      "rule": "Public runtime contract for BulletType.init lightningType null gate and internal Bullets choice."
     }
   },
   "policy": {
