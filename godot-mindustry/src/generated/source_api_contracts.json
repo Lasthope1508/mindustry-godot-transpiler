@@ -869,6 +869,63 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_effects_state",
       "rule": "Public runtime contract for the initial side effects in BulletType.hit(Bullet b, float x, float y, boolean createFrags); frag branch body remains deferred."
+    },
+    "PortGame.source_bullet_type_hit_frag_dispatch_state": {
+      "status": "active",
+      "source_slice": "N420",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "hit_xy_state",
+          "type": "Dictionary",
+          "schema": "hit_xy_state"
+        },
+        {
+          "name": "hit_frag_state",
+          "type": "Dictionary",
+          "schema": "hit_frag_state"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "hitXY",
+        "hitFrag",
+        "x",
+        "y",
+        "createFrags",
+        "fragOnHit",
+        "delayFrags",
+        "fragBullet",
+        "fragBulletExists",
+        "fragBulletDelayFrags",
+        "fragGatePassed",
+        "delayFragGatePassed",
+        "timeRunCall",
+        "createFragsCall",
+        "fragGateSource",
+        "delayGateSource",
+        "timeRunCallSource",
+        "createFragsCallSource",
+        "postFragBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_frag_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_frag_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_frag_dispatch_state",
+      "rule": "Public runtime contract for BulletType.hit frag dispatch only; createFrags body and post-frag side effects remain deferred."
     }
   },
   "policy": {

@@ -368,14 +368,37 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(shake_call["java_expr"], "Effect.shake(hitShake, hitShake, b)")
         self.assertEqual(shake_call["godot_symbol"], "hit_effects_result.shakeCall")
 
+    def test_bullet_type_hit_frag_dispatch_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        frag_gate = source_symbols.source_symbol(registry, "hit.frag_dispatch.frag_gate")
+        self.assertEqual(frag_gate["java_expr"], "createFrags && fragOnHit")
+        self.assertEqual(frag_gate["godot_owner"], "PortGame.source_bullet_type_hit_frag_dispatch_state")
+        self.assertEqual(frag_gate["runtime_proof"], "/root/Main.source_bullet_type_hit_frag_dispatch_state")
+
+        delay_gate = source_symbols.source_symbol(registry, "hit.frag_dispatch.delay_gate")
+        self.assertEqual(delay_gate["java_expr"], "delayFrags && fragBullet != null && fragBullet.delayFrags")
+        self.assertEqual(delay_gate["godot_symbol"], "hit_frag_dispatch_result.delayFragGatePassed")
+
+        time_run = source_symbols.source_symbol(registry, "hit.frag_dispatch.time_run_call")
+        self.assertEqual(time_run["java_expr"], "Time.run(0f, () -> createFrags(b, x, y))")
+        self.assertEqual(time_run["godot_symbol"], "hit_frag_dispatch_result.timeRunCall")
+
+        direct_call = source_symbols.source_symbol(registry, "hit.frag_dispatch.create_frags_call")
+        self.assertEqual(direct_call["java_expr"], "createFrags(b, x, y)")
+        self.assertEqual(direct_call["godot_symbol"], "hit_frag_dispatch_result.createFragsCall")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 17)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 18)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 22)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 23)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -398,6 +421,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_hit_default_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_xy_default_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_effects_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_hit_frag_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -499,6 +523,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(hit_effects["godot_owner"], "PortGame.source_bullet_type_hit_effects_state")
         self.assertIn("hitEffect.at(x, y, b.rotation(), hitColor)", hit_effects["exact_exprs"])
         self.assertIn("Effect.shake(hitShake, hitShake, b)", hit_effects["exact_exprs"])
+
+        hit_frag_dispatch = source_symbols.source_slice(ledger, "N420")
+        self.assertEqual(hit_frag_dispatch["java_method"], "hit(Bullet b, float x, float y, boolean createFrags)")
+        self.assertEqual(hit_frag_dispatch["godot_owner"], "PortGame.source_bullet_type_hit_frag_dispatch_state")
+        self.assertIn("if(createFrags && fragOnHit)", hit_frag_dispatch["exact_exprs"])
+        self.assertIn("Time.run(0f, () -> createFrags(b, x, y))", hit_frag_dispatch["exact_exprs"])
+        self.assertIn("createFrags(b, x, y)", hit_frag_dispatch["exact_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -628,6 +659,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("shakeCall", hit_effects["return_keys"])
         self.assertEqual(hit_effects["source_method"], "hit(Bullet b, float x, float y, boolean createFrags)")
 
+        hit_frag_dispatch = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_hit_frag_dispatch_state")
+        self.assertEqual([param["name"] for param in hit_frag_dispatch["params"]], ["bullet_type_state", "bullet_state", "hit_xy_state", "hit_frag_state"])
+        self.assertEqual(hit_frag_dispatch["params"][3]["schema"], "hit_frag_state")
+        self.assertIn("fragGatePassed", hit_frag_dispatch["return_keys"])
+        self.assertIn("delayFragGatePassed", hit_frag_dispatch["return_keys"])
+        self.assertIn("timeRunCall", hit_frag_dispatch["return_keys"])
+        self.assertIn("createFragsCall", hit_frag_dispatch["return_keys"])
+        self.assertEqual(hit_frag_dispatch["source_method"], "hit(Bullet b, float x, float y, boolean createFrags)")
+
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_state_schema(schema)
@@ -648,6 +688,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(bullet_type_state["keys"]["hitEffect"]["java_expr"], "hitEffect")
         self.assertEqual(bullet_type_state["keys"]["hitSoundPitchRange"]["java_expr"], "hitSoundPitchRange")
         self.assertEqual(bullet_type_state["keys"]["hitShake"]["java_expr"], "hitShake")
+        self.assertEqual(bullet_type_state["keys"]["fragOnHit"]["java_expr"], "fragOnHit")
+        self.assertEqual(bullet_type_state["keys"]["delayFrags"]["java_expr"], "delayFrags")
+        self.assertEqual(bullet_type_state["keys"]["fragBullet"]["java_expr"], "fragBullet")
 
         tile_state = source_symbols.state_schema(schema, "tile_state")
         self.assertEqual(tile_state["keys"]["healthf"]["java_expr"], "tile.healthf()")
@@ -771,6 +814,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(hit_effects_output["keys"]["hitEffectCall"]["java_expr"], "hitEffect.at(x, y, b.rotation(), hitColor)")
         self.assertEqual(hit_effects_output["keys"]["hitSoundCall"]["java_expr"], "hitSound.at(x, y, hitSoundPitch + Mathf.range(hitSoundPitchRange), hitSoundVolume)")
         self.assertEqual(hit_effects_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(hitShake, hitShake, b)")
+
+        hit_frag_state = source_symbols.state_schema(schema, "hit_frag_state")
+        self.assertEqual(hit_frag_state["keys"]["createFrags"]["java_expr"], "createFrags")
+        self.assertEqual(hit_frag_state["keys"]["createFrags"]["status"], "explicit-input")
+
+        hit_frag_dispatch_output = source_symbols.state_schema(schema, "hit_frag_dispatch_result")
+        self.assertEqual(hit_frag_dispatch_output["keys"]["fragGatePassed"]["java_expr"], "createFrags && fragOnHit")
+        self.assertEqual(hit_frag_dispatch_output["keys"]["delayFragGatePassed"]["java_expr"], "delayFrags && fragBullet != null && fragBullet.delayFrags")
+        self.assertEqual(hit_frag_dispatch_output["keys"]["timeRunCall"]["java_expr"], "Time.run(0f, () -> createFrags(b, x, y))")
+        self.assertEqual(hit_frag_dispatch_output["keys"]["createFragsCall"]["java_expr"], "createFrags(b, x, y)")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

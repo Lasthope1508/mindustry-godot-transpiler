@@ -401,6 +401,42 @@
             "PortGame.source_bullet_type_hit_effects_state"
           ],
           "rule": "Canonical BulletType.hitColor field for hitEffect.at."
+        },
+        "fragOnHit": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "fragOnHit",
+          "godot_symbol": "bullet_type_state.fragOnHit",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_frag_dispatch_state"
+          ],
+          "rule": "Canonical BulletType.fragOnHit field for hit frag dispatch."
+        },
+        "delayFrags": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "delayFrags",
+          "godot_symbol": "bullet_type_state.delayFrags",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_frag_dispatch_state"
+          ],
+          "rule": "Canonical BulletType.delayFrags field for delayed hit frag dispatch."
+        },
+        "fragBullet": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "fragBullet",
+          "godot_symbol": "bullet_type_state.fragBullet",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_frag_dispatch_state"
+          ],
+          "rule": "Canonical BulletType.fragBullet field for hit frag dispatch null/nested gate."
         }
       }
     },
@@ -2807,6 +2843,196 @@
             "PortGame.source_bullet_type_hit_effects_state"
           ],
           "rule": "Boundary marker; frag branch body is not migrated in N419."
+        }
+      }
+    },
+    "hit_frag_state": {
+      "status": "active",
+      "keys": {
+        "createFrags": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "createFrags",
+          "godot_symbol": "hit_frag_state.createFrags",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_frag_dispatch_state"
+          ],
+          "rule": "Explicit createFrags method parameter for hit(Bullet b, float x, float y, boolean createFrags)."
+        }
+      }
+    },
+    "hit_frag_dispatch_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_type_state",
+          "rule": "Runtime key preserves input BulletType state."
+        },
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime key preserves input bullet state."
+        },
+        "hitXY": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "hit_xy_state",
+          "rule": "Runtime key preserves explicit hit x/y params."
+        },
+        "hitFrag": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "hit_frag_state",
+          "rule": "Runtime key preserves explicit createFrags param."
+        },
+        "x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "hit_xy_state.x",
+          "rule": "Runtime key aliases x overload parameter."
+        },
+        "y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "hit_xy_state.y",
+          "rule": "Runtime key aliases y overload parameter."
+        },
+        "createFrags": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "hit_frag_state.createFrags",
+          "rule": "Runtime key aliases createFrags method parameter."
+        },
+        "fragOnHit": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "bullet_type_state.fragOnHit",
+          "rule": "Runtime key aliases BulletType.fragOnHit."
+        },
+        "delayFrags": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "bullet_type_state.delayFrags",
+          "rule": "Runtime key aliases BulletType.delayFrags."
+        },
+        "fragBullet": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "bullet_type_state.fragBullet",
+          "rule": "Runtime key aliases BulletType.fragBullet."
+        },
+        "fragBulletExists": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "fragBullet != null",
+          "godot_symbol": "hit_frag_dispatch_result.fragBulletExists",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_frag_dispatch_state"
+          ],
+          "rule": "Runtime result for fragBullet null gate."
+        },
+        "fragBulletDelayFrags": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "fragBullet.delayFrags",
+          "godot_symbol": "hit_frag_dispatch_result.fragBulletDelayFrags",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_frag_dispatch_state"
+          ],
+          "rule": "Nested fragBullet delay flag represented as explicit input metadata."
+        },
+        "fragGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "createFrags && fragOnHit",
+          "godot_symbol": "hit_frag_dispatch_result.fragGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_frag_dispatch_state"
+          ],
+          "rule": "Exact outer frag branch gate."
+        },
+        "delayFragGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "delayFrags && fragBullet != null && fragBullet.delayFrags",
+          "godot_symbol": "hit_frag_dispatch_result.delayFragGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_frag_dispatch_state"
+          ],
+          "rule": "Exact inner delayed frag branch gate."
+        },
+        "timeRunCall": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "Time.run(0f, () -> createFrags(b, x, y))",
+          "godot_symbol": "hit_frag_dispatch_result.timeRunCall",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_frag_dispatch_state"
+          ],
+          "rule": "Runtime call record for delayed frag dispatch."
+        },
+        "createFragsCall": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "createFrags(b, x, y)",
+          "godot_symbol": "hit_frag_dispatch_result.createFragsCall",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_frag_dispatch_state"
+          ],
+          "rule": "Runtime call record for direct frag dispatch."
+        },
+        "fragGateSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "hit.frag_dispatch.frag_gate",
+          "rule": "Runtime source snippet label."
+        },
+        "delayGateSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "hit.frag_dispatch.delay_gate",
+          "rule": "Runtime source snippet label."
+        },
+        "timeRunCallSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "hit.frag_dispatch.time_run_call",
+          "rule": "Runtime source snippet label."
+        },
+        "createFragsCallSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "hit.frag_dispatch.create_frags_call",
+          "rule": "Runtime source snippet label."
+        },
+        "postFragBoundarySource": {
+          "type": "String",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "createPuddles(b, x, y)",
+          "godot_symbol": "hit_frag_dispatch_result.postFragBoundarySource",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_frag_dispatch_state"
+          ],
+          "rule": "Boundary marker; post-frag side effects are not migrated in N420."
         }
       }
     }

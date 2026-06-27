@@ -4783,6 +4783,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"call": "Effect.shake(hitShake, hitShake, b)"', source)
         self.assertIn('"fragBranchBoundarySource": "if(createFrags && fragOnHit)"', source)
 
+    def test_port_game_exposes_source_bullet_type_hit_frag_dispatch_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_hit_frag_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_frag_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var update_hit_frag_state: Dictionary = hit_frag_state.duplicate(true)", source)
+        self.assertIn("var create_frags := bool(update_hit_frag_state.get(\"createFrags\", false))", source)
+        self.assertIn("var frag_on_hit := bool(update_type_state.get(\"fragOnHit\", true))", source)
+        self.assertIn("var delay_frags := bool(update_type_state.get(\"delayFrags\", false))", source)
+        self.assertIn("var frag_bullet: Variant = update_type_state.get(\"fragBullet\", null)", source)
+        self.assertIn("var frag_gate_passed := create_frags and frag_on_hit", source)
+        self.assertIn("var delay_frag_gate_passed := frag_gate_passed and delay_frags and frag_bullet_exists and frag_bullet_delay_frags", source)
+        self.assertIn('"call": "Time.run(0f, () -> createFrags(b, x, y))"', source)
+        self.assertIn('"call": "createFrags(b, x, y)"', source)
+        self.assertIn('"postFragBoundarySource": "createPuddles(b, x, y)"', source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -1887,6 +1887,132 @@
         "test_port_game_exposes_source_bullet_type_hit_effects_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_effects_state"
+    },
+    "hit.frag_dispatch.create_frags": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "java_expr": "createFrags",
+      "godot_symbol": "hit_frag_state.createFrags",
+      "godot_owner": "PortGame.source_bullet_type_hit_frag_dispatch_state",
+      "rule": "Represent the createFrags method parameter as explicit input for the createFrags overload body.",
+      "tests": [
+        "test_bullet_type_hit_frag_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_frag_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_frag_dispatch_state"
+    },
+    "hit.frag_dispatch.frag_on_hit": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "java_expr": "fragOnHit",
+      "godot_symbol": "bullet_type_state.fragOnHit",
+      "godot_owner": "PortGame.source_bullet_type_hit_frag_dispatch_state",
+      "rule": "Use BulletType.fragOnHit as the outer frag branch flag.",
+      "tests": [
+        "test_bullet_type_hit_frag_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_frag_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_frag_dispatch_state"
+    },
+    "hit.frag_dispatch.delay_frags": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "java_expr": "delayFrags",
+      "godot_symbol": "bullet_type_state.delayFrags",
+      "godot_owner": "PortGame.source_bullet_type_hit_frag_dispatch_state",
+      "rule": "Use BulletType.delayFrags as the delayed frag dispatch flag.",
+      "tests": [
+        "test_bullet_type_hit_frag_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_frag_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_frag_dispatch_state"
+    },
+    "hit.frag_dispatch.frag_bullet": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "java_expr": "fragBullet",
+      "godot_symbol": "bullet_type_state.fragBullet",
+      "godot_owner": "PortGame.source_bullet_type_hit_frag_dispatch_state",
+      "rule": "Use BulletType.fragBullet for null gate and delayed frag metadata.",
+      "tests": [
+        "test_bullet_type_hit_frag_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_frag_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_frag_dispatch_state"
+    },
+    "hit.frag_dispatch.frag_bullet_delay_frags": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "java_expr": "fragBullet.delayFrags",
+      "godot_symbol": "hit_frag_dispatch_result.fragBulletDelayFrags",
+      "godot_owner": "PortGame.source_bullet_type_hit_frag_dispatch_state",
+      "rule": "Represent nested fragBullet.delayFrags as explicit input until fragBullet type graph is fully ported.",
+      "tests": [
+        "test_bullet_type_hit_frag_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_frag_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_frag_dispatch_state"
+    },
+    "hit.frag_dispatch.frag_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "java_expr": "createFrags && fragOnHit",
+      "godot_symbol": "hit_frag_dispatch_result.fragGatePassed",
+      "godot_owner": "PortGame.source_bullet_type_hit_frag_dispatch_state",
+      "rule": "Use the exact outer frag branch gate.",
+      "tests": [
+        "test_bullet_type_hit_frag_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_frag_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_frag_dispatch_state"
+    },
+    "hit.frag_dispatch.delay_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "java_expr": "delayFrags && fragBullet != null && fragBullet.delayFrags",
+      "godot_symbol": "hit_frag_dispatch_result.delayFragGatePassed",
+      "godot_owner": "PortGame.source_bullet_type_hit_frag_dispatch_state",
+      "rule": "Use the exact delayed frag branch gate inside the outer gate.",
+      "tests": [
+        "test_bullet_type_hit_frag_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_frag_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_frag_dispatch_state"
+    },
+    "hit.frag_dispatch.time_run_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "java_expr": "Time.run(0f, () -> createFrags(b, x, y))",
+      "godot_symbol": "hit_frag_dispatch_result.timeRunCall",
+      "godot_owner": "PortGame.source_bullet_type_hit_frag_dispatch_state",
+      "rule": "Record the delayed Time.run dispatch only when the delayed gate passes.",
+      "tests": [
+        "test_bullet_type_hit_frag_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_frag_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_frag_dispatch_state"
+    },
+    "hit.frag_dispatch.create_frags_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "java_expr": "createFrags(b, x, y)",
+      "godot_symbol": "hit_frag_dispatch_result.createFragsCall",
+      "godot_owner": "PortGame.source_bullet_type_hit_frag_dispatch_state",
+      "rule": "Record direct createFrags dispatch only when outer gate passes and delayed gate fails.",
+      "tests": [
+        "test_bullet_type_hit_frag_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_frag_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_frag_dispatch_state"
     }
   }
 }

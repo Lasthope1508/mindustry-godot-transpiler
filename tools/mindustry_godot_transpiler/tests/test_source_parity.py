@@ -5739,6 +5739,24 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_hit_frag_dispatch_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_hit_frag_dispatch_state_source"))
+        report = source_parity.verify_bullet_type_hit_frag_dispatch_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "frag_on_hit_field": "public boolean fragOnHit = true;",
+            "frag_bullet_field": "public @Nullable BulletType fragBullet = null;",
+            "delay_frags_field": "public boolean delayFrags = false;",
+            "method": "public void hit(Bullet b, float x, float y, boolean createFrags){",
+            "frag_gate": "if(createFrags && fragOnHit){",
+            "delay_gate": "if(delayFrags && fragBullet != null && fragBullet.delayFrags){",
+            "time_run_call": "Time.run(0f, () -> createFrags(b, x, y));",
+            "create_frags_call": "createFrags(b, x, y);",
+            "post_frag_boundary": "createPuddles(b, x, y);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_bullet_type_building_damage_state_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_bullet_type_building_damage_state_source"))
         report = source_parity.verify_bullet_type_building_damage_state_source(ROOT / "mindustry-upstream")

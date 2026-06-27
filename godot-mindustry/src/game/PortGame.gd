@@ -6453,6 +6453,65 @@ func source_bullet_type_hit_effects_state(bullet_type_state: Dictionary, bullet_
 		"fragBranchBoundarySource": "if(createFrags && fragOnHit)",
 	}
 
+func source_bullet_type_hit_frag_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_frag_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_hit_xy_state: Dictionary = hit_xy_state.duplicate(true)
+	var update_hit_frag_state: Dictionary = hit_frag_state.duplicate(true)
+	var hit_x := float(update_hit_xy_state.get("x", 0.0))
+	var hit_y := float(update_hit_xy_state.get("y", 0.0))
+	var create_frags := bool(update_hit_frag_state.get("createFrags", false))
+	var frag_on_hit := bool(update_type_state.get("fragOnHit", true))
+	var delay_frags := bool(update_type_state.get("delayFrags", false))
+	var frag_bullet: Variant = update_type_state.get("fragBullet", null)
+	var frag_bullet_exists := frag_bullet != null
+	var frag_bullet_delay_frags := false
+	if frag_bullet is Dictionary:
+		var frag_bullet_state: Dictionary = frag_bullet
+		frag_bullet_delay_frags = bool(frag_bullet_state.get("delayFrags", false))
+	var frag_gate_passed := create_frags and frag_on_hit
+	var delay_frag_gate_passed := frag_gate_passed and delay_frags and frag_bullet_exists and frag_bullet_delay_frags
+	var time_run_call := {}
+	var create_frags_call := {}
+	if delay_frag_gate_passed:
+		time_run_call = {
+			"call": "Time.run(0f, () -> createFrags(b, x, y))",
+			"delay": 0.0,
+			"x": hit_x,
+			"y": hit_y,
+			"scheduled": true,
+		}
+	elif frag_gate_passed:
+		create_frags_call = {
+			"call": "createFrags(b, x, y)",
+			"x": hit_x,
+			"y": hit_y,
+			"called": true,
+		}
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"hitXY": update_hit_xy_state,
+		"hitFrag": update_hit_frag_state,
+		"x": hit_x,
+		"y": hit_y,
+		"createFrags": create_frags,
+		"fragOnHit": frag_on_hit,
+		"delayFrags": delay_frags,
+		"fragBullet": frag_bullet,
+		"fragBulletExists": frag_bullet_exists,
+		"fragBulletDelayFrags": frag_bullet_delay_frags,
+		"fragGatePassed": frag_gate_passed,
+		"delayFragGatePassed": delay_frag_gate_passed,
+		"timeRunCall": time_run_call,
+		"createFragsCall": create_frags_call,
+		"fragGateSource": "if(createFrags && fragOnHit)",
+		"delayGateSource": "if(delayFrags && fragBullet != null && fragBullet.delayFrags)",
+		"timeRunCallSource": "Time.run(0f, () -> createFrags(b, x, y))",
+		"createFragsCallSource": "createFrags(b, x, y)",
+		"postFragBoundarySource": "createPuddles(b, x, y)",
+	}
+
 func source_bullet_type_hit_entity_damage_cap_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, hit_entity_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

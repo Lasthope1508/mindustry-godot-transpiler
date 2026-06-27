@@ -532,6 +532,39 @@
         "test_port_game_exposes_source_bullet_type_hit_effects_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_effects_state"
+    },
+    "N420": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "godot_owner": "PortGame.source_bullet_type_hit_frag_dispatch_state",
+      "exact_exprs": [
+        "if(createFrags && fragOnHit)",
+        "if(delayFrags && fragBullet != null && fragBullet.delayFrags)",
+        "Time.run(0f, () -> createFrags(b, x, y))",
+        "createFrags(b, x, y)"
+      ],
+      "deferred_exprs": [
+        "public void createFrags(Bullet b, float x, float y)",
+        "createPuddles(b, x, y)"
+      ],
+      "source_symbols": [
+        "hit.frag_dispatch.create_frags",
+        "hit.frag_dispatch.frag_on_hit",
+        "hit.frag_dispatch.delay_frags",
+        "hit.frag_dispatch.frag_bullet",
+        "hit.frag_dispatch.frag_bullet_delay_frags",
+        "hit.frag_dispatch.frag_gate",
+        "hit.frag_dispatch.delay_gate",
+        "hit.frag_dispatch.time_run_call",
+        "hit.frag_dispatch.create_frags_call"
+      ],
+      "tests": [
+        "test_bullet_type_hit_frag_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_frag_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_frag_dispatch_state"
     }
   },
   "version": 1
