@@ -4752,6 +4752,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"hitDefaultCallSource": "hit(b, b.x, b.y, true)"', source)
         self.assertIn('"hitOverloadBoundarySource": "public void hit(Bullet b, float x, float y)"', source)
 
+    def test_port_game_exposes_source_bullet_type_hit_xy_default_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_hit_xy_default_state(bullet_state: Dictionary, hit_xy_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var update_hit_xy_state: Dictionary = hit_xy_state.duplicate(true)", source)
+        self.assertIn("var hit_x := float(update_hit_xy_state.get(\"x\", 0.0))", source)
+        self.assertIn("var hit_y := float(update_hit_xy_state.get(\"y\", 0.0))", source)
+        self.assertIn("var create_frags := true", source)
+        self.assertIn('"call": "hit(b, x, y, true)"', source)
+        self.assertIn('"hitXYDefaultCallSource": "hit(b, x, y, true)"', source)
+        self.assertIn('"hitCreateFragsBoundarySource": "public void hit(Bullet b, float x, float y, boolean createFrags)"', source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

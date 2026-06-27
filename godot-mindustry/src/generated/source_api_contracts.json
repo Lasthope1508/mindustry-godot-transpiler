@@ -792,6 +792,40 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_default_state",
       "rule": "Public runtime contract for BulletType.hit(Bullet b) default overload delegate only; hit body remains deferred."
+    },
+    "PortGame.source_bullet_type_hit_xy_default_state": {
+      "status": "active",
+      "source_slice": "N418",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hit(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "hit_xy_state",
+          "type": "Dictionary",
+          "schema": "hit_xy_state"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "hitXY",
+        "x",
+        "y",
+        "createFrags",
+        "hitCall",
+        "hitXYDefaultCallSource",
+        "hitCreateFragsBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_xy_default_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_xy_default_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_xy_default_state",
+      "rule": "Public runtime contract for BulletType.hit(Bullet b, float x, float y) overload delegate only; createFrags overload body remains deferred."
     }
   },
   "policy": {

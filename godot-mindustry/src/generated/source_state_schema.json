@@ -2524,6 +2524,106 @@
           "rule": "Boundary marker; overload body is not migrated in N417."
         }
       }
+    },
+    "hit_xy_state": {
+      "status": "active",
+      "keys": {
+        "x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y)",
+          "java_expr": "x",
+          "godot_symbol": "hit_xy_state.x",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_xy_default_state"
+          ],
+          "rule": "Explicit x overload parameter; do not alias to b.x."
+        },
+        "y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y)",
+          "java_expr": "y",
+          "godot_symbol": "hit_xy_state.y",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_xy_default_state"
+          ],
+          "rule": "Explicit y overload parameter; do not alias to b.y."
+        }
+      }
+    },
+    "hit_xy_default_result": {
+      "status": "active",
+      "keys": {
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime key preserves input bullet state."
+        },
+        "hitXY": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "hit_xy_state",
+          "rule": "Runtime key preserves explicit x/y overload params."
+        },
+        "x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "hit_xy_state.x",
+          "rule": "Runtime key aliases x overload parameter."
+        },
+        "y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "hit_xy_state.y",
+          "rule": "Runtime key aliases y overload parameter."
+        },
+        "createFrags": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y)",
+          "java_expr": "true",
+          "godot_symbol": "hit_xy_default_result.createFrags",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_xy_default_state"
+          ],
+          "rule": "Literal createFrags argument in hit(b, x, y, true)."
+        },
+        "hitCall": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y)",
+          "java_expr": "hit(b, x, y, true)",
+          "godot_symbol": "hit_xy_default_result.hitCall",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_xy_default_state"
+          ],
+          "rule": "Runtime call record for the x/y overload delegate."
+        },
+        "hitXYDefaultCallSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "hit.xy_default_call",
+          "rule": "Runtime source snippet label."
+        },
+        "hitCreateFragsBoundarySource": {
+          "type": "String",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "public void hit(Bullet b, float x, float y, boolean createFrags)",
+          "godot_symbol": "hit_xy_default_result.hitCreateFragsBoundarySource",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_xy_default_state"
+          ],
+          "rule": "Boundary marker; createFrags overload body is not migrated in N418."
+        }
+      }
     }
   },
   "version": 1

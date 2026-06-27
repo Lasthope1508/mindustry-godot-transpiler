@@ -476,6 +476,30 @@
         "test_port_game_exposes_source_bullet_type_hit_default_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_default_state"
+    },
+    "N418": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "hit(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_hit_xy_default_state",
+      "exact_exprs": [
+        "hit(b, x, y, true)"
+      ],
+      "deferred_exprs": [
+        "public void hit(Bullet b, float x, float y, boolean createFrags)"
+      ],
+      "source_symbols": [
+        "hit.xy_default_call",
+        "hit.xy_default_x",
+        "hit.xy_default_y",
+        "hit.xy_default_create_frags"
+      ],
+      "tests": [
+        "test_bullet_type_hit_xy_default_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_xy_default_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_xy_default_state"
     }
   },
   "version": 1

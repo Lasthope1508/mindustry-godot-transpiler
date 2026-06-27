@@ -1691,6 +1691,62 @@
         "test_port_game_exposes_source_bullet_type_hit_default_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_default_state"
+    },
+    "hit.xy_default_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y)",
+      "java_expr": "hit(b, x, y, true)",
+      "godot_symbol": "hit_xy_default_result.hitCall",
+      "godot_owner": "PortGame.source_bullet_type_hit_xy_default_state",
+      "rule": "The x/y overload delegates to hit(b, x, y, true); do not enter the createFrags overload body in this slice.",
+      "tests": [
+        "test_bullet_type_hit_xy_default_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_xy_default_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_xy_default_state"
+    },
+    "hit.xy_default_x": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y)",
+      "java_expr": "x",
+      "godot_symbol": "hit_xy_state.x",
+      "godot_owner": "PortGame.source_bullet_type_hit_xy_default_state",
+      "rule": "Represent the x overload parameter as explicit input, separate from b.x.",
+      "tests": [
+        "test_bullet_type_hit_xy_default_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_xy_default_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_xy_default_state"
+    },
+    "hit.xy_default_y": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y)",
+      "java_expr": "y",
+      "godot_symbol": "hit_xy_state.y",
+      "godot_owner": "PortGame.source_bullet_type_hit_xy_default_state",
+      "rule": "Represent the y overload parameter as explicit input, separate from b.y.",
+      "tests": [
+        "test_bullet_type_hit_xy_default_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_xy_default_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_xy_default_state"
+    },
+    "hit.xy_default_create_frags": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y)",
+      "java_expr": "true",
+      "godot_symbol": "hit_xy_default_result.createFrags",
+      "godot_owner": "PortGame.source_bullet_type_hit_xy_default_state",
+      "rule": "Use the literal createFrags argument from hit(b, x, y, true).",
+      "tests": [
+        "test_bullet_type_hit_xy_default_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_xy_default_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_xy_default_state"
     }
   }
 }
