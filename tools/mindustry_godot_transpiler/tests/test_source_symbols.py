@@ -606,14 +606,30 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(life_samples["status"], "explicit-input")
         self.assertEqual(life_samples["godot_symbol"], "frag_random_state.lifeSamples")
 
+    def test_bullet_type_create_frags_increment_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        increment = source_symbols.source_symbol(registry, "create_frags.increment.frags_increment")
+        self.assertEqual(increment["java_expr"], "b.frags++")
+        self.assertEqual(increment["godot_symbol"], "create_frags_increment_result.bulletFragsAfter")
+        self.assertEqual(increment["godot_owner"], "PortGame.source_bullet_type_create_frags_increment_state")
+        self.assertEqual(increment["runtime_proof"], "/root/Main.source_bullet_type_create_frags_increment_state")
+
+        gate = source_symbols.source_symbol(registry, "create_frags.increment.gate")
+        self.assertEqual(gate["java_expr"], "fragBullet != null && (fragOnAbsorb || !b.absorbed) && (pierceFragCap < 0 || b.frags < pierceFragCap)")
+        self.assertEqual(gate["godot_symbol"], "create_frags_create_call_result.fragGatePassed")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 28)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 29)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 33)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 34)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -647,6 +663,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_create_frags_initial_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_frags_random_geometry_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_frags_create_call_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_create_frags_increment_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -823,6 +840,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(create_frags_create_call["godot_owner"], "PortGame.source_bullet_type_create_frags_create_call_state")
         self.assertIn("fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax))", create_frags_create_call["exact_exprs"])
         self.assertIn("b.frags++", create_frags_create_call["deferred_exprs"])
+
+        create_frags_increment = source_symbols.source_slice(ledger, "N431")
+        self.assertEqual(create_frags_increment["java_method"], "createFrags(Bullet b, float x, float y)")
+        self.assertEqual(create_frags_increment["godot_owner"], "PortGame.source_bullet_type_create_frags_increment_state")
+        self.assertIn("b.frags++", create_frags_increment["exact_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -1048,6 +1070,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("lifeRandomSource", create_frags_create_call["return_keys"])
         self.assertIn("createCallSource", create_frags_create_call["return_keys"])
         self.assertEqual(create_frags_create_call["source_method"], "createFrags(Bullet b, float x, float y)")
+
+        create_frags_increment = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_create_frags_increment_state")
+        self.assertEqual([param["name"] for param in create_frags_increment["params"]], ["bullet_state", "create_frags_create_call_state"])
+        self.assertEqual(create_frags_increment["params"][1]["schema"], "create_frags_create_call_result")
+        self.assertIn("bulletFragsBefore", create_frags_increment["return_keys"])
+        self.assertIn("bulletFragsAfter", create_frags_increment["return_keys"])
+        self.assertIn("fragsIncremented", create_frags_increment["return_keys"])
+        self.assertIn("fragsIncrementSource", create_frags_increment["return_keys"])
+        self.assertEqual(create_frags_increment["source_method"], "createFrags(Bullet b, float x, float y)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -1278,6 +1309,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(create_frags_create_call_output["keys"]["fragmentCreateCalls"]["java_expr"], "fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax))")
         self.assertEqual(create_frags_create_call_output["keys"]["fragmentCreateCalls"]["status"], "source-backed")
         self.assertEqual(create_frags_create_call_output["keys"]["createFragsRandomGeometry"]["alias_of"], "create_frags_random_geometry_result")
+
+        create_frags_increment_output = source_symbols.state_schema(schema, "create_frags_increment_result")
+        self.assertEqual(create_frags_increment_output["keys"]["bulletFragsAfter"]["java_expr"], "b.frags++")
+        self.assertEqual(create_frags_increment_output["keys"]["bulletFragsAfter"]["status"], "source-backed")
+        self.assertEqual(create_frags_increment_output["keys"]["createFragsCreateCall"]["alias_of"], "create_frags_create_call_result")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

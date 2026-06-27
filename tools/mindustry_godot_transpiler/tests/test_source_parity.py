@@ -5937,6 +5937,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_create_frags_increment_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_create_frags_increment_state_source"))
+        report = source_parity.verify_bullet_type_create_frags_increment_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["bullet_comp_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void createFrags(Bullet b, float x, float y){",
+            "initial_gate": "if(fragBullet != null && (fragOnAbsorb || !b.absorbed) && (pierceFragCap < 0 || b.frags < pierceFragCap)){",
+            "loop_boundary": "for(int i = 0; i < fragBullets; i++){",
+            "create_call": "fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax));",
+            "frags_increment": "b.frags++;",
+            "bullet_frags_field": "transient int frags;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_bullet_type_building_damage_state_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_bullet_type_building_damage_state_source"))
         report = source_parity.verify_bullet_type_building_damage_state_source(ROOT / "mindustry-upstream")

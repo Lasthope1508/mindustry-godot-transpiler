@@ -132,7 +132,8 @@
           "java_expr": "b.frags",
           "godot_symbol": "bullet_state.frags",
           "used_by": [
-            "PortGame.source_bullet_type_create_frags_initial_state"
+            "PortGame.source_bullet_type_create_frags_initial_state",
+            "PortGame.source_bullet_type_create_frags_increment_state"
           ],
           "rule": "Canonical Bullet.frags transient counter for createFrags pierce cap guard."
         }
@@ -4864,6 +4865,71 @@
             "PortGame.source_bullet_type_create_frags_create_call_state"
           ],
           "rule": "Boundary marker; Bullet.frags increment remains later source slice."
+        }
+      }
+    },
+    "create_frags_increment_result": {
+      "status": "active",
+      "keys": {
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime echo of input bullet_state after increment update."
+        },
+        "createFragsCreateCall": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "create_frags_create_call_result",
+          "rule": "Runtime echo of createFrags create-call slice result."
+        },
+        "fragGatePassed": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "create_frags_create_call_result.fragGatePassed",
+          "rule": "Runtime key aliases source createFrags guard result."
+        },
+        "bulletFragsBefore": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "bullet_state.frags",
+          "rule": "Runtime key aliases b.frags before increment."
+        },
+        "bulletFragsAfter": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createFrags(Bullet b, float x, float y)",
+          "java_expr": "b.frags++",
+          "godot_symbol": "create_frags_increment_result.bulletFragsAfter",
+          "used_by": [
+            "PortGame.source_bullet_type_create_frags_increment_state"
+          ],
+          "rule": "Result of applying b.frags++ once when createFrags guard passed; unchanged when guard failed."
+        },
+        "fragsIncremented": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createFrags(Bullet b, float x, float y)",
+          "java_expr": "fragBullet != null && (fragOnAbsorb || !b.absorbed) && (pierceFragCap < 0 || b.frags < pierceFragCap)",
+          "godot_symbol": "create_frags_increment_result.fragsIncremented",
+          "used_by": [
+            "PortGame.source_bullet_type_create_frags_increment_state"
+          ],
+          "rule": "Records whether execution entered the source block containing b.frags++."
+        },
+        "fragsIncrementSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createFrags(Bullet b, float x, float y)",
+          "java_expr": "b.frags++",
+          "godot_symbol": "create_frags_increment_result.fragsIncrementSource",
+          "used_by": [
+            "PortGame.source_bullet_type_create_frags_increment_state"
+          ],
+          "rule": "Runtime source snippet label."
         }
       }
     }

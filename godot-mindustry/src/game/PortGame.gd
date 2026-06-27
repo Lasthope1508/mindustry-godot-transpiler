@@ -7050,6 +7050,26 @@ func source_bullet_type_create_frags_create_call_state(bullet_type_state: Dictio
 		"fragsIncrementBoundarySource": "b.frags++;",
 	}
 
+func source_bullet_type_create_frags_increment_state(bullet_state: Dictionary, create_frags_create_call_state: Dictionary) -> Dictionary:
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_create_call_state: Dictionary = create_frags_create_call_state.duplicate(true)
+	var frag_gate_passed := bool(update_create_call_state.get("fragGatePassed", false))
+	var bullet_frags_before := int(update_bullet_state.get("frags", 0))
+	var bullet_frags_after := bullet_frags_before
+	var frags_incremented := frag_gate_passed
+	if frags_incremented:
+		bullet_frags_after = bullet_frags_before + 1
+	update_bullet_state["frags"] = bullet_frags_after
+	return {
+		"bullet": update_bullet_state,
+		"createFragsCreateCall": update_create_call_state,
+		"fragGatePassed": frag_gate_passed,
+		"bulletFragsBefore": bullet_frags_before,
+		"bulletFragsAfter": bullet_frags_after,
+		"fragsIncremented": frags_incremented,
+		"fragsIncrementSource": "b.frags++;",
+	}
+
 func source_bullet_type_hit_entity_damage_cap_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, hit_entity_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

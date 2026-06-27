@@ -4907,6 +4907,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\"call\": \"fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax))\"", source)
         self.assertIn("\"createCallSource\": \"fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax));\"", source)
 
+    def test_port_game_exposes_source_bullet_type_create_frags_increment_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_create_frags_increment_state(bullet_state: Dictionary, create_frags_create_call_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var frags_incremented := frag_gate_passed", source)
+        self.assertIn("if frags_incremented:", source)
+        self.assertIn("bullet_frags_after = bullet_frags_before + 1", source)
+        self.assertIn("update_bullet_state[\"frags\"] = bullet_frags_after", source)
+        self.assertIn("\"fragsIncrementSource\": \"b.frags++;\"", source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

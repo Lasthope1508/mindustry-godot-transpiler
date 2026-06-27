@@ -864,6 +864,30 @@
         "test_port_game_exposes_source_bullet_type_create_frags_create_call_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_frags_create_call_state"
+    },
+    "N431": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_increment_state",
+      "exact_exprs": [
+        "b.frags++"
+      ],
+      "reused_source_slices": [
+        "N428: PortGame.source_bullet_type_create_frags_initial_state",
+        "N430: PortGame.source_bullet_type_create_frags_create_call_state"
+      ],
+      "source_symbols": [
+        "create_frags.increment.gate",
+        "create_frags.increment.bullet_frags_before",
+        "create_frags.increment.frags_increment"
+      ],
+      "tests": [
+        "test_bullet_type_create_frags_increment_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_increment_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_increment_state"
     }
   },
   "version": 1

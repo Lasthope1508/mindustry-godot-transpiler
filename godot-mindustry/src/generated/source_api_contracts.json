@@ -1447,6 +1447,39 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_frags_create_call_state",
       "rule": "Public runtime contract for createFrags fragBullet.create call arguments only; Bullet.frags increment remains deferred."
+    },
+    "PortGame.source_bullet_type_create_frags_increment_state": {
+      "status": "active",
+      "source_slice": "N431",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createFrags(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "create_frags_create_call_state",
+          "type": "Dictionary",
+          "schema": "create_frags_create_call_result"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "createFragsCreateCall",
+        "fragGatePassed",
+        "bulletFragsBefore",
+        "bulletFragsAfter",
+        "fragsIncremented",
+        "fragsIncrementSource"
+      ],
+      "tests": [
+        "test_bullet_type_create_frags_increment_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_increment_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_increment_state",
+      "rule": "Public runtime contract for final BulletType.createFrags b.frags++ side effect only."
     }
   },
   "policy": {

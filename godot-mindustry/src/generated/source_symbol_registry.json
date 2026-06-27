@@ -3063,6 +3063,48 @@
       "java_expr": "b.frags++",
       "godot_symbol": "create_frags_create_call_result.fragsIncrementBoundarySource",
       "rule": "Boundary marker; incrementing Bullet.frags remains a later source slice."
+    },
+    "create_frags.increment.gate": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_increment_state",
+      "tests": [
+        "test_bullet_type_create_frags_increment_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_increment_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_increment_state",
+      "status": "source-backed",
+      "java_expr": "fragBullet != null && (fragOnAbsorb || !b.absorbed) && (pierceFragCap < 0 || b.frags < pierceFragCap)",
+      "godot_symbol": "create_frags_create_call_result.fragGatePassed",
+      "rule": "Reuse the already evaluated createFrags guard; b.frags++ only runs inside that source block."
+    },
+    "create_frags.increment.bullet_frags_before": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_increment_state",
+      "tests": [
+        "test_bullet_type_create_frags_increment_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_increment_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_increment_state",
+      "status": "source-backed",
+      "java_expr": "b.frags",
+      "godot_symbol": "bullet_state.frags",
+      "rule": "Read Bullet.frags before applying source b.frags++."
+    },
+    "create_frags.increment.frags_increment": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_increment_state",
+      "tests": [
+        "test_bullet_type_create_frags_increment_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_increment_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_increment_state",
+      "status": "source-backed",
+      "java_expr": "b.frags++",
+      "godot_symbol": "create_frags_increment_result.bulletFragsAfter",
+      "rule": "Apply exact source post-loop increment once when createFrags guard passed."
     }
   }
 }
