@@ -5047,6 +5047,34 @@ class SourceParityTests(unittest.TestCase):
             "updateBulletInterval(b);",
         ])
 
+    def test_bullet_type_update_bullet_interval_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_update_bullet_interval_state_source"))
+        report = source_parity.verify_bullet_type_update_bullet_interval_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["timer_comp_source"], "core/src/mindustry/entities/comp/TimerComp.java")
+        self.assertEqual(report["interval_source"], "arc-core/src/arc/util/Interval.java")
+        self.assertEqual(report["mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "interval_bullet_field": "public @Nullable BulletType intervalBullet;",
+            "bullet_interval_field": "public float bulletInterval = 20f;",
+            "interval_bullets_field": "public int intervalBullets = 1;",
+            "interval_random_spread_field": "public float intervalRandomSpread = 360f;",
+            "interval_spread_field": "public float intervalSpread = 0f;",
+            "interval_angle_field": "public float intervalAngle = 0f;",
+            "interval_delay_field": "public float intervalDelay = -1f;",
+            "method": "public void updateBulletInterval(Bullet b){",
+            "gate": "if(intervalBullet != null && b.time >= intervalDelay && b.timer.get(2, bulletInterval)){",
+            "angle_base": "float ang = b.rotation();",
+            "loop": "for(int i = 0; i < intervalBullets; i++){",
+            "create_call": "intervalBullet.create(b, b.x, b.y, ang + Mathf.range(intervalRandomSpread) + intervalAngle + ((i - (intervalBullets - 1f)/2f) * intervalSpread));",
+            "timer_field": "transient Interval timer = new Interval(6);",
+            "interval_get": "public boolean get(int id, float time){",
+            "interval_get_check": "boolean got = check(id, time);",
+            "mathf_range": "public static float range(float range){\n        return random(-range, range);\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

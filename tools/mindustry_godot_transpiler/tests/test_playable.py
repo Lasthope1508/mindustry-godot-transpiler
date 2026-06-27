@@ -4202,6 +4202,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"updateMethodSource": "public void update(Bullet b)"', source)
         self.assertIn('"nextMethodReservedSource": "public void updateBulletInterval(Bullet b)"', source)
 
+    def test_port_game_exposes_source_bullet_type_update_bullet_interval_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_update_bullet_interval_state(bullet_state: Dictionary, bullet_type_state: Dictionary, timer_get_result: bool, interval_random_offsets: Array) -> Dictionary:", source)
+        self.assertIn("var update_bullet_state := bullet_state.duplicate(true)", source)
+        self.assertIn("var interval_bullet = bullet_type_state.get(\"intervalBullet\", null)", source)
+        self.assertIn("var gate_passed := interval_bullet != null and float(update_bullet_state.get(\"time\", 0.0)) >= float(bullet_type_state.get(\"intervalDelay\", -1.0)) and timer_get_result", source)
+        self.assertIn("var base_angle := float(update_bullet_state.get(\"rotation\", 0.0))", source)
+        self.assertIn("for i in interval_bullets:", source)
+        self.assertIn("var random_offset := float(interval_random_offsets[i]) if i < interval_random_offsets.size() else 0.0", source)
+        self.assertIn("var spread_offset := (float(i) - (float(interval_bullets) - 1.0) / 2.0) * interval_spread", source)
+        self.assertIn('"owner": update_bullet_state', source)
+        self.assertIn('"x": float(update_bullet_state.get("x", 0.0))', source)
+        self.assertIn('"y": float(update_bullet_state.get("y", 0.0))', source)
+        self.assertIn('"angle": base_angle + random_offset + interval_angle + spread_offset', source)
+        self.assertIn('"gateSource": "if(intervalBullet != null && b.time >= intervalDelay && b.timer.get(2, bulletInterval)){"', source)
+        self.assertIn('"createSource": "intervalBullet.create(b, b.x, b.y, ang + Mathf.range(intervalRandomSpread) + intervalAngle + ((i - (intervalBullets - 1f)/2f) * intervalSpread))"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

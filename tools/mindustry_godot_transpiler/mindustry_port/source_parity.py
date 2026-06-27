@@ -8996,6 +8996,69 @@ def verify_bullet_type_update_dispatch_state_source(upstream_root: Path) -> dict
         "missing": missing,
     }
 
+def verify_bullet_type_update_bullet_interval_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    timer_comp_source = "core/src/mindustry/entities/comp/TimerComp.java"
+    interval_source = "arc-core/src/arc/util/Interval.java"
+    mathf_source = "arc-core/src/arc/math/Mathf.java"
+    timer_comp_path = upstream_root / timer_comp_source
+    interval_path = arc_root / interval_source
+    mathf_path = arc_root / mathf_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    timer_comp_text = timer_comp_path.read_text(encoding="utf-8", errors="replace")
+    interval_text = interval_path.read_text(encoding="utf-8", errors="replace")
+    mathf_text = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "interval_bullet_field": "public @Nullable BulletType intervalBullet;",
+        "bullet_interval_field": "public float bulletInterval = 20f;",
+        "interval_bullets_field": "public int intervalBullets = 1;",
+        "interval_random_spread_field": "public float intervalRandomSpread = 360f;",
+        "interval_spread_field": "public float intervalSpread = 0f;",
+        "interval_angle_field": "public float intervalAngle = 0f;",
+        "interval_delay_field": "public float intervalDelay = -1f;",
+        "method": "public void updateBulletInterval(Bullet b){",
+        "gate": "if(intervalBullet != null && b.time >= intervalDelay && b.timer.get(2, bulletInterval)){",
+        "angle_base": "float ang = b.rotation();",
+        "loop": "for(int i = 0; i < intervalBullets; i++){",
+        "create_call": "intervalBullet.create(b, b.x, b.y, ang + Mathf.range(intervalRandomSpread) + intervalAngle + ((i - (intervalBullets - 1f)/2f) * intervalSpread));",
+        "timer_field": "transient Interval timer = new Interval(6);",
+        "interval_get": "public boolean get(int id, float time){",
+        "interval_get_check": "boolean got = check(id, time);",
+        "mathf_range": "public static float range(float range){\n        return random(-range, range);\n    }",
+    }
+    source_map = {
+        "interval_bullet_field": source,
+        "bullet_interval_field": source,
+        "interval_bullets_field": source,
+        "interval_random_spread_field": source,
+        "interval_spread_field": source,
+        "interval_angle_field": source,
+        "interval_delay_field": source,
+        "method": source,
+        "gate": source,
+        "angle_base": source,
+        "loop": source,
+        "create_call": source,
+        "timer_field": timer_comp_text,
+        "interval_get": interval_text,
+        "interval_get_check": interval_text,
+        "mathf_range": mathf_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "timer_comp_source": timer_comp_source,
+        "interval_source": interval_source,
+        "mathf_source": mathf_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

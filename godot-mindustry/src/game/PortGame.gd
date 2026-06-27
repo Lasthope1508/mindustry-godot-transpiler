@@ -5369,6 +5369,40 @@ func source_bullet_type_update_dispatch_state(bullet_state: Dictionary) -> Dicti
 		"nextMethodReservedSource": "public void updateBulletInterval(Bullet b)",
 	}
 
+func source_bullet_type_update_bullet_interval_state(bullet_state: Dictionary, bullet_type_state: Dictionary, timer_get_result: bool, interval_random_offsets: Array) -> Dictionary:
+	var update_bullet_state := bullet_state.duplicate(true)
+	var interval_bullet = bullet_type_state.get("intervalBullet", null)
+	var gate_passed := interval_bullet != null and float(update_bullet_state.get("time", 0.0)) >= float(bullet_type_state.get("intervalDelay", -1.0)) and timer_get_result
+	var interval_calls: Array = []
+	var interval_bullets := int(bullet_type_state.get("intervalBullets", 1))
+	var interval_spread := float(bullet_type_state.get("intervalSpread", 0.0))
+	var interval_angle := float(bullet_type_state.get("intervalAngle", 0.0))
+	var base_angle := float(update_bullet_state.get("rotation", 0.0))
+	if gate_passed:
+		for i in interval_bullets:
+			var random_offset := float(interval_random_offsets[i]) if i < interval_random_offsets.size() else 0.0
+			var spread_offset := (float(i) - (float(interval_bullets) - 1.0) / 2.0) * interval_spread
+			interval_calls.append({
+				"bulletType": interval_bullet,
+				"owner": update_bullet_state,
+				"x": float(update_bullet_state.get("x", 0.0)),
+				"y": float(update_bullet_state.get("y", 0.0)),
+				"angle": base_angle + random_offset + interval_angle + spread_offset,
+				"randomOffset": random_offset,
+				"spreadOffset": spread_offset,
+			})
+	return {
+		"bullet": update_bullet_state,
+		"gatePassed": gate_passed,
+		"timerGetResult": timer_get_result,
+		"timerIndex": 2,
+		"timerTime": float(bullet_type_state.get("bulletInterval", 20.0)),
+		"intervalBulletCalls": interval_calls,
+		"intervalRandomOffsets": interval_random_offsets.duplicate(),
+		"gateSource": "if(intervalBullet != null && b.time >= intervalDelay && b.timer.get(2, bulletInterval)){",
+		"createSource": "intervalBullet.create(b, b.x, b.y, ang + Mathf.range(intervalRandomSpread) + intervalAngle + ((i - (intervalBullets - 1f)/2f) * intervalSpread))",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
