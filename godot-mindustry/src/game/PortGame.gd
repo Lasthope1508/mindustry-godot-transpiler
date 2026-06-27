@@ -3812,6 +3812,17 @@ func source_weapon_update_continuous_laser_aim_state(mount_state: Dictionary, we
 		"alwaysContinuousReservedSource": "if(alwaysContinuous && mount.shoot)",
 	}
 
+func source_status_apply_result(status_effect: String, duration: float, status_immune: bool) -> Dictionary:
+	var status_applied := status_effect != "none" and status_effect != "" and not status_immune
+	var status_application: Dictionary = {}
+	if status_applied:
+		status_application = {"effect": status_effect, "duration": duration}
+	return {
+		"statusApplied": status_applied,
+		"statusApplication": status_application,
+		"statusApplyGuardSource": "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return",
+	}
+
 func source_weapon_update_always_continuous_keepalive_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, unit_state: Dictionary) -> Dictionary:
 	var continuous := bool(weapon_state.get("continuous", false))
 	var bullet_exists := bool(mount_state.get("bulletExists", false))
@@ -3835,10 +3846,11 @@ func source_weapon_update_always_continuous_keepalive_state(mount_state: Diction
 	var shoot_status := "" if weapon_state.get("shootStatus", "none") == null else str(weapon_state.get("shootStatus", "none"))
 	var shoot_status_duration := float(weapon_state.get("shootStatusDuration", 0.0))
 	var status_immune := bool(unit_state.get("statusImmune", false))
-	var status_applied := keepalive_gate and shoot_status != "none" and shoot_status != "" and not status_immune
+	var status_result := source_status_apply_result(shoot_status, shoot_status_duration, status_immune)
+	var status_applied := keepalive_gate and bool(status_result.get("statusApplied", false))
 	var status_application: Dictionary = {}
 	if status_applied:
-		status_application = {"effect": shoot_status, "duration": shoot_status_duration}
+		status_application = status_result.get("statusApplication", {})
 	return {
 		"gate": gate,
 		"invalid": invalid,
@@ -3857,7 +3869,7 @@ func source_weapon_update_always_continuous_keepalive_state(mount_state: Diction
 		"timeSource": "mount.bullet.time = mount.bullet.lifetime * mount.bullet.type.optimalLifeFract * mount.warmup",
 		"keepAliveSource": "mount.bullet.keepAlive = true",
 		"unitApplySource": "unit.apply(shootStatus, shootStatusDuration)",
-		"statusApplyGuardSource": "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return",
+		"statusApplyGuardSource": status_result.get("statusApplyGuardSource", ""),
 	}
 
 func source_weapon_update_continuous_idle_heat_sound_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float) -> Dictionary:
@@ -4095,6 +4107,60 @@ func source_weapon_update_shoot_call_reload_state(mount_state: Dictionary, weapo
 		"reloadResetSource": "mount.reload = reload",
 		"shootMethodReservedSource": "protected void shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation)",
 		"shootStatusApplyReservedSource": "unit.apply(shootStatus, shootStatusDuration)",
+	}
+
+func source_weapon_shoot_charge_start_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, unit_state: Dictionary, shoot_x: float, shoot_y: float, charge_rotation: float) -> Dictionary:
+	var shoot_status := "" if weapon_state.get("shootStatus", "none") == null else str(weapon_state.get("shootStatus", "none"))
+	var shoot_status_duration := float(weapon_state.get("shootStatusDuration", 300.0))
+	var status_immune := bool(unit_state.get("statusImmune", false))
+	var status_result := source_status_apply_result(shoot_status, shoot_status_duration, status_immune)
+	var first_shot_delay := float(weapon_state.get("firstShotDelay", 0.0))
+	var charge_gate := first_shot_delay > 0.0
+	var mount_charging := bool(mount_state.get("charging", false))
+	var charge_sound := str(weapon_state.get("chargeSound", "none"))
+	var sound_pitch_min := float(weapon_state.get("soundPitchMin", 1.0))
+	var sound_pitch_max := float(weapon_state.get("soundPitchMax", 1.0))
+	var charge_sound_call: Variant = null
+	var keep_velocity := bool(bullet_state.get("keepVelocity", true))
+	var parentize_effects := bool(weapon_state.get("parentizeEffects", false))
+	var unit_id := int(unit_state.get("id", 0))
+	var charge_effect_parent: Variant = null
+	if keep_velocity or parentize_effects:
+		charge_effect_parent = unit_id
+	var charge_effect_call: Variant = null
+	if charge_gate:
+		mount_charging = true
+		charge_sound_call = {
+			"sound": charge_sound,
+			"x": shoot_x,
+			"y": shoot_y,
+			"pitchMin": sound_pitch_min,
+			"pitchMax": sound_pitch_max,
+		}
+		charge_effect_call = {
+			"effect": str(bullet_state.get("chargeEffect", "none")),
+			"x": shoot_x,
+			"y": shoot_y,
+			"rotation": charge_rotation,
+			"effectParent": charge_effect_parent,
+		}
+	return {
+		"statusApplied": status_result.get("statusApplied", false),
+		"statusApplication": status_result.get("statusApplication", {}),
+		"chargeGate": charge_gate,
+		"mountCharging": mount_charging,
+		"chargeSoundCall": charge_sound_call,
+		"chargeEffectCall": charge_effect_call,
+		"firstShotDelay": first_shot_delay,
+		"keepVelocity": keep_velocity,
+		"parentizeEffects": parentize_effects,
+		"statusApplySource": "unit.apply(shootStatus, shootStatusDuration)",
+		"statusApplyGuardSource": status_result.get("statusApplyGuardSource", ""),
+		"chargeGateSource": "if(shoot.firstShotDelay > 0)",
+		"mountChargingSource": "mount.charging = true",
+		"chargeSoundSource": "chargeSound.at(shootX, shootY, Mathf.random(soundPitchMin, soundPitchMax))",
+		"chargeEffectSource": "bullet.chargeEffect.at(shootX, shootY, rotation, bullet.keepVelocity || parentizeEffects ? unit : null)",
+		"shootLoopReservedSource": "shoot.shoot(mount.barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {",
 	}
 
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:

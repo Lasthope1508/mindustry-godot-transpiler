@@ -3606,7 +3606,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var keepalive_gate := live and always_continuous and mount_shoot", source)
         self.assertIn("next_bullet_time = bullet_lifetime * optimal_life_fract * mount_warmup", source)
         self.assertIn("next_keep_alive = true", source)
-        self.assertIn("var status_applied := keepalive_gate and shoot_status != \"none\" and shoot_status != \"\" and not status_immune", source)
+        self.assertIn("var status_result := source_status_apply_result(shoot_status, shoot_status_duration, status_immune)", source)
+        self.assertIn("var status_applied := keepalive_gate and bool(status_result.get(\"statusApplied\", false))", source)
         self.assertIn('"timeSource": "mount.bullet.time = mount.bullet.lifetime * mount.bullet.type.optimalLifeFract * mount.warmup"', source)
         self.assertIn('"keepAliveSource": "mount.bullet.keepAlive = true"', source)
         self.assertIn('"unitApplySource": "unit.apply(shootStatus, shootStatusDuration)"', source)
@@ -3720,6 +3721,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"shootCallSource": "shoot(unit, mount, bulletX, bulletY, shootAngle)"', source)
         self.assertIn('"reloadResetSource": "mount.reload = reload"', source)
         self.assertIn('"shootMethodReservedSource": "protected void shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation)"', source)
+
+    def test_port_game_exposes_source_weapon_shoot_charge_start_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_status_apply_result(status_effect: String, duration: float, status_immune: bool) -> Dictionary:", source)
+        self.assertIn('"statusApplyGuardSource": "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return"', source)
+        self.assertIn("func source_weapon_shoot_charge_start_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, unit_state: Dictionary, shoot_x: float, shoot_y: float, charge_rotation: float) -> Dictionary:", source)
+        self.assertNotIn("func source_weapon_shoot_charge_start_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, unit_state: Dictionary, shoot_x: float, shoot_y: float, rotation: float) -> Dictionary:", source)
+        self.assertIn("var status_result := source_status_apply_result(shoot_status, shoot_status_duration, status_immune)", source)
+        self.assertIn("var charge_gate := first_shot_delay > 0.0", source)
+        self.assertIn("mount_charging = true", source)
+        self.assertIn("charge_sound_call = {", source)
+        self.assertIn('"x": shoot_x', source)
+        self.assertIn('"y": shoot_y', source)
+        self.assertIn('"pitchMin": sound_pitch_min', source)
+        self.assertIn('"pitchMax": sound_pitch_max', source)
+        self.assertIn('"rotation": charge_rotation', source)
+        self.assertIn("var charge_effect_parent: Variant = null", source)
+        self.assertIn("charge_effect_parent = unit_id", source)
+        self.assertNotIn("var charge_effect_parent: Variant = unit_id if keep_velocity or parentize_effects else null", source)
+        self.assertIn('"effectParent": charge_effect_parent', source)
+        self.assertIn('"statusApplySource": "unit.apply(shootStatus, shootStatusDuration)"', source)
+        self.assertIn('"chargeGateSource": "if(shoot.firstShotDelay > 0)"', source)
+        self.assertIn('"chargeEffectSource": "bullet.chargeEffect.at(shootX, shootY, rotation, bullet.keepVelocity || parentizeEffects ? unit : null)"', source)
+        self.assertIn('"shootLoopReservedSource": "shoot.shoot(mount.barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {"', source)
 
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

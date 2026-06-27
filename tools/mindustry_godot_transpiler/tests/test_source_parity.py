@@ -4431,6 +4431,33 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_shoot_charge_start_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_shoot_charge_start_source"))
+        report = source_parity.verify_weapon_shoot_charge_start_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["shoot_pattern_source"], "core/src/mindustry/entities/pattern/ShootPattern.java")
+        self.assertEqual(report["status_source"], "core/src/mindustry/entities/comp/StatusComp.java")
+        self.assertEqual(report["bullet_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "shoot_method": "protected void shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation){",
+            "status_apply": "unit.apply(shootStatus, shootStatusDuration);",
+            "charge_gate": "if(shoot.firstShotDelay > 0){",
+            "mount_charging": "mount.charging = true;",
+            "charge_sound": "chargeSound.at(shootX, shootY, Mathf.random(soundPitchMin, soundPitchMax));",
+            "charge_effect": "bullet.chargeEffect.at(shootX, shootY, rotation, bullet.keepVelocity || parentizeEffects ? unit : null);",
+            "shoot_loop_reserved": "shoot.shoot(mount.barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {",
+            "weapon_parentize": "public boolean parentizeEffects;",
+            "weapon_charge_sound": "public Sound chargeSound = Sounds.none;",
+            "weapon_shoot_status": "public StatusEffect shootStatus = StatusEffects.none;",
+            "weapon_shoot_status_duration": "public float shootStatusDuration = 60f * 5f;",
+            "pattern_first_shot_delay": "public float firstShotDelay = 0;",
+            "bullet_charge_effect": "public Effect chargeEffect = Fx.none;",
+            "bullet_keep_velocity": "public boolean keepVelocity = true;",
+            "status_apply_guard": "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

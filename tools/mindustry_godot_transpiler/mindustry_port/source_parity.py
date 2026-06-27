@@ -7685,6 +7685,66 @@ def verify_weapon_update_shoot_call_reload_reset_source(upstream_root: Path) -> 
         "missing": missing,
     }
 
+def verify_weapon_shoot_charge_start_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    shoot_pattern_source = "core/src/mindustry/entities/pattern/ShootPattern.java"
+    status_source = "core/src/mindustry/entities/comp/StatusComp.java"
+    bullet_source = "core/src/mindustry/entities/bullet/BulletType.java"
+    shoot_pattern_path = upstream_root / shoot_pattern_source
+    status_path = upstream_root / status_source
+    bullet_path = upstream_root / bullet_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    shoot_pattern_text = shoot_pattern_path.read_text(encoding="utf-8", errors="replace")
+    status_text = status_path.read_text(encoding="utf-8", errors="replace")
+    bullet_text = bullet_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "shoot_method": "protected void shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation){",
+        "status_apply": "unit.apply(shootStatus, shootStatusDuration);",
+        "charge_gate": "if(shoot.firstShotDelay > 0){",
+        "mount_charging": "mount.charging = true;",
+        "charge_sound": "chargeSound.at(shootX, shootY, Mathf.random(soundPitchMin, soundPitchMax));",
+        "charge_effect": "bullet.chargeEffect.at(shootX, shootY, rotation, bullet.keepVelocity || parentizeEffects ? unit : null);",
+        "shoot_loop_reserved": "shoot.shoot(mount.barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {",
+        "weapon_parentize": "public boolean parentizeEffects;",
+        "weapon_charge_sound": "public Sound chargeSound = Sounds.none;",
+        "weapon_shoot_status": "public StatusEffect shootStatus = StatusEffects.none;",
+        "weapon_shoot_status_duration": "public float shootStatusDuration = 60f * 5f;",
+        "pattern_first_shot_delay": "public float firstShotDelay = 0;",
+        "bullet_charge_effect": "public Effect chargeEffect = Fx.none;",
+        "bullet_keep_velocity": "public boolean keepVelocity = true;",
+        "status_apply_guard": "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;",
+    }
+    source_map = {
+        "shoot_method": source,
+        "status_apply": source,
+        "charge_gate": source,
+        "mount_charging": source,
+        "charge_sound": source,
+        "charge_effect": source,
+        "shoot_loop_reserved": source,
+        "weapon_parentize": source,
+        "weapon_charge_sound": source,
+        "weapon_shoot_status": source,
+        "weapon_shoot_status_duration": source,
+        "pattern_first_shot_delay": shoot_pattern_text,
+        "bullet_charge_effect": bullet_text,
+        "bullet_keep_velocity": bullet_text,
+        "status_apply_guard": status_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "shoot_pattern_source": shoot_pattern_source,
+        "status_source": status_source,
+        "bullet_source": bullet_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
