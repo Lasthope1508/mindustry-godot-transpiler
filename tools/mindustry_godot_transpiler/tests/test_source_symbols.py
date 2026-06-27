@@ -174,14 +174,37 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(entity_health["status"], "explicit-input")
         self.assertEqual(entity_health["godot_symbol"], "hit_entity_state.health")
 
+    def test_hit_entity_lifesteal_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        lifesteal_gate = source_symbols.source_symbol(registry, "hit_entity.lifesteal_gate")
+        self.assertEqual(lifesteal_gate["java_expr"], "lifesteal > 0f && b.owner instanceof Healthc o")
+        self.assertEqual(lifesteal_gate["godot_owner"], "PortGame.source_bullet_type_hit_entity_lifesteal_state")
+        self.assertEqual(lifesteal_gate["runtime_proof"], "/root/Main.source_bullet_type_hit_entity_lifesteal_state")
+
+        entity_health = source_symbols.source_symbol(registry, "hit_entity.entity.health")
+        self.assertEqual(entity_health["java_expr"], "h.health()")
+        self.assertEqual(entity_health["godot_symbol"], "entity_state.health")
+
+        lifesteal_result = source_symbols.source_symbol(registry, "hit_entity.lifesteal_result")
+        self.assertEqual(lifesteal_result["java_expr"], "Math.max(Math.min(h.health(), damage), 0)")
+        self.assertEqual(lifesteal_result["godot_symbol"], "hit_entity_lifesteal_result.lifestealResult")
+
+        owner_heal = source_symbols.source_symbol(registry, "hit_entity.owner_heal")
+        self.assertEqual(owner_heal["java_expr"], "o.heal(result * lifesteal)")
+        self.assertEqual(owner_heal["godot_symbol"], "hit_entity_lifesteal_result.ownerHealCalled")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 8)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 9)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 13)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 14)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -195,6 +218,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_hit_tile_lifesteal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_handle_pierce_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_entity_damage_cap_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_hit_entity_lifesteal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -250,6 +274,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(hit_entity_damage_cap["java_method"], "hitEntity(Bullet b, Hitboxc entity, float health)")
         self.assertEqual(hit_entity_damage_cap["godot_owner"], "PortGame.source_bullet_type_hit_entity_damage_cap_state")
         self.assertIn("float shield = entity instanceof Shieldc s ? Math.max(s.shield(), 0f) : 0f", hit_entity_damage_cap["exact_exprs"])
+
+        hit_entity_lifesteal = source_symbols.source_slice(ledger, "N411")
+        self.assertEqual(hit_entity_lifesteal["java_method"], "hitEntity(Bullet b, Hitboxc entity, float health)")
+        self.assertEqual(hit_entity_lifesteal["godot_owner"], "PortGame.source_bullet_type_hit_entity_lifesteal_state")
+        self.assertIn("float result = Math.max(Math.min(h.health(), damage), 0)", hit_entity_lifesteal["exact_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -307,6 +336,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("maxDamageFractionGatePassed", hit_entity_damage_cap["return_keys"])
         self.assertIn("effectiveHealth", hit_entity_damage_cap["return_keys"])
         self.assertEqual(hit_entity_damage_cap["source_method"], "hitEntity(Bullet b, Hitboxc entity, float health)")
+
+        hit_entity_lifesteal = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_hit_entity_lifesteal_state")
+        self.assertEqual([param["name"] for param in hit_entity_lifesteal["params"]], ["bullet_type_state", "bullet_state", "entity_state", "hit_entity_state", "damage_cap_state", "owner_health_state"])
+        self.assertEqual(hit_entity_lifesteal["params"][4]["schema"], "hit_entity_damage_cap_result")
+        self.assertEqual(hit_entity_lifesteal["params"][5]["schema"], "owner_health_state")
+        self.assertIn("lifestealGatePassed", hit_entity_lifesteal["return_keys"])
+        self.assertIn("ownerHealAmount", hit_entity_lifesteal["return_keys"])
+        self.assertEqual(hit_entity_lifesteal["source_method"], "hitEntity(Bullet b, Hitboxc entity, float health)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -369,6 +406,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(entity_state["keys"]["isHealthc"]["java_expr"], "entity instanceof Healthc h")
         self.assertEqual(entity_state["keys"]["isShieldc"]["java_expr"], "entity instanceof Shieldc s")
         self.assertEqual(entity_state["keys"]["shield"]["java_expr"], "s.shield()")
+        self.assertEqual(entity_state["keys"]["health"]["java_expr"], "h.health()")
 
         hit_entity_state = source_symbols.state_schema(schema, "hit_entity_state")
         self.assertEqual(hit_entity_state["keys"]["health"]["java_expr"], "health")
@@ -378,6 +416,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(hit_entity_damage_cap_output["keys"]["shield"]["java_expr"], "entity instanceof Shieldc s ? Math.max(s.shield(), 0f) : 0f")
         self.assertEqual(hit_entity_damage_cap_output["keys"]["cap"]["java_expr"], "h.maxHealth() * maxDamageFraction + shield")
         self.assertEqual(hit_entity_damage_cap_output["keys"]["effectiveHealth"]["java_expr"], "health")
+
+        hit_entity_lifesteal_output = source_symbols.state_schema(schema, "hit_entity_lifesteal_result")
+        self.assertEqual(hit_entity_lifesteal_output["keys"]["lifestealGatePassed"]["java_expr"], "lifesteal > 0f && b.owner instanceof Healthc o")
+        self.assertEqual(hit_entity_lifesteal_output["keys"]["lifestealResult"]["java_expr"], "Math.max(Math.min(h.health(), damage), 0)")
+        self.assertEqual(hit_entity_lifesteal_output["keys"]["ownerHealAmount"]["java_expr"], "result * lifesteal")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

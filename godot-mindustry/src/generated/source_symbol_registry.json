@@ -1117,6 +1117,118 @@
         "test_port_game_exposes_source_bullet_type_hit_entity_damage_cap_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_entity_damage_cap_state"
+    },
+    "hit_entity.lifesteal": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "lifesteal",
+      "godot_symbol": "bullet_type_state.lifesteal",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_lifesteal_state",
+      "rule": "Use BulletType.lifesteal for hitEntity owner healing branch.",
+      "tests": [
+        "test_bullet_type_hit_entity_lifesteal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_lifesteal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_lifesteal_state"
+    },
+    "hit_entity.owner.is_healthc": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "b.owner instanceof Healthc o",
+      "godot_symbol": "owner_health_state.isHealthc",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_lifesteal_state",
+      "rule": "Represent owner Healthc type check as explicit input until owner entity hierarchy is ported.",
+      "tests": [
+        "test_bullet_type_hit_entity_lifesteal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_lifesteal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_lifesteal_state"
+    },
+    "hit_entity.entity.health": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "h.health()",
+      "godot_symbol": "entity_state.health",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_lifesteal_state",
+      "rule": "Represent Healthc.health() as explicit input for hitEntity lifesteal result.",
+      "tests": [
+        "test_bullet_type_hit_entity_lifesteal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_lifesteal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_lifesteal_state"
+    },
+    "hit_entity.damage_after_cap": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "damage",
+      "godot_symbol": "damage_cap_state.damage",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_lifesteal_state",
+      "rule": "Use the source damage local after the prior maxDamageFraction cap slice.",
+      "tests": [
+        "test_bullet_type_hit_entity_lifesteal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_lifesteal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_lifesteal_state"
+    },
+    "hit_entity.lifesteal_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "lifesteal > 0f && b.owner instanceof Healthc o",
+      "godot_symbol": "hit_entity_lifesteal_result.lifestealGatePassed",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_lifesteal_state",
+      "rule": "Use exact lifesteal gate inside the Healthc branch.",
+      "tests": [
+        "test_bullet_type_hit_entity_lifesteal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_lifesteal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_lifesteal_state"
+    },
+    "hit_entity.lifesteal_result": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "Math.max(Math.min(h.health(), damage), 0)",
+      "godot_symbol": "hit_entity_lifesteal_result.lifestealResult",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_lifesteal_state",
+      "rule": "Clamp owner heal result exactly from source.",
+      "tests": [
+        "test_bullet_type_hit_entity_lifesteal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_lifesteal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_lifesteal_state"
+    },
+    "hit_entity.owner_heal_amount": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "result * lifesteal",
+      "godot_symbol": "hit_entity_lifesteal_result.ownerHealAmount",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_lifesteal_state",
+      "rule": "Compute owner heal amount exactly from source result and lifesteal.",
+      "tests": [
+        "test_bullet_type_hit_entity_lifesteal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_lifesteal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_lifesteal_state"
+    },
+    "hit_entity.owner_heal": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "o.heal(result * lifesteal)",
+      "godot_symbol": "hit_entity_lifesteal_result.ownerHealCalled",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_lifesteal_state",
+      "rule": "Record owner heal call only when exact source gate passes.",
+      "tests": [
+        "test_bullet_type_hit_entity_lifesteal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_lifesteal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_lifesteal_state"
     }
   }
 }

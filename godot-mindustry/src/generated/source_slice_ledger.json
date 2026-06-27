@@ -271,6 +271,33 @@
         "test_port_game_exposes_source_bullet_type_hit_entity_damage_cap_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_entity_damage_cap_state"
+    },
+    "N411": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_lifesteal_state",
+      "exact_exprs": [
+        "if(lifesteal > 0f && b.owner instanceof Healthc o)",
+        "float result = Math.max(Math.min(h.health(), damage), 0)",
+        "o.heal(result * lifesteal)"
+      ],
+      "source_symbols": [
+        "hit_entity.lifesteal",
+        "hit_entity.owner.is_healthc",
+        "hit_entity.entity.health",
+        "hit_entity.damage_after_cap",
+        "hit_entity.lifesteal_gate",
+        "hit_entity.lifesteal_result",
+        "hit_entity.owner_heal_amount",
+        "hit_entity.owner_heal"
+      ],
+      "tests": [
+        "test_bullet_type_hit_entity_lifesteal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_lifesteal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_lifesteal_state"
     }
   },
   "version": 1

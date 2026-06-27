@@ -4640,6 +4640,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"healthCapCommentSource": "//cap health to effective health for handlePierce to handle it properly"', source)
         self.assertIn('"lifestealBoundarySource": "if(lifesteal > 0f && b.owner instanceof Healthc o)"', source)
 
+    def test_port_game_exposes_source_bullet_type_hit_entity_lifesteal_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_hit_entity_lifesteal_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, hit_entity_state: Dictionary, damage_cap_state: Dictionary, owner_health_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var healthc_gate_passed := bool(update_damage_cap_state.get(\"healthcGatePassed\", false))", source)
+        self.assertIn("var lifesteal := float(update_type_state.get(\"lifesteal\", 0.0))", source)
+        self.assertIn("var owner_is_healthc := bool(update_owner_health_state.get(\"isHealthc\", false))", source)
+        self.assertIn("var lifesteal_gate_passed := healthc_gate_passed and lifesteal > 0.0 and owner_is_healthc", source)
+        self.assertIn("var entity_health := float(update_entity_state.get(\"health\", 0.0))", source)
+        self.assertIn("var damage := float(update_damage_cap_state.get(\"damage\", update_bullet_state.get(\"damage\", 0.0)))", source)
+        self.assertIn("var lifesteal_result := 0.0", source)
+        self.assertIn("if lifesteal_gate_passed:\n\t\tlifesteal_result = maxf(minf(entity_health, damage), 0.0)", source)
+        self.assertIn("var owner_heal_amount := lifesteal_result * lifesteal if lifesteal_gate_passed else 0.0", source)
+        self.assertIn('"lifestealResultSource": "float result = Math.max(Math.min(h.health(), damage), 0)"', source)
+        self.assertIn('"ownerHealSource": "o.heal(result * lifesteal)"', source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

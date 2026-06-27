@@ -10081,6 +10081,29 @@ def verify_bullet_type_hit_entity_damage_cap_state_source(upstream_root: Path) -
         "missing": missing,
     }
 
+def verify_bullet_type_hit_entity_lifesteal_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "hit_entity_method": "public void hitEntity(Bullet b, Hitboxc entity, float health){",
+        "healthc_gate": "if(entity instanceof Healthc h){",
+        "damage_assignment": "float damage = b.damage;",
+        "lifesteal_gate": "if(lifesteal > 0f && b.owner instanceof Healthc o){",
+        "lifesteal_result": "float result = Math.max(Math.min(h.health(), damage), 0);",
+        "owner_heal": "o.heal(result * lifesteal);",
+        "pierce_armor_boundary": "if(pierceArmor){",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

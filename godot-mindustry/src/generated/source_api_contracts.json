@@ -401,6 +401,76 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_entity_damage_cap_state",
       "rule": "Public runtime contract for BulletType.hitEntity Healthc damage, shield, maxDamageFraction cap, and effective health slice only."
+    },
+    "PortGame.source_bullet_type_hit_entity_lifesteal_state": {
+      "status": "active",
+      "source_slice": "N411",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "entity_state",
+          "type": "Dictionary",
+          "schema": "entity_state"
+        },
+        {
+          "name": "hit_entity_state",
+          "type": "Dictionary",
+          "schema": "hit_entity_state"
+        },
+        {
+          "name": "damage_cap_state",
+          "type": "Dictionary",
+          "schema": "hit_entity_damage_cap_result"
+        },
+        {
+          "name": "owner_health_state",
+          "type": "Dictionary",
+          "schema": "owner_health_state"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "entity",
+        "hitEntity",
+        "damageCap",
+        "ownerHealth",
+        "healthcGatePassed",
+        "lifesteal",
+        "ownerIsHealthc",
+        "lifestealGatePassed",
+        "entityHealth",
+        "damage",
+        "lifestealResult",
+        "ownerHealCalled",
+        "ownerHealAmount",
+        "ownerHealCall",
+        "armorDamageDeferred",
+        "unitImpulseDeferred",
+        "pierceDeferred",
+        "healthcGateSource",
+        "lifestealBoundarySource",
+        "lifestealResultSource",
+        "ownerHealSource",
+        "pierceArmorBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_entity_lifesteal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_lifesteal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_lifesteal_state",
+      "rule": "Public runtime contract for BulletType.hitEntity lifesteal branch only; armor damage, unit effects, events, and handlePierce remain later slices."
     }
   },
   "policy": {

@@ -6386,6 +6386,56 @@ func source_bullet_type_hit_entity_damage_cap_state(bullet_type_state: Dictionar
 		"lifestealBoundarySource": "if(lifesteal > 0f && b.owner instanceof Healthc o)",
 	}
 
+func source_bullet_type_hit_entity_lifesteal_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, hit_entity_state: Dictionary, damage_cap_state: Dictionary, owner_health_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_entity_state: Dictionary = entity_state.duplicate(true)
+	var update_hit_entity_state: Dictionary = hit_entity_state.duplicate(true)
+	var update_damage_cap_state: Dictionary = damage_cap_state.duplicate(true)
+	var update_owner_health_state: Dictionary = owner_health_state.duplicate(true)
+	var healthc_gate_passed := bool(update_damage_cap_state.get("healthcGatePassed", false))
+	var lifesteal := float(update_type_state.get("lifesteal", 0.0))
+	var owner_is_healthc := bool(update_owner_health_state.get("isHealthc", false))
+	var lifesteal_gate_passed := healthc_gate_passed and lifesteal > 0.0 and owner_is_healthc
+	var entity_health := float(update_entity_state.get("health", 0.0))
+	var damage := float(update_damage_cap_state.get("damage", update_bullet_state.get("damage", 0.0)))
+	var lifesteal_result := 0.0
+	if lifesteal_gate_passed:
+		lifesteal_result = maxf(minf(entity_health, damage), 0.0)
+	var owner_heal_amount := lifesteal_result * lifesteal if lifesteal_gate_passed else 0.0
+	var owner_heal_call: Variant = null
+	if lifesteal_gate_passed:
+		owner_heal_call = {
+			"call": "o.heal(result * lifesteal)",
+			"amount": owner_heal_amount,
+		}
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"entity": update_entity_state,
+		"hitEntity": update_hit_entity_state,
+		"damageCap": update_damage_cap_state,
+		"ownerHealth": update_owner_health_state,
+		"healthcGatePassed": healthc_gate_passed,
+		"lifesteal": lifesteal,
+		"ownerIsHealthc": owner_is_healthc,
+		"lifestealGatePassed": lifesteal_gate_passed,
+		"entityHealth": entity_health,
+		"damage": damage,
+		"lifestealResult": lifesteal_result,
+		"ownerHealCalled": lifesteal_gate_passed,
+		"ownerHealAmount": owner_heal_amount,
+		"ownerHealCall": owner_heal_call,
+		"armorDamageDeferred": true,
+		"unitImpulseDeferred": true,
+		"pierceDeferred": true,
+		"healthcGateSource": "if(entity instanceof Healthc h)",
+		"lifestealBoundarySource": "if(lifesteal > 0f && b.owner instanceof Healthc o)",
+		"lifestealResultSource": "float result = Math.max(Math.min(h.health(), damage), 0)",
+		"ownerHealSource": "o.heal(result * lifesteal)",
+		"pierceArmorBoundarySource": "if(pierceArmor)",
+	}
+
 func source_bullet_type_building_damage_state(bullet_state: Dictionary) -> Dictionary:
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
 	var damage := float(update_bullet_state.get("damage", 0.0))
