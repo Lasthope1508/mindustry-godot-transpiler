@@ -1,0 +1,83 @@
+{
+  "contracts": {
+    "PortGame.source_bullet_type_draw_parts_state": {
+      "status": "active",
+      "source_slice": "N399",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "drawParts(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "gatePassed",
+        "partParams",
+        "partDrawCalls",
+        "partsDrawn",
+        "paramsSetSource",
+        "paramsLifeSource",
+        "partDrawSource"
+      ],
+      "tests": [
+        "test_bullet_type_draw_parts_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_parts_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_parts_state",
+      "rule": "Public runtime contract for BulletType.drawParts slice; do not add params or return keys without updating this contract first."
+    },
+    "PortGame.source_bullet_type_test_collision_state": {
+      "status": "active",
+      "source_slice": "N401",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "testCollision(Bullet bullet, Building tile)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "tile_state",
+          "type": "Dictionary",
+          "schema": "tile_state"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "tile",
+        "heals",
+        "tileTeam",
+        "bulletTeam",
+        "tileHealthf",
+        "collides",
+        "testCollisionReturnSource"
+      ],
+      "tests": [
+        "test_bullet_type_test_collision_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_test_collision_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_test_collision_state",
+      "rule": "Public runtime contract for BulletType.testCollision slice; do not add params or return keys without updating this contract first."
+    }
+  },
+  "policy": {
+    "newSourceOwnerRequiresApiContract": true
+  },
+  "version": 1
+}

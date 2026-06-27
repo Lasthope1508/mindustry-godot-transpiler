@@ -1,6 +1,9 @@
 {
-  "exemptSourceOwnerCount": 2,
+  "exemptSourceOwnerCount": 5,
   "exemptSourceOwners": [
+    "PortGame.source_api_contract_state",
+    "PortGame.source_slice_ledger_state",
+    "PortGame.source_state_schema_state",
     "PortGame.source_symbol_audit_state",
     "PortGame.source_symbol_registry_state"
   ],
@@ -465,6 +468,21 @@
       "function": "source_symbol_audit_state",
       "gdscript_path": "src/game/PortGame.gd",
       "owner": "PortGame.source_symbol_audit_state"
+    },
+    {
+      "function": "source_slice_ledger_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "owner": "PortGame.source_slice_ledger_state"
+    },
+    {
+      "function": "source_api_contract_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "owner": "PortGame.source_api_contract_state"
+    },
+    {
+      "function": "source_state_schema_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "owner": "PortGame.source_state_schema_state"
     },
     {
       "function": "source_overdrive_projector_range",
@@ -2672,6 +2690,6 @@
       "owner": "PortGame.source_bullet_scale"
     }
   ],
-  "totalSourceFunctions": 443,
+  "totalSourceFunctions": 446,
   "version": 1
 }

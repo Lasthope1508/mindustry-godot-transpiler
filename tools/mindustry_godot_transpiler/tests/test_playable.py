@@ -4639,6 +4639,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("FileAccess.get_file_as_string(SOURCE_SYMBOL_AUDIT_REPORT_PATH)", source)
         self.assertIn('"legacyUnregisteredOwnerCount": int(parsed.get("legacyUnregisteredOwnerCount", 0))', source)
 
+    def test_port_game_exposes_source_framework_lookups(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn('const SOURCE_SLICE_LEDGER_PATH := "res://src/generated/source_slice_ledger.json"', source)
+        self.assertIn('const SOURCE_API_CONTRACTS_PATH := "res://src/generated/source_api_contracts.json"', source)
+        self.assertIn('const SOURCE_STATE_SCHEMA_PATH := "res://src/generated/source_state_schema.json"', source)
+        self.assertIn('func source_slice_ledger_state(slice_id: String = "") -> Dictionary:', source)
+        self.assertIn('func source_api_contract_state(contract_owner: String = "") -> Dictionary:', source)
+        self.assertIn('func source_state_schema_state(schema_name: String = "") -> Dictionary:', source)
+        self.assertIn('FileAccess.get_file_as_string(SOURCE_SLICE_LEDGER_PATH)', source)
+        self.assertIn('FileAccess.get_file_as_string(SOURCE_API_CONTRACTS_PATH)', source)
+        self.assertIn('FileAccess.get_file_as_string(SOURCE_STATE_SCHEMA_PATH)', source)
+
     def test_port_game_exposes_source_bullet_type_draw_light_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

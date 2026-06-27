@@ -1,0 +1,71 @@
+{
+  "policy": {
+    "newSliceRequiresLedger": true,
+    "resumeMustRead": [
+      "docs/superpowers/specs/2026-06-23-mindustry-godot-gdscript-transpiler-design.md",
+      "godot-mindustry/src/generated/source_symbol_registry.json",
+      "godot-mindustry/src/generated/source_symbol_audit_report.json",
+      "godot-mindustry/src/generated/source_slice_ledger.json",
+      "godot-mindustry/src/generated/source_api_contracts.json",
+      "godot-mindustry/src/generated/source_state_schema.json"
+    ]
+  },
+  "slices": {
+    "N399": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "drawParts(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
+      "exact_exprs": [
+        "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",
+        "DrawPart.params.life = b.fin()",
+        "parts.get(i).draw(DrawPart.params)"
+      ],
+      "source_symbols": [
+        "bullet.fin",
+        "bullet.rotation",
+        "bullet.x",
+        "bullet.y",
+        "bullet_type.parts",
+        "draw_part.params.charge",
+        "draw_part.params.heat",
+        "draw_part.params.life",
+        "draw_part.params.recoil",
+        "draw_part.params.reload",
+        "draw_part.params.rotation",
+        "draw_part.params.smoothReload",
+        "draw_part.params.warmup",
+        "draw_part.params.x",
+        "draw_part.params.y"
+      ],
+      "tests": [
+        "test_bullet_type_draw_parts_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_parts_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_parts_state"
+    },
+    "N401": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "testCollision(Bullet bullet, Building tile)",
+      "godot_owner": "PortGame.source_bullet_type_test_collision_state",
+      "exact_exprs": [
+        "return !heals() || tile.team != bullet.team || tile.healthf() < 1f;"
+      ],
+      "source_symbols": [
+        "test_collision.bullet.team",
+        "test_collision.heals",
+        "test_collision.tile.healthf",
+        "test_collision.tile.team"
+      ],
+      "tests": [
+        "test_bullet_type_test_collision_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_test_collision_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_test_collision_state"
+    }
+  },
+  "version": 1
+}

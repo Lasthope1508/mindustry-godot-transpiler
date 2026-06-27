@@ -2,7 +2,10 @@
   "policy": {
     "exemptSourceOwners": [
       "PortGame.source_symbol_registry_state",
-      "PortGame.source_symbol_audit_state"
+      "PortGame.source_symbol_audit_state",
+      "PortGame.source_slice_ledger_state",
+      "PortGame.source_api_contract_state",
+      "PortGame.source_state_schema_state"
     ],
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
