@@ -4550,6 +4550,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var building_damage := damage * building_damage_multiplier", source)
         self.assertIn('"buildingDamageReturnSource": "return b.damage() * b.buildingDamageMultiplier"', source)
 
+    def test_port_game_exposes_source_bullet_type_shield_damage_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_shield_damage_state(bullet_type_state: Dictionary, bullet_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var update_type_state: Dictionary = bullet_type_state.duplicate(true)", source)
+        self.assertIn("var update_bullet_state: Dictionary = bullet_state.duplicate(true)", source)
+        self.assertIn("var damage := float(update_bullet_state.get(\"damage\", 0.0))", source)
+        self.assertIn("var shield_damage_multiplier := float(update_type_state.get(\"shieldDamageMultiplier\", 1.0))", source)
+        self.assertIn("var shield_damage := damage * shield_damage_multiplier", source)
+        self.assertIn('"shieldDamageReturnSource": "return b.damage() * shieldDamageMultiplier"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

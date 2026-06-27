@@ -6029,6 +6029,21 @@ func source_bullet_type_building_damage_state(bullet_state: Dictionary) -> Dicti
 		"buildingDamageReturnSource": "return b.damage() * b.buildingDamageMultiplier",
 	}
 
+func source_bullet_type_shield_damage_state(bullet_type_state: Dictionary, bullet_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var damage := float(update_bullet_state.get("damage", 0.0))
+	var shield_damage_multiplier := float(update_type_state.get("shieldDamageMultiplier", 1.0))
+	var shield_damage := damage * shield_damage_multiplier
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"damage": damage,
+		"shieldDamageMultiplier": shield_damage_multiplier,
+		"shieldDamage": shield_damage,
+		"shieldDamageReturnSource": "return b.damage() * shieldDamageMultiplier",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

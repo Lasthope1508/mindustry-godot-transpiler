@@ -5509,6 +5509,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_shield_damage_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_shield_damage_state_source"))
+        report = source_parity.verify_bullet_type_shield_damage_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "shield_damage_multiplier_field": "public float shieldDamageMultiplier = 1f;",
+            "method": "public float shieldDamage(Bullet b){",
+            "return_shield_damage": "return b.damage() * shieldDamageMultiplier;",
+            "building_damage_previous_method": "public float buildingDamage(Bullet b){",
+            "draw_next_method": "public void draw(Bullet b){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

@@ -9955,6 +9955,27 @@ def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict
         "missing": missing,
     }
 
+def verify_bullet_type_shield_damage_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "shield_damage_multiplier_field": "public float shieldDamageMultiplier = 1f;",
+        "method": "public float shieldDamage(Bullet b){",
+        "return_shield_damage": "return b.damage() * shieldDamageMultiplier;",
+        "building_damage_previous_method": "public float buildingDamage(Bullet b){",
+        "draw_next_method": "public void draw(Bullet b){",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
