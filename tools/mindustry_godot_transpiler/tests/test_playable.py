@@ -4450,6 +4450,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("update_type_state[\"drawSize\"] = resolved_draw_size", source)
         self.assertIn('"drawSizeAssignSource": "drawSize = Math.max(drawSize, trailLength * speed * 2f)"', source)
 
+    def test_port_game_exposes_source_bullet_type_init_range_assignment_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_init_range_assignment_state(draw_size_state: Dictionary, calculate_range_result: float) -> Dictionary:", source)
+        self.assertIn("var update_type_state: Dictionary = draw_size_state.get(\"bulletType\", {}).duplicate(true)", source)
+        self.assertIn("update_type_state[\"range\"] = calculate_range_result", source)
+        self.assertIn('"rangeAssignSource": "range = calculateRange()"', source)
+        self.assertIn('"calculateRangeDeferred": true', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -5896,6 +5896,18 @@ func source_bullet_type_init_draw_size_state(light_radius_state: Dictionary) -> 
 		"drawSizeAssignSource": "drawSize = Math.max(drawSize, trailLength * speed * 2f)",
 	}
 
+func source_bullet_type_init_range_assignment_state(draw_size_state: Dictionary, calculate_range_result: float) -> Dictionary:
+	var update_type_state: Dictionary = draw_size_state.get("bulletType", {}).duplicate(true)
+	var range_before := float(update_type_state.get("range", 0.0))
+	update_type_state["range"] = calculate_range_result
+	return {
+		"bulletType": update_type_state,
+		"range": calculate_range_result,
+		"rangeBefore": range_before,
+		"rangeAssignSource": "range = calculateRange()",
+		"calculateRangeDeferred": true,
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
