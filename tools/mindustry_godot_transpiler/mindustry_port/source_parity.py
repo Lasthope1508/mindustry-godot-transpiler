@@ -8559,6 +8559,41 @@ def verify_bullet_type_create_initial_gate_source(upstream_root: Path) -> dict[s
         "missing": missing,
     }
 
+def verify_bullet_type_create_spawn_unit_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "spawn_unit_gate": "if(spawnUnit != null){",
+        "client_comment": "//don't spawn units clientside!",
+        "client_guard": "if(!net.client()){",
+        "spawn_create": "Unit spawned = spawnUnit.create(team);",
+        "spawn_set": "spawned.set(x, y);",
+        "spawn_rotation": "spawned.rotation = angle;",
+        "missile_speed_guard": "if(spawnUnit.missileAccelTime <= 0f){",
+        "spawn_vel": "spawned.vel.trns(angle, spawnUnit.speed);",
+        "missile_ai_guard": "if(spawned.controller() instanceof MissileAI ai){",
+        "unit_shooter_guard": "if(shooter instanceof Unit unit){",
+        "unit_ai_assignment": "ai.shooter = unit;",
+        "control_shooter_guard": "if(shooter instanceof ControlBlock control){",
+        "control_ai_assignment": "ai.shooter = control.unit();",
+        "spawn_add": "spawned.add();",
+        "notify_spawn": "Units.notifyUnitSpawn(spawned);",
+        "kill_shooter": "if(killShooter && owner instanceof Healthc h && !h.dead()) h.kill();",
+        "return_null": "return null;",
+        "spawn_unit_field": "public @Nullable UnitType spawnUnit;",
+        "kill_shooter_field": "public boolean killShooter;",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

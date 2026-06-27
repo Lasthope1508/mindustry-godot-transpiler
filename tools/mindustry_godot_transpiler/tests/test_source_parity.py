@@ -4827,6 +4827,34 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_create_spawn_unit_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_create_spawn_unit_source"))
+        report = source_parity.verify_bullet_type_create_spawn_unit_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "spawn_unit_gate": "if(spawnUnit != null){",
+            "client_comment": "//don't spawn units clientside!",
+            "client_guard": "if(!net.client()){",
+            "spawn_create": "Unit spawned = spawnUnit.create(team);",
+            "spawn_set": "spawned.set(x, y);",
+            "spawn_rotation": "spawned.rotation = angle;",
+            "missile_speed_guard": "if(spawnUnit.missileAccelTime <= 0f){",
+            "spawn_vel": "spawned.vel.trns(angle, spawnUnit.speed);",
+            "missile_ai_guard": "if(spawned.controller() instanceof MissileAI ai){",
+            "unit_shooter_guard": "if(shooter instanceof Unit unit){",
+            "unit_ai_assignment": "ai.shooter = unit;",
+            "control_shooter_guard": "if(shooter instanceof ControlBlock control){",
+            "control_ai_assignment": "ai.shooter = control.unit();",
+            "spawn_add": "spawned.add();",
+            "notify_spawn": "Units.notifyUnitSpawn(spawned);",
+            "kill_shooter": "if(killShooter && owner instanceof Healthc h && !h.dead()) h.kill();",
+            "return_null": "return null;",
+            "spawn_unit_field": "public @Nullable UnitType spawnUnit;",
+            "kill_shooter_field": "public boolean killShooter;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

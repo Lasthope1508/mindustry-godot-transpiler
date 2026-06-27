@@ -4002,6 +4002,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"ignoreSpawnAngleSource": "if(ignoreSpawnAngle) angle = 0"', source)
         self.assertIn('"spawnUnitReservedSource": "if(spawnUnit != null)"', source)
 
+    def test_port_game_exposes_source_bullet_type_create_spawn_unit_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_create_spawn_unit_state(initial_gate_state: Dictionary, bullet_type_state: Dictionary, net_client: bool, owner_health_state: Dictionary, shooter_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var spawn_unit: Dictionary = bullet_type_state.get(\"spawnUnit\", {})", source)
+        self.assertIn("if spawn_unit.is_empty():", source)
+        self.assertIn("var kill_shooter := bool(bullet_type_state.get(\"killShooter\", false))", source)
+        self.assertIn("if net_client:", source)
+        self.assertIn("var spawned_unit := {", source)
+        self.assertIn('"bulletCreateReturnsNull": true', source)
+        self.assertIn('"spawnedUnitCreateSource": "Unit spawned = spawnUnit.create(team)"', source)
+        self.assertIn('"spawnedVelocitySource": "spawned.vel.trns(angle, spawnUnit.speed)"', source)
+        self.assertIn('"shooterAssignSource": "if(spawned.controller() instanceof MissileAI ai)"', source)
+        self.assertIn('"killShooterSource": "if(killShooter && owner instanceof Healthc h && !h.dead()) h.kill()"', source)
+        self.assertIn('"bulletCreationReservedSource": "Bullet bullet = Bullet.create()"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

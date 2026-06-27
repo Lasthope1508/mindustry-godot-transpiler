@@ -4869,6 +4869,94 @@ func source_bullet_type_create_initial_gate_state(create_call_state: Dictionary,
 		"spawnUnitReservedSource": "if(spawnUnit != null)",
 	}
 
+func source_bullet_type_create_spawn_unit_state(initial_gate_state: Dictionary, bullet_type_state: Dictionary, net_client: bool, owner_health_state: Dictionary, shooter_state: Dictionary) -> Dictionary:
+	var spawn_unit: Dictionary = bullet_type_state.get("spawnUnit", {})
+	var kill_shooter := bool(bullet_type_state.get("killShooter", false))
+	var owner_is_health := bool(owner_health_state.get("isHealthc", false))
+	var owner_dead := bool(owner_health_state.get("dead", false))
+	var owner_killed := false
+	if not bool(initial_gate_state.get("bulletContinues", false)) or bool(initial_gate_state.get("bulletCreateReturnsNull", false)):
+		return {
+			"bulletContinues": false,
+			"spawnUnitBranchEntered": false,
+			"bulletCreateReturnsNull": true,
+			"spawnedUnit": null,
+			"ownerKilled": false,
+			"spawnUnitSource": "if(spawnUnit != null)",
+			"bulletCreationReservedSource": "Bullet bullet = Bullet.create()",
+		}
+	if spawn_unit.is_empty():
+		return {
+			"bulletContinues": true,
+			"spawnUnitBranchEntered": false,
+			"bulletCreateReturnsNull": false,
+			"spawnedUnit": null,
+			"ownerKilled": false,
+			"spawnUnitSource": "if(spawnUnit != null)",
+			"bulletCreationReservedSource": "Bullet bullet = Bullet.create()",
+		}
+	owner_killed = kill_shooter and owner_is_health and not owner_dead
+	if net_client:
+		return {
+			"bulletContinues": true,
+			"spawnUnitBranchEntered": true,
+			"spawnSkippedClient": true,
+			"bulletCreateReturnsNull": true,
+			"spawnedUnit": null,
+			"ownerKilled": owner_killed,
+			"spawnUnitSource": "if(spawnUnit != null)",
+			"clientGuardSource": "if(!net.client())",
+			"spawnedUnitCreateSource": "Unit spawned = spawnUnit.create(team)",
+			"spawnedVelocitySource": "spawned.vel.trns(angle, spawnUnit.speed)",
+			"shooterAssignSource": "if(spawned.controller() instanceof MissileAI ai)",
+			"killShooterSource": "if(killShooter && owner instanceof Healthc h && !h.dead()) h.kill()",
+			"returnNullSource": "return null",
+			"bulletCreationReservedSource": "Bullet bullet = Bullet.create()",
+		}
+	var bullet_create_call: Dictionary = initial_gate_state.get("bulletCreateCall", {})
+	var angle := float(initial_gate_state.get("angle", bullet_create_call.get("angle", 0.0)))
+	var spawned_unit := {
+		"type": str(spawn_unit.get("id", spawn_unit.get("name", ""))),
+		"team": bullet_create_call.get("team", ""),
+		"x": float(bullet_create_call.get("x", 0.0)),
+		"y": float(bullet_create_call.get("y", 0.0)),
+		"rotation": angle,
+		"velocityApplied": false,
+		"velocity": null,
+		"missileAIShooter": null,
+		"added": true,
+		"notified": true,
+	}
+	if float(spawn_unit.get("missileAccelTime", 0.0)) <= 0.0:
+		spawned_unit["velocityApplied"] = true
+		spawned_unit["velocity"] = {"angle": angle, "speed": float(spawn_unit.get("speed", 0.0))}
+	if bool(spawn_unit.get("controllerIsMissileAI", false)):
+		if str(shooter_state.get("kind", "")) == "Unit":
+			spawned_unit["missileAIShooter"] = shooter_state.get("id", null)
+		if str(shooter_state.get("kind", "")) == "ControlBlock":
+			spawned_unit["missileAIShooter"] = shooter_state.get("unit", null)
+	return {
+		"bulletContinues": true,
+		"spawnUnitBranchEntered": true,
+		"spawnSkippedClient": false,
+		"bulletCreateReturnsNull": true,
+		"spawnedUnit": spawned_unit,
+		"ownerKilled": owner_killed,
+		"spawnUnitSource": "if(spawnUnit != null)",
+		"clientGuardSource": "if(!net.client())",
+		"spawnedUnitCreateSource": "Unit spawned = spawnUnit.create(team)",
+		"spawnedSetSource": "spawned.set(x, y)",
+		"spawnedRotationSource": "spawned.rotation = angle",
+		"spawnedVelocitySource": "spawned.vel.trns(angle, spawnUnit.speed)",
+		"shooterAssignSource": "if(spawned.controller() instanceof MissileAI ai)",
+		"controlShooterAssignSource": "ai.shooter = control.unit()",
+		"spawnedAddSource": "spawned.add()",
+		"notifySpawnSource": "Units.notifyUnitSpawn(spawned)",
+		"killShooterSource": "if(killShooter && owner instanceof Healthc h && !h.dead()) h.kill()",
+		"returnNullSource": "return null",
+		"bulletCreationReservedSource": "Bullet bullet = Bullet.create()",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
