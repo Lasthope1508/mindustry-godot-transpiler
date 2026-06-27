@@ -1,4 +1,12 @@
 {
+  "policy": {
+    "exemptSourceOwners": [
+      "PortGame.source_symbol_registry_state",
+      "PortGame.source_symbol_audit_state"
+    ],
+    "legacyBackfillStatus": "tracked",
+    "newSourceOwnerRequiresRegistry": true
+  },
   "version": 1,
   "symbols": {
     "bullet.fin": {

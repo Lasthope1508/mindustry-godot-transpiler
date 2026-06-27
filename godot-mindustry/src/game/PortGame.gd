@@ -3,6 +3,7 @@ class_name PortGame
 
 const CONFIG_PATH := "res://src/generated/playable_content.json"
 const SOURCE_SYMBOL_REGISTRY_PATH := "res://src/generated/source_symbol_registry.json"
+const SOURCE_SYMBOL_AUDIT_REPORT_PATH := "res://src/generated/source_symbol_audit_report.json"
 const ContentRegistry := preload("res://src/generated/MindustryContentRegistry.gd")
 const GeneratedClassRegistry := preload("res://src/generated/GeneratedClassRegistry.gd")
 const ContentCatalog := preload("res://src/mindustry/content/ContentCatalog.gd")
@@ -175,6 +176,21 @@ func source_symbol_registry_state(symbol: String = "") -> Dictionary:
 		"count": symbols.size(),
 		"symbol": symbol,
 		"entry": entry,
+	}
+
+func source_symbol_audit_state() -> Dictionary:
+	var text := FileAccess.get_file_as_string(SOURCE_SYMBOL_AUDIT_REPORT_PATH)
+	var parsed = JSON.parse_string(text)
+	if typeof(parsed) != TYPE_DICTIONARY:
+		return {"loaded": false, "totalSourceFunctions": 0, "legacyUnregisteredOwnerCount": 0}
+	return {
+		"loaded": true,
+		"version": int(parsed.get("version", 0)),
+		"totalSourceFunctions": int(parsed.get("totalSourceFunctions", 0)),
+		"registeredSourceOwnerCount": int(parsed.get("registeredSourceOwnerCount", 0)),
+		"exemptSourceOwnerCount": int(parsed.get("exemptSourceOwnerCount", 0)),
+		"legacyUnregisteredOwnerCount": int(parsed.get("legacyUnregisteredOwnerCount", 0)),
+		"policy": parsed.get("policy", {}),
 	}
 
 func load_content_registry() -> void:

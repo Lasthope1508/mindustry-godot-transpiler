@@ -68,6 +68,28 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(tile_health["java_expr"], "tile.healthf()")
         self.assertEqual(tile_health["runtime_proof"], "/root/Main.source_bullet_type_test_collision_state")
 
+    def test_audit_reports_whole_godot_source_surface(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
+
+        self.assertGreater(audit["totalSourceFunctions"], 400)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 2)
+        self.assertEqual(audit["exemptSourceOwnerCount"], 2)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 4)
+        self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
+        self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_draw_parts_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
+        self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
+
+    def test_audit_report_file_matches_current_godot_source(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        expected = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
+        actual = source_symbols.load_source_symbol_audit_report(ROOT / "godot-mindustry")
+
+        self.assertEqual(actual, expected)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -4630,6 +4630,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("FileAccess.get_file_as_string(SOURCE_SYMBOL_REGISTRY_PATH)", source)
         self.assertIn("symbols.get(symbol, {})", source)
 
+    def test_port_game_exposes_source_symbol_audit_lookup(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn('const SOURCE_SYMBOL_AUDIT_REPORT_PATH := "res://src/generated/source_symbol_audit_report.json"', source)
+        self.assertIn("func source_symbol_audit_state() -> Dictionary:", source)
+        self.assertIn("FileAccess.get_file_as_string(SOURCE_SYMBOL_AUDIT_REPORT_PATH)", source)
+        self.assertIn('"legacyUnregisteredOwnerCount": int(parsed.get("legacyUnregisteredOwnerCount", 0))', source)
+
     def test_port_game_exposes_source_bullet_type_draw_light_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
