@@ -6797,6 +6797,42 @@ func source_bullet_type_create_units_notify_state(bullet_type_state: Dictionary,
 		"notifySource": "Units.notifyUnitSpawn(u);",
 	}
 
+func source_bullet_type_despawned_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var despawn_hit := bool(update_type_state.get("despawnHit", false))
+	var bullet_x: Variant = update_bullet_state.get("x", null)
+	var bullet_y: Variant = update_bullet_state.get("y", null)
+	var hit_call := {}
+	var create_units_call := {}
+	if despawn_hit:
+		hit_call = {
+			"call": "hit(b, b.x, b.y, false)",
+			"x": bullet_x,
+			"y": bullet_y,
+			"createFrags": false,
+			"called": true,
+		}
+	else:
+		create_units_call = {
+			"call": "createUnits(b, b.x, b.y)",
+			"x": bullet_x,
+			"y": bullet_y,
+			"called": true,
+		}
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"despawnHit": despawn_hit,
+		"bulletX": bullet_x,
+		"bulletY": bullet_y,
+		"hitCall": hit_call,
+		"createUnitsCall": create_units_call,
+		"despawnEffectBoundarySource": "despawnEffect.at(b.x, b.y, b.rotation(), hitColor);",
+		"despawnSoundBoundarySource": "despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange));",
+		"shakeBoundarySource": "Effect.shake(despawnShake, despawnShake, b);",
+	}
+
 func source_bullet_type_hit_suppression_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_post_frag_dispatch_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

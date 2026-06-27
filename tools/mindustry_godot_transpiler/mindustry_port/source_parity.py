@@ -10868,6 +10868,30 @@ def verify_bullet_type_create_units_notify_state_source(upstream_root: Path) -> 
         "missing": missing,
     }
 
+def verify_bullet_type_despawned_dispatch_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void despawned(Bullet b){",
+        "despawn_hit_gate": "if(despawnHit){",
+        "hit_call": "hit(b, b.x, b.y, false);",
+        "create_units_call": "createUnits(b, b.x, b.y);",
+        "despawn_effect_boundary": "despawnEffect.at(b.x, b.y, b.rotation(), hitColor);",
+        "despawn_sound_boundary": "despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange));",
+        "shake_boundary": "Effect.shake(despawnShake, despawnShake, b);",
+        "removed_boundary": "public void removed(Bullet b){",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

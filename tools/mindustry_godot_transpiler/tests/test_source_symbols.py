@@ -827,14 +827,54 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(rotation_assignments["java_expr"], "u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation()")
         self.assertEqual(rotation_assignments["godot_symbol"], "create_units_rotation_result.rotationAssignments")
 
+    def test_bullet_type_despawned_dispatch_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        despawn_hit = source_symbols.source_symbol(registry, "despawned.dispatch.despawn_hit")
+        self.assertEqual(despawn_hit["java_expr"], "despawnHit")
+        self.assertEqual(despawn_hit["godot_symbol"], "bullet_type_state.despawnHit")
+        self.assertEqual(despawn_hit["godot_owner"], "PortGame.source_bullet_type_despawned_dispatch_state")
+        self.assertEqual(despawn_hit["runtime_proof"], "/root/Main.source_bullet_type_despawned_dispatch_state")
+
+        bullet_x = source_symbols.source_symbol(registry, "despawned.dispatch.bullet_x")
+        self.assertEqual(bullet_x["java_expr"], "b.x")
+        self.assertEqual(bullet_x["godot_symbol"], "bullet_state.x")
+
+        bullet_y = source_symbols.source_symbol(registry, "despawned.dispatch.bullet_y")
+        self.assertEqual(bullet_y["java_expr"], "b.y")
+        self.assertEqual(bullet_y["godot_symbol"], "bullet_state.y")
+
+        hit_call = source_symbols.source_symbol(registry, "despawned.dispatch.hit_call")
+        self.assertEqual(hit_call["java_expr"], "hit(b, b.x, b.y, false)")
+        self.assertEqual(hit_call["godot_symbol"], "despawned_dispatch_result.hitCall")
+
+        create_units_call = source_symbols.source_symbol(registry, "despawned.dispatch.create_units_call")
+        self.assertEqual(create_units_call["java_expr"], "createUnits(b, b.x, b.y)")
+        self.assertEqual(create_units_call["godot_symbol"], "despawned_dispatch_result.createUnitsCall")
+
+        effect_boundary = source_symbols.source_symbol(registry, "despawned.dispatch.effect_boundary")
+        self.assertEqual(effect_boundary["status"], "deferred")
+        self.assertEqual(effect_boundary["java_expr"], "despawnEffect.at(b.x, b.y, b.rotation(), hitColor);")
+
+        sound_boundary = source_symbols.source_symbol(registry, "despawned.dispatch.sound_boundary")
+        self.assertEqual(sound_boundary["status"], "deferred")
+        self.assertEqual(sound_boundary["java_expr"], "despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange));")
+
+        shake_boundary = source_symbols.source_symbol(registry, "despawned.dispatch.shake_boundary")
+        self.assertEqual(shake_boundary["status"], "deferred")
+        self.assertEqual(shake_boundary["java_expr"], "Effect.shake(despawnShake, despawnShake, b);")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 38)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 39)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 43)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 44)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -878,6 +918,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_create_units_spawn_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_units_rotation_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_units_notify_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -1114,6 +1155,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(create_units_notify["java_method"], "createUnits(Bullet b, float x, float y)")
         self.assertEqual(create_units_notify["godot_owner"], "PortGame.source_bullet_type_create_units_notify_state")
         self.assertIn("Units.notifyUnitSpawn(u)", create_units_notify["exact_exprs"])
+
+        despawned_dispatch = source_symbols.source_slice(ledger, "N441")
+        self.assertEqual(despawned_dispatch["java_method"], "despawned(Bullet b)")
+        self.assertEqual(despawned_dispatch["godot_owner"], "PortGame.source_bullet_type_despawned_dispatch_state")
+        self.assertIn("if(despawnHit)", despawned_dispatch["exact_exprs"])
+        self.assertIn("hit(b, b.x, b.y, false)", despawned_dispatch["exact_exprs"])
+        self.assertIn("createUnits(b, b.x, b.y)", despawned_dispatch["exact_exprs"])
+        self.assertIn("despawnEffect.at(b.x, b.y, b.rotation(), hitColor);", despawned_dispatch["deferred_exprs"])
+        self.assertIn("despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange));", despawned_dispatch["deferred_exprs"])
+        self.assertIn("Effect.shake(despawnShake, despawnShake, b);", despawned_dispatch["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -1423,6 +1474,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("notifyCalls", create_units_notify["return_keys"])
         self.assertIn("notifySource", create_units_notify["return_keys"])
         self.assertEqual(create_units_notify["source_method"], "createUnits(Bullet b, float x, float y)")
+
+        despawned_dispatch = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_despawned_dispatch_state")
+        self.assertEqual([param["name"] for param in despawned_dispatch["params"]], ["bullet_type_state", "bullet_state"])
+        self.assertEqual(despawned_dispatch["params"][0]["schema"], "bullet_type_state")
+        self.assertEqual(despawned_dispatch["params"][1]["schema"], "bullet_state")
+        self.assertIn("hitCall", despawned_dispatch["return_keys"])
+        self.assertIn("createUnitsCall", despawned_dispatch["return_keys"])
+        self.assertIn("despawnEffectBoundarySource", despawned_dispatch["return_keys"])
+        self.assertIn("despawnSoundBoundarySource", despawned_dispatch["return_keys"])
+        self.assertIn("shakeBoundarySource", despawned_dispatch["return_keys"])
+        self.assertEqual(despawned_dispatch["source_method"], "despawned(Bullet b)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -1737,6 +1799,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(create_units_notify_output["keys"]["notifyCalls"]["java_expr"], "Units.notifyUnitSpawn(u)")
         self.assertEqual(create_units_notify_output["keys"]["notifyCalls"]["status"], "source-backed")
         self.assertEqual(create_units_notify_output["keys"]["createUnitsRotation"]["alias_of"], "create_units_rotation_result")
+
+        despawned_dispatch_output = source_symbols.state_schema(schema, "despawned_dispatch_result")
+        self.assertEqual(despawned_dispatch_output["keys"]["hitCall"]["java_expr"], "hit(b, b.x, b.y, false)")
+        self.assertEqual(despawned_dispatch_output["keys"]["hitCall"]["status"], "source-backed")
+        self.assertEqual(despawned_dispatch_output["keys"]["createUnitsCall"]["java_expr"], "createUnits(b, b.x, b.y)")
+        self.assertEqual(despawned_dispatch_output["keys"]["createUnitsCall"]["status"], "source-backed")
+        self.assertEqual(despawned_dispatch_output["keys"]["despawnHit"]["java_expr"], "despawnHit")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

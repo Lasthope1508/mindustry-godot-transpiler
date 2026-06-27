@@ -6105,6 +6105,23 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_despawned_dispatch_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_despawned_dispatch_state_source"))
+        report = source_parity.verify_bullet_type_despawned_dispatch_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void despawned(Bullet b){",
+            "despawn_hit_gate": "if(despawnHit){",
+            "hit_call": "hit(b, b.x, b.y, false);",
+            "create_units_call": "createUnits(b, b.x, b.y);",
+            "despawn_effect_boundary": "despawnEffect.at(b.x, b.y, b.rotation(), hitColor);",
+            "despawn_sound_boundary": "despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange));",
+            "shake_boundary": "Effect.shake(despawnShake, despawnShake, b);",
+            "removed_boundary": "public void removed(Bullet b){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_bullet_type_building_damage_state_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_bullet_type_building_damage_state_source"))
         report = source_parity.verify_bullet_type_building_damage_state_source(ROOT / "mindustry-upstream")

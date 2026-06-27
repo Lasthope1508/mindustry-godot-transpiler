@@ -1906,6 +1906,43 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_units_notify_state",
       "rule": "Public runtime contract for createUnits Units.notifyUnitSpawn call records."
+    },
+    "PortGame.source_bullet_type_despawned_dispatch_state": {
+      "status": "active",
+      "source_slice": "N441",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "despawned(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "despawnHit",
+        "bulletX",
+        "bulletY",
+        "hitCall",
+        "createUnitsCall",
+        "despawnEffectBoundarySource",
+        "despawnSoundBoundarySource",
+        "shakeBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_despawned_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_dispatch_state",
+        "test_bullet_type_despawned_dispatch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_dispatch_state",
+      "rule": "Public runtime contract for BulletType.despawned hit/createUnits dispatch records."
     }
   },
   "policy": {
