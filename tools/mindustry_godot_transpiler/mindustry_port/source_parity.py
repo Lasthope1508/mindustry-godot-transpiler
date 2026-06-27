@@ -9638,6 +9638,58 @@ def verify_bullet_type_init_frag_velocity_state_source(upstream_root: Path) -> d
         "missing": missing,
     }
 
+def verify_bullet_type_init_lightning_type_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    bullets_source = "core/src/mindustry/content/Bullets.java"
+    bullets_path = upstream_root / bullets_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    bullets_text = bullets_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "collides_air_ground_field": "public boolean collidesAir = true, collidesGround = true;",
+        "lightning_type_field": "public @Nullable BulletType lightningType = null;",
+        "method": "public void init(){",
+        "lightning_type_gate": "if(lightningType == null){",
+        "lightning_type_assign": "lightningType =",
+        "ground_choice": "!collidesAir ? Bullets.damageLightningGround :",
+        "air_choice": "!collidesGround ? Bullets.damageLightningAir :",
+        "default_choice": "Bullets.damageLightning;",
+        "bullets_fields": "placeholder, spaceLiquid, damageLightning, damageLightningGround, damageLightningAir, fireball;",
+        "damage_lightning_init": "damageLightning = new BulletType(0.0001f, 0f){{",
+        "damage_lightning_ground_copy": "damageLightningGround = damageLightning.copy();",
+        "damage_lightning_ground_collides_air": "damageLightningGround.collidesAir = false;",
+        "damage_lightning_air_copy": "damageLightningAir = damageLightning.copy();",
+        "damage_lightning_air_collides_ground": "damageLightningAir.collidesGround = false;",
+        "damage_lightning_air_collides_tiles": "damageLightningAir.collidesTiles = false;",
+    }
+    source_map = {
+        "collides_air_ground_field": source,
+        "lightning_type_field": source,
+        "method": source,
+        "lightning_type_gate": source,
+        "lightning_type_assign": source,
+        "ground_choice": source,
+        "air_choice": source,
+        "default_choice": source,
+        "bullets_fields": bullets_text,
+        "damage_lightning_init": bullets_text,
+        "damage_lightning_ground_copy": bullets_text,
+        "damage_lightning_ground_collides_air": bullets_text,
+        "damage_lightning_air_copy": bullets_text,
+        "damage_lightning_air_collides_ground": bullets_text,
+        "damage_lightning_air_collides_tiles": bullets_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "bullets_source": bullets_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

@@ -5337,6 +5337,31 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_init_lightning_type_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_init_lightning_type_state_source"))
+        report = source_parity.verify_bullet_type_init_lightning_type_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["bullets_source"], "core/src/mindustry/content/Bullets.java")
+        self.assertEqual(report["checked"], {
+            "collides_air_ground_field": "public boolean collidesAir = true, collidesGround = true;",
+            "lightning_type_field": "public @Nullable BulletType lightningType = null;",
+            "method": "public void init(){",
+            "lightning_type_gate": "if(lightningType == null){",
+            "lightning_type_assign": "lightningType =",
+            "ground_choice": "!collidesAir ? Bullets.damageLightningGround :",
+            "air_choice": "!collidesGround ? Bullets.damageLightningAir :",
+            "default_choice": "Bullets.damageLightning;",
+            "bullets_fields": "placeholder, spaceLiquid, damageLightning, damageLightningGround, damageLightningAir, fireball;",
+            "damage_lightning_init": "damageLightning = new BulletType(0.0001f, 0f){{",
+            "damage_lightning_ground_copy": "damageLightningGround = damageLightning.copy();",
+            "damage_lightning_ground_collides_air": "damageLightningGround.collidesAir = false;",
+            "damage_lightning_air_copy": "damageLightningAir = damageLightning.copy();",
+            "damage_lightning_air_collides_ground": "damageLightningAir.collidesGround = false;",
+            "damage_lightning_air_collides_tiles": "damageLightningAir.collidesTiles = false;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

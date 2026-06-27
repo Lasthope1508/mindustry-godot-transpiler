@@ -4409,6 +4409,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"fragKeepVelocitySource": "fragBullet.keepVelocity = false"', source)
         self.assertIn('"fragScaleKeepVelocitySource": "fragBullet.scaleKeepVelocity = false"', source)
 
+    def test_port_game_exposes_source_bullet_type_init_lightning_type_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_init_lightning_type_state(frag_velocity_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var update_type_state: Dictionary = frag_velocity_state.get(\"bulletType\", {}).duplicate(true)", source)
+        self.assertIn("var gate_passed := update_type_state.get(\"lightningType\", null) == null", source)
+        self.assertIn("if not bool(update_type_state.get(\"collidesAir\", true)):", source)
+        self.assertIn("lightning_type = \"Bullets.damageLightningGround\"", source)
+        self.assertIn("elif not bool(update_type_state.get(\"collidesGround\", true)):", source)
+        self.assertIn("lightning_type = \"Bullets.damageLightningAir\"", source)
+        self.assertIn("lightning_type = \"Bullets.damageLightning\"", source)
+        self.assertIn("update_type_state[\"lightningType\"] = lightning_type", source)
+        self.assertIn('"lightningTypeGateSource": "if(lightningType == null){"', source)
+        self.assertIn('"lightningTypeChoiceSource": "!collidesAir ? Bullets.damageLightningGround : !collidesGround ? Bullets.damageLightningAir : Bullets.damageLightning"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

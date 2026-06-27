@@ -5825,6 +5825,36 @@ func source_bullet_type_init_frag_velocity_state(type_defaults_state: Dictionary
 		"fragScaleKeepVelocitySource": "fragBullet.scaleKeepVelocity = false",
 	}
 
+func source_bullet_type_init_lightning_type_state(frag_velocity_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = frag_velocity_state.get("bulletType", {}).duplicate(true)
+	var gate_passed := update_type_state.get("lightningType", null) == null
+	if not gate_passed:
+		return {
+			"bulletType": update_type_state,
+			"lightningTypeApplied": false,
+			"lightningTypeGatePassed": false,
+			"lightningType": update_type_state.get("lightningType", null),
+			"lightningTypeGateSource": "if(lightningType == null){",
+			"lightningTypeChoiceSource": "!collidesAir ? Bullets.damageLightningGround : !collidesGround ? Bullets.damageLightningAir : Bullets.damageLightning",
+		}
+	var lightning_type := ""
+	lightning_type = "Bullets.damageLightning"
+	if not bool(update_type_state.get("collidesAir", true)):
+		lightning_type = "Bullets.damageLightningGround"
+	elif not bool(update_type_state.get("collidesGround", true)):
+		lightning_type = "Bullets.damageLightningAir"
+	update_type_state["lightningType"] = lightning_type
+	return {
+		"bulletType": update_type_state,
+		"lightningTypeApplied": true,
+		"lightningTypeGatePassed": true,
+		"lightningType": lightning_type,
+		"collidesAir": bool(update_type_state.get("collidesAir", true)),
+		"collidesGround": bool(update_type_state.get("collidesGround", true)),
+		"lightningTypeGateSource": "if(lightningType == null){",
+		"lightningTypeChoiceSource": "!collidesAir ? Bullets.damageLightningGround : !collidesGround ? Bullets.damageLightningAir : Bullets.damageLightning",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
