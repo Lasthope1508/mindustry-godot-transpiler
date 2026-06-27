@@ -120,7 +120,8 @@
             "PortGame.source_bullet_type_update_trail_state",
             "PortGame.source_bullet_type_update_homing_initial_state",
             "PortGame.source_bullet_type_update_homing_target_velocity_state",
-            "PortGame.source_bullet_type_update_homing_follow_aim_state"
+            "PortGame.source_bullet_type_update_homing_follow_aim_state",
+            "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
           ],
           "rule": "Use source bullet x field."
         },
@@ -141,7 +142,8 @@
             "PortGame.source_bullet_type_update_trail_state",
             "PortGame.source_bullet_type_update_homing_initial_state",
             "PortGame.source_bullet_type_update_homing_target_velocity_state",
-            "PortGame.source_bullet_type_update_homing_follow_aim_state"
+            "PortGame.source_bullet_type_update_homing_follow_aim_state",
+            "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
           ],
           "rule": "Use source bullet y field."
         },
@@ -235,7 +237,8 @@
             "PortGame.source_bullet_type_update_homing_target_velocity_state",
             "PortGame.source_bullet_type_update_homing_follow_aim_state",
             "PortGame.source_bullet_type_update_weaving_state",
-            "PortGame.source_bullet_type_update_weaving_rotate_speed_state"
+            "PortGame.source_bullet_type_update_weaving_rotate_speed_state",
+            "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
           ],
           "rule": "BulletComp Vec2 velocity state."
         },
@@ -1280,6 +1283,65 @@
             "PortGame.source_bullet_type_update_weaving_rotate_speed_state"
           ],
           "rule": "Canonical BulletType.rotateSpeed field; default is 0f."
+        },
+        "speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "speed",
+          "godot_symbol": "bullet_type_state.speed",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
+          ],
+          "rule": "Canonical BulletType.speed field; default is 1f."
+        },
+        "circleShooter": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateWeaving(Bullet b)",
+          "java_expr": "circleShooter",
+          "godot_symbol": "bullet_type_state.circleShooter",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
+          ],
+          "rule": "Canonical BulletType.circleShooter field; default is false."
+        },
+        "circleShooterRadius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateWeaving(Bullet b)",
+          "java_expr": "circleShooterRadius",
+          "godot_symbol": "bullet_type_state.circleShooterRadius",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
+          ],
+          "rule": "Canonical BulletType.circleShooterRadius field; default is 13f."
+        },
+        "circleShooterRadiusSmooth": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateWeaving(Bullet b)",
+          "java_expr": "circleShooterRadiusSmooth",
+          "godot_symbol": "bullet_type_state.circleShooterRadiusSmooth",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
+          ],
+          "rule": "Canonical BulletType.circleShooterRadiusSmooth field; default is 10f."
+        },
+        "circleShooterRotateSpeed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateWeaving(Bullet b)",
+          "java_expr": "circleShooterRotateSpeed",
+          "godot_symbol": "bullet_type_state.circleShooterRotateSpeed",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
+          ],
+          "rule": "Canonical BulletType.circleShooterRotateSpeed field; default is 0.3f."
         }
       }
     },
@@ -1608,7 +1670,8 @@
           "used_by": [
             "PortGame.source_bullet_type_hit_entity_lifesteal_state",
             "PortGame.source_bullet_type_hit_tile_lifesteal_state",
-            "PortGame.source_bullet_type_init_initial_state"
+            "PortGame.source_bullet_type_init_initial_state",
+            "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
           ],
           "rule": "Explicit input until owner component identity and Healthc cast are fully ported."
         },
@@ -1659,6 +1722,42 @@
             "PortGame.source_bullet_type_init_initial_state"
           ],
           "rule": "Runtime record of HealthComp.kill() invoking remove()."
+        },
+        "isValid": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateWeaving(Bullet b)",
+          "java_expr": "h.isValid()",
+          "godot_symbol": "owner_health_state.isValid",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
+          ],
+          "rule": "Explicit owner Healthc.isValid() input for circleShooter gate."
+        },
+        "x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "java_method": "getX()",
+          "java_expr": "h.getX()",
+          "godot_symbol": "owner_health_state.x",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
+          ],
+          "rule": "Explicit owner Position x used by Tmp.v1.set(h)."
+        },
+        "y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "java_method": "getY()",
+          "java_expr": "h.getY()",
+          "godot_symbol": "owner_health_state.y",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
+          ],
+          "rule": "Explicit owner Position y used by Tmp.v1.set(h)."
         }
       }
     },
@@ -9286,6 +9385,132 @@
           "status": "generated",
           "alias_of": "source_line.update_weaving_rotate_speed.vec2_rotate",
           "rule": "Debug Arc source-line echo, not gameplay state."
+        }
+      }
+    },
+    "update_weaving_circle_shooter_result": {
+      "status": "active",
+      "keys": {
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "godot_symbol": "update_weaving_circle_shooter_result.bullet",
+          "alias_of": "bullet_state",
+          "rule": "Updated bullet state after circleShooter branch."
+        },
+        "circleShooterApplied": {
+          "type": "bool",
+          "status": "generated",
+          "godot_symbol": "update_weaving_circle_shooter_result.circleShooterApplied",
+          "alias_of": "update_weaving_circle_shooter_result.circleShooterGatePassed",
+          "rule": "Runtime boolean mirrors circleShooter gate application."
+        },
+        "circleShooterGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateWeaving(Bullet b)",
+          "java_expr": "circleShooter && b.owner instanceof Healthc h && h.isValid()",
+          "godot_symbol": "update_weaving_circle_shooter_result.circleShooterGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
+          ],
+          "rule": "Exact circleShooter gate without surrounding if braces."
+        },
+        "tmpBeforeRotate": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateWeaving(Bullet b)",
+          "java_expr": "Tmp.v1.set(h).sub(b)",
+          "godot_symbol": "update_weaving_circle_shooter_result.tmpBeforeRotate",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
+          ],
+          "rule": "Temporary vector after setting owner position and subtracting bullet position."
+        },
+        "rotationDegrees": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateWeaving(Bullet b)",
+          "java_expr": "90f * Mathf.lerp(0f, 1f, 1f - Mathf.clamp((Tmp.v1.len() - circleShooterRadius) / circleShooterRadiusSmooth))",
+          "godot_symbol": "update_weaving_circle_shooter_result.rotationDegrees",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
+          ],
+          "rule": "Source degree expression passed to Tmp.v1.rotate."
+        },
+        "rotationRadians": {
+          "type": "float",
+          "status": "generated",
+          "godot_symbol": "update_weaving_circle_shooter_result.rotationRadians",
+          "alias_of": "source_line.update_weaving_circle_shooter.vec2_rotate",
+          "rule": "Runtime radian conversion performed by Vec2.rotate."
+        },
+        "tmpLimit": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateWeaving(Bullet b)",
+          "java_expr": "speed * circleShooterRotateSpeed * Time.delta",
+          "godot_symbol": "update_weaving_circle_shooter_result.tmpLimit",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
+          ],
+          "rule": "Exact temporary vector limit magnitude."
+        },
+        "limitedTmp": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateWeaving(Bullet b)",
+          "java_expr": "Tmp.v1.limit(speed * circleShooterRotateSpeed * Time.delta)",
+          "godot_symbol": "update_weaving_circle_shooter_result.limitedTmp",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
+          ],
+          "rule": "Temporary vector after source limit."
+        },
+        "velocity": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateWeaving(Bullet b)",
+          "java_expr": "b.vel.add(Tmp.v1.limit(speed * circleShooterRotateSpeed * Time.delta)).limit(speed)",
+          "godot_symbol": "update_weaving_circle_shooter_result.velocity",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
+          ],
+          "rule": "Updated BulletComp velocity after add and final limit."
+        },
+        "circleShooterGateSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "update_weaving_circle_shooter_result.circleShooterGateSource",
+          "alias_of": "source_line.update_weaving_circle_shooter.gate",
+          "rule": "Runtime source label for circleShooter gate."
+        },
+        "circleShooterTmpSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "update_weaving_circle_shooter_result.circleShooterTmpSource",
+          "alias_of": "source_line.update_weaving_circle_shooter.tmp_set_sub",
+          "rule": "Runtime source label for temporary vector set/sub."
+        },
+        "circleShooterRotateSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "update_weaving_circle_shooter_result.circleShooterRotateSource",
+          "alias_of": "source_line.update_weaving_circle_shooter.tmp_rotate",
+          "rule": "Runtime source label for temporary vector rotation."
+        },
+        "circleShooterVelocitySource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "update_weaving_circle_shooter_result.circleShooterVelocitySource",
+          "alias_of": "source_line.update_weaving_circle_shooter.velocity_add_limit",
+          "rule": "Runtime source label for velocity add/limit."
         }
       }
     }

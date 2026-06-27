@@ -5868,6 +5868,126 @@
         "test_bullet_type_update_weaving_rotate_speed_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_update_weaving_rotate_speed_state"
+    },
+    "update_weaving_circle_shooter.gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateWeaving(Bullet b)",
+      "java_expr": "if(circleShooter && b.owner instanceof Healthc h && h.isValid()){",
+      "godot_symbol": "update_weaving_circle_shooter_result.circleShooterGatePassed",
+      "godot_owner": "PortGame.source_bullet_type_update_weaving_circle_shooter_state",
+      "rule": "Exact updateWeaving circleShooter gate with owner Healthc validity.",
+      "tests": [
+        "test_bullet_type_update_weaving_circle_shooter_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_circle_shooter_state",
+        "test_bullet_type_update_weaving_circle_shooter_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_circle_shooter_state"
+    },
+    "update_weaving_circle_shooter.tmp_set_sub": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateWeaving(Bullet b)",
+      "java_expr": "Tmp.v1.set(h).sub(b);",
+      "godot_symbol": "update_weaving_circle_shooter_result.tmpBeforeRotate",
+      "godot_owner": "PortGame.source_bullet_type_update_weaving_circle_shooter_state",
+      "rule": "Exact temporary vector set/subtract source for circling bullet toward owner.",
+      "tests": [
+        "test_bullet_type_update_weaving_circle_shooter_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_circle_shooter_state",
+        "test_bullet_type_update_weaving_circle_shooter_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_circle_shooter_state"
+    },
+    "update_weaving_circle_shooter.tmp_rotate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateWeaving(Bullet b)",
+      "java_expr": "Tmp.v1.rotate(90f * Mathf.lerp(0f, 1f, 1f - Mathf.clamp((Tmp.v1.len() - circleShooterRadius) / circleShooterRadiusSmooth)));",
+      "godot_symbol": "update_weaving_circle_shooter_result.rotationDegrees",
+      "godot_owner": "PortGame.source_bullet_type_update_weaving_circle_shooter_state",
+      "rule": "Exact circle shooter temporary vector rotation expression.",
+      "tests": [
+        "test_bullet_type_update_weaving_circle_shooter_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_circle_shooter_state",
+        "test_bullet_type_update_weaving_circle_shooter_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_circle_shooter_state"
+    },
+    "update_weaving_circle_shooter.velocity_add_limit": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateWeaving(Bullet b)",
+      "java_expr": "b.vel.add(Tmp.v1.limit(speed * circleShooterRotateSpeed * Time.delta)).limit(speed);",
+      "godot_symbol": "update_weaving_circle_shooter_result.velocity",
+      "godot_owner": "PortGame.source_bullet_type_update_weaving_circle_shooter_state",
+      "rule": "Exact velocity add/limit expression for circle shooter branch.",
+      "tests": [
+        "test_bullet_type_update_weaving_circle_shooter_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_circle_shooter_state",
+        "test_bullet_type_update_weaving_circle_shooter_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_circle_shooter_state"
+    },
+    "update_weaving_circle_shooter.mathf_lerp": {
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "lerp(float fromValue, float toValue, float progress)",
+      "java_expr": "public static float lerp(float fromValue, float toValue, float progress){\n        return fromValue + (toValue - fromValue) * progress;\n    }",
+      "godot_symbol": "update_weaving_circle_shooter_result.rotationDegrees",
+      "godot_owner": "PortGame.source_bullet_type_update_weaving_circle_shooter_state",
+      "rule": "Arc Mathf.lerp backing for circle shooter rotation expression.",
+      "tests": [
+        "test_bullet_type_update_weaving_circle_shooter_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_circle_shooter_state",
+        "test_bullet_type_update_weaving_circle_shooter_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_circle_shooter_state"
+    },
+    "update_weaving_circle_shooter.mathf_clamp": {
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "clamp(float value)",
+      "java_expr": "public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }",
+      "godot_symbol": "update_weaving_circle_shooter_result.rotationDegrees",
+      "godot_owner": "PortGame.source_bullet_type_update_weaving_circle_shooter_state",
+      "rule": "Arc Mathf.clamp backing for circle shooter rotation expression.",
+      "tests": [
+        "test_bullet_type_update_weaving_circle_shooter_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_circle_shooter_state",
+        "test_bullet_type_update_weaving_circle_shooter_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_circle_shooter_state"
+    },
+    "update_weaving_circle_shooter.vec2_rotate": {
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "rotate(float degrees)",
+      "java_expr": "return rotateRad(degrees * Mathf.degreesToRadians);",
+      "godot_symbol": "update_weaving_circle_shooter_result.rotationRadians",
+      "godot_owner": "PortGame.source_bullet_type_update_weaving_circle_shooter_state",
+      "rule": "Arc Vec2.rotate conversion used by Tmp.v1.rotate.",
+      "tests": [
+        "test_bullet_type_update_weaving_circle_shooter_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_circle_shooter_state",
+        "test_bullet_type_update_weaving_circle_shooter_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_circle_shooter_state"
+    },
+    "update_weaving_circle_shooter.vec2_limit": {
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "limit(float limit)",
+      "java_expr": "return limit2(limit * limit);",
+      "godot_symbol": "update_weaving_circle_shooter_result.limitedTmp",
+      "godot_owner": "PortGame.source_bullet_type_update_weaving_circle_shooter_state",
+      "rule": "Arc Vec2.limit backing for temporary and final velocity limits.",
+      "tests": [
+        "test_bullet_type_update_weaving_circle_shooter_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_circle_shooter_state",
+        "test_bullet_type_update_weaving_circle_shooter_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_circle_shooter_state"
     }
   }
 }

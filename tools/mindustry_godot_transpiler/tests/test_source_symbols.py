@@ -1483,14 +1483,46 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(vec2_rotate["java_source"], "arc-core/src/arc/math/geom/Vec2.java")
         self.assertEqual(vec2_rotate["java_expr"], "return rotateRad(degrees * Mathf.degreesToRadians);")
 
+    def test_bullet_type_update_weaving_circle_shooter_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        gate = source_symbols.source_symbol(registry, "update_weaving_circle_shooter.gate")
+        self.assertEqual(gate["java_expr"], "if(circleShooter && b.owner instanceof Healthc h && h.isValid()){")
+        self.assertEqual(gate["godot_symbol"], "update_weaving_circle_shooter_result.circleShooterGatePassed")
+        self.assertEqual(gate["godot_owner"], "PortGame.source_bullet_type_update_weaving_circle_shooter_state")
+        self.assertEqual(gate["runtime_proof"], "/root/Main.source_bullet_type_update_weaving_circle_shooter_state")
+
+        tmp_set_sub = source_symbols.source_symbol(registry, "update_weaving_circle_shooter.tmp_set_sub")
+        self.assertEqual(tmp_set_sub["java_expr"], "Tmp.v1.set(h).sub(b);")
+        self.assertEqual(tmp_set_sub["godot_symbol"], "update_weaving_circle_shooter_result.tmpBeforeRotate")
+
+        tmp_rotate = source_symbols.source_symbol(registry, "update_weaving_circle_shooter.tmp_rotate")
+        self.assertEqual(tmp_rotate["java_expr"], "Tmp.v1.rotate(90f * Mathf.lerp(0f, 1f, 1f - Mathf.clamp((Tmp.v1.len() - circleShooterRadius) / circleShooterRadiusSmooth)));")
+        self.assertEqual(tmp_rotate["godot_symbol"], "update_weaving_circle_shooter_result.rotationDegrees")
+
+        velocity = source_symbols.source_symbol(registry, "update_weaving_circle_shooter.velocity_add_limit")
+        self.assertEqual(velocity["java_expr"], "b.vel.add(Tmp.v1.limit(speed * circleShooterRotateSpeed * Time.delta)).limit(speed);")
+        self.assertEqual(velocity["godot_symbol"], "update_weaving_circle_shooter_result.velocity")
+
+        mathf_lerp = source_symbols.source_symbol(registry, "update_weaving_circle_shooter.mathf_lerp")
+        self.assertEqual(mathf_lerp["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertIn("return fromValue + (toValue - fromValue) * progress;", mathf_lerp["java_expr"])
+
+        mathf_clamp = source_symbols.source_symbol(registry, "update_weaving_circle_shooter.mathf_clamp")
+        self.assertEqual(mathf_clamp["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertIn("return Math.max(Math.min(value, 1f), 0f);", mathf_clamp["java_expr"])
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 59)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 60)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 64)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 65)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1544,6 +1576,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_update_homing_follow_aim_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_update_weaving_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_update_weaving_rotate_speed_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_update_weaving_circle_shooter_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -1953,6 +1986,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(rotateSpeed != 0){", update_weaving_rotate_speed["exact_exprs"])
         self.assertIn("b.vel.rotate(rotateSpeed * Time.delta);", update_weaving_rotate_speed["exact_exprs"])
         self.assertIn("if(circleShooter && b.owner instanceof Healthc h && h.isValid()){", update_weaving_rotate_speed["deferred_exprs"])
+
+        update_weaving_circle_shooter = source_symbols.source_slice(ledger, "N462")
+        self.assertEqual(update_weaving_circle_shooter["java_method"], "updateWeaving(Bullet b)")
+        self.assertEqual(update_weaving_circle_shooter["godot_owner"], "PortGame.source_bullet_type_update_weaving_circle_shooter_state")
+        self.assertIn("if(circleShooter && b.owner instanceof Healthc h && h.isValid()){", update_weaving_circle_shooter["exact_exprs"])
+        self.assertIn("Tmp.v1.set(h).sub(b);", update_weaving_circle_shooter["exact_exprs"])
+        self.assertIn("Tmp.v1.rotate(90f * Mathf.lerp(0f, 1f, 1f - Mathf.clamp((Tmp.v1.len() - circleShooterRadius) / circleShooterRadiusSmooth)));", update_weaving_circle_shooter["exact_exprs"])
+        self.assertIn("b.vel.add(Tmp.v1.limit(speed * circleShooterRotateSpeed * Time.delta)).limit(speed);", update_weaving_circle_shooter["exact_exprs"])
+        self.assertIn("public void updateTrailEffects(Bullet b){", update_weaving_circle_shooter["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -2460,6 +2502,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("rotationRadians", update_weaving_rotate_speed["return_keys"])
         self.assertIn("velocity", update_weaving_rotate_speed["return_keys"])
         self.assertEqual(update_weaving_rotate_speed["source_method"], "updateWeaving(Bullet b)")
+
+        update_weaving_circle_shooter = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_update_weaving_circle_shooter_state")
+        self.assertEqual([param["name"] for param in update_weaving_circle_shooter["params"]], ["rotate_speed_state", "bullet_type_state", "owner_health_state", "source_delta"])
+        self.assertEqual(update_weaving_circle_shooter["params"][0]["schema"], "update_weaving_rotate_speed_result")
+        self.assertEqual(update_weaving_circle_shooter["params"][1]["schema"], "bullet_type_state")
+        self.assertEqual(update_weaving_circle_shooter["params"][2]["schema"], "owner_health_state")
+        self.assertEqual(update_weaving_circle_shooter["params"][3]["schema"], "time_state.delta")
+        self.assertIn("circleShooterApplied", update_weaving_circle_shooter["return_keys"])
+        self.assertIn("circleShooterGatePassed", update_weaving_circle_shooter["return_keys"])
+        self.assertIn("tmpBeforeRotate", update_weaving_circle_shooter["return_keys"])
+        self.assertIn("rotationDegrees", update_weaving_circle_shooter["return_keys"])
+        self.assertIn("tmpLimit", update_weaving_circle_shooter["return_keys"])
+        self.assertIn("limitedTmp", update_weaving_circle_shooter["return_keys"])
+        self.assertIn("velocity", update_weaving_circle_shooter["return_keys"])
+        self.assertEqual(update_weaving_circle_shooter["source_method"], "updateWeaving(Bullet b)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -2979,6 +3036,27 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         self.assertIn("PortGame.source_bullet_type_update_weaving_rotate_speed_state", bullet_state["keys"]["velocity"]["used_by"])
         self.assertEqual(bullet_type_state["keys"]["rotateSpeed"]["java_expr"], "rotateSpeed")
+
+        owner_health_state = source_symbols.state_schema(schema, "owner_health_state")
+        update_weaving_circle_shooter_output = source_symbols.state_schema(schema, "update_weaving_circle_shooter_result")
+        self.assertEqual(update_weaving_circle_shooter_output["keys"]["circleShooterGatePassed"]["java_expr"], "circleShooter && b.owner instanceof Healthc h && h.isValid()")
+        self.assertEqual(update_weaving_circle_shooter_output["keys"]["tmpBeforeRotate"]["java_expr"], "Tmp.v1.set(h).sub(b)")
+        self.assertEqual(update_weaving_circle_shooter_output["keys"]["rotationDegrees"]["java_expr"], "90f * Mathf.lerp(0f, 1f, 1f - Mathf.clamp((Tmp.v1.len() - circleShooterRadius) / circleShooterRadiusSmooth))")
+        self.assertEqual(update_weaving_circle_shooter_output["keys"]["tmpLimit"]["java_expr"], "speed * circleShooterRotateSpeed * Time.delta")
+        self.assertEqual(update_weaving_circle_shooter_output["keys"]["velocity"]["java_expr"], "b.vel.add(Tmp.v1.limit(speed * circleShooterRotateSpeed * Time.delta)).limit(speed)")
+        self.assertEqual(update_weaving_circle_shooter_output["keys"]["circleShooterGateSource"]["alias_of"], "source_line.update_weaving_circle_shooter.gate")
+
+        self.assertIn("PortGame.source_bullet_type_update_weaving_circle_shooter_state", bullet_state["keys"]["x"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_update_weaving_circle_shooter_state", bullet_state["keys"]["y"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_update_weaving_circle_shooter_state", bullet_state["keys"]["velocity"]["used_by"])
+        self.assertEqual(bullet_type_state["keys"]["circleShooter"]["java_expr"], "circleShooter")
+        self.assertEqual(bullet_type_state["keys"]["circleShooterRadius"]["java_expr"], "circleShooterRadius")
+        self.assertEqual(bullet_type_state["keys"]["circleShooterRadiusSmooth"]["java_expr"], "circleShooterRadiusSmooth")
+        self.assertEqual(bullet_type_state["keys"]["circleShooterRotateSpeed"]["java_expr"], "circleShooterRotateSpeed")
+        self.assertIn("PortGame.source_bullet_type_update_weaving_circle_shooter_state", owner_health_state["keys"]["isHealthc"]["used_by"])
+        self.assertEqual(owner_health_state["keys"]["isValid"]["java_expr"], "h.isValid()")
+        self.assertEqual(owner_health_state["keys"]["x"]["java_expr"], "h.getX()")
+        self.assertEqual(owner_health_state["keys"]["y"]["java_expr"], "h.getY()")
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")

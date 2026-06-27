@@ -2775,6 +2775,56 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_update_weaving_rotate_speed_state",
       "rule": "Public runtime contract for BulletType.updateWeaving rotateSpeed gate and Vec2.rotate velocity mutation."
+    },
+    "PortGame.source_bullet_type_update_weaving_circle_shooter_state": {
+      "status": "active",
+      "source_slice": "N462",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "updateWeaving(Bullet b)",
+      "params": [
+        {
+          "name": "rotate_speed_state",
+          "type": "Dictionary",
+          "schema": "update_weaving_rotate_speed_result"
+        },
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "owner_health_state",
+          "type": "Dictionary",
+          "schema": "owner_health_state"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "time_state.delta"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "circleShooterApplied",
+        "circleShooterGatePassed",
+        "tmpBeforeRotate",
+        "rotationDegrees",
+        "rotationRadians",
+        "tmpLimit",
+        "limitedTmp",
+        "velocity",
+        "circleShooterGateSource",
+        "circleShooterTmpSource",
+        "circleShooterRotateSource",
+        "circleShooterVelocitySource"
+      ],
+      "tests": [
+        "test_bullet_type_update_weaving_circle_shooter_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_circle_shooter_state",
+        "test_bullet_type_update_weaving_circle_shooter_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_circle_shooter_state",
+      "rule": "Public runtime contract for BulletType.updateWeaving circleShooter gate, temporary vector rotation, and velocity limiting."
     }
   },
   "policy": {
