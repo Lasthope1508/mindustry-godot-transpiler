@@ -1247,6 +1247,36 @@
         "test_bullet_type_despawned_shake_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_despawned_shake_state"
+    },
+    "N445": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "removed(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_removed_trail_fade_state",
+      "exact_exprs": [
+        "if(trailLength > 0 && b.trail != null && b.trail.size() > 0)",
+        "Fx.trailFade.at(b.x, b.y, trailWidth, trailColor, b.trail.copy())"
+      ],
+      "deferred_exprs": [
+        "if(b.frags == 0 && fragOnDespawn && fragBullet != null){"
+      ],
+      "source_symbols": [
+        "removed.trail_fade.trail_length",
+        "removed.trail_fade.trail_width",
+        "removed.trail_fade.trail_color",
+        "removed.trail_fade.trail_size",
+        "removed.trail_fade.trail_gate",
+        "removed.trail_fade.trail_fade_call",
+        "removed.trail_fade.trail_copy",
+        "removed.trail_fade.frag_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_removed_trail_fade_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_removed_trail_fade_state",
+        "test_bullet_type_removed_trail_fade_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_removed_trail_fade_state"
     }
   },
   "version": 1

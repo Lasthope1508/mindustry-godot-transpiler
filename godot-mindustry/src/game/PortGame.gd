@@ -6912,6 +6912,52 @@ func source_bullet_type_despawned_shake_state(bullet_type_state: Dictionary, bul
 		"removedBoundarySource": "public void removed(Bullet b){",
 	}
 
+func source_bullet_type_removed_trail_fade_state(bullet_type_state: Dictionary, bullet_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var trail_length := int(update_type_state.get("trailLength", -1))
+	var trail_width := float(update_type_state.get("trailWidth", 2.0))
+	var trail_color: Variant = update_type_state.get("trailColor", "Pal.missileYellowBack")
+	var bullet_x: Variant = update_bullet_state.get("x", null)
+	var bullet_y: Variant = update_bullet_state.get("y", null)
+	var trail_state: Variant = update_bullet_state.get("trail", null)
+	var trail_exists := trail_state != null
+	var trail_size: Variant = null
+	var trail_copy: Variant = null
+	if trail_state is Dictionary:
+		trail_size = trail_state.get("size", null)
+	var gate_passed := trail_length > 0 and trail_exists and trail_size != null and int(trail_size) > 0
+	var trail_fade_call: Variant = null
+	if gate_passed:
+		if trail_state is Dictionary:
+			trail_copy = (trail_state as Dictionary).duplicate(true)
+		else:
+			trail_copy = trail_state
+		trail_fade_call = {
+			"call": "Fx.trailFade.at(b.x, b.y, trailWidth, trailColor, b.trail.copy())",
+			"x": bullet_x,
+			"y": bullet_y,
+			"width": trail_width,
+			"color": trail_color,
+			"trailCopy": trail_copy,
+		}
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"trailLength": trail_length,
+		"trailWidth": trail_width,
+		"trailColor": trail_color,
+		"trailExists": trail_exists,
+		"trailSize": trail_size,
+		"gatePassed": gate_passed,
+		"trailFadeCall": trail_fade_call,
+		"gateSource": "if(trailLength > 0 && b.trail != null && b.trail.size() > 0){",
+		"trailFadeCallSource": "Fx.trailFade.at(b.x, b.y, trailWidth, trailColor, b.trail.copy());",
+		"trailCopySource": "public Trail copy(){ Trail out = new Trail(length); out.points.addAll(points); return out; }",
+		"trailSizeSource": "public int size(){ return points.size/3; }",
+		"fragBoundarySource": "if(b.frags == 0 && fragOnDespawn && fragBullet != null){",
+	}
+
 func source_bullet_type_hit_suppression_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_post_frag_dispatch_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

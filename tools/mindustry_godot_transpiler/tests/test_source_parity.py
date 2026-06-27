@@ -6171,6 +6171,25 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_removed_trail_fade_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_removed_trail_fade_state_source"))
+        report = source_parity.verify_bullet_type_removed_trail_fade_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["trail_source"], "core/src/mindustry/graphics/Trail.java")
+        self.assertEqual(report["checked"], {
+            "trail_length_field": "public int trailLength = -1;",
+            "trail_width_field": "public float trailWidth = 2f;",
+            "trail_color_field": "public Color trailColor = Pal.missileYellowBack;",
+            "method": "public void removed(Bullet b){",
+            "trail_gate": "if(trailLength > 0 && b.trail != null && b.trail.size() > 0){",
+            "trail_fade_call": "Fx.trailFade.at(b.x, b.y, trailWidth, trailColor, b.trail.copy());",
+            "trail_copy": "public Trail copy(){",
+            "trail_size": "public int size(){\n        return points.size/3;\n    }",
+            "frag_boundary": "if(b.frags == 0 && fragOnDespawn && fragBullet != null){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_bullet_type_building_damage_state_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_bullet_type_building_damage_state_source"))
         report = source_parity.verify_bullet_type_building_damage_state_source(ROOT / "mindustry-upstream")

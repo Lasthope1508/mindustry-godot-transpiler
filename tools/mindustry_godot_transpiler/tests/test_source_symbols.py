@@ -948,14 +948,39 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(removed_boundary["status"], "deferred")
         self.assertEqual(removed_boundary["java_expr"], "public void removed(Bullet b){")
 
+    def test_bullet_type_removed_trail_fade_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        trail_length = source_symbols.source_symbol(registry, "removed.trail_fade.trail_length")
+        self.assertEqual(trail_length["java_expr"], "trailLength")
+        self.assertEqual(trail_length["godot_symbol"], "bullet_type_state.trailLength")
+        self.assertEqual(trail_length["godot_owner"], "PortGame.source_bullet_type_removed_trail_fade_state")
+        self.assertEqual(trail_length["runtime_proof"], "/root/Main.source_bullet_type_removed_trail_fade_state")
+
+        trail_size = source_symbols.source_symbol(registry, "removed.trail_fade.trail_size")
+        self.assertEqual(trail_size["java_expr"], "b.trail.size()")
+        self.assertEqual(trail_size["godot_symbol"], "bullet_state.trail.size")
+        self.assertEqual(trail_size["status"], "explicit-input")
+
+        trail_fade_call = source_symbols.source_symbol(registry, "removed.trail_fade.trail_fade_call")
+        self.assertEqual(trail_fade_call["java_expr"], "Fx.trailFade.at(b.x, b.y, trailWidth, trailColor, b.trail.copy())")
+        self.assertEqual(trail_fade_call["godot_symbol"], "removed_trail_fade_result.trailFadeCall")
+
+        frag_boundary = source_symbols.source_symbol(registry, "removed.trail_fade.frag_boundary")
+        self.assertEqual(frag_boundary["status"], "deferred")
+        self.assertEqual(frag_boundary["java_expr"], "if(b.frags == 0 && fragOnDespawn && fragBullet != null){")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 42)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 43)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 47)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 48)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1003,6 +1028,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_shake_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_removed_trail_fade_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -1268,6 +1294,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(despawned_shake["godot_owner"], "PortGame.source_bullet_type_despawned_shake_state")
         self.assertIn("Effect.shake(despawnShake, despawnShake, b)", despawned_shake["exact_exprs"])
         self.assertIn("public void removed(Bullet b){", despawned_shake["deferred_exprs"])
+
+        removed_trail_fade = source_symbols.source_slice(ledger, "N445")
+        self.assertEqual(removed_trail_fade["java_method"], "removed(Bullet b)")
+        self.assertEqual(removed_trail_fade["godot_owner"], "PortGame.source_bullet_type_removed_trail_fade_state")
+        self.assertIn("if(trailLength > 0 && b.trail != null && b.trail.size() > 0)", removed_trail_fade["exact_exprs"])
+        self.assertIn("Fx.trailFade.at(b.x, b.y, trailWidth, trailColor, b.trail.copy())", removed_trail_fade["exact_exprs"])
+        self.assertIn("if(b.frags == 0 && fragOnDespawn && fragBullet != null){", removed_trail_fade["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -1614,6 +1647,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("removedBoundarySource", despawned_shake["return_keys"])
         self.assertEqual(despawned_shake["source_method"], "despawned(Bullet b)")
 
+        removed_trail_fade = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_removed_trail_fade_state")
+        self.assertEqual([param["name"] for param in removed_trail_fade["params"]], ["bullet_type_state", "bullet_state"])
+        self.assertIn("gatePassed", removed_trail_fade["return_keys"])
+        self.assertIn("trailFadeCall", removed_trail_fade["return_keys"])
+        self.assertIn("fragBoundarySource", removed_trail_fade["return_keys"])
+        self.assertEqual(removed_trail_fade["source_method"], "removed(Bullet b)")
+
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_state_schema(schema)
@@ -1952,11 +1992,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         bullet_type_state = source_symbols.state_schema(schema, "bullet_type_state")
         self.assertEqual(bullet_type_state["keys"]["despawnShake"]["java_expr"], "despawnShake")
         self.assertEqual(bullet_type_state["keys"]["despawnShake"]["godot_symbol"], "bullet_type_state.despawnShake")
+        self.assertEqual(bullet_type_state["keys"]["trailLength"]["java_expr"], "trailLength")
+        self.assertEqual(bullet_type_state["keys"]["trailWidth"]["java_expr"], "trailWidth")
+        self.assertEqual(bullet_type_state["keys"]["trailColor"]["java_expr"], "trailColor")
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["status"], "source-backed")
         self.assertEqual(despawned_shake_output["keys"]["despawnedSound"]["alias_of"], "despawned_sound_result")
+
+        removed_trail_fade_output = source_symbols.state_schema(schema, "removed_trail_fade_result")
+        self.assertEqual(removed_trail_fade_output["keys"]["gatePassed"]["java_expr"], "trailLength > 0 && b.trail != null && b.trail.size() > 0")
+        self.assertEqual(removed_trail_fade_output["keys"]["trailFadeCall"]["java_expr"], "Fx.trailFade.at(b.x, b.y, trailWidth, trailColor, b.trail.copy())")
+        self.assertEqual(removed_trail_fade_output["keys"]["trailFadeCall"]["status"], "source-backed")
+        self.assertEqual(removed_trail_fade_output["keys"]["fragBoundarySource"]["status"], "deferred")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

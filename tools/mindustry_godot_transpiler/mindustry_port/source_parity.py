@@ -10985,6 +10985,46 @@ def verify_bullet_type_despawned_shake_state_source(upstream_root: Path) -> dict
         "missing": missing,
     }
 
+def verify_bullet_type_removed_trail_fade_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    trail_source = "core/src/mindustry/graphics/Trail.java"
+    trail_path = upstream_root / trail_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    trail_text = trail_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "trail_length_field": "public int trailLength = -1;",
+        "trail_width_field": "public float trailWidth = 2f;",
+        "trail_color_field": "public Color trailColor = Pal.missileYellowBack;",
+        "method": "public void removed(Bullet b){",
+        "trail_gate": "if(trailLength > 0 && b.trail != null && b.trail.size() > 0){",
+        "trail_fade_call": "Fx.trailFade.at(b.x, b.y, trailWidth, trailColor, b.trail.copy());",
+        "trail_copy": "public Trail copy(){",
+        "trail_size": "public int size(){\n        return points.size/3;\n    }",
+        "frag_boundary": "if(b.frags == 0 && fragOnDespawn && fragBullet != null){",
+    }
+    source_map = {
+        "trail_length_field": source,
+        "trail_width_field": source,
+        "trail_color_field": source,
+        "method": source,
+        "trail_gate": source,
+        "trail_fade_call": source,
+        "trail_copy": trail_text,
+        "trail_size": trail_text,
+        "frag_boundary": source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "trail_source": trail_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

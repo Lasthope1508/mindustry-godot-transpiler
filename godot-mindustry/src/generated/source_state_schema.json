@@ -137,6 +137,18 @@
             "PortGame.source_bullet_type_create_frags_increment_state"
           ],
           "rule": "Canonical Bullet.frags transient counter for createFrags pierce cap guard."
+        },
+        "trail": {
+          "type": "Dictionary",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "removed(Bullet b)",
+          "java_expr": "b.trail",
+          "godot_symbol": "bullet_state.trail",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_trail_fade_state"
+          ],
+          "rule": "Explicit Bullet.trail snapshot; nested size pins b.trail.size() for removed trail fade."
         }
       }
     },
@@ -796,6 +808,42 @@
             "PortGame.source_bullet_type_despawned_shake_state"
           ],
           "rule": "Canonical BulletType.despawnShake field for despawned Effect.shake."
+        },
+        "trailLength": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "removed(Bullet b)",
+          "java_expr": "trailLength",
+          "godot_symbol": "bullet_type_state.trailLength",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_trail_fade_state"
+          ],
+          "rule": "Canonical BulletType.trailLength field for removed trail fade gate."
+        },
+        "trailWidth": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "removed(Bullet b)",
+          "java_expr": "trailWidth",
+          "godot_symbol": "bullet_type_state.trailWidth",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_trail_fade_state"
+          ],
+          "rule": "Canonical BulletType.trailWidth field for removed trail fade width."
+        },
+        "trailColor": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "removed(Bullet b)",
+          "java_expr": "trailColor",
+          "godot_symbol": "bullet_type_state.trailColor",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_trail_fade_state"
+          ],
+          "rule": "Canonical BulletType.trailColor field for removed trail fade color."
         }
       }
     },
@@ -6634,6 +6682,167 @@
             "PortGame.source_bullet_type_despawned_shake_state"
           ],
           "rule": "Boundary marker; BulletType.removed body remains a later source slice."
+        }
+      }
+    },
+    "removed_trail_fade_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_type_state",
+          "rule": "Runtime echo of input bullet_type_state."
+        },
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime echo of input bullet_state."
+        },
+        "trailLength": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "removed(Bullet b)",
+          "java_expr": "trailLength",
+          "godot_symbol": "removed_trail_fade_result.trailLength",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_trail_fade_state"
+          ],
+          "rule": "Runtime echo of trailLength used by gate."
+        },
+        "trailWidth": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "removed(Bullet b)",
+          "java_expr": "trailWidth",
+          "godot_symbol": "removed_trail_fade_result.trailWidth",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_trail_fade_state"
+          ],
+          "rule": "Runtime echo of trailWidth used by Fx.trailFade."
+        },
+        "trailColor": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "removed(Bullet b)",
+          "java_expr": "trailColor",
+          "godot_symbol": "removed_trail_fade_result.trailColor",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_trail_fade_state"
+          ],
+          "rule": "Runtime echo of trailColor used by Fx.trailFade."
+        },
+        "trailExists": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "removed(Bullet b)",
+          "java_expr": "b.trail != null",
+          "godot_symbol": "removed_trail_fade_result.trailExists",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_trail_fade_state"
+          ],
+          "rule": "Runtime record of b.trail null check."
+        },
+        "trailSize": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "removed(Bullet b)",
+          "java_expr": "b.trail.size()",
+          "godot_symbol": "removed_trail_fade_result.trailSize",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_trail_fade_state"
+          ],
+          "rule": "Explicit Trail.size() value; null means not provided."
+        },
+        "gatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "removed(Bullet b)",
+          "java_expr": "trailLength > 0 && b.trail != null && b.trail.size() > 0",
+          "godot_symbol": "removed_trail_fade_result.gatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_trail_fade_state"
+          ],
+          "rule": "Runtime result of removed trail fade gate."
+        },
+        "trailFadeCall": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "removed(Bullet b)",
+          "java_expr": "Fx.trailFade.at(b.x, b.y, trailWidth, trailColor, b.trail.copy())",
+          "godot_symbol": "removed_trail_fade_result.trailFadeCall",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_trail_fade_state"
+          ],
+          "rule": "Runtime call record for Fx.trailFade.at when gate passes."
+        },
+        "gateSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "removed(Bullet b)",
+          "java_expr": "if(trailLength > 0 && b.trail != null && b.trail.size() > 0){",
+          "godot_symbol": "removed_trail_fade_result.gateSource",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_trail_fade_state"
+          ],
+          "rule": "Runtime source snippet label."
+        },
+        "trailFadeCallSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "removed(Bullet b)",
+          "java_expr": "Fx.trailFade.at(b.x, b.y, trailWidth, trailColor, b.trail.copy());",
+          "godot_symbol": "removed_trail_fade_result.trailFadeCallSource",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_trail_fade_state"
+          ],
+          "rule": "Runtime source snippet label."
+        },
+        "trailCopySource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/graphics/Trail.java",
+          "java_method": "copy()",
+          "java_expr": "Trail out = new Trail(length); out.points.addAll(points)",
+          "godot_symbol": "removed_trail_fade_result.trailCopySource",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_trail_fade_state"
+          ],
+          "rule": "Runtime source snippet label for Trail.copy."
+        },
+        "trailSizeSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/graphics/Trail.java",
+          "java_method": "size()",
+          "java_expr": "return points.size/3",
+          "godot_symbol": "removed_trail_fade_result.trailSizeSource",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_trail_fade_state"
+          ],
+          "rule": "Runtime source snippet label for Trail.size."
+        },
+        "fragBoundarySource": {
+          "type": "String",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "removed(Bullet b)",
+          "java_expr": "if(b.frags == 0 && fragOnDespawn && fragBullet != null){",
+          "godot_symbol": "removed_trail_fade_result.fragBoundarySource",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_trail_fade_state"
+          ],
+          "rule": "Boundary marker; removed frag-on-despawn body remains a later source slice."
         }
       }
     }
