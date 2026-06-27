@@ -71,6 +71,62 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_draw_parts_state"
     },
+    "test_collision.bullet.team": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "testCollision(Bullet bullet, Building tile)",
+      "java_expr": "bullet.team",
+      "godot_symbol": "bullet_state.team",
+      "godot_owner": "PortGame.source_bullet_type_test_collision_state",
+      "rule": "Use the bullet team field supplied by source bullet state; do not infer team from owner or turret.",
+      "tests": [
+        "test_bullet_type_test_collision_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_test_collision_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_test_collision_state"
+    },
+    "test_collision.heals": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "testCollision(Bullet bullet, Building tile)",
+      "java_expr": "heals()",
+      "godot_symbol": "heals_state.heals",
+      "godot_owner": "PortGame.source_bullet_type_test_collision_state",
+      "rule": "Reuse source_bullet_type_heals_state as the only source of the heals() predicate.",
+      "tests": [
+        "test_bullet_type_test_collision_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_test_collision_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_test_collision_state"
+    },
+    "test_collision.tile.healthf": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "testCollision(Bullet bullet, Building tile)",
+      "java_expr": "tile.healthf()",
+      "godot_symbol": "tile_state.healthf",
+      "godot_owner": "PortGame.source_bullet_type_test_collision_state",
+      "rule": "Represent tile.healthf() as an explicit input fact until Building health fraction state is ported.",
+      "tests": [
+        "test_bullet_type_test_collision_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_test_collision_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_test_collision_state"
+    },
+    "test_collision.tile.team": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "testCollision(Bullet bullet, Building tile)",
+      "java_expr": "tile.team",
+      "godot_symbol": "tile_state.team",
+      "godot_owner": "PortGame.source_bullet_type_test_collision_state",
+      "rule": "Use the tile team field supplied by source tile state; do not infer it from ownership side effects.",
+      "tests": [
+        "test_bullet_type_test_collision_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_test_collision_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_test_collision_state"
+    },
     "draw_part.params.charge": {
       "status": "source-backed",
       "java_source": "core/src/mindustry/entities/part/DrawPart.java",

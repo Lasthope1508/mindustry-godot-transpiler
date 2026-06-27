@@ -6034,6 +6034,28 @@ func source_bullet_type_heals_state(bullet_type_state: Dictionary) -> Dictionary
 		"healsReturnSource": "return healPercent > 0 || healAmount > 0",
 	}
 
+func source_bullet_type_test_collision_state(bullet_type_state: Dictionary, bullet_state: Dictionary, tile_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_tile_state: Dictionary = tile_state.duplicate(true)
+	var heals_state := source_bullet_type_heals_state(update_type_state)
+	var heals := bool(heals_state.get("heals", false))
+	var tile_team = update_tile_state.get("team", null)
+	var bullet_team = update_bullet_state.get("team", null)
+	var tile_healthf := float(update_tile_state.get("healthf", 0.0))
+	var collides_tile: bool = not heals or tile_team != bullet_team or tile_healthf < 1.0
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"tile": update_tile_state,
+		"heals": heals,
+		"tileTeam": tile_team,
+		"bulletTeam": bullet_team,
+		"tileHealthf": tile_healthf,
+		"collides": collides_tile,
+		"testCollisionReturnSource": "return !heals() || tile.team != bullet.team || tile.healthf() < 1f",
+	}
+
 func source_bullet_type_building_damage_state(bullet_state: Dictionary) -> Dictionary:
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
 	var damage := float(update_bullet_state.get("damage", 0.0))

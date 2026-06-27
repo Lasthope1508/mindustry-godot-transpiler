@@ -4539,6 +4539,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var heals := heal_percent > 0.0 or heal_amount > 0.0", source)
         self.assertIn('"healsReturnSource": "return healPercent > 0 || healAmount > 0"', source)
 
+    def test_port_game_exposes_source_bullet_type_test_collision_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_test_collision_state(bullet_type_state: Dictionary, bullet_state: Dictionary, tile_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var heals_state := source_bullet_type_heals_state(update_type_state)", source)
+        self.assertIn("var tile_team = update_tile_state.get(\"team\", null)", source)
+        self.assertIn("var bullet_team = update_bullet_state.get(\"team\", null)", source)
+        self.assertIn("var tile_healthf := float(update_tile_state.get(\"healthf\", 0.0))", source)
+        self.assertIn("var collides_tile: bool = not heals or tile_team != bullet_team or tile_healthf < 1.0", source)
+        self.assertIn('"testCollisionReturnSource": "return !heals() || tile.team != bullet.team || tile.healthf() < 1f"', source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

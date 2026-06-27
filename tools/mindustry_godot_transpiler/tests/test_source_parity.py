@@ -5494,6 +5494,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_test_collision_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_test_collision_state_source"))
+        report = source_parity.verify_bullet_type_test_collision_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "previous_method": "public boolean heals(){",
+            "method": "public boolean testCollision(Bullet bullet, Building tile){",
+            "return_test_collision": "return !heals() || tile.team != bullet.team || tile.healthf() < 1f;",
+            "next_method": "public void hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_bullet_type_building_damage_state_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_bullet_type_building_damage_state_source"))
         report = source_parity.verify_bullet_type_building_damage_state_source(ROOT / "mindustry-upstream")

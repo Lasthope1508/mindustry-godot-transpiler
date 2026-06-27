@@ -52,6 +52,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("bad.symbol: source-backed requires java_method", errors)
         self.assertIn("bad.symbol: source-backed requires java_expr", errors)
 
+    def test_test_collision_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        bullet_team = source_symbols.source_symbol(registry, "test_collision.bullet.team")
+        self.assertEqual(bullet_team["java_expr"], "bullet.team")
+        self.assertEqual(bullet_team["godot_symbol"], "bullet_state.team")
+        self.assertEqual(bullet_team["godot_owner"], "PortGame.source_bullet_type_test_collision_state")
+
+        tile_health = source_symbols.source_symbol(registry, "test_collision.tile.healthf")
+        self.assertEqual(tile_health["status"], "explicit-input")
+        self.assertEqual(tile_health["java_expr"], "tile.healthf()")
+        self.assertEqual(tile_health["runtime_proof"], "/root/Main.source_bullet_type_test_collision_state")
+
 
 if __name__ == "__main__":
     unittest.main()

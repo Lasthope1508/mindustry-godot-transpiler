@@ -9923,6 +9923,26 @@ def verify_bullet_type_heals_state_source(upstream_root: Path) -> dict[str, Any]
         "missing": missing,
     }
 
+def verify_bullet_type_test_collision_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "previous_method": "public boolean heals(){",
+        "method": "public boolean testCollision(Bullet bullet, Building tile){",
+        "return_test_collision": "return !heals() || tile.team != bullet.team || tile.healthf() < 1f;",
+        "next_method": "public void hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct){",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
