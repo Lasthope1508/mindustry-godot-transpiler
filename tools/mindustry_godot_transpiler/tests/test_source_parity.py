@@ -4331,6 +4331,25 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_update_velocity_length_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_update_velocity_length_source"))
+        report = source_parity.verify_weapon_update_velocity_length_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["entity_comp_source"], "core/src/mindustry/entities/comp/EntityComp.java")
+        self.assertEqual(report["hitbox_comp_source"], "core/src/mindustry/entities/comp/HitboxComp.java")
+        self.assertEqual(report["vec2_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(report["time_source"], "arc-core/src/arc/util/Time.java")
+        self.assertEqual(report["checked"], {
+            "vel_len": "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta;",
+            "shoot_gate_uses_vel_len": "velLen >= minShootVelocity && //check velocity requirements",
+            "entity_is_remote": "boolean isRemote(){\n        return ((Object)this) instanceof Unitc u && u.isPlayer() && !isLocal();\n    }",
+            "hitbox_delta_len": "float deltaLen(){\n        return Mathf.len(deltaX, deltaY);\n    }",
+            "vec2_len": "public float len(){\n        return (float)Math.sqrt(x * x + y * y);\n    }",
+            "time_delta": "public static float delta = 1f;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

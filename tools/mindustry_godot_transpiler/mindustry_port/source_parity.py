@@ -7461,6 +7461,53 @@ def verify_weapon_update_active_sound_loop_source(upstream_root: Path) -> dict[s
         "missing": missing,
     }
 
+def verify_weapon_update_velocity_length_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    entity_comp_source = "core/src/mindustry/entities/comp/EntityComp.java"
+    hitbox_comp_source = "core/src/mindustry/entities/comp/HitboxComp.java"
+    vec2_source = "arc-core/src/arc/math/geom/Vec2.java"
+    time_source = "arc-core/src/arc/util/Time.java"
+    entity_comp_path = upstream_root / entity_comp_source
+    hitbox_comp_path = upstream_root / hitbox_comp_source
+    vec2_path = arc_root / vec2_source
+    time_path = arc_root / time_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    entity_comp_text = entity_comp_path.read_text(encoding="utf-8", errors="replace")
+    hitbox_comp_text = hitbox_comp_path.read_text(encoding="utf-8", errors="replace")
+    vec2_text = vec2_path.read_text(encoding="utf-8", errors="replace")
+    time_text = time_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "vel_len": "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta;",
+        "shoot_gate_uses_vel_len": "velLen >= minShootVelocity && //check velocity requirements",
+        "entity_is_remote": "boolean isRemote(){\n        return ((Object)this) instanceof Unitc u && u.isPlayer() && !isLocal();\n    }",
+        "hitbox_delta_len": "float deltaLen(){\n        return Mathf.len(deltaX, deltaY);\n    }",
+        "vec2_len": "public float len(){\n        return (float)Math.sqrt(x * x + y * y);\n    }",
+        "time_delta": "public static float delta = 1f;",
+    }
+    source_map = {
+        "vel_len": source,
+        "shoot_gate_uses_vel_len": source,
+        "entity_is_remote": entity_comp_text,
+        "hitbox_delta_len": hitbox_comp_text,
+        "vec2_len": vec2_text,
+        "time_delta": time_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "entity_comp_source": entity_comp_source,
+        "hitbox_comp_source": hitbox_comp_source,
+        "vec2_source": vec2_source,
+        "time_source": time_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

@@ -3959,6 +3959,30 @@ func source_weapon_update_active_sound_loop_state(mount_state: Dictionary, weapo
 		"velLenReservedSource": "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta",
 	}
 
+func source_weapon_update_velocity_length_state(unit_state: Dictionary, source_delta: float) -> Dictionary:
+	var is_remote := bool(unit_state.get("isRemote", false))
+	var vel_x := float(unit_state.get("velX", 0.0))
+	var vel_y := float(unit_state.get("velY", 0.0))
+	var delta_x := float(unit_state.get("deltaX", 0.0))
+	var delta_y := float(unit_state.get("deltaY", 0.0))
+	var remote_vel_len := sqrt(vel_x * vel_x + vel_y * vel_y)
+	var local_delta_len := sqrt(delta_x * delta_x + delta_y * delta_y)
+	var vel_len := remote_vel_len if is_remote else local_delta_len / source_delta
+	return {
+		"velLen": vel_len,
+		"isRemote": is_remote,
+		"remoteVelLen": remote_vel_len,
+		"localDeltaLen": local_delta_len,
+		"sourceDelta": source_delta,
+		"branch": "unit.vel.len" if is_remote else "unit.deltaLen / Time.delta",
+		"velLenSource": "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta",
+		"isRemoteSource": "boolean isRemote(){ return ((Object)this) instanceof Unitc u && u.isPlayer() && !isLocal(); }",
+		"deltaLenSource": "float deltaLen(){ return Mathf.len(deltaX, deltaY); }",
+		"vec2LenSource": "public float len(){ return (float)Math.sqrt(x * x + y * y); }",
+		"timeDeltaSource": "public static float delta = 1f",
+		"shootGateSource": "velLen >= minShootVelocity &&",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

@@ -3652,6 +3652,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"loopSource": "Vars.control.sound.loop(activeSound, unit, activeSoundVolume)"', source)
         self.assertIn('"velLenReservedSource": "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta"', source)
 
+    def test_port_game_exposes_source_weapon_update_velocity_length_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_update_velocity_length_state(unit_state: Dictionary, source_delta: float) -> Dictionary:", source)
+        self.assertIn("var is_remote := bool(unit_state.get(\"isRemote\", false))", source)
+        self.assertIn("var remote_vel_len := sqrt(vel_x * vel_x + vel_y * vel_y)", source)
+        self.assertIn("var local_delta_len := sqrt(delta_x * delta_x + delta_y * delta_y)", source)
+        self.assertIn("var vel_len := remote_vel_len if is_remote else local_delta_len / source_delta", source)
+        self.assertIn('"velLenSource": "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta"', source)
+        self.assertIn('"isRemoteSource": "boolean isRemote(){ return ((Object)this) instanceof Unitc u && u.isPlayer() && !isLocal(); }"', source)
+        self.assertIn('"deltaLenSource": "float deltaLen(){ return Mathf.len(deltaX, deltaY); }"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
