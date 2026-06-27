@@ -5005,6 +5005,25 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_init_spawn_bullets_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_init_spawn_bullets_state_source"))
+        report = source_parity.verify_bullet_type_init_spawn_bullets_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["bullet_comp_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(report["mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "spawn_bullets_field": "public Seq<BulletType> spawnBullets = new Seq<>();",
+            "spawn_bullet_random_spread_field": "public float spawnBulletRandomSpread = 0f;",
+            "spawn_bullets_gate": "if(spawnBullets.size > 0){",
+            "spawn_bullets_loop": "for(var bullet : spawnBullets){",
+            "spawn_bullet_create_call": "bullet.create(b, b.x, b.y, b.rotation() + Mathf.range(spawnBulletRandomSpread));",
+            "bullet_comp_xy_import": "@Import float x, y, damage, lastX, lastY, time, lifetime;",
+            "bullet_comp_rotation": "public float rotation(){\n        return vel.isZero(0.001f) ? rotation : vel.angle();\n    }",
+            "mathf_range": "public static float range(float range){\n        return random(-range, range);\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

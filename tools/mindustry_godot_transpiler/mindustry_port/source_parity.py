@@ -8919,6 +8919,49 @@ def verify_bullet_type_init_initial_state_source(upstream_root: Path) -> dict[st
         "missing": missing,
     }
 
+def verify_bullet_type_init_spawn_bullets_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    bullet_comp_source = "core/src/mindustry/entities/comp/BulletComp.java"
+    mathf_source = "arc-core/src/arc/math/Mathf.java"
+    bullet_comp_path = upstream_root / bullet_comp_source
+    mathf_path = arc_root / mathf_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    bullet_comp_text = bullet_comp_path.read_text(encoding="utf-8", errors="replace")
+    mathf_text = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "spawn_bullets_field": "public Seq<BulletType> spawnBullets = new Seq<>();",
+        "spawn_bullet_random_spread_field": "public float spawnBulletRandomSpread = 0f;",
+        "spawn_bullets_gate": "if(spawnBullets.size > 0){",
+        "spawn_bullets_loop": "for(var bullet : spawnBullets){",
+        "spawn_bullet_create_call": "bullet.create(b, b.x, b.y, b.rotation() + Mathf.range(spawnBulletRandomSpread));",
+        "bullet_comp_xy_import": "@Import float x, y, damage, lastX, lastY, time, lifetime;",
+        "bullet_comp_rotation": "public float rotation(){\n        return vel.isZero(0.001f) ? rotation : vel.angle();\n    }",
+        "mathf_range": "public static float range(float range){\n        return random(-range, range);\n    }",
+    }
+    source_map = {
+        "spawn_bullets_field": source,
+        "spawn_bullet_random_spread_field": source,
+        "spawn_bullets_gate": source,
+        "spawn_bullets_loop": source,
+        "spawn_bullet_create_call": source,
+        "bullet_comp_xy_import": bullet_comp_text,
+        "bullet_comp_rotation": bullet_comp_text,
+        "mathf_range": mathf_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "bullet_comp_source": bullet_comp_source,
+        "mathf_source": mathf_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

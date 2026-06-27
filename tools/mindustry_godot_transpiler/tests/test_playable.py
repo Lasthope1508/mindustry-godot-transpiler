@@ -4169,6 +4169,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"instantDisappearSource": "b.time = lifetime + 1f"', source)
         self.assertIn('"spawnBulletsReservedSource": "if(spawnBullets.size > 0){"', source)
 
+    def test_port_game_exposes_source_bullet_type_init_spawn_bullets_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_init_spawn_bullets_state(init_initial_state: Dictionary, bullet_type_state: Dictionary, spawn_bullet_random_offsets: Array) -> Dictionary:", source)
+        self.assertIn("var raw_bullet_state = init_initial_state.get(\"bullet\", {})", source)
+        self.assertIn("var init_bullet_state: Dictionary = raw_bullet_state if raw_bullet_state is Dictionary else {}", source)
+        self.assertIn("var spawn_bullets: Array = bullet_type_state.get(\"spawnBullets\", [])", source)
+        self.assertIn("for index in spawn_bullets.size():", source)
+        self.assertIn("var random_offset := float(spawn_bullet_random_offsets[index]) if index < spawn_bullet_random_offsets.size() else 0.0", source)
+        self.assertIn("var create_call := {", source)
+        self.assertIn('"owner": init_bullet_state', source)
+        self.assertIn('"x": float(init_bullet_state.get("x", 0.0))', source)
+        self.assertIn('"y": float(init_bullet_state.get("y", 0.0))', source)
+        self.assertIn('"angle": float(init_bullet_state.get("rotation", 0.0)) + random_offset', source)
+        self.assertIn('"spawnBulletsSource": "if(spawnBullets.size > 0){"', source)
+        self.assertIn('"spawnBulletCreateSource": "bullet.create(b, b.x, b.y, b.rotation() + Mathf.range(spawnBulletRandomSpread))"', source)
+        self.assertIn('"mathfRangeSource": "return random(-range, range)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

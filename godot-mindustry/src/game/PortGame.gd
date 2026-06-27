@@ -5323,6 +5323,36 @@ func source_bullet_type_init_initial_state(bullet_state: Dictionary, bullet_type
 		"spawnBulletsReservedSource": "if(spawnBullets.size > 0){",
 	}
 
+func source_bullet_type_init_spawn_bullets_state(init_initial_state: Dictionary, bullet_type_state: Dictionary, spawn_bullet_random_offsets: Array) -> Dictionary:
+	var raw_bullet_state = init_initial_state.get("bullet", {})
+	var init_bullet_state: Dictionary = raw_bullet_state if raw_bullet_state is Dictionary else {}
+	var spawn_bullets: Array = bullet_type_state.get("spawnBullets", [])
+	var spawn_calls: Array = []
+	for index in spawn_bullets.size():
+		var spawn_bullet = spawn_bullets[index]
+		var random_offset := float(spawn_bullet_random_offsets[index]) if index < spawn_bullet_random_offsets.size() else 0.0
+		var create_call := {
+			"bulletType": spawn_bullet,
+			"owner": init_bullet_state,
+			"x": float(init_bullet_state.get("x", 0.0)),
+			"y": float(init_bullet_state.get("y", 0.0)),
+			"angle": float(init_bullet_state.get("rotation", 0.0)) + random_offset,
+			"randomOffset": random_offset,
+			"sourceCall": "bullet.create(b, b.x, b.y, b.rotation() + Mathf.range(spawnBulletRandomSpread))",
+		}
+		spawn_calls.append(create_call)
+	return {
+		"bullet": init_bullet_state,
+		"spawnBulletCount": spawn_bullets.size(),
+		"spawnBulletCalls": spawn_calls,
+		"spawnBulletsApplied": spawn_bullets.size() > 0,
+		"spawnBulletRandomSpread": float(bullet_type_state.get("spawnBulletRandomSpread", 0.0)),
+		"spawnBulletRandomOffsets": spawn_bullet_random_offsets.duplicate(),
+		"spawnBulletsSource": "if(spawnBullets.size > 0){",
+		"spawnBulletCreateSource": "bullet.create(b, b.x, b.y, b.rotation() + Mathf.range(spawnBulletRandomSpread))",
+		"mathfRangeSource": "return random(-range, range)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
