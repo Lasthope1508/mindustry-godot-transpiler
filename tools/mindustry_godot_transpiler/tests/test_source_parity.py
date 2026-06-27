@@ -4675,6 +4675,27 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_bullet_sound_branch_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_bullet_sound_branch_source"))
+        report = source_parity.verify_weapon_bullet_sound_branch_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["arc_mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "handle_bullet_call": "handleBullet(unit, mount, mount.bullet);",
+            "non_continuous_branch": "if(!continuous){",
+            "shoot_sound_call": "shootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume);",
+            "continuous_else_branch": "}else{",
+            "initial_shoot_sound_call": "initialShootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume);",
+            "effects_reserved": "if(mount.allowShootEffects){",
+            "shoot_sound_field": "public Sound shootSound = Sounds.shoot;",
+            "shoot_sound_volume": "public float shootSoundVolume = 1f;",
+            "initial_shoot_sound_field": "public Sound initialShootSound = Sounds.none;",
+            "sound_pitch_range": "public float soundPitchMin = 0.8f, soundPitchMax = 1f;",
+            "mathf_random_start_end": "return start + rand.nextFloat() * (end - start);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

@@ -8231,6 +8231,50 @@ def verify_weapon_handle_bullet_aim_update_source(upstream_root: Path) -> dict[s
         "missing": missing,
     }
 
+def verify_weapon_bullet_sound_branch_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    mathf_path = arc_root / ARC_MATHF_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    mathf_text = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "handle_bullet_call": "handleBullet(unit, mount, mount.bullet);",
+        "non_continuous_branch": "if(!continuous){",
+        "shoot_sound_call": "shootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume);",
+        "continuous_else_branch": "}else{",
+        "initial_shoot_sound_call": "initialShootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume);",
+        "effects_reserved": "if(mount.allowShootEffects){",
+        "shoot_sound_field": "public Sound shootSound = Sounds.shoot;",
+        "shoot_sound_volume": "public float shootSoundVolume = 1f;",
+        "initial_shoot_sound_field": "public Sound initialShootSound = Sounds.none;",
+        "sound_pitch_range": "public float soundPitchMin = 0.8f, soundPitchMax = 1f;",
+        "mathf_random_start_end": "return start + rand.nextFloat() * (end - start);",
+    }
+    source_map = {
+        "handle_bullet_call": source,
+        "non_continuous_branch": source,
+        "shoot_sound_call": source,
+        "continuous_else_branch": source,
+        "initial_shoot_sound_call": source,
+        "effects_reserved": source,
+        "shoot_sound_field": source,
+        "shoot_sound_volume": source,
+        "initial_shoot_sound_field": source,
+        "sound_pitch_range": source,
+        "mathf_random_start_end": mathf_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "arc_mathf_source": ARC_MATHF_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

@@ -4522,6 +4522,50 @@ func source_weapon_handle_bullet_aim_update_state(unit_state: Dictionary, mount_
 		"vec2AddSource": "this.x += x; this.y += y",
 	}
 
+func source_weapon_bullet_sound_state(create_call_state: Dictionary, weapon_state: Dictionary, sound_pitch: float) -> Dictionary:
+	if not bool(create_call_state.get("bulletContinues", false)):
+		return {
+			"bulletContinues": false,
+			"soundCall": null,
+			"effectsReservedSource": "if(mount.allowShootEffects)",
+		}
+	var bullet_create_call: Dictionary = create_call_state.get("bulletCreateCall", {})
+	if bullet_create_call.is_empty():
+		return {
+			"bulletContinues": true,
+			"soundCall": null,
+			"soundSkipped": true,
+			"effectsReservedSource": "if(mount.allowShootEffects)",
+		}
+	var continuous := bool(weapon_state.get("continuous", false))
+	var sound_name := str(weapon_state.get("shootSound", "shoot"))
+	var branch_source := "if(!continuous)"
+	var call_source := "shootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume)"
+	if continuous:
+		sound_name = str(weapon_state.get("initialShootSound", "none"))
+		branch_source = "}else{"
+		call_source = "initialShootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume)"
+	var sound_call := {
+		"sound": sound_name,
+		"x": float(bullet_create_call.get("x", 0.0)),
+		"y": float(bullet_create_call.get("y", 0.0)),
+		"pitch": sound_pitch,
+		"volume": float(weapon_state.get("shootSoundVolume", 1.0)),
+	}
+	return {
+		"bulletContinues": true,
+		"continuous": continuous,
+		"soundCall": sound_call,
+		"soundPitchMin": float(weapon_state.get("soundPitchMin", 0.8)),
+		"soundPitchMax": float(weapon_state.get("soundPitchMax", 1.0)),
+		"soundBranchSource": branch_source,
+		"soundCallSource": "shootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume)",
+		"initialSoundCallSource": "initialShootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume)",
+		"selectedSoundCallSource": call_source,
+		"mathfRandomSource": "return start + rand.nextFloat() * (end - start)",
+		"effectsReservedSource": "if(mount.allowShootEffects)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
