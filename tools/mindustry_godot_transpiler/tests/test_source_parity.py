@@ -5536,6 +5536,28 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_draw_trail_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_draw_trail_state_source"))
+        report = source_parity.verify_bullet_type_draw_trail_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["bullet_comp_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(report["trail_source"], "core/src/mindustry/graphics/Trail.java")
+        self.assertEqual(report["checked"], {
+            "trail_color_field": "public Color trailColor = Pal.missileYellowBack;",
+            "trail_length_field": "public int trailLength = -1;",
+            "trail_width_field": "public float trailWidth = 2f;",
+            "bullet_comp_trail_field": "transient @Nullable Trail trail;",
+            "method": "public void drawTrail(Bullet b){",
+            "gate": "if(trailLength > 0 && b.trail != null){",
+            "draw_z_capture": "float z = Draw.z();",
+            "draw_z_below": "Draw.z(z - 0.0001f);",
+            "trail_draw_call": "b.trail.draw(trailColor, trailWidth);",
+            "draw_z_restore": "Draw.z(z);",
+            "trail_draw_method": "public void draw(Color color, float width){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

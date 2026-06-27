@@ -6055,6 +6055,35 @@ func source_bullet_type_draw_state(bullet_state: Dictionary) -> Dictionary:
 		"drawReturnSource": "drawTrail(b); drawParts(b);",
 	}
 
+func source_bullet_type_draw_trail_state(bullet_type_state: Dictionary, bullet_state: Dictionary, current_draw_z: float) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var trail_length := int(update_type_state.get("trailLength", -1))
+	var trail_exists := update_bullet_state.get("trail", null) != null
+	var gate_passed := trail_length > 0 and trail_exists
+	var draw_z_below := current_draw_z - 0.0001
+	var trail_width := float(update_type_state.get("trailWidth", 2.0))
+	var trail_color := str(update_type_state.get("trailColor", "Pal.missileYellowBack"))
+	var trail_draw_call: Variant = null
+	if gate_passed:
+		trail_draw_call = {"call": "b.trail.draw(trailColor, trailWidth)", "color": trail_color, "width": trail_width}
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"gatePassed": gate_passed,
+		"trailDrawn": gate_passed,
+		"drawZBefore": current_draw_z,
+		"drawZBelow": draw_z_below if gate_passed else current_draw_z,
+		"drawZRestored": current_draw_z,
+		"trailColor": trail_color,
+		"trailWidth": trail_width,
+		"trailDrawCall": trail_draw_call,
+		"gateSource": "if(trailLength > 0 && b.trail != null){",
+		"drawZCaptureSource": "float z = Draw.z()",
+		"drawZBelowSource": "Draw.z(z - 0.0001f)",
+		"drawZRestoreSource": "Draw.z(z)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

@@ -9996,6 +9996,54 @@ def verify_bullet_type_draw_state_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_bullet_type_draw_trail_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    bullet_comp_source = "core/src/mindustry/entities/comp/BulletComp.java"
+    trail_source = "core/src/mindustry/graphics/Trail.java"
+    bullet_comp_path = upstream_root / bullet_comp_source
+    trail_path = upstream_root / trail_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    bullet_comp_text = bullet_comp_path.read_text(encoding="utf-8", errors="replace")
+    trail_text = trail_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "trail_color_field": "public Color trailColor = Pal.missileYellowBack;",
+        "trail_length_field": "public int trailLength = -1;",
+        "trail_width_field": "public float trailWidth = 2f;",
+        "bullet_comp_trail_field": "transient @Nullable Trail trail;",
+        "method": "public void drawTrail(Bullet b){",
+        "gate": "if(trailLength > 0 && b.trail != null){",
+        "draw_z_capture": "float z = Draw.z();",
+        "draw_z_below": "Draw.z(z - 0.0001f);",
+        "trail_draw_call": "b.trail.draw(trailColor, trailWidth);",
+        "draw_z_restore": "Draw.z(z);",
+        "trail_draw_method": "public void draw(Color color, float width){",
+    }
+    source_map = {
+        "trail_color_field": source,
+        "trail_length_field": source,
+        "trail_width_field": source,
+        "bullet_comp_trail_field": bullet_comp_text,
+        "method": source,
+        "gate": source,
+        "draw_z_capture": source,
+        "draw_z_below": source,
+        "trail_draw_call": source,
+        "draw_z_restore": source,
+        "trail_draw_method": trail_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "bullet_comp_source": bullet_comp_source,
+        "trail_source": trail_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

@@ -4573,6 +4573,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"drawPartsCalled": true', source)
         self.assertIn('"drawReturnSource": "drawTrail(b); drawParts(b);"', source)
 
+    def test_port_game_exposes_source_bullet_type_draw_trail_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_draw_trail_state(bullet_type_state: Dictionary, bullet_state: Dictionary, current_draw_z: float) -> Dictionary:", source)
+        self.assertIn("var update_type_state: Dictionary = bullet_type_state.duplicate(true)", source)
+        self.assertIn("var update_bullet_state: Dictionary = bullet_state.duplicate(true)", source)
+        self.assertIn("var trail_length := int(update_type_state.get(\"trailLength\", -1))", source)
+        self.assertIn("var trail_exists := update_bullet_state.get(\"trail\", null) != null", source)
+        self.assertIn("var gate_passed := trail_length > 0 and trail_exists", source)
+        self.assertIn("var draw_z_below := current_draw_z - 0.0001", source)
+        self.assertIn("var trail_width := float(update_type_state.get(\"trailWidth\", 2.0))", source)
+        self.assertIn("var trail_color := str(update_type_state.get(\"trailColor\", \"Pal.missileYellowBack\"))", source)
+        self.assertIn("var trail_draw_call: Variant = null", source)
+        self.assertIn('trail_draw_call = {"call": "b.trail.draw(trailColor, trailWidth)", "color": trail_color, "width": trail_width}', source)
+        self.assertIn('"trailDrawCall": trail_draw_call', source)
+        self.assertIn('"drawZBelowSource": "Draw.z(z - 0.0001f)"', source)
+        self.assertIn('"drawZRestoreSource": "Draw.z(z)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
