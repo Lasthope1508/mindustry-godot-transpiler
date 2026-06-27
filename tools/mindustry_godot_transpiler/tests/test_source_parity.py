@@ -4939,6 +4939,25 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_create_trail_add_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_create_trail_add_state_source"))
+        report = source_parity.verify_bullet_type_create_trail_add_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["bullet_comp_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(report["trail_source"], "core/src/mindustry/graphics/Trail.java")
+        self.assertEqual(report["checked"], {
+            "trail_reset_comment": "//reset trail",
+            "trail_null_guard": "if(bullet.trail != null){",
+            "trail_clear_call": "bullet.trail.clear();",
+            "bullet_add_call": "bullet.add();",
+            "keep_velocity_reserved": "if(keepVelocity && owner instanceof Velc v){",
+            "bullet_comp_trail": "transient @Nullable Trail trail;",
+            "bullet_comp_add": "public void add(){\n        type.init(self());\n    }",
+            "trail_clear": "public void clear(){\n        points.clear();\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

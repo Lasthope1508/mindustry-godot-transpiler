@@ -8774,6 +8774,48 @@ def verify_bullet_type_create_lifetime_payload_damage_state_source(upstream_root
         "missing": missing,
     }
 
+def verify_bullet_type_create_trail_add_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    bullet_comp_source = "core/src/mindustry/entities/comp/BulletComp.java"
+    trail_source = "core/src/mindustry/graphics/Trail.java"
+    bullet_comp_path = upstream_root / bullet_comp_source
+    trail_path = upstream_root / trail_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    bullet_comp_text = bullet_comp_path.read_text(encoding="utf-8", errors="replace")
+    trail_text = trail_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "trail_reset_comment": "//reset trail",
+        "trail_null_guard": "if(bullet.trail != null){",
+        "trail_clear_call": "bullet.trail.clear();",
+        "bullet_add_call": "bullet.add();",
+        "keep_velocity_reserved": "if(keepVelocity && owner instanceof Velc v){",
+        "bullet_comp_trail": "transient @Nullable Trail trail;",
+        "bullet_comp_add": "public void add(){\n        type.init(self());\n    }",
+        "trail_clear": "public void clear(){\n        points.clear();\n    }",
+    }
+    source_map = {
+        "trail_reset_comment": source,
+        "trail_null_guard": source,
+        "trail_clear_call": source,
+        "bullet_add_call": source,
+        "keep_velocity_reserved": source,
+        "bullet_comp_trail": bullet_comp_text,
+        "bullet_comp_add": bullet_comp_text,
+        "trail_clear": trail_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "bullet_comp_source": bullet_comp_source,
+        "trail_source": trail_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

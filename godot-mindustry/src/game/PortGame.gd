@@ -5151,6 +5151,52 @@ func source_bullet_type_create_lifetime_payload_damage_state(velocity_position_s
 		"addReservedSource": "bullet.add()",
 	}
 
+func source_bullet_type_create_trail_add_state(lifetime_payload_damage_state: Dictionary) -> Dictionary:
+	var raw_bullet_state = lifetime_payload_damage_state.get("bullet", {})
+	var bullet_state: Dictionary = raw_bullet_state if raw_bullet_state is Dictionary else {}
+	if not bool(lifetime_payload_damage_state.get("bulletLifetimePayloadDamageApplied", false)) or bullet_state.is_empty():
+		return {
+			"bulletContinues": bool(lifetime_payload_damage_state.get("bulletContinues", false)),
+			"bulletTrailAddApplied": false,
+			"trailCleared": false,
+			"bulletAdded": false,
+			"typeInitCalled": false,
+			"typeInitCall": null,
+			"bullet": null,
+			"trailNullGuardSource": "if(bullet.trail != null){",
+			"trailClearSource": "bullet.trail.clear()",
+			"trailClearImplSource": "points.clear()",
+			"bulletAddSource": "bullet.add()",
+			"bulletCompAddSource": "type.init(self())",
+			"keepVelocityReservedSource": "if(keepVelocity && owner instanceof Velc v){",
+		}
+	bullet_state = bullet_state.duplicate(true)
+	var raw_trail_state = bullet_state.get("trail", null)
+	var trail_state: Dictionary = raw_trail_state if raw_trail_state is Dictionary else {}
+	var trail_cleared := false
+	if raw_trail_state != null:
+		trail_cleared = true
+		if raw_trail_state is Dictionary:
+			trail_state = trail_state.duplicate(true)
+			trail_state["points"] = []
+			bullet_state["trail"] = trail_state
+	var type_init_call := {"call": "type.init(self())", "bullet": bullet_state}
+	return {
+		"bulletContinues": true,
+		"bulletTrailAddApplied": true,
+		"trailCleared": trail_cleared,
+		"bulletAdded": true,
+		"typeInitCalled": true,
+		"typeInitCall": type_init_call,
+		"bullet": bullet_state,
+		"trailNullGuardSource": "if(bullet.trail != null){",
+		"trailClearSource": "bullet.trail.clear()",
+		"trailClearImplSource": "points.clear()",
+		"bulletAddSource": "bullet.add()",
+		"bulletCompAddSource": "type.init(self())",
+		"keepVelocityReservedSource": "if(keepVelocity && owner instanceof Velc v){",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

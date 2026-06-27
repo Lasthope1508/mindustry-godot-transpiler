@@ -4103,6 +4103,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"trailClearReservedSource": "if(bullet.trail != null){"', source)
         self.assertIn('"addReservedSource": "bullet.add()"', source)
 
+    def test_port_game_exposes_source_bullet_type_create_trail_add_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_create_trail_add_state(lifetime_payload_damage_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var raw_bullet_state = lifetime_payload_damage_state.get(\"bullet\", {})", source)
+        self.assertIn("var bullet_state: Dictionary = raw_bullet_state if raw_bullet_state is Dictionary else {}", source)
+        self.assertIn("var raw_trail_state = bullet_state.get(\"trail\", null)", source)
+        self.assertIn("var trail_state: Dictionary = raw_trail_state if raw_trail_state is Dictionary else {}", source)
+        self.assertIn("trail_state[\"points\"] = []", source)
+        self.assertIn("bullet_state[\"trail\"] = trail_state", source)
+        self.assertIn("var type_init_call := {\"call\": \"type.init(self())\", \"bullet\": bullet_state}", source)
+        self.assertIn('"trailNullGuardSource": "if(bullet.trail != null){"', source)
+        self.assertIn('"trailClearSource": "bullet.trail.clear()"', source)
+        self.assertIn('"trailClearImplSource": "points.clear()"', source)
+        self.assertIn('"bulletAddSource": "bullet.add()"', source)
+        self.assertIn('"bulletCompAddSource": "type.init(self())"', source)
+        self.assertIn('"keepVelocityReservedSource": "if(keepVelocity && owner instanceof Velc v){"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
