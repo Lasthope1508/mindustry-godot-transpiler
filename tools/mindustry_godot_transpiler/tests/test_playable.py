@@ -4591,6 +4591,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"enemyHitCallSource": "hit(b)"', source)
         self.assertIn('"lifestealBoundarySource": "if(lifesteal > 0f && b.owner instanceof Healthc o)"', source)
 
+    def test_port_game_exposes_source_bullet_type_hit_tile_lifesteal_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_hit_tile_lifesteal_state(bullet_type_state: Dictionary, bullet_state: Dictionary, build_state: Dictionary, hit_tile_state: Dictionary, owner_health_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var lifesteal := float(update_type_state.get(\"lifesteal\", 0.0))", source)
+        self.assertIn("var damage := float(update_type_state.get(\"damage\", 0.0))", source)
+        self.assertIn("var build_health := float(update_build_state.get(\"health\", 0.0))", source)
+        self.assertIn("var owner_is_healthc := bool(update_owner_health_state.get(\"isHealthc\", false))", source)
+        self.assertIn("var lifesteal_result := maxf(minf(build_health, damage), 0.0)", source)
+        self.assertIn("var owner_heal_called := enemy_direct_gate_passed and lifesteal_gate_passed", source)
+        self.assertIn("var owner_heal_amount := lifesteal_result * lifesteal if owner_heal_called else 0.0", source)
+        self.assertIn('"lifestealResultSource": "float result = Math.max(Math.min(build.health, damage), 0)"', source)
+        self.assertIn('"ownerHealSource": "o.heal(result * lifesteal)"', source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

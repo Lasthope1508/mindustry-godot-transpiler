@@ -222,6 +222,70 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_tile_enemy_direct_state",
       "rule": "Public runtime contract for BulletType.hitTile enemy direct hit(b) branch only; lifesteal and pierce remain later source slices."
+    },
+    "PortGame.source_bullet_type_hit_tile_lifesteal_state": {
+      "status": "active",
+      "source_slice": "N408",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "build_state",
+          "type": "Dictionary",
+          "schema": "build_state"
+        },
+        {
+          "name": "hit_tile_state",
+          "type": "Dictionary",
+          "schema": "hit_tile_state"
+        },
+        {
+          "name": "owner_health_state",
+          "type": "Dictionary",
+          "schema": "owner_health_state"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "build",
+        "hitTile",
+        "ownerHealth",
+        "direct",
+        "buildTeam",
+        "bulletTeam",
+        "enemyDirectGatePassed",
+        "lifesteal",
+        "damage",
+        "buildHealth",
+        "ownerIsHealthc",
+        "lifestealGatePassed",
+        "lifestealResult",
+        "ownerHealCalled",
+        "ownerHealAmount",
+        "ownerHealCall",
+        "pierceDeferred",
+        "lifestealBoundarySource",
+        "lifestealResultSource",
+        "ownerHealSource",
+        "pierceSource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_tile_lifesteal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_lifesteal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_lifesteal_state",
+      "rule": "Public runtime contract for BulletType.hitTile lifesteal branch only; handlePierce remains later source slice."
     }
   },
   "policy": {

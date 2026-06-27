@@ -453,12 +453,13 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 5,
+  "registeredSourceOwnerCount": 6,
   "registeredSourceOwners": [
     "PortGame.source_bullet_type_draw_parts_state",
     "PortGame.source_bullet_type_hit_tile_enemy_direct_state",
     "PortGame.source_bullet_type_hit_tile_fire_state",
     "PortGame.source_bullet_type_hit_tile_heal_state",
+    "PortGame.source_bullet_type_hit_tile_lifesteal_state",
     "PortGame.source_bullet_type_test_collision_state"
   ],
   "sourceFunctions": [
@@ -2243,6 +2244,11 @@
       "owner": "PortGame.source_bullet_type_hit_tile_enemy_direct_state"
     },
     {
+      "function": "source_bullet_type_hit_tile_lifesteal_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "owner": "PortGame.source_bullet_type_hit_tile_lifesteal_state"
+    },
+    {
       "function": "source_bullet_type_building_damage_state",
       "gdscript_path": "src/game/PortGame.gd",
       "owner": "PortGame.source_bullet_type_building_damage_state"
@@ -2708,6 +2714,6 @@
       "owner": "PortGame.source_bullet_scale"
     }
   ],
-  "totalSourceFunctions": 449,
+  "totalSourceFunctions": 450,
   "version": 1
 }

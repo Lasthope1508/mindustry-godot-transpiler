@@ -42,7 +42,8 @@
             "PortGame.source_bullet_type_test_collision_state",
             "PortGame.source_bullet_type_hit_tile_heal_state",
             "PortGame.source_bullet_type_hit_tile_fire_state",
-            "PortGame.source_bullet_type_hit_tile_enemy_direct_state"
+            "PortGame.source_bullet_type_hit_tile_enemy_direct_state",
+            "PortGame.source_bullet_type_hit_tile_lifesteal_state"
           ],
           "rule": "Use bullet.team; do not infer from owner or turret."
         },
@@ -99,6 +100,30 @@
             "PortGame.source_bullet_type_hit_tile_fire_state"
           ],
           "rule": "Canonical BulletType.makeFire field for hitTile fire branch."
+        },
+        "lifesteal": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+          "java_expr": "lifesteal",
+          "godot_symbol": "bullet_type_state.lifesteal",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_tile_lifesteal_state"
+          ],
+          "rule": "Canonical BulletType.lifesteal field for hitTile lifesteal branch."
+        },
+        "damage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+          "java_expr": "damage",
+          "godot_symbol": "bullet_type_state.damage",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_tile_lifesteal_state"
+          ],
+          "rule": "Canonical BulletType.damage field for hitTile lifesteal result clamp."
         },
         "healAmount": {
           "type": "float",
@@ -163,7 +188,8 @@
           "used_by": [
             "PortGame.source_bullet_type_hit_tile_heal_state",
             "PortGame.source_bullet_type_hit_tile_fire_state",
-            "PortGame.source_bullet_type_hit_tile_enemy_direct_state"
+            "PortGame.source_bullet_type_hit_tile_enemy_direct_state",
+            "PortGame.source_bullet_type_hit_tile_lifesteal_state"
           ],
           "rule": "Use build.team for hitTile gates."
         },
@@ -227,6 +253,18 @@
           ],
           "rule": "Use build.maxHealth in build.heal amount formula."
         },
+        "health": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+          "java_expr": "build.health",
+          "godot_symbol": "build_state.health",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_tile_lifesteal_state"
+          ],
+          "rule": "Use build.health in Math.max(Math.min(build.health, damage), 0)."
+        },
         "tile": {
           "type": "Variant",
           "status": "source-backed",
@@ -241,6 +279,23 @@
         }
       }
     },
+    "owner_health_state": {
+      "status": "active",
+      "keys": {
+        "isHealthc": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+          "java_expr": "b.owner instanceof Healthc o",
+          "godot_symbol": "owner_health_state.isHealthc",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_tile_lifesteal_state"
+          ],
+          "rule": "Explicit input until owner component identity and Healthc cast are fully ported."
+        }
+      }
+    },
     "hit_tile_state": {
       "status": "active",
       "keys": {
@@ -252,7 +307,8 @@
           "java_expr": "direct",
           "godot_symbol": "hit_tile_state.direct",
           "used_by": [
-            "PortGame.source_bullet_type_hit_tile_enemy_direct_state"
+            "PortGame.source_bullet_type_hit_tile_enemy_direct_state",
+            "PortGame.source_bullet_type_hit_tile_lifesteal_state"
           ],
           "rule": "Explicit hitTile method parameter; do not infer from bullet/build/type state."
         }
@@ -444,6 +500,173 @@
           "type": "String",
           "status": "generated",
           "alias_of": "source_line.hitTile.lifesteal_boundary",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "pierceSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.hitTile.pierce",
+          "rule": "Debug source-line echo, not gameplay state."
+        }
+      }
+    },
+    "hit_tile_lifesteal_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_type_state",
+          "rule": "Runtime echo of input bullet_type_state."
+        },
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime echo of input bullet_state."
+        },
+        "build": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "build_state",
+          "rule": "Runtime echo of input build_state."
+        },
+        "hitTile": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "hit_tile_state",
+          "rule": "Runtime echo of input hit_tile_state."
+        },
+        "ownerHealth": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "owner_health_state",
+          "rule": "Runtime echo of input owner_health_state."
+        },
+        "direct": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "hit_tile_state.direct",
+          "rule": "Runtime key aliases hit_tile_state.direct."
+        },
+        "buildTeam": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "build_state.team",
+          "rule": "CamelCase runtime key aliases build_state.team."
+        },
+        "bulletTeam": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "bullet_state.team",
+          "rule": "CamelCase runtime key aliases bullet_state.team."
+        },
+        "enemyDirectGatePassed": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "hit_tile_enemy_direct_result.enemyDirectGatePassed",
+          "rule": "Outer enemy direct branch gate from N407."
+        },
+        "lifesteal": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_type_state.lifesteal",
+          "rule": "Runtime key aliases bullet_type_state.lifesteal."
+        },
+        "damage": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_type_state.damage",
+          "rule": "Runtime key aliases bullet_type_state.damage."
+        },
+        "buildHealth": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "build_state.health",
+          "rule": "CamelCase runtime key aliases build_state.health."
+        },
+        "ownerIsHealthc": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "owner_health_state.isHealthc",
+          "rule": "CamelCase runtime key aliases owner_health_state.isHealthc."
+        },
+        "lifestealGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+          "java_expr": "lifesteal > 0f && b.owner instanceof Healthc o",
+          "godot_symbol": "hit_tile_lifesteal_result.lifestealGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_tile_lifesteal_state"
+          ],
+          "rule": "Exact inner lifesteal branch gate."
+        },
+        "lifestealResult": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+          "java_expr": "Math.max(Math.min(build.health, damage), 0)",
+          "godot_symbol": "hit_tile_lifesteal_result.lifestealResult",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_tile_lifesteal_state"
+          ],
+          "rule": "Exact result clamp inside the lifesteal branch."
+        },
+        "ownerHealCalled": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "hit_tile_lifesteal_result.ownerHealCall",
+          "rule": "Records whether o.heal(result * lifesteal) would be called in this slice."
+        },
+        "ownerHealAmount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+          "java_expr": "result * lifesteal",
+          "godot_symbol": "hit_tile_lifesteal_result.ownerHealAmount",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_tile_lifesteal_state"
+          ],
+          "rule": "Exact o.heal argument."
+        },
+        "ownerHealCall": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+          "java_expr": "o.heal(result * lifesteal)",
+          "godot_symbol": "hit_tile_lifesteal_result.ownerHealCall",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_tile_lifesteal_state"
+          ],
+          "rule": "Recorded owner heal call when outer and inner gates pass."
+        },
+        "pierceDeferred": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_slice.N408.deferred_exprs.handlePierce",
+          "rule": "handlePierce call intentionally deferred to later source-backed slice."
+        },
+        "lifestealBoundarySource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.hitTile.lifesteal_boundary",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "lifestealResultSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.hitTile.lifesteal_result",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "ownerHealSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.hitTile.owner_heal",
           "rule": "Debug source-line echo, not gameplay state."
         },
         "pierceSource": {

@@ -10008,6 +10008,28 @@ def verify_bullet_type_hit_tile_enemy_direct_state_source(upstream_root: Path) -
         "missing": missing,
     }
 
+def verify_bullet_type_hit_tile_lifesteal_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct){",
+        "enemy_direct_gate": "}else if(build.team != b.team && direct){",
+        "lifesteal_gate": "if(lifesteal > 0f && b.owner instanceof Healthc o){",
+        "lifesteal_result": "float result = Math.max(Math.min(build.health, damage), 0);",
+        "owner_heal": "o.heal(result * lifesteal);",
+        "pierce_boundary": "handlePierce(b, initialHealth, x, y);",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
