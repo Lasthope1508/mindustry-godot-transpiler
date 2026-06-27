@@ -3953,6 +3953,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"effectFalloffSource": "shake(Mathf.clamp(1f / (distance * distance / shakeFalloff)) * intensity, duration)"', source)
         self.assertIn('"mountRecoilReservedSource": "mount.recoil = 1f"', source)
 
+    def test_port_game_exposes_source_weapon_bullet_mount_recoil_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_bullet_mount_recoil_state(create_call_state: Dictionary, mount_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var current_recoil := float(mount_state.get(\"recoil\", 0.0))", source)
+        self.assertIn('"mountRecoil": 1.0', source)
+        self.assertIn('"mountRecoilSource": "mount.recoil = 1f"', source)
+        self.assertIn('"recoilSlotsReservedSource": "if(recoils > 0){ mount.recoils[mount.barrelCounter % recoils] = 1f; }"', source)
+        self.assertIn('"heatReservedSource": "mount.heat = 1f"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

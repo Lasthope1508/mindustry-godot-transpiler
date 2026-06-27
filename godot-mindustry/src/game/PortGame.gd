@@ -4716,6 +4716,28 @@ func source_weapon_bullet_shake_state(create_call_state: Dictionary, weapon_stat
 		"mountRecoilReservedSource": "mount.recoil = 1f",
 	}
 
+func source_weapon_bullet_mount_recoil_state(create_call_state: Dictionary, mount_state: Dictionary) -> Dictionary:
+	var current_recoil := float(mount_state.get("recoil", 0.0))
+	if not bool(create_call_state.get("bulletContinues", false)):
+		return {
+			"bulletContinues": false,
+			"mountRecoilApplied": false,
+			"mountRecoilBefore": current_recoil,
+			"mountRecoil": current_recoil,
+			"mountRecoilSource": "mount.recoil = 1f",
+			"recoilSlotsReservedSource": "if(recoils > 0){ mount.recoils[mount.barrelCounter % recoils] = 1f; }",
+			"heatReservedSource": "mount.heat = 1f",
+		}
+	return {
+		"bulletContinues": true,
+		"mountRecoilApplied": true,
+		"mountRecoilBefore": current_recoil,
+		"mountRecoil": 1.0,
+		"mountRecoilSource": "mount.recoil = 1f",
+		"recoilSlotsReservedSource": "if(recoils > 0){ mount.recoils[mount.barrelCounter % recoils] = 1f; }",
+		"heatReservedSource": "mount.heat = 1f",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
