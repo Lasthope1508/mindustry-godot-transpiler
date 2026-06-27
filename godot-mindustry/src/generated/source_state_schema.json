@@ -458,7 +458,8 @@
           "godot_symbol": "bullet_type_state.status",
           "used_by": [
             "PortGame.source_bullet_type_hit_entity_unit_effects_state",
-            "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state"
+            "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state",
+            "PortGame.source_bullet_type_init_type_defaults_state"
           ],
           "rule": "Canonical BulletType.status field for unit.apply(status, statusDuration)."
         },
@@ -620,7 +621,8 @@
             "PortGame.source_bullet_type_hit_frag_dispatch_state",
             "PortGame.source_bullet_type_create_frags_initial_state",
             "PortGame.source_bullet_type_create_frags_create_call_state",
-            "PortGame.source_bullet_type_removed_frag_dispatch_state"
+            "PortGame.source_bullet_type_removed_frag_dispatch_state",
+            "PortGame.source_bullet_type_init_type_defaults_state"
           ],
           "rule": "Canonical BulletType.fragBullet field for hit frag dispatch null/nested gate."
         },
@@ -732,7 +734,8 @@
           "used_by": [
             "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state",
             "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state",
-            "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state"
+            "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state",
+            "PortGame.source_bullet_type_init_type_defaults_state"
           ],
           "rule": "Canonical BulletType.splashDamageRadius field; default is -1f."
         },
@@ -1436,6 +1439,66 @@
             "PortGame.source_bullet_type_update_trail_effects_interval_state"
           ],
           "rule": "BulletType trailInterval field used by updateTrailEffects interval branch."
+        },
+        "pierce": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init()",
+          "java_expr": "pierce",
+          "godot_symbol": "bullet_type_state.pierce",
+          "used_by": [
+            "PortGame.source_bullet_type_init_type_defaults_state"
+          ],
+          "rule": "Canonical BulletType.pierce field set when pierceCap >= 1."
+        },
+        "pierceCap": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init()",
+          "java_expr": "pierceCap",
+          "godot_symbol": "bullet_type_state.pierceCap",
+          "used_by": [
+            "PortGame.source_bullet_type_init_type_defaults_state"
+          ],
+          "rule": "Canonical BulletType.pierceCap field; default is -1."
+        },
+        "setDefaults": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init()",
+          "java_expr": "setDefaults",
+          "godot_symbol": "bullet_type_state.setDefaults",
+          "used_by": [
+            "PortGame.source_bullet_type_init_type_defaults_state"
+          ],
+          "rule": "Canonical BulletType.setDefaults field; default is true."
+        },
+        "lightning": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init()",
+          "java_expr": "lightning",
+          "godot_symbol": "bullet_type_state.lightning",
+          "used_by": [
+            "PortGame.source_bullet_type_init_type_defaults_state"
+          ],
+          "rule": "Canonical BulletType.lightning field for init defaults."
+        },
+        "despawnHit": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init()",
+          "java_expr": "despawnHit",
+          "godot_symbol": "bullet_type_state.despawnHit",
+          "used_by": [
+            "PortGame.source_bullet_type_init_type_defaults_state"
+          ],
+          "rule": "Canonical BulletType.despawnHit field set by init defaults."
         }
       }
     },
@@ -9916,6 +9979,131 @@
           "godot_symbol": "update_trail_effects_interval_result.effectAtSource",
           "alias_of": "source_line.update_trail_effects_interval.effect_at",
           "rule": "Runtime source label for trail effect call."
+        }
+      }
+    },
+    "init_type_defaults_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "godot_symbol": "init_type_defaults_result.bulletType",
+          "alias_of": "bullet_type_state",
+          "rule": "Updated BulletType state after init defaults."
+        },
+        "pierceApplied": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init()",
+          "java_expr": "pierceCap >= 1",
+          "godot_symbol": "init_type_defaults_result.pierceApplied",
+          "used_by": [
+            "PortGame.source_bullet_type_init_type_defaults_state"
+          ],
+          "rule": "Exact pierceCap gate result."
+        },
+        "setDefaults": {
+          "type": "bool",
+          "status": "generated",
+          "godot_symbol": "init_type_defaults_result.setDefaults",
+          "alias_of": "bullet_type_state.setDefaults",
+          "rule": "Runtime echo of BulletType.setDefaults."
+        },
+        "lightning": {
+          "type": "int",
+          "status": "generated",
+          "godot_symbol": "init_type_defaults_result.lightning",
+          "alias_of": "bullet_type_state.lightning",
+          "rule": "Runtime echo of BulletType.lightning."
+        },
+        "statusBefore": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "init_type_defaults_result.statusBefore",
+          "alias_of": "bullet_type_state.status",
+          "rule": "Runtime value of status before possible default assignment."
+        },
+        "statusShockedApplied": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init()",
+          "java_expr": "setDefaults && lightning > 0 && status == StatusEffects.none",
+          "godot_symbol": "init_type_defaults_result.statusShockedApplied",
+          "used_by": [
+            "PortGame.source_bullet_type_init_type_defaults_state"
+          ],
+          "rule": "Combined result of nested setDefaults, lightning, and StatusEffects.none gates."
+        },
+        "despawnHitApplied": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init()",
+          "java_expr": "setDefaults && (fragBullet != null || splashDamageRadius > 0 || lightning > 0)",
+          "godot_symbol": "init_type_defaults_result.despawnHitApplied",
+          "used_by": [
+            "PortGame.source_bullet_type_init_type_defaults_state"
+          ],
+          "rule": "Combined result of setDefaults and despawnHit default gate."
+        },
+        "pierceGateSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "init_type_defaults_result.pierceGateSource",
+          "alias_of": "source_line.init_type_defaults.pierce_gate",
+          "rule": "Runtime source label for pierce gate."
+        },
+        "pierceAssignSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "init_type_defaults_result.pierceAssignSource",
+          "alias_of": "source_line.init_type_defaults.pierce_assign",
+          "rule": "Runtime source label for pierce assignment."
+        },
+        "setDefaultsGateSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "init_type_defaults_result.setDefaultsGateSource",
+          "alias_of": "source_line.init_type_defaults.set_defaults_gate",
+          "rule": "Runtime source label for setDefaults gate."
+        },
+        "lightningGateSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "init_type_defaults_result.lightningGateSource",
+          "alias_of": "source_line.init_type_defaults.lightning_gate",
+          "rule": "Runtime source label for lightning gate."
+        },
+        "statusGateSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "init_type_defaults_result.statusGateSource",
+          "alias_of": "source_line.init_type_defaults.status_none_gate",
+          "rule": "Runtime source label for status none gate."
+        },
+        "statusAssignSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "init_type_defaults_result.statusAssignSource",
+          "alias_of": "source_line.init_type_defaults.status_shocked_assign",
+          "rule": "Runtime source label for status assignment."
+        },
+        "despawnHitGateSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "init_type_defaults_result.despawnHitGateSource",
+          "alias_of": "source_line.init_type_defaults.despawn_hit_gate",
+          "rule": "Runtime source label for despawnHit gate."
+        },
+        "despawnHitAssignSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "init_type_defaults_result.despawnHitAssignSource",
+          "alias_of": "source_line.init_type_defaults.despawn_hit_assign",
+          "rule": "Runtime source label for despawnHit assignment."
         }
       }
     }

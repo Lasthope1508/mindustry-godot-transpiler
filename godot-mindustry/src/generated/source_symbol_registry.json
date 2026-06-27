@@ -6333,6 +6333,156 @@
         "test_bullet_type_update_trail_effects_interval_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_interval_state"
+    },
+    "init_type_defaults.pierce_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init()",
+      "java_expr": "if(pierceCap >= 1){",
+      "godot_symbol": "init_type_defaults_result.pierceApplied",
+      "godot_owner": "PortGame.source_bullet_type_init_type_defaults_state",
+      "rule": "Exact init pierceCap gate.",
+      "tests": [
+        "test_bullet_type_init_type_defaults_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_type_defaults_state",
+        "test_bullet_type_init_type_defaults_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_type_defaults_state"
+    },
+    "init_type_defaults.pierce_assign": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init()",
+      "java_expr": "pierce = true;",
+      "godot_symbol": "init_type_defaults_result.bulletType.pierce",
+      "godot_owner": "PortGame.source_bullet_type_init_type_defaults_state",
+      "rule": "Exact init assignment when pierceCap gate passes.",
+      "tests": [
+        "test_bullet_type_init_type_defaults_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_type_defaults_state",
+        "test_bullet_type_init_type_defaults_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_type_defaults_state"
+    },
+    "init_type_defaults.set_defaults_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init()",
+      "java_expr": "if(setDefaults){",
+      "godot_symbol": "init_type_defaults_result.setDefaults",
+      "godot_owner": "PortGame.source_bullet_type_init_type_defaults_state",
+      "rule": "Exact init setDefaults gate for default side effects.",
+      "tests": [
+        "test_bullet_type_init_type_defaults_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_type_defaults_state",
+        "test_bullet_type_init_type_defaults_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_type_defaults_state"
+    },
+    "init_type_defaults.lightning_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init()",
+      "java_expr": "if(lightning > 0){",
+      "godot_symbol": "init_type_defaults_result.statusShockedApplied",
+      "godot_owner": "PortGame.source_bullet_type_init_type_defaults_state",
+      "rule": "Exact init lightning gate nested inside setDefaults.",
+      "tests": [
+        "test_bullet_type_init_type_defaults_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_type_defaults_state",
+        "test_bullet_type_init_type_defaults_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_type_defaults_state"
+    },
+    "init_type_defaults.status_none_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init()",
+      "java_expr": "if(status == StatusEffects.none){",
+      "godot_symbol": "init_type_defaults_result.statusShockedApplied",
+      "godot_owner": "PortGame.source_bullet_type_init_type_defaults_state",
+      "rule": "Exact init StatusEffects.none gate before shocked assignment.",
+      "tests": [
+        "test_bullet_type_init_type_defaults_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_type_defaults_state",
+        "test_bullet_type_init_type_defaults_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_type_defaults_state"
+    },
+    "init_type_defaults.status_shocked_assign": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init()",
+      "java_expr": "status = StatusEffects.shocked;",
+      "godot_symbol": "init_type_defaults_result.bulletType.status",
+      "godot_owner": "PortGame.source_bullet_type_init_type_defaults_state",
+      "rule": "Exact init status default assignment to shocked.",
+      "tests": [
+        "test_bullet_type_init_type_defaults_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_type_defaults_state",
+        "test_bullet_type_init_type_defaults_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_type_defaults_state"
+    },
+    "init_type_defaults.despawn_hit_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init()",
+      "java_expr": "if(fragBullet != null || splashDamageRadius > 0 || lightning > 0){",
+      "godot_symbol": "init_type_defaults_result.despawnHitApplied",
+      "godot_owner": "PortGame.source_bullet_type_init_type_defaults_state",
+      "rule": "Exact init despawnHit default gate.",
+      "tests": [
+        "test_bullet_type_init_type_defaults_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_type_defaults_state",
+        "test_bullet_type_init_type_defaults_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_type_defaults_state"
+    },
+    "init_type_defaults.despawn_hit_assign": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init()",
+      "java_expr": "despawnHit = true;",
+      "godot_symbol": "init_type_defaults_result.bulletType.despawnHit",
+      "godot_owner": "PortGame.source_bullet_type_init_type_defaults_state",
+      "rule": "Exact init despawnHit assignment.",
+      "tests": [
+        "test_bullet_type_init_type_defaults_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_type_defaults_state",
+        "test_bullet_type_init_type_defaults_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_type_defaults_state"
+    },
+    "init_type_defaults.status_effects_none": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/content/StatusEffects.java",
+      "java_method": "load()",
+      "java_expr": "none = new StatusEffect(\"none\");",
+      "godot_symbol": "bullet_type_state.status",
+      "godot_owner": "PortGame.source_bullet_type_init_type_defaults_state",
+      "rule": "StatusEffects.none backing for default status comparison.",
+      "tests": [
+        "test_bullet_type_init_type_defaults_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_type_defaults_state",
+        "test_bullet_type_init_type_defaults_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_type_defaults_state"
+    },
+    "init_type_defaults.status_effects_shocked": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/content/StatusEffects.java",
+      "java_method": "load()",
+      "java_expr": "shocked = new StatusEffect(\"shocked\"){{",
+      "godot_symbol": "init_type_defaults_result.bulletType.status",
+      "godot_owner": "PortGame.source_bullet_type_init_type_defaults_state",
+      "rule": "StatusEffects.shocked backing for default status assignment.",
+      "tests": [
+        "test_bullet_type_init_type_defaults_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_type_defaults_state",
+        "test_bullet_type_init_type_defaults_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_type_defaults_state"
     }
   }
 }

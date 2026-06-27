@@ -1581,14 +1581,50 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(effect_at["java_expr"], "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor);")
         self.assertEqual(effect_at["godot_symbol"], "update_trail_effects_interval_result.effectCalls")
 
+    def test_bullet_type_init_type_defaults_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        pierce_gate = source_symbols.source_symbol(registry, "init_type_defaults.pierce_gate")
+        self.assertEqual(pierce_gate["java_expr"], "if(pierceCap >= 1){")
+        self.assertEqual(pierce_gate["godot_symbol"], "init_type_defaults_result.pierceApplied")
+        self.assertEqual(pierce_gate["godot_owner"], "PortGame.source_bullet_type_init_type_defaults_state")
+        self.assertEqual(pierce_gate["runtime_proof"], "/root/Main.source_bullet_type_init_type_defaults_state")
+
+        pierce_assign = source_symbols.source_symbol(registry, "init_type_defaults.pierce_assign")
+        self.assertEqual(pierce_assign["java_expr"], "pierce = true;")
+        self.assertEqual(pierce_assign["godot_symbol"], "init_type_defaults_result.bulletType.pierce")
+
+        set_defaults_gate = source_symbols.source_symbol(registry, "init_type_defaults.set_defaults_gate")
+        self.assertEqual(set_defaults_gate["java_expr"], "if(setDefaults){")
+        self.assertEqual(set_defaults_gate["godot_symbol"], "init_type_defaults_result.setDefaults")
+
+        status_none_gate = source_symbols.source_symbol(registry, "init_type_defaults.status_none_gate")
+        self.assertEqual(status_none_gate["java_expr"], "if(status == StatusEffects.none){")
+        self.assertEqual(status_none_gate["godot_symbol"], "init_type_defaults_result.statusShockedApplied")
+
+        status_shocked = source_symbols.source_symbol(registry, "init_type_defaults.status_shocked_assign")
+        self.assertEqual(status_shocked["java_expr"], "status = StatusEffects.shocked;")
+        self.assertEqual(status_shocked["godot_symbol"], "init_type_defaults_result.bulletType.status")
+
+        despawn_hit_gate = source_symbols.source_symbol(registry, "init_type_defaults.despawn_hit_gate")
+        self.assertEqual(despawn_hit_gate["java_expr"], "if(fragBullet != null || splashDamageRadius > 0 || lightning > 0){")
+        self.assertEqual(despawn_hit_gate["godot_symbol"], "init_type_defaults_result.despawnHitApplied")
+
+        status_effects_none = source_symbols.source_symbol(registry, "init_type_defaults.status_effects_none")
+        self.assertEqual(status_effects_none["java_source"], "core/src/mindustry/content/StatusEffects.java")
+        self.assertEqual(status_effects_none["java_expr"], "none = new StatusEffect(\"none\");")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 62)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 63)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 67)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 68)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1645,6 +1681,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_update_weaving_circle_shooter_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_update_trail_effects_chance_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_update_trail_effects_interval_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_init_type_defaults_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -2082,6 +2119,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("Tmp.v1.setZero();", update_trail_effects_interval["exact_exprs"])
         self.assertIn("trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor);", update_trail_effects_interval["exact_exprs"])
         self.assertIn("public void init(){", update_trail_effects_interval["deferred_exprs"])
+
+        init_type_defaults = source_symbols.source_slice(ledger, "N465")
+        self.assertEqual(init_type_defaults["java_method"], "init()")
+        self.assertEqual(init_type_defaults["godot_owner"], "PortGame.source_bullet_type_init_type_defaults_state")
+        self.assertIn("if(pierceCap >= 1){", init_type_defaults["exact_exprs"])
+        self.assertIn("pierce = true;", init_type_defaults["exact_exprs"])
+        self.assertIn("if(setDefaults){", init_type_defaults["exact_exprs"])
+        self.assertIn("if(lightning > 0){", init_type_defaults["exact_exprs"])
+        self.assertIn("if(status == StatusEffects.none){", init_type_defaults["exact_exprs"])
+        self.assertIn("status = StatusEffects.shocked;", init_type_defaults["exact_exprs"])
+        self.assertIn("if(fragBullet != null || splashDamageRadius > 0 || lightning > 0){", init_type_defaults["exact_exprs"])
+        self.assertIn("despawnHit = true;", init_type_defaults["exact_exprs"])
+        self.assertIn("if(fragBullet != null){", init_type_defaults["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -2632,6 +2682,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("tmpOffset", update_trail_effects_interval["return_keys"])
         self.assertIn("effectCalls", update_trail_effects_interval["return_keys"])
         self.assertEqual(update_trail_effects_interval["source_method"], "updateTrailEffects(Bullet b)")
+
+        init_type_defaults = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_init_type_defaults_state")
+        self.assertEqual([param["name"] for param in init_type_defaults["params"]], ["bullet_type_state"])
+        self.assertEqual(init_type_defaults["params"][0]["schema"], "bullet_type_state")
+        self.assertIn("bulletType", init_type_defaults["return_keys"])
+        self.assertIn("pierceApplied", init_type_defaults["return_keys"])
+        self.assertIn("setDefaults", init_type_defaults["return_keys"])
+        self.assertIn("lightning", init_type_defaults["return_keys"])
+        self.assertIn("statusBefore", init_type_defaults["return_keys"])
+        self.assertIn("statusShockedApplied", init_type_defaults["return_keys"])
+        self.assertIn("despawnHitApplied", init_type_defaults["return_keys"])
+        self.assertEqual(init_type_defaults["source_method"], "init()")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -3217,6 +3279,24 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_update_trail_effects_interval_state", bullet_type_state["keys"]["trailParam"]["used_by"])
         self.assertIn("PortGame.source_bullet_type_update_trail_effects_interval_state", bullet_type_state["keys"]["trailRotation"]["used_by"])
         self.assertIn("PortGame.source_bullet_type_update_trail_effects_interval_state", bullet_type_state["keys"]["trailColor"]["used_by"])
+
+        init_type_defaults_output = source_symbols.state_schema(schema, "init_type_defaults_result")
+        self.assertEqual(init_type_defaults_output["keys"]["pierceApplied"]["java_expr"], "pierceCap >= 1")
+        self.assertEqual(init_type_defaults_output["keys"]["setDefaults"]["alias_of"], "bullet_type_state.setDefaults")
+        self.assertEqual(init_type_defaults_output["keys"]["lightning"]["alias_of"], "bullet_type_state.lightning")
+        self.assertEqual(init_type_defaults_output["keys"]["statusBefore"]["alias_of"], "bullet_type_state.status")
+        self.assertEqual(init_type_defaults_output["keys"]["statusShockedApplied"]["java_expr"], "setDefaults && lightning > 0 && status == StatusEffects.none")
+        self.assertEqual(init_type_defaults_output["keys"]["despawnHitApplied"]["java_expr"], "setDefaults && (fragBullet != null || splashDamageRadius > 0 || lightning > 0)")
+        self.assertEqual(init_type_defaults_output["keys"]["pierceGateSource"]["alias_of"], "source_line.init_type_defaults.pierce_gate")
+        self.assertEqual(init_type_defaults_output["keys"]["despawnHitAssignSource"]["alias_of"], "source_line.init_type_defaults.despawn_hit_assign")
+
+        self.assertEqual(bullet_type_state["keys"]["pierceCap"]["java_expr"], "pierceCap")
+        self.assertEqual(bullet_type_state["keys"]["setDefaults"]["java_expr"], "setDefaults")
+        self.assertEqual(bullet_type_state["keys"]["lightning"]["java_expr"], "lightning")
+        self.assertIn("PortGame.source_bullet_type_init_type_defaults_state", bullet_type_state["keys"]["status"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_init_type_defaults_state", bullet_type_state["keys"]["fragBullet"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_init_type_defaults_state", bullet_type_state["keys"]["splashDamageRadius"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_init_type_defaults_state", bullet_type_state["keys"]["despawnHit"]["used_by"])
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")

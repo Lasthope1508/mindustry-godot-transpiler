@@ -1867,6 +1867,49 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_interval_state",
       "rule": "Backfills SSOT for existing BulletType.updateTrailEffects trailInterval runtime state from N381; init remains a separate source-backed slice."
+    },
+    "N465": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "init()",
+      "godot_owner": "PortGame.source_bullet_type_init_type_defaults_state",
+      "exact_exprs": [
+        "if(pierceCap >= 1){",
+        "pierce = true;",
+        "if(setDefaults){",
+        "if(lightning > 0){",
+        "if(status == StatusEffects.none){",
+        "status = StatusEffects.shocked;",
+        "if(fragBullet != null || splashDamageRadius > 0 || lightning > 0){",
+        "despawnHit = true;"
+      ],
+      "deferred_exprs": [
+        "if(fragBullet != null){",
+        "if(lightningType == null){",
+        "if(lightRadius <= -1){",
+        "drawSize = Math.max(drawSize, trailLength * speed * 2f);",
+        "range = calculateRange();"
+      ],
+      "source_symbols": [
+        "init_type_defaults.pierce_gate",
+        "init_type_defaults.pierce_assign",
+        "init_type_defaults.set_defaults_gate",
+        "init_type_defaults.lightning_gate",
+        "init_type_defaults.status_none_gate",
+        "init_type_defaults.status_shocked_assign",
+        "init_type_defaults.despawn_hit_gate",
+        "init_type_defaults.despawn_hit_assign",
+        "init_type_defaults.status_effects_none",
+        "init_type_defaults.status_effects_shocked"
+      ],
+      "tests": [
+        "test_bullet_type_init_type_defaults_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_type_defaults_state",
+        "test_bullet_type_init_type_defaults_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_type_defaults_state",
+      "rule": "Backfills SSOT for existing BulletType.init type default runtime state from N382; frag velocity, lightning type, light radius, draw size, and range assignment remain separate source-backed slices."
     }
   },
   "version": 1
