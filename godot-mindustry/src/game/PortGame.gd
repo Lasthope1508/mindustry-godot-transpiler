@@ -5724,6 +5724,47 @@ func source_bullet_type_update_trail_effects_chance_state(bullet_state: Dictiona
 		"effectAtSource": "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor)",
 	}
 
+func source_bullet_type_update_trail_effects_interval_state(chance_state: Dictionary, bullet_type_state: Dictionary, timer_get_result: bool, random_offset_state: Dictionary) -> Dictionary:
+	var update_bullet_state: Dictionary = chance_state.get("bullet", {}).duplicate(true)
+	var effect_calls: Array = chance_state.get("effectCalls", []).duplicate(true)
+	var can_spawn := bool(chance_state.get("canSpawn", false))
+	var trail_interval := float(bullet_type_state.get("trailInterval", 0.0))
+	var gate_passed := trail_interval > 0.0 and can_spawn
+	if not gate_passed or not timer_get_result:
+		return {
+			"bullet": update_bullet_state,
+			"trailIntervalEffectApplied": false,
+			"canSpawn": can_spawn,
+			"intervalGatePassed": gate_passed,
+			"timerGetResult": timer_get_result,
+			"effectCalls": effect_calls,
+			"intervalGateSource": "if(trailInterval > 0f && canSpawn){",
+			"timerSource": "if(b.timer(0, trailInterval)){",
+			"effectAtSource": "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor)",
+		}
+	var trail_spread := float(bullet_type_state.get("trailSpread", 0.0))
+	var tmp_offset: Dictionary = {"x": 0.0, "y": 0.0}
+	if trail_spread > 0.0:
+		tmp_offset = random_offset_state.duplicate(true)
+	var effect_rotation: float = source_bullet_rotation_degrees(update_bullet_state) if bool(bullet_type_state.get("trailRotation", false)) else float(bullet_type_state.get("trailParam", 2.0))
+	var effect_call := {"x": float(update_bullet_state.get("x", 0.0)) + float(tmp_offset.get("x", 0.0)), "y": float(update_bullet_state.get("y", 0.0)) + float(tmp_offset.get("y", 0.0)), "rotation": effect_rotation, "color": bullet_type_state.get("trailColor", "Pal.missileYellowBack"), "effect": bullet_type_state.get("trailEffect", "Fx.missileTrail")}
+	effect_calls.append(effect_call)
+	return {
+		"bullet": update_bullet_state,
+		"trailIntervalEffectApplied": true,
+		"canSpawn": can_spawn,
+		"intervalGatePassed": gate_passed,
+		"timerGetResult": timer_get_result,
+		"trailSpread": trail_spread,
+		"tmpOffset": tmp_offset,
+		"effectCalls": effect_calls,
+		"intervalGateSource": "if(trailInterval > 0f && canSpawn){",
+		"timerSource": "if(b.timer(0, trailInterval)){",
+		"spreadRandomSource": "Tmp.v1.rnd(Mathf.random(trailSpread))",
+		"spreadZeroSource": "Tmp.v1.setZero()",
+		"effectAtSource": "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

@@ -4355,6 +4355,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"chanceGateSource": "if(trailChance > 0 && canSpawn){"', source)
         self.assertIn('"effectAtSource": "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor)"', source)
 
+    def test_port_game_exposes_source_bullet_type_update_trail_effects_interval_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_update_trail_effects_interval_state(chance_state: Dictionary, bullet_type_state: Dictionary, timer_get_result: bool, random_offset_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var update_bullet_state: Dictionary = chance_state.get(\"bullet\", {}).duplicate(true)", source)
+        self.assertIn("var effect_calls: Array = chance_state.get(\"effectCalls\", []).duplicate(true)", source)
+        self.assertIn("var gate_passed := trail_interval > 0.0 and can_spawn", source)
+        self.assertIn("if not gate_passed or not timer_get_result:", source)
+        self.assertIn("if trail_spread > 0.0:", source)
+        self.assertIn("tmp_offset = random_offset_state.duplicate(true)", source)
+        self.assertIn("var effect_rotation: float = source_bullet_rotation_degrees(update_bullet_state) if bool(bullet_type_state.get(\"trailRotation\", false)) else float(bullet_type_state.get(\"trailParam\", 2.0))", source)
+        self.assertIn("effect_calls.append(effect_call)", source)
+        self.assertIn('"intervalGateSource": "if(trailInterval > 0f && canSpawn){"', source)
+        self.assertIn('"timerSource": "if(b.timer(0, trailInterval)){"', source)
+        self.assertIn('"effectAtSource": "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -9490,6 +9490,77 @@ def verify_bullet_type_update_trail_effects_chance_state_source(upstream_root: P
         "missing": missing,
     }
 
+def verify_bullet_type_update_trail_effects_interval_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    timer_comp_source = "core/src/mindustry/entities/comp/TimerComp.java"
+    interval_source = "arc-core/src/arc/util/Interval.java"
+    vec2_source = "arc-core/src/arc/math/geom/Vec2.java"
+    mathf_source = "arc-core/src/arc/math/Mathf.java"
+    timer_comp_path = upstream_root / timer_comp_source
+    interval_path = arc_root / interval_source
+    vec2_path = arc_root / vec2_source
+    mathf_path = arc_root / mathf_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    timer_comp_text = timer_comp_path.read_text(encoding="utf-8", errors="replace")
+    interval_text = interval_path.read_text(encoding="utf-8", errors="replace")
+    vec2_text = vec2_path.read_text(encoding="utf-8", errors="replace")
+    mathf_text = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "trail_interval_field": "public float trailInterval = 0f;",
+        "trail_spread_field": "public float trailSpread = 0f;",
+        "trail_param_field": "public float trailParam = 2f;",
+        "trail_rotation_field": "public boolean trailRotation = false;",
+        "method": "public void updateTrailEffects(Bullet b){",
+        "can_spawn": "boolean canSpawn = trailMinVelocity <= 0f || b.vel.len2() >= trailMinVelocity * trailMinVelocity;",
+        "interval_gate": "if(trailInterval > 0f && canSpawn){",
+        "timer_call": "if(b.timer(0, trailInterval)){",
+        "spread_random": "Tmp.v1.rnd(Mathf.random(trailSpread));",
+        "spread_zero": "Tmp.v1.setZero();",
+        "effect_at": "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor);",
+        "timer_comp_field": "transient Interval timer = new Interval(6);",
+        "timer_comp_method": "public boolean timer(int index, float time){\n        if(Float.isInfinite(time)) return false;\n        return timer.get(index, time);\n    }",
+        "interval_get": "public boolean get(int id, float time){\n        if(id >= times.length) throw new RuntimeException(\"Out of bounds! Max timer size is \" + times.length + \"!\");\n\n        boolean got = check(id, time);\n        if(got) times[id] = Time.time;\n        return got;\n    }",
+        "interval_check": "public boolean check(int id, float time){\n        return Time.time - times[id] >= time || Time.time < times[id];\n    }",
+        "mathf_random_float": "public static float random(float range){\n        return rand.nextFloat() * range;\n    }",
+        "vec2_rnd": "public Vec2 rnd(float length){\n        setToRandomDirection().scl(length);\n        return this;\n    }",
+        "vec2_set_zero": "public Vec2 setZero(){\n        this.x = 0;\n        this.y = 0;\n        return this;\n    }",
+    }
+    source_map = {
+        "trail_interval_field": source,
+        "trail_spread_field": source,
+        "trail_param_field": source,
+        "trail_rotation_field": source,
+        "method": source,
+        "can_spawn": source,
+        "interval_gate": source,
+        "timer_call": source,
+        "spread_random": source,
+        "spread_zero": source,
+        "effect_at": source,
+        "timer_comp_field": timer_comp_text,
+        "timer_comp_method": timer_comp_text,
+        "interval_get": interval_text,
+        "interval_check": interval_text,
+        "mathf_random_float": mathf_text,
+        "vec2_rnd": vec2_text,
+        "vec2_set_zero": vec2_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "timer_comp_source": timer_comp_source,
+        "interval_source": interval_source,
+        "vec2_source": vec2_source,
+        "mathf_source": mathf_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

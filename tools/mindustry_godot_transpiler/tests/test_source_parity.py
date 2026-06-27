@@ -5264,6 +5264,37 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_update_trail_effects_interval_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_update_trail_effects_interval_state_source"))
+        report = source_parity.verify_bullet_type_update_trail_effects_interval_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["timer_comp_source"], "core/src/mindustry/entities/comp/TimerComp.java")
+        self.assertEqual(report["interval_source"], "arc-core/src/arc/util/Interval.java")
+        self.assertEqual(report["vec2_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(report["mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "trail_interval_field": "public float trailInterval = 0f;",
+            "trail_spread_field": "public float trailSpread = 0f;",
+            "trail_param_field": "public float trailParam = 2f;",
+            "trail_rotation_field": "public boolean trailRotation = false;",
+            "method": "public void updateTrailEffects(Bullet b){",
+            "can_spawn": "boolean canSpawn = trailMinVelocity <= 0f || b.vel.len2() >= trailMinVelocity * trailMinVelocity;",
+            "interval_gate": "if(trailInterval > 0f && canSpawn){",
+            "timer_call": "if(b.timer(0, trailInterval)){",
+            "spread_random": "Tmp.v1.rnd(Mathf.random(trailSpread));",
+            "spread_zero": "Tmp.v1.setZero();",
+            "effect_at": "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor);",
+            "timer_comp_field": "transient Interval timer = new Interval(6);",
+            "timer_comp_method": "public boolean timer(int index, float time){\n        if(Float.isInfinite(time)) return false;\n        return timer.get(index, time);\n    }",
+            "interval_get": "public boolean get(int id, float time){\n        if(id >= times.length) throw new RuntimeException(\"Out of bounds! Max timer size is \" + times.length + \"!\");\n\n        boolean got = check(id, time);\n        if(got) times[id] = Time.time;\n        return got;\n    }",
+            "interval_check": "public boolean check(int id, float time){\n        return Time.time - times[id] >= time || Time.time < times[id];\n    }",
+            "mathf_random_float": "public static float random(float range){\n        return rand.nextFloat() * range;\n    }",
+            "vec2_rnd": "public Vec2 rnd(float length){\n        setToRandomDirection().scl(length);\n        return this;\n    }",
+            "vec2_set_zero": "public Vec2 setZero(){\n        this.x = 0;\n        this.y = 0;\n        return this;\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
