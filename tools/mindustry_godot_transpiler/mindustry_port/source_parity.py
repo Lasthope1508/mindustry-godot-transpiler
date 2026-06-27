@@ -8275,6 +8275,60 @@ def verify_weapon_bullet_sound_branch_source(upstream_root: Path) -> dict[str, A
         "missing": missing,
     }
 
+def verify_weapon_bullet_effects_branch_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    bullet_type_source = "core/src/mindustry/entities/bullet/BulletType.java"
+    mathf_path = arc_root / ARC_MATHF_SOURCE
+    weapon_mount_path = upstream_root / weapon_mount_source
+    bullet_type_path = upstream_root / bullet_type_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    bullet_type_text = bullet_type_path.read_text(encoding="utf-8", errors="replace")
+    mathf_text = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "effects_gate": "if(mount.allowShootEffects){",
+        "eject_effect_call": "ejectEffect.at(mountX, mountY, angle * Mathf.sign(this.x));",
+        "shoot_effect_call": "bullet.shootEffect.at(bulletX, bulletY, angle, bullet.hitColor, unit);",
+        "smoke_effect_call": "bullet.smokeEffect.at(bulletX, bulletY, angle, bullet.hitColor, unit);",
+        "recoil_reserved": "unit.vel.add(Tmp.v1.trns(shootAngle + 180f, bullet.recoil));",
+        "weapon_eject_effect": "public Effect ejectEffect = Fx.none;",
+        "weapon_x_default": "public float x = 5f, y = 0f;",
+        "mount_allow_shoot_effects": "public boolean allowShootEffects = true;",
+        "bullet_shoot_effect": "public Effect shootEffect = Fx.shootSmall;",
+        "bullet_smoke_effect": "public Effect smokeEffect = Fx.shootSmallSmoke;",
+        "bullet_hit_color": "public Color hitColor = Color.white;",
+        "mathf_sign": "return (f < 0 ? -1 : 1);",
+    }
+    source_map = {
+        "effects_gate": source,
+        "eject_effect_call": source,
+        "shoot_effect_call": source,
+        "smoke_effect_call": source,
+        "recoil_reserved": source,
+        "weapon_eject_effect": source,
+        "weapon_x_default": source,
+        "mount_allow_shoot_effects": weapon_mount_text,
+        "bullet_shoot_effect": bullet_type_text,
+        "bullet_smoke_effect": bullet_type_text,
+        "bullet_hit_color": bullet_type_text,
+        "mathf_sign": mathf_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": weapon_mount_source,
+        "bullet_type_source": bullet_type_source,
+        "arc_mathf_source": ARC_MATHF_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

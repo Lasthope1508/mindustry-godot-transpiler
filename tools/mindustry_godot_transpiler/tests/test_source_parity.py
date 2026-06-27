@@ -4696,6 +4696,30 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_bullet_effects_branch_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_bullet_effects_branch_source"))
+        report = source_parity.verify_weapon_bullet_effects_branch_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["bullet_type_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["arc_mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "effects_gate": "if(mount.allowShootEffects){",
+            "eject_effect_call": "ejectEffect.at(mountX, mountY, angle * Mathf.sign(this.x));",
+            "shoot_effect_call": "bullet.shootEffect.at(bulletX, bulletY, angle, bullet.hitColor, unit);",
+            "smoke_effect_call": "bullet.smokeEffect.at(bulletX, bulletY, angle, bullet.hitColor, unit);",
+            "recoil_reserved": "unit.vel.add(Tmp.v1.trns(shootAngle + 180f, bullet.recoil));",
+            "weapon_eject_effect": "public Effect ejectEffect = Fx.none;",
+            "weapon_x_default": "public float x = 5f, y = 0f;",
+            "mount_allow_shoot_effects": "public boolean allowShootEffects = true;",
+            "bullet_shoot_effect": "public Effect shootEffect = Fx.shootSmall;",
+            "bullet_smoke_effect": "public Effect smokeEffect = Fx.shootSmallSmoke;",
+            "bullet_hit_color": "public Color hitColor = Color.white;",
+            "mathf_sign": "return (f < 0 ? -1 : 1);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

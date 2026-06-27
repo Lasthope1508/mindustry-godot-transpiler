@@ -4566,6 +4566,74 @@ func source_weapon_bullet_sound_state(create_call_state: Dictionary, weapon_stat
 		"effectsReservedSource": "if(mount.allowShootEffects)",
 	}
 
+func source_weapon_bullet_effects_state(create_call_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, unit_state: Dictionary) -> Dictionary:
+	if not bool(create_call_state.get("bulletContinues", false)):
+		return {
+			"bulletContinues": false,
+			"effectsGate": false,
+			"effectCalls": [],
+			"recoilReservedSource": "unit.vel.add(Tmp.v1.trns(shootAngle + 180f, bullet.recoil))",
+		}
+	var allow_shoot_effects := bool(mount_state.get("allowShootEffects", true))
+	var bullet_create_call: Dictionary = create_call_state.get("bulletCreateCall", {})
+	if not allow_shoot_effects or bullet_create_call.is_empty():
+		return {
+			"bulletContinues": true,
+			"effectsGate": false,
+			"effectCalls": [],
+			"effectsGateSource": "if(mount.allowShootEffects)",
+			"recoilReservedSource": "unit.vel.add(Tmp.v1.trns(shootAngle + 180f, bullet.recoil))",
+		}
+	var weapon_x := float(weapon_state.get("x", 5.0))
+	var x_sign := -1.0 if weapon_x < 0.0 else 1.0
+	var mount_x := float(create_call_state.get("mountX", bullet_create_call.get("x", 0.0)))
+	var mount_y := float(create_call_state.get("mountY", bullet_create_call.get("y", 0.0)))
+	var bullet_x := float(bullet_create_call.get("x", 0.0))
+	var bullet_y := float(bullet_create_call.get("y", 0.0))
+	var angle_value := float(bullet_create_call.get("angle", 0.0))
+	var hit_color = bullet_state.get("hitColor", "white")
+	var unit_id = unit_state.get("id", unit_state)
+	var effect_calls := [
+		{
+			"effect": str(weapon_state.get("ejectEffect", "none")),
+			"x": mount_x,
+			"y": mount_y,
+			"angle": angle_value * x_sign,
+			"kind": "ejectEffect",
+		},
+		{
+			"effect": str(bullet_state.get("shootEffect", "shootSmall")),
+			"x": bullet_x,
+			"y": bullet_y,
+			"angle": angle_value,
+			"color": hit_color,
+			"unit": unit_id,
+			"kind": "shootEffect",
+		},
+		{
+			"effect": str(bullet_state.get("smokeEffect", "shootSmallSmoke")),
+			"x": bullet_x,
+			"y": bullet_y,
+			"angle": angle_value,
+			"color": hit_color,
+			"unit": unit_id,
+			"kind": "smokeEffect",
+		},
+	]
+	return {
+		"bulletContinues": true,
+		"effectsGate": true,
+		"effectCalls": effect_calls,
+		"weaponX": weapon_x,
+		"xSign": x_sign,
+		"effectsGateSource": "if(mount.allowShootEffects)",
+		"ejectEffectSource": "ejectEffect.at(mountX, mountY, angle * Mathf.sign(this.x))",
+		"shootEffectSource": "bullet.shootEffect.at(bulletX, bulletY, angle, bullet.hitColor, unit)",
+		"smokeEffectSource": "bullet.smokeEffect.at(bulletX, bulletY, angle, bullet.hitColor, unit)",
+		"mathfSignSource": "return (f < 0 ? -1 : 1)",
+		"recoilReservedSource": "unit.vel.add(Tmp.v1.trns(shootAngle + 180f, bullet.recoil))",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
