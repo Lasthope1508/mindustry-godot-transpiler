@@ -4057,6 +4057,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"worldTileWorldSource": "return tile(Math.round(x / tilesize), Math.round(y / tilesize))"', source)
         self.assertIn('"initVelReservedSource": "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f))"', source)
 
+    def test_port_game_exposes_source_bullet_type_create_velocity_position_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_create_velocity_position_state(aim_state: Dictionary, initial_gate_state: Dictionary, create_call_state: Dictionary, bullet_type_state: Dictionary, velocity_scale_random_factor: float) -> Dictionary:", source)
+        self.assertIn("var bullet_create_call: Dictionary = create_call_state.get(\"bulletCreateCall\", {})", source)
+        self.assertIn("var angle := float(initial_gate_state.get(\"angle\", bullet_create_call.get(\"angle\", 0.0)))", source)
+        self.assertIn("var raw_bullet_state = aim_state.get(\"bullet\", {})", source)
+        self.assertIn("var bullet_state: Dictionary = raw_bullet_state if raw_bullet_state is Dictionary else {}", source)
+        self.assertIn("var velocity_random_multiplier := velocity_scale_random_factor if velocity_scale_rand_min != 1.0 or velocity_scale_rand_max != 1.0 else 1.0", source)
+        self.assertIn("var velocity_amount := speed * velocity_scl * velocity_random_multiplier", source)
+        self.assertIn("bullet_state[\"velocity\"] = {\"angle\": angle, \"speed\": velocity_amount}", source)
+        self.assertIn("bullet_state[\"rotation\"] = angle", source)
+        self.assertIn("bullet_state[\"x\"] = x", source)
+        self.assertIn("bullet_state[\"y\"] = y", source)
+        self.assertIn("bullet_state[\"lastX\"] = x", source)
+        self.assertIn("bullet_state[\"lastY\"] = y", source)
+        self.assertIn('"initVelSource": "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f))"', source)
+        self.assertIn('"bulletCompInitVelSource": "vel.trns(angle, amount); rotation = angle"', source)
+        self.assertIn('"setSource": "bullet.set(x, y)"', source)
+        self.assertIn('"lastXSource": "bullet.lastX = x"', source)
+        self.assertIn('"lastYSource": "bullet.lastY = y"', source)
+        self.assertIn('"lifetimeReservedSource": "bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

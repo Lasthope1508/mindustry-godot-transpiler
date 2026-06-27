@@ -8690,6 +8690,42 @@ def verify_bullet_type_create_aim_state_source(upstream_root: Path) -> dict[str,
         "missing": missing,
     }
 
+def verify_bullet_type_create_velocity_position_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    bullet_comp_source = "core/src/mindustry/entities/comp/BulletComp.java"
+    bullet_comp_path = upstream_root / bullet_comp_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    bullet_comp_text = bullet_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "init_vel_call": "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));",
+        "set_call": "bullet.set(x, y);",
+        "last_x_assignment": "bullet.lastX = x;",
+        "last_y_assignment": "bullet.lastY = y;",
+        "lifetime_reserved": "bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f);",
+        "bullet_comp_init_vel": "public void initVel(float angle, float amount){\n        vel.trns(angle, amount);\n        rotation = angle;\n    }",
+        "bullet_comp_last_xy_imports": "@Import float x, y, damage, lastX, lastY, time, lifetime;",
+    }
+    source_map = {
+        "init_vel_call": source,
+        "set_call": source,
+        "last_x_assignment": source,
+        "last_y_assignment": source,
+        "lifetime_reserved": source,
+        "bullet_comp_init_vel": bullet_comp_text,
+        "bullet_comp_last_xy_imports": bullet_comp_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "bullet_comp_source": bullet_comp_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

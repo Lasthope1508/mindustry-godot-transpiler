@@ -5042,6 +5042,55 @@ func source_bullet_type_create_aim_state(identity_state: Dictionary, create_call
 		"initVelReservedSource": "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f))",
 	}
 
+func source_bullet_type_create_velocity_position_state(aim_state: Dictionary, initial_gate_state: Dictionary, create_call_state: Dictionary, bullet_type_state: Dictionary, velocity_scale_random_factor: float) -> Dictionary:
+	var bullet_create_call: Dictionary = create_call_state.get("bulletCreateCall", {})
+	var raw_bullet_state = aim_state.get("bullet", {})
+	var bullet_state: Dictionary = raw_bullet_state if raw_bullet_state is Dictionary else {}
+	if not bool(aim_state.get("bulletAimApplied", false)) or bullet_state.is_empty():
+		return {
+			"bulletContinues": bool(aim_state.get("bulletContinues", false)),
+			"bulletVelocityPositionApplied": false,
+			"bullet": null,
+			"initVelSource": "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f))",
+			"bulletCompInitVelSource": "vel.trns(angle, amount); rotation = angle",
+			"setSource": "bullet.set(x, y)",
+			"lastXSource": "bullet.lastX = x",
+			"lastYSource": "bullet.lastY = y",
+			"lifetimeReservedSource": "bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f)",
+		}
+	var angle := float(initial_gate_state.get("angle", bullet_create_call.get("angle", 0.0)))
+	var x := float(bullet_create_call.get("x", 0.0))
+	var y := float(bullet_create_call.get("y", 0.0))
+	var speed := float(bullet_type_state.get("speed", 0.0))
+	var velocity_scl := float(bullet_create_call.get("velocityScl", 1.0))
+	var velocity_scale_rand_min := float(bullet_type_state.get("velocityScaleRandMin", 1.0))
+	var velocity_scale_rand_max := float(bullet_type_state.get("velocityScaleRandMax", 1.0))
+	var velocity_random_multiplier := velocity_scale_random_factor if velocity_scale_rand_min != 1.0 or velocity_scale_rand_max != 1.0 else 1.0
+	var velocity_amount := speed * velocity_scl * velocity_random_multiplier
+	bullet_state = bullet_state.duplicate()
+	bullet_state["velocity"] = {"angle": angle, "speed": velocity_amount}
+	bullet_state["rotation"] = angle
+	bullet_state["x"] = x
+	bullet_state["y"] = y
+	bullet_state["lastX"] = x
+	bullet_state["lastY"] = y
+	return {
+		"bulletContinues": true,
+		"bulletVelocityPositionApplied": true,
+		"velocityScaleRandMin": velocity_scale_rand_min,
+		"velocityScaleRandMax": velocity_scale_rand_max,
+		"velocityScaleRandomFactor": velocity_scale_random_factor,
+		"velocityRandomMultiplier": velocity_random_multiplier,
+		"velocityAmount": velocity_amount,
+		"bullet": bullet_state,
+		"initVelSource": "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f))",
+		"bulletCompInitVelSource": "vel.trns(angle, amount); rotation = angle",
+		"setSource": "bullet.set(x, y)",
+		"lastXSource": "bullet.lastX = x",
+		"lastYSource": "bullet.lastY = y",
+		"lifetimeReservedSource": "bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

@@ -4899,6 +4899,23 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_create_velocity_position_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_create_velocity_position_state_source"))
+        report = source_parity.verify_bullet_type_create_velocity_position_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["bullet_comp_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(report["checked"], {
+            "init_vel_call": "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));",
+            "set_call": "bullet.set(x, y);",
+            "last_x_assignment": "bullet.lastX = x;",
+            "last_y_assignment": "bullet.lastY = y;",
+            "lifetime_reserved": "bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f);",
+            "bullet_comp_init_vel": "public void initVel(float angle, float amount){\n        vel.trns(angle, amount);\n        rotation = angle;\n    }",
+            "bullet_comp_last_xy_imports": "@Import float x, y, damage, lastX, lastY, time, lifetime;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
