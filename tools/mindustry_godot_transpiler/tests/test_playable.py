@@ -4122,6 +4122,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"bulletCompAddSource": "type.init(self())"', source)
         self.assertIn('"keepVelocityReservedSource": "if(keepVelocity && owner instanceof Velc v){"', source)
 
+    def test_port_game_exposes_source_bullet_type_create_keep_velocity_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_create_keep_velocity_state(trail_add_state: Dictionary, bullet_type_state: Dictionary, owner_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var raw_bullet_state = trail_add_state.get(\"bullet\", {})", source)
+        self.assertIn("var bullet_state: Dictionary = raw_bullet_state if raw_bullet_state is Dictionary else {}", source)
+        self.assertIn("var keep_velocity := bool(bullet_type_state.get(\"keepVelocity\", true))", source)
+        self.assertIn("var owner_is_velc := bool(owner_state.get(\"isVelc\", false))", source)
+        self.assertIn("var raw_velocity_state = bullet_state.get(\"velocity\", {})", source)
+        self.assertIn("var velocity_state: Dictionary = raw_velocity_state if raw_velocity_state is Dictionary else {}", source)
+        self.assertIn("var bullet_vel_before := source_bullet_velocity_vector_state(velocity_state)", source)
+        self.assertIn("var raw_owner_vel = owner_state.get(\"vel\", {\"x\": 0.0, \"y\": 0.0})", source)
+        self.assertIn("var owner_vel: Dictionary = raw_owner_vel if raw_owner_vel is Dictionary else {\"x\": 0.0, \"y\": 0.0}", source)
+        self.assertIn("var len_before := sqrt(float(bullet_vel_before.get(\"x\", 0.0)) * float(bullet_vel_before.get(\"x\", 0.0)) + float(bullet_vel_before.get(\"y\", 0.0)) * float(bullet_vel_before.get(\"y\", 0.0)))", source)
+        self.assertIn("var bullet_vel_after := {", source)
+        self.assertIn("var new_len := sqrt(float(bullet_vel_after[\"x\"]) * float(bullet_vel_after[\"x\"]) + float(bullet_vel_after[\"y\"]) * float(bullet_vel_after[\"y\"]))", source)
+        self.assertIn("if scale_keep_velocity and new_len > 0.0:", source)
+        self.assertIn("bullet_state[\"lifetime\"] = float(bullet_state.get(\"lifetime\", 0.0)) * minf(1.0, len_before / new_len)", source)
+        self.assertIn("bullet_state[\"velocity\"] = bullet_vel_after", source)
+        self.assertIn('"keepVelocitySource": "if(keepVelocity && owner instanceof Velc v){"', source)
+        self.assertIn('"vec2LenSource": "return (float)Math.sqrt(x * x + y * y)"', source)
+        self.assertIn('"vec2AddSource": "x += v.x; y += v.y"', source)
+        self.assertIn('"lifetimeScaleSource": "if(newLen > 0f) bullet.lifetime *= Math.min(1f, len / newLen)"', source)
+        self.assertIn('"returnSource": "return bullet"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

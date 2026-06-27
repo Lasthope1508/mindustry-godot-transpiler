@@ -5197,6 +5197,100 @@ func source_bullet_type_create_trail_add_state(lifetime_payload_damage_state: Di
 		"keepVelocityReservedSource": "if(keepVelocity && owner instanceof Velc v){",
 	}
 
+func source_bullet_velocity_vector_state(velocity_state: Dictionary) -> Dictionary:
+	if velocity_state.has("x") or velocity_state.has("y"):
+		return {
+			"x": float(velocity_state.get("x", 0.0)),
+			"y": float(velocity_state.get("y", 0.0)),
+			"source": "existing Vec2 velocity",
+		}
+	var angle := float(velocity_state.get("angle", 0.0))
+	var speed := float(velocity_state.get("speed", 0.0))
+	var vec := source_arc_angles_trns_vec(angle, speed, 0.0)
+	return {
+		"x": float(vec.get("x", 0.0)),
+		"y": float(vec.get("y", 0.0)),
+		"angle": angle,
+		"speed": speed,
+		"source": "vel.trns(angle, amount)",
+	}
+
+func source_bullet_type_create_keep_velocity_state(trail_add_state: Dictionary, bullet_type_state: Dictionary, owner_state: Dictionary) -> Dictionary:
+	var raw_bullet_state = trail_add_state.get("bullet", {})
+	var bullet_state: Dictionary = raw_bullet_state if raw_bullet_state is Dictionary else {}
+	if not bool(trail_add_state.get("bulletTrailAddApplied", false)) or bullet_state.is_empty():
+		return {
+			"bulletContinues": bool(trail_add_state.get("bulletContinues", false)),
+			"keepVelocityApplied": false,
+			"scaleKeepVelocityApplied": false,
+			"returnedBullet": null,
+			"bullet": null,
+			"keepVelocitySource": "if(keepVelocity && owner instanceof Velc v){",
+			"vec2LenSource": "return (float)Math.sqrt(x * x + y * y)",
+			"vec2AddSource": "x += v.x; y += v.y",
+			"lifetimeScaleSource": "if(newLen > 0f) bullet.lifetime *= Math.min(1f, len / newLen)",
+			"returnSource": "return bullet",
+		}
+	var keep_velocity := bool(bullet_type_state.get("keepVelocity", true))
+	var scale_keep_velocity := bool(bullet_type_state.get("scaleKeepVelocity", false))
+	var owner_is_velc := bool(owner_state.get("isVelc", false))
+	bullet_state = bullet_state.duplicate(true)
+	var raw_velocity_state = bullet_state.get("velocity", {})
+	var velocity_state: Dictionary = raw_velocity_state if raw_velocity_state is Dictionary else {}
+	var bullet_vel_before := source_bullet_velocity_vector_state(velocity_state)
+	var raw_owner_vel = owner_state.get("vel", {"x": 0.0, "y": 0.0})
+	var owner_vel: Dictionary = raw_owner_vel if raw_owner_vel is Dictionary else {"x": 0.0, "y": 0.0}
+	var len_before := sqrt(float(bullet_vel_before.get("x", 0.0)) * float(bullet_vel_before.get("x", 0.0)) + float(bullet_vel_before.get("y", 0.0)) * float(bullet_vel_before.get("y", 0.0)))
+	if not (keep_velocity and owner_is_velc):
+		return {
+			"bulletContinues": true,
+			"keepVelocityApplied": false,
+			"scaleKeepVelocityApplied": false,
+			"keepVelocity": keep_velocity,
+			"ownerIsVelc": owner_is_velc,
+			"lenBefore": len_before,
+			"lenAfter": len_before,
+			"bulletVelBefore": bullet_vel_before,
+			"bulletVelAfter": bullet_vel_before.duplicate(),
+			"returnedBullet": bullet_state,
+			"bullet": bullet_state,
+			"keepVelocitySource": "if(keepVelocity && owner instanceof Velc v){",
+			"vec2LenSource": "return (float)Math.sqrt(x * x + y * y)",
+			"vec2AddSource": "x += v.x; y += v.y",
+			"lifetimeScaleSource": "if(newLen > 0f) bullet.lifetime *= Math.min(1f, len / newLen)",
+			"returnSource": "return bullet",
+		}
+	var bullet_vel_after := {
+		"x": float(bullet_vel_before.get("x", 0.0)) + float(owner_vel.get("x", 0.0)),
+		"y": float(bullet_vel_before.get("y", 0.0)) + float(owner_vel.get("y", 0.0)),
+	}
+	var new_len := sqrt(float(bullet_vel_after["x"]) * float(bullet_vel_after["x"]) + float(bullet_vel_after["y"]) * float(bullet_vel_after["y"]))
+	var scale_applied := false
+	if scale_keep_velocity and new_len > 0.0:
+		scale_applied = true
+		bullet_state["lifetime"] = float(bullet_state.get("lifetime", 0.0)) * minf(1.0, len_before / new_len)
+	bullet_state["velocity"] = bullet_vel_after
+	return {
+		"bulletContinues": true,
+		"keepVelocityApplied": true,
+		"scaleKeepVelocityApplied": scale_applied,
+		"keepVelocity": keep_velocity,
+		"scaleKeepVelocity": scale_keep_velocity,
+		"ownerIsVelc": owner_is_velc,
+		"ownerVel": owner_vel,
+		"lenBefore": len_before,
+		"lenAfter": new_len,
+		"bulletVelBefore": bullet_vel_before,
+		"bulletVelAfter": bullet_vel_after,
+		"returnedBullet": bullet_state,
+		"bullet": bullet_state,
+		"keepVelocitySource": "if(keepVelocity && owner instanceof Velc v){",
+		"vec2LenSource": "return (float)Math.sqrt(x * x + y * y)",
+		"vec2AddSource": "x += v.x; y += v.y",
+		"lifetimeScaleSource": "if(newLen > 0f) bullet.lifetime *= Math.min(1f, len / newLen)",
+		"returnSource": "return bullet",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

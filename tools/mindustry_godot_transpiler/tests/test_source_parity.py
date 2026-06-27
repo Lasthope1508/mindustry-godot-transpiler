@@ -4958,6 +4958,29 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_create_keep_velocity_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_create_keep_velocity_state_source"))
+        report = source_parity.verify_bullet_type_create_keep_velocity_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["vel_comp_source"], "core/src/mindustry/entities/comp/VelComp.java")
+        self.assertEqual(report["vec2_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(report["checked"], {
+            "keep_velocity_field": "public boolean keepVelocity = true;",
+            "scale_keep_velocity_field": "public boolean scaleKeepVelocity = false;",
+            "keep_velocity_gate": "if(keepVelocity && owner instanceof Velc v){",
+            "len_before": "float len = bullet.vel.len();",
+            "add_owner_velocity": "bullet.vel.add(v.vel());",
+            "scale_gate": "if(scaleKeepVelocity){",
+            "len_after": "float newLen = bullet.vel.len();",
+            "lifetime_scale": "if(newLen > 0f) bullet.lifetime *= Math.min(1f, len / newLen);",
+            "return_bullet": "return bullet;",
+            "vel_comp_vel": "@SyncLocal Vec2 vel = new Vec2();",
+            "vec2_len": "public float len(){\n        return (float)Math.sqrt(x * x + y * y);\n    }",
+            "vec2_add": "public Vec2 add(Vec2 v){\n        x += v.x;\n        y += v.y;\n        return this;\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
