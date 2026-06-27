@@ -4222,6 +4222,21 @@ func source_weapon_shoot_default_pattern_dispatch_state(mount_state: Dictionary,
 		"barrelIncrementerSource": "() -> mount.barrelCounter++",
 	}
 
+func source_weapon_bullet_initial_guard_state(unit_state: Dictionary, mount_state: Dictionary) -> Dictionary:
+	var unit_added := bool(unit_state.get("isAdded", false))
+	var bullet_continues := unit_added
+	var mount_charging := bool(mount_state.get("charging", false))
+	if bullet_continues:
+		mount_charging = false
+	return {
+		"unitAdded": unit_added,
+		"bulletContinues": bullet_continues,
+		"mountCharging": mount_charging,
+		"unitAddedGuardSource": "if(!unit.isAdded()) return",
+		"chargingResetSource": "mount.charging = false",
+		"geometryReservedSource": "float xSpread = Mathf.range(xRand)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

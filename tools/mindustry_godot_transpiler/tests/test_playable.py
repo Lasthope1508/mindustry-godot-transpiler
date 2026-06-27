@@ -3776,6 +3776,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"timeRunSource": "Time.run(delay, () -> {"', source)
         self.assertIn('"directBulletSource": "bullet(unit, mount, xOffset, yOffset, angle, mover)"', source)
 
+    def test_port_game_exposes_source_weapon_bullet_initial_guard_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_bullet_initial_guard_state(unit_state: Dictionary, mount_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var unit_added := bool(unit_state.get(\"isAdded\", false))", source)
+        self.assertIn("var bullet_continues := unit_added", source)
+        self.assertIn("var mount_charging := bool(mount_state.get(\"charging\", false))", source)
+        self.assertIn("if bullet_continues:", source)
+        self.assertIn("mount_charging = false", source)
+        self.assertIn('"bulletContinues": bullet_continues', source)
+        self.assertIn('"mountCharging": mount_charging', source)
+        self.assertIn('"unitAddedGuardSource": "if(!unit.isAdded()) return"', source)
+        self.assertIn('"chargingResetSource": "mount.charging = false"', source)
+        self.assertIn('"geometryReservedSource": "float xSpread = Mathf.range(xRand)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

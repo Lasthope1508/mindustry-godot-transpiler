@@ -7818,6 +7818,50 @@ def verify_weapon_shoot_default_pattern_dispatch_source(upstream_root: Path) -> 
         "missing": missing,
     }
 
+def verify_weapon_bullet_initial_guard_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    entity_source = "core/src/mindustry/entities/comp/EntityComp.java"
+    weapon_mount_path = upstream_root / weapon_mount_source
+    entity_path = upstream_root / entity_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    entity_text = entity_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "bullet_method": "protected void bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover){",
+        "unit_added_guard": "if(!unit.isAdded()) return;",
+        "charging_reset": "mount.charging = false;",
+        "geometry_reserved": "float\n        xSpread = Mathf.range(xRand),",
+        "mount_charging_field": "public boolean charging;",
+        "entity_added_field": "private transient boolean added;",
+        "entity_is_added": "boolean isAdded(){\n        return added;\n    }",
+        "entity_add": "void add(){\n        added = true;\n    }",
+        "entity_remove": "void remove(){\n        added = false;\n    }",
+    }
+    source_map = {
+        "bullet_method": source,
+        "unit_added_guard": source,
+        "charging_reset": source,
+        "geometry_reserved": source,
+        "mount_charging_field": weapon_mount_text,
+        "entity_added_field": entity_text,
+        "entity_is_added": entity_text,
+        "entity_add": entity_text,
+        "entity_remove": entity_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": weapon_mount_source,
+        "entity_source": entity_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

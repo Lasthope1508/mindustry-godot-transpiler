@@ -4491,6 +4491,26 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_bullet_initial_guard_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_bullet_initial_guard_source"))
+        report = source_parity.verify_weapon_bullet_initial_guard_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["entity_source"], "core/src/mindustry/entities/comp/EntityComp.java")
+        self.assertEqual(report["checked"], {
+            "bullet_method": "protected void bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover){",
+            "unit_added_guard": "if(!unit.isAdded()) return;",
+            "charging_reset": "mount.charging = false;",
+            "geometry_reserved": "float\n        xSpread = Mathf.range(xRand),",
+            "mount_charging_field": "public boolean charging;",
+            "entity_added_field": "private transient boolean added;",
+            "entity_is_added": "boolean isAdded(){\n        return added;\n    }",
+            "entity_add": "void add(){\n        added = true;\n    }",
+            "entity_remove": "void remove(){\n        added = false;\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
