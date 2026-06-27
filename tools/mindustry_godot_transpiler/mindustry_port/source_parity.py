@@ -7919,6 +7919,69 @@ def verify_weapon_bullet_geometry_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_weapon_bullet_angle_life_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    bullet_type_source = "core/src/mindustry/entities/bullet/BulletType.java"
+    bullet_type_path = upstream_root / bullet_type_source
+    arc_angles_source = ARC_ANGLES_SOURCE
+    arc_mathf_source = ARC_MATHF_SOURCE
+    arc_position_source = ARC_POSITION_SOURCE
+    arc_angles_path = arc_root / arc_angles_source
+    arc_mathf_path = arc_root / arc_mathf_source
+    arc_position_path = arc_root / arc_position_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    bullet_type_text = bullet_type_path.read_text(encoding="utf-8", errors="replace")
+    arc_angles_text = arc_angles_path.read_text(encoding="utf-8", errors="replace")
+    arc_mathf_text = arc_mathf_path.read_text(encoding="utf-8", errors="replace")
+    arc_position_text = arc_position_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "bullet_rotation_method": "protected float bulletRotation(Unit unit, WeaponMount mount, float bulletX, float bulletY){",
+        "bullet_rotation_return": "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation;",
+        "shoot_angle": "shootAngle = bulletRotation(unit, mount, bulletX, bulletY) + angleOffset,",
+        "life_scl": "lifeScl = bullet.scaleLife ? Mathf.clamp(Mathf.dst(bulletX, bulletY, mount.aimX, mount.aimY) / bullet.range) : 1f,",
+        "angle": "angle = shootAngle + Mathf.range(inaccuracy + bullet.inaccuracy);",
+        "weapon_inaccuracy": "public float inaccuracy = 0f;",
+        "bullet_scale_life": "public boolean scaleLife;",
+        "bullet_range": "public float range = 0f;",
+        "bullet_inaccuracy": "public float inaccuracy = 0f;",
+        "angles_angle": "float ang = Mathf.atan2(x2 - x, y2 - y) * Mathf.radDeg;",
+        "position_angle_to": "return Angles.angle(getX(), getY(), x, y);",
+        "mathf_clamp_unit": "public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }",
+        "mathf_dst": "public static float dst(float x1, float y1, float x2, float y2){",
+        "mathf_range": "public static float range(float range){\n        return random(-range, range);\n    }",
+    }
+    source_map = {
+        "bullet_rotation_method": source,
+        "bullet_rotation_return": source,
+        "shoot_angle": source,
+        "life_scl": source,
+        "angle": source,
+        "weapon_inaccuracy": source,
+        "bullet_scale_life": bullet_type_text,
+        "bullet_range": bullet_type_text,
+        "bullet_inaccuracy": bullet_type_text,
+        "angles_angle": arc_angles_text,
+        "position_angle_to": arc_position_text,
+        "mathf_clamp_unit": arc_mathf_text,
+        "mathf_dst": arc_mathf_text,
+        "mathf_range": arc_mathf_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "bullet_type_source": bullet_type_source,
+        "arc_angles_source": arc_angles_source,
+        "arc_mathf_source": arc_mathf_source,
+        "arc_position_source": arc_position_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

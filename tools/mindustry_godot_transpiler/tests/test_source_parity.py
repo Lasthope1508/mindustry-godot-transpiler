@@ -4537,6 +4537,33 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_bullet_angle_life_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_bullet_angle_life_source"))
+        report = source_parity.verify_weapon_bullet_angle_life_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["bullet_type_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["arc_angles_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(report["arc_mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["arc_position_source"], "arc-core/src/arc/math/geom/Position.java")
+        self.assertEqual(report["checked"], {
+            "bullet_rotation_method": "protected float bulletRotation(Unit unit, WeaponMount mount, float bulletX, float bulletY){",
+            "bullet_rotation_return": "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation;",
+            "shoot_angle": "shootAngle = bulletRotation(unit, mount, bulletX, bulletY) + angleOffset,",
+            "life_scl": "lifeScl = bullet.scaleLife ? Mathf.clamp(Mathf.dst(bulletX, bulletY, mount.aimX, mount.aimY) / bullet.range) : 1f,",
+            "angle": "angle = shootAngle + Mathf.range(inaccuracy + bullet.inaccuracy);",
+            "weapon_inaccuracy": "public float inaccuracy = 0f;",
+            "bullet_scale_life": "public boolean scaleLife;",
+            "bullet_range": "public float range = 0f;",
+            "bullet_inaccuracy": "public float inaccuracy = 0f;",
+            "angles_angle": "float ang = Mathf.atan2(x2 - x, y2 - y) * Mathf.radDeg;",
+            "position_angle_to": "return Angles.angle(getX(), getY(), x, y);",
+            "mathf_clamp_unit": "public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }",
+            "mathf_dst": "public static float dst(float x1, float y1, float x2, float y2){",
+            "mathf_range": "public static float range(float range){\n        return random(-range, range);\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

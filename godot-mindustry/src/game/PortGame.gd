@@ -4291,6 +4291,61 @@ func source_weapon_bullet_geometry_state(unit_state: Dictionary, mount_state: Di
 		"shootAngleReservedSource": "shootAngle = bulletRotation(unit, mount, bulletX, bulletY) + angleOffset",
 	}
 
+func source_weapon_bullet_angle_life_state(unit_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, x_offset: float, y_offset: float, x_spread: float, y_spread: float, angle_offset: float, angle_spread: float) -> Dictionary:
+	var geometry_state := source_weapon_bullet_geometry_state(unit_state, mount_state, weapon_state, x_offset, y_offset, x_spread, y_spread)
+	var bullet_continues := bool(geometry_state.get("bulletContinues", false))
+	if not bullet_continues:
+		return {
+			"bulletContinues": false,
+			"mountCharging": geometry_state.get("mountCharging", false),
+			"shootAngleSource": "shootAngle = bulletRotation(unit, mount, bulletX, bulletY) + angleOffset",
+			"lifeSclSource": "lifeScl = bullet.scaleLife ? Mathf.clamp(Mathf.dst(bulletX, bulletY, mount.aimX, mount.aimY) / bullet.range) : 1f",
+			"angleSource": "angle = shootAngle + Mathf.range(inaccuracy + bullet.inaccuracy)",
+		}
+	var mount_x := float(geometry_state["mountX"])
+	var mount_y := float(geometry_state["mountY"])
+	var bullet_x := float(geometry_state["bulletX"])
+	var bullet_y := float(geometry_state["bulletY"])
+	var adjusted_weapon_state := weapon_state.duplicate(true)
+	adjusted_weapon_state["shootX"] = float(weapon_state.get("shootX", 0.0)) + x_offset + x_spread
+	adjusted_weapon_state["shootY"] = float(weapon_state.get("shootY", 3.0)) + y_offset + y_spread
+	var bullet_rotation_state := source_weapon_update_bullet_origin_state(mount_state, adjusted_weapon_state, unit_state, mount_x, mount_y)
+	var shoot_angle := float(bullet_rotation_state["shootAngle"]) + angle_offset
+	var life_scl := 1.0
+	var bullet_scale_life := bool(bullet_state.get("scaleLife", false))
+	var bullet_range := float(bullet_state.get("range", 0.0))
+	var target_distance := source_mathf_dst(bullet_x, bullet_y, float(mount_state.get("aimX", 0.0)), float(mount_state.get("aimY", 0.0)))
+	if bullet_scale_life:
+		var life_ratio := target_distance / bullet_range
+		life_scl = clampf(life_ratio, 0.0, 1.0)
+	var weapon_inaccuracy := float(weapon_state.get("inaccuracy", 0.0))
+	var bullet_inaccuracy := float(bullet_state.get("inaccuracy", 0.0))
+	var angle := shoot_angle + angle_spread
+	return {
+		"bulletContinues": true,
+		"mountCharging": geometry_state.get("mountCharging", false),
+		"shootAngle": shoot_angle,
+		"bulletRotation": float(bullet_rotation_state["shootAngle"]),
+		"lifeScl": life_scl,
+		"angle": angle,
+		"angleSpread": angle_spread,
+		"inaccuracyRange": weapon_inaccuracy + bullet_inaccuracy,
+		"bulletScaleLife": bullet_scale_life,
+		"bulletRange": bullet_range,
+		"targetDistance": target_distance,
+		"bulletX": bullet_x,
+		"bulletY": bullet_y,
+		"mountX": mount_x,
+		"mountY": mount_y,
+		"bulletRotationSource": "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation",
+		"shootAngleSource": "shootAngle = bulletRotation(unit, mount, bulletX, bulletY) + angleOffset",
+		"lifeSclSource": "lifeScl = bullet.scaleLife ? Mathf.clamp(Mathf.dst(bulletX, bulletY, mount.aimX, mount.aimY) / bullet.range) : 1f",
+		"mathfDstSource": "public static float dst(float x1, float y1, float x2, float y2)",
+		"mathfClampSource": "return Math.max(Math.min(value, 1f), 0f)",
+		"angleSource": "angle = shootAngle + Mathf.range(inaccuracy + bullet.inaccuracy)",
+		"mathfRangeSource": "return random(-range, range)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

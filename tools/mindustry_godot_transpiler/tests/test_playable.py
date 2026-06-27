@@ -3812,6 +3812,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"bulletXSource": "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX + xOffset + xSpread, this.shootY + yOffset + ySpread)"', source)
         self.assertIn('"shootAngleReservedSource": "shootAngle = bulletRotation(unit, mount, bulletX, bulletY) + angleOffset"', source)
 
+    def test_port_game_exposes_source_weapon_bullet_angle_life_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_bullet_angle_life_state(unit_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, x_offset: float, y_offset: float, x_spread: float, y_spread: float, angle_offset: float, angle_spread: float) -> Dictionary:", source)
+        self.assertIn("var geometry_state := source_weapon_bullet_geometry_state(unit_state, mount_state, weapon_state, x_offset, y_offset, x_spread, y_spread)", source)
+        self.assertIn("var adjusted_weapon_state := weapon_state.duplicate(true)", source)
+        self.assertIn("adjusted_weapon_state[\"shootX\"] = float(weapon_state.get(\"shootX\", 0.0)) + x_offset + x_spread", source)
+        self.assertIn("adjusted_weapon_state[\"shootY\"] = float(weapon_state.get(\"shootY\", 3.0)) + y_offset + y_spread", source)
+        self.assertIn("var bullet_rotation_state := source_weapon_update_bullet_origin_state(mount_state, adjusted_weapon_state, unit_state, mount_x, mount_y)", source)
+        self.assertIn("var shoot_angle := float(bullet_rotation_state[\"shootAngle\"]) + angle_offset", source)
+        self.assertIn("var life_scl := 1.0", source)
+        self.assertIn("life_scl = clampf(life_ratio, 0.0, 1.0)", source)
+        self.assertIn("var angle := shoot_angle + angle_spread", source)
+        self.assertIn('"lifeSclSource": "lifeScl = bullet.scaleLife ? Mathf.clamp(Mathf.dst(bulletX, bulletY, mount.aimX, mount.aimY) / bullet.range) : 1f"', source)
+        self.assertIn('"angleSource": "angle = shootAngle + Mathf.range(inaccuracy + bullet.inaccuracy)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
