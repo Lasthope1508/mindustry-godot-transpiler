@@ -10030,6 +10030,29 @@ def verify_bullet_type_hit_tile_lifesteal_state_source(upstream_root: Path) -> d
         "missing": missing,
     }
 
+def verify_bullet_type_handle_pierce_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void handlePierce(Bullet b, float initialHealth, float x, float y){",
+        "sub_assignment": "float sub = Mathf.zero(pierceDamageFactor) ? 0f : Math.max(initialHealth * pierceDamageFactor, 0);",
+        "subtract_comment": "//subtract health from each consecutive pierce",
+        "damage_subtract": "b.damage -= Float.isNaN(sub) ? b.damage : Math.min(b.damage, sub);",
+        "remove_gate": "if(removeAfterPierce && b.damage <= 0){",
+        "hit_assignment": "b.hit = true;",
+        "remove_call": "b.remove();",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

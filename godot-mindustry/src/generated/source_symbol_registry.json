@@ -404,6 +404,160 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_tile_lifesteal_state"
     },
+    "handle_pierce.pierce_damage_factor": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+      "java_expr": "pierceDamageFactor",
+      "godot_symbol": "bullet_type_state.pierceDamageFactor",
+      "godot_owner": "PortGame.source_bullet_type_handle_pierce_state",
+      "rule": "Use BulletType.pierceDamageFactor for handlePierce sub calculation.",
+      "tests": [
+        "test_bullet_type_handle_pierce_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_handle_pierce_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_handle_pierce_state"
+    },
+    "handle_pierce.remove_after_pierce": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+      "java_expr": "removeAfterPierce",
+      "godot_symbol": "bullet_type_state.removeAfterPierce",
+      "godot_owner": "PortGame.source_bullet_type_handle_pierce_state",
+      "rule": "Use BulletType.removeAfterPierce for handlePierce removal gate.",
+      "tests": [
+        "test_bullet_type_handle_pierce_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_handle_pierce_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_handle_pierce_state"
+    },
+    "handle_pierce.initial_health": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+      "java_expr": "initialHealth",
+      "godot_symbol": "pierce_state.initialHealth",
+      "godot_owner": "PortGame.source_bullet_type_handle_pierce_state",
+      "rule": "Represent handlePierce initialHealth method parameter as explicit input.",
+      "tests": [
+        "test_bullet_type_handle_pierce_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_handle_pierce_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_handle_pierce_state"
+    },
+    "handle_pierce.x": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+      "java_expr": "x",
+      "godot_symbol": "pierce_state.x",
+      "godot_owner": "PortGame.source_bullet_type_handle_pierce_state",
+      "rule": "Preserve handlePierce x method parameter even though current source body does not use it.",
+      "tests": [
+        "test_bullet_type_handle_pierce_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_handle_pierce_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_handle_pierce_state"
+    },
+    "handle_pierce.y": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+      "java_expr": "y",
+      "godot_symbol": "pierce_state.y",
+      "godot_owner": "PortGame.source_bullet_type_handle_pierce_state",
+      "rule": "Preserve handlePierce y method parameter even though current source body does not use it.",
+      "tests": [
+        "test_bullet_type_handle_pierce_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_handle_pierce_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_handle_pierce_state"
+    },
+    "handle_pierce.bullet.damage": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+      "java_expr": "b.damage",
+      "godot_symbol": "bullet_state.damage",
+      "godot_owner": "PortGame.source_bullet_type_handle_pierce_state",
+      "rule": "Use b.damage as the mutable damage value in handlePierce.",
+      "tests": [
+        "test_bullet_type_handle_pierce_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_handle_pierce_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_handle_pierce_state"
+    },
+    "handle_pierce.sub": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+      "java_expr": "Mathf.zero(pierceDamageFactor) ? 0f : Math.max(initialHealth * pierceDamageFactor, 0)",
+      "godot_symbol": "handle_pierce_result.sub",
+      "godot_owner": "PortGame.source_bullet_type_handle_pierce_state",
+      "rule": "Use exact source sub expression with Arc Mathf.zero threshold.",
+      "tests": [
+        "test_bullet_type_handle_pierce_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_handle_pierce_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_handle_pierce_state"
+    },
+    "handle_pierce.damage_subtract": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+      "java_expr": "Float.isNaN(sub) ? b.damage : Math.min(b.damage, sub)",
+      "godot_symbol": "handle_pierce_result.damageSubtract",
+      "godot_owner": "PortGame.source_bullet_type_handle_pierce_state",
+      "rule": "Use exact source subtraction operand before mutating b.damage.",
+      "tests": [
+        "test_bullet_type_handle_pierce_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_handle_pierce_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_handle_pierce_state"
+    },
+    "handle_pierce.remove_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+      "java_expr": "removeAfterPierce && b.damage <= 0",
+      "godot_symbol": "handle_pierce_result.removeGatePassed",
+      "godot_owner": "PortGame.source_bullet_type_handle_pierce_state",
+      "rule": "Use exact source removal gate after b.damage mutation.",
+      "tests": [
+        "test_bullet_type_handle_pierce_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_handle_pierce_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_handle_pierce_state"
+    },
+    "handle_pierce.hit_assignment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+      "java_expr": "b.hit = true",
+      "godot_symbol": "handle_pierce_result.hit",
+      "godot_owner": "PortGame.source_bullet_type_handle_pierce_state",
+      "rule": "Record b.hit assignment when removal gate passes.",
+      "tests": [
+        "test_bullet_type_handle_pierce_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_handle_pierce_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_handle_pierce_state"
+    },
+    "handle_pierce.remove_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+      "java_expr": "b.remove()",
+      "godot_symbol": "handle_pierce_result.removeCalled",
+      "godot_owner": "PortGame.source_bullet_type_handle_pierce_state",
+      "rule": "Record b.remove() when removal gate passes.",
+      "tests": [
+        "test_bullet_type_handle_pierce_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_handle_pierce_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_handle_pierce_state"
+    },
     "hit_tile.heals": {
       "status": "source-backed",
       "java_source": "core/src/mindustry/entities/bullet/BulletType.java",

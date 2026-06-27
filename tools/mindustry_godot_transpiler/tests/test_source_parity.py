@@ -5566,6 +5566,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_handle_pierce_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_handle_pierce_state_source"))
+        report = source_parity.verify_bullet_type_handle_pierce_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void handlePierce(Bullet b, float initialHealth, float x, float y){",
+            "sub_assignment": "float sub = Mathf.zero(pierceDamageFactor) ? 0f : Math.max(initialHealth * pierceDamageFactor, 0);",
+            "subtract_comment": "//subtract health from each consecutive pierce",
+            "damage_subtract": "b.damage -= Float.isNaN(sub) ? b.damage : Math.min(b.damage, sub);",
+            "remove_gate": "if(removeAfterPierce && b.damage <= 0){",
+            "hit_assignment": "b.hit = true;",
+            "remove_call": "b.remove();",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_bullet_type_building_damage_state_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_bullet_type_building_damage_state_source"))
         report = source_parity.verify_bullet_type_building_damage_state_source(ROOT / "mindustry-upstream")

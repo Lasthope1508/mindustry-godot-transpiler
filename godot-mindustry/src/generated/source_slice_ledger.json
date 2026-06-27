@@ -197,6 +197,39 @@
         "test_port_game_exposes_source_bullet_type_hit_tile_lifesteal_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_tile_lifesteal_state"
+    },
+    "N409": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_handle_pierce_state",
+      "exact_exprs": [
+        "float sub = Mathf.zero(pierceDamageFactor) ? 0f : Math.max(initialHealth * pierceDamageFactor, 0)",
+        "b.damage -= Float.isNaN(sub) ? b.damage : Math.min(b.damage, sub)",
+        "if(removeAfterPierce && b.damage <= 0)",
+        "b.hit = true",
+        "b.remove()"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "handle_pierce.pierce_damage_factor",
+        "handle_pierce.remove_after_pierce",
+        "handle_pierce.initial_health",
+        "handle_pierce.x",
+        "handle_pierce.y",
+        "handle_pierce.bullet.damage",
+        "handle_pierce.sub",
+        "handle_pierce.damage_subtract",
+        "handle_pierce.remove_gate",
+        "handle_pierce.hit_assignment",
+        "handle_pierce.remove_call"
+      ],
+      "tests": [
+        "test_bullet_type_handle_pierce_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_handle_pierce_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_handle_pierce_state"
     }
   },
   "version": 1

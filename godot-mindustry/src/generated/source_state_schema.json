@@ -47,6 +47,36 @@
           ],
           "rule": "Use bullet.team; do not infer from owner or turret."
         },
+        "damage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+          "java_expr": "b.damage",
+          "godot_symbol": "bullet_state.damage",
+          "used_by": [
+            "PortGame.source_bullet_type_handle_pierce_state"
+          ],
+          "rule": "Use mutable b.damage for handlePierce damage subtraction."
+        },
+        "hit": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+          "java_expr": "b.hit",
+          "godot_symbol": "bullet_state.hit",
+          "used_by": [
+            "PortGame.source_bullet_type_handle_pierce_state"
+          ],
+          "rule": "Use b.hit as mutable hit flag set when removeAfterPierce gate passes."
+        },
+        "removed": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "b.remove() side effect",
+          "rule": "Runtime record of whether b.remove() would be called."
+        },
         "x": {
           "type": "float",
           "status": "source-backed",
@@ -124,6 +154,30 @@
             "PortGame.source_bullet_type_hit_tile_lifesteal_state"
           ],
           "rule": "Canonical BulletType.damage field for hitTile lifesteal result clamp."
+        },
+        "pierceDamageFactor": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+          "java_expr": "pierceDamageFactor",
+          "godot_symbol": "bullet_type_state.pierceDamageFactor",
+          "used_by": [
+            "PortGame.source_bullet_type_handle_pierce_state"
+          ],
+          "rule": "Canonical BulletType.pierceDamageFactor field for handlePierce."
+        },
+        "removeAfterPierce": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+          "java_expr": "removeAfterPierce",
+          "godot_symbol": "bullet_type_state.removeAfterPierce",
+          "used_by": [
+            "PortGame.source_bullet_type_handle_pierce_state"
+          ],
+          "rule": "Canonical BulletType.removeAfterPierce field for handlePierce removal gate."
         },
         "healAmount": {
           "type": "float",
@@ -276,6 +330,214 @@
             "PortGame.source_bullet_type_hit_tile_fire_state"
           ],
           "rule": "Use build.tile as the only Fires.create argument."
+        }
+      }
+    },
+    "pierce_state": {
+      "status": "active",
+      "keys": {
+        "initialHealth": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+          "java_expr": "initialHealth",
+          "godot_symbol": "pierce_state.initialHealth",
+          "used_by": [
+            "PortGame.source_bullet_type_handle_pierce_state"
+          ],
+          "rule": "Explicit handlePierce initialHealth method parameter."
+        },
+        "x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+          "java_expr": "x",
+          "godot_symbol": "pierce_state.x",
+          "used_by": [
+            "PortGame.source_bullet_type_handle_pierce_state"
+          ],
+          "rule": "Explicit handlePierce x method parameter, currently unused by source body."
+        },
+        "y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+          "java_expr": "y",
+          "godot_symbol": "pierce_state.y",
+          "used_by": [
+            "PortGame.source_bullet_type_handle_pierce_state"
+          ],
+          "rule": "Explicit handlePierce y method parameter, currently unused by source body."
+        }
+      }
+    },
+    "handle_pierce_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_type_state",
+          "rule": "Runtime echo of input bullet_type_state."
+        },
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime echo of mutated bullet_state."
+        },
+        "pierce": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "pierce_state",
+          "rule": "Runtime echo of input pierce_state."
+        },
+        "pierceDamageFactor": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_type_state.pierceDamageFactor",
+          "rule": "CamelCase runtime key aliases bullet_type_state.pierceDamageFactor."
+        },
+        "removeAfterPierce": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "bullet_type_state.removeAfterPierce",
+          "rule": "CamelCase runtime key aliases bullet_type_state.removeAfterPierce."
+        },
+        "initialHealth": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "pierce_state.initialHealth",
+          "rule": "CamelCase runtime key aliases pierce_state.initialHealth."
+        },
+        "x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "pierce_state.x",
+          "rule": "Runtime key aliases pierce_state.x."
+        },
+        "y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "pierce_state.y",
+          "rule": "Runtime key aliases pierce_state.y."
+        },
+        "zeroPierceDamageFactor": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+          "java_expr": "Mathf.zero(pierceDamageFactor)",
+          "godot_symbol": "handle_pierce_result.zeroPierceDamageFactor",
+          "used_by": [
+            "PortGame.source_bullet_type_handle_pierce_state"
+          ],
+          "rule": "Arc Mathf.zero check for pierceDamageFactor."
+        },
+        "sub": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+          "java_expr": "Mathf.zero(pierceDamageFactor) ? 0f : Math.max(initialHealth * pierceDamageFactor, 0)",
+          "godot_symbol": "handle_pierce_result.sub",
+          "used_by": [
+            "PortGame.source_bullet_type_handle_pierce_state"
+          ],
+          "rule": "Exact source sub expression."
+        },
+        "damageBefore": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_state.damage",
+          "rule": "Records b.damage before handlePierce mutation."
+        },
+        "damageSubtract": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+          "java_expr": "Float.isNaN(sub) ? b.damage : Math.min(b.damage, sub)",
+          "godot_symbol": "handle_pierce_result.damageSubtract",
+          "used_by": [
+            "PortGame.source_bullet_type_handle_pierce_state"
+          ],
+          "rule": "Exact source operand subtracted from b.damage."
+        },
+        "damage": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_state.damage after handlePierce",
+          "rule": "Runtime key records mutated b.damage."
+        },
+        "removeGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+          "java_expr": "removeAfterPierce && b.damage <= 0",
+          "godot_symbol": "handle_pierce_result.removeGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_handle_pierce_state"
+          ],
+          "rule": "Exact removal gate after damage mutation."
+        },
+        "hit": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+          "java_expr": "b.hit = true",
+          "godot_symbol": "handle_pierce_result.hit",
+          "used_by": [
+            "PortGame.source_bullet_type_handle_pierce_state"
+          ],
+          "rule": "Records b.hit assignment when remove gate passes."
+        },
+        "removeCalled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+          "java_expr": "b.remove()",
+          "godot_symbol": "handle_pierce_result.removeCalled",
+          "used_by": [
+            "PortGame.source_bullet_type_handle_pierce_state"
+          ],
+          "rule": "Records b.remove() call when remove gate passes."
+        },
+        "subSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.handlePierce.sub",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "damageSubtractSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.handlePierce.damage_subtract",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "removeAfterPierceSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.handlePierce.remove_gate",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "hitAssignmentSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.handlePierce.hit_assignment",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "removeCallSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.handlePierce.remove_call",
+          "rule": "Debug source-line echo, not gameplay state."
         }
       }
     },

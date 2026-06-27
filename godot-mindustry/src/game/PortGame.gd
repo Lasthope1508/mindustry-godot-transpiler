@@ -6285,6 +6285,49 @@ func source_bullet_type_hit_tile_lifesteal_state(bullet_type_state: Dictionary, 
 		"pierceSource": "handlePierce(b, initialHealth, x, y)",
 	}
 
+func source_bullet_type_handle_pierce_state(bullet_type_state: Dictionary, bullet_state: Dictionary, pierce_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_pierce_state: Dictionary = pierce_state.duplicate(true)
+	var pierce_damage_factor := float(update_type_state.get("pierceDamageFactor", 0.0))
+	var remove_after_pierce := bool(update_type_state.get("removeAfterPierce", false))
+	var initial_health := float(update_pierce_state.get("initialHealth", 0.0))
+	var x := float(update_pierce_state.get("x", 0.0))
+	var y := float(update_pierce_state.get("y", 0.0))
+	var bullet_damage := float(update_bullet_state.get("damage", 0.0))
+	var zero_pierce_damage_factor := absf(pierce_damage_factor) <= 0.000001
+	var sub := 0.0 if zero_pierce_damage_factor else maxf(initial_health * pierce_damage_factor, 0.0)
+	var damage_subtract := bullet_damage if is_nan(sub) else minf(bullet_damage, sub)
+	var next_damage := bullet_damage - damage_subtract
+	var remove_gate_passed := remove_after_pierce and next_damage <= 0.0
+	update_bullet_state["damage"] = next_damage
+	if remove_gate_passed:
+		update_bullet_state["hit"] = true
+		update_bullet_state["removed"] = true
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"pierce": update_pierce_state,
+		"pierceDamageFactor": pierce_damage_factor,
+		"removeAfterPierce": remove_after_pierce,
+		"initialHealth": initial_health,
+		"x": x,
+		"y": y,
+		"zeroPierceDamageFactor": zero_pierce_damage_factor,
+		"sub": sub,
+		"damageBefore": bullet_damage,
+		"damageSubtract": damage_subtract,
+		"damage": next_damage,
+		"removeGatePassed": remove_gate_passed,
+		"hit": bool(update_bullet_state.get("hit", false)),
+		"removeCalled": bool(update_bullet_state.get("removed", false)),
+		"subSource": "float sub = Mathf.zero(pierceDamageFactor) ? 0f : Math.max(initialHealth * pierceDamageFactor, 0)",
+		"damageSubtractSource": "b.damage -= Float.isNaN(sub) ? b.damage : Math.min(b.damage, sub)",
+		"removeAfterPierceSource": "if(removeAfterPierce && b.damage <= 0)",
+		"hitAssignmentSource": "b.hit = true",
+		"removeCallSource": "b.remove()",
+	}
+
 func source_bullet_type_building_damage_state(bullet_state: Dictionary) -> Dictionary:
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
 	var damage := float(update_bullet_state.get("damage", 0.0))

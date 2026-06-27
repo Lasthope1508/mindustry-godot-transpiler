@@ -132,14 +132,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(lifesteal_result["java_expr"], "Math.max(Math.min(build.health, damage), 0)")
         self.assertEqual(lifesteal_result["godot_symbol"], "hit_tile_lifesteal_result.lifestealResult")
 
+    def test_handle_pierce_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        sub = source_symbols.source_symbol(registry, "handle_pierce.sub")
+        self.assertEqual(sub["java_expr"], "Mathf.zero(pierceDamageFactor) ? 0f : Math.max(initialHealth * pierceDamageFactor, 0)")
+        self.assertEqual(sub["godot_owner"], "PortGame.source_bullet_type_handle_pierce_state")
+        self.assertEqual(sub["runtime_proof"], "/root/Main.source_bullet_type_handle_pierce_state")
+
+        damage_subtract = source_symbols.source_symbol(registry, "handle_pierce.damage_subtract")
+        self.assertEqual(damage_subtract["java_expr"], "Float.isNaN(sub) ? b.damage : Math.min(b.damage, sub)")
+        self.assertEqual(damage_subtract["godot_symbol"], "handle_pierce_result.damageSubtract")
+
+        initial_health = source_symbols.source_symbol(registry, "handle_pierce.initial_health")
+        self.assertEqual(initial_health["status"], "explicit-input")
+        self.assertEqual(initial_health["godot_symbol"], "pierce_state.initialHealth")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 6)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 7)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 11)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 12)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -151,6 +170,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_enemy_direct_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_lifesteal_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_handle_pierce_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -197,6 +217,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(hit_tile_lifesteal["godot_owner"], "PortGame.source_bullet_type_hit_tile_lifesteal_state")
         self.assertIn("float result = Math.max(Math.min(build.health, damage), 0)", hit_tile_lifesteal["exact_exprs"])
 
+        handle_pierce = source_symbols.source_slice(ledger, "N409")
+        self.assertEqual(handle_pierce["java_method"], "handlePierce(Bullet b, float initialHealth, float x, float y)")
+        self.assertEqual(handle_pierce["godot_owner"], "PortGame.source_bullet_type_handle_pierce_state")
+        self.assertIn("b.damage -= Float.isNaN(sub) ? b.damage : Math.min(b.damage, sub)", handle_pierce["exact_exprs"])
+
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_api_contracts(contracts)
@@ -238,6 +263,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("lifestealGatePassed", hit_tile_lifesteal["return_keys"])
         self.assertIn("ownerHealAmount", hit_tile_lifesteal["return_keys"])
         self.assertEqual(hit_tile_lifesteal["source_method"], "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)")
+
+        handle_pierce = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_handle_pierce_state")
+        self.assertEqual([param["name"] for param in handle_pierce["params"]], ["bullet_type_state", "bullet_state", "pierce_state"])
+        self.assertEqual(handle_pierce["params"][2]["schema"], "pierce_state")
+        self.assertIn("damage", handle_pierce["return_keys"])
+        self.assertIn("removeCalled", handle_pierce["return_keys"])
+        self.assertEqual(handle_pierce["source_method"], "handlePierce(Bullet b, float initialHealth, float x, float y)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -286,6 +318,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(lifesteal_output["keys"]["lifestealGatePassed"]["java_expr"], "lifesteal > 0f && b.owner instanceof Healthc o")
         self.assertEqual(lifesteal_output["keys"]["lifestealResult"]["java_expr"], "Math.max(Math.min(build.health, damage), 0)")
         self.assertEqual(lifesteal_output["keys"]["ownerHealAmount"]["java_expr"], "result * lifesteal")
+
+        pierce_state = source_symbols.state_schema(schema, "pierce_state")
+        self.assertEqual(pierce_state["keys"]["initialHealth"]["java_expr"], "initialHealth")
+        self.assertEqual(pierce_state["keys"]["initialHealth"]["status"], "explicit-input")
+
+        handle_pierce_output = source_symbols.state_schema(schema, "handle_pierce_result")
+        self.assertEqual(handle_pierce_output["keys"]["sub"]["java_expr"], "Mathf.zero(pierceDamageFactor) ? 0f : Math.max(initialHealth * pierceDamageFactor, 0)")
+        self.assertEqual(handle_pierce_output["keys"]["damageSubtract"]["java_expr"], "Float.isNaN(sub) ? b.damage : Math.min(b.damage, sub)")
+        self.assertEqual(handle_pierce_output["keys"]["removeGatePassed"]["java_expr"], "removeAfterPierce && b.damage <= 0")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {
