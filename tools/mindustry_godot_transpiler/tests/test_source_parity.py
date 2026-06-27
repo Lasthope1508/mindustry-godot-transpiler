@@ -6018,6 +6018,27 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_create_units_initial_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_create_units_initial_state_source"))
+        report = source_parity.verify_bullet_type_create_units_initial_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "despawn_unit_field": "public @Nullable UnitType despawnUnit;",
+            "despawn_unit_chance_field": "public float despawnUnitChance = 1;",
+            "despawn_unit_count_field": "public int despawnUnitCount = 1;",
+            "despawn_unit_radius_field": "public float despawnUnitRadius = 0.1f;",
+            "face_outwards_field": "public boolean faceOutwards = false;",
+            "method": "public void createUnits(Bullet b, float x, float y){",
+            "initial_gate": "if(!net.client() && despawnUnit != null && Mathf.chance(despawnUnitChance)){",
+            "loop_boundary": "for(int i = 0; i < despawnUnitCount; i++){",
+            "random_offset_boundary": "Tmp.v1.rnd(Mathf.random(despawnUnitRadius));",
+            "spawn_boundary": "var u = despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y);",
+            "rotation_boundary": "u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation();",
+            "notify_boundary": "Units.notifyUnitSpawn(u);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_bullet_type_building_damage_state_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_bullet_type_building_damage_state_source"))
         report = source_parity.verify_bullet_type_building_damage_state_source(ROOT / "mindustry-upstream")

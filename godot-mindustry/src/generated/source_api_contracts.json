@@ -1667,6 +1667,71 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_incend_state",
       "rule": "Public runtime contract for createIncend chance gate and Damage.createIncend call arguments only; fire-world mutation remains deferred."
+    },
+    "PortGame.source_bullet_type_create_units_initial_state": {
+      "status": "active",
+      "source_slice": "N436",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createUnits(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "create_units_state",
+          "type": "Dictionary",
+          "schema": "create_units_state"
+        },
+        {
+          "name": "create_units_random_state",
+          "type": "Dictionary",
+          "schema": "create_units_random_state"
+        },
+        {
+          "name": "net_state",
+          "type": "Dictionary",
+          "schema": "net_state"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createUnits",
+        "createUnitsRandom",
+        "net",
+        "x",
+        "y",
+        "netClient",
+        "despawnUnit",
+        "despawnUnitChance",
+        "despawnUnitCount",
+        "despawnUnitRadius",
+        "faceOutwards",
+        "bulletTeam",
+        "chancePassed",
+        "chancePassedProvided",
+        "createUnitsGatePassed",
+        "loopIterations",
+        "gateSource",
+        "loopBoundarySource",
+        "randomOffsetBoundarySource",
+        "spawnBoundarySource",
+        "rotationBoundarySource",
+        "notifyBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_create_units_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_initial_state",
+      "rule": "Public runtime contract for createUnits initial gate and despawnUnitCount loop boundary only; random offset, spawn, rotation, and notify side effects remain deferred."
     }
   },
   "policy": {

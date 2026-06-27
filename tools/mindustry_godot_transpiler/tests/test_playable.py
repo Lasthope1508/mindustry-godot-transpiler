@@ -4968,6 +4968,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\"chanceSource\": \"Mathf.chance(incendChance)\"", source)
         self.assertIn("\"createIncendSource\": \"Damage.createIncend(x, y, incendSpread, incendAmount);\"", source)
 
+    def test_port_game_exposes_source_bullet_type_create_units_initial_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_create_units_initial_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_units_state: Dictionary, create_units_random_state: Dictionary, net_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var net_client := bool(update_net_state.get(\"client\", false))", source)
+        self.assertIn("var chance_passed: Variant = update_random_state.get(\"chancePassed\", null)", source)
+        self.assertIn("var create_units_gate_passed: bool = not net_client and despawn_unit != null and chance_passed == true", source)
+        self.assertIn("var loop_iterations := despawn_unit_count if create_units_gate_passed else 0", source)
+        self.assertIn("\"gateSource\": \"if(!net.client() && despawnUnit != null && Mathf.chance(despawnUnitChance)){\"", source)
+        self.assertIn("\"loopBoundarySource\": \"for(int i = 0; i < despawnUnitCount; i++){\"", source)
+        self.assertIn("\"randomOffsetBoundarySource\": \"Tmp.v1.rnd(Mathf.random(despawnUnitRadius));\"", source)
+        self.assertIn("\"spawnBoundarySource\": \"var u = despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y);\"", source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

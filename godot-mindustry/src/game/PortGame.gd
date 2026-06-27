@@ -6590,6 +6590,51 @@ func source_bullet_type_create_incend_state(bullet_type_state: Dictionary, bulle
 		"createIncendSource": "Damage.createIncend(x, y, incendSpread, incendAmount);",
 	}
 
+func source_bullet_type_create_units_initial_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_units_state: Dictionary, create_units_random_state: Dictionary, net_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_create_units_state: Dictionary = create_units_state.duplicate(true)
+	var update_random_state: Dictionary = create_units_random_state.duplicate(true)
+	var update_net_state: Dictionary = net_state.duplicate(true)
+	var unit_x := float(update_create_units_state.get("x", 0.0))
+	var unit_y := float(update_create_units_state.get("y", 0.0))
+	var net_client := bool(update_net_state.get("client", false))
+	var despawn_unit: Variant = update_type_state.get("despawnUnit", null)
+	var despawn_unit_chance := float(update_type_state.get("despawnUnitChance", 1.0))
+	var despawn_unit_count := int(update_type_state.get("despawnUnitCount", 1))
+	var despawn_unit_radius := float(update_type_state.get("despawnUnitRadius", 0.1))
+	var face_outwards := bool(update_type_state.get("faceOutwards", false))
+	var bullet_team: Variant = update_bullet_state.get("team", null)
+	var chance_passed: Variant = update_random_state.get("chancePassed", null)
+	var create_units_gate_passed: bool = not net_client and despawn_unit != null and chance_passed == true
+	var loop_iterations := despawn_unit_count if create_units_gate_passed else 0
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createUnits": update_create_units_state,
+		"createUnitsRandom": update_random_state,
+		"net": update_net_state,
+		"x": unit_x,
+		"y": unit_y,
+		"netClient": net_client,
+		"despawnUnit": despawn_unit,
+		"despawnUnitChance": despawn_unit_chance,
+		"despawnUnitCount": despawn_unit_count,
+		"despawnUnitRadius": despawn_unit_radius,
+		"faceOutwards": face_outwards,
+		"bulletTeam": bullet_team,
+		"chancePassed": chance_passed,
+		"chancePassedProvided": chance_passed != null,
+		"createUnitsGatePassed": create_units_gate_passed,
+		"loopIterations": loop_iterations,
+		"gateSource": "if(!net.client() && despawnUnit != null && Mathf.chance(despawnUnitChance)){",
+		"loopBoundarySource": "for(int i = 0; i < despawnUnitCount; i++){",
+		"randomOffsetBoundarySource": "Tmp.v1.rnd(Mathf.random(despawnUnitRadius));",
+		"spawnBoundarySource": "var u = despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y);",
+		"rotationBoundarySource": "u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation();",
+		"notifyBoundarySource": "Units.notifyUnitSpawn(u);",
+	}
+
 func source_bullet_type_hit_suppression_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_post_frag_dispatch_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

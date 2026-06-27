@@ -702,14 +702,40 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(chance_passed["status"], "explicit-input")
         self.assertEqual(chance_passed["godot_symbol"], "incend_random_state.chancePassed")
 
+    def test_bullet_type_create_units_initial_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        gate = source_symbols.source_symbol(registry, "create_units.initial.gate")
+        self.assertEqual(gate["java_expr"], "!net.client() && despawnUnit != null && Mathf.chance(despawnUnitChance)")
+        self.assertEqual(gate["godot_symbol"], "create_units_initial_result.createUnitsGatePassed")
+        self.assertEqual(gate["godot_owner"], "PortGame.source_bullet_type_create_units_initial_state")
+        self.assertEqual(gate["runtime_proof"], "/root/Main.source_bullet_type_create_units_initial_state")
+
+        net_client = source_symbols.source_symbol(registry, "create_units.initial.net_client")
+        self.assertEqual(net_client["java_expr"], "net.client()")
+        self.assertEqual(net_client["godot_symbol"], "net_state.client")
+        self.assertEqual(net_client["status"], "explicit-input")
+
+        chance_passed = source_symbols.source_symbol(registry, "create_units.initial.chance_passed")
+        self.assertEqual(chance_passed["java_expr"], "Mathf.chance(despawnUnitChance)")
+        self.assertEqual(chance_passed["godot_symbol"], "create_units_random_state.chancePassed")
+        self.assertEqual(chance_passed["status"], "explicit-input")
+
+        despawn_unit = source_symbols.source_symbol(registry, "create_units.initial.despawn_unit")
+        self.assertEqual(despawn_unit["java_expr"], "despawnUnit")
+        self.assertEqual(despawn_unit["godot_symbol"], "bullet_type_state.despawnUnit")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 33)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 34)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 38)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 39)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -748,6 +774,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_create_puddles_tile_world_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_puddles_deposit_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_incend_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_create_units_initial_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -953,6 +980,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(create_incend["godot_owner"], "PortGame.source_bullet_type_create_incend_state")
         self.assertIn("if(incendChance > 0 && Mathf.chance(incendChance))", create_incend["exact_exprs"])
         self.assertIn("Damage.createIncend(x, y, incendSpread, incendAmount)", create_incend["exact_exprs"])
+
+        create_units_initial = source_symbols.source_slice(ledger, "N436")
+        self.assertEqual(create_units_initial["java_method"], "createUnits(Bullet b, float x, float y)")
+        self.assertEqual(create_units_initial["godot_owner"], "PortGame.source_bullet_type_create_units_initial_state")
+        self.assertIn("if(!net.client() && despawnUnit != null && Mathf.chance(despawnUnitChance))", create_units_initial["exact_exprs"])
+        self.assertIn("for(int i = 0; i < despawnUnitCount; i++)", create_units_initial["exact_exprs"])
+        self.assertIn("Tmp.v1.rnd(Mathf.random(despawnUnitRadius))", create_units_initial["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -1221,6 +1255,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("createIncendCall", create_incend["return_keys"])
         self.assertIn("createIncendSource", create_incend["return_keys"])
         self.assertEqual(create_incend["source_method"], "createIncend(Bullet b, float x, float y)")
+
+        create_units_initial = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_create_units_initial_state")
+        self.assertEqual([param["name"] for param in create_units_initial["params"]], ["bullet_type_state", "bullet_state", "create_units_state", "create_units_random_state", "net_state"])
+        self.assertEqual(create_units_initial["params"][2]["schema"], "create_units_state")
+        self.assertEqual(create_units_initial["params"][3]["schema"], "create_units_random_state")
+        self.assertEqual(create_units_initial["params"][4]["schema"], "net_state")
+        self.assertIn("createUnitsGatePassed", create_units_initial["return_keys"])
+        self.assertIn("loopIterations", create_units_initial["return_keys"])
+        self.assertIn("randomOffsetBoundarySource", create_units_initial["return_keys"])
+        self.assertEqual(create_units_initial["source_method"], "createUnits(Bullet b, float x, float y)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -1494,6 +1538,24 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(create_incend_output["keys"]["createIncendCall"]["java_expr"], "Damage.createIncend(x, y, incendSpread, incendAmount)")
         self.assertEqual(create_incend_output["keys"]["createIncendCall"]["status"], "source-backed")
         self.assertEqual(create_incend_output["keys"]["createIncend"]["alias_of"], "create_incend_state")
+
+        create_units_state = source_symbols.state_schema(schema, "create_units_state")
+        self.assertEqual(create_units_state["keys"]["x"]["java_expr"], "x")
+        self.assertEqual(create_units_state["keys"]["y"]["java_expr"], "y")
+
+        create_units_random_state = source_symbols.state_schema(schema, "create_units_random_state")
+        self.assertEqual(create_units_random_state["keys"]["chancePassed"]["java_expr"], "Mathf.chance(despawnUnitChance)")
+        self.assertEqual(create_units_random_state["keys"]["chancePassed"]["status"], "explicit-input")
+
+        net_state = source_symbols.state_schema(schema, "net_state")
+        self.assertEqual(net_state["keys"]["client"]["java_expr"], "net.client()")
+        self.assertEqual(net_state["keys"]["client"]["status"], "explicit-input")
+
+        create_units_initial_output = source_symbols.state_schema(schema, "create_units_initial_result")
+        self.assertEqual(create_units_initial_output["keys"]["createUnitsGatePassed"]["java_expr"], "!net.client() && despawnUnit != null && Mathf.chance(despawnUnitChance)")
+        self.assertEqual(create_units_initial_output["keys"]["loopIterations"]["java_expr"], "for(int i = 0; i < despawnUnitCount; i++)")
+        self.assertEqual(create_units_initial_output["keys"]["randomOffsetBoundarySource"]["java_expr"], "Tmp.v1.rnd(Mathf.random(despawnUnitRadius));")
+        self.assertEqual(create_units_initial_output["keys"]["createUnits"]["alias_of"], "create_units_state")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

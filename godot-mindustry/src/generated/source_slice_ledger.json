@@ -992,6 +992,43 @@
         "test_port_game_exposes_source_bullet_type_create_incend_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_incend_state"
+    },
+    "N436": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_initial_state",
+      "exact_exprs": [
+        "if(!net.client() && despawnUnit != null && Mathf.chance(despawnUnitChance))",
+        "for(int i = 0; i < despawnUnitCount; i++)"
+      ],
+      "deferred_exprs": [
+        "Tmp.v1.rnd(Mathf.random(despawnUnitRadius))",
+        "despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y)",
+        "u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation()",
+        "Units.notifyUnitSpawn(u)"
+      ],
+      "source_symbols": [
+        "create_units.initial.net_client",
+        "create_units.initial.despawn_unit",
+        "create_units.initial.despawn_unit_chance",
+        "create_units.initial.chance_passed",
+        "create_units.initial.despawn_unit_count",
+        "create_units.initial.despawn_unit_radius",
+        "create_units.initial.face_outwards",
+        "create_units.initial.gate",
+        "create_units.initial.loop_boundary",
+        "create_units.initial.random_offset_boundary",
+        "create_units.initial.spawn_boundary",
+        "create_units.initial.rotation_boundary",
+        "create_units.initial.notify_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_units_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_initial_state"
     }
   },
   "version": 1

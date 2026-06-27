@@ -3427,6 +3427,188 @@
       "java_expr": "Damage.createIncend(x, y, incendSpread, incendAmount)",
       "godot_symbol": "create_incend_result.createIncendCall",
       "rule": "Record Damage.createIncend call arguments from the source createIncend gate without applying later fire-world effects."
+    },
+    "create_units.initial.net_client": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_initial_state",
+      "tests": [
+        "test_bullet_type_create_units_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_initial_state",
+      "status": "explicit-input",
+      "java_expr": "net.client()",
+      "godot_symbol": "net_state.client",
+      "rule": "Explicit net.client() result for createUnits gate; runtime must not query network state implicitly."
+    },
+    "create_units.initial.despawn_unit": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_initial_state",
+      "tests": [
+        "test_bullet_type_create_units_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_initial_state",
+      "status": "source-backed",
+      "java_expr": "despawnUnit",
+      "godot_symbol": "bullet_type_state.despawnUnit",
+      "rule": "Use BulletType.despawnUnit as the createUnits null gate and later spawn type."
+    },
+    "create_units.initial.despawn_unit_chance": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_initial_state",
+      "tests": [
+        "test_bullet_type_create_units_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_initial_state",
+      "status": "source-backed",
+      "java_expr": "despawnUnitChance = 1",
+      "godot_symbol": "bullet_type_state.despawnUnitChance",
+      "rule": "Use BulletType.despawnUnitChance default 1 for the createUnits chance gate."
+    },
+    "create_units.initial.chance_passed": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_initial_state",
+      "tests": [
+        "test_bullet_type_create_units_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_initial_state",
+      "status": "explicit-input",
+      "java_expr": "Mathf.chance(despawnUnitChance)",
+      "godot_symbol": "create_units_random_state.chancePassed",
+      "rule": "Explicit chance result for Mathf.chance(despawnUnitChance); runtime must not fabricate RNG output."
+    },
+    "create_units.initial.despawn_unit_count": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_initial_state",
+      "tests": [
+        "test_bullet_type_create_units_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_initial_state",
+      "status": "source-backed",
+      "java_expr": "despawnUnitCount = 1",
+      "godot_symbol": "bullet_type_state.despawnUnitCount",
+      "rule": "Use BulletType.despawnUnitCount as the createUnits loop boundary."
+    },
+    "create_units.initial.despawn_unit_radius": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_initial_state",
+      "tests": [
+        "test_bullet_type_create_units_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_initial_state",
+      "status": "source-backed",
+      "java_expr": "despawnUnitRadius = 0.1f",
+      "godot_symbol": "bullet_type_state.despawnUnitRadius",
+      "rule": "Carry BulletType.despawnUnitRadius to the random offset boundary without sampling yet."
+    },
+    "create_units.initial.face_outwards": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_initial_state",
+      "tests": [
+        "test_bullet_type_create_units_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_initial_state",
+      "status": "source-backed",
+      "java_expr": "faceOutwards = false",
+      "godot_symbol": "bullet_type_state.faceOutwards",
+      "rule": "Carry BulletType.faceOutwards to the later rotation boundary without applying rotation yet."
+    },
+    "create_units.initial.gate": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_initial_state",
+      "tests": [
+        "test_bullet_type_create_units_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_initial_state",
+      "status": "source-backed",
+      "java_expr": "!net.client() && despawnUnit != null && Mathf.chance(despawnUnitChance)",
+      "godot_symbol": "create_units_initial_result.createUnitsGatePassed",
+      "rule": "Result of source createUnits initial gate."
+    },
+    "create_units.initial.loop_boundary": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_initial_state",
+      "tests": [
+        "test_bullet_type_create_units_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_initial_state",
+      "status": "source-backed",
+      "java_expr": "for(int i = 0; i < despawnUnitCount; i++)",
+      "godot_symbol": "create_units_initial_result.loopIterations",
+      "rule": "Number of createUnits loop iterations after the source gate."
+    },
+    "create_units.initial.random_offset_boundary": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_initial_state",
+      "tests": [
+        "test_bullet_type_create_units_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_initial_state",
+      "status": "deferred",
+      "java_expr": "Tmp.v1.rnd(Mathf.random(despawnUnitRadius))",
+      "godot_symbol": "create_units_initial_result.randomOffsetBoundarySource",
+      "rule": "Boundary marker; random offset sampling remains a later source slice."
+    },
+    "create_units.initial.spawn_boundary": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_initial_state",
+      "tests": [
+        "test_bullet_type_create_units_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_initial_state",
+      "status": "deferred",
+      "java_expr": "despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y)",
+      "godot_symbol": "create_units_initial_result.spawnBoundarySource",
+      "rule": "Boundary marker; despawnUnit.spawn side effect remains a later source slice."
+    },
+    "create_units.initial.rotation_boundary": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_initial_state",
+      "tests": [
+        "test_bullet_type_create_units_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_initial_state",
+      "status": "deferred",
+      "java_expr": "u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation()",
+      "godot_symbol": "create_units_initial_result.rotationBoundarySource",
+      "rule": "Boundary marker; spawned unit rotation remains a later source slice."
+    },
+    "create_units.initial.notify_boundary": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_initial_state",
+      "tests": [
+        "test_bullet_type_create_units_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_initial_state",
+      "status": "deferred",
+      "java_expr": "Units.notifyUnitSpawn(u)",
+      "godot_symbol": "create_units_initial_result.notifyBoundarySource",
+      "rule": "Boundary marker; Units.notifyUnitSpawn side effect remains a later source slice."
     }
   }
 }

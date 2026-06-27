@@ -10713,6 +10713,34 @@ def verify_bullet_type_create_incend_state_source(upstream_root: Path) -> dict[s
         "missing": missing,
     }
 
+def verify_bullet_type_create_units_initial_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "despawn_unit_field": "public @Nullable UnitType despawnUnit;",
+        "despawn_unit_chance_field": "public float despawnUnitChance = 1;",
+        "despawn_unit_count_field": "public int despawnUnitCount = 1;",
+        "despawn_unit_radius_field": "public float despawnUnitRadius = 0.1f;",
+        "face_outwards_field": "public boolean faceOutwards = false;",
+        "method": "public void createUnits(Bullet b, float x, float y){",
+        "initial_gate": "if(!net.client() && despawnUnit != null && Mathf.chance(despawnUnitChance)){",
+        "loop_boundary": "for(int i = 0; i < despawnUnitCount; i++){",
+        "random_offset_boundary": "Tmp.v1.rnd(Mathf.random(despawnUnitRadius));",
+        "spawn_boundary": "var u = despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y);",
+        "rotation_boundary": "u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation();",
+        "notify_boundary": "Units.notifyUnitSpawn(u);",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
