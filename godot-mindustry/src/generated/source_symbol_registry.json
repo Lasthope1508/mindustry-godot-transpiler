@@ -893,6 +893,230 @@
         "test_port_game_exposes_source_bullet_type_draw_parts_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_draw_parts_state"
+    },
+    "hit_entity.entity.is_unit": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "entity instanceof Unit u",
+      "godot_symbol": "entity_state.isUnit",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_damage_cap_state",
+      "rule": "Represent Unit type check as explicit input until entity class hierarchy is ported.",
+      "tests": [
+        "test_bullet_type_hit_entity_damage_cap_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_damage_cap_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_damage_cap_state"
+    },
+    "hit_entity.entity.unit_dead": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "u.dead",
+      "godot_symbol": "entity_state.unitDead",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_damage_cap_state",
+      "rule": "Represent Unit.dead as explicit input for wasDead source predicate.",
+      "tests": [
+        "test_bullet_type_hit_entity_damage_cap_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_damage_cap_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_damage_cap_state"
+    },
+    "hit_entity.was_dead": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "entity instanceof Unit u && u.dead",
+      "godot_symbol": "hit_entity_damage_cap_result.wasDead",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_damage_cap_state",
+      "rule": "Use exact wasDead predicate before later UnitBulletDestroyEvent slice.",
+      "tests": [
+        "test_bullet_type_hit_entity_damage_cap_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_damage_cap_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_damage_cap_state"
+    },
+    "hit_entity.entity.is_healthc": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "entity instanceof Healthc h",
+      "godot_symbol": "entity_state.isHealthc",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_damage_cap_state",
+      "rule": "Represent Healthc type check as explicit input until entity interfaces are ported.",
+      "tests": [
+        "test_bullet_type_hit_entity_damage_cap_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_damage_cap_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_damage_cap_state"
+    },
+    "hit_entity.damage": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "b.damage",
+      "godot_symbol": "bullet_state.damage",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_damage_cap_state",
+      "rule": "Use mutable Bullet.damage as hitEntity damage baseline.",
+      "tests": [
+        "test_bullet_type_hit_entity_damage_cap_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_damage_cap_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_damage_cap_state"
+    },
+    "hit_entity.entity.is_shieldc": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "entity instanceof Shieldc s",
+      "godot_symbol": "entity_state.isShieldc",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_damage_cap_state",
+      "rule": "Represent Shieldc type check as explicit input until entity interfaces are ported.",
+      "tests": [
+        "test_bullet_type_hit_entity_damage_cap_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_damage_cap_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_damage_cap_state"
+    },
+    "hit_entity.entity.shield": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "s.shield()",
+      "godot_symbol": "entity_state.shield",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_damage_cap_state",
+      "rule": "Represent Shieldc.shield() as explicit input for source shield clamp.",
+      "tests": [
+        "test_bullet_type_hit_entity_damage_cap_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_damage_cap_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_damage_cap_state"
+    },
+    "hit_entity.shield": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "entity instanceof Shieldc s ? Math.max(s.shield(), 0f) : 0f",
+      "godot_symbol": "hit_entity_damage_cap_result.shield",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_damage_cap_state",
+      "rule": "Use exact ternary and non-negative shield clamp from source.",
+      "tests": [
+        "test_bullet_type_hit_entity_damage_cap_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_damage_cap_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_damage_cap_state"
+    },
+    "hit_entity.max_damage_fraction": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "maxDamageFraction",
+      "godot_symbol": "bullet_type_state.maxDamageFraction",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_damage_cap_state",
+      "rule": "Use BulletType.maxDamageFraction for hitEntity cap gate.",
+      "tests": [
+        "test_bullet_type_hit_entity_damage_cap_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_damage_cap_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_damage_cap_state"
+    },
+    "hit_entity.entity.max_health": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "h.maxHealth()",
+      "godot_symbol": "entity_state.maxHealth",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_damage_cap_state",
+      "rule": "Represent Healthc.maxHealth() as explicit input until Healthc is ported.",
+      "tests": [
+        "test_bullet_type_hit_entity_damage_cap_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_damage_cap_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_damage_cap_state"
+    },
+    "hit_entity.health": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "health",
+      "godot_symbol": "hit_entity_state.health",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_damage_cap_state",
+      "rule": "Represent hitEntity health parameter as explicit input and mutable state.",
+      "tests": [
+        "test_bullet_type_hit_entity_damage_cap_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_damage_cap_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_damage_cap_state"
+    },
+    "hit_entity.max_damage_fraction_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "maxDamageFraction > 0",
+      "godot_symbol": "hit_entity_damage_cap_result.maxDamageFractionGatePassed",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_damage_cap_state",
+      "rule": "Use exact maxDamageFraction gate inside Healthc branch.",
+      "tests": [
+        "test_bullet_type_hit_entity_damage_cap_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_damage_cap_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_damage_cap_state"
+    },
+    "hit_entity.cap": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "h.maxHealth() * maxDamageFraction + shield",
+      "godot_symbol": "hit_entity_damage_cap_result.cap",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_damage_cap_state",
+      "rule": "Compute source cap only when maxDamageFraction gate passes.",
+      "tests": [
+        "test_bullet_type_hit_entity_damage_cap_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_damage_cap_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_damage_cap_state"
+    },
+    "hit_entity.damage_cap": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "Math.min(damage, cap)",
+      "godot_symbol": "hit_entity_damage_cap_result.damage",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_damage_cap_state",
+      "rule": "Apply exact damage cap assignment.",
+      "tests": [
+        "test_bullet_type_hit_entity_damage_cap_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_damage_cap_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_damage_cap_state"
+    },
+    "hit_entity.health_cap": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "Math.min(health, cap)",
+      "godot_symbol": "hit_entity_damage_cap_result.effectiveHealth",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_damage_cap_state",
+      "rule": "Apply exact health cap assignment for handlePierce effective health.",
+      "tests": [
+        "test_bullet_type_hit_entity_damage_cap_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_damage_cap_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_damage_cap_state"
+    },
+    "hit_entity.health_shield": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "health += shield",
+      "godot_symbol": "hit_entity_damage_cap_result.effectiveHealth",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_damage_cap_state",
+      "rule": "Apply exact shield addition when maxDamageFraction gate is false.",
+      "tests": [
+        "test_bullet_type_hit_entity_damage_cap_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_damage_cap_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_damage_cap_state"
     }
   }
 }

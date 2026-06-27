@@ -151,14 +151,37 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(initial_health["status"], "explicit-input")
         self.assertEqual(initial_health["godot_symbol"], "pierce_state.initialHealth")
 
+    def test_hit_entity_damage_cap_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        damage = source_symbols.source_symbol(registry, "hit_entity.damage")
+        self.assertEqual(damage["java_expr"], "b.damage")
+        self.assertEqual(damage["godot_owner"], "PortGame.source_bullet_type_hit_entity_damage_cap_state")
+        self.assertEqual(damage["runtime_proof"], "/root/Main.source_bullet_type_hit_entity_damage_cap_state")
+
+        shield = source_symbols.source_symbol(registry, "hit_entity.shield")
+        self.assertEqual(shield["java_expr"], "entity instanceof Shieldc s ? Math.max(s.shield(), 0f) : 0f")
+        self.assertEqual(shield["godot_symbol"], "hit_entity_damage_cap_result.shield")
+
+        cap = source_symbols.source_symbol(registry, "hit_entity.cap")
+        self.assertEqual(cap["java_expr"], "h.maxHealth() * maxDamageFraction + shield")
+        self.assertEqual(cap["godot_symbol"], "hit_entity_damage_cap_result.cap")
+
+        entity_health = source_symbols.source_symbol(registry, "hit_entity.health")
+        self.assertEqual(entity_health["status"], "explicit-input")
+        self.assertEqual(entity_health["godot_symbol"], "hit_entity_state.health")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 7)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 8)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 12)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 13)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -171,6 +194,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_hit_tile_enemy_direct_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_lifesteal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_handle_pierce_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_hit_entity_damage_cap_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -222,6 +246,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(handle_pierce["godot_owner"], "PortGame.source_bullet_type_handle_pierce_state")
         self.assertIn("b.damage -= Float.isNaN(sub) ? b.damage : Math.min(b.damage, sub)", handle_pierce["exact_exprs"])
 
+        hit_entity_damage_cap = source_symbols.source_slice(ledger, "N410")
+        self.assertEqual(hit_entity_damage_cap["java_method"], "hitEntity(Bullet b, Hitboxc entity, float health)")
+        self.assertEqual(hit_entity_damage_cap["godot_owner"], "PortGame.source_bullet_type_hit_entity_damage_cap_state")
+        self.assertIn("float shield = entity instanceof Shieldc s ? Math.max(s.shield(), 0f) : 0f", hit_entity_damage_cap["exact_exprs"])
+
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_api_contracts(contracts)
@@ -270,6 +299,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("damage", handle_pierce["return_keys"])
         self.assertIn("removeCalled", handle_pierce["return_keys"])
         self.assertEqual(handle_pierce["source_method"], "handlePierce(Bullet b, float initialHealth, float x, float y)")
+
+        hit_entity_damage_cap = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_hit_entity_damage_cap_state")
+        self.assertEqual([param["name"] for param in hit_entity_damage_cap["params"]], ["bullet_type_state", "bullet_state", "entity_state", "hit_entity_state"])
+        self.assertEqual(hit_entity_damage_cap["params"][2]["schema"], "entity_state")
+        self.assertEqual(hit_entity_damage_cap["params"][3]["schema"], "hit_entity_state")
+        self.assertIn("maxDamageFractionGatePassed", hit_entity_damage_cap["return_keys"])
+        self.assertIn("effectiveHealth", hit_entity_damage_cap["return_keys"])
+        self.assertEqual(hit_entity_damage_cap["source_method"], "hitEntity(Bullet b, Hitboxc entity, float health)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -327,6 +364,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(handle_pierce_output["keys"]["sub"]["java_expr"], "Mathf.zero(pierceDamageFactor) ? 0f : Math.max(initialHealth * pierceDamageFactor, 0)")
         self.assertEqual(handle_pierce_output["keys"]["damageSubtract"]["java_expr"], "Float.isNaN(sub) ? b.damage : Math.min(b.damage, sub)")
         self.assertEqual(handle_pierce_output["keys"]["removeGatePassed"]["java_expr"], "removeAfterPierce && b.damage <= 0")
+
+        entity_state = source_symbols.state_schema(schema, "entity_state")
+        self.assertEqual(entity_state["keys"]["isHealthc"]["java_expr"], "entity instanceof Healthc h")
+        self.assertEqual(entity_state["keys"]["isShieldc"]["java_expr"], "entity instanceof Shieldc s")
+        self.assertEqual(entity_state["keys"]["shield"]["java_expr"], "s.shield()")
+
+        hit_entity_state = source_symbols.state_schema(schema, "hit_entity_state")
+        self.assertEqual(hit_entity_state["keys"]["health"]["java_expr"], "health")
+        self.assertEqual(hit_entity_state["keys"]["health"]["status"], "explicit-input")
+
+        hit_entity_damage_cap_output = source_symbols.state_schema(schema, "hit_entity_damage_cap_result")
+        self.assertEqual(hit_entity_damage_cap_output["keys"]["shield"]["java_expr"], "entity instanceof Shieldc s ? Math.max(s.shield(), 0f) : 0f")
+        self.assertEqual(hit_entity_damage_cap_output["keys"]["cap"]["java_expr"], "h.maxHealth() * maxDamageFraction + shield")
+        self.assertEqual(hit_entity_damage_cap_output["keys"]["effectiveHealth"]["java_expr"], "health")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

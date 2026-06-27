@@ -5582,6 +5582,27 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_hit_entity_damage_cap_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_hit_entity_damage_cap_state_source"))
+        report = source_parity.verify_bullet_type_hit_entity_damage_cap_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "hit_entity_method": "public void hitEntity(Bullet b, Hitboxc entity, float health){",
+            "was_dead": "boolean wasDead = entity instanceof Unit u && u.dead;",
+            "healthc_gate": "if(entity instanceof Healthc h){",
+            "damage_assignment": "float damage = b.damage;",
+            "shield_assignment": "float shield = entity instanceof Shieldc s ? Math.max(s.shield(), 0f) : 0f;",
+            "max_damage_fraction_gate": "if(maxDamageFraction > 0){",
+            "cap_assignment": "float cap = h.maxHealth() * maxDamageFraction + shield;",
+            "damage_cap_assignment": "damage = Math.min(damage, cap);",
+            "health_cap_comment": "//cap health to effective health for handlePierce to handle it properly",
+            "health_cap_assignment": "health = Math.min(health, cap);",
+            "health_shield_else": "}else{\n                health += shield;",
+            "lifesteal_boundary": "if(lifesteal > 0f && b.owner instanceof Healthc o){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_bullet_type_building_damage_state_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_bullet_type_building_damage_state_source"))
         report = source_parity.verify_bullet_type_building_damage_state_source(ROOT / "mindustry-upstream")

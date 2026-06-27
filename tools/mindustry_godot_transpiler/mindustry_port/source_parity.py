@@ -10053,6 +10053,34 @@ def verify_bullet_type_handle_pierce_state_source(upstream_root: Path) -> dict[s
         "missing": missing,
     }
 
+def verify_bullet_type_hit_entity_damage_cap_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "hit_entity_method": "public void hitEntity(Bullet b, Hitboxc entity, float health){",
+        "was_dead": "boolean wasDead = entity instanceof Unit u && u.dead;",
+        "healthc_gate": "if(entity instanceof Healthc h){",
+        "damage_assignment": "float damage = b.damage;",
+        "shield_assignment": "float shield = entity instanceof Shieldc s ? Math.max(s.shield(), 0f) : 0f;",
+        "max_damage_fraction_gate": "if(maxDamageFraction > 0){",
+        "cap_assignment": "float cap = h.maxHealth() * maxDamageFraction + shield;",
+        "damage_cap_assignment": "damage = Math.min(damage, cap);",
+        "health_cap_comment": "//cap health to effective health for handlePierce to handle it properly",
+        "health_cap_assignment": "health = Math.min(health, cap);",
+        "health_shield_else": "}else{\n                health += shield;",
+        "lifesteal_boundary": "if(lifesteal > 0f && b.owner instanceof Healthc o){",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

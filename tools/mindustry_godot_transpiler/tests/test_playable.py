@@ -4621,6 +4621,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"damageSubtractSource": "b.damage -= Float.isNaN(sub) ? b.damage : Math.min(b.damage, sub)"', source)
         self.assertIn('"removeAfterPierceSource": "if(removeAfterPierce && b.damage <= 0)"', source)
 
+    def test_port_game_exposes_source_bullet_type_hit_entity_damage_cap_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_hit_entity_damage_cap_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, hit_entity_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var was_dead: bool = entity_is_unit and entity_unit_dead", source)
+        self.assertIn("var healthc_gate_passed := entity_is_healthc", source)
+        self.assertIn("var damage := float(update_bullet_state.get(\"damage\", 0.0))", source)
+        self.assertIn("var shield := 0.0", source)
+        self.assertIn("shield = maxf(entity_shield, 0.0) if entity_is_shieldc else 0.0", source)
+        self.assertIn("var max_damage_fraction_gate_passed := healthc_gate_passed and max_damage_fraction > 0.0", source)
+        self.assertIn("var cap := 0.0", source)
+        self.assertIn("cap = entity_max_health * max_damage_fraction + shield", source)
+        self.assertIn("damage = minf(damage, cap)", source)
+        self.assertIn("health = minf(health, cap)", source)
+        self.assertIn("health += shield", source)
+        self.assertIn('"healthCapCommentSource": "//cap health to effective health for handlePierce to handle it properly"', source)
+        self.assertIn('"lifestealBoundarySource": "if(lifesteal > 0f && b.owner instanceof Healthc o)"', source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

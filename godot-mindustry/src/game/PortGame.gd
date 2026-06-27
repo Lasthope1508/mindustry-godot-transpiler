@@ -6328,6 +6328,64 @@ func source_bullet_type_handle_pierce_state(bullet_type_state: Dictionary, bulle
 		"removeCallSource": "b.remove()",
 	}
 
+func source_bullet_type_hit_entity_damage_cap_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, hit_entity_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_entity_state: Dictionary = entity_state.duplicate(true)
+	var update_hit_entity_state: Dictionary = hit_entity_state.duplicate(true)
+	var entity_is_unit := bool(update_entity_state.get("isUnit", false))
+	var entity_unit_dead := bool(update_entity_state.get("unitDead", false))
+	var was_dead: bool = entity_is_unit and entity_unit_dead
+	var entity_is_healthc := bool(update_entity_state.get("isHealthc", false))
+	var healthc_gate_passed := entity_is_healthc
+	var damage := float(update_bullet_state.get("damage", 0.0))
+	var entity_is_shieldc := bool(update_entity_state.get("isShieldc", false))
+	var entity_shield := float(update_entity_state.get("shield", 0.0))
+	var shield := 0.0
+	var max_damage_fraction := float(update_type_state.get("maxDamageFraction", 0.0))
+	var entity_max_health := float(update_entity_state.get("maxHealth", 0.0))
+	var health := float(update_hit_entity_state.get("health", 0.0))
+	var cap := 0.0
+	var max_damage_fraction_gate_passed := healthc_gate_passed and max_damage_fraction > 0.0
+	if healthc_gate_passed:
+		shield = maxf(entity_shield, 0.0) if entity_is_shieldc else 0.0
+		cap = entity_max_health * max_damage_fraction + shield
+		if max_damage_fraction_gate_passed:
+			damage = minf(damage, cap)
+			health = minf(health, cap)
+		else:
+			health += shield
+	update_hit_entity_state["health"] = health
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"entity": update_entity_state,
+		"hitEntity": update_hit_entity_state,
+		"wasDead": was_dead,
+		"healthcGatePassed": healthc_gate_passed,
+		"damage": damage,
+		"shield": shield,
+		"maxDamageFraction": max_damage_fraction,
+		"maxDamageFractionGatePassed": max_damage_fraction_gate_passed,
+		"cap": cap,
+		"effectiveHealth": health,
+		"lifestealDeferred": true,
+		"armorDamageDeferred": true,
+		"unitImpulseDeferred": true,
+		"pierceDeferred": true,
+		"wasDeadSource": "boolean wasDead = entity instanceof Unit u && u.dead",
+		"healthcGateSource": "if(entity instanceof Healthc h)",
+		"damageSource": "float damage = b.damage",
+		"shieldSource": "float shield = entity instanceof Shieldc s ? Math.max(s.shield(), 0f) : 0f",
+		"maxDamageFractionGateSource": "if(maxDamageFraction > 0)",
+		"capSource": "float cap = h.maxHealth() * maxDamageFraction + shield",
+		"damageCapSource": "damage = Math.min(damage, cap)",
+		"healthCapCommentSource": "//cap health to effective health for handlePierce to handle it properly",
+		"healthCapSource": "health = Math.min(health, cap)",
+		"healthShieldSource": "health += shield",
+		"lifestealBoundarySource": "if(lifesteal > 0f && b.owner instanceof Healthc o)",
+	}
+
 func source_bullet_type_building_damage_state(bullet_state: Dictionary) -> Dictionary:
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
 	var damage := float(update_bullet_state.get("damage", 0.0))

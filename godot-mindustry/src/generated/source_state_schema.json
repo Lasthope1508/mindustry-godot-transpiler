@@ -55,7 +55,8 @@
           "java_expr": "b.damage",
           "godot_symbol": "bullet_state.damage",
           "used_by": [
-            "PortGame.source_bullet_type_handle_pierce_state"
+            "PortGame.source_bullet_type_handle_pierce_state",
+            "PortGame.source_bullet_type_hit_entity_damage_cap_state"
           ],
           "rule": "Use mutable b.damage for handlePierce damage subtraction."
         },
@@ -226,6 +227,18 @@
             "PortGame.source_bullet_type_draw_parts_state"
           ],
           "rule": "Canonical BulletType.parts list."
+        },
+        "maxDamageFraction": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "maxDamageFraction",
+          "godot_symbol": "bullet_type_state.maxDamageFraction",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_damage_cap_state"
+          ],
+          "rule": "Canonical BulletType.maxDamageFraction field for hitEntity cap gate."
         }
       }
     },
@@ -1340,6 +1353,189 @@
             "PortGame.source_bullet_type_test_collision_state"
           ],
           "rule": "Use tile.team; do not infer from ownership side effects."
+        }
+      }
+    },
+    "entity_state": {
+      "status": "active",
+      "keys": {
+        "isUnit": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "entity instanceof Unit u",
+          "godot_symbol": "entity_state.isUnit",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_damage_cap_state"
+          ],
+          "rule": "Explicit input until Unit type hierarchy is ported."
+        },
+        "unitDead": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "u.dead",
+          "godot_symbol": "entity_state.unitDead",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_damage_cap_state"
+          ],
+          "rule": "Explicit input for Unit.dead in wasDead predicate."
+        },
+        "isHealthc": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "entity instanceof Healthc h",
+          "godot_symbol": "entity_state.isHealthc",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_damage_cap_state"
+          ],
+          "rule": "Explicit input until Healthc interface is ported."
+        },
+        "isShieldc": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "entity instanceof Shieldc s",
+          "godot_symbol": "entity_state.isShieldc",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_damage_cap_state"
+          ],
+          "rule": "Explicit input until Shieldc interface is ported."
+        },
+        "shield": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "s.shield()",
+          "godot_symbol": "entity_state.shield",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_damage_cap_state"
+          ],
+          "rule": "Explicit input for Shieldc.shield()."
+        },
+        "maxHealth": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "h.maxHealth()",
+          "godot_symbol": "entity_state.maxHealth",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_damage_cap_state"
+          ],
+          "rule": "Explicit input for Healthc.maxHealth()."
+        }
+      }
+    },
+    "hit_entity_state": {
+      "status": "active",
+      "keys": {
+        "health": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "health",
+          "godot_symbol": "hit_entity_state.health",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_damage_cap_state"
+          ],
+          "rule": "Explicit hitEntity health parameter, mutated before handlePierce."
+        }
+      }
+    },
+    "hit_entity_damage_cap_result": {
+      "status": "active",
+      "keys": {
+        "wasDead": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "entity instanceof Unit u && u.dead",
+          "godot_symbol": "hit_entity_damage_cap_result.wasDead",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_damage_cap_state"
+          ],
+          "rule": "Exact source predicate."
+        },
+        "healthcGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "entity instanceof Healthc h",
+          "godot_symbol": "hit_entity_damage_cap_result.healthcGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_damage_cap_state"
+          ],
+          "rule": "Exact Healthc branch gate."
+        },
+        "damage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "damage",
+          "godot_symbol": "hit_entity_damage_cap_result.damage",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_damage_cap_state"
+          ],
+          "rule": "Current source local after optional cap."
+        },
+        "shield": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "entity instanceof Shieldc s ? Math.max(s.shield(), 0f) : 0f",
+          "godot_symbol": "hit_entity_damage_cap_result.shield",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_damage_cap_state"
+          ],
+          "rule": "Exact shield ternary and clamp."
+        },
+        "maxDamageFractionGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "maxDamageFraction > 0",
+          "godot_symbol": "hit_entity_damage_cap_result.maxDamageFractionGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_damage_cap_state"
+          ],
+          "rule": "Exact cap gate inside Healthc branch."
+        },
+        "cap": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "h.maxHealth() * maxDamageFraction + shield",
+          "godot_symbol": "hit_entity_damage_cap_result.cap",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_damage_cap_state"
+          ],
+          "rule": "Exact source cap local."
+        },
+        "effectiveHealth": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "health",
+          "godot_symbol": "hit_entity_damage_cap_result.effectiveHealth",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_damage_cap_state"
+          ],
+          "rule": "Current health after source cap or shield addition."
         }
       }
     }
