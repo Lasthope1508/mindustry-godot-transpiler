@@ -5613,6 +5613,111 @@
         "test_bullet_type_update_homing_target_velocity_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_update_homing_target_velocity_state"
+    },
+    "update_homing_follow_aim.gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateHoming(Bullet b)",
+      "java_expr": "if(followAimSpeed > 0f && b.shooter instanceof Unit u){",
+      "godot_symbol": "update_homing_follow_aim_result.followAimGatePassed",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_follow_aim_state",
+      "rule": "Exact follow-aim gate requiring positive followAimSpeed and Unit shooter.",
+      "tests": [
+        "test_bullet_type_update_homing_follow_aim_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_follow_aim_state",
+        "test_bullet_type_update_homing_follow_aim_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_follow_aim_state"
+    },
+    "update_homing_follow_aim.angle": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateHoming(Bullet b)",
+      "java_expr": "float angle = b.angleTo(u.aimX, u.aimY);",
+      "godot_symbol": "update_homing_follow_aim_result.targetAngle",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_follow_aim_state",
+      "rule": "Exact follow-aim angle assignment from shooter aim point.",
+      "tests": [
+        "test_bullet_type_update_homing_follow_aim_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_follow_aim_state",
+        "test_bullet_type_update_homing_follow_aim_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_follow_aim_state"
+    },
+    "update_homing_follow_aim.set_angle": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateHoming(Bullet b)",
+      "java_expr": "b.vel.setAngle(Angles.moveToward(b.vel.angle(), angle, followAimSpeed * Time.delta));",
+      "godot_symbol": "update_homing_follow_aim_result.velocity",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_follow_aim_state",
+      "rule": "Exact source velocity setAngle call for follow-aim branch.",
+      "tests": [
+        "test_bullet_type_update_homing_follow_aim_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_follow_aim_state",
+        "test_bullet_type_update_homing_follow_aim_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_follow_aim_state"
+    },
+    "update_homing_follow_aim.velocity_angle": {
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "angle()",
+      "java_expr": "b.vel.angle()",
+      "godot_symbol": "update_homing_follow_aim_result.currentVelocityAngle",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_follow_aim_state",
+      "rule": "Current velocity angle used as follow-aim moveToward start.",
+      "tests": [
+        "test_bullet_type_update_homing_follow_aim_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_follow_aim_state",
+        "test_bullet_type_update_homing_follow_aim_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_follow_aim_state"
+    },
+    "update_homing_follow_aim.max_turn": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateHoming(Bullet b)",
+      "java_expr": "followAimSpeed * Time.delta",
+      "godot_symbol": "update_homing_follow_aim_result.maxTurn",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_follow_aim_state",
+      "rule": "Exact source max-turn formula for follow-aim branch.",
+      "tests": [
+        "test_bullet_type_update_homing_follow_aim_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_follow_aim_state",
+        "test_bullet_type_update_homing_follow_aim_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_follow_aim_state"
+    },
+    "update_homing_follow_aim.move_toward": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateHoming(Bullet b)",
+      "java_expr": "Angles.moveToward(b.vel.angle(), angle, followAimSpeed * Time.delta)",
+      "godot_symbol": "update_homing_follow_aim_result.nextAngle",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_follow_aim_state",
+      "rule": "Exact Angles.moveToward expression inside follow-aim setAngle.",
+      "tests": [
+        "test_bullet_type_update_homing_follow_aim_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_follow_aim_state",
+        "test_bullet_type_update_homing_follow_aim_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_follow_aim_state"
+    },
+    "update_homing_follow_aim.shooter_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateHoming(Bullet b)",
+      "java_expr": "b.shooter instanceof Unit u",
+      "godot_symbol": "shooter_state.isUnit",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_follow_aim_state",
+      "rule": "Shooter runtime type is supplied as explicit input until generated Godot entity type checks are ported.",
+      "tests": [
+        "test_bullet_type_update_homing_follow_aim_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_follow_aim_state",
+        "test_bullet_type_update_homing_follow_aim_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_follow_aim_state"
     }
   }
 }

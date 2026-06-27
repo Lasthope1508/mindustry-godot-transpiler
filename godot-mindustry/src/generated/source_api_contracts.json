@@ -2639,6 +2639,55 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_update_homing_target_velocity_state",
       "rule": "Public runtime contract for BulletType.updateHoming target non-null gate and homing velocity setAngle application."
+    },
+    "PortGame.source_bullet_type_update_homing_follow_aim_state": {
+      "status": "active",
+      "source_slice": "N459",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "updateHoming(Bullet b)",
+      "params": [
+        {
+          "name": "homing_target_velocity_state",
+          "type": "Dictionary",
+          "schema": "update_homing_target_velocity_result"
+        },
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "shooter_state",
+          "type": "Variant",
+          "schema": "shooter_state"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "time_state.delta"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "followAimApplied",
+        "followAimGatePassed",
+        "currentVelocityAngle",
+        "targetAngle",
+        "maxTurn",
+        "nextAngle",
+        "speed",
+        "velocity",
+        "followAimGateSource",
+        "followAimAngleSource",
+        "followAimSetAngleSource"
+      ],
+      "tests": [
+        "test_bullet_type_update_homing_follow_aim_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_follow_aim_state",
+        "test_bullet_type_update_homing_follow_aim_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_follow_aim_state",
+      "rule": "Public runtime contract for BulletType.updateHoming follow-aim gate, angle assignment, and velocity setAngle application."
     }
   },
   "policy": {

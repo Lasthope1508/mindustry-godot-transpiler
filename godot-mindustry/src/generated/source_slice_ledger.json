@@ -1671,6 +1671,37 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_update_homing_target_velocity_state",
       "rule": "Backfills SSOT for existing BulletType.updateHoming target velocity runtime state from N375; Units.closestTarget selection and follow-aim remain separate source-backed slices."
+    },
+    "N459": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "updateHoming(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_follow_aim_state",
+      "exact_exprs": [
+        "if(followAimSpeed > 0f && b.shooter instanceof Unit u){",
+        "float angle = b.angleTo(u.aimX, u.aimY);",
+        "b.vel.setAngle(Angles.moveToward(b.vel.angle(), angle, followAimSpeed * Time.delta));"
+      ],
+      "deferred_exprs": [
+        "public void updateWeaving(Bullet b){"
+      ],
+      "source_symbols": [
+        "update_homing_follow_aim.gate",
+        "update_homing_follow_aim.angle",
+        "update_homing_follow_aim.set_angle",
+        "update_homing_follow_aim.velocity_angle",
+        "update_homing_follow_aim.max_turn",
+        "update_homing_follow_aim.move_toward",
+        "update_homing_follow_aim.shooter_state"
+      ],
+      "tests": [
+        "test_bullet_type_update_homing_follow_aim_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_follow_aim_state",
+        "test_bullet_type_update_homing_follow_aim_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_follow_aim_state",
+      "rule": "Backfills SSOT for existing BulletType.updateHoming follow-aim runtime state from N376; updateWeaving remains the next source method boundary."
     }
   },
   "version": 1

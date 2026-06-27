@@ -1389,14 +1389,51 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(vec2_set_angle["java_source"], "arc-core/src/arc/math/geom/Vec2.java")
         self.assertEqual(vec2_set_angle["java_expr"], "this.set(len(), 0f); this.rotateRad(radians);")
 
+    def test_bullet_type_update_homing_follow_aim_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        follow_gate = source_symbols.source_symbol(registry, "update_homing_follow_aim.gate")
+        self.assertEqual(follow_gate["java_expr"], "if(followAimSpeed > 0f && b.shooter instanceof Unit u){")
+        self.assertEqual(follow_gate["godot_symbol"], "update_homing_follow_aim_result.followAimGatePassed")
+        self.assertEqual(follow_gate["godot_owner"], "PortGame.source_bullet_type_update_homing_follow_aim_state")
+        self.assertEqual(follow_gate["runtime_proof"], "/root/Main.source_bullet_type_update_homing_follow_aim_state")
+
+        angle = source_symbols.source_symbol(registry, "update_homing_follow_aim.angle")
+        self.assertEqual(angle["java_expr"], "float angle = b.angleTo(u.aimX, u.aimY);")
+        self.assertEqual(angle["godot_symbol"], "update_homing_follow_aim_result.targetAngle")
+
+        set_angle = source_symbols.source_symbol(registry, "update_homing_follow_aim.set_angle")
+        self.assertEqual(set_angle["java_expr"], "b.vel.setAngle(Angles.moveToward(b.vel.angle(), angle, followAimSpeed * Time.delta));")
+        self.assertEqual(set_angle["godot_symbol"], "update_homing_follow_aim_result.velocity")
+
+        velocity_angle = source_symbols.source_symbol(registry, "update_homing_follow_aim.velocity_angle")
+        self.assertEqual(velocity_angle["java_expr"], "b.vel.angle()")
+        self.assertEqual(velocity_angle["godot_symbol"], "update_homing_follow_aim_result.currentVelocityAngle")
+
+        max_turn = source_symbols.source_symbol(registry, "update_homing_follow_aim.max_turn")
+        self.assertEqual(max_turn["java_expr"], "followAimSpeed * Time.delta")
+        self.assertEqual(max_turn["godot_symbol"], "update_homing_follow_aim_result.maxTurn")
+
+        move_toward = source_symbols.source_symbol(registry, "update_homing_follow_aim.move_toward")
+        self.assertEqual(move_toward["java_expr"], "Angles.moveToward(b.vel.angle(), angle, followAimSpeed * Time.delta)")
+        self.assertEqual(move_toward["godot_symbol"], "update_homing_follow_aim_result.nextAngle")
+
+        shooter = source_symbols.source_symbol(registry, "update_homing_follow_aim.shooter_state")
+        self.assertEqual(shooter["status"], "explicit-input")
+        self.assertEqual(shooter["java_expr"], "b.shooter instanceof Unit u")
+        self.assertEqual(shooter["godot_symbol"], "shooter_state.isUnit")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 56)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 57)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 61)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 62)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1447,6 +1484,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_update_trail_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_update_homing_initial_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_update_homing_target_velocity_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_update_homing_follow_aim_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -1834,6 +1872,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(target != null){", homing_target_velocity["exact_exprs"])
         self.assertIn("b.vel.setAngle(Angles.moveToward(b.rotation(), b.angleTo(target), homingPower * Time.delta * 50f));", homing_target_velocity["exact_exprs"])
         self.assertIn("if(followAimSpeed > 0f && b.shooter instanceof Unit u){", homing_target_velocity["deferred_exprs"])
+
+        homing_follow_aim = source_symbols.source_slice(ledger, "N459")
+        self.assertEqual(homing_follow_aim["java_method"], "updateHoming(Bullet b)")
+        self.assertEqual(homing_follow_aim["godot_owner"], "PortGame.source_bullet_type_update_homing_follow_aim_state")
+        self.assertIn("if(followAimSpeed > 0f && b.shooter instanceof Unit u){", homing_follow_aim["exact_exprs"])
+        self.assertIn("float angle = b.angleTo(u.aimX, u.aimY);", homing_follow_aim["exact_exprs"])
+        self.assertIn("b.vel.setAngle(Angles.moveToward(b.vel.angle(), angle, followAimSpeed * Time.delta));", homing_follow_aim["exact_exprs"])
+        self.assertIn("public void updateWeaving(Bullet b){", homing_follow_aim["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -2301,6 +2347,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("nextAngle", homing_target_velocity["return_keys"])
         self.assertIn("velocity", homing_target_velocity["return_keys"])
         self.assertEqual(homing_target_velocity["source_method"], "updateHoming(Bullet b)")
+
+        homing_follow_aim = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_update_homing_follow_aim_state")
+        self.assertEqual([param["name"] for param in homing_follow_aim["params"]], ["homing_target_velocity_state", "bullet_type_state", "shooter_state", "source_delta"])
+        self.assertEqual(homing_follow_aim["params"][0]["schema"], "update_homing_target_velocity_result")
+        self.assertEqual(homing_follow_aim["params"][1]["schema"], "bullet_type_state")
+        self.assertEqual(homing_follow_aim["params"][2]["schema"], "shooter_state")
+        self.assertEqual(homing_follow_aim["params"][3]["schema"], "time_state.delta")
+        self.assertIn("followAimApplied", homing_follow_aim["return_keys"])
+        self.assertIn("followAimGatePassed", homing_follow_aim["return_keys"])
+        self.assertIn("currentVelocityAngle", homing_follow_aim["return_keys"])
+        self.assertIn("targetAngle", homing_follow_aim["return_keys"])
+        self.assertIn("maxTurn", homing_follow_aim["return_keys"])
+        self.assertIn("nextAngle", homing_follow_aim["return_keys"])
+        self.assertIn("velocity", homing_follow_aim["return_keys"])
+        self.assertEqual(homing_follow_aim["source_method"], "updateHoming(Bullet b)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -2776,6 +2837,25 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_update_homing_target_velocity_state", bullet_state["keys"]["y"]["used_by"])
         self.assertEqual(bullet_state["keys"]["velocity"]["java_expr"], "b.vel")
         self.assertEqual(bullet_state["keys"]["rotation"]["java_expr"], "b.rotation()")
+
+        shooter_state = source_symbols.state_schema(schema, "shooter_state")
+        self.assertEqual(shooter_state["keys"]["isUnit"]["java_expr"], "b.shooter instanceof Unit u")
+        self.assertEqual(shooter_state["keys"]["aimX"]["java_expr"], "u.aimX")
+        self.assertEqual(shooter_state["keys"]["aimY"]["java_expr"], "u.aimY")
+
+        homing_follow_aim_output = source_symbols.state_schema(schema, "update_homing_follow_aim_result")
+        self.assertEqual(homing_follow_aim_output["keys"]["followAimGatePassed"]["java_expr"], "followAimSpeed > 0f && b.shooter instanceof Unit u")
+        self.assertEqual(homing_follow_aim_output["keys"]["currentVelocityAngle"]["java_expr"], "b.vel.angle()")
+        self.assertEqual(homing_follow_aim_output["keys"]["targetAngle"]["java_expr"], "float angle = b.angleTo(u.aimX, u.aimY)")
+        self.assertEqual(homing_follow_aim_output["keys"]["maxTurn"]["java_expr"], "followAimSpeed * Time.delta")
+        self.assertEqual(homing_follow_aim_output["keys"]["nextAngle"]["java_expr"], "Angles.moveToward(b.vel.angle(), angle, followAimSpeed * Time.delta)")
+        self.assertEqual(homing_follow_aim_output["keys"]["velocity"]["java_expr"], "b.vel.setAngle(Angles.moveToward(b.vel.angle(), angle, followAimSpeed * Time.delta))")
+        self.assertEqual(homing_follow_aim_output["keys"]["followAimGateSource"]["alias_of"], "source_line.update_homing_follow_aim.gate")
+
+        self.assertIn("PortGame.source_bullet_type_update_homing_follow_aim_state", bullet_type_state["keys"]["followAimSpeed"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_update_homing_follow_aim_state", bullet_state["keys"]["x"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_update_homing_follow_aim_state", bullet_state["keys"]["y"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_update_homing_follow_aim_state", bullet_state["keys"]["velocity"]["used_by"])
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")

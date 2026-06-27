@@ -119,7 +119,8 @@
             "PortGame.source_bullet_type_update_bullet_interval_state",
             "PortGame.source_bullet_type_update_trail_state",
             "PortGame.source_bullet_type_update_homing_initial_state",
-            "PortGame.source_bullet_type_update_homing_target_velocity_state"
+            "PortGame.source_bullet_type_update_homing_target_velocity_state",
+            "PortGame.source_bullet_type_update_homing_follow_aim_state"
           ],
           "rule": "Use source bullet x field."
         },
@@ -139,7 +140,8 @@
             "PortGame.source_bullet_type_update_bullet_interval_state",
             "PortGame.source_bullet_type_update_trail_state",
             "PortGame.source_bullet_type_update_homing_initial_state",
-            "PortGame.source_bullet_type_update_homing_target_velocity_state"
+            "PortGame.source_bullet_type_update_homing_target_velocity_state",
+            "PortGame.source_bullet_type_update_homing_follow_aim_state"
           ],
           "rule": "Use source bullet y field."
         },
@@ -229,7 +231,8 @@
           "java_expr": "b.vel",
           "godot_symbol": "bullet_state.velocity",
           "used_by": [
-            "PortGame.source_bullet_type_update_homing_target_velocity_state"
+            "PortGame.source_bullet_type_update_homing_target_velocity_state",
+            "PortGame.source_bullet_type_update_homing_follow_aim_state"
           ],
           "rule": "BulletComp Vec2 velocity state."
         }
@@ -1215,7 +1218,8 @@
           "java_expr": "followAimSpeed",
           "godot_symbol": "bullet_type_state.followAimSpeed",
           "used_by": [
-            "PortGame.source_bullet_type_update_homing_initial_state"
+            "PortGame.source_bullet_type_update_homing_initial_state",
+            "PortGame.source_bullet_type_update_homing_follow_aim_state"
           ],
           "rule": "Canonical BulletType.followAimSpeed field; default is 0f."
         }
@@ -8891,6 +8895,163 @@
           "status": "generated",
           "alias_of": "source_line.update_homing_target_velocity.vec2_set_angle",
           "rule": "Debug Arc source-line echo, not gameplay state."
+        }
+      }
+    },
+    "shooter_state": {
+      "status": "active",
+      "keys": {
+        "isUnit": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "b.shooter instanceof Unit u",
+          "godot_symbol": "shooter_state.isUnit",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_follow_aim_state"
+          ],
+          "rule": "Explicit shooter Unit type check for follow-aim branch."
+        },
+        "aimX": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "u.aimX",
+          "godot_symbol": "shooter_state.aimX",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_follow_aim_state"
+          ],
+          "rule": "Explicit Unit aimX used by follow-aim angle calculation."
+        },
+        "aimY": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "u.aimY",
+          "godot_symbol": "shooter_state.aimY",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_follow_aim_state"
+          ],
+          "rule": "Explicit Unit aimY used by follow-aim angle calculation."
+        }
+      }
+    },
+    "update_homing_follow_aim_result": {
+      "status": "active",
+      "keys": {
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Updated bullet state after follow-aim slice."
+        },
+        "followAimApplied": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "update_homing_follow_aim_result.followAimGatePassed",
+          "rule": "Runtime boolean mirrors follow-aim gate application."
+        },
+        "followAimGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateHoming(Bullet b)",
+          "java_expr": "followAimSpeed > 0f && b.shooter instanceof Unit u",
+          "godot_symbol": "update_homing_follow_aim_result.followAimGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_follow_aim_state"
+          ],
+          "rule": "Exact follow-aim gate."
+        },
+        "currentVelocityAngle": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "java_method": "angle()",
+          "java_expr": "b.vel.angle()",
+          "godot_symbol": "update_homing_follow_aim_result.currentVelocityAngle",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_follow_aim_state"
+          ],
+          "rule": "Velocity angle before follow-aim turn."
+        },
+        "targetAngle": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateHoming(Bullet b)",
+          "java_expr": "float angle = b.angleTo(u.aimX, u.aimY)",
+          "godot_symbol": "update_homing_follow_aim_result.targetAngle",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_follow_aim_state"
+          ],
+          "rule": "Angle from bullet to shooter aim point."
+        },
+        "maxTurn": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateHoming(Bullet b)",
+          "java_expr": "followAimSpeed * Time.delta",
+          "godot_symbol": "update_homing_follow_aim_result.maxTurn",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_follow_aim_state"
+          ],
+          "rule": "Source follow-aim max turn formula."
+        },
+        "nextAngle": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateHoming(Bullet b)",
+          "java_expr": "Angles.moveToward(b.vel.angle(), angle, followAimSpeed * Time.delta)",
+          "godot_symbol": "update_homing_follow_aim_result.nextAngle",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_follow_aim_state"
+          ],
+          "rule": "Source next angle from Arc Angles.moveToward."
+        },
+        "speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "java_method": "setAngleRad(float radians)",
+          "java_expr": "len()",
+          "godot_symbol": "update_homing_follow_aim_result.speed",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_follow_aim_state"
+          ],
+          "rule": "Vec2.setAngle preserves current vector length."
+        },
+        "velocity": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateHoming(Bullet b)",
+          "java_expr": "b.vel.setAngle(Angles.moveToward(b.vel.angle(), angle, followAimSpeed * Time.delta))",
+          "godot_symbol": "update_homing_follow_aim_result.velocity",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_follow_aim_state"
+          ],
+          "rule": "Updated BulletComp velocity after follow-aim setAngle."
+        },
+        "followAimGateSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.update_homing_follow_aim.gate",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "followAimAngleSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.update_homing_follow_aim.angle",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "followAimSetAngleSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.update_homing_follow_aim.set_angle",
+          "rule": "Debug source-line echo, not gameplay state."
         }
       }
     }
