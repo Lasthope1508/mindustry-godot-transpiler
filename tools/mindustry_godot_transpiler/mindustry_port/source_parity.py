@@ -8962,6 +8962,40 @@ def verify_bullet_type_init_spawn_bullets_state_source(upstream_root: Path) -> d
         "missing": missing,
     }
 
+def verify_bullet_type_update_dispatch_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "update_method": "public void update(Bullet b){",
+        "update_trail_call": "updateTrail(b);",
+        "update_homing_call": "updateHoming(b);",
+        "update_weaving_call": "updateWeaving(b);",
+        "update_trail_effects_call": "updateTrailEffects(b);",
+        "update_bullet_interval_call": "updateBulletInterval(b);",
+        "next_method_reserved": "public void updateBulletInterval(Bullet b){",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    call_order = [
+        "updateTrail(b);",
+        "updateHoming(b);",
+        "updateWeaving(b);",
+        "updateTrailEffects(b);",
+        "updateBulletInterval(b);",
+    ]
+    positions = [source.find(snippet) for snippet in call_order]
+    if positions != sorted(positions):
+        missing.append("call_order")
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "call_order": call_order,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

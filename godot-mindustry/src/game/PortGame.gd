@@ -5353,6 +5353,22 @@ func source_bullet_type_init_spawn_bullets_state(init_initial_state: Dictionary,
 		"mathfRangeSource": "return random(-range, range)",
 	}
 
+func source_bullet_type_update_dispatch_state(bullet_state: Dictionary) -> Dictionary:
+	var update_bullet_state := bullet_state.duplicate(true)
+	var call_order := [
+		"updateTrail(b)",
+		"updateHoming(b)",
+		"updateWeaving(b)",
+		"updateTrailEffects(b)",
+		"updateBulletInterval(b)",
+	]
+	return {
+		"bullet": update_bullet_state,
+		"callOrder": call_order,
+		"updateMethodSource": "public void update(Bullet b)",
+		"nextMethodReservedSource": "public void updateBulletInterval(Bullet b)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

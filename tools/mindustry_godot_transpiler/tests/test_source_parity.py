@@ -5024,6 +5024,29 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_update_dispatch_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_update_dispatch_state_source"))
+        report = source_parity.verify_bullet_type_update_dispatch_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "update_method": "public void update(Bullet b){",
+            "update_trail_call": "updateTrail(b);",
+            "update_homing_call": "updateHoming(b);",
+            "update_weaving_call": "updateWeaving(b);",
+            "update_trail_effects_call": "updateTrailEffects(b);",
+            "update_bullet_interval_call": "updateBulletInterval(b);",
+            "next_method_reserved": "public void updateBulletInterval(Bullet b){",
+        })
+        self.assertEqual(report["missing"], [])
+        self.assertEqual(report["call_order"], [
+            "updateTrail(b);",
+            "updateHoming(b);",
+            "updateWeaving(b);",
+            "updateTrailEffects(b);",
+            "updateBulletInterval(b);",
+        ])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

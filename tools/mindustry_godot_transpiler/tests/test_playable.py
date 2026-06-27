@@ -4188,6 +4188,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"spawnBulletCreateSource": "bullet.create(b, b.x, b.y, b.rotation() + Mathf.range(spawnBulletRandomSpread))"', source)
         self.assertIn('"mathfRangeSource": "return random(-range, range)"', source)
 
+    def test_port_game_exposes_source_bullet_type_update_dispatch_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_update_dispatch_state(bullet_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var update_bullet_state := bullet_state.duplicate(true)", source)
+        self.assertIn('"updateTrail(b)"', source)
+        self.assertIn('"updateHoming(b)"', source)
+        self.assertIn('"updateWeaving(b)"', source)
+        self.assertIn('"updateTrailEffects(b)"', source)
+        self.assertIn('"updateBulletInterval(b)"', source)
+        self.assertIn('"updateMethodSource": "public void update(Bullet b)"', source)
+        self.assertIn('"nextMethodReservedSource": "public void updateBulletInterval(Bullet b)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
