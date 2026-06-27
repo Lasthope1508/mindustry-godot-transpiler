@@ -3812,6 +3812,54 @@ func source_weapon_update_continuous_laser_aim_state(mount_state: Dictionary, we
 		"alwaysContinuousReservedSource": "if(alwaysContinuous && mount.shoot)",
 	}
 
+func source_weapon_update_always_continuous_keepalive_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, unit_state: Dictionary) -> Dictionary:
+	var continuous := bool(weapon_state.get("continuous", false))
+	var bullet_exists := bool(mount_state.get("bulletExists", false))
+	var bullet_is_added := bool(bullet_state.get("isAdded", false))
+	var bullet_time := float(bullet_state.get("time", 0.0))
+	var bullet_lifetime := float(bullet_state.get("lifetime", 0.0))
+	var bullet_type_matches := bool(bullet_state.get("typeMatches", false))
+	var gate := continuous and bullet_exists
+	var invalid := gate and ((not bullet_is_added) or bullet_time >= bullet_lifetime or (not bullet_type_matches))
+	var live := gate and not invalid
+	var always_continuous := bool(weapon_state.get("alwaysContinuous", false))
+	var mount_shoot := bool(mount_state.get("shoot", false))
+	var mount_warmup := float(mount_state.get("warmup", 0.0))
+	var optimal_life_fract := float(bullet_state.get("optimalLifeFract", 0.0))
+	var keepalive_gate := live and always_continuous and mount_shoot
+	var next_bullet_time := bullet_time
+	var next_keep_alive := bool(bullet_state.get("keepAlive", false))
+	if keepalive_gate:
+		next_bullet_time = bullet_lifetime * optimal_life_fract * mount_warmup
+		next_keep_alive = true
+	var shoot_status := "" if weapon_state.get("shootStatus", "none") == null else str(weapon_state.get("shootStatus", "none"))
+	var shoot_status_duration := float(weapon_state.get("shootStatusDuration", 0.0))
+	var status_immune := bool(unit_state.get("statusImmune", false))
+	var status_applied := keepalive_gate and shoot_status != "none" and shoot_status != "" and not status_immune
+	var status_application: Dictionary = {}
+	if status_applied:
+		status_application = {"effect": shoot_status, "duration": shoot_status_duration}
+	return {
+		"gate": gate,
+		"invalid": invalid,
+		"live": live,
+		"alwaysContinuous": always_continuous,
+		"mountShoot": mount_shoot,
+		"keepaliveGate": keepalive_gate,
+		"bulletTime": next_bullet_time,
+		"keepAlive": next_keep_alive,
+		"shootStatus": shoot_status,
+		"shootStatusDuration": shoot_status_duration,
+		"statusImmune": status_immune,
+		"statusApplied": status_applied,
+		"statusApplication": status_application,
+		"guardSource": "if(alwaysContinuous && mount.shoot)",
+		"timeSource": "mount.bullet.time = mount.bullet.lifetime * mount.bullet.type.optimalLifeFract * mount.warmup",
+		"keepAliveSource": "mount.bullet.keepAlive = true",
+		"unitApplySource": "unit.apply(shootStatus, shootStatusDuration)",
+		"statusApplyGuardSource": "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

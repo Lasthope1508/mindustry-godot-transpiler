@@ -4229,6 +4229,34 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_update_always_continuous_keepalive_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_update_always_continuous_keepalive_source"))
+        report = source_parity.verify_weapon_update_always_continuous_keepalive_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["bullet_comp_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(report["bullet_type_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["status_comp_source"], "core/src/mindustry/entities/comp/StatusComp.java")
+        self.assertEqual(report["timed_comp_source"], "core/src/mindustry/entities/comp/TimedComp.java")
+        self.assertEqual(report["checked"], {
+            "always_continuous_guard": "if(alwaysContinuous && mount.shoot){",
+            "bullet_time_assignment": "mount.bullet.time = mount.bullet.lifetime * mount.bullet.type.optimalLifeFract * mount.warmup;",
+            "bullet_keep_alive": "mount.bullet.keepAlive = true;",
+            "unit_apply": "unit.apply(shootStatus, shootStatusDuration);",
+            "weapon_always_continuous": "public boolean alwaysContinuous;",
+            "weapon_shoot_status": "public StatusEffect shootStatus = StatusEffects.none;",
+            "weapon_shoot_status_duration": "public float shootStatusDuration = 60f * 5f;",
+            "weapon_mount_shoot": "public boolean shoot = false;",
+            "weapon_mount_warmup": "public float warmup;",
+            "bullet_type_optimal_life_fract": "public float optimalLifeFract = 0f;",
+            "bullet_comp_keep_alive": "transient boolean keepAlive;",
+            "timed_comp_time_lifetime": "float time, lifetime;",
+            "status_apply_method": "public void apply(StatusEffect effect, float duration){",
+            "status_apply_guard": "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

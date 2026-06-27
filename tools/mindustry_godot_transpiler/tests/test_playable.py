@@ -3595,6 +3595,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"aimEndpointSource": "Tmp.v1.trns(shootAngle, mount.lastLength = resultLength).add(bulletX, bulletY)"', source)
         self.assertIn('"alwaysContinuousReservedSource": "if(alwaysContinuous && mount.shoot)"', source)
 
+    def test_port_game_exposes_source_weapon_update_always_continuous_keepalive_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_update_always_continuous_keepalive_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, unit_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var live := gate and not invalid", source)
+        self.assertIn("var always_continuous := bool(weapon_state.get(\"alwaysContinuous\", false))", source)
+        self.assertIn("var mount_shoot := bool(mount_state.get(\"shoot\", false))", source)
+        self.assertIn("var keepalive_gate := live and always_continuous and mount_shoot", source)
+        self.assertIn("next_bullet_time = bullet_lifetime * optimal_life_fract * mount_warmup", source)
+        self.assertIn("next_keep_alive = true", source)
+        self.assertIn("var status_applied := keepalive_gate and shoot_status != \"none\" and shoot_status != \"\" and not status_immune", source)
+        self.assertIn('"timeSource": "mount.bullet.time = mount.bullet.lifetime * mount.bullet.type.optimalLifeFract * mount.warmup"', source)
+        self.assertIn('"keepAliveSource": "mount.bullet.keepAlive = true"', source)
+        self.assertIn('"unitApplySource": "unit.apply(shootStatus, shootStatusDuration)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
