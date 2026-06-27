@@ -719,6 +719,51 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_entity_handle_pierce_state",
       "rule": "Public runtime contract for BulletType.hitEntity final handlePierce dispatch, reusing the N409 handlePierce source helper."
+    },
+    "PortGame.source_bullet_type_damage_multiplier_state": {
+      "status": "active",
+      "source_slice": "N416",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "damageMultiplier(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "bullet_owner_state",
+          "type": "Dictionary",
+          "schema": "bullet_owner_state"
+        },
+        {
+          "name": "rules_state",
+          "type": "Dictionary",
+          "schema": "rules_state"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "owner",
+        "rules",
+        "team",
+        "ownerIsUnit",
+        "ownerUnitDamageMultiplier",
+        "ownerIsBuilding",
+        "rulesUnitDamage",
+        "rulesBlockDamage",
+        "damageMultiplier",
+        "branch",
+        "unitBranchSource",
+        "buildingBranchSource",
+        "fallbackSource"
+      ],
+      "tests": [
+        "test_bullet_type_damage_multiplier_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_damage_multiplier_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_damage_multiplier_state",
+      "rule": "Public runtime contract for BulletType.damageMultiplier owner/rules branch selection."
     }
   },
   "policy": {

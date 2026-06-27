@@ -6328,6 +6328,40 @@ func source_bullet_type_handle_pierce_state(bullet_type_state: Dictionary, bulle
 		"removeCallSource": "b.remove()",
 	}
 
+func source_bullet_type_damage_multiplier_state(bullet_state: Dictionary, bullet_owner_state: Dictionary, rules_state: Dictionary) -> Dictionary:
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_owner_state: Dictionary = bullet_owner_state.duplicate(true)
+	var update_rules_state: Dictionary = rules_state.duplicate(true)
+	var owner_is_unit := bool(update_owner_state.get("isUnit", false))
+	var owner_unit_damage_multiplier := float(update_owner_state.get("unitDamageMultiplier", 1.0))
+	var owner_is_building := bool(update_owner_state.get("isBuilding", false))
+	var rules_unit_damage := float(update_rules_state.get("unitDamage", 1.0))
+	var rules_block_damage := float(update_rules_state.get("blockDamage", 1.0))
+	var damage_multiplier := 1.0
+	var branch := "fallback"
+	if owner_is_unit:
+		damage_multiplier = owner_unit_damage_multiplier * rules_unit_damage
+		branch = "unit"
+	elif owner_is_building:
+		damage_multiplier = rules_block_damage
+		branch = "building"
+	return {
+		"bullet": update_bullet_state,
+		"owner": update_owner_state,
+		"rules": update_rules_state,
+		"team": update_bullet_state.get("team", null),
+		"ownerIsUnit": owner_is_unit,
+		"ownerUnitDamageMultiplier": owner_unit_damage_multiplier,
+		"ownerIsBuilding": owner_is_building,
+		"rulesUnitDamage": rules_unit_damage,
+		"rulesBlockDamage": rules_block_damage,
+		"damageMultiplier": damage_multiplier,
+		"branch": branch,
+		"unitBranchSource": "if(b.owner instanceof Unit u) return u.damageMultiplier() * state.rules.unitDamage(b.team)",
+		"buildingBranchSource": "if(b.owner instanceof Building) return state.rules.blockDamage(b.team)",
+		"fallbackSource": "return 1f",
+	}
+
 func source_bullet_type_hit_entity_damage_cap_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, hit_entity_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

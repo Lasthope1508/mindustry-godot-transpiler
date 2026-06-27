@@ -10194,6 +10194,27 @@ def verify_bullet_type_hit_entity_handle_pierce_state_source(upstream_root: Path
         "missing": missing,
     }
 
+def verify_bullet_type_damage_multiplier_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public float damageMultiplier(Bullet b){",
+        "unit_branch": "if(b.owner instanceof Unit u) return u.damageMultiplier() * state.rules.unitDamage(b.team);",
+        "building_branch": "if(b.owner instanceof Building) return state.rules.blockDamage(b.team);",
+        "fallback": "return 1f;",
+        "hit_method_boundary": "public void hit(Bullet b){",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

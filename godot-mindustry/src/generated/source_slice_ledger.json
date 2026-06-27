@@ -427,6 +427,32 @@
         "test_port_game_exposes_source_bullet_type_hit_entity_handle_pierce_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_entity_handle_pierce_state"
+    },
+    "N416": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "damageMultiplier(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_damage_multiplier_state",
+      "exact_exprs": [
+        "if(b.owner instanceof Unit u) return u.damageMultiplier() * state.rules.unitDamage(b.team)",
+        "if(b.owner instanceof Building) return state.rules.blockDamage(b.team)",
+        "return 1f"
+      ],
+      "source_symbols": [
+        "damage_multiplier.unit_branch",
+        "damage_multiplier.unit_damage_multiplier",
+        "damage_multiplier.rules_unit_damage",
+        "damage_multiplier.unit_result",
+        "damage_multiplier.building_branch",
+        "damage_multiplier.building_result",
+        "damage_multiplier.fallback"
+      ],
+      "tests": [
+        "test_bullet_type_damage_multiplier_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_damage_multiplier_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_damage_multiplier_state"
     }
   },
   "version": 1

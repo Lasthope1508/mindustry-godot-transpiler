@@ -2292,6 +2292,171 @@
           "rule": "Runtime label for reused N409 method helper."
         }
       }
+    },
+    "bullet_owner_state": {
+      "status": "active",
+      "keys": {
+        "isUnit": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "damageMultiplier(Bullet b)",
+          "java_expr": "b.owner instanceof Unit u",
+          "godot_symbol": "bullet_owner_state.isUnit",
+          "used_by": [
+            "PortGame.source_bullet_type_damage_multiplier_state"
+          ],
+          "rule": "Explicit owner Unit gate until bullet owner component hierarchy is ported."
+        },
+        "unitDamageMultiplier": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "damageMultiplier(Bullet b)",
+          "java_expr": "u.damageMultiplier()",
+          "godot_symbol": "bullet_owner_state.unitDamageMultiplier",
+          "used_by": [
+            "PortGame.source_bullet_type_damage_multiplier_state"
+          ],
+          "rule": "Explicit Unit owner damage multiplier call result."
+        },
+        "isBuilding": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "damageMultiplier(Bullet b)",
+          "java_expr": "b.owner instanceof Building",
+          "godot_symbol": "bullet_owner_state.isBuilding",
+          "used_by": [
+            "PortGame.source_bullet_type_damage_multiplier_state"
+          ],
+          "rule": "Explicit owner Building gate until bullet owner component hierarchy is ported."
+        }
+      }
+    },
+    "rules_state": {
+      "status": "active",
+      "keys": {
+        "unitDamage": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "damageMultiplier(Bullet b)",
+          "java_expr": "state.rules.unitDamage(b.team)",
+          "godot_symbol": "rules_state.unitDamage",
+          "used_by": [
+            "PortGame.source_bullet_type_damage_multiplier_state"
+          ],
+          "rule": "Explicit Rules.unitDamage result for b.team until Rules team table is ported."
+        },
+        "blockDamage": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "damageMultiplier(Bullet b)",
+          "java_expr": "state.rules.blockDamage(b.team)",
+          "godot_symbol": "rules_state.blockDamage",
+          "used_by": [
+            "PortGame.source_bullet_type_damage_multiplier_state"
+          ],
+          "rule": "Explicit Rules.blockDamage result for b.team until Rules team table is ported."
+        }
+      }
+    },
+    "damage_multiplier_result": {
+      "status": "active",
+      "keys": {
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime key preserves input bullet state."
+        },
+        "owner": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_owner_state",
+          "rule": "Runtime key preserves input owner state."
+        },
+        "rules": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "rules_state",
+          "rule": "Runtime key preserves input rules state."
+        },
+        "team": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "bullet_state.team",
+          "rule": "Runtime key aliases bullet team used by source rules calls."
+        },
+        "ownerIsUnit": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "bullet_owner_state.isUnit",
+          "rule": "Runtime key aliases owner Unit gate."
+        },
+        "ownerUnitDamageMultiplier": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_owner_state.unitDamageMultiplier",
+          "rule": "Runtime key aliases Unit owner damage multiplier."
+        },
+        "ownerIsBuilding": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "bullet_owner_state.isBuilding",
+          "rule": "Runtime key aliases owner Building gate."
+        },
+        "rulesUnitDamage": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "rules_state.unitDamage",
+          "rule": "Runtime key aliases Rules.unitDamage."
+        },
+        "rulesBlockDamage": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "rules_state.blockDamage",
+          "rule": "Runtime key aliases Rules.blockDamage."
+        },
+        "damageMultiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "damageMultiplier(Bullet b)",
+          "java_expr": "damageMultiplier(Bullet b)",
+          "godot_symbol": "damage_multiplier_result.damageMultiplier",
+          "used_by": [
+            "PortGame.source_bullet_type_damage_multiplier_state"
+          ],
+          "rule": "Selected return value of BulletType.damageMultiplier."
+        },
+        "branch": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "Unit/Building/fallback branch selected by damageMultiplier(Bullet b)",
+          "rule": "Runtime branch label derived from exact source order."
+        },
+        "unitBranchSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "damage_multiplier.unit_branch",
+          "rule": "Runtime source snippet label."
+        },
+        "buildingBranchSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "damage_multiplier.building_branch",
+          "rule": "Runtime source snippet label."
+        },
+        "fallbackSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "damage_multiplier.fallback",
+          "rule": "Runtime source snippet label."
+        }
+      }
     }
   },
   "version": 1

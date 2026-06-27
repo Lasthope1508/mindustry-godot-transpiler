@@ -1565,6 +1565,104 @@
         "test_port_game_exposes_source_bullet_type_hit_entity_handle_pierce_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_entity_handle_pierce_state"
+    },
+    "damage_multiplier.unit_branch": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "damageMultiplier(Bullet b)",
+      "java_expr": "b.owner instanceof Unit u",
+      "godot_symbol": "damage_multiplier_result.branch",
+      "godot_owner": "PortGame.source_bullet_type_damage_multiplier_state",
+      "rule": "Exact Unit owner branch gate.",
+      "tests": [
+        "test_bullet_type_damage_multiplier_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_damage_multiplier_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_damage_multiplier_state"
+    },
+    "damage_multiplier.unit_damage_multiplier": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "damageMultiplier(Bullet b)",
+      "java_expr": "u.damageMultiplier()",
+      "godot_symbol": "bullet_owner_state.unitDamageMultiplier",
+      "godot_owner": "PortGame.source_bullet_type_damage_multiplier_state",
+      "rule": "Explicit Unit damage multiplier input until Unit owner runtime is ported.",
+      "tests": [
+        "test_bullet_type_damage_multiplier_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_damage_multiplier_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_damage_multiplier_state"
+    },
+    "damage_multiplier.rules_unit_damage": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "damageMultiplier(Bullet b)",
+      "java_expr": "state.rules.unitDamage(b.team)",
+      "godot_symbol": "rules_state.unitDamage",
+      "godot_owner": "PortGame.source_bullet_type_damage_multiplier_state",
+      "rule": "Explicit rules unit damage multiplier for bullet team.",
+      "tests": [
+        "test_bullet_type_damage_multiplier_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_damage_multiplier_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_damage_multiplier_state"
+    },
+    "damage_multiplier.unit_result": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "damageMultiplier(Bullet b)",
+      "java_expr": "u.damageMultiplier() * state.rules.unitDamage(b.team)",
+      "godot_symbol": "damage_multiplier_result.damageMultiplier",
+      "godot_owner": "PortGame.source_bullet_type_damage_multiplier_state",
+      "rule": "Exact Unit owner branch result.",
+      "tests": [
+        "test_bullet_type_damage_multiplier_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_damage_multiplier_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_damage_multiplier_state"
+    },
+    "damage_multiplier.building_branch": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "damageMultiplier(Bullet b)",
+      "java_expr": "b.owner instanceof Building",
+      "godot_symbol": "damage_multiplier_result.branch",
+      "godot_owner": "PortGame.source_bullet_type_damage_multiplier_state",
+      "rule": "Exact Building owner branch gate.",
+      "tests": [
+        "test_bullet_type_damage_multiplier_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_damage_multiplier_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_damage_multiplier_state"
+    },
+    "damage_multiplier.building_result": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "damageMultiplier(Bullet b)",
+      "java_expr": "state.rules.blockDamage(b.team)",
+      "godot_symbol": "damage_multiplier_result.damageMultiplier",
+      "godot_owner": "PortGame.source_bullet_type_damage_multiplier_state",
+      "rule": "Exact Building owner branch result.",
+      "tests": [
+        "test_bullet_type_damage_multiplier_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_damage_multiplier_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_damage_multiplier_state"
+    },
+    "damage_multiplier.fallback": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "damageMultiplier(Bullet b)",
+      "java_expr": "return 1f",
+      "godot_symbol": "damage_multiplier_result.damageMultiplier",
+      "godot_owner": "PortGame.source_bullet_type_damage_multiplier_state",
+      "rule": "Fallback return when owner is not Unit or Building.",
+      "tests": [
+        "test_bullet_type_damage_multiplier_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_damage_multiplier_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_damage_multiplier_state"
     }
   }
 }

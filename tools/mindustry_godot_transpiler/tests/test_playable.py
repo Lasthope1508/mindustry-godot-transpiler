@@ -4724,6 +4724,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"handlePierceCallSource": "handlePierce(b, health, entity.x(), entity.y())"', source)
         self.assertIn('"handlePierceMethodSource": "public void handlePierce(Bullet b, float initialHealth, float x, float y)"', source)
 
+    def test_port_game_exposes_source_bullet_type_damage_multiplier_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_damage_multiplier_state(bullet_state: Dictionary, bullet_owner_state: Dictionary, rules_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var owner_is_unit := bool(update_owner_state.get(\"isUnit\", false))", source)
+        self.assertIn("var owner_unit_damage_multiplier := float(update_owner_state.get(\"unitDamageMultiplier\", 1.0))", source)
+        self.assertIn("var owner_is_building := bool(update_owner_state.get(\"isBuilding\", false))", source)
+        self.assertIn("var rules_unit_damage := float(update_rules_state.get(\"unitDamage\", 1.0))", source)
+        self.assertIn("var rules_block_damage := float(update_rules_state.get(\"blockDamage\", 1.0))", source)
+        self.assertIn("damage_multiplier = owner_unit_damage_multiplier * rules_unit_damage", source)
+        self.assertIn("damage_multiplier = rules_block_damage", source)
+        self.assertIn('"unitBranchSource": "if(b.owner instanceof Unit u) return u.damageMultiplier() * state.rules.unitDamage(b.team)"', source)
+        self.assertIn('"buildingBranchSource": "if(b.owner instanceof Building) return state.rules.blockDamage(b.team)"', source)
+        self.assertIn('"fallbackSource": "return 1f"', source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

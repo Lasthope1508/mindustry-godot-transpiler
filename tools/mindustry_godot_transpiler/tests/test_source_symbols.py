@@ -292,14 +292,37 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(initial_health["java_expr"], "health")
         self.assertEqual(initial_health["godot_symbol"], "pierce_state.initialHealth")
 
+    def test_bullet_type_damage_multiplier_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        unit_branch = source_symbols.source_symbol(registry, "damage_multiplier.unit_branch")
+        self.assertEqual(unit_branch["java_expr"], "b.owner instanceof Unit u")
+        self.assertEqual(unit_branch["godot_owner"], "PortGame.source_bullet_type_damage_multiplier_state")
+        self.assertEqual(unit_branch["runtime_proof"], "/root/Main.source_bullet_type_damage_multiplier_state")
+
+        unit_result = source_symbols.source_symbol(registry, "damage_multiplier.unit_result")
+        self.assertEqual(unit_result["java_expr"], "u.damageMultiplier() * state.rules.unitDamage(b.team)")
+        self.assertEqual(unit_result["godot_symbol"], "damage_multiplier_result.damageMultiplier")
+
+        building_result = source_symbols.source_symbol(registry, "damage_multiplier.building_result")
+        self.assertEqual(building_result["java_expr"], "state.rules.blockDamage(b.team)")
+        self.assertEqual(building_result["godot_symbol"], "damage_multiplier_result.damageMultiplier")
+
+        fallback = source_symbols.source_symbol(registry, "damage_multiplier.fallback")
+        self.assertEqual(fallback["java_expr"], "return 1f")
+        self.assertEqual(fallback["godot_symbol"], "damage_multiplier_result.damageMultiplier")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 13)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 14)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 18)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 19)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -318,6 +341,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_hit_entity_unit_effects_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_entity_unit_destroy_event_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_entity_handle_pierce_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_damage_multiplier_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -398,6 +422,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(hit_entity_handle_pierce["java_method"], "hitEntity(Bullet b, Hitboxc entity, float health)")
         self.assertEqual(hit_entity_handle_pierce["godot_owner"], "PortGame.source_bullet_type_hit_entity_handle_pierce_state")
         self.assertIn("handlePierce(b, health, entity.x(), entity.y())", hit_entity_handle_pierce["exact_exprs"])
+
+        damage_multiplier = source_symbols.source_slice(ledger, "N416")
+        self.assertEqual(damage_multiplier["java_method"], "damageMultiplier(Bullet b)")
+        self.assertEqual(damage_multiplier["godot_owner"], "PortGame.source_bullet_type_damage_multiplier_state")
+        self.assertIn("if(b.owner instanceof Unit u) return u.damageMultiplier() * state.rules.unitDamage(b.team)", damage_multiplier["exact_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -496,6 +525,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("handlePierceCalled", hit_entity_handle_pierce["return_keys"])
         self.assertIn("handlePierce", hit_entity_handle_pierce["return_keys"])
         self.assertEqual(hit_entity_handle_pierce["source_method"], "hitEntity(Bullet b, Hitboxc entity, float health)")
+
+        damage_multiplier = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_damage_multiplier_state")
+        self.assertEqual([param["name"] for param in damage_multiplier["params"]], ["bullet_state", "bullet_owner_state", "rules_state"])
+        self.assertEqual(damage_multiplier["params"][1]["schema"], "bullet_owner_state")
+        self.assertEqual(damage_multiplier["params"][2]["schema"], "rules_state")
+        self.assertIn("damageMultiplier", damage_multiplier["return_keys"])
+        self.assertIn("branch", damage_multiplier["return_keys"])
+        self.assertEqual(damage_multiplier["source_method"], "damageMultiplier(Bullet b)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -605,6 +642,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(hit_entity_handle_pierce_output["keys"]["handlePierceCalled"]["java_expr"], "handlePierce(b, health, entity.x(), entity.y())")
         self.assertEqual(hit_entity_handle_pierce_output["keys"]["effectiveHealth"]["alias_of"], "hit_entity_damage_cap_result.effectiveHealth")
         self.assertEqual(hit_entity_handle_pierce_output["keys"]["handlePierce"]["alias_of"], "handle_pierce_result")
+
+        bullet_owner_state = source_symbols.state_schema(schema, "bullet_owner_state")
+        self.assertEqual(bullet_owner_state["keys"]["isUnit"]["java_expr"], "b.owner instanceof Unit u")
+        self.assertEqual(bullet_owner_state["keys"]["unitDamageMultiplier"]["java_expr"], "u.damageMultiplier()")
+        self.assertEqual(bullet_owner_state["keys"]["isBuilding"]["java_expr"], "b.owner instanceof Building")
+
+        rules_state = source_symbols.state_schema(schema, "rules_state")
+        self.assertEqual(rules_state["keys"]["unitDamage"]["java_expr"], "state.rules.unitDamage(b.team)")
+        self.assertEqual(rules_state["keys"]["blockDamage"]["java_expr"], "state.rules.blockDamage(b.team)")
+
+        damage_multiplier_output = source_symbols.state_schema(schema, "damage_multiplier_result")
+        self.assertEqual(damage_multiplier_output["keys"]["damageMultiplier"]["java_expr"], "damageMultiplier(Bullet b)")
+        self.assertEqual(damage_multiplier_output["keys"]["branch"]["status"], "generated")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {
