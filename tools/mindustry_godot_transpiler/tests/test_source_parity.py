@@ -5825,6 +5825,25 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_create_splash_damage_status_dispatch_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_create_splash_damage_status_dispatch_state_source"))
+        report = source_parity.verify_bullet_type_create_splash_damage_status_dispatch_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["damage_source"], "core/src/mindustry/entities/Damage.java")
+        self.assertEqual(report["checked"], {
+            "status_field": "public StatusEffect status = StatusEffects.none;",
+            "status_duration_field": "public float statusDuration = 60 * 8f;",
+            "method": "public void createSplashDamage(Bullet b, float x, float y){",
+            "damage_gate": "if(splashDamageRadius > 0 && !b.absorbed){",
+            "damage_call_boundary": "Damage.damage(b.team, x, y, splashDamageRadius, splashDamage * b.damageMultiplier(), splashDamagePierce, collidesAir, collidesGround, scaledSplashDamage, b, armorMultiplier);",
+            "status_gate": "if(status != StatusEffects.none){",
+            "status_call": "Damage.status(b.team, x, y, splashDamageRadius, status, statusDuration, collidesAir, collidesGround);",
+            "damage_status_signature": "public static void status(Team team, float x, float y, float radius, StatusEffect effect, float duration, boolean air, boolean ground){",
+            "heals_boundary": "if(heals()){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_bullet_type_building_damage_state_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_bullet_type_building_damage_state_source"))
         report = source_parity.verify_bullet_type_building_damage_state_source(ROOT / "mindustry-upstream")

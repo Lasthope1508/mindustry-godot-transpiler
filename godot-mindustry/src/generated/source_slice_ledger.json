@@ -683,6 +683,33 @@
         "test_port_game_exposes_source_bullet_type_create_splash_damage_damage_dispatch_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_damage_dispatch_state"
+    },
+    "N425": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state",
+      "exact_exprs": [
+        "if(status != StatusEffects.none)",
+        "Damage.status(b.team, x, y, splashDamageRadius, status, statusDuration, collidesAir, collidesGround)"
+      ],
+      "deferred_exprs": [
+        "if(heals())",
+        "if(makeFire)"
+      ],
+      "source_symbols": [
+        "create_splash_damage.status_dispatch.status",
+        "create_splash_damage.status_dispatch.status_duration",
+        "create_splash_damage.status_dispatch.gate",
+        "create_splash_damage.status_dispatch.status_call",
+        "create_splash_damage.status_dispatch.heals_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_splash_damage_status_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_status_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_status_dispatch_state"
     }
   },
   "version": 1

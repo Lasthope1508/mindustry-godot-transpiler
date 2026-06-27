@@ -45,7 +45,8 @@
             "PortGame.source_bullet_type_hit_tile_fire_state",
             "PortGame.source_bullet_type_hit_tile_enemy_direct_state",
             "PortGame.source_bullet_type_hit_tile_lifesteal_state",
-            "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state"
+            "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state",
+            "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state"
           ],
           "rule": "Use bullet.team; do not infer from owner or turret."
         },
@@ -316,7 +317,8 @@
           "java_expr": "status",
           "godot_symbol": "bullet_type_state.status",
           "used_by": [
-            "PortGame.source_bullet_type_hit_entity_unit_effects_state"
+            "PortGame.source_bullet_type_hit_entity_unit_effects_state",
+            "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state"
           ],
           "rule": "Canonical BulletType.status field for unit.apply(status, statusDuration)."
         },
@@ -328,7 +330,8 @@
           "java_expr": "statusDuration",
           "godot_symbol": "bullet_type_state.statusDuration",
           "used_by": [
-            "PortGame.source_bullet_type_hit_entity_unit_effects_state"
+            "PortGame.source_bullet_type_hit_entity_unit_effects_state",
+            "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state"
           ],
           "rule": "Canonical BulletType.statusDuration field for unit.apply(status, statusDuration)."
         },
@@ -532,7 +535,8 @@
           "java_expr": "collidesAir",
           "godot_symbol": "bullet_type_state.collidesAir",
           "used_by": [
-            "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state"
+            "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state",
+            "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state"
           ],
           "rule": "Canonical BulletType.collidesAir field; default is true."
         },
@@ -544,7 +548,8 @@
           "java_expr": "collidesGround",
           "godot_symbol": "bullet_type_state.collidesGround",
           "used_by": [
-            "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state"
+            "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state",
+            "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state"
           ],
           "rule": "Canonical BulletType.collidesGround field; default is true."
         },
@@ -556,7 +561,8 @@
           "java_expr": "splashDamageRadius",
           "godot_symbol": "bullet_type_state.splashDamageRadius",
           "used_by": [
-            "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state"
+            "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state",
+            "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state"
           ],
           "rule": "Canonical BulletType.splashDamageRadius field; default is -1f."
         },
@@ -3685,6 +3691,143 @@
             "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state"
           ],
           "rule": "Boundary marker; status branch remains a later source slice."
+        }
+      }
+    },
+    "create_splash_damage_status_dispatch_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_type_state",
+          "rule": "Runtime echo of input bullet_type_state."
+        },
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime echo of input bullet_state."
+        },
+        "createSplashDamageDamageDispatch": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "create_splash_damage_damage_dispatch_result",
+          "rule": "Runtime echo of prior createSplashDamage damage dispatch state."
+        },
+        "x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "create_splash_damage_damage_dispatch_result.x",
+          "rule": "Runtime key aliases createSplashDamage x parameter."
+        },
+        "y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "create_splash_damage_damage_dispatch_result.y",
+          "rule": "Runtime key aliases createSplashDamage y parameter."
+        },
+        "bulletTeam": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "bullet_state.team",
+          "rule": "Runtime key aliases b.team."
+        },
+        "splashDamageRadius": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "create_splash_damage_damage_dispatch_result.splashDamageRadius",
+          "rule": "Runtime key aliases splashDamageRadius after N424 dispatch."
+        },
+        "status": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "bullet_type_state.status",
+          "rule": "Runtime key aliases BulletType.status."
+        },
+        "statusDuration": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_type_state.statusDuration",
+          "rule": "Runtime key aliases BulletType.statusDuration."
+        },
+        "collidesAir": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "create_splash_damage_damage_dispatch_result.collidesAir",
+          "rule": "Runtime key aliases collidesAir after N424 dispatch."
+        },
+        "collidesGround": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "create_splash_damage_damage_dispatch_result.collidesGround",
+          "rule": "Runtime key aliases collidesGround after N424 dispatch."
+        },
+        "splashDamageGatePassed": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "create_splash_damage_damage_dispatch_result.splashDamageGatePassed",
+          "rule": "Runtime key reuses outer splash damage gate from N424."
+        },
+        "statusGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createSplashDamage(Bullet b, float x, float y)",
+          "java_expr": "status != StatusEffects.none",
+          "godot_symbol": "create_splash_damage_status_dispatch_result.statusGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state"
+          ],
+          "rule": "Exact createSplashDamage status gate, combined at runtime with N424 outer gate."
+        },
+        "statusCall": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createSplashDamage(Bullet b, float x, float y)",
+          "java_expr": "Damage.status(b.team, x, y, splashDamageRadius, status, statusDuration, collidesAir, collidesGround)",
+          "godot_symbol": "create_splash_damage_status_dispatch_result.statusCall",
+          "used_by": [
+            "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state"
+          ],
+          "rule": "Runtime call record for Damage.status dispatch."
+        },
+        "statusGateSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createSplashDamage(Bullet b, float x, float y)",
+          "java_expr": "if(status != StatusEffects.none)",
+          "godot_symbol": "create_splash_damage_status_dispatch_result.statusGateSource",
+          "used_by": [
+            "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state"
+          ],
+          "rule": "Runtime source snippet label."
+        },
+        "statusCallSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createSplashDamage(Bullet b, float x, float y)",
+          "java_expr": "Damage.status(b.team, x, y, splashDamageRadius, status, statusDuration, collidesAir, collidesGround)",
+          "godot_symbol": "create_splash_damage_status_dispatch_result.statusCallSource",
+          "used_by": [
+            "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state"
+          ],
+          "rule": "Runtime source snippet label."
+        },
+        "healsBoundarySource": {
+          "type": "String",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createSplashDamage(Bullet b, float x, float y)",
+          "java_expr": "if(heals())",
+          "godot_symbol": "create_splash_damage_status_dispatch_result.healsBoundarySource",
+          "used_by": [
+            "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state"
+          ],
+          "rule": "Boundary marker; heal branch remains a later source slice."
         }
       }
     }

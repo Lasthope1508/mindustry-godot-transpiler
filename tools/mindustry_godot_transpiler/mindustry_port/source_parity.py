@@ -10413,6 +10413,38 @@ def verify_bullet_type_create_splash_damage_damage_dispatch_state_source(upstrea
         "missing": missing,
     }
 
+def verify_bullet_type_create_splash_damage_status_dispatch_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    damage_source_path = upstream_root / "core/src/mindustry/entities/Damage.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    damage_source = damage_source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "status_field": "public StatusEffect status = StatusEffects.none;",
+        "status_duration_field": "public float statusDuration = 60 * 8f;",
+        "method": "public void createSplashDamage(Bullet b, float x, float y){",
+        "damage_gate": "if(splashDamageRadius > 0 && !b.absorbed){",
+        "damage_call_boundary": "Damage.damage(b.team, x, y, splashDamageRadius, splashDamage * b.damageMultiplier(), splashDamagePierce, collidesAir, collidesGround, scaledSplashDamage, b, armorMultiplier);",
+        "status_gate": "if(status != StatusEffects.none){",
+        "status_call": "Damage.status(b.team, x, y, splashDamageRadius, status, statusDuration, collidesAir, collidesGround);",
+        "damage_status_signature": "public static void status(Team team, float x, float y, float radius, StatusEffect effect, float duration, boolean air, boolean ground){",
+        "heals_boundary": "if(heals()){",
+    }
+    source_map = {
+        "damage_status_signature": damage_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        haystack = source_map.get(key, source)
+        if snippet not in haystack:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "damage_source": "core/src/mindustry/entities/Damage.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

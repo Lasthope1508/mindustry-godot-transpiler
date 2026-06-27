@@ -6690,6 +6690,54 @@ func source_bullet_type_create_splash_damage_damage_dispatch_state(bullet_type_s
 		"statusBoundarySource": "if(status != StatusEffects.none)",
 	}
 
+func source_bullet_type_create_splash_damage_status_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_splash_damage_damage_dispatch_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_damage_dispatch_state: Dictionary = create_splash_damage_damage_dispatch_state.duplicate(true)
+	var hit_x := float(update_damage_dispatch_state.get("x", 0.0))
+	var hit_y := float(update_damage_dispatch_state.get("y", 0.0))
+	var bullet_team: Variant = update_bullet_state.get("team", null)
+	var splash_damage_radius := float(update_damage_dispatch_state.get("splashDamageRadius", update_type_state.get("splashDamageRadius", -1.0)))
+	var status := str(update_type_state.get("status", "none"))
+	var status_duration := float(update_type_state.get("statusDuration", 60.0 * 8.0))
+	var collides_air := bool(update_damage_dispatch_state.get("collidesAir", update_type_state.get("collidesAir", true)))
+	var collides_ground := bool(update_damage_dispatch_state.get("collidesGround", update_type_state.get("collidesGround", true)))
+	var splash_damage_gate_passed := bool(update_damage_dispatch_state.get("splashDamageGatePassed", false))
+	var status_gate_passed := splash_damage_gate_passed and status != "none"
+	var status_call := {}
+	if status_gate_passed:
+		status_call = {
+			"call": "Damage.status(b.team, x, y, splashDamageRadius, status, statusDuration, collidesAir, collidesGround)",
+			"team": bullet_team,
+			"x": hit_x,
+			"y": hit_y,
+			"radius": splash_damage_radius,
+			"effect": status,
+			"duration": status_duration,
+			"air": collides_air,
+			"ground": collides_ground,
+			"called": true,
+		}
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createSplashDamageDamageDispatch": update_damage_dispatch_state,
+		"x": hit_x,
+		"y": hit_y,
+		"bulletTeam": bullet_team,
+		"splashDamageRadius": splash_damage_radius,
+		"status": status,
+		"statusDuration": status_duration,
+		"collidesAir": collides_air,
+		"collidesGround": collides_ground,
+		"splashDamageGatePassed": splash_damage_gate_passed,
+		"statusGatePassed": status_gate_passed,
+		"statusCall": status_call,
+		"statusGateSource": "if(status != StatusEffects.none)",
+		"statusCallSource": "Damage.status(b.team, x, y, splashDamageRadius, status, statusDuration, collidesAir, collidesGround)",
+		"healsBoundarySource": "if(heals())",
+	}
+
 func source_bullet_type_hit_entity_damage_cap_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, hit_entity_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

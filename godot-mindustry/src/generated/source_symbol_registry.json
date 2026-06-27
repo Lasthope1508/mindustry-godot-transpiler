@@ -2391,6 +2391,76 @@
         "test_port_game_exposes_source_bullet_type_create_splash_damage_damage_dispatch_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_damage_dispatch_state"
+    },
+    "create_splash_damage.status_dispatch.status": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "java_expr": "status",
+      "godot_symbol": "bullet_type_state.status",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state",
+      "rule": "Canonical BulletType.status field for createSplashDamage status dispatch; default is StatusEffects.none.",
+      "tests": [
+        "test_bullet_type_create_splash_damage_status_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_status_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_status_dispatch_state"
+    },
+    "create_splash_damage.status_dispatch.status_duration": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "java_expr": "statusDuration",
+      "godot_symbol": "bullet_type_state.statusDuration",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state",
+      "rule": "Canonical BulletType.statusDuration field for Damage.status duration; default is 60 * 8f.",
+      "tests": [
+        "test_bullet_type_create_splash_damage_status_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_status_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_status_dispatch_state"
+    },
+    "create_splash_damage.status_dispatch.gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "java_expr": "status != StatusEffects.none",
+      "godot_symbol": "create_splash_damage_status_dispatch_result.statusGatePassed",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state",
+      "rule": "Gate Damage.status dispatch on non-none BulletType.status, inside the already-migrated splash damage gate.",
+      "tests": [
+        "test_bullet_type_create_splash_damage_status_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_status_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_status_dispatch_state"
+    },
+    "create_splash_damage.status_dispatch.status_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "java_expr": "Damage.status(b.team, x, y, splashDamageRadius, status, statusDuration, collidesAir, collidesGround)",
+      "godot_symbol": "create_splash_damage_status_dispatch_result.statusCall",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state",
+      "rule": "Record exact Damage.status dispatch under createSplashDamage damage and status gates.",
+      "tests": [
+        "test_bullet_type_create_splash_damage_status_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_status_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_status_dispatch_state"
+    },
+    "create_splash_damage.status_dispatch.heals_boundary": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "java_expr": "if(heals())",
+      "godot_symbol": "create_splash_damage_status_dispatch_result.healsBoundarySource",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state",
+      "rule": "Boundary marker; createSplashDamage heal branch remains a later source slice.",
+      "tests": [
+        "test_bullet_type_create_splash_damage_status_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_status_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_status_dispatch_state"
     }
   }
 }
