@@ -4803,6 +4803,96 @@
         "test_bullet_type_init_initial_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_init_initial_state"
+    },
+    "init_spawn_bullets.gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init(Bullet b)",
+      "java_expr": "if(spawnBullets.size > 0){",
+      "godot_symbol": "init_spawn_bullets_result.spawnBulletsApplied",
+      "godot_owner": "PortGame.source_bullet_type_init_spawn_bullets_state",
+      "rule": "Exact spawnBullets size gate from BulletType.init.",
+      "tests": [
+        "test_bullet_type_init_spawn_bullets_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_spawn_bullets_state",
+        "test_bullet_type_init_spawn_bullets_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_spawn_bullets_state"
+    },
+    "init_spawn_bullets.loop": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init(Bullet b)",
+      "java_expr": "for(var bullet : spawnBullets){",
+      "godot_symbol": "init_spawn_bullets_result.spawnBulletCount",
+      "godot_owner": "PortGame.source_bullet_type_init_spawn_bullets_state",
+      "rule": "Loop count follows spawnBullets.size from source Seq.",
+      "tests": [
+        "test_bullet_type_init_spawn_bullets_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_spawn_bullets_state",
+        "test_bullet_type_init_spawn_bullets_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_spawn_bullets_state"
+    },
+    "init_spawn_bullets.create_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init(Bullet b)",
+      "java_expr": "bullet.create(b, b.x, b.y, b.rotation() + Mathf.range(spawnBulletRandomSpread));",
+      "godot_symbol": "init_spawn_bullets_result.spawnBulletCalls",
+      "godot_owner": "PortGame.source_bullet_type_init_spawn_bullets_state",
+      "rule": "Records each spawn bullet create call with source x/y/rotation plus explicit random offset.",
+      "tests": [
+        "test_bullet_type_init_spawn_bullets_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_spawn_bullets_state",
+        "test_bullet_type_init_spawn_bullets_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_spawn_bullets_state"
+    },
+    "init_spawn_bullets.random_offset": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init(Bullet b)",
+      "java_expr": "Mathf.range(spawnBulletRandomSpread)",
+      "godot_symbol": "spawn_bullet_random_state.offsets",
+      "godot_owner": "PortGame.source_bullet_type_init_spawn_bullets_state",
+      "rule": "Runtime must receive each Arc random offset explicitly; do not fabricate RNG output.",
+      "tests": [
+        "test_bullet_type_init_spawn_bullets_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_spawn_bullets_state",
+        "test_bullet_type_init_spawn_bullets_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_spawn_bullets_state"
+    },
+    "init_spawn_bullets.mathf_range": {
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "range(float range)",
+      "java_expr": "return random(-range, range)",
+      "godot_symbol": "init_spawn_bullets_result.mathfRangeSource",
+      "godot_owner": "PortGame.source_bullet_type_init_spawn_bullets_state",
+      "rule": "Arc Mathf.range(float) source semantics for explicit random offset provenance.",
+      "tests": [
+        "test_bullet_type_init_spawn_bullets_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_spawn_bullets_state",
+        "test_bullet_type_init_spawn_bullets_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_spawn_bullets_state"
+    },
+    "init_spawn_bullets.update_boundary": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init(Bullet b)",
+      "java_expr": "public void update(Bullet b){",
+      "godot_symbol": "init_spawn_bullets_result.updateBoundarySource",
+      "godot_owner": "PortGame.source_bullet_type_init_spawn_bullets_state",
+      "rule": "Next BulletType method boundary after init spawn bullets.",
+      "tests": [
+        "test_bullet_type_init_spawn_bullets_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_spawn_bullets_state",
+        "test_bullet_type_init_spawn_bullets_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_spawn_bullets_state"
     }
   }
 }

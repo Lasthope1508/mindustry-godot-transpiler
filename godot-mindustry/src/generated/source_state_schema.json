@@ -30,7 +30,8 @@
             "PortGame.source_bullet_type_draw_parts_state",
             "PortGame.source_bullet_type_hit_entity_unit_effects_state",
             "PortGame.source_bullet_type_create_frags_random_geometry_state",
-            "PortGame.source_bullet_type_create_units_rotation_state"
+            "PortGame.source_bullet_type_create_units_rotation_state",
+            "PortGame.source_bullet_type_init_spawn_bullets_state"
           ],
           "rule": "Explicit input until RotComp/BulletComp rotation state is ported."
         },
@@ -108,7 +109,8 @@
           "used_by": [
             "PortGame.source_bullet_type_draw_parts_state",
             "PortGame.source_bullet_type_hit_entity_unit_effects_state",
-            "PortGame.source_bullet_type_hit_default_state"
+            "PortGame.source_bullet_type_hit_default_state",
+            "PortGame.source_bullet_type_init_spawn_bullets_state"
           ],
           "rule": "Use source bullet x field."
         },
@@ -122,7 +124,8 @@
           "used_by": [
             "PortGame.source_bullet_type_draw_parts_state",
             "PortGame.source_bullet_type_hit_entity_unit_effects_state",
-            "PortGame.source_bullet_type_hit_default_state"
+            "PortGame.source_bullet_type_hit_default_state",
+            "PortGame.source_bullet_type_init_spawn_bullets_state"
           ],
           "rule": "Use source bullet y field."
         },
@@ -968,6 +971,30 @@
             "PortGame.source_bullet_type_init_initial_state"
           ],
           "rule": "Canonical BulletType.lifetime field; default is 40f in BulletType.java."
+        },
+        "spawnBullets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init(Bullet b)",
+          "java_expr": "spawnBullets",
+          "godot_symbol": "bullet_type_state.spawnBullets",
+          "used_by": [
+            "PortGame.source_bullet_type_init_spawn_bullets_state"
+          ],
+          "rule": "Canonical BulletType.spawnBullets Seq for init spawn loop."
+        },
+        "spawnBulletRandomSpread": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init(Bullet b)",
+          "java_expr": "spawnBulletRandomSpread",
+          "godot_symbol": "bullet_type_state.spawnBulletRandomSpread",
+          "used_by": [
+            "PortGame.source_bullet_type_init_spawn_bullets_state"
+          ],
+          "rule": "Canonical BulletType.spawnBulletRandomSpread field used by Mathf.range in init spawn loop."
         }
       }
     },
@@ -7782,6 +7809,112 @@
           "status": "generated",
           "alias_of": "source_line.init.spawn_bullets_boundary",
           "rule": "Debug source-line echo, not gameplay state."
+        }
+      }
+    },
+    "spawn_bullet_random_state": {
+      "status": "active",
+      "keys": {
+        "offsets": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init(Bullet b)",
+          "java_expr": "Mathf.range(spawnBulletRandomSpread)",
+          "godot_symbol": "spawn_bullet_random_state.offsets",
+          "used_by": [
+            "PortGame.source_bullet_type_init_spawn_bullets_state"
+          ],
+          "rule": "Explicit per-spawn random offsets; runtime must not fabricate Arc RNG output."
+        }
+      }
+    },
+    "init_spawn_bullets_result": {
+      "status": "active",
+      "keys": {
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "init_initial_result.bullet",
+          "rule": "Runtime echo of initialized bullet from prior init initial slice."
+        },
+        "spawnBulletCount": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init(Bullet b)",
+          "java_expr": "spawnBullets.size",
+          "godot_symbol": "init_spawn_bullets_result.spawnBulletCount",
+          "used_by": [
+            "PortGame.source_bullet_type_init_spawn_bullets_state"
+          ],
+          "rule": "Loop count derived from spawnBullets.size."
+        },
+        "spawnBulletCalls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init(Bullet b)",
+          "java_expr": "bullet.create(b, b.x, b.y, b.rotation() + Mathf.range(spawnBulletRandomSpread))",
+          "godot_symbol": "init_spawn_bullets_result.spawnBulletCalls",
+          "used_by": [
+            "PortGame.source_bullet_type_init_spawn_bullets_state"
+          ],
+          "rule": "Recorded create calls for each spawn bullet."
+        },
+        "spawnBulletsApplied": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init(Bullet b)",
+          "java_expr": "spawnBullets.size > 0",
+          "godot_symbol": "init_spawn_bullets_result.spawnBulletsApplied",
+          "used_by": [
+            "PortGame.source_bullet_type_init_spawn_bullets_state"
+          ],
+          "rule": "Exact spawnBullets size gate result."
+        },
+        "spawnBulletRandomSpread": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_type_state.spawnBulletRandomSpread",
+          "rule": "Runtime key aliases BulletType.spawnBulletRandomSpread."
+        },
+        "spawnBulletRandomOffsets": {
+          "type": "Array",
+          "status": "generated",
+          "alias_of": "spawn_bullet_random_state.offsets",
+          "rule": "Runtime echo of explicit random offsets input."
+        },
+        "spawnBulletsSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.init.spawn_bullets_gate",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "spawnBulletCreateSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.init.spawn_bullet_create",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "mathfRangeSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.mathf.range_float",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "updateBoundarySource": {
+          "type": "String",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init(Bullet b)",
+          "java_expr": "public void update(Bullet b){",
+          "godot_symbol": "init_spawn_bullets_result.updateBoundarySource",
+          "used_by": [
+            "PortGame.source_bullet_type_init_spawn_bullets_state"
+          ],
+          "rule": "Next BulletType method boundary after init."
         }
       }
     }

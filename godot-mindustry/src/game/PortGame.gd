@@ -5442,6 +5442,7 @@ func source_bullet_type_init_spawn_bullets_state(init_initial_state: Dictionary,
 		"spawnBulletsSource": "if(spawnBullets.size > 0){",
 		"spawnBulletCreateSource": "bullet.create(b, b.x, b.y, b.rotation() + Mathf.range(spawnBulletRandomSpread))",
 		"mathfRangeSource": "return random(-range, range)",
+		"updateBoundarySource": "public void update(Bullet b){",
 	}
 
 func source_bullet_type_update_dispatch_state(bullet_state: Dictionary) -> Dictionary:

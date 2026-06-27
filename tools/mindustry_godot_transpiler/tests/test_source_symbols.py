@@ -1145,14 +1145,43 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(spawn_boundary["status"], "deferred")
         self.assertEqual(spawn_boundary["java_expr"], "if(spawnBullets.size > 0){")
 
+    def test_bullet_type_init_spawn_bullets_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        gate = source_symbols.source_symbol(registry, "init_spawn_bullets.gate")
+        self.assertEqual(gate["java_expr"], "if(spawnBullets.size > 0){")
+        self.assertEqual(gate["godot_symbol"], "init_spawn_bullets_result.spawnBulletsApplied")
+        self.assertEqual(gate["godot_owner"], "PortGame.source_bullet_type_init_spawn_bullets_state")
+        self.assertEqual(gate["runtime_proof"], "/root/Main.source_bullet_type_init_spawn_bullets_state")
+
+        loop = source_symbols.source_symbol(registry, "init_spawn_bullets.loop")
+        self.assertEqual(loop["java_expr"], "for(var bullet : spawnBullets){")
+        self.assertEqual(loop["godot_symbol"], "init_spawn_bullets_result.spawnBulletCount")
+
+        create_call = source_symbols.source_symbol(registry, "init_spawn_bullets.create_call")
+        self.assertEqual(create_call["java_expr"], "bullet.create(b, b.x, b.y, b.rotation() + Mathf.range(spawnBulletRandomSpread));")
+        self.assertEqual(create_call["godot_symbol"], "init_spawn_bullets_result.spawnBulletCalls")
+
+        random_offset = source_symbols.source_symbol(registry, "init_spawn_bullets.random_offset")
+        self.assertEqual(random_offset["status"], "explicit-input")
+        self.assertEqual(random_offset["java_expr"], "Mathf.range(spawnBulletRandomSpread)")
+        self.assertEqual(random_offset["godot_symbol"], "spawn_bullet_random_state.offsets")
+
+        update_boundary = source_symbols.source_symbol(registry, "init_spawn_bullets.update_boundary")
+        self.assertEqual(update_boundary["status"], "deferred")
+        self.assertEqual(update_boundary["java_expr"], "public void update(Bullet b){")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 50)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 51)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 55)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 56)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1197,6 +1226,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_create_units_rotation_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_units_notify_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_init_initial_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_init_spawn_bullets_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -1528,6 +1558,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("h.kill();", init_initial["exact_exprs"])
         self.assertIn("b.time = lifetime + 1f;", init_initial["exact_exprs"])
         self.assertIn("if(spawnBullets.size > 0){", init_initial["deferred_exprs"])
+
+        init_spawn = source_symbols.source_slice(ledger, "N453")
+        self.assertEqual(init_spawn["java_method"], "init(Bullet b)")
+        self.assertEqual(init_spawn["godot_owner"], "PortGame.source_bullet_type_init_spawn_bullets_state")
+        self.assertIn("if(spawnBullets.size > 0){", init_spawn["exact_exprs"])
+        self.assertIn("for(var bullet : spawnBullets){", init_spawn["exact_exprs"])
+        self.assertIn("bullet.create(b, b.x, b.y, b.rotation() + Mathf.range(spawnBulletRandomSpread));", init_spawn["exact_exprs"])
+        self.assertIn("public void update(Bullet b){", init_spawn["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -1935,6 +1973,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("spawnBulletsDeferred", init_initial["return_keys"])
         self.assertEqual(init_initial["source_method"], "init(Bullet b)")
 
+        init_spawn = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_init_spawn_bullets_state")
+        self.assertEqual([param["name"] for param in init_spawn["params"]], ["init_initial_state", "bullet_type_state", "spawn_bullet_random_state"])
+        self.assertIn("spawnBulletCalls", init_spawn["return_keys"])
+        self.assertIn("spawnBulletsApplied", init_spawn["return_keys"])
+        self.assertIn("spawnBulletRandomOffsets", init_spawn["return_keys"])
+        self.assertIn("updateBoundarySource", init_spawn["return_keys"])
+        self.assertEqual(init_spawn["source_method"], "init(Bullet b)")
+
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_state_schema(schema)
@@ -2283,6 +2329,8 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(bullet_type_state["keys"]["killShooter"]["java_expr"], "killShooter")
         self.assertEqual(bullet_type_state["keys"]["instantDisappear"]["java_expr"], "instantDisappear")
         self.assertEqual(bullet_type_state["keys"]["lifetime"]["java_expr"], "lifetime")
+        self.assertEqual(bullet_type_state["keys"]["spawnBullets"]["java_expr"], "spawnBullets")
+        self.assertEqual(bullet_type_state["keys"]["spawnBulletRandomSpread"]["java_expr"], "spawnBulletRandomSpread")
 
         owner_health_state = source_symbols.state_schema(schema, "owner_health_state")
         self.assertEqual(owner_health_state["keys"]["isHealthc"]["java_expr"], "b.owner instanceof Healthc o")
@@ -2293,6 +2341,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(init_initial_output["keys"]["killShooterApplied"]["java_expr"], "killShooter && b.owner() instanceof Healthc h && !h.dead()")
         self.assertEqual(init_initial_output["keys"]["instantDisappearApplied"]["java_expr"], "instantDisappear")
         self.assertEqual(init_initial_output["keys"]["spawnBulletsDeferred"]["status"], "deferred")
+
+        spawn_random_state = source_symbols.state_schema(schema, "spawn_bullet_random_state")
+        self.assertEqual(spawn_random_state["keys"]["offsets"]["java_expr"], "Mathf.range(spawnBulletRandomSpread)")
+        self.assertEqual(spawn_random_state["keys"]["offsets"]["status"], "explicit-input")
+
+        init_spawn_output = source_symbols.state_schema(schema, "init_spawn_bullets_result")
+        self.assertEqual(init_spawn_output["keys"]["spawnBulletsApplied"]["java_expr"], "spawnBullets.size > 0")
+        self.assertEqual(init_spawn_output["keys"]["spawnBulletCalls"]["java_expr"], "bullet.create(b, b.x, b.y, b.rotation() + Mathf.range(spawnBulletRandomSpread))")
+        self.assertEqual(init_spawn_output["keys"]["updateBoundarySource"]["status"], "deferred")
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")

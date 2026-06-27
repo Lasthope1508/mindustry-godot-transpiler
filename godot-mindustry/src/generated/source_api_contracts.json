@@ -2374,6 +2374,48 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_init_initial_state",
       "rule": "Public runtime contract for BulletType.init killShooter and instantDisappear state; spawnBullets body remains a separate source-backed slice."
+    },
+    "PortGame.source_bullet_type_init_spawn_bullets_state": {
+      "status": "active",
+      "source_slice": "N453",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "init(Bullet b)",
+      "params": [
+        {
+          "name": "init_initial_state",
+          "type": "Dictionary",
+          "schema": "init_initial_result"
+        },
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "spawn_bullet_random_state",
+          "type": "Dictionary",
+          "schema": "spawn_bullet_random_state"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "spawnBulletCount",
+        "spawnBulletCalls",
+        "spawnBulletsApplied",
+        "spawnBulletRandomSpread",
+        "spawnBulletRandomOffsets",
+        "spawnBulletsSource",
+        "spawnBulletCreateSource",
+        "mathfRangeSource",
+        "updateBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_init_spawn_bullets_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_spawn_bullets_state",
+        "test_bullet_type_init_spawn_bullets_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_spawn_bullets_state",
+      "rule": "Public runtime contract for BulletType.init spawnBullets loop and create call; Arc random offsets must be explicit input."
     }
   },
   "policy": {

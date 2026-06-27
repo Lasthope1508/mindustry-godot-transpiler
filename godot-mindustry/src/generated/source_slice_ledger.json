@@ -1467,6 +1467,36 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_init_initial_state",
       "rule": "Backfills SSOT for existing BulletType.init killShooter and instantDisappear runtime state from N369; spawn bullets remains delegated to N370."
+    },
+    "N453": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "init(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_init_spawn_bullets_state",
+      "exact_exprs": [
+        "if(spawnBullets.size > 0){",
+        "for(var bullet : spawnBullets){",
+        "bullet.create(b, b.x, b.y, b.rotation() + Mathf.range(spawnBulletRandomSpread));"
+      ],
+      "deferred_exprs": [
+        "public void update(Bullet b){"
+      ],
+      "source_symbols": [
+        "init_spawn_bullets.gate",
+        "init_spawn_bullets.loop",
+        "init_spawn_bullets.create_call",
+        "init_spawn_bullets.random_offset",
+        "init_spawn_bullets.mathf_range",
+        "init_spawn_bullets.update_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_init_spawn_bullets_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_spawn_bullets_state",
+        "test_bullet_type_init_spawn_bullets_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_spawn_bullets_state",
+      "rule": "Backfills SSOT for existing BulletType.init spawnBullets runtime state from N370; random offsets remain explicit inputs."
     }
   },
   "version": 1

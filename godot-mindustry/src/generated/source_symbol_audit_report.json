@@ -5,9 +5,9 @@
     "legacyBackfillStatus": "tracked"
   },
   "totalSourceFunctions": 488,
-  "registeredSourceOwnerCount": 50,
+  "registeredSourceOwnerCount": 51,
   "exemptSourceOwnerCount": 5,
-  "legacyUnregisteredOwnerCount": 433,
+  "legacyUnregisteredOwnerCount": 432,
   "registeredSourceOwners": [
     "PortGame.source_bullet_type_building_damage_state",
     "PortGame.source_bullet_type_create_frags_create_call_state",
@@ -55,6 +55,7 @@
     "PortGame.source_bullet_type_hit_tile_lifesteal_state",
     "PortGame.source_bullet_type_hit_xy_default_state",
     "PortGame.source_bullet_type_init_initial_state",
+    "PortGame.source_bullet_type_init_spawn_bullets_state",
     "PortGame.source_bullet_type_removed_frag_dispatch_state",
     "PortGame.source_bullet_type_removed_trail_fade_state",
     "PortGame.source_bullet_type_shield_damage_state",
@@ -283,7 +284,6 @@
     "PortGame.source_bullet_type_init_light_radius_state",
     "PortGame.source_bullet_type_init_lightning_type_state",
     "PortGame.source_bullet_type_init_range_assignment_state",
-    "PortGame.source_bullet_type_init_spawn_bullets_state",
     "PortGame.source_bullet_type_init_type_defaults_state",
     "PortGame.source_bullet_type_update_bullet_interval_state",
     "PortGame.source_bullet_type_update_dispatch_state",
