@@ -5908,6 +5908,22 @@ func source_bullet_type_init_range_assignment_state(draw_size_state: Dictionary,
 		"calculateRangeDeferred": true,
 	}
 
+func source_bullet_type_calculate_range_override_state(bullet_type_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var range_override := float(update_type_state.get("rangeOverride", -1.0))
+	var gate_passed := range_override > 0.0
+	var resolved_range: Variant = null
+	if gate_passed:
+		resolved_range = range_override
+	return {
+		"bulletType": update_type_state,
+		"rangeOverride": range_override,
+		"rangeOverrideGatePassed": gate_passed,
+		"returnEarly": gate_passed,
+		"range": resolved_range,
+		"rangeOverrideReturnSource": "if(rangeOverride > 0) return rangeOverride",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

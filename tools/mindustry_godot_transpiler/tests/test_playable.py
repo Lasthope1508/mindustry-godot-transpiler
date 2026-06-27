@@ -4460,6 +4460,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"rangeAssignSource": "range = calculateRange()"', source)
         self.assertIn('"calculateRangeDeferred": true', source)
 
+    def test_port_game_exposes_source_bullet_type_calculate_range_override_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_calculate_range_override_state(bullet_type_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var update_type_state: Dictionary = bullet_type_state.duplicate(true)", source)
+        self.assertIn("var range_override := float(update_type_state.get(\"rangeOverride\", -1.0))", source)
+        self.assertIn("var gate_passed := range_override > 0.0", source)
+        self.assertIn("var resolved_range: Variant = null", source)
+        self.assertIn("if gate_passed:", source)
+        self.assertIn("resolved_range = range_override", source)
+        self.assertIn('"rangeOverrideReturnSource": "if(rangeOverride > 0) return rangeOverride"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
