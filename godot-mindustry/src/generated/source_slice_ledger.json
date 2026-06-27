@@ -136,6 +136,35 @@
         "test_port_game_exposes_source_bullet_type_hit_tile_fire_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_tile_fire_state"
+    },
+    "N407": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_enemy_direct_state",
+      "exact_exprs": [
+        "}else if(build.team != b.team && direct)",
+        "hit(b)"
+      ],
+      "deferred_exprs": [
+        "if(lifesteal > 0f && b.owner instanceof Healthc o)",
+        "float result = Math.max(Math.min(build.health, damage), 0)",
+        "o.heal(result * lifesteal)",
+        "handlePierce(b, initialHealth, x, y)"
+      ],
+      "source_symbols": [
+        "hit_tile.direct",
+        "hit_tile.enemy_direct_gate",
+        "hit_tile.enemy.bullet.team",
+        "hit_tile.enemy.build.team",
+        "hit_tile.enemy.hit_call"
+      ],
+      "tests": [
+        "test_bullet_type_hit_tile_enemy_direct_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_enemy_direct_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_enemy_direct_state"
     }
   },
   "version": 1

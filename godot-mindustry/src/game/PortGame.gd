@@ -6208,6 +6208,33 @@ func source_bullet_type_hit_tile_heal_state(bullet_type_state: Dictionary, bulle
 		"pierceSource": "handlePierce(b, initialHealth, x, y)",
 	}
 
+func source_bullet_type_hit_tile_enemy_direct_state(bullet_type_state: Dictionary, bullet_state: Dictionary, build_state: Dictionary, hit_tile_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_build_state: Dictionary = build_state.duplicate(true)
+	var update_hit_tile_state: Dictionary = hit_tile_state.duplicate(true)
+	var direct := bool(update_hit_tile_state.get("direct", false))
+	var build_team = update_build_state.get("team", null)
+	var bullet_team = update_bullet_state.get("team", null)
+	var enemy_direct_gate_passed: bool = build_team != bullet_team and direct
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"build": update_build_state,
+		"hitTile": update_hit_tile_state,
+		"direct": direct,
+		"buildTeam": build_team,
+		"bulletTeam": bullet_team,
+		"enemyDirectGatePassed": enemy_direct_gate_passed,
+		"hitCalled": enemy_direct_gate_passed,
+		"lifestealDeferred": true,
+		"pierceDeferred": true,
+		"hitTileEnemyDirectGateSource": "}else if(build.team != b.team && direct)",
+		"enemyHitCallSource": "hit(b)",
+		"lifestealBoundarySource": "if(lifesteal > 0f && b.owner instanceof Healthc o)",
+		"pierceSource": "handlePierce(b, initialHealth, x, y)",
+	}
+
 func source_bullet_type_building_damage_state(bullet_state: Dictionary) -> Dictionary:
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
 	var damage := float(update_bullet_state.get("damage", 0.0))

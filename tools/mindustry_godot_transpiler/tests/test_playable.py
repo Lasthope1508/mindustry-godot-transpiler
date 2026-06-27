@@ -4578,6 +4578,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"hitTileFireGateSource": "if(makeFire && build.team != b.team)"', source)
         self.assertIn('"firesCreateSource": "Fires.create(build.tile)"', source)
 
+    def test_port_game_exposes_source_bullet_type_hit_tile_enemy_direct_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_hit_tile_enemy_direct_state(bullet_type_state: Dictionary, bullet_state: Dictionary, build_state: Dictionary, hit_tile_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var direct := bool(update_hit_tile_state.get(\"direct\", false))", source)
+        self.assertIn("var build_team = update_build_state.get(\"team\", null)", source)
+        self.assertIn("var bullet_team = update_bullet_state.get(\"team\", null)", source)
+        self.assertIn("var enemy_direct_gate_passed: bool = build_team != bullet_team and direct", source)
+        self.assertIn('"hitTileEnemyDirectGateSource": "}else if(build.team != b.team && direct)"', source)
+        self.assertIn('"enemyHitCallSource": "hit(b)"', source)
+        self.assertIn('"lifestealBoundarySource": "if(lifesteal > 0f && b.owner instanceof Healthc o)"', source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

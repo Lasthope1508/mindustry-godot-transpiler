@@ -98,14 +98,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(build_tile["java_expr"], "build.tile")
         self.assertEqual(build_tile["godot_symbol"], "build_state.tile")
 
+    def test_hit_tile_enemy_direct_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        enemy_gate = source_symbols.source_symbol(registry, "hit_tile.enemy_direct_gate")
+        self.assertEqual(enemy_gate["java_expr"], "build.team != b.team && direct")
+        self.assertEqual(enemy_gate["godot_owner"], "PortGame.source_bullet_type_hit_tile_enemy_direct_state")
+        self.assertEqual(enemy_gate["runtime_proof"], "/root/Main.source_bullet_type_hit_tile_enemy_direct_state")
+
+        direct = source_symbols.source_symbol(registry, "hit_tile.direct")
+        self.assertEqual(direct["status"], "explicit-input")
+        self.assertEqual(direct["godot_symbol"], "hit_tile_state.direct")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 4)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 5)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 9)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 10)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -115,6 +130,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_hit_tile_enemy_direct_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -151,6 +167,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(hit_tile_fire["godot_owner"], "PortGame.source_bullet_type_hit_tile_fire_state")
         self.assertIn("Fires.create(build.tile)", hit_tile_fire["exact_exprs"])
 
+        hit_tile_enemy_direct = source_symbols.source_slice(ledger, "N407")
+        self.assertEqual(hit_tile_enemy_direct["java_method"], "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)")
+        self.assertEqual(hit_tile_enemy_direct["godot_owner"], "PortGame.source_bullet_type_hit_tile_enemy_direct_state")
+        self.assertIn("}else if(build.team != b.team && direct)", hit_tile_enemy_direct["exact_exprs"])
+
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_api_contracts(contracts)
@@ -178,6 +199,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("fireGatePassed", hit_tile_fire["return_keys"])
         self.assertIn("firesCreateCall", hit_tile_fire["return_keys"])
         self.assertEqual(hit_tile_fire["source_method"], "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)")
+
+        hit_tile_enemy_direct = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_hit_tile_enemy_direct_state")
+        self.assertEqual([param["name"] for param in hit_tile_enemy_direct["params"]], ["bullet_type_state", "bullet_state", "build_state", "hit_tile_state"])
+        self.assertEqual(hit_tile_enemy_direct["params"][3]["schema"], "hit_tile_state")
+        self.assertIn("enemyDirectGatePassed", hit_tile_enemy_direct["return_keys"])
+        self.assertIn("hitCalled", hit_tile_enemy_direct["return_keys"])
+        self.assertEqual(hit_tile_enemy_direct["source_method"], "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -209,6 +237,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         hit_tile_fire_output = source_symbols.state_schema(schema, "hit_tile_fire_result")
         self.assertEqual(hit_tile_fire_output["keys"]["fireGatePassed"]["java_expr"], "makeFire && build.team != b.team")
         self.assertEqual(hit_tile_fire_output["keys"]["firesCreateCall"]["java_expr"], "Fires.create(build.tile)")
+
+        hit_tile_state = source_symbols.state_schema(schema, "hit_tile_state")
+        self.assertEqual(hit_tile_state["keys"]["direct"]["java_expr"], "direct")
+        self.assertEqual(hit_tile_state["keys"]["direct"]["status"], "explicit-input")
+
+        enemy_direct_output = source_symbols.state_schema(schema, "hit_tile_enemy_direct_result")
+        self.assertEqual(enemy_direct_output["keys"]["enemyDirectGatePassed"]["java_expr"], "build.team != b.team && direct")
+        self.assertEqual(enemy_direct_output["keys"]["hitCalled"]["java_expr"], "hit(b)")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {
