@@ -1426,14 +1426,47 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(shooter["java_expr"], "b.shooter instanceof Unit u")
         self.assertEqual(shooter["godot_symbol"], "shooter_state.isUnit")
 
+    def test_bullet_type_update_weaving_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        gate = source_symbols.source_symbol(registry, "update_weaving.gate")
+        self.assertEqual(gate["java_expr"], "if(weaveMag != 0){")
+        self.assertEqual(gate["godot_symbol"], "update_weaving_result.weaveGatePassed")
+        self.assertEqual(gate["godot_owner"], "PortGame.source_bullet_type_update_weaving_state")
+        self.assertEqual(gate["runtime_proof"], "/root/Main.source_bullet_type_update_weaving_state")
+
+        rotate_call = source_symbols.source_symbol(registry, "update_weaving.rotate_rad_exact")
+        self.assertEqual(rotate_call["java_expr"], "b.vel.rotateRadExact((float)Math.sin((b.time + Math.PI * weaveScale/2f) / weaveScale) * weaveMag * (weaveRandom ? (Mathf.randomSeed(b.id, 0, 1) == 1 ? -1 : 1) : 1f) * Time.delta * Mathf.degRad);")
+        self.assertEqual(rotate_call["godot_symbol"], "update_weaving_result.velocity")
+
+        rotation_radians = source_symbols.source_symbol(registry, "update_weaving.rotation_radians")
+        self.assertEqual(rotation_radians["java_expr"], "(float)Math.sin((b.time + Math.PI * weaveScale/2f) / weaveScale) * weaveMag * (weaveRandom ? (Mathf.randomSeed(b.id, 0, 1) == 1 ? -1 : 1) : 1f) * Time.delta * Mathf.degRad")
+        self.assertEqual(rotation_radians["godot_symbol"], "update_weaving_result.rotationRadians")
+
+        random_seed = source_symbols.source_symbol(registry, "update_weaving.random_seed_result")
+        self.assertEqual(random_seed["status"], "explicit-input")
+        self.assertEqual(random_seed["java_expr"], "Mathf.randomSeed(b.id, 0, 1)")
+        self.assertEqual(random_seed["godot_symbol"], "random_seed_result")
+
+        velocity = source_symbols.source_symbol(registry, "update_weaving.velocity")
+        self.assertEqual(velocity["java_expr"], "b.vel")
+        self.assertEqual(velocity["godot_symbol"], "bullet_state.velocity")
+
+        vec2_rotate = source_symbols.source_symbol(registry, "update_weaving.vec2_rotate_rad_exact")
+        self.assertEqual(vec2_rotate["java_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(vec2_rotate["java_expr"], "float newX = this.x * cos - this.y * sin; float newY = this.x * sin + this.y * cos;")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 57)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 58)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 62)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 63)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1485,6 +1518,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_update_homing_initial_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_update_homing_target_velocity_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_update_homing_follow_aim_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_update_weaving_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -1880,6 +1914,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("float angle = b.angleTo(u.aimX, u.aimY);", homing_follow_aim["exact_exprs"])
         self.assertIn("b.vel.setAngle(Angles.moveToward(b.vel.angle(), angle, followAimSpeed * Time.delta));", homing_follow_aim["exact_exprs"])
         self.assertIn("public void updateWeaving(Bullet b){", homing_follow_aim["deferred_exprs"])
+
+        update_weaving = source_symbols.source_slice(ledger, "N460")
+        self.assertEqual(update_weaving["java_method"], "updateWeaving(Bullet b)")
+        self.assertEqual(update_weaving["godot_owner"], "PortGame.source_bullet_type_update_weaving_state")
+        self.assertIn("if(weaveMag != 0){", update_weaving["exact_exprs"])
+        self.assertIn("b.vel.rotateRadExact((float)Math.sin((b.time + Math.PI * weaveScale/2f) / weaveScale) * weaveMag * (weaveRandom ? (Mathf.randomSeed(b.id, 0, 1) == 1 ? -1 : 1) : 1f) * Time.delta * Mathf.degRad);", update_weaving["exact_exprs"])
+        self.assertIn("if(rotateSpeed != 0){", update_weaving["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -2362,6 +2403,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("nextAngle", homing_follow_aim["return_keys"])
         self.assertIn("velocity", homing_follow_aim["return_keys"])
         self.assertEqual(homing_follow_aim["source_method"], "updateHoming(Bullet b)")
+
+        update_weaving = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_update_weaving_state")
+        self.assertEqual([param["name"] for param in update_weaving["params"]], ["bullet_state", "bullet_type_state", "random_seed_result", "source_delta"])
+        self.assertEqual(update_weaving["params"][0]["schema"], "bullet_state")
+        self.assertEqual(update_weaving["params"][1]["schema"], "bullet_type_state")
+        self.assertEqual(update_weaving["params"][2]["schema"], "random_seed_state.randomSeedResult")
+        self.assertEqual(update_weaving["params"][3]["schema"], "time_state.delta")
+        self.assertIn("weaveApplied", update_weaving["return_keys"])
+        self.assertIn("weaveGatePassed", update_weaving["return_keys"])
+        self.assertIn("rotationRadians", update_weaving["return_keys"])
+        self.assertIn("randomSign", update_weaving["return_keys"])
+        self.assertIn("randomSeedResult", update_weaving["return_keys"])
+        self.assertIn("velocity", update_weaving["return_keys"])
+        self.assertEqual(update_weaving["source_method"], "updateWeaving(Bullet b)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -2856,6 +2911,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_update_homing_follow_aim_state", bullet_state["keys"]["x"]["used_by"])
         self.assertIn("PortGame.source_bullet_type_update_homing_follow_aim_state", bullet_state["keys"]["y"]["used_by"])
         self.assertIn("PortGame.source_bullet_type_update_homing_follow_aim_state", bullet_state["keys"]["velocity"]["used_by"])
+
+        random_seed_state = source_symbols.state_schema(schema, "random_seed_state")
+        self.assertEqual(random_seed_state["keys"]["randomSeedResult"]["java_expr"], "Mathf.randomSeed(b.id, 0, 1)")
+
+        update_weaving_output = source_symbols.state_schema(schema, "update_weaving_result")
+        self.assertEqual(update_weaving_output["keys"]["weaveGatePassed"]["java_expr"], "weaveMag != 0")
+        self.assertEqual(update_weaving_output["keys"]["rotationRadians"]["java_expr"], "(float)Math.sin((b.time + Math.PI * weaveScale/2f) / weaveScale) * weaveMag * (weaveRandom ? (Mathf.randomSeed(b.id, 0, 1) == 1 ? -1 : 1) : 1f) * Time.delta * Mathf.degRad")
+        self.assertEqual(update_weaving_output["keys"]["velocity"]["java_expr"], "b.vel.rotateRadExact((float)Math.sin((b.time + Math.PI * weaveScale/2f) / weaveScale) * weaveMag * (weaveRandom ? (Mathf.randomSeed(b.id, 0, 1) == 1 ? -1 : 1) : 1f) * Time.delta * Mathf.degRad)")
+        self.assertEqual(update_weaving_output["keys"]["weaveGateSource"]["alias_of"], "source_line.update_weaving.gate")
+
+        self.assertIn("PortGame.source_bullet_type_update_weaving_state", bullet_state["keys"]["id"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_update_weaving_state", bullet_state["keys"]["time"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_update_weaving_state", bullet_state["keys"]["velocity"]["used_by"])
+        self.assertEqual(bullet_type_state["keys"]["weaveMag"]["java_expr"], "weaveMag")
+        self.assertEqual(bullet_type_state["keys"]["weaveScale"]["java_expr"], "weaveScale")
+        self.assertEqual(bullet_type_state["keys"]["weaveRandom"]["java_expr"], "weaveRandom")
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")

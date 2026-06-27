@@ -1702,6 +1702,35 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_update_homing_follow_aim_state",
       "rule": "Backfills SSOT for existing BulletType.updateHoming follow-aim runtime state from N376; updateWeaving remains the next source method boundary."
+    },
+    "N460": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "updateWeaving(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_update_weaving_state",
+      "exact_exprs": [
+        "if(weaveMag != 0){",
+        "b.vel.rotateRadExact((float)Math.sin((b.time + Math.PI * weaveScale/2f) / weaveScale) * weaveMag * (weaveRandom ? (Mathf.randomSeed(b.id, 0, 1) == 1 ? -1 : 1) : 1f) * Time.delta * Mathf.degRad);"
+      ],
+      "deferred_exprs": [
+        "if(rotateSpeed != 0){"
+      ],
+      "source_symbols": [
+        "update_weaving.gate",
+        "update_weaving.rotate_rad_exact",
+        "update_weaving.rotation_radians",
+        "update_weaving.random_seed_result",
+        "update_weaving.velocity",
+        "update_weaving.vec2_rotate_rad_exact"
+      ],
+      "tests": [
+        "test_bullet_type_update_weaving_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_state",
+        "test_bullet_type_update_weaving_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_state",
+      "rule": "Backfills SSOT for existing BulletType.updateWeaving weave branch runtime state from N377; rotateSpeed and circleShooter remain separate source-backed slices."
     }
   },
   "version": 1

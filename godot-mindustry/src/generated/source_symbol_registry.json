@@ -5718,6 +5718,96 @@
         "test_bullet_type_update_homing_follow_aim_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_update_homing_follow_aim_state"
+    },
+    "update_weaving.gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateWeaving(Bullet b)",
+      "java_expr": "if(weaveMag != 0){",
+      "godot_symbol": "update_weaving_result.weaveGatePassed",
+      "godot_owner": "PortGame.source_bullet_type_update_weaving_state",
+      "rule": "Exact updateWeaving weaveMag gate.",
+      "tests": [
+        "test_bullet_type_update_weaving_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_state",
+        "test_bullet_type_update_weaving_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_state"
+    },
+    "update_weaving.rotate_rad_exact": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateWeaving(Bullet b)",
+      "java_expr": "b.vel.rotateRadExact((float)Math.sin((b.time + Math.PI * weaveScale/2f) / weaveScale) * weaveMag * (weaveRandom ? (Mathf.randomSeed(b.id, 0, 1) == 1 ? -1 : 1) : 1f) * Time.delta * Mathf.degRad);",
+      "godot_symbol": "update_weaving_result.velocity",
+      "godot_owner": "PortGame.source_bullet_type_update_weaving_state",
+      "rule": "Exact source rotateRadExact call for weave branch.",
+      "tests": [
+        "test_bullet_type_update_weaving_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_state",
+        "test_bullet_type_update_weaving_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_state"
+    },
+    "update_weaving.rotation_radians": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateWeaving(Bullet b)",
+      "java_expr": "(float)Math.sin((b.time + Math.PI * weaveScale/2f) / weaveScale) * weaveMag * (weaveRandom ? (Mathf.randomSeed(b.id, 0, 1) == 1 ? -1 : 1) : 1f) * Time.delta * Mathf.degRad",
+      "godot_symbol": "update_weaving_result.rotationRadians",
+      "godot_owner": "PortGame.source_bullet_type_update_weaving_state",
+      "rule": "Exact radians formula passed into Vec2.rotateRadExact.",
+      "tests": [
+        "test_bullet_type_update_weaving_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_state",
+        "test_bullet_type_update_weaving_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_state"
+    },
+    "update_weaving.random_seed_result": {
+      "status": "explicit-input",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "randomSeed(long seed, int min, int max)",
+      "java_expr": "Mathf.randomSeed(b.id, 0, 1)",
+      "godot_symbol": "random_seed_result",
+      "godot_owner": "PortGame.source_bullet_type_update_weaving_state",
+      "rule": "Random seed result is explicit input for deterministic weave random sign.",
+      "tests": [
+        "test_bullet_type_update_weaving_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_state",
+        "test_bullet_type_update_weaving_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_state"
+    },
+    "update_weaving.velocity": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "java_method": "BulletComp",
+      "java_expr": "b.vel",
+      "godot_symbol": "bullet_state.velocity",
+      "godot_owner": "PortGame.source_bullet_type_update_weaving_state",
+      "rule": "BulletComp velocity vector mutated by updateWeaving.",
+      "tests": [
+        "test_bullet_type_update_weaving_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_state",
+        "test_bullet_type_update_weaving_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_state"
+    },
+    "update_weaving.vec2_rotate_rad_exact": {
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "rotateRadExact(float radians)",
+      "java_expr": "float newX = this.x * cos - this.y * sin; float newY = this.x * sin + this.y * cos;",
+      "godot_symbol": "update_weaving_result.vec2RotateRadExactSource",
+      "godot_owner": "PortGame.source_bullet_type_update_weaving_state",
+      "rule": "Arc Vec2.rotateRadExact coordinate transform used by source weaving.",
+      "tests": [
+        "test_bullet_type_update_weaving_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_state",
+        "test_bullet_type_update_weaving_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_state"
     }
   }
 }

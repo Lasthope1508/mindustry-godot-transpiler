@@ -196,7 +196,8 @@
             "PortGame.source_bullet_type_init_initial_state",
             "PortGame.source_bullet_type_update_dispatch_state",
             "PortGame.source_bullet_type_update_bullet_interval_state",
-            "PortGame.source_bullet_type_update_homing_initial_state"
+            "PortGame.source_bullet_type_update_homing_initial_state",
+            "PortGame.source_bullet_type_update_weaving_state"
           ],
           "rule": "Canonical Bullet time field; BulletType.init instantDisappear assigns lifetime + 1f."
         },
@@ -232,9 +233,21 @@
           "godot_symbol": "bullet_state.velocity",
           "used_by": [
             "PortGame.source_bullet_type_update_homing_target_velocity_state",
-            "PortGame.source_bullet_type_update_homing_follow_aim_state"
+            "PortGame.source_bullet_type_update_homing_follow_aim_state",
+            "PortGame.source_bullet_type_update_weaving_state"
           ],
           "rule": "BulletComp Vec2 velocity state."
+        },
+        "id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "java_expr": "b.id",
+          "godot_symbol": "bullet_state.id",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_state"
+          ],
+          "rule": "Bullet entity id used by deterministic Arc randomSeed calls."
         }
       }
     },
@@ -1222,6 +1235,39 @@
             "PortGame.source_bullet_type_update_homing_follow_aim_state"
           ],
           "rule": "Canonical BulletType.followAimSpeed field; default is 0f."
+        },
+        "weaveMag": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "weaveMag",
+          "godot_symbol": "bullet_type_state.weaveMag",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_state"
+          ],
+          "rule": "Canonical BulletType.weaveMag field; default is 0f."
+        },
+        "weaveScale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "weaveScale",
+          "godot_symbol": "bullet_type_state.weaveScale",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_state"
+          ],
+          "rule": "Canonical BulletType.weaveScale field; default is 1f."
+        },
+        "weaveRandom": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "weaveRandom",
+          "godot_symbol": "bullet_type_state.weaveRandom",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_state"
+          ],
+          "rule": "Canonical BulletType.weaveRandom field; default is true."
         }
       }
     },
@@ -9052,6 +9098,111 @@
           "status": "generated",
           "alias_of": "source_line.update_homing_follow_aim.set_angle",
           "rule": "Debug source-line echo, not gameplay state."
+        }
+      }
+    },
+    "random_seed_state": {
+      "status": "active",
+      "keys": {
+        "randomSeedResult": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_expr": "Mathf.randomSeed(b.id, 0, 1)",
+          "godot_symbol": "random_seed_result",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_state"
+          ],
+          "rule": "Explicit deterministic randomSeed output used by weave random sign."
+        }
+      }
+    },
+    "update_weaving_result": {
+      "status": "active",
+      "keys": {
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Updated bullet state after weave branch."
+        },
+        "weaveApplied": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "update_weaving_result.weaveGatePassed",
+          "rule": "Runtime boolean mirrors weave gate application."
+        },
+        "weaveGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateWeaving(Bullet b)",
+          "java_expr": "weaveMag != 0",
+          "godot_symbol": "update_weaving_result.weaveGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_state"
+          ],
+          "rule": "Exact weaveMag gate."
+        },
+        "rotationRadians": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateWeaving(Bullet b)",
+          "java_expr": "(float)Math.sin((b.time + Math.PI * weaveScale/2f) / weaveScale) * weaveMag * (weaveRandom ? (Mathf.randomSeed(b.id, 0, 1) == 1 ? -1 : 1) : 1f) * Time.delta * Mathf.degRad",
+          "godot_symbol": "update_weaving_result.rotationRadians",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_state"
+          ],
+          "rule": "Exact radians formula passed into rotateRadExact."
+        },
+        "randomSign": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateWeaving(Bullet b)",
+          "java_expr": "weaveRandom ? (Mathf.randomSeed(b.id, 0, 1) == 1 ? -1 : 1) : 1f",
+          "godot_symbol": "update_weaving_result.randomSign",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_state"
+          ],
+          "rule": "Exact random sign branch for weaveRandom."
+        },
+        "randomSeedResult": {
+          "type": "int",
+          "status": "explicit-input",
+          "alias_of": "random_seed_state.randomSeedResult",
+          "rule": "Echo deterministic random seed input."
+        },
+        "velocity": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateWeaving(Bullet b)",
+          "java_expr": "b.vel.rotateRadExact((float)Math.sin((b.time + Math.PI * weaveScale/2f) / weaveScale) * weaveMag * (weaveRandom ? (Mathf.randomSeed(b.id, 0, 1) == 1 ? -1 : 1) : 1f) * Time.delta * Mathf.degRad)",
+          "godot_symbol": "update_weaving_result.velocity",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_state"
+          ],
+          "rule": "Updated BulletComp velocity after rotateRadExact."
+        },
+        "weaveGateSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.update_weaving.gate",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "rotateRadExactSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.update_weaving.rotate_rad_exact",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "vec2RotateRadExactSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.update_weaving.vec2_rotate_rad_exact",
+          "rule": "Debug Arc source-line echo, not gameplay state."
         }
       }
     }

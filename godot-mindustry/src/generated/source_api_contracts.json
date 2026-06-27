@@ -2688,6 +2688,53 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_update_homing_follow_aim_state",
       "rule": "Public runtime contract for BulletType.updateHoming follow-aim gate, angle assignment, and velocity setAngle application."
+    },
+    "PortGame.source_bullet_type_update_weaving_state": {
+      "status": "active",
+      "source_slice": "N460",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "updateWeaving(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "random_seed_result",
+          "type": "int",
+          "schema": "random_seed_state.randomSeedResult"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "time_state.delta"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "weaveApplied",
+        "weaveGatePassed",
+        "rotationRadians",
+        "randomSign",
+        "randomSeedResult",
+        "velocity",
+        "weaveGateSource",
+        "rotateRadExactSource",
+        "vec2RotateRadExactSource"
+      ],
+      "tests": [
+        "test_bullet_type_update_weaving_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_state",
+        "test_bullet_type_update_weaving_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_state",
+      "rule": "Public runtime contract for BulletType.updateWeaving weaveMag gate and rotateRadExact velocity mutation."
     }
   },
   "policy": {
