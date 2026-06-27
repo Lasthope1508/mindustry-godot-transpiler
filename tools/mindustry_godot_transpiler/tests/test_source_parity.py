@@ -4306,6 +4306,31 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_update_active_sound_loop_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_update_active_sound_loop_source"))
+        report = source_parity.verify_weapon_update_active_sound_loop_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["vars_source"], "core/src/mindustry/Vars.java")
+        self.assertEqual(report["sound_control_source"], "core/src/mindustry/audio/SoundControl.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["checked"], {
+            "active_sound_guard": "if(!headless && activeSound != Sounds.none && mount.shoot && can && mount.warmup >= minWarmup){",
+            "active_sound_loop": "Vars.control.sound.loop(activeSound, unit, activeSoundVolume);",
+            "weapon_active_sound": "public Sound activeSound = Sounds.none;",
+            "weapon_active_sound_volume": "public float activeSoundVolume = 1f;",
+            "weapon_min_warmup": "public float minWarmup = 0f;",
+            "mount_shoot": "public boolean shoot = false;",
+            "mount_warmup": "public float warmup;",
+            "vars_headless": "public static boolean headless;",
+            "vars_control": "public static Control control;",
+            "sound_control_loop_unit": "public void loop(Sound sound, Position pos, float volume){",
+            "sound_control_loop_pitch": "public void loop(Sound sound, Position pos, float volume, float pitch){",
+            "sound_control_guard": "if(Vars.headless || sound == Sounds.none || volume <= 0.00001f) return;",
+            "vel_len_reserved": "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

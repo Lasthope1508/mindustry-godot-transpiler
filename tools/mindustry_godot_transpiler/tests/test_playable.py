@@ -3637,6 +3637,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"guardSource": "if(otherSide >= 0 && alternate && mount.side == flipSprite && otherSide < unit.mounts.length && mount.reload <= reload / 2f && lastReload > reload / 2f)"', source)
         self.assertIn('"shootGateSource": "(!alternate || wasFlipped == flipSprite) &&"', source)
 
+    def test_port_game_exposes_source_weapon_update_active_sound_loop_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_update_active_sound_loop_state(mount_state: Dictionary, weapon_state: Dictionary, runtime_state: Dictionary, can_shoot: bool, unit_id: int) -> Dictionary:", source)
+        self.assertIn("var active_sound := str(weapon_state.get(\"activeSound\", \"none\"))", source)
+        self.assertIn("var active_sound_gate := not headless and active_sound != \"none\" and mount_shoot and can_shoot and mount_warmup >= min_warmup", source)
+        self.assertIn("sound_loop_call = {", source)
+        self.assertIn('"sound": active_sound', source)
+        self.assertIn('"unit": unit_id', source)
+        self.assertIn('"volume": active_sound_volume', source)
+        self.assertIn('"guardSource": "if(!headless && activeSound != Sounds.none && mount.shoot && can && mount.warmup >= minWarmup)"', source)
+        self.assertIn('"loopSource": "Vars.control.sound.loop(activeSound, unit, activeSoundVolume)"', source)
+        self.assertIn('"velLenReservedSource": "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

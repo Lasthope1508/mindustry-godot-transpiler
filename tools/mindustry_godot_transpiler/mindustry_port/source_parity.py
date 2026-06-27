@@ -7405,6 +7405,62 @@ def verify_weapon_update_alternating_side_flip_source(upstream_root: Path) -> di
         "missing": missing,
     }
 
+def verify_weapon_update_active_sound_loop_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    vars_source = "core/src/mindustry/Vars.java"
+    sound_control_source = "core/src/mindustry/audio/SoundControl.java"
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    vars_path = upstream_root / vars_source
+    sound_control_path = upstream_root / sound_control_source
+    weapon_mount_path = upstream_root / weapon_mount_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    vars_text = vars_path.read_text(encoding="utf-8", errors="replace")
+    sound_control_text = sound_control_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "active_sound_guard": "if(!headless && activeSound != Sounds.none && mount.shoot && can && mount.warmup >= minWarmup){",
+        "active_sound_loop": "Vars.control.sound.loop(activeSound, unit, activeSoundVolume);",
+        "weapon_active_sound": "public Sound activeSound = Sounds.none;",
+        "weapon_active_sound_volume": "public float activeSoundVolume = 1f;",
+        "weapon_min_warmup": "public float minWarmup = 0f;",
+        "mount_shoot": "public boolean shoot = false;",
+        "mount_warmup": "public float warmup;",
+        "vars_headless": "public static boolean headless;",
+        "vars_control": "public static Control control;",
+        "sound_control_loop_unit": "public void loop(Sound sound, Position pos, float volume){",
+        "sound_control_loop_pitch": "public void loop(Sound sound, Position pos, float volume, float pitch){",
+        "sound_control_guard": "if(Vars.headless || sound == Sounds.none || volume <= 0.00001f) return;",
+        "vel_len_reserved": "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta;",
+    }
+    source_map = {
+        "active_sound_guard": source,
+        "active_sound_loop": source,
+        "weapon_active_sound": source,
+        "weapon_active_sound_volume": source,
+        "weapon_min_warmup": source,
+        "mount_shoot": weapon_mount_text,
+        "mount_warmup": weapon_mount_text,
+        "vars_headless": vars_text,
+        "vars_control": vars_text,
+        "sound_control_loop_unit": sound_control_text,
+        "sound_control_loop_pitch": sound_control_text,
+        "sound_control_guard": sound_control_text,
+        "vel_len_reserved": source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "vars_source": vars_source,
+        "sound_control_source": sound_control_source,
+        "weapon_mount_source": weapon_mount_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

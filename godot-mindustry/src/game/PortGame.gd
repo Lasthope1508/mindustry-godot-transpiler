@@ -3928,6 +3928,37 @@ func source_weapon_update_alternating_side_flip_state(mount_state: Dictionary, w
 		"shootGateSource": "(!alternate || wasFlipped == flipSprite) &&",
 	}
 
+func source_weapon_update_active_sound_loop_state(mount_state: Dictionary, weapon_state: Dictionary, runtime_state: Dictionary, can_shoot: bool, unit_id: int) -> Dictionary:
+	var headless := bool(runtime_state.get("headless", false))
+	var active_sound := str(weapon_state.get("activeSound", "none"))
+	var mount_shoot := bool(mount_state.get("shoot", false))
+	var mount_warmup := float(mount_state.get("warmup", 0.0))
+	var min_warmup := float(weapon_state.get("minWarmup", 0.0))
+	var active_sound_volume := float(weapon_state.get("activeSoundVolume", 1.0))
+	var active_sound_gate := not headless and active_sound != "none" and mount_shoot and can_shoot and mount_warmup >= min_warmup
+	var sound_loop_call = null
+	if active_sound_gate:
+		sound_loop_call = {
+			"sound": active_sound,
+			"unit": unit_id,
+			"volume": active_sound_volume,
+		}
+	return {
+		"activeSoundGate": active_sound_gate,
+		"headless": headless,
+		"activeSound": active_sound,
+		"mountShoot": mount_shoot,
+		"canShoot": can_shoot,
+		"mountWarmup": mount_warmup,
+		"minWarmup": min_warmup,
+		"activeSoundVolume": active_sound_volume,
+		"soundLoopCall": sound_loop_call,
+		"guardSource": "if(!headless && activeSound != Sounds.none && mount.shoot && can && mount.warmup >= minWarmup)",
+		"loopSource": "Vars.control.sound.loop(activeSound, unit, activeSoundVolume)",
+		"soundControlGuardSource": "if(Vars.headless || sound == Sounds.none || volume <= 0.00001f) return",
+		"velLenReservedSource": "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
