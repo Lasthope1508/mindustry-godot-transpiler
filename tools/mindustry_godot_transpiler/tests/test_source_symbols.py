@@ -1073,14 +1073,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(draw_trail_boundary["status"], "deferred")
         self.assertEqual(draw_trail_boundary["java_expr"], "public void drawTrail(Bullet b){")
 
+    def test_bullet_type_draw_trail_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        gate = source_symbols.source_symbol(registry, "draw_trail.gate")
+        self.assertEqual(gate["java_expr"], "if(trailLength > 0 && b.trail != null){")
+        self.assertEqual(gate["godot_symbol"], "draw_trail_result.gatePassed")
+        self.assertEqual(gate["godot_owner"], "PortGame.source_bullet_type_draw_trail_state")
+        self.assertEqual(gate["runtime_proof"], "/root/Main.source_bullet_type_draw_trail_state")
+
+        trail_draw_call = source_symbols.source_symbol(registry, "draw_trail.trail_draw_call")
+        self.assertEqual(trail_draw_call["java_expr"], "b.trail.draw(trailColor, trailWidth)")
+        self.assertEqual(trail_draw_call["godot_symbol"], "draw_trail_result.trailDrawCall")
+
+        draw_z_below = source_symbols.source_symbol(registry, "draw_trail.draw_z_below")
+        self.assertEqual(draw_z_below["java_expr"], "Draw.z(z - 0.0001f)")
+        self.assertEqual(draw_z_below["godot_symbol"], "draw_trail_result.drawZBelow")
+
+        draw_parts_boundary = source_symbols.source_symbol(registry, "draw_trail.draw_parts_boundary")
+        self.assertEqual(draw_parts_boundary["status"], "deferred")
+        self.assertEqual(draw_parts_boundary["java_expr"], "public void drawParts(Bullet b){")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 47)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 48)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 52)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 53)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1133,6 +1157,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_building_damage_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_shield_damage_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_draw_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_draw_trail_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -1431,6 +1456,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("drawTrail(b);", draw["exact_exprs"])
         self.assertIn("drawParts(b);", draw["exact_exprs"])
         self.assertIn("public void drawTrail(Bullet b){", draw["deferred_exprs"])
+
+        draw_trail = source_symbols.source_slice(ledger, "N450")
+        self.assertEqual(draw_trail["java_method"], "drawTrail(Bullet b)")
+        self.assertEqual(draw_trail["godot_owner"], "PortGame.source_bullet_type_draw_trail_state")
+        self.assertIn("if(trailLength > 0 && b.trail != null){", draw_trail["exact_exprs"])
+        self.assertIn("b.trail.draw(trailColor, trailWidth)", draw_trail["exact_exprs"])
+        self.assertIn("public void drawParts(Bullet b){", draw_trail["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -1815,6 +1847,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("drawTrailBoundarySource", draw["return_keys"])
         self.assertEqual(draw["source_method"], "draw(Bullet b)")
 
+        draw_trail = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_draw_trail_state")
+        self.assertEqual([param["name"] for param in draw_trail["params"]], ["bullet_type_state", "bullet_state", "current_draw_z"])
+        self.assertIn("gatePassed", draw_trail["return_keys"])
+        self.assertIn("trailDrawCall", draw_trail["return_keys"])
+        self.assertIn("drawZBelow", draw_trail["return_keys"])
+        self.assertIn("drawPartsBoundarySource", draw_trail["return_keys"])
+        self.assertEqual(draw_trail["source_method"], "drawTrail(Bullet b)")
+
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_state_schema(schema)
@@ -2180,6 +2220,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(draw_output["keys"]["drawPartsCalled"]["java_expr"], "drawParts(b);")
         self.assertEqual(draw_output["keys"]["drawReturnSource"]["java_expr"], "drawTrail(b); drawParts(b);")
         self.assertEqual(draw_output["keys"]["drawTrailBoundarySource"]["status"], "deferred")
+
+        current_draw_z_state = source_symbols.state_schema(schema, "current_draw_z_state")
+        self.assertEqual(current_draw_z_state["keys"]["current_draw_z"]["java_expr"], "Draw.z()")
+        self.assertEqual(current_draw_z_state["keys"]["current_draw_z"]["status"], "explicit-input")
+
+        draw_trail_output = source_symbols.state_schema(schema, "draw_trail_result")
+        self.assertEqual(draw_trail_output["keys"]["gatePassed"]["java_expr"], "trailLength > 0 && b.trail != null")
+        self.assertEqual(draw_trail_output["keys"]["trailDrawCall"]["java_expr"], "b.trail.draw(trailColor, trailWidth)")
+        self.assertEqual(draw_trail_output["keys"]["drawZBelow"]["java_expr"], "Draw.z(z - 0.0001f)")
+        self.assertEqual(draw_trail_output["keys"]["drawPartsBoundarySource"]["status"], "deferred")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

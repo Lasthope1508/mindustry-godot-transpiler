@@ -2244,6 +2244,53 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_draw_state",
       "rule": "Public runtime contract for BulletType.draw dispatch record."
+    },
+    "PortGame.source_bullet_type_draw_trail_state": {
+      "status": "active",
+      "source_slice": "N450",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "drawTrail(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "current_draw_z",
+          "type": "float",
+          "schema": "current_draw_z_state"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "gatePassed",
+        "trailDrawn",
+        "drawZBefore",
+        "drawZBelow",
+        "drawZRestored",
+        "trailColor",
+        "trailWidth",
+        "trailDrawCall",
+        "gateSource",
+        "drawZCaptureSource",
+        "drawZBelowSource",
+        "drawZRestoreSource",
+        "drawPartsBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_draw_trail_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_trail_state",
+        "test_bullet_type_draw_trail_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_trail_state",
+      "rule": "Public runtime contract for BulletType.drawTrail trail draw record."
     }
   },
   "policy": {

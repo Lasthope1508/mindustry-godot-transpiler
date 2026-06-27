@@ -1381,6 +1381,35 @@
         "test_bullet_type_draw_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_draw_state"
+    },
+    "N450": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "drawTrail(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_draw_trail_state",
+      "exact_exprs": [
+        "if(trailLength > 0 && b.trail != null){",
+        "float z = Draw.z()",
+        "Draw.z(z - 0.0001f)",
+        "b.trail.draw(trailColor, trailWidth)",
+        "Draw.z(z)"
+      ],
+      "deferred_exprs": [
+        "public void drawParts(Bullet b){"
+      ],
+      "source_symbols": [
+        "draw_trail.gate",
+        "draw_trail.draw_z_below",
+        "draw_trail.trail_draw_call",
+        "draw_trail.draw_parts_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_draw_trail_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_trail_state",
+        "test_bullet_type_draw_trail_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_trail_state"
     }
   },
   "version": 1

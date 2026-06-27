@@ -4608,6 +4608,66 @@
       "java_expr": "public void drawTrail(Bullet b){",
       "godot_symbol": "draw_result.drawTrailBoundarySource",
       "rule": "Boundary marker; following drawTrail method remains a later source slice."
+    },
+    "draw_trail.gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "drawTrail(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_draw_trail_state",
+      "tests": [
+        "test_bullet_type_draw_trail_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_trail_state",
+        "test_bullet_type_draw_trail_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_trail_state",
+      "java_expr": "if(trailLength > 0 && b.trail != null){",
+      "godot_symbol": "draw_trail_result.gatePassed",
+      "rule": "Record exact BulletType.drawTrail trail gate."
+    },
+    "draw_trail.draw_z_below": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "drawTrail(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_draw_trail_state",
+      "tests": [
+        "test_bullet_type_draw_trail_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_trail_state",
+        "test_bullet_type_draw_trail_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_trail_state",
+      "java_expr": "Draw.z(z - 0.0001f)",
+      "godot_symbol": "draw_trail_result.drawZBelow",
+      "rule": "Record exact draw z offset used before trail drawing."
+    },
+    "draw_trail.trail_draw_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "drawTrail(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_draw_trail_state",
+      "tests": [
+        "test_bullet_type_draw_trail_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_trail_state",
+        "test_bullet_type_draw_trail_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_trail_state",
+      "java_expr": "b.trail.draw(trailColor, trailWidth)",
+      "godot_symbol": "draw_trail_result.trailDrawCall",
+      "rule": "Record exact Trail.draw call from BulletType.drawTrail."
+    },
+    "draw_trail.draw_parts_boundary": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "drawTrail(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_draw_trail_state",
+      "tests": [
+        "test_bullet_type_draw_trail_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_trail_state",
+        "test_bullet_type_draw_trail_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_trail_state",
+      "java_expr": "public void drawParts(Bullet b){",
+      "godot_symbol": "draw_trail_result.drawPartsBoundarySource",
+      "rule": "Boundary marker; following drawParts method remains a later source slice."
     }
   }
 }

@@ -8011,6 +8011,7 @@ func source_bullet_type_draw_trail_state(bullet_type_state: Dictionary, bullet_s
 		"drawZCaptureSource": "float z = Draw.z()",
 		"drawZBelowSource": "Draw.z(z - 0.0001f)",
 		"drawZRestoreSource": "Draw.z(z)",
+		"drawPartsBoundarySource": "public void drawParts(Bullet b){",
 	}
 
 func source_bullet_type_draw_parts_state(bullet_type_state: Dictionary, bullet_state: Dictionary) -> Dictionary:

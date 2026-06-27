@@ -7235,6 +7235,196 @@
           "rule": "Boundary marker; following drawTrail method remains a later source slice."
         }
       }
+    },
+    "current_draw_z_state": {
+      "status": "active",
+      "keys": {
+        "current_draw_z": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "drawTrail(Bullet b)",
+          "java_expr": "Draw.z()",
+          "godot_symbol": "current_draw_z_state.current_draw_z",
+          "used_by": [
+            "PortGame.source_bullet_type_draw_trail_state"
+          ],
+          "rule": "Explicit runtime input representing current Draw.z() before drawTrail changes z."
+        }
+      }
+    },
+    "draw_trail_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_type_state",
+          "rule": "Runtime echo of input bullet_type_state."
+        },
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime echo of input bullet_state."
+        },
+        "gatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "drawTrail(Bullet b)",
+          "java_expr": "trailLength > 0 && b.trail != null",
+          "godot_symbol": "draw_trail_result.gatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_draw_trail_state"
+          ],
+          "rule": "Runtime result of drawTrail gate."
+        },
+        "trailDrawn": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "drawTrail(Bullet b)",
+          "java_expr": "trailLength > 0 && b.trail != null",
+          "godot_symbol": "draw_trail_result.trailDrawn",
+          "used_by": [
+            "PortGame.source_bullet_type_draw_trail_state"
+          ],
+          "rule": "Runtime draw flag mirrors drawTrail gate."
+        },
+        "drawZBefore": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "drawTrail(Bullet b)",
+          "java_expr": "float z = Draw.z()",
+          "godot_symbol": "draw_trail_result.drawZBefore",
+          "used_by": [
+            "PortGame.source_bullet_type_draw_trail_state"
+          ],
+          "rule": "Runtime value supplied for Draw.z() capture."
+        },
+        "drawZBelow": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "drawTrail(Bullet b)",
+          "java_expr": "Draw.z(z - 0.0001f)",
+          "godot_symbol": "draw_trail_result.drawZBelow",
+          "used_by": [
+            "PortGame.source_bullet_type_draw_trail_state"
+          ],
+          "rule": "Runtime z used while drawing trail."
+        },
+        "drawZRestored": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "drawTrail(Bullet b)",
+          "java_expr": "Draw.z(z)",
+          "godot_symbol": "draw_trail_result.drawZRestored",
+          "used_by": [
+            "PortGame.source_bullet_type_draw_trail_state"
+          ],
+          "rule": "Runtime z restored after trail draw."
+        },
+        "trailColor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "drawTrail(Bullet b)",
+          "java_expr": "trailColor",
+          "godot_symbol": "draw_trail_result.trailColor",
+          "used_by": [
+            "PortGame.source_bullet_type_draw_trail_state"
+          ],
+          "rule": "Runtime trail color used by trail draw."
+        },
+        "trailWidth": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "drawTrail(Bullet b)",
+          "java_expr": "trailWidth",
+          "godot_symbol": "draw_trail_result.trailWidth",
+          "used_by": [
+            "PortGame.source_bullet_type_draw_trail_state"
+          ],
+          "rule": "Runtime trail width used by trail draw."
+        },
+        "trailDrawCall": {
+          "type": "Dictionary|null",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "drawTrail(Bullet b)",
+          "java_expr": "b.trail.draw(trailColor, trailWidth)",
+          "godot_symbol": "draw_trail_result.trailDrawCall",
+          "used_by": [
+            "PortGame.source_bullet_type_draw_trail_state"
+          ],
+          "rule": "Runtime trail draw call record when gate passes."
+        },
+        "gateSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "drawTrail(Bullet b)",
+          "java_expr": "if(trailLength > 0 && b.trail != null){",
+          "godot_symbol": "draw_trail_result.gateSource",
+          "used_by": [
+            "PortGame.source_bullet_type_draw_trail_state"
+          ],
+          "rule": "Runtime source snippet label."
+        },
+        "drawZCaptureSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "drawTrail(Bullet b)",
+          "java_expr": "float z = Draw.z()",
+          "godot_symbol": "draw_trail_result.drawZCaptureSource",
+          "used_by": [
+            "PortGame.source_bullet_type_draw_trail_state"
+          ],
+          "rule": "Runtime source snippet label."
+        },
+        "drawZBelowSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "drawTrail(Bullet b)",
+          "java_expr": "Draw.z(z - 0.0001f)",
+          "godot_symbol": "draw_trail_result.drawZBelowSource",
+          "used_by": [
+            "PortGame.source_bullet_type_draw_trail_state"
+          ],
+          "rule": "Runtime source snippet label."
+        },
+        "drawZRestoreSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "drawTrail(Bullet b)",
+          "java_expr": "Draw.z(z)",
+          "godot_symbol": "draw_trail_result.drawZRestoreSource",
+          "used_by": [
+            "PortGame.source_bullet_type_draw_trail_state"
+          ],
+          "rule": "Runtime source snippet label."
+        },
+        "drawPartsBoundarySource": {
+          "type": "String",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "drawParts(Bullet b)",
+          "java_expr": "public void drawParts(Bullet b){",
+          "godot_symbol": "draw_trail_result.drawPartsBoundarySource",
+          "used_by": [
+            "PortGame.source_bullet_type_draw_trail_state"
+          ],
+          "rule": "Boundary marker; following drawParts method remains a later source slice."
+        }
+      }
     }
   },
   "version": 1
