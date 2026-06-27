@@ -2923,6 +2923,146 @@
         "test_port_game_exposes_source_bullet_type_create_frags_random_geometry_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_frags_random_geometry_state"
+    },
+    "create_frags.create_call.frag_velocity_min": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_create_call_state",
+      "tests": [
+        "test_bullet_type_create_frags_create_call_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_create_call_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_create_call_state",
+      "status": "source-backed",
+      "java_expr": "fragVelocityMin",
+      "godot_symbol": "bullet_type_state.fragVelocityMin",
+      "rule": "Use BulletType.fragVelocityMin default 0.2f for fragBullet.create velocity random lower bound."
+    },
+    "create_frags.create_call.frag_velocity_max": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_create_call_state",
+      "tests": [
+        "test_bullet_type_create_frags_create_call_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_create_call_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_create_call_state",
+      "status": "source-backed",
+      "java_expr": "fragVelocityMax",
+      "godot_symbol": "bullet_type_state.fragVelocityMax",
+      "rule": "Use BulletType.fragVelocityMax default 1f for fragBullet.create velocity random upper bound."
+    },
+    "create_frags.create_call.frag_life_min": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_create_call_state",
+      "tests": [
+        "test_bullet_type_create_frags_create_call_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_create_call_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_create_call_state",
+      "status": "source-backed",
+      "java_expr": "fragLifeMin",
+      "godot_symbol": "bullet_type_state.fragLifeMin",
+      "rule": "Use BulletType.fragLifeMin default 1f for fragBullet.create lifetime random lower bound."
+    },
+    "create_frags.create_call.frag_life_max": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_create_call_state",
+      "tests": [
+        "test_bullet_type_create_frags_create_call_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_create_call_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_create_call_state",
+      "status": "source-backed",
+      "java_expr": "fragLifeMax",
+      "godot_symbol": "bullet_type_state.fragLifeMax",
+      "rule": "Use BulletType.fragLifeMax default 1f for fragBullet.create lifetime random upper bound."
+    },
+    "create_frags.create_call.velocity_samples": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_create_call_state",
+      "tests": [
+        "test_bullet_type_create_frags_create_call_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_create_call_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_create_call_state",
+      "status": "explicit-input",
+      "java_expr": "Mathf.random(fragVelocityMin, fragVelocityMax)",
+      "godot_symbol": "frag_random_state.velocitySamples",
+      "rule": "Explicit per-fragment velocity samples; runtime must not fabricate RNG output."
+    },
+    "create_frags.create_call.life_samples": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_create_call_state",
+      "tests": [
+        "test_bullet_type_create_frags_create_call_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_create_call_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_create_call_state",
+      "status": "explicit-input",
+      "java_expr": "Mathf.random(fragLifeMin, fragLifeMax)",
+      "godot_symbol": "frag_random_state.lifeSamples",
+      "rule": "Explicit per-fragment lifetime samples; runtime must not fabricate RNG output."
+    },
+    "create_frags.create_call.trnsx": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_create_call_state",
+      "tests": [
+        "test_bullet_type_create_frags_create_call_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_create_call_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_create_call_state",
+      "status": "source-backed",
+      "java_expr": "Angles.trnsx(a, len)",
+      "godot_symbol": "create_frags_create_call_result.fragmentCreateCalls.x",
+      "rule": "Compute x + len * Mathf.cosDeg(a) from Arc Angles.trnsx; no invented offset."
+    },
+    "create_frags.create_call.trnsy": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_create_call_state",
+      "tests": [
+        "test_bullet_type_create_frags_create_call_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_create_call_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_create_call_state",
+      "status": "source-backed",
+      "java_expr": "Angles.trnsy(a, len)",
+      "godot_symbol": "create_frags_create_call_result.fragmentCreateCalls.y",
+      "rule": "Compute y + len * Mathf.sinDeg(a) from Arc Angles.trnsy; no invented offset."
+    },
+    "create_frags.create_call.frag_bullet_create": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_create_call_state",
+      "tests": [
+        "test_bullet_type_create_frags_create_call_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_create_call_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_create_call_state",
+      "status": "source-backed",
+      "java_expr": "fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax))",
+      "godot_symbol": "create_frags_create_call_result.fragmentCreateCalls",
+      "rule": "Record fragBullet.create call arguments from source createFrags loop without executing later bullet side effects."
+    },
+    "create_frags.create_call.frags_increment_boundary": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_create_call_state",
+      "tests": [
+        "test_bullet_type_create_frags_create_call_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_create_call_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_create_call_state",
+      "status": "deferred",
+      "java_expr": "b.frags++",
+      "godot_symbol": "create_frags_create_call_result.fragsIncrementBoundarySource",
+      "rule": "Boundary marker; incrementing Bullet.frags remains a later source slice."
     }
   }
 }

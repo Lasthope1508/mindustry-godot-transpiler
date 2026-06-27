@@ -830,6 +830,40 @@
         "test_port_game_exposes_source_bullet_type_create_frags_random_geometry_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_frags_random_geometry_state"
+    },
+    "N430": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_create_call_state",
+      "exact_exprs": [
+        "fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax))",
+        "Angles.trnsx(a, len)",
+        "Angles.trnsy(a, len)",
+        "Mathf.random(fragVelocityMin, fragVelocityMax)",
+        "Mathf.random(fragLifeMin, fragLifeMax)"
+      ],
+      "deferred_exprs": [
+        "b.frags++"
+      ],
+      "source_symbols": [
+        "create_frags.create_call.frag_velocity_min",
+        "create_frags.create_call.frag_velocity_max",
+        "create_frags.create_call.frag_life_min",
+        "create_frags.create_call.frag_life_max",
+        "create_frags.create_call.velocity_samples",
+        "create_frags.create_call.life_samples",
+        "create_frags.create_call.trnsx",
+        "create_frags.create_call.trnsy",
+        "create_frags.create_call.frag_bullet_create",
+        "create_frags.create_call.frags_increment_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_frags_create_call_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_create_call_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_create_call_state"
     }
   },
   "version": 1

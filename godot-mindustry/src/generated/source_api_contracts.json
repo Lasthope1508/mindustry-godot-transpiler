@@ -1394,6 +1394,59 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_frags_random_geometry_state",
       "rule": "Public runtime contract for createFrags random len and angle geometry only; actual fragBullet.create remains deferred."
+    },
+    "PortGame.source_bullet_type_create_frags_create_call_state": {
+      "status": "active",
+      "source_slice": "N430",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createFrags(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "create_frags_random_geometry_state",
+          "type": "Dictionary",
+          "schema": "create_frags_random_geometry_result"
+        },
+        {
+          "name": "frag_random_state",
+          "type": "Dictionary",
+          "schema": "frag_random_state"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createFragsRandomGeometry",
+        "fragRandom",
+        "fragGatePassed",
+        "fragBullet",
+        "fragVelocityMin",
+        "fragVelocityMax",
+        "fragLifeMin",
+        "fragLifeMax",
+        "fragmentCreateCalls",
+        "trnsxSource",
+        "trnsySource",
+        "velocityRandomSource",
+        "lifeRandomSource",
+        "createCallSource",
+        "fragsIncrementBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_create_frags_create_call_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_create_call_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_create_call_state",
+      "rule": "Public runtime contract for createFrags fragBullet.create call arguments only; Bullet.frags increment remains deferred."
     }
   },
   "policy": {

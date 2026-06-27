@@ -4896,6 +4896,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\"angleFormulaSource\": \"float a = b.rotation() + Mathf.range(fragRandomSpread / 2) + fragAngle + fragSpread * i - (fragBullets - 1) * fragSpread / 2f;\"", source)
         self.assertIn("\"createCallBoundarySource\": \"fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax));\"", source)
 
+    def test_port_game_exposes_source_bullet_type_create_frags_create_call_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_create_frags_create_call_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_frags_random_geometry_state: Dictionary, frag_random_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var velocity_samples: Array = update_random_state.get(\"velocitySamples\", [])", source)
+        self.assertIn("var life_samples: Array = update_random_state.get(\"lifeSamples\", [])", source)
+        self.assertIn("var offset := source_arc_angles_trns_vec(angle_value, len_value, 0.0)", source)
+        self.assertIn("\"call\": \"fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax))\"", source)
+        self.assertIn("\"createCallSource\": \"fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax));\"", source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

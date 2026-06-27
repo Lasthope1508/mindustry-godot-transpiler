@@ -6974,6 +6974,82 @@ func source_bullet_type_create_frags_random_geometry_state(bullet_type_state: Di
 		"createCallBoundarySource": "fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax));",
 	}
 
+func source_bullet_type_create_frags_create_call_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_frags_random_geometry_state: Dictionary, frag_random_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_geometry_state: Dictionary = create_frags_random_geometry_state.duplicate(true)
+	var update_random_state: Dictionary = frag_random_state.duplicate(true)
+	var velocity_samples: Array = update_random_state.get("velocitySamples", [])
+	var life_samples: Array = update_random_state.get("lifeSamples", [])
+	var fragment_plans: Array = update_geometry_state.get("fragmentPlans", [])
+	var fragment_create_calls: Array = []
+	var frag_gate_passed := bool(update_geometry_state.get("fragGatePassed", false))
+	var frag_bullet: Variant = update_type_state.get("fragBullet", null)
+	var frag_velocity_min := float(update_type_state.get("fragVelocityMin", 0.2))
+	var frag_velocity_max := float(update_type_state.get("fragVelocityMax", 1.0))
+	var frag_life_min := float(update_type_state.get("fragLifeMin", 1.0))
+	var frag_life_max := float(update_type_state.get("fragLifeMax", 1.0))
+	if frag_gate_passed:
+		for fragment_plan in fragment_plans:
+			var plan: Dictionary = fragment_plan
+			var index := int(plan.get("index", fragment_create_calls.size()))
+			var len_sample: Variant = plan.get("len", null)
+			var angle_value: Variant = plan.get("angle", null)
+			var base_x := float(plan.get("x", 0.0))
+			var base_y := float(plan.get("y", 0.0))
+			var velocity_sample: Variant = velocity_samples[index] if index < velocity_samples.size() else null
+			var life_sample: Variant = life_samples[index] if index < life_samples.size() else null
+			var frag_x: Variant = null
+			var frag_y: Variant = null
+			var trns_x: Variant = null
+			var trns_y: Variant = null
+			if len_sample != null and angle_value != null:
+				var len_value := float(len_sample)
+				var offset := source_arc_angles_trns_vec(angle_value, len_value, 0.0)
+				trns_x = offset.get("x", null)
+				trns_y = offset.get("y", null)
+				frag_x = base_x + float(trns_x)
+				frag_y = base_y + float(trns_y)
+			fragment_create_calls.append({
+				"index": index,
+				"fragBullet": frag_bullet,
+				"ownerBullet": update_bullet_state,
+				"baseX": base_x,
+				"baseY": base_y,
+				"len": len_sample,
+				"angle": angle_value,
+				"trnsx": trns_x,
+				"trnsy": trns_y,
+				"x": frag_x,
+				"y": frag_y,
+				"velocity": velocity_sample,
+				"velocitySampleProvided": velocity_sample != null,
+				"velocityRandomCall": {"call": "Mathf.random(fragVelocityMin, fragVelocityMax)", "min": frag_velocity_min, "max": frag_velocity_max, "value": velocity_sample},
+				"life": life_sample,
+				"lifeSampleProvided": life_sample != null,
+				"lifeRandomCall": {"call": "Mathf.random(fragLifeMin, fragLifeMax)", "min": frag_life_min, "max": frag_life_max, "value": life_sample},
+				"call": "fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax))",
+			})
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createFragsRandomGeometry": update_geometry_state,
+		"fragRandom": update_random_state,
+		"fragGatePassed": frag_gate_passed,
+		"fragBullet": frag_bullet,
+		"fragVelocityMin": frag_velocity_min,
+		"fragVelocityMax": frag_velocity_max,
+		"fragLifeMin": frag_life_min,
+		"fragLifeMax": frag_life_max,
+		"fragmentCreateCalls": fragment_create_calls,
+		"trnsxSource": "Angles.trnsx(a, len)",
+		"trnsySource": "Angles.trnsy(a, len)",
+		"velocityRandomSource": "Mathf.random(fragVelocityMin, fragVelocityMax)",
+		"lifeRandomSource": "Mathf.random(fragLifeMin, fragLifeMax)",
+		"createCallSource": "fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax));",
+		"fragsIncrementBoundarySource": "b.frags++;",
+	}
+
 func source_bullet_type_hit_entity_damage_cap_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, hit_entity_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

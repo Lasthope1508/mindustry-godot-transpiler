@@ -10555,6 +10555,41 @@ def verify_bullet_type_create_frags_random_geometry_state_source(upstream_root: 
         "missing": missing,
     }
 
+def verify_bullet_type_create_frags_create_call_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    arc_source = "arc-core/src/arc/math/Angles.java"
+    arc_path = upstream_root.parent / "arc-upstream" / arc_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    arc_text = arc_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "frag_velocity_fields": "public float fragVelocityMin = 0.2f, fragVelocityMax = 1f;",
+        "frag_life_fields": "public float fragLifeMin = 1f, fragLifeMax = 1f;",
+        "method": "public void createFrags(Bullet b, float x, float y){",
+        "create_call": "fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax));",
+        "trnsx_len": "public static float trnsx(float angle, float len){",
+        "trnsx_return": "return len * Mathf.cosDeg(angle);",
+        "trnsy_len": "public static float trnsy(float angle, float len){",
+        "trnsy_return": "return len * Mathf.sinDeg(angle);",
+    }
+    source_map = {
+        "trnsx_len": arc_text,
+        "trnsx_return": arc_text,
+        "trnsy_len": arc_text,
+        "trnsy_return": arc_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        haystack = source_map.get(key, source)
+        if snippet not in haystack:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "arc_source": arc_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

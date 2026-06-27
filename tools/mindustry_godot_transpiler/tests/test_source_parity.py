@@ -5919,6 +5919,24 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_create_frags_create_call_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_create_frags_create_call_state_source"))
+        report = source_parity.verify_bullet_type_create_frags_create_call_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["arc_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(report["checked"], {
+            "frag_velocity_fields": "public float fragVelocityMin = 0.2f, fragVelocityMax = 1f;",
+            "frag_life_fields": "public float fragLifeMin = 1f, fragLifeMax = 1f;",
+            "method": "public void createFrags(Bullet b, float x, float y){",
+            "create_call": "fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax));",
+            "trnsx_len": "public static float trnsx(float angle, float len){",
+            "trnsx_return": "return len * Mathf.cosDeg(angle);",
+            "trnsy_len": "public static float trnsy(float angle, float len){",
+            "trnsy_return": "return len * Mathf.sinDeg(angle);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_bullet_type_building_damage_state_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_bullet_type_building_damage_state_source"))
         report = source_parity.verify_bullet_type_building_damage_state_source(ROOT / "mindustry-upstream")
