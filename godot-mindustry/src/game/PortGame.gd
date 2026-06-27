@@ -4674,6 +4674,48 @@ func source_weapon_bullet_recoil_velocity_state(create_call_state: Dictionary, u
 		"shakeReservedSource": "Effect.shake(shake, shake, bulletX, bulletY)",
 	}
 
+func source_weapon_bullet_shake_state(create_call_state: Dictionary, weapon_state: Dictionary) -> Dictionary:
+	if not bool(create_call_state.get("bulletContinues", false)):
+		return {
+			"bulletContinues": false,
+			"shakeEffectCalled": false,
+			"shakeCall": null,
+			"shakeCallSource": "Effect.shake(shake, shake, bulletX, bulletY)",
+			"effectCameraGuardSource": "if(Core.camera == null) return",
+			"effectFalloffSource": "shake(Mathf.clamp(1f / (distance * distance / shakeFalloff)) * intensity, duration)",
+			"mountRecoilReservedSource": "mount.recoil = 1f",
+		}
+	var bullet_create_call: Dictionary = create_call_state.get("bulletCreateCall", {})
+	if bullet_create_call.is_empty():
+		return {
+			"bulletContinues": true,
+			"shakeEffectCalled": false,
+			"shakeCall": null,
+			"shakeCallSource": "Effect.shake(shake, shake, bulletX, bulletY)",
+			"effectCameraGuardSource": "if(Core.camera == null) return",
+			"effectFalloffSource": "shake(Mathf.clamp(1f / (distance * distance / shakeFalloff)) * intensity, duration)",
+			"mountRecoilReservedSource": "mount.recoil = 1f",
+		}
+	var shake_intensity := float(weapon_state.get("shake", 0.0))
+	var effect_shake_call := {
+		"intensity": shake_intensity,
+		"duration": shake_intensity,
+		"x": float(bullet_create_call.get("x", 0.0)),
+		"y": float(bullet_create_call.get("y", 0.0)),
+	}
+	return {
+		"bulletContinues": true,
+		"shakeEffectCalled": true,
+		"shakeCall": effect_shake_call,
+		"shakeCallSource": "Effect.shake(shake, shake, bulletX, bulletY)",
+		"effectCameraGuardSource": "if(Core.camera == null) return",
+		"effectDistanceSource": "float distance = Core.camera.position.dst(x, y)",
+		"effectDistanceFloorSource": "if(distance < 1) distance = 1",
+		"effectFalloffSource": "shake(Mathf.clamp(1f / (distance * distance / shakeFalloff)) * intensity, duration)",
+		"rendererShakeSource": "Vars.renderer.shake(intensity, duration)",
+		"mountRecoilReservedSource": "mount.recoil = 1f",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

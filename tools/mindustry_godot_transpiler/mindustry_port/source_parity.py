@@ -8376,6 +8376,47 @@ def verify_weapon_bullet_recoil_velocity_source(upstream_root: Path) -> dict[str
         "missing": missing,
     }
 
+def verify_weapon_bullet_shake_effect_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    effect_path = upstream_root / EFFECT_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    effect_text = effect_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "shake_call": "Effect.shake(shake, shake, bulletX, bulletY);",
+        "mount_recoil_reserved": "mount.recoil = 1f;",
+        "weapon_shake": "public float shake = 0f;",
+        "effect_shake_xy": "public static void shake(float intensity, float duration, float x, float y){",
+        "effect_camera_guard": "if(Core.camera == null) return;",
+        "effect_distance": "float distance = Core.camera.position.dst(x, y);",
+        "effect_distance_floor": "if(distance < 1) distance = 1;",
+        "effect_falloff": "shake(Mathf.clamp(1f / (distance * distance / shakeFalloff)) * intensity, duration);",
+        "effect_private_shake": "private static void shake(float intensity, float duration){",
+        "renderer_shake": "Vars.renderer.shake(intensity, duration);",
+    }
+    source_map = {
+        "shake_call": source,
+        "mount_recoil_reserved": source,
+        "weapon_shake": source,
+        "effect_shake_xy": effect_text,
+        "effect_camera_guard": effect_text,
+        "effect_distance": effect_text,
+        "effect_distance_floor": effect_text,
+        "effect_falloff": effect_text,
+        "effect_private_shake": effect_text,
+        "renderer_shake": effect_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "effect_source": EFFECT_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

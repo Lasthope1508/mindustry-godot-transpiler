@@ -4740,6 +4740,26 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_bullet_shake_effect_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_bullet_shake_effect_source"))
+        report = source_parity.verify_weapon_bullet_shake_effect_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["effect_source"], "core/src/mindustry/entities/Effect.java")
+        self.assertEqual(report["checked"], {
+            "shake_call": "Effect.shake(shake, shake, bulletX, bulletY);",
+            "mount_recoil_reserved": "mount.recoil = 1f;",
+            "weapon_shake": "public float shake = 0f;",
+            "effect_shake_xy": "public static void shake(float intensity, float duration, float x, float y){",
+            "effect_camera_guard": "if(Core.camera == null) return;",
+            "effect_distance": "float distance = Core.camera.position.dst(x, y);",
+            "effect_distance_floor": "if(distance < 1) distance = 1;",
+            "effect_falloff": "shake(Mathf.clamp(1f / (distance * distance / shakeFalloff)) * intensity, duration);",
+            "effect_private_shake": "private static void shake(float intensity, float duration){",
+            "renderer_shake": "Vars.renderer.shake(intensity, duration);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

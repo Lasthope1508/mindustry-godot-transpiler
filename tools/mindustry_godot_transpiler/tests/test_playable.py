@@ -3939,6 +3939,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"vec2AddSource": "x += v.x; y += v.y"', source)
         self.assertIn('"shakeReservedSource": "Effect.shake(shake, shake, bulletX, bulletY)"', source)
 
+    def test_port_game_exposes_source_weapon_bullet_shake_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_bullet_shake_state(create_call_state: Dictionary, weapon_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var bullet_create_call: Dictionary = create_call_state.get(\"bulletCreateCall\", {})", source)
+        self.assertIn("var shake_intensity := float(weapon_state.get(\"shake\", 0.0))", source)
+        self.assertIn('"intensity": shake_intensity', source)
+        self.assertIn('"duration": shake_intensity', source)
+        self.assertIn('"shakeCallSource": "Effect.shake(shake, shake, bulletX, bulletY)"', source)
+        self.assertIn('"effectCameraGuardSource": "if(Core.camera == null) return"', source)
+        self.assertIn('"effectFalloffSource": "shake(Mathf.clamp(1f / (distance * distance / shakeFalloff)) * intensity, duration)"', source)
+        self.assertIn('"mountRecoilReservedSource": "mount.recoil = 1f"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
