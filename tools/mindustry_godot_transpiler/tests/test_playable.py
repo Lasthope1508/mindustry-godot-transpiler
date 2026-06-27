@@ -4473,6 +4473,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("resolved_range = range_override", source)
         self.assertIn('"rangeOverrideReturnSource": "if(rangeOverride > 0) return rangeOverride"', source)
 
+    def test_port_game_exposes_source_bullet_type_calculate_range_spawn_unit_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_calculate_range_spawn_unit_state(override_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var update_type_state: Dictionary = override_state.get(\"bulletType\", {}).duplicate(true)", source)
+        self.assertIn("var prior_return := bool(override_state.get(\"returnEarly\", false))", source)
+        self.assertIn("var spawn_unit_value = update_type_state.get(\"spawnUnit\", null)", source)
+        self.assertIn("var gate_passed := (not prior_return) and spawn_unit_value != null", source)
+        self.assertIn("var spawn_unit_state: Dictionary = {}", source)
+        self.assertIn("spawn_unit_state = (spawn_unit_value as Dictionary).duplicate(true)", source)
+        self.assertIn("resolved_range = float(spawn_unit_state.get(\"lifetime\", 0.0)) * float(spawn_unit_state.get(\"speed\", 0.0))", source)
+        self.assertIn("var returned_spawn_unit: Variant = null", source)
+        self.assertIn("returned_spawn_unit = spawn_unit_state", source)
+        self.assertIn('"spawnUnitReturnSource": "if(spawnUnit != null) return spawnUnit.lifetime * spawnUnit.speed"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

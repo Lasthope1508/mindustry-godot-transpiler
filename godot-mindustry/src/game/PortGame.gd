@@ -5924,6 +5924,27 @@ func source_bullet_type_calculate_range_override_state(bullet_type_state: Dictio
 		"rangeOverrideReturnSource": "if(rangeOverride > 0) return rangeOverride",
 	}
 
+func source_bullet_type_calculate_range_spawn_unit_state(override_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = override_state.get("bulletType", {}).duplicate(true)
+	var prior_return := bool(override_state.get("returnEarly", false))
+	var spawn_unit_value = update_type_state.get("spawnUnit", null)
+	var gate_passed := (not prior_return) and spawn_unit_value != null
+	var resolved_range: Variant = override_state.get("range", null)
+	var spawn_unit_state: Dictionary = {}
+	var returned_spawn_unit: Variant = null
+	if gate_passed:
+		spawn_unit_state = (spawn_unit_value as Dictionary).duplicate(true)
+		resolved_range = float(spawn_unit_state.get("lifetime", 0.0)) * float(spawn_unit_state.get("speed", 0.0))
+		returned_spawn_unit = spawn_unit_state
+	return {
+		"bulletType": update_type_state,
+		"spawnUnitRangeGatePassed": gate_passed,
+		"returnEarly": prior_return or gate_passed,
+		"range": resolved_range,
+		"spawnUnit": returned_spawn_unit,
+		"spawnUnitReturnSource": "if(spawnUnit != null) return spawnUnit.lifetime * spawnUnit.speed",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
