@@ -10667,6 +10667,29 @@ def verify_bullet_type_create_puddles_tile_world_state_source(upstream_root: Pat
         "missing": missing,
     }
 
+def verify_bullet_type_create_puddles_deposit_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "puddle_amount_field": "public float puddleAmount = 5f;",
+        "puddle_liquid_field": "public Liquid puddleLiquid = Liquids.water;",
+        "method": "public void createPuddles(Bullet b, float x, float y){",
+        "initial_gate": "if(puddleLiquid != null && puddles > 0){",
+        "loop_boundary": "for(int i = 0; i < puddles; i++){",
+        "tile_world_call": "Tile tile = world.tileWorld(x + Mathf.range(puddleRange), y + Mathf.range(puddleRange));",
+        "deposit_call": "Puddles.deposit(tile, puddleLiquid, puddleAmount);",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

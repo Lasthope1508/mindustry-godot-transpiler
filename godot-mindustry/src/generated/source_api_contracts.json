@@ -1576,6 +1576,46 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_puddles_tile_world_state",
       "rule": "Public runtime contract for createPuddles world.tileWorld call arguments only; Puddles.deposit remains deferred."
+    },
+    "PortGame.source_bullet_type_create_puddles_deposit_state": {
+      "status": "active",
+      "source_slice": "N434",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createPuddles(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "create_puddles_tile_world_state",
+          "type": "Dictionary",
+          "schema": "create_puddles_tile_world_result"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createPuddlesTileWorld",
+        "puddleGatePassed",
+        "puddleLiquid",
+        "puddleAmount",
+        "tileWorldCalls",
+        "depositCalls",
+        "depositSource"
+      ],
+      "tests": [
+        "test_bullet_type_create_puddles_deposit_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_puddles_deposit_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_puddles_deposit_state",
+      "rule": "Public runtime contract for createPuddles Puddles.deposit call arguments only; puddle world mutation remains deferred."
     }
   },
   "policy": {

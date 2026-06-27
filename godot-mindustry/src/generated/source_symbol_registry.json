@@ -3287,6 +3287,62 @@
       "java_expr": "Puddles.deposit(tile, puddleLiquid, puddleAmount)",
       "godot_symbol": "create_puddles_tile_world_result.depositBoundarySource",
       "rule": "Boundary marker; Puddles.deposit side effect remains a later source slice."
+    },
+    "create_puddles.deposit.tile": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createPuddles(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_puddles_deposit_state",
+      "tests": [
+        "test_bullet_type_create_puddles_deposit_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_puddles_deposit_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_puddles_deposit_state",
+      "status": "source-backed",
+      "java_expr": "Tile tile = world.tileWorld(x + Mathf.range(puddleRange), y + Mathf.range(puddleRange))",
+      "godot_symbol": "create_puddles_tile_world_result.tileWorldCalls",
+      "rule": "Reuse N433 tile record as the tile argument for Puddles.deposit."
+    },
+    "create_puddles.deposit.puddle_liquid": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createPuddles(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_puddles_deposit_state",
+      "tests": [
+        "test_bullet_type_create_puddles_deposit_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_puddles_deposit_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_puddles_deposit_state",
+      "status": "source-backed",
+      "java_expr": "puddleLiquid = Liquids.water",
+      "godot_symbol": "bullet_type_state.puddleLiquid",
+      "rule": "Use BulletType.puddleLiquid as the second Puddles.deposit argument."
+    },
+    "create_puddles.deposit.puddle_amount": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createPuddles(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_puddles_deposit_state",
+      "tests": [
+        "test_bullet_type_create_puddles_deposit_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_puddles_deposit_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_puddles_deposit_state",
+      "status": "source-backed",
+      "java_expr": "puddleAmount = 5f",
+      "godot_symbol": "bullet_type_state.puddleAmount",
+      "rule": "Use BulletType.puddleAmount as the third Puddles.deposit argument."
+    },
+    "create_puddles.deposit.deposit_call": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createPuddles(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_puddles_deposit_state",
+      "tests": [
+        "test_bullet_type_create_puddles_deposit_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_puddles_deposit_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_puddles_deposit_state",
+      "status": "source-backed",
+      "java_expr": "Puddles.deposit(tile, puddleLiquid, puddleAmount)",
+      "godot_symbol": "create_puddles_deposit_result.depositCalls",
+      "rule": "Record Puddles.deposit call arguments from the source createPuddles loop without applying later puddle world effects."
     }
   }
 }

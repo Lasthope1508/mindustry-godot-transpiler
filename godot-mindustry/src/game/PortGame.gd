@@ -7154,6 +7154,37 @@ func source_bullet_type_create_puddles_tile_world_state(bullet_type_state: Dicti
 		"depositBoundarySource": "Puddles.deposit(tile, puddleLiquid, puddleAmount);",
 	}
 
+func source_bullet_type_create_puddles_deposit_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_puddles_tile_world_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_tile_world_state: Dictionary = create_puddles_tile_world_state.duplicate(true)
+	var tile_world_calls: Array = update_tile_world_state.get("tileWorldCalls", [])
+	var deposit_calls: Array = []
+	var puddle_gate_passed := bool(update_tile_world_state.get("puddleGatePassed", false))
+	var puddle_liquid: Variant = update_type_state.get("puddleLiquid", update_tile_world_state.get("puddleLiquid", "water"))
+	var puddle_amount := float(update_type_state.get("puddleAmount", update_tile_world_state.get("puddleAmount", 5.0)))
+	if puddle_gate_passed:
+		for tile_call in tile_world_calls:
+			var tile_world_call: Dictionary = tile_call
+			deposit_calls.append({
+				"index": int(tile_world_call.get("index", deposit_calls.size())),
+				"tile": tile_world_call,
+				"puddleLiquid": puddle_liquid,
+				"puddleAmount": puddle_amount,
+				"call": "Puddles.deposit(tile, puddleLiquid, puddleAmount)",
+			})
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createPuddlesTileWorld": update_tile_world_state,
+		"puddleGatePassed": puddle_gate_passed,
+		"puddleLiquid": puddle_liquid,
+		"puddleAmount": puddle_amount,
+		"tileWorldCalls": tile_world_calls,
+		"depositCalls": deposit_calls,
+		"depositSource": "Puddles.deposit(tile, puddleLiquid, puddleAmount);",
+	}
+
 func source_bullet_type_hit_entity_damage_cap_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, hit_entity_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

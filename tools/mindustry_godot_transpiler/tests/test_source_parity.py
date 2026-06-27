@@ -5986,6 +5986,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_create_puddles_deposit_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_create_puddles_deposit_state_source"))
+        report = source_parity.verify_bullet_type_create_puddles_deposit_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "puddle_amount_field": "public float puddleAmount = 5f;",
+            "puddle_liquid_field": "public Liquid puddleLiquid = Liquids.water;",
+            "method": "public void createPuddles(Bullet b, float x, float y){",
+            "initial_gate": "if(puddleLiquid != null && puddles > 0){",
+            "loop_boundary": "for(int i = 0; i < puddles; i++){",
+            "tile_world_call": "Tile tile = world.tileWorld(x + Mathf.range(puddleRange), y + Mathf.range(puddleRange));",
+            "deposit_call": "Puddles.deposit(tile, puddleLiquid, puddleAmount);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_bullet_type_building_damage_state_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_bullet_type_building_damage_state_source"))
         report = source_parity.verify_bullet_type_building_damage_state_source(ROOT / "mindustry-upstream")

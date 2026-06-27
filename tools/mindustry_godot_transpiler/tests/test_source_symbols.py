@@ -662,14 +662,34 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(y_samples["status"], "explicit-input")
         self.assertEqual(y_samples["godot_symbol"], "puddle_random_state.yRangeSamples")
 
+    def test_bullet_type_create_puddles_deposit_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        deposit = source_symbols.source_symbol(registry, "create_puddles.deposit.deposit_call")
+        self.assertEqual(deposit["java_expr"], "Puddles.deposit(tile, puddleLiquid, puddleAmount)")
+        self.assertEqual(deposit["godot_symbol"], "create_puddles_deposit_result.depositCalls")
+        self.assertEqual(deposit["godot_owner"], "PortGame.source_bullet_type_create_puddles_deposit_state")
+        self.assertEqual(deposit["runtime_proof"], "/root/Main.source_bullet_type_create_puddles_deposit_state")
+
+        amount = source_symbols.source_symbol(registry, "create_puddles.deposit.puddle_amount")
+        self.assertEqual(amount["java_expr"], "puddleAmount = 5f")
+        self.assertEqual(amount["godot_symbol"], "bullet_type_state.puddleAmount")
+
+        liquid = source_symbols.source_symbol(registry, "create_puddles.deposit.puddle_liquid")
+        self.assertEqual(liquid["java_expr"], "puddleLiquid = Liquids.water")
+        self.assertEqual(liquid["godot_symbol"], "bullet_type_state.puddleLiquid")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 31)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 32)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 36)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 37)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -706,6 +726,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_create_frags_increment_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_puddles_initial_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_puddles_tile_world_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_create_puddles_deposit_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -900,6 +921,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(create_puddles_tile_world["godot_owner"], "PortGame.source_bullet_type_create_puddles_tile_world_state")
         self.assertIn("Tile tile = world.tileWorld(x + Mathf.range(puddleRange), y + Mathf.range(puddleRange))", create_puddles_tile_world["exact_exprs"])
         self.assertIn("Puddles.deposit(tile, puddleLiquid, puddleAmount)", create_puddles_tile_world["deferred_exprs"])
+
+        create_puddles_deposit = source_symbols.source_slice(ledger, "N434")
+        self.assertEqual(create_puddles_deposit["java_method"], "createPuddles(Bullet b, float x, float y)")
+        self.assertEqual(create_puddles_deposit["godot_owner"], "PortGame.source_bullet_type_create_puddles_deposit_state")
+        self.assertIn("Puddles.deposit(tile, puddleLiquid, puddleAmount)", create_puddles_deposit["exact_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -1152,6 +1178,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("tileWorldSource", create_puddles_tile_world["return_keys"])
         self.assertIn("depositBoundarySource", create_puddles_tile_world["return_keys"])
         self.assertEqual(create_puddles_tile_world["source_method"], "createPuddles(Bullet b, float x, float y)")
+
+        create_puddles_deposit = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_create_puddles_deposit_state")
+        self.assertEqual([param["name"] for param in create_puddles_deposit["params"]], ["bullet_type_state", "bullet_state", "create_puddles_tile_world_state"])
+        self.assertEqual(create_puddles_deposit["params"][2]["schema"], "create_puddles_tile_world_result")
+        self.assertIn("depositCalls", create_puddles_deposit["return_keys"])
+        self.assertIn("depositSource", create_puddles_deposit["return_keys"])
+        self.assertEqual(create_puddles_deposit["source_method"], "createPuddles(Bullet b, float x, float y)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -1406,6 +1439,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(create_puddles_tile_world_output["keys"]["tileWorldCalls"]["java_expr"], "Tile tile = world.tileWorld(x + Mathf.range(puddleRange), y + Mathf.range(puddleRange))")
         self.assertEqual(create_puddles_tile_world_output["keys"]["tileWorldCalls"]["status"], "source-backed")
         self.assertEqual(create_puddles_tile_world_output["keys"]["createPuddlesInitial"]["alias_of"], "create_puddles_initial_result")
+
+        create_puddles_deposit_output = source_symbols.state_schema(schema, "create_puddles_deposit_result")
+        self.assertEqual(create_puddles_deposit_output["keys"]["depositCalls"]["java_expr"], "Puddles.deposit(tile, puddleLiquid, puddleAmount)")
+        self.assertEqual(create_puddles_deposit_output["keys"]["depositCalls"]["status"], "source-backed")
+        self.assertEqual(create_puddles_deposit_output["keys"]["createPuddlesTileWorld"]["alias_of"], "create_puddles_tile_world_result")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

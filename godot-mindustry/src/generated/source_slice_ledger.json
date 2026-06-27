@@ -943,6 +943,31 @@
         "test_port_game_exposes_source_bullet_type_create_puddles_tile_world_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_puddles_tile_world_state"
+    },
+    "N434": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "createPuddles(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_puddles_deposit_state",
+      "exact_exprs": [
+        "Puddles.deposit(tile, puddleLiquid, puddleAmount)"
+      ],
+      "reused_source_slices": [
+        "N432: PortGame.source_bullet_type_create_puddles_initial_state",
+        "N433: PortGame.source_bullet_type_create_puddles_tile_world_state"
+      ],
+      "source_symbols": [
+        "create_puddles.deposit.tile",
+        "create_puddles.deposit.puddle_liquid",
+        "create_puddles.deposit.puddle_amount",
+        "create_puddles.deposit.deposit_call"
+      ],
+      "tests": [
+        "test_bullet_type_create_puddles_deposit_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_puddles_deposit_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_puddles_deposit_state"
     }
   },
   "version": 1
