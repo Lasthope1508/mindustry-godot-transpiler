@@ -5431,6 +5431,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_calculate_range_despawn_unit_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_calculate_range_despawn_unit_state_source"))
+        report = source_parity.verify_bullet_type_calculate_range_despawn_unit_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["unit_type_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["checked"], {
+            "despawn_unit_field": "public @Nullable UnitType despawnUnit;",
+            "method": "protected float calculateRange(){",
+            "spawn_unit_return": "if(spawnUnit != null) return spawnUnit.lifetime * spawnUnit.speed;",
+            "despawn_unit_return": "if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed;",
+            "unit_lifetime_field": "public float lifetime = 60f * 5f;",
+            "unit_speed_field": "public float speed = 1.1f,",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

@@ -5945,6 +5945,27 @@ func source_bullet_type_calculate_range_spawn_unit_state(override_state: Diction
 		"spawnUnitReturnSource": "if(spawnUnit != null) return spawnUnit.lifetime * spawnUnit.speed",
 	}
 
+func source_bullet_type_calculate_range_despawn_unit_state(spawn_unit_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = spawn_unit_state.get("bulletType", {}).duplicate(true)
+	var prior_return := bool(spawn_unit_state.get("returnEarly", false))
+	var despawn_unit_value = update_type_state.get("despawnUnit", null)
+	var gate_passed := (not prior_return) and despawn_unit_value != null
+	var resolved_range: Variant = spawn_unit_state.get("range", null)
+	var despawn_unit_state: Dictionary = {}
+	var returned_despawn_unit: Variant = null
+	if gate_passed:
+		despawn_unit_state = (despawn_unit_value as Dictionary).duplicate(true)
+		resolved_range = float(despawn_unit_state.get("lifetime", 0.0)) * float(despawn_unit_state.get("speed", 0.0))
+		returned_despawn_unit = despawn_unit_state
+	return {
+		"bulletType": update_type_state,
+		"despawnUnitRangeGatePassed": gate_passed,
+		"returnEarly": prior_return or gate_passed,
+		"range": resolved_range,
+		"despawnUnit": returned_despawn_unit,
+		"despawnUnitReturnSource": "if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

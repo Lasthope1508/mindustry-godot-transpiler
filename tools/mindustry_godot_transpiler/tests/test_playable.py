@@ -4489,6 +4489,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("returned_spawn_unit = spawn_unit_state", source)
         self.assertIn('"spawnUnitReturnSource": "if(spawnUnit != null) return spawnUnit.lifetime * spawnUnit.speed"', source)
 
+    def test_port_game_exposes_source_bullet_type_calculate_range_despawn_unit_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_calculate_range_despawn_unit_state(spawn_unit_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var update_type_state: Dictionary = spawn_unit_state.get(\"bulletType\", {}).duplicate(true)", source)
+        self.assertIn("var prior_return := bool(spawn_unit_state.get(\"returnEarly\", false))", source)
+        self.assertIn("var despawn_unit_value = update_type_state.get(\"despawnUnit\", null)", source)
+        self.assertIn("var gate_passed := (not prior_return) and despawn_unit_value != null", source)
+        self.assertIn("var despawn_unit_state: Dictionary = {}", source)
+        self.assertIn("despawn_unit_state = (despawn_unit_value as Dictionary).duplicate(true)", source)
+        self.assertIn("resolved_range = float(despawn_unit_state.get(\"lifetime\", 0.0)) * float(despawn_unit_state.get(\"speed\", 0.0))", source)
+        self.assertIn("var returned_despawn_unit: Variant = null", source)
+        self.assertIn("returned_despawn_unit = despawn_unit_state", source)
+        self.assertIn('"despawnUnitReturnSource": "if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -9805,6 +9805,40 @@ def verify_bullet_type_calculate_range_spawn_unit_state_source(upstream_root: Pa
         "missing": missing,
     }
 
+def verify_bullet_type_calculate_range_despawn_unit_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    unit_type_source = "core/src/mindustry/type/UnitType.java"
+    unit_type_path = upstream_root / unit_type_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_type_text = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "despawn_unit_field": "public @Nullable UnitType despawnUnit;",
+        "method": "protected float calculateRange(){",
+        "spawn_unit_return": "if(spawnUnit != null) return spawnUnit.lifetime * spawnUnit.speed;",
+        "despawn_unit_return": "if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed;",
+        "unit_lifetime_field": "public float lifetime = 60f * 5f;",
+        "unit_speed_field": "public float speed = 1.1f,",
+    }
+    source_map = {
+        "despawn_unit_field": source,
+        "method": source,
+        "spawn_unit_return": source,
+        "despawn_unit_return": source,
+        "unit_lifetime_field": unit_type_text,
+        "unit_speed_field": unit_type_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "unit_type_source": unit_type_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
