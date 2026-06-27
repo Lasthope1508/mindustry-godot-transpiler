@@ -5808,6 +5808,66 @@
         "test_bullet_type_update_weaving_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_update_weaving_state"
+    },
+    "update_weaving_rotate_speed.gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateWeaving(Bullet b)",
+      "java_expr": "if(rotateSpeed != 0){",
+      "godot_symbol": "update_weaving_rotate_speed_result.rotateSpeedGatePassed",
+      "godot_owner": "PortGame.source_bullet_type_update_weaving_rotate_speed_state",
+      "rule": "Exact updateWeaving rotateSpeed gate.",
+      "tests": [
+        "test_bullet_type_update_weaving_rotate_speed_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_rotate_speed_state",
+        "test_bullet_type_update_weaving_rotate_speed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_rotate_speed_state"
+    },
+    "update_weaving_rotate_speed.rotate_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateWeaving(Bullet b)",
+      "java_expr": "b.vel.rotate(rotateSpeed * Time.delta);",
+      "godot_symbol": "update_weaving_rotate_speed_result.velocity",
+      "godot_owner": "PortGame.source_bullet_type_update_weaving_rotate_speed_state",
+      "rule": "Exact source rotate call for rotateSpeed branch.",
+      "tests": [
+        "test_bullet_type_update_weaving_rotate_speed_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_rotate_speed_state",
+        "test_bullet_type_update_weaving_rotate_speed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_rotate_speed_state"
+    },
+    "update_weaving_rotate_speed.rotation_radians": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateWeaving(Bullet b)",
+      "java_expr": "rotateSpeed * Time.delta",
+      "godot_symbol": "update_weaving_rotate_speed_result.rotationRadians",
+      "godot_owner": "PortGame.source_bullet_type_update_weaving_rotate_speed_state",
+      "rule": "Source rotate degrees expression before Vec2.rotate converts to radians.",
+      "tests": [
+        "test_bullet_type_update_weaving_rotate_speed_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_rotate_speed_state",
+        "test_bullet_type_update_weaving_rotate_speed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_rotate_speed_state"
+    },
+    "update_weaving_rotate_speed.vec2_rotate": {
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "rotate(float degrees)",
+      "java_expr": "return rotateRad(degrees * Mathf.degreesToRadians);",
+      "godot_symbol": "update_weaving_rotate_speed_result.vec2RotateSource",
+      "godot_owner": "PortGame.source_bullet_type_update_weaving_rotate_speed_state",
+      "rule": "Arc Vec2.rotate converts degrees to radians before rotateRad.",
+      "tests": [
+        "test_bullet_type_update_weaving_rotate_speed_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_rotate_speed_state",
+        "test_bullet_type_update_weaving_rotate_speed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_rotate_speed_state"
     }
   }
 }

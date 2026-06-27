@@ -1459,14 +1459,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(vec2_rotate["java_source"], "arc-core/src/arc/math/geom/Vec2.java")
         self.assertEqual(vec2_rotate["java_expr"], "float newX = this.x * cos - this.y * sin; float newY = this.x * sin + this.y * cos;")
 
+    def test_bullet_type_update_weaving_rotate_speed_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        gate = source_symbols.source_symbol(registry, "update_weaving_rotate_speed.gate")
+        self.assertEqual(gate["java_expr"], "if(rotateSpeed != 0){")
+        self.assertEqual(gate["godot_symbol"], "update_weaving_rotate_speed_result.rotateSpeedGatePassed")
+        self.assertEqual(gate["godot_owner"], "PortGame.source_bullet_type_update_weaving_rotate_speed_state")
+        self.assertEqual(gate["runtime_proof"], "/root/Main.source_bullet_type_update_weaving_rotate_speed_state")
+
+        rotate_call = source_symbols.source_symbol(registry, "update_weaving_rotate_speed.rotate_call")
+        self.assertEqual(rotate_call["java_expr"], "b.vel.rotate(rotateSpeed * Time.delta);")
+        self.assertEqual(rotate_call["godot_symbol"], "update_weaving_rotate_speed_result.velocity")
+
+        rotation_radians = source_symbols.source_symbol(registry, "update_weaving_rotate_speed.rotation_radians")
+        self.assertEqual(rotation_radians["java_expr"], "rotateSpeed * Time.delta")
+        self.assertEqual(rotation_radians["godot_symbol"], "update_weaving_rotate_speed_result.rotationRadians")
+
+        vec2_rotate = source_symbols.source_symbol(registry, "update_weaving_rotate_speed.vec2_rotate")
+        self.assertEqual(vec2_rotate["java_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(vec2_rotate["java_expr"], "return rotateRad(degrees * Mathf.degreesToRadians);")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 58)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 59)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 63)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 64)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1519,6 +1543,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_update_homing_target_velocity_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_update_homing_follow_aim_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_update_weaving_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_update_weaving_rotate_speed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -1921,6 +1946,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(weaveMag != 0){", update_weaving["exact_exprs"])
         self.assertIn("b.vel.rotateRadExact((float)Math.sin((b.time + Math.PI * weaveScale/2f) / weaveScale) * weaveMag * (weaveRandom ? (Mathf.randomSeed(b.id, 0, 1) == 1 ? -1 : 1) : 1f) * Time.delta * Mathf.degRad);", update_weaving["exact_exprs"])
         self.assertIn("if(rotateSpeed != 0){", update_weaving["deferred_exprs"])
+
+        update_weaving_rotate_speed = source_symbols.source_slice(ledger, "N461")
+        self.assertEqual(update_weaving_rotate_speed["java_method"], "updateWeaving(Bullet b)")
+        self.assertEqual(update_weaving_rotate_speed["godot_owner"], "PortGame.source_bullet_type_update_weaving_rotate_speed_state")
+        self.assertIn("if(rotateSpeed != 0){", update_weaving_rotate_speed["exact_exprs"])
+        self.assertIn("b.vel.rotate(rotateSpeed * Time.delta);", update_weaving_rotate_speed["exact_exprs"])
+        self.assertIn("if(circleShooter && b.owner instanceof Healthc h && h.isValid()){", update_weaving_rotate_speed["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -2417,6 +2449,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("randomSeedResult", update_weaving["return_keys"])
         self.assertIn("velocity", update_weaving["return_keys"])
         self.assertEqual(update_weaving["source_method"], "updateWeaving(Bullet b)")
+
+        update_weaving_rotate_speed = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_update_weaving_rotate_speed_state")
+        self.assertEqual([param["name"] for param in update_weaving_rotate_speed["params"]], ["weaving_state", "bullet_type_state", "source_delta"])
+        self.assertEqual(update_weaving_rotate_speed["params"][0]["schema"], "update_weaving_result")
+        self.assertEqual(update_weaving_rotate_speed["params"][1]["schema"], "bullet_type_state")
+        self.assertEqual(update_weaving_rotate_speed["params"][2]["schema"], "time_state.delta")
+        self.assertIn("rotateSpeedApplied", update_weaving_rotate_speed["return_keys"])
+        self.assertIn("rotateSpeedGatePassed", update_weaving_rotate_speed["return_keys"])
+        self.assertIn("rotationRadians", update_weaving_rotate_speed["return_keys"])
+        self.assertIn("velocity", update_weaving_rotate_speed["return_keys"])
+        self.assertEqual(update_weaving_rotate_speed["source_method"], "updateWeaving(Bullet b)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -2927,6 +2970,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(bullet_type_state["keys"]["weaveMag"]["java_expr"], "weaveMag")
         self.assertEqual(bullet_type_state["keys"]["weaveScale"]["java_expr"], "weaveScale")
         self.assertEqual(bullet_type_state["keys"]["weaveRandom"]["java_expr"], "weaveRandom")
+
+        update_weaving_rotate_speed_output = source_symbols.state_schema(schema, "update_weaving_rotate_speed_result")
+        self.assertEqual(update_weaving_rotate_speed_output["keys"]["rotateSpeedGatePassed"]["java_expr"], "rotateSpeed != 0")
+        self.assertEqual(update_weaving_rotate_speed_output["keys"]["rotationRadians"]["java_expr"], "rotateSpeed * Time.delta")
+        self.assertEqual(update_weaving_rotate_speed_output["keys"]["velocity"]["java_expr"], "b.vel.rotate(rotateSpeed * Time.delta)")
+        self.assertEqual(update_weaving_rotate_speed_output["keys"]["rotateSpeedGateSource"]["alias_of"], "source_line.update_weaving_rotate_speed.gate")
+
+        self.assertIn("PortGame.source_bullet_type_update_weaving_rotate_speed_state", bullet_state["keys"]["velocity"]["used_by"])
+        self.assertEqual(bullet_type_state["keys"]["rotateSpeed"]["java_expr"], "rotateSpeed")
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")

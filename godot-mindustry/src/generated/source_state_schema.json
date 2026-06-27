@@ -234,7 +234,8 @@
           "used_by": [
             "PortGame.source_bullet_type_update_homing_target_velocity_state",
             "PortGame.source_bullet_type_update_homing_follow_aim_state",
-            "PortGame.source_bullet_type_update_weaving_state"
+            "PortGame.source_bullet_type_update_weaving_state",
+            "PortGame.source_bullet_type_update_weaving_rotate_speed_state"
           ],
           "rule": "BulletComp Vec2 velocity state."
         },
@@ -1268,6 +1269,17 @@
             "PortGame.source_bullet_type_update_weaving_state"
           ],
           "rule": "Canonical BulletType.weaveRandom field; default is true."
+        },
+        "rotateSpeed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "rotateSpeed",
+          "godot_symbol": "bullet_type_state.rotateSpeed",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_rotate_speed_state"
+          ],
+          "rule": "Canonical BulletType.rotateSpeed field; default is 0f."
         }
       }
     },
@@ -9202,6 +9214,77 @@
           "type": "String",
           "status": "generated",
           "alias_of": "source_line.update_weaving.vec2_rotate_rad_exact",
+          "rule": "Debug Arc source-line echo, not gameplay state."
+        }
+      }
+    },
+    "update_weaving_rotate_speed_result": {
+      "status": "active",
+      "keys": {
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Updated bullet state after rotateSpeed branch."
+        },
+        "rotateSpeedApplied": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "update_weaving_rotate_speed_result.rotateSpeedGatePassed",
+          "rule": "Runtime boolean mirrors rotateSpeed gate application."
+        },
+        "rotateSpeedGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateWeaving(Bullet b)",
+          "java_expr": "rotateSpeed != 0",
+          "godot_symbol": "update_weaving_rotate_speed_result.rotateSpeedGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_rotate_speed_state"
+          ],
+          "rule": "Exact rotateSpeed gate."
+        },
+        "rotationRadians": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateWeaving(Bullet b)",
+          "java_expr": "rotateSpeed * Time.delta",
+          "godot_symbol": "update_weaving_rotate_speed_result.rotationRadians",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_rotate_speed_state"
+          ],
+          "rule": "Source rotate angle expression before degrees-to-radians conversion."
+        },
+        "velocity": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateWeaving(Bullet b)",
+          "java_expr": "b.vel.rotate(rotateSpeed * Time.delta)",
+          "godot_symbol": "update_weaving_rotate_speed_result.velocity",
+          "used_by": [
+            "PortGame.source_bullet_type_update_weaving_rotate_speed_state"
+          ],
+          "rule": "Updated BulletComp velocity after Vec2.rotate."
+        },
+        "rotateSpeedGateSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.update_weaving_rotate_speed.gate",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "rotateSpeedSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.update_weaving_rotate_speed.rotate_call",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "vec2RotateSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.update_weaving_rotate_speed.vec2_rotate",
           "rule": "Debug Arc source-line echo, not gameplay state."
         }
       }
