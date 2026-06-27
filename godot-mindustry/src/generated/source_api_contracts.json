@@ -1616,6 +1616,57 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_puddles_deposit_state",
       "rule": "Public runtime contract for createPuddles Puddles.deposit call arguments only; puddle world mutation remains deferred."
+    },
+    "PortGame.source_bullet_type_create_incend_state": {
+      "status": "active",
+      "source_slice": "N435",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createIncend(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "create_incend_state",
+          "type": "Dictionary",
+          "schema": "create_incend_state"
+        },
+        {
+          "name": "incend_random_state",
+          "type": "Dictionary",
+          "schema": "incend_random_state"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createIncend",
+        "incendRandom",
+        "x",
+        "y",
+        "incendChance",
+        "incendSpread",
+        "incendAmount",
+        "chancePassed",
+        "chancePassedProvided",
+        "incendGatePassed",
+        "createIncendCall",
+        "chanceSource",
+        "createIncendSource"
+      ],
+      "tests": [
+        "test_bullet_type_create_incend_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_incend_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_incend_state",
+      "rule": "Public runtime contract for createIncend chance gate and Damage.createIncend call arguments only; fire-world mutation remains deferred."
     }
   },
   "policy": {

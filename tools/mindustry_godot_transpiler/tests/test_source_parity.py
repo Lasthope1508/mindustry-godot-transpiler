@@ -6002,6 +6002,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_create_incend_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_create_incend_state_source"))
+        report = source_parity.verify_bullet_type_create_incend_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "incend_amount_field": "public int incendAmount = 0;",
+            "incend_spread_field": "public float incendSpread = 8f;",
+            "incend_chance_field": "public float incendChance = 1f;",
+            "method": "public void createIncend(Bullet b, float x, float y){",
+            "gate": "if(incendChance > 0 && Mathf.chance(incendChance)){",
+            "create_incend_call": "Damage.createIncend(x, y, incendSpread, incendAmount);",
+            "create_puddles_boundary": "public void createPuddles(Bullet b, float x, float y){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_bullet_type_building_damage_state_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_bullet_type_building_damage_state_source"))
         report = source_parity.verify_bullet_type_building_damage_state_source(ROOT / "mindustry-upstream")

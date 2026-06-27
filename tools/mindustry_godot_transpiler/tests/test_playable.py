@@ -4957,6 +4957,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\"call\": \"Puddles.deposit(tile, puddleLiquid, puddleAmount)\"", source)
         self.assertIn("\"depositSource\": \"Puddles.deposit(tile, puddleLiquid, puddleAmount);\"", source)
 
+    def test_port_game_exposes_source_bullet_type_create_incend_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_create_incend_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_incend_state: Dictionary, incend_random_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var chance_passed: Variant = update_random_state.get(\"chancePassed\", null)", source)
+        self.assertIn("var incend_gate_passed: bool = incend_chance > 0.0 and chance_passed == true", source)
+        self.assertIn("\"call\": \"Damage.createIncend(x, y, incendSpread, incendAmount)\"", source)
+        self.assertIn("\"chanceSource\": \"Mathf.chance(incendChance)\"", source)
+        self.assertIn("\"createIncendSource\": \"Damage.createIncend(x, y, incendSpread, incendAmount);\"", source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

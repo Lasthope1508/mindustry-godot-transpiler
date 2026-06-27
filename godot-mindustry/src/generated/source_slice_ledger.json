@@ -968,6 +968,30 @@
         "test_port_game_exposes_source_bullet_type_create_puddles_deposit_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_puddles_deposit_state"
+    },
+    "N435": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "createIncend(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_incend_state",
+      "exact_exprs": [
+        "if(incendChance > 0 && Mathf.chance(incendChance))",
+        "Damage.createIncend(x, y, incendSpread, incendAmount)"
+      ],
+      "source_symbols": [
+        "create_incend.amount",
+        "create_incend.spread",
+        "create_incend.chance",
+        "create_incend.chance_passed",
+        "create_incend.gate",
+        "create_incend.create_incend_call"
+      ],
+      "tests": [
+        "test_bullet_type_create_incend_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_incend_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_incend_state"
     }
   },
   "version": 1

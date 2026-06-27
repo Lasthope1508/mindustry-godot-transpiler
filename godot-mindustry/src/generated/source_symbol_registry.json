@@ -3343,6 +3343,90 @@
       "java_expr": "Puddles.deposit(tile, puddleLiquid, puddleAmount)",
       "godot_symbol": "create_puddles_deposit_result.depositCalls",
       "rule": "Record Puddles.deposit call arguments from the source createPuddles loop without applying later puddle world effects."
+    },
+    "create_incend.amount": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createIncend(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_incend_state",
+      "tests": [
+        "test_bullet_type_create_incend_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_incend_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_incend_state",
+      "status": "source-backed",
+      "java_expr": "incendAmount = 0",
+      "godot_symbol": "bullet_type_state.incendAmount",
+      "rule": "Use BulletType.incendAmount default 0 as Damage.createIncend amount argument."
+    },
+    "create_incend.spread": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createIncend(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_incend_state",
+      "tests": [
+        "test_bullet_type_create_incend_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_incend_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_incend_state",
+      "status": "source-backed",
+      "java_expr": "incendSpread = 8f",
+      "godot_symbol": "bullet_type_state.incendSpread",
+      "rule": "Use BulletType.incendSpread default 8f as Damage.createIncend spread argument."
+    },
+    "create_incend.chance": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createIncend(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_incend_state",
+      "tests": [
+        "test_bullet_type_create_incend_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_incend_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_incend_state",
+      "status": "source-backed",
+      "java_expr": "incendChance = 1f",
+      "godot_symbol": "bullet_type_state.incendChance",
+      "rule": "Use BulletType.incendChance default 1f for the createIncend chance gate."
+    },
+    "create_incend.chance_passed": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createIncend(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_incend_state",
+      "tests": [
+        "test_bullet_type_create_incend_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_incend_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_incend_state",
+      "status": "explicit-input",
+      "java_expr": "Mathf.chance(incendChance)",
+      "godot_symbol": "incend_random_state.chancePassed",
+      "rule": "Explicit chance result for Mathf.chance(incendChance); runtime must not fabricate RNG output."
+    },
+    "create_incend.gate": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createIncend(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_incend_state",
+      "tests": [
+        "test_bullet_type_create_incend_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_incend_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_incend_state",
+      "status": "source-backed",
+      "java_expr": "incendChance > 0 && Mathf.chance(incendChance)",
+      "godot_symbol": "create_incend_result.incendGatePassed",
+      "rule": "Call Damage.createIncend only when source chance gate passes."
+    },
+    "create_incend.create_incend_call": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createIncend(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_incend_state",
+      "tests": [
+        "test_bullet_type_create_incend_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_incend_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_incend_state",
+      "status": "source-backed",
+      "java_expr": "Damage.createIncend(x, y, incendSpread, incendAmount)",
+      "godot_symbol": "create_incend_result.createIncendCall",
+      "rule": "Record Damage.createIncend call arguments from the source createIncend gate without applying later fire-world effects."
     }
   }
 }

@@ -10690,6 +10690,29 @@ def verify_bullet_type_create_puddles_deposit_state_source(upstream_root: Path) 
         "missing": missing,
     }
 
+def verify_bullet_type_create_incend_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "incend_amount_field": "public int incendAmount = 0;",
+        "incend_spread_field": "public float incendSpread = 8f;",
+        "incend_chance_field": "public float incendChance = 1f;",
+        "method": "public void createIncend(Bullet b, float x, float y){",
+        "gate": "if(incendChance > 0 && Mathf.chance(incendChance)){",
+        "create_incend_call": "Damage.createIncend(x, y, incendSpread, incendAmount);",
+        "create_puddles_boundary": "public void createPuddles(Bullet b, float x, float y){",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

@@ -5347,6 +5347,189 @@
           "rule": "Runtime source snippet label."
         }
       }
+    },
+    "create_incend_state": {
+      "status": "active",
+      "keys": {
+        "x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createIncend(Bullet b, float x, float y)",
+          "java_expr": "x",
+          "godot_symbol": "create_incend_state.x",
+          "used_by": [
+            "PortGame.source_bullet_type_create_incend_state"
+          ],
+          "rule": "Input x parameter passed to BulletType.createIncend."
+        },
+        "y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createIncend(Bullet b, float x, float y)",
+          "java_expr": "y",
+          "godot_symbol": "create_incend_state.y",
+          "used_by": [
+            "PortGame.source_bullet_type_create_incend_state"
+          ],
+          "rule": "Input y parameter passed to BulletType.createIncend."
+        }
+      }
+    },
+    "incend_random_state": {
+      "status": "active",
+      "keys": {
+        "chancePassed": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createIncend(Bullet b, float x, float y)",
+          "java_expr": "Mathf.chance(incendChance)",
+          "godot_symbol": "incend_random_state.chancePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_create_incend_state"
+          ],
+          "rule": "Explicit chance result; runtime must not fabricate RNG output."
+        }
+      }
+    },
+    "create_incend_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_type_state",
+          "rule": "Runtime echo of input bullet_type_state."
+        },
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime echo of input bullet_state."
+        },
+        "createIncend": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "create_incend_state",
+          "rule": "Runtime echo of createIncend input params."
+        },
+        "incendRandom": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "incend_random_state",
+          "rule": "Runtime echo of explicit incend random state."
+        },
+        "x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "create_incend_state.x",
+          "rule": "Runtime key aliases createIncend x."
+        },
+        "y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "create_incend_state.y",
+          "rule": "Runtime key aliases createIncend y."
+        },
+        "incendChance": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createIncend(Bullet b, float x, float y)",
+          "java_expr": "incendChance = 1f",
+          "godot_symbol": "create_incend_result.incendChance",
+          "used_by": [
+            "PortGame.source_bullet_type_create_incend_state"
+          ],
+          "rule": "BulletType.incendChance value used by source chance gate."
+        },
+        "incendSpread": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createIncend(Bullet b, float x, float y)",
+          "java_expr": "incendSpread = 8f",
+          "godot_symbol": "create_incend_result.incendSpread",
+          "used_by": [
+            "PortGame.source_bullet_type_create_incend_state"
+          ],
+          "rule": "Damage.createIncend spread argument."
+        },
+        "incendAmount": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createIncend(Bullet b, float x, float y)",
+          "java_expr": "incendAmount = 0",
+          "godot_symbol": "create_incend_result.incendAmount",
+          "used_by": [
+            "PortGame.source_bullet_type_create_incend_state"
+          ],
+          "rule": "Damage.createIncend amount argument."
+        },
+        "chancePassed": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "incend_random_state.chancePassed",
+          "rule": "Runtime key aliases explicit Mathf.chance result."
+        },
+        "chancePassedProvided": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "incend_random_state.chancePassed",
+          "rule": "Tracks whether explicit chance input was provided."
+        },
+        "incendGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createIncend(Bullet b, float x, float y)",
+          "java_expr": "incendChance > 0 && Mathf.chance(incendChance)",
+          "godot_symbol": "create_incend_result.incendGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_create_incend_state"
+          ],
+          "rule": "Result of source createIncend chance gate."
+        },
+        "createIncendCall": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createIncend(Bullet b, float x, float y)",
+          "java_expr": "Damage.createIncend(x, y, incendSpread, incendAmount)",
+          "godot_symbol": "create_incend_result.createIncendCall",
+          "used_by": [
+            "PortGame.source_bullet_type_create_incend_state"
+          ],
+          "rule": "Damage.createIncend call record when the source gate passes."
+        },
+        "chanceSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createIncend(Bullet b, float x, float y)",
+          "java_expr": "Mathf.chance(incendChance)",
+          "godot_symbol": "create_incend_result.chanceSource",
+          "used_by": [
+            "PortGame.source_bullet_type_create_incend_state"
+          ],
+          "rule": "Runtime source snippet label."
+        },
+        "createIncendSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createIncend(Bullet b, float x, float y)",
+          "java_expr": "Damage.createIncend(x, y, incendSpread, incendAmount);",
+          "godot_symbol": "create_incend_result.createIncendSource",
+          "used_by": [
+            "PortGame.source_bullet_type_create_incend_state"
+          ],
+          "rule": "Runtime source snippet label."
+        }
+      }
     }
   },
   "version": 1
