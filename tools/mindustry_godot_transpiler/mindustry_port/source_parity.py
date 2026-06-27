@@ -10044,6 +10044,50 @@ def verify_bullet_type_draw_trail_state_source(upstream_root: Path) -> dict[str,
         "missing": missing,
     }
 
+def verify_bullet_type_draw_parts_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    draw_part_source = "core/src/mindustry/entities/part/DrawPart.java"
+    draw_part_path = upstream_root / draw_part_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    draw_part_text = draw_part_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void drawParts(Bullet b){",
+        "parts_gate": "if(parts.size > 0){",
+        "params_set": "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation());",
+        "params_life": "DrawPart.params.life = b.fin();",
+        "parts_loop": "for(int i = 0; i < parts.size; i++){",
+        "part_draw": "parts.get(i).draw(DrawPart.params);",
+        "draw_part_params_field": "public static final PartParams params = new PartParams();",
+        "draw_part_draw_method": "public abstract void draw(PartParams params);",
+        "part_params_fields": "public float warmup, reload, smoothReload, heat, recoil, life, charge;",
+        "part_params_position_fields": "public float x, y, rotation;",
+        "part_params_set_method": "public PartParams set(float warmup, float reload, float smoothReload, float heat, float recoil, float charge, float x, float y, float rotation){",
+    }
+    source_map = {
+        "method": source,
+        "parts_gate": source,
+        "params_set": source,
+        "params_life": source,
+        "parts_loop": source,
+        "part_draw": source,
+        "draw_part_params_field": draw_part_text,
+        "draw_part_draw_method": draw_part_text,
+        "part_params_fields": draw_part_text,
+        "part_params_position_fields": draw_part_text,
+        "part_params_set_method": draw_part_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "draw_part_source": draw_part_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_draw_light_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

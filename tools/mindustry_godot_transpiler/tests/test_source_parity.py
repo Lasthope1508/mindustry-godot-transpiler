@@ -5558,6 +5558,27 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_draw_parts_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_draw_parts_state_source"))
+        report = source_parity.verify_bullet_type_draw_parts_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["draw_part_source"], "core/src/mindustry/entities/part/DrawPart.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void drawParts(Bullet b){",
+            "parts_gate": "if(parts.size > 0){",
+            "params_set": "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation());",
+            "params_life": "DrawPart.params.life = b.fin();",
+            "parts_loop": "for(int i = 0; i < parts.size; i++){",
+            "part_draw": "parts.get(i).draw(DrawPart.params);",
+            "draw_part_params_field": "public static final PartParams params = new PartParams();",
+            "draw_part_draw_method": "public abstract void draw(PartParams params);",
+            "part_params_fields": "public float warmup, reload, smoothReload, heat, recoil, life, charge;",
+            "part_params_position_fields": "public float x, y, rotation;",
+            "part_params_set_method": "public PartParams set(float warmup, float reload, float smoothReload, float heat, float recoil, float charge, float x, float y, float rotation){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_bullet_type_draw_light_state_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_bullet_type_draw_light_state_source"))
         report = source_parity.verify_bullet_type_draw_light_state_source(ROOT / "mindustry-upstream")

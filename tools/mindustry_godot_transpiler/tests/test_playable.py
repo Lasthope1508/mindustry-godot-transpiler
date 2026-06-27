@@ -4592,6 +4592,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"drawZBelowSource": "Draw.z(z - 0.0001f)"', source)
         self.assertIn('"drawZRestoreSource": "Draw.z(z)"', source)
 
+    def test_port_game_exposes_source_bullet_type_draw_parts_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_draw_parts_state(bullet_type_state: Dictionary, bullet_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var update_type_state: Dictionary = bullet_type_state.duplicate(true)", source)
+        self.assertIn("var update_bullet_state: Dictionary = bullet_state.duplicate(true)", source)
+        self.assertIn("var parts: Array = update_type_state.get(\"parts\", [])", source)
+        self.assertIn("var gate_passed := parts.size() > 0", source)
+        self.assertIn("var fin := float(update_bullet_state.get(\"fin\", 0.0))", source)
+        self.assertIn('"warmup": fin', source)
+        self.assertIn('"life": fin', source)
+        self.assertIn('"x": float(update_bullet_state.get("x", 0.0))', source)
+        self.assertIn('"rotation": float(update_bullet_state.get("rotation", 0.0))', source)
+        self.assertIn('part_draw_calls.append({"part": parts[i], "params": part_params.duplicate(true), "call": "parts.get(i).draw(DrawPart.params)"})', source)
+        self.assertIn('"paramsSetSource": "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())"', source)
+
     def test_port_game_exposes_source_bullet_type_draw_light_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

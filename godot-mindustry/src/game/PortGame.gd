@@ -6084,6 +6084,40 @@ func source_bullet_type_draw_trail_state(bullet_type_state: Dictionary, bullet_s
 		"drawZRestoreSource": "Draw.z(z)",
 	}
 
+func source_bullet_type_draw_parts_state(bullet_type_state: Dictionary, bullet_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var parts: Array = update_type_state.get("parts", [])
+	var gate_passed := parts.size() > 0
+	var fin := float(update_bullet_state.get("fin", 0.0))
+	var part_params := {
+		"warmup": fin,
+		"reload": 0.0,
+		"smoothReload": 0.0,
+		"heat": 0.0,
+		"recoil": 0.0,
+		"charge": 0.0,
+		"life": fin,
+		"x": float(update_bullet_state.get("x", 0.0)),
+		"y": float(update_bullet_state.get("y", 0.0)),
+		"rotation": float(update_bullet_state.get("rotation", 0.0)),
+	}
+	var part_draw_calls: Array = []
+	if gate_passed:
+		for i in parts.size():
+			part_draw_calls.append({"part": parts[i], "params": part_params.duplicate(true), "call": "parts.get(i).draw(DrawPart.params)"})
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"gatePassed": gate_passed,
+		"partParams": part_params,
+		"partDrawCalls": part_draw_calls,
+		"partsDrawn": part_draw_calls.size(),
+		"paramsSetSource": "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",
+		"paramsLifeSource": "DrawPart.params.life = b.fin()",
+		"partDrawSource": "parts.get(i).draw(DrawPart.params)",
+	}
+
 func source_bullet_type_draw_light_state(bullet_type_state: Dictionary, bullet_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
