@@ -5489,10 +5489,13 @@ func source_bullet_type_update_bullet_interval_state(bullet_state: Dictionary, b
 		"timerGetResult": timer_get_result,
 		"timerIndex": 2,
 		"timerTime": float(bullet_type_state.get("bulletInterval", 20.0)),
+		"baseAngle": base_angle,
+		"intervalBulletCount": interval_calls.size(),
 		"intervalBulletCalls": interval_calls,
 		"intervalRandomOffsets": interval_random_offsets.duplicate(),
 		"gateSource": "if(intervalBullet != null && b.time >= intervalDelay && b.timer.get(2, bulletInterval)){",
 		"createSource": "intervalBullet.create(b, b.x, b.y, ang + Mathf.range(intervalRandomSpread) + intervalAngle + ((i - (intervalBullets - 1f)/2f) * intervalSpread))",
+		"updateHomingBoundarySource": "public void updateHoming(Bullet b){",
 	}
 
 func source_bullet_type_update_trail_state(bullet_state: Dictionary, bullet_type_state: Dictionary, headless_value: bool, trail_interp_value: float, absin_value: float, source_delta: float) -> Dictionary:

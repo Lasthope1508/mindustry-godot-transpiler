@@ -4998,6 +4998,141 @@
         "test_bullet_type_update_dispatch_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_update_dispatch_state"
+    },
+    "update_bullet_interval.gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateBulletInterval(Bullet b)",
+      "java_expr": "if(intervalBullet != null && b.time >= intervalDelay && b.timer.get(2, bulletInterval)){",
+      "godot_symbol": "update_bullet_interval_result.gatePassed",
+      "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
+      "rule": "Exact BulletType.updateBulletInterval gate from source.",
+      "tests": [
+        "test_bullet_type_update_bullet_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_bullet_interval_state",
+        "test_bullet_type_update_bullet_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_bullet_interval_state"
+    },
+    "update_bullet_interval.timer_get": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateBulletInterval(Bullet b)",
+      "java_expr": "b.timer.get(2, bulletInterval)",
+      "godot_symbol": "interval_timer_state.timerGetResult",
+      "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
+      "rule": "Runtime receives TimerComp Interval result explicitly; do not fabricate elapsed timer state.",
+      "tests": [
+        "test_bullet_type_update_bullet_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_bullet_interval_state",
+        "test_bullet_type_update_bullet_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_bullet_interval_state"
+    },
+    "update_bullet_interval.timer_index": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateBulletInterval(Bullet b)",
+      "java_expr": "b.timer.get(2, bulletInterval)",
+      "godot_symbol": "update_bullet_interval_result.timerIndex",
+      "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
+      "rule": "Timer index 2 is the exact first argument of b.timer.get.",
+      "tests": [
+        "test_bullet_type_update_bullet_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_bullet_interval_state",
+        "test_bullet_type_update_bullet_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_bullet_interval_state"
+    },
+    "update_bullet_interval.timer_time": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateBulletInterval(Bullet b)",
+      "java_expr": "bulletInterval",
+      "godot_symbol": "update_bullet_interval_result.timerTime",
+      "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
+      "rule": "Timer interval time comes from BulletType.bulletInterval.",
+      "tests": [
+        "test_bullet_type_update_bullet_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_bullet_interval_state",
+        "test_bullet_type_update_bullet_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_bullet_interval_state"
+    },
+    "update_bullet_interval.angle": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateBulletInterval(Bullet b)",
+      "java_expr": "float ang = b.rotation();",
+      "godot_symbol": "update_bullet_interval_result.baseAngle",
+      "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
+      "rule": "Base angle is assigned from b.rotation() before interval bullet loop.",
+      "tests": [
+        "test_bullet_type_update_bullet_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_bullet_interval_state",
+        "test_bullet_type_update_bullet_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_bullet_interval_state"
+    },
+    "update_bullet_interval.loop": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateBulletInterval(Bullet b)",
+      "java_expr": "for(int i = 0; i < intervalBullets; i++){",
+      "godot_symbol": "update_bullet_interval_result.intervalBulletCount",
+      "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
+      "rule": "Loop count follows BulletType.intervalBullets.",
+      "tests": [
+        "test_bullet_type_update_bullet_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_bullet_interval_state",
+        "test_bullet_type_update_bullet_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_bullet_interval_state"
+    },
+    "update_bullet_interval.create_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateBulletInterval(Bullet b)",
+      "java_expr": "intervalBullet.create(b, b.x, b.y, ang + Mathf.range(intervalRandomSpread) + intervalAngle + ((i - (intervalBullets - 1f)/2f) * intervalSpread));",
+      "godot_symbol": "update_bullet_interval_result.intervalBulletCalls",
+      "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
+      "rule": "Records each interval bullet create call with source x/y/base angle plus explicit random offset and spread formula.",
+      "tests": [
+        "test_bullet_type_update_bullet_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_bullet_interval_state",
+        "test_bullet_type_update_bullet_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_bullet_interval_state"
+    },
+    "update_bullet_interval.random_offset": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateBulletInterval(Bullet b)",
+      "java_expr": "Mathf.range(intervalRandomSpread)",
+      "godot_symbol": "interval_random_state.offsets",
+      "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
+      "rule": "Runtime must receive each Arc random offset explicitly; do not fabricate RNG output.",
+      "tests": [
+        "test_bullet_type_update_bullet_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_bullet_interval_state",
+        "test_bullet_type_update_bullet_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_bullet_interval_state"
+    },
+    "update_bullet_interval.update_homing_boundary": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateBulletInterval(Bullet b)",
+      "java_expr": "public void updateHoming(Bullet b){",
+      "godot_symbol": "update_bullet_interval_result.updateHomingBoundarySource",
+      "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
+      "rule": "Next BulletType behavior boundary after updateBulletInterval.",
+      "tests": [
+        "test_bullet_type_update_bullet_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_bullet_interval_state",
+        "test_bullet_type_update_bullet_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_bullet_interval_state"
     }
   }
 }

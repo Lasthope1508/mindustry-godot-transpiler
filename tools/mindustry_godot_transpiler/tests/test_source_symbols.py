@@ -1206,14 +1206,60 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(interval_boundary["status"], "deferred")
         self.assertEqual(interval_boundary["java_expr"], "public void updateBulletInterval(Bullet b){")
 
+    def test_bullet_type_update_bullet_interval_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        gate = source_symbols.source_symbol(registry, "update_bullet_interval.gate")
+        self.assertEqual(gate["java_expr"], "if(intervalBullet != null && b.time >= intervalDelay && b.timer.get(2, bulletInterval)){")
+        self.assertEqual(gate["godot_symbol"], "update_bullet_interval_result.gatePassed")
+        self.assertEqual(gate["godot_owner"], "PortGame.source_bullet_type_update_bullet_interval_state")
+        self.assertEqual(gate["runtime_proof"], "/root/Main.source_bullet_type_update_bullet_interval_state")
+
+        timer_get = source_symbols.source_symbol(registry, "update_bullet_interval.timer_get")
+        self.assertEqual(timer_get["status"], "explicit-input")
+        self.assertEqual(timer_get["java_expr"], "b.timer.get(2, bulletInterval)")
+        self.assertEqual(timer_get["godot_symbol"], "interval_timer_state.timerGetResult")
+
+        timer_index = source_symbols.source_symbol(registry, "update_bullet_interval.timer_index")
+        self.assertEqual(timer_index["java_expr"], "b.timer.get(2, bulletInterval)")
+        self.assertEqual(timer_index["godot_symbol"], "update_bullet_interval_result.timerIndex")
+
+        timer_time = source_symbols.source_symbol(registry, "update_bullet_interval.timer_time")
+        self.assertEqual(timer_time["java_expr"], "bulletInterval")
+        self.assertEqual(timer_time["godot_symbol"], "update_bullet_interval_result.timerTime")
+
+        angle = source_symbols.source_symbol(registry, "update_bullet_interval.angle")
+        self.assertEqual(angle["java_expr"], "float ang = b.rotation();")
+        self.assertEqual(angle["godot_symbol"], "update_bullet_interval_result.baseAngle")
+
+        loop = source_symbols.source_symbol(registry, "update_bullet_interval.loop")
+        self.assertEqual(loop["java_expr"], "for(int i = 0; i < intervalBullets; i++){")
+        self.assertEqual(loop["godot_symbol"], "update_bullet_interval_result.intervalBulletCount")
+
+        create_call = source_symbols.source_symbol(registry, "update_bullet_interval.create_call")
+        self.assertEqual(create_call["java_expr"], "intervalBullet.create(b, b.x, b.y, ang + Mathf.range(intervalRandomSpread) + intervalAngle + ((i - (intervalBullets - 1f)/2f) * intervalSpread));")
+        self.assertEqual(create_call["godot_symbol"], "update_bullet_interval_result.intervalBulletCalls")
+
+        random_offset = source_symbols.source_symbol(registry, "update_bullet_interval.random_offset")
+        self.assertEqual(random_offset["status"], "explicit-input")
+        self.assertEqual(random_offset["java_expr"], "Mathf.range(intervalRandomSpread)")
+        self.assertEqual(random_offset["godot_symbol"], "interval_random_state.offsets")
+
+        homing_boundary = source_symbols.source_symbol(registry, "update_bullet_interval.update_homing_boundary")
+        self.assertEqual(homing_boundary["status"], "deferred")
+        self.assertEqual(homing_boundary["java_expr"], "public void updateHoming(Bullet b){")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 52)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 53)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 57)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 58)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1260,6 +1306,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_init_initial_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_init_spawn_bullets_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_update_dispatch_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_update_bullet_interval_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -1611,6 +1658,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             "updateBulletInterval(b);",
         ])
         self.assertIn("public void updateBulletInterval(Bullet b){", update_dispatch["deferred_exprs"])
+
+        update_interval = source_symbols.source_slice(ledger, "N455")
+        self.assertEqual(update_interval["java_method"], "updateBulletInterval(Bullet b)")
+        self.assertEqual(update_interval["godot_owner"], "PortGame.source_bullet_type_update_bullet_interval_state")
+        self.assertIn("if(intervalBullet != null && b.time >= intervalDelay && b.timer.get(2, bulletInterval)){", update_interval["exact_exprs"])
+        self.assertIn("float ang = b.rotation();", update_interval["exact_exprs"])
+        self.assertIn("for(int i = 0; i < intervalBullets; i++){", update_interval["exact_exprs"])
+        self.assertIn("intervalBullet.create(b, b.x, b.y, ang + Mathf.range(intervalRandomSpread) + intervalAngle + ((i - (intervalBullets - 1f)/2f) * intervalSpread));", update_interval["exact_exprs"])
+        self.assertIn("b.timer.get(2, bulletInterval)", update_interval["exact_exprs"])
+        self.assertIn("public void updateHoming(Bullet b){", update_interval["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -2033,6 +2090,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("nextMethodReservedSource", update_dispatch["return_keys"])
         self.assertEqual(update_dispatch["source_method"], "update(Bullet b)")
 
+        update_interval = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_update_bullet_interval_state")
+        self.assertEqual([param["name"] for param in update_interval["params"]], ["bullet_state", "bullet_type_state", "timer_get_result", "interval_random_offsets"])
+        self.assertIn("gatePassed", update_interval["return_keys"])
+        self.assertIn("timerIndex", update_interval["return_keys"])
+        self.assertIn("timerTime", update_interval["return_keys"])
+        self.assertIn("intervalBulletCalls", update_interval["return_keys"])
+        self.assertIn("intervalRandomOffsets", update_interval["return_keys"])
+        self.assertIn("updateHomingBoundarySource", update_interval["return_keys"])
+        self.assertEqual(update_interval["source_method"], "updateBulletInterval(Bullet b)")
+
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_state_schema(schema)
@@ -2408,6 +2475,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(update_dispatch_output["keys"]["updateMethodSource"]["java_expr"], "public void update(Bullet b){")
         self.assertEqual(update_dispatch_output["keys"]["nextMethodReservedSource"]["java_expr"], "public void updateBulletInterval(Bullet b){")
         self.assertEqual(update_dispatch_output["keys"]["nextMethodReservedSource"]["status"], "deferred")
+
+        interval_timer_state = source_symbols.state_schema(schema, "interval_timer_state")
+        self.assertEqual(interval_timer_state["keys"]["timerGetResult"]["java_expr"], "b.timer.get(2, bulletInterval)")
+        self.assertEqual(interval_timer_state["keys"]["timerGetResult"]["status"], "explicit-input")
+
+        interval_random_state = source_symbols.state_schema(schema, "interval_random_state")
+        self.assertEqual(interval_random_state["keys"]["offsets"]["java_expr"], "Mathf.range(intervalRandomSpread)")
+        self.assertEqual(interval_random_state["keys"]["offsets"]["status"], "explicit-input")
+
+        update_interval_output = source_symbols.state_schema(schema, "update_bullet_interval_result")
+        self.assertEqual(update_interval_output["keys"]["gatePassed"]["java_expr"], "intervalBullet != null && b.time >= intervalDelay && b.timer.get(2, bulletInterval)")
+        self.assertEqual(update_interval_output["keys"]["timerIndex"]["java_expr"], "b.timer.get(2, bulletInterval)")
+        self.assertEqual(update_interval_output["keys"]["timerTime"]["java_expr"], "bulletInterval")
+        self.assertEqual(update_interval_output["keys"]["baseAngle"]["java_expr"], "float ang = b.rotation()")
+        self.assertEqual(update_interval_output["keys"]["intervalBulletCount"]["java_expr"], "for(int i = 0; i < intervalBullets; i++)")
+        self.assertEqual(update_interval_output["keys"]["intervalBulletCalls"]["java_expr"], "intervalBullet.create(b, b.x, b.y, ang + Mathf.range(intervalRandomSpread) + intervalAngle + ((i - (intervalBullets - 1f)/2f) * intervalSpread))")
+        self.assertEqual(update_interval_output["keys"]["updateHomingBoundarySource"]["status"], "deferred")
+
+        bullet_state = source_symbols.state_schema(schema, "bullet_state")
+        self.assertIn("PortGame.source_bullet_type_update_bullet_interval_state", bullet_state["keys"]["time"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_update_bullet_interval_state", bullet_state["keys"]["rotation"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_update_bullet_interval_state", bullet_state["keys"]["x"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_update_bullet_interval_state", bullet_state["keys"]["y"]["used_by"])
+
+        bullet_type_state = source_symbols.state_schema(schema, "bullet_type_state")
+        self.assertEqual(bullet_type_state["keys"]["intervalBullet"]["java_expr"], "intervalBullet")
+        self.assertEqual(bullet_type_state["keys"]["intervalDelay"]["java_expr"], "intervalDelay")
+        self.assertEqual(bullet_type_state["keys"]["bulletInterval"]["java_expr"], "bulletInterval")
+        self.assertEqual(bullet_type_state["keys"]["intervalBullets"]["java_expr"], "intervalBullets")
+        self.assertEqual(bullet_type_state["keys"]["intervalRandomSpread"]["java_expr"], "intervalRandomSpread")
+        self.assertEqual(bullet_type_state["keys"]["intervalAngle"]["java_expr"], "intervalAngle")
+        self.assertEqual(bullet_type_state["keys"]["intervalSpread"]["java_expr"], "intervalSpread")
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")

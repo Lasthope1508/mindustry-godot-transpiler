@@ -32,7 +32,8 @@
             "PortGame.source_bullet_type_create_frags_random_geometry_state",
             "PortGame.source_bullet_type_create_units_rotation_state",
             "PortGame.source_bullet_type_init_spawn_bullets_state",
-            "PortGame.source_bullet_type_update_dispatch_state"
+            "PortGame.source_bullet_type_update_dispatch_state",
+            "PortGame.source_bullet_type_update_bullet_interval_state"
           ],
           "rule": "Explicit input until RotComp/BulletComp rotation state is ported."
         },
@@ -112,7 +113,8 @@
             "PortGame.source_bullet_type_hit_entity_unit_effects_state",
             "PortGame.source_bullet_type_hit_default_state",
             "PortGame.source_bullet_type_init_spawn_bullets_state",
-            "PortGame.source_bullet_type_update_dispatch_state"
+            "PortGame.source_bullet_type_update_dispatch_state",
+            "PortGame.source_bullet_type_update_bullet_interval_state"
           ],
           "rule": "Use source bullet x field."
         },
@@ -128,7 +130,8 @@
             "PortGame.source_bullet_type_hit_entity_unit_effects_state",
             "PortGame.source_bullet_type_hit_default_state",
             "PortGame.source_bullet_type_init_spawn_bullets_state",
-            "PortGame.source_bullet_type_update_dispatch_state"
+            "PortGame.source_bullet_type_update_dispatch_state",
+            "PortGame.source_bullet_type_update_bullet_interval_state"
           ],
           "rule": "Use source bullet y field."
         },
@@ -180,7 +183,8 @@
           "godot_symbol": "bullet_state.time",
           "used_by": [
             "PortGame.source_bullet_type_init_initial_state",
-            "PortGame.source_bullet_type_update_dispatch_state"
+            "PortGame.source_bullet_type_update_dispatch_state",
+            "PortGame.source_bullet_type_update_bullet_interval_state"
           ],
           "rule": "Canonical Bullet time field; BulletType.init instantDisappear assigns lifetime + 1f."
         }
@@ -999,6 +1003,90 @@
             "PortGame.source_bullet_type_init_spawn_bullets_state"
           ],
           "rule": "Canonical BulletType.spawnBulletRandomSpread field used by Mathf.range in init spawn loop."
+        },
+        "intervalBullet": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateBulletInterval(Bullet b)",
+          "java_expr": "intervalBullet",
+          "godot_symbol": "bullet_type_state.intervalBullet",
+          "used_by": [
+            "PortGame.source_bullet_type_update_bullet_interval_state"
+          ],
+          "rule": "Canonical BulletType.intervalBullet field for updateBulletInterval gate and create call."
+        },
+        "intervalDelay": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateBulletInterval(Bullet b)",
+          "java_expr": "intervalDelay",
+          "godot_symbol": "bullet_type_state.intervalDelay",
+          "used_by": [
+            "PortGame.source_bullet_type_update_bullet_interval_state"
+          ],
+          "rule": "Canonical BulletType.intervalDelay field for updateBulletInterval time gate; default is -1f."
+        },
+        "bulletInterval": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateBulletInterval(Bullet b)",
+          "java_expr": "bulletInterval",
+          "godot_symbol": "bullet_type_state.bulletInterval",
+          "used_by": [
+            "PortGame.source_bullet_type_update_bullet_interval_state"
+          ],
+          "rule": "Canonical BulletType.bulletInterval field for b.timer.get interval; default is 20f."
+        },
+        "intervalBullets": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateBulletInterval(Bullet b)",
+          "java_expr": "intervalBullets",
+          "godot_symbol": "bullet_type_state.intervalBullets",
+          "used_by": [
+            "PortGame.source_bullet_type_update_bullet_interval_state"
+          ],
+          "rule": "Canonical BulletType.intervalBullets field for interval bullet loop count; default is 1."
+        },
+        "intervalRandomSpread": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateBulletInterval(Bullet b)",
+          "java_expr": "intervalRandomSpread",
+          "godot_symbol": "bullet_type_state.intervalRandomSpread",
+          "used_by": [
+            "PortGame.source_bullet_type_update_bullet_interval_state"
+          ],
+          "rule": "Canonical BulletType.intervalRandomSpread field for Mathf.range interval bullet angle; default is 360f."
+        },
+        "intervalAngle": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateBulletInterval(Bullet b)",
+          "java_expr": "intervalAngle",
+          "godot_symbol": "bullet_type_state.intervalAngle",
+          "used_by": [
+            "PortGame.source_bullet_type_update_bullet_interval_state"
+          ],
+          "rule": "Canonical BulletType.intervalAngle field for interval bullet angle offset; default is 0f."
+        },
+        "intervalSpread": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateBulletInterval(Bullet b)",
+          "java_expr": "intervalSpread",
+          "godot_symbol": "bullet_type_state.intervalSpread",
+          "used_by": [
+            "PortGame.source_bullet_type_update_bullet_interval_state"
+          ],
+          "rule": "Canonical BulletType.intervalSpread field for per-index spread formula; default is 0f."
         }
       }
     },
@@ -7966,6 +8054,159 @@
             "PortGame.source_bullet_type_update_dispatch_state"
           ],
           "rule": "Next method boundary after update dispatch; body handled by separate slice."
+        }
+      }
+    },
+    "interval_timer_state": {
+      "status": "active",
+      "keys": {
+        "timerGetResult": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateBulletInterval(Bullet b)",
+          "java_expr": "b.timer.get(2, bulletInterval)",
+          "godot_symbol": "interval_timer_state.timerGetResult",
+          "used_by": [
+            "PortGame.source_bullet_type_update_bullet_interval_state"
+          ],
+          "rule": "Explicit TimerComp Interval result for b.timer.get(2, bulletInterval)."
+        }
+      }
+    },
+    "interval_random_state": {
+      "status": "active",
+      "keys": {
+        "offsets": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateBulletInterval(Bullet b)",
+          "java_expr": "Mathf.range(intervalRandomSpread)",
+          "godot_symbol": "interval_random_state.offsets",
+          "used_by": [
+            "PortGame.source_bullet_type_update_bullet_interval_state"
+          ],
+          "rule": "Explicit per-interval random angle offsets; runtime must not fabricate Arc RNG output."
+        }
+      }
+    },
+    "update_bullet_interval_result": {
+      "status": "active",
+      "keys": {
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime echo of input bullet_state."
+        },
+        "gatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateBulletInterval(Bullet b)",
+          "java_expr": "intervalBullet != null && b.time >= intervalDelay && b.timer.get(2, bulletInterval)",
+          "godot_symbol": "update_bullet_interval_result.gatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_update_bullet_interval_state"
+          ],
+          "rule": "Exact updateBulletInterval interval bullet gate result."
+        },
+        "timerGetResult": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "interval_timer_state.timerGetResult",
+          "rule": "Runtime echo of explicit timer input."
+        },
+        "timerIndex": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateBulletInterval(Bullet b)",
+          "java_expr": "b.timer.get(2, bulletInterval)",
+          "godot_symbol": "update_bullet_interval_result.timerIndex",
+          "used_by": [
+            "PortGame.source_bullet_type_update_bullet_interval_state"
+          ],
+          "rule": "Timer index 2 is the exact first argument in b.timer.get."
+        },
+        "timerTime": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateBulletInterval(Bullet b)",
+          "java_expr": "bulletInterval",
+          "godot_symbol": "update_bullet_interval_result.timerTime",
+          "used_by": [
+            "PortGame.source_bullet_type_update_bullet_interval_state"
+          ],
+          "rule": "Timer interval time comes from BulletType.bulletInterval."
+        },
+        "baseAngle": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateBulletInterval(Bullet b)",
+          "java_expr": "float ang = b.rotation()",
+          "godot_symbol": "update_bullet_interval_result.baseAngle",
+          "used_by": [
+            "PortGame.source_bullet_type_update_bullet_interval_state"
+          ],
+          "rule": "Base interval angle assigned from b.rotation()."
+        },
+        "intervalBulletCount": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateBulletInterval(Bullet b)",
+          "java_expr": "for(int i = 0; i < intervalBullets; i++)",
+          "godot_symbol": "update_bullet_interval_result.intervalBulletCount",
+          "used_by": [
+            "PortGame.source_bullet_type_update_bullet_interval_state"
+          ],
+          "rule": "Loop count derived from BulletType.intervalBullets when gate passes."
+        },
+        "intervalBulletCalls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateBulletInterval(Bullet b)",
+          "java_expr": "intervalBullet.create(b, b.x, b.y, ang + Mathf.range(intervalRandomSpread) + intervalAngle + ((i - (intervalBullets - 1f)/2f) * intervalSpread))",
+          "godot_symbol": "update_bullet_interval_result.intervalBulletCalls",
+          "used_by": [
+            "PortGame.source_bullet_type_update_bullet_interval_state"
+          ],
+          "rule": "Recorded intervalBullet.create calls with source position and angle formula."
+        },
+        "intervalRandomOffsets": {
+          "type": "Array",
+          "status": "generated",
+          "alias_of": "interval_random_state.offsets",
+          "rule": "Runtime echo of explicit random offsets input."
+        },
+        "gateSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.update_bullet_interval.gate",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "createSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.update_bullet_interval.create_call",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "updateHomingBoundarySource": {
+          "type": "String",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateBulletInterval(Bullet b)",
+          "java_expr": "public void updateHoming(Bullet b){",
+          "godot_symbol": "update_bullet_interval_result.updateHomingBoundarySource",
+          "used_by": [
+            "PortGame.source_bullet_type_update_bullet_interval_state"
+          ],
+          "rule": "Next BulletType method boundary after updateBulletInterval."
         }
       }
     }

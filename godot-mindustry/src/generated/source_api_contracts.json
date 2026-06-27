@@ -2442,6 +2442,55 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_update_dispatch_state",
       "rule": "Public runtime contract for BulletType.update dispatch order; callee bodies remain separate source-backed slices."
+    },
+    "PortGame.source_bullet_type_update_bullet_interval_state": {
+      "status": "active",
+      "source_slice": "N455",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "updateBulletInterval(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "timer_get_result",
+          "type": "bool",
+          "schema": "interval_timer_state"
+        },
+        {
+          "name": "interval_random_offsets",
+          "type": "Array",
+          "schema": "interval_random_state"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "gatePassed",
+        "timerGetResult",
+        "timerIndex",
+        "timerTime",
+        "baseAngle",
+        "intervalBulletCount",
+        "intervalBulletCalls",
+        "intervalRandomOffsets",
+        "gateSource",
+        "createSource",
+        "updateHomingBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_update_bullet_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_bullet_interval_state",
+        "test_bullet_type_update_bullet_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_bullet_interval_state",
+      "rule": "Public runtime contract for BulletType.updateBulletInterval gate, timer input, loop geometry, create calls, and next method boundary."
     }
   },
   "policy": {
