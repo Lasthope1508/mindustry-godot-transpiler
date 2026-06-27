@@ -2963,6 +2963,35 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_init_type_defaults_state",
       "rule": "Public runtime contract for BulletType.init pierce, default status, and despawnHit assignments."
+    },
+    "PortGame.source_bullet_type_init_frag_velocity_state": {
+      "status": "active",
+      "source_slice": "N466",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "init()",
+      "params": [
+        {
+          "name": "type_defaults_state",
+          "type": "Dictionary",
+          "schema": "init_type_defaults_result"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "fragBulletVelocityApplied",
+        "fragGatePassed",
+        "fragBullet",
+        "fragGateSource",
+        "fragKeepVelocitySource",
+        "fragScaleKeepVelocitySource"
+      ],
+      "tests": [
+        "test_bullet_type_init_frag_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_frag_velocity_state",
+        "test_bullet_type_init_frag_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_frag_velocity_state",
+      "rule": "Public runtime contract for BulletType.init fragBullet keepVelocity and scaleKeepVelocity assignments."
     }
   },
   "policy": {

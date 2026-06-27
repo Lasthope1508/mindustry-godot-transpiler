@@ -6483,6 +6483,81 @@
         "test_bullet_type_init_type_defaults_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_init_type_defaults_state"
+    },
+    "init_frag_velocity.frag_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init()",
+      "java_expr": "if(fragBullet != null){",
+      "godot_symbol": "init_frag_velocity_result.fragGatePassed",
+      "godot_owner": "PortGame.source_bullet_type_init_frag_velocity_state",
+      "rule": "Exact init fragBullet null gate before nested velocity assignments.",
+      "tests": [
+        "test_bullet_type_init_frag_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_frag_velocity_state",
+        "test_bullet_type_init_frag_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_frag_velocity_state"
+    },
+    "init_frag_velocity.frag_keep_velocity_assign": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init()",
+      "java_expr": "fragBullet.keepVelocity = false;",
+      "godot_symbol": "init_frag_velocity_result.fragBullet.keepVelocity",
+      "godot_owner": "PortGame.source_bullet_type_init_frag_velocity_state",
+      "rule": "Exact init assignment disabling fragBullet keepVelocity.",
+      "tests": [
+        "test_bullet_type_init_frag_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_frag_velocity_state",
+        "test_bullet_type_init_frag_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_frag_velocity_state"
+    },
+    "init_frag_velocity.frag_scale_keep_velocity_assign": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init()",
+      "java_expr": "fragBullet.scaleKeepVelocity = false;",
+      "godot_symbol": "init_frag_velocity_result.fragBullet.scaleKeepVelocity",
+      "godot_owner": "PortGame.source_bullet_type_init_frag_velocity_state",
+      "rule": "Exact init assignment disabling fragBullet scaleKeepVelocity.",
+      "tests": [
+        "test_bullet_type_init_frag_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_frag_velocity_state",
+        "test_bullet_type_init_frag_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_frag_velocity_state"
+    },
+    "init_frag_velocity.keep_velocity_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "field",
+      "java_expr": "public boolean keepVelocity = true;",
+      "godot_symbol": "bullet_type_state.keepVelocity",
+      "godot_owner": "PortGame.source_bullet_type_init_frag_velocity_state",
+      "rule": "BulletType keepVelocity field backing for nested fragBullet assignment.",
+      "tests": [
+        "test_bullet_type_init_frag_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_frag_velocity_state",
+        "test_bullet_type_init_frag_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_frag_velocity_state"
+    },
+    "init_frag_velocity.scale_keep_velocity_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "field",
+      "java_expr": "public boolean scaleKeepVelocity = false;",
+      "godot_symbol": "bullet_type_state.scaleKeepVelocity",
+      "godot_owner": "PortGame.source_bullet_type_init_frag_velocity_state",
+      "rule": "BulletType scaleKeepVelocity field backing for nested fragBullet assignment.",
+      "tests": [
+        "test_bullet_type_init_frag_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_frag_velocity_state",
+        "test_bullet_type_init_frag_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_frag_velocity_state"
     }
   }
 }

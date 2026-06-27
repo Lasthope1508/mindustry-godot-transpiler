@@ -1617,14 +1617,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(status_effects_none["java_source"], "core/src/mindustry/content/StatusEffects.java")
         self.assertEqual(status_effects_none["java_expr"], "none = new StatusEffect(\"none\");")
 
+    def test_bullet_type_init_frag_velocity_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        frag_gate = source_symbols.source_symbol(registry, "init_frag_velocity.frag_gate")
+        self.assertEqual(frag_gate["java_expr"], "if(fragBullet != null){")
+        self.assertEqual(frag_gate["godot_symbol"], "init_frag_velocity_result.fragGatePassed")
+        self.assertEqual(frag_gate["godot_owner"], "PortGame.source_bullet_type_init_frag_velocity_state")
+        self.assertEqual(frag_gate["runtime_proof"], "/root/Main.source_bullet_type_init_frag_velocity_state")
+
+        keep_velocity = source_symbols.source_symbol(registry, "init_frag_velocity.frag_keep_velocity_assign")
+        self.assertEqual(keep_velocity["java_expr"], "fragBullet.keepVelocity = false;")
+        self.assertEqual(keep_velocity["godot_symbol"], "init_frag_velocity_result.fragBullet.keepVelocity")
+
+        scale_keep_velocity = source_symbols.source_symbol(registry, "init_frag_velocity.frag_scale_keep_velocity_assign")
+        self.assertEqual(scale_keep_velocity["java_expr"], "fragBullet.scaleKeepVelocity = false;")
+        self.assertEqual(scale_keep_velocity["godot_symbol"], "init_frag_velocity_result.fragBullet.scaleKeepVelocity")
+
+        keep_velocity_field = source_symbols.source_symbol(registry, "init_frag_velocity.keep_velocity_field")
+        self.assertEqual(keep_velocity_field["java_expr"], "public boolean keepVelocity = true;")
+        self.assertEqual(keep_velocity_field["godot_symbol"], "bullet_type_state.keepVelocity")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 63)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 64)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 68)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 69)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1682,6 +1706,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_update_trail_effects_chance_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_update_trail_effects_interval_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_init_type_defaults_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_init_frag_velocity_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -2132,6 +2157,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(fragBullet != null || splashDamageRadius > 0 || lightning > 0){", init_type_defaults["exact_exprs"])
         self.assertIn("despawnHit = true;", init_type_defaults["exact_exprs"])
         self.assertIn("if(fragBullet != null){", init_type_defaults["deferred_exprs"])
+
+        init_frag_velocity = source_symbols.source_slice(ledger, "N466")
+        self.assertEqual(init_frag_velocity["java_method"], "init()")
+        self.assertEqual(init_frag_velocity["godot_owner"], "PortGame.source_bullet_type_init_frag_velocity_state")
+        self.assertIn("if(fragBullet != null){", init_frag_velocity["exact_exprs"])
+        self.assertIn("fragBullet.keepVelocity = false;", init_frag_velocity["exact_exprs"])
+        self.assertIn("fragBullet.scaleKeepVelocity = false;", init_frag_velocity["exact_exprs"])
+        self.assertIn("if(lightningType == null){", init_frag_velocity["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -2694,6 +2727,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("statusShockedApplied", init_type_defaults["return_keys"])
         self.assertIn("despawnHitApplied", init_type_defaults["return_keys"])
         self.assertEqual(init_type_defaults["source_method"], "init()")
+
+        init_frag_velocity = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_init_frag_velocity_state")
+        self.assertEqual([param["name"] for param in init_frag_velocity["params"]], ["type_defaults_state"])
+        self.assertEqual(init_frag_velocity["params"][0]["schema"], "init_type_defaults_result")
+        self.assertIn("bulletType", init_frag_velocity["return_keys"])
+        self.assertIn("fragBulletVelocityApplied", init_frag_velocity["return_keys"])
+        self.assertIn("fragGatePassed", init_frag_velocity["return_keys"])
+        self.assertIn("fragBullet", init_frag_velocity["return_keys"])
+        self.assertEqual(init_frag_velocity["source_method"], "init()")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -3297,6 +3339,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_init_type_defaults_state", bullet_type_state["keys"]["fragBullet"]["used_by"])
         self.assertIn("PortGame.source_bullet_type_init_type_defaults_state", bullet_type_state["keys"]["splashDamageRadius"]["used_by"])
         self.assertIn("PortGame.source_bullet_type_init_type_defaults_state", bullet_type_state["keys"]["despawnHit"]["used_by"])
+
+        init_frag_velocity_output = source_symbols.state_schema(schema, "init_frag_velocity_result")
+        self.assertEqual(init_frag_velocity_output["keys"]["fragGatePassed"]["java_expr"], "fragBullet != null")
+        self.assertEqual(init_frag_velocity_output["keys"]["fragBulletVelocityApplied"]["alias_of"], "init_frag_velocity_result.fragBullet")
+        self.assertEqual(init_frag_velocity_output["keys"]["fragBullet"]["java_expr"], "fragBullet.keepVelocity = false; fragBullet.scaleKeepVelocity = false;")
+        self.assertEqual(init_frag_velocity_output["keys"]["fragGateSource"]["alias_of"], "source_line.init_frag_velocity.frag_gate")
+        self.assertEqual(init_frag_velocity_output["keys"]["fragScaleKeepVelocitySource"]["alias_of"], "source_line.init_frag_velocity.frag_scale_keep_velocity_assign")
+
+        self.assertEqual(bullet_type_state["keys"]["keepVelocity"]["java_expr"], "keepVelocity")
+        self.assertEqual(bullet_type_state["keys"]["scaleKeepVelocity"]["java_expr"], "scaleKeepVelocity")
+        self.assertIn("PortGame.source_bullet_type_init_frag_velocity_state", bullet_type_state["keys"]["fragBullet"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_init_frag_velocity_state", bullet_type_state["keys"]["keepVelocity"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_init_frag_velocity_state", bullet_type_state["keys"]["scaleKeepVelocity"]["used_by"])
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")

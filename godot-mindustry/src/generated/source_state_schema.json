@@ -622,7 +622,8 @@
             "PortGame.source_bullet_type_create_frags_initial_state",
             "PortGame.source_bullet_type_create_frags_create_call_state",
             "PortGame.source_bullet_type_removed_frag_dispatch_state",
-            "PortGame.source_bullet_type_init_type_defaults_state"
+            "PortGame.source_bullet_type_init_type_defaults_state",
+            "PortGame.source_bullet_type_init_frag_velocity_state"
           ],
           "rule": "Canonical BulletType.fragBullet field for hit frag dispatch null/nested gate."
         },
@@ -1499,6 +1500,30 @@
             "PortGame.source_bullet_type_init_type_defaults_state"
           ],
           "rule": "Canonical BulletType.despawnHit field set by init defaults."
+        },
+        "keepVelocity": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init()",
+          "java_expr": "keepVelocity",
+          "godot_symbol": "bullet_type_state.keepVelocity",
+          "used_by": [
+            "PortGame.source_bullet_type_init_frag_velocity_state"
+          ],
+          "rule": "Canonical BulletType.keepVelocity field; default is true."
+        },
+        "scaleKeepVelocity": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init()",
+          "java_expr": "scaleKeepVelocity",
+          "godot_symbol": "bullet_type_state.scaleKeepVelocity",
+          "used_by": [
+            "PortGame.source_bullet_type_init_frag_velocity_state"
+          ],
+          "rule": "Canonical BulletType.scaleKeepVelocity field; default is false."
         }
       }
     },
@@ -10104,6 +10129,70 @@
           "godot_symbol": "init_type_defaults_result.despawnHitAssignSource",
           "alias_of": "source_line.init_type_defaults.despawn_hit_assign",
           "rule": "Runtime source label for despawnHit assignment."
+        }
+      }
+    },
+    "init_frag_velocity_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "godot_symbol": "init_frag_velocity_result.bulletType",
+          "alias_of": "bullet_type_state",
+          "rule": "Updated BulletType state after frag velocity init."
+        },
+        "fragBulletVelocityApplied": {
+          "type": "bool",
+          "status": "generated",
+          "godot_symbol": "init_frag_velocity_result.fragBulletVelocityApplied",
+          "alias_of": "init_frag_velocity_result.fragBullet",
+          "rule": "Runtime boolean records whether fragBullet velocity fields were assigned."
+        },
+        "fragGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init()",
+          "java_expr": "fragBullet != null",
+          "godot_symbol": "init_frag_velocity_result.fragGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_init_frag_velocity_state"
+          ],
+          "rule": "Exact fragBullet null gate."
+        },
+        "fragBullet": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init()",
+          "java_expr": "fragBullet.keepVelocity = false; fragBullet.scaleKeepVelocity = false;",
+          "godot_symbol": "init_frag_velocity_result.fragBullet",
+          "used_by": [
+            "PortGame.source_bullet_type_init_frag_velocity_state"
+          ],
+          "rule": "Nested fragBullet state after both init velocity assignments."
+        },
+        "fragGateSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "init_frag_velocity_result.fragGateSource",
+          "alias_of": "source_line.init_frag_velocity.frag_gate",
+          "rule": "Runtime source label for fragBullet gate."
+        },
+        "fragKeepVelocitySource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "init_frag_velocity_result.fragKeepVelocitySource",
+          "alias_of": "source_line.init_frag_velocity.frag_keep_velocity_assign",
+          "rule": "Runtime source label for fragBullet.keepVelocity assignment."
+        },
+        "fragScaleKeepVelocitySource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "init_frag_velocity_result.fragScaleKeepVelocitySource",
+          "alias_of": "source_line.init_frag_velocity.frag_scale_keep_velocity_assign",
+          "rule": "Runtime source label for fragBullet.scaleKeepVelocity assignment."
         }
       }
     }
