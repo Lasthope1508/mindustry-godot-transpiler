@@ -6138,6 +6138,23 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_despawned_sound_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_despawned_sound_state_source"))
+        report = source_parity.verify_bullet_type_despawned_sound_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "despawn_sound_field": "public Sound despawnSound = Sounds.none;",
+            "hit_sound_pitch_range_field": "public float hitSoundPitch = 1, hitSoundPitchRange = 0.1f;",
+            "method": "public void despawned(Bullet b){",
+            "despawn_effect_call": "despawnEffect.at(b.x, b.y, b.rotation(), hitColor);",
+            "despawn_sound_call": "despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange));",
+            "shake_boundary": "Effect.shake(despawnShake, despawnShake, b);",
+            "mathf_range": "public static float range(float range){\n        return random(-range, range);\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_bullet_type_building_damage_state_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_bullet_type_building_damage_state_source"))
         report = source_parity.verify_bullet_type_building_damage_state_source(ROOT / "mindustry-upstream")

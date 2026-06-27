@@ -6861,6 +6861,36 @@ func source_bullet_type_despawned_effect_state(bullet_type_state: Dictionary, bu
 		"shakeBoundarySource": "Effect.shake(despawnShake, despawnShake, b);",
 	}
 
+func source_bullet_type_despawned_sound_state(bullet_type_state: Dictionary, bullet_state: Dictionary, despawned_effect_state: Dictionary, despawn_sound_random_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_despawned_effect_state: Dictionary = despawned_effect_state.duplicate(true)
+	var update_despawn_sound_random_state: Dictionary = despawn_sound_random_state.duplicate(true)
+	var despawn_sound: Variant = update_type_state.get("despawnSound", "Sounds.none")
+	var hit_sound_pitch_range := float(update_type_state.get("hitSoundPitchRange", 0.1))
+	var range_sample: Variant = update_despawn_sound_random_state.get("rangeSample", null)
+	var sound_pitch: Variant = null
+	if range_sample != null:
+		sound_pitch = 1.0 + float(range_sample)
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"despawnedEffect": update_despawned_effect_state,
+		"despawnSoundRandom": update_despawn_sound_random_state,
+		"despawnSoundCall": {
+			"call": "despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange))",
+			"sound": despawn_sound,
+			"bullet": update_bullet_state,
+			"pitchBase": 1.0,
+			"pitchRange": hit_sound_pitch_range,
+			"rangeSample": range_sample,
+			"pitch": sound_pitch,
+		},
+		"despawnSoundCallSource": "despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange));",
+		"mathfRangeSource": "public static float range(float range){ return random(-range, range); }",
+		"shakeBoundarySource": "Effect.shake(despawnShake, despawnShake, b);",
+	}
+
 func source_bullet_type_hit_suppression_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_post_frag_dispatch_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

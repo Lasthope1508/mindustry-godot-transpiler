@@ -1984,6 +1984,51 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_despawned_effect_state",
       "rule": "Public runtime contract for BulletType.despawned despawnEffect call record."
+    },
+    "PortGame.source_bullet_type_despawned_sound_state": {
+      "status": "active",
+      "source_slice": "N443",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "despawned(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "despawned_effect_state",
+          "type": "Dictionary",
+          "schema": "despawned_effect_result"
+        },
+        {
+          "name": "despawn_sound_random_state",
+          "type": "Dictionary",
+          "schema": "despawn_sound_random_state"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "despawnedEffect",
+        "despawnSoundRandom",
+        "despawnSoundCall",
+        "despawnSoundCallSource",
+        "mathfRangeSource",
+        "shakeBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_despawned_sound_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_sound_state",
+        "test_bullet_type_despawned_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_sound_state",
+      "rule": "Public runtime contract for BulletType.despawned despawnSound call record."
     }
   },
   "policy": {

@@ -4083,6 +4083,81 @@
         "test_bullet_type_despawned_effect_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_despawned_effect_state"
+    },
+    "despawned.sound.despawn_sound": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "despawned(Bullet b)",
+      "java_expr": "despawnSound",
+      "godot_symbol": "bullet_type_state.despawnSound",
+      "godot_owner": "PortGame.source_bullet_type_despawned_sound_state",
+      "rule": "Use BulletType.despawnSound for despawned sound emission.",
+      "tests": [
+        "test_bullet_type_despawned_sound_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_sound_state",
+        "test_bullet_type_despawned_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_sound_state"
+    },
+    "despawned.sound.hit_sound_pitch_range": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "despawned(Bullet b)",
+      "java_expr": "hitSoundPitchRange",
+      "godot_symbol": "bullet_type_state.hitSoundPitchRange",
+      "godot_owner": "PortGame.source_bullet_type_despawned_sound_state",
+      "rule": "Use BulletType.hitSoundPitchRange as the despawnSound Mathf.range input.",
+      "tests": [
+        "test_bullet_type_despawned_sound_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_sound_state",
+        "test_bullet_type_despawned_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_sound_state"
+    },
+    "despawned.sound.range_sample": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "despawned(Bullet b)",
+      "java_expr": "Mathf.range(hitSoundPitchRange)",
+      "godot_symbol": "despawn_sound_random_state.rangeSample",
+      "godot_owner": "PortGame.source_bullet_type_despawned_sound_state",
+      "rule": "Explicit random range sample for despawnSound pitch; runtime must not invent RNG output.",
+      "tests": [
+        "test_bullet_type_despawned_sound_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_sound_state",
+        "test_bullet_type_despawned_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_sound_state"
+    },
+    "despawned.sound.sound_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "despawned(Bullet b)",
+      "java_expr": "despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange))",
+      "godot_symbol": "despawned_sound_result.despawnSoundCall",
+      "godot_owner": "PortGame.source_bullet_type_despawned_sound_state",
+      "rule": "Record despawnSound.at call after despawnEffect without mutating audio world.",
+      "tests": [
+        "test_bullet_type_despawned_sound_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_sound_state",
+        "test_bullet_type_despawned_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_sound_state"
+    },
+    "despawned.sound.shake_boundary": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "despawned(Bullet b)",
+      "java_expr": "Effect.shake(despawnShake, despawnShake, b);",
+      "godot_symbol": "despawned_sound_result.shakeBoundarySource",
+      "godot_owner": "PortGame.source_bullet_type_despawned_sound_state",
+      "rule": "Boundary marker; despawn shake side effect remains a later source slice.",
+      "tests": [
+        "test_bullet_type_despawned_sound_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_sound_state",
+        "test_bullet_type_despawned_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_sound_state"
     }
   }
 }

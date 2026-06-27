@@ -10915,6 +10915,42 @@ def verify_bullet_type_despawned_effect_state_source(upstream_root: Path) -> dic
         "missing": missing,
     }
 
+def verify_bullet_type_despawned_sound_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    mathf_source = "arc-core/src/arc/math/Mathf.java"
+    mathf_path = upstream_root.parent / "arc-upstream" / mathf_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    mathf_text = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "despawn_sound_field": "public Sound despawnSound = Sounds.none;",
+        "hit_sound_pitch_range_field": "public float hitSoundPitch = 1, hitSoundPitchRange = 0.1f;",
+        "method": "public void despawned(Bullet b){",
+        "despawn_effect_call": "despawnEffect.at(b.x, b.y, b.rotation(), hitColor);",
+        "despawn_sound_call": "despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange));",
+        "shake_boundary": "Effect.shake(despawnShake, despawnShake, b);",
+        "mathf_range": "public static float range(float range){\n        return random(-range, range);\n    }",
+    }
+    source_map = {
+        "despawn_sound_field": source,
+        "hit_sound_pitch_range_field": source,
+        "method": source,
+        "despawn_effect_call": source,
+        "despawn_sound_call": source,
+        "shake_boundary": source,
+        "mathf_range": mathf_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "mathf_source": mathf_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

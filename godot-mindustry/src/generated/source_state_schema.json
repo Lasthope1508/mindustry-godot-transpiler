@@ -380,6 +380,18 @@
           ],
           "rule": "Canonical BulletType.hitSound field for hitSound.at."
         },
+        "despawnSound": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "despawned(Bullet b)",
+          "java_expr": "despawnSound",
+          "godot_symbol": "bullet_type_state.despawnSound",
+          "used_by": [
+            "PortGame.source_bullet_type_despawned_sound_state"
+          ],
+          "rule": "Canonical BulletType.despawnSound field for despawnSound.at."
+        },
         "hitSoundPitch": {
           "type": "float",
           "status": "source-backed",
@@ -400,7 +412,8 @@
           "java_expr": "hitSoundPitchRange",
           "godot_symbol": "bullet_type_state.hitSoundPitchRange",
           "used_by": [
-            "PortGame.source_bullet_type_hit_effects_state"
+            "PortGame.source_bullet_type_hit_effects_state",
+            "PortGame.source_bullet_type_despawned_sound_state"
           ],
           "rule": "Canonical BulletType.hitSoundPitchRange field for hitSound.at pitch range."
         },
@@ -6430,6 +6443,100 @@
           "godot_symbol": "despawned_effect_result.shakeBoundarySource",
           "used_by": [
             "PortGame.source_bullet_type_despawned_effect_state"
+          ],
+          "rule": "Boundary marker; despawn shake side effect remains a later source slice."
+        }
+      }
+    },
+    "despawn_sound_random_state": {
+      "status": "active",
+      "keys": {
+        "rangeSample": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "despawned(Bullet b)",
+          "java_expr": "Mathf.range(hitSoundPitchRange)",
+          "godot_symbol": "despawn_sound_random_state.rangeSample",
+          "used_by": [
+            "PortGame.source_bullet_type_despawned_sound_state"
+          ],
+          "rule": "Explicit despawnSound pitch random sample. Null means sample not provided; runtime must not fabricate it."
+        }
+      }
+    },
+    "despawned_sound_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_type_state",
+          "rule": "Runtime echo of input bullet_type_state."
+        },
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime echo of input bullet_state."
+        },
+        "despawnedEffect": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "despawned_effect_result",
+          "rule": "Runtime echo of despawned effect slice result."
+        },
+        "despawnSoundRandom": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "despawn_sound_random_state",
+          "rule": "Runtime echo of explicit despawn sound random state."
+        },
+        "despawnSoundCall": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "despawned(Bullet b)",
+          "java_expr": "despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange))",
+          "godot_symbol": "despawned_sound_result.despawnSoundCall",
+          "used_by": [
+            "PortGame.source_bullet_type_despawned_sound_state"
+          ],
+          "rule": "Runtime call record for despawnSound.at after despawnEffect."
+        },
+        "despawnSoundCallSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "despawned(Bullet b)",
+          "java_expr": "despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange));",
+          "godot_symbol": "despawned_sound_result.despawnSoundCallSource",
+          "used_by": [
+            "PortGame.source_bullet_type_despawned_sound_state"
+          ],
+          "rule": "Runtime source snippet label."
+        },
+        "mathfRangeSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "range(float range)",
+          "java_expr": "return random(-range, range)",
+          "godot_symbol": "despawned_sound_result.mathfRangeSource",
+          "used_by": [
+            "PortGame.source_bullet_type_despawned_sound_state"
+          ],
+          "rule": "Runtime source snippet label for Arc Mathf.range."
+        },
+        "shakeBoundarySource": {
+          "type": "String",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "despawned(Bullet b)",
+          "java_expr": "Effect.shake(despawnShake, despawnShake, b);",
+          "godot_symbol": "despawned_sound_result.shakeBoundarySource",
+          "used_by": [
+            "PortGame.source_bullet_type_despawned_sound_state"
           ],
           "rule": "Boundary marker; despawn shake side effect remains a later source slice."
         }
