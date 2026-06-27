@@ -5021,6 +5021,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\"assignment\": \"u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation()\"", source)
         self.assertIn("\"notifyBoundarySource\": \"Units.notifyUnitSpawn(u);\"", source)
 
+    def test_port_game_exposes_source_bullet_type_create_units_notify_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_create_units_notify_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_units_rotation_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var rotation_assignments: Array = update_rotation_state.get(\"rotationAssignments\", [])", source)
+        self.assertIn("var notify_calls: Array = []", source)
+        self.assertIn("\"call\": \"Units.notifyUnitSpawn(u)\"", source)
+        self.assertIn("\"notifySource\": \"Units.notifyUnitSpawn(u);\"", source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -1115,6 +1115,27 @@
         "test_bullet_type_create_units_rotation_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_units_rotation_state"
+    },
+    "N440": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_notify_state",
+      "exact_exprs": [
+        "Units.notifyUnitSpawn(u)"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "create_units.notify.rotation_assignments",
+        "create_units.notify.notify_calls"
+      ],
+      "tests": [
+        "test_bullet_type_create_units_notify_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_notify_state",
+        "test_bullet_type_create_units_notify_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_notify_state"
     }
   },
   "version": 1

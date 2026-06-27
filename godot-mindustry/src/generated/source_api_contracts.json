@@ -1868,6 +1868,44 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_units_rotation_state",
       "rule": "Public runtime contract for createUnits unit rotation assignment only; Units.notifyUnitSpawn remains deferred."
+    },
+    "PortGame.source_bullet_type_create_units_notify_state": {
+      "status": "active",
+      "source_slice": "N440",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createUnits(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "create_units_rotation_state",
+          "type": "Dictionary",
+          "schema": "create_units_rotation_result"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createUnitsRotation",
+        "rotationAssignments",
+        "notifyCalls",
+        "notifySource"
+      ],
+      "tests": [
+        "test_bullet_type_create_units_notify_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_notify_state",
+        "test_bullet_type_create_units_notify_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_notify_state",
+      "rule": "Public runtime contract for createUnits Units.notifyUnitSpawn call records."
     }
   },
   "policy": {

@@ -811,14 +811,30 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(notify["status"], "deferred")
         self.assertEqual(notify["java_expr"], "Units.notifyUnitSpawn(u);")
 
+    def test_bullet_type_create_units_notify_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        notify_calls = source_symbols.source_symbol(registry, "create_units.notify.notify_calls")
+        self.assertEqual(notify_calls["java_expr"], "Units.notifyUnitSpawn(u)")
+        self.assertEqual(notify_calls["godot_symbol"], "create_units_notify_result.notifyCalls")
+        self.assertEqual(notify_calls["godot_owner"], "PortGame.source_bullet_type_create_units_notify_state")
+        self.assertEqual(notify_calls["runtime_proof"], "/root/Main.source_bullet_type_create_units_notify_state")
+
+        rotation_assignments = source_symbols.source_symbol(registry, "create_units.notify.rotation_assignments")
+        self.assertEqual(rotation_assignments["java_expr"], "u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation()")
+        self.assertEqual(rotation_assignments["godot_symbol"], "create_units_rotation_result.rotationAssignments")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 37)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 38)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 42)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 43)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -861,6 +877,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_create_units_random_offset_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_units_spawn_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_units_rotation_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_create_units_notify_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -1092,6 +1109,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(create_units_rotation["godot_owner"], "PortGame.source_bullet_type_create_units_rotation_state")
         self.assertIn("u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation()", create_units_rotation["exact_exprs"])
         self.assertIn("Units.notifyUnitSpawn(u);", create_units_rotation["deferred_exprs"])
+
+        create_units_notify = source_symbols.source_slice(ledger, "N440")
+        self.assertEqual(create_units_notify["java_method"], "createUnits(Bullet b, float x, float y)")
+        self.assertEqual(create_units_notify["godot_owner"], "PortGame.source_bullet_type_create_units_notify_state")
+        self.assertIn("Units.notifyUnitSpawn(u)", create_units_notify["exact_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -1394,6 +1416,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("rotationAssignments", create_units_rotation["return_keys"])
         self.assertIn("notifyBoundarySource", create_units_rotation["return_keys"])
         self.assertEqual(create_units_rotation["source_method"], "createUnits(Bullet b, float x, float y)")
+
+        create_units_notify = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_create_units_notify_state")
+        self.assertEqual([param["name"] for param in create_units_notify["params"]], ["bullet_type_state", "bullet_state", "create_units_rotation_state"])
+        self.assertEqual(create_units_notify["params"][2]["schema"], "create_units_rotation_result")
+        self.assertIn("notifyCalls", create_units_notify["return_keys"])
+        self.assertIn("notifySource", create_units_notify["return_keys"])
+        self.assertEqual(create_units_notify["source_method"], "createUnits(Bullet b, float x, float y)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -1703,6 +1732,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(create_units_rotation_output["keys"]["rotationAssignments"]["java_expr"], "u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation()")
         self.assertEqual(create_units_rotation_output["keys"]["rotationAssignments"]["status"], "source-backed")
         self.assertEqual(create_units_rotation_output["keys"]["createUnitsSpawn"]["alias_of"], "create_units_spawn_result")
+
+        create_units_notify_output = source_symbols.state_schema(schema, "create_units_notify_result")
+        self.assertEqual(create_units_notify_output["keys"]["notifyCalls"]["java_expr"], "Units.notifyUnitSpawn(u)")
+        self.assertEqual(create_units_notify_output["keys"]["notifyCalls"]["status"], "source-backed")
+        self.assertEqual(create_units_notify_output["keys"]["createUnitsRotation"]["alias_of"], "create_units_rotation_result")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

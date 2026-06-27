@@ -6776,6 +6776,27 @@ func source_bullet_type_create_units_rotation_state(bullet_type_state: Dictionar
 		"notifyBoundarySource": "Units.notifyUnitSpawn(u);",
 	}
 
+func source_bullet_type_create_units_notify_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_units_rotation_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_rotation_state: Dictionary = create_units_rotation_state.duplicate(true)
+	var rotation_assignments: Array = update_rotation_state.get("rotationAssignments", [])
+	var notify_calls: Array = []
+	for rotation_assignment in rotation_assignments:
+		notify_calls.append({
+			"index": int(rotation_assignment.get("index", notify_calls.size())),
+			"unitRotation": rotation_assignment.get("unitRotation", null),
+			"call": "Units.notifyUnitSpawn(u)",
+		})
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createUnitsRotation": update_rotation_state,
+		"rotationAssignments": rotation_assignments,
+		"notifyCalls": notify_calls,
+		"notifySource": "Units.notifyUnitSpawn(u);",
+	}
+
 func source_bullet_type_hit_suppression_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_post_frag_dispatch_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
