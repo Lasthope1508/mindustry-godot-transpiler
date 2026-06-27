@@ -4728,6 +4728,81 @@
       "java_expr": "public void init(Bullet b){",
       "godot_symbol": "draw_light_result.initBoundarySource",
       "rule": "Boundary marker; following init method remains a later source slice."
+    },
+    "init_initial.kill_shooter_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init(Bullet b)",
+      "java_expr": "if(killShooter && b.owner() instanceof Healthc h && !h.dead()){",
+      "godot_symbol": "init_initial_result.killShooterApplied",
+      "godot_owner": "PortGame.source_bullet_type_init_initial_state",
+      "rule": "Exact BulletType.init killShooter gate; owner Healthc identity and dead state remain explicit input facts.",
+      "tests": [
+        "test_bullet_type_init_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_initial_state",
+        "test_bullet_type_init_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_initial_state"
+    },
+    "init_initial.kill_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init(Bullet b)",
+      "java_expr": "h.kill();",
+      "godot_symbol": "init_initial_result.owner",
+      "godot_owner": "PortGame.source_bullet_type_init_initial_state",
+      "rule": "Records Healthc.kill() side effects applied when killShooter gate passes.",
+      "tests": [
+        "test_bullet_type_init_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_initial_state",
+        "test_bullet_type_init_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_initial_state"
+    },
+    "init_initial.health_kill_side_effects": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+      "java_method": "kill()",
+      "java_expr": "health = Math.min(health, 0); dead = true; killed(); remove();",
+      "godot_symbol": "init_initial_result.owner",
+      "godot_owner": "PortGame.source_bullet_type_init_initial_state",
+      "rule": "Exact HealthComp.kill() side effects represented on returned owner state.",
+      "tests": [
+        "test_bullet_type_init_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_initial_state",
+        "test_bullet_type_init_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_initial_state"
+    },
+    "init_initial.instant_disappear_assignment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init(Bullet b)",
+      "java_expr": "b.time = lifetime + 1f;",
+      "godot_symbol": "init_initial_result.bullet.time",
+      "godot_owner": "PortGame.source_bullet_type_init_initial_state",
+      "rule": "Exact instantDisappear assignment to bullet time from BulletType lifetime.",
+      "tests": [
+        "test_bullet_type_init_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_initial_state",
+        "test_bullet_type_init_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_initial_state"
+    },
+    "init_initial.spawn_bullets_boundary": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init(Bullet b)",
+      "java_expr": "if(spawnBullets.size > 0){",
+      "godot_symbol": "init_initial_result.spawnBulletsDeferred",
+      "godot_owner": "PortGame.source_bullet_type_init_initial_state",
+      "rule": "Spawn-bullets body is handled by the later source-backed init spawn bullets slice.",
+      "tests": [
+        "test_bullet_type_init_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_initial_state",
+        "test_bullet_type_init_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_initial_state"
     }
   }
 }

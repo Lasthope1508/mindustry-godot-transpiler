@@ -1121,14 +1121,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(init_boundary["status"], "deferred")
         self.assertEqual(init_boundary["java_expr"], "public void init(Bullet b){")
 
+    def test_bullet_type_init_initial_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        kill_shooter_gate = source_symbols.source_symbol(registry, "init_initial.kill_shooter_gate")
+        self.assertEqual(kill_shooter_gate["java_expr"], "if(killShooter && b.owner() instanceof Healthc h && !h.dead()){")
+        self.assertEqual(kill_shooter_gate["godot_symbol"], "init_initial_result.killShooterApplied")
+        self.assertEqual(kill_shooter_gate["godot_owner"], "PortGame.source_bullet_type_init_initial_state")
+        self.assertEqual(kill_shooter_gate["runtime_proof"], "/root/Main.source_bullet_type_init_initial_state")
+
+        kill_call = source_symbols.source_symbol(registry, "init_initial.kill_call")
+        self.assertEqual(kill_call["java_expr"], "h.kill();")
+        self.assertEqual(kill_call["godot_symbol"], "init_initial_result.owner")
+
+        instant_disappear = source_symbols.source_symbol(registry, "init_initial.instant_disappear_assignment")
+        self.assertEqual(instant_disappear["java_expr"], "b.time = lifetime + 1f;")
+        self.assertEqual(instant_disappear["godot_symbol"], "init_initial_result.bullet.time")
+
+        spawn_boundary = source_symbols.source_symbol(registry, "init_initial.spawn_bullets_boundary")
+        self.assertEqual(spawn_boundary["status"], "deferred")
+        self.assertEqual(spawn_boundary["java_expr"], "if(spawnBullets.size > 0){")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 49)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 50)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 54)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 55)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1172,6 +1196,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_create_units_spawn_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_units_rotation_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_units_notify_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_init_initial_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -1495,6 +1520,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(lightOpacity <= 0f || lightRadius <= 0f) return;", draw_light["exact_exprs"])
         self.assertIn("Drawf.light(b, lightRadius, lightColor, lightOpacity);", draw_light["exact_exprs"])
         self.assertIn("public void init(Bullet b){", draw_light["deferred_exprs"])
+
+        init_initial = source_symbols.source_slice(ledger, "N452")
+        self.assertEqual(init_initial["java_method"], "init(Bullet b)")
+        self.assertEqual(init_initial["godot_owner"], "PortGame.source_bullet_type_init_initial_state")
+        self.assertIn("if(killShooter && b.owner() instanceof Healthc h && !h.dead()){", init_initial["exact_exprs"])
+        self.assertIn("h.kill();", init_initial["exact_exprs"])
+        self.assertIn("b.time = lifetime + 1f;", init_initial["exact_exprs"])
+        self.assertIn("if(spawnBullets.size > 0){", init_initial["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -1895,6 +1928,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("initBoundarySource", draw_light["return_keys"])
         self.assertEqual(draw_light["source_method"], "drawLight(Bullet b)")
 
+        init_initial = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_init_initial_state")
+        self.assertEqual([param["name"] for param in init_initial["params"]], ["bullet_state", "bullet_type_state", "owner_health_state"])
+        self.assertIn("killShooterApplied", init_initial["return_keys"])
+        self.assertIn("instantDisappearApplied", init_initial["return_keys"])
+        self.assertIn("spawnBulletsDeferred", init_initial["return_keys"])
+        self.assertEqual(init_initial["source_method"], "init(Bullet b)")
+
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_state_schema(schema)
@@ -2240,6 +2280,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(bullet_type_state["keys"]["lightOpacity"]["java_expr"], "lightOpacity")
         self.assertEqual(bullet_type_state["keys"]["lightRadius"]["java_expr"], "lightRadius")
         self.assertEqual(bullet_type_state["keys"]["lightColor"]["java_expr"], "lightColor")
+        self.assertEqual(bullet_type_state["keys"]["killShooter"]["java_expr"], "killShooter")
+        self.assertEqual(bullet_type_state["keys"]["instantDisappear"]["java_expr"], "instantDisappear")
+        self.assertEqual(bullet_type_state["keys"]["lifetime"]["java_expr"], "lifetime")
+
+        owner_health_state = source_symbols.state_schema(schema, "owner_health_state")
+        self.assertEqual(owner_health_state["keys"]["isHealthc"]["java_expr"], "b.owner instanceof Healthc o")
+        self.assertIn("PortGame.source_bullet_type_init_initial_state", owner_health_state["keys"]["isHealthc"]["used_by"])
+        self.assertEqual(owner_health_state["keys"]["dead"]["java_expr"], "h.dead()")
+
+        init_initial_output = source_symbols.state_schema(schema, "init_initial_result")
+        self.assertEqual(init_initial_output["keys"]["killShooterApplied"]["java_expr"], "killShooter && b.owner() instanceof Healthc h && !h.dead()")
+        self.assertEqual(init_initial_output["keys"]["instantDisappearApplied"]["java_expr"], "instantDisappear")
+        self.assertEqual(init_initial_output["keys"]["spawnBulletsDeferred"]["status"], "deferred")
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")

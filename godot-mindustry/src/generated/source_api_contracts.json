@@ -2329,6 +2329,51 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_draw_light_state",
       "rule": "Public runtime contract for BulletType.drawLight light draw record."
+    },
+    "PortGame.source_bullet_type_init_initial_state": {
+      "status": "active",
+      "source_slice": "N452",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "init(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "owner_health_state",
+          "type": "Dictionary",
+          "schema": "owner_health_state"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "owner",
+        "killShooter",
+        "ownerIsHealthc",
+        "ownerDeadBefore",
+        "killShooterApplied",
+        "instantDisappear",
+        "instantDisappearApplied",
+        "spawnBulletsDeferred",
+        "killShooterSource",
+        "healthKillSource",
+        "instantDisappearSource",
+        "spawnBulletsReservedSource"
+      ],
+      "tests": [
+        "test_bullet_type_init_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_initial_state",
+        "test_bullet_type_init_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_initial_state",
+      "rule": "Public runtime contract for BulletType.init killShooter and instantDisappear state; spawnBullets body remains a separate source-backed slice."
     }
   },
   "policy": {

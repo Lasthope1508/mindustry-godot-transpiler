@@ -164,6 +164,18 @@
             "PortGame.source_bullet_type_removed_trail_fade_state"
           ],
           "rule": "Explicit Bullet.trail snapshot; nested size pins b.trail.size() for removed trail fade."
+        },
+        "time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "java_method": "init(Bullet b)",
+          "java_expr": "b.time",
+          "godot_symbol": "bullet_state.time",
+          "used_by": [
+            "PortGame.source_bullet_type_init_initial_state"
+          ],
+          "rule": "Canonical Bullet time field; BulletType.init instantDisappear assigns lifetime + 1f."
         }
       }
     },
@@ -920,6 +932,42 @@
             "PortGame.source_bullet_type_draw_light_state"
           ],
           "rule": "Canonical BulletType.lightColor field for drawLight Drawf.light call."
+        },
+        "killShooter": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init(Bullet b)",
+          "java_expr": "killShooter",
+          "godot_symbol": "bullet_type_state.killShooter",
+          "used_by": [
+            "PortGame.source_bullet_type_init_initial_state"
+          ],
+          "rule": "Canonical BulletType.killShooter field for init owner kill gate."
+        },
+        "instantDisappear": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init(Bullet b)",
+          "java_expr": "instantDisappear",
+          "godot_symbol": "bullet_type_state.instantDisappear",
+          "used_by": [
+            "PortGame.source_bullet_type_init_initial_state"
+          ],
+          "rule": "Canonical BulletType.instantDisappear field for init time assignment gate."
+        },
+        "lifetime": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init(Bullet b)",
+          "java_expr": "lifetime",
+          "godot_symbol": "bullet_type_state.lifetime",
+          "used_by": [
+            "PortGame.source_bullet_type_init_initial_state"
+          ],
+          "rule": "Canonical BulletType.lifetime field; default is 40f in BulletType.java."
         }
       }
     },
@@ -1247,9 +1295,58 @@
           "godot_symbol": "owner_health_state.isHealthc",
           "used_by": [
             "PortGame.source_bullet_type_hit_entity_lifesteal_state",
-            "PortGame.source_bullet_type_hit_tile_lifesteal_state"
+            "PortGame.source_bullet_type_hit_tile_lifesteal_state",
+            "PortGame.source_bullet_type_init_initial_state"
           ],
           "rule": "Explicit input until owner component identity and Healthc cast are fully ported."
+        },
+        "dead": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init(Bullet b)",
+          "java_expr": "h.dead()",
+          "godot_symbol": "owner_health_state.dead",
+          "used_by": [
+            "PortGame.source_bullet_type_init_initial_state"
+          ],
+          "rule": "Explicit owner Healthc.dead() input for the init killShooter gate."
+        },
+        "health": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+          "java_method": "kill()",
+          "java_expr": "health = Math.min(health, 0)",
+          "godot_symbol": "owner_health_state.health",
+          "used_by": [
+            "PortGame.source_bullet_type_init_initial_state"
+          ],
+          "rule": "Mutable owner health after HealthComp.kill() side effect."
+        },
+        "killedCalled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+          "java_method": "kill()",
+          "java_expr": "killed()",
+          "godot_symbol": "owner_health_state.killedCalled",
+          "used_by": [
+            "PortGame.source_bullet_type_init_initial_state"
+          ],
+          "rule": "Runtime record of HealthComp.kill() invoking killed()."
+        },
+        "removed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+          "java_method": "kill()",
+          "java_expr": "remove()",
+          "godot_symbol": "owner_health_state.removed",
+          "used_by": [
+            "PortGame.source_bullet_type_init_initial_state"
+          ],
+          "rule": "Runtime record of HealthComp.kill() invoking remove()."
         }
       }
     },
@@ -7584,6 +7681,107 @@
             "PortGame.source_bullet_type_draw_light_state"
           ],
           "rule": "Boundary marker; following init method remains a later source slice."
+        }
+      }
+    },
+    "init_initial_result": {
+      "status": "active",
+      "keys": {
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime echo of mutated bullet_state after BulletType.init initial slice."
+        },
+        "owner": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "owner_health_state",
+          "rule": "Runtime echo of mutated owner_health_state after killShooter gate."
+        },
+        "killShooter": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "bullet_type_state.killShooter",
+          "rule": "Runtime key aliases BulletType.killShooter."
+        },
+        "ownerIsHealthc": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "owner_health_state.isHealthc",
+          "rule": "Runtime key aliases owner Healthc cast input."
+        },
+        "ownerDeadBefore": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "owner_health_state.dead",
+          "rule": "Runtime key records owner dead state before killShooter side effect."
+        },
+        "killShooterApplied": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init(Bullet b)",
+          "java_expr": "killShooter && b.owner() instanceof Healthc h && !h.dead()",
+          "godot_symbol": "init_initial_result.killShooterApplied",
+          "used_by": [
+            "PortGame.source_bullet_type_init_initial_state"
+          ],
+          "rule": "Exact init killShooter gate result."
+        },
+        "instantDisappear": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "bullet_type_state.instantDisappear",
+          "rule": "Runtime key aliases BulletType.instantDisappear."
+        },
+        "instantDisappearApplied": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init(Bullet b)",
+          "java_expr": "instantDisappear",
+          "godot_symbol": "init_initial_result.instantDisappearApplied",
+          "used_by": [
+            "PortGame.source_bullet_type_init_initial_state"
+          ],
+          "rule": "Exact instantDisappear branch gate result."
+        },
+        "spawnBulletsDeferred": {
+          "type": "bool",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init(Bullet b)",
+          "java_expr": "if(spawnBullets.size > 0){",
+          "godot_symbol": "init_initial_result.spawnBulletsDeferred",
+          "used_by": [
+            "PortGame.source_bullet_type_init_initial_state"
+          ],
+          "rule": "Spawn bullets body is handled in N370/N452 follow-on SSOT."
+        },
+        "killShooterSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.init.kill_shooter_gate",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "healthKillSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.health.kill_side_effects",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "instantDisappearSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.init.instant_disappear_assignment",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "spawnBulletsReservedSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.init.spawn_bullets_boundary",
+          "rule": "Debug source-line echo, not gameplay state."
         }
       }
     }

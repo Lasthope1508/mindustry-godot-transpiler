@@ -1436,6 +1436,37 @@
         "test_bullet_type_draw_light_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_draw_light_state"
+    },
+    "N452": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "init(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_init_initial_state",
+      "exact_exprs": [
+        "public void init(Bullet b){",
+        "if(killShooter && b.owner() instanceof Healthc h && !h.dead()){",
+        "h.kill();",
+        "if(instantDisappear){",
+        "b.time = lifetime + 1f;"
+      ],
+      "deferred_exprs": [
+        "if(spawnBullets.size > 0){"
+      ],
+      "source_symbols": [
+        "init_initial.kill_shooter_gate",
+        "init_initial.kill_call",
+        "init_initial.health_kill_side_effects",
+        "init_initial.instant_disappear_assignment",
+        "init_initial.spawn_bullets_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_init_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_initial_state",
+        "test_bullet_type_init_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_initial_state",
+      "rule": "Backfills SSOT for existing BulletType.init killShooter and instantDisappear runtime state from N369; spawn bullets remains delegated to N370."
     }
   },
   "version": 1
