@@ -453,7 +453,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 39,
+  "registeredSourceOwnerCount": 40,
   "registeredSourceOwners": [
     "PortGame.source_bullet_type_create_frags_create_call_state",
     "PortGame.source_bullet_type_create_frags_increment_state",
@@ -474,6 +474,7 @@
     "PortGame.source_bullet_type_create_units_spawn_state",
     "PortGame.source_bullet_type_damage_multiplier_state",
     "PortGame.source_bullet_type_despawned_dispatch_state",
+    "PortGame.source_bullet_type_despawned_effect_state",
     "PortGame.source_bullet_type_draw_parts_state",
     "PortGame.source_bullet_type_handle_pierce_state",
     "PortGame.source_bullet_type_hit_default_state",
@@ -2352,6 +2353,11 @@
       "owner": "PortGame.source_bullet_type_despawned_dispatch_state"
     },
     {
+      "function": "source_bullet_type_despawned_effect_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "owner": "PortGame.source_bullet_type_despawned_effect_state"
+    },
+    {
       "function": "source_bullet_type_hit_suppression_state",
       "gdscript_path": "src/game/PortGame.gd",
       "owner": "PortGame.source_bullet_type_hit_suppression_state"
@@ -2912,6 +2918,6 @@
       "owner": "PortGame.source_bullet_scale"
     }
   ],
-  "totalSourceFunctions": 483,
+  "totalSourceFunctions": 484,
   "version": 1
 }

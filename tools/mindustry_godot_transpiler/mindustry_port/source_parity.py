@@ -10892,6 +10892,29 @@ def verify_bullet_type_despawned_dispatch_state_source(upstream_root: Path) -> d
         "missing": missing,
     }
 
+def verify_bullet_type_despawned_effect_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "despawn_effect_field": "public Effect despawnEffect = Fx.hitBulletSmall;",
+        "hit_color_field": "public Color hitColor = Color.white;",
+        "method": "public void despawned(Bullet b){",
+        "dispatch_gate": "if(despawnHit){",
+        "despawn_effect_call": "despawnEffect.at(b.x, b.y, b.rotation(), hitColor);",
+        "despawn_sound_boundary": "despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange));",
+        "shake_boundary": "Effect.shake(despawnShake, despawnShake, b);",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

@@ -867,14 +867,42 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(shake_boundary["status"], "deferred")
         self.assertEqual(shake_boundary["java_expr"], "Effect.shake(despawnShake, despawnShake, b);")
 
+    def test_bullet_type_despawned_effect_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        despawn_effect = source_symbols.source_symbol(registry, "despawned.effect.despawn_effect")
+        self.assertEqual(despawn_effect["java_expr"], "despawnEffect")
+        self.assertEqual(despawn_effect["godot_symbol"], "bullet_type_state.despawnEffect")
+        self.assertEqual(despawn_effect["godot_owner"], "PortGame.source_bullet_type_despawned_effect_state")
+        self.assertEqual(despawn_effect["runtime_proof"], "/root/Main.source_bullet_type_despawned_effect_state")
+
+        hit_color = source_symbols.source_symbol(registry, "despawned.effect.hit_color")
+        self.assertEqual(hit_color["java_expr"], "hitColor")
+        self.assertEqual(hit_color["godot_symbol"], "bullet_type_state.hitColor")
+
+        effect_call = source_symbols.source_symbol(registry, "despawned.effect.effect_call")
+        self.assertEqual(effect_call["java_expr"], "despawnEffect.at(b.x, b.y, b.rotation(), hitColor)")
+        self.assertEqual(effect_call["godot_symbol"], "despawned_effect_result.despawnEffectCall")
+
+        sound_boundary = source_symbols.source_symbol(registry, "despawned.effect.sound_boundary")
+        self.assertEqual(sound_boundary["status"], "deferred")
+        self.assertEqual(sound_boundary["java_expr"], "despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange));")
+
+        shake_boundary = source_symbols.source_symbol(registry, "despawned.effect.shake_boundary")
+        self.assertEqual(shake_boundary["status"], "deferred")
+        self.assertEqual(shake_boundary["java_expr"], "Effect.shake(despawnShake, despawnShake, b);")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 39)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 40)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 44)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 45)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -919,6 +947,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_create_units_rotation_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_units_notify_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -1165,6 +1194,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("despawnEffect.at(b.x, b.y, b.rotation(), hitColor);", despawned_dispatch["deferred_exprs"])
         self.assertIn("despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange));", despawned_dispatch["deferred_exprs"])
         self.assertIn("Effect.shake(despawnShake, despawnShake, b);", despawned_dispatch["deferred_exprs"])
+
+        despawned_effect = source_symbols.source_slice(ledger, "N442")
+        self.assertEqual(despawned_effect["java_method"], "despawned(Bullet b)")
+        self.assertEqual(despawned_effect["godot_owner"], "PortGame.source_bullet_type_despawned_effect_state")
+        self.assertIn("despawnEffect.at(b.x, b.y, b.rotation(), hitColor)", despawned_effect["exact_exprs"])
+        self.assertIn("despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange));", despawned_effect["deferred_exprs"])
+        self.assertIn("Effect.shake(despawnShake, despawnShake, b);", despawned_effect["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -1486,6 +1522,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("shakeBoundarySource", despawned_dispatch["return_keys"])
         self.assertEqual(despawned_dispatch["source_method"], "despawned(Bullet b)")
 
+        despawned_effect = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_despawned_effect_state")
+        self.assertEqual([param["name"] for param in despawned_effect["params"]], ["bullet_type_state", "bullet_state", "despawned_dispatch_state"])
+        self.assertEqual(despawned_effect["params"][2]["schema"], "despawned_dispatch_result")
+        self.assertIn("despawnEffectCall", despawned_effect["return_keys"])
+        self.assertIn("despawnSoundBoundarySource", despawned_effect["return_keys"])
+        self.assertIn("shakeBoundarySource", despawned_effect["return_keys"])
+        self.assertEqual(despawned_effect["source_method"], "despawned(Bullet b)")
+
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_state_schema(schema)
@@ -1806,6 +1850,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(despawned_dispatch_output["keys"]["createUnitsCall"]["java_expr"], "createUnits(b, b.x, b.y)")
         self.assertEqual(despawned_dispatch_output["keys"]["createUnitsCall"]["status"], "source-backed")
         self.assertEqual(despawned_dispatch_output["keys"]["despawnHit"]["java_expr"], "despawnHit")
+
+        despawned_effect_output = source_symbols.state_schema(schema, "despawned_effect_result")
+        self.assertEqual(despawned_effect_output["keys"]["despawnEffectCall"]["java_expr"], "despawnEffect.at(b.x, b.y, b.rotation(), hitColor)")
+        self.assertEqual(despawned_effect_output["keys"]["despawnEffectCall"]["status"], "source-backed")
+        self.assertEqual(despawned_effect_output["keys"]["despawnedDispatch"]["alias_of"], "despawned_dispatch_result")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

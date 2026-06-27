@@ -436,9 +436,22 @@
           "java_expr": "hitColor",
           "godot_symbol": "bullet_type_state.hitColor",
           "used_by": [
-            "PortGame.source_bullet_type_hit_effects_state"
+            "PortGame.source_bullet_type_hit_effects_state",
+            "PortGame.source_bullet_type_despawned_effect_state"
           ],
           "rule": "Canonical BulletType.hitColor field for hitEffect.at."
+        },
+        "despawnEffect": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "despawned(Bullet b)",
+          "java_expr": "despawnEffect",
+          "godot_symbol": "bullet_type_state.despawnEffect",
+          "used_by": [
+            "PortGame.source_bullet_type_despawned_effect_state"
+          ],
+          "rule": "Canonical BulletType.despawnEffect field for despawnEffect.at."
         },
         "fragOnHit": {
           "type": "bool",
@@ -6334,6 +6347,89 @@
           "godot_symbol": "despawned_dispatch_result.shakeBoundarySource",
           "used_by": [
             "PortGame.source_bullet_type_despawned_dispatch_state"
+          ],
+          "rule": "Boundary marker; despawn shake side effect remains a later source slice."
+        }
+      }
+    },
+    "despawned_effect_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_type_state",
+          "rule": "Runtime echo of input bullet_type_state."
+        },
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime echo of input bullet_state."
+        },
+        "despawnedDispatch": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "despawned_dispatch_result",
+          "rule": "Runtime echo of despawned dispatch slice result."
+        },
+        "bulletX": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "despawned_dispatch_result.bulletX",
+          "rule": "Runtime key aliases b.x from despawned dispatch."
+        },
+        "bulletY": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "despawned_dispatch_result.bulletY",
+          "rule": "Runtime key aliases b.y from despawned dispatch."
+        },
+        "despawnEffectCall": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "despawned(Bullet b)",
+          "java_expr": "despawnEffect.at(b.x, b.y, b.rotation(), hitColor)",
+          "godot_symbol": "despawned_effect_result.despawnEffectCall",
+          "used_by": [
+            "PortGame.source_bullet_type_despawned_effect_state"
+          ],
+          "rule": "Runtime call record for despawnEffect.at after despawned dispatch."
+        },
+        "despawnEffectCallSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "despawned(Bullet b)",
+          "java_expr": "despawnEffect.at(b.x, b.y, b.rotation(), hitColor);",
+          "godot_symbol": "despawned_effect_result.despawnEffectCallSource",
+          "used_by": [
+            "PortGame.source_bullet_type_despawned_effect_state"
+          ],
+          "rule": "Runtime source snippet label."
+        },
+        "despawnSoundBoundarySource": {
+          "type": "String",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "despawned(Bullet b)",
+          "java_expr": "despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange));",
+          "godot_symbol": "despawned_effect_result.despawnSoundBoundarySource",
+          "used_by": [
+            "PortGame.source_bullet_type_despawned_effect_state"
+          ],
+          "rule": "Boundary marker; despawnSound side effect remains a later source slice."
+        },
+        "shakeBoundarySource": {
+          "type": "String",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "despawned(Bullet b)",
+          "java_expr": "Effect.shake(despawnShake, despawnShake, b);",
+          "godot_symbol": "despawned_effect_result.shakeBoundarySource",
+          "used_by": [
+            "PortGame.source_bullet_type_despawned_effect_state"
           ],
           "rule": "Boundary marker; despawn shake side effect remains a later source slice."
         }

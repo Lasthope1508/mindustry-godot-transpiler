@@ -1169,6 +1169,33 @@
         "test_bullet_type_despawned_dispatch_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_despawned_dispatch_state"
+    },
+    "N442": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "despawned(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_despawned_effect_state",
+      "exact_exprs": [
+        "despawnEffect.at(b.x, b.y, b.rotation(), hitColor)"
+      ],
+      "deferred_exprs": [
+        "despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange));",
+        "Effect.shake(despawnShake, despawnShake, b);"
+      ],
+      "source_symbols": [
+        "despawned.effect.despawn_effect",
+        "despawned.effect.hit_color",
+        "despawned.effect.effect_call",
+        "despawned.effect.sound_boundary",
+        "despawned.effect.shake_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_despawned_effect_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_effect_state",
+        "test_bullet_type_despawned_effect_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_effect_state"
     }
   },
   "version": 1

@@ -4008,6 +4008,81 @@
         "test_bullet_type_despawned_dispatch_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_despawned_dispatch_state"
+    },
+    "despawned.effect.despawn_effect": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "despawned(Bullet b)",
+      "java_expr": "despawnEffect",
+      "godot_symbol": "bullet_type_state.despawnEffect",
+      "godot_owner": "PortGame.source_bullet_type_despawned_effect_state",
+      "rule": "Use BulletType.despawnEffect for despawned effect emission.",
+      "tests": [
+        "test_bullet_type_despawned_effect_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_effect_state",
+        "test_bullet_type_despawned_effect_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_effect_state"
+    },
+    "despawned.effect.hit_color": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "despawned(Bullet b)",
+      "java_expr": "hitColor",
+      "godot_symbol": "bullet_type_state.hitColor",
+      "godot_owner": "PortGame.source_bullet_type_despawned_effect_state",
+      "rule": "Reuse BulletType.hitColor for despawnEffect.at color argument.",
+      "tests": [
+        "test_bullet_type_despawned_effect_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_effect_state",
+        "test_bullet_type_despawned_effect_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_effect_state"
+    },
+    "despawned.effect.effect_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "despawned(Bullet b)",
+      "java_expr": "despawnEffect.at(b.x, b.y, b.rotation(), hitColor)",
+      "godot_symbol": "despawned_effect_result.despawnEffectCall",
+      "godot_owner": "PortGame.source_bullet_type_despawned_effect_state",
+      "rule": "Record despawnEffect.at call after despawned dispatch without mutating effect world.",
+      "tests": [
+        "test_bullet_type_despawned_effect_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_effect_state",
+        "test_bullet_type_despawned_effect_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_effect_state"
+    },
+    "despawned.effect.sound_boundary": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "despawned(Bullet b)",
+      "java_expr": "despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange));",
+      "godot_symbol": "despawned_effect_result.despawnSoundBoundarySource",
+      "godot_owner": "PortGame.source_bullet_type_despawned_effect_state",
+      "rule": "Boundary marker; despawnSound side effect remains a later source slice.",
+      "tests": [
+        "test_bullet_type_despawned_effect_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_effect_state",
+        "test_bullet_type_despawned_effect_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_effect_state"
+    },
+    "despawned.effect.shake_boundary": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "despawned(Bullet b)",
+      "java_expr": "Effect.shake(despawnShake, despawnShake, b);",
+      "godot_symbol": "despawned_effect_result.shakeBoundarySource",
+      "godot_owner": "PortGame.source_bullet_type_despawned_effect_state",
+      "rule": "Boundary marker; despawn shake side effect remains a later source slice.",
+      "tests": [
+        "test_bullet_type_despawned_effect_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_effect_state",
+        "test_bullet_type_despawned_effect_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_effect_state"
     }
   }
 }

@@ -6833,6 +6833,34 @@ func source_bullet_type_despawned_dispatch_state(bullet_type_state: Dictionary, 
 		"shakeBoundarySource": "Effect.shake(despawnShake, despawnShake, b);",
 	}
 
+func source_bullet_type_despawned_effect_state(bullet_type_state: Dictionary, bullet_state: Dictionary, despawned_dispatch_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_despawned_dispatch_state: Dictionary = despawned_dispatch_state.duplicate(true)
+	var bullet_x: Variant = update_despawned_dispatch_state.get("bulletX", update_bullet_state.get("x", null))
+	var bullet_y: Variant = update_despawned_dispatch_state.get("bulletY", update_bullet_state.get("y", null))
+	var despawn_effect: Variant = update_type_state.get("despawnEffect", "Fx.hitBulletSmall")
+	var hit_color: Variant = update_type_state.get("hitColor", "Color.white")
+	var bullet_rotation := float(update_bullet_state.get("rotation", 0.0))
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"despawnedDispatch": update_despawned_dispatch_state,
+		"bulletX": bullet_x,
+		"bulletY": bullet_y,
+		"despawnEffectCall": {
+			"call": "despawnEffect.at(b.x, b.y, b.rotation(), hitColor)",
+			"effect": despawn_effect,
+			"x": bullet_x,
+			"y": bullet_y,
+			"rotation": bullet_rotation,
+			"color": hit_color,
+		},
+		"despawnEffectCallSource": "despawnEffect.at(b.x, b.y, b.rotation(), hitColor);",
+		"despawnSoundBoundarySource": "despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange));",
+		"shakeBoundarySource": "Effect.shake(despawnShake, despawnShake, b);",
+	}
+
 func source_bullet_type_hit_suppression_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_post_frag_dispatch_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

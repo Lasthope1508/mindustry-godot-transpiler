@@ -5045,6 +5045,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\"despawnSoundBoundarySource\": \"despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange));\"", source)
         self.assertIn("\"shakeBoundarySource\": \"Effect.shake(despawnShake, despawnShake, b);\"", source)
 
+    def test_port_game_exposes_source_bullet_type_despawned_effect_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_despawned_effect_state(bullet_type_state: Dictionary, bullet_state: Dictionary, despawned_dispatch_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var update_despawned_dispatch_state: Dictionary = despawned_dispatch_state.duplicate(true)", source)
+        self.assertIn("var despawn_effect: Variant = update_type_state.get(\"despawnEffect\", \"Fx.hitBulletSmall\")", source)
+        self.assertIn("var hit_color: Variant = update_type_state.get(\"hitColor\", \"Color.white\")", source)
+        self.assertIn("var bullet_rotation := float(update_bullet_state.get(\"rotation\", 0.0))", source)
+        self.assertIn("\"call\": \"despawnEffect.at(b.x, b.y, b.rotation(), hitColor)\"", source)
+        self.assertIn("\"despawnSoundBoundarySource\": \"despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange));\"", source)
+        self.assertIn("\"shakeBoundarySource\": \"Effect.shake(despawnShake, despawnShake, b);\"", source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
