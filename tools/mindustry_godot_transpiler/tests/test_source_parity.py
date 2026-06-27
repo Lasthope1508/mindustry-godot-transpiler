@@ -4720,6 +4720,26 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_bullet_recoil_velocity_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_bullet_recoil_velocity_source"))
+        report = source_parity.verify_weapon_bullet_recoil_velocity_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["bullet_type_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["unit_comp_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["arc_vec2_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(report["checked"], {
+            "recoil_velocity": "unit.vel.add(Tmp.v1.trns(shootAngle + 180f, bullet.recoil));",
+            "shake_reserved": "Effect.shake(shake, shake, bulletX, bulletY);",
+            "bullet_recoil": "public float recoil;",
+            "unit_vel_import": "@Import Vec2 vel;",
+            "vec2_trns_amount": "return set(amount, 0).rotate(angle);",
+            "vec2_add_vec": "public Vec2 add(Vec2 v){",
+            "vec2_add_x": "x += v.x;",
+            "vec2_add_y": "y += v.y;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

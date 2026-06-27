@@ -3925,6 +3925,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"smokeEffectSource": "bullet.smokeEffect.at(bulletX, bulletY, angle, bullet.hitColor, unit)"', source)
         self.assertIn('"recoilReservedSource": "unit.vel.add(Tmp.v1.trns(shootAngle + 180f, bullet.recoil))"', source)
 
+    def test_port_game_exposes_source_weapon_bullet_recoil_velocity_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_bullet_recoil_velocity_state(create_call_state: Dictionary, unit_state: Dictionary, bullet_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var angle_life_state: Dictionary = create_call_state.get(\"angleLifeState\", {})", source)
+        self.assertIn("var shoot_angle := float(angle_life_state.get(\"shootAngle\", 0.0))", source)
+        self.assertIn("var recoil_vec := source_arc_angles_trns_vec(shoot_angle + 180.0, bullet_recoil, 0.0)", source)
+        self.assertIn("var unit_vel: Dictionary = unit_state.get(\"vel\", {\"x\": 0.0, \"y\": 0.0})", source)
+        self.assertIn('"recoilVelocitySource": "unit.vel.add(Tmp.v1.trns(shootAngle + 180f, bullet.recoil))"', source)
+        self.assertIn('"vec2TrnsSource": "return set(amount, 0).rotate(angle)"', source)
+        self.assertIn('"vec2AddSource": "x += v.x; y += v.y"', source)
+        self.assertIn('"shakeReservedSource": "Effect.shake(shake, shake, bulletX, bulletY)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

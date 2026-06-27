@@ -4634,6 +4634,46 @@ func source_weapon_bullet_effects_state(create_call_state: Dictionary, mount_sta
 		"recoilReservedSource": "unit.vel.add(Tmp.v1.trns(shootAngle + 180f, bullet.recoil))",
 	}
 
+func source_weapon_bullet_recoil_velocity_state(create_call_state: Dictionary, unit_state: Dictionary, bullet_state: Dictionary) -> Dictionary:
+	var unit_vel: Dictionary = unit_state.get("vel", {"x": 0.0, "y": 0.0})
+	var unit_vel_before := {
+		"x": float(unit_vel.get("x", 0.0)),
+		"y": float(unit_vel.get("y", 0.0)),
+	}
+	if not bool(create_call_state.get("bulletContinues", false)):
+		return {
+			"bulletContinues": false,
+			"recoilVelocityApplied": false,
+			"unitVelBefore": unit_vel_before,
+			"unitVelAfter": unit_vel_before.duplicate(),
+			"recoilVector": {"x": 0.0, "y": 0.0, "angle": 0.0},
+			"recoilVelocitySource": "unit.vel.add(Tmp.v1.trns(shootAngle + 180f, bullet.recoil))",
+			"vec2TrnsSource": "return set(amount, 0).rotate(angle)",
+			"vec2AddSource": "x += v.x; y += v.y",
+			"shakeReservedSource": "Effect.shake(shake, shake, bulletX, bulletY)",
+		}
+	var angle_life_state: Dictionary = create_call_state.get("angleLifeState", {})
+	var shoot_angle := float(angle_life_state.get("shootAngle", 0.0))
+	var bullet_recoil := float(bullet_state.get("recoil", 0.0))
+	var recoil_vec := source_arc_angles_trns_vec(shoot_angle + 180.0, bullet_recoil, 0.0)
+	var unit_vel_after := {
+		"x": float(unit_vel_before["x"]) + float(recoil_vec.get("x", 0.0)),
+		"y": float(unit_vel_before["y"]) + float(recoil_vec.get("y", 0.0)),
+	}
+	return {
+		"bulletContinues": true,
+		"recoilVelocityApplied": true,
+		"shootAngle": shoot_angle,
+		"bulletRecoil": bullet_recoil,
+		"unitVelBefore": unit_vel_before,
+		"unitVelAfter": unit_vel_after,
+		"recoilVector": recoil_vec,
+		"recoilVelocitySource": "unit.vel.add(Tmp.v1.trns(shootAngle + 180f, bullet.recoil))",
+		"vec2TrnsSource": "return set(amount, 0).rotate(angle)",
+		"vec2AddSource": "x += v.x; y += v.y",
+		"shakeReservedSource": "Effect.shake(shake, shake, bulletX, bulletY)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

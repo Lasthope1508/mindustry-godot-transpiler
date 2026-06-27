@@ -8329,6 +8329,53 @@ def verify_weapon_bullet_effects_branch_source(upstream_root: Path) -> dict[str,
         "missing": missing,
     }
 
+def verify_weapon_bullet_recoil_velocity_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    bullet_type_source = "core/src/mindustry/entities/bullet/BulletType.java"
+    unit_comp_source = "core/src/mindustry/entities/comp/UnitComp.java"
+    arc_vec2_source = "arc-core/src/arc/math/geom/Vec2.java"
+    bullet_type_path = upstream_root / bullet_type_source
+    unit_comp_path = upstream_root / unit_comp_source
+    arc_vec2_path = arc_root / arc_vec2_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    bullet_type_text = bullet_type_path.read_text(encoding="utf-8", errors="replace")
+    unit_comp_text = unit_comp_path.read_text(encoding="utf-8", errors="replace")
+    arc_vec2_text = arc_vec2_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "recoil_velocity": "unit.vel.add(Tmp.v1.trns(shootAngle + 180f, bullet.recoil));",
+        "shake_reserved": "Effect.shake(shake, shake, bulletX, bulletY);",
+        "bullet_recoil": "public float recoil;",
+        "unit_vel_import": "@Import Vec2 vel;",
+        "vec2_trns_amount": "return set(amount, 0).rotate(angle);",
+        "vec2_add_vec": "public Vec2 add(Vec2 v){",
+        "vec2_add_x": "x += v.x;",
+        "vec2_add_y": "y += v.y;",
+    }
+    source_map = {
+        "recoil_velocity": source,
+        "shake_reserved": source,
+        "bullet_recoil": bullet_type_text,
+        "unit_vel_import": unit_comp_text,
+        "vec2_trns_amount": arc_vec2_text,
+        "vec2_add_vec": arc_vec2_text,
+        "vec2_add_x": arc_vec2_text,
+        "vec2_add_y": arc_vec2_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "bullet_type_source": bullet_type_source,
+        "unit_comp_source": unit_comp_source,
+        "arc_vec2_source": arc_vec2_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
