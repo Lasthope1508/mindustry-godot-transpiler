@@ -5855,6 +5855,31 @@ func source_bullet_type_init_lightning_type_state(frag_velocity_state: Dictionar
 		"lightningTypeChoiceSource": "!collidesAir ? Bullets.damageLightningGround : !collidesGround ? Bullets.damageLightningAir : Bullets.damageLightning",
 	}
 
+func source_bullet_type_init_light_radius_state(lightning_type_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = lightning_type_state.get("bulletType", {}).duplicate(true)
+	var light_radius := float(update_type_state.get("lightRadius", -1.0))
+	var gate_passed := light_radius <= -1.0
+	if not gate_passed:
+		return {
+			"bulletType": update_type_state,
+			"lightRadiusApplied": false,
+			"lightRadiusGatePassed": false,
+			"lightRadius": light_radius,
+			"lightRadiusGateSource": "if(lightRadius <= -1){",
+			"lightRadiusAssignSource": "lightRadius = Math.max(18, hitSize * 5f)",
+		}
+	var resolved_light_radius: float = max(18.0, float(update_type_state.get("hitSize", 4.0)) * 5.0)
+	update_type_state["lightRadius"] = resolved_light_radius
+	return {
+		"bulletType": update_type_state,
+		"lightRadiusApplied": true,
+		"lightRadiusGatePassed": true,
+		"lightRadius": resolved_light_radius,
+		"hitSize": float(update_type_state.get("hitSize", 4.0)),
+		"lightRadiusGateSource": "if(lightRadius <= -1){",
+		"lightRadiusAssignSource": "lightRadius = Math.max(18, hitSize * 5f)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

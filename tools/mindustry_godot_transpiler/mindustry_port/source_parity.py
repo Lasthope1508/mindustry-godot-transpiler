@@ -9690,6 +9690,27 @@ def verify_bullet_type_init_lightning_type_state_source(upstream_root: Path) -> 
         "missing": missing,
     }
 
+def verify_bullet_type_init_light_radius_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "hit_size_field": "public float hitSize = 4;",
+        "light_radius_field": "public float lightRadius = -1f;",
+        "method": "public void init(){",
+        "light_radius_gate": "if(lightRadius <= -1){",
+        "light_radius_assign": "lightRadius = Math.max(18, hitSize * 5f);",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

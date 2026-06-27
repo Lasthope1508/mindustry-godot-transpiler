@@ -5362,6 +5362,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_init_light_radius_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_init_light_radius_state_source"))
+        report = source_parity.verify_bullet_type_init_light_radius_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "hit_size_field": "public float hitSize = 4;",
+            "light_radius_field": "public float lightRadius = -1f;",
+            "method": "public void init(){",
+            "light_radius_gate": "if(lightRadius <= -1){",
+            "light_radius_assign": "lightRadius = Math.max(18, hitSize * 5f);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

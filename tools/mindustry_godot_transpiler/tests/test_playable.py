@@ -4425,6 +4425,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"lightningTypeGateSource": "if(lightningType == null){"', source)
         self.assertIn('"lightningTypeChoiceSource": "!collidesAir ? Bullets.damageLightningGround : !collidesGround ? Bullets.damageLightningAir : Bullets.damageLightning"', source)
 
+    def test_port_game_exposes_source_bullet_type_init_light_radius_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_init_light_radius_state(lightning_type_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var update_type_state: Dictionary = lightning_type_state.get(\"bulletType\", {}).duplicate(true)", source)
+        self.assertIn("var light_radius := float(update_type_state.get(\"lightRadius\", -1.0))", source)
+        self.assertIn("var gate_passed := light_radius <= -1.0", source)
+        self.assertIn("var resolved_light_radius: float = max(18.0, float(update_type_state.get(\"hitSize\", 4.0)) * 5.0)", source)
+        self.assertIn("update_type_state[\"lightRadius\"] = resolved_light_radius", source)
+        self.assertIn('"lightRadiusGateSource": "if(lightRadius <= -1){"', source)
+        self.assertIn('"lightRadiusAssignSource": "lightRadius = Math.max(18, hitSize * 5f)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
