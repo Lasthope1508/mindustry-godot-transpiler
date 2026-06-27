@@ -6858,6 +6858,51 @@
         "test_bullet_type_init_draw_size_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_init_draw_size_state"
+    },
+    "init_range_assignment.assign": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init()",
+      "java_expr": "range = calculateRange();",
+      "godot_symbol": "init_range_assignment_result.range",
+      "godot_owner": "PortGame.source_bullet_type_init_range_assignment_state",
+      "rule": "Exact init range assignment from calculateRange result.",
+      "tests": [
+        "test_bullet_type_init_range_assignment_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_range_assignment_state",
+        "test_bullet_type_init_range_assignment_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_range_assignment_state"
+    },
+    "init_range_assignment.range_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "field",
+      "java_expr": "public float range = 0f;",
+      "godot_symbol": "bullet_type_state.range",
+      "godot_owner": "PortGame.source_bullet_type_init_range_assignment_state",
+      "rule": "BulletType range field assigned in init from calculateRange().",
+      "tests": [
+        "test_bullet_type_init_range_assignment_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_range_assignment_state",
+        "test_bullet_type_init_range_assignment_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_range_assignment_state"
+    },
+    "init_range_assignment.calculate_range_method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "calculateRange()",
+      "java_expr": "protected float calculateRange(){",
+      "godot_symbol": "init_range_assignment_result.calculateRangeDeferred",
+      "godot_owner": "PortGame.source_bullet_type_init_range_assignment_state",
+      "rule": "calculateRange body is delegated to later source-backed calculateRange slices.",
+      "tests": [
+        "test_bullet_type_init_range_assignment_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_range_assignment_state",
+        "test_bullet_type_init_range_assignment_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_range_assignment_state"
     }
   }
 }

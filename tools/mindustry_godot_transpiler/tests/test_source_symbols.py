@@ -1712,14 +1712,34 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(speed_field["java_expr"], "public float speed = 1f;")
         self.assertEqual(speed_field["godot_symbol"], "bullet_type_state.speed")
 
+    def test_bullet_type_init_range_assignment_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        assign = source_symbols.source_symbol(registry, "init_range_assignment.assign")
+        self.assertEqual(assign["java_expr"], "range = calculateRange();")
+        self.assertEqual(assign["godot_symbol"], "init_range_assignment_result.range")
+        self.assertEqual(assign["godot_owner"], "PortGame.source_bullet_type_init_range_assignment_state")
+        self.assertEqual(assign["runtime_proof"], "/root/Main.source_bullet_type_init_range_assignment_state")
+
+        range_field = source_symbols.source_symbol(registry, "init_range_assignment.range_field")
+        self.assertEqual(range_field["java_expr"], "public float range = 0f;")
+        self.assertEqual(range_field["godot_symbol"], "bullet_type_state.range")
+
+        calculate_range_method = source_symbols.source_symbol(registry, "init_range_assignment.calculate_range_method")
+        self.assertEqual(calculate_range_method["java_expr"], "protected float calculateRange(){")
+        self.assertEqual(calculate_range_method["godot_symbol"], "init_range_assignment_result.calculateRangeDeferred")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 67)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 68)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 72)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 73)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1781,6 +1801,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_init_lightning_type_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_init_light_radius_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_init_draw_size_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_init_range_assignment_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -2267,7 +2288,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float drawSize = 40f;", init_draw_size["exact_exprs"])
         self.assertIn("public int trailLength = -1;", init_draw_size["exact_exprs"])
         self.assertIn("range = calculateRange();", init_light_radius["deferred_exprs"])
-        self.assertIn("range = calculateRange();", init_draw_size["deferred_exprs"])
+        self.assertNotIn("range = calculateRange();", init_draw_size["deferred_exprs"])
+
+        init_range_assignment = source_symbols.source_slice(ledger, "N470")
+        self.assertEqual(init_range_assignment["java_method"], "init()")
+        self.assertEqual(init_range_assignment["godot_owner"], "PortGame.source_bullet_type_init_range_assignment_state")
+        self.assertIn("public float range = 0f;", init_range_assignment["exact_exprs"])
+        self.assertIn("drawSize = Math.max(drawSize, trailLength * speed * 2f);", init_range_assignment["exact_exprs"])
+        self.assertIn("range = calculateRange();", init_range_assignment["exact_exprs"])
+        self.assertIn("protected float calculateRange(){", init_range_assignment["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -2871,6 +2900,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("trailLength", init_draw_size["return_keys"])
         self.assertIn("speed", init_draw_size["return_keys"])
         self.assertEqual(init_draw_size["source_method"], "init()")
+
+        init_range_assignment = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_init_range_assignment_state")
+        self.assertEqual([param["name"] for param in init_range_assignment["params"]], ["draw_size_state", "calculate_range_result"])
+        self.assertEqual(init_range_assignment["params"][0]["schema"], "init_draw_size_result")
+        self.assertEqual(init_range_assignment["params"][1]["schema"], "calculate_range_result")
+        self.assertIn("bulletType", init_range_assignment["return_keys"])
+        self.assertIn("range", init_range_assignment["return_keys"])
+        self.assertIn("rangeBefore", init_range_assignment["return_keys"])
+        self.assertIn("rangeAssignSource", init_range_assignment["return_keys"])
+        self.assertIn("calculateRangeDeferred", init_range_assignment["return_keys"])
+        self.assertEqual(init_range_assignment["source_method"], "init()")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -3528,6 +3568,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_init_draw_size_state", bullet_type_state["keys"]["drawSize"]["used_by"])
         self.assertIn("PortGame.source_bullet_type_init_draw_size_state", bullet_type_state["keys"]["trailLength"]["used_by"])
         self.assertIn("PortGame.source_bullet_type_init_draw_size_state", bullet_type_state["keys"]["speed"]["used_by"])
+
+        init_range_assignment_output = source_symbols.state_schema(schema, "init_range_assignment_result")
+        self.assertEqual(init_range_assignment_output["keys"]["range"]["java_expr"], "calculateRange()")
+        self.assertEqual(init_range_assignment_output["keys"]["rangeBefore"]["alias_of"], "bullet_type_state.range")
+        self.assertEqual(init_range_assignment_output["keys"]["calculateRangeDeferred"]["alias_of"], "source_line.init_range_assignment.calculate_range_method")
+        self.assertEqual(init_range_assignment_output["keys"]["rangeAssignSource"]["alias_of"], "source_line.init_range_assignment.assign")
+
+        calculate_range_result = source_symbols.state_schema(schema, "calculate_range_result")
+        self.assertEqual(calculate_range_result["keys"]["range"]["java_expr"], "calculateRange()")
+        self.assertEqual(calculate_range_result["keys"]["range"]["status"], "explicit-input")
+
+        self.assertEqual(bullet_type_state["keys"]["range"]["java_expr"], "range")
+        self.assertIn("PortGame.source_bullet_type_init_range_assignment_state", bullet_type_state["keys"]["range"]["used_by"])
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")

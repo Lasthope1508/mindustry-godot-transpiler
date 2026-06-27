@@ -7,7 +7,7 @@
     "PortGame.source_symbol_audit_state",
     "PortGame.source_symbol_registry_state"
   ],
-  "legacyUnregisteredOwnerCount": 416,
+  "legacyUnregisteredOwnerCount": 415,
   "legacyUnregisteredOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -219,7 +219,6 @@
     "PortGame.source_bullet_type_create_trail_add_state",
     "PortGame.source_bullet_type_create_velocity_position_state",
     "PortGame.source_bullet_type_heals_state",
-    "PortGame.source_bullet_type_init_range_assignment_state",
     "PortGame.source_bullet_velocity",
     "PortGame.source_bullet_velocity_vector_state",
     "PortGame.source_bullet_world_speed",
@@ -430,7 +429,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 67,
+  "registeredSourceOwnerCount": 68,
   "registeredSourceOwners": [
     "PortGame.source_bullet_type_building_damage_state",
     "PortGame.source_bullet_type_create_frags_create_call_state",
@@ -482,6 +481,7 @@
     "PortGame.source_bullet_type_init_initial_state",
     "PortGame.source_bullet_type_init_light_radius_state",
     "PortGame.source_bullet_type_init_lightning_type_state",
+    "PortGame.source_bullet_type_init_range_assignment_state",
     "PortGame.source_bullet_type_init_spawn_bullets_state",
     "PortGame.source_bullet_type_init_type_defaults_state",
     "PortGame.source_bullet_type_removed_frag_dispatch_state",

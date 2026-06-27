@@ -3080,6 +3080,38 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_init_draw_size_state",
       "rule": "Public runtime contract for BulletType.init drawSize Math.max assignment."
+    },
+    "PortGame.source_bullet_type_init_range_assignment_state": {
+      "status": "active",
+      "source_slice": "N470",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "init()",
+      "params": [
+        {
+          "name": "draw_size_state",
+          "type": "Dictionary",
+          "schema": "init_draw_size_result"
+        },
+        {
+          "name": "calculate_range_result",
+          "type": "float",
+          "schema": "calculate_range_result"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "range",
+        "rangeBefore",
+        "rangeAssignSource",
+        "calculateRangeDeferred"
+      ],
+      "tests": [
+        "test_bullet_type_init_range_assignment_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_range_assignment_state",
+        "test_bullet_type_init_range_assignment_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_range_assignment_state",
+      "rule": "Public runtime contract for BulletType.init range assignment from explicit calculateRange result."
     }
   },
   "policy": {

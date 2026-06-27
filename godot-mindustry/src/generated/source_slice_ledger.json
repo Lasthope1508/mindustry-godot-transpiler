@@ -2023,9 +2023,7 @@
         "public int trailLength = -1;",
         "drawSize = Math.max(drawSize, trailLength * speed * 2f);"
       ],
-      "deferred_exprs": [
-        "range = calculateRange();"
-      ],
+      "deferred_exprs": [],
       "source_symbols": [
         "init_draw_size.assign",
         "init_draw_size.draw_size_field",
@@ -2039,6 +2037,33 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_init_draw_size_state",
       "rule": "Backfills SSOT for existing BulletType.init drawSize runtime state; range assignment remains a separate source-backed slice."
+    },
+    "N470": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "init()",
+      "godot_owner": "PortGame.source_bullet_type_init_range_assignment_state",
+      "exact_exprs": [
+        "public float range = 0f;",
+        "drawSize = Math.max(drawSize, trailLength * speed * 2f);",
+        "range = calculateRange();"
+      ],
+      "deferred_exprs": [
+        "protected float calculateRange(){"
+      ],
+      "source_symbols": [
+        "init_range_assignment.assign",
+        "init_range_assignment.range_field",
+        "init_range_assignment.calculate_range_method"
+      ],
+      "tests": [
+        "test_bullet_type_init_range_assignment_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_range_assignment_state",
+        "test_bullet_type_init_range_assignment_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_range_assignment_state",
+      "rule": "Backfills SSOT for existing BulletType.init range assignment; calculateRange body remains separate source-backed slices."
     }
   },
   "version": 1
