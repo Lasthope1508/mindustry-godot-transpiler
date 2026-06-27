@@ -1077,6 +1077,64 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_splash_damage_dispatch_state",
       "rule": "Public runtime contract for BulletType.hit createSplashDamage dispatch only; createSplashDamage body and lightning loop remain deferred."
+    },
+    "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state": {
+      "status": "active",
+      "source_slice": "N424",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createSplashDamage(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "hit_splash_damage_dispatch_state",
+          "type": "Dictionary",
+          "schema": "hit_splash_damage_dispatch_result"
+        },
+        {
+          "name": "damage_multiplier_state",
+          "type": "Dictionary",
+          "schema": "damage_multiplier_result"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "hitSplashDamageDispatch",
+        "damageMultiplierState",
+        "x",
+        "y",
+        "bulletTeam",
+        "bulletAbsorbed",
+        "splashDamageRadius",
+        "splashDamage",
+        "damageMultiplier",
+        "damageAmount",
+        "splashDamagePierce",
+        "collidesAir",
+        "collidesGround",
+        "scaledSplashDamage",
+        "armorMultiplier",
+        "splashDamageGatePassed",
+        "damageCall",
+        "splashDamageGateSource",
+        "damageCallSource",
+        "statusBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_create_splash_damage_damage_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_damage_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_damage_dispatch_state",
+      "rule": "Public runtime contract for BulletType.createSplashDamage damage dispatch only; status, heal, and makeFire branches remain deferred."
     }
   },
   "policy": {

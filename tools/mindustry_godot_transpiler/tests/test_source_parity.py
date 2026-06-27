@@ -5804,6 +5804,27 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_create_splash_damage_damage_dispatch_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_create_splash_damage_damage_dispatch_state_source"))
+        report = source_parity.verify_bullet_type_create_splash_damage_damage_dispatch_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["damage_source"], "core/src/mindustry/entities/Damage.java")
+        self.assertEqual(report["checked"], {
+            "splash_damage_field": "public float splashDamage = 0f;",
+            "scaled_splash_damage_field": "public boolean scaledSplashDamage = false;",
+            "collides_air_ground_field": "public boolean collidesAir = true, collidesGround = true;",
+            "armor_multiplier_field": "public float armorMultiplier = 1f;",
+            "splash_damage_radius_field": "public float splashDamageRadius = -1f;",
+            "splash_damage_pierce_field": "public boolean splashDamagePierce = false;",
+            "method": "public void createSplashDamage(Bullet b, float x, float y){",
+            "damage_gate": "if(splashDamageRadius > 0 && !b.absorbed){",
+            "damage_call": "Damage.damage(b.team, x, y, splashDamageRadius, splashDamage * b.damageMultiplier(), splashDamagePierce, collidesAir, collidesGround, scaledSplashDamage, b, armorMultiplier);",
+            "damage_signature": "public static void damage(Team team, float x, float y, float radius, float damage, boolean complete, boolean air, boolean ground, boolean scaled, @Nullable Bullet source, float armorMult){",
+            "status_boundary": "if(status != StatusEffects.none){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_bullet_type_building_damage_state_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_bullet_type_building_damage_state_source"))
         report = source_parity.verify_bullet_type_building_damage_state_source(ROOT / "mindustry-upstream")

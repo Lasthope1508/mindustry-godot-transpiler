@@ -4829,6 +4829,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"call": "createUnits(b, x, y)"', source)
         self.assertIn('"suppressionBoundarySource": "if(suppressionRange > 0)"', source)
 
+    def test_port_game_exposes_source_bullet_type_create_splash_damage_damage_dispatch_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_create_splash_damage_damage_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_splash_damage_dispatch_state: Dictionary, damage_multiplier_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var splash_damage_gate_passed := splash_damage_radius > 0.0 and not bullet_absorbed", source)
+        self.assertIn("var damage_amount := splash_damage * damage_multiplier", source)
+        self.assertIn("\"call\": \"Damage.damage(b.team, x, y, splashDamageRadius, splashDamage * b.damageMultiplier(), splashDamagePierce, collidesAir, collidesGround, scaledSplashDamage, b, armorMultiplier)\"", source)
+        self.assertIn("\"statusBoundarySource\": \"if(status != StatusEffects.none)\"", source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -450,14 +450,34 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(lightning_boundary["java_expr"], "for(int i = 0; i < lightning; i++)")
         self.assertEqual(lightning_boundary["godot_symbol"], "hit_splash_damage_dispatch_result.lightningBoundarySource")
 
+    def test_bullet_type_create_splash_damage_damage_dispatch_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        damage_gate = source_symbols.source_symbol(registry, "create_splash_damage.damage_dispatch.gate")
+        self.assertEqual(damage_gate["java_expr"], "splashDamageRadius > 0 && !b.absorbed")
+        self.assertEqual(damage_gate["godot_symbol"], "create_splash_damage_damage_dispatch_result.splashDamageGatePassed")
+        self.assertEqual(damage_gate["godot_owner"], "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state")
+        self.assertEqual(damage_gate["runtime_proof"], "/root/Main.source_bullet_type_create_splash_damage_damage_dispatch_state")
+
+        damage_call = source_symbols.source_symbol(registry, "create_splash_damage.damage_dispatch.damage_call")
+        self.assertEqual(damage_call["java_expr"], "Damage.damage(b.team, x, y, splashDamageRadius, splashDamage * b.damageMultiplier(), splashDamagePierce, collidesAir, collidesGround, scaledSplashDamage, b, armorMultiplier)")
+        self.assertEqual(damage_call["godot_symbol"], "create_splash_damage_damage_dispatch_result.damageCall")
+
+        status_boundary = source_symbols.source_symbol(registry, "create_splash_damage.damage_dispatch.status_boundary")
+        self.assertEqual(status_boundary["java_expr"], "if(status != StatusEffects.none)")
+        self.assertEqual(status_boundary["godot_symbol"], "create_splash_damage_damage_dispatch_result.statusBoundarySource")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 21)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 22)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 26)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 27)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -484,6 +504,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_hit_post_frag_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_suppression_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_splash_damage_dispatch_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -612,6 +633,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(hit_splash_dispatch["godot_owner"], "PortGame.source_bullet_type_hit_splash_damage_dispatch_state")
         self.assertIn("createSplashDamage(b, x, y)", hit_splash_dispatch["exact_exprs"])
         self.assertIn("for(int i = 0; i < lightning; i++)", hit_splash_dispatch["deferred_exprs"])
+
+        create_splash_damage_dispatch = source_symbols.source_slice(ledger, "N424")
+        self.assertEqual(create_splash_damage_dispatch["java_method"], "createSplashDamage(Bullet b, float x, float y)")
+        self.assertEqual(create_splash_damage_dispatch["godot_owner"], "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state")
+        self.assertIn("if(splashDamageRadius > 0 && !b.absorbed)", create_splash_damage_dispatch["exact_exprs"])
+        self.assertIn("Damage.damage(b.team, x, y, splashDamageRadius, splashDamage * b.damageMultiplier(), splashDamagePierce, collidesAir, collidesGround, scaledSplashDamage, b, armorMultiplier)", create_splash_damage_dispatch["exact_exprs"])
+        self.assertIn("if(status != StatusEffects.none)", create_splash_damage_dispatch["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -772,6 +800,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("createSplashDamageCall", hit_splash_dispatch["return_keys"])
         self.assertIn("lightningBoundarySource", hit_splash_dispatch["return_keys"])
         self.assertEqual(hit_splash_dispatch["source_method"], "hit(Bullet b, float x, float y, boolean createFrags)")
+
+        create_splash_damage_dispatch = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state")
+        self.assertEqual([param["name"] for param in create_splash_damage_dispatch["params"]], ["bullet_type_state", "bullet_state", "hit_splash_damage_dispatch_state", "damage_multiplier_state"])
+        self.assertEqual(create_splash_damage_dispatch["params"][2]["schema"], "hit_splash_damage_dispatch_result")
+        self.assertEqual(create_splash_damage_dispatch["params"][3]["schema"], "damage_multiplier_result")
+        self.assertIn("splashDamageGatePassed", create_splash_damage_dispatch["return_keys"])
+        self.assertIn("damageCall", create_splash_damage_dispatch["return_keys"])
+        self.assertIn("statusBoundarySource", create_splash_damage_dispatch["return_keys"])
+        self.assertEqual(create_splash_damage_dispatch["source_method"], "createSplashDamage(Bullet b, float x, float y)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -949,6 +986,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         hit_splash_dispatch_output = source_symbols.state_schema(schema, "hit_splash_damage_dispatch_result")
         self.assertEqual(hit_splash_dispatch_output["keys"]["createSplashDamageCall"]["java_expr"], "createSplashDamage(b, x, y)")
         self.assertEqual(hit_splash_dispatch_output["keys"]["lightningBoundarySource"]["java_expr"], "for(int i = 0; i < lightning; i++)")
+
+        create_splash_damage_output = source_symbols.state_schema(schema, "create_splash_damage_damage_dispatch_result")
+        self.assertEqual(create_splash_damage_output["keys"]["splashDamageGatePassed"]["java_expr"], "splashDamageRadius > 0 && !b.absorbed")
+        self.assertEqual(create_splash_damage_output["keys"]["damageCall"]["java_expr"], "Damage.damage(b.team, x, y, splashDamageRadius, splashDamage * b.damageMultiplier(), splashDamagePierce, collidesAir, collidesGround, scaledSplashDamage, b, armorMultiplier)")
+        self.assertEqual(create_splash_damage_output["keys"]["statusBoundarySource"]["java_expr"], "if(status != StatusEffects.none)")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

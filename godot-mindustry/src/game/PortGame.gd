@@ -6629,6 +6629,67 @@ func source_bullet_type_hit_splash_damage_dispatch_state(bullet_type_state: Dict
 		"lightningBoundarySource": "for(int i = 0; i < lightning; i++)",
 	}
 
+func source_bullet_type_create_splash_damage_damage_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_splash_damage_dispatch_state: Dictionary, damage_multiplier_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_hit_splash_damage_dispatch_state: Dictionary = hit_splash_damage_dispatch_state.duplicate(true)
+	var update_damage_multiplier_state: Dictionary = damage_multiplier_state.duplicate(true)
+	var hit_x := float(update_hit_splash_damage_dispatch_state.get("x", 0.0))
+	var hit_y := float(update_hit_splash_damage_dispatch_state.get("y", 0.0))
+	var bullet_team: Variant = update_bullet_state.get("team", null)
+	var bullet_absorbed := bool(update_bullet_state.get("absorbed", false))
+	var splash_damage_radius := float(update_type_state.get("splashDamageRadius", -1.0))
+	var splash_damage := float(update_type_state.get("splashDamage", 0.0))
+	var damage_multiplier := float(update_damage_multiplier_state.get("damageMultiplier", 1.0))
+	var splash_damage_pierce := bool(update_type_state.get("splashDamagePierce", false))
+	var collides_air := bool(update_type_state.get("collidesAir", true))
+	var collides_ground := bool(update_type_state.get("collidesGround", true))
+	var scaled_splash_damage := bool(update_type_state.get("scaledSplashDamage", false))
+	var armor_multiplier := float(update_type_state.get("armorMultiplier", 1.0))
+	var splash_damage_gate_passed := splash_damage_radius > 0.0 and not bullet_absorbed
+	var damage_amount := splash_damage * damage_multiplier
+	var damage_call := {}
+	if splash_damage_gate_passed:
+		damage_call = {
+			"call": "Damage.damage(b.team, x, y, splashDamageRadius, splashDamage * b.damageMultiplier(), splashDamagePierce, collidesAir, collidesGround, scaledSplashDamage, b, armorMultiplier)",
+			"team": bullet_team,
+			"x": hit_x,
+			"y": hit_y,
+			"radius": splash_damage_radius,
+			"damage": damage_amount,
+			"complete": splash_damage_pierce,
+			"air": collides_air,
+			"ground": collides_ground,
+			"scaled": scaled_splash_damage,
+			"source": update_bullet_state,
+			"armorMult": armor_multiplier,
+			"called": true,
+		}
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"hitSplashDamageDispatch": update_hit_splash_damage_dispatch_state,
+		"damageMultiplierState": update_damage_multiplier_state,
+		"x": hit_x,
+		"y": hit_y,
+		"bulletTeam": bullet_team,
+		"bulletAbsorbed": bullet_absorbed,
+		"splashDamageRadius": splash_damage_radius,
+		"splashDamage": splash_damage,
+		"damageMultiplier": damage_multiplier,
+		"damageAmount": damage_amount,
+		"splashDamagePierce": splash_damage_pierce,
+		"collidesAir": collides_air,
+		"collidesGround": collides_ground,
+		"scaledSplashDamage": scaled_splash_damage,
+		"armorMultiplier": armor_multiplier,
+		"splashDamageGatePassed": splash_damage_gate_passed,
+		"damageCall": damage_call,
+		"splashDamageGateSource": "if(splashDamageRadius > 0 && !b.absorbed)",
+		"damageCallSource": "Damage.damage(b.team, x, y, splashDamageRadius, splashDamage * b.damageMultiplier(), splashDamagePierce, collidesAir, collidesGround, scaledSplashDamage, b, armorMultiplier)",
+		"statusBoundarySource": "if(status != StatusEffects.none)",
+	}
+
 func source_bullet_type_hit_entity_damage_cap_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, hit_entity_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

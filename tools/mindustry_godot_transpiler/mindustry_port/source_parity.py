@@ -10379,6 +10379,40 @@ def verify_bullet_type_hit_splash_damage_dispatch_state_source(upstream_root: Pa
         "missing": missing,
     }
 
+def verify_bullet_type_create_splash_damage_damage_dispatch_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    damage_source_path = upstream_root / "core/src/mindustry/entities/Damage.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    damage_source = damage_source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "splash_damage_field": "public float splashDamage = 0f;",
+        "scaled_splash_damage_field": "public boolean scaledSplashDamage = false;",
+        "collides_air_ground_field": "public boolean collidesAir = true, collidesGround = true;",
+        "armor_multiplier_field": "public float armorMultiplier = 1f;",
+        "splash_damage_radius_field": "public float splashDamageRadius = -1f;",
+        "splash_damage_pierce_field": "public boolean splashDamagePierce = false;",
+        "method": "public void createSplashDamage(Bullet b, float x, float y){",
+        "damage_gate": "if(splashDamageRadius > 0 && !b.absorbed){",
+        "damage_call": "Damage.damage(b.team, x, y, splashDamageRadius, splashDamage * b.damageMultiplier(), splashDamagePierce, collidesAir, collidesGround, scaledSplashDamage, b, armorMultiplier);",
+        "damage_signature": "public static void damage(Team team, float x, float y, float radius, float damage, boolean complete, boolean air, boolean ground, boolean scaled, @Nullable Bullet source, float armorMult){",
+        "status_boundary": "if(status != StatusEffects.none){",
+    }
+    source_map = {
+        "damage_signature": damage_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        haystack = source_map.get(key, source)
+        if snippet not in haystack:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "damage_source": "core/src/mindustry/entities/Damage.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

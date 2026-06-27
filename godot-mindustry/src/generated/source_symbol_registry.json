@@ -2223,6 +2223,174 @@
         "test_port_game_exposes_source_bullet_type_hit_splash_damage_dispatch_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_splash_damage_dispatch_state"
+    },
+    "create_splash_damage.damage_dispatch.radius": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "java_expr": "splashDamageRadius",
+      "godot_symbol": "bullet_type_state.splashDamageRadius",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state",
+      "rule": "Canonical BulletType.splashDamageRadius field for createSplashDamage gate and Damage.damage radius; default is -1f.",
+      "tests": [
+        "test_bullet_type_create_splash_damage_damage_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_damage_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_damage_dispatch_state"
+    },
+    "create_splash_damage.damage_dispatch.absorbed": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "java_expr": "b.absorbed",
+      "godot_symbol": "bullet_state.absorbed",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state",
+      "rule": "Use Bullet.absorbed exactly for splash damage suppression gate.",
+      "tests": [
+        "test_bullet_type_create_splash_damage_damage_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_damage_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_damage_dispatch_state"
+    },
+    "create_splash_damage.damage_dispatch.gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "java_expr": "splashDamageRadius > 0 && !b.absorbed",
+      "godot_symbol": "create_splash_damage_damage_dispatch_result.splashDamageGatePassed",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state",
+      "rule": "Gate Damage.damage dispatch on positive splashDamageRadius and non-absorbed bullet.",
+      "tests": [
+        "test_bullet_type_create_splash_damage_damage_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_damage_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_damage_dispatch_state"
+    },
+    "create_splash_damage.damage_dispatch.splash_damage": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "java_expr": "splashDamage",
+      "godot_symbol": "bullet_type_state.splashDamage",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state",
+      "rule": "Canonical BulletType.splashDamage field for Damage.damage amount.",
+      "tests": [
+        "test_bullet_type_create_splash_damage_damage_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_damage_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_damage_dispatch_state"
+    },
+    "create_splash_damage.damage_dispatch.damage_multiplier": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "java_expr": "b.damageMultiplier()",
+      "godot_symbol": "damage_multiplier_result.damageMultiplier",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state",
+      "rule": "Reuse migrated damageMultiplier(Bullet b) result for b.damageMultiplier().",
+      "tests": [
+        "test_bullet_type_create_splash_damage_damage_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_damage_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_damage_dispatch_state"
+    },
+    "create_splash_damage.damage_dispatch.pierce": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "java_expr": "splashDamagePierce",
+      "godot_symbol": "bullet_type_state.splashDamagePierce",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state",
+      "rule": "Canonical BulletType.splashDamagePierce field passed as Damage.damage complete parameter.",
+      "tests": [
+        "test_bullet_type_create_splash_damage_damage_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_damage_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_damage_dispatch_state"
+    },
+    "create_splash_damage.damage_dispatch.collides_air": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "java_expr": "collidesAir",
+      "godot_symbol": "bullet_type_state.collidesAir",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state",
+      "rule": "Canonical BulletType.collidesAir field passed to Damage.damage.",
+      "tests": [
+        "test_bullet_type_create_splash_damage_damage_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_damage_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_damage_dispatch_state"
+    },
+    "create_splash_damage.damage_dispatch.collides_ground": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "java_expr": "collidesGround",
+      "godot_symbol": "bullet_type_state.collidesGround",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state",
+      "rule": "Canonical BulletType.collidesGround field passed to Damage.damage.",
+      "tests": [
+        "test_bullet_type_create_splash_damage_damage_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_damage_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_damage_dispatch_state"
+    },
+    "create_splash_damage.damage_dispatch.scaled": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "java_expr": "scaledSplashDamage",
+      "godot_symbol": "bullet_type_state.scaledSplashDamage",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state",
+      "rule": "Canonical BulletType.scaledSplashDamage field passed to Damage.damage.",
+      "tests": [
+        "test_bullet_type_create_splash_damage_damage_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_damage_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_damage_dispatch_state"
+    },
+    "create_splash_damage.damage_dispatch.armor_multiplier": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "java_expr": "armorMultiplier",
+      "godot_symbol": "bullet_type_state.armorMultiplier",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state",
+      "rule": "Canonical BulletType.armorMultiplier field passed to Damage.damage.",
+      "tests": [
+        "test_bullet_type_create_splash_damage_damage_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_damage_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_damage_dispatch_state"
+    },
+    "create_splash_damage.damage_dispatch.damage_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "java_expr": "Damage.damage(b.team, x, y, splashDamageRadius, splashDamage * b.damageMultiplier(), splashDamagePierce, collidesAir, collidesGround, scaledSplashDamage, b, armorMultiplier)",
+      "godot_symbol": "create_splash_damage_damage_dispatch_result.damageCall",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state",
+      "rule": "Record exact Damage.damage dispatch under createSplashDamage gate; status/heal/fire work remains deferred.",
+      "tests": [
+        "test_bullet_type_create_splash_damage_damage_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_damage_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_damage_dispatch_state"
+    },
+    "create_splash_damage.damage_dispatch.status_boundary": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "java_expr": "if(status != StatusEffects.none)",
+      "godot_symbol": "create_splash_damage_damage_dispatch_result.statusBoundarySource",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state",
+      "rule": "Boundary marker; createSplashDamage status branch remains a later source slice.",
+      "tests": [
+        "test_bullet_type_create_splash_damage_damage_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_damage_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_damage_dispatch_state"
     }
   }
 }
