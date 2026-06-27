@@ -6891,6 +6891,27 @@ func source_bullet_type_despawned_sound_state(bullet_type_state: Dictionary, bul
 		"shakeBoundarySource": "Effect.shake(despawnShake, despawnShake, b);",
 	}
 
+func source_bullet_type_despawned_shake_state(bullet_type_state: Dictionary, bullet_state: Dictionary, despawned_sound_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_despawned_sound_state: Dictionary = despawned_sound_state.duplicate(true)
+	var despawn_shake := float(update_type_state.get("despawnShake", 0.0))
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"despawnedSound": update_despawned_sound_state,
+		"despawnShake": despawn_shake,
+		"shakeCall": {
+			"call": "Effect.shake(despawnShake, despawnShake, b)",
+			"intensity": despawn_shake,
+			"duration": despawn_shake,
+			"position": update_bullet_state,
+		},
+		"shakeCallSource": "Effect.shake(despawnShake, despawnShake, b);",
+		"effectShakePositionSource": "public static void shake(float intensity, float duration, Position loc){ shake(intensity, duration, loc.getX(), loc.getY()); }",
+		"removedBoundarySource": "public void removed(Bullet b){",
+	}
+
 func source_bullet_type_hit_suppression_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_post_frag_dispatch_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

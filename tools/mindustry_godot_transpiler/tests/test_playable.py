@@ -5072,6 +5072,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\"call\": \"despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange))\"", source)
         self.assertIn("\"shakeBoundarySource\": \"Effect.shake(despawnShake, despawnShake, b);\"", source)
 
+    def test_port_game_exposes_source_bullet_type_despawned_shake_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_despawned_shake_state(bullet_type_state: Dictionary, bullet_state: Dictionary, despawned_sound_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var update_despawned_sound_state: Dictionary = despawned_sound_state.duplicate(true)", source)
+        self.assertIn("var despawn_shake := float(update_type_state.get(\"despawnShake\", 0.0))", source)
+        self.assertIn("\"call\": \"Effect.shake(despawnShake, despawnShake, b)\"", source)
+        self.assertIn("\"intensity\": despawn_shake", source)
+        self.assertIn("\"duration\": despawn_shake", source)
+        self.assertIn("\"position\": update_bullet_state", source)
+        self.assertIn("\"effectShakePositionSource\": \"public static void shake(float intensity, float duration, Position loc){ shake(intensity, duration, loc.getX(), loc.getY()); }\"", source)
+        self.assertIn("\"removedBoundarySource\": \"public void removed(Bullet b){\"", source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

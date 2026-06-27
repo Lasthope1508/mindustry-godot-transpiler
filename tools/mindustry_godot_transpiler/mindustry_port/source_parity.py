@@ -10951,6 +10951,40 @@ def verify_bullet_type_despawned_sound_state_source(upstream_root: Path) -> dict
         "missing": missing,
     }
 
+def verify_bullet_type_despawned_shake_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    effect_source = "core/src/mindustry/entities/Effect.java"
+    effect_path = upstream_root / effect_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    effect_text = effect_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "despawn_shake_field": "public float hitShake = 0f, despawnShake = 0f;",
+        "method": "public void despawned(Bullet b){",
+        "despawn_sound_call": "despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange));",
+        "shake_call": "Effect.shake(despawnShake, despawnShake, b);",
+        "effect_shake_position": "public static void shake(float intensity, float duration, Position loc){\n        shake(intensity, duration, loc.getX(), loc.getY());\n    }",
+        "removed_boundary": "public void removed(Bullet b){",
+    }
+    source_map = {
+        "despawn_shake_field": source,
+        "method": source,
+        "despawn_sound_call": source,
+        "shake_call": source,
+        "effect_shake_position": effect_text,
+        "removed_boundary": source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "effect_source": effect_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

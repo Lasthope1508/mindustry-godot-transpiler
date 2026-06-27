@@ -1222,6 +1222,31 @@
         "test_bullet_type_despawned_sound_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_despawned_sound_state"
+    },
+    "N444": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "despawned(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_despawned_shake_state",
+      "exact_exprs": [
+        "Effect.shake(despawnShake, despawnShake, b)"
+      ],
+      "deferred_exprs": [
+        "public void removed(Bullet b){"
+      ],
+      "source_symbols": [
+        "despawned.shake.despawn_shake",
+        "despawned.shake.shake_call",
+        "despawned.shake.effect_shake_position",
+        "despawned.shake.removed_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_despawned_shake_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_shake_state",
+        "test_bullet_type_despawned_shake_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_shake_state"
     }
   },
   "version": 1

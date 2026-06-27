@@ -784,6 +784,18 @@
             "PortGame.source_bullet_type_create_frags_create_call_state"
           ],
           "rule": "Canonical BulletType.fragLifeMax field for createFrags lifetime random upper bound."
+        },
+        "despawnShake": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "despawned(Bullet b)",
+          "java_expr": "despawnShake",
+          "godot_symbol": "bullet_type_state.despawnShake",
+          "used_by": [
+            "PortGame.source_bullet_type_despawned_shake_state"
+          ],
+          "rule": "Canonical BulletType.despawnShake field for despawned Effect.shake."
         }
       }
     },
@@ -6539,6 +6551,89 @@
             "PortGame.source_bullet_type_despawned_sound_state"
           ],
           "rule": "Boundary marker; despawn shake side effect remains a later source slice."
+        }
+      }
+    },
+    "despawned_shake_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_type_state",
+          "rule": "Runtime echo of input bullet_type_state."
+        },
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime echo of input bullet_state."
+        },
+        "despawnedSound": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "despawned_sound_result",
+          "rule": "Runtime echo of despawned sound slice result."
+        },
+        "despawnShake": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "despawned(Bullet b)",
+          "java_expr": "despawnShake",
+          "godot_symbol": "despawned_shake_result.despawnShake",
+          "used_by": [
+            "PortGame.source_bullet_type_despawned_shake_state"
+          ],
+          "rule": "Runtime echo of despawnShake used for intensity and duration."
+        },
+        "shakeCall": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "despawned(Bullet b)",
+          "java_expr": "Effect.shake(despawnShake, despawnShake, b)",
+          "godot_symbol": "despawned_shake_result.shakeCall",
+          "used_by": [
+            "PortGame.source_bullet_type_despawned_shake_state"
+          ],
+          "rule": "Runtime call record for Effect.shake after despawnSound."
+        },
+        "shakeCallSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "despawned(Bullet b)",
+          "java_expr": "Effect.shake(despawnShake, despawnShake, b);",
+          "godot_symbol": "despawned_shake_result.shakeCallSource",
+          "used_by": [
+            "PortGame.source_bullet_type_despawned_shake_state"
+          ],
+          "rule": "Runtime source snippet label."
+        },
+        "effectShakePositionSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Effect.java",
+          "java_method": "shake(float intensity, float duration, Position loc)",
+          "java_expr": "shake(intensity, duration, loc.getX(), loc.getY())",
+          "godot_symbol": "despawned_shake_result.effectShakePositionSource",
+          "used_by": [
+            "PortGame.source_bullet_type_despawned_shake_state"
+          ],
+          "rule": "Runtime source snippet label for Effect.shake Position overload."
+        },
+        "removedBoundarySource": {
+          "type": "String",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "removed(Bullet b)",
+          "java_expr": "public void removed(Bullet b){",
+          "godot_symbol": "despawned_shake_result.removedBoundarySource",
+          "used_by": [
+            "PortGame.source_bullet_type_despawned_shake_state"
+          ],
+          "rule": "Boundary marker; BulletType.removed body remains a later source slice."
         }
       }
     }

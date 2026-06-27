@@ -4158,6 +4158,66 @@
         "test_bullet_type_despawned_sound_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_despawned_sound_state"
+    },
+    "despawned.shake.despawn_shake": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "despawned(Bullet b)",
+      "java_expr": "despawnShake",
+      "godot_symbol": "bullet_type_state.despawnShake",
+      "godot_owner": "PortGame.source_bullet_type_despawned_shake_state",
+      "rule": "Use BulletType.despawnShake for despawned Effect.shake intensity and duration.",
+      "tests": [
+        "test_bullet_type_despawned_shake_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_shake_state",
+        "test_bullet_type_despawned_shake_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_shake_state"
+    },
+    "despawned.shake.shake_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "despawned(Bullet b)",
+      "java_expr": "Effect.shake(despawnShake, despawnShake, b)",
+      "godot_symbol": "despawned_shake_result.shakeCall",
+      "godot_owner": "PortGame.source_bullet_type_despawned_shake_state",
+      "rule": "Record despawn Effect.shake call after despawnSound without mutating renderer state.",
+      "tests": [
+        "test_bullet_type_despawned_shake_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_shake_state",
+        "test_bullet_type_despawned_shake_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_shake_state"
+    },
+    "despawned.shake.effect_shake_position": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/Effect.java",
+      "java_method": "shake(float intensity, float duration, Position loc)",
+      "java_expr": "shake(intensity, duration, loc.getX(), loc.getY())",
+      "godot_symbol": "despawned_shake_result.effectShakePositionSource",
+      "godot_owner": "PortGame.source_bullet_type_despawned_shake_state",
+      "rule": "Pin Effect.shake Position overload forwarding to coordinates without implementing camera falloff in this slice.",
+      "tests": [
+        "test_bullet_type_despawned_shake_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_shake_state",
+        "test_bullet_type_despawned_shake_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_shake_state"
+    },
+    "despawned.shake.removed_boundary": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "removed(Bullet b)",
+      "java_expr": "public void removed(Bullet b){",
+      "godot_symbol": "despawned_shake_result.removedBoundarySource",
+      "godot_owner": "PortGame.source_bullet_type_despawned_shake_state",
+      "rule": "Boundary marker; BulletType.removed body remains a later source slice.",
+      "tests": [
+        "test_bullet_type_despawned_shake_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_shake_state",
+        "test_bullet_type_despawned_shake_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_shake_state"
     }
   }
 }
