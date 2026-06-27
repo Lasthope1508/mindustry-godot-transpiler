@@ -5457,8 +5457,8 @@ func source_bullet_type_update_dispatch_state(bullet_state: Dictionary) -> Dicti
 	return {
 		"bullet": update_bullet_state,
 		"callOrder": call_order,
-		"updateMethodSource": "public void update(Bullet b)",
-		"nextMethodReservedSource": "public void updateBulletInterval(Bullet b)",
+		"updateMethodSource": "public void update(Bullet b){",
+		"nextMethodReservedSource": "public void updateBulletInterval(Bullet b){",
 	}
 
 func source_bullet_type_update_bullet_interval_state(bullet_state: Dictionary, bullet_type_state: Dictionary, timer_get_result: bool, interval_random_offsets: Array) -> Dictionary:

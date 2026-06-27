@@ -31,7 +31,8 @@
             "PortGame.source_bullet_type_hit_entity_unit_effects_state",
             "PortGame.source_bullet_type_create_frags_random_geometry_state",
             "PortGame.source_bullet_type_create_units_rotation_state",
-            "PortGame.source_bullet_type_init_spawn_bullets_state"
+            "PortGame.source_bullet_type_init_spawn_bullets_state",
+            "PortGame.source_bullet_type_update_dispatch_state"
           ],
           "rule": "Explicit input until RotComp/BulletComp rotation state is ported."
         },
@@ -110,7 +111,8 @@
             "PortGame.source_bullet_type_draw_parts_state",
             "PortGame.source_bullet_type_hit_entity_unit_effects_state",
             "PortGame.source_bullet_type_hit_default_state",
-            "PortGame.source_bullet_type_init_spawn_bullets_state"
+            "PortGame.source_bullet_type_init_spawn_bullets_state",
+            "PortGame.source_bullet_type_update_dispatch_state"
           ],
           "rule": "Use source bullet x field."
         },
@@ -125,7 +127,8 @@
             "PortGame.source_bullet_type_draw_parts_state",
             "PortGame.source_bullet_type_hit_entity_unit_effects_state",
             "PortGame.source_bullet_type_hit_default_state",
-            "PortGame.source_bullet_type_init_spawn_bullets_state"
+            "PortGame.source_bullet_type_init_spawn_bullets_state",
+            "PortGame.source_bullet_type_update_dispatch_state"
           ],
           "rule": "Use source bullet y field."
         },
@@ -176,7 +179,8 @@
           "java_expr": "b.time",
           "godot_symbol": "bullet_state.time",
           "used_by": [
-            "PortGame.source_bullet_type_init_initial_state"
+            "PortGame.source_bullet_type_init_initial_state",
+            "PortGame.source_bullet_type_update_dispatch_state"
           ],
           "rule": "Canonical Bullet time field; BulletType.init instantDisappear assigns lifetime + 1f."
         }
@@ -7915,6 +7919,53 @@
             "PortGame.source_bullet_type_init_spawn_bullets_state"
           ],
           "rule": "Next BulletType method boundary after init."
+        }
+      }
+    },
+    "update_dispatch_result": {
+      "status": "active",
+      "keys": {
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime echo of input bullet_state."
+        },
+        "callOrder": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "update(Bullet b)",
+          "java_expr": "updateTrail(b); updateHoming(b); updateWeaving(b); updateTrailEffects(b); updateBulletInterval(b);",
+          "godot_symbol": "update_dispatch_result.callOrder",
+          "used_by": [
+            "PortGame.source_bullet_type_update_dispatch_state"
+          ],
+          "rule": "Exact BulletType.update dispatch order."
+        },
+        "updateMethodSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "update(Bullet b)",
+          "java_expr": "public void update(Bullet b){",
+          "godot_symbol": "update_dispatch_result.updateMethodSource",
+          "used_by": [
+            "PortGame.source_bullet_type_update_dispatch_state"
+          ],
+          "rule": "Runtime-visible source method boundary."
+        },
+        "nextMethodReservedSource": {
+          "type": "String",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "update(Bullet b)",
+          "java_expr": "public void updateBulletInterval(Bullet b){",
+          "godot_symbol": "update_dispatch_result.nextMethodReservedSource",
+          "used_by": [
+            "PortGame.source_bullet_type_update_dispatch_state"
+          ],
+          "rule": "Next method boundary after update dispatch; body handled by separate slice."
         }
       }
     }

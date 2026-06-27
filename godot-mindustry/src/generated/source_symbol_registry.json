@@ -4893,6 +4893,111 @@
         "test_bullet_type_init_spawn_bullets_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_init_spawn_bullets_state"
+    },
+    "update_dispatch.update_trail_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "update(Bullet b)",
+      "java_expr": "updateTrail(b);",
+      "godot_symbol": "update_dispatch_result.callOrder[0]",
+      "godot_owner": "PortGame.source_bullet_type_update_dispatch_state",
+      "rule": "First BulletType.update dispatch call.",
+      "tests": [
+        "test_bullet_type_update_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_dispatch_state",
+        "test_bullet_type_update_dispatch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_dispatch_state"
+    },
+    "update_dispatch.update_homing_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "update(Bullet b)",
+      "java_expr": "updateHoming(b);",
+      "godot_symbol": "update_dispatch_result.callOrder[1]",
+      "godot_owner": "PortGame.source_bullet_type_update_dispatch_state",
+      "rule": "Second BulletType.update dispatch call.",
+      "tests": [
+        "test_bullet_type_update_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_dispatch_state",
+        "test_bullet_type_update_dispatch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_dispatch_state"
+    },
+    "update_dispatch.update_weaving_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "update(Bullet b)",
+      "java_expr": "updateWeaving(b);",
+      "godot_symbol": "update_dispatch_result.callOrder[2]",
+      "godot_owner": "PortGame.source_bullet_type_update_dispatch_state",
+      "rule": "Third BulletType.update dispatch call.",
+      "tests": [
+        "test_bullet_type_update_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_dispatch_state",
+        "test_bullet_type_update_dispatch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_dispatch_state"
+    },
+    "update_dispatch.update_trail_effects_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "update(Bullet b)",
+      "java_expr": "updateTrailEffects(b);",
+      "godot_symbol": "update_dispatch_result.callOrder[3]",
+      "godot_owner": "PortGame.source_bullet_type_update_dispatch_state",
+      "rule": "Fourth BulletType.update dispatch call.",
+      "tests": [
+        "test_bullet_type_update_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_dispatch_state",
+        "test_bullet_type_update_dispatch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_dispatch_state"
+    },
+    "update_dispatch.update_bullet_interval_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "update(Bullet b)",
+      "java_expr": "updateBulletInterval(b);",
+      "godot_symbol": "update_dispatch_result.callOrder[4]",
+      "godot_owner": "PortGame.source_bullet_type_update_dispatch_state",
+      "rule": "Fifth BulletType.update dispatch call.",
+      "tests": [
+        "test_bullet_type_update_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_dispatch_state",
+        "test_bullet_type_update_dispatch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_dispatch_state"
+    },
+    "update_dispatch.update_method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "update(Bullet b)",
+      "java_expr": "public void update(Bullet b){",
+      "godot_symbol": "update_dispatch_result.updateMethodSource",
+      "godot_owner": "PortGame.source_bullet_type_update_dispatch_state",
+      "rule": "Runtime-visible source method boundary for BulletType.update.",
+      "tests": [
+        "test_bullet_type_update_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_dispatch_state",
+        "test_bullet_type_update_dispatch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_dispatch_state"
+    },
+    "update_dispatch.update_bullet_interval_boundary": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "update(Bullet b)",
+      "java_expr": "public void updateBulletInterval(Bullet b){",
+      "godot_symbol": "update_dispatch_result.nextMethodReservedSource",
+      "godot_owner": "PortGame.source_bullet_type_update_dispatch_state",
+      "rule": "Next BulletType behavior reserved for updateBulletInterval slice.",
+      "tests": [
+        "test_bullet_type_update_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_dispatch_state",
+        "test_bullet_type_update_dispatch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_dispatch_state"
     }
   }
 }

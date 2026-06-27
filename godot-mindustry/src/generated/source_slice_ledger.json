@@ -1497,6 +1497,39 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_init_spawn_bullets_state",
       "rule": "Backfills SSOT for existing BulletType.init spawnBullets runtime state from N370; random offsets remain explicit inputs."
+    },
+    "N454": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "update(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_update_dispatch_state",
+      "exact_exprs": [
+        "updateTrail(b);",
+        "updateHoming(b);",
+        "updateWeaving(b);",
+        "updateTrailEffects(b);",
+        "updateBulletInterval(b);"
+      ],
+      "deferred_exprs": [
+        "public void updateBulletInterval(Bullet b){"
+      ],
+      "source_symbols": [
+        "update_dispatch.update_trail_call",
+        "update_dispatch.update_homing_call",
+        "update_dispatch.update_weaving_call",
+        "update_dispatch.update_trail_effects_call",
+        "update_dispatch.update_bullet_interval_call",
+        "update_dispatch.update_method",
+        "update_dispatch.update_bullet_interval_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_update_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_dispatch_state",
+        "test_bullet_type_update_dispatch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_dispatch_state",
+      "rule": "Backfills SSOT for existing BulletType.update dispatch runtime state from N371."
     }
   },
   "version": 1

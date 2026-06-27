@@ -1174,14 +1174,46 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(update_boundary["status"], "deferred")
         self.assertEqual(update_boundary["java_expr"], "public void update(Bullet b){")
 
+    def test_bullet_type_update_dispatch_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        update_trail = source_symbols.source_symbol(registry, "update_dispatch.update_trail_call")
+        self.assertEqual(update_trail["java_expr"], "updateTrail(b);")
+        self.assertEqual(update_trail["godot_symbol"], "update_dispatch_result.callOrder[0]")
+        self.assertEqual(update_trail["godot_owner"], "PortGame.source_bullet_type_update_dispatch_state")
+        self.assertEqual(update_trail["runtime_proof"], "/root/Main.source_bullet_type_update_dispatch_state")
+
+        update_homing = source_symbols.source_symbol(registry, "update_dispatch.update_homing_call")
+        self.assertEqual(update_homing["java_expr"], "updateHoming(b);")
+        self.assertEqual(update_homing["godot_symbol"], "update_dispatch_result.callOrder[1]")
+
+        update_weaving = source_symbols.source_symbol(registry, "update_dispatch.update_weaving_call")
+        self.assertEqual(update_weaving["java_expr"], "updateWeaving(b);")
+        self.assertEqual(update_weaving["godot_symbol"], "update_dispatch_result.callOrder[2]")
+
+        update_trail_effects = source_symbols.source_symbol(registry, "update_dispatch.update_trail_effects_call")
+        self.assertEqual(update_trail_effects["java_expr"], "updateTrailEffects(b);")
+        self.assertEqual(update_trail_effects["godot_symbol"], "update_dispatch_result.callOrder[3]")
+
+        update_interval = source_symbols.source_symbol(registry, "update_dispatch.update_bullet_interval_call")
+        self.assertEqual(update_interval["java_expr"], "updateBulletInterval(b);")
+        self.assertEqual(update_interval["godot_symbol"], "update_dispatch_result.callOrder[4]")
+
+        interval_boundary = source_symbols.source_symbol(registry, "update_dispatch.update_bullet_interval_boundary")
+        self.assertEqual(interval_boundary["status"], "deferred")
+        self.assertEqual(interval_boundary["java_expr"], "public void updateBulletInterval(Bullet b){")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 51)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 52)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 56)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 57)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1227,6 +1259,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_create_units_notify_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_init_initial_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_init_spawn_bullets_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_update_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -1566,6 +1599,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("for(var bullet : spawnBullets){", init_spawn["exact_exprs"])
         self.assertIn("bullet.create(b, b.x, b.y, b.rotation() + Mathf.range(spawnBulletRandomSpread));", init_spawn["exact_exprs"])
         self.assertIn("public void update(Bullet b){", init_spawn["deferred_exprs"])
+
+        update_dispatch = source_symbols.source_slice(ledger, "N454")
+        self.assertEqual(update_dispatch["java_method"], "update(Bullet b)")
+        self.assertEqual(update_dispatch["godot_owner"], "PortGame.source_bullet_type_update_dispatch_state")
+        self.assertEqual(update_dispatch["exact_exprs"], [
+            "updateTrail(b);",
+            "updateHoming(b);",
+            "updateWeaving(b);",
+            "updateTrailEffects(b);",
+            "updateBulletInterval(b);",
+        ])
+        self.assertIn("public void updateBulletInterval(Bullet b){", update_dispatch["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -1981,6 +2026,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("updateBoundarySource", init_spawn["return_keys"])
         self.assertEqual(init_spawn["source_method"], "init(Bullet b)")
 
+        update_dispatch = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_update_dispatch_state")
+        self.assertEqual([param["name"] for param in update_dispatch["params"]], ["bullet_state"])
+        self.assertIn("callOrder", update_dispatch["return_keys"])
+        self.assertIn("updateMethodSource", update_dispatch["return_keys"])
+        self.assertIn("nextMethodReservedSource", update_dispatch["return_keys"])
+        self.assertEqual(update_dispatch["source_method"], "update(Bullet b)")
+
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_state_schema(schema)
@@ -2350,6 +2402,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(init_spawn_output["keys"]["spawnBulletsApplied"]["java_expr"], "spawnBullets.size > 0")
         self.assertEqual(init_spawn_output["keys"]["spawnBulletCalls"]["java_expr"], "bullet.create(b, b.x, b.y, b.rotation() + Mathf.range(spawnBulletRandomSpread))")
         self.assertEqual(init_spawn_output["keys"]["updateBoundarySource"]["status"], "deferred")
+
+        update_dispatch_output = source_symbols.state_schema(schema, "update_dispatch_result")
+        self.assertEqual(update_dispatch_output["keys"]["callOrder"]["java_expr"], "updateTrail(b); updateHoming(b); updateWeaving(b); updateTrailEffects(b); updateBulletInterval(b);")
+        self.assertEqual(update_dispatch_output["keys"]["updateMethodSource"]["java_expr"], "public void update(Bullet b){")
+        self.assertEqual(update_dispatch_output["keys"]["nextMethodReservedSource"]["java_expr"], "public void updateBulletInterval(Bullet b){")
+        self.assertEqual(update_dispatch_output["keys"]["nextMethodReservedSource"]["status"], "deferred")
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")

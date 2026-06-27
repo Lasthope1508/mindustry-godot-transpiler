@@ -4199,8 +4199,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"updateWeaving(b)"', source)
         self.assertIn('"updateTrailEffects(b)"', source)
         self.assertIn('"updateBulletInterval(b)"', source)
-        self.assertIn('"updateMethodSource": "public void update(Bullet b)"', source)
-        self.assertIn('"nextMethodReservedSource": "public void updateBulletInterval(Bullet b)"', source)
+        self.assertIn('"updateMethodSource": "public void update(Bullet b){"', source)
+        self.assertIn('"nextMethodReservedSource": "public void updateBulletInterval(Bullet b){"', source)
 
     def test_port_game_exposes_source_bullet_type_update_bullet_interval_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
