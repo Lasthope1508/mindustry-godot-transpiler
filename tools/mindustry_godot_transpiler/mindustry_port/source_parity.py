@@ -9902,6 +9902,27 @@ def verify_bullet_type_continuous_damage_default_state_source(upstream_root: Pat
         "missing": missing,
     }
 
+def verify_bullet_type_heals_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "heal_percent_field": "public float healPercent = 0f;",
+        "heal_amount_field": "public float healAmount = 0f;",
+        "method": "public boolean heals(){",
+        "return_heals": "return healPercent > 0 || healAmount > 0;",
+        "test_collision_uses_heals": "return !heals() || tile.team != bullet.team || tile.healthf() < 1f;",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

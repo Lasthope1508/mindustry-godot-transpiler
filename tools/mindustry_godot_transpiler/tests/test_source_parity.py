@@ -5480,6 +5480,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_heals_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_heals_state_source"))
+        report = source_parity.verify_bullet_type_heals_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "heal_percent_field": "public float healPercent = 0f;",
+            "heal_amount_field": "public float healAmount = 0f;",
+            "method": "public boolean heals(){",
+            "return_heals": "return healPercent > 0 || healAmount > 0;",
+            "test_collision_uses_heals": "return !heals() || tile.team != bullet.team || tile.healthf() < 1f;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
