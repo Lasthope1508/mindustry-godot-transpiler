@@ -5009,6 +5009,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\"rotationBoundarySource\": \"u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation();\"", source)
         self.assertIn("\"notifyBoundarySource\": \"Units.notifyUnitSpawn(u);\"", source)
 
+    def test_port_game_exposes_source_bullet_type_create_units_rotation_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_create_units_rotation_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_units_spawn_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var face_outwards := bool(update_type_state.get(\"faceOutwards\", update_spawn_state.get(\"faceOutwards\", false)))", source)
+        self.assertIn("var bullet_rotation: Variant = update_bullet_state.get(\"rotation\", null)", source)
+        self.assertIn("tmp_v1_angle = rad_to_deg(atan2(float(tmp_v1_y), float(tmp_v1_x)))", source)
+        self.assertIn("if tmp_v1_angle < 0.0:", source)
+        self.assertIn("\"assignment\": \"u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation()\"", source)
+        self.assertIn("\"notifyBoundarySource\": \"Units.notifyUnitSpawn(u);\"", source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

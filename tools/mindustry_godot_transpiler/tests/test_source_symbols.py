@@ -782,14 +782,43 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(notify["status"], "deferred")
         self.assertEqual(notify["java_expr"], "Units.notifyUnitSpawn(u);")
 
+    def test_bullet_type_create_units_rotation_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        rotation_assignments = source_symbols.source_symbol(registry, "create_units.rotation.rotation_assignments")
+        self.assertEqual(rotation_assignments["java_expr"], "u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation()")
+        self.assertEqual(rotation_assignments["godot_symbol"], "create_units_rotation_result.rotationAssignments")
+        self.assertEqual(rotation_assignments["godot_owner"], "PortGame.source_bullet_type_create_units_rotation_state")
+        self.assertEqual(rotation_assignments["runtime_proof"], "/root/Main.source_bullet_type_create_units_rotation_state")
+
+        face_outwards = source_symbols.source_symbol(registry, "create_units.rotation.face_outwards")
+        self.assertEqual(face_outwards["java_expr"], "faceOutwards")
+        self.assertEqual(face_outwards["godot_symbol"], "bullet_type_state.faceOutwards")
+
+        bullet_rotation = source_symbols.source_symbol(registry, "create_units.rotation.bullet_rotation")
+        self.assertEqual(bullet_rotation["java_expr"], "b.rotation()")
+        self.assertEqual(bullet_rotation["godot_symbol"], "bullet_state.rotation")
+        self.assertEqual(bullet_rotation["status"], "explicit-input")
+
+        tmp_v1_angle = source_symbols.source_symbol(registry, "create_units.rotation.tmp_v1_angle")
+        self.assertEqual(tmp_v1_angle["java_expr"], "Tmp.v1.angle()")
+        self.assertEqual(tmp_v1_angle["godot_symbol"], "create_units_rotation_result.rotationAssignments.tmpV1Angle")
+
+        notify = source_symbols.source_symbol(registry, "create_units.rotation.notify_boundary")
+        self.assertEqual(notify["status"], "deferred")
+        self.assertEqual(notify["java_expr"], "Units.notifyUnitSpawn(u);")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 36)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 37)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 41)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 42)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -831,6 +860,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_create_units_initial_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_units_random_offset_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_units_spawn_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_create_units_rotation_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -1056,6 +1086,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y)", create_units_spawn["exact_exprs"])
         self.assertIn("u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation();", create_units_spawn["deferred_exprs"])
         self.assertIn("Units.notifyUnitSpawn(u);", create_units_spawn["deferred_exprs"])
+
+        create_units_rotation = source_symbols.source_slice(ledger, "N439")
+        self.assertEqual(create_units_rotation["java_method"], "createUnits(Bullet b, float x, float y)")
+        self.assertEqual(create_units_rotation["godot_owner"], "PortGame.source_bullet_type_create_units_rotation_state")
+        self.assertIn("u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation()", create_units_rotation["exact_exprs"])
+        self.assertIn("Units.notifyUnitSpawn(u);", create_units_rotation["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -1351,6 +1387,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("rotationBoundarySource", create_units_spawn["return_keys"])
         self.assertIn("notifyBoundarySource", create_units_spawn["return_keys"])
         self.assertEqual(create_units_spawn["source_method"], "createUnits(Bullet b, float x, float y)")
+
+        create_units_rotation = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_create_units_rotation_state")
+        self.assertEqual([param["name"] for param in create_units_rotation["params"]], ["bullet_type_state", "bullet_state", "create_units_spawn_state"])
+        self.assertEqual(create_units_rotation["params"][2]["schema"], "create_units_spawn_result")
+        self.assertIn("rotationAssignments", create_units_rotation["return_keys"])
+        self.assertIn("notifyBoundarySource", create_units_rotation["return_keys"])
+        self.assertEqual(create_units_rotation["source_method"], "createUnits(Bullet b, float x, float y)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -1655,6 +1698,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(create_units_spawn_output["keys"]["spawnCalls"]["java_expr"], "despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y)")
         self.assertEqual(create_units_spawn_output["keys"]["spawnCalls"]["status"], "source-backed")
         self.assertEqual(create_units_spawn_output["keys"]["createUnitsRandomOffset"]["alias_of"], "create_units_random_offset_result")
+
+        create_units_rotation_output = source_symbols.state_schema(schema, "create_units_rotation_result")
+        self.assertEqual(create_units_rotation_output["keys"]["rotationAssignments"]["java_expr"], "u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation()")
+        self.assertEqual(create_units_rotation_output["keys"]["rotationAssignments"]["status"], "source-backed")
+        self.assertEqual(create_units_rotation_output["keys"]["createUnitsSpawn"]["alias_of"], "create_units_spawn_result")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

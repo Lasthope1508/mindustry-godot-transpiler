@@ -10809,6 +10809,45 @@ def verify_bullet_type_create_units_spawn_state_source(upstream_root: Path) -> d
         "missing": missing,
     }
 
+def verify_bullet_type_create_units_rotation_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    vec2_source = "arc-core/src/arc/math/geom/Vec2.java"
+    bullet_comp_source = "core/src/mindustry/entities/comp/BulletComp.java"
+    vec2_path = arc_root / vec2_source
+    bullet_comp_path = upstream_root / bullet_comp_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    vec2_text = vec2_path.read_text(encoding="utf-8", errors="replace")
+    bullet_comp_text = bullet_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void createUnits(Bullet b, float x, float y){",
+        "spawn_call": "var u = despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y);",
+        "rotation_assignment": "u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation();",
+        "notify_boundary": "Units.notifyUnitSpawn(u);",
+        "vec2_angle": "public float angle(){\n        float angle = Mathf.atan2(x, y) * Mathf.radiansToDegrees;\n        if(angle < 0) angle += 360;\n        return angle;\n    }",
+        "bullet_rotation": "public float rotation(){\n        return vel.isZero(0.001f) ? rotation : vel.angle();\n    }",
+    }
+    source_map = {
+        "method": source,
+        "spawn_call": source,
+        "rotation_assignment": source,
+        "notify_boundary": source,
+        "vec2_angle": vec2_text,
+        "bullet_rotation": bullet_comp_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "vec2_source": vec2_source,
+        "bullet_comp_source": bullet_comp_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

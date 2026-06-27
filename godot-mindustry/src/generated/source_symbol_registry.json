@@ -3783,6 +3783,81 @@
       "java_expr": "Units.notifyUnitSpawn(u);",
       "godot_symbol": "create_units_spawn_result.notifyBoundarySource",
       "rule": "Boundary marker; Units.notifyUnitSpawn side effect remains a later source slice."
+    },
+    "create_units.rotation.face_outwards": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_rotation_state",
+      "tests": [
+        "test_bullet_type_create_units_rotation_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_rotation_state",
+        "test_bullet_type_create_units_rotation_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_rotation_state",
+      "status": "source-backed",
+      "java_expr": "faceOutwards",
+      "godot_symbol": "bullet_type_state.faceOutwards",
+      "rule": "Use BulletType.faceOutwards to choose Tmp.v1.angle() or b.rotation()."
+    },
+    "create_units.rotation.bullet_rotation": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_rotation_state",
+      "tests": [
+        "test_bullet_type_create_units_rotation_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_rotation_state",
+        "test_bullet_type_create_units_rotation_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_rotation_state",
+      "status": "explicit-input",
+      "java_expr": "b.rotation()",
+      "godot_symbol": "bullet_state.rotation",
+      "rule": "Explicit bullet rotation result until BulletComp.rotation() is fully owned by this slice."
+    },
+    "create_units.rotation.tmp_v1_angle": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_rotation_state",
+      "tests": [
+        "test_bullet_type_create_units_rotation_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_rotation_state",
+        "test_bullet_type_create_units_rotation_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_rotation_state",
+      "status": "source-backed",
+      "java_expr": "Tmp.v1.angle()",
+      "godot_symbol": "create_units_rotation_result.rotationAssignments.tmpV1Angle",
+      "rule": "Compute Vec2.angle() from source-backed Tmp.v1 x/y without fabricating missing coordinates."
+    },
+    "create_units.rotation.rotation_assignments": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_rotation_state",
+      "tests": [
+        "test_bullet_type_create_units_rotation_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_rotation_state",
+        "test_bullet_type_create_units_rotation_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_rotation_state",
+      "status": "source-backed",
+      "java_expr": "u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation()",
+      "godot_symbol": "create_units_rotation_result.rotationAssignments",
+      "rule": "Per-unit rotation assignment records; runtime records assignment target value and leaves Unit mutation deferred."
+    },
+    "create_units.rotation.notify_boundary": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_rotation_state",
+      "tests": [
+        "test_bullet_type_create_units_rotation_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_rotation_state",
+        "test_bullet_type_create_units_rotation_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_rotation_state",
+      "status": "deferred",
+      "java_expr": "Units.notifyUnitSpawn(u);",
+      "godot_symbol": "create_units_rotation_result.notifyBoundarySource",
+      "rule": "Boundary marker; Units.notifyUnitSpawn side effect remains a later source slice."
     }
   }
 }

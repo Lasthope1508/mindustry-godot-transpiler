@@ -1087,6 +1087,34 @@
         "test_bullet_type_create_units_spawn_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_units_spawn_state"
+    },
+    "N439": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_rotation_state",
+      "exact_exprs": [
+        "u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation()",
+        "Tmp.v1.angle()",
+        "b.rotation()"
+      ],
+      "deferred_exprs": [
+        "Units.notifyUnitSpawn(u);"
+      ],
+      "source_symbols": [
+        "create_units.rotation.face_outwards",
+        "create_units.rotation.bullet_rotation",
+        "create_units.rotation.tmp_v1_angle",
+        "create_units.rotation.rotation_assignments",
+        "create_units.rotation.notify_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_units_rotation_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_rotation_state",
+        "test_bullet_type_create_units_rotation_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_rotation_state"
     }
   },
   "version": 1

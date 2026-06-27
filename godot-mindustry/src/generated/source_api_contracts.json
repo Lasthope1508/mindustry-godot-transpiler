@@ -1825,6 +1825,49 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_units_spawn_state",
       "rule": "Public runtime contract for createUnits despawnUnit.spawn call arguments only; UnitType.spawn side effect, rotation, and notify remain deferred."
+    },
+    "PortGame.source_bullet_type_create_units_rotation_state": {
+      "status": "active",
+      "source_slice": "N439",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createUnits(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "create_units_spawn_state",
+          "type": "Dictionary",
+          "schema": "create_units_spawn_result"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createUnitsSpawn",
+        "faceOutwards",
+        "bulletRotation",
+        "spawnCalls",
+        "rotationAssignments",
+        "rotationSource",
+        "vec2AngleSource",
+        "bulletRotationSource",
+        "notifyBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_create_units_rotation_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_rotation_state",
+        "test_bullet_type_create_units_rotation_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_rotation_state",
+      "rule": "Public runtime contract for createUnits unit rotation assignment only; Units.notifyUnitSpawn remains deferred."
     }
   },
   "policy": {

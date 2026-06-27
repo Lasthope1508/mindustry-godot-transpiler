@@ -6735,6 +6735,47 @@ func source_bullet_type_create_units_spawn_state(bullet_type_state: Dictionary, 
 		"notifyBoundarySource": "Units.notifyUnitSpawn(u);",
 	}
 
+func source_bullet_type_create_units_rotation_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_units_spawn_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_spawn_state: Dictionary = create_units_spawn_state.duplicate(true)
+	var spawn_calls: Array = update_spawn_state.get("spawnCalls", [])
+	var face_outwards := bool(update_type_state.get("faceOutwards", update_spawn_state.get("faceOutwards", false)))
+	var bullet_rotation: Variant = update_bullet_state.get("rotation", null)
+	var rotation_assignments: Array = []
+	for spawn_call in spawn_calls:
+		var tmp_v1_x: Variant = spawn_call.get("tmpV1X", null)
+		var tmp_v1_y: Variant = spawn_call.get("tmpV1Y", null)
+		var tmp_v1_angle: Variant = null
+		if tmp_v1_x != null and tmp_v1_y != null:
+			tmp_v1_angle = rad_to_deg(atan2(float(tmp_v1_y), float(tmp_v1_x)))
+			if tmp_v1_angle < 0.0:
+				tmp_v1_angle = float(tmp_v1_angle) + 360.0
+		var unit_rotation: Variant = tmp_v1_angle if face_outwards else bullet_rotation
+		rotation_assignments.append({
+			"index": int(spawn_call.get("index", rotation_assignments.size())),
+			"faceOutwards": face_outwards,
+			"bulletRotation": bullet_rotation,
+			"tmpV1X": tmp_v1_x,
+			"tmpV1Y": tmp_v1_y,
+			"tmpV1Angle": tmp_v1_angle,
+			"unitRotation": unit_rotation,
+			"assignment": "u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation()",
+		})
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createUnitsSpawn": update_spawn_state,
+		"faceOutwards": face_outwards,
+		"bulletRotation": bullet_rotation,
+		"spawnCalls": spawn_calls,
+		"rotationAssignments": rotation_assignments,
+		"rotationSource": "u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation();",
+		"vec2AngleSource": "public float angle(){ float angle = Mathf.atan2(x, y) * Mathf.radiansToDegrees; if(angle < 0) angle += 360; return angle; }",
+		"bulletRotationSource": "return vel.isZero(0.001f) ? rotation : vel.angle();",
+		"notifyBoundarySource": "Units.notifyUnitSpawn(u);",
+	}
+
 func source_bullet_type_hit_suppression_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_post_frag_dispatch_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
