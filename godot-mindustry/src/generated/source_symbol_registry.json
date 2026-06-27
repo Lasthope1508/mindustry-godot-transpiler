@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "symbols": {
+    "bullet.fin": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "drawParts(Bullet b)",
+      "java_expr": "b.fin()",
+      "godot_symbol": "bullet_state.fin",
+      "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
+      "rule": "Represent b.fin() as an explicit input fact until BulletComp.fin() is ported.",
+      "tests": [
+        "test_bullet_type_draw_parts_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_parts_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_parts_state"
+    },
+    "bullet.rotation": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "drawParts(Bullet b)",
+      "java_expr": "b.rotation()",
+      "godot_symbol": "bullet_state.rotation",
+      "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
+      "rule": "Represent b.rotation() as an explicit input fact until RotComp/BulletComp rotation state is ported.",
+      "tests": [
+        "test_bullet_type_draw_parts_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_parts_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_parts_state"
+    },
+    "bullet.x": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "drawParts(Bullet b)",
+      "java_expr": "b.x",
+      "godot_symbol": "bullet_state.x",
+      "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
+      "rule": "Use the bullet x field supplied by source bullet state; do not infer it from velocity or tile position.",
+      "tests": [
+        "test_bullet_type_draw_parts_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_parts_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_parts_state"
+    },
+    "bullet.y": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "drawParts(Bullet b)",
+      "java_expr": "b.y",
+      "godot_symbol": "bullet_state.y",
+      "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
+      "rule": "Use the bullet y field supplied by source bullet state; do not infer it from velocity or tile position.",
+      "tests": [
+        "test_bullet_type_draw_parts_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_parts_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_parts_state"
+    },
+    "bullet_type.parts": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "drawParts(Bullet b)",
+      "java_expr": "parts",
+      "godot_symbol": "bullet_type_state.parts",
+      "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
+      "rule": "Use BulletType.parts as the only part list; do not invent draw part defaults.",
+      "tests": [
+        "test_bullet_type_draw_parts_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_parts_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_parts_state"
+    },
+    "draw_part.params.charge": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/part/DrawPart.java",
+      "java_method": "PartParams.set(float warmup, float reload, float smoothReload, float heat, float recoil, float charge, float x, float y, float rotation)",
+      "java_expr": "this.charge = charge",
+      "godot_symbol": "partParams.charge",
+      "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
+      "rule": "Use the sixth DrawPart.params.set argument from BulletType.drawParts, which is 0f.",
+      "tests": [
+        "test_bullet_type_draw_parts_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_parts_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_parts_state"
+    },
+    "draw_part.params.heat": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/part/DrawPart.java",
+      "java_method": "PartParams.set(float warmup, float reload, float smoothReload, float heat, float recoil, float charge, float x, float y, float rotation)",
+      "java_expr": "this.heat = heat",
+      "godot_symbol": "partParams.heat",
+      "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
+      "rule": "Use the fourth DrawPart.params.set argument from BulletType.drawParts, which is 0f.",
+      "tests": [
+        "test_bullet_type_draw_parts_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_parts_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_parts_state"
+    },
+    "draw_part.params.life": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "drawParts(Bullet b)",
+      "java_expr": "DrawPart.params.life = b.fin()",
+      "godot_symbol": "partParams.life",
+      "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
+      "rule": "Set life from b.fin() after DrawPart.params.set resets life to 0f.",
+      "tests": [
+        "test_bullet_type_draw_parts_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_parts_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_parts_state"
+    },
+    "draw_part.params.recoil": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/part/DrawPart.java",
+      "java_method": "PartParams.set(float warmup, float reload, float smoothReload, float heat, float recoil, float charge, float x, float y, float rotation)",
+      "java_expr": "this.recoil = recoil",
+      "godot_symbol": "partParams.recoil",
+      "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
+      "rule": "Use the fifth DrawPart.params.set argument from BulletType.drawParts, which is 0f.",
+      "tests": [
+        "test_bullet_type_draw_parts_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_parts_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_parts_state"
+    },
+    "draw_part.params.reload": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/part/DrawPart.java",
+      "java_method": "PartParams.set(float warmup, float reload, float smoothReload, float heat, float recoil, float charge, float x, float y, float rotation)",
+      "java_expr": "this.reload = reload",
+      "godot_symbol": "partParams.reload",
+      "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
+      "rule": "Use the second DrawPart.params.set argument from BulletType.drawParts, which is 0f.",
+      "tests": [
+        "test_bullet_type_draw_parts_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_parts_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_parts_state"
+    },
+    "draw_part.params.rotation": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "drawParts(Bullet b)",
+      "java_expr": "DrawPart.params.set(..., b.rotation())",
+      "godot_symbol": "partParams.rotation",
+      "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
+      "rule": "Use b.rotation() as the ninth DrawPart.params.set argument.",
+      "tests": [
+        "test_bullet_type_draw_parts_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_parts_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_parts_state"
+    },
+    "draw_part.params.smoothReload": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/part/DrawPart.java",
+      "java_method": "PartParams.set(float warmup, float reload, float smoothReload, float heat, float recoil, float charge, float x, float y, float rotation)",
+      "java_expr": "this.smoothReload = smoothReload",
+      "godot_symbol": "partParams.smoothReload",
+      "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
+      "rule": "Use the third DrawPart.params.set argument from BulletType.drawParts, which is 0f.",
+      "tests": [
+        "test_bullet_type_draw_parts_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_parts_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_parts_state"
+    },
+    "draw_part.params.warmup": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "drawParts(Bullet b)",
+      "java_expr": "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation()).warmup",
+      "godot_symbol": "partParams.warmup",
+      "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
+      "rule": "Use b.fin() as the first DrawPart.params.set argument.",
+      "tests": [
+        "test_bullet_type_draw_parts_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_parts_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_parts_state"
+    },
+    "draw_part.params.x": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "drawParts(Bullet b)",
+      "java_expr": "DrawPart.params.set(..., b.x, ...)",
+      "godot_symbol": "partParams.x",
+      "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
+      "rule": "Use b.x as the seventh DrawPart.params.set argument.",
+      "tests": [
+        "test_bullet_type_draw_parts_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_parts_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_parts_state"
+    },
+    "draw_part.params.y": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "drawParts(Bullet b)",
+      "java_expr": "DrawPart.params.set(..., b.y, ...)",
+      "godot_symbol": "partParams.y",
+      "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
+      "rule": "Use b.y as the eighth DrawPart.params.set argument.",
+      "tests": [
+        "test_bullet_type_draw_parts_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_parts_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_parts_state"
+    }
+  }
+}

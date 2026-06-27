@@ -2,6 +2,7 @@ extends Node2D
 class_name PortGame
 
 const CONFIG_PATH := "res://src/generated/playable_content.json"
+const SOURCE_SYMBOL_REGISTRY_PATH := "res://src/generated/source_symbol_registry.json"
 const ContentRegistry := preload("res://src/generated/MindustryContentRegistry.gd")
 const GeneratedClassRegistry := preload("res://src/generated/GeneratedClassRegistry.gd")
 const ContentCatalog := preload("res://src/mindustry/content/ContentCatalog.gd")
@@ -158,6 +159,23 @@ func load_config() -> void:
 	if typeof(parsed) == TYPE_DICTIONARY:
 		config = parsed
 		tile_size = int(config.get("tile_size", 32))
+
+func source_symbol_registry_state(symbol: String = "") -> Dictionary:
+	var text := FileAccess.get_file_as_string(SOURCE_SYMBOL_REGISTRY_PATH)
+	var parsed = JSON.parse_string(text)
+	if typeof(parsed) != TYPE_DICTIONARY:
+		return {"loaded": false, "count": 0, "symbol": symbol, "entry": {}}
+	var symbols: Dictionary = parsed.get("symbols", {})
+	var entry: Dictionary = {}
+	if symbol != "":
+		entry = symbols.get(symbol, {})
+	return {
+		"loaded": true,
+		"version": int(parsed.get("version", 0)),
+		"count": symbols.size(),
+		"symbol": symbol,
+		"entry": entry,
+	}
 
 func load_content_registry() -> void:
 	content_catalog = ContentCatalog.new()

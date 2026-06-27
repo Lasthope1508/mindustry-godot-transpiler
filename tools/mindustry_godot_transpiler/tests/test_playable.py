@@ -4609,6 +4609,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('part_draw_calls.append({"part": parts[i], "params": part_params.duplicate(true), "call": "parts.get(i).draw(DrawPart.params)"})', source)
         self.assertIn('"paramsSetSource": "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())"', source)
 
+    def test_port_game_exposes_source_symbol_registry_lookup(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn('const SOURCE_SYMBOL_REGISTRY_PATH := "res://src/generated/source_symbol_registry.json"', source)
+        self.assertIn('func source_symbol_registry_state(symbol: String = "") -> Dictionary:', source)
+        self.assertIn("FileAccess.get_file_as_string(SOURCE_SYMBOL_REGISTRY_PATH)", source)
+        self.assertIn("symbols.get(symbol, {})", source)
+
     def test_port_game_exposes_source_bullet_type_draw_light_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
