@@ -5551,6 +5551,40 @@ func source_bullet_type_update_homing_follow_aim_state(homing_target_velocity_st
 		"followAimSetAngleSource": "b.vel.setAngle(Angles.moveToward(b.vel.angle(), angle, followAimSpeed * Time.delta))",
 	}
 
+func source_bullet_type_update_weaving_state(bullet_state: Dictionary, bullet_type_state: Dictionary, random_seed_result: int, source_delta: float) -> Dictionary:
+	var update_bullet_state := bullet_state.duplicate(true)
+	var weave_mag := float(bullet_type_state.get("weaveMag", 0.0))
+	var gate_passed := weave_mag != 0.0
+	if not gate_passed:
+		return {
+			"bullet": update_bullet_state,
+			"weaveApplied": false,
+			"weaveGatePassed": false,
+			"weaveGateSource": "if(weaveMag != 0){",
+			"rotateRadExactSource": "b.vel.rotateRadExact((float)Math.sin((b.time + Math.PI * weaveScale/2f) / weaveScale) * weaveMag * (weaveRandom ? (Mathf.randomSeed(b.id, 0, 1) == 1 ? -1 : 1) : 1f) * Time.delta * Mathf.degRad)",
+		}
+	var velocity_state: Dictionary = update_bullet_state.get("velocity", {})
+	var velocity_x := float(velocity_state.get("x", 0.0))
+	var velocity_y := float(velocity_state.get("y", 0.0))
+	var weave_scale := float(bullet_type_state.get("weaveScale", 1.0))
+	var random_sign := -1.0 if bool(bullet_type_state.get("weaveRandom", true)) and random_seed_result == 1 else 1.0
+	var rotation_radians := sin((float(update_bullet_state.get("time", 0.0)) + PI * weave_scale / 2.0) / weave_scale) * weave_mag * random_sign * source_delta * deg_to_rad(1.0)
+	var next_x := velocity_x * cos(rotation_radians) - velocity_y * sin(rotation_radians)
+	var next_y := velocity_x * sin(rotation_radians) + velocity_y * cos(rotation_radians)
+	update_bullet_state["velocity"] = {"x": next_x, "y": next_y, "angle": source_arc_angles_angle(0.0, 0.0, next_x, next_y), "speed": sqrt(next_x * next_x + next_y * next_y)}
+	return {
+		"bullet": update_bullet_state,
+		"weaveApplied": true,
+		"weaveGatePassed": true,
+		"rotationRadians": rotation_radians,
+		"randomSign": random_sign,
+		"randomSeedResult": random_seed_result,
+		"velocity": update_bullet_state["velocity"],
+		"weaveGateSource": "if(weaveMag != 0){",
+		"rotateRadExactSource": "b.vel.rotateRadExact((float)Math.sin((b.time + Math.PI * weaveScale/2f) / weaveScale) * weaveMag * (weaveRandom ? (Mathf.randomSeed(b.id, 0, 1) == 1 ? -1 : 1) : 1f) * Time.delta * Mathf.degRad)",
+		"vec2RotateRadExactSource": "float newX = this.x * cos - this.y * sin; float newY = this.x * sin + this.y * cos",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

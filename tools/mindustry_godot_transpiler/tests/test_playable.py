@@ -4292,6 +4292,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"followAimGateSource": "if(followAimSpeed > 0f && b.shooter instanceof Unit u){"', source)
         self.assertIn('"followAimSetAngleSource": "b.vel.setAngle(Angles.moveToward(b.vel.angle(), angle, followAimSpeed * Time.delta))"', source)
 
+    def test_port_game_exposes_source_bullet_type_update_weaving_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_update_weaving_state(bullet_state: Dictionary, bullet_type_state: Dictionary, random_seed_result: int, source_delta: float) -> Dictionary:", source)
+        self.assertIn("var update_bullet_state := bullet_state.duplicate(true)", source)
+        self.assertIn("var weave_mag := float(bullet_type_state.get(\"weaveMag\", 0.0))", source)
+        self.assertIn("var gate_passed := weave_mag != 0.0", source)
+        self.assertIn("var random_sign := -1.0 if bool(bullet_type_state.get(\"weaveRandom\", true)) and random_seed_result == 1 else 1.0", source)
+        self.assertIn("var rotation_radians := sin((float(update_bullet_state.get(\"time\", 0.0)) + PI * weave_scale / 2.0) / weave_scale) * weave_mag * random_sign * source_delta * deg_to_rad(1.0)", source)
+        self.assertIn("var next_x := velocity_x * cos(rotation_radians) - velocity_y * sin(rotation_radians)", source)
+        self.assertIn("var next_y := velocity_x * sin(rotation_radians) + velocity_y * cos(rotation_radians)", source)
+        self.assertIn("update_bullet_state[\"velocity\"] = {\"x\": next_x, \"y\": next_y, \"angle\": source_arc_angles_angle(0.0, 0.0, next_x, next_y), \"speed\": sqrt(next_x * next_x + next_y * next_y)}", source)
+        self.assertIn('"weaveGateSource": "if(weaveMag != 0){"', source)
+        self.assertIn('"rotateRadExactSource": "b.vel.rotateRadExact((float)Math.sin((b.time + Math.PI * weaveScale/2f) / weaveScale) * weaveMag * (weaveRandom ? (Mathf.randomSeed(b.id, 0, 1) == 1 ? -1 : 1) : 1f) * Time.delta * Mathf.degRad)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

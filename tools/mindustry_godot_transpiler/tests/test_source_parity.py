@@ -5166,6 +5166,27 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_update_weaving_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_update_weaving_state_source"))
+        report = source_parity.verify_bullet_type_update_weaving_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["vec2_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(report["checked"], {
+            "weave_scale_field": "public float weaveScale = 1f;",
+            "weave_mag_field": "public float weaveMag = 0f;",
+            "weave_random_field": "public boolean weaveRandom = true;",
+            "method": "public void updateWeaving(Bullet b){",
+            "gate": "if(weaveMag != 0){",
+            "rotate_call": "b.vel.rotateRadExact((float)Math.sin((b.time + Math.PI * weaveScale/2f) / weaveScale) * weaveMag * (weaveRandom ? (Mathf.randomSeed(b.id, 0, 1) == 1 ? -1 : 1) : 1f) * Time.delta * Mathf.degRad);",
+            "mathf_deg_rad": "public static final float degRad = degreesToRadians;",
+            "mathf_random_seed": "public static int randomSeed(long seed, int min, int max){",
+            "vec2_rotate_rad_exact": "public Vec2 rotateRadExact(float radians){",
+            "vec2_rotate_math": "float newX = this.x * cos - this.y * sin;\n        float newY = this.x * sin + this.y * cos;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

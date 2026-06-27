@@ -9270,6 +9270,53 @@ def verify_bullet_type_update_homing_follow_aim_state_source(upstream_root: Path
         "missing": missing,
     }
 
+def verify_bullet_type_update_weaving_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    mathf_source = "arc-core/src/arc/math/Mathf.java"
+    vec2_source = "arc-core/src/arc/math/geom/Vec2.java"
+    mathf_path = arc_root / mathf_source
+    vec2_path = arc_root / vec2_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    mathf_text = mathf_path.read_text(encoding="utf-8", errors="replace")
+    vec2_text = vec2_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "weave_scale_field": "public float weaveScale = 1f;",
+        "weave_mag_field": "public float weaveMag = 0f;",
+        "weave_random_field": "public boolean weaveRandom = true;",
+        "method": "public void updateWeaving(Bullet b){",
+        "gate": "if(weaveMag != 0){",
+        "rotate_call": "b.vel.rotateRadExact((float)Math.sin((b.time + Math.PI * weaveScale/2f) / weaveScale) * weaveMag * (weaveRandom ? (Mathf.randomSeed(b.id, 0, 1) == 1 ? -1 : 1) : 1f) * Time.delta * Mathf.degRad);",
+        "mathf_deg_rad": "public static final float degRad = degreesToRadians;",
+        "mathf_random_seed": "public static int randomSeed(long seed, int min, int max){",
+        "vec2_rotate_rad_exact": "public Vec2 rotateRadExact(float radians){",
+        "vec2_rotate_math": "float newX = this.x * cos - this.y * sin;\n        float newY = this.x * sin + this.y * cos;",
+    }
+    source_map = {
+        "weave_scale_field": source,
+        "weave_mag_field": source,
+        "weave_random_field": source,
+        "method": source,
+        "gate": source,
+        "rotate_call": source,
+        "mathf_deg_rad": mathf_text,
+        "mathf_random_seed": mathf_text,
+        "vec2_rotate_rad_exact": vec2_text,
+        "vec2_rotate_math": vec2_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "mathf_source": mathf_source,
+        "vec2_source": vec2_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
