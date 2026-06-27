@@ -4805,6 +4805,70 @@ func source_weapon_bullet_heat_state(create_call_state: Dictionary, mount_state:
 		"bulletMethodComplete": true,
 	}
 
+func source_bullet_type_create_initial_gate_state(create_call_state: Dictionary, bullet_type_state: Dictionary, random_angle_offset: float, create_chance_roll: float) -> Dictionary:
+	var bullet_create_call: Dictionary = create_call_state.get("bulletCreateCall", {})
+	var random_angle := random_angle_offset
+	var create_chance := float(bullet_type_state.get("createChance", 1.0))
+	if not bool(create_call_state.get("bulletContinues", false)) or bullet_create_call.is_empty():
+		return {
+			"bulletContinues": false,
+			"bulletCreateCalled": false,
+			"bulletCreateReturnsNull": true,
+			"createChance": create_chance,
+			"createChanceRoll": create_chance_roll,
+			"createChancePassed": false,
+			"angleOffsetSource": "angle += angleOffset + Mathf.range(randomAngleOffset)",
+			"mathfRangeSource": "return random(-range, range)",
+			"createChanceSource": "if(!Mathf.chance(createChance)) return null",
+			"mathfChanceSource": "return d >= 1f || rand.nextFloat() < d",
+			"ignoreSpawnAngleSource": "if(ignoreSpawnAngle) angle = 0",
+			"spawnUnitReservedSource": "if(spawnUnit != null)",
+		}
+	var angle_offset := float(bullet_type_state.get("angleOffset", 0.0))
+	var angle := float(bullet_create_call.get("angle", 0.0)) + angle_offset + random_angle
+	var chance_passed := create_chance >= 1.0 or create_chance_roll < create_chance
+	if not chance_passed:
+		return {
+			"bulletContinues": true,
+			"bulletCreateCalled": true,
+			"bulletCreateReturnsNull": true,
+			"createChance": create_chance,
+			"createChanceRoll": create_chance_roll,
+			"createChancePassed": false,
+			"angle": angle,
+			"angleOffset": angle_offset,
+			"randomAngleOffset": random_angle,
+			"ignoreSpawnAngleApplied": false,
+			"angleOffsetSource": "angle += angleOffset + Mathf.range(randomAngleOffset)",
+			"mathfRangeSource": "return random(-range, range)",
+			"createChanceSource": "if(!Mathf.chance(createChance)) return null",
+			"mathfChanceSource": "return d >= 1f || rand.nextFloat() < d",
+			"ignoreSpawnAngleSource": "if(ignoreSpawnAngle) angle = 0",
+			"spawnUnitReservedSource": "if(spawnUnit != null)",
+		}
+	var ignore_spawn_angle := false
+	if bool(bullet_type_state.get("ignoreSpawnAngle", false)):
+		ignore_spawn_angle = true
+		angle = 0.0
+	return {
+		"bulletContinues": true,
+		"bulletCreateCalled": true,
+		"bulletCreateReturnsNull": false,
+		"createChance": create_chance,
+		"createChanceRoll": create_chance_roll,
+		"createChancePassed": true,
+		"angle": angle,
+		"angleOffset": angle_offset,
+		"randomAngleOffset": random_angle,
+		"ignoreSpawnAngleApplied": ignore_spawn_angle,
+		"angleOffsetSource": "angle += angleOffset + Mathf.range(randomAngleOffset)",
+		"mathfRangeSource": "return random(-range, range)",
+		"createChanceSource": "if(!Mathf.chance(createChance)) return null",
+		"mathfChanceSource": "return d >= 1f || rand.nextFloat() < d",
+		"ignoreSpawnAngleSource": "if(ignoreSpawnAngle) angle = 0",
+		"spawnUnitReservedSource": "if(spawnUnit != null)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

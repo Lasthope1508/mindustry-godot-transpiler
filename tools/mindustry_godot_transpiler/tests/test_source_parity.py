@@ -4807,6 +4807,26 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_create_initial_gate_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_create_initial_gate_source"))
+        report = source_parity.verify_bullet_type_create_initial_gate_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["arc_mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "create_signature": "public @Nullable Bullet create(\n        @Nullable Entityc owner, @Nullable Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl,\n        float lifetimeScl, Object data, @Nullable Mover mover, float aimX, float aimY, @Nullable Teamc target\n    ){",
+            "angle_offset_line": "angle += angleOffset + Mathf.range(randomAngleOffset);",
+            "create_chance_gate": "if(!Mathf.chance(createChance)) return null;",
+            "ignore_spawn_angle": "if(ignoreSpawnAngle) angle = 0;",
+            "spawn_unit_reserved": "if(spawnUnit != null){",
+            "angle_offset_field": "public float angleOffset = 0f, randomAngleOffset = 0f;",
+            "ignore_spawn_angle_field": "public boolean ignoreSpawnAngle = false;",
+            "create_chance_field": "public float createChance = 1;",
+            "mathf_range": "return random(-range, range);",
+            "mathf_chance": "return d >= 1f || rand.nextFloat() < d;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

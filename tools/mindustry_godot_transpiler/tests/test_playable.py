@@ -3987,6 +3987,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"mountHeatSource": "mount.heat = 1f"', source)
         self.assertIn('"bulletMethodComplete": true', source)
 
+    def test_port_game_exposes_source_bullet_type_create_initial_gate_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_create_initial_gate_state(create_call_state: Dictionary, bullet_type_state: Dictionary, random_angle_offset: float, create_chance_roll: float) -> Dictionary:", source)
+        self.assertIn("var bullet_create_call: Dictionary = create_call_state.get(\"bulletCreateCall\", {})", source)
+        self.assertIn("var angle_offset := float(bullet_type_state.get(\"angleOffset\", 0.0))", source)
+        self.assertIn("var angle := float(bullet_create_call.get(\"angle\", 0.0)) + angle_offset + random_angle", source)
+        self.assertIn("var chance_passed := create_chance >= 1.0 or create_chance_roll < create_chance", source)
+        self.assertIn("if bool(bullet_type_state.get(\"ignoreSpawnAngle\", false)):", source)
+        self.assertIn('"angleOffsetSource": "angle += angleOffset + Mathf.range(randomAngleOffset)"', source)
+        self.assertIn('"createChanceSource": "if(!Mathf.chance(createChance)) return null"', source)
+        self.assertIn('"ignoreSpawnAngleSource": "if(ignoreSpawnAngle) angle = 0"', source)
+        self.assertIn('"spawnUnitReservedSource": "if(spawnUnit != null)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

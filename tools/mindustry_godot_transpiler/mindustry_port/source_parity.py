@@ -8517,6 +8517,48 @@ def verify_weapon_bullet_heat_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_bullet_type_create_initial_gate_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    mathf_path = arc_root / ARC_MATHF_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "create_signature": "public @Nullable Bullet create(\n        @Nullable Entityc owner, @Nullable Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl,\n        float lifetimeScl, Object data, @Nullable Mover mover, float aimX, float aimY, @Nullable Teamc target\n    ){",
+        "angle_offset_line": "angle += angleOffset + Mathf.range(randomAngleOffset);",
+        "create_chance_gate": "if(!Mathf.chance(createChance)) return null;",
+        "ignore_spawn_angle": "if(ignoreSpawnAngle) angle = 0;",
+        "spawn_unit_reserved": "if(spawnUnit != null){",
+        "angle_offset_field": "public float angleOffset = 0f, randomAngleOffset = 0f;",
+        "ignore_spawn_angle_field": "public boolean ignoreSpawnAngle = false;",
+        "create_chance_field": "public float createChance = 1;",
+        "mathf_range": "return random(-range, range);",
+        "mathf_chance": "return d >= 1f || rand.nextFloat() < d;",
+    }
+    source_map = {
+        "create_signature": source,
+        "angle_offset_line": source,
+        "create_chance_gate": source,
+        "ignore_spawn_angle": source,
+        "spawn_unit_reserved": source,
+        "angle_offset_field": source,
+        "ignore_spawn_angle_field": source,
+        "create_chance_field": source,
+        "mathf_range": mathf_source,
+        "mathf_chance": mathf_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "arc_mathf_source": ARC_MATHF_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
