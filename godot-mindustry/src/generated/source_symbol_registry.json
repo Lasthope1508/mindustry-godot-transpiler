@@ -5298,6 +5298,171 @@
         "test_bullet_type_update_trail_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_update_trail_state"
+    },
+    "update_homing_initial.gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateHoming(Bullet b)",
+      "java_expr": "if(homingPower > 0.0001f && b.time >= homingDelay){",
+      "godot_symbol": "update_homing_initial_result.gatePassed",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_initial_state",
+      "rule": "Exact updateHoming initial gate from BulletType.updateHoming.",
+      "tests": [
+        "test_bullet_type_update_homing_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_initial_state",
+        "test_bullet_type_update_homing_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_initial_state"
+    },
+    "update_homing_initial.homing_power": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateHoming(Bullet b)",
+      "java_expr": "homingPower",
+      "godot_symbol": "bullet_type_state.homingPower",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_initial_state",
+      "rule": "Canonical BulletType.homingPower field for updateHoming gate.",
+      "tests": [
+        "test_bullet_type_update_homing_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_initial_state",
+        "test_bullet_type_update_homing_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_initial_state"
+    },
+    "update_homing_initial.homing_delay": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateHoming(Bullet b)",
+      "java_expr": "homingDelay",
+      "godot_symbol": "bullet_type_state.homingDelay",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_initial_state",
+      "rule": "Canonical BulletType.homingDelay field for updateHoming gate.",
+      "tests": [
+        "test_bullet_type_update_homing_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_initial_state",
+        "test_bullet_type_update_homing_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_initial_state"
+    },
+    "update_homing_initial.homing_range": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateHoming(Bullet b)",
+      "java_expr": "homingRange",
+      "godot_symbol": "bullet_type_state.homingRange",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_initial_state",
+      "rule": "Canonical BulletType.homingRange field for deferred target selection.",
+      "tests": [
+        "test_bullet_type_update_homing_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_initial_state",
+        "test_bullet_type_update_homing_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_initial_state"
+    },
+    "update_homing_initial.follow_aim_speed": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateHoming(Bullet b)",
+      "java_expr": "followAimSpeed",
+      "godot_symbol": "bullet_type_state.followAimSpeed",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_initial_state",
+      "rule": "Canonical BulletType.followAimSpeed field for deferred follow-aim branch.",
+      "tests": [
+        "test_bullet_type_update_homing_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_initial_state",
+        "test_bullet_type_update_homing_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_initial_state"
+    },
+    "update_homing_initial.aim_x": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "java_method": "BulletComp",
+      "java_expr": "b.aimX",
+      "godot_symbol": "bullet_state.aimX",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_initial_state",
+      "rule": "Bullet aimX is transient BulletComp input used by realAimX fallback.",
+      "tests": [
+        "test_bullet_type_update_homing_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_initial_state",
+        "test_bullet_type_update_homing_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_initial_state"
+    },
+    "update_homing_initial.aim_y": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "java_method": "BulletComp",
+      "java_expr": "b.aimY",
+      "godot_symbol": "bullet_state.aimY",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_initial_state",
+      "rule": "Bullet aimY is transient BulletComp input used by realAimY fallback.",
+      "tests": [
+        "test_bullet_type_update_homing_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_initial_state",
+        "test_bullet_type_update_homing_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_initial_state"
+    },
+    "update_homing_initial.real_aim_x": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateHoming(Bullet b)",
+      "java_expr": "float realAimX = b.aimX < 0 ? b.x : b.aimX;",
+      "godot_symbol": "update_homing_initial_result.realAimX",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_initial_state",
+      "rule": "Computes realAimX from aimX fallback to b.x exactly as source.",
+      "tests": [
+        "test_bullet_type_update_homing_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_initial_state",
+        "test_bullet_type_update_homing_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_initial_state"
+    },
+    "update_homing_initial.real_aim_y": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateHoming(Bullet b)",
+      "java_expr": "float realAimY = b.aimY < 0 ? b.y : b.aimY;",
+      "godot_symbol": "update_homing_initial_result.realAimY",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_initial_state",
+      "rule": "Computes realAimY from aimY fallback to b.y exactly as source.",
+      "tests": [
+        "test_bullet_type_update_homing_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_initial_state",
+        "test_bullet_type_update_homing_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_initial_state"
+    },
+    "update_homing_initial.target_reserved": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateHoming(Bullet b)",
+      "java_expr": "Teamc target;",
+      "godot_symbol": "update_homing_initial_result.targetReservedSource",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_initial_state",
+      "rule": "Target selection body is deferred to later updateHoming slices.",
+      "tests": [
+        "test_bullet_type_update_homing_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_initial_state",
+        "test_bullet_type_update_homing_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_initial_state"
+    },
+    "update_homing_initial.follow_aim_reserved": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateHoming(Bullet b)",
+      "java_expr": "if(followAimSpeed > 0f && b.shooter instanceof Unit u){",
+      "godot_symbol": "update_homing_initial_result.followAimReservedSource",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_initial_state",
+      "rule": "Follow-aim branch is deferred to later updateHoming slice.",
+      "tests": [
+        "test_bullet_type_update_homing_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_initial_state",
+        "test_bullet_type_update_homing_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_initial_state"
     }
   }
 }

@@ -1300,14 +1300,54 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(init_boundary["status"], "deferred")
         self.assertEqual(init_boundary["java_expr"], "public void init(){")
 
+    def test_bullet_type_update_homing_initial_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        gate = source_symbols.source_symbol(registry, "update_homing_initial.gate")
+        self.assertEqual(gate["java_expr"], "if(homingPower > 0.0001f && b.time >= homingDelay){")
+        self.assertEqual(gate["godot_symbol"], "update_homing_initial_result.gatePassed")
+        self.assertEqual(gate["godot_owner"], "PortGame.source_bullet_type_update_homing_initial_state")
+        self.assertEqual(gate["runtime_proof"], "/root/Main.source_bullet_type_update_homing_initial_state")
+
+        real_aim_x = source_symbols.source_symbol(registry, "update_homing_initial.real_aim_x")
+        self.assertEqual(real_aim_x["java_expr"], "float realAimX = b.aimX < 0 ? b.x : b.aimX;")
+        self.assertEqual(real_aim_x["godot_symbol"], "update_homing_initial_result.realAimX")
+
+        real_aim_y = source_symbols.source_symbol(registry, "update_homing_initial.real_aim_y")
+        self.assertEqual(real_aim_y["java_expr"], "float realAimY = b.aimY < 0 ? b.y : b.aimY;")
+        self.assertEqual(real_aim_y["godot_symbol"], "update_homing_initial_result.realAimY")
+
+        aim_x = source_symbols.source_symbol(registry, "update_homing_initial.aim_x")
+        self.assertEqual(aim_x["status"], "explicit-input")
+        self.assertEqual(aim_x["java_expr"], "b.aimX")
+        self.assertEqual(aim_x["godot_symbol"], "bullet_state.aimX")
+
+        aim_y = source_symbols.source_symbol(registry, "update_homing_initial.aim_y")
+        self.assertEqual(aim_y["status"], "explicit-input")
+        self.assertEqual(aim_y["java_expr"], "b.aimY")
+        self.assertEqual(aim_y["godot_symbol"], "bullet_state.aimY")
+
+        target_reserved = source_symbols.source_symbol(registry, "update_homing_initial.target_reserved")
+        self.assertEqual(target_reserved["status"], "deferred")
+        self.assertEqual(target_reserved["java_expr"], "Teamc target;")
+        self.assertEqual(target_reserved["godot_symbol"], "update_homing_initial_result.targetReservedSource")
+
+        follow_reserved = source_symbols.source_symbol(registry, "update_homing_initial.follow_aim_reserved")
+        self.assertEqual(follow_reserved["status"], "deferred")
+        self.assertEqual(follow_reserved["java_expr"], "if(followAimSpeed > 0f && b.shooter instanceof Unit u){")
+        self.assertEqual(follow_reserved["godot_symbol"], "update_homing_initial_result.followAimReservedSource")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 54)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 55)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 59)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 60)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1356,6 +1396,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_update_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_update_bullet_interval_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_update_trail_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_update_homing_initial_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -1727,6 +1768,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("b.trail.length = trailLength;", update_trail["exact_exprs"])
         self.assertIn("b.trail.update(b.x, b.y, trailInterp.apply(b.fin()) * (1f + (trailSinMag > 0 ? Mathf.absin(Time.time, trailSinScl, trailSinMag) : 0f)));", update_trail["exact_exprs"])
         self.assertIn("public void init(){", update_trail["deferred_exprs"])
+
+        homing_initial = source_symbols.source_slice(ledger, "N457")
+        self.assertEqual(homing_initial["java_method"], "updateHoming(Bullet b)")
+        self.assertEqual(homing_initial["godot_owner"], "PortGame.source_bullet_type_update_homing_initial_state")
+        self.assertIn("if(homingPower > 0.0001f && b.time >= homingDelay){", homing_initial["exact_exprs"])
+        self.assertIn("float realAimX = b.aimX < 0 ? b.x : b.aimX;", homing_initial["exact_exprs"])
+        self.assertIn("float realAimY = b.aimY < 0 ? b.y : b.aimY;", homing_initial["exact_exprs"])
+        self.assertIn("Teamc target;", homing_initial["deferred_exprs"])
+        self.assertIn("if(followAimSpeed > 0f && b.shooter instanceof Unit u){", homing_initial["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -2169,6 +2219,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("initBoundarySource", update_trail["return_keys"])
         self.assertEqual(update_trail["source_method"], "updateTrail(Bullet b)")
 
+        homing_initial = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_update_homing_initial_state")
+        self.assertEqual([param["name"] for param in homing_initial["params"]], ["bullet_state", "bullet_type_state"])
+        self.assertIn("gatePassed", homing_initial["return_keys"])
+        self.assertIn("realAimComputed", homing_initial["return_keys"])
+        self.assertIn("realAimX", homing_initial["return_keys"])
+        self.assertIn("realAimY", homing_initial["return_keys"])
+        self.assertIn("targetSelectionDeferred", homing_initial["return_keys"])
+        self.assertIn("followAimDeferred", homing_initial["return_keys"])
+        self.assertIn("targetReservedSource", homing_initial["return_keys"])
+        self.assertIn("followAimReservedSource", homing_initial["return_keys"])
+        self.assertEqual(homing_initial["source_method"], "updateHoming(Bullet b)")
+
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_state_schema(schema)
@@ -2608,6 +2670,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(bullet_type_state["keys"]["trailInterp"]["java_expr"], "trailInterp")
         self.assertEqual(bullet_type_state["keys"]["trailSinMag"]["java_expr"], "trailSinMag")
         self.assertEqual(bullet_type_state["keys"]["trailSinScl"]["java_expr"], "trailSinScl")
+
+        homing_output = source_symbols.state_schema(schema, "update_homing_initial_result")
+        self.assertEqual(homing_output["keys"]["gatePassed"]["java_expr"], "homingPower > 0.0001f && b.time >= homingDelay")
+        self.assertEqual(homing_output["keys"]["realAimX"]["java_expr"], "float realAimX = b.aimX < 0 ? b.x : b.aimX")
+        self.assertEqual(homing_output["keys"]["realAimY"]["java_expr"], "float realAimY = b.aimY < 0 ? b.y : b.aimY")
+        self.assertEqual(homing_output["keys"]["targetSelectionDeferred"]["status"], "deferred")
+        self.assertEqual(homing_output["keys"]["followAimDeferred"]["status"], "deferred")
+
+        self.assertIn("PortGame.source_bullet_type_update_homing_initial_state", bullet_state["keys"]["time"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_update_homing_initial_state", bullet_state["keys"]["x"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_update_homing_initial_state", bullet_state["keys"]["y"]["used_by"])
+        self.assertEqual(bullet_state["keys"]["aimX"]["java_expr"], "b.aimX")
+        self.assertEqual(bullet_state["keys"]["aimY"]["java_expr"], "b.aimY")
+        self.assertEqual(bullet_type_state["keys"]["homingPower"]["java_expr"], "homingPower")
+        self.assertEqual(bullet_type_state["keys"]["homingDelay"]["java_expr"], "homingDelay")
+        self.assertEqual(bullet_type_state["keys"]["homingRange"]["java_expr"], "homingRange")
+        self.assertEqual(bullet_type_state["keys"]["followAimSpeed"]["java_expr"], "followAimSpeed")
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")

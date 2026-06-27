@@ -116,7 +116,8 @@
             "PortGame.source_bullet_type_init_spawn_bullets_state",
             "PortGame.source_bullet_type_update_dispatch_state",
             "PortGame.source_bullet_type_update_bullet_interval_state",
-            "PortGame.source_bullet_type_update_trail_state"
+            "PortGame.source_bullet_type_update_trail_state",
+            "PortGame.source_bullet_type_update_homing_initial_state"
           ],
           "rule": "Use source bullet x field."
         },
@@ -134,7 +135,8 @@
             "PortGame.source_bullet_type_init_spawn_bullets_state",
             "PortGame.source_bullet_type_update_dispatch_state",
             "PortGame.source_bullet_type_update_bullet_interval_state",
-            "PortGame.source_bullet_type_update_trail_state"
+            "PortGame.source_bullet_type_update_trail_state",
+            "PortGame.source_bullet_type_update_homing_initial_state"
           ],
           "rule": "Use source bullet y field."
         },
@@ -188,9 +190,34 @@
           "used_by": [
             "PortGame.source_bullet_type_init_initial_state",
             "PortGame.source_bullet_type_update_dispatch_state",
-            "PortGame.source_bullet_type_update_bullet_interval_state"
+            "PortGame.source_bullet_type_update_bullet_interval_state",
+            "PortGame.source_bullet_type_update_homing_initial_state"
           ],
           "rule": "Canonical Bullet time field; BulletType.init instantDisappear assigns lifetime + 1f."
+        },
+        "aimX": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "java_method": "BulletComp",
+          "java_expr": "b.aimX",
+          "godot_symbol": "bullet_state.aimX",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_initial_state"
+          ],
+          "rule": "Transient BulletComp aimX input used by updateHoming realAimX fallback."
+        },
+        "aimY": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "java_method": "BulletComp",
+          "java_expr": "b.aimY",
+          "godot_symbol": "bullet_state.aimY",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_initial_state"
+          ],
+          "rule": "Transient BulletComp aimY input used by updateHoming realAimY fallback."
         }
       }
     },
@@ -1128,6 +1155,54 @@
             "PortGame.source_bullet_type_update_trail_state"
           ],
           "rule": "Canonical BulletType.trailSinScl field for optional absin width scale; default is 3f."
+        },
+        "homingPower": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateHoming(Bullet b)",
+          "java_expr": "homingPower",
+          "godot_symbol": "bullet_type_state.homingPower",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_initial_state"
+          ],
+          "rule": "Canonical BulletType.homingPower field; default is 0f."
+        },
+        "homingDelay": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateHoming(Bullet b)",
+          "java_expr": "homingDelay",
+          "godot_symbol": "bullet_type_state.homingDelay",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_initial_state"
+          ],
+          "rule": "Canonical BulletType.homingDelay field; default is -1f."
+        },
+        "homingRange": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateHoming(Bullet b)",
+          "java_expr": "homingRange",
+          "godot_symbol": "bullet_type_state.homingRange",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_initial_state"
+          ],
+          "rule": "Canonical BulletType.homingRange field; default is 50f."
+        },
+        "followAimSpeed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateHoming(Bullet b)",
+          "java_expr": "followAimSpeed",
+          "godot_symbol": "bullet_type_state.followAimSpeed",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_initial_state"
+          ],
+          "rule": "Canonical BulletType.followAimSpeed field; default is 0f."
         }
       }
     },
@@ -8500,6 +8575,155 @@
             "PortGame.source_bullet_type_update_trail_state"
           ],
           "rule": "Next BulletType method boundary after updateTrail."
+        }
+      }
+    },
+    "update_homing_initial_result": {
+      "status": "active",
+      "keys": {
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime echo of input bullet_state."
+        },
+        "gatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateHoming(Bullet b)",
+          "java_expr": "homingPower > 0.0001f && b.time >= homingDelay",
+          "godot_symbol": "update_homing_initial_result.gatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_initial_state"
+          ],
+          "rule": "Exact updateHoming initial gate result."
+        },
+        "realAimComputed": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "update_homing_initial_result.gatePassed",
+          "rule": "Runtime boolean mirrors whether realAim values are reported after source gate passes."
+        },
+        "realAimX": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateHoming(Bullet b)",
+          "java_expr": "float realAimX = b.aimX < 0 ? b.x : b.aimX",
+          "godot_symbol": "update_homing_initial_result.realAimX",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_initial_state"
+          ],
+          "rule": "Computed realAimX or null when gate is blocked."
+        },
+        "realAimY": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateHoming(Bullet b)",
+          "java_expr": "float realAimY = b.aimY < 0 ? b.y : b.aimY",
+          "godot_symbol": "update_homing_initial_result.realAimY",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_initial_state"
+          ],
+          "rule": "Computed realAimY or null when gate is blocked."
+        },
+        "aimX": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_state.aimX",
+          "rule": "Runtime echo of Bullet aimX input."
+        },
+        "aimY": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_state.aimY",
+          "rule": "Runtime echo of Bullet aimY input."
+        },
+        "homingPower": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_type_state.homingPower",
+          "rule": "Runtime echo of BulletType.homingPower."
+        },
+        "homingDelay": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_type_state.homingDelay",
+          "rule": "Runtime echo of BulletType.homingDelay."
+        },
+        "homingRange": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_type_state.homingRange",
+          "rule": "Runtime echo of BulletType.homingRange for deferred target selection."
+        },
+        "targetSelectionDeferred": {
+          "type": "bool",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateHoming(Bullet b)",
+          "java_expr": "Teamc target;",
+          "godot_symbol": "update_homing_initial_result.targetSelectionDeferred",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_initial_state"
+          ],
+          "rule": "Target selection body starts after Teamc target and is handled by later slices."
+        },
+        "followAimDeferred": {
+          "type": "bool",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateHoming(Bullet b)",
+          "java_expr": "if(followAimSpeed > 0f && b.shooter instanceof Unit u){",
+          "godot_symbol": "update_homing_initial_result.followAimDeferred",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_initial_state"
+          ],
+          "rule": "Follow-aim branch is handled by later source-backed slice."
+        },
+        "gateSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.update_homing_initial.gate",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "realAimXSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.update_homing_initial.real_aim_x",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "realAimYSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.update_homing_initial.real_aim_y",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "targetReservedSource": {
+          "type": "String",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateHoming(Bullet b)",
+          "java_expr": "Teamc target;",
+          "godot_symbol": "update_homing_initial_result.targetReservedSource",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_initial_state"
+          ],
+          "rule": "Runtime-visible target declaration boundary."
+        },
+        "followAimReservedSource": {
+          "type": "String",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateHoming(Bullet b)",
+          "java_expr": "if(followAimSpeed > 0f && b.shooter instanceof Unit u){",
+          "godot_symbol": "update_homing_initial_result.followAimReservedSource",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_initial_state"
+          ],
+          "rule": "Runtime-visible follow-aim branch boundary."
         }
       }
     }

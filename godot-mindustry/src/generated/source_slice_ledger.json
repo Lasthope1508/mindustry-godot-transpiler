@@ -1602,6 +1602,42 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_update_trail_state",
       "rule": "Backfills SSOT for existing BulletType.updateTrail runtime state from N373; headless, trail interp, absin, and Time.delta remain explicit inputs."
+    },
+    "N457": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "updateHoming(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_initial_state",
+      "exact_exprs": [
+        "if(homingPower > 0.0001f && b.time >= homingDelay){",
+        "float realAimX = b.aimX < 0 ? b.x : b.aimX;",
+        "float realAimY = b.aimY < 0 ? b.y : b.aimY;"
+      ],
+      "deferred_exprs": [
+        "Teamc target;",
+        "if(followAimSpeed > 0f && b.shooter instanceof Unit u){"
+      ],
+      "source_symbols": [
+        "update_homing_initial.gate",
+        "update_homing_initial.homing_power",
+        "update_homing_initial.homing_delay",
+        "update_homing_initial.homing_range",
+        "update_homing_initial.follow_aim_speed",
+        "update_homing_initial.aim_x",
+        "update_homing_initial.aim_y",
+        "update_homing_initial.real_aim_x",
+        "update_homing_initial.real_aim_y",
+        "update_homing_initial.target_reserved",
+        "update_homing_initial.follow_aim_reserved"
+      ],
+      "tests": [
+        "test_bullet_type_update_homing_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_initial_state",
+        "test_bullet_type_update_homing_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_initial_state",
+      "rule": "Backfills SSOT for existing BulletType.updateHoming initial gate and real aim runtime state from N374; target selection and follow-aim remain deferred slices."
     }
   },
   "version": 1
