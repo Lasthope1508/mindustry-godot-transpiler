@@ -3611,6 +3611,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"keepAliveSource": "mount.bullet.keepAlive = true"', source)
         self.assertIn('"unitApplySource": "unit.apply(shootStatus, shootStatusDuration)"', source)
 
+    def test_port_game_exposes_source_weapon_update_continuous_idle_heat_sound_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_update_continuous_idle_heat_sound_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float) -> Dictionary:", source)
+        self.assertIn("var continuous_live_gate := continuous and bullet_exists", source)
+        self.assertIn("var idle_gate := not continuous_live_gate", source)
+        self.assertIn("next_heat = max(current_heat - source_delta * reload_multiplier / cooldown_time, 0.0)", source)
+        self.assertIn("var sound_update_call = null", source)
+        self.assertIn('"play": false', source)
+        self.assertIn('"heatSource": "mount.heat = Math.max(mount.heat - Time.delta * unit.reloadMultiplier / cooldownTime, 0)"', source)
+        self.assertIn('"soundUpdateSource": "mount.sound.update(bulletX, bulletY, false)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -4257,6 +4257,30 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_update_continuous_idle_heat_sound_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_update_continuous_idle_heat_sound_source"))
+        report = source_parity.verify_weapon_update_continuous_idle_heat_sound_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["status_comp_source"], "core/src/mindustry/entities/comp/StatusComp.java")
+        self.assertEqual(report["sound_loop_source"], "core/src/mindustry/audio/SoundLoop.java")
+        self.assertEqual(report["time_source"], "arc-core/src/arc/util/Time.java")
+        self.assertEqual(report["checked"], {
+            "continuous_else": "}else{",
+            "heat_comment": "//heat decreases when not firing",
+            "heat_decay": "mount.heat = Math.max(mount.heat - Time.delta * unit.reloadMultiplier / cooldownTime, 0);",
+            "sound_guard": "if(mount.sound != null){",
+            "sound_update_false": "mount.sound.update(bulletX, bulletY, false);",
+            "weapon_cooldown_time": "public float cooldownTime = 20f;",
+            "weapon_mount_heat": "public float heat;",
+            "weapon_mount_sound": "public @Nullable SoundLoop sound;",
+            "status_reload_multiplier": "reloadMultiplier = 1",
+            "time_delta": "public static float delta = 1f;",
+            "sound_loop_update": "public void update(float x, float y, boolean play){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

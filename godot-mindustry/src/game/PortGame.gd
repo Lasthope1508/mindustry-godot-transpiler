@@ -3860,6 +3860,40 @@ func source_weapon_update_always_continuous_keepalive_state(mount_state: Diction
 		"statusApplyGuardSource": "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return",
 	}
 
+func source_weapon_update_continuous_idle_heat_sound_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float) -> Dictionary:
+	var continuous := bool(weapon_state.get("continuous", false))
+	var bullet_exists := bool(mount_state.get("bulletExists", false))
+	var continuous_live_gate := continuous and bullet_exists
+	var idle_gate := not continuous_live_gate
+	var current_heat := float(mount_state.get("heat", 0.0))
+	var reload_multiplier := float(unit_state.get("reloadMultiplier", 1.0))
+	var cooldown_time := float(weapon_state.get("cooldownTime", 20.0))
+	var next_heat := current_heat
+	if idle_gate:
+		next_heat = max(current_heat - source_delta * reload_multiplier / cooldown_time, 0.0)
+	var has_sound := bool(mount_state.get("hasSound", false))
+	var sound_update_call = null
+	if idle_gate and has_sound:
+		sound_update_call = {
+			"x": bullet_x,
+			"y": bullet_y,
+			"play": false,
+		}
+	return {
+		"continuous": continuous,
+		"bulletExists": bullet_exists,
+		"continuousLiveGate": continuous_live_gate,
+		"idleGate": idle_gate,
+		"heat": next_heat,
+		"reloadMultiplier": reload_multiplier,
+		"cooldownTime": cooldown_time,
+		"hasSound": has_sound,
+		"soundUpdateCall": sound_update_call,
+		"heatSource": "mount.heat = Math.max(mount.heat - Time.delta * unit.reloadMultiplier / cooldownTime, 0)",
+		"soundGuardSource": "if(mount.sound != null)",
+		"soundUpdateSource": "mount.sound.update(bulletX, bulletY, false)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

@@ -7294,6 +7294,63 @@ def verify_weapon_update_always_continuous_keepalive_source(upstream_root: Path)
         "missing": missing,
     }
 
+def verify_weapon_update_continuous_idle_heat_sound_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    status_comp_source = "core/src/mindustry/entities/comp/StatusComp.java"
+    sound_loop_source = "core/src/mindustry/audio/SoundLoop.java"
+    time_source = ARC_TIME_SOURCE
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_path = upstream_root / weapon_mount_source
+    status_comp_path = upstream_root / status_comp_source
+    sound_loop_path = upstream_root / sound_loop_source
+    time_path = arc_root / time_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    status_comp_text = status_comp_path.read_text(encoding="utf-8", errors="replace")
+    sound_loop_text = sound_loop_path.read_text(encoding="utf-8", errors="replace")
+    time_text = time_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "continuous_else": "}else{",
+        "heat_comment": "//heat decreases when not firing",
+        "heat_decay": "mount.heat = Math.max(mount.heat - Time.delta * unit.reloadMultiplier / cooldownTime, 0);",
+        "sound_guard": "if(mount.sound != null){",
+        "sound_update_false": "mount.sound.update(bulletX, bulletY, false);",
+        "weapon_cooldown_time": "public float cooldownTime = 20f;",
+        "weapon_mount_heat": "public float heat;",
+        "weapon_mount_sound": "public @Nullable SoundLoop sound;",
+        "status_reload_multiplier": "reloadMultiplier = 1",
+        "time_delta": "public static float delta = 1f;",
+        "sound_loop_update": "public void update(float x, float y, boolean play){",
+    }
+    source_map = {
+        "continuous_else": source,
+        "heat_comment": source,
+        "heat_decay": source,
+        "sound_guard": source,
+        "sound_update_false": source,
+        "weapon_cooldown_time": source,
+        "weapon_mount_heat": weapon_mount_text,
+        "weapon_mount_sound": weapon_mount_text,
+        "status_reload_multiplier": status_comp_text,
+        "time_delta": time_text,
+        "sound_loop_update": sound_loop_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": weapon_mount_source,
+        "status_comp_source": status_comp_source,
+        "sound_loop_source": sound_loop_source,
+        "time_source": time_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
