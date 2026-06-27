@@ -5988,6 +5988,171 @@
         "test_bullet_type_update_weaving_circle_shooter_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_update_weaving_circle_shooter_state"
+    },
+    "update_trail_effects_chance.can_spawn": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateTrailEffects(Bullet b)",
+      "java_expr": "boolean canSpawn = trailMinVelocity <= 0f || b.vel.len2() >= trailMinVelocity * trailMinVelocity;",
+      "godot_symbol": "update_trail_effects_chance_result.canSpawn",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_chance_state",
+      "rule": "Exact updateTrailEffects canSpawn assignment.",
+      "tests": [
+        "test_bullet_type_update_trail_effects_chance_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_chance_state",
+        "test_bullet_type_update_trail_effects_chance_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_chance_state"
+    },
+    "update_trail_effects_chance.chance_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateTrailEffects(Bullet b)",
+      "java_expr": "if(trailChance > 0 && canSpawn){",
+      "godot_symbol": "update_trail_effects_chance_result.chanceGatePassed",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_chance_state",
+      "rule": "Exact trailChance gate before chanceDelta call.",
+      "tests": [
+        "test_bullet_type_update_trail_effects_chance_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_chance_state",
+        "test_bullet_type_update_trail_effects_chance_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_chance_state"
+    },
+    "update_trail_effects_chance.chance_delta": {
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "chanceDelta(double d)",
+      "java_expr": "public static boolean chanceDelta(double d){\n        return rand.nextFloat() < d * Time.delta;\n    }",
+      "godot_symbol": "update_trail_effects_chance_result.chanceDeltaResult",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_chance_state",
+      "rule": "Arc Mathf.chanceDelta backing; runtime result remains explicit input.",
+      "tests": [
+        "test_bullet_type_update_trail_effects_chance_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_chance_state",
+        "test_bullet_type_update_trail_effects_chance_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_chance_state"
+    },
+    "update_trail_effects_chance.spread_random": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateTrailEffects(Bullet b)",
+      "java_expr": "Tmp.v1.rnd(Mathf.random(trailSpread));",
+      "godot_symbol": "update_trail_effects_chance_result.tmpOffset",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_chance_state",
+      "rule": "Exact random offset branch when trailSpread > 0.",
+      "tests": [
+        "test_bullet_type_update_trail_effects_chance_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_chance_state",
+        "test_bullet_type_update_trail_effects_chance_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_chance_state"
+    },
+    "update_trail_effects_chance.spread_zero": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateTrailEffects(Bullet b)",
+      "java_expr": "Tmp.v1.setZero();",
+      "godot_symbol": "update_trail_effects_chance_result.tmpOffset",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_chance_state",
+      "rule": "Exact zero offset branch when trailSpread <= 0.",
+      "tests": [
+        "test_bullet_type_update_trail_effects_chance_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_chance_state",
+        "test_bullet_type_update_trail_effects_chance_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_chance_state"
+    },
+    "update_trail_effects_chance.effect_at": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateTrailEffects(Bullet b)",
+      "java_expr": "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor);",
+      "godot_symbol": "update_trail_effects_chance_result.effectCalls",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_chance_state",
+      "rule": "Exact trail effect call for chance branch.",
+      "tests": [
+        "test_bullet_type_update_trail_effects_chance_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_chance_state",
+        "test_bullet_type_update_trail_effects_chance_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_chance_state"
+    },
+    "update_trail_effects_chance.mathf_random_float": {
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "random(float range)",
+      "java_expr": "public static float random(float range){\n        return rand.nextFloat() * range;\n    }",
+      "godot_symbol": "random_offset_state",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_chance_state",
+      "rule": "Arc Mathf.random(float) backing for trailSpread offset length.",
+      "tests": [
+        "test_bullet_type_update_trail_effects_chance_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_chance_state",
+        "test_bullet_type_update_trail_effects_chance_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_chance_state"
+    },
+    "update_trail_effects_chance.vec2_len2": {
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "len2()",
+      "java_expr": "public float len2(){\n        return x * x + y * y;\n    }",
+      "godot_symbol": "update_trail_effects_chance_result.canSpawn",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_chance_state",
+      "rule": "Arc Vec2.len2 backing for canSpawn velocity threshold.",
+      "tests": [
+        "test_bullet_type_update_trail_effects_chance_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_chance_state",
+        "test_bullet_type_update_trail_effects_chance_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_chance_state"
+    },
+    "update_trail_effects_chance.vec2_rnd": {
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "rnd(float length)",
+      "java_expr": "public Vec2 rnd(float length){\n        setToRandomDirection().scl(length);\n        return this;\n    }",
+      "godot_symbol": "update_trail_effects_chance_result.tmpOffset",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_chance_state",
+      "rule": "Arc Vec2.rnd backing for random trail offset.",
+      "tests": [
+        "test_bullet_type_update_trail_effects_chance_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_chance_state",
+        "test_bullet_type_update_trail_effects_chance_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_chance_state"
+    },
+    "update_trail_effects_chance.vec2_set_zero": {
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "setZero()",
+      "java_expr": "public Vec2 setZero(){\n        this.x = 0;\n        this.y = 0;\n        return this;\n    }",
+      "godot_symbol": "update_trail_effects_chance_result.tmpOffset",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_chance_state",
+      "rule": "Arc Vec2.setZero backing for zero trail offset.",
+      "tests": [
+        "test_bullet_type_update_trail_effects_chance_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_chance_state",
+        "test_bullet_type_update_trail_effects_chance_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_chance_state"
+    },
+    "update_trail_effects_chance.effect_at_color": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/Effect.java",
+      "java_method": "at(float x, float y, float rotation, Color color)",
+      "java_expr": "public void at(float x, float y, float rotation, Color color){\n        create(x, y, rotation, color, null);\n    }",
+      "godot_symbol": "update_trail_effects_chance_result.effectCalls",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_chance_state",
+      "rule": "Effect.at overload backing for trail effect call.",
+      "tests": [
+        "test_bullet_type_update_trail_effects_chance_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_chance_state",
+        "test_bullet_type_update_trail_effects_chance_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_chance_state"
     }
   }
 }

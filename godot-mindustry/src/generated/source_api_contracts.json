@@ -2825,6 +2825,57 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_update_weaving_circle_shooter_state",
       "rule": "Public runtime contract for BulletType.updateWeaving circleShooter gate, temporary vector rotation, and velocity limiting."
+    },
+    "PortGame.source_bullet_type_update_trail_effects_chance_state": {
+      "status": "active",
+      "source_slice": "N463",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "updateTrailEffects(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "chance_delta_result",
+          "type": "bool",
+          "schema": "chance_delta_state.chanceDeltaResult"
+        },
+        {
+          "name": "random_offset_state",
+          "type": "Dictionary",
+          "schema": "random_offset_state"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "trailChanceEffectApplied",
+        "canSpawn",
+        "chanceGatePassed",
+        "chanceDeltaResult",
+        "trailSpread",
+        "tmpOffset",
+        "effectCalls",
+        "canSpawnSource",
+        "chanceGateSource",
+        "chanceDeltaSource",
+        "spreadRandomSource",
+        "spreadZeroSource",
+        "effectAtSource"
+      ],
+      "tests": [
+        "test_bullet_type_update_trail_effects_chance_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_chance_state",
+        "test_bullet_type_update_trail_effects_chance_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_chance_state",
+      "rule": "Public runtime contract for BulletType.updateTrailEffects chance gate, random/zero offset, and effect call."
     }
   },
   "policy": {

@@ -35,7 +35,8 @@
             "PortGame.source_bullet_type_init_spawn_bullets_state",
             "PortGame.source_bullet_type_update_dispatch_state",
             "PortGame.source_bullet_type_update_bullet_interval_state",
-            "PortGame.source_bullet_type_update_homing_target_velocity_state"
+            "PortGame.source_bullet_type_update_homing_target_velocity_state",
+            "PortGame.source_bullet_type_update_trail_effects_chance_state"
           ],
           "rule": "Explicit input until RotComp/BulletComp rotation state is ported."
         },
@@ -121,7 +122,8 @@
             "PortGame.source_bullet_type_update_homing_initial_state",
             "PortGame.source_bullet_type_update_homing_target_velocity_state",
             "PortGame.source_bullet_type_update_homing_follow_aim_state",
-            "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
+            "PortGame.source_bullet_type_update_weaving_circle_shooter_state",
+            "PortGame.source_bullet_type_update_trail_effects_chance_state"
           ],
           "rule": "Use source bullet x field."
         },
@@ -143,7 +145,8 @@
             "PortGame.source_bullet_type_update_homing_initial_state",
             "PortGame.source_bullet_type_update_homing_target_velocity_state",
             "PortGame.source_bullet_type_update_homing_follow_aim_state",
-            "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
+            "PortGame.source_bullet_type_update_weaving_circle_shooter_state",
+            "PortGame.source_bullet_type_update_trail_effects_chance_state"
           ],
           "rule": "Use source bullet y field."
         },
@@ -238,7 +241,8 @@
             "PortGame.source_bullet_type_update_homing_follow_aim_state",
             "PortGame.source_bullet_type_update_weaving_state",
             "PortGame.source_bullet_type_update_weaving_rotate_speed_state",
-            "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
+            "PortGame.source_bullet_type_update_weaving_circle_shooter_state",
+            "PortGame.source_bullet_type_update_trail_effects_chance_state"
           ],
           "rule": "BulletComp Vec2 velocity state."
         },
@@ -946,7 +950,8 @@
           "java_expr": "trailColor",
           "godot_symbol": "bullet_type_state.trailColor",
           "used_by": [
-            "PortGame.source_bullet_type_removed_trail_fade_state"
+            "PortGame.source_bullet_type_removed_trail_fade_state",
+            "PortGame.source_bullet_type_update_trail_effects_chance_state"
           ],
           "rule": "Canonical BulletType.trailColor field for removed trail fade color."
         },
@@ -1342,6 +1347,78 @@
             "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
           ],
           "rule": "Canonical BulletType.circleShooterRotateSpeed field; default is 0.3f."
+        },
+        "trailChance": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrailEffects(Bullet b)",
+          "java_expr": "trailChance",
+          "godot_symbol": "bullet_type_state.trailChance",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+          ],
+          "rule": "Canonical BulletType.trailChance field; default is -0.0001f."
+        },
+        "trailMinVelocity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrailEffects(Bullet b)",
+          "java_expr": "trailMinVelocity",
+          "godot_symbol": "bullet_type_state.trailMinVelocity",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+          ],
+          "rule": "Canonical BulletType.trailMinVelocity field; default is 0f."
+        },
+        "trailEffect": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrailEffects(Bullet b)",
+          "java_expr": "trailEffect",
+          "godot_symbol": "bullet_type_state.trailEffect",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+          ],
+          "rule": "Canonical BulletType.trailEffect field; default is Fx.missileTrail."
+        },
+        "trailSpread": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrailEffects(Bullet b)",
+          "java_expr": "trailSpread",
+          "godot_symbol": "bullet_type_state.trailSpread",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+          ],
+          "rule": "Canonical BulletType.trailSpread field; default is 0f."
+        },
+        "trailParam": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrailEffects(Bullet b)",
+          "java_expr": "trailParam",
+          "godot_symbol": "bullet_type_state.trailParam",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+          ],
+          "rule": "Canonical BulletType.trailParam field; default is 2f."
+        },
+        "trailRotation": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrailEffects(Bullet b)",
+          "java_expr": "trailRotation",
+          "godot_symbol": "bullet_type_state.trailRotation",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+          ],
+          "rule": "Canonical BulletType.trailRotation field; default is false."
         }
       }
     },
@@ -9511,6 +9588,180 @@
           "godot_symbol": "update_weaving_circle_shooter_result.circleShooterVelocitySource",
           "alias_of": "source_line.update_weaving_circle_shooter.velocity_add_limit",
           "rule": "Runtime source label for velocity add/limit."
+        }
+      }
+    },
+    "chance_delta_state": {
+      "status": "active",
+      "keys": {
+        "chanceDeltaResult": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "chanceDelta(double d)",
+          "java_expr": "Mathf.chanceDelta(trailChance)",
+          "godot_symbol": "chance_delta_state.chanceDeltaResult",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+          ],
+          "rule": "Explicit result of Mathf.chanceDelta(trailChance), because Arc RNG is external to this source-backed slice."
+        }
+      }
+    },
+    "random_offset_state": {
+      "status": "active",
+      "keys": {
+        "x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "java_method": "rnd(float length)",
+          "java_expr": "Tmp.v1.x",
+          "godot_symbol": "random_offset_state.x",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+          ],
+          "rule": "Explicit x component after Tmp.v1.rnd(Mathf.random(trailSpread))."
+        },
+        "y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "java_method": "rnd(float length)",
+          "java_expr": "Tmp.v1.y",
+          "godot_symbol": "random_offset_state.y",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+          ],
+          "rule": "Explicit y component after Tmp.v1.rnd(Mathf.random(trailSpread))."
+        }
+      }
+    },
+    "update_trail_effects_chance_result": {
+      "status": "active",
+      "keys": {
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "godot_symbol": "update_trail_effects_chance_result.bullet",
+          "alias_of": "bullet_state",
+          "rule": "Unchanged bullet state after trail chance effect evaluation."
+        },
+        "trailChanceEffectApplied": {
+          "type": "bool",
+          "status": "generated",
+          "godot_symbol": "update_trail_effects_chance_result.trailChanceEffectApplied",
+          "alias_of": "update_trail_effects_chance_result.effectCalls",
+          "rule": "Runtime boolean records whether trail effect call was applied."
+        },
+        "canSpawn": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrailEffects(Bullet b)",
+          "java_expr": "trailMinVelocity <= 0f || b.vel.len2() >= trailMinVelocity * trailMinVelocity",
+          "godot_symbol": "update_trail_effects_chance_result.canSpawn",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+          ],
+          "rule": "Exact canSpawn expression without assignment boilerplate."
+        },
+        "chanceGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrailEffects(Bullet b)",
+          "java_expr": "trailChance > 0 && canSpawn",
+          "godot_symbol": "update_trail_effects_chance_result.chanceGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+          ],
+          "rule": "Exact trailChance gate."
+        },
+        "chanceDeltaResult": {
+          "type": "bool",
+          "status": "generated",
+          "godot_symbol": "update_trail_effects_chance_result.chanceDeltaResult",
+          "alias_of": "chance_delta_state.chanceDeltaResult",
+          "rule": "Runtime echo of explicit chance_delta_state.chanceDeltaResult."
+        },
+        "trailSpread": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrailEffects(Bullet b)",
+          "java_expr": "trailSpread",
+          "godot_symbol": "update_trail_effects_chance_result.trailSpread",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+          ],
+          "rule": "Runtime trailSpread used for random/zero offset branch."
+        },
+        "tmpOffset": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrailEffects(Bullet b)",
+          "java_expr": "Tmp.v1.rnd(Mathf.random(trailSpread)) or Tmp.v1.setZero()",
+          "godot_symbol": "update_trail_effects_chance_result.tmpOffset",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+          ],
+          "rule": "Temporary offset, random when trailSpread > 0 and zero otherwise."
+        },
+        "effectCalls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrailEffects(Bullet b)",
+          "java_expr": "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor)",
+          "godot_symbol": "update_trail_effects_chance_result.effectCalls",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+          ],
+          "rule": "Trail effect calls emitted by chance branch."
+        },
+        "canSpawnSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "update_trail_effects_chance_result.canSpawnSource",
+          "alias_of": "source_line.update_trail_effects_chance.can_spawn",
+          "rule": "Runtime source label for canSpawn assignment."
+        },
+        "chanceGateSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "update_trail_effects_chance_result.chanceGateSource",
+          "alias_of": "source_line.update_trail_effects_chance.chance_gate",
+          "rule": "Runtime source label for chance gate."
+        },
+        "chanceDeltaSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "update_trail_effects_chance_result.chanceDeltaSource",
+          "alias_of": "source_line.update_trail_effects_chance.chance_delta",
+          "rule": "Runtime source label for chanceDelta call."
+        },
+        "spreadRandomSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "update_trail_effects_chance_result.spreadRandomSource",
+          "alias_of": "source_line.update_trail_effects_chance.spread_random",
+          "rule": "Runtime source label for random offset branch."
+        },
+        "spreadZeroSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "update_trail_effects_chance_result.spreadZeroSource",
+          "alias_of": "source_line.update_trail_effects_chance.spread_zero",
+          "rule": "Runtime source label for zero offset branch."
+        },
+        "effectAtSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "update_trail_effects_chance_result.effectAtSource",
+          "alias_of": "source_line.update_trail_effects_chance.effect_at",
+          "rule": "Runtime source label for trail effect call."
         }
       }
     }

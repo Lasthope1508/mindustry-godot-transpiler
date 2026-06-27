@@ -1515,14 +1515,51 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(mathf_clamp["java_source"], "arc-core/src/arc/math/Mathf.java")
         self.assertIn("return Math.max(Math.min(value, 1f), 0f);", mathf_clamp["java_expr"])
 
+    def test_bullet_type_update_trail_effects_chance_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        can_spawn = source_symbols.source_symbol(registry, "update_trail_effects_chance.can_spawn")
+        self.assertEqual(can_spawn["java_expr"], "boolean canSpawn = trailMinVelocity <= 0f || b.vel.len2() >= trailMinVelocity * trailMinVelocity;")
+        self.assertEqual(can_spawn["godot_symbol"], "update_trail_effects_chance_result.canSpawn")
+        self.assertEqual(can_spawn["godot_owner"], "PortGame.source_bullet_type_update_trail_effects_chance_state")
+        self.assertEqual(can_spawn["runtime_proof"], "/root/Main.source_bullet_type_update_trail_effects_chance_state")
+
+        chance_gate = source_symbols.source_symbol(registry, "update_trail_effects_chance.chance_gate")
+        self.assertEqual(chance_gate["java_expr"], "if(trailChance > 0 && canSpawn){")
+        self.assertEqual(chance_gate["godot_symbol"], "update_trail_effects_chance_result.chanceGatePassed")
+
+        chance_delta = source_symbols.source_symbol(registry, "update_trail_effects_chance.chance_delta")
+        self.assertEqual(chance_delta["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertIn("return rand.nextFloat() < d * Time.delta;", chance_delta["java_expr"])
+        self.assertEqual(chance_delta["godot_symbol"], "update_trail_effects_chance_result.chanceDeltaResult")
+
+        spread_random = source_symbols.source_symbol(registry, "update_trail_effects_chance.spread_random")
+        self.assertEqual(spread_random["java_expr"], "Tmp.v1.rnd(Mathf.random(trailSpread));")
+        self.assertEqual(spread_random["godot_symbol"], "update_trail_effects_chance_result.tmpOffset")
+
+        spread_zero = source_symbols.source_symbol(registry, "update_trail_effects_chance.spread_zero")
+        self.assertEqual(spread_zero["java_expr"], "Tmp.v1.setZero();")
+        self.assertEqual(spread_zero["godot_symbol"], "update_trail_effects_chance_result.tmpOffset")
+
+        effect_at = source_symbols.source_symbol(registry, "update_trail_effects_chance.effect_at")
+        self.assertEqual(effect_at["java_expr"], "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor);")
+        self.assertEqual(effect_at["godot_symbol"], "update_trail_effects_chance_result.effectCalls")
+
+        vec2_len2 = source_symbols.source_symbol(registry, "update_trail_effects_chance.vec2_len2")
+        self.assertEqual(vec2_len2["java_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertIn("return x * x + y * y;", vec2_len2["java_expr"])
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 60)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 61)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 65)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 66)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1577,6 +1614,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_update_weaving_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_update_weaving_rotate_speed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_update_weaving_circle_shooter_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_update_trail_effects_chance_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -1995,6 +2033,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("Tmp.v1.rotate(90f * Mathf.lerp(0f, 1f, 1f - Mathf.clamp((Tmp.v1.len() - circleShooterRadius) / circleShooterRadiusSmooth)));", update_weaving_circle_shooter["exact_exprs"])
         self.assertIn("b.vel.add(Tmp.v1.limit(speed * circleShooterRotateSpeed * Time.delta)).limit(speed);", update_weaving_circle_shooter["exact_exprs"])
         self.assertIn("public void updateTrailEffects(Bullet b){", update_weaving_circle_shooter["deferred_exprs"])
+
+        update_trail_effects_chance = source_symbols.source_slice(ledger, "N463")
+        self.assertEqual(update_trail_effects_chance["java_method"], "updateTrailEffects(Bullet b)")
+        self.assertEqual(update_trail_effects_chance["godot_owner"], "PortGame.source_bullet_type_update_trail_effects_chance_state")
+        self.assertIn("boolean canSpawn = trailMinVelocity <= 0f || b.vel.len2() >= trailMinVelocity * trailMinVelocity;", update_trail_effects_chance["exact_exprs"])
+        self.assertIn("if(trailChance > 0 && canSpawn){", update_trail_effects_chance["exact_exprs"])
+        self.assertIn("if(Mathf.chanceDelta(trailChance)){", update_trail_effects_chance["exact_exprs"])
+        self.assertIn("trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor);", update_trail_effects_chance["exact_exprs"])
+        self.assertIn("if(trailInterval > 0f && canSpawn){", update_trail_effects_chance["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -2517,6 +2564,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("limitedTmp", update_weaving_circle_shooter["return_keys"])
         self.assertIn("velocity", update_weaving_circle_shooter["return_keys"])
         self.assertEqual(update_weaving_circle_shooter["source_method"], "updateWeaving(Bullet b)")
+
+        update_trail_effects_chance = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_update_trail_effects_chance_state")
+        self.assertEqual([param["name"] for param in update_trail_effects_chance["params"]], ["bullet_state", "bullet_type_state", "chance_delta_result", "random_offset_state"])
+        self.assertEqual(update_trail_effects_chance["params"][0]["schema"], "bullet_state")
+        self.assertEqual(update_trail_effects_chance["params"][1]["schema"], "bullet_type_state")
+        self.assertEqual(update_trail_effects_chance["params"][2]["schema"], "chance_delta_state.chanceDeltaResult")
+        self.assertEqual(update_trail_effects_chance["params"][3]["schema"], "random_offset_state")
+        self.assertIn("trailChanceEffectApplied", update_trail_effects_chance["return_keys"])
+        self.assertIn("canSpawn", update_trail_effects_chance["return_keys"])
+        self.assertIn("chanceGatePassed", update_trail_effects_chance["return_keys"])
+        self.assertIn("chanceDeltaResult", update_trail_effects_chance["return_keys"])
+        self.assertIn("tmpOffset", update_trail_effects_chance["return_keys"])
+        self.assertIn("effectCalls", update_trail_effects_chance["return_keys"])
+        self.assertEqual(update_trail_effects_chance["source_method"], "updateTrailEffects(Bullet b)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -3057,6 +3118,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(owner_health_state["keys"]["isValid"]["java_expr"], "h.isValid()")
         self.assertEqual(owner_health_state["keys"]["x"]["java_expr"], "h.getX()")
         self.assertEqual(owner_health_state["keys"]["y"]["java_expr"], "h.getY()")
+
+        chance_delta_state = source_symbols.state_schema(schema, "chance_delta_state")
+        self.assertEqual(chance_delta_state["keys"]["chanceDeltaResult"]["java_expr"], "Mathf.chanceDelta(trailChance)")
+        self.assertEqual(chance_delta_state["keys"]["chanceDeltaResult"]["status"], "explicit-input")
+
+        random_offset_state = source_symbols.state_schema(schema, "random_offset_state")
+        self.assertEqual(random_offset_state["keys"]["x"]["java_expr"], "Tmp.v1.x")
+        self.assertEqual(random_offset_state["keys"]["y"]["java_expr"], "Tmp.v1.y")
+
+        update_trail_effects_chance_output = source_symbols.state_schema(schema, "update_trail_effects_chance_result")
+        self.assertEqual(update_trail_effects_chance_output["keys"]["canSpawn"]["java_expr"], "trailMinVelocity <= 0f || b.vel.len2() >= trailMinVelocity * trailMinVelocity")
+        self.assertEqual(update_trail_effects_chance_output["keys"]["chanceGatePassed"]["java_expr"], "trailChance > 0 && canSpawn")
+        self.assertEqual(update_trail_effects_chance_output["keys"]["chanceDeltaResult"]["alias_of"], "chance_delta_state.chanceDeltaResult")
+        self.assertEqual(update_trail_effects_chance_output["keys"]["tmpOffset"]["java_expr"], "Tmp.v1.rnd(Mathf.random(trailSpread)) or Tmp.v1.setZero()")
+        self.assertEqual(update_trail_effects_chance_output["keys"]["effectCalls"]["java_expr"], "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor)")
+        self.assertEqual(update_trail_effects_chance_output["keys"]["chanceGateSource"]["alias_of"], "source_line.update_trail_effects_chance.chance_gate")
+
+        self.assertIn("PortGame.source_bullet_type_update_trail_effects_chance_state", bullet_state["keys"]["x"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_update_trail_effects_chance_state", bullet_state["keys"]["y"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_update_trail_effects_chance_state", bullet_state["keys"]["velocity"]["used_by"])
+        self.assertEqual(bullet_type_state["keys"]["trailChance"]["java_expr"], "trailChance")
+        self.assertEqual(bullet_type_state["keys"]["trailMinVelocity"]["java_expr"], "trailMinVelocity")
+        self.assertEqual(bullet_type_state["keys"]["trailEffect"]["java_expr"], "trailEffect")
+        self.assertEqual(bullet_type_state["keys"]["trailSpread"]["java_expr"], "trailSpread")
+        self.assertEqual(bullet_type_state["keys"]["trailParam"]["java_expr"], "trailParam")
+        self.assertEqual(bullet_type_state["keys"]["trailRotation"]["java_expr"], "trailRotation")
+        self.assertEqual(bullet_type_state["keys"]["trailColor"]["java_expr"], "trailColor")
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")

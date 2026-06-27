@@ -1791,6 +1791,44 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_update_weaving_circle_shooter_state",
       "rule": "Backfills SSOT for existing BulletType.updateWeaving circleShooter runtime state from N379; updateTrailEffects remains the next source-backed slice."
+    },
+    "N463": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "updateTrailEffects(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_chance_state",
+      "exact_exprs": [
+        "boolean canSpawn = trailMinVelocity <= 0f || b.vel.len2() >= trailMinVelocity * trailMinVelocity;",
+        "if(trailChance > 0 && canSpawn){",
+        "if(Mathf.chanceDelta(trailChance)){",
+        "Tmp.v1.rnd(Mathf.random(trailSpread));",
+        "Tmp.v1.setZero();",
+        "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor);"
+      ],
+      "deferred_exprs": [
+        "if(trailInterval > 0f && canSpawn){"
+      ],
+      "source_symbols": [
+        "update_trail_effects_chance.can_spawn",
+        "update_trail_effects_chance.chance_gate",
+        "update_trail_effects_chance.chance_delta",
+        "update_trail_effects_chance.spread_random",
+        "update_trail_effects_chance.spread_zero",
+        "update_trail_effects_chance.effect_at",
+        "update_trail_effects_chance.mathf_random_float",
+        "update_trail_effects_chance.vec2_len2",
+        "update_trail_effects_chance.vec2_rnd",
+        "update_trail_effects_chance.vec2_set_zero",
+        "update_trail_effects_chance.effect_at_color"
+      ],
+      "tests": [
+        "test_bullet_type_update_trail_effects_chance_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_chance_state",
+        "test_bullet_type_update_trail_effects_chance_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_chance_state",
+      "rule": "Backfills SSOT for existing BulletType.updateTrailEffects chance runtime state from N380; trailInterval remains a separate source-backed slice."
     }
   },
   "version": 1
