@@ -5187,6 +5187,23 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_update_weaving_rotate_speed_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_update_weaving_rotate_speed_state_source"))
+        report = source_parity.verify_bullet_type_update_weaving_rotate_speed_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["vec2_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(report["mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "rotate_speed_field": "public float rotateSpeed = 0f;",
+            "method": "public void updateWeaving(Bullet b){",
+            "rotate_speed_gate": "if(rotateSpeed != 0){",
+            "rotate_speed_call": "b.vel.rotate(rotateSpeed * Time.delta);",
+            "vec2_rotate": "public Vec2 rotate(float degrees){\n        return rotateRad(degrees * Mathf.degreesToRadians);\n    }",
+            "mathf_degrees_to_radians": "public static final float degreesToRadians = PI / 180;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

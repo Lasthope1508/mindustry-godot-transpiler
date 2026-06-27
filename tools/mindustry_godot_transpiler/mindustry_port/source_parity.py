@@ -9317,6 +9317,45 @@ def verify_bullet_type_update_weaving_state_source(upstream_root: Path) -> dict[
         "missing": missing,
     }
 
+def verify_bullet_type_update_weaving_rotate_speed_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    vec2_source = "arc-core/src/arc/math/geom/Vec2.java"
+    mathf_source = "arc-core/src/arc/math/Mathf.java"
+    vec2_path = arc_root / vec2_source
+    mathf_path = arc_root / mathf_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    vec2_text = vec2_path.read_text(encoding="utf-8", errors="replace")
+    mathf_text = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "rotate_speed_field": "public float rotateSpeed = 0f;",
+        "method": "public void updateWeaving(Bullet b){",
+        "rotate_speed_gate": "if(rotateSpeed != 0){",
+        "rotate_speed_call": "b.vel.rotate(rotateSpeed * Time.delta);",
+        "vec2_rotate": "public Vec2 rotate(float degrees){\n        return rotateRad(degrees * Mathf.degreesToRadians);\n    }",
+        "mathf_degrees_to_radians": "public static final float degreesToRadians = PI / 180;",
+    }
+    source_map = {
+        "rotate_speed_field": source,
+        "method": source,
+        "rotate_speed_gate": source,
+        "rotate_speed_call": source,
+        "vec2_rotate": vec2_text,
+        "mathf_degrees_to_radians": mathf_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "vec2_source": vec2_source,
+        "mathf_source": mathf_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

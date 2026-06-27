@@ -5585,6 +5585,36 @@ func source_bullet_type_update_weaving_state(bullet_state: Dictionary, bullet_ty
 		"vec2RotateRadExactSource": "float newX = this.x * cos - this.y * sin; float newY = this.x * sin + this.y * cos",
 	}
 
+func source_bullet_type_update_weaving_rotate_speed_state(weaving_state: Dictionary, bullet_type_state: Dictionary, source_delta: float) -> Dictionary:
+	var update_bullet_state: Dictionary = weaving_state.get("bullet", {}).duplicate(true)
+	var rotate_speed := float(bullet_type_state.get("rotateSpeed", 0.0))
+	var gate_passed := rotate_speed != 0.0
+	if not gate_passed:
+		return {
+			"bullet": update_bullet_state,
+			"rotateSpeedApplied": false,
+			"rotateSpeedGatePassed": false,
+			"rotateSpeedGateSource": "if(rotateSpeed != 0){",
+			"rotateSpeedSource": "b.vel.rotate(rotateSpeed * Time.delta)",
+		}
+	var velocity_state: Dictionary = update_bullet_state.get("velocity", {})
+	var velocity_x := float(velocity_state.get("x", 0.0))
+	var velocity_y := float(velocity_state.get("y", 0.0))
+	var rotation_radians := rotate_speed * source_delta * deg_to_rad(1.0)
+	var next_x := velocity_x * cos(rotation_radians) - velocity_y * sin(rotation_radians)
+	var next_y := velocity_x * sin(rotation_radians) + velocity_y * cos(rotation_radians)
+	update_bullet_state["velocity"] = {"x": next_x, "y": next_y, "angle": source_arc_angles_angle(0.0, 0.0, next_x, next_y), "speed": sqrt(next_x * next_x + next_y * next_y)}
+	return {
+		"bullet": update_bullet_state,
+		"rotateSpeedApplied": true,
+		"rotateSpeedGatePassed": true,
+		"rotationRadians": rotation_radians,
+		"velocity": update_bullet_state["velocity"],
+		"rotateSpeedGateSource": "if(rotateSpeed != 0){",
+		"rotateSpeedSource": "b.vel.rotate(rotateSpeed * Time.delta)",
+		"vec2RotateSource": "return rotateRad(degrees * Mathf.degreesToRadians)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

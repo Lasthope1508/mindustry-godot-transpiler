@@ -4308,6 +4308,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"weaveGateSource": "if(weaveMag != 0){"', source)
         self.assertIn('"rotateRadExactSource": "b.vel.rotateRadExact((float)Math.sin((b.time + Math.PI * weaveScale/2f) / weaveScale) * weaveMag * (weaveRandom ? (Mathf.randomSeed(b.id, 0, 1) == 1 ? -1 : 1) : 1f) * Time.delta * Mathf.degRad)"', source)
 
+    def test_port_game_exposes_source_bullet_type_update_weaving_rotate_speed_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_update_weaving_rotate_speed_state(weaving_state: Dictionary, bullet_type_state: Dictionary, source_delta: float) -> Dictionary:", source)
+        self.assertIn("var update_bullet_state: Dictionary = weaving_state.get(\"bullet\", {}).duplicate(true)", source)
+        self.assertIn("var rotate_speed := float(bullet_type_state.get(\"rotateSpeed\", 0.0))", source)
+        self.assertIn("var gate_passed := rotate_speed != 0.0", source)
+        self.assertIn("var rotation_radians := rotate_speed * source_delta * deg_to_rad(1.0)", source)
+        self.assertIn("var next_x := velocity_x * cos(rotation_radians) - velocity_y * sin(rotation_radians)", source)
+        self.assertIn("var next_y := velocity_x * sin(rotation_radians) + velocity_y * cos(rotation_radians)", source)
+        self.assertIn("update_bullet_state[\"velocity\"] = {\"x\": next_x, \"y\": next_y, \"angle\": source_arc_angles_angle(0.0, 0.0, next_x, next_y), \"speed\": sqrt(next_x * next_x + next_y * next_y)}", source)
+        self.assertIn('"rotateSpeedGateSource": "if(rotateSpeed != 0){"', source)
+        self.assertIn('"rotateSpeedSource": "b.vel.rotate(rotateSpeed * Time.delta)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
