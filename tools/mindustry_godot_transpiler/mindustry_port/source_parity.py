@@ -8867,6 +8867,58 @@ def verify_bullet_type_create_keep_velocity_state_source(upstream_root: Path) ->
         "missing": missing,
     }
 
+def verify_bullet_type_init_initial_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    bullet_comp_source = "core/src/mindustry/entities/comp/BulletComp.java"
+    health_comp_source = "core/src/mindustry/entities/comp/HealthComp.java"
+    bullet_comp_path = upstream_root / bullet_comp_source
+    health_comp_path = upstream_root / health_comp_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    bullet_comp_text = bullet_comp_path.read_text(encoding="utf-8", errors="replace")
+    health_comp_text = health_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "kill_shooter_field": "public boolean killShooter;",
+        "instant_disappear_field": "public boolean instantDisappear;",
+        "lifetime_field": "public float lifetime = 40f;",
+        "init_method": "public void init(Bullet b){",
+        "kill_shooter_gate": "if(killShooter && b.owner() instanceof Healthc h && !h.dead()){",
+        "kill_call": "h.kill();",
+        "instant_disappear_gate": "if(instantDisappear){",
+        "time_assignment": "b.time = lifetime + 1f;",
+        "spawn_bullets_reserved": "if(spawnBullets.size > 0){",
+        "bullet_comp_owner": "@Import Entityc owner;",
+        "bullet_comp_time_lifetime": "@Import float x, y, damage, lastX, lastY, time, lifetime;",
+        "health_comp_dead": "transient boolean dead;",
+        "health_comp_kill": "void kill(){\n        if(dead) return;\n\n        health = Math.min(health, 0);\n        dead = true;\n        killed();\n        remove();\n    }",
+    }
+    source_map = {
+        "kill_shooter_field": source,
+        "instant_disappear_field": source,
+        "lifetime_field": source,
+        "init_method": source,
+        "kill_shooter_gate": source,
+        "kill_call": source,
+        "instant_disappear_gate": source,
+        "time_assignment": source,
+        "spawn_bullets_reserved": source,
+        "bullet_comp_owner": bullet_comp_text,
+        "bullet_comp_time_lifetime": bullet_comp_text,
+        "health_comp_dead": health_comp_text,
+        "health_comp_kill": health_comp_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "bullet_comp_source": bullet_comp_source,
+        "health_comp_source": health_comp_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

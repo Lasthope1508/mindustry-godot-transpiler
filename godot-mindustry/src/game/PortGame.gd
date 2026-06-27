@@ -5291,6 +5291,38 @@ func source_bullet_type_create_keep_velocity_state(trail_add_state: Dictionary, 
 		"returnSource": "return bullet",
 	}
 
+func source_bullet_type_init_initial_state(bullet_state: Dictionary, bullet_type_state: Dictionary, owner_health_state: Dictionary) -> Dictionary:
+	var init_bullet_state := bullet_state.duplicate(true)
+	var init_owner_state := owner_health_state.duplicate(true)
+	var kill_shooter := bool(bullet_type_state.get("killShooter", false))
+	var owner_is_healthc := bool(init_owner_state.get("isHealthc", false))
+	var owner_dead := bool(init_owner_state.get("dead", false))
+	var kill_shooter_applied := false
+	if kill_shooter and owner_is_healthc and not owner_dead:
+		kill_shooter_applied = true
+		init_owner_state["health"] = minf(float(init_owner_state.get("health", 0.0)), 0.0)
+		init_owner_state["dead"] = true
+		init_owner_state["killedCalled"] = true
+		init_owner_state["removed"] = true
+	var instant_disappear := bool(bullet_type_state.get("instantDisappear", false))
+	if instant_disappear:
+		init_bullet_state["time"] = float(bullet_type_state.get("lifetime", 40.0)) + 1.0
+	return {
+		"bullet": init_bullet_state,
+		"owner": init_owner_state,
+		"killShooter": kill_shooter,
+		"ownerIsHealthc": owner_is_healthc,
+		"ownerDeadBefore": owner_dead,
+		"killShooterApplied": kill_shooter_applied,
+		"instantDisappear": instant_disappear,
+		"instantDisappearApplied": instant_disappear,
+		"spawnBulletsDeferred": true,
+		"killShooterSource": "if(killShooter && b.owner() instanceof Healthc h && !h.dead()){",
+		"healthKillSource": "health = Math.min(health, 0); dead = true; killed(); remove()",
+		"instantDisappearSource": "b.time = lifetime + 1f",
+		"spawnBulletsReservedSource": "if(spawnBullets.size > 0){",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

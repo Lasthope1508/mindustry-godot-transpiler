@@ -4981,6 +4981,30 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_init_initial_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_init_initial_state_source"))
+        report = source_parity.verify_bullet_type_init_initial_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["bullet_comp_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(report["health_comp_source"], "core/src/mindustry/entities/comp/HealthComp.java")
+        self.assertEqual(report["checked"], {
+            "kill_shooter_field": "public boolean killShooter;",
+            "instant_disappear_field": "public boolean instantDisappear;",
+            "lifetime_field": "public float lifetime = 40f;",
+            "init_method": "public void init(Bullet b){",
+            "kill_shooter_gate": "if(killShooter && b.owner() instanceof Healthc h && !h.dead()){",
+            "kill_call": "h.kill();",
+            "instant_disappear_gate": "if(instantDisappear){",
+            "time_assignment": "b.time = lifetime + 1f;",
+            "spawn_bullets_reserved": "if(spawnBullets.size > 0){",
+            "bullet_comp_owner": "@Import Entityc owner;",
+            "bullet_comp_time_lifetime": "@Import float x, y, damage, lastX, lastY, time, lifetime;",
+            "health_comp_dead": "transient boolean dead;",
+            "health_comp_kill": "void kill(){\n        if(dead) return;\n\n        health = Math.min(health, 0);\n        dead = true;\n        killed();\n        remove();\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

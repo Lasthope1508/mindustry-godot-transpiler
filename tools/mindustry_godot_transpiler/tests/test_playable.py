@@ -4148,6 +4148,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"lifetimeScaleSource": "if(newLen > 0f) bullet.lifetime *= Math.min(1f, len / newLen)"', source)
         self.assertIn('"returnSource": "return bullet"', source)
 
+    def test_port_game_exposes_source_bullet_type_init_initial_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_init_initial_state(bullet_state: Dictionary, bullet_type_state: Dictionary, owner_health_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var init_bullet_state := bullet_state.duplicate(true)", source)
+        self.assertIn("var init_owner_state := owner_health_state.duplicate(true)", source)
+        self.assertIn("var kill_shooter := bool(bullet_type_state.get(\"killShooter\", false))", source)
+        self.assertIn("var owner_is_healthc := bool(init_owner_state.get(\"isHealthc\", false))", source)
+        self.assertIn("var owner_dead := bool(init_owner_state.get(\"dead\", false))", source)
+        self.assertIn("if kill_shooter and owner_is_healthc and not owner_dead:", source)
+        self.assertIn("init_owner_state[\"health\"] = minf(float(init_owner_state.get(\"health\", 0.0)), 0.0)", source)
+        self.assertIn("init_owner_state[\"dead\"] = true", source)
+        self.assertIn("init_owner_state[\"removed\"] = true", source)
+        self.assertIn("var instant_disappear := bool(bullet_type_state.get(\"instantDisappear\", false))", source)
+        self.assertIn("init_bullet_state[\"time\"] = float(bullet_type_state.get(\"lifetime\", 40.0)) + 1.0", source)
+        self.assertIn('"killShooterSource": "if(killShooter && b.owner() instanceof Healthc h && !h.dead()){"', source)
+        self.assertIn('"healthKillSource": "health = Math.min(health, 0); dead = true; killed(); remove()"', source)
+        self.assertIn('"instantDisappearSource": "b.time = lifetime + 1f"', source)
+        self.assertIn('"spawnBulletsReservedSource": "if(spawnBullets.size > 0){"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
