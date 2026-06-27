@@ -592,6 +592,39 @@
         "test_port_game_exposes_source_bullet_type_hit_post_frag_dispatch_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_post_frag_dispatch_state"
+    },
+    "N422": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "godot_owner": "PortGame.source_bullet_type_hit_suppression_state",
+      "exact_exprs": [
+        "if(suppressionRange > 0)",
+        "//bullets are pooled, require separate Vec2 instance",
+        "Damage.applySuppression(b.team, b.x, b.y, suppressionRange, suppressionDuration, 0f, suppressionEffectChance, new Vec2(b.x, b.y), suppressColor)"
+      ],
+      "deferred_exprs": [
+        "createSplashDamage(b, x, y)",
+        "for(int i = 0; i < lightning; i++)"
+      ],
+      "source_symbols": [
+        "hit.suppression.range",
+        "hit.suppression.duration",
+        "hit.suppression.effect_chance",
+        "hit.suppression.suppress_color",
+        "hit.suppression.bullet_team",
+        "hit.suppression.bullet_x",
+        "hit.suppression.bullet_y",
+        "hit.suppression.gate",
+        "hit.suppression.pooled_vec2",
+        "hit.suppression.apply_call"
+      ],
+      "tests": [
+        "test_bullet_type_hit_suppression_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_suppression_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_suppression_state"
     }
   },
   "version": 1

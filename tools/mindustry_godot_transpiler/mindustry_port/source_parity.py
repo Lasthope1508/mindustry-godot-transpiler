@@ -10326,6 +10326,39 @@ def verify_bullet_type_hit_post_frag_dispatch_state_source(upstream_root: Path) 
         "missing": missing,
     }
 
+def verify_bullet_type_hit_suppression_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    damage_source_path = upstream_root / "core/src/mindustry/entities/Damage.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    damage_source = damage_source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "suppression_range_field": "public float suppressionRange = -1f;",
+        "suppression_duration_field": "public float suppressionDuration = 60f * 8f;",
+        "suppression_effect_chance_field": "public float suppressionEffectChance = 50f;",
+        "suppress_color_field": "public Color suppressColor = Pal.sapBullet;",
+        "method": "public void hit(Bullet b, float x, float y, boolean createFrags){",
+        "suppression_gate": "if(suppressionRange > 0){",
+        "pooled_vec2_comment": "//bullets are pooled, require separate Vec2 instance",
+        "apply_suppression_call": "Damage.applySuppression(b.team, b.x, b.y, suppressionRange, suppressionDuration, 0f, suppressionEffectChance, new Vec2(b.x, b.y), suppressColor);",
+        "damage_signature": "public static void applySuppression(Team team, float x, float y, float range, float reload, float maxDelay, float applyParticleChance, @Nullable Position source, Color effectColor){",
+        "splash_damage_boundary": "createSplashDamage(b, x, y);",
+    }
+    source_map = {
+        "damage_signature": damage_source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        haystack = source_map.get(key, source)
+        if snippet not in haystack:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "damage_source": "core/src/mindustry/entities/Damage.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

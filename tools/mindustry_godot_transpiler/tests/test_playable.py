@@ -4806,6 +4806,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_bullet_type_hit_post_frag_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_frag_dispatch_state: Dictionary) -> Dictionary:", source)
         self.assertIn("var update_hit_frag_dispatch_state: Dictionary = hit_frag_dispatch_state.duplicate(true)", source)
         self.assertIn("var hit_x := float(update_hit_frag_dispatch_state.get(\"x\", update_hit_xy_state.get(\"x\", 0.0)))", source)
+
+    def test_port_game_exposes_source_bullet_type_hit_suppression_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_hit_suppression_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_post_frag_dispatch_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var suppression_gate_passed := suppression_range > 0.0", source)
+        self.assertIn("var suppression_vector := {\"x\": bullet_x, \"y\": bullet_y}", source)
+        self.assertIn("\"call\": \"Damage.applySuppression(b.team, b.x, b.y, suppressionRange, suppressionDuration, 0f, suppressionEffectChance, new Vec2(b.x, b.y), suppressColor)\"", source)
         self.assertIn('"call": "createPuddles(b, x, y)"', source)
         self.assertIn('"call": "createIncend(b, x, y)"', source)
         self.assertIn('"call": "createUnits(b, x, y)"', source)

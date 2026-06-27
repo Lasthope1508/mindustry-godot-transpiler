@@ -410,14 +410,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(units_call["java_expr"], "createUnits(b, x, y)")
         self.assertEqual(units_call["godot_symbol"], "hit_post_frag_dispatch_result.createUnitsCall")
 
+    def test_bullet_type_hit_suppression_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        suppression_range = source_symbols.source_symbol(registry, "hit.suppression.range")
+        self.assertEqual(suppression_range["java_expr"], "suppressionRange")
+        self.assertEqual(suppression_range["godot_symbol"], "bullet_type_state.suppressionRange")
+        self.assertEqual(suppression_range["godot_owner"], "PortGame.source_bullet_type_hit_suppression_state")
+        self.assertEqual(suppression_range["runtime_proof"], "/root/Main.source_bullet_type_hit_suppression_state")
+
+        suppression_gate = source_symbols.source_symbol(registry, "hit.suppression.gate")
+        self.assertEqual(suppression_gate["java_expr"], "suppressionRange > 0")
+        self.assertEqual(suppression_gate["godot_symbol"], "hit_suppression_result.suppressionGatePassed")
+
+        apply_suppression = source_symbols.source_symbol(registry, "hit.suppression.apply_call")
+        self.assertEqual(apply_suppression["java_expr"], "Damage.applySuppression(b.team, b.x, b.y, suppressionRange, suppressionDuration, 0f, suppressionEffectChance, new Vec2(b.x, b.y), suppressColor)")
+        self.assertEqual(apply_suppression["godot_symbol"], "hit_suppression_result.applySuppressionCall")
+
+        pooled_vec2 = source_symbols.source_symbol(registry, "hit.suppression.pooled_vec2")
+        self.assertEqual(pooled_vec2["java_expr"], "new Vec2(b.x, b.y)")
+        self.assertEqual(pooled_vec2["godot_symbol"], "hit_suppression_result.suppressionVector")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 19)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 20)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 24)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 25)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -442,6 +466,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_hit_effects_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_frag_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_post_frag_dispatch_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_hit_suppression_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -557,6 +582,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("createPuddles(b, x, y)", hit_post_frag_dispatch["exact_exprs"])
         self.assertIn("createIncend(b, x, y)", hit_post_frag_dispatch["exact_exprs"])
         self.assertIn("createUnits(b, x, y)", hit_post_frag_dispatch["exact_exprs"])
+
+        hit_suppression = source_symbols.source_slice(ledger, "N422")
+        self.assertEqual(hit_suppression["java_method"], "hit(Bullet b, float x, float y, boolean createFrags)")
+        self.assertEqual(hit_suppression["godot_owner"], "PortGame.source_bullet_type_hit_suppression_state")
+        self.assertIn("if(suppressionRange > 0)", hit_suppression["exact_exprs"])
+        self.assertIn("Damage.applySuppression(b.team, b.x, b.y, suppressionRange, suppressionDuration, 0f, suppressionEffectChance, new Vec2(b.x, b.y), suppressColor)", hit_suppression["exact_exprs"])
+        self.assertIn("createSplashDamage(b, x, y)", hit_suppression["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -703,6 +735,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("createUnitsCall", hit_post_frag_dispatch["return_keys"])
         self.assertEqual(hit_post_frag_dispatch["source_method"], "hit(Bullet b, float x, float y, boolean createFrags)")
 
+        hit_suppression = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_hit_suppression_state")
+        self.assertEqual([param["name"] for param in hit_suppression["params"]], ["bullet_type_state", "bullet_state", "hit_xy_state", "hit_post_frag_dispatch_state"])
+        self.assertEqual(hit_suppression["params"][3]["schema"], "hit_post_frag_dispatch_result")
+        self.assertIn("suppressionGatePassed", hit_suppression["return_keys"])
+        self.assertIn("applySuppressionCall", hit_suppression["return_keys"])
+        self.assertIn("suppressionVector", hit_suppression["return_keys"])
+        self.assertEqual(hit_suppression["source_method"], "hit(Bullet b, float x, float y, boolean createFrags)")
+
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_state_schema(schema)
@@ -726,6 +766,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(bullet_type_state["keys"]["fragOnHit"]["java_expr"], "fragOnHit")
         self.assertEqual(bullet_type_state["keys"]["delayFrags"]["java_expr"], "delayFrags")
         self.assertEqual(bullet_type_state["keys"]["fragBullet"]["java_expr"], "fragBullet")
+        self.assertEqual(bullet_type_state["keys"]["suppressionRange"]["java_expr"], "suppressionRange")
+        self.assertEqual(bullet_type_state["keys"]["suppressionDuration"]["java_expr"], "suppressionDuration")
+        self.assertEqual(bullet_type_state["keys"]["suppressionEffectChance"]["java_expr"], "suppressionEffectChance")
+        self.assertEqual(bullet_type_state["keys"]["suppressColor"]["java_expr"], "suppressColor")
 
         tile_state = source_symbols.state_schema(schema, "tile_state")
         self.assertEqual(tile_state["keys"]["healthf"]["java_expr"], "tile.healthf()")
@@ -865,6 +909,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(hit_post_frag_dispatch_output["keys"]["createIncendCall"]["java_expr"], "createIncend(b, x, y)")
         self.assertEqual(hit_post_frag_dispatch_output["keys"]["createUnitsCall"]["java_expr"], "createUnits(b, x, y)")
         self.assertEqual(hit_post_frag_dispatch_output["keys"]["suppressionBoundarySource"]["java_expr"], "if(suppressionRange > 0)")
+
+        hit_suppression_output = source_symbols.state_schema(schema, "hit_suppression_result")
+        self.assertEqual(hit_suppression_output["keys"]["suppressionGatePassed"]["java_expr"], "suppressionRange > 0")
+        self.assertEqual(hit_suppression_output["keys"]["applySuppressionCall"]["java_expr"], "Damage.applySuppression(b.team, b.x, b.y, suppressionRange, suppressionDuration, 0f, suppressionEffectChance, new Vec2(b.x, b.y), suppressColor)")
+        self.assertEqual(hit_suppression_output["keys"]["suppressionVector"]["java_expr"], "new Vec2(b.x, b.y)")
+        self.assertEqual(hit_suppression_output["keys"]["splashDamageBoundarySource"]["java_expr"], "createSplashDamage(b, x, y)")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

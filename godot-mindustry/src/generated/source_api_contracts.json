@@ -975,6 +975,62 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_post_frag_dispatch_state",
       "rule": "Public runtime contract for BulletType.hit post-frag dispatch calls only; createPuddles/createIncend/createUnits bodies and suppression/splash/lightning remain deferred."
+    },
+    "PortGame.source_bullet_type_hit_suppression_state": {
+      "status": "active",
+      "source_slice": "N422",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "hit_xy_state",
+          "type": "Dictionary",
+          "schema": "hit_xy_state"
+        },
+        {
+          "name": "hit_post_frag_dispatch_state",
+          "type": "Dictionary",
+          "schema": "hit_post_frag_dispatch_result"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "hitXY",
+        "hitPostFragDispatch",
+        "x",
+        "y",
+        "bulletX",
+        "bulletY",
+        "bulletTeam",
+        "suppressionRange",
+        "suppressionDuration",
+        "suppressionEffectChance",
+        "suppressColor",
+        "suppressionGatePassed",
+        "suppressionVector",
+        "applySuppressionCall",
+        "suppressionGateSource",
+        "pooledVec2CommentSource",
+        "applySuppressionCallSource",
+        "splashDamageBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_suppression_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_suppression_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_suppression_state",
+      "rule": "Public runtime contract for BulletType.hit suppression branch only; createSplashDamage and lightning remain deferred."
     }
   },
   "policy": {

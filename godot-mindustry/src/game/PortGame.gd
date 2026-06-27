@@ -6550,6 +6550,60 @@ func source_bullet_type_hit_post_frag_dispatch_state(bullet_type_state: Dictiona
 		"suppressionBoundarySource": "if(suppressionRange > 0)",
 	}
 
+func source_bullet_type_hit_suppression_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_post_frag_dispatch_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_hit_xy_state: Dictionary = hit_xy_state.duplicate(true)
+	var update_hit_post_frag_dispatch_state: Dictionary = hit_post_frag_dispatch_state.duplicate(true)
+	var hit_x := float(update_hit_post_frag_dispatch_state.get("x", update_hit_xy_state.get("x", 0.0)))
+	var hit_y := float(update_hit_post_frag_dispatch_state.get("y", update_hit_xy_state.get("y", 0.0)))
+	var bullet_x := float(update_bullet_state.get("x", 0.0))
+	var bullet_y := float(update_bullet_state.get("y", 0.0))
+	var bullet_team: Variant = update_bullet_state.get("team", null)
+	var suppression_range := float(update_type_state.get("suppressionRange", -1.0))
+	var suppression_duration := float(update_type_state.get("suppressionDuration", 60.0 * 8.0))
+	var suppression_effect_chance := float(update_type_state.get("suppressionEffectChance", 50.0))
+	var suppress_color: Variant = update_type_state.get("suppressColor", "Pal.sapBullet")
+	var suppression_gate_passed := suppression_range > 0.0
+	var suppression_vector := {"x": bullet_x, "y": bullet_y}
+	var apply_suppression_call := {}
+	if suppression_gate_passed:
+		apply_suppression_call = {
+			"call": "Damage.applySuppression(b.team, b.x, b.y, suppressionRange, suppressionDuration, 0f, suppressionEffectChance, new Vec2(b.x, b.y), suppressColor)",
+			"team": bullet_team,
+			"x": bullet_x,
+			"y": bullet_y,
+			"range": suppression_range,
+			"reload": suppression_duration,
+			"maxDelay": 0.0,
+			"applyParticleChance": suppression_effect_chance,
+			"source": suppression_vector,
+			"effectColor": suppress_color,
+			"called": true,
+		}
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"hitXY": update_hit_xy_state,
+		"hitPostFragDispatch": update_hit_post_frag_dispatch_state,
+		"x": hit_x,
+		"y": hit_y,
+		"bulletX": bullet_x,
+		"bulletY": bullet_y,
+		"bulletTeam": bullet_team,
+		"suppressionRange": suppression_range,
+		"suppressionDuration": suppression_duration,
+		"suppressionEffectChance": suppression_effect_chance,
+		"suppressColor": suppress_color,
+		"suppressionGatePassed": suppression_gate_passed,
+		"suppressionVector": suppression_vector,
+		"applySuppressionCall": apply_suppression_call,
+		"suppressionGateSource": "if(suppressionRange > 0)",
+		"pooledVec2CommentSource": "//bullets are pooled, require separate Vec2 instance",
+		"applySuppressionCallSource": "Damage.applySuppression(b.team, b.x, b.y, suppressionRange, suppressionDuration, 0f, suppressionEffectChance, new Vec2(b.x, b.y), suppressColor)",
+		"splashDamageBoundarySource": "createSplashDamage(b, x, y)",
+	}
+
 func source_bullet_type_hit_entity_damage_cap_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, hit_entity_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

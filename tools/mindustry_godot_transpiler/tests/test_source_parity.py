@@ -5771,6 +5771,26 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_hit_suppression_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_hit_suppression_state_source"))
+        report = source_parity.verify_bullet_type_hit_suppression_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["damage_source"], "core/src/mindustry/entities/Damage.java")
+        self.assertEqual(report["checked"], {
+            "suppression_range_field": "public float suppressionRange = -1f;",
+            "suppression_duration_field": "public float suppressionDuration = 60f * 8f;",
+            "suppression_effect_chance_field": "public float suppressionEffectChance = 50f;",
+            "suppress_color_field": "public Color suppressColor = Pal.sapBullet;",
+            "method": "public void hit(Bullet b, float x, float y, boolean createFrags){",
+            "suppression_gate": "if(suppressionRange > 0){",
+            "pooled_vec2_comment": "//bullets are pooled, require separate Vec2 instance",
+            "apply_suppression_call": "Damage.applySuppression(b.team, b.x, b.y, suppressionRange, suppressionDuration, 0f, suppressionEffectChance, new Vec2(b.x, b.y), suppressColor);",
+            "damage_signature": "public static void applySuppression(Team team, float x, float y, float range, float reload, float maxDelay, float applyParticleChance, @Nullable Position source, Color effectColor){",
+            "splash_damage_boundary": "createSplashDamage(b, x, y);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_bullet_type_building_damage_state_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_bullet_type_building_damage_state_source"))
         report = source_parity.verify_bullet_type_building_damage_state_source(ROOT / "mindustry-upstream")

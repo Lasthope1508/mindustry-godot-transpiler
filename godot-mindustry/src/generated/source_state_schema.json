@@ -437,6 +437,54 @@
             "PortGame.source_bullet_type_hit_frag_dispatch_state"
           ],
           "rule": "Canonical BulletType.fragBullet field for hit frag dispatch null/nested gate."
+        },
+        "suppressionRange": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "suppressionRange",
+          "godot_symbol": "bullet_type_state.suppressionRange",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_suppression_state"
+          ],
+          "rule": "Canonical BulletType.suppressionRange field; default is -1f."
+        },
+        "suppressionDuration": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "suppressionDuration",
+          "godot_symbol": "bullet_type_state.suppressionDuration",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_suppression_state"
+          ],
+          "rule": "Canonical BulletType.suppressionDuration field; default is 60f * 8f."
+        },
+        "suppressionEffectChance": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "suppressionEffectChance",
+          "godot_symbol": "bullet_type_state.suppressionEffectChance",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_suppression_state"
+          ],
+          "rule": "Canonical BulletType.suppressionEffectChance field for Damage.applySuppression applyParticleChance."
+        },
+        "suppressColor": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "suppressColor",
+          "godot_symbol": "bullet_type_state.suppressColor",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_suppression_state"
+          ],
+          "rule": "Canonical BulletType.suppressColor field; default is Pal.sapBullet."
         }
       }
     },
@@ -3140,6 +3188,161 @@
             "PortGame.source_bullet_type_hit_post_frag_dispatch_state"
           ],
           "rule": "Boundary marker; suppression branch is not migrated in N421."
+        }
+      }
+    },
+    "hit_suppression_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_type_state",
+          "rule": "Runtime key preserves input BulletType state."
+        },
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime key preserves input bullet state."
+        },
+        "hitXY": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "hit_xy_state",
+          "rule": "Runtime key preserves explicit hit x/y params."
+        },
+        "hitPostFragDispatch": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "hit_post_frag_dispatch_result",
+          "rule": "Runtime key preserves prior post-frag dispatch state."
+        },
+        "x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "hit_post_frag_dispatch_result.x",
+          "rule": "Runtime key aliases hit x from prior post-frag dispatch state for createSplashDamage boundary."
+        },
+        "y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "hit_post_frag_dispatch_result.y",
+          "rule": "Runtime key aliases hit y from prior post-frag dispatch state for createSplashDamage boundary."
+        },
+        "bulletX": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_state.x",
+          "rule": "Runtime key aliases b.x for Damage.applySuppression."
+        },
+        "bulletY": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_state.y",
+          "rule": "Runtime key aliases b.y for Damage.applySuppression."
+        },
+        "bulletTeam": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "bullet_state.team",
+          "rule": "Runtime key aliases b.team for Damage.applySuppression."
+        },
+        "suppressionRange": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_type_state.suppressionRange",
+          "rule": "Runtime key aliases BulletType.suppressionRange."
+        },
+        "suppressionDuration": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_type_state.suppressionDuration",
+          "rule": "Runtime key aliases BulletType.suppressionDuration."
+        },
+        "suppressionEffectChance": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_type_state.suppressionEffectChance",
+          "rule": "Runtime key aliases BulletType.suppressionEffectChance."
+        },
+        "suppressColor": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "bullet_type_state.suppressColor",
+          "rule": "Runtime key aliases BulletType.suppressColor."
+        },
+        "suppressionGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "suppressionRange > 0",
+          "godot_symbol": "hit_suppression_result.suppressionGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_suppression_state"
+          ],
+          "rule": "Exact suppression branch gate."
+        },
+        "suppressionVector": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "new Vec2(b.x, b.y)",
+          "godot_symbol": "hit_suppression_result.suppressionVector",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_suppression_state"
+          ],
+          "rule": "Runtime record for separate Vec2 source position."
+        },
+        "applySuppressionCall": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "Damage.applySuppression(b.team, b.x, b.y, suppressionRange, suppressionDuration, 0f, suppressionEffectChance, new Vec2(b.x, b.y), suppressColor)",
+          "godot_symbol": "hit_suppression_result.applySuppressionCall",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_suppression_state"
+          ],
+          "rule": "Runtime call record for Damage.applySuppression."
+        },
+        "suppressionGateSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "hit.suppression.gate",
+          "rule": "Runtime source snippet label."
+        },
+        "pooledVec2CommentSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "//bullets are pooled, require separate Vec2 instance",
+          "godot_symbol": "hit_suppression_result.pooledVec2CommentSource",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_suppression_state"
+          ],
+          "rule": "Runtime source comment marker for why new Vec2 is separate."
+        },
+        "applySuppressionCallSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "hit.suppression.apply_call",
+          "rule": "Runtime source snippet label."
+        },
+        "splashDamageBoundarySource": {
+          "type": "String",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "createSplashDamage(b, x, y)",
+          "godot_symbol": "hit_suppression_result.splashDamageBoundarySource",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_suppression_state"
+          ],
+          "rule": "Boundary marker; createSplashDamage body is not migrated in N422."
         }
       }
     }
