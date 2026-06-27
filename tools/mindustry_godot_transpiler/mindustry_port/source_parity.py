@@ -9882,6 +9882,26 @@ def verify_bullet_type_calculate_range_fallback_state_source(upstream_root: Path
         "missing": missing,
     }
 
+def verify_bullet_type_continuous_damage_default_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "continuous_damage_doc": "/** @return continuous damage in damage/sec, or -1 if not continuous. */",
+        "method": "public float continuousDamage(){",
+        "return_default": "return -1f;",
+        "heals_next_method": "public boolean heals(){",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

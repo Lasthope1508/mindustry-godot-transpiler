@@ -5467,6 +5467,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_continuous_damage_default_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_continuous_damage_default_state_source"))
+        report = source_parity.verify_bullet_type_continuous_damage_default_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "continuous_damage_doc": "/** @return continuous damage in damage/sec, or -1 if not continuous. */",
+            "method": "public float continuousDamage(){",
+            "return_default": "return -1f;",
+            "heals_next_method": "public boolean heals(){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

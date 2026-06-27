@@ -4519,6 +4519,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("resolved_range = max(fallback_range, max_range)", source)
         self.assertIn('"fallbackReturnSource": "return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange)"', source)
 
+    def test_port_game_exposes_source_bullet_type_continuous_damage_default_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_continuous_damage_default_state(bullet_type_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var update_type_state: Dictionary = bullet_type_state.duplicate(true)", source)
+        self.assertIn('\"continuousDamage\": -1.0', source)
+        self.assertIn('"continuousDamageReturnSource": "return -1f"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

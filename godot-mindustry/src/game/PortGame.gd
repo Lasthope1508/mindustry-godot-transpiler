@@ -5995,6 +5995,14 @@ func source_bullet_type_calculate_range_fallback_state(despawn_unit_state: Dicti
 		"fallbackReturnSource": "return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange)",
 	}
 
+func source_bullet_type_continuous_damage_default_state(bullet_type_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	return {
+		"bulletType": update_type_state,
+		"continuousDamage": -1.0,
+		"continuousDamageReturnSource": "return -1f",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
