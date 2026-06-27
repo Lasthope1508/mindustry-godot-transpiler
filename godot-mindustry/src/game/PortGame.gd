@@ -4785,6 +4785,26 @@ func source_weapon_bullet_recoil_slots_state(create_call_state: Dictionary, moun
 		"heatReservedSource": "mount.heat = 1f",
 	}
 
+func source_weapon_bullet_heat_state(create_call_state: Dictionary, mount_state: Dictionary) -> Dictionary:
+	var current_heat := float(mount_state.get("heat", 0.0))
+	if not bool(create_call_state.get("bulletContinues", false)):
+		return {
+			"bulletContinues": false,
+			"mountHeatApplied": false,
+			"mountHeatBefore": current_heat,
+			"mountHeat": current_heat,
+			"mountHeatSource": "mount.heat = 1f",
+			"bulletMethodComplete": false,
+		}
+	return {
+		"bulletContinues": true,
+		"mountHeatApplied": true,
+		"mountHeatBefore": current_heat,
+		"mountHeat": 1.0,
+		"mountHeatSource": "mount.heat = 1f",
+		"bulletMethodComplete": true,
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

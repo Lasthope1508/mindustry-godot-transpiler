@@ -8489,6 +8489,34 @@ def verify_weapon_bullet_recoil_slots_source(upstream_root: Path) -> dict[str, A
         "missing": missing,
     }
 
+def verify_weapon_bullet_heat_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    weapon_mount_path = upstream_root / weapon_mount_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "heat_assignment": "mount.heat = 1f;",
+        "weapon_mount_heat": "public float heat;",
+        "bullet_method_close_reserved": "    }",
+    }
+    source_map = {
+        "heat_assignment": source,
+        "weapon_mount_heat": weapon_mount_text,
+        "bullet_method_close_reserved": source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": weapon_mount_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

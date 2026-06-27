@@ -3977,6 +3977,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"updateInitSource": "if(mount.recoils == null) mount.recoils = new float[recoils]"', source)
         self.assertIn('"heatReservedSource": "mount.heat = 1f"', source)
 
+    def test_port_game_exposes_source_weapon_bullet_heat_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_bullet_heat_state(create_call_state: Dictionary, mount_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var current_heat := float(mount_state.get(\"heat\", 0.0))", source)
+        self.assertIn('"mountHeat": 1.0', source)
+        self.assertIn('"mountHeatSource": "mount.heat = 1f"', source)
+        self.assertIn('"bulletMethodComplete": true', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
