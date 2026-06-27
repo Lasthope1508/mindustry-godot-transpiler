@@ -2876,6 +2876,56 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_chance_state",
       "rule": "Public runtime contract for BulletType.updateTrailEffects chance gate, random/zero offset, and effect call."
+    },
+    "PortGame.source_bullet_type_update_trail_effects_interval_state": {
+      "status": "active",
+      "source_slice": "N464",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "updateTrailEffects(Bullet b)",
+      "params": [
+        {
+          "name": "chance_state",
+          "type": "Dictionary",
+          "schema": "update_trail_effects_chance_result"
+        },
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "timer_get_result",
+          "type": "bool",
+          "schema": "trail_effects_timer_state.timerGetResult"
+        },
+        {
+          "name": "random_offset_state",
+          "type": "Dictionary",
+          "schema": "random_offset_state"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "trailIntervalEffectApplied",
+        "canSpawn",
+        "intervalGatePassed",
+        "timerGetResult",
+        "trailSpread",
+        "tmpOffset",
+        "effectCalls",
+        "intervalGateSource",
+        "timerSource",
+        "spreadRandomSource",
+        "spreadZeroSource",
+        "effectAtSource"
+      ],
+      "tests": [
+        "test_bullet_type_update_trail_effects_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_interval_state",
+        "test_bullet_type_update_trail_effects_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_interval_state",
+      "rule": "Public runtime contract for BulletType.updateTrailEffects interval gate, Bullet.timer result, random/zero offset, and effect call."
     }
   },
   "policy": {

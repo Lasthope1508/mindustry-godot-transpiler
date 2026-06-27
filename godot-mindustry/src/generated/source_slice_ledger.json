@@ -1829,6 +1829,44 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_chance_state",
       "rule": "Backfills SSOT for existing BulletType.updateTrailEffects chance runtime state from N380; trailInterval remains a separate source-backed slice."
+    },
+    "N464": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "updateTrailEffects(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_interval_state",
+      "exact_exprs": [
+        "if(trailInterval > 0f && canSpawn){",
+        "if(b.timer(0, trailInterval)){",
+        "Tmp.v1.rnd(Mathf.random(trailSpread));",
+        "Tmp.v1.setZero();",
+        "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor);"
+      ],
+      "deferred_exprs": [
+        "public void init(){"
+      ],
+      "source_symbols": [
+        "update_trail_effects_interval.interval_gate",
+        "update_trail_effects_interval.timer_call",
+        "update_trail_effects_interval.timer_comp",
+        "update_trail_effects_interval.interval_get",
+        "update_trail_effects_interval.interval_check",
+        "update_trail_effects_interval.spread_random",
+        "update_trail_effects_interval.spread_zero",
+        "update_trail_effects_interval.effect_at",
+        "update_trail_effects_interval.mathf_random_float",
+        "update_trail_effects_interval.vec2_rnd",
+        "update_trail_effects_interval.vec2_set_zero",
+        "update_trail_effects_interval.effect_at_color"
+      ],
+      "tests": [
+        "test_bullet_type_update_trail_effects_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_interval_state",
+        "test_bullet_type_update_trail_effects_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_interval_state",
+      "rule": "Backfills SSOT for existing BulletType.updateTrailEffects trailInterval runtime state from N381; init remains a separate source-backed slice."
     }
   },
   "version": 1

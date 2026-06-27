@@ -1552,14 +1552,43 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(vec2_len2["java_source"], "arc-core/src/arc/math/geom/Vec2.java")
         self.assertIn("return x * x + y * y;", vec2_len2["java_expr"])
 
+    def test_bullet_type_update_trail_effects_interval_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        interval_gate = source_symbols.source_symbol(registry, "update_trail_effects_interval.interval_gate")
+        self.assertEqual(interval_gate["java_expr"], "if(trailInterval > 0f && canSpawn){")
+        self.assertEqual(interval_gate["godot_symbol"], "update_trail_effects_interval_result.intervalGatePassed")
+        self.assertEqual(interval_gate["godot_owner"], "PortGame.source_bullet_type_update_trail_effects_interval_state")
+        self.assertEqual(interval_gate["runtime_proof"], "/root/Main.source_bullet_type_update_trail_effects_interval_state")
+
+        timer_call = source_symbols.source_symbol(registry, "update_trail_effects_interval.timer_call")
+        self.assertEqual(timer_call["java_expr"], "if(b.timer(0, trailInterval)){")
+        self.assertEqual(timer_call["godot_symbol"], "update_trail_effects_interval_result.timerGetResult")
+
+        timer_comp = source_symbols.source_symbol(registry, "update_trail_effects_interval.timer_comp")
+        self.assertEqual(timer_comp["java_source"], "core/src/mindustry/entities/comp/TimerComp.java")
+        self.assertIn("if(Float.isInfinite(time)) return false;", timer_comp["java_expr"])
+        self.assertIn("return timer.get(index, time);", timer_comp["java_expr"])
+
+        interval_get = source_symbols.source_symbol(registry, "update_trail_effects_interval.interval_get")
+        self.assertEqual(interval_get["java_source"], "arc-core/src/arc/util/Interval.java")
+        self.assertIn("boolean got = check(id, time);", interval_get["java_expr"])
+
+        effect_at = source_symbols.source_symbol(registry, "update_trail_effects_interval.effect_at")
+        self.assertEqual(effect_at["java_expr"], "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor);")
+        self.assertEqual(effect_at["godot_symbol"], "update_trail_effects_interval_result.effectCalls")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 61)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 62)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 66)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 67)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1615,6 +1644,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_update_weaving_rotate_speed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_update_weaving_circle_shooter_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_update_trail_effects_chance_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_update_trail_effects_interval_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -2042,6 +2072,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(Mathf.chanceDelta(trailChance)){", update_trail_effects_chance["exact_exprs"])
         self.assertIn("trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor);", update_trail_effects_chance["exact_exprs"])
         self.assertIn("if(trailInterval > 0f && canSpawn){", update_trail_effects_chance["deferred_exprs"])
+
+        update_trail_effects_interval = source_symbols.source_slice(ledger, "N464")
+        self.assertEqual(update_trail_effects_interval["java_method"], "updateTrailEffects(Bullet b)")
+        self.assertEqual(update_trail_effects_interval["godot_owner"], "PortGame.source_bullet_type_update_trail_effects_interval_state")
+        self.assertIn("if(trailInterval > 0f && canSpawn){", update_trail_effects_interval["exact_exprs"])
+        self.assertIn("if(b.timer(0, trailInterval)){", update_trail_effects_interval["exact_exprs"])
+        self.assertIn("Tmp.v1.rnd(Mathf.random(trailSpread));", update_trail_effects_interval["exact_exprs"])
+        self.assertIn("Tmp.v1.setZero();", update_trail_effects_interval["exact_exprs"])
+        self.assertIn("trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor);", update_trail_effects_interval["exact_exprs"])
+        self.assertIn("public void init(){", update_trail_effects_interval["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -2578,6 +2618,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("tmpOffset", update_trail_effects_chance["return_keys"])
         self.assertIn("effectCalls", update_trail_effects_chance["return_keys"])
         self.assertEqual(update_trail_effects_chance["source_method"], "updateTrailEffects(Bullet b)")
+
+        update_trail_effects_interval = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_update_trail_effects_interval_state")
+        self.assertEqual([param["name"] for param in update_trail_effects_interval["params"]], ["chance_state", "bullet_type_state", "timer_get_result", "random_offset_state"])
+        self.assertEqual(update_trail_effects_interval["params"][0]["schema"], "update_trail_effects_chance_result")
+        self.assertEqual(update_trail_effects_interval["params"][1]["schema"], "bullet_type_state")
+        self.assertEqual(update_trail_effects_interval["params"][2]["schema"], "trail_effects_timer_state.timerGetResult")
+        self.assertEqual(update_trail_effects_interval["params"][3]["schema"], "random_offset_state")
+        self.assertIn("trailIntervalEffectApplied", update_trail_effects_interval["return_keys"])
+        self.assertIn("canSpawn", update_trail_effects_interval["return_keys"])
+        self.assertIn("intervalGatePassed", update_trail_effects_interval["return_keys"])
+        self.assertIn("timerGetResult", update_trail_effects_interval["return_keys"])
+        self.assertIn("tmpOffset", update_trail_effects_interval["return_keys"])
+        self.assertIn("effectCalls", update_trail_effects_interval["return_keys"])
+        self.assertEqual(update_trail_effects_interval["source_method"], "updateTrailEffects(Bullet b)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -3145,6 +3199,24 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(bullet_type_state["keys"]["trailParam"]["java_expr"], "trailParam")
         self.assertEqual(bullet_type_state["keys"]["trailRotation"]["java_expr"], "trailRotation")
         self.assertEqual(bullet_type_state["keys"]["trailColor"]["java_expr"], "trailColor")
+
+        trail_effects_timer_state = source_symbols.state_schema(schema, "trail_effects_timer_state")
+        self.assertEqual(trail_effects_timer_state["keys"]["timerGetResult"]["java_expr"], "b.timer(0, trailInterval)")
+        self.assertEqual(trail_effects_timer_state["keys"]["timerGetResult"]["status"], "explicit-input")
+
+        update_trail_effects_interval_output = source_symbols.state_schema(schema, "update_trail_effects_interval_result")
+        self.assertEqual(update_trail_effects_interval_output["keys"]["intervalGatePassed"]["java_expr"], "trailInterval > 0f && canSpawn")
+        self.assertEqual(update_trail_effects_interval_output["keys"]["timerGetResult"]["alias_of"], "trail_effects_timer_state.timerGetResult")
+        self.assertEqual(update_trail_effects_interval_output["keys"]["tmpOffset"]["java_expr"], "Tmp.v1.rnd(Mathf.random(trailSpread)) or Tmp.v1.setZero()")
+        self.assertEqual(update_trail_effects_interval_output["keys"]["effectCalls"]["java_expr"], "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor)")
+        self.assertEqual(update_trail_effects_interval_output["keys"]["intervalGateSource"]["alias_of"], "source_line.update_trail_effects_interval.interval_gate")
+        self.assertEqual(update_trail_effects_interval_output["keys"]["timerSource"]["alias_of"], "source_line.update_trail_effects_interval.timer_call")
+
+        self.assertEqual(bullet_type_state["keys"]["trailInterval"]["java_expr"], "trailInterval")
+        self.assertIn("PortGame.source_bullet_type_update_trail_effects_interval_state", bullet_type_state["keys"]["trailSpread"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_update_trail_effects_interval_state", bullet_type_state["keys"]["trailParam"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_update_trail_effects_interval_state", bullet_type_state["keys"]["trailRotation"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_update_trail_effects_interval_state", bullet_type_state["keys"]["trailColor"]["used_by"])
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")

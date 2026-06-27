@@ -951,7 +951,8 @@
           "godot_symbol": "bullet_type_state.trailColor",
           "used_by": [
             "PortGame.source_bullet_type_removed_trail_fade_state",
-            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+            "PortGame.source_bullet_type_update_trail_effects_chance_state",
+            "PortGame.source_bullet_type_update_trail_effects_interval_state"
           ],
           "rule": "Canonical BulletType.trailColor field for removed trail fade color."
         },
@@ -1380,7 +1381,8 @@
           "java_expr": "trailEffect",
           "godot_symbol": "bullet_type_state.trailEffect",
           "used_by": [
-            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+            "PortGame.source_bullet_type_update_trail_effects_chance_state",
+            "PortGame.source_bullet_type_update_trail_effects_interval_state"
           ],
           "rule": "Canonical BulletType.trailEffect field; default is Fx.missileTrail."
         },
@@ -1392,7 +1394,8 @@
           "java_expr": "trailSpread",
           "godot_symbol": "bullet_type_state.trailSpread",
           "used_by": [
-            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+            "PortGame.source_bullet_type_update_trail_effects_chance_state",
+            "PortGame.source_bullet_type_update_trail_effects_interval_state"
           ],
           "rule": "Canonical BulletType.trailSpread field; default is 0f."
         },
@@ -1404,7 +1407,8 @@
           "java_expr": "trailParam",
           "godot_symbol": "bullet_type_state.trailParam",
           "used_by": [
-            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+            "PortGame.source_bullet_type_update_trail_effects_chance_state",
+            "PortGame.source_bullet_type_update_trail_effects_interval_state"
           ],
           "rule": "Canonical BulletType.trailParam field; default is 2f."
         },
@@ -1416,9 +1420,22 @@
           "java_expr": "trailRotation",
           "godot_symbol": "bullet_type_state.trailRotation",
           "used_by": [
-            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+            "PortGame.source_bullet_type_update_trail_effects_chance_state",
+            "PortGame.source_bullet_type_update_trail_effects_interval_state"
           ],
           "rule": "Canonical BulletType.trailRotation field; default is false."
+        },
+        "trailInterval": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrailEffects(Bullet b)",
+          "java_expr": "trailInterval",
+          "godot_symbol": "bullet_type_state.trailInterval",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_effects_interval_state"
+          ],
+          "rule": "BulletType trailInterval field used by updateTrailEffects interval branch."
         }
       }
     },
@@ -9619,7 +9636,8 @@
           "java_expr": "Tmp.v1.x",
           "godot_symbol": "random_offset_state.x",
           "used_by": [
-            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+            "PortGame.source_bullet_type_update_trail_effects_chance_state",
+            "PortGame.source_bullet_type_update_trail_effects_interval_state"
           ],
           "rule": "Explicit x component after Tmp.v1.rnd(Mathf.random(trailSpread))."
         },
@@ -9631,7 +9649,8 @@
           "java_expr": "Tmp.v1.y",
           "godot_symbol": "random_offset_state.y",
           "used_by": [
-            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+            "PortGame.source_bullet_type_update_trail_effects_chance_state",
+            "PortGame.source_bullet_type_update_trail_effects_interval_state"
           ],
           "rule": "Explicit y component after Tmp.v1.rnd(Mathf.random(trailSpread))."
         }
@@ -9662,7 +9681,8 @@
           "java_expr": "trailMinVelocity <= 0f || b.vel.len2() >= trailMinVelocity * trailMinVelocity",
           "godot_symbol": "update_trail_effects_chance_result.canSpawn",
           "used_by": [
-            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+            "PortGame.source_bullet_type_update_trail_effects_chance_state",
+            "PortGame.source_bullet_type_update_trail_effects_interval_state"
           ],
           "rule": "Exact canSpawn expression without assignment boilerplate."
         },
@@ -9717,7 +9737,8 @@
           "java_expr": "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor)",
           "godot_symbol": "update_trail_effects_chance_result.effectCalls",
           "used_by": [
-            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+            "PortGame.source_bullet_type_update_trail_effects_chance_state",
+            "PortGame.source_bullet_type_update_trail_effects_interval_state"
           ],
           "rule": "Trail effect calls emitted by chance branch."
         },
@@ -9761,6 +9782,139 @@
           "status": "generated",
           "godot_symbol": "update_trail_effects_chance_result.effectAtSource",
           "alias_of": "source_line.update_trail_effects_chance.effect_at",
+          "rule": "Runtime source label for trail effect call."
+        }
+      }
+    },
+    "trail_effects_timer_state": {
+      "status": "active",
+      "keys": {
+        "timerGetResult": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrailEffects(Bullet b)",
+          "java_expr": "b.timer(0, trailInterval)",
+          "godot_symbol": "trail_effects_timer_state.timerGetResult",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_effects_interval_state"
+          ],
+          "rule": "Explicit result of Bullet.timer(0, trailInterval), backed by TimerComp.timer and Arc Interval.get."
+        }
+      }
+    },
+    "update_trail_effects_interval_result": {
+      "status": "active",
+      "keys": {
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "godot_symbol": "update_trail_effects_interval_result.bullet",
+          "alias_of": "bullet_state",
+          "rule": "Unchanged bullet state after trail interval effect evaluation."
+        },
+        "trailIntervalEffectApplied": {
+          "type": "bool",
+          "status": "generated",
+          "godot_symbol": "update_trail_effects_interval_result.trailIntervalEffectApplied",
+          "alias_of": "update_trail_effects_interval_result.effectCalls",
+          "rule": "Runtime boolean records whether interval trail effect call was applied."
+        },
+        "canSpawn": {
+          "type": "bool",
+          "status": "generated",
+          "godot_symbol": "update_trail_effects_interval_result.canSpawn",
+          "alias_of": "update_trail_effects_chance_result.canSpawn",
+          "rule": "Runtime echo of canSpawn computed by chance slice from shared updateTrailEffects source."
+        },
+        "intervalGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrailEffects(Bullet b)",
+          "java_expr": "trailInterval > 0f && canSpawn",
+          "godot_symbol": "update_trail_effects_interval_result.intervalGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_effects_interval_state"
+          ],
+          "rule": "Exact trailInterval gate."
+        },
+        "timerGetResult": {
+          "type": "bool",
+          "status": "generated",
+          "godot_symbol": "update_trail_effects_interval_result.timerGetResult",
+          "alias_of": "trail_effects_timer_state.timerGetResult",
+          "rule": "Runtime echo of explicit Bullet.timer(0, trailInterval) result."
+        },
+        "trailSpread": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrailEffects(Bullet b)",
+          "java_expr": "trailSpread",
+          "godot_symbol": "update_trail_effects_interval_result.trailSpread",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_effects_interval_state"
+          ],
+          "rule": "Runtime trailSpread used for interval random/zero offset branch."
+        },
+        "tmpOffset": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrailEffects(Bullet b)",
+          "java_expr": "Tmp.v1.rnd(Mathf.random(trailSpread)) or Tmp.v1.setZero()",
+          "godot_symbol": "update_trail_effects_interval_result.tmpOffset",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_effects_interval_state"
+          ],
+          "rule": "Temporary offset, random when trailSpread > 0 and zero otherwise."
+        },
+        "effectCalls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrailEffects(Bullet b)",
+          "java_expr": "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor)",
+          "godot_symbol": "update_trail_effects_interval_result.effectCalls",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_effects_interval_state"
+          ],
+          "rule": "Trail effect calls emitted by interval branch."
+        },
+        "intervalGateSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "update_trail_effects_interval_result.intervalGateSource",
+          "alias_of": "source_line.update_trail_effects_interval.interval_gate",
+          "rule": "Runtime source label for interval gate."
+        },
+        "timerSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "update_trail_effects_interval_result.timerSource",
+          "alias_of": "source_line.update_trail_effects_interval.timer_call",
+          "rule": "Runtime source label for Bullet.timer call."
+        },
+        "spreadRandomSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "update_trail_effects_interval_result.spreadRandomSource",
+          "alias_of": "source_line.update_trail_effects_interval.spread_random",
+          "rule": "Runtime source label for random offset branch."
+        },
+        "spreadZeroSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "update_trail_effects_interval_result.spreadZeroSource",
+          "alias_of": "source_line.update_trail_effects_interval.spread_zero",
+          "rule": "Runtime source label for zero offset branch."
+        },
+        "effectAtSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "update_trail_effects_interval_result.effectAtSource",
+          "alias_of": "source_line.update_trail_effects_interval.effect_at",
           "rule": "Runtime source label for trail effect call."
         }
       }

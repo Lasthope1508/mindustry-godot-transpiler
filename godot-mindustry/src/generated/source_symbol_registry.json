@@ -6153,6 +6153,186 @@
         "test_bullet_type_update_trail_effects_chance_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_chance_state"
+    },
+    "update_trail_effects_interval.interval_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateTrailEffects(Bullet b)",
+      "java_expr": "if(trailInterval > 0f && canSpawn){",
+      "godot_symbol": "update_trail_effects_interval_result.intervalGatePassed",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_interval_state",
+      "rule": "Exact trailInterval gate after chance branch and shared canSpawn assignment.",
+      "tests": [
+        "test_bullet_type_update_trail_effects_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_interval_state",
+        "test_bullet_type_update_trail_effects_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_interval_state"
+    },
+    "update_trail_effects_interval.timer_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateTrailEffects(Bullet b)",
+      "java_expr": "if(b.timer(0, trailInterval)){",
+      "godot_symbol": "update_trail_effects_interval_result.timerGetResult",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_interval_state",
+      "rule": "Exact Bullet timer gate for trail interval effect emission.",
+      "tests": [
+        "test_bullet_type_update_trail_effects_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_interval_state",
+        "test_bullet_type_update_trail_effects_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_interval_state"
+    },
+    "update_trail_effects_interval.timer_comp": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+      "java_method": "timer(int index, float time)",
+      "java_expr": "public boolean timer(int index, float time){\n        if(Float.isInfinite(time)) return false;\n        return timer.get(index, time);\n    }",
+      "godot_symbol": "trail_effects_timer_state.timerGetResult",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_interval_state",
+      "rule": "TimerComp delegates finite timer checks to Interval.get.",
+      "tests": [
+        "test_bullet_type_update_trail_effects_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_interval_state",
+        "test_bullet_type_update_trail_effects_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_interval_state"
+    },
+    "update_trail_effects_interval.interval_get": {
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/util/Interval.java",
+      "java_method": "get(int id, float time)",
+      "java_expr": "public boolean get(int id, float time){\n        if(id >= times.length) throw new RuntimeException(\"Out of bounds! Max timer size is \" + times.length + \"!\");\n\n        boolean got = check(id, time);\n        if(got) times[id] = Time.time;\n        return got;\n    }",
+      "godot_symbol": "trail_effects_timer_state.timerGetResult",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_interval_state",
+      "rule": "Arc Interval.get backing for Bullet.timer result.",
+      "tests": [
+        "test_bullet_type_update_trail_effects_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_interval_state",
+        "test_bullet_type_update_trail_effects_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_interval_state"
+    },
+    "update_trail_effects_interval.interval_check": {
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/util/Interval.java",
+      "java_method": "check(int id, float time)",
+      "java_expr": "public boolean check(int id, float time){\n        return Time.time - times[id] >= time || Time.time < times[id];\n    }",
+      "godot_symbol": "trail_effects_timer_state.timerGetResult",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_interval_state",
+      "rule": "Arc Interval.check elapsed-time condition used by Interval.get.",
+      "tests": [
+        "test_bullet_type_update_trail_effects_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_interval_state",
+        "test_bullet_type_update_trail_effects_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_interval_state"
+    },
+    "update_trail_effects_interval.spread_random": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateTrailEffects(Bullet b)",
+      "java_expr": "Tmp.v1.rnd(Mathf.random(trailSpread));",
+      "godot_symbol": "update_trail_effects_interval_result.tmpOffset",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_interval_state",
+      "rule": "Exact random offset branch when trailSpread > 0.",
+      "tests": [
+        "test_bullet_type_update_trail_effects_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_interval_state",
+        "test_bullet_type_update_trail_effects_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_interval_state"
+    },
+    "update_trail_effects_interval.spread_zero": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateTrailEffects(Bullet b)",
+      "java_expr": "Tmp.v1.setZero();",
+      "godot_symbol": "update_trail_effects_interval_result.tmpOffset",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_interval_state",
+      "rule": "Exact zero offset branch when trailSpread <= 0.",
+      "tests": [
+        "test_bullet_type_update_trail_effects_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_interval_state",
+        "test_bullet_type_update_trail_effects_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_interval_state"
+    },
+    "update_trail_effects_interval.effect_at": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateTrailEffects(Bullet b)",
+      "java_expr": "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor);",
+      "godot_symbol": "update_trail_effects_interval_result.effectCalls",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_interval_state",
+      "rule": "Exact trail effect call for interval branch.",
+      "tests": [
+        "test_bullet_type_update_trail_effects_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_interval_state",
+        "test_bullet_type_update_trail_effects_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_interval_state"
+    },
+    "update_trail_effects_interval.mathf_random_float": {
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "random(float range)",
+      "java_expr": "public static float random(float range){\n        return rand.nextFloat() * range;\n    }",
+      "godot_symbol": "random_offset_state",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_interval_state",
+      "rule": "Arc Mathf.random(float) backing for trailInterval offset length.",
+      "tests": [
+        "test_bullet_type_update_trail_effects_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_interval_state",
+        "test_bullet_type_update_trail_effects_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_interval_state"
+    },
+    "update_trail_effects_interval.vec2_rnd": {
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "rnd(float length)",
+      "java_expr": "public Vec2 rnd(float length){\n        setToRandomDirection().scl(length);\n        return this;\n    }",
+      "godot_symbol": "update_trail_effects_interval_result.tmpOffset",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_interval_state",
+      "rule": "Arc Vec2.rnd backing for random interval trail offset.",
+      "tests": [
+        "test_bullet_type_update_trail_effects_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_interval_state",
+        "test_bullet_type_update_trail_effects_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_interval_state"
+    },
+    "update_trail_effects_interval.vec2_set_zero": {
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "setZero()",
+      "java_expr": "public Vec2 setZero(){\n        this.x = 0;\n        this.y = 0;\n        return this;\n    }",
+      "godot_symbol": "update_trail_effects_interval_result.tmpOffset",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_interval_state",
+      "rule": "Arc Vec2.setZero backing for zero interval trail offset.",
+      "tests": [
+        "test_bullet_type_update_trail_effects_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_interval_state",
+        "test_bullet_type_update_trail_effects_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_interval_state"
+    },
+    "update_trail_effects_interval.effect_at_color": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/Effect.java",
+      "java_method": "at(float x, float y, float rotation, Color color)",
+      "java_expr": "public void at(float x, float y, float rotation, Color color){\n        create(x, y, rotation, color, null);\n    }",
+      "godot_symbol": "update_trail_effects_interval_result.effectCalls",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_interval_state",
+      "rule": "Effect.at overload backing for interval trail effect call.",
+      "tests": [
+        "test_bullet_type_update_trail_effects_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_interval_state",
+        "test_bullet_type_update_trail_effects_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_interval_state"
     }
   }
 }
