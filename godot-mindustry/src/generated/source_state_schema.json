@@ -34,7 +34,8 @@
             "PortGame.source_bullet_type_create_units_rotation_state",
             "PortGame.source_bullet_type_init_spawn_bullets_state",
             "PortGame.source_bullet_type_update_dispatch_state",
-            "PortGame.source_bullet_type_update_bullet_interval_state"
+            "PortGame.source_bullet_type_update_bullet_interval_state",
+            "PortGame.source_bullet_type_update_homing_target_velocity_state"
           ],
           "rule": "Explicit input until RotComp/BulletComp rotation state is ported."
         },
@@ -117,7 +118,8 @@
             "PortGame.source_bullet_type_update_dispatch_state",
             "PortGame.source_bullet_type_update_bullet_interval_state",
             "PortGame.source_bullet_type_update_trail_state",
-            "PortGame.source_bullet_type_update_homing_initial_state"
+            "PortGame.source_bullet_type_update_homing_initial_state",
+            "PortGame.source_bullet_type_update_homing_target_velocity_state"
           ],
           "rule": "Use source bullet x field."
         },
@@ -136,7 +138,8 @@
             "PortGame.source_bullet_type_update_dispatch_state",
             "PortGame.source_bullet_type_update_bullet_interval_state",
             "PortGame.source_bullet_type_update_trail_state",
-            "PortGame.source_bullet_type_update_homing_initial_state"
+            "PortGame.source_bullet_type_update_homing_initial_state",
+            "PortGame.source_bullet_type_update_homing_target_velocity_state"
           ],
           "rule": "Use source bullet y field."
         },
@@ -218,6 +221,17 @@
             "PortGame.source_bullet_type_update_homing_initial_state"
           ],
           "rule": "Transient BulletComp aimY input used by updateHoming realAimY fallback."
+        },
+        "velocity": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "java_expr": "b.vel",
+          "godot_symbol": "bullet_state.velocity",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_target_velocity_state"
+          ],
+          "rule": "BulletComp Vec2 velocity state."
         }
       }
     },
@@ -1164,7 +1178,8 @@
           "java_expr": "homingPower",
           "godot_symbol": "bullet_type_state.homingPower",
           "used_by": [
-            "PortGame.source_bullet_type_update_homing_initial_state"
+            "PortGame.source_bullet_type_update_homing_initial_state",
+            "PortGame.source_bullet_type_update_homing_target_velocity_state"
           ],
           "rule": "Canonical BulletType.homingPower field; default is 0f."
         },
@@ -8724,6 +8739,158 @@
             "PortGame.source_bullet_type_update_homing_initial_state"
           ],
           "rule": "Runtime-visible follow-aim branch boundary."
+        }
+      }
+    },
+    "target_state": {
+      "status": "active",
+      "keys": {
+        "x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "java_expr": "target.getX()",
+          "godot_symbol": "target_state.x",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_target_velocity_state"
+          ],
+          "rule": "Explicit selected target X from Position.getX()."
+        },
+        "y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "java_expr": "target.getY()",
+          "godot_symbol": "target_state.y",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_target_velocity_state"
+          ],
+          "rule": "Explicit selected target Y from Position.getY()."
+        }
+      }
+    },
+    "update_homing_target_velocity_result": {
+      "status": "active",
+      "keys": {
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Updated bullet state after target velocity slice."
+        },
+        "homingVelocityApplied": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "update_homing_target_velocity_result.targetGatePassed",
+          "rule": "Runtime boolean mirrors target gate application."
+        },
+        "targetGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateHoming(Bullet b)",
+          "java_expr": "target != null",
+          "godot_symbol": "update_homing_target_velocity_result.targetGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_target_velocity_state"
+          ],
+          "rule": "Exact target non-null gate."
+        },
+        "currentRotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "java_method": "rotation()",
+          "java_expr": "b.rotation()",
+          "godot_symbol": "update_homing_target_velocity_result.currentRotation",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_target_velocity_state"
+          ],
+          "rule": "Current bullet rotation before homing turn."
+        },
+        "targetAngle": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateHoming(Bullet b)",
+          "java_expr": "b.angleTo(target)",
+          "godot_symbol": "update_homing_target_velocity_result.targetAngle",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_target_velocity_state"
+          ],
+          "rule": "Angle from bullet to selected target."
+        },
+        "maxTurn": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateHoming(Bullet b)",
+          "java_expr": "homingPower * Time.delta * 50f",
+          "godot_symbol": "update_homing_target_velocity_result.maxTurn",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_target_velocity_state"
+          ],
+          "rule": "Source homing max turn formula."
+        },
+        "nextAngle": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateHoming(Bullet b)",
+          "java_expr": "Angles.moveToward(b.rotation(), b.angleTo(target), homingPower * Time.delta * 50f)",
+          "godot_symbol": "update_homing_target_velocity_result.nextAngle",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_target_velocity_state"
+          ],
+          "rule": "Source next angle from Arc Angles.moveToward."
+        },
+        "speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "java_method": "setAngleRad(float radians)",
+          "java_expr": "len()",
+          "godot_symbol": "update_homing_target_velocity_result.speed",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_target_velocity_state"
+          ],
+          "rule": "Vec2.setAngle preserves current vector length."
+        },
+        "velocity": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateHoming(Bullet b)",
+          "java_expr": "b.vel.setAngle(Angles.moveToward(b.rotation(), b.angleTo(target), homingPower * Time.delta * 50f))",
+          "godot_symbol": "update_homing_target_velocity_result.velocity",
+          "used_by": [
+            "PortGame.source_bullet_type_update_homing_target_velocity_state"
+          ],
+          "rule": "Updated BulletComp velocity after setAngle."
+        },
+        "targetGateSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.update_homing_target_velocity.target_gate",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "setAngleSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.update_homing_target_velocity.set_angle",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "angleToSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.update_homing_target_velocity.position_angle_to",
+          "rule": "Debug Arc source-line echo, not gameplay state."
+        },
+        "vec2SetAngleSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.update_homing_target_velocity.vec2_set_angle",
+          "rule": "Debug Arc source-line echo, not gameplay state."
         }
       }
     }

@@ -5463,6 +5463,156 @@
         "test_bullet_type_update_homing_initial_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_update_homing_initial_state"
+    },
+    "update_homing_target_velocity.target_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateHoming(Bullet b)",
+      "java_expr": "if(target != null){",
+      "godot_symbol": "update_homing_target_velocity_result.targetGatePassed",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_target_velocity_state",
+      "rule": "Exact target non-null gate before homing velocity rotation.",
+      "tests": [
+        "test_bullet_type_update_homing_target_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_target_velocity_state",
+        "test_bullet_type_update_homing_target_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_target_velocity_state"
+    },
+    "update_homing_target_velocity.set_angle": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateHoming(Bullet b)",
+      "java_expr": "b.vel.setAngle(Angles.moveToward(b.rotation(), b.angleTo(target), homingPower * Time.delta * 50f));",
+      "godot_symbol": "update_homing_target_velocity_result.velocity",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_target_velocity_state",
+      "rule": "Exact source velocity setAngle call for target homing.",
+      "tests": [
+        "test_bullet_type_update_homing_target_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_target_velocity_state",
+        "test_bullet_type_update_homing_target_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_target_velocity_state"
+    },
+    "update_homing_target_velocity.current_rotation": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "java_method": "rotation()",
+      "java_expr": "b.rotation()",
+      "godot_symbol": "update_homing_target_velocity_result.currentRotation",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_target_velocity_state",
+      "rule": "BulletComp.rotation() supplies current bullet rotation for homing moveToward.",
+      "tests": [
+        "test_bullet_type_update_homing_target_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_target_velocity_state",
+        "test_bullet_type_update_homing_target_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_target_velocity_state"
+    },
+    "update_homing_target_velocity.target_angle": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateHoming(Bullet b)",
+      "java_expr": "b.angleTo(target)",
+      "godot_symbol": "update_homing_target_velocity_result.targetAngle",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_target_velocity_state",
+      "rule": "Target angle expression from BulletType.updateHoming setAngle call.",
+      "tests": [
+        "test_bullet_type_update_homing_target_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_target_velocity_state",
+        "test_bullet_type_update_homing_target_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_target_velocity_state"
+    },
+    "update_homing_target_velocity.max_turn": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateHoming(Bullet b)",
+      "java_expr": "homingPower * Time.delta * 50f",
+      "godot_symbol": "update_homing_target_velocity_result.maxTurn",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_target_velocity_state",
+      "rule": "Exact source max-turn formula for homing velocity.",
+      "tests": [
+        "test_bullet_type_update_homing_target_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_target_velocity_state",
+        "test_bullet_type_update_homing_target_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_target_velocity_state"
+    },
+    "update_homing_target_velocity.move_toward": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateHoming(Bullet b)",
+      "java_expr": "Angles.moveToward(b.rotation(), b.angleTo(target), homingPower * Time.delta * 50f)",
+      "godot_symbol": "update_homing_target_velocity_result.nextAngle",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_target_velocity_state",
+      "rule": "Exact Angles.moveToward expression inside homing velocity setAngle.",
+      "tests": [
+        "test_bullet_type_update_homing_target_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_target_velocity_state",
+        "test_bullet_type_update_homing_target_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_target_velocity_state"
+    },
+    "update_homing_target_velocity.target_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateHoming(Bullet b)",
+      "java_expr": "target",
+      "godot_symbol": "target_state",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_target_velocity_state",
+      "rule": "Target selection is supplied as explicit input until Units.closestTarget slices are ported.",
+      "tests": [
+        "test_bullet_type_update_homing_target_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_target_velocity_state",
+        "test_bullet_type_update_homing_target_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_target_velocity_state"
+    },
+    "update_homing_target_velocity.velocity": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "java_method": "BulletComp",
+      "java_expr": "b.vel",
+      "godot_symbol": "bullet_state.velocity",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_target_velocity_state",
+      "rule": "BulletComp velocity vector mutated by updateHoming target velocity setAngle.",
+      "tests": [
+        "test_bullet_type_update_homing_target_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_target_velocity_state",
+        "test_bullet_type_update_homing_target_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_target_velocity_state"
+    },
+    "update_homing_target_velocity.position_angle_to": {
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/geom/Position.java",
+      "java_method": "angleTo(Position other)",
+      "java_expr": "return Angles.angle(getX(), getY(), other.getX(), other.getY());",
+      "godot_symbol": "update_homing_target_velocity_result.angleToSource",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_target_velocity_state",
+      "rule": "Arc Position.angleTo(Position) delegates to Angles.angle over source and target positions.",
+      "tests": [
+        "test_bullet_type_update_homing_target_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_target_velocity_state",
+        "test_bullet_type_update_homing_target_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_target_velocity_state"
+    },
+    "update_homing_target_velocity.vec2_set_angle": {
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "setAngleRad(float radians)",
+      "java_expr": "this.set(len(), 0f); this.rotateRad(radians);",
+      "godot_symbol": "update_homing_target_velocity_result.vec2SetAngleSource",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_target_velocity_state",
+      "rule": "Arc Vec2.setAngle preserves vector length before rotating to the requested angle.",
+      "tests": [
+        "test_bullet_type_update_homing_target_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_target_velocity_state",
+        "test_bullet_type_update_homing_target_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_target_velocity_state"
     }
   }
 }
