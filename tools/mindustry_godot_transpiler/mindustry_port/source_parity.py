@@ -7145,6 +7145,89 @@ def verify_weapon_update_continuous_sound_source(upstream_root: Path) -> dict[st
         "missing": missing,
     }
 
+def verify_weapon_update_continuous_laser_aim_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    bullet_comp_source = "core/src/mindustry/entities/comp/BulletComp.java"
+    bullet_type_source = "core/src/mindustry/entities/bullet/BulletType.java"
+    mathf_source = "arc-core/src/arc/math/Mathf.java"
+    vec2_source = "arc-core/src/arc/math/geom/Vec2.java"
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_path = upstream_root / weapon_mount_source
+    bullet_comp_path = upstream_root / bullet_comp_source
+    bullet_type_path = upstream_root / bullet_type_source
+    mathf_path = arc_root / mathf_source
+    vec2_path = arc_root / vec2_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    bullet_comp_text = bullet_comp_path.read_text(encoding="utf-8", errors="replace")
+    bullet_type_text = bullet_type_path.read_text(encoding="utf-8", errors="replace")
+    mathf_text = mathf_path.read_text(encoding="utf-8", errors="replace")
+    vec2_text = vec2_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "target_length_comment": "//target length of laser",
+        "shoot_length": "float shootLength = Math.min(Mathf.dst(bulletX, bulletY, mount.aimX, mount.aimY), range());",
+        "current_length_comment": "//current length of laser",
+        "cur_length": "float curLength = Mathf.dst(bulletX, bulletY, mount.bullet.aimX, mount.bullet.aimY);",
+        "result_length_comment": "//resulting length of the bullet (smoothed)",
+        "result_length": "float resultLength = Mathf.approachDelta(curLength, shootLength, aimChangeSpeed);",
+        "aim_endpoint_comment": "//actual aim end point based on length",
+        "tmp_trns_add": "Tmp.v1.trns(shootAngle, mount.lastLength = resultLength).add(bulletX, bulletY);",
+        "bullet_aim_x": "mount.bullet.aimX = Tmp.v1.x;",
+        "bullet_aim_y": "mount.bullet.aimY = Tmp.v1.y;",
+        "always_continuous_reserved": "if(alwaysContinuous && mount.shoot){",
+        "weapon_aim_change_speed": "public float aimChangeSpeed = Float.POSITIVE_INFINITY;",
+        "weapon_range_method": "public float range(){",
+        "weapon_range_return": "return bullet.range;",
+        "weapon_mount_aim": "public float aimX, aimY;",
+        "weapon_mount_last_length": "public float lastLength;",
+        "bullet_comp_aim": "transient float aimX, aimY;",
+        "bullet_type_range": "public float range = 0f;",
+        "mathf_dst": "public static float dst(float x1, float y1, float x2, float y2){",
+        "mathf_approach_delta": "public static float approachDelta(float from, float to, float speed){",
+        "vec2_trns_amount": "public Vec2 trns(float angle, float amount){",
+        "vec2_add_xy": "public Vec2 add(float x, float y){",
+    }
+    source_map = {
+        "target_length_comment": source,
+        "shoot_length": source,
+        "current_length_comment": source,
+        "cur_length": source,
+        "result_length_comment": source,
+        "result_length": source,
+        "aim_endpoint_comment": source,
+        "tmp_trns_add": source,
+        "bullet_aim_x": source,
+        "bullet_aim_y": source,
+        "always_continuous_reserved": source,
+        "weapon_aim_change_speed": source,
+        "weapon_range_method": source,
+        "weapon_range_return": source,
+        "weapon_mount_aim": weapon_mount_text,
+        "weapon_mount_last_length": weapon_mount_text,
+        "bullet_comp_aim": bullet_comp_text,
+        "bullet_type_range": bullet_type_text,
+        "mathf_dst": mathf_text,
+        "mathf_approach_delta": mathf_text,
+        "vec2_trns_amount": vec2_text,
+        "vec2_add_xy": vec2_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(snippet)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": weapon_mount_source,
+        "bullet_comp_source": bullet_comp_source,
+        "bullet_type_source": bullet_type_source,
+        "mathf_source": mathf_source,
+        "vec2_source": vec2_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

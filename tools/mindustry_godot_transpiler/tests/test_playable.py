@@ -3579,6 +3579,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"soundUpdateSource": "mount.sound.update(bulletX, bulletY, true)"', source)
         self.assertIn('"laserLengthReservedSource": "//target length of laser"', source)
 
+    def test_port_game_exposes_source_weapon_update_continuous_laser_aim_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_update_continuous_laser_aim_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float, shoot_angle: float) -> Dictionary:", source)
+        self.assertIn("var live := gate and not invalid", source)
+        self.assertIn("var shoot_length: float = min(source_mathf_dst(bullet_x, bullet_y, mount_aim_x, mount_aim_y), weapon_range)", source)
+        self.assertIn("var cur_length: float = source_mathf_dst(bullet_x, bullet_y, bullet_aim_x, bullet_aim_y)", source)
+        self.assertIn("var result_length: float = source_mathf_approach_delta(cur_length, shoot_length, aim_change_speed, source_delta)", source)
+        self.assertIn("var aim_vec := source_arc_angles_trns_vec(shoot_angle, result_length, 0.0)", source)
+        self.assertIn("next_last_length = result_length", source)
+        self.assertIn('"shootLengthSource": "float shootLength = Math.min(Mathf.dst(bulletX, bulletY, mount.aimX, mount.aimY), range())"', source)
+        self.assertIn('"resultLengthSource": "float resultLength = Mathf.approachDelta(curLength, shootLength, aimChangeSpeed)"', source)
+        self.assertIn('"aimEndpointSource": "Tmp.v1.trns(shootAngle, mount.lastLength = resultLength).add(bulletX, bulletY)"', source)
+        self.assertIn('"alwaysContinuousReservedSource": "if(alwaysContinuous && mount.shoot)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

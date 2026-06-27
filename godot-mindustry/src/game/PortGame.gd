@@ -3324,6 +3324,11 @@ func source_weapons_update_dispatch_state(mount_states: Array, unit_id: int) -> 
 func source_mathf_approach_delta(from_value: float, to_value: float, speed: float, source_delta: float) -> float:
 	return from_value + clampf(to_value - from_value, -source_delta * speed, source_delta * speed)
 
+func source_mathf_dst(x1: float, y1: float, x2: float, y2: float) -> float:
+	var xd := x2 - x1
+	var yd := y2 - y1
+	return sqrt(xd * xd + yd * yd)
+
 func source_mathf_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:
 	return from_value + (to_value - from_value) * clampf(progress * source_delta, 0.0, 1.0)
 
@@ -3756,6 +3761,55 @@ func source_weapon_update_continuous_sound_state(mount_state: Dictionary, weapon
 		"soundUpdateSource": "mount.sound.update(bulletX, bulletY, true)",
 		"soundLoopUpdateSource": "update(x, y, play, 1f)",
 		"laserLengthReservedSource": "//target length of laser",
+	}
+
+func source_weapon_update_continuous_laser_aim_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float, shoot_angle: float) -> Dictionary:
+	var continuous := bool(weapon_state.get("continuous", false))
+	var bullet_exists := bool(mount_state.get("bulletExists", false))
+	var bullet_is_added := bool(bullet_state.get("isAdded", false))
+	var bullet_time := float(bullet_state.get("time", 0.0))
+	var bullet_lifetime := float(bullet_state.get("lifetime", 0.0))
+	var bullet_type_matches := bool(bullet_state.get("typeMatches", false))
+	var gate := continuous and bullet_exists
+	var invalid := gate and ((not bullet_is_added) or bullet_time >= bullet_lifetime or (not bullet_type_matches))
+	var live := gate and not invalid
+	var mount_aim_x := float(mount_state.get("aimX", bullet_x))
+	var mount_aim_y := float(mount_state.get("aimY", bullet_y))
+	var bullet_aim_x := float(bullet_state.get("aimX", bullet_x))
+	var bullet_aim_y := float(bullet_state.get("aimY", bullet_y))
+	var weapon_range := float(bullet_state.get("range", 0.0))
+	var aim_change_speed := float(weapon_state.get("aimChangeSpeed", 0.0))
+	var shoot_length: float = min(source_mathf_dst(bullet_x, bullet_y, mount_aim_x, mount_aim_y), weapon_range)
+	var cur_length: float = source_mathf_dst(bullet_x, bullet_y, bullet_aim_x, bullet_aim_y)
+	var result_length: float = source_mathf_approach_delta(cur_length, shoot_length, aim_change_speed, source_delta)
+	var aim_vec := source_arc_angles_trns_vec(shoot_angle, result_length, 0.0)
+	var next_last_length := float(mount_state.get("lastLength", 0.0))
+	var next_bullet_aim_x := bullet_aim_x
+	var next_bullet_aim_y := bullet_aim_y
+	if live:
+		next_last_length = result_length
+		next_bullet_aim_x = bullet_x + float(aim_vec.get("x", 0.0))
+		next_bullet_aim_y = bullet_y + float(aim_vec.get("y", 0.0))
+	return {
+		"gate": gate,
+		"invalid": invalid,
+		"live": live,
+		"shootLength": shoot_length,
+		"curLength": cur_length,
+		"resultLength": result_length,
+		"lastLength": next_last_length,
+		"bulletAimX": next_bullet_aim_x,
+		"bulletAimY": next_bullet_aim_y,
+		"weaponRange": weapon_range,
+		"aimChangeSpeed": aim_change_speed,
+		"shootLengthSource": "float shootLength = Math.min(Mathf.dst(bulletX, bulletY, mount.aimX, mount.aimY), range())",
+		"curLengthSource": "float curLength = Mathf.dst(bulletX, bulletY, mount.bullet.aimX, mount.bullet.aimY)",
+		"resultLengthSource": "float resultLength = Mathf.approachDelta(curLength, shootLength, aimChangeSpeed)",
+		"aimEndpointSource": "Tmp.v1.trns(shootAngle, mount.lastLength = resultLength).add(bulletX, bulletY)",
+		"bulletAimXSource": "mount.bullet.aimX = Tmp.v1.x",
+		"bulletAimYSource": "mount.bullet.aimY = Tmp.v1.y",
+		"rangeSource": "return bullet.range",
+		"alwaysContinuousReservedSource": "if(alwaysContinuous && mount.shoot)",
 	}
 
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:

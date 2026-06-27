@@ -4193,6 +4193,42 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_update_continuous_laser_aim_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_update_continuous_laser_aim_source"))
+        report = source_parity.verify_weapon_update_continuous_laser_aim_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["bullet_comp_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(report["bullet_type_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["vec2_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(report["checked"], {
+            "target_length_comment": "//target length of laser",
+            "shoot_length": "float shootLength = Math.min(Mathf.dst(bulletX, bulletY, mount.aimX, mount.aimY), range());",
+            "current_length_comment": "//current length of laser",
+            "cur_length": "float curLength = Mathf.dst(bulletX, bulletY, mount.bullet.aimX, mount.bullet.aimY);",
+            "result_length_comment": "//resulting length of the bullet (smoothed)",
+            "result_length": "float resultLength = Mathf.approachDelta(curLength, shootLength, aimChangeSpeed);",
+            "aim_endpoint_comment": "//actual aim end point based on length",
+            "tmp_trns_add": "Tmp.v1.trns(shootAngle, mount.lastLength = resultLength).add(bulletX, bulletY);",
+            "bullet_aim_x": "mount.bullet.aimX = Tmp.v1.x;",
+            "bullet_aim_y": "mount.bullet.aimY = Tmp.v1.y;",
+            "always_continuous_reserved": "if(alwaysContinuous && mount.shoot){",
+            "weapon_aim_change_speed": "public float aimChangeSpeed = Float.POSITIVE_INFINITY;",
+            "weapon_range_method": "public float range(){",
+            "weapon_range_return": "return bullet.range;",
+            "weapon_mount_aim": "public float aimX, aimY;",
+            "weapon_mount_last_length": "public float lastLength;",
+            "bullet_comp_aim": "transient float aimX, aimY;",
+            "bullet_type_range": "public float range = 0f;",
+            "mathf_dst": "public static float dst(float x1, float y1, float x2, float y2){",
+            "mathf_approach_delta": "public static float approachDelta(float from, float to, float speed){",
+            "vec2_trns_amount": "public Vec2 trns(float angle, float amount){",
+            "vec2_add_xy": "public Vec2 add(float x, float y){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
