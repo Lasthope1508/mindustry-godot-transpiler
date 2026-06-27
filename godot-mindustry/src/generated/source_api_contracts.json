@@ -764,6 +764,34 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_damage_multiplier_state",
       "rule": "Public runtime contract for BulletType.damageMultiplier owner/rules branch selection."
+    },
+    "PortGame.source_bullet_type_hit_default_state": {
+      "status": "active",
+      "source_slice": "N417",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hit(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "x",
+        "y",
+        "createFrags",
+        "hitCall",
+        "hitDefaultCallSource",
+        "hitOverloadBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_default_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_default_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_default_state",
+      "rule": "Public runtime contract for BulletType.hit(Bullet b) default overload delegate only; hit body remains deferred."
     }
   },
   "policy": {

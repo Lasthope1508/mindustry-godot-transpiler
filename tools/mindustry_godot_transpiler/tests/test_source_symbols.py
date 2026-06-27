@@ -315,14 +315,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(fallback["java_expr"], "return 1f")
         self.assertEqual(fallback["godot_symbol"], "damage_multiplier_result.damageMultiplier")
 
+    def test_bullet_type_hit_default_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        hit_call = source_symbols.source_symbol(registry, "hit.default_call")
+        self.assertEqual(hit_call["java_expr"], "hit(b, b.x, b.y, true)")
+        self.assertEqual(hit_call["godot_owner"], "PortGame.source_bullet_type_hit_default_state")
+        self.assertEqual(hit_call["runtime_proof"], "/root/Main.source_bullet_type_hit_default_state")
+
+        create_frags = source_symbols.source_symbol(registry, "hit.default_create_frags")
+        self.assertEqual(create_frags["java_expr"], "true")
+        self.assertEqual(create_frags["godot_symbol"], "hit_default_result.createFrags")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 14)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 15)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 19)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 20)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -342,6 +357,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_hit_entity_unit_destroy_event_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_entity_handle_pierce_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_damage_multiplier_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_hit_default_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -427,6 +443,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(damage_multiplier["java_method"], "damageMultiplier(Bullet b)")
         self.assertEqual(damage_multiplier["godot_owner"], "PortGame.source_bullet_type_damage_multiplier_state")
         self.assertIn("if(b.owner instanceof Unit u) return u.damageMultiplier() * state.rules.unitDamage(b.team)", damage_multiplier["exact_exprs"])
+
+        hit_default = source_symbols.source_slice(ledger, "N417")
+        self.assertEqual(hit_default["java_method"], "hit(Bullet b)")
+        self.assertEqual(hit_default["godot_owner"], "PortGame.source_bullet_type_hit_default_state")
+        self.assertIn("hit(b, b.x, b.y, true)", hit_default["exact_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -533,6 +554,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("damageMultiplier", damage_multiplier["return_keys"])
         self.assertIn("branch", damage_multiplier["return_keys"])
         self.assertEqual(damage_multiplier["source_method"], "damageMultiplier(Bullet b)")
+
+        hit_default = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_hit_default_state")
+        self.assertEqual([param["name"] for param in hit_default["params"]], ["bullet_state"])
+        self.assertEqual(hit_default["params"][0]["schema"], "bullet_state")
+        self.assertIn("hitCall", hit_default["return_keys"])
+        self.assertIn("createFrags", hit_default["return_keys"])
+        self.assertEqual(hit_default["source_method"], "hit(Bullet b)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -655,6 +683,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         damage_multiplier_output = source_symbols.state_schema(schema, "damage_multiplier_result")
         self.assertEqual(damage_multiplier_output["keys"]["damageMultiplier"]["java_expr"], "damageMultiplier(Bullet b)")
         self.assertEqual(damage_multiplier_output["keys"]["branch"]["status"], "generated")
+
+        hit_default_output = source_symbols.state_schema(schema, "hit_default_result")
+        self.assertEqual(hit_default_output["keys"]["hitCall"]["java_expr"], "hit(b, b.x, b.y, true)")
+        self.assertEqual(hit_default_output["keys"]["x"]["alias_of"], "bullet_state.x")
+        self.assertEqual(hit_default_output["keys"]["createFrags"]["java_expr"], "true")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

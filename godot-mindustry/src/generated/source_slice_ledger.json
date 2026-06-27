@@ -453,6 +453,29 @@
         "test_port_game_exposes_source_bullet_type_damage_multiplier_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_damage_multiplier_state"
+    },
+    "N417": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "hit(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_hit_default_state",
+      "exact_exprs": [
+        "hit(b, b.x, b.y, true)"
+      ],
+      "deferred_exprs": [
+        "public void hit(Bullet b, float x, float y)",
+        "public void hit(Bullet b, float x, float y, boolean createFrags)"
+      ],
+      "source_symbols": [
+        "hit.default_call",
+        "hit.default_create_frags"
+      ],
+      "tests": [
+        "test_bullet_type_hit_default_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_default_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_default_state"
     }
   },
   "version": 1

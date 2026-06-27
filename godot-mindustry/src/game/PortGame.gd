@@ -6362,6 +6362,26 @@ func source_bullet_type_damage_multiplier_state(bullet_state: Dictionary, bullet
 		"fallbackSource": "return 1f",
 	}
 
+func source_bullet_type_hit_default_state(bullet_state: Dictionary) -> Dictionary:
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var hit_x := float(update_bullet_state.get("x", 0.0))
+	var hit_y := float(update_bullet_state.get("y", 0.0))
+	var create_frags := true
+	return {
+		"bullet": update_bullet_state,
+		"x": hit_x,
+		"y": hit_y,
+		"createFrags": create_frags,
+		"hitCall": {
+			"call": "hit(b, b.x, b.y, true)",
+			"x": hit_x,
+			"y": hit_y,
+			"createFrags": create_frags,
+		},
+		"hitDefaultCallSource": "hit(b, b.x, b.y, true)",
+		"hitOverloadBoundarySource": "public void hit(Bullet b, float x, float y)",
+	}
+
 func source_bullet_type_hit_entity_damage_cap_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, hit_entity_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

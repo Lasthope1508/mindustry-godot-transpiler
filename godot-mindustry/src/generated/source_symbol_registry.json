@@ -1663,6 +1663,34 @@
         "test_port_game_exposes_source_bullet_type_damage_multiplier_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_damage_multiplier_state"
+    },
+    "hit.default_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b)",
+      "java_expr": "hit(b, b.x, b.y, true)",
+      "godot_symbol": "hit_default_result.hitCall",
+      "godot_owner": "PortGame.source_bullet_type_hit_default_state",
+      "rule": "Default hit(Bullet b) overload delegates to hit(b, b.x, b.y, true); do not enter the hit body in this slice.",
+      "tests": [
+        "test_bullet_type_hit_default_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_default_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_default_state"
+    },
+    "hit.default_create_frags": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b)",
+      "java_expr": "true",
+      "godot_symbol": "hit_default_result.createFrags",
+      "godot_owner": "PortGame.source_bullet_type_hit_default_state",
+      "rule": "Use the literal createFrags argument from hit(b, b.x, b.y, true).",
+      "tests": [
+        "test_bullet_type_hit_default_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_default_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_default_state"
     }
   }
 }
