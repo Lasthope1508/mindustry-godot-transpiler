@@ -10253,6 +10253,33 @@ def verify_bullet_type_hit_xy_default_state_source(upstream_root: Path) -> dict[
         "missing": missing,
     }
 
+def verify_bullet_type_hit_effects_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "hit_effect_field": "public Effect hitEffect = Fx.hitBulletSmall;",
+        "hit_sound_field": "public Sound hitSound = Sounds.none;",
+        "hit_sound_pitch_field": "public float hitSoundPitch = 1, hitSoundPitchRange = 0.1f;",
+        "hit_sound_volume_field": "public float hitSoundVolume = 1;",
+        "hit_shake_field": "public float hitShake = 0f, despawnShake = 0f;",
+        "hit_color_field": "public Color hitColor = Color.white;",
+        "method": "public void hit(Bullet b, float x, float y, boolean createFrags){",
+        "hit_effect_call": "hitEffect.at(x, y, b.rotation(), hitColor);",
+        "hit_sound_call": "hitSound.at(x, y, hitSoundPitch + Mathf.range(hitSoundPitchRange), hitSoundVolume);",
+        "shake_call": "Effect.shake(hitShake, hitShake, b);",
+        "frag_boundary": "if(createFrags && fragOnHit){",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

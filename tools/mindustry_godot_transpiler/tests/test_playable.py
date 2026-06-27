@@ -4765,6 +4765,24 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"hitXYDefaultCallSource": "hit(b, x, y, true)"', source)
         self.assertIn('"hitCreateFragsBoundarySource": "public void hit(Bullet b, float x, float y, boolean createFrags)"', source)
 
+    def test_port_game_exposes_source_bullet_type_hit_effects_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_hit_effects_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var hit_effect: Variant = update_type_state.get(\"hitEffect\", \"Fx.hitBulletSmall\")", source)
+        self.assertIn("var hit_sound: Variant = update_type_state.get(\"hitSound\", \"Sounds.none\")", source)
+        self.assertIn("var hit_sound_pitch := float(update_type_state.get(\"hitSoundPitch\", 1.0))", source)
+        self.assertIn("var hit_sound_pitch_range := float(update_type_state.get(\"hitSoundPitchRange\", 0.1))", source)
+        self.assertIn("var hit_sound_volume := float(update_type_state.get(\"hitSoundVolume\", 1.0))", source)
+        self.assertIn("var hit_shake := float(update_type_state.get(\"hitShake\", 0.0))", source)
+        self.assertIn("var hit_color: Variant = update_type_state.get(\"hitColor\", \"Color.white\")", source)
+        self.assertIn("var bullet_rotation := float(update_bullet_state.get(\"rotation\", 0.0))", source)
+        self.assertIn('"call": "hitEffect.at(x, y, b.rotation(), hitColor)"', source)
+        self.assertIn('"call": "hitSound.at(x, y, hitSoundPitch + Mathf.range(hitSoundPitchRange), hitSoundVolume)"', source)
+        self.assertIn('"call": "Effect.shake(hitShake, hitShake, b)"', source)
+        self.assertIn('"fragBranchBoundarySource": "if(createFrags && fragOnHit)"', source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

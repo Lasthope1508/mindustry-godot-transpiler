@@ -1747,6 +1747,146 @@
         "test_port_game_exposes_source_bullet_type_hit_xy_default_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_xy_default_state"
+    },
+    "hit.effects.hit_effect": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "java_expr": "hitEffect",
+      "godot_symbol": "bullet_type_state.hitEffect",
+      "godot_owner": "PortGame.source_bullet_type_hit_effects_state",
+      "rule": "Use BulletType.hitEffect for hitEffect.at; default comes from Fx.hitBulletSmall.",
+      "tests": [
+        "test_bullet_type_hit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_effects_state"
+    },
+    "hit.effects.hit_sound": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "java_expr": "hitSound",
+      "godot_symbol": "bullet_type_state.hitSound",
+      "godot_owner": "PortGame.source_bullet_type_hit_effects_state",
+      "rule": "Use BulletType.hitSound for hitSound.at; default comes from Sounds.none.",
+      "tests": [
+        "test_bullet_type_hit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_effects_state"
+    },
+    "hit.effects.hit_sound_pitch": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "java_expr": "hitSoundPitch",
+      "godot_symbol": "bullet_type_state.hitSoundPitch",
+      "godot_owner": "PortGame.source_bullet_type_hit_effects_state",
+      "rule": "Use BulletType.hitSoundPitch as the base hit sound pitch.",
+      "tests": [
+        "test_bullet_type_hit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_effects_state"
+    },
+    "hit.effects.hit_sound_pitch_range": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "java_expr": "hitSoundPitchRange",
+      "godot_symbol": "bullet_type_state.hitSoundPitchRange",
+      "godot_owner": "PortGame.source_bullet_type_hit_effects_state",
+      "rule": "Use BulletType.hitSoundPitchRange only as range metadata; do not sample RNG in this slice.",
+      "tests": [
+        "test_bullet_type_hit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_effects_state"
+    },
+    "hit.effects.hit_sound_volume": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "java_expr": "hitSoundVolume",
+      "godot_symbol": "bullet_type_state.hitSoundVolume",
+      "godot_owner": "PortGame.source_bullet_type_hit_effects_state",
+      "rule": "Use BulletType.hitSoundVolume as the hit sound volume.",
+      "tests": [
+        "test_bullet_type_hit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_effects_state"
+    },
+    "hit.effects.hit_shake": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "java_expr": "hitShake",
+      "godot_symbol": "bullet_type_state.hitShake",
+      "godot_owner": "PortGame.source_bullet_type_hit_effects_state",
+      "rule": "Use BulletType.hitShake for both Effect.shake axes.",
+      "tests": [
+        "test_bullet_type_hit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_effects_state"
+    },
+    "hit.effects.hit_color": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "java_expr": "hitColor",
+      "godot_symbol": "bullet_type_state.hitColor",
+      "godot_owner": "PortGame.source_bullet_type_hit_effects_state",
+      "rule": "Use BulletType.hitColor for hitEffect.at color argument.",
+      "tests": [
+        "test_bullet_type_hit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_effects_state"
+    },
+    "hit.effects.hit_effect_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "java_expr": "hitEffect.at(x, y, b.rotation(), hitColor)",
+      "godot_symbol": "hit_effects_result.hitEffectCall",
+      "godot_owner": "PortGame.source_bullet_type_hit_effects_state",
+      "rule": "Record the exact hitEffect.at call before the frag branch.",
+      "tests": [
+        "test_bullet_type_hit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_effects_state"
+    },
+    "hit.effects.hit_sound_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "java_expr": "hitSound.at(x, y, hitSoundPitch + Mathf.range(hitSoundPitchRange), hitSoundVolume)",
+      "godot_symbol": "hit_effects_result.hitSoundCall",
+      "godot_owner": "PortGame.source_bullet_type_hit_effects_state",
+      "rule": "Record the exact hitSound.at call and preserve pitch range without inventing random output.",
+      "tests": [
+        "test_bullet_type_hit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_effects_state"
+    },
+    "hit.effects.shake_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "java_expr": "Effect.shake(hitShake, hitShake, b)",
+      "godot_symbol": "hit_effects_result.shakeCall",
+      "godot_owner": "PortGame.source_bullet_type_hit_effects_state",
+      "rule": "Record Effect.shake with hitShake on both axes.",
+      "tests": [
+        "test_bullet_type_hit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_effects_state"
     }
   }
 }

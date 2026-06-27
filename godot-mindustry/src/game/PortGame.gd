@@ -6404,6 +6404,55 @@ func source_bullet_type_hit_xy_default_state(bullet_state: Dictionary, hit_xy_st
 		"hitCreateFragsBoundarySource": "public void hit(Bullet b, float x, float y, boolean createFrags)",
 	}
 
+func source_bullet_type_hit_effects_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_hit_xy_state: Dictionary = hit_xy_state.duplicate(true)
+	var hit_x := float(update_hit_xy_state.get("x", 0.0))
+	var hit_y := float(update_hit_xy_state.get("y", 0.0))
+	var hit_effect: Variant = update_type_state.get("hitEffect", "Fx.hitBulletSmall")
+	var hit_sound: Variant = update_type_state.get("hitSound", "Sounds.none")
+	var hit_sound_pitch := float(update_type_state.get("hitSoundPitch", 1.0))
+	var hit_sound_pitch_range := float(update_type_state.get("hitSoundPitchRange", 0.1))
+	var hit_sound_volume := float(update_type_state.get("hitSoundVolume", 1.0))
+	var hit_shake := float(update_type_state.get("hitShake", 0.0))
+	var hit_color: Variant = update_type_state.get("hitColor", "Color.white")
+	var bullet_rotation := float(update_bullet_state.get("rotation", 0.0))
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"hitXY": update_hit_xy_state,
+		"x": hit_x,
+		"y": hit_y,
+		"hitEffectCall": {
+			"call": "hitEffect.at(x, y, b.rotation(), hitColor)",
+			"effect": hit_effect,
+			"x": hit_x,
+			"y": hit_y,
+			"rotation": bullet_rotation,
+			"color": hit_color,
+		},
+		"hitSoundCall": {
+			"call": "hitSound.at(x, y, hitSoundPitch + Mathf.range(hitSoundPitchRange), hitSoundVolume)",
+			"sound": hit_sound,
+			"x": hit_x,
+			"y": hit_y,
+			"pitchBase": hit_sound_pitch,
+			"pitchRange": hit_sound_pitch_range,
+			"volume": hit_sound_volume,
+		},
+		"shakeCall": {
+			"call": "Effect.shake(hitShake, hitShake, b)",
+			"amountX": hit_shake,
+			"amountY": hit_shake,
+			"bullet": update_bullet_state,
+		},
+		"hitEffectCallSource": "hitEffect.at(x, y, b.rotation(), hitColor)",
+		"hitSoundCallSource": "hitSound.at(x, y, hitSoundPitch + Mathf.range(hitSoundPitchRange), hitSoundVolume)",
+		"shakeCallSource": "Effect.shake(hitShake, hitShake, b)",
+		"fragBranchBoundarySource": "if(createFrags && fragOnHit)",
+	}
+
 func source_bullet_type_hit_entity_damage_cap_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, hit_entity_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

@@ -453,12 +453,13 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 16,
+  "registeredSourceOwnerCount": 17,
   "registeredSourceOwners": [
     "PortGame.source_bullet_type_damage_multiplier_state",
     "PortGame.source_bullet_type_draw_parts_state",
     "PortGame.source_bullet_type_handle_pierce_state",
     "PortGame.source_bullet_type_hit_default_state",
+    "PortGame.source_bullet_type_hit_effects_state",
     "PortGame.source_bullet_type_hit_entity_armor_damage_state",
     "PortGame.source_bullet_type_hit_entity_damage_cap_state",
     "PortGame.source_bullet_type_hit_entity_handle_pierce_state",
@@ -2279,6 +2280,11 @@
       "owner": "PortGame.source_bullet_type_hit_xy_default_state"
     },
     {
+      "function": "source_bullet_type_hit_effects_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "owner": "PortGame.source_bullet_type_hit_effects_state"
+    },
+    {
       "function": "source_bullet_type_hit_entity_damage_cap_state",
       "gdscript_path": "src/game/PortGame.gd",
       "owner": "PortGame.source_bullet_type_hit_entity_damage_cap_state"
@@ -2774,6 +2780,6 @@
       "owner": "PortGame.source_bullet_scale"
     }
   ],
-  "totalSourceFunctions": 460,
+  "totalSourceFunctions": 461,
   "version": 1
 }

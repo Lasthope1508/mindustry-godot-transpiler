@@ -317,6 +317,90 @@
             "PortGame.source_bullet_type_hit_entity_unit_effects_state"
           ],
           "rule": "Canonical BulletType.statusDuration field for unit.apply(status, statusDuration)."
+        },
+        "hitEffect": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "hitEffect",
+          "godot_symbol": "bullet_type_state.hitEffect",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_effects_state"
+          ],
+          "rule": "Canonical BulletType.hitEffect field for hitEffect.at."
+        },
+        "hitSound": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "hitSound",
+          "godot_symbol": "bullet_type_state.hitSound",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_effects_state"
+          ],
+          "rule": "Canonical BulletType.hitSound field for hitSound.at."
+        },
+        "hitSoundPitch": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "hitSoundPitch",
+          "godot_symbol": "bullet_type_state.hitSoundPitch",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_effects_state"
+          ],
+          "rule": "Canonical BulletType.hitSoundPitch field for hitSound.at pitch base."
+        },
+        "hitSoundPitchRange": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "hitSoundPitchRange",
+          "godot_symbol": "bullet_type_state.hitSoundPitchRange",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_effects_state"
+          ],
+          "rule": "Canonical BulletType.hitSoundPitchRange field for hitSound.at pitch range."
+        },
+        "hitSoundVolume": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "hitSoundVolume",
+          "godot_symbol": "bullet_type_state.hitSoundVolume",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_effects_state"
+          ],
+          "rule": "Canonical BulletType.hitSoundVolume field for hitSound.at volume."
+        },
+        "hitShake": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "hitShake",
+          "godot_symbol": "bullet_type_state.hitShake",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_effects_state"
+          ],
+          "rule": "Canonical BulletType.hitShake field for Effect.shake."
+        },
+        "hitColor": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "hitColor",
+          "godot_symbol": "bullet_type_state.hitColor",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_effects_state"
+          ],
+          "rule": "Canonical BulletType.hitColor field for hitEffect.at."
         }
       }
     },
@@ -2622,6 +2706,107 @@
             "PortGame.source_bullet_type_hit_xy_default_state"
           ],
           "rule": "Boundary marker; createFrags overload body is not migrated in N418."
+        }
+      }
+    },
+    "hit_effects_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_type_state",
+          "rule": "Runtime key preserves input BulletType state."
+        },
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime key preserves input bullet state."
+        },
+        "hitXY": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "hit_xy_state",
+          "rule": "Runtime key preserves explicit hit x/y params."
+        },
+        "x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "hit_xy_state.x",
+          "rule": "Runtime key aliases x overload parameter."
+        },
+        "y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "hit_xy_state.y",
+          "rule": "Runtime key aliases y overload parameter."
+        },
+        "hitEffectCall": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "hitEffect.at(x, y, b.rotation(), hitColor)",
+          "godot_symbol": "hit_effects_result.hitEffectCall",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_effects_state"
+          ],
+          "rule": "Runtime call record for hitEffect.at."
+        },
+        "hitSoundCall": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "hitSound.at(x, y, hitSoundPitch + Mathf.range(hitSoundPitchRange), hitSoundVolume)",
+          "godot_symbol": "hit_effects_result.hitSoundCall",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_effects_state"
+          ],
+          "rule": "Runtime call record for hitSound.at without inventing RNG output."
+        },
+        "shakeCall": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "Effect.shake(hitShake, hitShake, b)",
+          "godot_symbol": "hit_effects_result.shakeCall",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_effects_state"
+          ],
+          "rule": "Runtime call record for Effect.shake."
+        },
+        "hitEffectCallSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "hit.effects.hit_effect_call",
+          "rule": "Runtime source snippet label."
+        },
+        "hitSoundCallSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "hit.effects.hit_sound_call",
+          "rule": "Runtime source snippet label."
+        },
+        "shakeCallSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "hit.effects.shake_call",
+          "rule": "Runtime source snippet label."
+        },
+        "fragBranchBoundarySource": {
+          "type": "String",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+          "java_expr": "if(createFrags && fragOnHit)",
+          "godot_symbol": "hit_effects_result.fragBranchBoundarySource",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_effects_state"
+          ],
+          "rule": "Boundary marker; frag branch body is not migrated in N419."
         }
       }
     }

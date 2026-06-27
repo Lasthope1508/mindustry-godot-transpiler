@@ -500,6 +500,38 @@
         "test_port_game_exposes_source_bullet_type_hit_xy_default_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_xy_default_state"
+    },
+    "N419": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "godot_owner": "PortGame.source_bullet_type_hit_effects_state",
+      "exact_exprs": [
+        "hitEffect.at(x, y, b.rotation(), hitColor)",
+        "hitSound.at(x, y, hitSoundPitch + Mathf.range(hitSoundPitchRange), hitSoundVolume)",
+        "Effect.shake(hitShake, hitShake, b)"
+      ],
+      "deferred_exprs": [
+        "if(createFrags && fragOnHit)"
+      ],
+      "source_symbols": [
+        "hit.effects.hit_effect",
+        "hit.effects.hit_sound",
+        "hit.effects.hit_sound_pitch",
+        "hit.effects.hit_sound_pitch_range",
+        "hit.effects.hit_sound_volume",
+        "hit.effects.hit_shake",
+        "hit.effects.hit_color",
+        "hit.effects.hit_effect_call",
+        "hit.effects.hit_sound_call",
+        "hit.effects.shake_call"
+      ],
+      "tests": [
+        "test_bullet_type_hit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_effects_state"
     }
   },
   "version": 1
