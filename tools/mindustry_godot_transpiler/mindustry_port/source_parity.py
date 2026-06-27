@@ -7862,6 +7862,63 @@ def verify_weapon_bullet_initial_guard_source(upstream_root: Path) -> dict[str, 
         "missing": missing,
     }
 
+def verify_weapon_bullet_geometry_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    arc_angles_source = "arc-core/src/arc/math/Angles.java"
+    arc_mathf_source = "arc-core/src/arc/math/Mathf.java"
+    arc_angles_path = arc_root / arc_angles_source
+    arc_mathf_path = arc_root / arc_mathf_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    arc_angles_text = arc_angles_path.read_text(encoding="utf-8", errors="replace")
+    arc_mathf_text = arc_mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "x_spread": "xSpread = Mathf.range(xRand),",
+        "y_spread": "ySpread = Mathf.range(yRand),",
+        "weapon_rotation": "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),",
+        "mount_x": "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),",
+        "mount_y": "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y),",
+        "bullet_x": "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX + xOffset + xSpread, this.shootY + yOffset + ySpread),",
+        "bullet_y": "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX + xOffset + xSpread, this.shootY + yOffset + ySpread),",
+        "shoot_angle_reserved": "shootAngle = bulletRotation(unit, mount, bulletX, bulletY) + angleOffset,",
+        "weapon_rotate": "public boolean rotate = false;",
+        "weapon_base_rotation": "public float baseRotation = 0f;",
+        "weapon_shoot_offsets": "public float shootX = 0f, shootY = 3f;",
+        "weapon_rand_offsets": "public float xRand = 0f, yRand = 0f;",
+        "angles_trnsx": "return rv.set(x, y).rotate(angle).x;",
+        "angles_trnsy": "return rv.set(x, y).rotate(angle).y;",
+        "mathf_range": "public static float range(float range){\n        return random(-range, range);\n    }",
+    }
+    source_map = {
+        "x_spread": source,
+        "y_spread": source,
+        "weapon_rotation": source,
+        "mount_x": source,
+        "mount_y": source,
+        "bullet_x": source,
+        "bullet_y": source,
+        "shoot_angle_reserved": source,
+        "weapon_rotate": source,
+        "weapon_base_rotation": source,
+        "weapon_shoot_offsets": source,
+        "weapon_rand_offsets": source,
+        "angles_trnsx": arc_angles_text,
+        "angles_trnsy": arc_angles_text,
+        "mathf_range": arc_mathf_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "arc_angles_source": arc_angles_source,
+        "arc_mathf_source": arc_mathf_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

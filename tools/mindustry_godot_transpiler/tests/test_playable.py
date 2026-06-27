@@ -3792,6 +3792,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"chargingResetSource": "mount.charging = false"', source)
         self.assertIn('"geometryReservedSource": "float xSpread = Mathf.range(xRand)"', source)
 
+    def test_port_game_exposes_source_weapon_bullet_geometry_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_bullet_geometry_state(unit_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary, x_offset: float, y_offset: float, x_spread: float, y_spread: float) -> Dictionary:", source)
+        self.assertIn("var guard_state := source_weapon_bullet_initial_guard_state(unit_state, mount_state)", source)
+        self.assertIn("var bullet_continues := bool(guard_state.get(\"bulletContinues\", false))", source)
+        self.assertIn("if not bullet_continues:", source)
+        self.assertIn("var weapon_rotate := bool(weapon_state.get(\"rotate\", false))", source)
+        self.assertIn("var weapon_rotation := unit_rotation - 90.0 + (mount_rotation if weapon_rotate else base_rotation)", source)
+        self.assertIn("var mount_vec := source_arc_angles_trns_vec(unit_rotation - 90.0, weapon_x, weapon_y)", source)
+        self.assertIn("var bullet_offset_x := shoot_x + x_offset + x_spread", source)
+        self.assertIn("var bullet_offset_y := shoot_y + y_offset + y_spread", source)
+        self.assertIn("var bullet_vec := source_arc_angles_trns_vec(weapon_rotation, bullet_offset_x, bullet_offset_y)", source)
+        self.assertIn('"xSpreadSource": "xSpread = Mathf.range(xRand)"', source)
+        self.assertIn('"weaponRotationSource": "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation)"', source)
+        self.assertIn('"mountXSource": "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y)"', source)
+        self.assertIn('"bulletXSource": "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX + xOffset + xSpread, this.shootY + yOffset + ySpread)"', source)
+        self.assertIn('"shootAngleReservedSource": "shootAngle = bulletRotation(unit, mount, bulletX, bulletY) + angleOffset"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

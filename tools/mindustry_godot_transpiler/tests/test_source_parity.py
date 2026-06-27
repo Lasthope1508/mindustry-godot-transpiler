@@ -4511,6 +4511,32 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_bullet_geometry_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_bullet_geometry_source"))
+        report = source_parity.verify_weapon_bullet_geometry_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["arc_angles_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(report["arc_mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "x_spread": "xSpread = Mathf.range(xRand),",
+            "y_spread": "ySpread = Mathf.range(yRand),",
+            "weapon_rotation": "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),",
+            "mount_x": "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),",
+            "mount_y": "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y),",
+            "bullet_x": "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX + xOffset + xSpread, this.shootY + yOffset + ySpread),",
+            "bullet_y": "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX + xOffset + xSpread, this.shootY + yOffset + ySpread),",
+            "shoot_angle_reserved": "shootAngle = bulletRotation(unit, mount, bulletX, bulletY) + angleOffset,",
+            "weapon_rotate": "public boolean rotate = false;",
+            "weapon_base_rotation": "public float baseRotation = 0f;",
+            "weapon_shoot_offsets": "public float shootX = 0f, shootY = 3f;",
+            "weapon_rand_offsets": "public float xRand = 0f, yRand = 0f;",
+            "angles_trnsx": "return rv.set(x, y).rotate(angle).x;",
+            "angles_trnsy": "return rv.set(x, y).rotate(angle).y;",
+            "mathf_range": "public static float range(float range){\n        return random(-range, range);\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
