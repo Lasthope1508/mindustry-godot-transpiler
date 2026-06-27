@@ -5669,6 +5669,61 @@ func source_bullet_type_update_weaving_circle_shooter_state(rotate_speed_state: 
 		"circleShooterVelocitySource": "b.vel.add(Tmp.v1.limit(speed * circleShooterRotateSpeed * Time.delta)).limit(speed)",
 	}
 
+func source_bullet_rotation_degrees(bullet_state: Dictionary) -> float:
+	var velocity_state: Dictionary = bullet_state.get("velocity", {})
+	var velocity_x := float(velocity_state.get("x", 0.0))
+	var velocity_y := float(velocity_state.get("y", 0.0))
+	var velocity_len2 := velocity_x * velocity_x + velocity_y * velocity_y
+	if velocity_len2 < 0.001:
+		return float(bullet_state.get("rotation", 0.0))
+	return source_arc_angles_angle(0.0, 0.0, velocity_x, velocity_y)
+
+func source_bullet_type_update_trail_effects_chance_state(bullet_state: Dictionary, bullet_type_state: Dictionary, chance_delta_result: bool, random_offset_state: Dictionary) -> Dictionary:
+	var update_bullet_state := bullet_state.duplicate(true)
+	var velocity_state: Dictionary = update_bullet_state.get("velocity", {})
+	var velocity_x := float(velocity_state.get("x", 0.0))
+	var velocity_y := float(velocity_state.get("y", 0.0))
+	var velocity_len2 := velocity_x * velocity_x + velocity_y * velocity_y
+	var trail_min_velocity := float(bullet_type_state.get("trailMinVelocity", 0.0))
+	var can_spawn := trail_min_velocity <= 0.0 or velocity_len2 >= trail_min_velocity * trail_min_velocity
+	var trail_chance := float(bullet_type_state.get("trailChance", -0.0001))
+	var gate_passed := trail_chance > 0.0 and can_spawn
+	if not gate_passed or not chance_delta_result:
+		return {
+			"bullet": update_bullet_state,
+			"trailChanceEffectApplied": false,
+			"canSpawn": can_spawn,
+			"chanceGatePassed": gate_passed,
+			"chanceDeltaResult": chance_delta_result,
+			"effectCalls": [],
+			"canSpawnSource": "boolean canSpawn = trailMinVelocity <= 0f || b.vel.len2() >= trailMinVelocity * trailMinVelocity",
+			"chanceGateSource": "if(trailChance > 0 && canSpawn){",
+			"chanceDeltaSource": "if(Mathf.chanceDelta(trailChance)){",
+			"effectAtSource": "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor)",
+		}
+	var trail_spread := float(bullet_type_state.get("trailSpread", 0.0))
+	var tmp_offset: Dictionary = {"x": 0.0, "y": 0.0}
+	if trail_spread > 0.0:
+		tmp_offset = random_offset_state.duplicate(true)
+	var effect_rotation: float = source_bullet_rotation_degrees(update_bullet_state) if bool(bullet_type_state.get("trailRotation", false)) else float(bullet_type_state.get("trailParam", 2.0))
+	var effect_call := {"x": float(update_bullet_state.get("x", 0.0)) + float(tmp_offset.get("x", 0.0)), "y": float(update_bullet_state.get("y", 0.0)) + float(tmp_offset.get("y", 0.0)), "rotation": effect_rotation, "color": bullet_type_state.get("trailColor", "Pal.missileYellowBack"), "effect": bullet_type_state.get("trailEffect", "Fx.missileTrail")}
+	return {
+		"bullet": update_bullet_state,
+		"trailChanceEffectApplied": true,
+		"canSpawn": can_spawn,
+		"chanceGatePassed": gate_passed,
+		"chanceDeltaResult": chance_delta_result,
+		"trailSpread": trail_spread,
+		"tmpOffset": tmp_offset,
+		"effectCalls": [effect_call],
+		"canSpawnSource": "boolean canSpawn = trailMinVelocity <= 0f || b.vel.len2() >= trailMinVelocity * trailMinVelocity",
+		"chanceGateSource": "if(trailChance > 0 && canSpawn){",
+		"chanceDeltaSource": "if(Mathf.chanceDelta(trailChance)){",
+		"spreadRandomSource": "Tmp.v1.rnd(Mathf.random(trailSpread))",
+		"spreadZeroSource": "Tmp.v1.setZero()",
+		"effectAtSource": "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

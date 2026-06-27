@@ -4339,6 +4339,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"circleShooterGateSource": "if(circleShooter && b.owner instanceof Healthc h && h.isValid()){"', source)
         self.assertIn('"circleShooterVelocitySource": "b.vel.add(Tmp.v1.limit(speed * circleShooterRotateSpeed * Time.delta)).limit(speed)"', source)
 
+    def test_port_game_exposes_source_bullet_type_update_trail_effects_chance_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_update_trail_effects_chance_state(bullet_state: Dictionary, bullet_type_state: Dictionary, chance_delta_result: bool, random_offset_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var velocity_len2 := velocity_x * velocity_x + velocity_y * velocity_y", source)
+        self.assertIn("var can_spawn := trail_min_velocity <= 0.0 or velocity_len2 >= trail_min_velocity * trail_min_velocity", source)
+        self.assertIn("var gate_passed := trail_chance > 0.0 and can_spawn", source)
+        self.assertIn("if not gate_passed or not chance_delta_result:", source)
+        self.assertIn("if trail_spread > 0.0:", source)
+        self.assertIn("tmp_offset = random_offset_state.duplicate(true)", source)
+        self.assertIn("var effect_rotation: float = source_bullet_rotation_degrees(update_bullet_state) if bool(bullet_type_state.get(\"trailRotation\", false)) else float(bullet_type_state.get(\"trailParam\", 2.0))", source)
+        self.assertIn("var effect_call := {\"x\": float(update_bullet_state.get(\"x\", 0.0)) + float(tmp_offset.get(\"x\", 0.0)), \"y\": float(update_bullet_state.get(\"y\", 0.0)) + float(tmp_offset.get(\"y\", 0.0)), \"rotation\": effect_rotation, \"color\": bullet_type_state.get(\"trailColor\", \"Pal.missileYellowBack\"), \"effect\": bullet_type_state.get(\"trailEffect\", \"Fx.missileTrail\")}", source)
+        self.assertIn('"chanceGateSource": "if(trailChance > 0 && canSpawn){"', source)
+        self.assertIn('"effectAtSource": "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

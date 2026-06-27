@@ -5231,6 +5231,39 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_update_trail_effects_chance_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_update_trail_effects_chance_state_source"))
+        report = source_parity.verify_bullet_type_update_trail_effects_chance_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["bullet_comp_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(report["effect_source"], "core/src/mindustry/entities/Effect.java")
+        self.assertEqual(report["vec2_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(report["mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "trail_chance_field": "public float trailChance = -0.0001f;",
+            "trail_min_velocity_field": "public float trailMinVelocity = 0f;",
+            "trail_effect_field": "public Effect trailEffect = Fx.missileTrail;",
+            "trail_spread_field": "public float trailSpread = 0f;",
+            "trail_param_field": "public float trailParam = 2f;",
+            "trail_rotation_field": "public boolean trailRotation = false;",
+            "method": "public void updateTrailEffects(Bullet b){",
+            "can_spawn": "boolean canSpawn = trailMinVelocity <= 0f || b.vel.len2() >= trailMinVelocity * trailMinVelocity;",
+            "chance_gate": "if(trailChance > 0 && canSpawn){",
+            "chance_delta": "if(Mathf.chanceDelta(trailChance)){",
+            "spread_random": "Tmp.v1.rnd(Mathf.random(trailSpread));",
+            "spread_zero": "Tmp.v1.setZero();",
+            "effect_at": "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor);",
+            "mathf_chance_delta": "public static boolean chanceDelta(double d){\n        return rand.nextFloat() < d * Time.delta;\n    }",
+            "mathf_random_float": "public static float random(float range){\n        return rand.nextFloat() * range;\n    }",
+            "vec2_len2": "public float len2(){\n        return x * x + y * y;\n    }",
+            "vec2_rnd": "public Vec2 rnd(float length){\n        setToRandomDirection().scl(length);\n        return this;\n    }",
+            "vec2_set_zero": "public Vec2 setZero(){\n        this.x = 0;\n        this.y = 0;\n        return this;\n    }",
+            "bullet_rotation": "public float rotation(){\n        return vel.isZero(0.001f) ? rotation : vel.angle();\n    }",
+            "effect_at_color": "public void at(float x, float y, float rotation, Color color){\n        create(x, y, rotation, color, null);\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

@@ -9415,6 +9415,81 @@ def verify_bullet_type_update_weaving_circle_shooter_state_source(upstream_root:
         "missing": missing,
     }
 
+def verify_bullet_type_update_trail_effects_chance_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    bullet_comp_source = "core/src/mindustry/entities/comp/BulletComp.java"
+    effect_source = "core/src/mindustry/entities/Effect.java"
+    vec2_source = "arc-core/src/arc/math/geom/Vec2.java"
+    mathf_source = "arc-core/src/arc/math/Mathf.java"
+    bullet_comp_path = upstream_root / bullet_comp_source
+    effect_path = upstream_root / effect_source
+    vec2_path = arc_root / vec2_source
+    mathf_path = arc_root / mathf_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    bullet_comp_text = bullet_comp_path.read_text(encoding="utf-8", errors="replace")
+    effect_text = effect_path.read_text(encoding="utf-8", errors="replace")
+    vec2_text = vec2_path.read_text(encoding="utf-8", errors="replace")
+    mathf_text = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "trail_chance_field": "public float trailChance = -0.0001f;",
+        "trail_min_velocity_field": "public float trailMinVelocity = 0f;",
+        "trail_effect_field": "public Effect trailEffect = Fx.missileTrail;",
+        "trail_spread_field": "public float trailSpread = 0f;",
+        "trail_param_field": "public float trailParam = 2f;",
+        "trail_rotation_field": "public boolean trailRotation = false;",
+        "method": "public void updateTrailEffects(Bullet b){",
+        "can_spawn": "boolean canSpawn = trailMinVelocity <= 0f || b.vel.len2() >= trailMinVelocity * trailMinVelocity;",
+        "chance_gate": "if(trailChance > 0 && canSpawn){",
+        "chance_delta": "if(Mathf.chanceDelta(trailChance)){",
+        "spread_random": "Tmp.v1.rnd(Mathf.random(trailSpread));",
+        "spread_zero": "Tmp.v1.setZero();",
+        "effect_at": "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor);",
+        "mathf_chance_delta": "public static boolean chanceDelta(double d){\n        return rand.nextFloat() < d * Time.delta;\n    }",
+        "mathf_random_float": "public static float random(float range){\n        return rand.nextFloat() * range;\n    }",
+        "vec2_len2": "public float len2(){\n        return x * x + y * y;\n    }",
+        "vec2_rnd": "public Vec2 rnd(float length){\n        setToRandomDirection().scl(length);\n        return this;\n    }",
+        "vec2_set_zero": "public Vec2 setZero(){\n        this.x = 0;\n        this.y = 0;\n        return this;\n    }",
+        "bullet_rotation": "public float rotation(){\n        return vel.isZero(0.001f) ? rotation : vel.angle();\n    }",
+        "effect_at_color": "public void at(float x, float y, float rotation, Color color){\n        create(x, y, rotation, color, null);\n    }",
+    }
+    source_map = {
+        "trail_chance_field": source,
+        "trail_min_velocity_field": source,
+        "trail_effect_field": source,
+        "trail_spread_field": source,
+        "trail_param_field": source,
+        "trail_rotation_field": source,
+        "method": source,
+        "can_spawn": source,
+        "chance_gate": source,
+        "chance_delta": source,
+        "spread_random": source,
+        "spread_zero": source,
+        "effect_at": source,
+        "mathf_chance_delta": mathf_text,
+        "mathf_random_float": mathf_text,
+        "vec2_len2": vec2_text,
+        "vec2_rnd": vec2_text,
+        "vec2_set_zero": vec2_text,
+        "bullet_rotation": bullet_comp_text,
+        "effect_at_color": effect_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "bullet_comp_source": bullet_comp_source,
+        "effect_source": effect_source,
+        "vec2_source": vec2_source,
+        "mathf_source": mathf_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
