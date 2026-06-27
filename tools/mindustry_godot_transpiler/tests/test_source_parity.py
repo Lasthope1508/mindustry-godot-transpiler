@@ -4649,6 +4649,32 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_handle_bullet_aim_update_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_handle_bullet_aim_update_source"))
+        report = source_parity.verify_weapon_handle_bullet_aim_update_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["bullet_comp_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(report["arc_vec2_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(report["checked"], {
+            "handle_bullet_method": "protected void handleBullet(Unit unit, WeaponMount mount, Bullet bullet){",
+            "continuous_gate": "if(continuous){",
+            "aim_update": "Tmp.v1.trns(bulletRotation(unit, mount, bulletX, bulletY), shootY + mount.lastLength).add(bulletX, bulletY);",
+            "bullet_aim_x_assignment": "bullet.aimX = Tmp.v1.x;",
+            "bullet_aim_y_assignment": "bullet.aimY = Tmp.v1.y;",
+            "bullet_rotation_method": "protected float bulletRotation(Unit unit, WeaponMount mount, float bulletX, float bulletY){",
+            "bullet_rotation_return": "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation;",
+            "weapon_shoot_y": "public float shootX = 0f, shootY = 3f;",
+            "mount_last_length": "public float lastLength;",
+            "bullet_aim_fields": "transient float aimX, aimY;",
+            "vec2_trns_amount": "return set(amount, 0).rotate(angle);",
+            "vec2_add_method": "public Vec2 add(float x, float y){",
+            "vec2_add_x": "this.x += x;",
+            "vec2_add_y": "this.y += y;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

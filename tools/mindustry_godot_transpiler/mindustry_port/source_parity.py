@@ -8172,6 +8172,65 @@ def verify_weapon_handle_bullet_continuous_geometry_source(upstream_root: Path) 
         "missing": missing,
     }
 
+def verify_weapon_handle_bullet_aim_update_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    bullet_comp_source = "core/src/mindustry/entities/comp/BulletComp.java"
+    arc_vec2_source = ARC_VEC2_SOURCE
+    weapon_mount_path = upstream_root / weapon_mount_source
+    bullet_comp_path = upstream_root / bullet_comp_source
+    vec2_path = arc_root / arc_vec2_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    bullet_comp_text = bullet_comp_path.read_text(encoding="utf-8", errors="replace")
+    vec2_text = vec2_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "handle_bullet_method": "protected void handleBullet(Unit unit, WeaponMount mount, Bullet bullet){",
+        "continuous_gate": "if(continuous){",
+        "aim_update": "Tmp.v1.trns(bulletRotation(unit, mount, bulletX, bulletY), shootY + mount.lastLength).add(bulletX, bulletY);",
+        "bullet_aim_x_assignment": "bullet.aimX = Tmp.v1.x;",
+        "bullet_aim_y_assignment": "bullet.aimY = Tmp.v1.y;",
+        "bullet_rotation_method": "protected float bulletRotation(Unit unit, WeaponMount mount, float bulletX, float bulletY){",
+        "bullet_rotation_return": "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation;",
+        "weapon_shoot_y": "public float shootX = 0f, shootY = 3f;",
+        "mount_last_length": "public float lastLength;",
+        "bullet_aim_fields": "transient float aimX, aimY;",
+        "vec2_trns_amount": "return set(amount, 0).rotate(angle);",
+        "vec2_add_method": "public Vec2 add(float x, float y){",
+        "vec2_add_x": "this.x += x;",
+        "vec2_add_y": "this.y += y;",
+    }
+    source_map = {
+        "handle_bullet_method": source,
+        "continuous_gate": source,
+        "aim_update": source,
+        "bullet_aim_x_assignment": source,
+        "bullet_aim_y_assignment": source,
+        "bullet_rotation_method": source,
+        "bullet_rotation_return": source,
+        "weapon_shoot_y": source,
+        "mount_last_length": weapon_mount_text,
+        "bullet_aim_fields": bullet_comp_text,
+        "vec2_trns_amount": vec2_text,
+        "vec2_add_method": vec2_text,
+        "vec2_add_x": vec2_text,
+        "vec2_add_y": vec2_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": weapon_mount_source,
+        "bullet_comp_source": bullet_comp_source,
+        "arc_vec2_source": arc_vec2_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

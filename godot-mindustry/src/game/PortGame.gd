@@ -4482,6 +4482,46 @@ func source_weapon_handle_bullet_continuous_geometry_state(unit_state: Dictionar
 		"aimUpdateReservedSource": "Tmp.v1.trns(bulletRotation(unit, mount, bulletX, bulletY), shootY + mount.lastLength).add(bulletX, bulletY)",
 	}
 
+func source_weapon_handle_bullet_aim_update_state(unit_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary) -> Dictionary:
+	var geometry_state := source_weapon_handle_bullet_continuous_geometry_state(unit_state, mount_state, weapon_state)
+	if not bool(geometry_state.get("continuousGate", false)):
+		return {
+			"continuous": false,
+			"continuousGate": false,
+			"bulletAimUpdated": false,
+			"bulletAimX": float(bullet_state.get("aimX", 0.0)),
+			"bulletAimY": float(bullet_state.get("aimY", 0.0)),
+			"aimUpdateSkippedSource": "if(continuous)",
+		}
+	var bullet_rotation_state := source_weapon_update_bullet_origin_state(mount_state, weapon_state, unit_state, float(geometry_state["mountX"]), float(geometry_state["mountY"]))
+	var bullet_rotation := float(bullet_rotation_state["shootAngle"])
+	var aim_length := float(geometry_state["shootY"]) + float(geometry_state["lastLength"])
+	var aim_vec := source_arc_angles_trns_vec(bullet_rotation, aim_length, 0.0)
+	var bullet_aim_x := float(aim_vec["x"]) + float(geometry_state["bulletX"])
+	var bullet_aim_y := float(aim_vec["y"]) + float(geometry_state["bulletY"])
+	return {
+		"continuous": true,
+		"continuousGate": true,
+		"bulletAimUpdated": true,
+		"weaponRotation": float(geometry_state["weaponRotation"]),
+		"mountX": float(geometry_state["mountX"]),
+		"mountY": float(geometry_state["mountY"]),
+		"bulletX": float(geometry_state["bulletX"]),
+		"bulletY": float(geometry_state["bulletY"]),
+		"bulletRotation": bullet_rotation,
+		"aimLength": aim_length,
+		"bulletAimX": bullet_aim_x,
+		"bulletAimY": bullet_aim_y,
+		"previousBulletAimX": float(bullet_state.get("aimX", 0.0)),
+		"previousBulletAimY": float(bullet_state.get("aimY", 0.0)),
+		"aimUpdateSource": "Tmp.v1.trns(bulletRotation(unit, mount, bulletX, bulletY), shootY + mount.lastLength).add(bulletX, bulletY)",
+		"bulletAimXSource": "bullet.aimX = Tmp.v1.x",
+		"bulletAimYSource": "bullet.aimY = Tmp.v1.y",
+		"bulletRotationSource": "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation",
+		"vec2TrnsSource": "return set(amount, 0).rotate(angle)",
+		"vec2AddSource": "this.x += x; this.y += y",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
