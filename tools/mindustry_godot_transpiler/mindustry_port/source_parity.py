@@ -9839,6 +9839,49 @@ def verify_bullet_type_calculate_range_despawn_unit_state_source(upstream_root: 
         "missing": missing,
     }
 
+def verify_bullet_type_calculate_range_fallback_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    arc_source = "arc-core/src/arc/math/Mathf.java"
+    arc_path = arc_root / arc_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    arc_text = arc_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "speed_field": "public float speed = 1f;",
+        "lifetime_field": "public float lifetime = 40f;",
+        "drag_field": "public float drag = 0f;",
+        "max_range_field": "public float maxRange = -1f;",
+        "method": "protected float calculateRange(){",
+        "despawn_unit_return": "if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed;",
+        "fallback_return": "return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange);",
+        "float_rounding_error": "public static final float FLOAT_ROUNDING_ERROR = 0.000001f;",
+        "mathf_zero_float": "public static boolean zero(float value){\n        return Math.abs(value) <= FLOAT_ROUNDING_ERROR;\n    }",
+        "mathf_pow_float": "public static float pow(float a, float b){\n        return (float)Math.pow(a, b);\n    }",
+    }
+    source_map = {
+        "speed_field": source,
+        "lifetime_field": source,
+        "drag_field": source,
+        "max_range_field": source,
+        "method": source,
+        "despawn_unit_return": source,
+        "fallback_return": source,
+        "float_rounding_error": arc_text,
+        "mathf_zero_float": arc_text,
+        "mathf_pow_float": arc_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "arc_source": arc_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

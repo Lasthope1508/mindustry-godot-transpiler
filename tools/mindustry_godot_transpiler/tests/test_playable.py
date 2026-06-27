@@ -4505,6 +4505,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("returned_despawn_unit = despawn_unit_state", source)
         self.assertIn('"despawnUnitReturnSource": "if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed"', source)
 
+    def test_port_game_exposes_source_bullet_type_calculate_range_fallback_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_calculate_range_fallback_state(despawn_unit_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var update_type_state: Dictionary = despawn_unit_state.get(\"bulletType\", {}).duplicate(true)", source)
+        self.assertIn("var prior_return := bool(despawn_unit_state.get(\"returnEarly\", false))", source)
+        self.assertIn("var drag := float(update_type_state.get(\"drag\", 0.0))", source)
+        self.assertIn("var zero_drag := absf(drag) <= 0.000001", source)
+        self.assertIn("fallback_range = speed * lifetime", source)
+        self.assertIn("fallback_range = speed * (1.0 - pow(1.0 - drag, lifetime)) / drag", source)
+        self.assertIn("resolved_range = max(fallback_range, max_range)", source)
+        self.assertIn('"fallbackReturnSource": "return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

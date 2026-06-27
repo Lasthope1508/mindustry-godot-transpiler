@@ -5447,6 +5447,26 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_calculate_range_fallback_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_calculate_range_fallback_state_source"))
+        report = source_parity.verify_bullet_type_calculate_range_fallback_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["arc_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "speed_field": "public float speed = 1f;",
+            "lifetime_field": "public float lifetime = 40f;",
+            "drag_field": "public float drag = 0f;",
+            "max_range_field": "public float maxRange = -1f;",
+            "method": "protected float calculateRange(){",
+            "despawn_unit_return": "if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed;",
+            "fallback_return": "return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange);",
+            "float_rounding_error": "public static final float FLOAT_ROUNDING_ERROR = 0.000001f;",
+            "mathf_zero_float": "public static boolean zero(float value){\n        return Math.abs(value) <= FLOAT_ROUNDING_ERROR;\n    }",
+            "mathf_pow_float": "public static float pow(float a, float b){\n        return (float)Math.pow(a, b);\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

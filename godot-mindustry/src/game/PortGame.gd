@@ -5966,6 +5966,35 @@ func source_bullet_type_calculate_range_despawn_unit_state(spawn_unit_state: Dic
 		"despawnUnitReturnSource": "if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed",
 	}
 
+func source_bullet_type_calculate_range_fallback_state(despawn_unit_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = despawn_unit_state.get("bulletType", {}).duplicate(true)
+	var prior_return := bool(despawn_unit_state.get("returnEarly", false))
+	var resolved_range: Variant = despawn_unit_state.get("range", null)
+	var speed := float(update_type_state.get("speed", 1.0))
+	var lifetime := float(update_type_state.get("lifetime", 40.0))
+	var drag := float(update_type_state.get("drag", 0.0))
+	var max_range := float(update_type_state.get("maxRange", -1.0))
+	var zero_drag := absf(drag) <= 0.000001
+	var fallback_range := 0.0
+	var fallback_gate_passed := not prior_return
+	if fallback_gate_passed:
+		if zero_drag:
+			fallback_range = speed * lifetime
+		else:
+			fallback_range = speed * (1.0 - pow(1.0 - drag, lifetime)) / drag
+		resolved_range = max(fallback_range, max_range)
+	return {
+		"bulletType": update_type_state,
+		"fallbackRangeGatePassed": fallback_gate_passed,
+		"returnEarly": prior_return or fallback_gate_passed,
+		"range": resolved_range,
+		"fallbackRange": fallback_range,
+		"zeroDrag": zero_drag,
+		"drag": drag,
+		"maxRange": max_range,
+		"fallbackReturnSource": "return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
