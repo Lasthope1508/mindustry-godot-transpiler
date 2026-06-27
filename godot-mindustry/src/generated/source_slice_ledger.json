@@ -888,6 +888,36 @@
         "test_port_game_exposes_source_bullet_type_create_frags_increment_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_frags_increment_state"
+    },
+    "N432": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "createPuddles(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_puddles_initial_state",
+      "exact_exprs": [
+        "if(puddleLiquid != null && puddles > 0)",
+        "for(int i = 0; i < puddles; i++)"
+      ],
+      "deferred_exprs": [
+        "Tile tile = world.tileWorld(x + Mathf.range(puddleRange), y + Mathf.range(puddleRange))",
+        "Puddles.deposit(tile, puddleLiquid, puddleAmount)"
+      ],
+      "source_symbols": [
+        "create_puddles.initial.puddles",
+        "create_puddles.initial.puddle_range",
+        "create_puddles.initial.puddle_amount",
+        "create_puddles.initial.puddle_liquid",
+        "create_puddles.initial.gate",
+        "create_puddles.initial.loop_boundary",
+        "create_puddles.initial.tile_boundary",
+        "create_puddles.initial.deposit_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_puddles_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_puddles_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_puddles_initial_state"
     }
   },
   "version": 1

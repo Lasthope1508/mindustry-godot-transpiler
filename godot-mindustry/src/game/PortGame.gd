@@ -7070,6 +7070,36 @@ func source_bullet_type_create_frags_increment_state(bullet_state: Dictionary, c
 		"fragsIncrementSource": "b.frags++;",
 	}
 
+func source_bullet_type_create_puddles_initial_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_puddles_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_create_puddles_state: Dictionary = create_puddles_state.duplicate(true)
+	var puddle_x := float(update_create_puddles_state.get("x", 0.0))
+	var puddle_y := float(update_create_puddles_state.get("y", 0.0))
+	var puddle_liquid: Variant = update_type_state.get("puddleLiquid", "water")
+	var puddles := int(update_type_state.get("puddles", 0))
+	var puddle_range := float(update_type_state.get("puddleRange", 0.0))
+	var puddle_amount := float(update_type_state.get("puddleAmount", 5.0))
+	var puddle_gate_passed := puddle_liquid != null and puddles > 0
+	var loop_iterations := puddles if puddle_gate_passed else 0
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createPuddles": update_create_puddles_state,
+		"x": puddle_x,
+		"y": puddle_y,
+		"puddleLiquid": puddle_liquid,
+		"puddles": puddles,
+		"puddleRange": puddle_range,
+		"puddleAmount": puddle_amount,
+		"puddleGatePassed": puddle_gate_passed,
+		"loopIterations": loop_iterations,
+		"puddleGateSource": "if(puddleLiquid != null && puddles > 0){",
+		"loopBoundarySource": "for(int i = 0; i < puddles; i++){",
+		"tileBoundarySource": "Tile tile = world.tileWorld(x + Mathf.range(puddleRange), y + Mathf.range(puddleRange));",
+		"depositBoundarySource": "Puddles.deposit(tile, puddleLiquid, puddleAmount);",
+	}
+
 func source_bullet_type_hit_entity_damage_cap_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, hit_entity_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

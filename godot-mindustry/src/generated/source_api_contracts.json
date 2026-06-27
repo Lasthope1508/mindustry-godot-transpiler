@@ -1480,6 +1480,52 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_frags_increment_state",
       "rule": "Public runtime contract for final BulletType.createFrags b.frags++ side effect only."
+    },
+    "PortGame.source_bullet_type_create_puddles_initial_state": {
+      "status": "active",
+      "source_slice": "N432",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createPuddles(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "create_puddles_state",
+          "type": "Dictionary",
+          "schema": "create_puddles_state"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createPuddles",
+        "x",
+        "y",
+        "puddleLiquid",
+        "puddles",
+        "puddleRange",
+        "puddleAmount",
+        "puddleGatePassed",
+        "loopIterations",
+        "puddleGateSource",
+        "loopBoundarySource",
+        "tileBoundarySource",
+        "depositBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_create_puddles_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_puddles_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_puddles_initial_state",
+      "rule": "Public runtime contract for createPuddles initial gate and loop boundary only; tile lookup and Puddles.deposit remain deferred."
     }
   },
   "policy": {
