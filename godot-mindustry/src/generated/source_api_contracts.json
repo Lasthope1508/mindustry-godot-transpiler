@@ -74,6 +74,60 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_test_collision_state",
       "rule": "Public runtime contract for BulletType.testCollision slice; do not add params or return keys without updating this contract first."
+    },
+    "PortGame.source_bullet_type_hit_tile_heal_state": {
+      "status": "active",
+      "source_slice": "N405",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "build_state",
+          "type": "Dictionary",
+          "schema": "build_state"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "build",
+        "heals",
+        "buildTeam",
+        "bulletTeam",
+        "blockIsConstructBlock",
+        "healGatePassed",
+        "healAppliedAmount",
+        "healed",
+        "hitCalled",
+        "healEffectCall",
+        "buildHealCall",
+        "healSoundCall",
+        "enemyDirectBranchDeferred",
+        "pierceDeferred",
+        "hitTileHealGateSource",
+        "healEffectSource",
+        "healAmountSource",
+        "healSoundSource",
+        "hitCallSource",
+        "deferredBranchSource",
+        "pierceSource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_tile_heal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_heal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_heal_state",
+      "rule": "Public runtime contract for BulletType.hitTile healing branch only; enemy/direct/lifesteal/pierce branches remain deferred slices."
     }
   },
   "policy": {

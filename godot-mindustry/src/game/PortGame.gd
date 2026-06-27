@@ -6129,6 +6129,58 @@ func source_bullet_type_test_collision_state(bullet_type_state: Dictionary, bull
 		"testCollisionReturnSource": "return !heals() || tile.team != bullet.team || tile.healthf() < 1f",
 	}
 
+func source_bullet_type_hit_tile_heal_state(bullet_type_state: Dictionary, bullet_state: Dictionary, build_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_build_state: Dictionary = build_state.duplicate(true)
+	var heals_state := source_bullet_type_heals_state(update_type_state)
+	var heals := bool(heals_state.get("heals", false))
+	var build_team = update_build_state.get("team", null)
+	var bullet_team = update_bullet_state.get("team", null)
+	var block_is_construct := bool(update_build_state.get("blockIsConstructBlock", false))
+	var heal_gate_passed: bool = heals and build_team == bullet_team and not block_is_construct
+	var build_max_health := float(update_build_state.get("maxHealth", 0.0))
+	var heal_percent := float(update_type_state.get("healPercent", 0.0))
+	var heal_amount := float(update_type_state.get("healAmount", 0.0))
+	var heal_applied_amount := heal_percent / 100.0 * build_max_health + heal_amount
+	var heal_color := str(update_type_state.get("healColor", "Pal.heal"))
+	var heal_sound_volume := float(update_type_state.get("healSoundVolume", 1.0))
+	var build_x := float(update_build_state.get("x", 0.0))
+	var build_y := float(update_build_state.get("y", 0.0))
+	var build_block = update_build_state.get("block", null)
+	var heal_effect_call: Variant = null
+	var build_heal_call: Variant = null
+	var heal_sound_call: Variant = null
+	if heal_gate_passed:
+		heal_effect_call = {"call": "healEffect.at(build.x, build.y, 0f, healColor, build.block)", "x": build_x, "y": build_y, "rotation": 0.0, "color": heal_color, "block": build_block}
+		build_heal_call = {"call": "build.heal(healPercent / 100f * build.maxHealth + healAmount)", "amount": heal_applied_amount}
+		heal_sound_call = {"call": "healSound.at(build, 1f + Mathf.range(0.1f), healSoundVolume)", "pitchBase": 1.0, "pitchRange": 0.1, "volume": heal_sound_volume}
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"build": update_build_state,
+		"heals": heals,
+		"buildTeam": build_team,
+		"bulletTeam": bullet_team,
+		"blockIsConstructBlock": block_is_construct,
+		"healGatePassed": heal_gate_passed,
+		"healAppliedAmount": heal_applied_amount,
+		"healed": heal_gate_passed,
+		"hitCalled": heal_gate_passed,
+		"healEffectCall": heal_effect_call,
+		"buildHealCall": build_heal_call,
+		"healSoundCall": heal_sound_call,
+		"enemyDirectBranchDeferred": true,
+		"pierceDeferred": true,
+		"hitTileHealGateSource": "if(heals() && build.team == b.team && !(build.block instanceof ConstructBlock))",
+		"healEffectSource": "healEffect.at(build.x, build.y, 0f, healColor, build.block)",
+		"healAmountSource": "healPercent / 100f * build.maxHealth + healAmount",
+		"healSoundSource": "healSound.at(build, 1f + Mathf.range(0.1f), healSoundVolume)",
+		"hitCallSource": "hit(b)",
+		"deferredBranchSource": "}else if(build.team != b.team && direct){",
+		"pierceSource": "handlePierce(b, initialHealth, x, y)",
+	}
+
 func source_bullet_type_building_damage_state(bullet_state: Dictionary) -> Dictionary:
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
 	var damage := float(update_bullet_state.get("damage", 0.0))

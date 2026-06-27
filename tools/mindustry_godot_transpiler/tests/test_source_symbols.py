@@ -68,14 +68,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(tile_health["java_expr"], "tile.healthf()")
         self.assertEqual(tile_health["runtime_proof"], "/root/Main.source_bullet_type_test_collision_state")
 
+    def test_hit_tile_heal_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        heal_gate = source_symbols.source_symbol(registry, "hit_tile.heal_gate")
+        self.assertEqual(heal_gate["java_expr"], "heals() && build.team == b.team && !(build.block instanceof ConstructBlock)")
+        self.assertEqual(heal_gate["godot_owner"], "PortGame.source_bullet_type_hit_tile_heal_state")
+        self.assertEqual(heal_gate["runtime_proof"], "/root/Main.source_bullet_type_hit_tile_heal_state")
+
+        heal_amount = source_symbols.source_symbol(registry, "hit_tile.heal_amount_formula")
+        self.assertEqual(heal_amount["java_expr"], "healPercent / 100f * build.maxHealth + healAmount")
+        self.assertEqual(heal_amount["godot_symbol"], "hit_tile_heal_result.healAppliedAmount")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 2)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 3)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 7)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 8)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -83,6 +98,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_state_schema_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_draw_parts_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -109,6 +125,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         test_collision = source_symbols.source_slice(ledger, "N401")
         self.assertEqual(test_collision["exact_exprs"], ["return !heals() || tile.team != bullet.team || tile.healthf() < 1f;"])
 
+        hit_tile_heal = source_symbols.source_slice(ledger, "N405")
+        self.assertEqual(hit_tile_heal["java_method"], "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)")
+        self.assertEqual(hit_tile_heal["godot_owner"], "PortGame.source_bullet_type_hit_tile_heal_state")
+        self.assertIn("build.heal(healPercent / 100f * build.maxHealth + healAmount)", hit_tile_heal["exact_exprs"])
+
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_api_contracts(contracts)
@@ -122,6 +143,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("collides", contract["return_keys"])
         self.assertIn("tileHealthf", contract["return_keys"])
         self.assertEqual(contract["source_method"], "testCollision(Bullet bullet, Building tile)")
+
+        hit_tile_heal = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_hit_tile_heal_state")
+        self.assertEqual([param["name"] for param in hit_tile_heal["params"]], ["bullet_type_state", "bullet_state", "build_state"])
+        self.assertEqual(hit_tile_heal["params"][2]["schema"], "build_state")
+        self.assertIn("healGatePassed", hit_tile_heal["return_keys"])
+        self.assertIn("healAppliedAmount", hit_tile_heal["return_keys"])
+        self.assertEqual(hit_tile_heal["source_method"], "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -140,6 +168,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         test_collision_output = source_symbols.state_schema(schema, "test_collision_result")
         self.assertEqual(test_collision_output["keys"]["tileHealthf"]["alias_of"], "tile_state.healthf")
+
+        build_state = source_symbols.state_schema(schema, "build_state")
+        self.assertEqual(build_state["keys"]["maxHealth"]["java_expr"], "build.maxHealth")
+        self.assertEqual(build_state["keys"]["blockIsConstructBlock"]["java_expr"], "build.block instanceof ConstructBlock")
+
+        hit_tile_output = source_symbols.state_schema(schema, "hit_tile_heal_result")
+        self.assertEqual(hit_tile_output["keys"]["healGatePassed"]["java_expr"], "heals() && build.team == b.team && !(build.block instanceof ConstructBlock)")
+        self.assertEqual(hit_tile_output["keys"]["healEffectCall"]["java_expr"], "healEffect.at(build.x, build.y, 0f, healColor, build.block)")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

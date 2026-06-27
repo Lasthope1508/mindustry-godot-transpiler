@@ -138,6 +138,202 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_test_collision_state"
     },
+    "hit_tile.heals": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "java_expr": "heals()",
+      "godot_symbol": "heals_state.heals",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_heal_state",
+      "rule": "Reuse source_bullet_type_heals_state as the only source of the heals() predicate.",
+      "tests": [
+        "test_bullet_type_hit_tile_heal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_heal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_heal_state"
+    },
+    "hit_tile.heal_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "java_expr": "heals() && build.team == b.team && !(build.block instanceof ConstructBlock)",
+      "godot_symbol": "hit_tile_heal_result.healGatePassed",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_heal_state",
+      "rule": "Use the exact healing branch gate before recording heal effects or hit(b).",
+      "tests": [
+        "test_bullet_type_hit_tile_heal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_heal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_heal_state"
+    },
+    "hit_tile.bullet.team": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "java_expr": "b.team",
+      "godot_symbol": "bullet_state.team",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_heal_state",
+      "rule": "Use b.team from bullet_state for hitTile healing gate.",
+      "tests": [
+        "test_bullet_type_hit_tile_heal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_heal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_heal_state"
+    },
+    "hit_tile.build.team": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "java_expr": "build.team",
+      "godot_symbol": "build_state.team",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_heal_state",
+      "rule": "Use build.team from build_state for hitTile healing gate.",
+      "tests": [
+        "test_bullet_type_hit_tile_heal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_heal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_heal_state"
+    },
+    "hit_tile.build.block.construct": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "java_expr": "build.block instanceof ConstructBlock",
+      "godot_symbol": "build_state.blockIsConstructBlock",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_heal_state",
+      "rule": "Represent ConstructBlock type check as an explicit input until block class hierarchy is ported.",
+      "tests": [
+        "test_bullet_type_hit_tile_heal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_heal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_heal_state"
+    },
+    "hit_tile.build.x": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "java_expr": "build.x",
+      "godot_symbol": "build_state.x",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_heal_state",
+      "rule": "Use build.x for healEffect.at x argument.",
+      "tests": [
+        "test_bullet_type_hit_tile_heal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_heal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_heal_state"
+    },
+    "hit_tile.build.y": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "java_expr": "build.y",
+      "godot_symbol": "build_state.y",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_heal_state",
+      "rule": "Use build.y for healEffect.at y argument.",
+      "tests": [
+        "test_bullet_type_hit_tile_heal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_heal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_heal_state"
+    },
+    "hit_tile.build.block": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "java_expr": "build.block",
+      "godot_symbol": "build_state.block",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_heal_state",
+      "rule": "Use build.block for healEffect.at block argument.",
+      "tests": [
+        "test_bullet_type_hit_tile_heal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_heal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_heal_state"
+    },
+    "hit_tile.build.maxHealth": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "java_expr": "build.maxHealth",
+      "godot_symbol": "build_state.maxHealth",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_heal_state",
+      "rule": "Use build.maxHealth in the healing amount formula.",
+      "tests": [
+        "test_bullet_type_hit_tile_heal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_heal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_heal_state"
+    },
+    "hit_tile.heal_percent": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "java_expr": "healPercent",
+      "godot_symbol": "bullet_type_state.healPercent",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_heal_state",
+      "rule": "Use BulletType.healPercent in the healing amount formula.",
+      "tests": [
+        "test_bullet_type_hit_tile_heal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_heal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_heal_state"
+    },
+    "hit_tile.heal_amount": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "java_expr": "healAmount",
+      "godot_symbol": "bullet_type_state.healAmount",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_heal_state",
+      "rule": "Use BulletType.healAmount in the healing amount formula.",
+      "tests": [
+        "test_bullet_type_hit_tile_heal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_heal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_heal_state"
+    },
+    "hit_tile.heal_amount_formula": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "java_expr": "healPercent / 100f * build.maxHealth + healAmount",
+      "godot_symbol": "hit_tile_heal_result.healAppliedAmount",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_heal_state",
+      "rule": "Compute the build.heal argument exactly from source fields.",
+      "tests": [
+        "test_bullet_type_hit_tile_heal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_heal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_heal_state"
+    },
+    "hit_tile.heal_color": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "java_expr": "healColor",
+      "godot_symbol": "bullet_type_state.healColor",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_heal_state",
+      "rule": "Use BulletType.healColor for healEffect.at color.",
+      "tests": [
+        "test_bullet_type_hit_tile_heal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_heal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_heal_state"
+    },
+    "hit_tile.heal_sound_volume": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "java_expr": "healSoundVolume",
+      "godot_symbol": "bullet_type_state.healSoundVolume",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_heal_state",
+      "rule": "Use BulletType.healSoundVolume for healSound.at volume.",
+      "tests": [
+        "test_bullet_type_hit_tile_heal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_heal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_heal_state"
+    },
     "draw_part.params.charge": {
       "status": "source-backed",
       "java_source": "core/src/mindustry/entities/part/DrawPart.java",

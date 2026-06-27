@@ -65,6 +65,47 @@
         "test_port_game_exposes_source_bullet_type_test_collision_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_test_collision_state"
+    },
+    "N405": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_heal_state",
+      "exact_exprs": [
+        "if(heals() && build.team == b.team && !(build.block instanceof ConstructBlock))",
+        "healEffect.at(build.x, build.y, 0f, healColor, build.block)",
+        "build.heal(healPercent / 100f * build.maxHealth + healAmount)",
+        "healSound.at(build, 1f + Mathf.range(0.1f), healSoundVolume)",
+        "hit(b)"
+      ],
+      "deferred_exprs": [
+        "if(makeFire && build.team != b.team)",
+        "}else if(build.team != b.team && direct)",
+        "if(lifesteal > 0f && b.owner instanceof Healthc o)",
+        "handlePierce(b, initialHealth, x, y)"
+      ],
+      "source_symbols": [
+        "hit_tile.heals",
+        "hit_tile.heal_gate",
+        "hit_tile.bullet.team",
+        "hit_tile.build.team",
+        "hit_tile.build.block.construct",
+        "hit_tile.build.x",
+        "hit_tile.build.y",
+        "hit_tile.build.block",
+        "hit_tile.build.maxHealth",
+        "hit_tile.heal_percent",
+        "hit_tile.heal_amount",
+        "hit_tile.heal_amount_formula",
+        "hit_tile.heal_color",
+        "hit_tile.heal_sound_volume"
+      ],
+      "tests": [
+        "test_bullet_type_hit_tile_heal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_heal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_heal_state"
     }
   },
   "version": 1

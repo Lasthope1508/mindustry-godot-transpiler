@@ -39,7 +39,8 @@
           "java_expr": "bullet.team",
           "godot_symbol": "bullet_state.team",
           "used_by": [
-            "PortGame.source_bullet_type_test_collision_state"
+            "PortGame.source_bullet_type_test_collision_state",
+            "PortGame.source_bullet_type_hit_tile_heal_state"
           ],
           "rule": "Use bullet.team; do not infer from owner or turret."
         },
@@ -80,9 +81,46 @@
           "java_expr": "healPercent > 0f",
           "godot_symbol": "bullet_type_state.healPercent",
           "used_by": [
-            "PortGame.source_bullet_type_test_collision_state"
+            "PortGame.source_bullet_type_test_collision_state",
+            "PortGame.source_bullet_type_hit_tile_heal_state"
           ],
           "rule": "Canonical field for source_bullet_type_heals_state."
+        },
+        "healAmount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+          "java_expr": "healAmount",
+          "godot_symbol": "bullet_type_state.healAmount",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_tile_heal_state"
+          ],
+          "rule": "Canonical BulletType.healAmount field for heals() and hitTile healing amount."
+        },
+        "healColor": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+          "java_expr": "healColor",
+          "godot_symbol": "bullet_type_state.healColor",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_tile_heal_state"
+          ],
+          "rule": "Canonical BulletType.healColor field for healEffect.at."
+        },
+        "healSoundVolume": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+          "java_expr": "healSoundVolume",
+          "godot_symbol": "bullet_type_state.healSoundVolume",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_tile_heal_state"
+          ],
+          "rule": "Canonical BulletType.healSoundVolume field for healSound.at."
         },
         "parts": {
           "type": "Array",
@@ -95,6 +133,262 @@
             "PortGame.source_bullet_type_draw_parts_state"
           ],
           "rule": "Canonical BulletType.parts list."
+        }
+      }
+    },
+    "build_state": {
+      "status": "active",
+      "keys": {
+        "team": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+          "java_expr": "build.team",
+          "godot_symbol": "build_state.team",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_tile_heal_state"
+          ],
+          "rule": "Use build.team for hitTile healing gate."
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+          "java_expr": "build.x",
+          "godot_symbol": "build_state.x",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_tile_heal_state"
+          ],
+          "rule": "Use build.x for healEffect.at."
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+          "java_expr": "build.y",
+          "godot_symbol": "build_state.y",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_tile_heal_state"
+          ],
+          "rule": "Use build.y for healEffect.at."
+        },
+        "block": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+          "java_expr": "build.block",
+          "godot_symbol": "build_state.block",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_tile_heal_state"
+          ],
+          "rule": "Use build.block for healEffect.at block argument."
+        },
+        "blockIsConstructBlock": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+          "java_expr": "build.block instanceof ConstructBlock",
+          "godot_symbol": "build_state.blockIsConstructBlock",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_tile_heal_state"
+          ],
+          "rule": "Explicit input until ConstructBlock class identity is ported."
+        },
+        "maxHealth": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+          "java_expr": "build.maxHealth",
+          "godot_symbol": "build_state.maxHealth",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_tile_heal_state"
+          ],
+          "rule": "Use build.maxHealth in build.heal amount formula."
+        }
+      }
+    },
+    "hit_tile_heal_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_type_state",
+          "rule": "Runtime echo of input bullet_type_state."
+        },
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime echo of input bullet_state."
+        },
+        "build": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "build_state",
+          "rule": "Runtime echo of input build_state."
+        },
+        "heals": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+          "java_expr": "heals()",
+          "godot_symbol": "hit_tile_heal_result.heals",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_tile_heal_state"
+          ],
+          "rule": "Result of source_bullet_type_heals_state."
+        },
+        "buildTeam": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "build_state.team",
+          "rule": "CamelCase runtime key aliases build_state.team."
+        },
+        "bulletTeam": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "bullet_state.team",
+          "rule": "CamelCase runtime key aliases bullet_state.team."
+        },
+        "blockIsConstructBlock": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "build_state.blockIsConstructBlock",
+          "rule": "CamelCase runtime key aliases build_state.blockIsConstructBlock."
+        },
+        "healGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+          "java_expr": "heals() && build.team == b.team && !(build.block instanceof ConstructBlock)",
+          "godot_symbol": "hit_tile_heal_result.healGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_tile_heal_state"
+          ],
+          "rule": "Exact source healing branch gate."
+        },
+        "healAppliedAmount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+          "java_expr": "healPercent / 100f * build.maxHealth + healAmount",
+          "godot_symbol": "hit_tile_heal_result.healAppliedAmount",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_tile_heal_state"
+          ],
+          "rule": "Exact build.heal amount argument."
+        },
+        "healed": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "hit_tile_heal_result.healGatePassed",
+          "rule": "Records whether build.heal would be called in this slice."
+        },
+        "hitCalled": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "hit_tile_heal_result.healGatePassed",
+          "rule": "Records whether hit(b) would be called in this slice."
+        },
+        "healEffectCall": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+          "java_expr": "healEffect.at(build.x, build.y, 0f, healColor, build.block)",
+          "godot_symbol": "hit_tile_heal_result.healEffectCall",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_tile_heal_state"
+          ],
+          "rule": "Recorded effect call when heal gate passes."
+        },
+        "buildHealCall": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+          "java_expr": "build.heal(healPercent / 100f * build.maxHealth + healAmount)",
+          "godot_symbol": "hit_tile_heal_result.buildHealCall",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_tile_heal_state"
+          ],
+          "rule": "Recorded build.heal call when heal gate passes."
+        },
+        "healSoundCall": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+          "java_expr": "healSound.at(build, 1f + Mathf.range(0.1f), healSoundVolume)",
+          "godot_symbol": "hit_tile_heal_result.healSoundCall",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_tile_heal_state"
+          ],
+          "rule": "Recorded heal sound call; pitch range is recorded, not sampled."
+        },
+        "enemyDirectBranchDeferred": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_slice.N405.deferred_exprs",
+          "rule": "Marks enemy/direct branch deferred to a later source slice."
+        },
+        "pierceDeferred": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_slice.N405.deferred_exprs",
+          "rule": "Marks handlePierce call deferred to a later source slice."
+        },
+        "hitTileHealGateSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.hitTile.heal_gate",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "healEffectSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.hitTile.healEffect",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "healAmountSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.hitTile.buildHeal",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "healSoundSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.hitTile.healSound",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "hitCallSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.hitTile.hit",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "deferredBranchSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.hitTile.enemy_direct_branch",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "pierceSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.hitTile.handlePierce",
+          "rule": "Debug source-line echo, not gameplay state."
         }
       }
     },

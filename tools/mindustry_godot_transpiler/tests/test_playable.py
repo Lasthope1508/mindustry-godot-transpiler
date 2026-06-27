@@ -4551,6 +4551,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var collides_tile: bool = not heals or tile_team != bullet_team or tile_healthf < 1.0", source)
         self.assertIn('"testCollisionReturnSource": "return !heals() || tile.team != bullet.team || tile.healthf() < 1f"', source)
 
+    def test_port_game_exposes_source_bullet_type_hit_tile_heal_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_hit_tile_heal_state(bullet_type_state: Dictionary, bullet_state: Dictionary, build_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var heals_state := source_bullet_type_heals_state(update_type_state)", source)
+        self.assertIn("var build_team = update_build_state.get(\"team\", null)", source)
+        self.assertIn("var bullet_team = update_bullet_state.get(\"team\", null)", source)
+        self.assertIn("var block_is_construct := bool(update_build_state.get(\"blockIsConstructBlock\", false))", source)
+        self.assertIn("var heal_gate_passed: bool = heals and build_team == bullet_team and not block_is_construct", source)
+        self.assertIn("var heal_applied_amount := heal_percent / 100.0 * build_max_health + heal_amount", source)
+        self.assertIn('"hitTileHealGateSource": "if(heals() && build.team == b.team && !(build.block instanceof ConstructBlock))"', source)
+        self.assertIn('"healAmountSource": "healPercent / 100f * build.maxHealth + healAmount"', source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
