@@ -4372,6 +4372,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"timerSource": "if(b.timer(0, trailInterval)){"', source)
         self.assertIn('"effectAtSource": "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor)"', source)
 
+    def test_port_game_exposes_source_bullet_type_init_type_defaults_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_init_type_defaults_state(bullet_type_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var pierce_cap := int(update_type_state.get(\"pierceCap\", -1))", source)
+        self.assertIn("var pierce_applied := pierce_cap >= 1", source)
+        self.assertIn("if pierce_applied:", source)
+        self.assertIn("update_type_state[\"pierce\"] = true", source)
+        self.assertIn("var set_defaults := bool(update_type_state.get(\"setDefaults\", true))", source)
+        self.assertIn("var lightning := int(update_type_state.get(\"lightning\", 0))", source)
+        self.assertIn("var status_before := str(update_type_state.get(\"status\", \"none\"))", source)
+        self.assertIn("var status_shocked_applied := set_defaults and lightning > 0 and status_before == \"none\"", source)
+        self.assertIn("update_type_state[\"status\"] = \"shocked\"", source)
+        self.assertIn("var despawn_hit_applied := set_defaults and (update_type_state.get(\"fragBullet\", null) != null or float(update_type_state.get(\"splashDamageRadius\", 0.0)) > 0.0 or lightning > 0)", source)
+        self.assertIn("update_type_state[\"despawnHit\"] = true", source)
+        self.assertIn('"pierceGateSource": "if(pierceCap >= 1){"', source)
+        self.assertIn('"statusGateSource": "if(status == StatusEffects.none){"', source)
+        self.assertIn('"statusAssignSource": "status = StatusEffects.shocked"', source)
+        self.assertIn('"despawnHitGateSource": "if(fragBullet != null || splashDamageRadius > 0 || lightning > 0){"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

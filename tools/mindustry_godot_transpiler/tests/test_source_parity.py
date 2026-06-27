@@ -5295,6 +5295,32 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_init_type_defaults_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_init_type_defaults_state_source"))
+        report = source_parity.verify_bullet_type_init_type_defaults_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["status_effects_source"], "core/src/mindustry/content/StatusEffects.java")
+        self.assertEqual(report["checked"], {
+            "pierce_field": "public boolean pierce;",
+            "pierce_cap_field": "public int pierceCap = -1;",
+            "status_field": "public StatusEffect status = StatusEffects.none;",
+            "despawn_hit_field": "public boolean despawnHit = false;",
+            "set_defaults_field": "public boolean setDefaults = true;",
+            "method": "public void init(){",
+            "pierce_gate": "if(pierceCap >= 1){",
+            "pierce_assign": "pierce = true;",
+            "set_defaults_gate": "if(setDefaults){",
+            "lightning_gate": "if(lightning > 0){",
+            "status_none_gate": "if(status == StatusEffects.none){",
+            "status_shocked_assign": "status = StatusEffects.shocked;",
+            "despawn_hit_gate": "if(fragBullet != null || splashDamageRadius > 0 || lightning > 0){",
+            "despawn_hit_assign": "despawnHit = true;",
+            "status_none_load": "none = new StatusEffect(\"none\");",
+            "status_shocked_load": "shocked = new StatusEffect(\"shocked\"){{",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

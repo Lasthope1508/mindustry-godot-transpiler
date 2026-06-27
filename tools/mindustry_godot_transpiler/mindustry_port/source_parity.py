@@ -9561,6 +9561,60 @@ def verify_bullet_type_update_trail_effects_interval_state_source(upstream_root:
         "missing": missing,
     }
 
+def verify_bullet_type_init_type_defaults_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    status_effects_source = "core/src/mindustry/content/StatusEffects.java"
+    status_effects_path = upstream_root / status_effects_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    status_effects_text = status_effects_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "pierce_field": "public boolean pierce;",
+        "pierce_cap_field": "public int pierceCap = -1;",
+        "status_field": "public StatusEffect status = StatusEffects.none;",
+        "despawn_hit_field": "public boolean despawnHit = false;",
+        "set_defaults_field": "public boolean setDefaults = true;",
+        "method": "public void init(){",
+        "pierce_gate": "if(pierceCap >= 1){",
+        "pierce_assign": "pierce = true;",
+        "set_defaults_gate": "if(setDefaults){",
+        "lightning_gate": "if(lightning > 0){",
+        "status_none_gate": "if(status == StatusEffects.none){",
+        "status_shocked_assign": "status = StatusEffects.shocked;",
+        "despawn_hit_gate": "if(fragBullet != null || splashDamageRadius > 0 || lightning > 0){",
+        "despawn_hit_assign": "despawnHit = true;",
+        "status_none_load": "none = new StatusEffect(\"none\");",
+        "status_shocked_load": "shocked = new StatusEffect(\"shocked\"){{",
+    }
+    source_map = {
+        "pierce_field": source,
+        "pierce_cap_field": source,
+        "status_field": source,
+        "despawn_hit_field": source,
+        "set_defaults_field": source,
+        "method": source,
+        "pierce_gate": source,
+        "pierce_assign": source,
+        "set_defaults_gate": source,
+        "lightning_gate": source,
+        "status_none_gate": source,
+        "status_shocked_assign": source,
+        "despawn_hit_gate": source,
+        "despawn_hit_assign": source,
+        "status_none_load": status_effects_text,
+        "status_shocked_load": status_effects_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "status_effects_source": status_effects_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

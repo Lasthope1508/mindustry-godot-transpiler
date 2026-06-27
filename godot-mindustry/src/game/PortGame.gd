@@ -5765,6 +5765,39 @@ func source_bullet_type_update_trail_effects_interval_state(chance_state: Dictio
 		"effectAtSource": "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor)",
 	}
 
+func source_bullet_type_init_type_defaults_state(bullet_type_state: Dictionary) -> Dictionary:
+	var update_type_state := bullet_type_state.duplicate(true)
+	var pierce_cap := int(update_type_state.get("pierceCap", -1))
+	var pierce_applied := pierce_cap >= 1
+	if pierce_applied:
+		update_type_state["pierce"] = true
+	var set_defaults := bool(update_type_state.get("setDefaults", true))
+	var lightning := int(update_type_state.get("lightning", 0))
+	var status_before := str(update_type_state.get("status", "none"))
+	var status_shocked_applied := set_defaults and lightning > 0 and status_before == "none"
+	if status_shocked_applied:
+		update_type_state["status"] = "shocked"
+	var despawn_hit_applied := set_defaults and (update_type_state.get("fragBullet", null) != null or float(update_type_state.get("splashDamageRadius", 0.0)) > 0.0 or lightning > 0)
+	if despawn_hit_applied:
+		update_type_state["despawnHit"] = true
+	return {
+		"bulletType": update_type_state,
+		"pierceApplied": pierce_applied,
+		"setDefaults": set_defaults,
+		"lightning": lightning,
+		"statusBefore": status_before,
+		"statusShockedApplied": status_shocked_applied,
+		"despawnHitApplied": despawn_hit_applied,
+		"pierceGateSource": "if(pierceCap >= 1){",
+		"pierceAssignSource": "pierce = true",
+		"setDefaultsGateSource": "if(setDefaults){",
+		"lightningGateSource": "if(lightning > 0){",
+		"statusGateSource": "if(status == StatusEffects.none){",
+		"statusAssignSource": "status = StatusEffects.shocked",
+		"despawnHitGateSource": "if(fragBullet != null || splashDamageRadius > 0 || lightning > 0){",
+		"despawnHitAssignSource": "despawnHit = true",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
