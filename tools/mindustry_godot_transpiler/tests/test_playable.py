@@ -3678,6 +3678,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"velocityGateSource": "velLen >= minShootVelocity &&"', source)
         self.assertIn('"reloadGateReservedSource": "(mount.reload <= 0.0001f || (alwaysContinuous && mount.bullet == null)) &&"', source)
 
+    def test_port_game_exposes_source_weapon_update_reload_gate_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_update_reload_gate_state(mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var mount_reload := float(mount_state.get(\"reload\", 0.0))", source)
+        self.assertIn("var always_continuous := bool(weapon_state.get(\"alwaysContinuous\", false))", source)
+        self.assertIn("var mount_bullet_null := not bool(mount_state.get(\"hasBullet\", false))", source)
+        self.assertIn("var reload_ready := mount_reload <= 0.0001", source)
+        self.assertIn("var reload_gate := reload_ready or (always_continuous and mount_bullet_null)", source)
+        self.assertIn('"reloadGateSource": "(mount.reload <= 0.0001f || (alwaysContinuous && mount.bullet == null)) &&"', source)
+        self.assertIn('"coneGateReservedSource": "(alwaysShooting || Angles.within(rotate ? mount.rotation : unit.rotation + baseRotation, mount.targetRotation, shootCone))"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

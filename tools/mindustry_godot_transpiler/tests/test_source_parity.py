@@ -4376,6 +4376,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_update_reload_gate_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_update_reload_gate_source"))
+        report = source_parity.verify_weapon_update_reload_gate_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["checked"], {
+            "reload_gate": "(mount.reload <= 0.0001f || (alwaysContinuous && mount.bullet == null)) && //reload has to be 0, or it has to be an always-continuous weapon",
+            "cone_gate_reserved": "(alwaysShooting || Angles.within(rotate ? mount.rotation : unit.rotation + baseRotation, mount.targetRotation, shootCone)) //has to be within the cone",
+            "weapon_always_continuous": "public boolean alwaysContinuous;",
+            "weapon_reload": "public float reload = 1;",
+            "mount_reload": "public float reload;",
+            "mount_bullet": "public @Nullable Bullet bullet;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

@@ -7564,6 +7564,40 @@ def verify_weapon_update_shoot_gate_prefix_source(upstream_root: Path) -> dict[s
         "missing": missing,
     }
 
+def verify_weapon_update_reload_gate_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    weapon_mount_path = upstream_root / weapon_mount_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "reload_gate": "(mount.reload <= 0.0001f || (alwaysContinuous && mount.bullet == null)) && //reload has to be 0, or it has to be an always-continuous weapon",
+        "cone_gate_reserved": "(alwaysShooting || Angles.within(rotate ? mount.rotation : unit.rotation + baseRotation, mount.targetRotation, shootCone)) //has to be within the cone",
+        "weapon_always_continuous": "public boolean alwaysContinuous;",
+        "weapon_reload": "public float reload = 1;",
+        "mount_reload": "public float reload;",
+        "mount_bullet": "public @Nullable Bullet bullet;",
+    }
+    source_map = {
+        "reload_gate": source,
+        "cone_gate_reserved": source,
+        "weapon_always_continuous": source,
+        "weapon_reload": source,
+        "mount_reload": weapon_mount_text,
+        "mount_bullet": weapon_mount_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": weapon_mount_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

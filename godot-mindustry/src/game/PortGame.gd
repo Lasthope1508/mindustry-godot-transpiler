@@ -4018,6 +4018,27 @@ func source_weapon_update_shoot_gate_prefix_state(mount_state: Dictionary, weapo
 		"reloadGateReservedSource": "(mount.reload <= 0.0001f || (alwaysContinuous && mount.bullet == null)) &&",
 	}
 
+func source_weapon_update_reload_gate_state(mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:
+	var mount_reload := float(mount_state.get("reload", 0.0))
+	var always_continuous := bool(weapon_state.get("alwaysContinuous", false))
+	var mount_bullet_null := not bool(mount_state.get("hasBullet", false))
+	var reload_ready := mount_reload <= 0.0001
+	var always_continuous_ready := always_continuous and mount_bullet_null
+	var reload_gate := reload_ready or (always_continuous and mount_bullet_null)
+	return {
+		"reloadGate": reload_gate,
+		"reloadReady": reload_ready,
+		"alwaysContinuousReady": always_continuous_ready,
+		"mountReload": mount_reload,
+		"alwaysContinuous": always_continuous,
+		"mountBulletNull": mount_bullet_null,
+		"reloadGateSource": "(mount.reload <= 0.0001f || (alwaysContinuous && mount.bullet == null)) &&",
+		"coneGateReservedSource": "(alwaysShooting || Angles.within(rotate ? mount.rotation : unit.rotation + baseRotation, mount.targetRotation, shootCone))",
+		"weaponAlwaysContinuousSource": "public boolean alwaysContinuous;",
+		"mountReloadSource": "public float reload;",
+		"mountBulletSource": "public @Nullable Bullet bullet;",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
