@@ -1059,6 +1059,34 @@
         "test_port_game_exposes_source_bullet_type_create_units_random_offset_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_units_random_offset_state"
+    },
+    "N438": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_spawn_state",
+      "exact_exprs": [
+        "despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y)"
+      ],
+      "deferred_exprs": [
+        "u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation();",
+        "Units.notifyUnitSpawn(u);"
+      ],
+      "source_symbols": [
+        "create_units.spawn.despawn_unit",
+        "create_units.spawn.team",
+        "create_units.spawn.unit_offset_plans",
+        "create_units.spawn.spawn_calls",
+        "create_units.spawn.rotation_boundary",
+        "create_units.spawn.notify_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_units_spawn_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_spawn_state",
+        "test_bullet_type_create_units_spawn_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_spawn_state"
     }
   },
   "version": 1

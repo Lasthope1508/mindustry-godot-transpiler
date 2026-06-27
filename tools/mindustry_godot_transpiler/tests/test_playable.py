@@ -4996,6 +4996,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\"randomDirectionSource\": \"float theta = Mathf.random(0f, Mathf.PI2);\"", source)
         self.assertIn("\"spawnBoundarySource\": \"var u = despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y);\"", source)
 
+    def test_port_game_exposes_source_bullet_type_create_units_spawn_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_create_units_spawn_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_units_random_offset_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var unit_offset_plans: Array = update_random_offset_state.get(\"unitOffsetPlans\", [])", source)
+        self.assertIn("var spawn_x: Variant = null", source)
+        self.assertIn("spawn_x = float(base_x) + float(tmp_v1_x)", source)
+        self.assertIn("spawn_y = float(base_y) + float(tmp_v1_y)", source)
+        self.assertIn("\"call\": \"despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y)\"", source)
+        self.assertIn("\"rotationBoundarySource\": \"u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation();\"", source)
+        self.assertIn("\"notifyBoundarySource\": \"Units.notifyUnitSpawn(u);\"", source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -6688,6 +6688,53 @@ func source_bullet_type_create_units_random_offset_state(bullet_type_state: Dict
 		"spawnBoundarySource": "var u = despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y);",
 	}
 
+func source_bullet_type_create_units_spawn_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_units_random_offset_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_random_offset_state: Dictionary = create_units_random_offset_state.duplicate(true)
+	var unit_offset_plans: Array = update_random_offset_state.get("unitOffsetPlans", [])
+	var spawn_calls: Array = []
+	var despawn_unit: Variant = update_type_state.get("despawnUnit", update_random_offset_state.get("despawnUnit", null))
+	var bullet_team: Variant = update_bullet_state.get("team", update_random_offset_state.get("bulletTeam", null))
+	var create_units_gate_passed := bool(update_random_offset_state.get("createUnitsGatePassed", false))
+	if create_units_gate_passed:
+		for plan in unit_offset_plans:
+			var base_x: Variant = plan.get("baseX", update_random_offset_state.get("x", null))
+			var base_y: Variant = plan.get("baseY", update_random_offset_state.get("y", null))
+			var tmp_v1_x: Variant = plan.get("tmpV1X", null)
+			var tmp_v1_y: Variant = plan.get("tmpV1Y", null)
+			var spawn_x: Variant = null
+			var spawn_y: Variant = null
+			if base_x != null and tmp_v1_x != null:
+				spawn_x = float(base_x) + float(tmp_v1_x)
+			if base_y != null and tmp_v1_y != null:
+				spawn_y = float(base_y) + float(tmp_v1_y)
+			spawn_calls.append({
+				"index": int(plan.get("index", spawn_calls.size())),
+				"despawnUnit": despawn_unit,
+				"team": bullet_team,
+				"x": spawn_x,
+				"y": spawn_y,
+				"baseX": base_x,
+				"baseY": base_y,
+				"tmpV1X": tmp_v1_x,
+				"tmpV1Y": tmp_v1_y,
+				"call": "despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y)",
+			})
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createUnitsRandomOffset": update_random_offset_state,
+		"createUnitsGatePassed": create_units_gate_passed,
+		"despawnUnit": despawn_unit,
+		"bulletTeam": bullet_team,
+		"unitOffsetPlans": unit_offset_plans,
+		"spawnCalls": spawn_calls,
+		"spawnSource": "despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y)",
+		"rotationBoundarySource": "u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation();",
+		"notifyBoundarySource": "Units.notifyUnitSpawn(u);",
+	}
+
 func source_bullet_type_hit_suppression_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_post_frag_dispatch_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

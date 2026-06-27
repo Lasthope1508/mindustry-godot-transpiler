@@ -5969,6 +5969,113 @@
           "rule": "Boundary marker; despawnUnit.spawn side effect remains a later source slice."
         }
       }
+    },
+    "create_units_spawn_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_type_state",
+          "rule": "Runtime echo of input bullet_type_state."
+        },
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime echo of input bullet_state."
+        },
+        "createUnitsRandomOffset": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "create_units_random_offset_result",
+          "rule": "Runtime echo of createUnits random offset slice result."
+        },
+        "createUnitsGatePassed": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "create_units_random_offset_result.createUnitsGatePassed",
+          "rule": "Runtime key aliases source createUnits guard result."
+        },
+        "despawnUnit": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createUnits(Bullet b, float x, float y)",
+          "java_expr": "despawnUnit",
+          "godot_symbol": "create_units_spawn_result.despawnUnit",
+          "used_by": [
+            "PortGame.source_bullet_type_create_units_spawn_state"
+          ],
+          "rule": "BulletType.despawnUnit used as spawn receiver."
+        },
+        "bulletTeam": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createUnits(Bullet b, float x, float y)",
+          "java_expr": "b.team",
+          "godot_symbol": "create_units_spawn_result.bulletTeam",
+          "used_by": [
+            "PortGame.source_bullet_type_create_units_spawn_state"
+          ],
+          "rule": "Bullet team passed to despawnUnit.spawn."
+        },
+        "unitOffsetPlans": {
+          "type": "Array",
+          "status": "generated",
+          "alias_of": "create_units_random_offset_result.unitOffsetPlans",
+          "rule": "Runtime key aliases N437 source-backed offset plans."
+        },
+        "spawnCalls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createUnits(Bullet b, float x, float y)",
+          "java_expr": "despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y)",
+          "godot_symbol": "create_units_spawn_result.spawnCalls",
+          "used_by": [
+            "PortGame.source_bullet_type_create_units_spawn_state"
+          ],
+          "rule": "Per-unit despawnUnit.spawn argument records."
+        },
+        "spawnSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createUnits(Bullet b, float x, float y)",
+          "java_expr": "despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y)",
+          "godot_symbol": "create_units_spawn_result.spawnSource",
+          "used_by": [
+            "PortGame.source_bullet_type_create_units_spawn_state"
+          ],
+          "rule": "Runtime source snippet label."
+        },
+        "rotationBoundarySource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createUnits(Bullet b, float x, float y)",
+          "java_expr": "u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation();",
+          "godot_symbol": "create_units_spawn_result.rotationBoundarySource",
+          "used_by": [
+            "PortGame.source_bullet_type_create_units_spawn_state"
+          ],
+          "rule": "Boundary marker; spawned unit rotation remains a later source slice."
+        },
+        "notifyBoundarySource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createUnits(Bullet b, float x, float y)",
+          "java_expr": "Units.notifyUnitSpawn(u);",
+          "godot_symbol": "create_units_spawn_result.notifyBoundarySource",
+          "used_by": [
+            "PortGame.source_bullet_type_create_units_spawn_state"
+          ],
+          "rule": "Boundary marker; Units.notifyUnitSpawn side effect remains a later source slice."
+        }
+      }
     }
   },
   "version": 1

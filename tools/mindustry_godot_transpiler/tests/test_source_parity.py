@@ -6059,6 +6059,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_create_units_spawn_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_create_units_spawn_state_source"))
+        report = source_parity.verify_bullet_type_create_units_spawn_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void createUnits(Bullet b, float x, float y){",
+            "initial_gate": "if(!net.client() && despawnUnit != null && Mathf.chance(despawnUnitChance)){",
+            "loop_boundary": "for(int i = 0; i < despawnUnitCount; i++){",
+            "random_offset": "Tmp.v1.rnd(Mathf.random(despawnUnitRadius));",
+            "spawn_call": "var u = despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y);",
+            "rotation_boundary": "u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation();",
+            "notify_boundary": "Units.notifyUnitSpawn(u);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_bullet_type_building_damage_state_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_bullet_type_building_damage_state_source"))
         report = source_parity.verify_bullet_type_building_damage_state_source(ROOT / "mindustry-upstream")
