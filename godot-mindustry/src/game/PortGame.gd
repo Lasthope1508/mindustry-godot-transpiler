@@ -5403,6 +5403,43 @@ func source_bullet_type_update_bullet_interval_state(bullet_state: Dictionary, b
 		"createSource": "intervalBullet.create(b, b.x, b.y, ang + Mathf.range(intervalRandomSpread) + intervalAngle + ((i - (intervalBullets - 1f)/2f) * intervalSpread))",
 	}
 
+func source_bullet_type_update_trail_state(bullet_state: Dictionary, bullet_type_state: Dictionary, headless_value: bool, trail_interp_value: float, absin_value: float, source_delta: float) -> Dictionary:
+	var update_bullet_state := bullet_state.duplicate(true)
+	var trail_length := int(bullet_type_state.get("trailLength", -1))
+	var gate_passed := not headless_value and trail_length > 0
+	if not gate_passed:
+		return {
+			"bullet": update_bullet_state,
+			"trailUpdated": false,
+			"gatePassed": false,
+			"gateSource": "if(!headless && trailLength > 0){",
+			"updateSource": "b.trail.update(b.x, b.y, trailInterp.apply(b.fin()) * (1f + (trailSinMag > 0 ? Mathf.absin(Time.time, trailSinScl, trailSinMag) : 0f)))",
+		}
+	var raw_trail_state = update_bullet_state.get("trail", null)
+	var trail_state: Dictionary = raw_trail_state if raw_trail_state is Dictionary else {}
+	var trail_created := raw_trail_state == null or not (raw_trail_state is Dictionary)
+	trail_state["length"] = trail_length
+	var sin_scale := 1.0 + (absin_value if float(bullet_type_state.get("trailSinMag", 0.0)) > 0.0 else 0.0)
+	var width := trail_interp_value * sin_scale
+	trail_state["lastX"] = float(update_bullet_state.get("x", 0.0))
+	trail_state["lastY"] = float(update_bullet_state.get("y", 0.0))
+	trail_state["lastW"] = width
+	trail_state["counter"] = float(trail_state.get("counter", 0.0)) + source_delta
+	update_bullet_state["trail"] = trail_state
+	return {
+		"bullet": update_bullet_state,
+		"trail": trail_state,
+		"trailCreated": trail_created,
+		"trailUpdated": true,
+		"gatePassed": true,
+		"width": width,
+		"sinScale": sin_scale,
+		"trailInterpValue": trail_interp_value,
+		"absinValue": absin_value,
+		"gateSource": "if(!headless && trailLength > 0){",
+		"updateSource": "b.trail.update(b.x, b.y, trailInterp.apply(b.fin()) * (1f + (trailSinMag > 0 ? Mathf.absin(Time.time, trailSinScl, trailSinMag) : 0f)))",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

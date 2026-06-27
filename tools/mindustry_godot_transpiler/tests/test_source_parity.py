@@ -5075,6 +5075,33 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_update_trail_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_update_trail_state_source"))
+        report = source_parity.verify_bullet_type_update_trail_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["trail_source"], "core/src/mindustry/graphics/Trail.java")
+        self.assertEqual(report["timed_comp_source"], "core/src/mindustry/entities/comp/TimedComp.java")
+        self.assertEqual(report["vars_source"], "core/src/mindustry/Vars.java")
+        self.assertEqual(report["mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "trail_interp_field": "public Interp trailInterp = Interp.one;",
+            "trail_length_field": "public int trailLength = -1;",
+            "trail_sin_fields": "public float trailSinMag = 0f, trailSinScl = 3f;",
+            "method": "public void updateTrail(Bullet b){",
+            "gate": "if(!headless && trailLength > 0){",
+            "trail_null_guard": "if(b.trail == null){",
+            "new_trail": "b.trail = new Trail(trailLength);",
+            "trail_length_assignment": "b.trail.length = trailLength;",
+            "trail_update_call": "b.trail.update(b.x, b.y, trailInterp.apply(b.fin()) * (1f + (trailSinMag > 0 ? Mathf.absin(Time.time, trailSinScl, trailSinMag) : 0f)));",
+            "trail_update_method": "public void update(float x, float y, float width){",
+            "trail_update_counter": "int count = (int)(counter += Time.delta);",
+            "timed_fin": "public float fin(){\n        return time / lifetime;\n    }",
+            "vars_headless": "public static boolean headless;",
+            "mathf_absin": "public static float absin(float in, float scl, float mag){\n        return (sin(in, scl * 2f, mag) + mag) / 2f;\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

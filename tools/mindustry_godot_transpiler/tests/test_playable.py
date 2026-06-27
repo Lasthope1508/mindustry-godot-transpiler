@@ -4221,6 +4221,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"gateSource": "if(intervalBullet != null && b.time >= intervalDelay && b.timer.get(2, bulletInterval)){"', source)
         self.assertIn('"createSource": "intervalBullet.create(b, b.x, b.y, ang + Mathf.range(intervalRandomSpread) + intervalAngle + ((i - (intervalBullets - 1f)/2f) * intervalSpread))"', source)
 
+    def test_port_game_exposes_source_bullet_type_update_trail_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_update_trail_state(bullet_state: Dictionary, bullet_type_state: Dictionary, headless_value: bool, trail_interp_value: float, absin_value: float, source_delta: float) -> Dictionary:", source)
+        self.assertIn("var update_bullet_state := bullet_state.duplicate(true)", source)
+        self.assertIn("var trail_length := int(bullet_type_state.get(\"trailLength\", -1))", source)
+        self.assertIn("var gate_passed := not headless_value and trail_length > 0", source)
+        self.assertIn("var raw_trail_state = update_bullet_state.get(\"trail\", null)", source)
+        self.assertIn("var trail_state: Dictionary = raw_trail_state if raw_trail_state is Dictionary else {}", source)
+        self.assertIn("trail_state[\"length\"] = trail_length", source)
+        self.assertIn("var sin_scale := 1.0 + (absin_value if float(bullet_type_state.get(\"trailSinMag\", 0.0)) > 0.0 else 0.0)", source)
+        self.assertIn("var width := trail_interp_value * sin_scale", source)
+        self.assertIn("trail_state[\"lastX\"] = float(update_bullet_state.get(\"x\", 0.0))", source)
+        self.assertIn("trail_state[\"lastY\"] = float(update_bullet_state.get(\"y\", 0.0))", source)
+        self.assertIn("trail_state[\"lastW\"] = width", source)
+        self.assertIn("trail_state[\"counter\"] = float(trail_state.get(\"counter\", 0.0)) + source_delta", source)
+        self.assertIn('"gateSource": "if(!headless && trailLength > 0){"', source)
+        self.assertIn('"updateSource": "b.trail.update(b.x, b.y, trailInterp.apply(b.fin()) * (1f + (trailSinMag > 0 ? Mathf.absin(Time.time, trailSinScl, trailSinMag) : 0f)))"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

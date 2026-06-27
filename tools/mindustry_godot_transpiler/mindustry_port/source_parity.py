@@ -9059,6 +9059,69 @@ def verify_bullet_type_update_bullet_interval_state_source(upstream_root: Path) 
         "missing": missing,
     }
 
+def verify_bullet_type_update_trail_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    trail_source = "core/src/mindustry/graphics/Trail.java"
+    timed_comp_source = "core/src/mindustry/entities/comp/TimedComp.java"
+    vars_source = "core/src/mindustry/Vars.java"
+    mathf_source = "arc-core/src/arc/math/Mathf.java"
+    trail_path = upstream_root / trail_source
+    timed_comp_path = upstream_root / timed_comp_source
+    vars_path = upstream_root / vars_source
+    mathf_path = arc_root / mathf_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    trail_text = trail_path.read_text(encoding="utf-8", errors="replace")
+    timed_comp_text = timed_comp_path.read_text(encoding="utf-8", errors="replace")
+    vars_text = vars_path.read_text(encoding="utf-8", errors="replace")
+    mathf_text = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "trail_interp_field": "public Interp trailInterp = Interp.one;",
+        "trail_length_field": "public int trailLength = -1;",
+        "trail_sin_fields": "public float trailSinMag = 0f, trailSinScl = 3f;",
+        "method": "public void updateTrail(Bullet b){",
+        "gate": "if(!headless && trailLength > 0){",
+        "trail_null_guard": "if(b.trail == null){",
+        "new_trail": "b.trail = new Trail(trailLength);",
+        "trail_length_assignment": "b.trail.length = trailLength;",
+        "trail_update_call": "b.trail.update(b.x, b.y, trailInterp.apply(b.fin()) * (1f + (trailSinMag > 0 ? Mathf.absin(Time.time, trailSinScl, trailSinMag) : 0f)));",
+        "trail_update_method": "public void update(float x, float y, float width){",
+        "trail_update_counter": "int count = (int)(counter += Time.delta);",
+        "timed_fin": "public float fin(){\n        return time / lifetime;\n    }",
+        "vars_headless": "public static boolean headless;",
+        "mathf_absin": "public static float absin(float in, float scl, float mag){\n        return (sin(in, scl * 2f, mag) + mag) / 2f;\n    }",
+    }
+    source_map = {
+        "trail_interp_field": source,
+        "trail_length_field": source,
+        "trail_sin_fields": source,
+        "method": source,
+        "gate": source,
+        "trail_null_guard": source,
+        "new_trail": source,
+        "trail_length_assignment": source,
+        "trail_update_call": source,
+        "trail_update_method": trail_text,
+        "trail_update_counter": trail_text,
+        "timed_fin": timed_comp_text,
+        "vars_headless": vars_text,
+        "mathf_absin": mathf_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "trail_source": trail_source,
+        "timed_comp_source": timed_comp_source,
+        "vars_source": vars_source,
+        "mathf_source": mathf_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
