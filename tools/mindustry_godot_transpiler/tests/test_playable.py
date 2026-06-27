@@ -3829,6 +3829,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"lifeSclSource": "lifeScl = bullet.scaleLife ? Mathf.clamp(Mathf.dst(bulletX, bulletY, mount.aimX, mount.aimY) / bullet.range) : 1f"', source)
         self.assertIn('"angleSource": "angle = shootAngle + Mathf.range(inaccuracy + bullet.inaccuracy)"', source)
 
+    def test_port_game_exposes_source_weapon_bullet_shooter_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_bullet_shooter_state(unit_state: Dictionary, controller_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var controller_is_missile_ai := str(controller_state.get(\"type\", \"\")) == \"MissileAI\"", source)
+        self.assertIn("var shooter: Variant = controller_state.get(\"shooter\", null) if controller_is_missile_ai else unit_id", source)
+        self.assertIn('"controllerIsMissileAI": controller_is_missile_ai', source)
+        self.assertIn('"shooter": shooter', source)
+        self.assertIn('"shooterSelectionSource": "Entityc shooter = unit.controller() instanceof MissileAI ai ? ai.shooter : unit"', source)
+        self.assertIn('"bulletCreateReservedSource": "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -4564,6 +4564,26 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_bullet_shooter_selection_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_bullet_shooter_selection_source"))
+        report = source_parity.verify_weapon_bullet_shooter_selection_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["unit_comp_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["missile_ai_source"], "core/src/mindustry/ai/types/MissileAI.java")
+        self.assertEqual(report["bullet_type_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "shooter_selection": "Entityc shooter = unit.controller() instanceof MissileAI ai ? ai.shooter : unit; //Pass the missile's shooter down to its bullets",
+            "bullet_create_reserved": "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);",
+            "unit_controller_field": "private UnitController controller;",
+            "unit_controller_getter": "public UnitController controller(){\n        return controller;\n    }",
+            "missile_ai_class": "public class MissileAI extends AIController{",
+            "missile_ai_shooter": "public @Nullable Unit shooter;",
+            "bullet_create_shooter_param": "@Nullable Entityc owner, @Nullable Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl,",
+            "bullet_shooter_assignment": "bullet.shooter = (shooter == null ? owner : shooter);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

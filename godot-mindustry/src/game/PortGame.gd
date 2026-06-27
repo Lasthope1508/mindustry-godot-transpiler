@@ -4346,6 +4346,23 @@ func source_weapon_bullet_angle_life_state(unit_state: Dictionary, mount_state: 
 		"mathfRangeSource": "return random(-range, range)",
 	}
 
+func source_weapon_bullet_shooter_state(unit_state: Dictionary, controller_state: Dictionary) -> Dictionary:
+	var unit_id: Variant = unit_state.get("id", null)
+	var controller_is_missile_ai := str(controller_state.get("type", "")) == "MissileAI"
+	var missile_shooter: Variant = controller_state.get("shooter", null)
+	var shooter: Variant = controller_state.get("shooter", null) if controller_is_missile_ai else unit_id
+	return {
+		"unit": unit_id,
+		"controllerIsMissileAI": controller_is_missile_ai,
+		"missileShooter": missile_shooter,
+		"shooter": shooter,
+		"shooterSelectionSource": "Entityc shooter = unit.controller() instanceof MissileAI ai ? ai.shooter : unit",
+		"missileShooterSource": "public @Nullable Unit shooter",
+		"unitControllerSource": "public UnitController controller(){ return controller; }",
+		"bulletCreateReservedSource": "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target)",
+		"bulletCreateNullShooterFallbackSource": "bullet.shooter = (shooter == null ? owner : shooter)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

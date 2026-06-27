@@ -7982,6 +7982,52 @@ def verify_weapon_bullet_angle_life_source(upstream_root: Path) -> dict[str, Any
         "missing": missing,
     }
 
+def verify_weapon_bullet_shooter_selection_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    unit_comp_source = UNIT_COMP_SOURCE
+    missile_ai_source = "core/src/mindustry/ai/types/MissileAI.java"
+    bullet_type_source = "core/src/mindustry/entities/bullet/BulletType.java"
+    unit_comp_path = upstream_root / unit_comp_source
+    missile_ai_path = upstream_root / missile_ai_source
+    bullet_type_path = upstream_root / bullet_type_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    unit_comp_text = unit_comp_path.read_text(encoding="utf-8", errors="replace")
+    missile_ai_text = missile_ai_path.read_text(encoding="utf-8", errors="replace")
+    bullet_type_text = bullet_type_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "shooter_selection": "Entityc shooter = unit.controller() instanceof MissileAI ai ? ai.shooter : unit; //Pass the missile's shooter down to its bullets",
+        "bullet_create_reserved": "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);",
+        "unit_controller_field": "private UnitController controller;",
+        "unit_controller_getter": "public UnitController controller(){\n        return controller;\n    }",
+        "missile_ai_class": "public class MissileAI extends AIController{",
+        "missile_ai_shooter": "public @Nullable Unit shooter;",
+        "bullet_create_shooter_param": "@Nullable Entityc owner, @Nullable Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl,",
+        "bullet_shooter_assignment": "bullet.shooter = (shooter == null ? owner : shooter);",
+    }
+    source_map = {
+        "shooter_selection": source,
+        "bullet_create_reserved": source,
+        "unit_controller_field": unit_comp_text,
+        "unit_controller_getter": unit_comp_text,
+        "missile_ai_class": missile_ai_text,
+        "missile_ai_shooter": missile_ai_text,
+        "bullet_create_shooter_param": bullet_type_text,
+        "bullet_shooter_assignment": bullet_type_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "unit_comp_source": unit_comp_source,
+        "missile_ai_source": missile_ai_source,
+        "bullet_type_source": bullet_type_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
