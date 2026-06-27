@@ -3964,6 +3964,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"recoilSlotsReservedSource": "if(recoils > 0){ mount.recoils[mount.barrelCounter % recoils] = 1f; }"', source)
         self.assertIn('"heatReservedSource": "mount.heat = 1f"', source)
 
+    def test_port_game_exposes_source_weapon_bullet_recoil_slots_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_bullet_recoil_slots_state(create_call_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var recoils_count := int(weapon_state.get(\"recoils\", -1))", source)
+        self.assertIn("var barrel_counter := int(mount_state.get(\"barrelCounter\", 0))", source)
+        self.assertIn("var recoil_index := barrel_counter % recoils_count", source)
+        self.assertIn("recoils_values[recoil_index] = 1.0", source)
+        self.assertIn('"recoilSlotsSource": "if(recoils > 0){ mount.recoils[mount.barrelCounter % recoils] = 1f; }"', source)
+        self.assertIn('"updateInitSource": "if(mount.recoils == null) mount.recoils = new float[recoils]"', source)
+        self.assertIn('"heatReservedSource": "mount.heat = 1f"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

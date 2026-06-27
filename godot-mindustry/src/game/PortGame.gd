@@ -4738,6 +4738,53 @@ func source_weapon_bullet_mount_recoil_state(create_call_state: Dictionary, moun
 		"heatReservedSource": "mount.heat = 1f",
 	}
 
+func source_weapon_bullet_recoil_slots_state(create_call_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:
+	var recoils_count := int(weapon_state.get("recoils", -1))
+	var barrel_counter := int(mount_state.get("barrelCounter", 0))
+	var raw_recoils = mount_state.get("recoils", [])
+	var recoils_values: Array = []
+	if raw_recoils is Array:
+		recoils_values = raw_recoils.duplicate()
+	if not bool(create_call_state.get("bulletContinues", false)):
+		return {
+			"bulletContinues": false,
+			"recoilSlotsApplied": false,
+			"recoils": recoils_values,
+			"recoilIndex": -1,
+			"recoilsCount": recoils_count,
+			"barrelCounter": barrel_counter,
+			"recoilSlotsSource": "if(recoils > 0){ mount.recoils[mount.barrelCounter % recoils] = 1f; }",
+			"updateInitSource": "if(mount.recoils == null) mount.recoils = new float[recoils]",
+			"heatReservedSource": "mount.heat = 1f",
+		}
+	if recoils_count <= 0:
+		return {
+			"bulletContinues": true,
+			"recoilSlotsApplied": false,
+			"recoils": recoils_values,
+			"recoilIndex": -1,
+			"recoilsCount": recoils_count,
+			"barrelCounter": barrel_counter,
+			"recoilSlotsSource": "if(recoils > 0){ mount.recoils[mount.barrelCounter % recoils] = 1f; }",
+			"updateInitSource": "if(mount.recoils == null) mount.recoils = new float[recoils]",
+			"heatReservedSource": "mount.heat = 1f",
+		}
+	var recoil_index := barrel_counter % recoils_count
+	while recoils_values.size() < recoils_count:
+		recoils_values.append(0.0)
+	recoils_values[recoil_index] = 1.0
+	return {
+		"bulletContinues": true,
+		"recoilSlotsApplied": true,
+		"recoils": recoils_values,
+		"recoilIndex": recoil_index,
+		"recoilsCount": recoils_count,
+		"barrelCounter": barrel_counter,
+		"recoilSlotsSource": "if(recoils > 0){ mount.recoils[mount.barrelCounter % recoils] = 1f; }",
+		"updateInitSource": "if(mount.recoils == null) mount.recoils = new float[recoils]",
+		"heatReservedSource": "mount.heat = 1f",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

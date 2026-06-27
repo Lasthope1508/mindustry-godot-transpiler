@@ -4777,6 +4777,23 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_bullet_recoil_slots_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_bullet_recoil_slots_source"))
+        report = source_parity.verify_weapon_bullet_recoil_slots_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["checked"], {
+            "recoil_slots_gate": "if(recoils > 0){",
+            "recoil_slot_assignment": "mount.recoils[mount.barrelCounter % recoils] = 1f;",
+            "heat_reserved": "mount.heat = 1f;",
+            "weapon_recoils_default": "public int recoils = -1;",
+            "weapon_mount_recoils": "public @Nullable float[] recoils;",
+            "weapon_mount_barrel_counter": "public int barrelCounter;",
+            "update_recoils_init": "if(mount.recoils == null) mount.recoils = new float[recoils];",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
