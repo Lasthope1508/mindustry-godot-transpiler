@@ -1664,14 +1664,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         air_collides_tiles = source_symbols.source_symbol(registry, "init_lightning_type.damage_lightning_air_collides_tiles")
         self.assertEqual(air_collides_tiles["java_expr"], "damageLightningAir.collidesTiles = false;")
 
+    def test_bullet_type_init_light_radius_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        gate = source_symbols.source_symbol(registry, "init_light_radius.gate")
+        self.assertEqual(gate["java_expr"], "if(lightRadius <= -1){")
+        self.assertEqual(gate["godot_symbol"], "init_light_radius_result.lightRadiusGatePassed")
+        self.assertEqual(gate["godot_owner"], "PortGame.source_bullet_type_init_light_radius_state")
+        self.assertEqual(gate["runtime_proof"], "/root/Main.source_bullet_type_init_light_radius_state")
+
+        assign = source_symbols.source_symbol(registry, "init_light_radius.assign")
+        self.assertEqual(assign["java_expr"], "lightRadius = Math.max(18, hitSize * 5f);")
+        self.assertEqual(assign["godot_symbol"], "init_light_radius_result.lightRadius")
+
+        hit_size_field = source_symbols.source_symbol(registry, "init_light_radius.hit_size_field")
+        self.assertEqual(hit_size_field["java_expr"], "public float hitSize = 4;")
+        self.assertEqual(hit_size_field["godot_symbol"], "bullet_type_state.hitSize")
+
+        light_radius_field = source_symbols.source_symbol(registry, "init_light_radius.light_radius_field")
+        self.assertEqual(light_radius_field["java_expr"], "public float lightRadius = -1f;")
+        self.assertEqual(light_radius_field["godot_symbol"], "bullet_type_state.lightRadius")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 65)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 66)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 70)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 71)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1731,6 +1755,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_init_type_defaults_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_init_frag_velocity_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_init_lightning_type_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_init_light_radius_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -2198,7 +2223,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("!collidesAir ? Bullets.damageLightningGround :", init_lightning_type["exact_exprs"])
         self.assertIn("!collidesGround ? Bullets.damageLightningAir :", init_lightning_type["exact_exprs"])
         self.assertIn("Bullets.damageLightning;", init_lightning_type["exact_exprs"])
-        self.assertIn("if(lightRadius <= -1){", init_lightning_type["deferred_exprs"])
+        self.assertNotIn("if(lightRadius <= -1){", init_lightning_type["deferred_exprs"])
+
+        init_light_radius = source_symbols.source_slice(ledger, "N468")
+        self.assertEqual(init_light_radius["java_method"], "init()")
+        self.assertEqual(init_light_radius["godot_owner"], "PortGame.source_bullet_type_init_light_radius_state")
+        self.assertIn("if(lightRadius <= -1){", init_light_radius["exact_exprs"])
+        self.assertIn("lightRadius = Math.max(18, hitSize * 5f);", init_light_radius["exact_exprs"])
+        self.assertIn("public float hitSize = 4;", init_light_radius["exact_exprs"])
+        self.assertIn("public float lightRadius = -1f;", init_light_radius["exact_exprs"])
+        self.assertIn("drawSize = Math.max(drawSize, trailLength * speed * 2f);", init_light_radius["deferred_exprs"])
+        self.assertIn("range = calculateRange();", init_light_radius["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -2781,6 +2816,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("collidesAir", init_lightning_type["return_keys"])
         self.assertIn("collidesGround", init_lightning_type["return_keys"])
         self.assertEqual(init_lightning_type["source_method"], "init()")
+
+        init_light_radius = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_init_light_radius_state")
+        self.assertEqual([param["name"] for param in init_light_radius["params"]], ["lightning_type_state"])
+        self.assertEqual(init_light_radius["params"][0]["schema"], "init_lightning_type_result")
+        self.assertIn("bulletType", init_light_radius["return_keys"])
+        self.assertIn("lightRadiusApplied", init_light_radius["return_keys"])
+        self.assertIn("lightRadiusGatePassed", init_light_radius["return_keys"])
+        self.assertIn("lightRadius", init_light_radius["return_keys"])
+        self.assertIn("hitSize", init_light_radius["return_keys"])
+        self.assertEqual(init_light_radius["source_method"], "init()")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -3411,6 +3456,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_init_lightning_type_state", bullet_type_state["keys"]["lightningType"]["used_by"])
         self.assertIn("PortGame.source_bullet_type_init_lightning_type_state", bullet_type_state["keys"]["collidesAir"]["used_by"])
         self.assertIn("PortGame.source_bullet_type_init_lightning_type_state", bullet_type_state["keys"]["collidesGround"]["used_by"])
+
+        init_light_radius_output = source_symbols.state_schema(schema, "init_light_radius_result")
+        self.assertEqual(init_light_radius_output["keys"]["lightRadiusGatePassed"]["java_expr"], "lightRadius <= -1")
+        self.assertEqual(init_light_radius_output["keys"]["lightRadius"]["java_expr"], "Math.max(18, hitSize * 5f)")
+        self.assertEqual(init_light_radius_output["keys"]["hitSize"]["alias_of"], "bullet_type_state.hitSize")
+        self.assertEqual(init_light_radius_output["keys"]["lightRadiusGateSource"]["alias_of"], "source_line.init_light_radius.gate")
+        self.assertEqual(init_light_radius_output["keys"]["lightRadiusAssignSource"]["alias_of"], "source_line.init_light_radius.assign")
+
+        self.assertEqual(bullet_type_state["keys"]["hitSize"]["java_expr"], "hitSize")
+        self.assertEqual(bullet_type_state["keys"]["lightRadius"]["java_expr"], "lightRadius")
+        self.assertIn("PortGame.source_bullet_type_init_light_radius_state", bullet_type_state["keys"]["hitSize"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_init_light_radius_state", bullet_type_state["keys"]["lightRadius"]["used_by"])
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")

@@ -6738,6 +6738,66 @@
         "test_bullet_type_init_lightning_type_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_init_lightning_type_state"
+    },
+    "init_light_radius.gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init()",
+      "java_expr": "if(lightRadius <= -1){",
+      "godot_symbol": "init_light_radius_result.lightRadiusGatePassed",
+      "godot_owner": "PortGame.source_bullet_type_init_light_radius_state",
+      "rule": "Exact init lightRadius default gate.",
+      "tests": [
+        "test_bullet_type_init_light_radius_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_light_radius_state",
+        "test_bullet_type_init_light_radius_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_light_radius_state"
+    },
+    "init_light_radius.assign": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init()",
+      "java_expr": "lightRadius = Math.max(18, hitSize * 5f);",
+      "godot_symbol": "init_light_radius_result.lightRadius",
+      "godot_owner": "PortGame.source_bullet_type_init_light_radius_state",
+      "rule": "Exact init lightRadius default assignment from hitSize.",
+      "tests": [
+        "test_bullet_type_init_light_radius_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_light_radius_state",
+        "test_bullet_type_init_light_radius_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_light_radius_state"
+    },
+    "init_light_radius.hit_size_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "field",
+      "java_expr": "public float hitSize = 4;",
+      "godot_symbol": "bullet_type_state.hitSize",
+      "godot_owner": "PortGame.source_bullet_type_init_light_radius_state",
+      "rule": "BulletType hitSize field backing for default lightRadius formula.",
+      "tests": [
+        "test_bullet_type_init_light_radius_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_light_radius_state",
+        "test_bullet_type_init_light_radius_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_light_radius_state"
+    },
+    "init_light_radius.light_radius_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "field",
+      "java_expr": "public float lightRadius = -1f;",
+      "godot_symbol": "bullet_type_state.lightRadius",
+      "godot_owner": "PortGame.source_bullet_type_init_light_radius_state",
+      "rule": "BulletType lightRadius field default gate for init default radius.",
+      "tests": [
+        "test_bullet_type_init_light_radius_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_light_radius_state",
+        "test_bullet_type_init_light_radius_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_light_radius_state"
     }
   }
 }

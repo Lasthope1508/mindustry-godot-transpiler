@@ -3022,6 +3022,35 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_init_lightning_type_state",
       "rule": "Public runtime contract for BulletType.init lightningType null gate and internal Bullets choice."
+    },
+    "PortGame.source_bullet_type_init_light_radius_state": {
+      "status": "active",
+      "source_slice": "N468",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "init()",
+      "params": [
+        {
+          "name": "lightning_type_state",
+          "type": "Dictionary",
+          "schema": "init_lightning_type_result"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "lightRadiusApplied",
+        "lightRadiusGatePassed",
+        "lightRadius",
+        "hitSize",
+        "lightRadiusGateSource",
+        "lightRadiusAssignSource"
+      ],
+      "tests": [
+        "test_bullet_type_init_light_radius_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_light_radius_state",
+        "test_bullet_type_init_light_radius_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_light_radius_state",
+      "rule": "Public runtime contract for BulletType.init lightRadius default gate and Math.max assignment."
     }
   },
   "policy": {

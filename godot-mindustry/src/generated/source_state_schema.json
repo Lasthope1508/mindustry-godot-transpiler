@@ -1002,13 +1002,14 @@
           "type": "float",
           "status": "source-backed",
           "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
-          "java_method": "drawLight(Bullet b)",
+          "java_method": "field",
           "java_expr": "lightRadius",
           "godot_symbol": "bullet_type_state.lightRadius",
           "used_by": [
-            "PortGame.source_bullet_type_draw_light_state"
+            "PortGame.source_bullet_type_draw_light_state",
+            "PortGame.source_bullet_type_init_light_radius_state"
           ],
-          "rule": "Canonical BulletType.lightRadius field for drawLight early return and Drawf.light call."
+          "rule": "Canonical BulletType.lightRadius field for init default and drawLight usage."
         },
         "lightColor": {
           "type": "Variant",
@@ -1538,6 +1539,18 @@
             "PortGame.source_bullet_type_init_lightning_type_state"
           ],
           "rule": "Canonical nullable BulletType.lightningType field."
+        },
+        "hitSize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "field",
+          "java_expr": "hitSize",
+          "godot_symbol": "bullet_type_state.hitSize",
+          "used_by": [
+            "PortGame.source_bullet_type_init_light_radius_state"
+          ],
+          "rule": "Canonical BulletType.hitSize field; default is 4."
         }
       }
     },
@@ -10278,6 +10291,70 @@
           "godot_symbol": "init_lightning_type_result.lightningTypeChoiceSource",
           "alias_of": "source_line.init_lightning_type.choice",
           "rule": "Runtime source label for lightningType ternary choice."
+        }
+      }
+    },
+    "init_light_radius_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "godot_symbol": "init_light_radius_result.bulletType",
+          "alias_of": "bullet_type_state",
+          "rule": "Updated BulletType state after lightRadius init."
+        },
+        "lightRadiusApplied": {
+          "type": "bool",
+          "status": "generated",
+          "godot_symbol": "init_light_radius_result.lightRadiusApplied",
+          "alias_of": "init_light_radius_result.lightRadius",
+          "rule": "Runtime boolean records whether lightRadius was assigned."
+        },
+        "lightRadiusGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init()",
+          "java_expr": "lightRadius <= -1",
+          "godot_symbol": "init_light_radius_result.lightRadiusGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_init_light_radius_state"
+          ],
+          "rule": "Exact lightRadius default gate."
+        },
+        "lightRadius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init()",
+          "java_expr": "Math.max(18, hitSize * 5f)",
+          "godot_symbol": "init_light_radius_result.lightRadius",
+          "used_by": [
+            "PortGame.source_bullet_type_init_light_radius_state"
+          ],
+          "rule": "Resolved lightRadius value from source Math.max assignment."
+        },
+        "hitSize": {
+          "type": "float",
+          "status": "generated",
+          "godot_symbol": "init_light_radius_result.hitSize",
+          "alias_of": "bullet_type_state.hitSize",
+          "rule": "Runtime echo of hitSize input used by lightRadius assignment."
+        },
+        "lightRadiusGateSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "init_light_radius_result.lightRadiusGateSource",
+          "alias_of": "source_line.init_light_radius.gate",
+          "rule": "Runtime source label for lightRadius gate."
+        },
+        "lightRadiusAssignSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "init_light_radius_result.lightRadiusAssignSource",
+          "alias_of": "source_line.init_light_radius.assign",
+          "rule": "Runtime source label for lightRadius Math.max assignment."
         }
       }
     }
