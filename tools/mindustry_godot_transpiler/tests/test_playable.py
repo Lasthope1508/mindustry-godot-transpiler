@@ -4562,6 +4562,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var shield_damage := damage * shield_damage_multiplier", source)
         self.assertIn('"shieldDamageReturnSource": "return b.damage() * shieldDamageMultiplier"', source)
 
+    def test_port_game_exposes_source_bullet_type_draw_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_draw_state(bullet_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var update_bullet_state: Dictionary = bullet_state.duplicate(true)", source)
+        self.assertIn('var draw_calls := ["drawTrail(b)", "drawParts(b)"]', source)
+        self.assertIn('"drawTrailCalled": true', source)
+        self.assertIn('"drawPartsCalled": true', source)
+        self.assertIn('"drawReturnSource": "drawTrail(b); drawParts(b);"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

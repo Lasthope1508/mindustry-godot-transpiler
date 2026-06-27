@@ -6044,6 +6044,17 @@ func source_bullet_type_shield_damage_state(bullet_type_state: Dictionary, bulle
 		"shieldDamageReturnSource": "return b.damage() * shieldDamageMultiplier",
 	}
 
+func source_bullet_type_draw_state(bullet_state: Dictionary) -> Dictionary:
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var draw_calls := ["drawTrail(b)", "drawParts(b)"]
+	return {
+		"bullet": update_bullet_state,
+		"drawCalls": draw_calls,
+		"drawTrailCalled": true,
+		"drawPartsCalled": true,
+		"drawReturnSource": "drawTrail(b); drawParts(b);",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
