@@ -544,6 +544,72 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_entity_armor_damage_state",
       "rule": "Public runtime contract for BulletType.hitEntity Healthc armor damage branch; unit effects, events, and handlePierce remain later slices."
+    },
+    "PortGame.source_bullet_type_hit_entity_unit_effects_state": {
+      "status": "active",
+      "source_slice": "N413",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "entity_state",
+          "type": "Dictionary",
+          "schema": "entity_state"
+        },
+        {
+          "name": "armor_damage_state",
+          "type": "Dictionary",
+          "schema": "hit_entity_armor_damage_result"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "entity",
+        "armorDamage",
+        "unitGatePassed",
+        "knockback",
+        "impact",
+        "status",
+        "statusDuration",
+        "entityX",
+        "entityY",
+        "bulletX",
+        "bulletY",
+        "bulletRotation",
+        "impulseVector",
+        "impulseCalled",
+        "impulseCall",
+        "statusApplyCalled",
+        "statusApplyCall",
+        "bulletDamageEventFired",
+        "bulletDamageEventCall",
+        "destroyEventDeferred",
+        "pierceDeferred",
+        "unitGateSource",
+        "impulseVectorSource",
+        "impactAngleSource",
+        "unitImpulseSource",
+        "unitApplySource",
+        "bulletDamageEventSource",
+        "destroyEventBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_entity_unit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_unit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_effects_state",
+      "rule": "Public runtime contract for BulletType.hitEntity Unit impulse, status apply, and bullet damage event slice; destroy event and handlePierce remain later slices."
     }
   },
   "policy": {

@@ -1299,6 +1299,216 @@
         "test_port_game_exposes_source_bullet_type_hit_entity_armor_damage_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_entity_armor_damage_state"
+    },
+    "hit_entity.unit_gate": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "entity instanceof Unit unit",
+      "godot_symbol": "entity_state.isUnit",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_unit_effects_state",
+      "rule": "Represent Unit type check as explicit input until entity class hierarchy is ported.",
+      "tests": [
+        "test_bullet_type_hit_entity_unit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_unit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_effects_state"
+    },
+    "hit_entity.unit.x": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "unit.x",
+      "godot_symbol": "entity_state.x",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_unit_effects_state",
+      "rule": "Represent Unit x position as explicit input for Tmp.v3.set(unit).sub(b).",
+      "tests": [
+        "test_bullet_type_hit_entity_unit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_unit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_effects_state"
+    },
+    "hit_entity.unit.y": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "unit.y",
+      "godot_symbol": "entity_state.y",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_unit_effects_state",
+      "rule": "Represent Unit y position as explicit input for Tmp.v3.set(unit).sub(b).",
+      "tests": [
+        "test_bullet_type_hit_entity_unit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_unit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_effects_state"
+    },
+    "hit_entity.bullet.x": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "b.x",
+      "godot_symbol": "bullet_state.x",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_unit_effects_state",
+      "rule": "Use source bullet x field for Tmp.v3.set(unit).sub(b).",
+      "tests": [
+        "test_bullet_type_hit_entity_unit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_unit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_effects_state"
+    },
+    "hit_entity.bullet.y": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "b.y",
+      "godot_symbol": "bullet_state.y",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_unit_effects_state",
+      "rule": "Use source bullet y field for Tmp.v3.set(unit).sub(b).",
+      "tests": [
+        "test_bullet_type_hit_entity_unit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_unit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_effects_state"
+    },
+    "hit_entity.knockback": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "knockback",
+      "godot_symbol": "bullet_type_state.knockback",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_unit_effects_state",
+      "rule": "Use BulletType.knockback for Tmp.v3 scale and negative impact angle branch.",
+      "tests": [
+        "test_bullet_type_hit_entity_unit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_unit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_effects_state"
+    },
+    "hit_entity.impact": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "impact",
+      "godot_symbol": "bullet_type_state.impact",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_unit_effects_state",
+      "rule": "Use BulletType.impact as the sole setAngle gate.",
+      "tests": [
+        "test_bullet_type_hit_entity_unit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_unit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_effects_state"
+    },
+    "hit_entity.bullet.rotation": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "b.rotation()",
+      "godot_symbol": "bullet_state.rotation",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_unit_effects_state",
+      "rule": "Represent Bullet rotation as explicit input until BulletComp rotation is fully ported.",
+      "tests": [
+        "test_bullet_type_hit_entity_unit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_unit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_effects_state"
+    },
+    "hit_entity.status": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "status",
+      "godot_symbol": "bullet_type_state.status",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_unit_effects_state",
+      "rule": "Use BulletType.status as the first unit.apply argument.",
+      "tests": [
+        "test_bullet_type_hit_entity_unit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_unit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_effects_state"
+    },
+    "hit_entity.status_duration": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "statusDuration",
+      "godot_symbol": "bullet_type_state.statusDuration",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_unit_effects_state",
+      "rule": "Use BulletType.statusDuration as the second unit.apply argument.",
+      "tests": [
+        "test_bullet_type_hit_entity_unit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_unit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_effects_state"
+    },
+    "hit_entity.unit_impulse_vector": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "Tmp.v3.set(unit).sub(b).nor().scl(knockback * 80f)",
+      "godot_symbol": "hit_entity_unit_effects_result.impulseVector",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_unit_effects_state",
+      "rule": "Compute the exact source impulse vector before optional impact angle rewrite.",
+      "tests": [
+        "test_bullet_type_hit_entity_unit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_unit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_effects_state"
+    },
+    "hit_entity.impact_angle": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "b.rotation() + (knockback < 0 ? 180f : 0f)",
+      "godot_symbol": "hit_entity_unit_effects_result.impactAngle",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_unit_effects_state",
+      "rule": "Use exact source angle when impact gate passes.",
+      "tests": [
+        "test_bullet_type_hit_entity_unit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_unit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_effects_state"
+    },
+    "hit_entity.unit_impulse_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "unit.impulse(Tmp.v3)",
+      "godot_symbol": "hit_entity_unit_effects_result.impulseCalled",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_unit_effects_state",
+      "rule": "Record unit impulse call only when exact Unit gate passes.",
+      "tests": [
+        "test_bullet_type_hit_entity_unit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_unit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_effects_state"
+    },
+    "hit_entity.unit_apply_status": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "unit.apply(status, statusDuration)",
+      "godot_symbol": "hit_entity_unit_effects_result.statusApplyCalled",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_unit_effects_state",
+      "rule": "Record unit.apply(status, statusDuration) only when exact Unit gate passes.",
+      "tests": [
+        "test_bullet_type_hit_entity_unit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_unit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_effects_state"
+    },
+    "hit_entity.bullet_damage_event": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "Events.fire(bulletDamageEvent.set(unit, b))",
+      "godot_symbol": "hit_entity_unit_effects_result.bulletDamageEventFired",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_unit_effects_state",
+      "rule": "Record bulletDamageEvent firing only when exact Unit gate passes.",
+      "tests": [
+        "test_bullet_type_hit_entity_unit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_unit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_effects_state"
     }
   }
 }

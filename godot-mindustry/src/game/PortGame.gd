@@ -6497,6 +6497,81 @@ func source_bullet_type_hit_entity_armor_damage_state(bullet_type_state: Diction
 		"unitBoundarySource": "if(entity instanceof Unit unit)",
 	}
 
+func source_bullet_type_hit_entity_unit_effects_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, armor_damage_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_entity_state: Dictionary = entity_state.duplicate(true)
+	var update_armor_damage_state: Dictionary = armor_damage_state.duplicate(true)
+	var unit_gate_passed := bool(update_entity_state.get("isUnit", false))
+	var knockback := float(update_type_state.get("knockback", 0.0))
+	var impact := bool(update_type_state.get("impact", false))
+	var status = update_type_state.get("status", null)
+	var status_duration := float(update_type_state.get("statusDuration", 480.0))
+	var entity_x := float(update_entity_state.get("x", 0.0))
+	var entity_y := float(update_entity_state.get("y", 0.0))
+	var bullet_x := float(update_bullet_state.get("x", 0.0))
+	var bullet_y := float(update_bullet_state.get("y", 0.0))
+	var bullet_rotation := float(update_bullet_state.get("rotation", 0.0))
+	var impulse_vector := Vector2.ZERO
+	if unit_gate_passed:
+		var base_vector := Vector2(entity_x - bullet_x, entity_y - bullet_y)
+		if base_vector != Vector2.ZERO:
+			impulse_vector = base_vector.normalized() * (knockback * 80.0)
+	if unit_gate_passed and impact:
+		var impulse_length := impulse_vector.length()
+		var impact_angle := bullet_rotation + (180.0 if knockback < 0.0 else 0.0)
+		impulse_vector = Vector2.RIGHT.rotated(deg_to_rad(impact_angle)) * impulse_length
+	var impulse_call: Variant = null
+	var status_apply_call: Variant = null
+	var bullet_damage_event_call: Variant = null
+	if unit_gate_passed:
+		impulse_call = {
+			"call": "unit.impulse(Tmp.v3)",
+			"vector": {"x": impulse_vector.x, "y": impulse_vector.y},
+		}
+		status_apply_call = {
+			"call": "unit.apply(status, statusDuration)",
+			"status": status,
+			"duration": status_duration,
+		}
+		bullet_damage_event_call = {
+			"call": "Events.fire(bulletDamageEvent.set(unit, b))",
+			"unit": update_entity_state,
+			"bullet": update_bullet_state,
+		}
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"entity": update_entity_state,
+		"armorDamage": update_armor_damage_state,
+		"unitGatePassed": unit_gate_passed,
+		"knockback": knockback,
+		"impact": impact,
+		"status": status,
+		"statusDuration": status_duration,
+		"entityX": entity_x,
+		"entityY": entity_y,
+		"bulletX": bullet_x,
+		"bulletY": bullet_y,
+		"bulletRotation": bullet_rotation,
+		"impulseVector": {"x": impulse_vector.x, "y": impulse_vector.y},
+		"impulseCalled": unit_gate_passed,
+		"impulseCall": impulse_call,
+		"statusApplyCalled": unit_gate_passed,
+		"statusApplyCall": status_apply_call,
+		"bulletDamageEventFired": unit_gate_passed,
+		"bulletDamageEventCall": bullet_damage_event_call,
+		"destroyEventDeferred": true,
+		"pierceDeferred": true,
+		"unitGateSource": "if(entity instanceof Unit unit)",
+		"impulseVectorSource": "Tmp.v3.set(unit).sub(b).nor().scl(knockback * 80f)",
+		"impactAngleSource": "if(impact) Tmp.v3.setAngle(b.rotation() + (knockback < 0 ? 180f : 0f))",
+		"unitImpulseSource": "unit.impulse(Tmp.v3)",
+		"unitApplySource": "unit.apply(status, statusDuration)",
+		"bulletDamageEventSource": "Events.fire(bulletDamageEvent.set(unit, b))",
+		"destroyEventBoundarySource": "if(!wasDead && entity instanceof Unit unit && unit.dead)",
+	}
+
 func source_bullet_type_building_damage_state(bullet_state: Dictionary) -> Dictionary:
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
 	var damage := float(update_bullet_state.get("damage", 0.0))

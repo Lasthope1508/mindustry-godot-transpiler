@@ -10129,6 +10129,30 @@ def verify_bullet_type_hit_entity_armor_damage_state_source(upstream_root: Path)
         "missing": missing,
     }
 
+def verify_bullet_type_hit_entity_unit_effects_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "hit_entity_method": "public void hitEntity(Bullet b, Hitboxc entity, float health){",
+        "unit_gate": "if(entity instanceof Unit unit){",
+        "impulse_vector": "Tmp.v3.set(unit).sub(b).nor().scl(knockback * 80f);",
+        "impact_angle": "if(impact) Tmp.v3.setAngle(b.rotation() + (knockback < 0 ? 180f : 0f));",
+        "unit_impulse": "unit.impulse(Tmp.v3);",
+        "unit_apply": "unit.apply(status, statusDuration);",
+        "bullet_damage_event": "Events.fire(bulletDamageEvent.set(unit, b));",
+        "destroy_event_boundary": "if(!wasDead && entity instanceof Unit unit && unit.dead){",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

@@ -4676,6 +4676,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"armorMultiplierSource": "}else if(armorMultiplier != 1)"', source)
         self.assertIn('"damageSource": "}else{ h.damage(damage); }"', source)
 
+    def test_port_game_exposes_source_bullet_type_hit_entity_unit_effects_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_hit_entity_unit_effects_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, armor_damage_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var unit_gate_passed := bool(update_entity_state.get(\"isUnit\", false))", source)
+        self.assertIn("var knockback := float(update_type_state.get(\"knockback\", 0.0))", source)
+        self.assertIn("var impact := bool(update_type_state.get(\"impact\", false))", source)
+        self.assertIn("var impulse_vector := Vector2.ZERO", source)
+        self.assertIn("var base_vector := Vector2(entity_x - bullet_x, entity_y - bullet_y)", source)
+        self.assertIn("impulse_vector = base_vector.normalized() * (knockback * 80.0)", source)
+        self.assertIn("if unit_gate_passed and impact:", source)
+        self.assertIn("var impact_angle := bullet_rotation + (180.0 if knockback < 0.0 else 0.0)", source)
+        self.assertIn("impulse_vector = Vector2.RIGHT.rotated(deg_to_rad(impact_angle)) * impulse_length", source)
+        self.assertIn('"call": "unit.impulse(Tmp.v3)"', source)
+        self.assertIn('"call": "unit.apply(status, statusDuration)"', source)
+        self.assertIn('"call": "Events.fire(bulletDamageEvent.set(unit, b))"', source)
+        self.assertIn('"impulseVectorSource": "Tmp.v3.set(unit).sub(b).nor().scl(knockback * 80f)"', source)
+        self.assertIn('"impactAngleSource": "if(impact) Tmp.v3.setAngle(b.rotation() + (knockback < 0 ? 180f : 0f))"', source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

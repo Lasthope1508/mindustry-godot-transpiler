@@ -225,14 +225,45 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(damage_call["java_expr"], "h.damage(damage)")
         self.assertEqual(damage_call["godot_symbol"], "hit_entity_armor_damage_result.damageCalled")
 
+    def test_hit_entity_unit_effects_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        unit_gate = source_symbols.source_symbol(registry, "hit_entity.unit_gate")
+        self.assertEqual(unit_gate["java_expr"], "entity instanceof Unit unit")
+        self.assertEqual(unit_gate["godot_owner"], "PortGame.source_bullet_type_hit_entity_unit_effects_state")
+        self.assertEqual(unit_gate["runtime_proof"], "/root/Main.source_bullet_type_hit_entity_unit_effects_state")
+
+        knockback = source_symbols.source_symbol(registry, "hit_entity.knockback")
+        self.assertEqual(knockback["java_expr"], "knockback")
+        self.assertEqual(knockback["godot_symbol"], "bullet_type_state.knockback")
+
+        impact = source_symbols.source_symbol(registry, "hit_entity.impact")
+        self.assertEqual(impact["java_expr"], "impact")
+        self.assertEqual(impact["godot_symbol"], "bullet_type_state.impact")
+
+        impulse = source_symbols.source_symbol(registry, "hit_entity.unit_impulse_call")
+        self.assertEqual(impulse["java_expr"], "unit.impulse(Tmp.v3)")
+        self.assertEqual(impulse["godot_symbol"], "hit_entity_unit_effects_result.impulseCalled")
+
+        apply_status = source_symbols.source_symbol(registry, "hit_entity.unit_apply_status")
+        self.assertEqual(apply_status["java_expr"], "unit.apply(status, statusDuration)")
+        self.assertEqual(apply_status["godot_symbol"], "hit_entity_unit_effects_result.statusApplyCalled")
+
+        event = source_symbols.source_symbol(registry, "hit_entity.bullet_damage_event")
+        self.assertEqual(event["java_expr"], "Events.fire(bulletDamageEvent.set(unit, b))")
+        self.assertEqual(event["godot_symbol"], "hit_entity_unit_effects_result.bulletDamageEventFired")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 10)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 11)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 15)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 16)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -248,6 +279,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_hit_entity_damage_cap_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_entity_lifesteal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_entity_armor_damage_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_hit_entity_unit_effects_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -313,6 +345,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(hit_entity_armor_damage["java_method"], "hitEntity(Bullet b, Hitboxc entity, float health)")
         self.assertEqual(hit_entity_armor_damage["godot_owner"], "PortGame.source_bullet_type_hit_entity_armor_damage_state")
         self.assertIn("h.damageArmorMult(damage, armorMultiplier)", hit_entity_armor_damage["exact_exprs"])
+
+        hit_entity_unit_effects = source_symbols.source_slice(ledger, "N413")
+        self.assertEqual(hit_entity_unit_effects["java_method"], "hitEntity(Bullet b, Hitboxc entity, float health)")
+        self.assertEqual(hit_entity_unit_effects["godot_owner"], "PortGame.source_bullet_type_hit_entity_unit_effects_state")
+        self.assertIn("Events.fire(bulletDamageEvent.set(unit, b))", hit_entity_unit_effects["exact_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -388,6 +425,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("damageCalled", hit_entity_armor_damage["return_keys"])
         self.assertEqual(hit_entity_armor_damage["source_method"], "hitEntity(Bullet b, Hitboxc entity, float health)")
 
+        hit_entity_unit_effects = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_hit_entity_unit_effects_state")
+        self.assertEqual([param["name"] for param in hit_entity_unit_effects["params"]], ["bullet_type_state", "bullet_state", "entity_state", "armor_damage_state"])
+        self.assertEqual(hit_entity_unit_effects["params"][3]["schema"], "hit_entity_armor_damage_result")
+        self.assertIn("unitGatePassed", hit_entity_unit_effects["return_keys"])
+        self.assertIn("impulseVector", hit_entity_unit_effects["return_keys"])
+        self.assertIn("bulletDamageEventFired", hit_entity_unit_effects["return_keys"])
+        self.assertEqual(hit_entity_unit_effects["source_method"], "hitEntity(Bullet b, Hitboxc entity, float health)")
+
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_state_schema(schema)
@@ -402,6 +447,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         bullet_type_state = source_symbols.state_schema(schema, "bullet_type_state")
         self.assertEqual(bullet_type_state["keys"]["pierceArmor"]["java_expr"], "pierceArmor")
         self.assertEqual(bullet_type_state["keys"]["armorMultiplier"]["java_expr"], "armorMultiplier")
+        self.assertEqual(bullet_type_state["keys"]["knockback"]["java_expr"], "knockback")
+        self.assertEqual(bullet_type_state["keys"]["status"]["java_expr"], "status")
+        self.assertEqual(bullet_type_state["keys"]["statusDuration"]["java_expr"], "statusDuration")
 
         tile_state = source_symbols.state_schema(schema, "tile_state")
         self.assertEqual(tile_state["keys"]["healthf"]["java_expr"], "tile.healthf()")
@@ -454,6 +502,8 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(entity_state["keys"]["isShieldc"]["java_expr"], "entity instanceof Shieldc s")
         self.assertEqual(entity_state["keys"]["shield"]["java_expr"], "s.shield()")
         self.assertEqual(entity_state["keys"]["health"]["java_expr"], "h.health()")
+        self.assertEqual(entity_state["keys"]["x"]["java_expr"], "unit.x")
+        self.assertEqual(entity_state["keys"]["y"]["java_expr"], "unit.y")
 
         hit_entity_state = source_symbols.state_schema(schema, "hit_entity_state")
         self.assertEqual(hit_entity_state["keys"]["health"]["java_expr"], "health")
@@ -475,6 +525,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(hit_entity_armor_damage_output["keys"]["damagePierceCalled"]["java_expr"], "h.damagePierce(damage)")
         self.assertEqual(hit_entity_armor_damage_output["keys"]["damageArmorMultCalled"]["java_expr"], "h.damageArmorMult(damage, armorMultiplier)")
         self.assertEqual(hit_entity_armor_damage_output["keys"]["damageCalled"]["java_expr"], "h.damage(damage)")
+
+        hit_entity_unit_effects_output = source_symbols.state_schema(schema, "hit_entity_unit_effects_result")
+        self.assertEqual(hit_entity_unit_effects_output["keys"]["unitGatePassed"]["java_expr"], "entity instanceof Unit unit")
+        self.assertEqual(hit_entity_unit_effects_output["keys"]["impulseVector"]["java_expr"], "Tmp.v3.set(unit).sub(b).nor().scl(knockback * 80f)")
+        self.assertEqual(hit_entity_unit_effects_output["keys"]["impulseCalled"]["java_expr"], "unit.impulse(Tmp.v3)")
+        self.assertEqual(hit_entity_unit_effects_output["keys"]["statusApplyCalled"]["java_expr"], "unit.apply(status, statusDuration)")
+        self.assertEqual(hit_entity_unit_effects_output["keys"]["bulletDamageEventFired"]["java_expr"], "Events.fire(bulletDamageEvent.set(unit, b))")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {
