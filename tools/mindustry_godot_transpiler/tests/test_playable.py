@@ -3624,6 +3624,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"heatSource": "mount.heat = Math.max(mount.heat - Time.delta * unit.reloadMultiplier / cooldownTime, 0)"', source)
         self.assertIn('"soundUpdateSource": "mount.sound.update(bulletX, bulletY, false)"', source)
 
+    def test_port_game_exposes_source_weapon_update_alternating_side_flip_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_update_alternating_side_flip_state(mount_state: Dictionary, weapon_state: Dictionary, unit_mount_states: Array) -> Dictionary:", source)
+        self.assertIn("var was_flipped := current_side", source)
+        self.assertIn("var crosses_half_reload := current_reload <= weapon_reload / 2.0 and last_reload > weapon_reload / 2.0", source)
+        self.assertIn("var flip_gate := other_side >= 0 and alternate and current_side == flip_sprite and other_side < unit_mount_states.size() and crosses_half_reload", source)
+        self.assertIn("next_unit_mount_states[other_side][\"side\"] = not bool(next_unit_mount_states[other_side].get(\"side\", false))", source)
+        self.assertIn("next_mount_side = not current_side", source)
+        self.assertIn('"guardSource": "if(otherSide >= 0 && alternate && mount.side == flipSprite && otherSide < unit.mounts.length && mount.reload <= reload / 2f && lastReload > reload / 2f)"', source)
+        self.assertIn('"shootGateSource": "(!alternate || wasFlipped == flipSprite) &&"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

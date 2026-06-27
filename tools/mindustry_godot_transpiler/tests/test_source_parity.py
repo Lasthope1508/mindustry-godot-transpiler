@@ -4281,6 +4281,31 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_update_alternating_side_flip_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_update_alternating_side_flip_source"))
+        report = source_parity.verify_weapon_update_alternating_side_flip_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["weapons_comp_source"], "core/src/mindustry/entities/comp/WeaponsComp.java")
+        self.assertEqual(report["checked"], {
+            "last_reload": "float lastReload = mount.reload;",
+            "flip_comment": "//flip weapon shoot side for alternating weapons",
+            "was_flipped": "boolean wasFlipped = mount.side;",
+            "flip_guard": "if(otherSide >= 0 && alternate && mount.side == flipSprite && otherSide < unit.mounts.length && mount.reload <= reload / 2f && lastReload > reload / 2f){",
+            "other_side_flip": "unit.mounts[otherSide].side = !unit.mounts[otherSide].side;",
+            "mount_side_flip": "mount.side = !mount.side;",
+            "weapon_other_side": "public int otherSide = -1;",
+            "weapon_alternate": "public boolean alternate = true;",
+            "weapon_flip_sprite": "public boolean flipSprite = false;",
+            "weapon_reload": "public float reload = 1;",
+            "mount_side": "public boolean side;",
+            "mount_reload": "public float reload;",
+            "unit_mounts": "@SyncLocal WeaponMount[] mounts = {};",
+            "shoot_gate_uses_was_flipped": "(!alternate || wasFlipped == flipSprite) &&",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

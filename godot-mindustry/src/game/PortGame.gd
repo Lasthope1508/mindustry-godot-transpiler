@@ -3894,6 +3894,40 @@ func source_weapon_update_continuous_idle_heat_sound_state(mount_state: Dictiona
 		"soundUpdateSource": "mount.sound.update(bulletX, bulletY, false)",
 	}
 
+func source_weapon_update_alternating_side_flip_state(mount_state: Dictionary, weapon_state: Dictionary, unit_mount_states: Array) -> Dictionary:
+	var current_side := bool(mount_state.get("side", false))
+	var was_flipped := current_side
+	var flip_sprite := bool(weapon_state.get("flipSprite", false))
+	var alternate := bool(weapon_state.get("alternate", true))
+	var other_side := int(weapon_state.get("otherSide", -1))
+	var current_reload := float(mount_state.get("reload", 0.0))
+	var last_reload := float(mount_state.get("lastReload", current_reload))
+	var weapon_reload := float(weapon_state.get("reload", 1.0))
+	var crosses_half_reload := current_reload <= weapon_reload / 2.0 and last_reload > weapon_reload / 2.0
+	var flip_gate := other_side >= 0 and alternate and current_side == flip_sprite and other_side < unit_mount_states.size() and crosses_half_reload
+	var next_unit_mount_states: Array = []
+	for mount_item in unit_mount_states:
+		var mount_copy: Dictionary = {}
+		if typeof(mount_item) == TYPE_DICTIONARY:
+			mount_copy = (mount_item as Dictionary).duplicate()
+		next_unit_mount_states.append(mount_copy)
+	var next_mount_side := current_side
+	if flip_gate:
+		next_unit_mount_states[other_side]["side"] = not bool(next_unit_mount_states[other_side].get("side", false))
+		next_mount_side = not current_side
+	return {
+		"wasFlipped": was_flipped,
+		"flipGate": flip_gate,
+		"crossesHalfReload": crosses_half_reload,
+		"mountSide": next_mount_side,
+		"otherSide": other_side,
+		"unitMounts": next_unit_mount_states,
+		"guardSource": "if(otherSide >= 0 && alternate && mount.side == flipSprite && otherSide < unit.mounts.length && mount.reload <= reload / 2f && lastReload > reload / 2f)",
+		"otherSideFlipSource": "unit.mounts[otherSide].side = !unit.mounts[otherSide].side",
+		"mountSideFlipSource": "mount.side = !mount.side",
+		"shootGateSource": "(!alternate || wasFlipped == flipSprite) &&",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

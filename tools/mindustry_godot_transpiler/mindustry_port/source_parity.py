@@ -7351,6 +7351,60 @@ def verify_weapon_update_continuous_idle_heat_sound_source(upstream_root: Path) 
         "missing": missing,
     }
 
+def verify_weapon_update_alternating_side_flip_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    weapons_comp_source = "core/src/mindustry/entities/comp/WeaponsComp.java"
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_path = upstream_root / weapon_mount_source
+    weapons_comp_path = upstream_root / weapons_comp_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    weapons_comp_text = weapons_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "last_reload": "float lastReload = mount.reload;",
+        "flip_comment": "//flip weapon shoot side for alternating weapons",
+        "was_flipped": "boolean wasFlipped = mount.side;",
+        "flip_guard": "if(otherSide >= 0 && alternate && mount.side == flipSprite && otherSide < unit.mounts.length && mount.reload <= reload / 2f && lastReload > reload / 2f){",
+        "other_side_flip": "unit.mounts[otherSide].side = !unit.mounts[otherSide].side;",
+        "mount_side_flip": "mount.side = !mount.side;",
+        "weapon_other_side": "public int otherSide = -1;",
+        "weapon_alternate": "public boolean alternate = true;",
+        "weapon_flip_sprite": "public boolean flipSprite = false;",
+        "weapon_reload": "public float reload = 1;",
+        "mount_side": "public boolean side;",
+        "mount_reload": "public float reload;",
+        "unit_mounts": "@SyncLocal WeaponMount[] mounts = {};",
+        "shoot_gate_uses_was_flipped": "(!alternate || wasFlipped == flipSprite) &&",
+    }
+    source_map = {
+        "last_reload": source,
+        "flip_comment": source,
+        "was_flipped": source,
+        "flip_guard": source,
+        "other_side_flip": source,
+        "mount_side_flip": source,
+        "weapon_other_side": source,
+        "weapon_alternate": source,
+        "weapon_flip_sprite": source,
+        "weapon_reload": source,
+        "mount_side": weapon_mount_text,
+        "mount_reload": weapon_mount_text,
+        "unit_mounts": weapons_comp_text,
+        "shoot_gate_uses_was_flipped": source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": weapon_mount_source,
+        "weapons_comp_source": weapons_comp_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
