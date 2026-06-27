@@ -610,6 +610,57 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_effects_state",
       "rule": "Public runtime contract for BulletType.hitEntity Unit impulse, status apply, and bullet damage event slice; destroy event and handlePierce remain later slices."
+    },
+    "PortGame.source_bullet_type_hit_entity_unit_destroy_event_state": {
+      "status": "active",
+      "source_slice": "N414",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "entity_state",
+          "type": "Dictionary",
+          "schema": "entity_state"
+        },
+        {
+          "name": "damage_cap_state",
+          "type": "Dictionary",
+          "schema": "hit_entity_damage_cap_result"
+        },
+        {
+          "name": "unit_effects_state",
+          "type": "Dictionary",
+          "schema": "hit_entity_unit_effects_result"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "entity",
+        "damageCap",
+        "unitEffects",
+        "wasDead",
+        "unitGatePassed",
+        "unitDead",
+        "destroyEventGatePassed",
+        "unitDestroyEventFired",
+        "unitDestroyEventCall",
+        "pierceDeferred",
+        "wasDeadSource",
+        "destroyEventGateSource",
+        "unitDestroyEventSource",
+        "handlePierceBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_entity_unit_destroy_event_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_unit_destroy_event_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_destroy_event_state",
+      "rule": "Public runtime contract for BulletType.hitEntity UnitBulletDestroyEvent branch; final handlePierce remains later slice."
     }
   },
   "policy": {

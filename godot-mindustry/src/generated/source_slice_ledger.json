@@ -376,6 +376,32 @@
         "test_port_game_exposes_source_bullet_type_hit_entity_unit_effects_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_effects_state"
+    },
+    "N414": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_unit_destroy_event_state",
+      "exact_exprs": [
+        "boolean wasDead = entity instanceof Unit u && u.dead",
+        "if(!wasDead && entity instanceof Unit unit && unit.dead)",
+        "Events.fire(new UnitBulletDestroyEvent(unit, b))"
+      ],
+      "deferred_exprs": [
+        "handlePierce(b, health, entity.x(), entity.y())"
+      ],
+      "source_symbols": [
+        "hit_entity.was_dead",
+        "hit_entity.entity.unit_dead",
+        "hit_entity.unit_destroy_gate",
+        "hit_entity.unit_destroy_event"
+      ],
+      "tests": [
+        "test_bullet_type_hit_entity_unit_destroy_event_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_unit_destroy_event_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_destroy_event_state"
     }
   },
   "version": 1

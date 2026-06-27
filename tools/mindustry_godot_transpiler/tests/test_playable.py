@@ -4696,6 +4696,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"impulseVectorSource": "Tmp.v3.set(unit).sub(b).nor().scl(knockback * 80f)"', source)
         self.assertIn('"impactAngleSource": "if(impact) Tmp.v3.setAngle(b.rotation() + (knockback < 0 ? 180f : 0f))"', source)
 
+    def test_port_game_exposes_source_bullet_type_hit_entity_unit_destroy_event_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_hit_entity_unit_destroy_event_state(bullet_state: Dictionary, entity_state: Dictionary, damage_cap_state: Dictionary, unit_effects_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var was_dead := bool(update_damage_cap_state.get(\"wasDead\", false))", source)
+        self.assertIn("var unit_gate_passed := bool(update_entity_state.get(\"isUnit\", false))", source)
+        self.assertIn("var unit_dead := bool(update_entity_state.get(\"unitDead\", false))", source)
+        self.assertIn("var destroy_event_gate_passed := (not was_dead) and unit_gate_passed and unit_dead", source)
+        self.assertIn('"call": "Events.fire(new UnitBulletDestroyEvent(unit, b))"', source)
+        self.assertIn('"destroyEventGateSource": "if(!wasDead && entity instanceof Unit unit && unit.dead)"', source)
+        self.assertIn('"unitDestroyEventSource": "Events.fire(new UnitBulletDestroyEvent(unit, b))"', source)
+        self.assertIn('"handlePierceBoundarySource": "handlePierce(b, health, entity.x(), entity.y())"', source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

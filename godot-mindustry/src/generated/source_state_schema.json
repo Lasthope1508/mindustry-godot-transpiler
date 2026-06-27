@@ -2048,6 +2048,131 @@
           "rule": "Runtime event record for source side effect."
         }
       }
+    },
+    "hit_entity_unit_destroy_event_result": {
+      "status": "active",
+      "keys": {
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime key preserves input bullet state."
+        },
+        "entity": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "entity_state",
+          "rule": "Runtime key preserves input entity state."
+        },
+        "damageCap": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "hit_entity_damage_cap_result",
+          "rule": "Runtime key preserves N410 damage cap state."
+        },
+        "unitEffects": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "hit_entity_unit_effects_result",
+          "rule": "Runtime key preserves N413 Unit effects state."
+        },
+        "wasDead": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "hit_entity_damage_cap_result.wasDead",
+          "rule": "Runtime key aliases N410 wasDead local."
+        },
+        "unitGatePassed": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "entity_state.isUnit",
+          "rule": "Runtime key aliases explicit Unit gate input."
+        },
+        "unitDead": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "entity_state.unitDead",
+          "rule": "Runtime key aliases explicit Unit dead state."
+        },
+        "destroyEventGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "!wasDead && entity instanceof Unit unit && unit.dead",
+          "godot_symbol": "hit_entity_unit_destroy_event_result.destroyEventGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_unit_destroy_event_state"
+          ],
+          "rule": "Exact UnitBulletDestroyEvent gate."
+        },
+        "unitDestroyEventFired": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "Events.fire(new UnitBulletDestroyEvent(unit, b))",
+          "godot_symbol": "hit_entity_unit_destroy_event_result.unitDestroyEventFired",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_unit_destroy_event_state"
+          ],
+          "rule": "Records UnitBulletDestroyEvent side effect only under exact gate."
+        },
+        "unitDestroyEventCall": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "Events.fire(new UnitBulletDestroyEvent(unit, b))",
+          "godot_symbol": "hit_entity_unit_destroy_event_result.unitDestroyEventCall",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_unit_destroy_event_state"
+          ],
+          "rule": "Runtime call record for UnitBulletDestroyEvent firing."
+        },
+        "pierceDeferred": {
+          "type": "bool",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "handlePierce(b, health, entity.x(), entity.y())",
+          "godot_symbol": "hit_entity_unit_destroy_event_result.pierceDeferred",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_unit_destroy_event_state"
+          ],
+          "rule": "Final handlePierce call is reserved for next slice."
+        },
+        "wasDeadSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "hit_entity.was_dead",
+          "rule": "Runtime source snippet label."
+        },
+        "destroyEventGateSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "hit_entity.unit_destroy_gate",
+          "rule": "Runtime source snippet label."
+        },
+        "unitDestroyEventSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "hit_entity.unit_destroy_event",
+          "rule": "Runtime source snippet label."
+        },
+        "handlePierceBoundarySource": {
+          "type": "String",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "handlePierce(b, health, entity.x(), entity.y())",
+          "godot_symbol": "hit_entity_unit_destroy_event_result.handlePierceBoundarySource",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_unit_destroy_event_state"
+          ],
+          "rule": "Runtime source snippet for deferred boundary."
+        }
+      }
     }
   },
   "version": 1

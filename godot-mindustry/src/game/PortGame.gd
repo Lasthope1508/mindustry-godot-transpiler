@@ -6572,6 +6572,40 @@ func source_bullet_type_hit_entity_unit_effects_state(bullet_type_state: Diction
 		"destroyEventBoundarySource": "if(!wasDead && entity instanceof Unit unit && unit.dead)",
 	}
 
+func source_bullet_type_hit_entity_unit_destroy_event_state(bullet_state: Dictionary, entity_state: Dictionary, damage_cap_state: Dictionary, unit_effects_state: Dictionary) -> Dictionary:
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_entity_state: Dictionary = entity_state.duplicate(true)
+	var update_damage_cap_state: Dictionary = damage_cap_state.duplicate(true)
+	var update_unit_effects_state: Dictionary = unit_effects_state.duplicate(true)
+	var was_dead := bool(update_damage_cap_state.get("wasDead", false))
+	var unit_gate_passed := bool(update_entity_state.get("isUnit", false))
+	var unit_dead := bool(update_entity_state.get("unitDead", false))
+	var destroy_event_gate_passed := (not was_dead) and unit_gate_passed and unit_dead
+	var unit_destroy_event_call: Variant = null
+	if destroy_event_gate_passed:
+		unit_destroy_event_call = {
+			"call": "Events.fire(new UnitBulletDestroyEvent(unit, b))",
+			"unit": update_entity_state,
+			"bullet": update_bullet_state,
+		}
+	return {
+		"bullet": update_bullet_state,
+		"entity": update_entity_state,
+		"damageCap": update_damage_cap_state,
+		"unitEffects": update_unit_effects_state,
+		"wasDead": was_dead,
+		"unitGatePassed": unit_gate_passed,
+		"unitDead": unit_dead,
+		"destroyEventGatePassed": destroy_event_gate_passed,
+		"unitDestroyEventFired": destroy_event_gate_passed,
+		"unitDestroyEventCall": unit_destroy_event_call,
+		"pierceDeferred": true,
+		"wasDeadSource": "boolean wasDead = entity instanceof Unit u && u.dead",
+		"destroyEventGateSource": "if(!wasDead && entity instanceof Unit unit && unit.dead)",
+		"unitDestroyEventSource": "Events.fire(new UnitBulletDestroyEvent(unit, b))",
+		"handlePierceBoundarySource": "handlePierce(b, health, entity.x(), entity.y())",
+	}
+
 func source_bullet_type_building_damage_state(bullet_state: Dictionary) -> Dictionary:
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
 	var damage := float(update_bullet_state.get("damage", 0.0))
