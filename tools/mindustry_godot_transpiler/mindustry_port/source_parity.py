@@ -10445,6 +10445,35 @@ def verify_bullet_type_create_splash_damage_status_dispatch_state_source(upstrea
         "missing": missing,
     }
 
+def verify_bullet_type_create_splash_damage_heal_dispatch_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "heal_percent_field": "public float healPercent = 0f;",
+        "heal_amount_field": "public float healAmount = 0f;",
+        "heal_color_field": "public Color healColor = Pal.heal;",
+        "heal_effect_field": "public Effect healEffect = Fx.healBlockFull;",
+        "heals_method": "public boolean heals(){",
+        "heals_return": "return healPercent > 0 || healAmount > 0;",
+        "method": "public void createSplashDamage(Bullet b, float x, float y){",
+        "damage_gate": "if(splashDamageRadius > 0 && !b.absorbed){",
+        "heals_gate": "if(heals()){",
+        "each_block_call": "indexer.eachBlock(b.team, x, y, splashDamageRadius, Building::damaged, other -> {",
+        "heal_effect_call": "healEffect.at(other.x, other.y, 0f, healColor, other.block);",
+        "other_heal_call": "other.heal(healPercent / 100f * other.maxHealth() + healAmount);",
+        "make_fire_boundary": "if(makeFire){",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

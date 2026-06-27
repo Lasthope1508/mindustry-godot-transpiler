@@ -710,6 +710,36 @@
         "test_port_game_exposes_source_bullet_type_create_splash_damage_status_dispatch_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_status_dispatch_state"
+    },
+    "N426": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state",
+      "exact_exprs": [
+        "if(heals())",
+        "indexer.eachBlock(b.team, x, y, splashDamageRadius, Building::damaged, other -> {...})",
+        "healEffect.at(other.x, other.y, 0f, healColor, other.block)",
+        "other.heal(healPercent / 100f * other.maxHealth() + healAmount)"
+      ],
+      "deferred_exprs": [
+        "if(makeFire)"
+      ],
+      "source_symbols": [
+        "create_splash_damage.heal_dispatch.heals",
+        "create_splash_damage.heal_dispatch.gate",
+        "create_splash_damage.heal_dispatch.each_block_call",
+        "create_splash_damage.heal_dispatch.heal_effect_call",
+        "create_splash_damage.heal_dispatch.heal_amount",
+        "create_splash_damage.heal_dispatch.other_heal_call",
+        "create_splash_damage.heal_dispatch.make_fire_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_splash_damage_heal_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_heal_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_heal_dispatch_state"
     }
   },
   "version": 1

@@ -2461,6 +2461,104 @@
         "test_port_game_exposes_source_bullet_type_create_splash_damage_status_dispatch_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_status_dispatch_state"
+    },
+    "create_splash_damage.heal_dispatch.heals": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "java_expr": "heals()",
+      "godot_symbol": "create_splash_damage_heal_dispatch_result.heals",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state",
+      "rule": "Reuse BulletType.heals() predicate for createSplashDamage heal gate.",
+      "tests": [
+        "test_bullet_type_create_splash_damage_heal_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_heal_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_heal_dispatch_state"
+    },
+    "create_splash_damage.heal_dispatch.gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "java_expr": "heals()",
+      "godot_symbol": "create_splash_damage_heal_dispatch_result.healGatePassed",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state",
+      "rule": "Gate heal dispatch on heals(), inside the already-migrated splash damage gate.",
+      "tests": [
+        "test_bullet_type_create_splash_damage_heal_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_heal_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_heal_dispatch_state"
+    },
+    "create_splash_damage.heal_dispatch.each_block_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "java_expr": "indexer.eachBlock(b.team, x, y, splashDamageRadius, Building::damaged, other -> {...})",
+      "godot_symbol": "create_splash_damage_heal_dispatch_result.eachBlockCall",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state",
+      "rule": "Record exact indexer.eachBlock heal dispatch; nearby blocks are explicit input until indexer traversal is ported.",
+      "tests": [
+        "test_bullet_type_create_splash_damage_heal_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_heal_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_heal_dispatch_state"
+    },
+    "create_splash_damage.heal_dispatch.heal_effect_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "java_expr": "healEffect.at(other.x, other.y, 0f, healColor, other.block)",
+      "godot_symbol": "create_splash_damage_heal_dispatch_result.healApplications",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state",
+      "rule": "Record healEffect.at call for each damaged block selected by indexer.eachBlock.",
+      "tests": [
+        "test_bullet_type_create_splash_damage_heal_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_heal_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_heal_dispatch_state"
+    },
+    "create_splash_damage.heal_dispatch.heal_amount": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "java_expr": "healPercent / 100f * other.maxHealth() + healAmount",
+      "godot_symbol": "create_splash_damage_heal_dispatch_result.healApplications",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state",
+      "rule": "Compute exact heal amount for each selected block.",
+      "tests": [
+        "test_bullet_type_create_splash_damage_heal_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_heal_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_heal_dispatch_state"
+    },
+    "create_splash_damage.heal_dispatch.other_heal_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "java_expr": "other.heal(healPercent / 100f * other.maxHealth() + healAmount)",
+      "godot_symbol": "create_splash_damage_heal_dispatch_result.healApplications",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state",
+      "rule": "Record other.heal call for each selected block.",
+      "tests": [
+        "test_bullet_type_create_splash_damage_heal_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_heal_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_heal_dispatch_state"
+    },
+    "create_splash_damage.heal_dispatch.make_fire_boundary": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "java_expr": "if(makeFire)",
+      "godot_symbol": "create_splash_damage_heal_dispatch_result.makeFireBoundarySource",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state",
+      "rule": "Boundary marker; createSplashDamage makeFire branch remains a later source slice.",
+      "tests": [
+        "test_bullet_type_create_splash_damage_heal_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_heal_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_heal_dispatch_state"
     }
   }
 }

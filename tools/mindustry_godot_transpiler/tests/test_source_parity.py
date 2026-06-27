@@ -5844,6 +5844,28 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_create_splash_damage_heal_dispatch_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_create_splash_damage_heal_dispatch_state_source"))
+        report = source_parity.verify_bullet_type_create_splash_damage_heal_dispatch_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "heal_percent_field": "public float healPercent = 0f;",
+            "heal_amount_field": "public float healAmount = 0f;",
+            "heal_color_field": "public Color healColor = Pal.heal;",
+            "heal_effect_field": "public Effect healEffect = Fx.healBlockFull;",
+            "heals_method": "public boolean heals(){",
+            "heals_return": "return healPercent > 0 || healAmount > 0;",
+            "method": "public void createSplashDamage(Bullet b, float x, float y){",
+            "damage_gate": "if(splashDamageRadius > 0 && !b.absorbed){",
+            "heals_gate": "if(heals()){",
+            "each_block_call": "indexer.eachBlock(b.team, x, y, splashDamageRadius, Building::damaged, other -> {",
+            "heal_effect_call": "healEffect.at(other.x, other.y, 0f, healColor, other.block);",
+            "other_heal_call": "other.heal(healPercent / 100f * other.maxHealth() + healAmount);",
+            "make_fire_boundary": "if(makeFire){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_bullet_type_building_damage_state_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_bullet_type_building_damage_state_source"))
         report = source_parity.verify_bullet_type_building_damage_state_source(ROOT / "mindustry-upstream")

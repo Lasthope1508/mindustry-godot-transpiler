@@ -46,7 +46,8 @@
             "PortGame.source_bullet_type_hit_tile_enemy_direct_state",
             "PortGame.source_bullet_type_hit_tile_lifesteal_state",
             "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state",
-            "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state"
+            "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state",
+            "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state"
           ],
           "rule": "Use bullet.team; do not infer from owner or turret."
         },
@@ -135,7 +136,8 @@
           "godot_symbol": "bullet_type_state.healPercent",
           "used_by": [
             "PortGame.source_bullet_type_test_collision_state",
-            "PortGame.source_bullet_type_hit_tile_heal_state"
+            "PortGame.source_bullet_type_hit_tile_heal_state",
+            "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state"
           ],
           "rule": "Canonical field for source_bullet_type_heals_state."
         },
@@ -208,7 +210,8 @@
           "java_expr": "healAmount",
           "godot_symbol": "bullet_type_state.healAmount",
           "used_by": [
-            "PortGame.source_bullet_type_hit_tile_heal_state"
+            "PortGame.source_bullet_type_hit_tile_heal_state",
+            "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state"
           ],
           "rule": "Canonical BulletType.healAmount field for heals() and hitTile healing amount."
         },
@@ -220,7 +223,8 @@
           "java_expr": "healColor",
           "godot_symbol": "bullet_type_state.healColor",
           "used_by": [
-            "PortGame.source_bullet_type_hit_tile_heal_state"
+            "PortGame.source_bullet_type_hit_tile_heal_state",
+            "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state"
           ],
           "rule": "Canonical BulletType.healColor field for healEffect.at."
         },
@@ -562,7 +566,8 @@
           "godot_symbol": "bullet_type_state.splashDamageRadius",
           "used_by": [
             "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state",
-            "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state"
+            "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state",
+            "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state"
           ],
           "rule": "Canonical BulletType.splashDamageRadius field; default is -1f."
         },
@@ -577,6 +582,18 @@
             "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state"
           ],
           "rule": "Canonical BulletType.splashDamagePierce field; default is false."
+        },
+        "healEffect": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createSplashDamage(Bullet b, float x, float y)",
+          "java_expr": "healEffect",
+          "godot_symbol": "bullet_type_state.healEffect",
+          "used_by": [
+            "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state"
+          ],
+          "rule": "Canonical BulletType.healEffect field; default is Fx.healBlockFull."
         }
       }
     },
@@ -3828,6 +3845,214 @@
             "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state"
           ],
           "rule": "Boundary marker; heal branch remains a later source slice."
+        }
+      }
+    },
+    "nearby_blocks_state": {
+      "status": "active",
+      "keys": {
+        "blocks": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createSplashDamage(Bullet b, float x, float y)",
+          "java_expr": "indexer.eachBlock(b.team, x, y, splashDamageRadius, Building::damaged, other -> {...})",
+          "godot_symbol": "nearby_blocks_state.blocks",
+          "used_by": [
+            "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state"
+          ],
+          "rule": "Explicit input list of candidate Building dictionaries until indexer.eachBlock traversal and Building::damaged filtering are ported."
+        }
+      }
+    },
+    "create_splash_damage_heal_dispatch_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_type_state",
+          "rule": "Runtime echo of input bullet_type_state."
+        },
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime echo of input bullet_state."
+        },
+        "createSplashDamageStatusDispatch": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "create_splash_damage_status_dispatch_result",
+          "rule": "Runtime echo of prior createSplashDamage status dispatch state."
+        },
+        "nearbyBlocks": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "nearby_blocks_state",
+          "rule": "Runtime echo of explicit nearby blocks input."
+        },
+        "x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "create_splash_damage_status_dispatch_result.x",
+          "rule": "Runtime key aliases createSplashDamage x parameter."
+        },
+        "y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "create_splash_damage_status_dispatch_result.y",
+          "rule": "Runtime key aliases createSplashDamage y parameter."
+        },
+        "bulletTeam": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "bullet_state.team",
+          "rule": "Runtime key aliases b.team."
+        },
+        "splashDamageRadius": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "create_splash_damage_status_dispatch_result.splashDamageRadius",
+          "rule": "Runtime key aliases splashDamageRadius after N425 dispatch."
+        },
+        "splashDamageGatePassed": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "create_splash_damage_status_dispatch_result.splashDamageGatePassed",
+          "rule": "Runtime key reuses outer splash damage gate from N424/N425."
+        },
+        "healPercent": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_type_state.healPercent",
+          "rule": "Runtime key aliases healPercent."
+        },
+        "healAmount": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_type_state.healAmount",
+          "rule": "Runtime key aliases healAmount."
+        },
+        "healColor": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "bullet_type_state.healColor",
+          "rule": "Runtime key aliases healColor."
+        },
+        "healEffect": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "bullet_type_state.healEffect",
+          "rule": "Runtime key aliases healEffect."
+        },
+        "heals": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "heals()",
+          "java_expr": "healPercent > 0 || healAmount > 0",
+          "godot_symbol": "create_splash_damage_heal_dispatch_result.heals",
+          "used_by": [
+            "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state"
+          ],
+          "rule": "Selected return value of BulletType.heals()."
+        },
+        "healGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createSplashDamage(Bullet b, float x, float y)",
+          "java_expr": "heals()",
+          "godot_symbol": "create_splash_damage_heal_dispatch_result.healGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state"
+          ],
+          "rule": "Exact createSplashDamage heal gate, combined at runtime with N424 outer gate."
+        },
+        "eachBlockCall": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createSplashDamage(Bullet b, float x, float y)",
+          "java_expr": "indexer.eachBlock(b.team, x, y, splashDamageRadius, Building::damaged, other -> {...})",
+          "godot_symbol": "create_splash_damage_heal_dispatch_result.eachBlockCall",
+          "used_by": [
+            "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state"
+          ],
+          "rule": "Runtime call record for indexer.eachBlock heal dispatch."
+        },
+        "healApplications": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createSplashDamage(Bullet b, float x, float y)",
+          "java_expr": "other.heal(healPercent / 100f * other.maxHealth() + healAmount)",
+          "godot_symbol": "create_splash_damage_heal_dispatch_result.healApplications",
+          "used_by": [
+            "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state"
+          ],
+          "rule": "Runtime records healEffect.at and other.heal calls for each selected damaged block."
+        },
+        "healsGateSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createSplashDamage(Bullet b, float x, float y)",
+          "java_expr": "if(heals())",
+          "godot_symbol": "create_splash_damage_heal_dispatch_result.healsGateSource",
+          "used_by": [
+            "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state"
+          ],
+          "rule": "Runtime source snippet label."
+        },
+        "eachBlockCallSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createSplashDamage(Bullet b, float x, float y)",
+          "java_expr": "indexer.eachBlock(b.team, x, y, splashDamageRadius, Building::damaged, other -> {...})",
+          "godot_symbol": "create_splash_damage_heal_dispatch_result.eachBlockCallSource",
+          "used_by": [
+            "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state"
+          ],
+          "rule": "Runtime source snippet label."
+        },
+        "healEffectCallSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createSplashDamage(Bullet b, float x, float y)",
+          "java_expr": "healEffect.at(other.x, other.y, 0f, healColor, other.block)",
+          "godot_symbol": "create_splash_damage_heal_dispatch_result.healEffectCallSource",
+          "used_by": [
+            "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state"
+          ],
+          "rule": "Runtime source snippet label."
+        },
+        "otherHealCallSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createSplashDamage(Bullet b, float x, float y)",
+          "java_expr": "other.heal(healPercent / 100f * other.maxHealth() + healAmount)",
+          "godot_symbol": "create_splash_damage_heal_dispatch_result.otherHealCallSource",
+          "used_by": [
+            "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state"
+          ],
+          "rule": "Runtime source snippet label."
+        },
+        "makeFireBoundarySource": {
+          "type": "String",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createSplashDamage(Bullet b, float x, float y)",
+          "java_expr": "if(makeFire)",
+          "godot_symbol": "create_splash_damage_heal_dispatch_result.makeFireBoundarySource",
+          "used_by": [
+            "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state"
+          ],
+          "rule": "Boundary marker; makeFire branch remains a later source slice."
         }
       }
     }

@@ -4848,6 +4848,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\"call\": \"Damage.status(b.team, x, y, splashDamageRadius, status, statusDuration, collidesAir, collidesGround)\"", source)
         self.assertIn("\"healsBoundarySource\": \"if(heals())\"", source)
 
+    def test_port_game_exposes_source_bullet_type_create_splash_damage_heal_dispatch_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_create_splash_damage_heal_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_splash_damage_status_dispatch_state: Dictionary, nearby_blocks_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var heal_gate_passed := splash_damage_gate_passed and heals", source)
+        self.assertIn("\"call\": \"indexer.eachBlock(b.team, x, y, splashDamageRadius, Building::damaged, other -> {...})\"", source)
+        self.assertIn("\"call\": \"healEffect.at(other.x, other.y, 0f, healColor, other.block)\"", source)
+        self.assertIn("\"call\": \"other.heal(healPercent / 100f * other.maxHealth() + healAmount)\"", source)
+        self.assertIn("\"makeFireBoundarySource\": \"if(makeFire)\"", source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

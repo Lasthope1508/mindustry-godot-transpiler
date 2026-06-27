@@ -6738,6 +6738,88 @@ func source_bullet_type_create_splash_damage_status_dispatch_state(bullet_type_s
 		"healsBoundarySource": "if(heals())",
 	}
 
+func source_bullet_type_create_splash_damage_heal_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_splash_damage_status_dispatch_state: Dictionary, nearby_blocks_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_status_dispatch_state: Dictionary = create_splash_damage_status_dispatch_state.duplicate(true)
+	var update_nearby_blocks_state: Dictionary = nearby_blocks_state.duplicate(true)
+	var hit_x := float(update_status_dispatch_state.get("x", 0.0))
+	var hit_y := float(update_status_dispatch_state.get("y", 0.0))
+	var bullet_team: Variant = update_bullet_state.get("team", null)
+	var splash_damage_radius := float(update_status_dispatch_state.get("splashDamageRadius", update_type_state.get("splashDamageRadius", -1.0)))
+	var splash_damage_gate_passed := bool(update_status_dispatch_state.get("splashDamageGatePassed", false))
+	var heal_percent := float(update_type_state.get("healPercent", 0.0))
+	var heal_amount := float(update_type_state.get("healAmount", 0.0))
+	var heal_color: Variant = update_type_state.get("healColor", "Pal.heal")
+	var heal_effect: Variant = update_type_state.get("healEffect", "Fx.healBlockFull")
+	var heals := heal_percent > 0.0 or heal_amount > 0.0
+	var heal_gate_passed := splash_damage_gate_passed and heals
+	var nearby_blocks: Array = update_nearby_blocks_state.get("blocks", [])
+	var each_block_call := {}
+	var heal_applications: Array = []
+	if heal_gate_passed:
+		each_block_call = {
+			"call": "indexer.eachBlock(b.team, x, y, splashDamageRadius, Building::damaged, other -> {...})",
+			"team": bullet_team,
+			"x": hit_x,
+			"y": hit_y,
+			"radius": splash_damage_radius,
+			"predicate": "Building::damaged",
+			"called": true,
+		}
+		for raw_block in nearby_blocks:
+			if not raw_block is Dictionary:
+				continue
+			var other: Dictionary = raw_block.duplicate(true)
+			if not bool(other.get("damaged", false)):
+				continue
+			var other_x := float(other.get("x", 0.0))
+			var other_y := float(other.get("y", 0.0))
+			var other_block: Variant = other.get("block", null)
+			var other_max_health := float(other.get("maxHealth", 0.0))
+			var heal_applied_amount := heal_percent / 100.0 * other_max_health + heal_amount
+			heal_applications.append({
+				"other": other,
+				"healAppliedAmount": heal_applied_amount,
+				"healEffectCall": {
+					"call": "healEffect.at(other.x, other.y, 0f, healColor, other.block)",
+					"effect": heal_effect,
+					"x": other_x,
+					"y": other_y,
+					"rotation": 0.0,
+					"color": heal_color,
+					"block": other_block,
+				},
+				"otherHealCall": {
+					"call": "other.heal(healPercent / 100f * other.maxHealth() + healAmount)",
+					"amount": heal_applied_amount,
+				},
+			})
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createSplashDamageStatusDispatch": update_status_dispatch_state,
+		"nearbyBlocks": update_nearby_blocks_state,
+		"x": hit_x,
+		"y": hit_y,
+		"bulletTeam": bullet_team,
+		"splashDamageRadius": splash_damage_radius,
+		"splashDamageGatePassed": splash_damage_gate_passed,
+		"healPercent": heal_percent,
+		"healAmount": heal_amount,
+		"healColor": heal_color,
+		"healEffect": heal_effect,
+		"heals": heals,
+		"healGatePassed": heal_gate_passed,
+		"eachBlockCall": each_block_call,
+		"healApplications": heal_applications,
+		"healsGateSource": "if(heals())",
+		"eachBlockCallSource": "indexer.eachBlock(b.team, x, y, splashDamageRadius, Building::damaged, other -> {...})",
+		"healEffectCallSource": "healEffect.at(other.x, other.y, 0f, healColor, other.block)",
+		"otherHealCallSource": "other.heal(healPercent / 100f * other.maxHealth() + healAmount)",
+		"makeFireBoundarySource": "if(makeFire)",
+	}
+
 func source_bullet_type_hit_entity_damage_cap_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, hit_entity_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

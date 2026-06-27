@@ -1183,6 +1183,64 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_status_dispatch_state",
       "rule": "Public runtime contract for BulletType.createSplashDamage status dispatch only; heal and makeFire branches remain deferred."
+    },
+    "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state": {
+      "status": "active",
+      "source_slice": "N426",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createSplashDamage(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "create_splash_damage_status_dispatch_state",
+          "type": "Dictionary",
+          "schema": "create_splash_damage_status_dispatch_result"
+        },
+        {
+          "name": "nearby_blocks_state",
+          "type": "Dictionary",
+          "schema": "nearby_blocks_state"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createSplashDamageStatusDispatch",
+        "nearbyBlocks",
+        "x",
+        "y",
+        "bulletTeam",
+        "splashDamageRadius",
+        "splashDamageGatePassed",
+        "healPercent",
+        "healAmount",
+        "healColor",
+        "healEffect",
+        "heals",
+        "healGatePassed",
+        "eachBlockCall",
+        "healApplications",
+        "healsGateSource",
+        "eachBlockCallSource",
+        "healEffectCallSource",
+        "otherHealCallSource",
+        "makeFireBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_create_splash_damage_heal_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_heal_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_heal_dispatch_state",
+      "rule": "Public runtime contract for BulletType.createSplashDamage heal dispatch only; makeFire branch remains deferred."
     }
   },
   "policy": {
