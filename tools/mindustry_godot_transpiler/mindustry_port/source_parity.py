@@ -8111,6 +8111,67 @@ def verify_weapon_bullet_handle_call_source(upstream_root: Path) -> dict[str, An
         "missing": missing,
     }
 
+def verify_weapon_handle_bullet_continuous_geometry_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    arc_angles_source = ARC_ANGLES_SOURCE
+    weapon_mount_path = upstream_root / weapon_mount_source
+    angles_path = arc_root / arc_angles_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    angles_text = angles_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "handle_bullet_method": "protected void handleBullet(Unit unit, WeaponMount mount, Bullet bullet){",
+        "continuous_gate": "if(continuous){",
+        "weapon_rotation": "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),",
+        "mount_x": "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),",
+        "mount_y": "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y),",
+        "bullet_x": "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY),",
+        "bullet_y": "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY);",
+        "aim_update_reserved": "Tmp.v1.trns(bulletRotation(unit, mount, bulletX, bulletY), shootY + mount.lastLength).add(bulletX, bulletY);",
+        "weapon_continuous": "public boolean continuous;",
+        "weapon_rotate": "public boolean rotate = false;",
+        "weapon_base_rotation": "public float baseRotation = 0f;",
+        "weapon_shoot_offsets": "public float shootX = 0f, shootY = 3f;",
+        "weapon_mount_offsets": "public float x = 5f, y = 0f;",
+        "mount_rotation": "public float rotation;",
+        "mount_last_length": "public float lastLength;",
+        "angles_trnsx": "return rv.set(x, y).rotate(angle).x;",
+        "angles_trnsy": "return rv.set(x, y).rotate(angle).y;",
+    }
+    source_map = {
+        "handle_bullet_method": source,
+        "continuous_gate": source,
+        "weapon_rotation": source,
+        "mount_x": source,
+        "mount_y": source,
+        "bullet_x": source,
+        "bullet_y": source,
+        "aim_update_reserved": source,
+        "weapon_continuous": source,
+        "weapon_rotate": source,
+        "weapon_base_rotation": source,
+        "weapon_shoot_offsets": source,
+        "weapon_mount_offsets": source,
+        "mount_rotation": weapon_mount_text,
+        "mount_last_length": weapon_mount_text,
+        "angles_trnsx": angles_text,
+        "angles_trnsy": angles_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": weapon_mount_source,
+        "arc_angles_source": arc_angles_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

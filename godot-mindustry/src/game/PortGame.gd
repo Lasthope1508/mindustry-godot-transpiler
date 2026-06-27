@@ -4436,6 +4436,52 @@ func source_weapon_bullet_handle_call_state(unit_state: Dictionary, mount_state:
 		"soundReservedSource": "if(!continuous)",
 	}
 
+func source_weapon_handle_bullet_continuous_geometry_state(unit_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:
+	var continuous := bool(weapon_state.get("continuous", false))
+	if not continuous:
+		return {
+			"continuous": false,
+			"continuousGate": false,
+			"aimUpdateReservedSource": "Tmp.v1.trns(bulletRotation(unit, mount, bulletX, bulletY), shootY + mount.lastLength).add(bulletX, bulletY)",
+		}
+	var unit_x := float(unit_state.get("x", 0.0))
+	var unit_y := float(unit_state.get("y", 0.0))
+	var unit_rotation := float(unit_state.get("rotation", 0.0))
+	var weapon_rotate := bool(weapon_state.get("rotate", false))
+	var mount_rotation := float(mount_state.get("rotation", 0.0))
+	var base_rotation := float(weapon_state.get("baseRotation", 0.0))
+	var weapon_x := float(weapon_state.get("x", 5.0))
+	var weapon_y := float(weapon_state.get("y", 0.0))
+	var shoot_x := float(weapon_state.get("shootX", 0.0))
+	var shoot_y := float(weapon_state.get("shootY", 3.0))
+	var weapon_rotation := unit_rotation - 90.0 + (mount_rotation if weapon_rotate else base_rotation)
+	var mount_vec := source_arc_angles_trns_vec(unit_rotation - 90.0, weapon_x, weapon_y)
+	var mount_x := unit_x + float(mount_vec["x"])
+	var mount_y := unit_y + float(mount_vec["y"])
+	var bullet_vec := source_arc_angles_trns_vec(weapon_rotation, shoot_x, shoot_y)
+	var bullet_x := mount_x + float(bullet_vec["x"])
+	var bullet_y := mount_y + float(bullet_vec["y"])
+	return {
+		"continuous": true,
+		"continuousGate": true,
+		"weaponRotation": weapon_rotation,
+		"mountX": mount_x,
+		"mountY": mount_y,
+		"bulletX": bullet_x,
+		"bulletY": bullet_y,
+		"shootX": shoot_x,
+		"shootY": shoot_y,
+		"lastLength": float(mount_state.get("lastLength", 0.0)),
+		"continuousGateSource": "if(continuous)",
+		"weaponRotationSource": "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation)",
+		"mountXSource": "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y)",
+		"mountYSource": "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y)",
+		"bulletXSource": "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY)",
+		"bulletYSource": "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY)",
+		"anglesSource": "rv.set(x, y).rotate(angle)",
+		"aimUpdateReservedSource": "Tmp.v1.trns(bulletRotation(unit, mount, bulletX, bulletY), shootY + mount.lastLength).add(bulletX, bulletY)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

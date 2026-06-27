@@ -3871,6 +3871,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"handleBulletSource": "handleBullet(unit, mount, mount.bullet)"', source)
         self.assertIn('"handleBulletInternalsReservedSource": "protected void handleBullet(Unit unit, WeaponMount mount, Bullet bullet)"', source)
 
+    def test_port_game_exposes_source_weapon_handle_bullet_continuous_geometry_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_handle_bullet_continuous_geometry_state(unit_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var continuous := bool(weapon_state.get(\"continuous\", false))", source)
+        self.assertIn("if not continuous:", source)
+        self.assertIn("var weapon_rotation := unit_rotation - 90.0 + (mount_rotation if weapon_rotate else base_rotation)", source)
+        self.assertIn("var mount_vec := source_arc_angles_trns_vec(unit_rotation - 90.0, weapon_x, weapon_y)", source)
+        self.assertIn("var bullet_vec := source_arc_angles_trns_vec(weapon_rotation, shoot_x, shoot_y)", source)
+        self.assertIn('"weaponRotationSource": "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation)"', source)
+        self.assertIn('"bulletXSource": "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY)"', source)
+        self.assertIn('"aimUpdateReservedSource": "Tmp.v1.trns(bulletRotation(unit, mount, bulletX, bulletY), shootY + mount.lastLength).add(bulletX, bulletY)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
