@@ -768,6 +768,36 @@
         "test_port_game_exposes_source_bullet_type_create_splash_damage_make_fire_dispatch_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_make_fire_dispatch_state"
+    },
+    "N428": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_initial_state",
+      "exact_exprs": [
+        "if(fragBullet != null && (fragOnAbsorb || !b.absorbed) && (pierceFragCap < 0 || b.frags < pierceFragCap))",
+        "for(int i = 0; i < fragBullets; i++)"
+      ],
+      "deferred_exprs": [
+        "float len = Mathf.random(fragOffsetMin, fragOffsetMax)"
+      ],
+      "source_symbols": [
+        "create_frags.initial.frag_bullet",
+        "create_frags.initial.frag_on_absorb",
+        "create_frags.initial.bullet_absorbed",
+        "create_frags.initial.pierce_frag_cap",
+        "create_frags.initial.bullet_frags",
+        "create_frags.initial.frag_bullets",
+        "create_frags.initial.gate",
+        "create_frags.initial.loop_boundary",
+        "create_frags.initial.random_len_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_frags_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_initial_state"
     }
   },
   "version": 1

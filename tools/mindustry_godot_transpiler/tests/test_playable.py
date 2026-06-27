@@ -4870,6 +4870,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\"call\": \"Fires.create(other.tile)\"", source)
         self.assertIn("\"createFragsBoundarySource\": \"public void createFrags(Bullet b, float x, float y){\"", source)
 
+    def test_port_game_exposes_source_bullet_type_create_frags_initial_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_create_frags_initial_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_frags_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var frag_bullet_exists := frag_bullet != null", source)
+        self.assertIn("var frag_gate_passed := frag_bullet_exists and (frag_on_absorb or not bullet_absorbed) and (pierce_frag_cap < 0 or bullet_frags < pierce_frag_cap)", source)
+        self.assertIn("var loop_iterations := frag_bullets if frag_gate_passed else 0", source)
+        self.assertIn("\"fragGateSource\": \"if(fragBullet != null && (fragOnAbsorb || !b.absorbed) && (pierceFragCap < 0 || b.frags < pierceFragCap))\"", source)
+        self.assertIn("\"loopBoundarySource\": \"for(int i = 0; i < fragBullets; i++){\"", source)
+        self.assertIn("\"randomLenBoundarySource\": \"float len = Mathf.random(fragOffsetMin, fragOffsetMax);\"", source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

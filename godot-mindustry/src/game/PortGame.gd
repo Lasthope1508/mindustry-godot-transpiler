@@ -6879,6 +6879,41 @@ func source_bullet_type_create_splash_damage_make_fire_dispatch_state(bullet_typ
 		"createFragsBoundarySource": "public void createFrags(Bullet b, float x, float y){",
 	}
 
+func source_bullet_type_create_frags_initial_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_frags_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_create_frags_state: Dictionary = create_frags_state.duplicate(true)
+	var frag_x := float(update_create_frags_state.get("x", 0.0))
+	var frag_y := float(update_create_frags_state.get("y", 0.0))
+	var frag_bullet: Variant = update_type_state.get("fragBullet", null)
+	var frag_bullet_exists := frag_bullet != null
+	var frag_on_absorb := bool(update_type_state.get("fragOnAbsorb", true))
+	var bullet_absorbed := bool(update_bullet_state.get("absorbed", false))
+	var pierce_frag_cap := int(update_type_state.get("pierceFragCap", -1))
+	var bullet_frags := int(update_bullet_state.get("frags", 0))
+	var frag_bullets := int(update_type_state.get("fragBullets", 9))
+	var frag_gate_passed := frag_bullet_exists and (frag_on_absorb or not bullet_absorbed) and (pierce_frag_cap < 0 or bullet_frags < pierce_frag_cap)
+	var loop_iterations := frag_bullets if frag_gate_passed else 0
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createFrags": update_create_frags_state,
+		"x": frag_x,
+		"y": frag_y,
+		"fragBullet": frag_bullet,
+		"fragBulletExists": frag_bullet_exists,
+		"fragOnAbsorb": frag_on_absorb,
+		"bulletAbsorbed": bullet_absorbed,
+		"pierceFragCap": pierce_frag_cap,
+		"bulletFrags": bullet_frags,
+		"fragBullets": frag_bullets,
+		"fragGatePassed": frag_gate_passed,
+		"loopIterations": loop_iterations,
+		"fragGateSource": "if(fragBullet != null && (fragOnAbsorb || !b.absorbed) && (pierceFragCap < 0 || b.frags < pierceFragCap))",
+		"loopBoundarySource": "for(int i = 0; i < fragBullets; i++){",
+		"randomLenBoundarySource": "float len = Mathf.random(fragOffsetMin, fragOffsetMax);",
+	}
+
 func source_bullet_type_hit_entity_damage_cap_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, hit_entity_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

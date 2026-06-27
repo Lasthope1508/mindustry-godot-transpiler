@@ -1294,6 +1294,54 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_make_fire_dispatch_state",
       "rule": "Public runtime contract for BulletType.createSplashDamage makeFire dispatch only; createFrags body remains deferred."
+    },
+    "PortGame.source_bullet_type_create_frags_initial_state": {
+      "status": "active",
+      "source_slice": "N428",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createFrags(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "create_frags_state",
+          "type": "Dictionary",
+          "schema": "create_frags_state"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createFrags",
+        "x",
+        "y",
+        "fragBullet",
+        "fragBulletExists",
+        "fragOnAbsorb",
+        "bulletAbsorbed",
+        "pierceFragCap",
+        "bulletFrags",
+        "fragBullets",
+        "fragGatePassed",
+        "loopIterations",
+        "fragGateSource",
+        "loopBoundarySource",
+        "randomLenBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_create_frags_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_initial_state",
+      "rule": "Public runtime contract for BulletType.createFrags initial guard and loop boundary only; loop body remains deferred."
     }
   },
   "policy": {

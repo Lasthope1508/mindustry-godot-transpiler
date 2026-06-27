@@ -453,8 +453,9 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 25,
+  "registeredSourceOwnerCount": 26,
   "registeredSourceOwners": [
+    "PortGame.source_bullet_type_create_frags_initial_state",
     "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state",
     "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state",
     "PortGame.source_bullet_type_create_splash_damage_make_fire_dispatch_state",
@@ -2333,6 +2334,11 @@
       "owner": "PortGame.source_bullet_type_create_splash_damage_make_fire_dispatch_state"
     },
     {
+      "function": "source_bullet_type_create_frags_initial_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "owner": "PortGame.source_bullet_type_create_frags_initial_state"
+    },
+    {
       "function": "source_bullet_type_hit_entity_damage_cap_state",
       "gdscript_path": "src/game/PortGame.gd",
       "owner": "PortGame.source_bullet_type_hit_entity_damage_cap_state"
@@ -2828,6 +2834,6 @@
       "owner": "PortGame.source_bullet_scale"
     }
   ],
-  "totalSourceFunctions": 469,
+  "totalSourceFunctions": 470,
   "version": 1
 }

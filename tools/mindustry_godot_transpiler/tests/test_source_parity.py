@@ -5883,6 +5883,25 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_create_frags_initial_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_create_frags_initial_state_source"))
+        report = source_parity.verify_bullet_type_create_frags_initial_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["bullet_comp_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(report["checked"], {
+            "frag_on_absorb_field": "public boolean fragOnAbsorb = true;",
+            "frag_bullet_field": "public @Nullable BulletType fragBullet = null;",
+            "frag_bullets_field": "public int fragBullets = 9;",
+            "pierce_frag_cap_field": "public int pierceFragCap = -1;",
+            "bullet_frags_field": "transient int frags;",
+            "method": "public void createFrags(Bullet b, float x, float y){",
+            "initial_gate": "if(fragBullet != null && (fragOnAbsorb || !b.absorbed) && (pierceFragCap < 0 || b.frags < pierceFragCap)){",
+            "loop_boundary": "for(int i = 0; i < fragBullets; i++){",
+            "random_len_boundary": "float len = Mathf.random(fragOffsetMin, fragOffsetMax);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_bullet_type_building_damage_state_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_bullet_type_building_damage_state_source"))
         report = source_parity.verify_bullet_type_building_damage_state_source(ROOT / "mindustry-upstream")

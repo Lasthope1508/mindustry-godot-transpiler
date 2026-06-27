@@ -2643,6 +2643,132 @@
         "test_port_game_exposes_source_bullet_type_create_splash_damage_make_fire_dispatch_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_make_fire_dispatch_state"
+    },
+    "create_frags.initial.frag_bullet": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "java_expr": "fragBullet",
+      "godot_symbol": "bullet_type_state.fragBullet",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_initial_state",
+      "rule": "Use BulletType.fragBullet null check as createFrags guard input.",
+      "tests": [
+        "test_bullet_type_create_frags_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_initial_state"
+    },
+    "create_frags.initial.frag_on_absorb": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "java_expr": "fragOnAbsorb",
+      "godot_symbol": "bullet_type_state.fragOnAbsorb",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_initial_state",
+      "rule": "Use BulletType.fragOnAbsorb default true for absorbed-bullet frag gate.",
+      "tests": [
+        "test_bullet_type_create_frags_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_initial_state"
+    },
+    "create_frags.initial.bullet_absorbed": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "java_expr": "b.absorbed",
+      "godot_symbol": "bullet_state.absorbed",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_initial_state",
+      "rule": "Use Bullet.absorbed directly for createFrags absorbed guard.",
+      "tests": [
+        "test_bullet_type_create_frags_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_initial_state"
+    },
+    "create_frags.initial.pierce_frag_cap": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "java_expr": "pierceFragCap",
+      "godot_symbol": "bullet_type_state.pierceFragCap",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_initial_state",
+      "rule": "Use BulletType.pierceFragCap default -1 for pierce frag cap guard.",
+      "tests": [
+        "test_bullet_type_create_frags_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_initial_state"
+    },
+    "create_frags.initial.bullet_frags": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "java_expr": "b.frags",
+      "godot_symbol": "bullet_state.frags",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_initial_state",
+      "rule": "Use Bullet.frags counter from BulletComp for pierce frag cap guard.",
+      "tests": [
+        "test_bullet_type_create_frags_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_initial_state"
+    },
+    "create_frags.initial.frag_bullets": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "java_expr": "fragBullets",
+      "godot_symbol": "bullet_type_state.fragBullets",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_initial_state",
+      "rule": "Use BulletType.fragBullets default 9 as the createFrags loop bound.",
+      "tests": [
+        "test_bullet_type_create_frags_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_initial_state"
+    },
+    "create_frags.initial.gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "java_expr": "fragBullet != null && (fragOnAbsorb || !b.absorbed) && (pierceFragCap < 0 || b.frags < pierceFragCap)",
+      "godot_symbol": "create_frags_initial_result.fragGatePassed",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_initial_state",
+      "rule": "Exact createFrags initial guard without porting loop body yet.",
+      "tests": [
+        "test_bullet_type_create_frags_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_initial_state"
+    },
+    "create_frags.initial.loop_boundary": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "java_expr": "for(int i = 0; i < fragBullets; i++)",
+      "godot_symbol": "create_frags_initial_result.loopIterations",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_initial_state",
+      "rule": "Represent createFrags loop boundary as deterministic iteration count when guard passes.",
+      "tests": [
+        "test_bullet_type_create_frags_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_initial_state"
+    },
+    "create_frags.initial.random_len_boundary": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "java_expr": "float len = Mathf.random(fragOffsetMin, fragOffsetMax)",
+      "godot_symbol": "create_frags_initial_result.randomLenBoundarySource",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_initial_state",
+      "rule": "Boundary marker; random frag offset and body remain later source slices.",
+      "tests": [
+        "test_bullet_type_create_frags_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_initial_state"
     }
   }
 }
