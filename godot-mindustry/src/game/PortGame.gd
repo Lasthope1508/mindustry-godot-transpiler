@@ -4163,6 +4163,65 @@ func source_weapon_shoot_charge_start_state(mount_state: Dictionary, weapon_stat
 		"shootLoopReservedSource": "shoot.shoot(mount.barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {",
 	}
 
+func source_shoot_pattern_default_events(shoot_state: Dictionary) -> Array:
+	var shots := int(shoot_state.get("shots", 1))
+	var first_shot_delay := float(shoot_state.get("firstShotDelay", 0.0))
+	var shot_delay := float(shoot_state.get("shotDelay", 0.0))
+	var events := []
+	for i in shots:
+		events.append({
+			"xOffset": 0.0,
+			"yOffset": 0.0,
+			"angleOffset": 0.0,
+			"delay": first_shot_delay + shot_delay * float(i),
+			"mover": null,
+		})
+	return events
+
+func source_weapon_shoot_default_pattern_dispatch_state(mount_state: Dictionary, shoot_state: Dictionary) -> Dictionary:
+	var total_shots := int(mount_state.get("totalShots", 0))
+	var barrel_counter := int(mount_state.get("barrelCounter", 0))
+	var pattern_events := source_shoot_pattern_default_events(shoot_state)
+	var bullet_calls := []
+	var scheduled_calls := []
+	for event in pattern_events:
+		total_shots += 1
+		var event_barrel := barrel_counter
+		var event_delay := float(event.get("delay", 0.0))
+		var bullet_call := {
+			"xOffset": float(event.get("xOffset", 0.0)),
+			"yOffset": float(event.get("yOffset", 0.0)),
+			"angleOffset": float(event.get("angleOffset", 0.0)),
+			"mover": event.get("mover", null),
+			"barrel": event_barrel,
+		}
+		if event_delay > 0.0:
+			scheduled_calls.append({
+				"delay": event_delay,
+				"setBarrelCounter": event_barrel,
+				"bulletCall": bullet_call,
+				"restoreBarrelCounter": barrel_counter,
+			})
+		else:
+			bullet_calls.append(bullet_call)
+	return {
+		"patternEvents": pattern_events,
+		"bulletCalls": bullet_calls,
+		"scheduledCalls": scheduled_calls,
+		"totalShots": total_shots,
+		"barrelCounter": barrel_counter,
+		"barrelIncrementerCalls": 0,
+		"shootDispatchSource": "shoot.shoot(mount.barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {",
+		"patternCompatSource": "shoot(totalShots, handler)",
+		"patternHandlerSource": "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i)",
+		"totalShotsSource": "mount.totalShots ++",
+		"barrelCaptureSource": "int barrel = mount.barrelCounter",
+		"timeRunSource": "Time.run(delay, () -> {",
+		"restoreBarrelSource": "mount.barrelCounter = prev",
+		"directBulletSource": "bullet(unit, mount, xOffset, yOffset, angle, mover)",
+		"barrelIncrementerSource": "() -> mount.barrelCounter++",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

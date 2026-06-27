@@ -3748,6 +3748,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"chargeEffectSource": "bullet.chargeEffect.at(shootX, shootY, rotation, bullet.keepVelocity || parentizeEffects ? unit : null)"', source)
         self.assertIn('"shootLoopReservedSource": "shoot.shoot(mount.barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {"', source)
 
+    def test_port_game_exposes_source_weapon_shoot_default_pattern_dispatch_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_shoot_pattern_default_events(shoot_state: Dictionary) -> Array:", source)
+        self.assertIn("var shots := int(shoot_state.get(\"shots\", 1))", source)
+        self.assertIn("var first_shot_delay := float(shoot_state.get(\"firstShotDelay\", 0.0))", source)
+        self.assertIn("var shot_delay := float(shoot_state.get(\"shotDelay\", 0.0))", source)
+        self.assertIn("for i in shots:", source)
+        self.assertIn('"xOffset": 0.0', source)
+        self.assertIn('"yOffset": 0.0', source)
+        self.assertIn('"angleOffset": 0.0', source)
+        self.assertIn('"delay": first_shot_delay + shot_delay * float(i)', source)
+        self.assertIn("func source_weapon_shoot_default_pattern_dispatch_state(mount_state: Dictionary, shoot_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var pattern_events := source_shoot_pattern_default_events(shoot_state)", source)
+        self.assertIn("total_shots += 1", source)
+        self.assertIn("var event_barrel := barrel_counter", source)
+        self.assertIn("if event_delay > 0.0:", source)
+        self.assertIn('"delay": event_delay', source)
+        self.assertIn('"setBarrelCounter": event_barrel', source)
+        self.assertIn('"restoreBarrelCounter": barrel_counter', source)
+        self.assertIn("bullet_calls.append(bullet_call)", source)
+        self.assertIn('"barrelIncrementerCalls": 0', source)
+        self.assertIn('"patternHandlerSource": "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i)"', source)
+        self.assertIn('"totalShotsSource": "mount.totalShots ++"', source)
+        self.assertIn('"timeRunSource": "Time.run(delay, () -> {"', source)
+        self.assertIn('"directBulletSource": "bullet(unit, mount, xOffset, yOffset, angle, mover)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

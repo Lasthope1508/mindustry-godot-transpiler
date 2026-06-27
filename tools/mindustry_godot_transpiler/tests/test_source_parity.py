@@ -4458,6 +4458,39 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_shoot_default_pattern_dispatch_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_shoot_default_pattern_dispatch_source"))
+        report = source_parity.verify_weapon_shoot_default_pattern_dispatch_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["shoot_pattern_source"], "core/src/mindustry/entities/pattern/ShootPattern.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["time_source"], "arc-core/src/arc/util/Time.java")
+        self.assertEqual(report["checked"], {
+            "shoot_dispatch": "shoot.shoot(mount.barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {",
+            "total_shots_increment": "mount.totalShots ++;",
+            "barrel_capture": "int barrel = mount.barrelCounter;",
+            "delay_gate": "if(delay > 0f){",
+            "time_run": "Time.run(delay, () -> {",
+            "prev_barrel": "int prev = mount.barrelCounter;",
+            "set_barrel": "mount.barrelCounter = barrel;",
+            "delayed_bullet_call": "bullet(unit, mount, xOffset, yOffset, angle, mover);",
+            "restore_barrel": "mount.barrelCounter = prev;",
+            "direct_bullet_call": "}else{\n                bullet(unit, mount, xOffset, yOffset, angle, mover);",
+            "barrel_incrementer": "}, () -> mount.barrelCounter++);",
+            "pattern_shots": "public int shots = 1;",
+            "pattern_first_shot_delay": "public float firstShotDelay = 0;",
+            "pattern_shot_delay": "public float shotDelay = 0;",
+            "pattern_dispatch_compat": "shoot(totalShots, handler);",
+            "pattern_loop": "for(int i = 0; i < shots; i++){",
+            "pattern_handler": "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);",
+            "mount_total_shots": "public int totalShots;",
+            "mount_barrel_counter": "public int barrelCounter;",
+            "time_run_method": "public static void run(float delay, Runnable r){",
+            "time_run_delay": "run.delay = delay;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

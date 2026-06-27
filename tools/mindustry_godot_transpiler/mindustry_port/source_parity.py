@@ -7745,6 +7745,79 @@ def verify_weapon_shoot_charge_start_source(upstream_root: Path) -> dict[str, An
         "missing": missing,
     }
 
+def verify_weapon_shoot_default_pattern_dispatch_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    shoot_pattern_source = "core/src/mindustry/entities/pattern/ShootPattern.java"
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    time_source = "arc-core/src/arc/util/Time.java"
+    shoot_pattern_path = upstream_root / shoot_pattern_source
+    weapon_mount_path = upstream_root / weapon_mount_source
+    time_path = arc_root / time_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    shoot_pattern_text = shoot_pattern_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    time_text = time_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "shoot_dispatch": "shoot.shoot(mount.barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {",
+        "total_shots_increment": "mount.totalShots ++;",
+        "barrel_capture": "int barrel = mount.barrelCounter;",
+        "delay_gate": "if(delay > 0f){",
+        "time_run": "Time.run(delay, () -> {",
+        "prev_barrel": "int prev = mount.barrelCounter;",
+        "set_barrel": "mount.barrelCounter = barrel;",
+        "delayed_bullet_call": "bullet(unit, mount, xOffset, yOffset, angle, mover);",
+        "restore_barrel": "mount.barrelCounter = prev;",
+        "direct_bullet_call": "}else{\n                bullet(unit, mount, xOffset, yOffset, angle, mover);",
+        "barrel_incrementer": "}, () -> mount.barrelCounter++);",
+        "pattern_shots": "public int shots = 1;",
+        "pattern_first_shot_delay": "public float firstShotDelay = 0;",
+        "pattern_shot_delay": "public float shotDelay = 0;",
+        "pattern_dispatch_compat": "shoot(totalShots, handler);",
+        "pattern_loop": "for(int i = 0; i < shots; i++){",
+        "pattern_handler": "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);",
+        "mount_total_shots": "public int totalShots;",
+        "mount_barrel_counter": "public int barrelCounter;",
+        "time_run_method": "public static void run(float delay, Runnable r){",
+        "time_run_delay": "run.delay = delay;",
+    }
+    source_map = {
+        "shoot_dispatch": source,
+        "total_shots_increment": source,
+        "barrel_capture": source,
+        "delay_gate": source,
+        "time_run": source,
+        "prev_barrel": source,
+        "set_barrel": source,
+        "delayed_bullet_call": source,
+        "restore_barrel": source,
+        "direct_bullet_call": source,
+        "barrel_incrementer": source,
+        "pattern_shots": shoot_pattern_text,
+        "pattern_first_shot_delay": shoot_pattern_text,
+        "pattern_shot_delay": shoot_pattern_text,
+        "pattern_dispatch_compat": shoot_pattern_text,
+        "pattern_loop": shoot_pattern_text,
+        "pattern_handler": shoot_pattern_text,
+        "mount_total_shots": weapon_mount_text,
+        "mount_barrel_counter": weapon_mount_text,
+        "time_run_method": time_text,
+        "time_run_delay": time_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "shoot_pattern_source": shoot_pattern_source,
+        "weapon_mount_source": weapon_mount_source,
+        "time_source": time_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
