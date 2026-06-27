@@ -4931,6 +4931,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\"tileBoundarySource\": \"Tile tile = world.tileWorld(x + Mathf.range(puddleRange), y + Mathf.range(puddleRange));\"", source)
         self.assertIn("\"depositBoundarySource\": \"Puddles.deposit(tile, puddleLiquid, puddleAmount);\"", source)
 
+    def test_port_game_exposes_source_bullet_type_create_puddles_tile_world_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_create_puddles_tile_world_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_puddles_initial_state: Dictionary, puddle_random_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var x_range_samples: Array = update_random_state.get(\"xRangeSamples\", [])", source)
+        self.assertIn("var y_range_samples: Array = update_random_state.get(\"yRangeSamples\", [])", source)
+        self.assertIn("var tile_world_calls: Array = []", source)
+        self.assertIn("tile_x = base_x + float(x_range_sample)", source)
+        self.assertIn("tile_y = base_y + float(y_range_sample)", source)
+        self.assertIn("\"call\": \"world.tileWorld(x + Mathf.range(puddleRange), y + Mathf.range(puddleRange))\"", source)
+        self.assertIn("\"tileWorldSource\": \"Tile tile = world.tileWorld(x + Mathf.range(puddleRange), y + Mathf.range(puddleRange));\"", source)
+        self.assertIn("\"depositBoundarySource\": \"Puddles.deposit(tile, puddleLiquid, puddleAmount);\"", source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

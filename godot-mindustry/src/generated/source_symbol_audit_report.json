@@ -453,13 +453,14 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 30,
+  "registeredSourceOwnerCount": 31,
   "registeredSourceOwners": [
     "PortGame.source_bullet_type_create_frags_create_call_state",
     "PortGame.source_bullet_type_create_frags_increment_state",
     "PortGame.source_bullet_type_create_frags_initial_state",
     "PortGame.source_bullet_type_create_frags_random_geometry_state",
     "PortGame.source_bullet_type_create_puddles_initial_state",
+    "PortGame.source_bullet_type_create_puddles_tile_world_state",
     "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state",
     "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state",
     "PortGame.source_bullet_type_create_splash_damage_make_fire_dispatch_state",
@@ -2363,6 +2364,11 @@
       "owner": "PortGame.source_bullet_type_create_puddles_initial_state"
     },
     {
+      "function": "source_bullet_type_create_puddles_tile_world_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "owner": "PortGame.source_bullet_type_create_puddles_tile_world_state"
+    },
+    {
       "function": "source_bullet_type_hit_entity_damage_cap_state",
       "gdscript_path": "src/game/PortGame.gd",
       "owner": "PortGame.source_bullet_type_hit_entity_damage_cap_state"
@@ -2858,6 +2864,6 @@
       "owner": "PortGame.source_bullet_scale"
     }
   ],
-  "totalSourceFunctions": 474,
+  "totalSourceFunctions": 475,
   "version": 1
 }

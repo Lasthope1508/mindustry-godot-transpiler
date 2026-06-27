@@ -642,14 +642,34 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(puddle_liquid["java_expr"], "puddleLiquid = Liquids.water")
         self.assertEqual(puddle_liquid["godot_symbol"], "bullet_type_state.puddleLiquid")
 
+    def test_bullet_type_create_puddles_tile_world_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        tile_world = source_symbols.source_symbol(registry, "create_puddles.tile_world.tile_world_call")
+        self.assertEqual(tile_world["java_expr"], "Tile tile = world.tileWorld(x + Mathf.range(puddleRange), y + Mathf.range(puddleRange))")
+        self.assertEqual(tile_world["godot_symbol"], "create_puddles_tile_world_result.tileWorldCalls")
+        self.assertEqual(tile_world["godot_owner"], "PortGame.source_bullet_type_create_puddles_tile_world_state")
+        self.assertEqual(tile_world["runtime_proof"], "/root/Main.source_bullet_type_create_puddles_tile_world_state")
+
+        x_samples = source_symbols.source_symbol(registry, "create_puddles.tile_world.x_range_samples")
+        self.assertEqual(x_samples["status"], "explicit-input")
+        self.assertEqual(x_samples["godot_symbol"], "puddle_random_state.xRangeSamples")
+
+        y_samples = source_symbols.source_symbol(registry, "create_puddles.tile_world.y_range_samples")
+        self.assertEqual(y_samples["status"], "explicit-input")
+        self.assertEqual(y_samples["godot_symbol"], "puddle_random_state.yRangeSamples")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 30)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 31)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 35)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 36)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -685,6 +705,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_create_frags_create_call_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_frags_increment_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_puddles_initial_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_create_puddles_tile_world_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -873,6 +894,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(puddleLiquid != null && puddles > 0)", create_puddles_initial["exact_exprs"])
         self.assertIn("for(int i = 0; i < puddles; i++)", create_puddles_initial["exact_exprs"])
         self.assertIn("Tile tile = world.tileWorld(x + Mathf.range(puddleRange), y + Mathf.range(puddleRange))", create_puddles_initial["deferred_exprs"])
+
+        create_puddles_tile_world = source_symbols.source_slice(ledger, "N433")
+        self.assertEqual(create_puddles_tile_world["java_method"], "createPuddles(Bullet b, float x, float y)")
+        self.assertEqual(create_puddles_tile_world["godot_owner"], "PortGame.source_bullet_type_create_puddles_tile_world_state")
+        self.assertIn("Tile tile = world.tileWorld(x + Mathf.range(puddleRange), y + Mathf.range(puddleRange))", create_puddles_tile_world["exact_exprs"])
+        self.assertIn("Puddles.deposit(tile, puddleLiquid, puddleAmount)", create_puddles_tile_world["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -1117,6 +1144,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("depositBoundarySource", create_puddles_initial["return_keys"])
         self.assertEqual(create_puddles_initial["source_method"], "createPuddles(Bullet b, float x, float y)")
 
+        create_puddles_tile_world = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_create_puddles_tile_world_state")
+        self.assertEqual([param["name"] for param in create_puddles_tile_world["params"]], ["bullet_type_state", "bullet_state", "create_puddles_initial_state", "puddle_random_state"])
+        self.assertEqual(create_puddles_tile_world["params"][2]["schema"], "create_puddles_initial_result")
+        self.assertEqual(create_puddles_tile_world["params"][3]["schema"], "puddle_random_state")
+        self.assertIn("tileWorldCalls", create_puddles_tile_world["return_keys"])
+        self.assertIn("tileWorldSource", create_puddles_tile_world["return_keys"])
+        self.assertIn("depositBoundarySource", create_puddles_tile_world["return_keys"])
+        self.assertEqual(create_puddles_tile_world["source_method"], "createPuddles(Bullet b, float x, float y)")
+
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_state_schema(schema)
@@ -1360,6 +1396,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(create_puddles_initial_output["keys"]["puddleGatePassed"]["java_expr"], "puddleLiquid != null && puddles > 0")
         self.assertEqual(create_puddles_initial_output["keys"]["loopIterations"]["java_expr"], "for(int i = 0; i < puddles; i++)")
         self.assertEqual(create_puddles_initial_output["keys"]["tileBoundarySource"]["java_expr"], "Tile tile = world.tileWorld(x + Mathf.range(puddleRange), y + Mathf.range(puddleRange));")
+
+        puddle_random_state = source_symbols.state_schema(schema, "puddle_random_state")
+        self.assertEqual(puddle_random_state["keys"]["xRangeSamples"]["java_expr"], "Mathf.range(puddleRange)")
+        self.assertEqual(puddle_random_state["keys"]["xRangeSamples"]["status"], "explicit-input")
+        self.assertEqual(puddle_random_state["keys"]["yRangeSamples"]["java_expr"], "Mathf.range(puddleRange)")
+
+        create_puddles_tile_world_output = source_symbols.state_schema(schema, "create_puddles_tile_world_result")
+        self.assertEqual(create_puddles_tile_world_output["keys"]["tileWorldCalls"]["java_expr"], "Tile tile = world.tileWorld(x + Mathf.range(puddleRange), y + Mathf.range(puddleRange))")
+        self.assertEqual(create_puddles_tile_world_output["keys"]["tileWorldCalls"]["status"], "source-backed")
+        self.assertEqual(create_puddles_tile_world_output["keys"]["createPuddlesInitial"]["alias_of"], "create_puddles_initial_result")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

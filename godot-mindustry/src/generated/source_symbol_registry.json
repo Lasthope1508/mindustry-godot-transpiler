@@ -3217,6 +3217,76 @@
       "java_expr": "Puddles.deposit(tile, puddleLiquid, puddleAmount)",
       "godot_symbol": "create_puddles_initial_result.depositBoundarySource",
       "rule": "Boundary marker; Puddles.deposit side effect remains a later source slice."
+    },
+    "create_puddles.tile_world.puddle_range": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createPuddles(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_puddles_tile_world_state",
+      "tests": [
+        "test_bullet_type_create_puddles_tile_world_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_puddles_tile_world_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_puddles_tile_world_state",
+      "status": "source-backed",
+      "java_expr": "puddleRange",
+      "godot_symbol": "bullet_type_state.puddleRange",
+      "rule": "Use BulletType.puddleRange for both Mathf.range calls in tile lookup."
+    },
+    "create_puddles.tile_world.x_range_samples": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createPuddles(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_puddles_tile_world_state",
+      "tests": [
+        "test_bullet_type_create_puddles_tile_world_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_puddles_tile_world_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_puddles_tile_world_state",
+      "status": "explicit-input",
+      "java_expr": "Mathf.range(puddleRange)",
+      "godot_symbol": "puddle_random_state.xRangeSamples",
+      "rule": "Explicit per-puddle x offset samples; runtime must not fabricate RNG output."
+    },
+    "create_puddles.tile_world.y_range_samples": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createPuddles(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_puddles_tile_world_state",
+      "tests": [
+        "test_bullet_type_create_puddles_tile_world_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_puddles_tile_world_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_puddles_tile_world_state",
+      "status": "explicit-input",
+      "java_expr": "Mathf.range(puddleRange)",
+      "godot_symbol": "puddle_random_state.yRangeSamples",
+      "rule": "Explicit per-puddle y offset samples; runtime must not fabricate RNG output."
+    },
+    "create_puddles.tile_world.tile_world_call": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createPuddles(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_puddles_tile_world_state",
+      "tests": [
+        "test_bullet_type_create_puddles_tile_world_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_puddles_tile_world_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_puddles_tile_world_state",
+      "status": "source-backed",
+      "java_expr": "Tile tile = world.tileWorld(x + Mathf.range(puddleRange), y + Mathf.range(puddleRange))",
+      "godot_symbol": "create_puddles_tile_world_result.tileWorldCalls",
+      "rule": "Record world.tileWorld call arguments from source createPuddles loop without executing later Puddles.deposit side effects."
+    },
+    "create_puddles.tile_world.deposit_boundary": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createPuddles(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_puddles_tile_world_state",
+      "tests": [
+        "test_bullet_type_create_puddles_tile_world_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_puddles_tile_world_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_puddles_tile_world_state",
+      "status": "deferred",
+      "java_expr": "Puddles.deposit(tile, puddleLiquid, puddleAmount)",
+      "godot_symbol": "create_puddles_tile_world_result.depositBoundarySource",
+      "rule": "Boundary marker; Puddles.deposit side effect remains a later source slice."
     }
   }
 }
