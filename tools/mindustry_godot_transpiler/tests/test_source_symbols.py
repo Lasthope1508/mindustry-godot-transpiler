@@ -973,14 +973,42 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(frag_boundary["status"], "deferred")
         self.assertEqual(frag_boundary["java_expr"], "if(b.frags == 0 && fragOnDespawn && fragBullet != null){")
 
+    def test_bullet_type_removed_frag_dispatch_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        frag_on_despawn = source_symbols.source_symbol(registry, "removed.frag_dispatch.frag_on_despawn")
+        self.assertEqual(frag_on_despawn["java_expr"], "fragOnDespawn")
+        self.assertEqual(frag_on_despawn["godot_symbol"], "bullet_type_state.fragOnDespawn")
+        self.assertEqual(frag_on_despawn["godot_owner"], "PortGame.source_bullet_type_removed_frag_dispatch_state")
+        self.assertEqual(frag_on_despawn["runtime_proof"], "/root/Main.source_bullet_type_removed_frag_dispatch_state")
+
+        bullet_frags = source_symbols.source_symbol(registry, "removed.frag_dispatch.bullet_frags")
+        self.assertEqual(bullet_frags["java_expr"], "b.frags")
+        self.assertEqual(bullet_frags["godot_symbol"], "bullet_state.frags")
+
+        gate = source_symbols.source_symbol(registry, "removed.frag_dispatch.frag_gate")
+        self.assertEqual(gate["java_expr"], "b.frags == 0 && fragOnDespawn && fragBullet != null")
+        self.assertEqual(gate["godot_symbol"], "removed_frag_dispatch_result.fragGatePassed")
+
+        create_frags_call = source_symbols.source_symbol(registry, "removed.frag_dispatch.create_frags_call")
+        self.assertEqual(create_frags_call["java_expr"], "createFrags(b, b.x, b.y)")
+        self.assertEqual(create_frags_call["godot_symbol"], "removed_frag_dispatch_result.createFragsCall")
+
+        boundary = source_symbols.source_symbol(registry, "removed.frag_dispatch.building_damage_boundary")
+        self.assertEqual(boundary["status"], "deferred")
+        self.assertEqual(boundary["java_expr"], "public float buildingDamage(Bullet b){")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 43)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 44)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 48)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 49)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1029,6 +1057,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_shake_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_removed_trail_fade_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_removed_frag_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -1301,6 +1330,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(trailLength > 0 && b.trail != null && b.trail.size() > 0)", removed_trail_fade["exact_exprs"])
         self.assertIn("Fx.trailFade.at(b.x, b.y, trailWidth, trailColor, b.trail.copy())", removed_trail_fade["exact_exprs"])
         self.assertIn("if(b.frags == 0 && fragOnDespawn && fragBullet != null){", removed_trail_fade["deferred_exprs"])
+
+        removed_frag_dispatch = source_symbols.source_slice(ledger, "N446")
+        self.assertEqual(removed_frag_dispatch["java_method"], "removed(Bullet b)")
+        self.assertEqual(removed_frag_dispatch["godot_owner"], "PortGame.source_bullet_type_removed_frag_dispatch_state")
+        self.assertIn("if(b.frags == 0 && fragOnDespawn && fragBullet != null)", removed_frag_dispatch["exact_exprs"])
+        self.assertIn("createFrags(b, b.x, b.y)", removed_frag_dispatch["exact_exprs"])
+        self.assertIn("public float buildingDamage(Bullet b){", removed_frag_dispatch["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -1654,6 +1690,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("fragBoundarySource", removed_trail_fade["return_keys"])
         self.assertEqual(removed_trail_fade["source_method"], "removed(Bullet b)")
 
+        removed_frag_dispatch = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_removed_frag_dispatch_state")
+        self.assertEqual([param["name"] for param in removed_frag_dispatch["params"]], ["bullet_type_state", "bullet_state", "removed_trail_fade_state"])
+        self.assertEqual(removed_frag_dispatch["params"][2]["schema"], "removed_trail_fade_result")
+        self.assertIn("fragGatePassed", removed_frag_dispatch["return_keys"])
+        self.assertIn("createFragsCall", removed_frag_dispatch["return_keys"])
+        self.assertIn("buildingDamageBoundarySource", removed_frag_dispatch["return_keys"])
+        self.assertEqual(removed_frag_dispatch["source_method"], "removed(Bullet b)")
+
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_state_schema(schema)
@@ -1995,6 +2039,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(bullet_type_state["keys"]["trailLength"]["java_expr"], "trailLength")
         self.assertEqual(bullet_type_state["keys"]["trailWidth"]["java_expr"], "trailWidth")
         self.assertEqual(bullet_type_state["keys"]["trailColor"]["java_expr"], "trailColor")
+        self.assertEqual(bullet_type_state["keys"]["fragOnDespawn"]["java_expr"], "fragOnDespawn")
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")
@@ -2006,6 +2051,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(removed_trail_fade_output["keys"]["trailFadeCall"]["java_expr"], "Fx.trailFade.at(b.x, b.y, trailWidth, trailColor, b.trail.copy())")
         self.assertEqual(removed_trail_fade_output["keys"]["trailFadeCall"]["status"], "source-backed")
         self.assertEqual(removed_trail_fade_output["keys"]["fragBoundarySource"]["status"], "deferred")
+
+        removed_frag_dispatch_output = source_symbols.state_schema(schema, "removed_frag_dispatch_result")
+        self.assertEqual(removed_frag_dispatch_output["keys"]["fragGatePassed"]["java_expr"], "b.frags == 0 && fragOnDespawn && fragBullet != null")
+        self.assertEqual(removed_frag_dispatch_output["keys"]["createFragsCall"]["java_expr"], "createFrags(b, b.x, b.y)")
+        self.assertEqual(removed_frag_dispatch_output["keys"]["createFragsCall"]["status"], "source-backed")
+        self.assertEqual(removed_frag_dispatch_output["keys"]["removedTrailFade"]["alias_of"], "removed_trail_fade_result")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

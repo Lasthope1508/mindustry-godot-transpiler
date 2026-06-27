@@ -5102,6 +5102,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\"gateSource\": \"if(trailLength > 0 && b.trail != null && b.trail.size() > 0){\"", source)
         self.assertIn("\"fragBoundarySource\": \"if(b.frags == 0 && fragOnDespawn && fragBullet != null){\"", source)
 
+    def test_port_game_exposes_source_bullet_type_removed_frag_dispatch_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_removed_frag_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, removed_trail_fade_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var update_removed_trail_fade_state: Dictionary = removed_trail_fade_state.duplicate(true)", source)
+        self.assertIn("var bullet_frags := int(update_bullet_state.get(\"frags\", 0))", source)
+        self.assertIn("var frag_on_despawn := bool(update_type_state.get(\"fragOnDespawn\", true))", source)
+        self.assertIn("var frag_bullet: Variant = update_type_state.get(\"fragBullet\", null)", source)
+        self.assertIn("var frag_gate_passed := bullet_frags == 0 and frag_on_despawn and frag_bullet_exists", source)
+        self.assertIn("\"call\": \"createFrags(b, b.x, b.y)\"", source)
+        self.assertIn("\"fragGateSource\": \"if(b.frags == 0 && fragOnDespawn && fragBullet != null){\"", source)
+        self.assertIn("\"buildingDamageBoundarySource\": \"public float buildingDamage(Bullet b){\"", source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

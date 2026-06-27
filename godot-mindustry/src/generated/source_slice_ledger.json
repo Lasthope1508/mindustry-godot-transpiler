@@ -1277,6 +1277,34 @@
         "test_bullet_type_removed_trail_fade_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_removed_trail_fade_state"
+    },
+    "N446": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "removed(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_removed_frag_dispatch_state",
+      "exact_exprs": [
+        "if(b.frags == 0 && fragOnDespawn && fragBullet != null)",
+        "createFrags(b, b.x, b.y)"
+      ],
+      "deferred_exprs": [
+        "public float buildingDamage(Bullet b){"
+      ],
+      "source_symbols": [
+        "removed.frag_dispatch.frag_on_despawn",
+        "removed.frag_dispatch.frag_bullet",
+        "removed.frag_dispatch.bullet_frags",
+        "removed.frag_dispatch.frag_gate",
+        "removed.frag_dispatch.create_frags_call",
+        "removed.frag_dispatch.building_damage_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_removed_frag_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_removed_frag_dispatch_state",
+        "test_bullet_type_removed_frag_dispatch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_removed_frag_dispatch_state"
     }
   },
   "version": 1

@@ -6190,6 +6190,24 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_removed_frag_dispatch_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_removed_frag_dispatch_state_source"))
+        report = source_parity.verify_bullet_type_removed_frag_dispatch_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["bullet_comp_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(report["checked"], {
+            "frag_on_despawn_field": "public boolean fragOnDespawn = true;",
+            "frag_bullet_field": "public @Nullable BulletType fragBullet = null;",
+            "bullet_frags_field": "transient int frags;",
+            "method": "public void removed(Bullet b){",
+            "trail_fade_call": "Fx.trailFade.at(b.x, b.y, trailWidth, trailColor, b.trail.copy());",
+            "frag_gate": "if(b.frags == 0 && fragOnDespawn && fragBullet != null){",
+            "create_frags_call": "createFrags(b, b.x, b.y);",
+            "building_damage_boundary": "public float buildingDamage(Bullet b){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_bullet_type_building_damage_state_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_bullet_type_building_damage_state_source"))
         report = source_parity.verify_bullet_type_building_damage_state_source(ROOT / "mindustry-upstream")

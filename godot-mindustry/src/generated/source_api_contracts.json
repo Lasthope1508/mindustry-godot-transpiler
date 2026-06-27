@@ -2110,6 +2110,50 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_removed_trail_fade_state",
       "rule": "Public runtime contract for BulletType.removed trail fade call record."
+    },
+    "PortGame.source_bullet_type_removed_frag_dispatch_state": {
+      "status": "active",
+      "source_slice": "N446",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "removed(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "removed_trail_fade_state",
+          "type": "Dictionary",
+          "schema": "removed_trail_fade_result"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "removedTrailFade",
+        "bulletFrags",
+        "fragOnDespawn",
+        "fragBullet",
+        "fragBulletExists",
+        "fragGatePassed",
+        "createFragsCall",
+        "fragGateSource",
+        "createFragsCallSource",
+        "buildingDamageBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_removed_frag_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_removed_frag_dispatch_state",
+        "test_bullet_type_removed_frag_dispatch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_removed_frag_dispatch_state",
+      "rule": "Public runtime contract for BulletType.removed createFrags dispatch record."
     }
   },
   "policy": {

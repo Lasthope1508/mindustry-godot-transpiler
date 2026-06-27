@@ -6958,6 +6958,40 @@ func source_bullet_type_removed_trail_fade_state(bullet_type_state: Dictionary, 
 		"fragBoundarySource": "if(b.frags == 0 && fragOnDespawn && fragBullet != null){",
 	}
 
+func source_bullet_type_removed_frag_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, removed_trail_fade_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_removed_trail_fade_state: Dictionary = removed_trail_fade_state.duplicate(true)
+	var bullet_frags := int(update_bullet_state.get("frags", 0))
+	var frag_on_despawn := bool(update_type_state.get("fragOnDespawn", true))
+	var frag_bullet: Variant = update_type_state.get("fragBullet", null)
+	var frag_bullet_exists := frag_bullet != null
+	var bullet_x: Variant = update_bullet_state.get("x", null)
+	var bullet_y: Variant = update_bullet_state.get("y", null)
+	var frag_gate_passed := bullet_frags == 0 and frag_on_despawn and frag_bullet_exists
+	var create_frags_call := {}
+	if frag_gate_passed:
+		create_frags_call = {
+			"call": "createFrags(b, b.x, b.y)",
+			"x": bullet_x,
+			"y": bullet_y,
+			"called": true,
+		}
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"removedTrailFade": update_removed_trail_fade_state,
+		"bulletFrags": bullet_frags,
+		"fragOnDespawn": frag_on_despawn,
+		"fragBullet": frag_bullet,
+		"fragBulletExists": frag_bullet_exists,
+		"fragGatePassed": frag_gate_passed,
+		"createFragsCall": create_frags_call,
+		"fragGateSource": "if(b.frags == 0 && fragOnDespawn && fragBullet != null){",
+		"createFragsCallSource": "createFrags(b, b.x, b.y);",
+		"buildingDamageBoundarySource": "public float buildingDamage(Bullet b){",
+	}
+
 func source_bullet_type_hit_suppression_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_post_frag_dispatch_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

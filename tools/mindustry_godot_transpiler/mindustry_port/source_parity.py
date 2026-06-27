@@ -11025,6 +11025,44 @@ def verify_bullet_type_removed_trail_fade_state_source(upstream_root: Path) -> d
         "missing": missing,
     }
 
+def verify_bullet_type_removed_frag_dispatch_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    bullet_comp_source = "core/src/mindustry/entities/comp/BulletComp.java"
+    bullet_comp_path = upstream_root / bullet_comp_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    bullet_comp_text = bullet_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "frag_on_despawn_field": "public boolean fragOnDespawn = true;",
+        "frag_bullet_field": "public @Nullable BulletType fragBullet = null;",
+        "bullet_frags_field": "transient int frags;",
+        "method": "public void removed(Bullet b){",
+        "trail_fade_call": "Fx.trailFade.at(b.x, b.y, trailWidth, trailColor, b.trail.copy());",
+        "frag_gate": "if(b.frags == 0 && fragOnDespawn && fragBullet != null){",
+        "create_frags_call": "createFrags(b, b.x, b.y);",
+        "building_damage_boundary": "public float buildingDamage(Bullet b){",
+    }
+    source_map = {
+        "frag_on_despawn_field": source,
+        "frag_bullet_field": source,
+        "bullet_frags_field": bullet_comp_text,
+        "method": source,
+        "trail_fade_call": source,
+        "frag_gate": source,
+        "create_frags_call": source,
+        "building_damage_boundary": source,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "bullet_comp_source": bullet_comp_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

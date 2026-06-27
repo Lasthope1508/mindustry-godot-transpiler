@@ -134,7 +134,8 @@
           "godot_symbol": "bullet_state.frags",
           "used_by": [
             "PortGame.source_bullet_type_create_frags_initial_state",
-            "PortGame.source_bullet_type_create_frags_increment_state"
+            "PortGame.source_bullet_type_create_frags_increment_state",
+            "PortGame.source_bullet_type_removed_frag_dispatch_state"
           ],
           "rule": "Canonical Bullet.frags transient counter for createFrags pierce cap guard."
         },
@@ -512,7 +513,8 @@
           "used_by": [
             "PortGame.source_bullet_type_hit_frag_dispatch_state",
             "PortGame.source_bullet_type_create_frags_initial_state",
-            "PortGame.source_bullet_type_create_frags_create_call_state"
+            "PortGame.source_bullet_type_create_frags_create_call_state",
+            "PortGame.source_bullet_type_removed_frag_dispatch_state"
           ],
           "rule": "Canonical BulletType.fragBullet field for hit frag dispatch null/nested gate."
         },
@@ -844,6 +846,18 @@
             "PortGame.source_bullet_type_removed_trail_fade_state"
           ],
           "rule": "Canonical BulletType.trailColor field for removed trail fade color."
+        },
+        "fragOnDespawn": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "removed(Bullet b)",
+          "java_expr": "fragOnDespawn",
+          "godot_symbol": "bullet_type_state.fragOnDespawn",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_frag_dispatch_state"
+          ],
+          "rule": "Canonical BulletType.fragOnDespawn field for removed createFrags gate."
         }
       }
     },
@@ -6843,6 +6857,137 @@
             "PortGame.source_bullet_type_removed_trail_fade_state"
           ],
           "rule": "Boundary marker; removed frag-on-despawn body remains a later source slice."
+        }
+      }
+    },
+    "removed_frag_dispatch_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_type_state",
+          "rule": "Runtime echo of input bullet_type_state."
+        },
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime echo of input bullet_state."
+        },
+        "removedTrailFade": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "removed_trail_fade_result",
+          "rule": "Runtime echo of removed trail fade slice result."
+        },
+        "bulletFrags": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "java_method": "removed(Bullet b)",
+          "java_expr": "b.frags",
+          "godot_symbol": "removed_frag_dispatch_result.bulletFrags",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_frag_dispatch_state"
+          ],
+          "rule": "Runtime value of b.frags used by gate."
+        },
+        "fragOnDespawn": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "removed(Bullet b)",
+          "java_expr": "fragOnDespawn",
+          "godot_symbol": "removed_frag_dispatch_result.fragOnDespawn",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_frag_dispatch_state"
+          ],
+          "rule": "Runtime value of fragOnDespawn used by gate."
+        },
+        "fragBullet": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "removed(Bullet b)",
+          "java_expr": "fragBullet",
+          "godot_symbol": "removed_frag_dispatch_result.fragBullet",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_frag_dispatch_state"
+          ],
+          "rule": "Runtime value of fragBullet used by gate."
+        },
+        "fragBulletExists": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "removed(Bullet b)",
+          "java_expr": "fragBullet != null",
+          "godot_symbol": "removed_frag_dispatch_result.fragBulletExists",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_frag_dispatch_state"
+          ],
+          "rule": "Runtime fragBullet null check."
+        },
+        "fragGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "removed(Bullet b)",
+          "java_expr": "b.frags == 0 && fragOnDespawn && fragBullet != null",
+          "godot_symbol": "removed_frag_dispatch_result.fragGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_frag_dispatch_state"
+          ],
+          "rule": "Runtime result of removed createFrags gate."
+        },
+        "createFragsCall": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "removed(Bullet b)",
+          "java_expr": "createFrags(b, b.x, b.y)",
+          "godot_symbol": "removed_frag_dispatch_result.createFragsCall",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_frag_dispatch_state"
+          ],
+          "rule": "Runtime call record for createFrags when removed gate passes."
+        },
+        "fragGateSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "removed(Bullet b)",
+          "java_expr": "if(b.frags == 0 && fragOnDespawn && fragBullet != null){",
+          "godot_symbol": "removed_frag_dispatch_result.fragGateSource",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_frag_dispatch_state"
+          ],
+          "rule": "Runtime source snippet label."
+        },
+        "createFragsCallSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "removed(Bullet b)",
+          "java_expr": "createFrags(b, b.x, b.y);",
+          "godot_symbol": "removed_frag_dispatch_result.createFragsCallSource",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_frag_dispatch_state"
+          ],
+          "rule": "Runtime source snippet label."
+        },
+        "buildingDamageBoundarySource": {
+          "type": "String",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "buildingDamage(Bullet b)",
+          "java_expr": "public float buildingDamage(Bullet b){",
+          "godot_symbol": "removed_frag_dispatch_result.buildingDamageBoundarySource",
+          "used_by": [
+            "PortGame.source_bullet_type_removed_frag_dispatch_state"
+          ],
+          "rule": "Boundary marker; following buildingDamage method remains a later source slice."
         }
       }
     }
