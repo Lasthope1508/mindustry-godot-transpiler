@@ -927,14 +927,15 @@
           "type": "int",
           "status": "source-backed",
           "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
-          "java_method": "removed(Bullet b)",
+          "java_method": "field",
           "java_expr": "trailLength",
           "godot_symbol": "bullet_type_state.trailLength",
           "used_by": [
             "PortGame.source_bullet_type_removed_trail_fade_state",
-            "PortGame.source_bullet_type_update_trail_state"
+            "PortGame.source_bullet_type_update_trail_state",
+            "PortGame.source_bullet_type_init_draw_size_state"
           ],
-          "rule": "Canonical BulletType.trailLength field for removed trail fade gate."
+          "rule": "Canonical BulletType.trailLength field for drawSize init and trail gates."
         },
         "trailWidth": {
           "type": "float",
@@ -1304,9 +1305,11 @@
           "java_expr": "speed",
           "godot_symbol": "bullet_type_state.speed",
           "used_by": [
-            "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
+            "PortGame.source_bullet_type_update_weaving_circle_shooter_state",
+            "PortGame.source_bullet_type_init_draw_size_state"
           ],
-          "rule": "Canonical BulletType.speed field; default is 1f."
+          "rule": "Canonical BulletType.speed field for drawSize init and movement formulas; default is 1f.",
+          "java_method": "field"
         },
         "circleShooter": {
           "type": "bool",
@@ -1551,6 +1554,18 @@
             "PortGame.source_bullet_type_init_light_radius_state"
           ],
           "rule": "Canonical BulletType.hitSize field; default is 4."
+        },
+        "drawSize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "field",
+          "java_expr": "drawSize",
+          "godot_symbol": "bullet_type_state.drawSize",
+          "used_by": [
+            "PortGame.source_bullet_type_init_draw_size_state"
+          ],
+          "rule": "Canonical BulletType.drawSize field; default is 40f."
         }
       }
     },
@@ -10355,6 +10370,70 @@
           "godot_symbol": "init_light_radius_result.lightRadiusAssignSource",
           "alias_of": "source_line.init_light_radius.assign",
           "rule": "Runtime source label for lightRadius Math.max assignment."
+        }
+      }
+    },
+    "init_draw_size_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "godot_symbol": "init_draw_size_result.bulletType",
+          "alias_of": "bullet_type_state",
+          "rule": "Updated BulletType state after drawSize init."
+        },
+        "drawSize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init()",
+          "java_expr": "Math.max(drawSize, trailLength * speed * 2f)",
+          "godot_symbol": "init_draw_size_result.drawSize",
+          "used_by": [
+            "PortGame.source_bullet_type_init_draw_size_state"
+          ],
+          "rule": "Resolved drawSize value from source Math.max assignment."
+        },
+        "drawSizeBefore": {
+          "type": "float",
+          "status": "generated",
+          "godot_symbol": "init_draw_size_result.drawSizeBefore",
+          "alias_of": "bullet_type_state.drawSize",
+          "rule": "Runtime echo of drawSize before assignment."
+        },
+        "computedDrawSize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "init()",
+          "java_expr": "trailLength * speed * 2f",
+          "godot_symbol": "init_draw_size_result.computedDrawSize",
+          "used_by": [
+            "PortGame.source_bullet_type_init_draw_size_state"
+          ],
+          "rule": "Computed right-hand side of source drawSize max assignment."
+        },
+        "trailLength": {
+          "type": "int",
+          "status": "generated",
+          "godot_symbol": "init_draw_size_result.trailLength",
+          "alias_of": "bullet_type_state.trailLength",
+          "rule": "Runtime echo of trailLength input used by drawSize assignment."
+        },
+        "speed": {
+          "type": "float",
+          "status": "generated",
+          "godot_symbol": "init_draw_size_result.speed",
+          "alias_of": "bullet_type_state.speed",
+          "rule": "Runtime echo of speed input used by drawSize assignment."
+        },
+        "drawSizeAssignSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "init_draw_size_result.drawSizeAssignSource",
+          "alias_of": "source_line.init_draw_size.assign",
+          "rule": "Runtime source label for drawSize Math.max assignment."
         }
       }
     }

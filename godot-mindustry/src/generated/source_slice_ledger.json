@@ -1995,7 +1995,6 @@
         "lightRadius = Math.max(18, hitSize * 5f);"
       ],
       "deferred_exprs": [
-        "drawSize = Math.max(drawSize, trailLength * speed * 2f);",
         "range = calculateRange();"
       ],
       "source_symbols": [
@@ -2011,6 +2010,35 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_init_light_radius_state",
       "rule": "Backfills SSOT for existing BulletType.init lightRadius default runtime state; draw size and range assignment remain separate source-backed slices."
+    },
+    "N469": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "init()",
+      "godot_owner": "PortGame.source_bullet_type_init_draw_size_state",
+      "exact_exprs": [
+        "public float speed = 1f;",
+        "public float drawSize = 40f;",
+        "public int trailLength = -1;",
+        "drawSize = Math.max(drawSize, trailLength * speed * 2f);"
+      ],
+      "deferred_exprs": [
+        "range = calculateRange();"
+      ],
+      "source_symbols": [
+        "init_draw_size.assign",
+        "init_draw_size.draw_size_field",
+        "init_draw_size.trail_length_field",
+        "init_draw_size.speed_field"
+      ],
+      "tests": [
+        "test_bullet_type_init_draw_size_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_draw_size_state",
+        "test_bullet_type_init_draw_size_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_draw_size_state",
+      "rule": "Backfills SSOT for existing BulletType.init drawSize runtime state; range assignment remains a separate source-backed slice."
     }
   },
   "version": 1

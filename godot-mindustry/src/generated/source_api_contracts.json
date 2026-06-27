@@ -3051,6 +3051,35 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_init_light_radius_state",
       "rule": "Public runtime contract for BulletType.init lightRadius default gate and Math.max assignment."
+    },
+    "PortGame.source_bullet_type_init_draw_size_state": {
+      "status": "active",
+      "source_slice": "N469",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "init()",
+      "params": [
+        {
+          "name": "light_radius_state",
+          "type": "Dictionary",
+          "schema": "init_light_radius_result"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "drawSize",
+        "drawSizeBefore",
+        "computedDrawSize",
+        "trailLength",
+        "speed",
+        "drawSizeAssignSource"
+      ],
+      "tests": [
+        "test_bullet_type_init_draw_size_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_draw_size_state",
+        "test_bullet_type_init_draw_size_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_draw_size_state",
+      "rule": "Public runtime contract for BulletType.init drawSize Math.max assignment."
     }
   },
   "policy": {

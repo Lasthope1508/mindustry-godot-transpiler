@@ -1688,14 +1688,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(light_radius_field["java_expr"], "public float lightRadius = -1f;")
         self.assertEqual(light_radius_field["godot_symbol"], "bullet_type_state.lightRadius")
 
+    def test_bullet_type_init_draw_size_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        assign = source_symbols.source_symbol(registry, "init_draw_size.assign")
+        self.assertEqual(assign["java_expr"], "drawSize = Math.max(drawSize, trailLength * speed * 2f);")
+        self.assertEqual(assign["godot_symbol"], "init_draw_size_result.drawSize")
+        self.assertEqual(assign["godot_owner"], "PortGame.source_bullet_type_init_draw_size_state")
+        self.assertEqual(assign["runtime_proof"], "/root/Main.source_bullet_type_init_draw_size_state")
+
+        draw_size_field = source_symbols.source_symbol(registry, "init_draw_size.draw_size_field")
+        self.assertEqual(draw_size_field["java_expr"], "public float drawSize = 40f;")
+        self.assertEqual(draw_size_field["godot_symbol"], "bullet_type_state.drawSize")
+
+        trail_length_field = source_symbols.source_symbol(registry, "init_draw_size.trail_length_field")
+        self.assertEqual(trail_length_field["java_expr"], "public int trailLength = -1;")
+        self.assertEqual(trail_length_field["godot_symbol"], "bullet_type_state.trailLength")
+
+        speed_field = source_symbols.source_symbol(registry, "init_draw_size.speed_field")
+        self.assertEqual(speed_field["java_expr"], "public float speed = 1f;")
+        self.assertEqual(speed_field["godot_symbol"], "bullet_type_state.speed")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 66)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 67)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 71)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 72)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1756,6 +1780,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_init_frag_velocity_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_init_lightning_type_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_init_light_radius_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_init_draw_size_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -2232,8 +2257,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("lightRadius = Math.max(18, hitSize * 5f);", init_light_radius["exact_exprs"])
         self.assertIn("public float hitSize = 4;", init_light_radius["exact_exprs"])
         self.assertIn("public float lightRadius = -1f;", init_light_radius["exact_exprs"])
-        self.assertIn("drawSize = Math.max(drawSize, trailLength * speed * 2f);", init_light_radius["deferred_exprs"])
+        self.assertNotIn("drawSize = Math.max(drawSize, trailLength * speed * 2f);", init_light_radius["deferred_exprs"])
+
+        init_draw_size = source_symbols.source_slice(ledger, "N469")
+        self.assertEqual(init_draw_size["java_method"], "init()")
+        self.assertEqual(init_draw_size["godot_owner"], "PortGame.source_bullet_type_init_draw_size_state")
+        self.assertIn("drawSize = Math.max(drawSize, trailLength * speed * 2f);", init_draw_size["exact_exprs"])
+        self.assertIn("public float speed = 1f;", init_draw_size["exact_exprs"])
+        self.assertIn("public float drawSize = 40f;", init_draw_size["exact_exprs"])
+        self.assertIn("public int trailLength = -1;", init_draw_size["exact_exprs"])
         self.assertIn("range = calculateRange();", init_light_radius["deferred_exprs"])
+        self.assertIn("range = calculateRange();", init_draw_size["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -2826,6 +2860,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("lightRadius", init_light_radius["return_keys"])
         self.assertIn("hitSize", init_light_radius["return_keys"])
         self.assertEqual(init_light_radius["source_method"], "init()")
+
+        init_draw_size = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_init_draw_size_state")
+        self.assertEqual([param["name"] for param in init_draw_size["params"]], ["light_radius_state"])
+        self.assertEqual(init_draw_size["params"][0]["schema"], "init_light_radius_result")
+        self.assertIn("bulletType", init_draw_size["return_keys"])
+        self.assertIn("drawSize", init_draw_size["return_keys"])
+        self.assertIn("drawSizeBefore", init_draw_size["return_keys"])
+        self.assertIn("computedDrawSize", init_draw_size["return_keys"])
+        self.assertIn("trailLength", init_draw_size["return_keys"])
+        self.assertIn("speed", init_draw_size["return_keys"])
+        self.assertEqual(init_draw_size["source_method"], "init()")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -3468,6 +3513,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(bullet_type_state["keys"]["lightRadius"]["java_expr"], "lightRadius")
         self.assertIn("PortGame.source_bullet_type_init_light_radius_state", bullet_type_state["keys"]["hitSize"]["used_by"])
         self.assertIn("PortGame.source_bullet_type_init_light_radius_state", bullet_type_state["keys"]["lightRadius"]["used_by"])
+
+        init_draw_size_output = source_symbols.state_schema(schema, "init_draw_size_result")
+        self.assertEqual(init_draw_size_output["keys"]["drawSize"]["java_expr"], "Math.max(drawSize, trailLength * speed * 2f)")
+        self.assertEqual(init_draw_size_output["keys"]["drawSizeBefore"]["alias_of"], "bullet_type_state.drawSize")
+        self.assertEqual(init_draw_size_output["keys"]["computedDrawSize"]["java_expr"], "trailLength * speed * 2f")
+        self.assertEqual(init_draw_size_output["keys"]["trailLength"]["alias_of"], "bullet_type_state.trailLength")
+        self.assertEqual(init_draw_size_output["keys"]["speed"]["alias_of"], "bullet_type_state.speed")
+        self.assertEqual(init_draw_size_output["keys"]["drawSizeAssignSource"]["alias_of"], "source_line.init_draw_size.assign")
+
+        self.assertEqual(bullet_type_state["keys"]["drawSize"]["java_expr"], "drawSize")
+        self.assertEqual(bullet_type_state["keys"]["trailLength"]["java_expr"], "trailLength")
+        self.assertEqual(bullet_type_state["keys"]["speed"]["java_expr"], "speed")
+        self.assertIn("PortGame.source_bullet_type_init_draw_size_state", bullet_type_state["keys"]["drawSize"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_init_draw_size_state", bullet_type_state["keys"]["trailLength"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_init_draw_size_state", bullet_type_state["keys"]["speed"]["used_by"])
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")

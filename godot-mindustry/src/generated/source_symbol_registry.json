@@ -6798,6 +6798,66 @@
         "test_bullet_type_init_light_radius_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_init_light_radius_state"
+    },
+    "init_draw_size.assign": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init()",
+      "java_expr": "drawSize = Math.max(drawSize, trailLength * speed * 2f);",
+      "godot_symbol": "init_draw_size_result.drawSize",
+      "godot_owner": "PortGame.source_bullet_type_init_draw_size_state",
+      "rule": "Exact init drawSize assignment from current drawSize, trailLength, and speed.",
+      "tests": [
+        "test_bullet_type_init_draw_size_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_draw_size_state",
+        "test_bullet_type_init_draw_size_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_draw_size_state"
+    },
+    "init_draw_size.draw_size_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "field",
+      "java_expr": "public float drawSize = 40f;",
+      "godot_symbol": "bullet_type_state.drawSize",
+      "godot_owner": "PortGame.source_bullet_type_init_draw_size_state",
+      "rule": "BulletType drawSize field backing for init drawSize max assignment.",
+      "tests": [
+        "test_bullet_type_init_draw_size_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_draw_size_state",
+        "test_bullet_type_init_draw_size_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_draw_size_state"
+    },
+    "init_draw_size.trail_length_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "field",
+      "java_expr": "public int trailLength = -1;",
+      "godot_symbol": "bullet_type_state.trailLength",
+      "godot_owner": "PortGame.source_bullet_type_init_draw_size_state",
+      "rule": "BulletType trailLength field backing for init drawSize max assignment.",
+      "tests": [
+        "test_bullet_type_init_draw_size_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_draw_size_state",
+        "test_bullet_type_init_draw_size_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_draw_size_state"
+    },
+    "init_draw_size.speed_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "field",
+      "java_expr": "public float speed = 1f;",
+      "godot_symbol": "bullet_type_state.speed",
+      "godot_owner": "PortGame.source_bullet_type_init_draw_size_state",
+      "rule": "BulletType speed field backing for init drawSize max assignment.",
+      "tests": [
+        "test_bullet_type_init_draw_size_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_draw_size_state",
+        "test_bullet_type_init_draw_size_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_draw_size_state"
     }
   }
 }
