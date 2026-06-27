@@ -3983,6 +3983,41 @@ func source_weapon_update_velocity_length_state(unit_state: Dictionary, source_d
 		"shootGateSource": "velLen >= minShootVelocity &&",
 	}
 
+func source_weapon_update_shoot_gate_prefix_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, can_shoot: bool, was_flipped: bool, vel_len: float) -> Dictionary:
+	var mount_shoot := bool(mount_state.get("shoot", false))
+	var mount_warmup := float(mount_state.get("warmup", 0.0))
+	var total_shots := int(mount_state.get("totalShots", 0))
+	var alternate := bool(weapon_state.get("alternate", true))
+	var flip_sprite := bool(weapon_state.get("flipSprite", false))
+	var min_warmup := float(weapon_state.get("minWarmup", 0.0))
+	var min_shoot_velocity := float(weapon_state.get("minShootVelocity", -1.0))
+	var bullet_kill_shooter := bool(bullet_state.get("killShooter", false))
+	var kill_shooter_once_blocked := bullet_kill_shooter and total_shots > 0
+	var alternate_gate := (not alternate) or was_flipped == flip_sprite
+	var warmup_gate := mount_warmup >= min_warmup
+	var velocity_gate := vel_len >= min_shoot_velocity
+	var shoot_gate_prefix := mount_shoot and can_shoot and not kill_shooter_once_blocked and alternate_gate and warmup_gate and velocity_gate
+	return {
+		"shootGatePrefix": shoot_gate_prefix,
+		"mountShoot": mount_shoot,
+		"canShoot": can_shoot,
+		"killShooterOnceBlocked": kill_shooter_once_blocked,
+		"alternateGate": alternate_gate,
+		"warmupGate": warmup_gate,
+		"velocityGate": velocity_gate,
+		"totalShots": total_shots,
+		"velLen": vel_len,
+		"minShootVelocity": min_shoot_velocity,
+		"shootCommentSource": "//shoot if applicable",
+		"mountShootGateSource": "if(mount.shoot &&",
+		"canGateSource": "can &&",
+		"killShooterGateSource": "!(bullet.killShooter && mount.totalShots > 0) &&",
+		"alternateGateSource": "(!alternate || wasFlipped == flipSprite) &&",
+		"warmupGateSource": "mount.warmup >= minWarmup &&",
+		"velocityGateSource": "velLen >= minShootVelocity &&",
+		"reloadGateReservedSource": "(mount.reload <= 0.0001f || (alwaysContinuous && mount.bullet == null)) &&",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

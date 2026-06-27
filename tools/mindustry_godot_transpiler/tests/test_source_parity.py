@@ -4350,6 +4350,32 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_update_shoot_gate_prefix_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_update_shoot_gate_prefix_source"))
+        report = source_parity.verify_weapon_update_shoot_gate_prefix_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["bullet_type_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "shoot_comment": "//shoot if applicable",
+            "mount_shoot_gate": "if(mount.shoot && //must be shooting",
+            "can_gate": "can && //must be able to shoot",
+            "kill_shooter_gate": "!(bullet.killShooter && mount.totalShots > 0) && //if the bullet kills the shooter, you should only ever be able to shoot once",
+            "alternate_gate": "(!alternate || wasFlipped == flipSprite) &&",
+            "warmup_gate": "mount.warmup >= minWarmup && //must be warmed up",
+            "velocity_gate": "velLen >= minShootVelocity && //check velocity requirements",
+            "weapon_alternate": "public boolean alternate = true;",
+            "weapon_flip_sprite": "public boolean flipSprite = false;",
+            "weapon_min_warmup": "public float minWarmup = 0f;",
+            "weapon_min_shoot_velocity": "public float minShootVelocity = -1f;",
+            "mount_shoot": "public boolean shoot = false;",
+            "mount_warmup": "public float warmup;",
+            "mount_total_shots": "public int totalShots;",
+            "bullet_kill_shooter": "public boolean killShooter;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

@@ -3665,6 +3665,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"isRemoteSource": "boolean isRemote(){ return ((Object)this) instanceof Unitc u && u.isPlayer() && !isLocal(); }"', source)
         self.assertIn('"deltaLenSource": "float deltaLen(){ return Mathf.len(deltaX, deltaY); }"', source)
 
+    def test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_update_shoot_gate_prefix_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, can_shoot: bool, was_flipped: bool, vel_len: float) -> Dictionary:", source)
+        self.assertIn("var kill_shooter_once_blocked := bullet_kill_shooter and total_shots > 0", source)
+        self.assertIn("var alternate_gate := (not alternate) or was_flipped == flip_sprite", source)
+        self.assertIn("var shoot_gate_prefix := mount_shoot and can_shoot and not kill_shooter_once_blocked and alternate_gate and warmup_gate and velocity_gate", source)
+        self.assertIn('"killShooterGateSource": "!(bullet.killShooter && mount.totalShots > 0) &&"', source)
+        self.assertIn('"alternateGateSource": "(!alternate || wasFlipped == flipSprite) &&"', source)
+        self.assertIn('"velocityGateSource": "velLen >= minShootVelocity &&"', source)
+        self.assertIn('"reloadGateReservedSource": "(mount.reload <= 0.0001f || (alwaysContinuous && mount.bullet == null)) &&"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

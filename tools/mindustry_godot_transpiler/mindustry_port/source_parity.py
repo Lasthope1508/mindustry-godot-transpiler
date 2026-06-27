@@ -7508,6 +7508,62 @@ def verify_weapon_update_velocity_length_source(upstream_root: Path) -> dict[str
         "missing": missing,
     }
 
+def verify_weapon_update_shoot_gate_prefix_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    bullet_type_source = "core/src/mindustry/entities/bullet/BulletType.java"
+    weapon_mount_path = upstream_root / weapon_mount_source
+    bullet_type_path = upstream_root / bullet_type_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    bullet_type_text = bullet_type_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "shoot_comment": "//shoot if applicable",
+        "mount_shoot_gate": "if(mount.shoot && //must be shooting",
+        "can_gate": "can && //must be able to shoot",
+        "kill_shooter_gate": "!(bullet.killShooter && mount.totalShots > 0) && //if the bullet kills the shooter, you should only ever be able to shoot once",
+        "alternate_gate": "(!alternate || wasFlipped == flipSprite) &&",
+        "warmup_gate": "mount.warmup >= minWarmup && //must be warmed up",
+        "velocity_gate": "velLen >= minShootVelocity && //check velocity requirements",
+        "weapon_alternate": "public boolean alternate = true;",
+        "weapon_flip_sprite": "public boolean flipSprite = false;",
+        "weapon_min_warmup": "public float minWarmup = 0f;",
+        "weapon_min_shoot_velocity": "public float minShootVelocity = -1f;",
+        "mount_shoot": "public boolean shoot = false;",
+        "mount_warmup": "public float warmup;",
+        "mount_total_shots": "public int totalShots;",
+        "bullet_kill_shooter": "public boolean killShooter;",
+    }
+    source_map = {
+        "shoot_comment": source,
+        "mount_shoot_gate": source,
+        "can_gate": source,
+        "kill_shooter_gate": source,
+        "alternate_gate": source,
+        "warmup_gate": source,
+        "velocity_gate": source,
+        "weapon_alternate": source,
+        "weapon_flip_sprite": source,
+        "weapon_min_warmup": source,
+        "weapon_min_shoot_velocity": source,
+        "mount_shoot": weapon_mount_text,
+        "mount_warmup": weapon_mount_text,
+        "mount_total_shots": weapon_mount_text,
+        "bullet_kill_shooter": bullet_type_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": weapon_mount_source,
+        "bullet_type_source": bullet_type_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"
