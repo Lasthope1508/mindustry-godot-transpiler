@@ -8594,6 +8594,54 @@ def verify_bullet_type_create_spawn_unit_source(upstream_root: Path) -> dict[str
         "missing": missing,
     }
 
+def verify_bullet_type_create_bullet_identity_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    bullet_comp_source = "core/src/mindustry/entities/comp/BulletComp.java"
+    bullet_comp_path = upstream_root / bullet_comp_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    bullet_comp_text = bullet_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "bullet_create": "Bullet bullet = Bullet.create();",
+        "type_assignment": "bullet.type = this;",
+        "owner_assignment": "bullet.owner = owner;",
+        "shooter_assignment": "bullet.shooter = (shooter == null ? owner : shooter);",
+        "team_assignment": "bullet.team = team;",
+        "time_assignment": "bullet.time = 0f;",
+        "origin_x_assignment": "bullet.originX = x;",
+        "origin_y_assignment": "bullet.originY = y;",
+        "aim_tile_reserved": "if(!(aimX == -1f && aimY == -1f)){",
+        "bullet_comp_imports": "@Import Team team;\n    @Import Entityc owner;\n    @Import float x, y, damage, lastX, lastY, time, lifetime;",
+        "bullet_comp_type": "BulletType type;",
+        "bullet_comp_shooter": "transient Entityc shooter;",
+        "bullet_comp_origin": "transient float originX, originY;",
+    }
+    source_map = {
+        "bullet_create": source,
+        "type_assignment": source,
+        "owner_assignment": source,
+        "shooter_assignment": source,
+        "team_assignment": source,
+        "time_assignment": source,
+        "origin_x_assignment": source,
+        "origin_y_assignment": source,
+        "aim_tile_reserved": source,
+        "bullet_comp_imports": bullet_comp_text,
+        "bullet_comp_type": bullet_comp_text,
+        "bullet_comp_shooter": bullet_comp_text,
+        "bullet_comp_origin": bullet_comp_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "bullet_comp_source": bullet_comp_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

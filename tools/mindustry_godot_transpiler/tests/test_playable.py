@@ -4019,6 +4019,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"killShooterSource": "if(killShooter && owner instanceof Healthc h && !h.dead()) h.kill()"', source)
         self.assertIn('"bulletCreationReservedSource": "Bullet bullet = Bullet.create()"', source)
 
+    def test_port_game_exposes_source_bullet_type_create_bullet_identity_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_create_bullet_identity_state(create_call_state: Dictionary, initial_gate_state: Dictionary, spawn_unit_state: Dictionary, bullet_type_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var bullet_create_call: Dictionary = create_call_state.get(\"bulletCreateCall\", {})", source)
+        self.assertIn("var shooter = bullet_create_call.get(\"shooter\", null)", source)
+        self.assertIn("var bullet_owner = bullet_create_call.get(\"owner\", null)", source)
+        self.assertNotIn("var owner = bullet_create_call.get(\"owner\", null)", source)
+        self.assertIn("var bullet_identity := {", source)
+        self.assertIn('"shooter": bullet_owner if shooter == null else shooter', source)
+        self.assertIn('"time": 0.0', source)
+        self.assertIn('"originX": float(bullet_create_call.get("x", 0.0))', source)
+        self.assertIn('"bulletCreateSource": "Bullet bullet = Bullet.create()"', source)
+        self.assertIn('"shooterSource": "bullet.shooter = (shooter == null ? owner : shooter)"', source)
+        self.assertIn('"aimTileReservedSource": "if(!(aimX == -1f && aimY == -1f)){"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

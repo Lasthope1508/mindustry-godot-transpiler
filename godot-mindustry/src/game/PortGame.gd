@@ -4957,6 +4957,53 @@ func source_bullet_type_create_spawn_unit_state(initial_gate_state: Dictionary, 
 		"bulletCreationReservedSource": "Bullet bullet = Bullet.create()",
 	}
 
+func source_bullet_type_create_bullet_identity_state(create_call_state: Dictionary, initial_gate_state: Dictionary, spawn_unit_state: Dictionary, bullet_type_state: Dictionary) -> Dictionary:
+	var bullet_create_call: Dictionary = create_call_state.get("bulletCreateCall", {})
+	var shooter = bullet_create_call.get("shooter", null)
+	var bullet_owner = bullet_create_call.get("owner", null)
+	if not bool(initial_gate_state.get("bulletContinues", false)) or bool(initial_gate_state.get("bulletCreateReturnsNull", false)):
+		return {
+			"bulletContinues": false,
+			"bulletAllocated": false,
+			"bulletCreateReturnsNull": true,
+			"bullet": null,
+			"bulletCreateSource": "Bullet bullet = Bullet.create()",
+			"aimTileReservedSource": "if(!(aimX == -1f && aimY == -1f)){",
+		}
+	if bool(spawn_unit_state.get("spawnUnitBranchEntered", false)) and bool(spawn_unit_state.get("bulletCreateReturnsNull", false)):
+		return {
+			"bulletContinues": true,
+			"bulletAllocated": false,
+			"bulletCreateReturnsNull": true,
+			"bullet": null,
+			"bulletCreateSource": "Bullet bullet = Bullet.create()",
+			"aimTileReservedSource": "if(!(aimX == -1f && aimY == -1f)){",
+		}
+	var bullet_identity := {
+		"type": bullet_type_state.get("id", bullet_type_state.get("name", "")),
+		"owner": bullet_owner,
+		"shooter": bullet_owner if shooter == null else shooter,
+		"team": bullet_create_call.get("team", ""),
+		"time": 0.0,
+		"originX": float(bullet_create_call.get("x", 0.0)),
+		"originY": float(bullet_create_call.get("y", 0.0)),
+	}
+	return {
+		"bulletContinues": true,
+		"bulletAllocated": true,
+		"bulletCreateReturnsNull": false,
+		"bullet": bullet_identity,
+		"bulletCreateSource": "Bullet bullet = Bullet.create()",
+		"typeSource": "bullet.type = this",
+		"ownerSource": "bullet.owner = owner",
+		"shooterSource": "bullet.shooter = (shooter == null ? owner : shooter)",
+		"teamSource": "bullet.team = team",
+		"timeSource": "bullet.time = 0f",
+		"originXSource": "bullet.originX = x",
+		"originYSource": "bullet.originY = y",
+		"aimTileReservedSource": "if(!(aimX == -1f && aimY == -1f)){",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

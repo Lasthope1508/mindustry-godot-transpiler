@@ -4855,6 +4855,29 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_create_bullet_identity_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_create_bullet_identity_source"))
+        report = source_parity.verify_bullet_type_create_bullet_identity_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["bullet_comp_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(report["checked"], {
+            "bullet_create": "Bullet bullet = Bullet.create();",
+            "type_assignment": "bullet.type = this;",
+            "owner_assignment": "bullet.owner = owner;",
+            "shooter_assignment": "bullet.shooter = (shooter == null ? owner : shooter);",
+            "team_assignment": "bullet.team = team;",
+            "time_assignment": "bullet.time = 0f;",
+            "origin_x_assignment": "bullet.originX = x;",
+            "origin_y_assignment": "bullet.originY = y;",
+            "aim_tile_reserved": "if(!(aimX == -1f && aimY == -1f)){",
+            "bullet_comp_imports": "@Import Team team;\n    @Import Entityc owner;\n    @Import float x, y, damage, lastX, lastY, time, lifetime;",
+            "bullet_comp_type": "BulletType type;",
+            "bullet_comp_shooter": "transient Entityc shooter;",
+            "bullet_comp_origin": "transient float originX, originY;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")
