@@ -1305,6 +1305,31 @@
         "test_bullet_type_removed_frag_dispatch_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_removed_frag_dispatch_state"
+    },
+    "N447": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "buildingDamage(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_building_damage_state",
+      "exact_exprs": [
+        "return b.damage() * b.buildingDamageMultiplier"
+      ],
+      "deferred_exprs": [
+        "public float shieldDamage(Bullet b){"
+      ],
+      "source_symbols": [
+        "building_damage.damage",
+        "building_damage.building_damage_multiplier",
+        "building_damage.return_value",
+        "building_damage.shield_damage_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_building_damage_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_building_damage_state",
+        "test_bullet_type_building_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_building_damage_state"
     }
   },
   "version": 1

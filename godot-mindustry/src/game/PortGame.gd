@@ -7953,6 +7953,7 @@ func source_bullet_type_building_damage_state(bullet_state: Dictionary) -> Dicti
 		"buildingDamageMultiplier": building_damage_multiplier,
 		"buildingDamage": building_damage,
 		"buildingDamageReturnSource": "return b.damage() * b.buildingDamageMultiplier",
+		"shieldDamageBoundarySource": "public float shieldDamage(Bullet b){",
 	}
 
 func source_bullet_type_shield_damage_state(bullet_type_state: Dictionary, bullet_state: Dictionary) -> Dictionary:

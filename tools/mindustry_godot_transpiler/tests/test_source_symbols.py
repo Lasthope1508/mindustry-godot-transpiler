@@ -1001,14 +1001,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(boundary["status"], "deferred")
         self.assertEqual(boundary["java_expr"], "public float buildingDamage(Bullet b){")
 
+    def test_bullet_type_building_damage_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        damage = source_symbols.source_symbol(registry, "building_damage.damage")
+        self.assertEqual(damage["java_expr"], "b.damage()")
+        self.assertEqual(damage["godot_symbol"], "bullet_state.damage")
+        self.assertEqual(damage["godot_owner"], "PortGame.source_bullet_type_building_damage_state")
+        self.assertEqual(damage["runtime_proof"], "/root/Main.source_bullet_type_building_damage_state")
+
+        multiplier = source_symbols.source_symbol(registry, "building_damage.building_damage_multiplier")
+        self.assertEqual(multiplier["java_expr"], "b.buildingDamageMultiplier")
+        self.assertEqual(multiplier["godot_symbol"], "bullet_state.buildingDamageMultiplier")
+
+        return_value = source_symbols.source_symbol(registry, "building_damage.return_value")
+        self.assertEqual(return_value["java_expr"], "b.damage() * b.buildingDamageMultiplier")
+        self.assertEqual(return_value["godot_symbol"], "building_damage_result.buildingDamage")
+
+        shield_boundary = source_symbols.source_symbol(registry, "building_damage.shield_damage_boundary")
+        self.assertEqual(shield_boundary["status"], "deferred")
+        self.assertEqual(shield_boundary["java_expr"], "public float shieldDamage(Bullet b){")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 44)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 45)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 49)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 50)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1058,6 +1082,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_despawned_shake_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_removed_trail_fade_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_removed_frag_dispatch_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_building_damage_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -1337,6 +1362,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(b.frags == 0 && fragOnDespawn && fragBullet != null)", removed_frag_dispatch["exact_exprs"])
         self.assertIn("createFrags(b, b.x, b.y)", removed_frag_dispatch["exact_exprs"])
         self.assertIn("public float buildingDamage(Bullet b){", removed_frag_dispatch["deferred_exprs"])
+
+        building_damage = source_symbols.source_slice(ledger, "N447")
+        self.assertEqual(building_damage["java_method"], "buildingDamage(Bullet b)")
+        self.assertEqual(building_damage["godot_owner"], "PortGame.source_bullet_type_building_damage_state")
+        self.assertIn("return b.damage() * b.buildingDamageMultiplier", building_damage["exact_exprs"])
+        self.assertIn("public float shieldDamage(Bullet b){", building_damage["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -1697,6 +1728,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("createFragsCall", removed_frag_dispatch["return_keys"])
         self.assertIn("buildingDamageBoundarySource", removed_frag_dispatch["return_keys"])
         self.assertEqual(removed_frag_dispatch["source_method"], "removed(Bullet b)")
+
+        building_damage = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_building_damage_state")
+        self.assertEqual([param["name"] for param in building_damage["params"]], ["bullet_state"])
+        self.assertIn("buildingDamage", building_damage["return_keys"])
+        self.assertIn("buildingDamageReturnSource", building_damage["return_keys"])
+        self.assertIn("shieldDamageBoundarySource", building_damage["return_keys"])
+        self.assertEqual(building_damage["source_method"], "buildingDamage(Bullet b)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")

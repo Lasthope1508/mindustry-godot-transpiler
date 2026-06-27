@@ -2154,6 +2154,34 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_removed_frag_dispatch_state",
       "rule": "Public runtime contract for BulletType.removed createFrags dispatch record."
+    },
+    "PortGame.source_bullet_type_building_damage_state": {
+      "status": "active",
+      "source_slice": "N447",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "buildingDamage(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "damage",
+        "buildingDamageMultiplier",
+        "buildingDamage",
+        "buildingDamageReturnSource",
+        "shieldDamageBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_building_damage_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_building_damage_state",
+        "test_bullet_type_building_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_building_damage_state",
+      "rule": "Public runtime contract for BulletType.buildingDamage return record."
     }
   },
   "policy": {
