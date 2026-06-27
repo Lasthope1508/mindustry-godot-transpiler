@@ -5509,6 +5509,7 @@ func source_bullet_type_update_trail_state(bullet_state: Dictionary, bullet_type
 			"gatePassed": false,
 			"gateSource": "if(!headless && trailLength > 0){",
 			"updateSource": "b.trail.update(b.x, b.y, trailInterp.apply(b.fin()) * (1f + (trailSinMag > 0 ? Mathf.absin(Time.time, trailSinScl, trailSinMag) : 0f)))",
+			"initBoundarySource": "public void init(){",
 		}
 	var raw_trail_state = update_bullet_state.get("trail", null)
 	var trail_state: Dictionary = raw_trail_state if raw_trail_state is Dictionary else {}
@@ -5533,6 +5534,7 @@ func source_bullet_type_update_trail_state(bullet_state: Dictionary, bullet_type
 		"absinValue": absin_value,
 		"gateSource": "if(!headless && trailLength > 0){",
 		"updateSource": "b.trail.update(b.x, b.y, trailInterp.apply(b.fin()) * (1f + (trailSinMag > 0 ? Mathf.absin(Time.time, trailSinScl, trailSinMag) : 0f)))",
+		"initBoundarySource": "public void init(){",
 	}
 
 func source_bullet_type_update_homing_initial_state(bullet_state: Dictionary, bullet_type_state: Dictionary) -> Dictionary:

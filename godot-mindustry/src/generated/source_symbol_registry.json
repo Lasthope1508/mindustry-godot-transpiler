@@ -5133,6 +5133,171 @@
         "test_bullet_type_update_bullet_interval_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_update_bullet_interval_state"
+    },
+    "update_trail.gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateTrail(Bullet b)",
+      "java_expr": "if(!headless && trailLength > 0){",
+      "godot_symbol": "update_trail_result.gatePassed",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_state",
+      "rule": "Exact updateTrail gate from BulletType.updateTrail.",
+      "tests": [
+        "test_bullet_type_update_trail_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_state",
+        "test_bullet_type_update_trail_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_state"
+    },
+    "update_trail.headless": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/Vars.java",
+      "java_method": "Vars",
+      "java_expr": "headless",
+      "godot_symbol": "headless_state.headless",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_state",
+      "rule": "Runtime receives Vars.headless explicitly; do not infer platform mode.",
+      "tests": [
+        "test_bullet_type_update_trail_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_state",
+        "test_bullet_type_update_trail_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_state"
+    },
+    "update_trail.trail_null_guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateTrail(Bullet b)",
+      "java_expr": "if(b.trail == null){",
+      "godot_symbol": "update_trail_result.trailCreated",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_state",
+      "rule": "Records whether Bullet.trail was null before updateTrail allocation.",
+      "tests": [
+        "test_bullet_type_update_trail_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_state",
+        "test_bullet_type_update_trail_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_state"
+    },
+    "update_trail.new_trail": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateTrail(Bullet b)",
+      "java_expr": "b.trail = new Trail(trailLength);",
+      "godot_symbol": "update_trail_result.trail",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_state",
+      "rule": "Allocates new Trail from BulletType.trailLength when b.trail is null.",
+      "tests": [
+        "test_bullet_type_update_trail_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_state",
+        "test_bullet_type_update_trail_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_state"
+    },
+    "update_trail.length_assignment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateTrail(Bullet b)",
+      "java_expr": "b.trail.length = trailLength;",
+      "godot_symbol": "update_trail_result.trail.length",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_state",
+      "rule": "Assigns Bullet.trail.length from BulletType.trailLength before update.",
+      "tests": [
+        "test_bullet_type_update_trail_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_state",
+        "test_bullet_type_update_trail_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_state"
+    },
+    "update_trail.update_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateTrail(Bullet b)",
+      "java_expr": "b.trail.update(b.x, b.y, trailInterp.apply(b.fin()) * (1f + (trailSinMag > 0 ? Mathf.absin(Time.time, trailSinScl, trailSinMag) : 0f)));",
+      "godot_symbol": "update_trail_result.trail",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_state",
+      "rule": "Records Trail.update coordinates and width formula.",
+      "tests": [
+        "test_bullet_type_update_trail_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_state",
+        "test_bullet_type_update_trail_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_state"
+    },
+    "update_trail.trail_interp_value": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateTrail(Bullet b)",
+      "java_expr": "trailInterp.apply(b.fin())",
+      "godot_symbol": "trail_interp_state.trailInterpValue",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_state",
+      "rule": "Runtime receives Interp.apply(b.fin()) explicitly until Interp curve execution is ported.",
+      "tests": [
+        "test_bullet_type_update_trail_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_state",
+        "test_bullet_type_update_trail_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_state"
+    },
+    "update_trail.bullet_fin": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/TimedComp.java",
+      "java_method": "fin()",
+      "java_expr": "b.fin()",
+      "godot_symbol": "bullet_state.fin",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_state",
+      "rule": "Bullet fin is explicit input until TimedComp.fin runtime state is fully canonical.",
+      "tests": [
+        "test_bullet_type_update_trail_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_state",
+        "test_bullet_type_update_trail_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_state"
+    },
+    "update_trail.absin_value": {
+      "status": "explicit-input",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "absin(float in, float scl, float mag)",
+      "java_expr": "Mathf.absin(Time.time, trailSinScl, trailSinMag)",
+      "godot_symbol": "trail_absin_state.absinValue",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_state",
+      "rule": "Runtime receives Arc absin result explicitly; source formula stays registered.",
+      "tests": [
+        "test_bullet_type_update_trail_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_state",
+        "test_bullet_type_update_trail_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_state"
+    },
+    "update_trail.time_delta": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/graphics/Trail.java",
+      "java_method": "update(float x, float y, float width)",
+      "java_expr": "Time.delta",
+      "godot_symbol": "time_state.delta",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_state",
+      "rule": "Runtime receives Time.delta explicitly for Trail.update counter increment.",
+      "tests": [
+        "test_bullet_type_update_trail_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_state",
+        "test_bullet_type_update_trail_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_state"
+    },
+    "update_trail.init_boundary": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateTrail(Bullet b)",
+      "java_expr": "public void init(){",
+      "godot_symbol": "update_trail_result.initBoundarySource",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_state",
+      "rule": "Next BulletType method boundary after updateTrail.",
+      "tests": [
+        "test_bullet_type_update_trail_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_state",
+        "test_bullet_type_update_trail_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_state"
     }
   }
 }

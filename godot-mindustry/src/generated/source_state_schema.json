@@ -15,7 +15,8 @@
           "java_expr": "b.fin()",
           "godot_symbol": "bullet_state.fin",
           "used_by": [
-            "PortGame.source_bullet_type_draw_parts_state"
+            "PortGame.source_bullet_type_draw_parts_state",
+            "PortGame.source_bullet_type_update_trail_state"
           ],
           "rule": "Explicit input until BulletComp.fin() is ported."
         },
@@ -114,7 +115,8 @@
             "PortGame.source_bullet_type_hit_default_state",
             "PortGame.source_bullet_type_init_spawn_bullets_state",
             "PortGame.source_bullet_type_update_dispatch_state",
-            "PortGame.source_bullet_type_update_bullet_interval_state"
+            "PortGame.source_bullet_type_update_bullet_interval_state",
+            "PortGame.source_bullet_type_update_trail_state"
           ],
           "rule": "Use source bullet x field."
         },
@@ -131,7 +133,8 @@
             "PortGame.source_bullet_type_hit_default_state",
             "PortGame.source_bullet_type_init_spawn_bullets_state",
             "PortGame.source_bullet_type_update_dispatch_state",
-            "PortGame.source_bullet_type_update_bullet_interval_state"
+            "PortGame.source_bullet_type_update_bullet_interval_state",
+            "PortGame.source_bullet_type_update_trail_state"
           ],
           "rule": "Use source bullet y field."
         },
@@ -170,7 +173,8 @@
           "java_expr": "b.trail",
           "godot_symbol": "bullet_state.trail",
           "used_by": [
-            "PortGame.source_bullet_type_removed_trail_fade_state"
+            "PortGame.source_bullet_type_removed_trail_fade_state",
+            "PortGame.source_bullet_type_update_trail_state"
           ],
           "rule": "Explicit Bullet.trail snapshot; nested size pins b.trail.size() for removed trail fade."
         },
@@ -856,7 +860,8 @@
           "java_expr": "trailLength",
           "godot_symbol": "bullet_type_state.trailLength",
           "used_by": [
-            "PortGame.source_bullet_type_removed_trail_fade_state"
+            "PortGame.source_bullet_type_removed_trail_fade_state",
+            "PortGame.source_bullet_type_update_trail_state"
           ],
           "rule": "Canonical BulletType.trailLength field for removed trail fade gate."
         },
@@ -1087,6 +1092,42 @@
             "PortGame.source_bullet_type_update_bullet_interval_state"
           ],
           "rule": "Canonical BulletType.intervalSpread field for per-index spread formula; default is 0f."
+        },
+        "trailInterp": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrail(Bullet b)",
+          "java_expr": "trailInterp",
+          "godot_symbol": "bullet_type_state.trailInterp",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_state"
+          ],
+          "rule": "Canonical BulletType.trailInterp field for updateTrail width interpolation; default is Interp.one."
+        },
+        "trailSinMag": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrail(Bullet b)",
+          "java_expr": "trailSinMag",
+          "godot_symbol": "bullet_type_state.trailSinMag",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_state"
+          ],
+          "rule": "Canonical BulletType.trailSinMag field for optional absin width scale; default is 0f."
+        },
+        "trailSinScl": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrail(Bullet b)",
+          "java_expr": "trailSinScl",
+          "godot_symbol": "bullet_type_state.trailSinScl",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_state"
+          ],
+          "rule": "Canonical BulletType.trailSinScl field for optional absin width scale; default is 3f."
         }
       }
     },
@@ -8207,6 +8248,258 @@
             "PortGame.source_bullet_type_update_bullet_interval_state"
           ],
           "rule": "Next BulletType method boundary after updateBulletInterval."
+        }
+      }
+    },
+    "headless_state": {
+      "status": "active",
+      "keys": {
+        "headless": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_method": "Vars",
+          "java_expr": "headless",
+          "godot_symbol": "headless_state.headless",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_state"
+          ],
+          "rule": "Explicit Vars.headless value for updateTrail gate."
+        }
+      }
+    },
+    "trail_interp_state": {
+      "status": "active",
+      "keys": {
+        "trailInterpValue": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrail(Bullet b)",
+          "java_expr": "trailInterp.apply(b.fin())",
+          "godot_symbol": "trail_interp_state.trailInterpValue",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_state"
+          ],
+          "rule": "Explicit interpolated trail width base until Interp application is ported."
+        }
+      }
+    },
+    "trail_absin_state": {
+      "status": "active",
+      "keys": {
+        "absinValue": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "absin(float in, float scl, float mag)",
+          "java_expr": "Mathf.absin(Time.time, trailSinScl, trailSinMag)",
+          "godot_symbol": "trail_absin_state.absinValue",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_state"
+          ],
+          "rule": "Explicit absin width term until Arc Mathf.absin/Time.time path is ported."
+        }
+      }
+    },
+    "time_state": {
+      "status": "active",
+      "keys": {
+        "delta": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/graphics/Trail.java",
+          "java_method": "update(float x, float y, float width)",
+          "java_expr": "Time.delta",
+          "godot_symbol": "time_state.delta",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_state"
+          ],
+          "rule": "Explicit Time.delta input for Trail.update counter increment."
+        }
+      }
+    },
+    "trail_state": {
+      "status": "active",
+      "keys": {
+        "length": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrail(Bullet b)",
+          "java_expr": "b.trail.length = trailLength",
+          "godot_symbol": "trail_state.length",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_state"
+          ],
+          "rule": "Trail length assigned from BulletType.trailLength."
+        },
+        "lastX": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrail(Bullet b)",
+          "java_expr": "b.x",
+          "godot_symbol": "trail_state.lastX",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_state"
+          ],
+          "rule": "Recorded Trail.update x argument from b.x."
+        },
+        "lastY": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrail(Bullet b)",
+          "java_expr": "b.y",
+          "godot_symbol": "trail_state.lastY",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_state"
+          ],
+          "rule": "Recorded Trail.update y argument from b.y."
+        },
+        "lastW": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrail(Bullet b)",
+          "java_expr": "trailInterp.apply(b.fin()) * (1f + (trailSinMag > 0 ? Mathf.absin(Time.time, trailSinScl, trailSinMag) : 0f))",
+          "godot_symbol": "trail_state.lastW",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_state"
+          ],
+          "rule": "Recorded Trail.update width argument."
+        },
+        "counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/graphics/Trail.java",
+          "java_method": "update(float x, float y, float width)",
+          "java_expr": "counter += Time.delta",
+          "godot_symbol": "trail_state.counter",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_state"
+          ],
+          "rule": "Runtime counter advances by explicit Time.delta input."
+        }
+      }
+    },
+    "update_trail_result": {
+      "status": "active",
+      "keys": {
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime echo of input bullet_state with updated trail."
+        },
+        "trail": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrail(Bullet b)",
+          "java_expr": "b.trail.update(b.x, b.y, trailInterp.apply(b.fin()) * (1f + (trailSinMag > 0 ? Mathf.absin(Time.time, trailSinScl, trailSinMag) : 0f)))",
+          "godot_symbol": "update_trail_result.trail",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_state"
+          ],
+          "rule": "Updated trail dictionary representing b.trail after updateTrail."
+        },
+        "trailCreated": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrail(Bullet b)",
+          "java_expr": "b.trail == null",
+          "godot_symbol": "update_trail_result.trailCreated",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_state"
+          ],
+          "rule": "True when source null guard allocates new Trail."
+        },
+        "trailUpdated": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrail(Bullet b)",
+          "java_expr": "!headless && trailLength > 0",
+          "godot_symbol": "update_trail_result.trailUpdated",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_state"
+          ],
+          "rule": "Trail update happens only when updateTrail gate passes."
+        },
+        "gatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrail(Bullet b)",
+          "java_expr": "!headless && trailLength > 0",
+          "godot_symbol": "update_trail_result.gatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_state"
+          ],
+          "rule": "Exact updateTrail gate result."
+        },
+        "width": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrail(Bullet b)",
+          "java_expr": "trailInterp.apply(b.fin()) * (1f + (trailSinMag > 0 ? Mathf.absin(Time.time, trailSinScl, trailSinMag) : 0f))",
+          "godot_symbol": "update_trail_result.width",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_state"
+          ],
+          "rule": "Exact Trail.update width formula."
+        },
+        "sinScale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrail(Bullet b)",
+          "java_expr": "1f + (trailSinMag > 0 ? Mathf.absin(Time.time, trailSinScl, trailSinMag) : 0f)",
+          "godot_symbol": "update_trail_result.sinScale",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_state"
+          ],
+          "rule": "Sine scale term in Trail.update width formula."
+        },
+        "trailInterpValue": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "trail_interp_state.trailInterpValue",
+          "rule": "Runtime echo of explicit trail interpolation input."
+        },
+        "absinValue": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "trail_absin_state.absinValue",
+          "rule": "Runtime echo of explicit absin input."
+        },
+        "gateSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.update_trail.gate",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "updateSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.update_trail.update_call",
+          "rule": "Debug source-line echo, not gameplay state."
+        },
+        "initBoundarySource": {
+          "type": "String",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "updateTrail(Bullet b)",
+          "java_expr": "public void init(){",
+          "godot_symbol": "update_trail_result.initBoundarySource",
+          "used_by": [
+            "PortGame.source_bullet_type_update_trail_state"
+          ],
+          "rule": "Next BulletType method boundary after updateTrail."
         }
       }
     }

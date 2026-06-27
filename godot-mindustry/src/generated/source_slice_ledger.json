@@ -1565,6 +1565,43 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_update_bullet_interval_state",
       "rule": "Backfills SSOT for existing BulletType.updateBulletInterval runtime state from N372; timer result and random offsets remain explicit inputs."
+    },
+    "N456": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "updateTrail(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_state",
+      "exact_exprs": [
+        "if(!headless && trailLength > 0){",
+        "if(b.trail == null){",
+        "b.trail = new Trail(trailLength);",
+        "b.trail.length = trailLength;",
+        "b.trail.update(b.x, b.y, trailInterp.apply(b.fin()) * (1f + (trailSinMag > 0 ? Mathf.absin(Time.time, trailSinScl, trailSinMag) : 0f)));"
+      ],
+      "deferred_exprs": [
+        "public void init(){"
+      ],
+      "source_symbols": [
+        "update_trail.gate",
+        "update_trail.headless",
+        "update_trail.trail_null_guard",
+        "update_trail.new_trail",
+        "update_trail.length_assignment",
+        "update_trail.update_call",
+        "update_trail.trail_interp_value",
+        "update_trail.bullet_fin",
+        "update_trail.absin_value",
+        "update_trail.time_delta",
+        "update_trail.init_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_update_trail_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_state",
+        "test_bullet_type_update_trail_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_state",
+      "rule": "Backfills SSOT for existing BulletType.updateTrail runtime state from N373; headless, trail interp, absin, and Time.delta remain explicit inputs."
     }
   },
   "version": 1

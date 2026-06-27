@@ -1252,14 +1252,62 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(homing_boundary["status"], "deferred")
         self.assertEqual(homing_boundary["java_expr"], "public void updateHoming(Bullet b){")
 
+    def test_bullet_type_update_trail_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        gate = source_symbols.source_symbol(registry, "update_trail.gate")
+        self.assertEqual(gate["java_expr"], "if(!headless && trailLength > 0){")
+        self.assertEqual(gate["godot_symbol"], "update_trail_result.gatePassed")
+        self.assertEqual(gate["godot_owner"], "PortGame.source_bullet_type_update_trail_state")
+        self.assertEqual(gate["runtime_proof"], "/root/Main.source_bullet_type_update_trail_state")
+
+        headless = source_symbols.source_symbol(registry, "update_trail.headless")
+        self.assertEqual(headless["status"], "explicit-input")
+        self.assertEqual(headless["java_expr"], "headless")
+        self.assertEqual(headless["godot_symbol"], "headless_state.headless")
+
+        null_guard = source_symbols.source_symbol(registry, "update_trail.trail_null_guard")
+        self.assertEqual(null_guard["java_expr"], "if(b.trail == null){")
+        self.assertEqual(null_guard["godot_symbol"], "update_trail_result.trailCreated")
+
+        length_assignment = source_symbols.source_symbol(registry, "update_trail.length_assignment")
+        self.assertEqual(length_assignment["java_expr"], "b.trail.length = trailLength;")
+        self.assertEqual(length_assignment["godot_symbol"], "update_trail_result.trail.length")
+
+        update_call = source_symbols.source_symbol(registry, "update_trail.update_call")
+        self.assertEqual(update_call["java_expr"], "b.trail.update(b.x, b.y, trailInterp.apply(b.fin()) * (1f + (trailSinMag > 0 ? Mathf.absin(Time.time, trailSinScl, trailSinMag) : 0f)));")
+        self.assertEqual(update_call["godot_symbol"], "update_trail_result.trail")
+
+        trail_interp = source_symbols.source_symbol(registry, "update_trail.trail_interp_value")
+        self.assertEqual(trail_interp["status"], "explicit-input")
+        self.assertEqual(trail_interp["java_expr"], "trailInterp.apply(b.fin())")
+        self.assertEqual(trail_interp["godot_symbol"], "trail_interp_state.trailInterpValue")
+
+        absin = source_symbols.source_symbol(registry, "update_trail.absin_value")
+        self.assertEqual(absin["status"], "explicit-input")
+        self.assertEqual(absin["java_expr"], "Mathf.absin(Time.time, trailSinScl, trailSinMag)")
+        self.assertEqual(absin["godot_symbol"], "trail_absin_state.absinValue")
+
+        time_delta = source_symbols.source_symbol(registry, "update_trail.time_delta")
+        self.assertEqual(time_delta["status"], "explicit-input")
+        self.assertEqual(time_delta["java_expr"], "Time.delta")
+        self.assertEqual(time_delta["godot_symbol"], "time_state.delta")
+
+        init_boundary = source_symbols.source_symbol(registry, "update_trail.init_boundary")
+        self.assertEqual(init_boundary["status"], "deferred")
+        self.assertEqual(init_boundary["java_expr"], "public void init(){")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 53)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 54)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 58)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 59)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1307,6 +1355,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_init_spawn_bullets_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_update_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_update_bullet_interval_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_update_trail_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -1668,6 +1717,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("intervalBullet.create(b, b.x, b.y, ang + Mathf.range(intervalRandomSpread) + intervalAngle + ((i - (intervalBullets - 1f)/2f) * intervalSpread));", update_interval["exact_exprs"])
         self.assertIn("b.timer.get(2, bulletInterval)", update_interval["exact_exprs"])
         self.assertIn("public void updateHoming(Bullet b){", update_interval["deferred_exprs"])
+
+        update_trail = source_symbols.source_slice(ledger, "N456")
+        self.assertEqual(update_trail["java_method"], "updateTrail(Bullet b)")
+        self.assertEqual(update_trail["godot_owner"], "PortGame.source_bullet_type_update_trail_state")
+        self.assertIn("if(!headless && trailLength > 0){", update_trail["exact_exprs"])
+        self.assertIn("if(b.trail == null){", update_trail["exact_exprs"])
+        self.assertIn("b.trail = new Trail(trailLength);", update_trail["exact_exprs"])
+        self.assertIn("b.trail.length = trailLength;", update_trail["exact_exprs"])
+        self.assertIn("b.trail.update(b.x, b.y, trailInterp.apply(b.fin()) * (1f + (trailSinMag > 0 ? Mathf.absin(Time.time, trailSinScl, trailSinMag) : 0f)));", update_trail["exact_exprs"])
+        self.assertIn("public void init(){", update_trail["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -2100,6 +2159,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("updateHomingBoundarySource", update_interval["return_keys"])
         self.assertEqual(update_interval["source_method"], "updateBulletInterval(Bullet b)")
 
+        update_trail = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_update_trail_state")
+        self.assertEqual([param["name"] for param in update_trail["params"]], ["bullet_state", "bullet_type_state", "headless_value", "trail_interp_value", "absin_value", "source_delta"])
+        self.assertIn("gatePassed", update_trail["return_keys"])
+        self.assertIn("trailCreated", update_trail["return_keys"])
+        self.assertIn("trailUpdated", update_trail["return_keys"])
+        self.assertIn("trail", update_trail["return_keys"])
+        self.assertIn("width", update_trail["return_keys"])
+        self.assertIn("initBoundarySource", update_trail["return_keys"])
+        self.assertEqual(update_trail["source_method"], "updateTrail(Bullet b)")
+
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_state_schema(schema)
@@ -2507,6 +2576,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(bullet_type_state["keys"]["intervalRandomSpread"]["java_expr"], "intervalRandomSpread")
         self.assertEqual(bullet_type_state["keys"]["intervalAngle"]["java_expr"], "intervalAngle")
         self.assertEqual(bullet_type_state["keys"]["intervalSpread"]["java_expr"], "intervalSpread")
+
+        headless_state = source_symbols.state_schema(schema, "headless_state")
+        self.assertEqual(headless_state["keys"]["headless"]["java_expr"], "headless")
+        self.assertEqual(headless_state["keys"]["headless"]["status"], "explicit-input")
+
+        trail_interp_state = source_symbols.state_schema(schema, "trail_interp_state")
+        self.assertEqual(trail_interp_state["keys"]["trailInterpValue"]["java_expr"], "trailInterp.apply(b.fin())")
+        self.assertEqual(trail_interp_state["keys"]["trailInterpValue"]["status"], "explicit-input")
+
+        trail_absin_state = source_symbols.state_schema(schema, "trail_absin_state")
+        self.assertEqual(trail_absin_state["keys"]["absinValue"]["java_expr"], "Mathf.absin(Time.time, trailSinScl, trailSinMag)")
+        self.assertEqual(trail_absin_state["keys"]["absinValue"]["status"], "explicit-input")
+
+        time_state = source_symbols.state_schema(schema, "time_state")
+        self.assertEqual(time_state["keys"]["delta"]["java_expr"], "Time.delta")
+        self.assertEqual(time_state["keys"]["delta"]["status"], "explicit-input")
+
+        update_trail_output = source_symbols.state_schema(schema, "update_trail_result")
+        self.assertEqual(update_trail_output["keys"]["gatePassed"]["java_expr"], "!headless && trailLength > 0")
+        self.assertEqual(update_trail_output["keys"]["trailCreated"]["java_expr"], "b.trail == null")
+        self.assertEqual(update_trail_output["keys"]["trail"]["java_expr"], "b.trail.update(b.x, b.y, trailInterp.apply(b.fin()) * (1f + (trailSinMag > 0 ? Mathf.absin(Time.time, trailSinScl, trailSinMag) : 0f)))")
+        self.assertEqual(update_trail_output["keys"]["width"]["java_expr"], "trailInterp.apply(b.fin()) * (1f + (trailSinMag > 0 ? Mathf.absin(Time.time, trailSinScl, trailSinMag) : 0f))")
+        self.assertEqual(update_trail_output["keys"]["initBoundarySource"]["status"], "deferred")
+
+        self.assertIn("PortGame.source_bullet_type_update_trail_state", bullet_state["keys"]["fin"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_update_trail_state", bullet_state["keys"]["trail"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_update_trail_state", bullet_state["keys"]["x"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_update_trail_state", bullet_state["keys"]["y"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_update_trail_state", bullet_type_state["keys"]["trailLength"]["used_by"])
+        self.assertEqual(bullet_type_state["keys"]["trailInterp"]["java_expr"], "trailInterp")
+        self.assertEqual(bullet_type_state["keys"]["trailSinMag"]["java_expr"], "trailSinMag")
+        self.assertEqual(bullet_type_state["keys"]["trailSinScl"]["java_expr"], "trailSinScl")
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")

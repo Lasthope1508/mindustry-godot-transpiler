@@ -2491,6 +2491,65 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_update_bullet_interval_state",
       "rule": "Public runtime contract for BulletType.updateBulletInterval gate, timer input, loop geometry, create calls, and next method boundary."
+    },
+    "PortGame.source_bullet_type_update_trail_state": {
+      "status": "active",
+      "source_slice": "N456",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "updateTrail(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "headless_value",
+          "type": "bool",
+          "schema": "headless_state"
+        },
+        {
+          "name": "trail_interp_value",
+          "type": "float",
+          "schema": "trail_interp_state"
+        },
+        {
+          "name": "absin_value",
+          "type": "float",
+          "schema": "trail_absin_state"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "time_state"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "trail",
+        "trailCreated",
+        "trailUpdated",
+        "gatePassed",
+        "width",
+        "sinScale",
+        "trailInterpValue",
+        "absinValue",
+        "gateSource",
+        "updateSource",
+        "initBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_update_trail_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_state",
+        "test_bullet_type_update_trail_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_state",
+      "rule": "Public runtime contract for BulletType.updateTrail gate, trail allocation, length assignment, update width formula, and next method boundary."
     }
   },
   "policy": {
