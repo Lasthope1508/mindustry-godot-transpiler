@@ -7598,6 +7598,59 @@ def verify_weapon_update_reload_gate_source(upstream_root: Path) -> dict[str, An
         "missing": missing,
     }
 
+def verify_weapon_update_cone_gate_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    rot_comp_source = "core/src/mindustry/entities/comp/RotComp.java"
+    angles_source = "arc-core/src/arc/math/Angles.java"
+    weapon_mount_path = upstream_root / weapon_mount_source
+    rot_comp_path = upstream_root / rot_comp_source
+    angles_path = arc_root / angles_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    rot_comp_text = rot_comp_path.read_text(encoding="utf-8", errors="replace")
+    angles_text = angles_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "cone_gate": "(alwaysShooting || Angles.within(rotate ? mount.rotation : unit.rotation + baseRotation, mount.targetRotation, shootCone)) //has to be within the cone",
+        "shoot_call_reserved": "shoot(unit, mount, bulletX, bulletY, shootAngle);",
+        "weapon_always_shooting": "public boolean alwaysShooting = false;",
+        "weapon_rotate": "public boolean rotate = false;",
+        "weapon_base_rotation": "public float baseRotation = 0f;",
+        "weapon_shoot_cone": "public float shootCone = 5f;",
+        "mount_rotation": "public float rotation;",
+        "mount_target_rotation": "public float targetRotation;",
+        "unit_rotation": "@SyncField(false) @SyncLocal float rotation;",
+        "angles_within": "public static boolean within(float a, float b, float margin){\n        return angleDist(a, b) <= margin;\n    }",
+        "angles_angle_dist": "public static float angleDist(float a, float b){\n        a = Mathf.mod(a, 360f);\n        b = Mathf.mod(b, 360f);\n        return Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a);\n    }",
+    }
+    source_map = {
+        "cone_gate": source,
+        "shoot_call_reserved": source,
+        "weapon_always_shooting": source,
+        "weapon_rotate": source,
+        "weapon_base_rotation": source,
+        "weapon_shoot_cone": source,
+        "mount_rotation": weapon_mount_text,
+        "mount_target_rotation": weapon_mount_text,
+        "unit_rotation": rot_comp_text,
+        "angles_within": angles_text,
+        "angles_angle_dist": angles_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": weapon_mount_source,
+        "rot_comp_source": rot_comp_source,
+        "angles_source": angles_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

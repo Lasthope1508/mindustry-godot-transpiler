@@ -4392,6 +4392,29 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_weapon_update_cone_gate_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_weapon_update_cone_gate_source"))
+        report = source_parity.verify_weapon_update_cone_gate_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["weapon_mount_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(report["rot_comp_source"], "core/src/mindustry/entities/comp/RotComp.java")
+        self.assertEqual(report["angles_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(report["checked"], {
+            "cone_gate": "(alwaysShooting || Angles.within(rotate ? mount.rotation : unit.rotation + baseRotation, mount.targetRotation, shootCone)) //has to be within the cone",
+            "shoot_call_reserved": "shoot(unit, mount, bulletX, bulletY, shootAngle);",
+            "weapon_always_shooting": "public boolean alwaysShooting = false;",
+            "weapon_rotate": "public boolean rotate = false;",
+            "weapon_base_rotation": "public float baseRotation = 0f;",
+            "weapon_shoot_cone": "public float shootCone = 5f;",
+            "mount_rotation": "public float rotation;",
+            "mount_target_rotation": "public float targetRotation;",
+            "unit_rotation": "@SyncField(false) @SyncLocal float rotation;",
+            "angles_within": "public static boolean within(float a, float b, float margin){\n        return angleDist(a, b) <= margin;\n    }",
+            "angles_angle_dist": "public static float angleDist(float a, float b){\n        a = Mathf.mod(a, 360f);\n        b = Mathf.mod(b, 360f);\n        return Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a);\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

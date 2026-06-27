@@ -4039,6 +4039,40 @@ func source_weapon_update_reload_gate_state(mount_state: Dictionary, weapon_stat
 		"mountBulletSource": "public @Nullable Bullet bullet;",
 	}
 
+func source_angles_angle_dist(a: float, b: float) -> float:
+	var mod_a := fposmod(a, 360.0)
+	var mod_b := fposmod(b, 360.0)
+	var forward := mod_a - mod_b + 360.0 if mod_a - mod_b < 0.0 else mod_a - mod_b
+	var backward := mod_b - mod_a + 360.0 if mod_b - mod_a < 0.0 else mod_b - mod_a
+	return min(forward, backward)
+
+func source_weapon_update_cone_gate_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary) -> Dictionary:
+	var always_shooting := bool(weapon_state.get("alwaysShooting", false))
+	var weapon_rotate := bool(weapon_state.get("rotate", false))
+	var base_rotation := float(weapon_state.get("baseRotation", 0.0))
+	var shoot_cone := float(weapon_state.get("shootCone", 5.0))
+	var mount_rotation := float(mount_state.get("rotation", 0.0))
+	var target_rotation := float(mount_state.get("targetRotation", 0.0))
+	var unit_rotation := float(unit_state.get("rotation", 0.0))
+	var current_rotation := mount_rotation if weapon_rotate else unit_rotation + base_rotation
+	var angle_distance := source_angles_angle_dist(current_rotation, target_rotation)
+	var within_cone := angle_distance <= shoot_cone
+	var cone_gate := always_shooting or within_cone
+	return {
+		"coneGate": cone_gate,
+		"alwaysShooting": always_shooting,
+		"rotate": weapon_rotate,
+		"currentRotation": current_rotation,
+		"targetRotation": target_rotation,
+		"shootCone": shoot_cone,
+		"angleDistance": angle_distance,
+		"withinCone": within_cone,
+		"coneGateSource": "(alwaysShooting || Angles.within(rotate ? mount.rotation : unit.rotation + baseRotation, mount.targetRotation, shootCone))",
+		"anglesWithinSource": "return angleDist(a, b) <= margin",
+		"anglesAngleDistSource": "return Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a)",
+		"shootCallReservedSource": "shoot(unit, mount, bulletX, bulletY, shootAngle)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

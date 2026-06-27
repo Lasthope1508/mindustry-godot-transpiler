@@ -3691,6 +3691,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"reloadGateSource": "(mount.reload <= 0.0001f || (alwaysContinuous && mount.bullet == null)) &&"', source)
         self.assertIn('"coneGateReservedSource": "(alwaysShooting || Angles.within(rotate ? mount.rotation : unit.rotation + baseRotation, mount.targetRotation, shootCone))"', source)
 
+    def test_port_game_exposes_source_weapon_update_cone_gate_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_update_cone_gate_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary) -> Dictionary:", source)
+        self.assertNotIn("var rotate := bool(weapon_state.get(\"rotate\", false))", source)
+        self.assertIn("var weapon_rotate := bool(weapon_state.get(\"rotate\", false))", source)
+        self.assertIn("var current_rotation := mount_rotation if weapon_rotate else unit_rotation + base_rotation", source)
+        self.assertIn("var angle_distance := source_angles_angle_dist(current_rotation, target_rotation)", source)
+        self.assertIn("var within_cone := angle_distance <= shoot_cone", source)
+        self.assertIn("var cone_gate := always_shooting or within_cone", source)
+        self.assertIn('"coneGateSource": "(alwaysShooting || Angles.within(rotate ? mount.rotation : unit.rotation + baseRotation, mount.targetRotation, shootCone))"', source)
+        self.assertIn('"anglesWithinSource": "return angleDist(a, b) <= margin"', source)
+        self.assertIn('"shootCallReservedSource": "shoot(unit, mount, bulletX, bulletY, shootAngle)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
