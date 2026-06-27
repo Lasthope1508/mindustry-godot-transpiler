@@ -2013,6 +2013,48 @@
         "test_port_game_exposes_source_bullet_type_hit_frag_dispatch_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_frag_dispatch_state"
+    },
+    "hit.post_frag_dispatch.create_puddles_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "java_expr": "createPuddles(b, x, y)",
+      "godot_symbol": "hit_post_frag_dispatch_result.createPuddlesCall",
+      "godot_owner": "PortGame.source_bullet_type_hit_post_frag_dispatch_state",
+      "rule": "Record createPuddles(b, x, y) as the first post-frag dispatch; createPuddles body remains deferred.",
+      "tests": [
+        "test_bullet_type_hit_post_frag_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_post_frag_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_post_frag_dispatch_state"
+    },
+    "hit.post_frag_dispatch.create_incend_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "java_expr": "createIncend(b, x, y)",
+      "godot_symbol": "hit_post_frag_dispatch_result.createIncendCall",
+      "godot_owner": "PortGame.source_bullet_type_hit_post_frag_dispatch_state",
+      "rule": "Record createIncend(b, x, y) after createPuddles; createIncend body remains deferred.",
+      "tests": [
+        "test_bullet_type_hit_post_frag_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_post_frag_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_post_frag_dispatch_state"
+    },
+    "hit.post_frag_dispatch.create_units_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "java_expr": "createUnits(b, x, y)",
+      "godot_symbol": "hit_post_frag_dispatch_result.createUnitsCall",
+      "godot_owner": "PortGame.source_bullet_type_hit_post_frag_dispatch_state",
+      "rule": "Record createUnits(b, x, y) after createIncend; createUnits body remains deferred.",
+      "tests": [
+        "test_bullet_type_hit_post_frag_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_post_frag_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_post_frag_dispatch_state"
     }
   }
 }

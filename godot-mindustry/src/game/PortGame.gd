@@ -6512,6 +6512,44 @@ func source_bullet_type_hit_frag_dispatch_state(bullet_type_state: Dictionary, b
 		"postFragBoundarySource": "createPuddles(b, x, y)",
 	}
 
+func source_bullet_type_hit_post_frag_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_frag_dispatch_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_hit_xy_state: Dictionary = hit_xy_state.duplicate(true)
+	var update_hit_frag_dispatch_state: Dictionary = hit_frag_dispatch_state.duplicate(true)
+	var hit_x := float(update_hit_frag_dispatch_state.get("x", update_hit_xy_state.get("x", 0.0)))
+	var hit_y := float(update_hit_frag_dispatch_state.get("y", update_hit_xy_state.get("y", 0.0)))
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"hitXY": update_hit_xy_state,
+		"hitFragDispatch": update_hit_frag_dispatch_state,
+		"x": hit_x,
+		"y": hit_y,
+		"createPuddlesCall": {
+			"call": "createPuddles(b, x, y)",
+			"x": hit_x,
+			"y": hit_y,
+			"called": true,
+		},
+		"createIncendCall": {
+			"call": "createIncend(b, x, y)",
+			"x": hit_x,
+			"y": hit_y,
+			"called": true,
+		},
+		"createUnitsCall": {
+			"call": "createUnits(b, x, y)",
+			"x": hit_x,
+			"y": hit_y,
+			"called": true,
+		},
+		"createPuddlesCallSource": "createPuddles(b, x, y)",
+		"createIncendCallSource": "createIncend(b, x, y)",
+		"createUnitsCallSource": "createUnits(b, x, y)",
+		"suppressionBoundarySource": "if(suppressionRange > 0)",
+	}
+
 func source_bullet_type_hit_entity_damage_cap_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, hit_entity_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

@@ -391,14 +391,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(direct_call["java_expr"], "createFrags(b, x, y)")
         self.assertEqual(direct_call["godot_symbol"], "hit_frag_dispatch_result.createFragsCall")
 
+    def test_bullet_type_hit_post_frag_dispatch_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        puddles_call = source_symbols.source_symbol(registry, "hit.post_frag_dispatch.create_puddles_call")
+        self.assertEqual(puddles_call["java_expr"], "createPuddles(b, x, y)")
+        self.assertEqual(puddles_call["godot_owner"], "PortGame.source_bullet_type_hit_post_frag_dispatch_state")
+        self.assertEqual(puddles_call["runtime_proof"], "/root/Main.source_bullet_type_hit_post_frag_dispatch_state")
+
+        incend_call = source_symbols.source_symbol(registry, "hit.post_frag_dispatch.create_incend_call")
+        self.assertEqual(incend_call["java_expr"], "createIncend(b, x, y)")
+        self.assertEqual(incend_call["godot_symbol"], "hit_post_frag_dispatch_result.createIncendCall")
+
+        units_call = source_symbols.source_symbol(registry, "hit.post_frag_dispatch.create_units_call")
+        self.assertEqual(units_call["java_expr"], "createUnits(b, x, y)")
+        self.assertEqual(units_call["godot_symbol"], "hit_post_frag_dispatch_result.createUnitsCall")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 18)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 19)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 23)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 24)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -422,6 +441,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_hit_xy_default_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_effects_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_frag_dispatch_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_hit_post_frag_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -530,6 +550,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(createFrags && fragOnHit)", hit_frag_dispatch["exact_exprs"])
         self.assertIn("Time.run(0f, () -> createFrags(b, x, y))", hit_frag_dispatch["exact_exprs"])
         self.assertIn("createFrags(b, x, y)", hit_frag_dispatch["exact_exprs"])
+
+        hit_post_frag_dispatch = source_symbols.source_slice(ledger, "N421")
+        self.assertEqual(hit_post_frag_dispatch["java_method"], "hit(Bullet b, float x, float y, boolean createFrags)")
+        self.assertEqual(hit_post_frag_dispatch["godot_owner"], "PortGame.source_bullet_type_hit_post_frag_dispatch_state")
+        self.assertIn("createPuddles(b, x, y)", hit_post_frag_dispatch["exact_exprs"])
+        self.assertIn("createIncend(b, x, y)", hit_post_frag_dispatch["exact_exprs"])
+        self.assertIn("createUnits(b, x, y)", hit_post_frag_dispatch["exact_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -667,6 +694,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("timeRunCall", hit_frag_dispatch["return_keys"])
         self.assertIn("createFragsCall", hit_frag_dispatch["return_keys"])
         self.assertEqual(hit_frag_dispatch["source_method"], "hit(Bullet b, float x, float y, boolean createFrags)")
+
+        hit_post_frag_dispatch = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_hit_post_frag_dispatch_state")
+        self.assertEqual([param["name"] for param in hit_post_frag_dispatch["params"]], ["bullet_type_state", "bullet_state", "hit_xy_state", "hit_frag_dispatch_state"])
+        self.assertEqual(hit_post_frag_dispatch["params"][3]["schema"], "hit_frag_dispatch_result")
+        self.assertIn("createPuddlesCall", hit_post_frag_dispatch["return_keys"])
+        self.assertIn("createIncendCall", hit_post_frag_dispatch["return_keys"])
+        self.assertIn("createUnitsCall", hit_post_frag_dispatch["return_keys"])
+        self.assertEqual(hit_post_frag_dispatch["source_method"], "hit(Bullet b, float x, float y, boolean createFrags)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -824,6 +859,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(hit_frag_dispatch_output["keys"]["delayFragGatePassed"]["java_expr"], "delayFrags && fragBullet != null && fragBullet.delayFrags")
         self.assertEqual(hit_frag_dispatch_output["keys"]["timeRunCall"]["java_expr"], "Time.run(0f, () -> createFrags(b, x, y))")
         self.assertEqual(hit_frag_dispatch_output["keys"]["createFragsCall"]["java_expr"], "createFrags(b, x, y)")
+
+        hit_post_frag_dispatch_output = source_symbols.state_schema(schema, "hit_post_frag_dispatch_result")
+        self.assertEqual(hit_post_frag_dispatch_output["keys"]["createPuddlesCall"]["java_expr"], "createPuddles(b, x, y)")
+        self.assertEqual(hit_post_frag_dispatch_output["keys"]["createIncendCall"]["java_expr"], "createIncend(b, x, y)")
+        self.assertEqual(hit_post_frag_dispatch_output["keys"]["createUnitsCall"]["java_expr"], "createUnits(b, x, y)")
+        self.assertEqual(hit_post_frag_dispatch_output["keys"]["suppressionBoundarySource"]["java_expr"], "if(suppressionRange > 0)")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

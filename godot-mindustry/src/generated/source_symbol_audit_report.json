@@ -453,7 +453,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 18,
+  "registeredSourceOwnerCount": 19,
   "registeredSourceOwners": [
     "PortGame.source_bullet_type_damage_multiplier_state",
     "PortGame.source_bullet_type_draw_parts_state",
@@ -467,6 +467,7 @@
     "PortGame.source_bullet_type_hit_entity_unit_destroy_event_state",
     "PortGame.source_bullet_type_hit_entity_unit_effects_state",
     "PortGame.source_bullet_type_hit_frag_dispatch_state",
+    "PortGame.source_bullet_type_hit_post_frag_dispatch_state",
     "PortGame.source_bullet_type_hit_tile_enemy_direct_state",
     "PortGame.source_bullet_type_hit_tile_fire_state",
     "PortGame.source_bullet_type_hit_tile_heal_state",
@@ -2291,6 +2292,11 @@
       "owner": "PortGame.source_bullet_type_hit_frag_dispatch_state"
     },
     {
+      "function": "source_bullet_type_hit_post_frag_dispatch_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "owner": "PortGame.source_bullet_type_hit_post_frag_dispatch_state"
+    },
+    {
       "function": "source_bullet_type_hit_entity_damage_cap_state",
       "gdscript_path": "src/game/PortGame.gd",
       "owner": "PortGame.source_bullet_type_hit_entity_damage_cap_state"
@@ -2786,6 +2792,6 @@
       "owner": "PortGame.source_bullet_scale"
     }
   ],
-  "totalSourceFunctions": 462,
+  "totalSourceFunctions": 463,
   "version": 1
 }

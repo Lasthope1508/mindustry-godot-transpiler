@@ -565,6 +565,33 @@
         "test_port_game_exposes_source_bullet_type_hit_frag_dispatch_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_frag_dispatch_state"
+    },
+    "N421": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "godot_owner": "PortGame.source_bullet_type_hit_post_frag_dispatch_state",
+      "exact_exprs": [
+        "createPuddles(b, x, y)",
+        "createIncend(b, x, y)",
+        "createUnits(b, x, y)"
+      ],
+      "deferred_exprs": [
+        "if(suppressionRange > 0)",
+        "createSplashDamage(b, x, y)",
+        "for(int i = 0; i < lightning; i++)"
+      ],
+      "source_symbols": [
+        "hit.post_frag_dispatch.create_puddles_call",
+        "hit.post_frag_dispatch.create_incend_call",
+        "hit.post_frag_dispatch.create_units_call"
+      ],
+      "tests": [
+        "test_bullet_type_hit_post_frag_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_post_frag_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_post_frag_dispatch_state"
     }
   },
   "version": 1
