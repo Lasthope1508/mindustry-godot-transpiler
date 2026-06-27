@@ -10044,6 +10044,44 @@ def verify_bullet_type_draw_trail_state_source(upstream_root: Path) -> dict[str,
         "missing": missing,
     }
 
+def verify_bullet_type_draw_light_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    drawf_source = "core/src/mindustry/graphics/Drawf.java"
+    drawf_path = upstream_root / drawf_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    drawf_text = drawf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "light_radius_field": "public float lightRadius = -1f;",
+        "light_opacity_field": "public float lightOpacity = 0.3f;",
+        "light_color_field": "public Color lightColor = Pal.powerLight;",
+        "method": "public void drawLight(Bullet b){",
+        "early_return": "if(lightOpacity <= 0f || lightRadius <= 0f) return;",
+        "drawf_light_call": "Drawf.light(b, lightRadius, lightColor, lightOpacity);",
+        "drawf_position_method": "public static void light(Position pos, float radius, Color color, float opacity){",
+        "drawf_position_delegate": "light(pos.getX(), pos.getY(), radius, color, opacity);",
+    }
+    source_map = {
+        "light_radius_field": source,
+        "light_opacity_field": source,
+        "light_color_field": source,
+        "method": source,
+        "early_return": source,
+        "drawf_light_call": source,
+        "drawf_position_method": drawf_text,
+        "drawf_position_delegate": drawf_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "drawf_source": drawf_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

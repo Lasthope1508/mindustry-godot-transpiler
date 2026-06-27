@@ -6084,6 +6084,29 @@ func source_bullet_type_draw_trail_state(bullet_type_state: Dictionary, bullet_s
 		"drawZRestoreSource": "Draw.z(z)",
 	}
 
+func source_bullet_type_draw_light_state(bullet_type_state: Dictionary, bullet_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var light_opacity := float(update_type_state.get("lightOpacity", 0.3))
+	var light_radius := float(update_type_state.get("lightRadius", -1.0))
+	var light_color := str(update_type_state.get("lightColor", "Pal.powerLight"))
+	var gate_passed := light_opacity > 0.0 and light_radius > 0.0
+	var drawf_light_call: Variant = null
+	if gate_passed:
+		drawf_light_call = {"call": "Drawf.light(b, lightRadius, lightColor, lightOpacity)", "radius": light_radius, "color": light_color, "opacity": light_opacity}
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"gatePassed": gate_passed,
+		"lightDrawn": gate_passed,
+		"lightOpacity": light_opacity,
+		"lightRadius": light_radius,
+		"lightColor": light_color,
+		"drawfLightCall": drawf_light_call,
+		"earlyReturnSource": "if(lightOpacity <= 0f || lightRadius <= 0f) return",
+		"drawfLightSource": "Drawf.light(b, lightRadius, lightColor, lightOpacity)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {

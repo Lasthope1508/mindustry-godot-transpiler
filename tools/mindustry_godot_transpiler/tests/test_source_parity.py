@@ -5558,6 +5558,24 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_draw_light_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_draw_light_state_source"))
+        report = source_parity.verify_bullet_type_draw_light_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["drawf_source"], "core/src/mindustry/graphics/Drawf.java")
+        self.assertEqual(report["checked"], {
+            "light_radius_field": "public float lightRadius = -1f;",
+            "light_opacity_field": "public float lightOpacity = 0.3f;",
+            "light_color_field": "public Color lightColor = Pal.powerLight;",
+            "method": "public void drawLight(Bullet b){",
+            "early_return": "if(lightOpacity <= 0f || lightRadius <= 0f) return;",
+            "drawf_light_call": "Drawf.light(b, lightRadius, lightColor, lightOpacity);",
+            "drawf_position_method": "public static void light(Position pos, float radius, Color color, float opacity){",
+            "drawf_position_delegate": "light(pos.getX(), pos.getY(), radius, color, opacity);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

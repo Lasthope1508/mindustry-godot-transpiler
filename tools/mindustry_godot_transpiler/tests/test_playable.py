@@ -4592,6 +4592,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"drawZBelowSource": "Draw.z(z - 0.0001f)"', source)
         self.assertIn('"drawZRestoreSource": "Draw.z(z)"', source)
 
+    def test_port_game_exposes_source_bullet_type_draw_light_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_draw_light_state(bullet_type_state: Dictionary, bullet_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var update_type_state: Dictionary = bullet_type_state.duplicate(true)", source)
+        self.assertIn("var update_bullet_state: Dictionary = bullet_state.duplicate(true)", source)
+        self.assertIn("var light_opacity := float(update_type_state.get(\"lightOpacity\", 0.3))", source)
+        self.assertIn("var light_radius := float(update_type_state.get(\"lightRadius\", -1.0))", source)
+        self.assertIn("var light_color := str(update_type_state.get(\"lightColor\", \"Pal.powerLight\"))", source)
+        self.assertIn("var gate_passed := light_opacity > 0.0 and light_radius > 0.0", source)
+        self.assertIn("var drawf_light_call: Variant = null", source)
+        self.assertIn('drawf_light_call = {"call": "Drawf.light(b, lightRadius, lightColor, lightOpacity)", "radius": light_radius, "color": light_color, "opacity": light_opacity}', source)
+        self.assertIn('"drawfLightCall": drawf_light_call', source)
+        self.assertIn('"earlyReturnSource": "if(lightOpacity <= 0f || lightRadius <= 0f) return"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
