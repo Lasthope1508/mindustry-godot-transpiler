@@ -402,6 +402,31 @@
         "test_port_game_exposes_source_bullet_type_hit_entity_unit_destroy_event_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_destroy_event_state"
+    },
+    "N415": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_handle_pierce_state",
+      "exact_exprs": [
+        "handlePierce(b, health, entity.x(), entity.y())",
+        "health",
+        "entity.x()",
+        "entity.y()"
+      ],
+      "reused_source_slices": [
+        "N409: PortGame.source_bullet_type_handle_pierce_state"
+      ],
+      "source_symbols": [
+        "hit_entity.handle_pierce_call",
+        "hit_entity.handle_pierce_initial_health"
+      ],
+      "tests": [
+        "test_bullet_type_hit_entity_handle_pierce_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_handle_pierce_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_handle_pierce_state"
     }
   },
   "version": 1

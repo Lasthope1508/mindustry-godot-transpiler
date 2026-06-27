@@ -5668,6 +5668,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_hit_entity_handle_pierce_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_hit_entity_handle_pierce_state_source"))
+        report = source_parity.verify_bullet_type_hit_entity_handle_pierce_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "hit_entity_method": "public void hitEntity(Bullet b, Hitboxc entity, float health){",
+            "handle_pierce_call": "handlePierce(b, health, entity.x(), entity.y());",
+            "handle_pierce_method": "public void handlePierce(Bullet b, float initialHealth, float x, float y){",
+            "handle_pierce_sub": "float sub = Mathf.zero(pierceDamageFactor) ? 0f : Math.max(initialHealth * pierceDamageFactor, 0);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_bullet_type_building_damage_state_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_bullet_type_building_damage_state_source"))
         report = source_parity.verify_bullet_type_building_damage_state_source(ROOT / "mindustry-upstream")

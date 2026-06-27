@@ -6606,6 +6606,43 @@ func source_bullet_type_hit_entity_unit_destroy_event_state(bullet_state: Dictio
 		"handlePierceBoundarySource": "handlePierce(b, health, entity.x(), entity.y())",
 	}
 
+func source_bullet_type_hit_entity_handle_pierce_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, damage_cap_state: Dictionary, unit_destroy_event_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_entity_state: Dictionary = entity_state.duplicate(true)
+	var update_damage_cap_state: Dictionary = damage_cap_state.duplicate(true)
+	var update_unit_destroy_event_state: Dictionary = unit_destroy_event_state.duplicate(true)
+	var effective_health := float(update_damage_cap_state.get("effectiveHealth", 0.0))
+	var entity_x := float(update_entity_state.get("x", 0.0))
+	var entity_y := float(update_entity_state.get("y", 0.0))
+	var pierce_state := {"initialHealth": effective_health, "x": entity_x, "y": entity_y}
+	var handle_pierce_state := source_bullet_type_handle_pierce_state(update_type_state, update_bullet_state, pierce_state)
+	var handle_pierce_call := {
+		"call": "handlePierce(b, health, entity.x(), entity.y())",
+		"initialHealth": effective_health,
+		"x": entity_x,
+		"y": entity_y,
+	}
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"entity": update_entity_state,
+		"damageCap": update_damage_cap_state,
+		"unitDestroyEvent": update_unit_destroy_event_state,
+		"pierce": pierce_state,
+		"handlePierce": handle_pierce_state,
+		"bulletAfterPierce": handle_pierce_state.get("bullet", update_bullet_state),
+		"effectiveHealth": effective_health,
+		"entityX": entity_x,
+		"entityY": entity_y,
+		"handlePierceCalled": true,
+		"handlePierceCall": handle_pierce_call,
+		"damage": float(handle_pierce_state.get("damage", update_bullet_state.get("damage", 0.0))),
+		"removeCalled": bool(handle_pierce_state.get("removeCalled", false)),
+		"handlePierceCallSource": "handlePierce(b, health, entity.x(), entity.y())",
+		"handlePierceMethodSource": "public void handlePierce(Bullet b, float initialHealth, float x, float y)",
+	}
+
 func source_bullet_type_building_damage_state(bullet_state: Dictionary) -> Dictionary:
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
 	var damage := float(update_bullet_state.get("damage", 0.0))

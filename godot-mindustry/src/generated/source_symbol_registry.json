@@ -1537,6 +1537,34 @@
         "test_port_game_exposes_source_bullet_type_hit_entity_unit_destroy_event_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_destroy_event_state"
+    },
+    "hit_entity.handle_pierce_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "handlePierce(b, health, entity.x(), entity.y())",
+      "godot_symbol": "hit_entity_handle_pierce_result.handlePierceCalled",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_handle_pierce_state",
+      "rule": "Record final hitEntity call into handlePierce with source health and entity coordinates.",
+      "tests": [
+        "test_bullet_type_hit_entity_handle_pierce_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_handle_pierce_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_handle_pierce_state"
+    },
+    "hit_entity.handle_pierce_initial_health": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "java_expr": "health",
+      "godot_symbol": "pierce_state.initialHealth",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_handle_pierce_state",
+      "rule": "Pass the current hitEntity health local as handlePierce initialHealth.",
+      "tests": [
+        "test_bullet_type_hit_entity_handle_pierce_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_handle_pierce_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_handle_pierce_state"
     }
   }
 }

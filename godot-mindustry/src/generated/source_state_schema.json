@@ -2173,6 +2173,125 @@
           "rule": "Runtime source snippet for deferred boundary."
         }
       }
+    },
+    "hit_entity_handle_pierce_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_type_state",
+          "rule": "Runtime key preserves input BulletType state."
+        },
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime key preserves input bullet state before handlePierce."
+        },
+        "entity": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "entity_state",
+          "rule": "Runtime key preserves input entity state."
+        },
+        "damageCap": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "hit_entity_damage_cap_result",
+          "rule": "Runtime key preserves N410 damage cap state."
+        },
+        "unitDestroyEvent": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "hit_entity_unit_destroy_event_result",
+          "rule": "Runtime key preserves N414 Unit destroy event state."
+        },
+        "pierce": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "pierce_state",
+          "rule": "Runtime key records derived pierce_state input."
+        },
+        "handlePierce": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "handle_pierce_result",
+          "rule": "Runtime key aliases N409 handlePierce result."
+        },
+        "bulletAfterPierce": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "handle_pierce_result.bullet",
+          "rule": "Runtime key aliases post-pierce bullet state."
+        },
+        "effectiveHealth": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "hit_entity_damage_cap_result.effectiveHealth",
+          "rule": "Runtime key aliases current hitEntity health local."
+        },
+        "entityX": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "entity_state.x",
+          "rule": "Runtime key aliases explicit entity x input."
+        },
+        "entityY": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "entity_state.y",
+          "rule": "Runtime key aliases explicit entity y input."
+        },
+        "handlePierceCalled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "handlePierce(b, health, entity.x(), entity.y())",
+          "godot_symbol": "hit_entity_handle_pierce_result.handlePierceCalled",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_handle_pierce_state"
+          ],
+          "rule": "Final hitEntity handlePierce call always runs after destroy-event branch."
+        },
+        "handlePierceCall": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+          "java_expr": "handlePierce(b, health, entity.x(), entity.y())",
+          "godot_symbol": "hit_entity_handle_pierce_result.handlePierceCall",
+          "used_by": [
+            "PortGame.source_bullet_type_hit_entity_handle_pierce_state"
+          ],
+          "rule": "Runtime call record for final hitEntity handlePierce dispatch."
+        },
+        "damage": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "handle_pierce_result.damage",
+          "rule": "Runtime key aliases post-pierce bullet damage."
+        },
+        "removeCalled": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "handle_pierce_result.removeCalled",
+          "rule": "Runtime key aliases N409 remove side effect."
+        },
+        "handlePierceCallSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "hit_entity.handle_pierce_call",
+          "rule": "Runtime source snippet label."
+        },
+        "handlePierceMethodSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "PortGame.source_bullet_type_handle_pierce_state",
+          "rule": "Runtime label for reused N409 method helper."
+        }
+      }
     }
   },
   "version": 1

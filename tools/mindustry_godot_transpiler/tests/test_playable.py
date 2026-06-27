@@ -4710,6 +4710,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"unitDestroyEventSource": "Events.fire(new UnitBulletDestroyEvent(unit, b))"', source)
         self.assertIn('"handlePierceBoundarySource": "handlePierce(b, health, entity.x(), entity.y())"', source)
 
+    def test_port_game_exposes_source_bullet_type_hit_entity_handle_pierce_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_hit_entity_handle_pierce_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, damage_cap_state: Dictionary, unit_destroy_event_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var effective_health := float(update_damage_cap_state.get(\"effectiveHealth\", 0.0))", source)
+        self.assertIn("var entity_x := float(update_entity_state.get(\"x\", 0.0))", source)
+        self.assertIn("var entity_y := float(update_entity_state.get(\"y\", 0.0))", source)
+        self.assertIn("var pierce_state := {\"initialHealth\": effective_health, \"x\": entity_x, \"y\": entity_y}", source)
+        self.assertIn("var handle_pierce_state := source_bullet_type_handle_pierce_state(update_type_state, update_bullet_state, pierce_state)", source)
+        self.assertIn('"call": "handlePierce(b, health, entity.x(), entity.y())"', source)
+        self.assertIn('"handlePierceCallSource": "handlePierce(b, health, entity.x(), entity.y())"', source)
+        self.assertIn('"handlePierceMethodSource": "public void handlePierce(Bullet b, float initialHealth, float x, float y)"', source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

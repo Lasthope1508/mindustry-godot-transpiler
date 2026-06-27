@@ -453,12 +453,13 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 12,
+  "registeredSourceOwnerCount": 13,
   "registeredSourceOwners": [
     "PortGame.source_bullet_type_draw_parts_state",
     "PortGame.source_bullet_type_handle_pierce_state",
     "PortGame.source_bullet_type_hit_entity_armor_damage_state",
     "PortGame.source_bullet_type_hit_entity_damage_cap_state",
+    "PortGame.source_bullet_type_hit_entity_handle_pierce_state",
     "PortGame.source_bullet_type_hit_entity_lifesteal_state",
     "PortGame.source_bullet_type_hit_entity_unit_destroy_event_state",
     "PortGame.source_bullet_type_hit_entity_unit_effects_state",
@@ -2285,6 +2286,11 @@
       "owner": "PortGame.source_bullet_type_hit_entity_unit_destroy_event_state"
     },
     {
+      "function": "source_bullet_type_hit_entity_handle_pierce_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "owner": "PortGame.source_bullet_type_hit_entity_handle_pierce_state"
+    },
+    {
       "function": "source_bullet_type_building_damage_state",
       "gdscript_path": "src/game/PortGame.gd",
       "owner": "PortGame.source_bullet_type_building_damage_state"
@@ -2750,6 +2756,6 @@
       "owner": "PortGame.source_bullet_scale"
     }
   ],
-  "totalSourceFunctions": 456,
+  "totalSourceFunctions": 457,
   "version": 1
 }
