@@ -6129,6 +6129,33 @@ func source_bullet_type_test_collision_state(bullet_type_state: Dictionary, bull
 		"testCollisionReturnSource": "return !heals() || tile.team != bullet.team || tile.healthf() < 1f",
 	}
 
+func source_bullet_type_hit_tile_fire_state(bullet_type_state: Dictionary, bullet_state: Dictionary, build_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_build_state: Dictionary = build_state.duplicate(true)
+	var make_fire := bool(update_type_state.get("makeFire", false))
+	var build_team = update_build_state.get("team", null)
+	var bullet_team = update_bullet_state.get("team", null)
+	var fire_gate_passed: bool = make_fire and build_team != bullet_team
+	var build_tile = update_build_state.get("tile", null)
+	var fires_create_call: Variant = null
+	if fire_gate_passed:
+		fires_create_call = {"call": "Fires.create(build.tile)", "tile": build_tile}
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"build": update_build_state,
+		"makeFire": make_fire,
+		"buildTeam": build_team,
+		"bulletTeam": bullet_team,
+		"fireGatePassed": fire_gate_passed,
+		"fireCreated": fire_gate_passed,
+		"firesCreateCall": fires_create_call,
+		"hitTileFireGateSource": "if(makeFire && build.team != b.team)",
+		"firesCreateSource": "Fires.create(build.tile)",
+		"healBranchBoundarySource": "if(heals() && build.team == b.team && !(build.block instanceof ConstructBlock))",
+	}
+
 func source_bullet_type_hit_tile_heal_state(bullet_type_state: Dictionary, bullet_state: Dictionary, build_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

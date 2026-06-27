@@ -9967,6 +9967,26 @@ def verify_bullet_type_hit_tile_heal_state_source(upstream_root: Path) -> dict[s
         "missing": missing,
     }
 
+def verify_bullet_type_hit_tile_fire_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct){",
+        "fire_gate": "if(makeFire && build.team != b.team){",
+        "fires_create_call": "Fires.create(build.tile);",
+        "heal_gate_boundary": "if(heals() && build.team == b.team && !(build.block instanceof ConstructBlock)){",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

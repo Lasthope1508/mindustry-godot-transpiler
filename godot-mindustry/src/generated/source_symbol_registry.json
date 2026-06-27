@@ -138,6 +138,90 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_test_collision_state"
     },
+    "hit_tile.make_fire": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "java_expr": "makeFire",
+      "godot_symbol": "bullet_type_state.makeFire",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_fire_state",
+      "rule": "Use BulletType.makeFire as the only fire branch flag.",
+      "tests": [
+        "test_bullet_type_hit_tile_fire_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_fire_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_fire_state"
+    },
+    "hit_tile.fire_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "java_expr": "makeFire && build.team != b.team",
+      "godot_symbol": "hit_tile_fire_result.fireGatePassed",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_fire_state",
+      "rule": "Use the exact source fire gate before recording Fires.create(build.tile).",
+      "tests": [
+        "test_bullet_type_hit_tile_fire_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_fire_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_fire_state"
+    },
+    "hit_tile.fire.bullet.team": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "java_expr": "b.team",
+      "godot_symbol": "bullet_state.team",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_fire_state",
+      "rule": "Use b.team from bullet_state for hitTile fire gate.",
+      "tests": [
+        "test_bullet_type_hit_tile_fire_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_fire_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_fire_state"
+    },
+    "hit_tile.fire.build.team": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "java_expr": "build.team",
+      "godot_symbol": "build_state.team",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_fire_state",
+      "rule": "Use build.team from build_state for hitTile fire gate.",
+      "tests": [
+        "test_bullet_type_hit_tile_fire_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_fire_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_fire_state"
+    },
+    "hit_tile.build.tile": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "java_expr": "build.tile",
+      "godot_symbol": "build_state.tile",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_fire_state",
+      "rule": "Use build.tile as the sole Fires.create argument.",
+      "tests": [
+        "test_bullet_type_hit_tile_fire_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_fire_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_fire_state"
+    },
+    "hit_tile.fires_create_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "java_expr": "Fires.create(build.tile)",
+      "godot_symbol": "hit_tile_fire_result.firesCreateCall",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_fire_state",
+      "rule": "Record Fires.create(build.tile) only when the exact fire gate passes.",
+      "tests": [
+        "test_bullet_type_hit_tile_fire_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_fire_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_fire_state"
+    },
     "hit_tile.heals": {
       "status": "source-backed",
       "java_source": "core/src/mindustry/entities/bullet/BulletType.java",

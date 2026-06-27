@@ -128,6 +128,49 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_tile_heal_state",
       "rule": "Public runtime contract for BulletType.hitTile healing branch only; enemy/direct/lifesteal/pierce branches remain deferred slices."
+    },
+    "PortGame.source_bullet_type_hit_tile_fire_state": {
+      "status": "active",
+      "source_slice": "N406",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "build_state",
+          "type": "Dictionary",
+          "schema": "build_state"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "build",
+        "makeFire",
+        "buildTeam",
+        "bulletTeam",
+        "fireGatePassed",
+        "fireCreated",
+        "firesCreateCall",
+        "hitTileFireGateSource",
+        "firesCreateSource",
+        "healBranchBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_tile_fire_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_fire_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_fire_state",
+      "rule": "Public runtime contract for BulletType.hitTile makeFire branch only; heal/enemy/direct/lifesteal/pierce branches remain separate source slices."
     }
   },
   "policy": {

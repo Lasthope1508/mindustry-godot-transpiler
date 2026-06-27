@@ -83,14 +83,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(heal_amount["java_expr"], "healPercent / 100f * build.maxHealth + healAmount")
         self.assertEqual(heal_amount["godot_symbol"], "hit_tile_heal_result.healAppliedAmount")
 
+    def test_hit_tile_fire_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        fire_gate = source_symbols.source_symbol(registry, "hit_tile.fire_gate")
+        self.assertEqual(fire_gate["java_expr"], "makeFire && build.team != b.team")
+        self.assertEqual(fire_gate["godot_owner"], "PortGame.source_bullet_type_hit_tile_fire_state")
+        self.assertEqual(fire_gate["runtime_proof"], "/root/Main.source_bullet_type_hit_tile_fire_state")
+
+        build_tile = source_symbols.source_symbol(registry, "hit_tile.build.tile")
+        self.assertEqual(build_tile["java_expr"], "build.tile")
+        self.assertEqual(build_tile["godot_symbol"], "build_state.tile")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 3)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 4)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 8)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 9)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -99,6 +114,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_draw_parts_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -130,6 +146,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(hit_tile_heal["godot_owner"], "PortGame.source_bullet_type_hit_tile_heal_state")
         self.assertIn("build.heal(healPercent / 100f * build.maxHealth + healAmount)", hit_tile_heal["exact_exprs"])
 
+        hit_tile_fire = source_symbols.source_slice(ledger, "N406")
+        self.assertEqual(hit_tile_fire["java_method"], "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)")
+        self.assertEqual(hit_tile_fire["godot_owner"], "PortGame.source_bullet_type_hit_tile_fire_state")
+        self.assertIn("Fires.create(build.tile)", hit_tile_fire["exact_exprs"])
+
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_api_contracts(contracts)
@@ -150,6 +171,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("healGatePassed", hit_tile_heal["return_keys"])
         self.assertIn("healAppliedAmount", hit_tile_heal["return_keys"])
         self.assertEqual(hit_tile_heal["source_method"], "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)")
+
+        hit_tile_fire = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_hit_tile_fire_state")
+        self.assertEqual([param["name"] for param in hit_tile_fire["params"]], ["bullet_type_state", "bullet_state", "build_state"])
+        self.assertEqual(hit_tile_fire["params"][2]["schema"], "build_state")
+        self.assertIn("fireGatePassed", hit_tile_fire["return_keys"])
+        self.assertIn("firesCreateCall", hit_tile_fire["return_keys"])
+        self.assertEqual(hit_tile_fire["source_method"], "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -172,10 +200,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         build_state = source_symbols.state_schema(schema, "build_state")
         self.assertEqual(build_state["keys"]["maxHealth"]["java_expr"], "build.maxHealth")
         self.assertEqual(build_state["keys"]["blockIsConstructBlock"]["java_expr"], "build.block instanceof ConstructBlock")
+        self.assertEqual(build_state["keys"]["tile"]["java_expr"], "build.tile")
 
         hit_tile_output = source_symbols.state_schema(schema, "hit_tile_heal_result")
         self.assertEqual(hit_tile_output["keys"]["healGatePassed"]["java_expr"], "heals() && build.team == b.team && !(build.block instanceof ConstructBlock)")
         self.assertEqual(hit_tile_output["keys"]["healEffectCall"]["java_expr"], "healEffect.at(build.x, build.y, 0f, healColor, build.block)")
+
+        hit_tile_fire_output = source_symbols.state_schema(schema, "hit_tile_fire_result")
+        self.assertEqual(hit_tile_fire_output["keys"]["fireGatePassed"]["java_expr"], "makeFire && build.team != b.team")
+        self.assertEqual(hit_tile_fire_output["keys"]["firesCreateCall"]["java_expr"], "Fires.create(build.tile)")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

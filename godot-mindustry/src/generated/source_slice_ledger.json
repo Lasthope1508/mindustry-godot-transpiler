@@ -106,6 +106,36 @@
         "test_port_game_exposes_source_bullet_type_hit_tile_heal_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_tile_heal_state"
+    },
+    "N406": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_fire_state",
+      "exact_exprs": [
+        "if(makeFire && build.team != b.team)",
+        "Fires.create(build.tile)"
+      ],
+      "deferred_exprs": [
+        "if(heals() && build.team == b.team && !(build.block instanceof ConstructBlock))",
+        "}else if(build.team != b.team && direct)",
+        "if(lifesteal > 0f && b.owner instanceof Healthc o)",
+        "handlePierce(b, initialHealth, x, y)"
+      ],
+      "source_symbols": [
+        "hit_tile.make_fire",
+        "hit_tile.fire_gate",
+        "hit_tile.fire.bullet.team",
+        "hit_tile.fire.build.team",
+        "hit_tile.build.tile",
+        "hit_tile.fires_create_call"
+      ],
+      "tests": [
+        "test_bullet_type_hit_tile_fire_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_fire_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_fire_state"
     }
   },
   "version": 1
