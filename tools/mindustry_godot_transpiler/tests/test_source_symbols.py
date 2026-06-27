@@ -562,14 +562,34 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(random_len_boundary["java_expr"], "float len = Mathf.random(fragOffsetMin, fragOffsetMax)")
         self.assertEqual(random_len_boundary["godot_symbol"], "create_frags_initial_result.randomLenBoundarySource")
 
+    def test_bullet_type_create_frags_random_geometry_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        random_len = source_symbols.source_symbol(registry, "create_frags.random_geometry.random_len")
+        self.assertEqual(random_len["java_expr"], "float len = Mathf.random(fragOffsetMin, fragOffsetMax)")
+        self.assertEqual(random_len["godot_symbol"], "create_frags_random_geometry_result.fragmentPlans.len")
+        self.assertEqual(random_len["godot_owner"], "PortGame.source_bullet_type_create_frags_random_geometry_state")
+        self.assertEqual(random_len["runtime_proof"], "/root/Main.source_bullet_type_create_frags_random_geometry_state")
+
+        angle_formula = source_symbols.source_symbol(registry, "create_frags.random_geometry.angle_formula")
+        self.assertEqual(angle_formula["java_expr"], "b.rotation() + Mathf.range(fragRandomSpread / 2) + fragAngle + fragSpread * i - (fragBullets - 1) * fragSpread / 2f")
+        self.assertEqual(angle_formula["godot_symbol"], "create_frags_random_geometry_result.fragmentPlans.angle")
+
+        create_call_boundary = source_symbols.source_symbol(registry, "create_frags.random_geometry.create_call_boundary")
+        self.assertEqual(create_call_boundary["status"], "deferred")
+        self.assertEqual(create_call_boundary["java_expr"], "fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax))")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 26)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 27)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 31)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 32)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -601,6 +621,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_splash_damage_make_fire_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_frags_initial_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_create_frags_random_geometry_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -764,6 +785,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(fragBullet != null && (fragOnAbsorb || !b.absorbed) && (pierceFragCap < 0 || b.frags < pierceFragCap))", create_frags_initial["exact_exprs"])
         self.assertIn("for(int i = 0; i < fragBullets; i++)", create_frags_initial["exact_exprs"])
         self.assertIn("float len = Mathf.random(fragOffsetMin, fragOffsetMax)", create_frags_initial["deferred_exprs"])
+
+        create_frags_random_geometry = source_symbols.source_slice(ledger, "N429")
+        self.assertEqual(create_frags_random_geometry["java_method"], "createFrags(Bullet b, float x, float y)")
+        self.assertEqual(create_frags_random_geometry["godot_owner"], "PortGame.source_bullet_type_create_frags_random_geometry_state")
+        self.assertIn("float len = Mathf.random(fragOffsetMin, fragOffsetMax)", create_frags_random_geometry["exact_exprs"])
+        self.assertIn("float a = b.rotation() + Mathf.range(fragRandomSpread / 2) + fragAngle + fragSpread * i - (fragBullets - 1) * fragSpread / 2f", create_frags_random_geometry["exact_exprs"])
+        self.assertIn("fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax))", create_frags_random_geometry["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -970,6 +998,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("loopBoundarySource", create_frags_initial["return_keys"])
         self.assertIn("randomLenBoundarySource", create_frags_initial["return_keys"])
         self.assertEqual(create_frags_initial["source_method"], "createFrags(Bullet b, float x, float y)")
+
+        create_frags_random_geometry = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_create_frags_random_geometry_state")
+        self.assertEqual([param["name"] for param in create_frags_random_geometry["params"]], ["bullet_type_state", "bullet_state", "create_frags_initial_state", "frag_random_state"])
+        self.assertEqual(create_frags_random_geometry["params"][3]["schema"], "frag_random_state")
+        self.assertIn("fragmentPlans", create_frags_random_geometry["return_keys"])
+        self.assertIn("randomLenSource", create_frags_random_geometry["return_keys"])
+        self.assertIn("angleFormulaSource", create_frags_random_geometry["return_keys"])
+        self.assertIn("createCallBoundarySource", create_frags_random_geometry["return_keys"])
+        self.assertEqual(create_frags_random_geometry["source_method"], "createFrags(Bullet b, float x, float y)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -1183,6 +1220,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(create_frags_initial_output["keys"]["loopIterations"]["java_expr"], "for(int i = 0; i < fragBullets; i++)")
         self.assertEqual(create_frags_initial_output["keys"]["randomLenBoundarySource"]["java_expr"], "float len = Mathf.random(fragOffsetMin, fragOffsetMax)")
         self.assertEqual(create_frags_initial_output["keys"]["bulletFrags"]["alias_of"], "bullet_state.frags")
+
+        frag_random_state = source_symbols.state_schema(schema, "frag_random_state")
+        self.assertEqual(frag_random_state["keys"]["lenSamples"]["java_expr"], "Mathf.random(fragOffsetMin, fragOffsetMax)")
+        self.assertEqual(frag_random_state["keys"]["lenSamples"]["status"], "explicit-input")
+        self.assertEqual(frag_random_state["keys"]["rangeSamples"]["java_expr"], "Mathf.range(fragRandomSpread / 2)")
+
+        create_frags_random_geometry_output = source_symbols.state_schema(schema, "create_frags_random_geometry_result")
+        self.assertEqual(create_frags_random_geometry_output["keys"]["fragmentPlans"]["java_expr"], "float len = Mathf.random(fragOffsetMin, fragOffsetMax); float a = b.rotation() + Mathf.range(fragRandomSpread / 2) + fragAngle + fragSpread * i - (fragBullets - 1) * fragSpread / 2f;")
+        self.assertEqual(create_frags_random_geometry_output["keys"]["fragmentPlans"]["status"], "source-backed")
+        self.assertEqual(create_frags_random_geometry_output["keys"]["createFragsInitial"]["alias_of"], "create_frags_initial_result")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

@@ -10531,6 +10531,30 @@ def verify_bullet_type_create_frags_initial_state_source(upstream_root: Path) ->
         "missing": missing,
     }
 
+def verify_bullet_type_create_frags_random_geometry_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "frag_offset_fields": "public float fragOffsetMin = 1f, fragOffsetMax = 7f;",
+        "frag_random_spread_field": "public float fragRandomSpread = 360f;",
+        "frag_angle_field": "public float fragAngle = 0f;",
+        "frag_spread_field": "public float fragSpread = 0f;",
+        "method": "public void createFrags(Bullet b, float x, float y){",
+        "random_len": "float len = Mathf.random(fragOffsetMin, fragOffsetMax);",
+        "angle_formula": "float a = b.rotation() + Mathf.range(fragRandomSpread / 2) + fragAngle + fragSpread * i - (fragBullets - 1) * fragSpread / 2f;",
+        "create_call_boundary": "fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax));",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

@@ -4882,6 +4882,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\"loopBoundarySource\": \"for(int i = 0; i < fragBullets; i++){\"", source)
         self.assertIn("\"randomLenBoundarySource\": \"float len = Mathf.random(fragOffsetMin, fragOffsetMax);\"", source)
 
+    def test_port_game_exposes_source_bullet_type_create_frags_random_geometry_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_create_frags_random_geometry_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_frags_initial_state: Dictionary, frag_random_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var len_samples: Array = update_random_state.get(\"lenSamples\", [])", source)
+        self.assertIn("var range_samples: Array = update_random_state.get(\"rangeSamples\", [])", source)
+        self.assertIn("var fragment_plans: Array = []", source)
+        self.assertIn("var angle_value: Variant = null", source)
+        self.assertIn("angle_value = rotation_value + float(range_sample) + frag_angle + frag_spread * float(i) - (float(frag_bullets) - 1.0) * frag_spread / 2.0", source)
+        self.assertIn("\"randomLenSource\": \"float len = Mathf.random(fragOffsetMin, fragOffsetMax);\"", source)
+        self.assertIn("\"angleFormulaSource\": \"float a = b.rotation() + Mathf.range(fragRandomSpread / 2) + fragAngle + fragSpread * i - (fragBullets - 1) * fragSpread / 2f;\"", source)
+        self.assertIn("\"createCallBoundarySource\": \"fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax));\"", source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

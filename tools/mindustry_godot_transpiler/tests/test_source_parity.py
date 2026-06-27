@@ -5902,6 +5902,23 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_create_frags_random_geometry_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_create_frags_random_geometry_state_source"))
+        report = source_parity.verify_bullet_type_create_frags_random_geometry_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["checked"], {
+            "frag_offset_fields": "public float fragOffsetMin = 1f, fragOffsetMax = 7f;",
+            "frag_random_spread_field": "public float fragRandomSpread = 360f;",
+            "frag_angle_field": "public float fragAngle = 0f;",
+            "frag_spread_field": "public float fragSpread = 0f;",
+            "method": "public void createFrags(Bullet b, float x, float y){",
+            "random_len": "float len = Mathf.random(fragOffsetMin, fragOffsetMax);",
+            "angle_formula": "float a = b.rotation() + Mathf.range(fragRandomSpread / 2) + fragAngle + fragSpread * i - (fragBullets - 1) * fragSpread / 2f;",
+            "create_call_boundary": "fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax));",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_bullet_type_building_damage_state_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_bullet_type_building_damage_state_source"))
         report = source_parity.verify_bullet_type_building_damage_state_source(ROOT / "mindustry-upstream")

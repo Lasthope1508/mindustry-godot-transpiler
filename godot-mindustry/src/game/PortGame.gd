@@ -6914,6 +6914,66 @@ func source_bullet_type_create_frags_initial_state(bullet_type_state: Dictionary
 		"randomLenBoundarySource": "float len = Mathf.random(fragOffsetMin, fragOffsetMax);",
 	}
 
+func source_bullet_type_create_frags_random_geometry_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_frags_initial_state: Dictionary, frag_random_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_initial_state: Dictionary = create_frags_initial_state.duplicate(true)
+	var update_random_state: Dictionary = frag_random_state.duplicate(true)
+	var len_samples: Array = update_random_state.get("lenSamples", [])
+	var range_samples: Array = update_random_state.get("rangeSamples", [])
+	var fragment_plans: Array = []
+	var frag_gate_passed := bool(update_initial_state.get("fragGatePassed", false))
+	var loop_iterations := int(update_initial_state.get("loopIterations", 0))
+	var frag_bullets := int(update_type_state.get("fragBullets", update_initial_state.get("fragBullets", 9)))
+	var frag_offset_min := float(update_type_state.get("fragOffsetMin", 1.0))
+	var frag_offset_max := float(update_type_state.get("fragOffsetMax", 7.0))
+	var frag_random_spread := float(update_type_state.get("fragRandomSpread", 360.0))
+	var frag_angle := float(update_type_state.get("fragAngle", 0.0))
+	var frag_spread := float(update_type_state.get("fragSpread", 0.0))
+	var rotation_value := float(update_bullet_state.get("rotation", 0.0))
+	var x_value := float(update_initial_state.get("x", 0.0))
+	var y_value := float(update_initial_state.get("y", 0.0))
+	if frag_gate_passed:
+		for i in loop_iterations:
+			var len_sample: Variant = len_samples[i] if i < len_samples.size() else null
+			var range_sample: Variant = range_samples[i] if i < range_samples.size() else null
+			var angle_value: Variant = null
+			if range_sample != null:
+				angle_value = rotation_value + float(range_sample) + frag_angle + frag_spread * float(i) - (float(frag_bullets) - 1.0) * frag_spread / 2.0
+			fragment_plans.append({
+				"index": i,
+				"x": x_value,
+				"y": y_value,
+				"len": len_sample,
+				"lenSampleProvided": len_sample != null,
+				"lenRandomCall": {"call": "Mathf.random(fragOffsetMin, fragOffsetMax)", "min": frag_offset_min, "max": frag_offset_max, "value": len_sample},
+				"rangeSample": range_sample,
+				"rangeSampleProvided": range_sample != null,
+				"angleRandomCall": {"call": "Mathf.range(fragRandomSpread / 2)", "range": frag_random_spread / 2.0, "value": range_sample},
+				"angle": angle_value,
+				"rotation": rotation_value,
+				"fragAngle": frag_angle,
+				"spreadOffset": frag_spread * float(i) - (float(frag_bullets) - 1.0) * frag_spread / 2.0,
+			})
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createFragsInitial": update_initial_state,
+		"fragRandom": update_random_state,
+		"fragGatePassed": frag_gate_passed,
+		"loopIterations": loop_iterations,
+		"fragOffsetMin": frag_offset_min,
+		"fragOffsetMax": frag_offset_max,
+		"fragRandomSpread": frag_random_spread,
+		"fragAngle": frag_angle,
+		"fragSpread": frag_spread,
+		"rotation": rotation_value,
+		"fragmentPlans": fragment_plans,
+		"randomLenSource": "float len = Mathf.random(fragOffsetMin, fragOffsetMax);",
+		"angleFormulaSource": "float a = b.rotation() + Mathf.range(fragRandomSpread / 2) + fragAngle + fragSpread * i - (fragBullets - 1) * fragSpread / 2f;",
+		"createCallBoundarySource": "fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax));",
+	}
+
 func source_bullet_type_hit_entity_damage_cap_state(bullet_type_state: Dictionary, bullet_state: Dictionary, entity_state: Dictionary, hit_entity_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

@@ -28,7 +28,8 @@
           "godot_symbol": "bullet_state.rotation",
           "used_by": [
             "PortGame.source_bullet_type_draw_parts_state",
-            "PortGame.source_bullet_type_hit_entity_unit_effects_state"
+            "PortGame.source_bullet_type_hit_entity_unit_effects_state",
+            "PortGame.source_bullet_type_create_frags_random_geometry_state"
           ],
           "rule": "Explicit input until RotComp/BulletComp rotation state is ported."
         },
@@ -630,7 +631,8 @@
           "java_expr": "fragBullets",
           "godot_symbol": "bullet_type_state.fragBullets",
           "used_by": [
-            "PortGame.source_bullet_type_create_frags_initial_state"
+            "PortGame.source_bullet_type_create_frags_initial_state",
+            "PortGame.source_bullet_type_create_frags_random_geometry_state"
           ],
           "rule": "Canonical BulletType.fragBullets loop count; default is 9."
         },
@@ -645,6 +647,66 @@
             "PortGame.source_bullet_type_create_frags_initial_state"
           ],
           "rule": "Canonical BulletType.pierceFragCap field; default is -1."
+        },
+        "fragOffsetMin": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createFrags(Bullet b, float x, float y)",
+          "java_expr": "fragOffsetMin",
+          "godot_symbol": "bullet_type_state.fragOffsetMin",
+          "used_by": [
+            "PortGame.source_bullet_type_create_frags_random_geometry_state"
+          ],
+          "rule": "Canonical BulletType.fragOffsetMin; default is 1f."
+        },
+        "fragOffsetMax": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createFrags(Bullet b, float x, float y)",
+          "java_expr": "fragOffsetMax",
+          "godot_symbol": "bullet_type_state.fragOffsetMax",
+          "used_by": [
+            "PortGame.source_bullet_type_create_frags_random_geometry_state"
+          ],
+          "rule": "Canonical BulletType.fragOffsetMax; default is 7f."
+        },
+        "fragRandomSpread": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createFrags(Bullet b, float x, float y)",
+          "java_expr": "fragRandomSpread",
+          "godot_symbol": "bullet_type_state.fragRandomSpread",
+          "used_by": [
+            "PortGame.source_bullet_type_create_frags_random_geometry_state"
+          ],
+          "rule": "Canonical BulletType.fragRandomSpread; default is 360f."
+        },
+        "fragAngle": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createFrags(Bullet b, float x, float y)",
+          "java_expr": "fragAngle",
+          "godot_symbol": "bullet_type_state.fragAngle",
+          "used_by": [
+            "PortGame.source_bullet_type_create_frags_random_geometry_state"
+          ],
+          "rule": "Canonical BulletType.fragAngle; default is 0f."
+        },
+        "fragSpread": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createFrags(Bullet b, float x, float y)",
+          "java_expr": "fragSpread",
+          "godot_symbol": "bullet_type_state.fragSpread",
+          "used_by": [
+            "PortGame.source_bullet_type_create_frags_random_geometry_state"
+          ],
+          "rule": "Canonical BulletType.fragSpread; default is 0f."
         }
       }
     },
@@ -4426,6 +4488,160 @@
             "PortGame.source_bullet_type_create_frags_initial_state"
           ],
           "rule": "Boundary marker; random offset remains later source slice."
+        }
+      }
+    },
+    "frag_random_state": {
+      "status": "active",
+      "keys": {
+        "lenSamples": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createFrags(Bullet b, float x, float y)",
+          "java_expr": "Mathf.random(fragOffsetMin, fragOffsetMax)",
+          "godot_symbol": "frag_random_state.lenSamples",
+          "used_by": [
+            "PortGame.source_bullet_type_create_frags_random_geometry_state"
+          ],
+          "rule": "Explicit per-fragment random len samples; do not fabricate RNG output."
+        },
+        "rangeSamples": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createFrags(Bullet b, float x, float y)",
+          "java_expr": "Mathf.range(fragRandomSpread / 2)",
+          "godot_symbol": "frag_random_state.rangeSamples",
+          "used_by": [
+            "PortGame.source_bullet_type_create_frags_random_geometry_state"
+          ],
+          "rule": "Explicit per-fragment random angle offsets; do not fabricate RNG output."
+        }
+      }
+    },
+    "create_frags_random_geometry_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_type_state",
+          "rule": "Runtime echo of input bullet_type_state."
+        },
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime echo of input bullet_state."
+        },
+        "createFragsInitial": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "create_frags_initial_result",
+          "rule": "Runtime echo of createFrags initial guard result."
+        },
+        "fragRandom": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "frag_random_state",
+          "rule": "Runtime echo of explicit random samples."
+        },
+        "fragGatePassed": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "create_frags_initial_result.fragGatePassed",
+          "rule": "Runtime key aliases initial createFrags guard."
+        },
+        "loopIterations": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "create_frags_initial_result.loopIterations",
+          "rule": "Runtime key aliases initial loop count."
+        },
+        "fragOffsetMin": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_type_state.fragOffsetMin",
+          "rule": "Runtime key aliases fragOffsetMin."
+        },
+        "fragOffsetMax": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_type_state.fragOffsetMax",
+          "rule": "Runtime key aliases fragOffsetMax."
+        },
+        "fragRandomSpread": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_type_state.fragRandomSpread",
+          "rule": "Runtime key aliases fragRandomSpread."
+        },
+        "fragAngle": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_type_state.fragAngle",
+          "rule": "Runtime key aliases fragAngle."
+        },
+        "fragSpread": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_type_state.fragSpread",
+          "rule": "Runtime key aliases fragSpread."
+        },
+        "rotation": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_state.rotation",
+          "rule": "Runtime key aliases b.rotation()."
+        },
+        "fragmentPlans": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createFrags(Bullet b, float x, float y)",
+          "java_expr": "float len = Mathf.random(fragOffsetMin, fragOffsetMax); float a = b.rotation() + Mathf.range(fragRandomSpread / 2) + fragAngle + fragSpread * i - (fragBullets - 1) * fragSpread / 2f;",
+          "godot_symbol": "create_frags_random_geometry_result.fragmentPlans",
+          "used_by": [
+            "PortGame.source_bullet_type_create_frags_random_geometry_state"
+          ],
+          "rule": "Per-fragment len/angle plan using explicit RNG samples."
+        },
+        "randomLenSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createFrags(Bullet b, float x, float y)",
+          "java_expr": "float len = Mathf.random(fragOffsetMin, fragOffsetMax)",
+          "godot_symbol": "create_frags_random_geometry_result.randomLenSource",
+          "used_by": [
+            "PortGame.source_bullet_type_create_frags_random_geometry_state"
+          ],
+          "rule": "Runtime source snippet label."
+        },
+        "angleFormulaSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createFrags(Bullet b, float x, float y)",
+          "java_expr": "float a = b.rotation() + Mathf.range(fragRandomSpread / 2) + fragAngle + fragSpread * i - (fragBullets - 1) * fragSpread / 2f",
+          "godot_symbol": "create_frags_random_geometry_result.angleFormulaSource",
+          "used_by": [
+            "PortGame.source_bullet_type_create_frags_random_geometry_state"
+          ],
+          "rule": "Runtime source snippet label."
+        },
+        "createCallBoundarySource": {
+          "type": "String",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createFrags(Bullet b, float x, float y)",
+          "java_expr": "fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax))",
+          "godot_symbol": "create_frags_random_geometry_result.createCallBoundarySource",
+          "used_by": [
+            "PortGame.source_bullet_type_create_frags_random_geometry_state"
+          ],
+          "rule": "Boundary marker; create call remains later slice."
         }
       }
     }

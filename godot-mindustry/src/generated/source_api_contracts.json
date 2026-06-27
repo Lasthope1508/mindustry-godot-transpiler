@@ -1342,6 +1342,58 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_frags_initial_state",
       "rule": "Public runtime contract for BulletType.createFrags initial guard and loop boundary only; loop body remains deferred."
+    },
+    "PortGame.source_bullet_type_create_frags_random_geometry_state": {
+      "status": "active",
+      "source_slice": "N429",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createFrags(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "create_frags_initial_state",
+          "type": "Dictionary",
+          "schema": "create_frags_initial_result"
+        },
+        {
+          "name": "frag_random_state",
+          "type": "Dictionary",
+          "schema": "frag_random_state"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createFragsInitial",
+        "fragRandom",
+        "fragGatePassed",
+        "loopIterations",
+        "fragOffsetMin",
+        "fragOffsetMax",
+        "fragRandomSpread",
+        "fragAngle",
+        "fragSpread",
+        "rotation",
+        "fragmentPlans",
+        "randomLenSource",
+        "angleFormulaSource",
+        "createCallBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_create_frags_random_geometry_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_random_geometry_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_random_geometry_state",
+      "rule": "Public runtime contract for createFrags random len and angle geometry only; actual fragBullet.create remains deferred."
     }
   },
   "policy": {
