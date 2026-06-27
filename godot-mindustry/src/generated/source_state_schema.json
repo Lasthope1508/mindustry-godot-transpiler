@@ -5574,6 +5574,30 @@
             "PortGame.source_bullet_type_create_units_initial_state"
           ],
           "rule": "Explicit chance result; runtime must not fabricate RNG output."
+        },
+        "lengthSamples": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createUnits(Bullet b, float x, float y)",
+          "java_expr": "Mathf.random(despawnUnitRadius)",
+          "godot_symbol": "create_units_random_state.lengthSamples",
+          "used_by": [
+            "PortGame.source_bullet_type_create_units_random_offset_state"
+          ],
+          "rule": "Explicit per-unit random length samples; runtime must not fabricate RNG output."
+        },
+        "thetaSamples": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createUnits(Bullet b, float x, float y)",
+          "java_expr": "Mathf.random(0f, Mathf.PI2)",
+          "godot_symbol": "create_units_random_state.thetaSamples",
+          "used_by": [
+            "PortGame.source_bullet_type_create_units_random_offset_state"
+          ],
+          "rule": "Explicit per-unit random direction theta samples; runtime must not fabricate RNG output."
         }
       }
     },
@@ -5818,6 +5842,131 @@
             "PortGame.source_bullet_type_create_units_initial_state"
           ],
           "rule": "Boundary marker; Units.notifyUnitSpawn side effect remains a later source slice."
+        }
+      }
+    },
+    "create_units_random_offset_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_type_state",
+          "rule": "Runtime echo of input bullet_type_state."
+        },
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime echo of input bullet_state."
+        },
+        "createUnitsInitial": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "create_units_initial_result",
+          "rule": "Runtime echo of createUnits initial slice result."
+        },
+        "createUnitsRandom": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "create_units_random_state",
+          "rule": "Runtime echo of explicit createUnits random state."
+        },
+        "createUnitsGatePassed": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "create_units_initial_result.createUnitsGatePassed",
+          "rule": "Runtime key aliases source createUnits guard result."
+        },
+        "loopIterations": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "create_units_initial_result.loopIterations",
+          "rule": "Runtime key aliases source createUnits loop count."
+        },
+        "despawnUnitRadius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createUnits(Bullet b, float x, float y)",
+          "java_expr": "despawnUnitRadius = 0.1f",
+          "godot_symbol": "create_units_random_offset_result.despawnUnitRadius",
+          "used_by": [
+            "PortGame.source_bullet_type_create_units_random_offset_state"
+          ],
+          "rule": "BulletType.despawnUnitRadius value used by random offset length."
+        },
+        "x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "create_units_initial_result.x",
+          "rule": "Runtime key aliases createUnits x."
+        },
+        "y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "create_units_initial_result.y",
+          "rule": "Runtime key aliases createUnits y."
+        },
+        "unitOffsetPlans": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createUnits(Bullet b, float x, float y)",
+          "java_expr": "Tmp.v1.rnd(Mathf.random(despawnUnitRadius))",
+          "godot_symbol": "create_units_random_offset_result.unitOffsetPlans",
+          "used_by": [
+            "PortGame.source_bullet_type_create_units_random_offset_state"
+          ],
+          "rule": "Per-unit Tmp.v1 random offset plans using explicit length and theta samples."
+        },
+        "randomLengthSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createUnits(Bullet b, float x, float y)",
+          "java_expr": "Mathf.random(despawnUnitRadius)",
+          "godot_symbol": "create_units_random_offset_result.randomLengthSource",
+          "used_by": [
+            "PortGame.source_bullet_type_create_units_random_offset_state"
+          ],
+          "rule": "Runtime source snippet label."
+        },
+        "vec2RndSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createUnits(Bullet b, float x, float y)",
+          "java_expr": "Tmp.v1.rnd(Mathf.random(despawnUnitRadius));",
+          "godot_symbol": "create_units_random_offset_result.vec2RndSource",
+          "used_by": [
+            "PortGame.source_bullet_type_create_units_random_offset_state"
+          ],
+          "rule": "Runtime source snippet label."
+        },
+        "randomDirectionSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createUnits(Bullet b, float x, float y)",
+          "java_expr": "float theta = Mathf.random(0f, Mathf.PI2);",
+          "godot_symbol": "create_units_random_offset_result.randomDirectionSource",
+          "used_by": [
+            "PortGame.source_bullet_type_create_units_random_offset_state"
+          ],
+          "rule": "Runtime source snippet label."
+        },
+        "spawnBoundarySource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "createUnits(Bullet b, float x, float y)",
+          "java_expr": "var u = despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y);",
+          "godot_symbol": "create_units_random_offset_result.spawnBoundarySource",
+          "used_by": [
+            "PortGame.source_bullet_type_create_units_random_offset_state"
+          ],
+          "rule": "Boundary marker; despawnUnit.spawn side effect remains a later source slice."
         }
       }
     }

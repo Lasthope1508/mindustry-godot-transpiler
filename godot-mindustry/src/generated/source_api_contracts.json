@@ -1732,6 +1732,56 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_units_initial_state",
       "rule": "Public runtime contract for createUnits initial gate and despawnUnitCount loop boundary only; random offset, spawn, rotation, and notify side effects remain deferred."
+    },
+    "PortGame.source_bullet_type_create_units_random_offset_state": {
+      "status": "active",
+      "source_slice": "N437",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createUnits(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "bullet_state",
+          "type": "Dictionary",
+          "schema": "bullet_state"
+        },
+        {
+          "name": "create_units_initial_state",
+          "type": "Dictionary",
+          "schema": "create_units_initial_result"
+        },
+        {
+          "name": "create_units_random_state",
+          "type": "Dictionary",
+          "schema": "create_units_random_state"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createUnitsInitial",
+        "createUnitsRandom",
+        "createUnitsGatePassed",
+        "loopIterations",
+        "despawnUnitRadius",
+        "x",
+        "y",
+        "unitOffsetPlans",
+        "randomLengthSource",
+        "vec2RndSource",
+        "randomDirectionSource",
+        "spawnBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_create_units_random_offset_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_random_offset_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_random_offset_state",
+      "rule": "Public runtime contract for createUnits Tmp.v1 random offset plan only; despawnUnit.spawn, rotation, and notify side effects remain deferred."
     }
   },
   "policy": {

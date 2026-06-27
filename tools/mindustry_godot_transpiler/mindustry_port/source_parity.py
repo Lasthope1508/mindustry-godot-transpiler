@@ -10741,6 +10741,51 @@ def verify_bullet_type_create_units_initial_state_source(upstream_root: Path) ->
         "missing": missing,
     }
 
+def verify_bullet_type_create_units_random_offset_state_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    mathf_source = "arc-core/src/arc/math/Mathf.java"
+    vec2_source = "arc-core/src/arc/math/geom/Vec2.java"
+    source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"
+    mathf_path = arc_root / mathf_source
+    vec2_path = arc_root / vec2_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    mathf_text = mathf_path.read_text(encoding="utf-8", errors="replace")
+    vec2_text = vec2_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "despawn_unit_radius_field": "public float despawnUnitRadius = 0.1f;",
+        "method": "public void createUnits(Bullet b, float x, float y){",
+        "initial_gate": "if(!net.client() && despawnUnit != null && Mathf.chance(despawnUnitChance)){",
+        "loop_boundary": "for(int i = 0; i < despawnUnitCount; i++){",
+        "random_offset": "Tmp.v1.rnd(Mathf.random(despawnUnitRadius));",
+        "spawn_boundary": "var u = despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y);",
+        "mathf_random_float": "public static float random(float range){\n        return rand.nextFloat() * range;\n    }",
+        "vec2_rnd": "public Vec2 rnd(float length){\n        setToRandomDirection().scl(length);\n        return this;\n    }",
+        "vec2_random_direction": "public Vec2 setToRandomDirection(){\n        float theta = Mathf.random(0f, Mathf.PI2);\n        return this.set(Mathf.cos(theta), Mathf.sin(theta));\n    }",
+    }
+    source_map = {
+        "despawn_unit_radius_field": source,
+        "method": source,
+        "initial_gate": source,
+        "loop_boundary": source,
+        "random_offset": source,
+        "spawn_boundary": source,
+        "mathf_random_float": mathf_text,
+        "vec2_rnd": vec2_text,
+        "vec2_random_direction": vec2_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "mathf_source": mathf_source,
+        "vec2_source": vec2_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_bullet_type_building_damage_state_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     source_path = upstream_root / "core/src/mindustry/entities/bullet/BulletType.java"

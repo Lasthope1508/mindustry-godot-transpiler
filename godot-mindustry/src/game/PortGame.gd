@@ -6635,6 +6635,59 @@ func source_bullet_type_create_units_initial_state(bullet_type_state: Dictionary
 		"notifyBoundarySource": "Units.notifyUnitSpawn(u);",
 	}
 
+func source_bullet_type_create_units_random_offset_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_units_initial_state: Dictionary, create_units_random_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_initial_state: Dictionary = create_units_initial_state.duplicate(true)
+	var update_random_state: Dictionary = create_units_random_state.duplicate(true)
+	var length_samples: Array = update_random_state.get("lengthSamples", [])
+	var theta_samples: Array = update_random_state.get("thetaSamples", [])
+	var unit_offset_plans: Array = []
+	var create_units_gate_passed := bool(update_initial_state.get("createUnitsGatePassed", false))
+	var loop_iterations := int(update_initial_state.get("loopIterations", 0))
+	var despawn_unit_radius := float(update_type_state.get("despawnUnitRadius", update_initial_state.get("despawnUnitRadius", 0.1)))
+	var base_x := float(update_initial_state.get("x", 0.0))
+	var base_y := float(update_initial_state.get("y", 0.0))
+	if create_units_gate_passed:
+		for i in loop_iterations:
+			var length_sample: Variant = length_samples[i] if i < length_samples.size() else null
+			var theta_sample: Variant = theta_samples[i] if i < theta_samples.size() else null
+			var tmp_v1_x: Variant = null
+			var tmp_v1_y: Variant = null
+			if length_sample != null and theta_sample != null:
+				tmp_v1_x = cos(float(theta_sample)) * float(length_sample)
+				tmp_v1_y = sin(float(theta_sample)) * float(length_sample)
+			unit_offset_plans.append({
+				"index": i,
+				"baseX": base_x,
+				"baseY": base_y,
+				"length": length_sample,
+				"lengthSampleProvided": length_sample != null,
+				"lengthRandomCall": {"call": "Mathf.random(despawnUnitRadius)", "range": despawn_unit_radius, "value": length_sample},
+				"theta": theta_sample,
+				"thetaSampleProvided": theta_sample != null,
+				"thetaRandomCall": {"call": "Mathf.random(0f, Mathf.PI2)", "start": 0.0, "end": SOURCE_ARC_RAD_FULL, "value": theta_sample},
+				"tmpV1X": tmp_v1_x,
+				"tmpV1Y": tmp_v1_y,
+				"call": "Tmp.v1.rnd(Mathf.random(despawnUnitRadius))",
+			})
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createUnitsInitial": update_initial_state,
+		"createUnitsRandom": update_random_state,
+		"createUnitsGatePassed": create_units_gate_passed,
+		"loopIterations": loop_iterations,
+		"despawnUnitRadius": despawn_unit_radius,
+		"x": base_x,
+		"y": base_y,
+		"unitOffsetPlans": unit_offset_plans,
+		"randomLengthSource": "Mathf.random(despawnUnitRadius)",
+		"vec2RndSource": "Tmp.v1.rnd(Mathf.random(despawnUnitRadius));",
+		"randomDirectionSource": "float theta = Mathf.random(0f, Mathf.PI2);",
+		"spawnBoundarySource": "var u = despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y);",
+	}
+
 func source_bullet_type_hit_suppression_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_post_frag_dispatch_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)

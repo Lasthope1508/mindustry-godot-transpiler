@@ -1029,6 +1029,36 @@
         "test_port_game_exposes_source_bullet_type_create_units_initial_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_units_initial_state"
+    },
+    "N437": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_random_offset_state",
+      "exact_exprs": [
+        "Tmp.v1.rnd(Mathf.random(despawnUnitRadius))",
+        "Mathf.random(despawnUnitRadius)",
+        "float theta = Mathf.random(0f, Mathf.PI2)"
+      ],
+      "deferred_exprs": [
+        "despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y)",
+        "u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation()",
+        "Units.notifyUnitSpawn(u)"
+      ],
+      "source_symbols": [
+        "create_units.random_offset.length_samples",
+        "create_units.random_offset.theta_samples",
+        "create_units.random_offset.unit_offset_plans",
+        "create_units.random_offset.random_length",
+        "create_units.random_offset.random_direction",
+        "create_units.random_offset.spawn_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_units_random_offset_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_random_offset_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_random_offset_state"
     }
   },
   "version": 1

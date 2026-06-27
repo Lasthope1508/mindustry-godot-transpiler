@@ -4982,6 +4982,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\"randomOffsetBoundarySource\": \"Tmp.v1.rnd(Mathf.random(despawnUnitRadius));\"", source)
         self.assertIn("\"spawnBoundarySource\": \"var u = despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y);\"", source)
 
+    def test_port_game_exposes_source_bullet_type_create_units_random_offset_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_create_units_random_offset_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_units_initial_state: Dictionary, create_units_random_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var length_samples: Array = update_random_state.get(\"lengthSamples\", [])", source)
+        self.assertIn("var theta_samples: Array = update_random_state.get(\"thetaSamples\", [])", source)
+        self.assertIn("var unit_offset_plans: Array = []", source)
+        self.assertIn("tmp_v1_x = cos(float(theta_sample)) * float(length_sample)", source)
+        self.assertIn("tmp_v1_y = sin(float(theta_sample)) * float(length_sample)", source)
+        self.assertIn("\"call\": \"Tmp.v1.rnd(Mathf.random(despawnUnitRadius))\"", source)
+        self.assertIn("\"randomDirectionSource\": \"float theta = Mathf.random(0f, Mathf.PI2);\"", source)
+        self.assertIn("\"spawnBoundarySource\": \"var u = despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y);\"", source)
+
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

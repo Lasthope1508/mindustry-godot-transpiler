@@ -6039,6 +6039,26 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_create_units_random_offset_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_create_units_random_offset_state_source"))
+        report = source_parity.verify_bullet_type_create_units_random_offset_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["vec2_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(report["checked"], {
+            "despawn_unit_radius_field": "public float despawnUnitRadius = 0.1f;",
+            "method": "public void createUnits(Bullet b, float x, float y){",
+            "initial_gate": "if(!net.client() && despawnUnit != null && Mathf.chance(despawnUnitChance)){",
+            "loop_boundary": "for(int i = 0; i < despawnUnitCount; i++){",
+            "random_offset": "Tmp.v1.rnd(Mathf.random(despawnUnitRadius));",
+            "spawn_boundary": "var u = despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y);",
+            "mathf_random_float": "public static float random(float range){\n        return rand.nextFloat() * range;\n    }",
+            "vec2_rnd": "public Vec2 rnd(float length){\n        setToRandomDirection().scl(length);\n        return this;\n    }",
+            "vec2_random_direction": "public Vec2 setToRandomDirection(){\n        float theta = Mathf.random(0f, Mathf.PI2);\n        return this.set(Mathf.cos(theta), Mathf.sin(theta));\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_bullet_type_building_damage_state_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_bullet_type_building_damage_state_source"))
         report = source_parity.verify_bullet_type_building_damage_state_source(ROOT / "mindustry-upstream")
