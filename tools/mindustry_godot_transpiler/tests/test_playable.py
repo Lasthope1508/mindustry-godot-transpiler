@@ -3841,6 +3841,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"shooterSelectionSource": "Entityc shooter = unit.controller() instanceof MissileAI ai ? ai.shooter : unit"', source)
         self.assertIn('"bulletCreateReservedSource": "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target)"', source)
 
+    def test_port_game_exposes_source_weapon_bullet_create_call_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_weapon_bullet_create_call_state(unit_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, controller_state: Dictionary, x_offset: float, y_offset: float, x_spread: float, y_spread: float, angle_offset: float, angle_spread: float, velocity_random: float, mover: Variant) -> Dictionary:", source)
+        self.assertIn("var angle_life_state := source_weapon_bullet_angle_life_state(unit_state, mount_state, weapon_state, bullet_state, x_offset, y_offset, x_spread, y_spread, angle_offset, angle_spread)", source)
+        self.assertIn("var shooter_state := source_weapon_bullet_shooter_state(unit_state, controller_state)", source)
+        self.assertIn("var velocity_scl := (1.0 - velocity_rnd) + velocity_random + extra_velocity", source)
+        self.assertIn("var bullet_create_call := {", source)
+        self.assertNotIn("var call := {", source)
+        self.assertIn('"damage": -1.0', source)
+        self.assertIn('"data": null', source)
+        self.assertIn('"mover": mover', source)
+        self.assertIn('"mountBulletSetFromCreateCall": true', source)
+        self.assertIn('"bulletCreateCallSource": "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target)"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -8028,6 +8028,55 @@ def verify_weapon_bullet_shooter_selection_source(upstream_root: Path) -> dict[s
         "missing": missing,
     }
 
+def verify_weapon_bullet_create_call_source(upstream_root: Path) -> dict[str, Any]:
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source_path = upstream_root / "core/src/mindustry/type/Weapon.java"
+    weapon_mount_source = "core/src/mindustry/entities/units/WeaponMount.java"
+    bullet_type_source = "core/src/mindustry/entities/bullet/BulletType.java"
+    arc_mathf_source = ARC_MATHF_SOURCE
+    weapon_mount_path = upstream_root / weapon_mount_source
+    bullet_type_path = upstream_root / bullet_type_source
+    mathf_path = arc_root / arc_mathf_source
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    weapon_mount_text = weapon_mount_path.read_text(encoding="utf-8", errors="replace")
+    bullet_type_text = bullet_type_path.read_text(encoding="utf-8", errors="replace")
+    mathf_text = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "bullet_create_call": "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);",
+        "handle_bullet_reserved": "handleBullet(unit, mount, mount.bullet);",
+        "weapon_velocity_rnd": "public float velocityRnd = 0f;",
+        "weapon_extra_velocity": "public float extraVelocity = 0f;",
+        "mount_bullet_field": "public @Nullable Bullet bullet;",
+        "mount_aim_fields": "public float aimX, aimY;",
+        "mount_target_field": "public @Nullable Teamc target;",
+        "bullet_create_signature": "public @Nullable Bullet create(\n        @Nullable Entityc owner, @Nullable Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl,\n        float lifetimeScl, Object data, @Nullable Mover mover, float aimX, float aimY, @Nullable Teamc target\n    ){",
+        "mathf_random_float": "public static float random(float range){\n        return rand.nextFloat() * range;\n    }",
+    }
+    source_map = {
+        "bullet_create_call": source,
+        "handle_bullet_reserved": source,
+        "weapon_velocity_rnd": source,
+        "weapon_extra_velocity": source,
+        "mount_bullet_field": weapon_mount_text,
+        "mount_aim_fields": weapon_mount_text,
+        "mount_target_field": weapon_mount_text,
+        "bullet_create_signature": bullet_type_text,
+        "mathf_random_float": mathf_text,
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if snippet not in source_map[key]:
+            missing.append(key)
+    return {
+        "source": "core/src/mindustry/type/Weapon.java",
+        "weapon_mount_source": weapon_mount_source,
+        "bullet_type_source": bullet_type_source,
+        "arc_mathf_source": arc_mathf_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_drowning_source(upstream_root: Path) -> dict[str, Any]:
     upstream_root = Path(upstream_root)
     arc_root = upstream_root.parent / "arc-upstream"

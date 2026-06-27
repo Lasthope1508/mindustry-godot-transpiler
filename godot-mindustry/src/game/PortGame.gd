@@ -4363,6 +4363,53 @@ func source_weapon_bullet_shooter_state(unit_state: Dictionary, controller_state
 		"bulletCreateNullShooterFallbackSource": "bullet.shooter = (shooter == null ? owner : shooter)",
 	}
 
+func source_weapon_bullet_create_call_state(unit_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, controller_state: Dictionary, x_offset: float, y_offset: float, x_spread: float, y_spread: float, angle_offset: float, angle_spread: float, velocity_random: float, mover: Variant) -> Dictionary:
+	var angle_life_state := source_weapon_bullet_angle_life_state(unit_state, mount_state, weapon_state, bullet_state, x_offset, y_offset, x_spread, y_spread, angle_offset, angle_spread)
+	var bullet_continues := bool(angle_life_state.get("bulletContinues", false))
+	if not bullet_continues:
+		return {
+			"bulletContinues": false,
+			"mountCharging": angle_life_state.get("mountCharging", false),
+			"bulletCreateCall": null,
+			"mountBulletSetFromCreateCall": false,
+			"bulletCreateCallSource": "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target)",
+		}
+	var shooter_state := source_weapon_bullet_shooter_state(unit_state, controller_state)
+	var velocity_rnd := float(weapon_state.get("velocityRnd", 0.0))
+	var extra_velocity := float(weapon_state.get("extraVelocity", 0.0))
+	var velocity_scl := (1.0 - velocity_rnd) + velocity_random + extra_velocity
+	var bullet_create_call := {
+		"owner": unit_state.get("id", null),
+		"shooter": shooter_state.get("shooter", null),
+		"team": unit_state.get("team", null),
+		"x": angle_life_state["bulletX"],
+		"y": angle_life_state["bulletY"],
+		"angle": angle_life_state["angle"],
+		"damage": -1.0,
+		"velocityScl": velocity_scl,
+		"lifetimeScl": angle_life_state["lifeScl"],
+		"data": null,
+		"mover": mover,
+		"aimX": float(mount_state.get("aimX", 0.0)),
+		"aimY": float(mount_state.get("aimY", 0.0)),
+		"target": mount_state.get("target", null),
+	}
+	return {
+		"bulletContinues": true,
+		"mountCharging": angle_life_state.get("mountCharging", false),
+		"bulletCreateCall": bullet_create_call,
+		"mountBulletSetFromCreateCall": true,
+		"velocityRnd": velocity_rnd,
+		"velocityRandom": velocity_random,
+		"extraVelocity": extra_velocity,
+		"velocityScl": velocity_scl,
+		"angleLifeState": angle_life_state,
+		"shooterState": shooter_state,
+		"bulletCreateCallSource": "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target)",
+		"mathfRandomSource": "return rand.nextFloat() * range",
+		"handleBulletReservedSource": "handleBullet(unit, mount, mount.bullet)",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
