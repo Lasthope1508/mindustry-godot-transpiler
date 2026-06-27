@@ -5145,6 +5145,27 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_bullet_type_update_homing_follow_aim_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_bullet_type_update_homing_follow_aim_state_source"))
+        report = source_parity.verify_bullet_type_update_homing_follow_aim_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["bullet_comp_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(report["angles_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(report["position_source"], "arc-core/src/arc/math/geom/Position.java")
+        self.assertEqual(report["vec2_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(report["checked"], {
+            "follow_aim_gate": "if(followAimSpeed > 0f && b.shooter instanceof Unit u){",
+            "follow_aim_angle": "float angle = b.angleTo(u.aimX, u.aimY);",
+            "follow_aim_set_angle": "b.vel.setAngle(Angles.moveToward(b.vel.angle(), angle, followAimSpeed * Time.delta));",
+            "bullet_comp_shooter": "transient Entityc shooter;",
+            "position_angle_to_xy": "default float angleTo(float x, float y){\n        return Angles.angle(getX(), getY(), x, y);\n    }",
+            "vec2_angle": "public float angle(){\n        float angle = Mathf.atan2(x, y) * Mathf.radiansToDegrees;\n        if(angle < 0) angle += 360;\n        return angle;\n    }",
+            "angles_move_toward": "public static float moveToward(float angle, float to, float speed){",
+            "vec2_set_angle": "public Vec2 setAngle(float degrees){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_move_pref_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_move_pref_source"))
         report = source_parity.verify_unit_move_pref_source(ROOT / "mindustry-upstream")

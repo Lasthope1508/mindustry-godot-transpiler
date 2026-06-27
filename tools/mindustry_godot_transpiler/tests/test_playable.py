@@ -4275,6 +4275,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"setAngleSource": "b.vel.setAngle(Angles.moveToward(b.rotation(), b.angleTo(target), homingPower * Time.delta * 50f))"', source)
         self.assertIn('"targetGateSource": "if(target != null){"', source)
 
+    def test_port_game_exposes_source_bullet_type_update_homing_follow_aim_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_update_homing_follow_aim_state(homing_target_velocity_state: Dictionary, bullet_type_state: Dictionary, shooter_state: Variant, source_delta: float) -> Dictionary:", source)
+        self.assertIn("var update_bullet_state: Dictionary = homing_target_velocity_state.get(\"bullet\", {}).duplicate(true)", source)
+        self.assertIn("var follow_aim_speed := float(bullet_type_state.get(\"followAimSpeed\", 0.0))", source)
+        self.assertIn("var gate_passed := follow_aim_speed > 0.0 and shooter_state is Dictionary and bool(shooter_state.get(\"isUnit\", false))", source)
+        self.assertIn("var target_angle := source_arc_angles_angle(float(update_bullet_state.get(\"x\", 0.0)), float(update_bullet_state.get(\"y\", 0.0)), float(shooter_state.get(\"aimX\", 0.0)), float(shooter_state.get(\"aimY\", 0.0)))", source)
+        self.assertIn("var current_velocity_angle := float(velocity_state.get(\"angle\", update_bullet_state.get(\"rotation\", 0.0)))", source)
+        self.assertIn("var max_turn := follow_aim_speed * source_delta", source)
+        self.assertIn("var next_angle := source_arc_angles_move_toward(current_velocity_angle, target_angle, max_turn)", source)
+        self.assertIn("var next_velocity := source_arc_angles_trns_vec(next_angle, speed, 0.0)", source)
+        self.assertIn("update_bullet_state[\"velocity\"] = {\"angle\": next_angle, \"speed\": speed, \"x\": next_velocity[\"x\"], \"y\": next_velocity[\"y\"]}", source)
+        self.assertIn('"followAimGateSource": "if(followAimSpeed > 0f && b.shooter instanceof Unit u){"', source)
+        self.assertIn('"followAimSetAngleSource": "b.vel.setAngle(Angles.moveToward(b.vel.angle(), angle, followAimSpeed * Time.delta))"', source)
+
     def test_port_game_exposes_source_unit_update_drowning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -5513,6 +5513,44 @@ func source_bullet_type_update_homing_target_velocity_state(homing_initial_state
 		"vec2SetAngleSource": "this.set(len(), 0f); this.rotateRad(radians)",
 	}
 
+func source_bullet_type_update_homing_follow_aim_state(homing_target_velocity_state: Dictionary, bullet_type_state: Dictionary, shooter_state: Variant, source_delta: float) -> Dictionary:
+	var update_bullet_state: Dictionary = homing_target_velocity_state.get("bullet", {}).duplicate(true)
+	var follow_aim_speed := float(bullet_type_state.get("followAimSpeed", 0.0))
+	var gate_passed := follow_aim_speed > 0.0 and shooter_state is Dictionary and bool(shooter_state.get("isUnit", false))
+	if not gate_passed:
+		return {
+			"bullet": update_bullet_state,
+			"followAimApplied": false,
+			"followAimGatePassed": false,
+			"followAimGateSource": "if(followAimSpeed > 0f && b.shooter instanceof Unit u){",
+			"followAimSetAngleSource": "b.vel.setAngle(Angles.moveToward(b.vel.angle(), angle, followAimSpeed * Time.delta))",
+		}
+	var velocity_state: Dictionary = update_bullet_state.get("velocity", {})
+	var velocity_x := float(velocity_state.get("x", 0.0))
+	var velocity_y := float(velocity_state.get("y", 0.0))
+	var target_angle := source_arc_angles_angle(float(update_bullet_state.get("x", 0.0)), float(update_bullet_state.get("y", 0.0)), float(shooter_state.get("aimX", 0.0)), float(shooter_state.get("aimY", 0.0)))
+	var current_velocity_angle := float(velocity_state.get("angle", update_bullet_state.get("rotation", 0.0)))
+	var max_turn := follow_aim_speed * source_delta
+	var next_angle := source_arc_angles_move_toward(current_velocity_angle, target_angle, max_turn)
+	var speed := float(velocity_state.get("speed", sqrt(velocity_x * velocity_x + velocity_y * velocity_y)))
+	var next_velocity := source_arc_angles_trns_vec(next_angle, speed, 0.0)
+	update_bullet_state["rotation"] = next_angle
+	update_bullet_state["velocity"] = {"angle": next_angle, "speed": speed, "x": next_velocity["x"], "y": next_velocity["y"]}
+	return {
+		"bullet": update_bullet_state,
+		"followAimApplied": true,
+		"followAimGatePassed": true,
+		"currentVelocityAngle": current_velocity_angle,
+		"targetAngle": target_angle,
+		"maxTurn": max_turn,
+		"nextAngle": next_angle,
+		"speed": speed,
+		"velocity": update_bullet_state["velocity"],
+		"followAimGateSource": "if(followAimSpeed > 0f && b.shooter instanceof Unit u){",
+		"followAimAngleSource": "float angle = b.angleTo(u.aimX, u.aimY)",
+		"followAimSetAngleSource": "b.vel.setAngle(Angles.moveToward(b.vel.angle(), angle, followAimSpeed * Time.delta))",
+	}
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
