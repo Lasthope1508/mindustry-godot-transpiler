@@ -4488,6 +4488,66 @@
       "java_expr": "public float shieldDamage(Bullet b){",
       "godot_symbol": "building_damage_result.shieldDamageBoundarySource",
       "rule": "Boundary marker; following shieldDamage method remains a later source slice."
+    },
+    "shield_damage.damage": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "shieldDamage(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_shield_damage_state",
+      "tests": [
+        "test_bullet_type_shield_damage_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_shield_damage_state",
+        "test_bullet_type_shield_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_shield_damage_state",
+      "java_expr": "b.damage()",
+      "godot_symbol": "bullet_state.damage",
+      "rule": "Use Bullet.damage() as explicit bullet_state damage for shieldDamage return."
+    },
+    "shield_damage.shield_damage_multiplier": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "shieldDamage(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_shield_damage_state",
+      "tests": [
+        "test_bullet_type_shield_damage_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_shield_damage_state",
+        "test_bullet_type_shield_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_shield_damage_state",
+      "java_expr": "shieldDamageMultiplier",
+      "godot_symbol": "bullet_type_state.shieldDamageMultiplier",
+      "rule": "Use BulletType.shieldDamageMultiplier for shieldDamage return."
+    },
+    "shield_damage.return_value": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "shieldDamage(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_shield_damage_state",
+      "tests": [
+        "test_bullet_type_shield_damage_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_shield_damage_state",
+        "test_bullet_type_shield_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_shield_damage_state",
+      "java_expr": "b.damage() * shieldDamageMultiplier",
+      "godot_symbol": "shield_damage_result.shieldDamage",
+      "rule": "Record exact shieldDamage return value."
+    },
+    "shield_damage.draw_boundary": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "shieldDamage(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_shield_damage_state",
+      "tests": [
+        "test_bullet_type_shield_damage_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_shield_damage_state",
+        "test_bullet_type_shield_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_shield_damage_state",
+      "java_expr": "public void draw(Bullet b){",
+      "godot_symbol": "shield_damage_result.drawBoundarySource",
+      "rule": "Boundary marker; following draw method remains a later source slice."
     }
   }
 }

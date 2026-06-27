@@ -7969,6 +7969,7 @@ func source_bullet_type_shield_damage_state(bullet_type_state: Dictionary, bulle
 		"shieldDamageMultiplier": shield_damage_multiplier,
 		"shieldDamage": shield_damage,
 		"shieldDamageReturnSource": "return b.damage() * shieldDamageMultiplier",
+		"drawBoundarySource": "public void draw(Bullet b){",
 	}
 
 func source_bullet_type_draw_state(bullet_state: Dictionary) -> Dictionary:

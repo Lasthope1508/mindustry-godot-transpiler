@@ -1330,6 +1330,31 @@
         "test_bullet_type_building_damage_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_building_damage_state"
+    },
+    "N448": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "shieldDamage(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_shield_damage_state",
+      "exact_exprs": [
+        "return b.damage() * shieldDamageMultiplier"
+      ],
+      "deferred_exprs": [
+        "public void draw(Bullet b){"
+      ],
+      "source_symbols": [
+        "shield_damage.damage",
+        "shield_damage.shield_damage_multiplier",
+        "shield_damage.return_value",
+        "shield_damage.draw_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_shield_damage_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_shield_damage_state",
+        "test_bullet_type_shield_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_shield_damage_state"
     }
   },
   "version": 1

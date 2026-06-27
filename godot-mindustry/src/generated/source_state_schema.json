@@ -63,7 +63,8 @@
           "used_by": [
             "PortGame.source_bullet_type_handle_pierce_state",
             "PortGame.source_bullet_type_hit_entity_damage_cap_state",
-            "PortGame.source_bullet_type_building_damage_state"
+            "PortGame.source_bullet_type_building_damage_state",
+            "PortGame.source_bullet_type_shield_damage_state"
           ],
           "rule": "Use mutable b.damage for handlePierce damage subtraction."
         },
@@ -871,6 +872,18 @@
             "PortGame.source_bullet_type_removed_frag_dispatch_state"
           ],
           "rule": "Canonical BulletType.fragOnDespawn field for removed createFrags gate."
+        },
+        "shieldDamageMultiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "shieldDamage(Bullet b)",
+          "java_expr": "shieldDamageMultiplier",
+          "godot_symbol": "bullet_type_state.shieldDamageMultiplier",
+          "used_by": [
+            "PortGame.source_bullet_type_shield_damage_state"
+          ],
+          "rule": "Canonical BulletType.shieldDamageMultiplier field for shieldDamage return."
         }
       }
     },
@@ -7072,6 +7085,83 @@
             "PortGame.source_bullet_type_building_damage_state"
           ],
           "rule": "Boundary marker; following shieldDamage method remains a later source slice."
+        }
+      }
+    },
+    "shield_damage_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_type_state",
+          "rule": "Runtime echo of input bullet_type_state."
+        },
+        "bullet": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "bullet_state",
+          "rule": "Runtime echo of input bullet_state."
+        },
+        "damage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "shieldDamage(Bullet b)",
+          "java_expr": "b.damage()",
+          "godot_symbol": "shield_damage_result.damage",
+          "used_by": [
+            "PortGame.source_bullet_type_shield_damage_state"
+          ],
+          "rule": "Runtime value of b.damage() used by shieldDamage."
+        },
+        "shieldDamageMultiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "shieldDamage(Bullet b)",
+          "java_expr": "shieldDamageMultiplier",
+          "godot_symbol": "shield_damage_result.shieldDamageMultiplier",
+          "used_by": [
+            "PortGame.source_bullet_type_shield_damage_state"
+          ],
+          "rule": "Runtime value of shieldDamageMultiplier used by shieldDamage."
+        },
+        "shieldDamage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "shieldDamage(Bullet b)",
+          "java_expr": "b.damage() * shieldDamageMultiplier",
+          "godot_symbol": "shield_damage_result.shieldDamage",
+          "used_by": [
+            "PortGame.source_bullet_type_shield_damage_state"
+          ],
+          "rule": "Runtime result of BulletType.shieldDamage."
+        },
+        "shieldDamageReturnSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "shieldDamage(Bullet b)",
+          "java_expr": "return b.damage() * shieldDamageMultiplier",
+          "godot_symbol": "shield_damage_result.shieldDamageReturnSource",
+          "used_by": [
+            "PortGame.source_bullet_type_shield_damage_state"
+          ],
+          "rule": "Runtime source snippet label."
+        },
+        "drawBoundarySource": {
+          "type": "String",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "draw(Bullet b)",
+          "java_expr": "public void draw(Bullet b){",
+          "godot_symbol": "shield_damage_result.drawBoundarySource",
+          "used_by": [
+            "PortGame.source_bullet_type_shield_damage_state"
+          ],
+          "rule": "Boundary marker; following draw method remains a later source slice."
         }
       }
     }
