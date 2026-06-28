@@ -19351,6 +19351,84 @@
       "java_expr": "tile",
       "godot_symbol": "source_building_killed_initial_side_effects_input.tile_value",
       "rule": "Runtime tile_value supplies source tile for BlockDestroyEvent and removal gate."
+    },
+    "building_killed_removal_side_effects.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "killed()",
+      "godot_owner": "PortGame.source_building_killed_removal_side_effects_state",
+      "tests": [
+        "test_building_killed_removal_side_effects_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_killed_removal_side_effects_state",
+      "java_expr": "public void killed(){",
+      "godot_symbol": "source_building_killed_removal_side_effects_result.method",
+      "rule": "BuildingComp killed method boundary for removal side effects."
+    },
+    "building_killed_removal_side_effects.tile_remove_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "killed()",
+      "godot_owner": "PortGame.source_building_killed_removal_side_effects_state",
+      "tests": [
+        "test_building_killed_removal_side_effects_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_killed_removal_side_effects_state",
+      "java_expr": "if(tile != emptyTile){",
+      "godot_symbol": "source_building_killed_removal_side_effects_result.tile_remove_gate",
+      "rule": "BuildingComp killed gates tile.remove() on tile != emptyTile."
+    },
+    "building_killed_removal_side_effects.tile_remove_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "killed()",
+      "godot_owner": "PortGame.source_building_killed_removal_side_effects_state",
+      "tests": [
+        "test_building_killed_removal_side_effects_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_killed_removal_side_effects_state",
+      "java_expr": "tile.remove();",
+      "godot_symbol": "source_building_killed_removal_side_effects_result.tile_remove_called",
+      "rule": "BuildingComp killed removes tile when tile != emptyTile."
+    },
+    "building_killed_removal_side_effects.remove_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "killed()",
+      "godot_owner": "PortGame.source_building_killed_removal_side_effects_state",
+      "tests": [
+        "test_building_killed_removal_side_effects_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_killed_removal_side_effects_state",
+      "java_expr": "remove();",
+      "godot_symbol": "source_building_killed_removal_side_effects_result.remove_called",
+      "rule": "BuildingComp killed removes the building entity after optional tile removal."
+    },
+    "building_killed_removal_side_effects.after_destroyed_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "killed()",
+      "godot_owner": "PortGame.source_building_killed_removal_side_effects_state",
+      "tests": [
+        "test_building_killed_removal_side_effects_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_killed_removal_side_effects_state",
+      "java_expr": "afterDestroyed();",
+      "godot_symbol": "source_building_killed_removal_side_effects_result.after_destroyed_called",
+      "rule": "BuildingComp killed invokes afterDestroyed after remove()."
+    },
+    "building_killed_removal_side_effects.tile_not_empty_tile": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "killed()",
+      "godot_owner": "PortGame.source_building_killed_removal_side_effects_state",
+      "tests": [
+        "test_building_killed_removal_side_effects_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_killed_removal_side_effects_state",
+      "java_expr": "tile != emptyTile",
+      "godot_symbol": "source_building_killed_removal_side_effects_input.tile_not_empty_tile",
+      "rule": "Runtime tile_not_empty_tile supplies exact source tile != emptyTile gate."
     }
   }
 }

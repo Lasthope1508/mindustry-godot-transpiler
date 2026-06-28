@@ -5273,6 +5273,41 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(tile_value["java_expr"], "tile")
         self.assertEqual(tile_value["godot_symbol"], "source_building_killed_initial_side_effects_input.tile_value")
 
+    def test_building_killed_removal_side_effects_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_killed_removal_side_effects.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "killed()")
+        self.assertEqual(method["java_expr"], "public void killed(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_killed_removal_side_effects_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_killed_removal_side_effects_state")
+        self.assertEqual(method["godot_symbol"], "source_building_killed_removal_side_effects_result.method")
+
+        tile_remove_gate = source_symbols.source_symbol(registry, "building_killed_removal_side_effects.tile_remove_gate")
+        self.assertEqual(tile_remove_gate["java_expr"], "if(tile != emptyTile){")
+        self.assertEqual(tile_remove_gate["godot_symbol"], "source_building_killed_removal_side_effects_result.tile_remove_gate")
+
+        tile_remove_call = source_symbols.source_symbol(registry, "building_killed_removal_side_effects.tile_remove_call")
+        self.assertEqual(tile_remove_call["java_expr"], "tile.remove();")
+        self.assertEqual(tile_remove_call["godot_symbol"], "source_building_killed_removal_side_effects_result.tile_remove_called")
+
+        remove_call = source_symbols.source_symbol(registry, "building_killed_removal_side_effects.remove_call")
+        self.assertEqual(remove_call["java_expr"], "remove();")
+        self.assertEqual(remove_call["godot_symbol"], "source_building_killed_removal_side_effects_result.remove_called")
+
+        after_destroyed_call = source_symbols.source_symbol(registry, "building_killed_removal_side_effects.after_destroyed_call")
+        self.assertEqual(after_destroyed_call["java_expr"], "afterDestroyed();")
+        self.assertEqual(after_destroyed_call["godot_symbol"], "source_building_killed_removal_side_effects_result.after_destroyed_called")
+
+        tile_not_empty_tile = source_symbols.source_symbol(registry, "building_killed_removal_side_effects.tile_not_empty_tile")
+        self.assertEqual(tile_not_empty_tile["status"], "explicit-input")
+        self.assertEqual(tile_not_empty_tile["java_expr"], "tile != emptyTile")
+        self.assertEqual(tile_not_empty_tile["godot_symbol"], "source_building_killed_removal_side_effects_input.tile_not_empty_tile")
+
     def test_building_in_fog_discovery_gate_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -5643,9 +5678,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 199)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 200)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 204)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 205)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -5662,6 +5697,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_killed_removal_side_effects_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7476,6 +7512,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(tile != emptyTile){", building_killed_initial["exact_exprs"])
         self.assertIn("tile", building_killed_initial["exact_exprs"])
 
+        building_killed_removal = source_symbols.source_slice(ledger, "N602")
+        self.assertEqual(building_killed_removal["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_killed_removal["java_method"], "killed()")
+        self.assertEqual(building_killed_removal["godot_owner"], "PortGame.source_building_killed_removal_side_effects_state")
+        self.assertIn("public void killed(){", building_killed_removal["exact_exprs"])
+        self.assertIn("if(tile != emptyTile){", building_killed_removal["exact_exprs"])
+        self.assertIn("tile.remove();", building_killed_removal["exact_exprs"])
+        self.assertIn("remove();", building_killed_removal["exact_exprs"])
+        self.assertIn("afterDestroyed();", building_killed_removal["exact_exprs"])
+        self.assertIn("tile != emptyTile", building_killed_removal["exact_exprs"])
+
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
         self.assertEqual(arc_mathf_cos_scaled["java_method"], "cos(float radians, float scl, float mag)")
@@ -9195,6 +9242,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("on_destroyed_called", building_killed_initial["return_keys"])
         self.assertIn("next_step", building_killed_initial["return_keys"])
         self.assertEqual(building_killed_initial["source_method"], "killed()")
+
+        building_killed_removal = source_symbols.api_contract(contracts, "PortGame.source_building_killed_removal_side_effects_state")
+        self.assertEqual([param["name"] for param in building_killed_removal["params"]], ["tile_not_empty_tile"])
+        self.assertEqual(building_killed_removal["params"][0]["schema"], "source_building_killed_removal_side_effects_input.tile_not_empty_tile")
+        self.assertIn("tile_not_empty_tile", building_killed_removal["return_keys"])
+        self.assertIn("method", building_killed_removal["return_keys"])
+        self.assertIn("tile_remove_gate", building_killed_removal["return_keys"])
+        self.assertIn("tile_remove_called", building_killed_removal["return_keys"])
+        self.assertIn("remove_called", building_killed_removal["return_keys"])
+        self.assertIn("after_destroyed_called", building_killed_removal["return_keys"])
+        self.assertEqual(building_killed_removal["source_method"], "killed()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -11429,6 +11487,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_killed_initial_result["keys"]["on_destroyed_called"]["java_expr"], "onDestroyed();")
         self.assertEqual(source_building_killed_initial_result["keys"]["next_step"]["java_expr"], "if(tile != emptyTile){")
         self.assertEqual(source_building_killed_initial_result["keys"]["tile_value"]["alias_of"], "source_building_killed_initial_side_effects_input.tile_value")
+
+        source_building_killed_removal_input = source_symbols.state_schema(schema, "source_building_killed_removal_side_effects_input")
+        self.assertEqual(source_building_killed_removal_input["keys"]["tile_not_empty_tile"]["java_expr"], "tile != emptyTile")
+        self.assertEqual(source_building_killed_removal_input["keys"]["tile_not_empty_tile"]["status"], "explicit-input")
+
+        source_building_killed_removal_result = source_symbols.state_schema(schema, "source_building_killed_removal_side_effects_result")
+        self.assertEqual(source_building_killed_removal_result["keys"]["method"]["java_expr"], "public void killed(){")
+        self.assertEqual(source_building_killed_removal_result["keys"]["tile_remove_gate"]["java_expr"], "if(tile != emptyTile){")
+        self.assertEqual(source_building_killed_removal_result["keys"]["tile_remove_called"]["java_expr"], "tile.remove();")
+        self.assertEqual(source_building_killed_removal_result["keys"]["remove_called"]["java_expr"], "remove();")
+        self.assertEqual(source_building_killed_removal_result["keys"]["after_destroyed_called"]["java_expr"], "afterDestroyed();")
+        self.assertEqual(source_building_killed_removal_result["keys"]["tile_not_empty_tile"]["alias_of"], "source_building_killed_removal_side_effects_input.tile_not_empty_tile")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

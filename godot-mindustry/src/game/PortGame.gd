@@ -2466,9 +2466,12 @@ func source_building_killed_initial_side_effects_state(tile_value: Variant) -> D
 		"next_step": "tile_remove_gate",
 	}
 
-func source_building_killed_removal_side_effects_state(tile_is_empty_tile: bool) -> Dictionary:
+func source_building_killed_removal_side_effects_state(tile_not_empty_tile: bool) -> Dictionary:
 	return {
-		"tile_remove_called": not tile_is_empty_tile,
+		"method": "public void killed(){",
+		"tile_not_empty_tile": tile_not_empty_tile,
+		"tile_remove_gate": tile_not_empty_tile,
+		"tile_remove_called": tile_not_empty_tile,
 		"remove_called": true,
 		"after_destroyed_called": true,
 	}

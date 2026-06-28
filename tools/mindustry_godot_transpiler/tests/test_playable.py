@@ -2456,8 +2456,11 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn("func source_building_killed_removal_side_effects_state(tile_is_empty_tile: bool) -> Dictionary:", source)
-        self.assertIn('"tile_remove_called": not tile_is_empty_tile,', source)
+        self.assertIn("func source_building_killed_removal_side_effects_state(tile_not_empty_tile: bool) -> Dictionary:", source)
+        self.assertIn('"method": "public void killed(){",', source)
+        self.assertIn('"tile_not_empty_tile": tile_not_empty_tile,', source)
+        self.assertIn('"tile_remove_gate": tile_not_empty_tile,', source)
+        self.assertIn('"tile_remove_called": tile_not_empty_tile,', source)
         self.assertIn('"remove_called": true,', source)
         self.assertIn('"after_destroyed_called": true,', source)
 
