@@ -5203,6 +5203,54 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_configure_state",
       "rule": "Backfills SSOT for existing canonical source_building_draw_configure_state helper against BuildingComp.drawConfigure()."
+    },
+    "N568": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "drawCracks()",
+      "godot_owner": "PortGame.source_building_draw_cracks_state",
+      "exact_exprs": [
+        "public void drawCracks(){",
+        "if(!block.drawCracks || !damaged() || block.size > BlockRenderer.maxCrackSize) return;",
+        "int id = pos();",
+        "renderer.blocks.cracks[block.size - 1][Mathf.clamp((int)((1f - healthf()) * BlockRenderer.crackRegions), 0, BlockRenderer.crackRegions-1)]",
+        "Mathf.clamp((int)((1f - healthf()) * BlockRenderer.crackRegions), 0, BlockRenderer.crackRegions-1)",
+        "Draw.colorl(0.2f, 0.1f + (1f - healthf())* 0.6f);",
+        "0.1f + (1f - healthf())* 0.6f",
+        "//TODO could be random, flipped, pseudorandom, etc",
+        "Draw.rect(region, x, y, (id%4)*90);",
+        "(id%4)*90",
+        "Draw.color();"
+      ],
+      "deferred_exprs": [
+        "Concrete TextureRegion and Draw calls stay owned by Godot rendering integration; this helper preserves crack visibility, index, lightness, and rotation state."
+      ],
+      "source_symbols": [
+        "building_draw_cracks.method",
+        "building_draw_cracks.guard",
+        "building_draw_cracks.id",
+        "building_draw_cracks.region_lookup",
+        "building_draw_cracks.crack_index",
+        "building_draw_cracks.color_light",
+        "building_draw_cracks.lightness",
+        "building_draw_cracks.todo",
+        "building_draw_cracks.rect",
+        "building_draw_cracks.rotation",
+        "building_draw_cracks.color_reset",
+        "building_draw_cracks.draw_cracks",
+        "building_draw_cracks.damaged_state",
+        "building_draw_cracks.block_size_value",
+        "building_draw_cracks.max_crack_size",
+        "building_draw_cracks.health_fraction",
+        "building_draw_cracks.crack_regions",
+        "building_draw_cracks.position_id"
+      ],
+      "tests": [
+        "test_building_draw_cracks_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cracks_state",
+      "rule": "Backfills SSOT for existing canonical source_building_draw_cracks_state helper against BuildingComp.drawCracks()."
     }
   },
   "version": 1

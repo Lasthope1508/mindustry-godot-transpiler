@@ -6427,6 +6427,75 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_configure_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.drawConfigure() helper."
+    },
+    "PortGame.source_building_draw_cracks_state": {
+      "status": "active",
+      "source_slice": "N568",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "drawCracks()",
+      "params": [
+        {
+          "name": "draw_cracks",
+          "type": "bool",
+          "schema": "source_building_draw_cracks_input.draw_cracks"
+        },
+        {
+          "name": "damaged_state",
+          "type": "bool",
+          "schema": "source_building_draw_cracks_input.damaged_state"
+        },
+        {
+          "name": "block_size_value",
+          "type": "int",
+          "schema": "source_building_draw_cracks_input.block_size_value"
+        },
+        {
+          "name": "max_crack_size",
+          "type": "int",
+          "schema": "source_building_draw_cracks_input.max_crack_size"
+        },
+        {
+          "name": "health_fraction",
+          "type": "float",
+          "schema": "source_building_draw_cracks_input.health_fraction"
+        },
+        {
+          "name": "crack_regions",
+          "type": "int",
+          "schema": "source_building_draw_cracks_input.crack_regions"
+        },
+        {
+          "name": "position_id",
+          "type": "int",
+          "schema": "source_building_draw_cracks_input.position_id"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "visible",
+        "id",
+        "regionLookup",
+        "regionSizeIndex",
+        "crackIndex",
+        "colorLight",
+        "lightness",
+        "todo",
+        "rect",
+        "rotationDegrees",
+        "colorReset",
+        "draw_cracks",
+        "damaged_state",
+        "block_size_value",
+        "max_crack_size",
+        "health_fraction",
+        "crack_regions",
+        "position_id"
+      ],
+      "tests": [
+        "test_building_draw_cracks_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cracks_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.drawCracks() helper."
     }
   },
   "policy": {

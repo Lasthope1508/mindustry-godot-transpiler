@@ -4212,6 +4212,50 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(block_size["java_expr"], "block.size")
         self.assertEqual(block_size["godot_symbol"], "source_building_draw_configure_input.block_size_value")
 
+    def test_building_draw_cracks_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_draw_cracks.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "drawCracks()")
+        self.assertEqual(method["java_expr"], "public void drawCracks(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_draw_cracks_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_draw_cracks_state")
+        self.assertEqual(method["godot_symbol"], "source_building_draw_cracks_result.method")
+
+        guard = source_symbols.source_symbol(registry, "building_draw_cracks.guard")
+        self.assertEqual(guard["java_expr"], "if(!block.drawCracks || !damaged() || block.size > BlockRenderer.maxCrackSize) return;")
+        self.assertEqual(guard["godot_symbol"], "source_building_draw_cracks_result.visible")
+
+        crack_index = source_symbols.source_symbol(registry, "building_draw_cracks.crack_index")
+        self.assertEqual(crack_index["java_expr"], "Mathf.clamp((int)((1f - healthf()) * BlockRenderer.crackRegions), 0, BlockRenderer.crackRegions-1)")
+        self.assertEqual(crack_index["godot_symbol"], "source_building_draw_cracks_result.crackIndex")
+
+        lightness = source_symbols.source_symbol(registry, "building_draw_cracks.lightness")
+        self.assertEqual(lightness["java_expr"], "0.1f + (1f - healthf())* 0.6f")
+        self.assertEqual(lightness["godot_symbol"], "source_building_draw_cracks_result.lightness")
+
+        rotation = source_symbols.source_symbol(registry, "building_draw_cracks.rotation")
+        self.assertEqual(rotation["java_expr"], "(id%4)*90")
+        self.assertEqual(rotation["godot_symbol"], "source_building_draw_cracks_result.rotationDegrees")
+
+        todo = source_symbols.source_symbol(registry, "building_draw_cracks.todo")
+        self.assertEqual(todo["java_expr"], "//TODO could be random, flipped, pseudorandom, etc")
+        self.assertEqual(todo["godot_symbol"], "source_building_draw_cracks_result.todo")
+
+        draw_cracks = source_symbols.source_symbol(registry, "building_draw_cracks.draw_cracks")
+        self.assertEqual(draw_cracks["status"], "explicit-input")
+        self.assertEqual(draw_cracks["java_expr"], "block.drawCracks")
+        self.assertEqual(draw_cracks["godot_symbol"], "source_building_draw_cracks_input.draw_cracks")
+
+        position_id = source_symbols.source_symbol(registry, "building_draw_cracks.position_id")
+        self.assertEqual(position_id["status"], "explicit-input")
+        self.assertEqual(position_id["java_expr"], "pos()")
+        self.assertEqual(position_id["godot_symbol"], "source_building_draw_cracks_input.position_id")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -4496,9 +4540,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 165)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 166)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 170)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 171)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -4665,6 +4709,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_display_ui_gates_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_draw_cached_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_draw_configure_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_draw_cracks_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -5997,6 +6042,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("Lines.square(x, y, block.size * tilesize / 2f + 1f);", building_draw_configure["exact_exprs"])
         self.assertIn("+ 1f", building_draw_configure["exact_exprs"])
         self.assertIn("Draw.reset();", building_draw_configure["exact_exprs"])
+
+        building_draw_cracks = source_symbols.source_slice(ledger, "N568")
+        self.assertEqual(building_draw_cracks["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_draw_cracks["java_method"], "drawCracks()")
+        self.assertEqual(building_draw_cracks["godot_owner"], "PortGame.source_building_draw_cracks_state")
+        self.assertIn("public void drawCracks(){", building_draw_cracks["exact_exprs"])
+        self.assertIn("if(!block.drawCracks || !damaged() || block.size > BlockRenderer.maxCrackSize) return;", building_draw_cracks["exact_exprs"])
+        self.assertIn("int id = pos();", building_draw_cracks["exact_exprs"])
+        self.assertIn("Mathf.clamp((int)((1f - healthf()) * BlockRenderer.crackRegions), 0, BlockRenderer.crackRegions-1)", building_draw_cracks["exact_exprs"])
+        self.assertIn("Draw.colorl(0.2f, 0.1f + (1f - healthf())* 0.6f);", building_draw_cracks["exact_exprs"])
+        self.assertIn("//TODO could be random, flipped, pseudorandom, etc", building_draw_cracks["exact_exprs"])
+        self.assertIn("Draw.rect(region, x, y, (id%4)*90);", building_draw_cracks["exact_exprs"])
+        self.assertIn("Draw.color();", building_draw_cracks["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -7426,6 +7484,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("radius", building_draw_configure["return_keys"])
         self.assertIn("reset", building_draw_configure["return_keys"])
         self.assertEqual(building_draw_configure["source_method"], "drawConfigure()")
+
+        building_draw_cracks = source_symbols.api_contract(contracts, "PortGame.source_building_draw_cracks_state")
+        self.assertEqual([param["name"] for param in building_draw_cracks["params"]], ["draw_cracks", "damaged_state", "block_size_value", "max_crack_size", "health_fraction", "crack_regions", "position_id"])
+        self.assertEqual(building_draw_cracks["params"][0]["schema"], "source_building_draw_cracks_input.draw_cracks")
+        self.assertEqual(building_draw_cracks["params"][4]["schema"], "source_building_draw_cracks_input.health_fraction")
+        self.assertEqual(building_draw_cracks["params"][6]["schema"], "source_building_draw_cracks_input.position_id")
+        self.assertIn("visible", building_draw_cracks["return_keys"])
+        self.assertIn("crackIndex", building_draw_cracks["return_keys"])
+        self.assertIn("rotationDegrees", building_draw_cracks["return_keys"])
+        self.assertEqual(building_draw_cracks["source_method"], "drawCracks()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -9206,6 +9274,27 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_draw_configure_result["keys"]["reset"]["java_expr"], "Draw.reset();")
         self.assertEqual(source_building_draw_configure_result["keys"]["halfExtent"]["alias_of"], "source_building_block_half_extent_result.halfExtent")
         self.assertEqual(source_building_draw_configure_result["keys"]["block_size_value"]["alias_of"], "source_building_draw_configure_input.block_size_value")
+
+        source_building_draw_cracks_input = source_symbols.state_schema(schema, "source_building_draw_cracks_input")
+        self.assertEqual(source_building_draw_cracks_input["keys"]["draw_cracks"]["java_expr"], "block.drawCracks")
+        self.assertEqual(source_building_draw_cracks_input["keys"]["draw_cracks"]["status"], "explicit-input")
+        self.assertEqual(source_building_draw_cracks_input["keys"]["damaged_state"]["java_expr"], "damaged()")
+        self.assertEqual(source_building_draw_cracks_input["keys"]["block_size_value"]["java_expr"], "block.size")
+        self.assertEqual(source_building_draw_cracks_input["keys"]["max_crack_size"]["java_expr"], "BlockRenderer.maxCrackSize")
+        self.assertEqual(source_building_draw_cracks_input["keys"]["health_fraction"]["java_expr"], "healthf()")
+        self.assertEqual(source_building_draw_cracks_input["keys"]["crack_regions"]["java_expr"], "BlockRenderer.crackRegions")
+        self.assertEqual(source_building_draw_cracks_input["keys"]["position_id"]["java_expr"], "pos()")
+
+        source_building_draw_cracks_result = source_symbols.state_schema(schema, "source_building_draw_cracks_result")
+        self.assertEqual(source_building_draw_cracks_result["keys"]["method"]["java_expr"], "public void drawCracks(){")
+        self.assertEqual(source_building_draw_cracks_result["keys"]["visible"]["java_expr"], "if(!block.drawCracks || !damaged() || block.size > BlockRenderer.maxCrackSize) return;")
+        self.assertEqual(source_building_draw_cracks_result["keys"]["id"]["java_expr"], "int id = pos();")
+        self.assertEqual(source_building_draw_cracks_result["keys"]["crackIndex"]["java_expr"], "Mathf.clamp((int)((1f - healthf()) * BlockRenderer.crackRegions), 0, BlockRenderer.crackRegions-1)")
+        self.assertEqual(source_building_draw_cracks_result["keys"]["lightness"]["java_expr"], "0.1f + (1f - healthf())* 0.6f")
+        self.assertEqual(source_building_draw_cracks_result["keys"]["todo"]["java_expr"], "//TODO could be random, flipped, pseudorandom, etc")
+        self.assertEqual(source_building_draw_cracks_result["keys"]["rotationDegrees"]["java_expr"], "(id%4)*90")
+        self.assertEqual(source_building_draw_cracks_result["keys"]["colorReset"]["java_expr"], "Draw.color();")
+        self.assertEqual(source_building_draw_cracks_result["keys"]["position_id"]["alias_of"], "source_building_draw_cracks_input.position_id")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

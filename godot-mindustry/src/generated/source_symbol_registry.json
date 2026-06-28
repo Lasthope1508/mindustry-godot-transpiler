@@ -15958,6 +15958,240 @@
       "java_expr": "tilesize",
       "godot_symbol": "source_building_draw_configure_input.source_tilesize",
       "rule": "Runtime source_tilesize supplies tilesize."
+    },
+    "building_draw_cracks.method": {
+      "tests": [
+        "test_building_draw_cracks_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cracks_state",
+      "godot_owner": "PortGame.source_building_draw_cracks_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawCracks()",
+      "status": "source-backed",
+      "java_expr": "public void drawCracks(){",
+      "godot_symbol": "source_building_draw_cracks_result.method",
+      "rule": "Source drawCracks method declaration."
+    },
+    "building_draw_cracks.guard": {
+      "tests": [
+        "test_building_draw_cracks_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cracks_state",
+      "godot_owner": "PortGame.source_building_draw_cracks_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawCracks()",
+      "status": "source-backed",
+      "java_expr": "if(!block.drawCracks || !damaged() || block.size > BlockRenderer.maxCrackSize) return;",
+      "godot_symbol": "source_building_draw_cracks_result.visible",
+      "rule": "drawCracks returns early unless crack drawing is enabled, building is damaged, and block size is within max crack size."
+    },
+    "building_draw_cracks.id": {
+      "tests": [
+        "test_building_draw_cracks_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cracks_state",
+      "godot_owner": "PortGame.source_building_draw_cracks_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawCracks()",
+      "status": "source-backed",
+      "java_expr": "int id = pos();",
+      "godot_symbol": "source_building_draw_cracks_result.id",
+      "rule": "drawCracks stores pos() as id for rotation."
+    },
+    "building_draw_cracks.region_lookup": {
+      "tests": [
+        "test_building_draw_cracks_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cracks_state",
+      "godot_owner": "PortGame.source_building_draw_cracks_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawCracks()",
+      "status": "source-backed",
+      "java_expr": "renderer.blocks.cracks[block.size - 1][Mathf.clamp((int)((1f - healthf()) * BlockRenderer.crackRegions), 0, BlockRenderer.crackRegions-1)]",
+      "godot_symbol": "source_building_draw_cracks_result.regionLookup",
+      "rule": "drawCracks selects crack region from block size and clamped crack index."
+    },
+    "building_draw_cracks.crack_index": {
+      "tests": [
+        "test_building_draw_cracks_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cracks_state",
+      "godot_owner": "PortGame.source_building_draw_cracks_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawCracks()",
+      "status": "source-backed",
+      "java_expr": "Mathf.clamp((int)((1f - healthf()) * BlockRenderer.crackRegions), 0, BlockRenderer.crackRegions-1)",
+      "godot_symbol": "source_building_draw_cracks_result.crackIndex",
+      "rule": "drawCracks clamps crack index from inverse health fraction."
+    },
+    "building_draw_cracks.color_light": {
+      "tests": [
+        "test_building_draw_cracks_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cracks_state",
+      "godot_owner": "PortGame.source_building_draw_cracks_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawCracks()",
+      "status": "source-backed",
+      "java_expr": "Draw.colorl(0.2f, 0.1f + (1f - healthf())* 0.6f);",
+      "godot_symbol": "source_building_draw_cracks_result.colorLight",
+      "rule": "drawCracks sets crack draw color lightness from health fraction."
+    },
+    "building_draw_cracks.lightness": {
+      "tests": [
+        "test_building_draw_cracks_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cracks_state",
+      "godot_owner": "PortGame.source_building_draw_cracks_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawCracks()",
+      "status": "source-backed",
+      "java_expr": "0.1f + (1f - healthf())* 0.6f",
+      "godot_symbol": "source_building_draw_cracks_result.lightness",
+      "rule": "drawCracks lightness formula."
+    },
+    "building_draw_cracks.todo": {
+      "tests": [
+        "test_building_draw_cracks_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cracks_state",
+      "godot_owner": "PortGame.source_building_draw_cracks_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawCracks()",
+      "status": "source-backed",
+      "java_expr": "//TODO could be random, flipped, pseudorandom, etc",
+      "godot_symbol": "source_building_draw_cracks_result.todo",
+      "rule": "Preserves source TODO comment for crack orientation randomness."
+    },
+    "building_draw_cracks.rect": {
+      "tests": [
+        "test_building_draw_cracks_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cracks_state",
+      "godot_owner": "PortGame.source_building_draw_cracks_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawCracks()",
+      "status": "source-backed",
+      "java_expr": "Draw.rect(region, x, y, (id%4)*90);",
+      "godot_symbol": "source_building_draw_cracks_result.rect",
+      "rule": "drawCracks draws crack region at x/y with id modulo rotation."
+    },
+    "building_draw_cracks.rotation": {
+      "tests": [
+        "test_building_draw_cracks_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cracks_state",
+      "godot_owner": "PortGame.source_building_draw_cracks_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawCracks()",
+      "status": "source-backed",
+      "java_expr": "(id%4)*90",
+      "godot_symbol": "source_building_draw_cracks_result.rotationDegrees",
+      "rule": "drawCracks rotation is id modulo 4 times 90."
+    },
+    "building_draw_cracks.color_reset": {
+      "tests": [
+        "test_building_draw_cracks_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cracks_state",
+      "godot_owner": "PortGame.source_building_draw_cracks_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawCracks()",
+      "status": "source-backed",
+      "java_expr": "Draw.color();",
+      "godot_symbol": "source_building_draw_cracks_result.colorReset",
+      "rule": "drawCracks resets draw color."
+    },
+    "building_draw_cracks.draw_cracks": {
+      "tests": [
+        "test_building_draw_cracks_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cracks_state",
+      "godot_owner": "PortGame.source_building_draw_cracks_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawCracks()",
+      "status": "explicit-input",
+      "java_expr": "block.drawCracks",
+      "godot_symbol": "source_building_draw_cracks_input.draw_cracks",
+      "rule": "Runtime draw_cracks supplies block.drawCracks."
+    },
+    "building_draw_cracks.damaged_state": {
+      "tests": [
+        "test_building_draw_cracks_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cracks_state",
+      "godot_owner": "PortGame.source_building_draw_cracks_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawCracks()",
+      "status": "explicit-input",
+      "java_expr": "damaged()",
+      "godot_symbol": "source_building_draw_cracks_input.damaged_state",
+      "rule": "Runtime damaged_state supplies damaged()."
+    },
+    "building_draw_cracks.block_size_value": {
+      "tests": [
+        "test_building_draw_cracks_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cracks_state",
+      "godot_owner": "PortGame.source_building_draw_cracks_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawCracks()",
+      "status": "explicit-input",
+      "java_expr": "block.size",
+      "godot_symbol": "source_building_draw_cracks_input.block_size_value",
+      "rule": "Runtime block_size_value supplies block.size."
+    },
+    "building_draw_cracks.max_crack_size": {
+      "tests": [
+        "test_building_draw_cracks_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cracks_state",
+      "godot_owner": "PortGame.source_building_draw_cracks_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawCracks()",
+      "status": "explicit-input",
+      "java_expr": "BlockRenderer.maxCrackSize",
+      "godot_symbol": "source_building_draw_cracks_input.max_crack_size",
+      "rule": "Runtime max_crack_size supplies BlockRenderer.maxCrackSize."
+    },
+    "building_draw_cracks.health_fraction": {
+      "tests": [
+        "test_building_draw_cracks_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cracks_state",
+      "godot_owner": "PortGame.source_building_draw_cracks_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawCracks()",
+      "status": "explicit-input",
+      "java_expr": "healthf()",
+      "godot_symbol": "source_building_draw_cracks_input.health_fraction",
+      "rule": "Runtime health_fraction supplies healthf()."
+    },
+    "building_draw_cracks.crack_regions": {
+      "tests": [
+        "test_building_draw_cracks_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cracks_state",
+      "godot_owner": "PortGame.source_building_draw_cracks_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawCracks()",
+      "status": "explicit-input",
+      "java_expr": "BlockRenderer.crackRegions",
+      "godot_symbol": "source_building_draw_cracks_input.crack_regions",
+      "rule": "Runtime crack_regions supplies BlockRenderer.crackRegions."
+    },
+    "building_draw_cracks.position_id": {
+      "tests": [
+        "test_building_draw_cracks_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cracks_state",
+      "godot_owner": "PortGame.source_building_draw_cracks_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawCracks()",
+      "status": "explicit-input",
+      "java_expr": "pos()",
+      "godot_symbol": "source_building_draw_cracks_input.position_id",
+      "rule": "Runtime position_id supplies pos()."
     }
   }
 }
