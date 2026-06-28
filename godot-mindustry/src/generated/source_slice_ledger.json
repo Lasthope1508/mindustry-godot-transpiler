@@ -5510,6 +5510,53 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_state",
       "rule": "Backfills SSOT for existing canonical source_building_draw_state helper against BuildingComp.draw()."
+    },
+    "N575": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "drawStatus()",
+      "godot_owner": "PortGame.source_building_draw_status_state",
+      "exact_exprs": [
+        "public void drawStatus(){",
+        "if(block.enableDrawStatus && block.consumers.length > 0){",
+        "float multiplier = block.size > 1 ? 1 : 0.64f;",
+        "float brcx = x + (block.size * tilesize / 2f) - (tilesize * multiplier / 2f);",
+        "float brcy = y - (block.size * tilesize / 2f) + (tilesize * multiplier / 2f);",
+        "Draw.z(Layer.power + 1);",
+        "Draw.color(Pal.gray, Lod.alpha2);",
+        "Fill.square(brcx, brcy, 2.5f * multiplier, 45);",
+        "Draw.color(status().color, Lod.alpha2);",
+        "Fill.square(brcx, brcy, 1.5f * multiplier, 45);",
+        "Draw.color();"
+      ],
+      "deferred_exprs": [
+        "Concrete Draw.z, Draw.color, Pal.gray, Lod.alpha2, status().color, and Fill.square rendering stay owned by Godot rendering integration; this helper preserves canonical visibility, anchor, multiplier, and square-size state."
+      ],
+      "source_symbols": [
+        "building_draw_status.method",
+        "building_draw_status.guard",
+        "building_draw_status.multiplier",
+        "building_draw_status.brcx",
+        "building_draw_status.brcy",
+        "building_draw_status.layer",
+        "building_draw_status.gray_color",
+        "building_draw_status.gray_square",
+        "building_draw_status.status_color",
+        "building_draw_status.status_square",
+        "building_draw_status.reset",
+        "building_draw_status.enable_draw_status",
+        "building_draw_status.consumers_length",
+        "building_draw_status.block_size",
+        "building_draw_status.source_x",
+        "building_draw_status.source_y",
+        "building_draw_status.tilesize"
+      ],
+      "tests": [
+        "test_building_draw_status_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_status_state",
+      "rule": "Backfills SSOT for existing canonical source_building_draw_status_state helper against BuildingComp.drawStatus()."
     }
   },
   "version": 1

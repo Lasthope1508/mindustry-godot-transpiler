@@ -17427,6 +17427,227 @@
         "test_building_draw_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_building_draw_state"
+    },
+    "building_draw_status.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawStatus()",
+      "java_expr": "public void drawStatus(){",
+      "godot_symbol": "source_building_draw_status_result.method",
+      "godot_owner": "PortGame.source_building_draw_status_state",
+      "rule": "Source drawStatus method declaration.",
+      "tests": [
+        "test_building_draw_status_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_status_state"
+    },
+    "building_draw_status.guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawStatus()",
+      "java_expr": "if(block.enableDrawStatus && block.consumers.length > 0){",
+      "godot_symbol": "source_building_draw_status_result.visible",
+      "godot_owner": "PortGame.source_building_draw_status_state",
+      "rule": "drawStatus is visible only when status drawing is enabled and consumers exist.",
+      "tests": [
+        "test_building_draw_status_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_status_state"
+    },
+    "building_draw_status.multiplier": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawStatus()",
+      "java_expr": "float multiplier = block.size > 1 ? 1 : 0.64f;",
+      "godot_symbol": "source_building_draw_status_result.multiplier",
+      "godot_owner": "PortGame.source_building_draw_status_state",
+      "rule": "drawStatus multiplier follows block size branch.",
+      "tests": [
+        "test_building_draw_status_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_status_state"
+    },
+    "building_draw_status.brcx": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawStatus()",
+      "java_expr": "float brcx = x + (block.size * tilesize / 2f) - (tilesize * multiplier / 2f);",
+      "godot_symbol": "source_building_draw_status_result.brcx",
+      "godot_owner": "PortGame.source_building_draw_status_state",
+      "rule": "drawStatus x anchor formula.",
+      "tests": [
+        "test_building_draw_status_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_status_state"
+    },
+    "building_draw_status.brcy": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawStatus()",
+      "java_expr": "float brcy = y - (block.size * tilesize / 2f) + (tilesize * multiplier / 2f);",
+      "godot_symbol": "source_building_draw_status_result.brcy",
+      "godot_owner": "PortGame.source_building_draw_status_state",
+      "rule": "drawStatus y anchor formula.",
+      "tests": [
+        "test_building_draw_status_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_status_state"
+    },
+    "building_draw_status.layer": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawStatus()",
+      "java_expr": "Draw.z(Layer.power + 1);",
+      "godot_symbol": "source_building_draw_status_result.layer",
+      "godot_owner": "PortGame.source_building_draw_status_state",
+      "rule": "drawStatus draws at Layer.power + 1.",
+      "tests": [
+        "test_building_draw_status_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_status_state"
+    },
+    "building_draw_status.gray_color": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawStatus()",
+      "java_expr": "Draw.color(Pal.gray, Lod.alpha2);",
+      "godot_symbol": "source_building_draw_status_result.grayColor",
+      "godot_owner": "PortGame.source_building_draw_status_state",
+      "rule": "drawStatus gray square uses Pal.gray and Lod.alpha2.",
+      "tests": [
+        "test_building_draw_status_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_status_state"
+    },
+    "building_draw_status.gray_square": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawStatus()",
+      "java_expr": "Fill.square(brcx, brcy, 2.5f * multiplier, 45);",
+      "godot_symbol": "source_building_draw_status_result.gray_square_size",
+      "godot_owner": "PortGame.source_building_draw_status_state",
+      "rule": "drawStatus outer square size is 2.5f * multiplier.",
+      "tests": [
+        "test_building_draw_status_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_status_state"
+    },
+    "building_draw_status.status_color": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawStatus()",
+      "java_expr": "Draw.color(status().color, Lod.alpha2);",
+      "godot_symbol": "source_building_draw_status_result.statusColor",
+      "godot_owner": "PortGame.source_building_draw_status_state",
+      "rule": "drawStatus inner square uses status().color and Lod.alpha2.",
+      "tests": [
+        "test_building_draw_status_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_status_state"
+    },
+    "building_draw_status.status_square": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawStatus()",
+      "java_expr": "Fill.square(brcx, brcy, 1.5f * multiplier, 45);",
+      "godot_symbol": "source_building_draw_status_result.status_square_size",
+      "godot_owner": "PortGame.source_building_draw_status_state",
+      "rule": "drawStatus inner square size is 1.5f * multiplier.",
+      "tests": [
+        "test_building_draw_status_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_status_state"
+    },
+    "building_draw_status.reset": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawStatus()",
+      "java_expr": "Draw.color();",
+      "godot_symbol": "source_building_draw_status_result.reset",
+      "godot_owner": "PortGame.source_building_draw_status_state",
+      "rule": "drawStatus resets Draw color after drawing.",
+      "tests": [
+        "test_building_draw_status_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_status_state"
+    },
+    "building_draw_status.enable_draw_status": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawStatus()",
+      "java_expr": "block.enableDrawStatus",
+      "godot_symbol": "source_building_draw_status_input.enable_draw_status",
+      "godot_owner": "PortGame.source_building_draw_status_state",
+      "rule": "Runtime enable_draw_status supplies block.enableDrawStatus.",
+      "tests": [
+        "test_building_draw_status_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_status_state"
+    },
+    "building_draw_status.consumers_length": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawStatus()",
+      "java_expr": "block.consumers.length",
+      "godot_symbol": "source_building_draw_status_input.consumers_length",
+      "godot_owner": "PortGame.source_building_draw_status_state",
+      "rule": "Runtime consumers_length supplies block.consumers.length.",
+      "tests": [
+        "test_building_draw_status_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_status_state"
+    },
+    "building_draw_status.block_size": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawStatus()",
+      "java_expr": "block.size",
+      "godot_symbol": "source_building_draw_status_input.block_size_value",
+      "godot_owner": "PortGame.source_building_draw_status_state",
+      "rule": "Runtime block_size_value supplies block.size.",
+      "tests": [
+        "test_building_draw_status_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_status_state"
+    },
+    "building_draw_status.source_x": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawStatus()",
+      "java_expr": "x",
+      "godot_symbol": "source_building_draw_status_input.source_x",
+      "godot_owner": "PortGame.source_building_draw_status_state",
+      "rule": "Runtime source_x supplies BuildingComp x.",
+      "tests": [
+        "test_building_draw_status_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_status_state"
+    },
+    "building_draw_status.source_y": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawStatus()",
+      "java_expr": "y",
+      "godot_symbol": "source_building_draw_status_input.source_y",
+      "godot_owner": "PortGame.source_building_draw_status_state",
+      "rule": "Runtime source_y supplies BuildingComp y.",
+      "tests": [
+        "test_building_draw_status_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_status_state"
+    },
+    "building_draw_status.tilesize": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawStatus()",
+      "java_expr": "tilesize",
+      "godot_symbol": "source_building_draw_status_input.source_tilesize",
+      "godot_owner": "PortGame.source_building_draw_status_state",
+      "rule": "Runtime source_tilesize supplies tilesize.",
+      "tests": [
+        "test_building_draw_status_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_status_state"
     }
   }
 }

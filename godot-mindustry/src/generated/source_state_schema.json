@@ -22693,6 +22693,280 @@
           "rule": "Carries rotation_quadrants input into result schema."
         }
       }
+    },
+    "source_building_draw_status_input": {
+      "status": "active",
+      "keys": {
+        "enable_draw_status": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawStatus()",
+          "java_expr": "block.enableDrawStatus",
+          "godot_symbol": "source_building_draw_status_input.enable_draw_status",
+          "used_by": [
+            "PortGame.source_building_draw_status_state"
+          ],
+          "rule": "Runtime enable_draw_status supplies block.enableDrawStatus."
+        },
+        "consumers_length": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawStatus()",
+          "java_expr": "block.consumers.length",
+          "godot_symbol": "source_building_draw_status_input.consumers_length",
+          "used_by": [
+            "PortGame.source_building_draw_status_state"
+          ],
+          "rule": "Runtime consumers_length supplies block.consumers.length."
+        },
+        "block_size_value": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawStatus()",
+          "java_expr": "block.size",
+          "godot_symbol": "source_building_draw_status_input.block_size_value",
+          "used_by": [
+            "PortGame.source_building_draw_status_state"
+          ],
+          "rule": "Runtime block_size_value supplies block.size."
+        },
+        "source_x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawStatus()",
+          "java_expr": "x",
+          "godot_symbol": "source_building_draw_status_input.source_x",
+          "used_by": [
+            "PortGame.source_building_draw_status_state"
+          ],
+          "rule": "Runtime source_x supplies BuildingComp x."
+        },
+        "source_y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawStatus()",
+          "java_expr": "y",
+          "godot_symbol": "source_building_draw_status_input.source_y",
+          "used_by": [
+            "PortGame.source_building_draw_status_state"
+          ],
+          "rule": "Runtime source_y supplies BuildingComp y."
+        },
+        "source_tilesize": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawStatus()",
+          "java_expr": "tilesize",
+          "godot_symbol": "source_building_draw_status_input.source_tilesize",
+          "used_by": [
+            "PortGame.source_building_draw_status_state"
+          ],
+          "rule": "Runtime source_tilesize supplies tilesize."
+        }
+      }
+    },
+    "source_building_draw_status_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawStatus()",
+          "java_expr": "public void drawStatus(){",
+          "godot_symbol": "source_building_draw_status_result.method",
+          "used_by": [
+            "PortGame.source_building_draw_status_state"
+          ],
+          "rule": "Source drawStatus method declaration."
+        },
+        "visible": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawStatus()",
+          "java_expr": "if(block.enableDrawStatus && block.consumers.length > 0){",
+          "godot_symbol": "source_building_draw_status_result.visible",
+          "used_by": [
+            "PortGame.source_building_draw_status_state"
+          ],
+          "rule": "Visibility follows source drawStatus guard."
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawStatus()",
+          "java_expr": "float multiplier = block.size > 1 ? 1 : 0.64f;",
+          "godot_symbol": "source_building_draw_status_result.multiplier",
+          "used_by": [
+            "PortGame.source_building_draw_status_state"
+          ],
+          "rule": "Source drawStatus multiplier formula."
+        },
+        "brcx": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawStatus()",
+          "java_expr": "float brcx = x + (block.size * tilesize / 2f) - (tilesize * multiplier / 2f);",
+          "godot_symbol": "source_building_draw_status_result.brcx",
+          "used_by": [
+            "PortGame.source_building_draw_status_state"
+          ],
+          "rule": "Source drawStatus x anchor formula."
+        },
+        "brcy": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawStatus()",
+          "java_expr": "float brcy = y - (block.size * tilesize / 2f) + (tilesize * multiplier / 2f);",
+          "godot_symbol": "source_building_draw_status_result.brcy",
+          "used_by": [
+            "PortGame.source_building_draw_status_state"
+          ],
+          "rule": "Source drawStatus y anchor formula."
+        },
+        "layer": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawStatus()",
+          "java_expr": "Draw.z(Layer.power + 1);",
+          "godot_symbol": "source_building_draw_status_result.layer",
+          "used_by": [
+            "PortGame.source_building_draw_status_state"
+          ],
+          "rule": "Source drawStatus layer call."
+        },
+        "grayColor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawStatus()",
+          "java_expr": "Draw.color(Pal.gray, Lod.alpha2);",
+          "godot_symbol": "source_building_draw_status_result.grayColor",
+          "used_by": [
+            "PortGame.source_building_draw_status_state"
+          ],
+          "rule": "Source drawStatus gray color call."
+        },
+        "graySquare": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawStatus()",
+          "java_expr": "Fill.square(brcx, brcy, 2.5f * multiplier, 45);",
+          "godot_symbol": "source_building_draw_status_result.graySquare",
+          "used_by": [
+            "PortGame.source_building_draw_status_state"
+          ],
+          "rule": "Source drawStatus gray square call."
+        },
+        "gray_square_size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawStatus()",
+          "java_expr": "2.5f * multiplier",
+          "godot_symbol": "source_building_draw_status_result.gray_square_size",
+          "used_by": [
+            "PortGame.source_building_draw_status_state"
+          ],
+          "rule": "Source drawStatus gray square size formula."
+        },
+        "statusColor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawStatus()",
+          "java_expr": "Draw.color(status().color, Lod.alpha2);",
+          "godot_symbol": "source_building_draw_status_result.statusColor",
+          "used_by": [
+            "PortGame.source_building_draw_status_state"
+          ],
+          "rule": "Source drawStatus status color call."
+        },
+        "statusSquare": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawStatus()",
+          "java_expr": "Fill.square(brcx, brcy, 1.5f * multiplier, 45);",
+          "godot_symbol": "source_building_draw_status_result.statusSquare",
+          "used_by": [
+            "PortGame.source_building_draw_status_state"
+          ],
+          "rule": "Source drawStatus status square call."
+        },
+        "status_square_size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawStatus()",
+          "java_expr": "1.5f * multiplier",
+          "godot_symbol": "source_building_draw_status_result.status_square_size",
+          "used_by": [
+            "PortGame.source_building_draw_status_state"
+          ],
+          "rule": "Source drawStatus status square size formula."
+        },
+        "reset": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawStatus()",
+          "java_expr": "Draw.color();",
+          "godot_symbol": "source_building_draw_status_result.reset",
+          "used_by": [
+            "PortGame.source_building_draw_status_state"
+          ],
+          "rule": "Source drawStatus color reset call."
+        },
+        "enable_draw_status": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_draw_status_input.enable_draw_status",
+          "rule": "Carries enable_draw_status input into result schema."
+        },
+        "consumers_length": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_draw_status_input.consumers_length",
+          "rule": "Carries consumers_length input into result schema."
+        },
+        "block_size_value": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_draw_status_input.block_size_value",
+          "rule": "Carries block_size_value input into result schema."
+        },
+        "source_x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_status_input.source_x",
+          "rule": "Carries source_x input into result schema."
+        },
+        "source_y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_status_input.source_y",
+          "rule": "Carries source_y input into result schema."
+        },
+        "source_tilesize": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_status_input.source_tilesize",
+          "rule": "Carries source_tilesize input into result schema."
+        }
+      }
     }
   },
   "version": 1

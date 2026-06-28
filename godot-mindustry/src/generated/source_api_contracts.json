@@ -6868,6 +6868,57 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.draw() helper."
+    },
+    "PortGame.source_building_draw_status_state": {
+      "status": "active",
+      "source_slice": "N575",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "drawStatus()",
+      "params": [
+        {
+          "name": "enable_draw_status",
+          "type": "bool",
+          "schema": "source_building_draw_status_input.enable_draw_status"
+        },
+        {
+          "name": "consumers_length",
+          "type": "int",
+          "schema": "source_building_draw_status_input.consumers_length"
+        },
+        {
+          "name": "block_size_value",
+          "type": "int",
+          "schema": "source_building_draw_status_input.block_size_value"
+        },
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_building_draw_status_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_building_draw_status_input.source_y"
+        },
+        {
+          "name": "source_tilesize",
+          "type": "float",
+          "schema": "source_building_draw_status_input.source_tilesize"
+        }
+      ],
+      "return_keys": [
+        "visible",
+        "multiplier",
+        "brcx",
+        "brcy",
+        "gray_square_size",
+        "status_square_size"
+      ],
+      "tests": [
+        "test_building_draw_status_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_status_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.drawStatus() helper."
     }
   },
   "policy": {
