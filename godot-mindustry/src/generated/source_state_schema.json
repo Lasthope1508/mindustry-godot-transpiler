@@ -24530,6 +24530,88 @@
           "rule": "Carries is_discovered input into result schema."
         }
       }
+    },
+    "source_building_in_fog_initial_gate_input": {
+      "status": "active",
+      "keys": {
+        "same_team": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "inFogTo(Team viewer)",
+          "java_expr": "team == viewer",
+          "godot_symbol": "source_building_in_fog_initial_gate_input.same_team",
+          "used_by": [
+            "PortGame.source_building_in_fog_initial_gate_state"
+          ],
+          "rule": "Runtime same_team supplies source team == viewer."
+        },
+        "rules_fog": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "inFogTo(Team viewer)",
+          "java_expr": "state.rules.fog",
+          "godot_symbol": "source_building_in_fog_initial_gate_input.rules_fog",
+          "used_by": [
+            "PortGame.source_building_in_fog_initial_gate_state"
+          ],
+          "rule": "Runtime rules_fog supplies source state.rules.fog."
+        }
+      }
+    },
+    "source_building_in_fog_initial_gate_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "inFogTo(Team viewer)",
+          "java_expr": "public boolean inFogTo(Team viewer){",
+          "godot_symbol": "source_building_in_fog_initial_gate_result.method",
+          "used_by": [
+            "PortGame.source_building_in_fog_initial_gate_state"
+          ],
+          "rule": "Source inFogTo method declaration."
+        },
+        "initial_return": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "inFogTo(Team viewer)",
+          "java_expr": "if(team == viewer || !state.rules.fog) return false;",
+          "godot_symbol": "source_building_in_fog_initial_gate_result.initial_return",
+          "used_by": [
+            "PortGame.source_building_in_fog_initial_gate_state"
+          ],
+          "rule": "Same-team viewers and disabled fog return false before discovery checks."
+        },
+        "returned": {
+          "type": "bool",
+          "status": "generated",
+          "java_expr": "if(team == viewer || !state.rules.fog) return false;",
+          "rule": "Reports whether the initial inFogTo guard returned before discovery checks."
+        },
+        "value": {
+          "type": "Variant",
+          "status": "generated",
+          "java_expr": "if(team == viewer || !state.rules.fog) return false;",
+          "rule": "Carries false when initial guard returns, otherwise null for continuation."
+        },
+        "same_team": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_in_fog_initial_gate_input.same_team",
+          "rule": "Carries same_team input into result schema."
+        },
+        "rules_fog": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_in_fog_initial_gate_input.rules_fog",
+          "rule": "Carries rules_fog input into result schema."
+        }
+      }
     }
   },
   "version": 1

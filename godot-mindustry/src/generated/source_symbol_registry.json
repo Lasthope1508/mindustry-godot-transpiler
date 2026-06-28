@@ -18805,6 +18805,58 @@
         "test_building_in_fog_discovery_gate_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_building_in_fog_discovery_gate_state"
+    },
+    "building_in_fog_initial_gate.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "inFogTo(Team viewer)",
+      "java_expr": "public boolean inFogTo(Team viewer){",
+      "godot_symbol": "source_building_in_fog_initial_gate_result.method",
+      "godot_owner": "PortGame.source_building_in_fog_initial_gate_state",
+      "rule": "Source inFogTo method declaration.",
+      "tests": [
+        "test_building_in_fog_initial_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_in_fog_initial_gate_state"
+    },
+    "building_in_fog_initial_gate.initial_return": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "inFogTo(Team viewer)",
+      "java_expr": "if(team == viewer || !state.rules.fog) return false;",
+      "godot_symbol": "source_building_in_fog_initial_gate_result.initial_return",
+      "godot_owner": "PortGame.source_building_in_fog_initial_gate_state",
+      "rule": "Same-team viewers and disabled fog return false before discovery checks.",
+      "tests": [
+        "test_building_in_fog_initial_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_in_fog_initial_gate_state"
+    },
+    "building_in_fog_initial_gate.same_team": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "inFogTo(Team viewer)",
+      "java_expr": "team == viewer",
+      "godot_symbol": "source_building_in_fog_initial_gate_input.same_team",
+      "godot_owner": "PortGame.source_building_in_fog_initial_gate_state",
+      "rule": "Runtime same_team supplies source team == viewer.",
+      "tests": [
+        "test_building_in_fog_initial_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_in_fog_initial_gate_state"
+    },
+    "building_in_fog_initial_gate.rules_fog": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "inFogTo(Team viewer)",
+      "java_expr": "state.rules.fog",
+      "godot_symbol": "source_building_in_fog_initial_gate_input.rules_fog",
+      "godot_owner": "PortGame.source_building_in_fog_initial_gate_state",
+      "rule": "Runtime rules_fog supplies source state.rules.fog.",
+      "tests": [
+        "test_building_in_fog_initial_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_in_fog_initial_gate_state"
     }
   }
 }

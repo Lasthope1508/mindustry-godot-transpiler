@@ -7399,6 +7399,33 @@
       ],
       "runtime_proof": "/root/Main.source_building_in_fog_discovery_gate_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.inFogTo(Team viewer) discovery gate helper."
+    },
+    "PortGame.source_building_in_fog_initial_gate_state": {
+      "status": "active",
+      "source_slice": "N593",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "inFogTo(Team viewer)",
+      "params": [
+        {
+          "name": "same_team",
+          "type": "bool",
+          "schema": "source_building_in_fog_initial_gate_input.same_team"
+        },
+        {
+          "name": "rules_fog",
+          "type": "bool",
+          "schema": "source_building_in_fog_initial_gate_input.rules_fog"
+        }
+      ],
+      "return_keys": [
+        "returned",
+        "value"
+      ],
+      "tests": [
+        "test_building_in_fog_initial_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_in_fog_initial_gate_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.inFogTo(Team viewer) initial gate helper."
     }
   },
   "policy": {

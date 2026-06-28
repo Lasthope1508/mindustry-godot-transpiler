@@ -6022,6 +6022,33 @@
       ],
       "runtime_proof": "/root/Main.source_building_in_fog_discovery_gate_state",
       "rule": "Backfills SSOT for existing canonical source_building_in_fog_discovery_gate_state helper against BuildingComp.inFogTo(Team viewer)."
+    },
+    "N593": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "inFogTo(Team viewer)",
+      "godot_owner": "PortGame.source_building_in_fog_initial_gate_state",
+      "exact_exprs": [
+        "public boolean inFogTo(Team viewer){",
+        "if(team == viewer || !state.rules.fog) return false;",
+        "team == viewer",
+        "state.rules.fog"
+      ],
+      "deferred_exprs": [
+        "Discovery and visible tile iteration remain owned by adjacent inFogTo helper slices."
+      ],
+      "source_symbols": [
+        "building_in_fog_initial_gate.method",
+        "building_in_fog_initial_gate.initial_return",
+        "building_in_fog_initial_gate.same_team",
+        "building_in_fog_initial_gate.rules_fog"
+      ],
+      "tests": [
+        "test_building_in_fog_initial_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_in_fog_initial_gate_state",
+      "rule": "Backfills SSOT for existing canonical source_building_in_fog_initial_gate_state helper against BuildingComp.inFogTo(Team viewer)."
     }
   },
   "version": 1

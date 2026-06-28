@@ -4998,6 +4998,34 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_tilesize["java_expr"], "tilesize")
         self.assertEqual(source_tilesize["godot_symbol"], "source_building_hitbox_input.source_tilesize")
 
+    def test_building_in_fog_initial_gate_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_in_fog_initial_gate.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "inFogTo(Team viewer)")
+        self.assertEqual(method["java_expr"], "public boolean inFogTo(Team viewer){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_in_fog_initial_gate_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_in_fog_initial_gate_state")
+        self.assertEqual(method["godot_symbol"], "source_building_in_fog_initial_gate_result.method")
+
+        initial_return = source_symbols.source_symbol(registry, "building_in_fog_initial_gate.initial_return")
+        self.assertEqual(initial_return["java_expr"], "if(team == viewer || !state.rules.fog) return false;")
+        self.assertEqual(initial_return["godot_symbol"], "source_building_in_fog_initial_gate_result.initial_return")
+
+        same_team = source_symbols.source_symbol(registry, "building_in_fog_initial_gate.same_team")
+        self.assertEqual(same_team["status"], "explicit-input")
+        self.assertEqual(same_team["java_expr"], "team == viewer")
+        self.assertEqual(same_team["godot_symbol"], "source_building_in_fog_initial_gate_input.same_team")
+
+        rules_fog = source_symbols.source_symbol(registry, "building_in_fog_initial_gate.rules_fog")
+        self.assertEqual(rules_fog["status"], "explicit-input")
+        self.assertEqual(rules_fog["java_expr"], "state.rules.fog")
+        self.assertEqual(rules_fog["godot_symbol"], "source_building_in_fog_initial_gate_input.rules_fog")
+
     def test_building_in_fog_discovery_gate_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -5368,9 +5396,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 190)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 191)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 195)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 196)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -5378,6 +5406,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_state_schema_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_draw_parts_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_in_fog_discovery_gate_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_in_fog_initial_gate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7107,6 +7136,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(!isDiscovered(viewer)) return true;", building_in_fog_discovery_gate["exact_exprs"])
         self.assertIn("isDiscovered(viewer)", building_in_fog_discovery_gate["exact_exprs"])
 
+        building_in_fog_initial_gate = source_symbols.source_slice(ledger, "N593")
+        self.assertEqual(building_in_fog_initial_gate["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_in_fog_initial_gate["java_method"], "inFogTo(Team viewer)")
+        self.assertEqual(building_in_fog_initial_gate["godot_owner"], "PortGame.source_building_in_fog_initial_gate_state")
+        self.assertIn("public boolean inFogTo(Team viewer){", building_in_fog_initial_gate["exact_exprs"])
+        self.assertIn("if(team == viewer || !state.rules.fog) return false;", building_in_fog_initial_gate["exact_exprs"])
+        self.assertIn("team == viewer", building_in_fog_initial_gate["exact_exprs"])
+        self.assertIn("state.rules.fog", building_in_fog_initial_gate["exact_exprs"])
+
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
         self.assertEqual(arc_mathf_cos_scaled["java_method"], "cos(float radians, float scl, float mag)")
@@ -8744,6 +8782,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("value", building_in_fog_discovery_gate["return_keys"])
         self.assertIn("grid", building_in_fog_discovery_gate["return_keys"])
         self.assertEqual(building_in_fog_discovery_gate["source_method"], "inFogTo(Team viewer)")
+
+        building_in_fog_initial_gate = source_symbols.api_contract(contracts, "PortGame.source_building_in_fog_initial_gate_state")
+        self.assertEqual([param["name"] for param in building_in_fog_initial_gate["params"]], ["same_team", "rules_fog"])
+        self.assertEqual(building_in_fog_initial_gate["params"][0]["schema"], "source_building_in_fog_initial_gate_input.same_team")
+        self.assertEqual(building_in_fog_initial_gate["params"][1]["schema"], "source_building_in_fog_initial_gate_input.rules_fog")
+        self.assertIn("returned", building_in_fog_initial_gate["return_keys"])
+        self.assertIn("value", building_in_fog_initial_gate["return_keys"])
+        self.assertEqual(building_in_fog_initial_gate["source_method"], "inFogTo(Team viewer)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -10873,6 +10919,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_in_fog_discovery_gate_result["keys"]["undiscovered_return"]["java_expr"], "if(!isDiscovered(viewer)) return true;")
         self.assertEqual(source_building_in_fog_discovery_gate_result["keys"]["block_size_value"]["alias_of"], "source_building_in_fog_discovery_gate_input.block_size_value")
         self.assertEqual(source_building_in_fog_discovery_gate_result["keys"]["is_discovered"]["alias_of"], "source_building_in_fog_discovery_gate_input.is_discovered")
+
+        source_building_in_fog_initial_gate_input = source_symbols.state_schema(schema, "source_building_in_fog_initial_gate_input")
+        self.assertEqual(source_building_in_fog_initial_gate_input["keys"]["same_team"]["java_expr"], "team == viewer")
+        self.assertEqual(source_building_in_fog_initial_gate_input["keys"]["same_team"]["status"], "explicit-input")
+        self.assertEqual(source_building_in_fog_initial_gate_input["keys"]["rules_fog"]["java_expr"], "state.rules.fog")
+        self.assertEqual(source_building_in_fog_initial_gate_input["keys"]["rules_fog"]["status"], "explicit-input")
+
+        source_building_in_fog_initial_gate_result = source_symbols.state_schema(schema, "source_building_in_fog_initial_gate_result")
+        self.assertEqual(source_building_in_fog_initial_gate_result["keys"]["method"]["java_expr"], "public boolean inFogTo(Team viewer){")
+        self.assertEqual(source_building_in_fog_initial_gate_result["keys"]["initial_return"]["java_expr"], "if(team == viewer || !state.rules.fog) return false;")
+        self.assertEqual(source_building_in_fog_initial_gate_result["keys"]["returned"]["java_expr"], "if(team == viewer || !state.rules.fog) return false;")
+        self.assertEqual(source_building_in_fog_initial_gate_result["keys"]["same_team"]["alias_of"], "source_building_in_fog_initial_gate_input.same_team")
+        self.assertEqual(source_building_in_fog_initial_gate_result["keys"]["rules_fog"]["alias_of"], "source_building_in_fog_initial_gate_input.rules_fog")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")
