@@ -7469,6 +7469,29 @@
       ],
       "runtime_proof": "/root/Main.source_building_in_fog_visibility_loop_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.inFogTo(Team viewer) visibility loop helper."
+    },
+    "PortGame.source_building_is_commandable_state": {
+      "status": "active",
+      "source_slice": "N595",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "isCommandable()",
+      "params": [
+        {
+          "name": "block_commandable",
+          "type": "bool",
+          "schema": "source_building_is_commandable_input.block_commandable"
+        }
+      ],
+      "return_keys": [
+        "block_commandable",
+        "method",
+        "commandable"
+      ],
+      "tests": [
+        "test_building_is_commandable_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_commandable_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.isCommandable helper."
     }
   },
   "policy": {

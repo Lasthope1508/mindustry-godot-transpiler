@@ -6087,6 +6087,31 @@
       ],
       "runtime_proof": "/root/Main.source_building_in_fog_visibility_loop_state",
       "rule": "Backfills SSOT for existing canonical source_building_in_fog_visibility_loop_state helper against BuildingComp.inFogTo(Team viewer)."
+    },
+    "N595": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "isCommandable()",
+      "godot_owner": "PortGame.source_building_is_commandable_state",
+      "exact_exprs": [
+        "public boolean isCommandable(){",
+        "return block.commandable;",
+        "block.commandable"
+      ],
+      "deferred_exprs": [
+        "Concrete command UI and unit command behavior remain owned by command/runtime integration slices."
+      ],
+      "source_symbols": [
+        "building_is_commandable.method",
+        "building_is_commandable.result",
+        "building_is_commandable.block_commandable"
+      ],
+      "tests": [
+        "test_building_is_commandable_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_commandable_state",
+      "rule": "Backfills SSOT for existing canonical source_building_is_commandable_state helper against BuildingComp.isCommandable()."
     }
   },
   "version": 1

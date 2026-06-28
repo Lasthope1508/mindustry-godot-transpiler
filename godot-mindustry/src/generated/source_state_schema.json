@@ -24802,6 +24802,58 @@
           "rule": "Carries visible_tiles input into result schema."
         }
       }
+    },
+    "source_building_is_commandable_input": {
+      "status": "active",
+      "keys": {
+        "block_commandable": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "isCommandable()",
+          "java_expr": "block.commandable",
+          "godot_symbol": "source_building_is_commandable_input.block_commandable",
+          "used_by": [
+            "PortGame.source_building_is_commandable_state"
+          ],
+          "rule": "Block commandable field supplied to isCommandable helper."
+        }
+      }
+    },
+    "source_building_is_commandable_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "isCommandable()",
+          "java_expr": "public boolean isCommandable(){",
+          "godot_symbol": "source_building_is_commandable_result.method",
+          "used_by": [
+            "PortGame.source_building_is_commandable_state"
+          ],
+          "rule": "BuildingComp isCommandable method boundary."
+        },
+        "commandable": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "isCommandable()",
+          "java_expr": "return block.commandable;",
+          "godot_symbol": "source_building_is_commandable_result.commandable",
+          "used_by": [
+            "PortGame.source_building_is_commandable_state"
+          ],
+          "rule": "BuildingComp isCommandable return value."
+        },
+        "block_commandable": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_is_commandable_input.block_commandable",
+          "rule": "Carries block_commandable input into result schema."
+        }
+      }
     }
   },
   "version": 1

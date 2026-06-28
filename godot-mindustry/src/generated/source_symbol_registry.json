@@ -19000,6 +19000,45 @@
         "test_building_in_fog_visibility_loop_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_building_in_fog_visibility_loop_state"
+    },
+    "building_is_commandable.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "isCommandable()",
+      "godot_owner": "PortGame.source_building_is_commandable_state",
+      "tests": [
+        "test_building_is_commandable_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_commandable_state",
+      "java_expr": "public boolean isCommandable(){",
+      "godot_symbol": "source_building_is_commandable_result.method",
+      "rule": "BuildingComp isCommandable method boundary."
+    },
+    "building_is_commandable.result": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "isCommandable()",
+      "godot_owner": "PortGame.source_building_is_commandable_state",
+      "tests": [
+        "test_building_is_commandable_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_commandable_state",
+      "java_expr": "return block.commandable;",
+      "godot_symbol": "source_building_is_commandable_result.commandable",
+      "rule": "BuildingComp isCommandable returns block.commandable."
+    },
+    "building_is_commandable.block_commandable": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "isCommandable()",
+      "godot_owner": "PortGame.source_building_is_commandable_state",
+      "tests": [
+        "test_building_is_commandable_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_commandable_state",
+      "java_expr": "block.commandable",
+      "godot_symbol": "source_building_is_commandable_input.block_commandable",
+      "rule": "Block commandable field supplied to isCommandable helper."
     }
   }
 }

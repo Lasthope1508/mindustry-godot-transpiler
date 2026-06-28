@@ -5085,6 +5085,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(visible_tiles["java_expr"], "fogControl.isVisibleTile(viewer, tx + x + of, ty + y + of)")
         self.assertEqual(visible_tiles["godot_symbol"], "source_building_in_fog_visibility_loop_input.visible_tiles")
 
+    def test_building_is_commandable_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_is_commandable.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "isCommandable()")
+        self.assertEqual(method["java_expr"], "public boolean isCommandable(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_is_commandable_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_is_commandable_state")
+        self.assertEqual(method["godot_symbol"], "source_building_is_commandable_result.method")
+
+        result = source_symbols.source_symbol(registry, "building_is_commandable.result")
+        self.assertEqual(result["java_expr"], "return block.commandable;")
+        self.assertEqual(result["godot_symbol"], "source_building_is_commandable_result.commandable")
+
+        block_commandable = source_symbols.source_symbol(registry, "building_is_commandable.block_commandable")
+        self.assertEqual(block_commandable["status"], "explicit-input")
+        self.assertEqual(block_commandable["java_expr"], "block.commandable")
+        self.assertEqual(block_commandable["godot_symbol"], "source_building_is_commandable_input.block_commandable")
+
     def test_building_in_fog_discovery_gate_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -5455,9 +5478,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 192)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 193)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 197)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 198)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -5467,6 +5490,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_in_fog_discovery_gate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_in_fog_initial_gate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_in_fog_visibility_loop_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_is_commandable_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7216,6 +7240,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return false;", building_in_fog_visibility_loop["exact_exprs"])
         self.assertIn("return true;", building_in_fog_visibility_loop["exact_exprs"])
 
+        building_is_commandable = source_symbols.source_slice(ledger, "N595")
+        self.assertEqual(building_is_commandable["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_is_commandable["java_method"], "isCommandable()")
+        self.assertEqual(building_is_commandable["godot_owner"], "PortGame.source_building_is_commandable_state")
+        self.assertIn("public boolean isCommandable(){", building_is_commandable["exact_exprs"])
+        self.assertIn("return block.commandable;", building_is_commandable["exact_exprs"])
+        self.assertIn("block.commandable", building_is_commandable["exact_exprs"])
+
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
         self.assertEqual(arc_mathf_cos_scaled["java_method"], "cos(float radians, float scl, float mag)")
@@ -8870,6 +8902,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("checked_tiles", building_in_fog_visibility_loop["return_keys"])
         self.assertIn("visible_tile", building_in_fog_visibility_loop["return_keys"])
         self.assertEqual(building_in_fog_visibility_loop["source_method"], "inFogTo(Team viewer)")
+
+        building_is_commandable = source_symbols.api_contract(contracts, "PortGame.source_building_is_commandable_state")
+        self.assertEqual([param["name"] for param in building_is_commandable["params"]], ["block_commandable"])
+        self.assertEqual(building_is_commandable["params"][0]["schema"], "source_building_is_commandable_input.block_commandable")
+        self.assertIn("block_commandable", building_is_commandable["return_keys"])
+        self.assertIn("method", building_is_commandable["return_keys"])
+        self.assertIn("commandable", building_is_commandable["return_keys"])
+        self.assertEqual(building_is_commandable["source_method"], "isCommandable()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -11029,6 +11069,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_in_fog_visibility_loop_result["keys"]["final_return"]["java_expr"], "return true;")
         self.assertEqual(source_building_in_fog_visibility_loop_result["keys"]["block_size_value"]["alias_of"], "source_building_in_fog_visibility_loop_input.block_size_value")
         self.assertEqual(source_building_in_fog_visibility_loop_result["keys"]["visible_tiles"]["alias_of"], "source_building_in_fog_visibility_loop_input.visible_tiles")
+
+        source_building_is_commandable_input = source_symbols.state_schema(schema, "source_building_is_commandable_input")
+        self.assertEqual(source_building_is_commandable_input["keys"]["block_commandable"]["java_expr"], "block.commandable")
+        self.assertEqual(source_building_is_commandable_input["keys"]["block_commandable"]["status"], "explicit-input")
+
+        source_building_is_commandable_result = source_symbols.state_schema(schema, "source_building_is_commandable_result")
+        self.assertEqual(source_building_is_commandable_result["keys"]["method"]["java_expr"], "public boolean isCommandable(){")
+        self.assertEqual(source_building_is_commandable_result["keys"]["commandable"]["java_expr"], "return block.commandable;")
+        self.assertEqual(source_building_is_commandable_result["keys"]["block_commandable"]["alias_of"], "source_building_is_commandable_input.block_commandable")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")
