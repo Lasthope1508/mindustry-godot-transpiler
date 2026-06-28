@@ -5124,6 +5124,55 @@
       ],
       "runtime_proof": "/root/Main.source_building_ambient_volume",
       "rule": "Public runtime contract for Mindustry BuildingComp.ambientVolume helper."
+    },
+    "PortGame.source_building_apply_boost_state": {
+      "status": "active",
+      "source_slice": "N528",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "applyBoost(float intensity, float duration)",
+      "params": [
+        {
+          "name": "current_time_scale",
+          "type": "float",
+          "schema": "source_building_apply_boost_input.currentTimeScale"
+        },
+        {
+          "name": "current_duration",
+          "type": "float",
+          "schema": "source_building_apply_boost_input.currentDuration"
+        },
+        {
+          "name": "intensity",
+          "type": "float",
+          "schema": "source_building_apply_boost_input.intensity"
+        },
+        {
+          "name": "duration",
+          "type": "float",
+          "schema": "source_building_apply_boost_input.duration"
+        },
+        {
+          "name": "can_overdrive",
+          "type": "bool",
+          "schema": "source_building_apply_boost_input.canOverdrive"
+        }
+      ],
+      "return_keys": [
+        "currentTimeScale",
+        "currentDuration",
+        "intensity",
+        "duration",
+        "canOverdrive",
+        "canOverdriveGate",
+        "refreshDurationGate",
+        "timeScaleDuration",
+        "timeScale"
+      ],
+      "tests": [
+        "test_building_apply_boost_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_apply_boost_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.applyBoost helper."
     }
   },
   "policy": {

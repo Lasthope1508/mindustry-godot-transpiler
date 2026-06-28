@@ -16639,6 +16639,154 @@
           "rule": "Carries efficiency input into result schema."
         }
       }
+    },
+    "source_building_apply_boost_input": {
+      "status": "active",
+      "keys": {
+        "currentTimeScale": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "applyBoost(float intensity, float duration)",
+          "java_expr": "this.timeScale",
+          "godot_symbol": "source_building_apply_boost_input.currentTimeScale",
+          "used_by": [
+            "PortGame.source_building_apply_boost_state"
+          ],
+          "rule": "Runtime current_time_scale argument supplies source current timeScale field."
+        },
+        "currentDuration": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "applyBoost(float intensity, float duration)",
+          "java_expr": "timeScaleDuration",
+          "godot_symbol": "source_building_apply_boost_input.currentDuration",
+          "used_by": [
+            "PortGame.source_building_apply_boost_state"
+          ],
+          "rule": "Runtime current_duration argument supplies source timeScaleDuration field."
+        },
+        "intensity": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "applyBoost(float intensity, float duration)",
+          "java_expr": "intensity",
+          "godot_symbol": "source_building_apply_boost_input.intensity",
+          "used_by": [
+            "PortGame.source_building_apply_boost_state"
+          ],
+          "rule": "Runtime intensity argument supplies source boost intensity parameter."
+        },
+        "duration": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "applyBoost(float intensity, float duration)",
+          "java_expr": "duration",
+          "godot_symbol": "source_building_apply_boost_input.duration",
+          "used_by": [
+            "PortGame.source_building_apply_boost_state"
+          ],
+          "rule": "Runtime duration argument supplies source boost duration parameter."
+        },
+        "canOverdrive": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "applyBoost(float intensity, float duration)",
+          "java_expr": "block.canOverdrive",
+          "godot_symbol": "source_building_apply_boost_input.canOverdrive",
+          "used_by": [
+            "PortGame.source_building_apply_boost_state"
+          ],
+          "rule": "Runtime can_overdrive argument supplies source block.canOverdrive field."
+        }
+      }
+    },
+    "source_building_apply_boost_result": {
+      "status": "active",
+      "keys": {
+        "canOverdriveGate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "applyBoost(float intensity, float duration)",
+          "java_expr": "if(!block.canOverdrive) return;",
+          "godot_symbol": "source_building_apply_boost_result.canOverdriveGate",
+          "used_by": [
+            "PortGame.source_building_apply_boost_state"
+          ],
+          "rule": "Source return guard when block cannot overdrive."
+        },
+        "refreshDurationGate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "applyBoost(float intensity, float duration)",
+          "java_expr": "if(intensity >= this.timeScale - 0.001f){",
+          "godot_symbol": "source_building_apply_boost_result.refreshDurationGate",
+          "used_by": [
+            "PortGame.source_building_apply_boost_state"
+          ],
+          "rule": "Source duration refresh guard for non-lower boost intensity."
+        },
+        "timeScaleDuration": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "applyBoost(float intensity, float duration)",
+          "java_expr": "timeScaleDuration = Math.max(timeScaleDuration, duration);",
+          "godot_symbol": "source_building_apply_boost_result.timeScaleDuration",
+          "used_by": [
+            "PortGame.source_building_apply_boost_state"
+          ],
+          "rule": "Source max assignment for boost duration."
+        },
+        "timeScale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "applyBoost(float intensity, float duration)",
+          "java_expr": "timeScale = Math.max(timeScale, intensity);",
+          "godot_symbol": "source_building_apply_boost_result.timeScale",
+          "used_by": [
+            "PortGame.source_building_apply_boost_state"
+          ],
+          "rule": "Source max assignment for time scale."
+        },
+        "currentTimeScale": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_apply_boost_input.currentTimeScale",
+          "rule": "Carries currentTimeScale input into result schema."
+        },
+        "currentDuration": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_apply_boost_input.currentDuration",
+          "rule": "Carries currentDuration input into result schema."
+        },
+        "intensity": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_apply_boost_input.intensity",
+          "rule": "Carries intensity input into result schema."
+        },
+        "duration": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_apply_boost_input.duration",
+          "rule": "Carries duration input into result schema."
+        },
+        "canOverdrive": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_apply_boost_input.canOverdrive",
+          "rule": "Carries canOverdrive input into result schema."
+        }
+      }
     }
   },
   "version": 1

@@ -3948,6 +3948,41 @@
       ],
       "runtime_proof": "/root/Main.source_building_ambient_volume",
       "rule": "Backfills SSOT for existing canonical source_building_ambient_volume helper against BuildingComp.ambientVolume direct efficiency return."
+    },
+    "N528": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "applyBoost(float intensity, float duration)",
+      "godot_owner": "PortGame.source_building_apply_boost_state",
+      "exact_exprs": [
+        "if(!block.canOverdrive) return;",
+        "if(intensity >= this.timeScale - 0.001f){",
+        "timeScaleDuration = Math.max(timeScaleDuration, duration);",
+        "timeScale = Math.max(timeScale, intensity);",
+        "this.timeScale",
+        "timeScaleDuration",
+        "intensity",
+        "duration",
+        "block.canOverdrive"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "building_apply_boost.can_overdrive_guard",
+        "building_apply_boost.refresh_guard",
+        "building_apply_boost.duration_max",
+        "building_apply_boost.time_scale_max",
+        "building_apply_boost.current_time_scale",
+        "building_apply_boost.current_duration",
+        "building_apply_boost.intensity",
+        "building_apply_boost.duration",
+        "building_apply_boost.can_overdrive"
+      ],
+      "tests": [
+        "test_building_apply_boost_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_apply_boost_state",
+      "rule": "Backfills SSOT for existing canonical source_building_apply_boost_state helper against BuildingComp.applyBoost time-scale and duration semantics."
     }
   },
   "version": 1

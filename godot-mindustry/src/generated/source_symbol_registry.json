@@ -12591,6 +12591,123 @@
       "java_expr": "efficiency",
       "godot_symbol": "source_building_ambient_volume_input.efficiency",
       "rule": "Runtime efficiency argument supplies source efficiency field."
+    },
+    "building_apply_boost.can_overdrive_guard": {
+      "tests": [
+        "test_building_apply_boost_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_apply_boost_state",
+      "godot_owner": "PortGame.source_building_apply_boost_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "applyBoost(float intensity, float duration)",
+      "status": "source-backed",
+      "java_expr": "if(!block.canOverdrive) return;",
+      "godot_symbol": "source_building_apply_boost_result.canOverdriveGate",
+      "rule": "Source return guard when block cannot overdrive."
+    },
+    "building_apply_boost.refresh_guard": {
+      "tests": [
+        "test_building_apply_boost_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_apply_boost_state",
+      "godot_owner": "PortGame.source_building_apply_boost_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "applyBoost(float intensity, float duration)",
+      "status": "source-backed",
+      "java_expr": "if(intensity >= this.timeScale - 0.001f){",
+      "godot_symbol": "source_building_apply_boost_result.refreshDurationGate",
+      "rule": "Source duration refresh guard for non-lower boost intensity."
+    },
+    "building_apply_boost.duration_max": {
+      "tests": [
+        "test_building_apply_boost_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_apply_boost_state",
+      "godot_owner": "PortGame.source_building_apply_boost_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "applyBoost(float intensity, float duration)",
+      "status": "source-backed",
+      "java_expr": "timeScaleDuration = Math.max(timeScaleDuration, duration);",
+      "godot_symbol": "source_building_apply_boost_result.timeScaleDuration",
+      "rule": "Source max assignment for boost duration."
+    },
+    "building_apply_boost.time_scale_max": {
+      "tests": [
+        "test_building_apply_boost_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_apply_boost_state",
+      "godot_owner": "PortGame.source_building_apply_boost_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "applyBoost(float intensity, float duration)",
+      "status": "source-backed",
+      "java_expr": "timeScale = Math.max(timeScale, intensity);",
+      "godot_symbol": "source_building_apply_boost_result.timeScale",
+      "rule": "Source max assignment for time scale."
+    },
+    "building_apply_boost.current_time_scale": {
+      "tests": [
+        "test_building_apply_boost_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_apply_boost_state",
+      "godot_owner": "PortGame.source_building_apply_boost_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "applyBoost(float intensity, float duration)",
+      "status": "explicit-input",
+      "java_expr": "this.timeScale",
+      "godot_symbol": "source_building_apply_boost_input.currentTimeScale",
+      "rule": "Runtime current_time_scale argument supplies source current timeScale field."
+    },
+    "building_apply_boost.current_duration": {
+      "tests": [
+        "test_building_apply_boost_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_apply_boost_state",
+      "godot_owner": "PortGame.source_building_apply_boost_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "applyBoost(float intensity, float duration)",
+      "status": "explicit-input",
+      "java_expr": "timeScaleDuration",
+      "godot_symbol": "source_building_apply_boost_input.currentDuration",
+      "rule": "Runtime current_duration argument supplies source timeScaleDuration field."
+    },
+    "building_apply_boost.intensity": {
+      "tests": [
+        "test_building_apply_boost_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_apply_boost_state",
+      "godot_owner": "PortGame.source_building_apply_boost_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "applyBoost(float intensity, float duration)",
+      "status": "explicit-input",
+      "java_expr": "intensity",
+      "godot_symbol": "source_building_apply_boost_input.intensity",
+      "rule": "Runtime intensity argument supplies source boost intensity parameter."
+    },
+    "building_apply_boost.duration": {
+      "tests": [
+        "test_building_apply_boost_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_apply_boost_state",
+      "godot_owner": "PortGame.source_building_apply_boost_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "applyBoost(float intensity, float duration)",
+      "status": "explicit-input",
+      "java_expr": "duration",
+      "godot_symbol": "source_building_apply_boost_input.duration",
+      "rule": "Runtime duration argument supplies source boost duration parameter."
+    },
+    "building_apply_boost.can_overdrive": {
+      "tests": [
+        "test_building_apply_boost_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_apply_boost_state",
+      "godot_owner": "PortGame.source_building_apply_boost_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "applyBoost(float intensity, float duration)",
+      "status": "explicit-input",
+      "java_expr": "block.canOverdrive",
+      "godot_symbol": "source_building_apply_boost_input.canOverdrive",
+      "rule": "Runtime can_overdrive argument supplies source block.canOverdrive field."
     }
   }
 }

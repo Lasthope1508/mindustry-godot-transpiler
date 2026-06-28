@@ -3018,6 +3018,37 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(efficiency["java_expr"], "efficiency")
         self.assertEqual(efficiency["godot_symbol"], "source_building_ambient_volume_input.efficiency")
 
+    def test_building_apply_boost_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        guard = source_symbols.source_symbol(registry, "building_apply_boost.can_overdrive_guard")
+        self.assertEqual(guard["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(guard["java_method"], "applyBoost(float intensity, float duration)")
+        self.assertEqual(guard["java_expr"], "if(!block.canOverdrive) return;")
+        self.assertEqual(guard["godot_owner"], "PortGame.source_building_apply_boost_state")
+        self.assertEqual(guard["runtime_proof"], "/root/Main.source_building_apply_boost_state")
+        self.assertEqual(guard["godot_symbol"], "source_building_apply_boost_result.canOverdriveGate")
+
+        refresh_guard = source_symbols.source_symbol(registry, "building_apply_boost.refresh_guard")
+        self.assertEqual(refresh_guard["java_expr"], "if(intensity >= this.timeScale - 0.001f){")
+        self.assertEqual(refresh_guard["godot_symbol"], "source_building_apply_boost_result.refreshDurationGate")
+
+        duration_max = source_symbols.source_symbol(registry, "building_apply_boost.duration_max")
+        self.assertEqual(duration_max["java_expr"], "timeScaleDuration = Math.max(timeScaleDuration, duration);")
+        self.assertEqual(duration_max["godot_symbol"], "source_building_apply_boost_result.timeScaleDuration")
+
+        scale_max = source_symbols.source_symbol(registry, "building_apply_boost.time_scale_max")
+        self.assertEqual(scale_max["java_expr"], "timeScale = Math.max(timeScale, intensity);")
+        self.assertEqual(scale_max["godot_symbol"], "source_building_apply_boost_result.timeScale")
+
+        current_time_scale = source_symbols.source_symbol(registry, "building_apply_boost.current_time_scale")
+        self.assertEqual(current_time_scale["status"], "explicit-input")
+        self.assertEqual(current_time_scale["java_expr"], "this.timeScale")
+        self.assertEqual(current_time_scale["godot_symbol"], "source_building_apply_boost_input.currentTimeScale")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3302,9 +3333,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 125)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 126)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 130)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 131)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3431,6 +3462,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_after_destroyed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_picked_up_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_ambient_volume", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_apply_boost_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -4390,6 +4422,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float ambientVolume(){", building_ambient_volume["exact_exprs"])
         self.assertIn("return efficiency;", building_ambient_volume["exact_exprs"])
         self.assertIn("efficiency", building_ambient_volume["exact_exprs"])
+
+        building_apply_boost = source_symbols.source_slice(ledger, "N528")
+        self.assertEqual(building_apply_boost["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_apply_boost["java_method"], "applyBoost(float intensity, float duration)")
+        self.assertEqual(building_apply_boost["godot_owner"], "PortGame.source_building_apply_boost_state")
+        self.assertIn("if(!block.canOverdrive) return;", building_apply_boost["exact_exprs"])
+        self.assertIn("if(intensity >= this.timeScale - 0.001f){", building_apply_boost["exact_exprs"])
+        self.assertIn("timeScaleDuration = Math.max(timeScaleDuration, duration);", building_apply_boost["exact_exprs"])
+        self.assertIn("timeScale = Math.max(timeScale, intensity);", building_apply_boost["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -5512,6 +5553,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_ambient_volume["params"][0]["schema"], "source_building_ambient_volume_input.efficiency")
         self.assertIn("ambientVolume", building_ambient_volume["return_keys"])
         self.assertEqual(building_ambient_volume["source_method"], "ambientVolume()")
+
+        building_apply_boost = source_symbols.api_contract(contracts, "PortGame.source_building_apply_boost_state")
+        self.assertEqual([param["name"] for param in building_apply_boost["params"]], ["current_time_scale", "current_duration", "intensity", "duration", "can_overdrive"])
+        self.assertEqual(building_apply_boost["params"][0]["schema"], "source_building_apply_boost_input.currentTimeScale")
+        self.assertEqual(building_apply_boost["params"][4]["schema"], "source_building_apply_boost_input.canOverdrive")
+        self.assertIn("timeScale", building_apply_boost["return_keys"])
+        self.assertIn("timeScaleDuration", building_apply_boost["return_keys"])
+        self.assertEqual(building_apply_boost["source_method"], "applyBoost(float intensity, float duration)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -6839,6 +6888,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_ambient_volume_result["keys"]["method"]["java_expr"], "public float ambientVolume(){")
         self.assertEqual(source_building_ambient_volume_result["keys"]["ambientVolume"]["java_expr"], "return efficiency;")
         self.assertEqual(source_building_ambient_volume_result["keys"]["efficiency"]["alias_of"], "source_building_ambient_volume_input.efficiency")
+
+        source_building_apply_boost_input = source_symbols.state_schema(schema, "source_building_apply_boost_input")
+        self.assertEqual(source_building_apply_boost_input["keys"]["currentTimeScale"]["java_expr"], "this.timeScale")
+        self.assertEqual(source_building_apply_boost_input["keys"]["currentDuration"]["java_expr"], "timeScaleDuration")
+        self.assertEqual(source_building_apply_boost_input["keys"]["intensity"]["java_expr"], "intensity")
+        self.assertEqual(source_building_apply_boost_input["keys"]["duration"]["java_expr"], "duration")
+        self.assertEqual(source_building_apply_boost_input["keys"]["canOverdrive"]["java_expr"], "block.canOverdrive")
+
+        source_building_apply_boost_result = source_symbols.state_schema(schema, "source_building_apply_boost_result")
+        self.assertEqual(source_building_apply_boost_result["keys"]["canOverdriveGate"]["java_expr"], "if(!block.canOverdrive) return;")
+        self.assertEqual(source_building_apply_boost_result["keys"]["refreshDurationGate"]["java_expr"], "if(intensity >= this.timeScale - 0.001f){")
+        self.assertEqual(source_building_apply_boost_result["keys"]["timeScaleDuration"]["java_expr"], "timeScaleDuration = Math.max(timeScaleDuration, duration);")
+        self.assertEqual(source_building_apply_boost_result["keys"]["timeScale"]["java_expr"], "timeScale = Math.max(timeScale, intensity);")
+        self.assertEqual(source_building_apply_boost_result["keys"]["currentTimeScale"]["alias_of"], "source_building_apply_boost_input.currentTimeScale")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")
