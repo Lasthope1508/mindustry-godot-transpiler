@@ -3692,6 +3692,39 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_keep_velocity_state",
       "rule": "Public runtime contract for BulletType.create keepVelocity owner velocity merge, scaleKeepVelocity lifetime clamp, and return bullet."
+    },
+    "PortGame.source_absin": {
+      "status": "active",
+      "source_slice": "N485",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "source_method": "absin(float in, float scl, float mag)",
+      "params": [
+        {
+          "name": "value",
+          "type": "float",
+          "schema": "source_absin_input.value"
+        },
+        {
+          "name": "scl",
+          "type": "float",
+          "schema": "source_absin_input.scl"
+        },
+        {
+          "name": "mag",
+          "type": "float",
+          "schema": "source_absin_input.mag"
+        }
+      ],
+      "return_keys": [
+        "sinScaled",
+        "absin"
+      ],
+      "tests": [
+        "test_arc_mathf_absin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_mend_projector_draw_state_like_source_draw"
+      ],
+      "runtime_proof": "/root/Main.source_absin",
+      "rule": "Public runtime contract for Arc Mathf.absin(value, scl, mag) with source-backed scale doubled by the Java overload."
     }
   },
   "policy": {

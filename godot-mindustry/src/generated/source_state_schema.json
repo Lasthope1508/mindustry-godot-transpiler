@@ -12278,6 +12278,94 @@
           "rule": "Runtime source label for return bullet."
         }
       }
+    },
+    "source_absin_input": {
+      "status": "active",
+      "keys": {
+        "value": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "absin(float in, float scl, float mag)",
+          "java_expr": "in",
+          "godot_symbol": "source_absin_input.value",
+          "used_by": [
+            "PortGame.source_absin"
+          ],
+          "rule": "Java absin input value."
+        },
+        "scl": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "absin(float in, float scl, float mag)",
+          "java_expr": "scl",
+          "godot_symbol": "source_absin_input.scl",
+          "used_by": [
+            "PortGame.source_absin"
+          ],
+          "rule": "Java absin scale parameter."
+        },
+        "mag": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "absin(float in, float scl, float mag)",
+          "java_expr": "mag",
+          "godot_symbol": "source_absin_input.mag",
+          "used_by": [
+            "PortGame.source_absin"
+          ],
+          "rule": "Java absin magnitude parameter."
+        }
+      }
+    },
+    "source_absin_result": {
+      "status": "active",
+      "keys": {
+        "sinScaled": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "absin(float in, float scl, float mag)",
+          "java_expr": "sin(in, scl * 2f, mag)",
+          "godot_symbol": "source_absin_result.sinScaled",
+          "used_by": [
+            "PortGame.source_absin"
+          ],
+          "rule": "Scaled sine term passed into absin formula."
+        },
+        "absin": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "absin(float in, float scl, float mag)",
+          "java_expr": "(sin(in, scl * 2f, mag) + mag) / 2f",
+          "godot_symbol": "source_absin_result.absin",
+          "used_by": [
+            "PortGame.source_absin"
+          ],
+          "rule": "Final Arc Mathf.absin value."
+        },
+        "value": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_absin_input.value",
+          "rule": "Carries input value into result schema."
+        },
+        "scl": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_absin_input.scl",
+          "rule": "Carries input scale into result schema."
+        },
+        "mag": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_absin_input.mag",
+          "rule": "Carries input magnitude into result schema."
+        }
+      }
     }
   },
   "version": 1

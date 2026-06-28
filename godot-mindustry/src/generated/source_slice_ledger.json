@@ -2589,6 +2589,33 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_keep_velocity_state",
       "rule": "Backfills SSOT for existing BulletType.create keepVelocity owner velocity merge, optional scaleKeepVelocity lifetime reduction, and final return bullet."
+    },
+    "N485": {
+      "status": "done",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_class": "arc.math.Mathf",
+      "java_method": "absin(float in, float scl, float mag)",
+      "godot_owner": "PortGame.source_absin",
+      "exact_exprs": [
+        "public static float absin(float scl, float mag){\n        return absin(Time.time, scl, mag);\n    }",
+        "public static float absin(float in, float scl, float mag){\n        return (sin(in, scl * 2f, mag) + mag) / 2f;\n    }",
+        "public static float sin(float radians, float scl, float mag){\n        return sin(radians / scl) * mag;\n    }"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "arc_mathf_absin.time_overload",
+        "arc_mathf_absin.formula",
+        "arc_mathf_absin.sin_scaled",
+        "arc_mathf_absin.value_input",
+        "arc_mathf_absin.scl_input",
+        "arc_mathf_absin.mag_input"
+      ],
+      "tests": [
+        "test_arc_mathf_absin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_mend_projector_draw_state_like_source_draw"
+      ],
+      "runtime_proof": "/root/Main.source_absin",
+      "rule": "Backfills SSOT for Arc Mathf.absin three-argument formula and scaled sine helper used by migrated draw/trail behavior."
     }
   },
   "version": 1

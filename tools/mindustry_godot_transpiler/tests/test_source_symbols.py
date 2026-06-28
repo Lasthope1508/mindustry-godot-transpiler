@@ -2194,14 +2194,39 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(vec2_add["java_expr"], "public Vec2 add(Vec2 v){\n        x += v.x;\n        y += v.y;\n        return this;\n    }")
         self.assertEqual(vec2_add["godot_symbol"], "create_keep_velocity_result.vec2AddSource")
 
+    def test_arc_mathf_absin_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        absin_time_overload = source_symbols.source_symbol(registry, "arc_mathf_absin.time_overload")
+        self.assertEqual(absin_time_overload["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(absin_time_overload["java_expr"], "public static float absin(float scl, float mag){\n        return absin(Time.time, scl, mag);\n    }")
+        self.assertEqual(absin_time_overload["godot_owner"], "PortGame.source_absin")
+        self.assertEqual(absin_time_overload["runtime_proof"], "/root/Main.source_absin")
+
+        absin_formula = source_symbols.source_symbol(registry, "arc_mathf_absin.formula")
+        self.assertEqual(absin_formula["java_expr"], "public static float absin(float in, float scl, float mag){\n        return (sin(in, scl * 2f, mag) + mag) / 2f;\n    }")
+        self.assertEqual(absin_formula["godot_symbol"], "source_absin_result.absin")
+
+        sin_scaled = source_symbols.source_symbol(registry, "arc_mathf_absin.sin_scaled")
+        self.assertEqual(sin_scaled["java_expr"], "public static float sin(float radians, float scl, float mag){\n        return sin(radians / scl) * mag;\n    }")
+        self.assertEqual(sin_scaled["godot_symbol"], "source_absin_result.sinScaled")
+
+        value_input = source_symbols.source_symbol(registry, "arc_mathf_absin.value_input")
+        self.assertEqual(value_input["status"], "explicit-input")
+        self.assertEqual(value_input["java_expr"], "in")
+        self.assertEqual(value_input["godot_symbol"], "source_absin_input.value")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 82)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 83)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 87)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 88)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -2289,6 +2314,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_draw_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_draw_trail_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_draw_light_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_absin", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -2942,6 +2968,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("@SyncLocal Vec2 vel = new Vec2();", create_keep_velocity["exact_exprs"])
         self.assertIn("public float len(){\n        return (float)Math.sqrt(x * x + y * y);\n    }", create_keep_velocity["exact_exprs"])
         self.assertIn("public Vec2 add(Vec2 v){\n        x += v.x;\n        y += v.y;\n        return this;\n    }", create_keep_velocity["exact_exprs"])
+
+        arc_mathf_absin = source_symbols.source_slice(ledger, "N485")
+        self.assertEqual(arc_mathf_absin["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(arc_mathf_absin["java_method"], "absin(float in, float scl, float mag)")
+        self.assertEqual(arc_mathf_absin["godot_owner"], "PortGame.source_absin")
+        self.assertIn("public static float absin(float scl, float mag){\n        return absin(Time.time, scl, mag);\n    }", arc_mathf_absin["exact_exprs"])
+        self.assertIn("public static float absin(float in, float scl, float mag){\n        return (sin(in, scl * 2f, mag) + mag) / 2f;\n    }", arc_mathf_absin["exact_exprs"])
+        self.assertIn("public static float sin(float radians, float scl, float mag){\n        return sin(radians / scl) * mag;\n    }", arc_mathf_absin["exact_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -3756,6 +3790,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("lifetimeScaleSource", create_keep_velocity["return_keys"])
         self.assertIn("returnSource", create_keep_velocity["return_keys"])
         self.assertEqual(create_keep_velocity["source_method"], "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)")
+
+        arc_absin = source_symbols.api_contract(contracts, "PortGame.source_absin")
+        self.assertEqual([param["name"] for param in arc_absin["params"]], ["value", "scl", "mag"])
+        self.assertEqual(arc_absin["params"][0]["schema"], "source_absin_input.value")
+        self.assertEqual(arc_absin["params"][1]["schema"], "source_absin_input.scl")
+        self.assertEqual(arc_absin["params"][2]["schema"], "source_absin_input.mag")
+        self.assertIn("absin", arc_absin["return_keys"])
+        self.assertIn("sinScaled", arc_absin["return_keys"])
+        self.assertEqual(arc_absin["source_method"], "absin(float in, float scl, float mag)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -4622,6 +4665,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(create_keep_velocity_owner_state["keys"]["isVelc"]["status"], "explicit-input")
         self.assertEqual(create_keep_velocity_owner_state["keys"]["vel"]["java_expr"], "v.vel()")
         self.assertEqual(create_keep_velocity_owner_state["keys"]["vel"]["status"], "explicit-input")
+
+        source_absin_input = source_symbols.state_schema(schema, "source_absin_input")
+        self.assertEqual(source_absin_input["keys"]["value"]["java_expr"], "in")
+        self.assertEqual(source_absin_input["keys"]["value"]["status"], "explicit-input")
+        self.assertEqual(source_absin_input["keys"]["scl"]["java_expr"], "scl")
+        self.assertEqual(source_absin_input["keys"]["mag"]["java_expr"], "mag")
+
+        source_absin_result = source_symbols.state_schema(schema, "source_absin_result")
+        self.assertEqual(source_absin_result["keys"]["sinScaled"]["java_expr"], "sin(in, scl * 2f, mag)")
+        self.assertEqual(source_absin_result["keys"]["absin"]["java_expr"], "(sin(in, scl * 2f, mag) + mag) / 2f")
+        self.assertEqual(source_absin_result["keys"]["value"]["alias_of"], "source_absin_input.value")
+        self.assertEqual(source_absin_result["keys"]["scl"]["alias_of"], "source_absin_input.scl")
+        self.assertEqual(source_absin_result["keys"]["mag"]["alias_of"], "source_absin_input.mag")
 
         self.assertEqual(bullet_type_state["keys"]["lifeScaleRandMin"]["java_expr"], "lifeScaleRandMin")
         self.assertEqual(bullet_type_state["keys"]["lifeScaleRandMax"]["java_expr"], "lifeScaleRandMax")

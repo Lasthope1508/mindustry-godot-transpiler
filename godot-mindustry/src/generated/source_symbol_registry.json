@@ -8732,6 +8732,90 @@
       "java_expr": "public Vec2 add(Vec2 v){\n        x += v.x;\n        y += v.y;\n        return this;\n    }",
       "godot_symbol": "create_keep_velocity_result.vec2AddSource",
       "rule": "Vec2.add(Vec2) mutates x and y by owner velocity components."
+    },
+    "arc_mathf_absin.time_overload": {
+      "tests": [
+        "test_arc_mathf_absin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_mend_projector_draw_state_like_source_draw"
+      ],
+      "runtime_proof": "/root/Main.source_absin",
+      "godot_owner": "PortGame.source_absin",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "absin(float scl, float mag)",
+      "java_expr": "public static float absin(float scl, float mag){\n        return absin(Time.time, scl, mag);\n    }",
+      "godot_symbol": "source_absin_input.value",
+      "rule": "Two-argument absin delegates to Time.time and the three-argument overload."
+    },
+    "arc_mathf_absin.formula": {
+      "tests": [
+        "test_arc_mathf_absin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_mend_projector_draw_state_like_source_draw"
+      ],
+      "runtime_proof": "/root/Main.source_absin",
+      "godot_owner": "PortGame.source_absin",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "absin(float in, float scl, float mag)",
+      "java_expr": "public static float absin(float in, float scl, float mag){\n        return (sin(in, scl * 2f, mag) + mag) / 2f;\n    }",
+      "godot_symbol": "source_absin_result.absin",
+      "rule": "Three-argument absin returns the scaled sine shifted into a positive half range."
+    },
+    "arc_mathf_absin.sin_scaled": {
+      "tests": [
+        "test_arc_mathf_absin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_mend_projector_draw_state_like_source_draw"
+      ],
+      "runtime_proof": "/root/Main.source_absin",
+      "godot_owner": "PortGame.source_absin",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "sin(float radians, float scl, float mag)",
+      "java_expr": "public static float sin(float radians, float scl, float mag){\n        return sin(radians / scl) * mag;\n    }",
+      "godot_symbol": "source_absin_result.sinScaled",
+      "rule": "Mathf.sin(radians, scl, mag) divides radians by scale before multiplying magnitude."
+    },
+    "arc_mathf_absin.value_input": {
+      "tests": [
+        "test_arc_mathf_absin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_mend_projector_draw_state_like_source_draw"
+      ],
+      "runtime_proof": "/root/Main.source_absin",
+      "godot_owner": "PortGame.source_absin",
+      "status": "explicit-input",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "absin(float in, float scl, float mag)",
+      "java_expr": "in",
+      "godot_symbol": "source_absin_input.value",
+      "rule": "Runtime value parameter maps to Java absin input named in."
+    },
+    "arc_mathf_absin.scl_input": {
+      "tests": [
+        "test_arc_mathf_absin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_mend_projector_draw_state_like_source_draw"
+      ],
+      "runtime_proof": "/root/Main.source_absin",
+      "godot_owner": "PortGame.source_absin",
+      "status": "explicit-input",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "absin(float in, float scl, float mag)",
+      "java_expr": "scl",
+      "godot_symbol": "source_absin_input.scl",
+      "rule": "Runtime scale parameter maps to Java scl."
+    },
+    "arc_mathf_absin.mag_input": {
+      "tests": [
+        "test_arc_mathf_absin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_mend_projector_draw_state_like_source_draw"
+      ],
+      "runtime_proof": "/root/Main.source_absin",
+      "godot_owner": "PortGame.source_absin",
+      "status": "explicit-input",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "absin(float in, float scl, float mag)",
+      "java_expr": "mag",
+      "godot_symbol": "source_absin_input.mag",
+      "rule": "Runtime magnitude parameter maps to Java mag."
     }
   }
 }

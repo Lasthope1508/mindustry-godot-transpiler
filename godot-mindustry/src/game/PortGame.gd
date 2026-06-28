@@ -696,7 +696,7 @@ func source_mend_projector_draw_state(mend_projector, heat: float, phase_heat: f
 func source_absin(value: float, scl: float, mag: float) -> float:
 	if scl == 0.0:
 		return 0.0
-	return (sin(value / scl) * mag + mag) / 2.0
+	return (sin(value / (scl * 2.0)) * mag + mag) / 2.0
 
 func source_approach(from_value: float, to_value: float, speed: float) -> float:
 	return from_value + clamp(to_value - from_value, -speed, speed)

@@ -604,7 +604,7 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("const SOURCE_PI2 := PI * 2.0", source)
         self.assertIn("func source_absin(value: float, scl: float, mag: float) -> float:", source)
-        self.assertIn("return (sin(value / scl) * mag + mag) / 2.0", source)
+        self.assertIn("return (sin(value / (scl * 2.0)) * mag + mag) / 2.0", source)
         self.assertIn("func source_mend_projector_draw_state(mend_projector, heat: float, phase_heat: float, source_time_ticks := 0.0, lod_l2 := true, lod_alpha2 := 1.0) -> Dictionary:", source)
         self.assertIn("var f := 1.0 - fmod(source_time_ticks / 100.0, 1.0)", source)
         self.assertIn("if mend_projector == null or not lod_l2:", source)
