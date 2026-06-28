@@ -6993,6 +6993,36 @@
         "test_bullet_type_calculate_range_spawn_unit_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_calculate_range_spawn_unit_state"
+    },
+    "calculate_range_despawn_unit.gate_return": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "calculateRange()",
+      "java_expr": "if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed;",
+      "godot_symbol": "calculate_range_despawn_unit_result.range",
+      "godot_owner": "PortGame.source_bullet_type_calculate_range_despawn_unit_state",
+      "rule": "Exact calculateRange despawnUnit early return when no prior rangeOverride or spawnUnit return exists.",
+      "tests": [
+        "test_bullet_type_calculate_range_despawn_unit_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_despawn_unit_state",
+        "test_bullet_type_calculate_range_despawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_despawn_unit_state"
+    },
+    "calculate_range_despawn_unit.despawn_unit_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "field",
+      "java_expr": "public @Nullable UnitType despawnUnit;",
+      "godot_symbol": "bullet_type_state.despawnUnit",
+      "godot_owner": "PortGame.source_bullet_type_calculate_range_despawn_unit_state",
+      "rule": "BulletType despawnUnit field gates calculateRange despawnUnit return when non-null.",
+      "tests": [
+        "test_bullet_type_calculate_range_despawn_unit_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_despawn_unit_state",
+        "test_bullet_type_calculate_range_despawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_despawn_unit_state"
     }
   }
 }

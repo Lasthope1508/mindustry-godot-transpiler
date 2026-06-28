@@ -3168,6 +3168,34 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_calculate_range_spawn_unit_state",
       "rule": "Public runtime contract for BulletType.calculateRange spawnUnit early return after rangeOverride state."
+    },
+    "PortGame.source_bullet_type_calculate_range_despawn_unit_state": {
+      "status": "active",
+      "source_slice": "N473",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "calculateRange()",
+      "params": [
+        {
+          "name": "spawn_unit_state",
+          "type": "Dictionary",
+          "schema": "calculate_range_spawn_unit_result"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "despawnUnitRangeGatePassed",
+        "returnEarly",
+        "range",
+        "despawnUnit",
+        "despawnUnitReturnSource"
+      ],
+      "tests": [
+        "test_bullet_type_calculate_range_despawn_unit_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_despawn_unit_state",
+        "test_bullet_type_calculate_range_despawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_despawn_unit_state",
+      "rule": "Public runtime contract for BulletType.calculateRange despawnUnit early return after spawnUnit state."
     }
   },
   "policy": {

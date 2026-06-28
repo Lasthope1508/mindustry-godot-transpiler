@@ -1602,6 +1602,18 @@
             "PortGame.source_bullet_type_calculate_range_spawn_unit_state"
           ],
           "rule": "Canonical BulletType.spawnUnit field; nullable UnitType used by create and calculateRange branches."
+        },
+        "despawnUnit": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "field",
+          "java_expr": "despawnUnit",
+          "godot_symbol": "bullet_type_state.despawnUnit",
+          "used_by": [
+            "PortGame.source_bullet_type_calculate_range_despawn_unit_state"
+          ],
+          "rule": "Canonical BulletType.despawnUnit field; nullable UnitType used by despawn and calculateRange branches."
         }
       }
     },
@@ -10605,7 +10617,8 @@
           "java_expr": "lifetime",
           "godot_symbol": "unit_type_state.lifetime",
           "used_by": [
-            "PortGame.source_bullet_type_calculate_range_spawn_unit_state"
+            "PortGame.source_bullet_type_calculate_range_spawn_unit_state",
+            "PortGame.source_bullet_type_calculate_range_despawn_unit_state"
           ],
           "rule": "Canonical UnitType.lifetime field for missile lifetime; default is 60f * 5f."
         },
@@ -10617,7 +10630,8 @@
           "java_expr": "speed",
           "godot_symbol": "unit_type_state.speed",
           "used_by": [
-            "PortGame.source_bullet_type_calculate_range_spawn_unit_state"
+            "PortGame.source_bullet_type_calculate_range_spawn_unit_state",
+            "PortGame.source_bullet_type_calculate_range_despawn_unit_state"
           ],
           "rule": "Canonical UnitType.speed field; default begins at 1.1f in UnitType.java."
         }
@@ -10682,6 +10696,68 @@
           "godot_symbol": "calculate_range_spawn_unit_result.spawnUnitReturnSource",
           "alias_of": "source_line.calculate_range_spawn_unit.gate_return",
           "rule": "Runtime source label for calculateRange spawnUnit early return."
+        }
+      }
+    },
+    "calculate_range_despawn_unit_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "godot_symbol": "calculate_range_despawn_unit_result.bulletType",
+          "alias_of": "bullet_type_state",
+          "rule": "Updated BulletType state during calculateRange despawnUnit gate evaluation."
+        },
+        "despawnUnitRangeGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "calculateRange()",
+          "java_expr": "despawnUnit != null",
+          "godot_symbol": "calculate_range_despawn_unit_result.despawnUnitRangeGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_calculate_range_despawn_unit_state"
+          ],
+          "rule": "Whether calculateRange despawnUnit non-null gate passes after prior return check."
+        },
+        "returnEarly": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "calculateRange()",
+          "java_expr": "despawnUnit != null",
+          "godot_symbol": "calculate_range_despawn_unit_result.returnEarly",
+          "used_by": [
+            "PortGame.source_bullet_type_calculate_range_despawn_unit_state"
+          ],
+          "rule": "Whether calculateRange returns at the despawnUnit branch or earlier."
+        },
+        "range": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "calculateRange()",
+          "java_expr": "despawnUnit.lifetime * despawnUnit.speed",
+          "godot_symbol": "calculate_range_despawn_unit_result.range",
+          "used_by": [
+            "PortGame.source_bullet_type_calculate_range_despawn_unit_state"
+          ],
+          "rule": "Range result when despawnUnit non-null gate returns early; preserves prior or null range otherwise."
+        },
+        "despawnUnit": {
+          "type": "Variant",
+          "status": "source-backed",
+          "godot_symbol": "calculate_range_despawn_unit_result.despawnUnit",
+          "alias_of": "bullet_type_state.despawnUnit",
+          "rule": "Runtime despawnUnit returned only when despawnUnit branch applies."
+        },
+        "despawnUnitReturnSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "calculate_range_despawn_unit_result.despawnUnitReturnSource",
+          "alias_of": "source_line.calculate_range_despawn_unit.gate_return",
+          "rule": "Runtime source label for calculateRange despawnUnit early return."
         }
       }
     }

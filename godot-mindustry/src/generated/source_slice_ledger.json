@@ -2104,7 +2104,6 @@
         "public float speed = 1.1f,"
       ],
       "deferred_exprs": [
-        "if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed;",
         "return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange);"
       ],
       "source_symbols": [
@@ -2120,6 +2119,34 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_calculate_range_spawn_unit_state",
       "rule": "Backfills SSOT for calculateRange spawnUnit branch after rangeOverride; despawnUnit and fallback range remain separate source-backed slices."
+    },
+    "N473": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "calculateRange()",
+      "godot_owner": "PortGame.source_bullet_type_calculate_range_despawn_unit_state",
+      "exact_exprs": [
+        "public @Nullable UnitType despawnUnit;",
+        "if(spawnUnit != null) return spawnUnit.lifetime * spawnUnit.speed;",
+        "if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed;",
+        "public float lifetime = 60f * 5f;",
+        "public float speed = 1.1f,"
+      ],
+      "deferred_exprs": [
+        "return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange);"
+      ],
+      "source_symbols": [
+        "calculate_range_despawn_unit.gate_return",
+        "calculate_range_despawn_unit.despawn_unit_field"
+      ],
+      "tests": [
+        "test_bullet_type_calculate_range_despawn_unit_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_despawn_unit_state",
+        "test_bullet_type_calculate_range_despawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_despawn_unit_state",
+      "rule": "Backfills SSOT for calculateRange despawnUnit branch after rangeOverride and spawnUnit; fallback range remains a separate source-backed slice."
     }
   },
   "version": 1

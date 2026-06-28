@@ -1772,14 +1772,30 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(speed_field["java_expr"], "public float speed = 1.1f,")
         self.assertEqual(speed_field["godot_symbol"], "unit_type_state.speed")
 
+    def test_bullet_type_calculate_range_despawn_unit_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        gate_return = source_symbols.source_symbol(registry, "calculate_range_despawn_unit.gate_return")
+        self.assertEqual(gate_return["java_expr"], "if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed;")
+        self.assertEqual(gate_return["godot_symbol"], "calculate_range_despawn_unit_result.range")
+        self.assertEqual(gate_return["godot_owner"], "PortGame.source_bullet_type_calculate_range_despawn_unit_state")
+        self.assertEqual(gate_return["runtime_proof"], "/root/Main.source_bullet_type_calculate_range_despawn_unit_state")
+
+        despawn_unit_field = source_symbols.source_symbol(registry, "calculate_range_despawn_unit.despawn_unit_field")
+        self.assertEqual(despawn_unit_field["java_expr"], "public @Nullable UnitType despawnUnit;")
+        self.assertEqual(despawn_unit_field["godot_symbol"], "bullet_type_state.despawnUnit")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 70)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 71)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 75)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 76)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1844,6 +1860,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_init_range_assignment_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_calculate_range_override_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_calculate_range_spawn_unit_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_calculate_range_despawn_unit_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -2354,7 +2371,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public @Nullable UnitType spawnUnit;", calculate_range_spawn_unit["exact_exprs"])
         self.assertIn("if(rangeOverride > 0) return rangeOverride;", calculate_range_spawn_unit["exact_exprs"])
         self.assertIn("if(spawnUnit != null) return spawnUnit.lifetime * spawnUnit.speed;", calculate_range_spawn_unit["exact_exprs"])
-        self.assertIn("if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed;", calculate_range_spawn_unit["deferred_exprs"])
+        self.assertNotIn("if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed;", calculate_range_spawn_unit["deferred_exprs"])
+
+        calculate_range_despawn_unit = source_symbols.source_slice(ledger, "N473")
+        self.assertEqual(calculate_range_despawn_unit["java_method"], "calculateRange()")
+        self.assertEqual(calculate_range_despawn_unit["godot_owner"], "PortGame.source_bullet_type_calculate_range_despawn_unit_state")
+        self.assertIn("public @Nullable UnitType despawnUnit;", calculate_range_despawn_unit["exact_exprs"])
+        self.assertIn("if(spawnUnit != null) return spawnUnit.lifetime * spawnUnit.speed;", calculate_range_despawn_unit["exact_exprs"])
+        self.assertIn("if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed;", calculate_range_despawn_unit["exact_exprs"])
+        self.assertIn("return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange);", calculate_range_despawn_unit["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -2991,6 +3016,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("spawnUnit", calculate_range_spawn_unit["return_keys"])
         self.assertIn("spawnUnitReturnSource", calculate_range_spawn_unit["return_keys"])
         self.assertEqual(calculate_range_spawn_unit["source_method"], "calculateRange()")
+
+        calculate_range_despawn_unit = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_calculate_range_despawn_unit_state")
+        self.assertEqual([param["name"] for param in calculate_range_despawn_unit["params"]], ["spawn_unit_state"])
+        self.assertEqual(calculate_range_despawn_unit["params"][0]["schema"], "calculate_range_spawn_unit_result")
+        self.assertIn("bulletType", calculate_range_despawn_unit["return_keys"])
+        self.assertIn("despawnUnitRangeGatePassed", calculate_range_despawn_unit["return_keys"])
+        self.assertIn("returnEarly", calculate_range_despawn_unit["return_keys"])
+        self.assertIn("range", calculate_range_despawn_unit["return_keys"])
+        self.assertIn("despawnUnit", calculate_range_despawn_unit["return_keys"])
+        self.assertIn("despawnUnitReturnSource", calculate_range_despawn_unit["return_keys"])
+        self.assertEqual(calculate_range_despawn_unit["source_method"], "calculateRange()")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -3685,6 +3721,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         self.assertEqual(bullet_type_state["keys"]["spawnUnit"]["java_expr"], "spawnUnit")
         self.assertIn("PortGame.source_bullet_type_calculate_range_spawn_unit_state", bullet_type_state["keys"]["spawnUnit"]["used_by"])
+
+        calculate_range_despawn_unit_output = source_symbols.state_schema(schema, "calculate_range_despawn_unit_result")
+        self.assertEqual(calculate_range_despawn_unit_output["keys"]["despawnUnitRangeGatePassed"]["java_expr"], "despawnUnit != null")
+        self.assertEqual(calculate_range_despawn_unit_output["keys"]["returnEarly"]["java_expr"], "despawnUnit != null")
+        self.assertEqual(calculate_range_despawn_unit_output["keys"]["range"]["java_expr"], "despawnUnit.lifetime * despawnUnit.speed")
+        self.assertEqual(calculate_range_despawn_unit_output["keys"]["despawnUnit"]["alias_of"], "bullet_type_state.despawnUnit")
+        self.assertEqual(calculate_range_despawn_unit_output["keys"]["despawnUnitReturnSource"]["alias_of"], "source_line.calculate_range_despawn_unit.gate_return")
+
+        self.assertEqual(bullet_type_state["keys"]["despawnUnit"]["java_expr"], "despawnUnit")
+        self.assertIn("PortGame.source_bullet_type_calculate_range_despawn_unit_state", bullet_type_state["keys"]["despawnUnit"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_calculate_range_despawn_unit_state", unit_type_state["keys"]["lifetime"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_calculate_range_despawn_unit_state", unit_type_state["keys"]["speed"]["used_by"])
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")
