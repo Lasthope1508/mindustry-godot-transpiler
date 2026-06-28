@@ -18207,6 +18207,45 @@
         "test_building_handle_damage_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_building_handle_damage_state"
+    },
+    "building_handle_item_count.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleItem(Building source, Item item)",
+      "java_expr": "public void handleItem(Building source, Item item){",
+      "godot_symbol": "source_building_handle_item_count_result.method",
+      "godot_owner": "PortGame.source_building_handle_item_count",
+      "rule": "Source handleItem method declaration.",
+      "tests": [
+        "test_building_handle_item_count_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_handle_item_count"
+    },
+    "building_handle_item_count.add": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleItem(Building source, Item item)",
+      "java_expr": "items.add(item, 1);",
+      "godot_symbol": "source_building_handle_item_count_result.item_count_after",
+      "godot_owner": "PortGame.source_building_handle_item_count",
+      "rule": "handleItem adds one item to the BuildingComp items module.",
+      "tests": [
+        "test_building_handle_item_count_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_handle_item_count"
+    },
+    "building_handle_item_count.current_count": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleItem(Building source, Item item)",
+      "java_expr": "items.get(item)",
+      "godot_symbol": "source_building_handle_item_count_input.current_count",
+      "godot_owner": "PortGame.source_building_handle_item_count",
+      "rule": "Runtime current_count supplies source items.get(item) before items.add(item, 1).",
+      "tests": [
+        "test_building_handle_item_count_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_handle_item_count"
     }
   }
 }

@@ -5776,6 +5776,30 @@
       ],
       "runtime_proof": "/root/Main.source_building_handle_damage_state",
       "rule": "Backfills SSOT for existing canonical source_building_handle_damage_state helper against BuildingComp.handleDamage(float amount)."
+    },
+    "N584": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "handleItem(Building source, Item item)",
+      "godot_owner": "PortGame.source_building_handle_item_count",
+      "exact_exprs": [
+        "public void handleItem(Building source, Item item){",
+        "items.add(item, 1);"
+      ],
+      "deferred_exprs": [
+        "ItemModule mutation object identity, source building, and item reference wiring stay owned by inventory/runtime slices; this helper preserves the per-item count increment."
+      ],
+      "source_symbols": [
+        "building_handle_item_count.method",
+        "building_handle_item_count.add",
+        "building_handle_item_count.current_count"
+      ],
+      "tests": [
+        "test_building_handle_item_count_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_handle_item_count",
+      "rule": "Backfills SSOT for existing canonical source_building_handle_item_count helper against BuildingComp.handleItem(Building source, Item item)."
     }
   },
   "version": 1

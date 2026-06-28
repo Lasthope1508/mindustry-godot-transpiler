@@ -7150,6 +7150,27 @@
       ],
       "runtime_proof": "/root/Main.source_building_handle_damage_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.handleDamage(float amount) helper."
+    },
+    "PortGame.source_building_handle_item_count": {
+      "status": "active",
+      "source_slice": "N584",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "handleItem(Building source, Item item)",
+      "params": [
+        {
+          "name": "current_count",
+          "type": "int",
+          "schema": "source_building_handle_item_count_input.current_count"
+        }
+      ],
+      "return_keys": [
+        "item_count_after"
+      ],
+      "tests": [
+        "test_building_handle_item_count_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_handle_item_count",
+      "rule": "Public runtime contract for Mindustry BuildingComp.handleItem(Building source, Item item) count helper."
     }
   },
   "policy": {

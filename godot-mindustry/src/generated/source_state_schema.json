@@ -23726,6 +23726,58 @@
           "rule": "Carries amount input into result schema."
         }
       }
+    },
+    "source_building_handle_item_count_input": {
+      "status": "active",
+      "keys": {
+        "current_count": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "handleItem(Building source, Item item)",
+          "java_expr": "items.get(item)",
+          "godot_symbol": "source_building_handle_item_count_input.current_count",
+          "used_by": [
+            "PortGame.source_building_handle_item_count"
+          ],
+          "rule": "Runtime current_count supplies source items.get(item) before items.add(item, 1)."
+        }
+      }
+    },
+    "source_building_handle_item_count_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "handleItem(Building source, Item item)",
+          "java_expr": "public void handleItem(Building source, Item item){",
+          "godot_symbol": "source_building_handle_item_count_result.method",
+          "used_by": [
+            "PortGame.source_building_handle_item_count"
+          ],
+          "rule": "Source handleItem method declaration."
+        },
+        "item_count_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "handleItem(Building source, Item item)",
+          "java_expr": "items.add(item, 1);",
+          "godot_symbol": "source_building_handle_item_count_result.item_count_after",
+          "used_by": [
+            "PortGame.source_building_handle_item_count"
+          ],
+          "rule": "handleItem adds one item to the BuildingComp items module."
+        },
+        "current_count": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_handle_item_count_input.current_count",
+          "rule": "Carries current_count input into result schema."
+        }
+      }
     }
   },
   "version": 1
