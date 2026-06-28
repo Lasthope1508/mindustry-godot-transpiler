@@ -6737,6 +6737,70 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_liquid_light_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.drawLiquidLight() helper."
+    },
+    "PortGame.source_building_draw_select_state": {
+      "status": "active",
+      "source_slice": "N573",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "drawSelect()",
+      "params": [
+        {
+          "name": "block_status",
+          "type": "String",
+          "schema": "source_building_draw_select_input.block_status"
+        },
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_building_draw_select_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_building_draw_select_input.source_y"
+        },
+        {
+          "name": "source_rotation",
+          "type": "float",
+          "schema": "source_building_draw_select_input.source_rotation"
+        },
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_building_draw_select_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_building_draw_select_input.tile_y"
+        },
+        {
+          "name": "unit_activation_delay",
+          "type": "float",
+          "schema": "source_building_draw_select_input.unit_activation_delay"
+        },
+        {
+          "name": "state_tick",
+          "type": "float",
+          "schema": "source_building_draw_select_input.state_tick"
+        }
+      ],
+      "return_keys": [
+        "overlay_visible",
+        "overlay_x",
+        "overlay_y",
+        "overlay_rotation",
+        "place_text_visible",
+        "place_text_bundle_key",
+        "place_text_time",
+        "place_text_tile_x",
+        "place_text_tile_y"
+      ],
+      "tests": [
+        "test_building_draw_select_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_select_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.drawSelect() helper."
     }
   },
   "policy": {

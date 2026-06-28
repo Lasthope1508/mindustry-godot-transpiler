@@ -16998,6 +16998,201 @@
       "java_expr": "amount",
       "godot_symbol": "source_building_draw_liquid_light_input.amount",
       "rule": "Runtime amount supplies drawLiquidLight amount parameter."
+    },
+    "building_draw_select.comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawSelect()",
+      "java_expr": "/** Draw the block overlay that is shown when a cursor is over the block. */",
+      "godot_symbol": "source_building_draw_select_result.comment",
+      "godot_owner": "PortGame.source_building_draw_select_state",
+      "rule": "Preserve drawSelect overlay comment from BuildingComp.",
+      "tests": [
+        "test_building_draw_select_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_select_state"
+    },
+    "building_draw_select.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawSelect()",
+      "java_expr": "public void drawSelect(){",
+      "godot_symbol": "source_building_draw_select_result.method",
+      "godot_owner": "PortGame.source_building_draw_select_state",
+      "rule": "Source drawSelect method declaration.",
+      "tests": [
+        "test_building_draw_select_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_select_state"
+    },
+    "building_draw_select.overlay": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawSelect()",
+      "java_expr": "block.drawOverlay(x, y, rotation);",
+      "godot_symbol": "source_building_draw_select_result.overlay",
+      "godot_owner": "PortGame.source_building_draw_select_state",
+      "rule": "drawSelect always draws the block overlay at source x/y/rotation.",
+      "tests": [
+        "test_building_draw_select_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_select_state"
+    },
+    "building_draw_select.inactive_unit_factory_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawSelect()",
+      "java_expr": "if(status() == BlockStatus.inactiveUnitFactory){",
+      "godot_symbol": "source_building_draw_select_result.placeTextVisible",
+      "godot_owner": "PortGame.source_building_draw_select_state",
+      "rule": "drawSelect place text is visible only for inactive unit factories.",
+      "tests": [
+        "test_building_draw_select_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_select_state"
+    },
+    "building_draw_select.place_text": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawSelect()",
+      "java_expr": "block.drawPlaceText(Core.bundle.format(\"rules.unitfactoryactivation.objective\", UI.formatTime((float)Math.max(0f, state.rules.unitActivationDelay(team) - state.tick))), tile.x, tile.y, false);",
+      "godot_symbol": "source_building_draw_select_result.placeText",
+      "godot_owner": "PortGame.source_building_draw_select_state",
+      "rule": "drawSelect place text call uses the source bundle key, formatted delay, tile x/y, and non-center flag.",
+      "tests": [
+        "test_building_draw_select_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_select_state"
+    },
+    "building_draw_select.place_text_time": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawSelect()",
+      "java_expr": "Math.max(0f, state.rules.unitActivationDelay(team) - state.tick)",
+      "godot_symbol": "source_building_draw_select_result.place_text_time",
+      "godot_owner": "PortGame.source_building_draw_select_state",
+      "rule": "drawSelect clamps remaining unit activation delay at zero.",
+      "tests": [
+        "test_building_draw_select_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_select_state"
+    },
+    "building_draw_select.place_text_bundle_key": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawSelect()",
+      "java_expr": "\"rules.unitfactoryactivation.objective\"",
+      "godot_symbol": "source_building_draw_select_result.place_text_bundle_key",
+      "godot_owner": "PortGame.source_building_draw_select_state",
+      "rule": "drawSelect uses the unit factory activation objective bundle key.",
+      "tests": [
+        "test_building_draw_select_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_select_state"
+    },
+    "building_draw_select.block_status": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawSelect()",
+      "java_expr": "status()",
+      "godot_symbol": "source_building_draw_select_input.block_status",
+      "godot_owner": "PortGame.source_building_draw_select_state",
+      "rule": "Runtime block_status supplies BuildingComp status().",
+      "tests": [
+        "test_building_draw_select_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_select_state"
+    },
+    "building_draw_select.source_x": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawSelect()",
+      "java_expr": "x",
+      "godot_symbol": "source_building_draw_select_input.source_x",
+      "godot_owner": "PortGame.source_building_draw_select_state",
+      "rule": "Runtime source_x supplies BuildingComp x.",
+      "tests": [
+        "test_building_draw_select_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_select_state"
+    },
+    "building_draw_select.source_y": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawSelect()",
+      "java_expr": "y",
+      "godot_symbol": "source_building_draw_select_input.source_y",
+      "godot_owner": "PortGame.source_building_draw_select_state",
+      "rule": "Runtime source_y supplies BuildingComp y.",
+      "tests": [
+        "test_building_draw_select_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_select_state"
+    },
+    "building_draw_select.source_rotation": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawSelect()",
+      "java_expr": "rotation",
+      "godot_symbol": "source_building_draw_select_input.source_rotation",
+      "godot_owner": "PortGame.source_building_draw_select_state",
+      "rule": "Runtime source_rotation supplies BuildingComp rotation.",
+      "tests": [
+        "test_building_draw_select_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_select_state"
+    },
+    "building_draw_select.tile_x": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawSelect()",
+      "java_expr": "tile.x",
+      "godot_symbol": "source_building_draw_select_input.tile_x",
+      "godot_owner": "PortGame.source_building_draw_select_state",
+      "rule": "Runtime tile_x supplies tile.x.",
+      "tests": [
+        "test_building_draw_select_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_select_state"
+    },
+    "building_draw_select.tile_y": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawSelect()",
+      "java_expr": "tile.y",
+      "godot_symbol": "source_building_draw_select_input.tile_y",
+      "godot_owner": "PortGame.source_building_draw_select_state",
+      "rule": "Runtime tile_y supplies tile.y.",
+      "tests": [
+        "test_building_draw_select_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_select_state"
+    },
+    "building_draw_select.unit_activation_delay": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawSelect()",
+      "java_expr": "state.rules.unitActivationDelay(team)",
+      "godot_symbol": "source_building_draw_select_input.unit_activation_delay",
+      "godot_owner": "PortGame.source_building_draw_select_state",
+      "rule": "Runtime unit_activation_delay supplies state.rules.unitActivationDelay(team).",
+      "tests": [
+        "test_building_draw_select_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_select_state"
+    },
+    "building_draw_select.state_tick": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawSelect()",
+      "java_expr": "state.tick",
+      "godot_symbol": "source_building_draw_select_input.state_tick",
+      "godot_owner": "PortGame.source_building_draw_select_state",
+      "rule": "Runtime state_tick supplies state.tick.",
+      "tests": [
+        "test_building_draw_select_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_select_state"
     }
   }
 }

@@ -4369,6 +4369,51 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(amount["java_expr"], "amount")
         self.assertEqual(amount["godot_symbol"], "source_building_draw_liquid_light_input.amount")
 
+    def test_building_draw_select_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_draw_select.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "drawSelect()")
+        self.assertEqual(method["java_expr"], "public void drawSelect(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_draw_select_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_draw_select_state")
+        self.assertEqual(method["godot_symbol"], "source_building_draw_select_result.method")
+
+        comment = source_symbols.source_symbol(registry, "building_draw_select.comment")
+        self.assertEqual(comment["java_expr"], "/** Draw the block overlay that is shown when a cursor is over the block. */")
+        self.assertEqual(comment["godot_symbol"], "source_building_draw_select_result.comment")
+
+        overlay = source_symbols.source_symbol(registry, "building_draw_select.overlay")
+        self.assertEqual(overlay["java_expr"], "block.drawOverlay(x, y, rotation);")
+        self.assertEqual(overlay["godot_symbol"], "source_building_draw_select_result.overlay")
+
+        inactive_gate = source_symbols.source_symbol(registry, "building_draw_select.inactive_unit_factory_gate")
+        self.assertEqual(inactive_gate["java_expr"], "if(status() == BlockStatus.inactiveUnitFactory){")
+        self.assertEqual(inactive_gate["godot_symbol"], "source_building_draw_select_result.placeTextVisible")
+
+        place_text = source_symbols.source_symbol(registry, "building_draw_select.place_text")
+        self.assertEqual(place_text["java_expr"], "block.drawPlaceText(Core.bundle.format(\"rules.unitfactoryactivation.objective\", UI.formatTime((float)Math.max(0f, state.rules.unitActivationDelay(team) - state.tick))), tile.x, tile.y, false);")
+        self.assertEqual(place_text["godot_symbol"], "source_building_draw_select_result.placeText")
+
+        block_status = source_symbols.source_symbol(registry, "building_draw_select.block_status")
+        self.assertEqual(block_status["status"], "explicit-input")
+        self.assertEqual(block_status["java_expr"], "status()")
+        self.assertEqual(block_status["godot_symbol"], "source_building_draw_select_input.block_status")
+
+        source_rotation = source_symbols.source_symbol(registry, "building_draw_select.source_rotation")
+        self.assertEqual(source_rotation["status"], "explicit-input")
+        self.assertEqual(source_rotation["java_expr"], "rotation")
+        self.assertEqual(source_rotation["godot_symbol"], "source_building_draw_select_input.source_rotation")
+
+        unit_activation_delay = source_symbols.source_symbol(registry, "building_draw_select.unit_activation_delay")
+        self.assertEqual(unit_activation_delay["status"], "explicit-input")
+        self.assertEqual(unit_activation_delay["java_expr"], "state.rules.unitActivationDelay(team)")
+        self.assertEqual(unit_activation_delay["godot_symbol"], "source_building_draw_select_input.unit_activation_delay")
+
     def test_building_draw_disabled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -4692,9 +4737,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 170)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 171)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 175)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 176)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6258,6 +6303,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(opacity > 0.001f){", building_draw_liquid_light["exact_exprs"])
         self.assertIn("Drawf.light(x, y, block.size * 30f * fract, color, opacity * amount);", building_draw_liquid_light["exact_exprs"])
 
+        building_draw_select = source_symbols.source_slice(ledger, "N573")
+        self.assertEqual(building_draw_select["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_draw_select["java_method"], "drawSelect()")
+        self.assertEqual(building_draw_select["godot_owner"], "PortGame.source_building_draw_select_state")
+        self.assertIn("/** Draw the block overlay that is shown when a cursor is over the block. */", building_draw_select["exact_exprs"])
+        self.assertIn("public void drawSelect(){", building_draw_select["exact_exprs"])
+        self.assertIn("block.drawOverlay(x, y, rotation);", building_draw_select["exact_exprs"])
+        self.assertIn("if(status() == BlockStatus.inactiveUnitFactory){", building_draw_select["exact_exprs"])
+        self.assertIn("block.drawPlaceText(Core.bundle.format(\"rules.unitfactoryactivation.objective\", UI.formatTime((float)Math.max(0f, state.rules.unitActivationDelay(team) - state.tick))), tile.x, tile.y, false);", building_draw_select["exact_exprs"])
+
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
         self.assertEqual(arc_mathf_cos_scaled["java_method"], "cos(float radians, float scl, float mag)")
@@ -7735,6 +7790,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("opacity", building_draw_liquid_light["return_keys"])
         self.assertIn("alpha", building_draw_liquid_light["return_keys"])
         self.assertEqual(building_draw_liquid_light["source_method"], "drawLiquidLight(Liquid liquid, float amount)")
+
+        building_draw_select = source_symbols.api_contract(contracts, "PortGame.source_building_draw_select_state")
+        self.assertEqual([param["name"] for param in building_draw_select["params"]], ["block_status", "source_x", "source_y", "source_rotation", "tile_x", "tile_y", "unit_activation_delay", "state_tick"])
+        self.assertEqual(building_draw_select["params"][0]["schema"], "source_building_draw_select_input.block_status")
+        self.assertEqual(building_draw_select["params"][3]["schema"], "source_building_draw_select_input.source_rotation")
+        self.assertEqual(building_draw_select["params"][6]["schema"], "source_building_draw_select_input.unit_activation_delay")
+        self.assertIn("overlay_visible", building_draw_select["return_keys"])
+        self.assertIn("place_text_visible", building_draw_select["return_keys"])
+        self.assertIn("place_text_time", building_draw_select["return_keys"])
+        self.assertEqual(building_draw_select["source_method"], "drawSelect()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -9607,6 +9672,26 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_draw_liquid_light_result["keys"]["alpha"]["java_expr"], "opacity * amount")
         self.assertEqual(source_building_draw_liquid_light_result["keys"]["drawfLightCall"]["java_expr"], "Drawf.light(x, y, block.size * 30f * fract, color, opacity * amount);")
         self.assertEqual(source_building_draw_liquid_light_result["keys"]["amount"]["alias_of"], "source_building_draw_liquid_light_input.amount")
+
+        source_building_draw_select_input = source_symbols.state_schema(schema, "source_building_draw_select_input")
+        self.assertEqual(source_building_draw_select_input["keys"]["block_status"]["java_expr"], "status()")
+        self.assertEqual(source_building_draw_select_input["keys"]["block_status"]["status"], "explicit-input")
+        self.assertEqual(source_building_draw_select_input["keys"]["source_x"]["java_expr"], "x")
+        self.assertEqual(source_building_draw_select_input["keys"]["source_y"]["java_expr"], "y")
+        self.assertEqual(source_building_draw_select_input["keys"]["source_rotation"]["java_expr"], "rotation")
+        self.assertEqual(source_building_draw_select_input["keys"]["tile_x"]["java_expr"], "tile.x")
+        self.assertEqual(source_building_draw_select_input["keys"]["tile_y"]["java_expr"], "tile.y")
+        self.assertEqual(source_building_draw_select_input["keys"]["unit_activation_delay"]["java_expr"], "state.rules.unitActivationDelay(team)")
+        self.assertEqual(source_building_draw_select_input["keys"]["state_tick"]["java_expr"], "state.tick")
+
+        source_building_draw_select_result = source_symbols.state_schema(schema, "source_building_draw_select_result")
+        self.assertEqual(source_building_draw_select_result["keys"]["comment"]["java_expr"], "/** Draw the block overlay that is shown when a cursor is over the block. */")
+        self.assertEqual(source_building_draw_select_result["keys"]["method"]["java_expr"], "public void drawSelect(){")
+        self.assertEqual(source_building_draw_select_result["keys"]["overlay"]["java_expr"], "block.drawOverlay(x, y, rotation);")
+        self.assertEqual(source_building_draw_select_result["keys"]["placeTextVisible"]["java_expr"], "if(status() == BlockStatus.inactiveUnitFactory){")
+        self.assertEqual(source_building_draw_select_result["keys"]["placeText"]["java_expr"], "block.drawPlaceText(Core.bundle.format(\"rules.unitfactoryactivation.objective\", UI.formatTime((float)Math.max(0f, state.rules.unitActivationDelay(team) - state.tick))), tile.x, tile.y, false);")
+        self.assertEqual(source_building_draw_select_result["keys"]["place_text_time"]["java_expr"], "Math.max(0f, state.rules.unitActivationDelay(team) - state.tick)")
+        self.assertEqual(source_building_draw_select_result["keys"]["block_status"]["alias_of"], "source_building_draw_select_input.block_status")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

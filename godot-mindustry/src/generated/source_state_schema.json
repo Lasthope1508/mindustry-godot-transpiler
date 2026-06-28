@@ -22061,6 +22061,298 @@
           "rule": "Carries amount input into result schema."
         }
       }
+    },
+    "source_building_draw_select_input": {
+      "status": "active",
+      "keys": {
+        "block_status": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawSelect()",
+          "java_expr": "status()",
+          "godot_symbol": "source_building_draw_select_input.block_status",
+          "used_by": [
+            "PortGame.source_building_draw_select_state"
+          ],
+          "rule": "Runtime block_status supplies BuildingComp status()."
+        },
+        "source_x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawSelect()",
+          "java_expr": "x",
+          "godot_symbol": "source_building_draw_select_input.source_x",
+          "used_by": [
+            "PortGame.source_building_draw_select_state"
+          ],
+          "rule": "Runtime source_x supplies BuildingComp x."
+        },
+        "source_y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawSelect()",
+          "java_expr": "y",
+          "godot_symbol": "source_building_draw_select_input.source_y",
+          "used_by": [
+            "PortGame.source_building_draw_select_state"
+          ],
+          "rule": "Runtime source_y supplies BuildingComp y."
+        },
+        "source_rotation": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawSelect()",
+          "java_expr": "rotation",
+          "godot_symbol": "source_building_draw_select_input.source_rotation",
+          "used_by": [
+            "PortGame.source_building_draw_select_state"
+          ],
+          "rule": "Runtime source_rotation supplies BuildingComp rotation."
+        },
+        "tile_x": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawSelect()",
+          "java_expr": "tile.x",
+          "godot_symbol": "source_building_draw_select_input.tile_x",
+          "used_by": [
+            "PortGame.source_building_draw_select_state"
+          ],
+          "rule": "Runtime tile_x supplies tile.x."
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawSelect()",
+          "java_expr": "tile.y",
+          "godot_symbol": "source_building_draw_select_input.tile_y",
+          "used_by": [
+            "PortGame.source_building_draw_select_state"
+          ],
+          "rule": "Runtime tile_y supplies tile.y."
+        },
+        "unit_activation_delay": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawSelect()",
+          "java_expr": "state.rules.unitActivationDelay(team)",
+          "godot_symbol": "source_building_draw_select_input.unit_activation_delay",
+          "used_by": [
+            "PortGame.source_building_draw_select_state"
+          ],
+          "rule": "Runtime unit_activation_delay supplies source unit activation delay."
+        },
+        "state_tick": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawSelect()",
+          "java_expr": "state.tick",
+          "godot_symbol": "source_building_draw_select_input.state_tick",
+          "used_by": [
+            "PortGame.source_building_draw_select_state"
+          ],
+          "rule": "Runtime state_tick supplies source state tick."
+        }
+      }
+    },
+    "source_building_draw_select_result": {
+      "status": "active",
+      "keys": {
+        "comment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawSelect()",
+          "java_expr": "/** Draw the block overlay that is shown when a cursor is over the block. */",
+          "godot_symbol": "source_building_draw_select_result.comment",
+          "used_by": [
+            "PortGame.source_building_draw_select_state"
+          ],
+          "rule": "Source drawSelect comment."
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawSelect()",
+          "java_expr": "public void drawSelect(){",
+          "godot_symbol": "source_building_draw_select_result.method",
+          "used_by": [
+            "PortGame.source_building_draw_select_state"
+          ],
+          "rule": "Source drawSelect method declaration."
+        },
+        "overlay": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawSelect()",
+          "java_expr": "block.drawOverlay(x, y, rotation);",
+          "godot_symbol": "source_building_draw_select_result.overlay",
+          "used_by": [
+            "PortGame.source_building_draw_select_state"
+          ],
+          "rule": "Source drawOverlay call."
+        },
+        "placeTextVisible": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawSelect()",
+          "java_expr": "if(status() == BlockStatus.inactiveUnitFactory){",
+          "godot_symbol": "source_building_draw_select_result.placeTextVisible",
+          "used_by": [
+            "PortGame.source_building_draw_select_state"
+          ],
+          "rule": "Source inactive unit factory place-text gate."
+        },
+        "placeText": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawSelect()",
+          "java_expr": "block.drawPlaceText(Core.bundle.format(\"rules.unitfactoryactivation.objective\", UI.formatTime((float)Math.max(0f, state.rules.unitActivationDelay(team) - state.tick))), tile.x, tile.y, false);",
+          "godot_symbol": "source_building_draw_select_result.placeText",
+          "used_by": [
+            "PortGame.source_building_draw_select_state"
+          ],
+          "rule": "Source drawPlaceText call."
+        },
+        "place_text_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawSelect()",
+          "java_expr": "Math.max(0f, state.rules.unitActivationDelay(team) - state.tick)",
+          "godot_symbol": "source_building_draw_select_result.place_text_time",
+          "used_by": [
+            "PortGame.source_building_draw_select_state"
+          ],
+          "rule": "Source remaining activation delay clamp."
+        },
+        "place_text_bundle_key": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawSelect()",
+          "java_expr": "\"rules.unitfactoryactivation.objective\"",
+          "godot_symbol": "source_building_draw_select_result.place_text_bundle_key",
+          "used_by": [
+            "PortGame.source_building_draw_select_state"
+          ],
+          "rule": "Source unit factory activation objective bundle key."
+        },
+        "overlay_visible": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawSelect()",
+          "java_expr": "block.drawOverlay(x, y, rotation);",
+          "godot_symbol": "source_building_draw_select_result.overlay_visible",
+          "used_by": [
+            "PortGame.source_building_draw_select_state"
+          ],
+          "rule": "Overlay is always visible because drawOverlay is unconditional."
+        },
+        "overlay_x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_select_input.source_x",
+          "rule": "Carries source_x input into overlay result."
+        },
+        "overlay_y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_select_input.source_y",
+          "rule": "Carries source_y input into overlay result."
+        },
+        "overlay_rotation": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_select_input.source_rotation",
+          "rule": "Carries source_rotation input into overlay result."
+        },
+        "place_text_visible": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawSelect()",
+          "java_expr": "if(status() == BlockStatus.inactiveUnitFactory){",
+          "godot_symbol": "source_building_draw_select_result.place_text_visible",
+          "used_by": [
+            "PortGame.source_building_draw_select_state"
+          ],
+          "rule": "place_text_visible follows the inactive unit factory gate."
+        },
+        "place_text_tile_x": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_draw_select_input.tile_x",
+          "rule": "Carries tile_x input into place text result."
+        },
+        "place_text_tile_y": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_draw_select_input.tile_y",
+          "rule": "Carries tile_y input into place text result."
+        },
+        "block_status": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_building_draw_select_input.block_status",
+          "rule": "Carries block_status input into result schema."
+        },
+        "source_x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_select_input.source_x",
+          "rule": "Carries source_x input into result schema."
+        },
+        "source_y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_select_input.source_y",
+          "rule": "Carries source_y input into result schema."
+        },
+        "source_rotation": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_select_input.source_rotation",
+          "rule": "Carries source_rotation input into result schema."
+        },
+        "tile_x": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_draw_select_input.tile_x",
+          "rule": "Carries tile_x input into result schema."
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_draw_select_input.tile_y",
+          "rule": "Carries tile_y input into result schema."
+        },
+        "unit_activation_delay": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_select_input.unit_activation_delay",
+          "rule": "Carries unit_activation_delay input into result schema."
+        },
+        "state_tick": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_select_input.state_tick",
+          "rule": "Carries state_tick input into result schema."
+        }
+      }
     }
   },
   "version": 1

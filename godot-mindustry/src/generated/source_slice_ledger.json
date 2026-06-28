@@ -5423,6 +5423,47 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_liquid_light_state",
       "rule": "Backfills SSOT for existing canonical source_building_draw_liquid_light_state helper against BuildingComp.drawLiquidLight()."
+    },
+    "N573": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "drawSelect()",
+      "godot_owner": "PortGame.source_building_draw_select_state",
+      "exact_exprs": [
+        "/** Draw the block overlay that is shown when a cursor is over the block. */",
+        "public void drawSelect(){",
+        "block.drawOverlay(x, y, rotation);",
+        "if(status() == BlockStatus.inactiveUnitFactory){",
+        "block.drawPlaceText(Core.bundle.format(\"rules.unitfactoryactivation.objective\", UI.formatTime((float)Math.max(0f, state.rules.unitActivationDelay(team) - state.tick))), tile.x, tile.y, false);",
+        "Math.max(0f, state.rules.unitActivationDelay(team) - state.tick)",
+        "\"rules.unitfactoryactivation.objective\""
+      ],
+      "deferred_exprs": [
+        "Concrete block overlay drawing, bundle formatting, UI.formatTime text rendering, and drawPlaceText UI stay owned by Godot rendering/UI integration; this helper preserves canonical drawSelect overlay and inactive-unit-factory text state."
+      ],
+      "source_symbols": [
+        "building_draw_select.comment",
+        "building_draw_select.method",
+        "building_draw_select.overlay",
+        "building_draw_select.inactive_unit_factory_gate",
+        "building_draw_select.place_text",
+        "building_draw_select.place_text_time",
+        "building_draw_select.place_text_bundle_key",
+        "building_draw_select.block_status",
+        "building_draw_select.source_x",
+        "building_draw_select.source_y",
+        "building_draw_select.source_rotation",
+        "building_draw_select.tile_x",
+        "building_draw_select.tile_y",
+        "building_draw_select.unit_activation_delay",
+        "building_draw_select.state_tick"
+      ],
+      "tests": [
+        "test_building_draw_select_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_select_state",
+      "rule": "Backfills SSOT for existing canonical source_building_draw_select_state helper against BuildingComp.drawSelect()."
     }
   },
   "version": 1
