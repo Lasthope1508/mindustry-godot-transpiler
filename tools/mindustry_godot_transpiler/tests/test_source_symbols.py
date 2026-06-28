@@ -3049,6 +3049,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(current_time_scale["java_expr"], "this.timeScale")
         self.assertEqual(current_time_scale["godot_symbol"], "source_building_apply_boost_input.currentTimeScale")
 
+    def test_building_block_half_extent_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        square_call = source_symbols.source_symbol(registry, "building_block_half_extent.draw_configure_square")
+        self.assertEqual(square_call["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(square_call["java_method"], "drawConfigure()")
+        self.assertEqual(square_call["java_expr"], "Lines.square(x, y, block.size * tilesize / 2f + 1f);")
+        self.assertEqual(square_call["godot_owner"], "PortGame.source_building_block_half_extent")
+        self.assertEqual(square_call["runtime_proof"], "/root/Main.source_building_block_half_extent")
+        self.assertEqual(square_call["godot_symbol"], "source_building_block_half_extent_result.drawConfigureSquare")
+
+        half_extent = source_symbols.source_symbol(registry, "building_block_half_extent.formula")
+        self.assertEqual(half_extent["java_expr"], "block.size * tilesize / 2f")
+        self.assertEqual(half_extent["godot_symbol"], "source_building_block_half_extent_result.halfExtent")
+
+        block_size = source_symbols.source_symbol(registry, "building_block_half_extent.block_size")
+        self.assertEqual(block_size["status"], "explicit-input")
+        self.assertEqual(block_size["java_expr"], "block.size")
+        self.assertEqual(block_size["godot_symbol"], "source_building_block_half_extent_input.blockSize")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3333,9 +3356,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 126)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 127)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 131)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 132)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3463,6 +3486,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_after_picked_up_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_ambient_volume", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_apply_boost_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_block_half_extent", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -4431,6 +4455,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(intensity >= this.timeScale - 0.001f){", building_apply_boost["exact_exprs"])
         self.assertIn("timeScaleDuration = Math.max(timeScaleDuration, duration);", building_apply_boost["exact_exprs"])
         self.assertIn("timeScale = Math.max(timeScale, intensity);", building_apply_boost["exact_exprs"])
+
+        building_block_half_extent = source_symbols.source_slice(ledger, "N529")
+        self.assertEqual(building_block_half_extent["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_block_half_extent["java_method"], "drawConfigure()")
+        self.assertEqual(building_block_half_extent["godot_owner"], "PortGame.source_building_block_half_extent")
+        self.assertIn("Lines.square(x, y, block.size * tilesize / 2f + 1f);", building_block_half_extent["exact_exprs"])
+        self.assertIn("block.size * tilesize / 2f", building_block_half_extent["exact_exprs"])
+        self.assertIn("block.size", building_block_half_extent["exact_exprs"])
+        self.assertIn("tilesize", building_block_half_extent["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -5561,6 +5594,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("timeScale", building_apply_boost["return_keys"])
         self.assertIn("timeScaleDuration", building_apply_boost["return_keys"])
         self.assertEqual(building_apply_boost["source_method"], "applyBoost(float intensity, float duration)")
+
+        building_block_half_extent = source_symbols.api_contract(contracts, "PortGame.source_building_block_half_extent")
+        self.assertEqual([param["name"] for param in building_block_half_extent["params"]], ["block_size_value", "source_tilesize"])
+        self.assertEqual(building_block_half_extent["params"][0]["schema"], "source_building_block_half_extent_input.blockSize")
+        self.assertEqual(building_block_half_extent["params"][1]["schema"], "source_building_block_half_extent_input.tilesize")
+        self.assertIn("halfExtent", building_block_half_extent["return_keys"])
+        self.assertEqual(building_block_half_extent["source_method"], "drawConfigure()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -6902,6 +6942,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_apply_boost_result["keys"]["timeScaleDuration"]["java_expr"], "timeScaleDuration = Math.max(timeScaleDuration, duration);")
         self.assertEqual(source_building_apply_boost_result["keys"]["timeScale"]["java_expr"], "timeScale = Math.max(timeScale, intensity);")
         self.assertEqual(source_building_apply_boost_result["keys"]["currentTimeScale"]["alias_of"], "source_building_apply_boost_input.currentTimeScale")
+
+        source_building_block_half_extent_input = source_symbols.state_schema(schema, "source_building_block_half_extent_input")
+        self.assertEqual(source_building_block_half_extent_input["keys"]["blockSize"]["java_expr"], "block.size")
+        self.assertEqual(source_building_block_half_extent_input["keys"]["tilesize"]["java_expr"], "tilesize")
+
+        source_building_block_half_extent_result = source_symbols.state_schema(schema, "source_building_block_half_extent_result")
+        self.assertEqual(source_building_block_half_extent_result["keys"]["drawConfigureSquare"]["java_expr"], "Lines.square(x, y, block.size * tilesize / 2f + 1f);")
+        self.assertEqual(source_building_block_half_extent_result["keys"]["halfExtent"]["java_expr"], "block.size * tilesize / 2f")
+        self.assertEqual(source_building_block_half_extent_result["keys"]["blockSize"]["alias_of"], "source_building_block_half_extent_input.blockSize")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

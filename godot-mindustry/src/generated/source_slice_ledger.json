@@ -3983,6 +3983,33 @@
       ],
       "runtime_proof": "/root/Main.source_building_apply_boost_state",
       "rule": "Backfills SSOT for existing canonical source_building_apply_boost_state helper against BuildingComp.applyBoost time-scale and duration semantics."
+    },
+    "N529": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "drawConfigure()",
+      "godot_owner": "PortGame.source_building_block_half_extent",
+      "exact_exprs": [
+        "Lines.square(x, y, block.size * tilesize / 2f + 1f);",
+        "block.size * tilesize / 2f",
+        "block.size",
+        "tilesize"
+      ],
+      "deferred_exprs": [
+        "+ 1f"
+      ],
+      "source_symbols": [
+        "building_block_half_extent.draw_configure_square",
+        "building_block_half_extent.formula",
+        "building_block_half_extent.block_size",
+        "building_block_half_extent.tilesize"
+      ],
+      "tests": [
+        "test_building_block_half_extent_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_block_half_extent",
+      "rule": "Backfills SSOT for existing canonical source_building_block_half_extent helper against BuildingComp.drawConfigure square radius expression."
     }
   },
   "version": 1

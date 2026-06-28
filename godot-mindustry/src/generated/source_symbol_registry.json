@@ -12708,6 +12708,58 @@
       "java_expr": "block.canOverdrive",
       "godot_symbol": "source_building_apply_boost_input.canOverdrive",
       "rule": "Runtime can_overdrive argument supplies source block.canOverdrive field."
+    },
+    "building_block_half_extent.draw_configure_square": {
+      "tests": [
+        "test_building_block_half_extent_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_block_half_extent",
+      "godot_owner": "PortGame.source_building_block_half_extent",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawConfigure()",
+      "status": "source-backed",
+      "java_expr": "Lines.square(x, y, block.size * tilesize / 2f + 1f);",
+      "godot_symbol": "source_building_block_half_extent_result.drawConfigureSquare",
+      "rule": "Source drawConfigure square call containing block half extent plus one."
+    },
+    "building_block_half_extent.formula": {
+      "tests": [
+        "test_building_block_half_extent_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_block_half_extent",
+      "godot_owner": "PortGame.source_building_block_half_extent",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawConfigure()",
+      "status": "source-backed",
+      "java_expr": "block.size * tilesize / 2f",
+      "godot_symbol": "source_building_block_half_extent_result.halfExtent",
+      "rule": "Canonical block half extent expression reused by drawConfigure."
+    },
+    "building_block_half_extent.block_size": {
+      "tests": [
+        "test_building_block_half_extent_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_block_half_extent",
+      "godot_owner": "PortGame.source_building_block_half_extent",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawConfigure()",
+      "status": "explicit-input",
+      "java_expr": "block.size",
+      "godot_symbol": "source_building_block_half_extent_input.blockSize",
+      "rule": "Runtime block_size_value argument supplies source block.size."
+    },
+    "building_block_half_extent.tilesize": {
+      "tests": [
+        "test_building_block_half_extent_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_block_half_extent",
+      "godot_owner": "PortGame.source_building_block_half_extent",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawConfigure()",
+      "status": "explicit-input",
+      "java_expr": "tilesize",
+      "godot_symbol": "source_building_block_half_extent_input.tilesize",
+      "rule": "Runtime source_tilesize argument supplies source tilesize constant."
     }
   }
 }
