@@ -3847,6 +3847,37 @@
       "runtime_proof": "/root/Main.source_arc_angles_angle",
       "rule": "Public runtime contract for Arc Angles.angle helper."
     },
+    "PortGame.source_arc_angles_angle_dist": {
+      "status": "active",
+      "source_slice": "N492",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "source_method": "angleDist(float a, float b)",
+      "params": [
+        {
+          "name": "angle_a",
+          "type": "float",
+          "schema": "source_arc_angles_angle_dist_input.angleA"
+        },
+        {
+          "name": "angle_b",
+          "type": "float",
+          "schema": "source_arc_angles_angle_dist_input.angleB"
+        }
+      ],
+      "return_keys": [
+        "angleAMod",
+        "angleBMod",
+        "angleDistance",
+        "angleA",
+        "angleB"
+      ],
+      "tests": [
+        "test_arc_angles_angle_dist_canonical_symbols_are_registered_with_source_backing",
+        "test_source_angles_angle_dist_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_angle_dist",
+      "rule": "Public runtime contract for canonical Arc Angles.angleDist helper."
+    },
     "PortGame.source_angle_distance": {
       "status": "active",
       "source_slice": "N486",

@@ -2796,6 +2796,36 @@
       ],
       "runtime_proof": "/root/Main.source_arc_angles_angle",
       "rule": "Backfills SSOT for existing canonical source_arc_angles_angle helper against Arc Angles.angle."
+    },
+    "N492": {
+      "status": "done",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_class": "arc.math.Angles",
+      "java_method": "angleDist(float a, float b)",
+      "godot_owner": "PortGame.source_arc_angles_angle_dist",
+      "exact_exprs": [
+        "public static float angleDist(float a, float b){\n        a = Mathf.mod(a, 360f);\n        b = Mathf.mod(b, 360f);\n        return Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a);\n    }",
+        "a = Mathf.mod(a, 360f);",
+        "b = Mathf.mod(b, 360f);",
+        "Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a)",
+        "a",
+        "b"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "arc_angles_angle_dist_canonical.method",
+        "arc_angles_angle_dist_canonical.mod_a",
+        "arc_angles_angle_dist_canonical.mod_b",
+        "arc_angles_angle_dist_canonical.min_distance",
+        "arc_angles_angle_dist_canonical.angle_a_input",
+        "arc_angles_angle_dist_canonical.angle_b_input"
+      ],
+      "tests": [
+        "test_arc_angles_angle_dist_canonical_symbols_are_registered_with_source_backing",
+        "test_source_angles_angle_dist_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_angle_dist",
+      "rule": "Backfills SSOT for existing canonical source_arc_angles_angle_dist helper against Arc Angles.angleDist."
     }
   },
   "version": 1
