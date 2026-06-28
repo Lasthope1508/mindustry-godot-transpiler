@@ -12367,6 +12367,94 @@
         }
       }
     },
+    "source_approach_input": {
+      "status": "active",
+      "keys": {
+        "from": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "approach(float from, float to, float speed)",
+          "java_expr": "from",
+          "godot_symbol": "source_approach_input.from",
+          "used_by": [
+            "PortGame.source_approach"
+          ],
+          "rule": "Java approach starting value from."
+        },
+        "to": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "approach(float from, float to, float speed)",
+          "java_expr": "to",
+          "godot_symbol": "source_approach_input.to",
+          "used_by": [
+            "PortGame.source_approach"
+          ],
+          "rule": "Java approach target value to."
+        },
+        "speed": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "approach(float from, float to, float speed)",
+          "java_expr": "speed",
+          "godot_symbol": "source_approach_input.speed",
+          "used_by": [
+            "PortGame.source_approach"
+          ],
+          "rule": "Java approach linear speed."
+        }
+      }
+    },
+    "source_approach_result": {
+      "status": "active",
+      "keys": {
+        "clampedDelta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "approach(float from, float to, float speed)",
+          "java_expr": "Mathf.clamp(to - from, -speed, speed)",
+          "godot_symbol": "source_approach_result.clampedDelta",
+          "used_by": [
+            "PortGame.source_approach"
+          ],
+          "rule": "Target delta clamped by speed bounds."
+        },
+        "approach": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "approach(float from, float to, float speed)",
+          "java_expr": "from + Mathf.clamp(to - from, -speed, speed)",
+          "godot_symbol": "source_approach_result.approach",
+          "used_by": [
+            "PortGame.source_approach"
+          ],
+          "rule": "Approach return value."
+        },
+        "from": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_approach_input.from",
+          "rule": "Carries Java approach input from into result schema."
+        },
+        "to": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_approach_input.to",
+          "rule": "Carries Java approach input to into result schema."
+        },
+        "speed": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_approach_input.speed",
+          "rule": "Carries Java approach input speed into result schema."
+        }
+      }
+    },
     "source_angle_distance_input": {
       "status": "active",
       "keys": {

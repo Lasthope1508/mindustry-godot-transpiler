@@ -2701,6 +2701,36 @@
       ],
       "runtime_proof": "/root/Main.source_angles_angle_dist",
       "rule": "Backfills and wires source_angles_angle_dist to the canonical Arc Angles.angleDist helper for weapon cone gating."
+    },
+    "N489": {
+      "status": "done",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_class": "arc.math.Mathf",
+      "java_method": "approach(float from, float to, float speed)",
+      "godot_owner": "PortGame.source_approach",
+      "exact_exprs": [
+        "public static float approach(float from, float to, float speed){\n        return from + Mathf.clamp(to - from, -speed, speed);\n    }",
+        "Mathf.clamp(to - from, -speed, speed)",
+        "from + Mathf.clamp(to - from, -speed, speed)",
+        "from",
+        "to",
+        "speed"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "arc_mathf_approach.method",
+        "arc_mathf_approach.clamp_expr",
+        "arc_mathf_approach.result_expr",
+        "arc_mathf_approach.from_input",
+        "arc_mathf_approach.to_input",
+        "arc_mathf_approach.speed_input"
+      ],
+      "tests": [
+        "test_arc_mathf_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_applies_source_drill_warmup_to_output_delta"
+      ],
+      "runtime_proof": "/root/Main.source_approach",
+      "rule": "Backfills SSOT for existing source_approach helper against Arc Mathf.approach."
     }
   },
   "version": 1

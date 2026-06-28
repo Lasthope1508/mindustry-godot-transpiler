@@ -3726,6 +3726,42 @@
       "runtime_proof": "/root/Main.source_absin",
       "rule": "Public runtime contract for Arc Mathf.absin(value, scl, mag) with source-backed scale doubled by the Java overload."
     },
+    "PortGame.source_approach": {
+      "status": "active",
+      "source_slice": "N489",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "source_method": "approach(float from, float to, float speed)",
+      "params": [
+        {
+          "name": "from_value",
+          "type": "float",
+          "schema": "source_approach_input.from"
+        },
+        {
+          "name": "to_value",
+          "type": "float",
+          "schema": "source_approach_input.to"
+        },
+        {
+          "name": "speed",
+          "type": "float",
+          "schema": "source_approach_input.speed"
+        }
+      ],
+      "return_keys": [
+        "clampedDelta",
+        "approach",
+        "from",
+        "to",
+        "speed"
+      ],
+      "tests": [
+        "test_arc_mathf_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_applies_source_drill_warmup_to_output_delta"
+      ],
+      "runtime_proof": "/root/Main.source_approach",
+      "rule": "Public runtime contract for Arc Mathf.approach-backed linear approach helper."
+    },
     "PortGame.source_angle_distance": {
       "status": "active",
       "source_slice": "N486",

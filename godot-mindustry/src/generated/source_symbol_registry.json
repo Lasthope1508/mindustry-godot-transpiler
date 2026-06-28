@@ -8817,6 +8817,90 @@
       "godot_symbol": "source_absin_input.mag",
       "rule": "Runtime magnitude parameter maps to Java mag."
     },
+    "arc_mathf_approach.method": {
+      "tests": [
+        "test_arc_mathf_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_applies_source_drill_warmup_to_output_delta"
+      ],
+      "runtime_proof": "/root/Main.source_approach",
+      "godot_owner": "PortGame.source_approach",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "approach(float from, float to, float speed)",
+      "java_expr": "public static float approach(float from, float to, float speed){\n        return from + Mathf.clamp(to - from, -speed, speed);\n    }",
+      "godot_symbol": "source_approach_result.approach",
+      "rule": "Mathf.approach moves from toward to by clamping the delta to linear speed."
+    },
+    "arc_mathf_approach.clamp_expr": {
+      "tests": [
+        "test_arc_mathf_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_applies_source_drill_warmup_to_output_delta"
+      ],
+      "runtime_proof": "/root/Main.source_approach",
+      "godot_owner": "PortGame.source_approach",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "approach(float from, float to, float speed)",
+      "java_expr": "Mathf.clamp(to - from, -speed, speed)",
+      "godot_symbol": "source_approach_result.clampedDelta",
+      "rule": "Approach clamps target delta to negative and positive speed bounds."
+    },
+    "arc_mathf_approach.result_expr": {
+      "tests": [
+        "test_arc_mathf_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_applies_source_drill_warmup_to_output_delta"
+      ],
+      "runtime_proof": "/root/Main.source_approach",
+      "godot_owner": "PortGame.source_approach",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "approach(float from, float to, float speed)",
+      "java_expr": "from + Mathf.clamp(to - from, -speed, speed)",
+      "godot_symbol": "source_approach_result.approach",
+      "rule": "Approach result adds the clamped delta to from."
+    },
+    "arc_mathf_approach.from_input": {
+      "tests": [
+        "test_arc_mathf_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_applies_source_drill_warmup_to_output_delta"
+      ],
+      "runtime_proof": "/root/Main.source_approach",
+      "godot_owner": "PortGame.source_approach",
+      "status": "explicit-input",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "approach(float from, float to, float speed)",
+      "java_expr": "from",
+      "godot_symbol": "source_approach_input.from",
+      "rule": "Runtime from_value parameter maps to Java from."
+    },
+    "arc_mathf_approach.to_input": {
+      "tests": [
+        "test_arc_mathf_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_applies_source_drill_warmup_to_output_delta"
+      ],
+      "runtime_proof": "/root/Main.source_approach",
+      "godot_owner": "PortGame.source_approach",
+      "status": "explicit-input",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "approach(float from, float to, float speed)",
+      "java_expr": "to",
+      "godot_symbol": "source_approach_input.to",
+      "rule": "Runtime to_value parameter maps to Java to."
+    },
+    "arc_mathf_approach.speed_input": {
+      "tests": [
+        "test_arc_mathf_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_applies_source_drill_warmup_to_output_delta"
+      ],
+      "runtime_proof": "/root/Main.source_approach",
+      "godot_owner": "PortGame.source_approach",
+      "status": "explicit-input",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "approach(float from, float to, float speed)",
+      "java_expr": "speed",
+      "godot_symbol": "source_approach_input.speed",
+      "rule": "Runtime speed parameter maps to Java speed."
+    },
     "arc_angles_angle_dist.method": {
       "tests": [
         "test_arc_angles_angle_distance_symbols_are_registered_with_source_backing",
