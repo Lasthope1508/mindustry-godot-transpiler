@@ -17495,6 +17495,100 @@
           "rule": "Power link update refreshes power graph after reflow."
         }
       }
+    },
+    "source_building_change_team_power_proximity_input": {
+      "status": "active",
+      "keys": {
+        "power_present": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "changeTeam(Team next, boolean updatePower)",
+          "java_expr": "power != null",
+          "godot_symbol": "source_building_change_team_power_proximity_input.power_present",
+          "used_by": [
+            "PortGame.source_building_change_team_power_proximity_state"
+          ],
+          "rule": "Power component presence supplied to canonical helper."
+        },
+        "update_power": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "changeTeam(Team next, boolean updatePower)",
+          "java_expr": "updatePower",
+          "godot_symbol": "source_building_change_team_power_proximity_input.update_power",
+          "used_by": [
+            "PortGame.source_building_change_team_power_proximity_state"
+          ],
+          "rule": "updatePower argument supplied to canonical helper."
+        },
+        "old_graph": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "changeTeam(Team next, boolean updatePower)",
+          "java_expr": "var oldGraph = power.graph;",
+          "godot_symbol": "source_building_change_team_power_proximity_input.old_graph",
+          "used_by": [
+            "PortGame.source_building_change_team_power_proximity_state"
+          ],
+          "rule": "Old graph supplied to canonical helper."
+        },
+        "team": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "changeTeam(Team next, boolean updatePower)",
+          "java_expr": "team",
+          "godot_symbol": "source_building_change_team_power_proximity_input.team",
+          "used_by": [
+            "PortGame.source_building_change_team_power_proximity_state"
+          ],
+          "rule": "Current team supplied to canonical helper."
+        }
+      }
+    },
+    "source_building_change_team_power_proximity_result": {
+      "status": "active",
+      "keys": {
+        "old_graph": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_change_team_power_proximity_input.old_graph",
+          "rule": "Carries old_graph input into result schema."
+        },
+        "team": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_change_team_power_proximity_input.team",
+          "rule": "Carries team input into result schema."
+        },
+        "proximity_reflow": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "changeTeam(Team next, boolean updatePower)",
+          "java_expr": "new PowerGraph().reflow(other);",
+          "godot_symbol": "source_building_change_team_power_proximity_result.proximity_reflow",
+          "used_by": [
+            "PortGame.source_building_change_team_power_proximity_state"
+          ],
+          "rule": "Power proximity reflows affected neighbors only when power/update gate passes."
+        },
+        "power_present": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_change_team_power_proximity_input.power_present",
+          "rule": "Canonical alias for power presence input."
+        },
+        "update_power": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_change_team_power_proximity_input.update_power",
+          "rule": "Canonical alias for update_power input."
+        }
+      }
     }
   },
   "version": 1

@@ -3272,6 +3272,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(link_count["java_expr"], "power.links.size")
         self.assertEqual(link_count["godot_symbol"], "source_building_change_team_power_links_input.link_count")
 
+    def test_building_change_team_power_proximity_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        gate = source_symbols.source_symbol(registry, "building_change_team_power_proximity.gate")
+        self.assertEqual(gate["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(gate["java_method"], "changeTeam(Team next, boolean updatePower)")
+        self.assertEqual(gate["java_expr"], "if(power != null && updatePower){")
+        self.assertEqual(gate["godot_owner"], "PortGame.source_building_change_team_power_proximity_state")
+        self.assertEqual(gate["runtime_proof"], "/root/Main.source_building_change_team_power_proximity_state")
+        self.assertEqual(gate["godot_symbol"], "source_building_change_team_power_proximity_result.proximity_reflow")
+
+        old_graph = source_symbols.source_symbol(registry, "building_change_team_power_proximity.old_graph")
+        self.assertEqual(old_graph["java_expr"], "var oldGraph = power.graph;")
+        self.assertEqual(old_graph["godot_symbol"], "source_building_change_team_power_proximity_result.old_graph")
+
+        reflow_other = source_symbols.source_symbol(registry, "building_change_team_power_proximity.reflow_other")
+        self.assertEqual(reflow_other["java_expr"], "new PowerGraph().reflow(other);")
+        self.assertEqual(reflow_other["godot_symbol"], "source_building_change_team_power_proximity_result.proximity_reflow")
+
+        power_present = source_symbols.source_symbol(registry, "building_change_team_power_proximity.power_present")
+        self.assertEqual(power_present["status"], "explicit-input")
+        self.assertEqual(power_present["java_expr"], "power != null")
+        self.assertEqual(power_present["godot_symbol"], "source_building_change_team_power_proximity_input.power_present")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3556,9 +3583,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 135)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 136)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 140)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 141)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3695,6 +3722,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_change_team_final_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_change_team_initial_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_change_team_power_links_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_change_team_power_proximity_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -4741,6 +4769,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("power.links.removeIndex(i);", building_change_team_power_links["exact_exprs"])
         self.assertIn("new PowerGraph().reflow(self());", building_change_team_power_links["exact_exprs"])
         self.assertIn("updatePowerGraph();", building_change_team_power_links["exact_exprs"])
+
+        building_change_team_power_proximity = source_symbols.source_slice(ledger, "N538")
+        self.assertEqual(building_change_team_power_proximity["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_change_team_power_proximity["java_method"], "changeTeam(Team next, boolean updatePower)")
+        self.assertEqual(building_change_team_power_proximity["godot_owner"], "PortGame.source_building_change_team_power_proximity_state")
+        self.assertIn("if(power != null && updatePower){", building_change_team_power_proximity["exact_exprs"])
+        self.assertIn("var oldGraph = power.graph;", building_change_team_power_proximity["exact_exprs"])
+        self.assertIn("for(var other : proximity){", building_change_team_power_proximity["exact_exprs"])
+        self.assertIn("new PowerGraph().reflow(other);", building_change_team_power_proximity["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -5934,6 +5971,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("remove_index", building_change_team_power_links["return_keys"])
         self.assertIn("update_power_graph", building_change_team_power_links["return_keys"])
         self.assertEqual(building_change_team_power_links["source_method"], "changeTeam(Team next, boolean updatePower)")
+
+        building_change_team_power_proximity = source_symbols.api_contract(contracts, "PortGame.source_building_change_team_power_proximity_state")
+        self.assertEqual([param["name"] for param in building_change_team_power_proximity["params"]], ["power_present", "update_power", "old_graph", "team"])
+        self.assertEqual(building_change_team_power_proximity["params"][0]["schema"], "source_building_change_team_power_proximity_input.power_present")
+        self.assertEqual(building_change_team_power_proximity["params"][2]["schema"], "source_building_change_team_power_proximity_input.old_graph")
+        self.assertIn("proximity_reflow", building_change_team_power_proximity["return_keys"])
+        self.assertEqual(building_change_team_power_proximity["source_method"], "changeTeam(Team next, boolean updatePower)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -7365,6 +7409,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_change_team_power_links_result["keys"]["reflow_self"]["java_expr"], "new PowerGraph().reflow(self());")
         self.assertEqual(source_building_change_team_power_links_result["keys"]["update_power_graph"]["java_expr"], "updatePowerGraph();")
         self.assertEqual(source_building_change_team_power_links_result["keys"]["old_graph"]["alias_of"], "source_building_change_team_power_links_input.old_graph")
+
+        source_building_change_team_power_proximity_input = source_symbols.state_schema(schema, "source_building_change_team_power_proximity_input")
+        self.assertEqual(source_building_change_team_power_proximity_input["keys"]["power_present"]["java_expr"], "power != null")
+        self.assertEqual(source_building_change_team_power_proximity_input["keys"]["update_power"]["java_expr"], "updatePower")
+        self.assertEqual(source_building_change_team_power_proximity_input["keys"]["old_graph"]["java_expr"], "var oldGraph = power.graph;")
+
+        source_building_change_team_power_proximity_result = source_symbols.state_schema(schema, "source_building_change_team_power_proximity_result")
+        self.assertEqual(source_building_change_team_power_proximity_result["keys"]["proximity_reflow"]["java_expr"], "new PowerGraph().reflow(other);")
+        self.assertEqual(source_building_change_team_power_proximity_result["keys"]["old_graph"]["alias_of"], "source_building_change_team_power_proximity_input.old_graph")
+        self.assertEqual(source_building_change_team_power_proximity_result["keys"]["team"]["alias_of"], "source_building_change_team_power_proximity_input.team")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

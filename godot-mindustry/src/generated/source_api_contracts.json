@@ -5436,6 +5436,44 @@
       ],
       "runtime_proof": "/root/Main.source_building_change_team_power_links_state",
       "rule": "Public runtime contract for Mindustry BuildingComp changeTeam power link helper."
+    },
+    "PortGame.source_building_change_team_power_proximity_state": {
+      "status": "active",
+      "source_slice": "N538",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "changeTeam(Team next, boolean updatePower)",
+      "params": [
+        {
+          "name": "power_present",
+          "type": "bool",
+          "schema": "source_building_change_team_power_proximity_input.power_present"
+        },
+        {
+          "name": "update_power",
+          "type": "bool",
+          "schema": "source_building_change_team_power_proximity_input.update_power"
+        },
+        {
+          "name": "old_graph",
+          "type": "Variant",
+          "schema": "source_building_change_team_power_proximity_input.old_graph"
+        },
+        {
+          "name": "team",
+          "type": "Variant",
+          "schema": "source_building_change_team_power_proximity_input.team"
+        }
+      ],
+      "return_keys": [
+        "old_graph",
+        "team",
+        "proximity_reflow"
+      ],
+      "tests": [
+        "test_building_change_team_power_proximity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_power_proximity_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp changeTeam power proximity helper."
     }
   },
   "policy": {

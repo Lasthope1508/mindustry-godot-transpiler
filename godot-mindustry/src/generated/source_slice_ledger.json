@@ -4256,6 +4256,42 @@
       ],
       "runtime_proof": "/root/Main.source_building_change_team_power_links_state",
       "rule": "Backfills SSOT for existing canonical source_building_change_team_power_links_state helper against BuildingComp changeTeam power link loop."
+    },
+    "N538": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "godot_owner": "PortGame.source_building_change_team_power_proximity_state",
+      "exact_exprs": [
+        "if(power != null && updatePower){",
+        "var oldGraph = power.graph;",
+        "for(var other : proximity){",
+        "if(other != null && other.team != team && other.power != null && other.power.graph == oldGraph){",
+        "new PowerGraph().reflow(other);",
+        "power != null",
+        "updatePower",
+        "team"
+      ],
+      "deferred_exprs": [
+        "per-neighbor other object enumeration"
+      ],
+      "source_symbols": [
+        "building_change_team_power_proximity.gate",
+        "building_change_team_power_proximity.old_graph",
+        "building_change_team_power_proximity.loop",
+        "building_change_team_power_proximity.predicate",
+        "building_change_team_power_proximity.reflow_other",
+        "building_change_team_power_proximity.power_present",
+        "building_change_team_power_proximity.update_power",
+        "building_change_team_power_proximity.old_graph_input",
+        "building_change_team_power_proximity.team"
+      ],
+      "tests": [
+        "test_building_change_team_power_proximity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_power_proximity_state",
+      "rule": "Backfills SSOT for existing canonical source_building_change_team_power_proximity_state helper against BuildingComp changeTeam proximity power reflow gate."
     }
   },
   "version": 1

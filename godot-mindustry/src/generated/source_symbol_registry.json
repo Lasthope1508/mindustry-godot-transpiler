@@ -13332,6 +13332,123 @@
       "java_expr": "var oldGraph = power.graph;",
       "godot_symbol": "source_building_change_team_power_links_input.old_graph",
       "rule": "Old power graph captured before reflow."
+    },
+    "building_change_team_power_proximity.gate": {
+      "tests": [
+        "test_building_change_team_power_proximity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_power_proximity_state",
+      "godot_owner": "PortGame.source_building_change_team_power_proximity_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "source-backed",
+      "java_expr": "if(power != null && updatePower){",
+      "godot_symbol": "source_building_change_team_power_proximity_result.proximity_reflow",
+      "rule": "Power proximity update runs only when power exists and updatePower is true."
+    },
+    "building_change_team_power_proximity.old_graph": {
+      "tests": [
+        "test_building_change_team_power_proximity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_power_proximity_state",
+      "godot_owner": "PortGame.source_building_change_team_power_proximity_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "source-backed",
+      "java_expr": "var oldGraph = power.graph;",
+      "godot_symbol": "source_building_change_team_power_proximity_result.old_graph",
+      "rule": "Captures old power graph before proximity reflow."
+    },
+    "building_change_team_power_proximity.loop": {
+      "tests": [
+        "test_building_change_team_power_proximity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_power_proximity_state",
+      "godot_owner": "PortGame.source_building_change_team_power_proximity_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "source-backed",
+      "java_expr": "for(var other : proximity){",
+      "godot_symbol": "source_building_change_team_power_proximity_result.proximity_reflow",
+      "rule": "Iterates proximity buildings for old graph reflow."
+    },
+    "building_change_team_power_proximity.predicate": {
+      "tests": [
+        "test_building_change_team_power_proximity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_power_proximity_state",
+      "godot_owner": "PortGame.source_building_change_team_power_proximity_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "source-backed",
+      "java_expr": "if(other != null && other.team != team && other.power != null && other.power.graph == oldGraph){",
+      "godot_symbol": "source_building_change_team_power_proximity_result.proximity_reflow",
+      "rule": "Reflows only neighboring power buildings still on old graph and different team."
+    },
+    "building_change_team_power_proximity.reflow_other": {
+      "tests": [
+        "test_building_change_team_power_proximity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_power_proximity_state",
+      "godot_owner": "PortGame.source_building_change_team_power_proximity_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "source-backed",
+      "java_expr": "new PowerGraph().reflow(other);",
+      "godot_symbol": "source_building_change_team_power_proximity_result.proximity_reflow",
+      "rule": "Reflows affected neighboring power graph."
+    },
+    "building_change_team_power_proximity.power_present": {
+      "tests": [
+        "test_building_change_team_power_proximity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_power_proximity_state",
+      "godot_owner": "PortGame.source_building_change_team_power_proximity_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "explicit-input",
+      "java_expr": "power != null",
+      "godot_symbol": "source_building_change_team_power_proximity_input.power_present",
+      "rule": "Power component presence supplied to canonical helper."
+    },
+    "building_change_team_power_proximity.update_power": {
+      "tests": [
+        "test_building_change_team_power_proximity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_power_proximity_state",
+      "godot_owner": "PortGame.source_building_change_team_power_proximity_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "explicit-input",
+      "java_expr": "updatePower",
+      "godot_symbol": "source_building_change_team_power_proximity_input.update_power",
+      "rule": "updatePower argument supplied to canonical helper."
+    },
+    "building_change_team_power_proximity.old_graph_input": {
+      "tests": [
+        "test_building_change_team_power_proximity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_power_proximity_state",
+      "godot_owner": "PortGame.source_building_change_team_power_proximity_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "explicit-input",
+      "java_expr": "var oldGraph = power.graph;",
+      "godot_symbol": "source_building_change_team_power_proximity_input.old_graph",
+      "rule": "Old graph supplied to canonical helper."
+    },
+    "building_change_team_power_proximity.team": {
+      "tests": [
+        "test_building_change_team_power_proximity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_power_proximity_state",
+      "godot_owner": "PortGame.source_building_change_team_power_proximity_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "explicit-input",
+      "java_expr": "team",
+      "godot_symbol": "source_building_change_team_power_proximity_input.team",
+      "rule": "Current team supplied to canonical helper."
     }
   }
 }
