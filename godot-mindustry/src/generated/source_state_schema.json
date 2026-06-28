@@ -71,7 +71,8 @@
             "PortGame.source_bullet_type_handle_pierce_state",
             "PortGame.source_bullet_type_hit_entity_damage_cap_state",
             "PortGame.source_bullet_type_building_damage_state",
-            "PortGame.source_bullet_type_shield_damage_state"
+            "PortGame.source_bullet_type_shield_damage_state",
+            "PortGame.source_bullet_type_create_lifetime_payload_damage_state"
           ],
           "rule": "Use mutable b.damage for handlePierce damage subtraction."
         },
@@ -83,7 +84,8 @@
           "java_expr": "b.buildingDamageMultiplier",
           "godot_symbol": "bullet_state.buildingDamageMultiplier",
           "used_by": [
-            "PortGame.source_bullet_type_building_damage_state"
+            "PortGame.source_bullet_type_building_damage_state",
+            "PortGame.source_bullet_type_create_lifetime_payload_damage_state"
           ],
           "rule": "Canonical Bullet.buildingDamageMultiplier assigned during BulletType.create for buildingDamage return."
         },
@@ -284,6 +286,54 @@
             "PortGame.source_bullet_type_create_velocity_position_state"
           ],
           "rule": "Canonical Bullet lastY field assigned during BulletType.create velocity/position setup."
+        },
+        "lifetime": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "bullet.lifetime",
+          "godot_symbol": "bullet_state.lifetime",
+          "used_by": [
+            "PortGame.source_bullet_type_create_lifetime_payload_damage_state"
+          ],
+          "rule": "Bullet lifetime assigned during BulletType.create lifetime/payload/damage slice."
+        },
+        "data": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "bullet.data",
+          "godot_symbol": "bullet_state.data",
+          "used_by": [
+            "PortGame.source_bullet_type_create_lifetime_payload_damage_state"
+          ],
+          "rule": "Bullet data assigned directly from create call data."
+        },
+        "hitSize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "bullet.hitSize",
+          "godot_symbol": "bullet_state.hitSize",
+          "used_by": [
+            "PortGame.source_bullet_type_create_lifetime_payload_damage_state"
+          ],
+          "rule": "Bullet hitSize assigned from BulletType.hitSize during create."
+        },
+        "mover": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "bullet.mover",
+          "godot_symbol": "bullet_state.mover",
+          "used_by": [
+            "PortGame.source_bullet_type_create_lifetime_payload_damage_state"
+          ],
+          "rule": "Bullet mover assigned directly from create call mover."
         }
       }
     },
@@ -339,7 +389,8 @@
           "java_expr": "damage",
           "godot_symbol": "bullet_type_state.damage",
           "used_by": [
-            "PortGame.source_bullet_type_hit_tile_lifesteal_state"
+            "PortGame.source_bullet_type_hit_tile_lifesteal_state",
+            "PortGame.source_bullet_type_create_lifetime_payload_damage_state"
           ],
           "rule": "Canonical BulletType.damage field for hitTile lifesteal result clamp."
         },
@@ -1088,7 +1139,8 @@
           "godot_symbol": "bullet_type_state.lifetime",
           "used_by": [
             "PortGame.source_bullet_type_init_initial_state",
-            "PortGame.source_bullet_type_calculate_range_fallback_state"
+            "PortGame.source_bullet_type_calculate_range_fallback_state",
+            "PortGame.source_bullet_type_create_lifetime_payload_damage_state"
           ],
           "rule": "Canonical BulletType.lifetime field; default is 40f in BulletType.java."
         },
@@ -1585,7 +1637,8 @@
           "java_expr": "hitSize",
           "godot_symbol": "bullet_type_state.hitSize",
           "used_by": [
-            "PortGame.source_bullet_type_init_light_radius_state"
+            "PortGame.source_bullet_type_init_light_radius_state",
+            "PortGame.source_bullet_type_create_lifetime_payload_damage_state"
           ],
           "rule": "Canonical BulletType.hitSize field; default is 4."
         },
@@ -1745,6 +1798,42 @@
             "PortGame.source_bullet_type_create_velocity_position_state"
           ],
           "rule": "Canonical BulletType.velocityScaleRandMax field; default is 1f."
+        },
+        "lifeScaleRandMin": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "BulletType fields",
+          "java_expr": "lifeScaleRandMin",
+          "godot_symbol": "bullet_type_state.lifeScaleRandMin",
+          "used_by": [
+            "PortGame.source_bullet_type_create_lifetime_payload_damage_state"
+          ],
+          "rule": "Canonical BulletType.lifeScaleRandMin field; default is 1f."
+        },
+        "lifeScaleRandMax": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "BulletType fields",
+          "java_expr": "lifeScaleRandMax",
+          "godot_symbol": "bullet_type_state.lifeScaleRandMax",
+          "used_by": [
+            "PortGame.source_bullet_type_create_lifetime_payload_damage_state"
+          ],
+          "rule": "Canonical BulletType.lifeScaleRandMax field; default is 1f."
+        },
+        "buildingDamageMultiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "BulletType fields",
+          "java_expr": "buildingDamageMultiplier",
+          "godot_symbol": "bullet_type_state.buildingDamageMultiplier",
+          "used_by": [
+            "PortGame.source_bullet_type_create_lifetime_payload_damage_state"
+          ],
+          "rule": "Canonical BulletType.buildingDamageMultiplier field; default is 1f."
         }
       }
     },
@@ -11732,6 +11821,167 @@
           "status": "deferred",
           "alias_of": "source_line.create_velocity_position.lifetime_boundary",
           "rule": "Boundary for deferred lifetime/payload/damage slice."
+        }
+      }
+    },
+    "create_lifetime_payload_damage_result": {
+      "status": "active",
+      "keys": {
+        "bulletContinues": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "create_velocity_position_result.bulletContinues",
+          "rule": "Whether create chain continues after lifetime/payload/damage handling."
+        },
+        "bulletLifetimePayloadDamageApplied": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "bullet.lifetime = ...; bullet.data = data; bullet.hitSize = hitSize; bullet.mover = mover; bullet.damage = ...; bullet.buildingDamageMultiplier = buildingDamageMultiplier;",
+          "rule": "Whether lifetime, payload, damage, and building damage multiplier assignments were applied."
+        },
+        "lifeScaleRandMin": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_type_state.lifeScaleRandMin",
+          "rule": "Runtime echo of lifeScaleRandMin used by source random multiplier gate."
+        },
+        "lifeScaleRandMax": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_type_state.lifeScaleRandMax",
+          "rule": "Runtime echo of lifeScaleRandMax used by source random multiplier gate."
+        },
+        "lifeScaleRandomFactor": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "Mathf.random(lifeScaleRandMin, lifeScaleRandMax)",
+          "godot_symbol": "create_lifetime_payload_damage_result.lifeScaleRandomFactor",
+          "used_by": [
+            "PortGame.source_bullet_type_create_lifetime_payload_damage_state"
+          ],
+          "rule": "Explicit input for source random lifetime factor when random bounds differ from 1f."
+        },
+        "lifeRandomMultiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f",
+          "godot_symbol": "create_lifetime_payload_damage_result.lifeRandomMultiplier",
+          "used_by": [
+            "PortGame.source_bullet_type_create_lifetime_payload_damage_state"
+          ],
+          "rule": "Exact source ternary selecting random lifetime multiplier or 1f."
+        },
+        "lifetimeAmount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f)",
+          "godot_symbol": "create_lifetime_payload_damage_result.lifetimeAmount",
+          "used_by": [
+            "PortGame.source_bullet_type_create_lifetime_payload_damage_state"
+          ],
+          "rule": "Exact amount assigned to bullet.lifetime."
+        },
+        "baseDamage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "damage < 0 ? this.damage : damage",
+          "godot_symbol": "create_lifetime_payload_damage_result.baseDamage",
+          "used_by": [
+            "PortGame.source_bullet_type_create_lifetime_payload_damage_state"
+          ],
+          "rule": "Exact create damage override ternary before damage multiplier."
+        },
+        "damageMultiplierFactor": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "java_method": "damageMultiplier()",
+          "java_expr": "bullet.damageMultiplier()",
+          "godot_symbol": "create_lifetime_payload_damage_result.damageMultiplierFactor",
+          "used_by": [
+            "PortGame.source_bullet_type_create_lifetime_payload_damage_state"
+          ],
+          "rule": "Explicit input for delegated BulletComp.damageMultiplier() result."
+        },
+        "damageAmount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "(damage < 0 ? this.damage : damage) * bullet.damageMultiplier()",
+          "godot_symbol": "create_lifetime_payload_damage_result.damageAmount",
+          "used_by": [
+            "PortGame.source_bullet_type_create_lifetime_payload_damage_state"
+          ],
+          "rule": "Exact amount assigned to bullet.damage."
+        },
+        "bullet": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "create_velocity_position_result.bullet",
+          "rule": "Bullet dictionary after lifetime, payload, hitSize, mover, damage, and buildingDamageMultiplier assignment."
+        },
+        "lifetimeSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_lifetime_payload_damage.lifetime_assignment",
+          "rule": "Runtime source label for lifetime assignment."
+        },
+        "dataSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_lifetime_payload_damage.data_assignment",
+          "rule": "Runtime source label for data assignment."
+        },
+        "hitSizeSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_lifetime_payload_damage.hit_size_assignment",
+          "rule": "Runtime source label for hitSize assignment."
+        },
+        "moverSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_lifetime_payload_damage.mover_assignment",
+          "rule": "Runtime source label for mover assignment."
+        },
+        "damageSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_lifetime_payload_damage.damage_assignment",
+          "rule": "Runtime source label for damage assignment."
+        },
+        "damageMultiplierSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_lifetime_payload_damage.bullet_comp_damage_multiplier",
+          "rule": "Runtime source label for BulletComp.damageMultiplier delegation."
+        },
+        "buildingDamageMultiplierSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_lifetime_payload_damage.building_damage_multiplier_assignment",
+          "rule": "Runtime source label for buildingDamageMultiplier assignment."
+        },
+        "trailClearReservedSource": {
+          "type": "String",
+          "status": "deferred",
+          "alias_of": "source_line.create_lifetime_payload_damage.trail_clear_boundary",
+          "rule": "Boundary for deferred trail reset slice."
+        },
+        "addReservedSource": {
+          "type": "String",
+          "status": "deferred",
+          "alias_of": "source_line.create_lifetime_payload_damage.add_boundary",
+          "rule": "Boundary for deferred bullet add slice."
         }
       }
     }

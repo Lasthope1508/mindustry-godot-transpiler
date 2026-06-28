@@ -3545,6 +3545,68 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_velocity_position_state",
       "rule": "Public runtime contract for BulletType.create initVel, position, and last position assignment before lifetime/payload/damage."
+    },
+    "PortGame.source_bullet_type_create_lifetime_payload_damage_state": {
+      "status": "active",
+      "source_slice": "N482",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "params": [
+        {
+          "name": "velocity_position_state",
+          "type": "Dictionary",
+          "schema": "create_velocity_position_result"
+        },
+        {
+          "name": "create_call_state",
+          "type": "Dictionary",
+          "schema": "create_call_state"
+        },
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "life_scale_random_factor",
+          "type": "float",
+          "schema": "Mathf.random(lifeScaleRandMin, lifeScaleRandMax)"
+        },
+        {
+          "name": "damage_multiplier_factor",
+          "type": "float",
+          "schema": "bullet.damageMultiplier()"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "bulletLifetimePayloadDamageApplied",
+        "lifeScaleRandMin",
+        "lifeScaleRandMax",
+        "lifeScaleRandomFactor",
+        "lifeRandomMultiplier",
+        "lifetimeAmount",
+        "baseDamage",
+        "damageMultiplierFactor",
+        "damageAmount",
+        "bullet",
+        "lifetimeSource",
+        "dataSource",
+        "hitSizeSource",
+        "moverSource",
+        "damageSource",
+        "damageMultiplierSource",
+        "buildingDamageMultiplierSource",
+        "trailClearReservedSource",
+        "addReservedSource"
+      ],
+      "tests": [
+        "test_bullet_type_create_lifetime_payload_damage_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_lifetime_payload_damage_state",
+        "test_bullet_type_create_lifetime_payload_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_lifetime_payload_damage_state",
+      "rule": "Public runtime contract for BulletType.create lifetime, payload, hit size, mover, damage, and building damage multiplier before trail reset/add."
     }
   },
   "policy": {

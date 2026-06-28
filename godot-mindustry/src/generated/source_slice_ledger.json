@@ -2452,6 +2452,64 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_velocity_position_state",
       "rule": "Backfills SSOT for existing BulletType.create velocity and position runtime state; lifetime/payload/damage remains deferred to the next source-backed owner."
+    },
+    "N482": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "godot_owner": "PortGame.source_bullet_type_create_lifetime_payload_damage_state",
+      "exact_exprs": [
+        "bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f);",
+        "bullet.data = data;",
+        "bullet.hitSize = hitSize;",
+        "bullet.mover = mover;",
+        "bullet.damage = (damage < 0 ? this.damage : damage) * bullet.damageMultiplier();",
+        "bullet.buildingDamageMultiplier = buildingDamageMultiplier;",
+        "public float lifetime = 40f;",
+        "public float lifeScaleRandMin = 1f, lifeScaleRandMax = 1f;",
+        "public float damage = 1f;",
+        "public float hitSize = 4;",
+        "public float buildingDamageMultiplier = 1f;",
+        "Object data;",
+        "transient float buildingDamageMultiplier;",
+        "transient @Nullable Mover mover;",
+        "public float damageMultiplier(){\n        return type.damageMultiplier(self());\n    }",
+        "public float damageMultiplier(Bullet b){\n        if(b.owner instanceof Unit u) return u.damageMultiplier() * state.rules.unitDamage(b.team);\n        if(b.owner instanceof Building) return state.rules.blockDamage(b.team);\n\n        return 1f;\n    }"
+      ],
+      "deferred_exprs": [
+        "if(bullet.trail != null){",
+        "bullet.add();"
+      ],
+      "source_symbols": [
+        "create_lifetime_payload_damage.lifetime_assignment",
+        "create_lifetime_payload_damage.lifetime_amount_formula",
+        "create_lifetime_payload_damage.life_random_multiplier",
+        "create_lifetime_payload_damage.life_scale_random_factor",
+        "create_lifetime_payload_damage.lifetime_field",
+        "create_lifetime_payload_damage.life_scale_rand_fields",
+        "create_lifetime_payload_damage.life_scale_rand_max_field",
+        "create_lifetime_payload_damage.data_assignment",
+        "create_lifetime_payload_damage.hit_size_assignment",
+        "create_lifetime_payload_damage.mover_assignment",
+        "create_lifetime_payload_damage.damage_assignment",
+        "create_lifetime_payload_damage.base_damage_selection",
+        "create_lifetime_payload_damage.damage_multiplier_factor",
+        "create_lifetime_payload_damage.bullet_comp_damage_multiplier",
+        "create_lifetime_payload_damage.bullet_type_damage_multiplier",
+        "create_lifetime_payload_damage.building_damage_multiplier_assignment",
+        "create_lifetime_payload_damage.building_damage_multiplier_field",
+        "create_lifetime_payload_damage.bullet_comp_payload_fields",
+        "create_lifetime_payload_damage.trail_clear_boundary",
+        "create_lifetime_payload_damage.add_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_lifetime_payload_damage_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_lifetime_payload_damage_state",
+        "test_bullet_type_create_lifetime_payload_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_lifetime_payload_damage_state",
+      "rule": "Backfills SSOT for existing BulletType.create lifetime, payload, hit size, mover, damage, and building-damage-multiplier runtime state; trail reset/add remains deferred to the next source-backed owner."
     }
   },
   "version": 1

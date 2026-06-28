@@ -2071,14 +2071,56 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(lifetime_boundary["status"], "deferred")
         self.assertEqual(lifetime_boundary["java_expr"], "bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f);")
 
+    def test_bullet_type_create_lifetime_payload_damage_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        lifetime_assignment = source_symbols.source_symbol(registry, "create_lifetime_payload_damage.lifetime_assignment")
+        self.assertEqual(lifetime_assignment["java_expr"], "bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f);")
+        self.assertEqual(lifetime_assignment["godot_symbol"], "create_lifetime_payload_damage_result.bullet.lifetime")
+        self.assertEqual(lifetime_assignment["godot_owner"], "PortGame.source_bullet_type_create_lifetime_payload_damage_state")
+        self.assertEqual(lifetime_assignment["runtime_proof"], "/root/Main.source_bullet_type_create_lifetime_payload_damage_state")
+
+        life_scale_random_factor = source_symbols.source_symbol(registry, "create_lifetime_payload_damage.life_scale_random_factor")
+        self.assertEqual(life_scale_random_factor["status"], "explicit-input")
+        self.assertEqual(life_scale_random_factor["java_expr"], "Mathf.random(lifeScaleRandMin, lifeScaleRandMax)")
+        self.assertEqual(life_scale_random_factor["godot_symbol"], "life_scale_random_factor")
+
+        data_assignment = source_symbols.source_symbol(registry, "create_lifetime_payload_damage.data_assignment")
+        self.assertEqual(data_assignment["java_expr"], "bullet.data = data;")
+        self.assertEqual(data_assignment["godot_symbol"], "create_lifetime_payload_damage_result.bullet.data")
+
+        hit_size_assignment = source_symbols.source_symbol(registry, "create_lifetime_payload_damage.hit_size_assignment")
+        self.assertEqual(hit_size_assignment["java_expr"], "bullet.hitSize = hitSize;")
+        self.assertEqual(hit_size_assignment["godot_symbol"], "create_lifetime_payload_damage_result.bullet.hitSize")
+
+        damage_assignment = source_symbols.source_symbol(registry, "create_lifetime_payload_damage.damage_assignment")
+        self.assertEqual(damage_assignment["java_expr"], "bullet.damage = (damage < 0 ? this.damage : damage) * bullet.damageMultiplier();")
+        self.assertEqual(damage_assignment["godot_symbol"], "create_lifetime_payload_damage_result.bullet.damage")
+
+        damage_multiplier_factor = source_symbols.source_symbol(registry, "create_lifetime_payload_damage.damage_multiplier_factor")
+        self.assertEqual(damage_multiplier_factor["status"], "explicit-input")
+        self.assertEqual(damage_multiplier_factor["java_expr"], "bullet.damageMultiplier()")
+        self.assertEqual(damage_multiplier_factor["godot_symbol"], "damage_multiplier_factor")
+
+        building_damage_multiplier = source_symbols.source_symbol(registry, "create_lifetime_payload_damage.building_damage_multiplier_assignment")
+        self.assertEqual(building_damage_multiplier["java_expr"], "bullet.buildingDamageMultiplier = buildingDamageMultiplier;")
+        self.assertEqual(building_damage_multiplier["godot_symbol"], "create_lifetime_payload_damage_result.bullet.buildingDamageMultiplier")
+
+        trail_clear_boundary = source_symbols.source_symbol(registry, "create_lifetime_payload_damage.trail_clear_boundary")
+        self.assertEqual(trail_clear_boundary["status"], "deferred")
+        self.assertEqual(trail_clear_boundary["java_expr"], "if(bullet.trail != null){")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 79)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 80)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 84)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 85)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -2152,6 +2194,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_create_bullet_identity_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_aim_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_velocity_position_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_create_lifetime_payload_damage_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -2773,6 +2816,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public void initVel(float angle, float amount){\n        vel.trns(angle, amount);\n        rotation = angle;\n    }", create_velocity_position["exact_exprs"])
         self.assertIn("@Import float x, y, damage, lastX, lastY, time, lifetime;", create_velocity_position["exact_exprs"])
         self.assertIn("bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f);", create_velocity_position["deferred_exprs"])
+
+        create_lifetime_payload_damage = source_symbols.source_slice(ledger, "N482")
+        self.assertEqual(create_lifetime_payload_damage["java_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(create_lifetime_payload_damage["java_method"], "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)")
+        self.assertEqual(create_lifetime_payload_damage["godot_owner"], "PortGame.source_bullet_type_create_lifetime_payload_damage_state")
+        self.assertIn("bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f);", create_lifetime_payload_damage["exact_exprs"])
+        self.assertIn("bullet.data = data;", create_lifetime_payload_damage["exact_exprs"])
+        self.assertIn("bullet.hitSize = hitSize;", create_lifetime_payload_damage["exact_exprs"])
+        self.assertIn("bullet.mover = mover;", create_lifetime_payload_damage["exact_exprs"])
+        self.assertIn("bullet.damage = (damage < 0 ? this.damage : damage) * bullet.damageMultiplier();", create_lifetime_payload_damage["exact_exprs"])
+        self.assertIn("bullet.buildingDamageMultiplier = buildingDamageMultiplier;", create_lifetime_payload_damage["exact_exprs"])
+        self.assertIn("public float damageMultiplier(){\n        return type.damageMultiplier(self());\n    }", create_lifetime_payload_damage["exact_exprs"])
+        self.assertIn("if(bullet.trail != null){", create_lifetime_payload_damage["deferred_exprs"])
+        self.assertIn("bullet.add();", create_lifetime_payload_damage["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -3528,6 +3585,26 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("lastYSource", create_velocity_position["return_keys"])
         self.assertIn("lifetimeReservedSource", create_velocity_position["return_keys"])
         self.assertEqual(create_velocity_position["source_method"], "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)")
+
+        create_lifetime_payload_damage = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_create_lifetime_payload_damage_state")
+        self.assertEqual([param["name"] for param in create_lifetime_payload_damage["params"]], ["velocity_position_state", "create_call_state", "bullet_type_state", "life_scale_random_factor", "damage_multiplier_factor"])
+        self.assertEqual(create_lifetime_payload_damage["params"][0]["schema"], "create_velocity_position_result")
+        self.assertEqual(create_lifetime_payload_damage["params"][1]["schema"], "create_call_state")
+        self.assertEqual(create_lifetime_payload_damage["params"][2]["schema"], "bullet_type_state")
+        self.assertEqual(create_lifetime_payload_damage["params"][3]["schema"], "Mathf.random(lifeScaleRandMin, lifeScaleRandMax)")
+        self.assertEqual(create_lifetime_payload_damage["params"][4]["schema"], "bullet.damageMultiplier()")
+        self.assertIn("bulletLifetimePayloadDamageApplied", create_lifetime_payload_damage["return_keys"])
+        self.assertIn("lifeRandomMultiplier", create_lifetime_payload_damage["return_keys"])
+        self.assertIn("lifetimeAmount", create_lifetime_payload_damage["return_keys"])
+        self.assertIn("baseDamage", create_lifetime_payload_damage["return_keys"])
+        self.assertIn("damageMultiplierFactor", create_lifetime_payload_damage["return_keys"])
+        self.assertIn("damageAmount", create_lifetime_payload_damage["return_keys"])
+        self.assertIn("bullet", create_lifetime_payload_damage["return_keys"])
+        self.assertIn("lifetimeSource", create_lifetime_payload_damage["return_keys"])
+        self.assertIn("damageMultiplierSource", create_lifetime_payload_damage["return_keys"])
+        self.assertIn("trailClearReservedSource", create_lifetime_payload_damage["return_keys"])
+        self.assertIn("addReservedSource", create_lifetime_payload_damage["return_keys"])
+        self.assertEqual(create_lifetime_payload_damage["source_method"], "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -4346,6 +4423,27 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_create_velocity_position_state", bullet_type_state["keys"]["speed"]["used_by"])
         self.assertIn("PortGame.source_bullet_type_create_velocity_position_state", bullet_type_state["keys"]["velocityScaleRandMin"]["used_by"])
         self.assertIn("PortGame.source_bullet_type_create_velocity_position_state", bullet_type_state["keys"]["velocityScaleRandMax"]["used_by"])
+
+        create_lifetime_payload_damage_output = source_symbols.state_schema(schema, "create_lifetime_payload_damage_result")
+        self.assertEqual(create_lifetime_payload_damage_output["keys"]["bulletLifetimePayloadDamageApplied"]["alias_of"], "bullet.lifetime = ...; bullet.data = data; bullet.hitSize = hitSize; bullet.mover = mover; bullet.damage = ...; bullet.buildingDamageMultiplier = buildingDamageMultiplier;")
+        self.assertEqual(create_lifetime_payload_damage_output["keys"]["lifetimeAmount"]["java_expr"], "lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f)")
+        self.assertEqual(create_lifetime_payload_damage_output["keys"]["lifeRandomMultiplier"]["java_expr"], "lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f")
+        self.assertEqual(create_lifetime_payload_damage_output["keys"]["baseDamage"]["java_expr"], "damage < 0 ? this.damage : damage")
+        self.assertEqual(create_lifetime_payload_damage_output["keys"]["damageAmount"]["java_expr"], "(damage < 0 ? this.damage : damage) * bullet.damageMultiplier()")
+        self.assertEqual(create_lifetime_payload_damage_output["keys"]["bullet"]["alias_of"], "create_velocity_position_result.bullet")
+        self.assertEqual(create_lifetime_payload_damage_output["keys"]["lifetimeSource"]["alias_of"], "source_line.create_lifetime_payload_damage.lifetime_assignment")
+        self.assertEqual(create_lifetime_payload_damage_output["keys"]["damageMultiplierSource"]["alias_of"], "source_line.create_lifetime_payload_damage.bullet_comp_damage_multiplier")
+        self.assertEqual(create_lifetime_payload_damage_output["keys"]["trailClearReservedSource"]["alias_of"], "source_line.create_lifetime_payload_damage.trail_clear_boundary")
+
+        self.assertEqual(bullet_type_state["keys"]["lifeScaleRandMin"]["java_expr"], "lifeScaleRandMin")
+        self.assertEqual(bullet_type_state["keys"]["lifeScaleRandMax"]["java_expr"], "lifeScaleRandMax")
+        self.assertEqual(bullet_type_state["keys"]["buildingDamageMultiplier"]["java_expr"], "buildingDamageMultiplier")
+        self.assertIn("PortGame.source_bullet_type_create_lifetime_payload_damage_state", bullet_type_state["keys"]["lifetime"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_create_lifetime_payload_damage_state", bullet_type_state["keys"]["lifeScaleRandMin"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_create_lifetime_payload_damage_state", bullet_type_state["keys"]["lifeScaleRandMax"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_create_lifetime_payload_damage_state", bullet_type_state["keys"]["damage"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_create_lifetime_payload_damage_state", bullet_type_state["keys"]["hitSize"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_create_lifetime_payload_damage_state", bullet_type_state["keys"]["buildingDamageMultiplier"]["used_by"])
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")
