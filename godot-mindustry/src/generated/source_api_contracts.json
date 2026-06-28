@@ -7625,6 +7625,32 @@
       ],
       "runtime_proof": "/root/Main.source_building_kill_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.kill helper."
+    },
+    "PortGame.source_building_killed_initial_side_effects_state": {
+      "status": "active",
+      "source_slice": "N601",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "killed()",
+      "params": [
+        {
+          "name": "tile_value",
+          "type": "Variant",
+          "schema": "source_building_killed_initial_side_effects_input.tile_value"
+        }
+      ],
+      "return_keys": [
+        "tile_value",
+        "method",
+        "dead",
+        "event",
+        "on_destroyed_called",
+        "next_step"
+      ],
+      "tests": [
+        "test_building_killed_initial_side_effects_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_killed_initial_side_effects_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.killed initial side effects helper."
     }
   },
   "policy": {

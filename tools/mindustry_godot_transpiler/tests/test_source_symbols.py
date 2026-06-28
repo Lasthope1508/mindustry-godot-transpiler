@@ -5238,6 +5238,41 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(self_state["java_expr"], "self()")
         self.assertEqual(self_state["godot_symbol"], "source_building_kill_input.self_state")
 
+    def test_building_killed_initial_side_effects_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_killed_initial_side_effects.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "killed()")
+        self.assertEqual(method["java_expr"], "public void killed(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_killed_initial_side_effects_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_killed_initial_side_effects_state")
+        self.assertEqual(method["godot_symbol"], "source_building_killed_initial_side_effects_result.method")
+
+        dead_assignment = source_symbols.source_symbol(registry, "building_killed_initial_side_effects.dead_assignment")
+        self.assertEqual(dead_assignment["java_expr"], "dead = true;")
+        self.assertEqual(dead_assignment["godot_symbol"], "source_building_killed_initial_side_effects_result.dead")
+
+        block_destroy_event = source_symbols.source_symbol(registry, "building_killed_initial_side_effects.block_destroy_event")
+        self.assertEqual(block_destroy_event["java_expr"], "Events.fire(new BlockDestroyEvent(tile));")
+        self.assertEqual(block_destroy_event["godot_symbol"], "source_building_killed_initial_side_effects_result.event")
+
+        on_destroyed_call = source_symbols.source_symbol(registry, "building_killed_initial_side_effects.on_destroyed_call")
+        self.assertEqual(on_destroyed_call["java_expr"], "onDestroyed();")
+        self.assertEqual(on_destroyed_call["godot_symbol"], "source_building_killed_initial_side_effects_result.on_destroyed_called")
+
+        tile_remove_boundary = source_symbols.source_symbol(registry, "building_killed_initial_side_effects.tile_remove_boundary")
+        self.assertEqual(tile_remove_boundary["java_expr"], "if(tile != emptyTile){")
+        self.assertEqual(tile_remove_boundary["godot_symbol"], "source_building_killed_initial_side_effects_result.next_step")
+
+        tile_value = source_symbols.source_symbol(registry, "building_killed_initial_side_effects.tile_value")
+        self.assertEqual(tile_value["status"], "explicit-input")
+        self.assertEqual(tile_value["java_expr"], "tile")
+        self.assertEqual(tile_value["godot_symbol"], "source_building_killed_initial_side_effects_input.tile_value")
+
     def test_building_in_fog_discovery_gate_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -5608,9 +5643,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 198)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 199)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 203)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 204)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -5626,6 +5661,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_is_payload_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7429,6 +7465,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("Call.buildDestroyed(self());", building_kill["exact_exprs"])
         self.assertIn("self()", building_kill["exact_exprs"])
 
+        building_killed_initial = source_symbols.source_slice(ledger, "N601")
+        self.assertEqual(building_killed_initial["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_killed_initial["java_method"], "killed()")
+        self.assertEqual(building_killed_initial["godot_owner"], "PortGame.source_building_killed_initial_side_effects_state")
+        self.assertIn("public void killed(){", building_killed_initial["exact_exprs"])
+        self.assertIn("dead = true;", building_killed_initial["exact_exprs"])
+        self.assertIn("Events.fire(new BlockDestroyEvent(tile));", building_killed_initial["exact_exprs"])
+        self.assertIn("onDestroyed();", building_killed_initial["exact_exprs"])
+        self.assertIn("if(tile != emptyTile){", building_killed_initial["exact_exprs"])
+        self.assertIn("tile", building_killed_initial["exact_exprs"])
+
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
         self.assertEqual(arc_mathf_cos_scaled["java_method"], "cos(float radians, float scl, float mag)")
@@ -9137,6 +9184,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("method", building_kill["return_keys"])
         self.assertIn("build_destroyed_call", building_kill["return_keys"])
         self.assertEqual(building_kill["source_method"], "kill()")
+
+        building_killed_initial = source_symbols.api_contract(contracts, "PortGame.source_building_killed_initial_side_effects_state")
+        self.assertEqual([param["name"] for param in building_killed_initial["params"]], ["tile_value"])
+        self.assertEqual(building_killed_initial["params"][0]["schema"], "source_building_killed_initial_side_effects_input.tile_value")
+        self.assertIn("tile_value", building_killed_initial["return_keys"])
+        self.assertIn("method", building_killed_initial["return_keys"])
+        self.assertIn("dead", building_killed_initial["return_keys"])
+        self.assertIn("event", building_killed_initial["return_keys"])
+        self.assertIn("on_destroyed_called", building_killed_initial["return_keys"])
+        self.assertIn("next_step", building_killed_initial["return_keys"])
+        self.assertEqual(building_killed_initial["source_method"], "killed()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -11359,6 +11417,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_kill_result["keys"]["method"]["java_expr"], "public void kill(){")
         self.assertEqual(source_building_kill_result["keys"]["build_destroyed_call"]["java_expr"], "Call.buildDestroyed(self());")
         self.assertEqual(source_building_kill_result["keys"]["self_state"]["alias_of"], "source_building_kill_input.self_state")
+
+        source_building_killed_initial_input = source_symbols.state_schema(schema, "source_building_killed_initial_side_effects_input")
+        self.assertEqual(source_building_killed_initial_input["keys"]["tile_value"]["java_expr"], "tile")
+        self.assertEqual(source_building_killed_initial_input["keys"]["tile_value"]["status"], "explicit-input")
+
+        source_building_killed_initial_result = source_symbols.state_schema(schema, "source_building_killed_initial_side_effects_result")
+        self.assertEqual(source_building_killed_initial_result["keys"]["method"]["java_expr"], "public void killed(){")
+        self.assertEqual(source_building_killed_initial_result["keys"]["dead"]["java_expr"], "dead = true;")
+        self.assertEqual(source_building_killed_initial_result["keys"]["event"]["java_expr"], "Events.fire(new BlockDestroyEvent(tile));")
+        self.assertEqual(source_building_killed_initial_result["keys"]["on_destroyed_called"]["java_expr"], "onDestroyed();")
+        self.assertEqual(source_building_killed_initial_result["keys"]["next_step"]["java_expr"], "if(tile != emptyTile){")
+        self.assertEqual(source_building_killed_initial_result["keys"]["tile_value"]["alias_of"], "source_building_killed_initial_side_effects_input.tile_value")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

@@ -25168,6 +25168,94 @@
           "rule": "Carries self_state input into result schema."
         }
       }
+    },
+    "source_building_killed_initial_side_effects_input": {
+      "status": "active",
+      "keys": {
+        "tile_value": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "killed()",
+          "java_expr": "tile",
+          "godot_symbol": "source_building_killed_initial_side_effects_input.tile_value",
+          "used_by": [
+            "PortGame.source_building_killed_initial_side_effects_state"
+          ],
+          "rule": "Runtime tile_value supplies source tile for BlockDestroyEvent and removal gate."
+        }
+      }
+    },
+    "source_building_killed_initial_side_effects_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "killed()",
+          "java_expr": "public void killed(){",
+          "godot_symbol": "source_building_killed_initial_side_effects_result.method",
+          "used_by": [
+            "PortGame.source_building_killed_initial_side_effects_state"
+          ],
+          "rule": "BuildingComp killed method boundary."
+        },
+        "dead": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "killed()",
+          "java_expr": "dead = true;",
+          "godot_symbol": "source_building_killed_initial_side_effects_result.dead",
+          "used_by": [
+            "PortGame.source_building_killed_initial_side_effects_state"
+          ],
+          "rule": "BuildingComp killed marks building dead before destruction event."
+        },
+        "event": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "killed()",
+          "java_expr": "Events.fire(new BlockDestroyEvent(tile));",
+          "godot_symbol": "source_building_killed_initial_side_effects_result.event",
+          "used_by": [
+            "PortGame.source_building_killed_initial_side_effects_state"
+          ],
+          "rule": "BuildingComp killed fires BlockDestroyEvent for tile."
+        },
+        "on_destroyed_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "killed()",
+          "java_expr": "onDestroyed();",
+          "godot_symbol": "source_building_killed_initial_side_effects_result.on_destroyed_called",
+          "used_by": [
+            "PortGame.source_building_killed_initial_side_effects_state"
+          ],
+          "rule": "BuildingComp killed invokes onDestroyed before removal side effects."
+        },
+        "next_step": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "killed()",
+          "java_expr": "if(tile != emptyTile){",
+          "godot_symbol": "source_building_killed_initial_side_effects_result.next_step",
+          "used_by": [
+            "PortGame.source_building_killed_initial_side_effects_state"
+          ],
+          "rule": "BuildingComp killed continues into tile remove gate when tile is not emptyTile."
+        },
+        "tile_value": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_killed_initial_side_effects_input.tile_value",
+          "rule": "Carries tile_value input into result schema."
+        }
+      }
     }
   },
   "version": 1

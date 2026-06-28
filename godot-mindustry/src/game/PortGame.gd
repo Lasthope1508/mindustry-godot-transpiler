@@ -2458,6 +2458,8 @@ func source_building_in_fog_visibility_loop_state(block_size_value: int, block_s
 
 func source_building_killed_initial_side_effects_state(tile_value: Variant) -> Dictionary:
 	return {
+		"method": "public void killed(){",
+		"tile_value": tile_value,
 		"dead": true,
 		"event": {"type": "BlockDestroyEvent", "tile": tile_value},
 		"on_destroyed_called": true,

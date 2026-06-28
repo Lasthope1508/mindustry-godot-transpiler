@@ -19273,6 +19273,84 @@
       "java_expr": "self()",
       "godot_symbol": "source_building_kill_input.self_state",
       "rule": "Runtime self_state supplies source self() argument."
+    },
+    "building_killed_initial_side_effects.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "killed()",
+      "godot_owner": "PortGame.source_building_killed_initial_side_effects_state",
+      "tests": [
+        "test_building_killed_initial_side_effects_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_killed_initial_side_effects_state",
+      "java_expr": "public void killed(){",
+      "godot_symbol": "source_building_killed_initial_side_effects_result.method",
+      "rule": "BuildingComp killed method boundary."
+    },
+    "building_killed_initial_side_effects.dead_assignment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "killed()",
+      "godot_owner": "PortGame.source_building_killed_initial_side_effects_state",
+      "tests": [
+        "test_building_killed_initial_side_effects_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_killed_initial_side_effects_state",
+      "java_expr": "dead = true;",
+      "godot_symbol": "source_building_killed_initial_side_effects_result.dead",
+      "rule": "BuildingComp killed marks building dead before destruction event."
+    },
+    "building_killed_initial_side_effects.block_destroy_event": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "killed()",
+      "godot_owner": "PortGame.source_building_killed_initial_side_effects_state",
+      "tests": [
+        "test_building_killed_initial_side_effects_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_killed_initial_side_effects_state",
+      "java_expr": "Events.fire(new BlockDestroyEvent(tile));",
+      "godot_symbol": "source_building_killed_initial_side_effects_result.event",
+      "rule": "BuildingComp killed fires BlockDestroyEvent for tile."
+    },
+    "building_killed_initial_side_effects.on_destroyed_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "killed()",
+      "godot_owner": "PortGame.source_building_killed_initial_side_effects_state",
+      "tests": [
+        "test_building_killed_initial_side_effects_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_killed_initial_side_effects_state",
+      "java_expr": "onDestroyed();",
+      "godot_symbol": "source_building_killed_initial_side_effects_result.on_destroyed_called",
+      "rule": "BuildingComp killed invokes onDestroyed before removal side effects."
+    },
+    "building_killed_initial_side_effects.tile_remove_boundary": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "killed()",
+      "godot_owner": "PortGame.source_building_killed_initial_side_effects_state",
+      "tests": [
+        "test_building_killed_initial_side_effects_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_killed_initial_side_effects_state",
+      "java_expr": "if(tile != emptyTile){",
+      "godot_symbol": "source_building_killed_initial_side_effects_result.next_step",
+      "rule": "BuildingComp killed continues into tile remove gate when tile is not emptyTile."
+    },
+    "building_killed_initial_side_effects.tile_value": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "killed()",
+      "godot_owner": "PortGame.source_building_killed_initial_side_effects_state",
+      "tests": [
+        "test_building_killed_initial_side_effects_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_killed_initial_side_effects_state",
+      "java_expr": "tile",
+      "godot_symbol": "source_building_killed_initial_side_effects_input.tile_value",
+      "rule": "Runtime tile_value supplies source tile for BlockDestroyEvent and removal gate."
     }
   }
 }

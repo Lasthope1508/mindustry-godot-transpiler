@@ -6245,6 +6245,38 @@
       ],
       "runtime_proof": "/root/Main.source_building_kill_state",
       "rule": "Backfills SSOT for existing canonical source_building_kill_state helper against BuildingComp.kill()."
+    },
+    "N601": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "killed()",
+      "godot_owner": "PortGame.source_building_killed_initial_side_effects_state",
+      "exact_exprs": [
+        "@Override",
+        "public void killed(){",
+        "dead = true;",
+        "Events.fire(new BlockDestroyEvent(tile));",
+        "onDestroyed();",
+        "if(tile != emptyTile){",
+        "tile"
+      ],
+      "deferred_exprs": [
+        "tile.remove(), remove(), and afterDestroyed() remain owned by source_building_killed_removal_side_effects_state."
+      ],
+      "source_symbols": [
+        "building_killed_initial_side_effects.method",
+        "building_killed_initial_side_effects.dead_assignment",
+        "building_killed_initial_side_effects.block_destroy_event",
+        "building_killed_initial_side_effects.on_destroyed_call",
+        "building_killed_initial_side_effects.tile_remove_boundary",
+        "building_killed_initial_side_effects.tile_value"
+      ],
+      "tests": [
+        "test_building_killed_initial_side_effects_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_killed_initial_side_effects_state",
+      "rule": "Backfills SSOT for existing canonical source_building_killed_initial_side_effects_state helper against BuildingComp.killed() initial side effects."
     }
   },
   "version": 1
