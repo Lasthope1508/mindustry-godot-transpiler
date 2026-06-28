@@ -1732,12 +1732,24 @@ func source_building_splash_liquid_state(amount: float, source_block_size: int, 
 
 func source_building_on_deconstructed_liquid_state(has_liquids_module: bool, current_amount: float, current_incinerable: bool, deconstruct_drop_all_liquid: bool, source_block_size: int) -> Dictionary:
 	var can_drop_liquid := not current_incinerable or deconstruct_drop_all_liquid
+	var base := {
+		"method": "public void onDeconstructed(@Nullable Unit builder){",
+		"has_liquids_module": has_liquids_module,
+		"current_amount": current_amount,
+		"current_incinerable": current_incinerable,
+		"deconstruct_drop_all_liquid": deconstruct_drop_all_liquid,
+		"source_block_size": source_block_size,
+		"can_drop_liquid": can_drop_liquid,
+	}
 	if not has_liquids_module or current_amount <= 0.0 or not can_drop_liquid:
-		return {"deposit_linked_tiles": false, "per_cell": 0.0}
-	return {
+		base.merge({"deposit_linked_tiles": false, "per_cell": 0.0, "deposit_call": false}, true)
+		return base
+	base.merge({
 		"deposit_linked_tiles": true,
 		"per_cell": current_amount / float(source_block_size * source_block_size) * 2.0,
-	}
+		"deposit_call": true,
+	}, true)
+	return base
 
 func source_building_on_destroyed_item_explosion_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int) -> Dictionary:
 	var explosiveness := base_explosiveness

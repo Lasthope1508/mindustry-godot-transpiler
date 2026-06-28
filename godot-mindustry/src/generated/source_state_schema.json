@@ -25613,6 +25613,166 @@
           "rule": "Carries y input into result schema."
         }
       }
+    },
+    "source_building_on_deconstructed_liquid_input": {
+      "status": "active",
+      "keys": {
+        "has_liquids_module": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDeconstructed(@Nullable Unit builder)",
+          "java_expr": "liquids != null",
+          "godot_symbol": "source_building_on_deconstructed_liquid_input.has_liquids_module",
+          "used_by": [
+            "PortGame.source_building_on_deconstructed_liquid_state"
+          ],
+          "rule": "Runtime has_liquids_module supplies source liquids != null predicate."
+        },
+        "current_amount": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDeconstructed(@Nullable Unit builder)",
+          "java_expr": "liquids.currentAmount()",
+          "godot_symbol": "source_building_on_deconstructed_liquid_input.current_amount",
+          "used_by": [
+            "PortGame.source_building_on_deconstructed_liquid_state"
+          ],
+          "rule": "Runtime current_amount supplies source liquids.currentAmount()."
+        },
+        "current_incinerable": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDeconstructed(@Nullable Unit builder)",
+          "java_expr": "liquids.current().incinerable",
+          "godot_symbol": "source_building_on_deconstructed_liquid_input.current_incinerable",
+          "used_by": [
+            "PortGame.source_building_on_deconstructed_liquid_state"
+          ],
+          "rule": "Runtime current_incinerable supplies source liquids.current().incinerable."
+        },
+        "deconstruct_drop_all_liquid": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDeconstructed(@Nullable Unit builder)",
+          "java_expr": "block.deconstructDropAllLiquid",
+          "godot_symbol": "source_building_on_deconstructed_liquid_input.deconstruct_drop_all_liquid",
+          "used_by": [
+            "PortGame.source_building_on_deconstructed_liquid_state"
+          ],
+          "rule": "Runtime deconstruct_drop_all_liquid supplies source block.deconstructDropAllLiquid."
+        },
+        "source_block_size": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDeconstructed(@Nullable Unit builder)",
+          "java_expr": "block.size",
+          "godot_symbol": "source_building_on_deconstructed_liquid_input.source_block_size",
+          "used_by": [
+            "PortGame.source_building_on_deconstructed_liquid_state"
+          ],
+          "rule": "Runtime source_block_size supplies source block.size."
+        }
+      }
+    },
+    "source_building_on_deconstructed_liquid_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDeconstructed(@Nullable Unit builder)",
+          "java_expr": "public void onDeconstructed(@Nullable Unit builder){",
+          "godot_symbol": "source_building_on_deconstructed_liquid_result.method",
+          "used_by": [
+            "PortGame.source_building_on_deconstructed_liquid_state"
+          ],
+          "rule": "BuildingComp onDeconstructed method boundary."
+        },
+        "can_drop_liquid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDeconstructed(@Nullable Unit builder)",
+          "java_expr": "(!liquids.current().incinerable || block.deconstructDropAllLiquid)",
+          "godot_symbol": "source_building_on_deconstructed_liquid_result.can_drop_liquid",
+          "used_by": [
+            "PortGame.source_building_on_deconstructed_liquid_state"
+          ],
+          "rule": "Liquid can drop when current liquid is not incinerable or block drops all liquid."
+        },
+        "deposit_linked_tiles": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDeconstructed(@Nullable Unit builder)",
+          "java_expr": "if(liquids != null && liquids.currentAmount() > 0 && (!liquids.current().incinerable || block.deconstructDropAllLiquid)){",
+          "godot_symbol": "source_building_on_deconstructed_liquid_result.deposit_linked_tiles",
+          "used_by": [
+            "PortGame.source_building_on_deconstructed_liquid_state"
+          ],
+          "rule": "Linked liquid deposit gate."
+        },
+        "per_cell": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDeconstructed(@Nullable Unit builder)",
+          "java_expr": "float perCell = liquids.currentAmount() / (block.size * block.size) * 2f;",
+          "godot_symbol": "source_building_on_deconstructed_liquid_result.per_cell",
+          "used_by": [
+            "PortGame.source_building_on_deconstructed_liquid_state"
+          ],
+          "rule": "Per-linked-tile liquid amount."
+        },
+        "deposit_call": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDeconstructed(@Nullable Unit builder)",
+          "java_expr": "tile.getLinkedTiles(other -> Puddles.deposit(other, liquids.current(), perCell));",
+          "godot_symbol": "source_building_on_deconstructed_liquid_result.deposit_call",
+          "used_by": [
+            "PortGame.source_building_on_deconstructed_liquid_state"
+          ],
+          "rule": "Linked tile Puddles.deposit call."
+        },
+        "has_liquids_module": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_on_deconstructed_liquid_input.has_liquids_module",
+          "rule": "Carries has_liquids_module input into result schema."
+        },
+        "current_amount": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_deconstructed_liquid_input.current_amount",
+          "rule": "Carries current_amount input into result schema."
+        },
+        "current_incinerable": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_on_deconstructed_liquid_input.current_incinerable",
+          "rule": "Carries current_incinerable input into result schema."
+        },
+        "deconstruct_drop_all_liquid": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_on_deconstructed_liquid_input.deconstruct_drop_all_liquid",
+          "rule": "Carries deconstruct_drop_all_liquid input into result schema."
+        },
+        "source_block_size": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_on_deconstructed_liquid_input.source_block_size",
+          "rule": "Carries source_block_size input into result schema."
+        }
+      }
     }
   },
   "version": 1

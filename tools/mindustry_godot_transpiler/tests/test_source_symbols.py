@@ -3609,6 +3609,42 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(y_input["java_expr"], "y")
         self.assertEqual(y_input["godot_symbol"], "source_building_on_configure_tapped_input.y")
 
+    def test_building_on_deconstructed_liquid_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_on_deconstructed_liquid.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "onDeconstructed(@Nullable Unit builder)")
+        self.assertEqual(method["java_expr"], "public void onDeconstructed(@Nullable Unit builder){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_on_deconstructed_liquid_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_on_deconstructed_liquid_state")
+        self.assertEqual(method["godot_symbol"], "source_building_on_deconstructed_liquid_result.method")
+
+        gate = source_symbols.source_symbol(registry, "building_on_deconstructed_liquid.gate")
+        self.assertEqual(gate["java_expr"], "if(liquids != null && liquids.currentAmount() > 0 && (!liquids.current().incinerable || block.deconstructDropAllLiquid)){")
+        self.assertEqual(gate["godot_symbol"], "source_building_on_deconstructed_liquid_result.deposit_linked_tiles")
+
+        per_cell = source_symbols.source_symbol(registry, "building_on_deconstructed_liquid.per_cell")
+        self.assertEqual(per_cell["java_expr"], "float perCell = liquids.currentAmount() / (block.size * block.size) * 2f;")
+        self.assertEqual(per_cell["godot_symbol"], "source_building_on_deconstructed_liquid_result.per_cell")
+
+        deposit_call = source_symbols.source_symbol(registry, "building_on_deconstructed_liquid.deposit_call")
+        self.assertEqual(deposit_call["java_expr"], "tile.getLinkedTiles(other -> Puddles.deposit(other, liquids.current(), perCell));")
+        self.assertEqual(deposit_call["godot_symbol"], "source_building_on_deconstructed_liquid_result.deposit_call")
+
+        amount = source_symbols.source_symbol(registry, "building_on_deconstructed_liquid.current_amount")
+        self.assertEqual(amount["status"], "explicit-input")
+        self.assertEqual(amount["java_expr"], "liquids.currentAmount()")
+        self.assertEqual(amount["godot_symbol"], "source_building_on_deconstructed_liquid_input.current_amount")
+
+        block_size = source_symbols.source_symbol(registry, "building_on_deconstructed_liquid.source_block_size")
+        self.assertEqual(block_size["status"], "explicit-input")
+        self.assertEqual(block_size["java_expr"], "block.size")
+        self.assertEqual(block_size["godot_symbol"], "source_building_on_deconstructed_liquid_input.source_block_size")
+
     def test_building_on_configure_closed_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -5799,9 +5835,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 204)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 205)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 209)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 210)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -5823,6 +5859,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_on_configure_build_tapped_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_on_configure_closed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_on_configure_tapped_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_on_deconstructed_liquid_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7143,6 +7180,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return false;", building_on_configure_tapped["exact_exprs"])
         self.assertIn("x", building_on_configure_tapped["exact_exprs"])
         self.assertIn("y", building_on_configure_tapped["exact_exprs"])
+
+        building_on_deconstructed_liquid = source_symbols.source_slice(ledger, "N607")
+        self.assertEqual(building_on_deconstructed_liquid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_on_deconstructed_liquid["java_method"], "onDeconstructed(@Nullable Unit builder)")
+        self.assertEqual(building_on_deconstructed_liquid["godot_owner"], "PortGame.source_building_on_deconstructed_liquid_state")
+        self.assertIn("/** Called when a block begins (not finishes!) deconstruction. The building is still present at this point. */", building_on_deconstructed_liquid["exact_exprs"])
+        self.assertIn("public void onDeconstructed(@Nullable Unit builder){", building_on_deconstructed_liquid["exact_exprs"])
+        self.assertIn("//deposit non-incinerable liquid on ground", building_on_deconstructed_liquid["exact_exprs"])
+        self.assertIn("if(liquids != null && liquids.currentAmount() > 0 && (!liquids.current().incinerable || block.deconstructDropAllLiquid)){", building_on_deconstructed_liquid["exact_exprs"])
+        self.assertIn("float perCell = liquids.currentAmount() / (block.size * block.size) * 2f;", building_on_deconstructed_liquid["exact_exprs"])
+        self.assertIn("tile.getLinkedTiles(other -> Puddles.deposit(other, liquids.current(), perCell));", building_on_deconstructed_liquid["exact_exprs"])
 
         building_on_configure_closed = source_symbols.source_slice(ledger, "N605")
         self.assertEqual(building_on_configure_closed["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -8973,6 +9021,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("y", building_on_configure_tapped["return_keys"])
         self.assertIn("consumed", building_on_configure_tapped["return_keys"])
         self.assertEqual(building_on_configure_tapped["source_method"], "onConfigureTapped(float x, float y)")
+
+        building_on_deconstructed_liquid = source_symbols.api_contract(contracts, "PortGame.source_building_on_deconstructed_liquid_state")
+        self.assertEqual([param["name"] for param in building_on_deconstructed_liquid["params"]], ["has_liquids_module", "current_amount", "current_incinerable", "deconstruct_drop_all_liquid", "source_block_size"])
+        self.assertEqual(building_on_deconstructed_liquid["params"][0]["schema"], "source_building_on_deconstructed_liquid_input.has_liquids_module")
+        self.assertEqual(building_on_deconstructed_liquid["params"][1]["schema"], "source_building_on_deconstructed_liquid_input.current_amount")
+        self.assertEqual(building_on_deconstructed_liquid["params"][4]["schema"], "source_building_on_deconstructed_liquid_input.source_block_size")
+        self.assertIn("method", building_on_deconstructed_liquid["return_keys"])
+        self.assertIn("can_drop_liquid", building_on_deconstructed_liquid["return_keys"])
+        self.assertIn("deposit_linked_tiles", building_on_deconstructed_liquid["return_keys"])
+        self.assertIn("per_cell", building_on_deconstructed_liquid["return_keys"])
+        self.assertIn("deposit_call", building_on_deconstructed_liquid["return_keys"])
+        self.assertEqual(building_on_deconstructed_liquid["source_method"], "onDeconstructed(@Nullable Unit builder)")
 
         building_configured_copy_config = source_symbols.api_contract(contracts, "PortGame.source_building_configured_copy_config_state")
         self.assertEqual([param["name"] for param in building_configured_copy_config["params"]], ["value_is_building", "copied_config", "copied_config_is_building"])
@@ -10995,6 +11055,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_on_configure_tapped_result["keys"]["consumed"]["java_expr"], "return false;")
         self.assertEqual(source_building_on_configure_tapped_result["keys"]["x"]["alias_of"], "source_building_on_configure_tapped_input.x")
         self.assertEqual(source_building_on_configure_tapped_result["keys"]["y"]["alias_of"], "source_building_on_configure_tapped_input.y")
+
+        source_building_on_deconstructed_liquid_input = source_symbols.state_schema(schema, "source_building_on_deconstructed_liquid_input")
+        self.assertEqual(source_building_on_deconstructed_liquid_input["keys"]["has_liquids_module"]["java_expr"], "liquids != null")
+        self.assertEqual(source_building_on_deconstructed_liquid_input["keys"]["current_amount"]["java_expr"], "liquids.currentAmount()")
+        self.assertEqual(source_building_on_deconstructed_liquid_input["keys"]["current_incinerable"]["java_expr"], "liquids.current().incinerable")
+        self.assertEqual(source_building_on_deconstructed_liquid_input["keys"]["deconstruct_drop_all_liquid"]["java_expr"], "block.deconstructDropAllLiquid")
+        self.assertEqual(source_building_on_deconstructed_liquid_input["keys"]["source_block_size"]["java_expr"], "block.size")
+
+        source_building_on_deconstructed_liquid_result = source_symbols.state_schema(schema, "source_building_on_deconstructed_liquid_result")
+        self.assertEqual(source_building_on_deconstructed_liquid_result["keys"]["method"]["java_expr"], "public void onDeconstructed(@Nullable Unit builder){")
+        self.assertEqual(source_building_on_deconstructed_liquid_result["keys"]["can_drop_liquid"]["java_expr"], "(!liquids.current().incinerable || block.deconstructDropAllLiquid)")
+        self.assertEqual(source_building_on_deconstructed_liquid_result["keys"]["deposit_linked_tiles"]["java_expr"], "if(liquids != null && liquids.currentAmount() > 0 && (!liquids.current().incinerable || block.deconstructDropAllLiquid)){")
+        self.assertEqual(source_building_on_deconstructed_liquid_result["keys"]["per_cell"]["java_expr"], "float perCell = liquids.currentAmount() / (block.size * block.size) * 2f;")
+        self.assertEqual(source_building_on_deconstructed_liquid_result["keys"]["deposit_call"]["java_expr"], "tile.getLinkedTiles(other -> Puddles.deposit(other, liquids.current(), perCell));")
+        self.assertEqual(source_building_on_deconstructed_liquid_result["keys"]["current_amount"]["alias_of"], "source_building_on_deconstructed_liquid_input.current_amount")
+        self.assertEqual(source_building_on_deconstructed_liquid_result["keys"]["source_block_size"]["alias_of"], "source_building_on_deconstructed_liquid_input.source_block_size")
 
         source_building_configured_copy_config_input = source_symbols.state_schema(schema, "source_building_configured_copy_config_input")
         self.assertEqual(source_building_configured_copy_config_input["keys"]["value_is_building"]["java_expr"], "value instanceof Building build")

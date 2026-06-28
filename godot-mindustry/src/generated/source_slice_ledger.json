@@ -6424,6 +6424,45 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_configure_tapped_state",
       "rule": "Backfills SSOT for existing canonical source_building_on_configure_tapped_state helper against BuildingComp.onConfigureTapped(float x, float y)."
+    },
+    "N607": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "onDeconstructed(@Nullable Unit builder)",
+      "godot_owner": "PortGame.source_building_on_deconstructed_liquid_state",
+      "exact_exprs": [
+        "/** Called when a block begins (not finishes!) deconstruction. The building is still present at this point. */",
+        "public void onDeconstructed(@Nullable Unit builder){",
+        "//deposit non-incinerable liquid on ground",
+        "if(liquids != null && liquids.currentAmount() > 0 && (!liquids.current().incinerable || block.deconstructDropAllLiquid)){",
+        "float perCell = liquids.currentAmount() / (block.size * block.size) * 2f;",
+        "tile.getLinkedTiles(other -> Puddles.deposit(other, liquids.current(), perCell));",
+        "liquids != null",
+        "liquids.currentAmount()",
+        "liquids.current().incinerable",
+        "block.deconstructDropAllLiquid",
+        "block.size"
+      ],
+      "deferred_exprs": [
+        "Concrete Tile.getLinkedTiles traversal and Puddles.deposit side effects remain owned by world/liquid runtime integration slices."
+      ],
+      "source_symbols": [
+        "building_on_deconstructed_liquid.method",
+        "building_on_deconstructed_liquid.gate",
+        "building_on_deconstructed_liquid.per_cell",
+        "building_on_deconstructed_liquid.deposit_call",
+        "building_on_deconstructed_liquid.has_liquids_module",
+        "building_on_deconstructed_liquid.current_amount",
+        "building_on_deconstructed_liquid.current_incinerable",
+        "building_on_deconstructed_liquid.deconstruct_drop_all_liquid",
+        "building_on_deconstructed_liquid.source_block_size"
+      ],
+      "tests": [
+        "test_building_on_deconstructed_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_deconstructed_liquid_state",
+      "rule": "Backfills SSOT for existing canonical source_building_on_deconstructed_liquid_state helper against BuildingComp.onDeconstructed(@Nullable Unit builder)."
     }
   },
   "version": 1

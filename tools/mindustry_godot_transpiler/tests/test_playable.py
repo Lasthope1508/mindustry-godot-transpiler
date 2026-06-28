@@ -1709,9 +1709,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_building_on_deconstructed_liquid_state(has_liquids_module: bool, current_amount: float, current_incinerable: bool, deconstruct_drop_all_liquid: bool, source_block_size: int) -> Dictionary:", source)
+        self.assertIn('"method": "public void onDeconstructed(@Nullable Unit builder){"', source)
+        self.assertIn('"current_amount": current_amount', source)
+        self.assertIn('"source_block_size": source_block_size', source)
         self.assertIn("not current_incinerable or deconstruct_drop_all_liquid", source)
         self.assertIn("float(source_block_size * source_block_size) * 2.0", source)
         self.assertIn('"deposit_linked_tiles": true', source)
+        self.assertIn('"deposit_call": true', source)
 
     def test_port_game_exposes_source_building_on_destroyed_item_explosion_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

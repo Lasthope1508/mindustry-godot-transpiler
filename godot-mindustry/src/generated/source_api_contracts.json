@@ -7776,6 +7776,56 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_configure_tapped_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.onConfigureTapped helper."
+    },
+    "PortGame.source_building_on_deconstructed_liquid_state": {
+      "status": "active",
+      "source_slice": "N607",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "onDeconstructed(@Nullable Unit builder)",
+      "params": [
+        {
+          "name": "has_liquids_module",
+          "type": "bool",
+          "schema": "source_building_on_deconstructed_liquid_input.has_liquids_module"
+        },
+        {
+          "name": "current_amount",
+          "type": "float",
+          "schema": "source_building_on_deconstructed_liquid_input.current_amount"
+        },
+        {
+          "name": "current_incinerable",
+          "type": "bool",
+          "schema": "source_building_on_deconstructed_liquid_input.current_incinerable"
+        },
+        {
+          "name": "deconstruct_drop_all_liquid",
+          "type": "bool",
+          "schema": "source_building_on_deconstructed_liquid_input.deconstruct_drop_all_liquid"
+        },
+        {
+          "name": "source_block_size",
+          "type": "int",
+          "schema": "source_building_on_deconstructed_liquid_input.source_block_size"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "has_liquids_module",
+        "current_amount",
+        "current_incinerable",
+        "deconstruct_drop_all_liquid",
+        "source_block_size",
+        "can_drop_liquid",
+        "deposit_linked_tiles",
+        "per_cell",
+        "deposit_call"
+      ],
+      "tests": [
+        "test_building_on_deconstructed_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_deconstructed_liquid_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.onDeconstructed liquid helper."
     }
   },
   "policy": {
