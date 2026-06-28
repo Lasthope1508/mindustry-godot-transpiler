@@ -1914,14 +1914,54 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(mathf_chance["java_expr"], "return d >= 1f || rand.nextFloat() < d;")
         self.assertEqual(mathf_chance["godot_symbol"], "create_initial_gate_result.mathfChanceSource")
 
+    def test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        spawn_unit_gate = source_symbols.source_symbol(registry, "create_spawn_unit.spawn_unit_gate")
+        self.assertEqual(spawn_unit_gate["java_expr"], "if(spawnUnit != null){")
+        self.assertEqual(spawn_unit_gate["godot_symbol"], "create_spawn_unit_result.spawnUnitBranchEntered")
+        self.assertEqual(spawn_unit_gate["godot_owner"], "PortGame.source_bullet_type_create_spawn_unit_state")
+        self.assertEqual(spawn_unit_gate["runtime_proof"], "/root/Main.source_bullet_type_create_spawn_unit_state")
+
+        client_guard = source_symbols.source_symbol(registry, "create_spawn_unit.client_guard")
+        self.assertEqual(client_guard["java_expr"], "if(!net.client()){")
+        self.assertEqual(client_guard["godot_symbol"], "create_spawn_unit_result.spawnSkippedClient")
+
+        spawn_create = source_symbols.source_symbol(registry, "create_spawn_unit.spawn_create")
+        self.assertEqual(spawn_create["java_expr"], "Unit spawned = spawnUnit.create(team);")
+        self.assertEqual(spawn_create["godot_symbol"], "create_spawn_unit_result.spawnedUnit")
+
+        spawned_velocity = source_symbols.source_symbol(registry, "create_spawn_unit.spawned_velocity")
+        self.assertEqual(spawned_velocity["java_expr"], "spawned.vel.trns(angle, spawnUnit.speed);")
+        self.assertEqual(spawned_velocity["godot_symbol"], "create_spawn_unit_result.spawnedUnit.velocity")
+
+        missile_ai_assignment = source_symbols.source_symbol(registry, "create_spawn_unit.missile_ai_shooter_assignment")
+        self.assertEqual(missile_ai_assignment["java_expr"], "ai.shooter = unit; ai.shooter = control.unit();")
+        self.assertEqual(missile_ai_assignment["godot_symbol"], "create_spawn_unit_result.spawnedUnit.missileAIShooter")
+
+        kill_shooter = source_symbols.source_symbol(registry, "create_spawn_unit.kill_shooter")
+        self.assertEqual(kill_shooter["java_expr"], "if(killShooter && owner instanceof Healthc h && !h.dead()) h.kill();")
+        self.assertEqual(kill_shooter["godot_symbol"], "create_spawn_unit_result.ownerKilled")
+
+        return_null = source_symbols.source_symbol(registry, "create_spawn_unit.return_null")
+        self.assertEqual(return_null["java_expr"], "return null;")
+        self.assertEqual(return_null["godot_symbol"], "create_spawn_unit_result.bulletCreateReturnsNull")
+
+        bullet_create_boundary = source_symbols.source_symbol(registry, "create_spawn_unit.bullet_create_boundary")
+        self.assertEqual(bullet_create_boundary["status"], "deferred")
+        self.assertEqual(bullet_create_boundary["java_expr"], "Bullet bullet = Bullet.create();")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 75)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 76)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 80)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 81)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1991,6 +2031,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_continuous_damage_default_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_heals_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_initial_gate_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_create_spawn_unit_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -2553,6 +2594,27 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return random(-range, range);", create_initial_gate["exact_exprs"])
         self.assertIn("return d >= 1f || rand.nextFloat() < d;", create_initial_gate["exact_exprs"])
         self.assertIn("if(spawnUnit != null){", create_initial_gate["deferred_exprs"])
+
+        create_spawn_unit = source_symbols.source_slice(ledger, "N478")
+        self.assertEqual(create_spawn_unit["java_method"], "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)")
+        self.assertEqual(create_spawn_unit["godot_owner"], "PortGame.source_bullet_type_create_spawn_unit_state")
+        self.assertIn("if(spawnUnit != null){", create_spawn_unit["exact_exprs"])
+        self.assertIn("if(!net.client()){", create_spawn_unit["exact_exprs"])
+        self.assertIn("Unit spawned = spawnUnit.create(team);", create_spawn_unit["exact_exprs"])
+        self.assertIn("spawned.set(x, y);", create_spawn_unit["exact_exprs"])
+        self.assertIn("spawned.rotation = angle;", create_spawn_unit["exact_exprs"])
+        self.assertIn("if(spawnUnit.missileAccelTime <= 0f){", create_spawn_unit["exact_exprs"])
+        self.assertIn("spawned.vel.trns(angle, spawnUnit.speed);", create_spawn_unit["exact_exprs"])
+        self.assertIn("if(spawned.controller() instanceof MissileAI ai){", create_spawn_unit["exact_exprs"])
+        self.assertIn("if(shooter instanceof Unit unit){", create_spawn_unit["exact_exprs"])
+        self.assertIn("ai.shooter = unit;", create_spawn_unit["exact_exprs"])
+        self.assertIn("if(shooter instanceof ControlBlock control){", create_spawn_unit["exact_exprs"])
+        self.assertIn("ai.shooter = control.unit();", create_spawn_unit["exact_exprs"])
+        self.assertIn("spawned.add();", create_spawn_unit["exact_exprs"])
+        self.assertIn("Units.notifyUnitSpawn(spawned);", create_spawn_unit["exact_exprs"])
+        self.assertIn("if(killShooter && owner instanceof Healthc h && !h.dead()) h.kill();", create_spawn_unit["exact_exprs"])
+        self.assertIn("return null;", create_spawn_unit["exact_exprs"])
+        self.assertIn("Bullet bullet = Bullet.create();", create_spawn_unit["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -3245,6 +3307,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("ignoreSpawnAngleApplied", create_initial_gate["return_keys"])
         self.assertIn("spawnUnitReservedSource", create_initial_gate["return_keys"])
         self.assertEqual(create_initial_gate["source_method"], "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)")
+
+        create_spawn_unit = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_create_spawn_unit_state")
+        self.assertEqual([param["name"] for param in create_spawn_unit["params"]], ["initial_gate_state", "bullet_type_state", "net_client", "owner_health_state", "shooter_state"])
+        self.assertEqual(create_spawn_unit["params"][0]["schema"], "create_initial_gate_result")
+        self.assertEqual(create_spawn_unit["params"][1]["schema"], "bullet_type_state")
+        self.assertEqual(create_spawn_unit["params"][3]["schema"], "owner_health_state")
+        self.assertEqual(create_spawn_unit["params"][4]["schema"], "shooter_state")
+        self.assertIn("spawnUnitBranchEntered", create_spawn_unit["return_keys"])
+        self.assertIn("spawnSkippedClient", create_spawn_unit["return_keys"])
+        self.assertIn("spawnedUnit", create_spawn_unit["return_keys"])
+        self.assertIn("ownerKilled", create_spawn_unit["return_keys"])
+        self.assertIn("bulletCreateReturnsNull", create_spawn_unit["return_keys"])
+        self.assertIn("bulletCreationReservedSource", create_spawn_unit["return_keys"])
+        self.assertEqual(create_spawn_unit["source_method"], "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -4008,6 +4084,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_create_initial_gate_state", bullet_type_state["keys"]["randomAngleOffset"]["used_by"])
         self.assertIn("PortGame.source_bullet_type_create_initial_gate_state", bullet_type_state["keys"]["createChance"]["used_by"])
         self.assertIn("PortGame.source_bullet_type_create_initial_gate_state", bullet_type_state["keys"]["ignoreSpawnAngle"]["used_by"])
+
+        create_spawn_unit_output = source_symbols.state_schema(schema, "create_spawn_unit_result")
+        self.assertEqual(create_spawn_unit_output["keys"]["spawnUnitBranchEntered"]["java_expr"], "spawnUnit != null")
+        self.assertEqual(create_spawn_unit_output["keys"]["spawnSkippedClient"]["java_expr"], "net.client()")
+        self.assertEqual(create_spawn_unit_output["keys"]["spawnedUnit"]["java_expr"], "Unit spawned = spawnUnit.create(team)")
+        self.assertEqual(create_spawn_unit_output["keys"]["ownerKilled"]["java_expr"], "killShooter && owner instanceof Healthc h && !h.dead()")
+        self.assertEqual(create_spawn_unit_output["keys"]["bulletCreateReturnsNull"]["java_expr"], "return null;")
+        self.assertEqual(create_spawn_unit_output["keys"]["bulletCreationReservedSource"]["alias_of"], "source_line.create_spawn_unit.bullet_create_boundary")
+
+        self.assertIn("PortGame.source_bullet_type_create_spawn_unit_state", bullet_type_state["keys"]["spawnUnit"]["used_by"])
+        self.assertEqual(bullet_type_state["keys"]["killShooter"]["java_expr"], "killShooter")
+        self.assertIn("PortGame.source_bullet_type_create_spawn_unit_state", bullet_type_state["keys"]["killShooter"]["used_by"])
+        self.assertEqual(owner_health_state["keys"]["dead"]["java_expr"], "h.dead()")
+        self.assertIn("PortGame.source_bullet_type_create_spawn_unit_state", owner_health_state["keys"]["isHealthc"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_create_spawn_unit_state", owner_health_state["keys"]["dead"]["used_by"])
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")

@@ -1034,7 +1034,8 @@
           "java_expr": "killShooter",
           "godot_symbol": "bullet_type_state.killShooter",
           "used_by": [
-            "PortGame.source_bullet_type_init_initial_state"
+            "PortGame.source_bullet_type_init_initial_state",
+            "PortGame.source_bullet_type_create_spawn_unit_state"
           ],
           "rule": "Canonical BulletType.killShooter field for init owner kill gate."
         },
@@ -1603,7 +1604,8 @@
           "java_expr": "spawnUnit",
           "godot_symbol": "bullet_type_state.spawnUnit",
           "used_by": [
-            "PortGame.source_bullet_type_calculate_range_spawn_unit_state"
+            "PortGame.source_bullet_type_calculate_range_spawn_unit_state",
+            "PortGame.source_bullet_type_create_spawn_unit_state"
           ],
           "rule": "Canonical BulletType.spawnUnit field; nullable UnitType used by create and calculateRange branches."
         },
@@ -2019,7 +2021,8 @@
             "PortGame.source_bullet_type_hit_entity_lifesteal_state",
             "PortGame.source_bullet_type_hit_tile_lifesteal_state",
             "PortGame.source_bullet_type_init_initial_state",
-            "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
+            "PortGame.source_bullet_type_update_weaving_circle_shooter_state",
+            "PortGame.source_bullet_type_create_spawn_unit_state"
           ],
           "rule": "Explicit input until owner component identity and Healthc cast are fully ported."
         },
@@ -2031,7 +2034,8 @@
           "java_expr": "h.dead()",
           "godot_symbol": "owner_health_state.dead",
           "used_by": [
-            "PortGame.source_bullet_type_init_initial_state"
+            "PortGame.source_bullet_type_init_initial_state",
+            "PortGame.source_bullet_type_create_spawn_unit_state"
           ],
           "rule": "Explicit owner Healthc.dead() input for the init killShooter gate."
         },
@@ -9438,6 +9442,42 @@
             "PortGame.source_bullet_type_update_homing_follow_aim_state"
           ],
           "rule": "Explicit Unit aimY used by follow-aim angle calculation."
+        },
+        "kind": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "shooter instanceof Unit unit; shooter instanceof ControlBlock control",
+          "godot_symbol": "shooter_state.kind",
+          "used_by": [
+            "PortGame.source_bullet_type_create_spawn_unit_state"
+          ],
+          "rule": "Explicit shooter kind for create spawnUnit MissileAI shooter selection."
+        },
+        "id": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "unit",
+          "godot_symbol": "shooter_state.id",
+          "used_by": [
+            "PortGame.source_bullet_type_create_spawn_unit_state"
+          ],
+          "rule": "Explicit Unit shooter identity when shooter instanceof Unit."
+        },
+        "unit": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "control.unit()",
+          "godot_symbol": "shooter_state.unit",
+          "used_by": [
+            "PortGame.source_bullet_type_create_spawn_unit_state"
+          ],
+          "rule": "Explicit ControlBlock unit identity when shooter instanceof ControlBlock."
         }
       }
     },
@@ -11198,6 +11238,155 @@
           "godot_symbol": "create_initial_gate_result.spawnUnitReservedSource",
           "alias_of": "source_line.create_initial_gate.spawn_unit_boundary",
           "rule": "Boundary for deferred spawnUnit branch."
+        }
+      }
+    },
+    "create_spawn_unit_result": {
+      "status": "active",
+      "keys": {
+        "bulletContinues": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "create_initial_gate_result.bulletContinues",
+          "rule": "Whether create chain continues after spawnUnit branch evaluation."
+        },
+        "spawnUnitBranchEntered": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "spawnUnit != null",
+          "godot_symbol": "create_spawn_unit_result.spawnUnitBranchEntered",
+          "used_by": [
+            "PortGame.source_bullet_type_create_spawn_unit_state"
+          ],
+          "rule": "Whether source spawnUnit branch is entered."
+        },
+        "spawnSkippedClient": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "net.client()",
+          "godot_symbol": "create_spawn_unit_result.spawnSkippedClient",
+          "used_by": [
+            "PortGame.source_bullet_type_create_spawn_unit_state"
+          ],
+          "rule": "Whether source server-only spawn side effects are skipped by net.client()."
+        },
+        "bulletCreateReturnsNull": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "return null;",
+          "godot_symbol": "create_spawn_unit_result.bulletCreateReturnsNull",
+          "used_by": [
+            "PortGame.source_bullet_type_create_spawn_unit_state"
+          ],
+          "rule": "SpawnUnit branch returns null instead of a Bullet."
+        },
+        "spawnedUnit": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "Unit spawned = spawnUnit.create(team)",
+          "godot_symbol": "create_spawn_unit_result.spawnedUnit",
+          "used_by": [
+            "PortGame.source_bullet_type_create_spawn_unit_state"
+          ],
+          "rule": "Recorded spawned unit call state on server branch; null on client or no-spawn path."
+        },
+        "ownerKilled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "killShooter && owner instanceof Healthc h && !h.dead()",
+          "godot_symbol": "create_spawn_unit_result.ownerKilled",
+          "used_by": [
+            "PortGame.source_bullet_type_create_spawn_unit_state"
+          ],
+          "rule": "Whether create spawnUnit branch invokes Healthc.kill on owner."
+        },
+        "spawnUnitSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_spawn_unit.spawn_unit_gate",
+          "rule": "Runtime source label for spawnUnit branch gate."
+        },
+        "clientGuardSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_spawn_unit.client_guard",
+          "rule": "Runtime source label for client guard."
+        },
+        "spawnedUnitCreateSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_spawn_unit.spawn_create",
+          "rule": "Runtime source label for UnitType.create(team)."
+        },
+        "spawnedSetSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_spawn_unit.spawn_set",
+          "rule": "Runtime source label for spawned.set(x, y)."
+        },
+        "spawnedRotationSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_spawn_unit.spawn_rotation",
+          "rule": "Runtime source label for spawned.rotation assignment."
+        },
+        "spawnedVelocitySource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_spawn_unit.spawned_velocity",
+          "rule": "Runtime source label for spawned velocity assignment."
+        },
+        "shooterAssignSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_spawn_unit.missile_ai_guard",
+          "rule": "Runtime source label for MissileAI shooter assignment branch."
+        },
+        "controlShooterAssignSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_spawn_unit.control_shooter_assignment",
+          "rule": "Runtime source label for ControlBlock shooter assignment."
+        },
+        "spawnedAddSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_spawn_unit.spawn_add",
+          "rule": "Runtime source label for spawned.add()."
+        },
+        "notifySpawnSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_spawn_unit.notify_spawn",
+          "rule": "Runtime source label for Units.notifyUnitSpawn(spawned)."
+        },
+        "killShooterSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_spawn_unit.kill_shooter",
+          "rule": "Runtime source label for killShooter owner kill branch."
+        },
+        "returnNullSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_spawn_unit.return_null",
+          "rule": "Runtime source label for spawnUnit return null."
+        },
+        "bulletCreationReservedSource": {
+          "type": "String",
+          "status": "deferred",
+          "alias_of": "source_line.create_spawn_unit.bullet_create_boundary",
+          "rule": "Boundary for normal Bullet allocation slice."
         }
       }
     }

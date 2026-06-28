@@ -2274,6 +2274,68 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_initial_gate_state",
       "rule": "Backfills SSOT for existing BulletType.create initial angle/chance/ignore-spawn-angle runtime state; spawnUnit branch remains deferred to its own source-backed owner."
+    },
+    "N478": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",
+      "exact_exprs": [
+        "if(spawnUnit != null){",
+        "//don't spawn units clientside!",
+        "if(!net.client()){",
+        "Unit spawned = spawnUnit.create(team);",
+        "spawned.set(x, y);",
+        "spawned.rotation = angle;",
+        "if(spawnUnit.missileAccelTime <= 0f){",
+        "spawned.vel.trns(angle, spawnUnit.speed);",
+        "if(spawned.controller() instanceof MissileAI ai){",
+        "if(shooter instanceof Unit unit){",
+        "ai.shooter = unit;",
+        "if(shooter instanceof ControlBlock control){",
+        "ai.shooter = control.unit();",
+        "spawned.add();",
+        "Units.notifyUnitSpawn(spawned);",
+        "if(killShooter && owner instanceof Healthc h && !h.dead()) h.kill();",
+        "return null;",
+        "public @Nullable UnitType spawnUnit;",
+        "public boolean killShooter;"
+      ],
+      "deferred_exprs": [
+        "Bullet bullet = Bullet.create();"
+      ],
+      "source_symbols": [
+        "create_spawn_unit.spawn_unit_gate",
+        "create_spawn_unit.client_guard",
+        "create_spawn_unit.spawn_create",
+        "create_spawn_unit.spawn_set",
+        "create_spawn_unit.spawn_rotation",
+        "create_spawn_unit.missile_speed_guard",
+        "create_spawn_unit.spawned_velocity",
+        "create_spawn_unit.missile_ai_guard",
+        "create_spawn_unit.missile_ai_shooter_assignment",
+        "create_spawn_unit.spawn_add",
+        "create_spawn_unit.notify_spawn",
+        "create_spawn_unit.kill_shooter",
+        "create_spawn_unit.return_null",
+        "create_spawn_unit.spawn_unit_field",
+        "create_spawn_unit.kill_shooter_field",
+        "create_spawn_unit.net_client",
+        "create_spawn_unit.owner_is_healthc",
+        "create_spawn_unit.owner_dead",
+        "create_spawn_unit.shooter_kind",
+        "create_spawn_unit.shooter_id",
+        "create_spawn_unit.control_unit",
+        "create_spawn_unit.bullet_create_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_spawn_unit_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
+        "test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
+      "rule": "Backfills SSOT for existing BulletType.create spawnUnit branch runtime state; normal Bullet allocation remains deferred to the next source-backed owner."
     }
   },
   "version": 1

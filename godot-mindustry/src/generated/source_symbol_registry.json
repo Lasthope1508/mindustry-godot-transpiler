@@ -7366,6 +7366,334 @@
       "godot_symbol": "create_initial_gate_result.mathfChanceSource",
       "godot_owner": "PortGame.source_bullet_type_create_initial_gate_state",
       "rule": "Arc Mathf.chance backing for createChance gate."
+    },
+    "create_spawn_unit.spawn_unit_gate": {
+      "tests": [
+        "test_bullet_type_create_spawn_unit_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
+        "test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "if(spawnUnit != null){",
+      "godot_symbol": "create_spawn_unit_result.spawnUnitBranchEntered",
+      "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",
+      "rule": "Enter BulletType.create spawnUnit branch only when spawnUnit is non-null."
+    },
+    "create_spawn_unit.client_guard": {
+      "tests": [
+        "test_bullet_type_create_spawn_unit_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
+        "test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "if(!net.client()){",
+      "godot_symbol": "create_spawn_unit_result.spawnSkippedClient",
+      "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",
+      "rule": "Skip unit spawn side effects clientside; return null path still applies."
+    },
+    "create_spawn_unit.spawn_create": {
+      "tests": [
+        "test_bullet_type_create_spawn_unit_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
+        "test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "Unit spawned = spawnUnit.create(team);",
+      "godot_symbol": "create_spawn_unit_result.spawnedUnit",
+      "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",
+      "rule": "Record source UnitType.create(team) spawn result without inventing a live Godot Unit."
+    },
+    "create_spawn_unit.spawn_set": {
+      "tests": [
+        "test_bullet_type_create_spawn_unit_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
+        "test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "spawned.set(x, y);",
+      "godot_symbol": "create_spawn_unit_result.spawnedUnit",
+      "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",
+      "rule": "Record source spawned position from create call x/y."
+    },
+    "create_spawn_unit.spawn_rotation": {
+      "tests": [
+        "test_bullet_type_create_spawn_unit_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
+        "test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "spawned.rotation = angle;",
+      "godot_symbol": "create_spawn_unit_result.spawnedUnit.rotation",
+      "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",
+      "rule": "Use angle from create initial gate as spawned unit rotation."
+    },
+    "create_spawn_unit.missile_speed_guard": {
+      "tests": [
+        "test_bullet_type_create_spawn_unit_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
+        "test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "if(spawnUnit.missileAccelTime <= 0f){",
+      "godot_symbol": "create_spawn_unit_result.spawnedUnit.velocityApplied",
+      "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",
+      "rule": "Apply launch velocity only when missileAccelTime allows immediate top speed."
+    },
+    "create_spawn_unit.spawned_velocity": {
+      "tests": [
+        "test_bullet_type_create_spawn_unit_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
+        "test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "spawned.vel.trns(angle, spawnUnit.speed);",
+      "godot_symbol": "create_spawn_unit_result.spawnedUnit.velocity",
+      "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",
+      "rule": "Record spawned launch velocity from source angle and spawnUnit.speed."
+    },
+    "create_spawn_unit.missile_ai_guard": {
+      "tests": [
+        "test_bullet_type_create_spawn_unit_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
+        "test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "if(spawned.controller() instanceof MissileAI ai){",
+      "godot_symbol": "create_spawn_unit_result.spawnedUnit.missileAIShooter",
+      "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",
+      "rule": "Assign missile shooter only when spawned controller is MissileAI."
+    },
+    "create_spawn_unit.missile_ai_shooter_assignment": {
+      "tests": [
+        "test_bullet_type_create_spawn_unit_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
+        "test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "ai.shooter = unit; ai.shooter = control.unit();",
+      "godot_symbol": "create_spawn_unit_result.spawnedUnit.missileAIShooter",
+      "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",
+      "rule": "Mirror source shooter selection for Unit and ControlBlock shooter cases."
+    },
+    "create_spawn_unit.spawn_add": {
+      "tests": [
+        "test_bullet_type_create_spawn_unit_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
+        "test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "spawned.add();",
+      "godot_symbol": "create_spawn_unit_result.spawnedUnit.added",
+      "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",
+      "rule": "Record spawned.add() side effect only on server branch."
+    },
+    "create_spawn_unit.notify_spawn": {
+      "tests": [
+        "test_bullet_type_create_spawn_unit_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
+        "test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "Units.notifyUnitSpawn(spawned);",
+      "godot_symbol": "create_spawn_unit_result.spawnedUnit.notified",
+      "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",
+      "rule": "Record Units.notifyUnitSpawn(spawned) side effect only on server branch."
+    },
+    "create_spawn_unit.kill_shooter": {
+      "tests": [
+        "test_bullet_type_create_spawn_unit_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
+        "test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "if(killShooter && owner instanceof Healthc h && !h.dead()) h.kill();",
+      "godot_symbol": "create_spawn_unit_result.ownerKilled",
+      "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",
+      "rule": "Handle killShooter in spawnUnit branch because BulletType.init is not called."
+    },
+    "create_spawn_unit.return_null": {
+      "tests": [
+        "test_bullet_type_create_spawn_unit_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
+        "test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "return null;",
+      "godot_symbol": "create_spawn_unit_result.bulletCreateReturnsNull",
+      "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",
+      "rule": "Source spawnUnit branch never returns a Bullet."
+    },
+    "create_spawn_unit.spawn_unit_field": {
+      "tests": [
+        "test_bullet_type_create_spawn_unit_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
+        "test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "public @Nullable UnitType spawnUnit;",
+      "godot_symbol": "bullet_type_state.spawnUnit",
+      "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",
+      "rule": "Canonical BulletType.spawnUnit field used by create spawnUnit branch."
+    },
+    "create_spawn_unit.kill_shooter_field": {
+      "tests": [
+        "test_bullet_type_create_spawn_unit_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
+        "test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "public boolean killShooter;",
+      "godot_symbol": "bullet_type_state.killShooter",
+      "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",
+      "rule": "Canonical BulletType.killShooter field used by create spawnUnit owner kill gate."
+    },
+    "create_spawn_unit.net_client": {
+      "tests": [
+        "test_bullet_type_create_spawn_unit_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
+        "test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "net.client()",
+      "godot_symbol": "net_state.client",
+      "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",
+      "rule": "Represent Net.client() as explicit input for deterministic runtime proof."
+    },
+    "create_spawn_unit.owner_is_healthc": {
+      "tests": [
+        "test_bullet_type_create_spawn_unit_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
+        "test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "owner instanceof Healthc h",
+      "godot_symbol": "owner_health_state.isHealthc",
+      "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",
+      "rule": "Represent owner Healthc cast as explicit input until owner component identity is fully ported."
+    },
+    "create_spawn_unit.owner_dead": {
+      "tests": [
+        "test_bullet_type_create_spawn_unit_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
+        "test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "h.dead()",
+      "godot_symbol": "owner_health_state.dead",
+      "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",
+      "rule": "Represent owner Healthc.dead() as explicit input for killShooter gate."
+    },
+    "create_spawn_unit.shooter_kind": {
+      "tests": [
+        "test_bullet_type_create_spawn_unit_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
+        "test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "shooter instanceof Unit unit; shooter instanceof ControlBlock control",
+      "godot_symbol": "shooter_state.kind",
+      "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",
+      "rule": "Represent source shooter runtime type as explicit input for MissileAI shooter selection."
+    },
+    "create_spawn_unit.shooter_id": {
+      "tests": [
+        "test_bullet_type_create_spawn_unit_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
+        "test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "unit",
+      "godot_symbol": "shooter_state.id",
+      "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",
+      "rule": "Explicit Unit shooter identity used when shooter instanceof Unit."
+    },
+    "create_spawn_unit.control_unit": {
+      "tests": [
+        "test_bullet_type_create_spawn_unit_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
+        "test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "control.unit()",
+      "godot_symbol": "shooter_state.unit",
+      "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",
+      "rule": "Explicit ControlBlock unit identity used when shooter instanceof ControlBlock."
+    },
+    "create_spawn_unit.bullet_create_boundary": {
+      "tests": [
+        "test_bullet_type_create_spawn_unit_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
+        "test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
+      "status": "deferred",
+      "java_expr": "Bullet bullet = Bullet.create();",
+      "godot_symbol": "create_spawn_unit_result.bulletCreationReservedSource",
+      "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",
+      "rule": "Boundary for next normal bullet identity slice; no bullet allocation is inferred here."
     }
   }
 }
