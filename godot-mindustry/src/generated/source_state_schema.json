@@ -16108,6 +16108,23 @@
           "rule": "Carries consumes_liquid input into result schema."
         }
       }
+    },
+    "source_building_accept_payload_result": {
+      "status": "active",
+      "keys": {
+        "acceptPayload": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "acceptPayload(Building source, Payload payload)",
+          "java_expr": "return false;",
+          "godot_symbol": "source_building_accept_payload_result.acceptPayload",
+          "used_by": [
+            "PortGame.source_building_accept_payload_state"
+          ],
+          "rule": "BuildingComp acceptPayload return value."
+        }
+      }
     }
   },
   "version": 1

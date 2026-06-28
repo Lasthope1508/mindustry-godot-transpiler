@@ -12175,6 +12175,19 @@
       "java_expr": "block.consumesLiquid(liquid)",
       "godot_symbol": "source_building_accept_liquid_input.consumesLiquid",
       "rule": "Runtime consumes_liquid argument supplies the source block.consumesLiquid(liquid) predicate."
+    },
+    "building_accept_payload.method": {
+      "tests": [
+        "test_building_accept_payload_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_accept_payload_state",
+      "godot_owner": "PortGame.source_building_accept_payload_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "acceptPayload(Building source, Payload payload)",
+      "status": "source-backed",
+      "java_expr": "return false;",
+      "godot_symbol": "source_building_accept_payload_result.acceptPayload",
+      "rule": "Default BuildingComp acceptPayload rejects payloads."
     }
   }
 }
