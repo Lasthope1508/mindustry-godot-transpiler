@@ -3405,6 +3405,50 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(other["java_expr"], "other")
         self.assertEqual(other["godot_symbol"], "source_building_collide_input.other")
 
+    def test_building_collision_damage_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_collision_damage.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "collision(Bullet other)")
+        self.assertEqual(method["java_expr"], "public boolean collision(Bullet other){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_collision_damage_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_collision_damage_state")
+        self.assertEqual(method["godot_symbol"], "source_building_collision_damage_result.method")
+
+        was_dead = source_symbols.source_symbol(registry, "building_collision_damage.was_dead")
+        self.assertEqual(was_dead["java_expr"], "boolean wasDead = health <= 0;")
+        self.assertEqual(was_dead["godot_symbol"], "source_building_collision_damage_result.was_dead")
+
+        raw_damage = source_symbols.source_symbol(registry, "building_collision_damage.raw_damage")
+        self.assertEqual(raw_damage["java_expr"], "float damage = other.type.buildingDamage(other);")
+        self.assertEqual(raw_damage["godot_symbol"], "source_building_collision_damage_result.raw_damage")
+
+        armor = source_symbols.source_symbol(registry, "building_collision_damage.armor")
+        self.assertEqual(armor["java_expr"], "block.armor * t.armorMultiplier * t.blockArmorMultiplier")
+        self.assertEqual(armor["godot_symbol"], "source_building_collision_damage_result.armor")
+
+        apply_armor = source_symbols.source_symbol(registry, "building_collision_damage.apply_armor")
+        self.assertEqual(apply_armor["java_expr"], "damage = Damage.applyArmor(damage, block.armor * t.armorMultiplier * t.blockArmorMultiplier);")
+        self.assertEqual(apply_armor["godot_symbol"], "source_building_collision_damage_result.damage")
+
+        return_true = source_symbols.source_symbol(registry, "building_collision_damage.return_true")
+        self.assertEqual(return_true["java_expr"], "return true;")
+        self.assertEqual(return_true["godot_symbol"], "source_building_collision_damage_result.removed")
+
+        current_health = source_symbols.source_symbol(registry, "building_collision_damage.current_health")
+        self.assertEqual(current_health["status"], "explicit-input")
+        self.assertEqual(current_health["java_expr"], "health")
+        self.assertEqual(current_health["godot_symbol"], "source_building_collision_damage_input.current_health")
+
+        pierce_armor = source_symbols.source_symbol(registry, "building_collision_damage.bullet_pierce_armor")
+        self.assertEqual(pierce_armor["status"], "explicit-input")
+        self.assertEqual(pierce_armor["java_expr"], "t.pierceArmor")
+        self.assertEqual(pierce_armor["godot_symbol"], "source_building_collision_damage_input.bullet_pierce_armor")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3689,9 +3733,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 140)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 141)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 145)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 146)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3833,6 +3877,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_check_solid_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_check_suppression_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_collide_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_collision_damage_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -4925,6 +4970,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public boolean collide(Bullet other){", building_collide["exact_exprs"])
         self.assertIn("return true;", building_collide["exact_exprs"])
         self.assertIn("other", building_collide["exact_exprs"])
+
+        building_collision_damage = source_symbols.source_slice(ledger, "N543")
+        self.assertEqual(building_collision_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_collision_damage["java_method"], "collision(Bullet other)")
+        self.assertEqual(building_collision_damage["godot_owner"], "PortGame.source_building_collision_damage_state")
+        self.assertIn("public boolean collision(Bullet other){", building_collision_damage["exact_exprs"])
+        self.assertIn("boolean wasDead = health <= 0;", building_collision_damage["exact_exprs"])
+        self.assertIn("float damage = other.type.buildingDamage(other);", building_collision_damage["exact_exprs"])
+        self.assertIn("damage = Damage.applyArmor(damage, block.armor * t.armorMultiplier * t.blockArmorMultiplier);", building_collision_damage["exact_exprs"])
+        self.assertIn("return true;", building_collision_damage["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -6153,6 +6208,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_collide["params"][0]["schema"], "source_building_collide_input.other")
         self.assertIn("collide", building_collide["return_keys"])
         self.assertEqual(building_collide["source_method"], "collide(Bullet other)")
+
+        building_collision_damage = source_symbols.api_contract(contracts, "PortGame.source_building_collision_damage_state")
+        self.assertEqual([param["name"] for param in building_collision_damage["params"]], [
+            "current_health",
+            "bullet_building_damage",
+            "block_armor",
+            "bullet_pierce_armor",
+            "bullet_armor_multiplier",
+            "bullet_block_armor_multiplier",
+        ])
+        self.assertEqual(building_collision_damage["params"][0]["schema"], "source_building_collision_damage_input.current_health")
+        self.assertEqual(building_collision_damage["params"][3]["schema"], "source_building_collision_damage_input.bullet_pierce_armor")
+        self.assertIn("damage", building_collision_damage["return_keys"])
+        self.assertIn("removed", building_collision_damage["return_keys"])
+        self.assertEqual(building_collision_damage["source_method"], "collision(Bullet other)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -7631,6 +7701,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_collide_result["keys"]["method"]["java_expr"], "public boolean collide(Bullet other){")
         self.assertEqual(source_building_collide_result["keys"]["collide"]["java_expr"], "return true;")
         self.assertEqual(source_building_collide_result["keys"]["other"]["alias_of"], "source_building_collide_input.other")
+
+        source_building_collision_damage_input = source_symbols.state_schema(schema, "source_building_collision_damage_input")
+        self.assertEqual(source_building_collision_damage_input["keys"]["current_health"]["java_expr"], "health")
+        self.assertEqual(source_building_collision_damage_input["keys"]["bullet_building_damage"]["java_expr"], "other.type.buildingDamage(other)")
+        self.assertEqual(source_building_collision_damage_input["keys"]["block_armor"]["java_expr"], "block.armor")
+        self.assertEqual(source_building_collision_damage_input["keys"]["bullet_pierce_armor"]["java_expr"], "t.pierceArmor")
+
+        source_building_collision_damage_result = source_symbols.state_schema(schema, "source_building_collision_damage_result")
+        self.assertEqual(source_building_collision_damage_result["keys"]["method"]["java_expr"], "public boolean collision(Bullet other){")
+        self.assertEqual(source_building_collision_damage_result["keys"]["was_dead"]["java_expr"], "boolean wasDead = health <= 0;")
+        self.assertEqual(source_building_collision_damage_result["keys"]["raw_damage"]["alias_of"], "source_building_collision_damage_input.bullet_building_damage")
+        self.assertEqual(source_building_collision_damage_result["keys"]["armor"]["java_expr"], "block.armor * t.armorMultiplier * t.blockArmorMultiplier")
+        self.assertEqual(source_building_collision_damage_result["keys"]["damage"]["java_expr"], "Damage.applyArmor(damage, block.armor * t.armorMultiplier * t.blockArmorMultiplier)")
+        self.assertEqual(source_building_collision_damage_result["keys"]["removed"]["java_expr"], "return true;")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

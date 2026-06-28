@@ -5607,6 +5607,56 @@
       ],
       "runtime_proof": "/root/Main.source_building_collide_state",
       "rule": "Public runtime contract for Mindustry BuildingComp collide helper; GDScript parameter is intentionally underscored because source default ignores other."
+    },
+    "PortGame.source_building_collision_damage_state": {
+      "status": "active",
+      "source_slice": "N543",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "collision(Bullet other)",
+      "params": [
+        {
+          "name": "current_health",
+          "type": "float",
+          "schema": "source_building_collision_damage_input.current_health"
+        },
+        {
+          "name": "bullet_building_damage",
+          "type": "float",
+          "schema": "source_building_collision_damage_input.bullet_building_damage"
+        },
+        {
+          "name": "block_armor",
+          "type": "float",
+          "schema": "source_building_collision_damage_input.block_armor"
+        },
+        {
+          "name": "bullet_pierce_armor",
+          "type": "bool",
+          "schema": "source_building_collision_damage_input.bullet_pierce_armor"
+        },
+        {
+          "name": "bullet_armor_multiplier",
+          "type": "float",
+          "schema": "source_building_collision_damage_input.bullet_armor_multiplier"
+        },
+        {
+          "name": "bullet_block_armor_multiplier",
+          "type": "float",
+          "schema": "source_building_collision_damage_input.bullet_block_armor_multiplier"
+        }
+      ],
+      "return_keys": [
+        "was_dead",
+        "raw_damage",
+        "armor",
+        "damage",
+        "removed"
+      ],
+      "tests": [
+        "test_building_collision_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_collision_damage_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp collision damage helper; destroy event stays deferred until post-damage health/event integration is modeled."
     }
   },
   "policy": {

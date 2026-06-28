@@ -17966,6 +17966,166 @@
           "rule": "Carries other input into result schema boundary."
         }
       }
+    },
+    "source_building_collision_damage_input": {
+      "status": "active",
+      "keys": {
+        "current_health": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "collision(Bullet other)",
+          "java_expr": "health",
+          "godot_symbol": "source_building_collision_damage_input.current_health",
+          "used_by": [
+            "PortGame.source_building_collision_damage_state"
+          ],
+          "rule": "Current health supplied to compute wasDead."
+        },
+        "bullet_building_damage": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "collision(Bullet other)",
+          "java_expr": "other.type.buildingDamage(other)",
+          "godot_symbol": "source_building_collision_damage_input.bullet_building_damage",
+          "used_by": [
+            "PortGame.source_building_collision_damage_state"
+          ],
+          "rule": "Raw building damage supplied from BulletType.buildingDamage(other)."
+        },
+        "block_armor": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "collision(Bullet other)",
+          "java_expr": "block.armor",
+          "godot_symbol": "source_building_collision_damage_input.block_armor",
+          "used_by": [
+            "PortGame.source_building_collision_damage_state"
+          ],
+          "rule": "Block armor supplied for effective armor expression."
+        },
+        "bullet_pierce_armor": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "collision(Bullet other)",
+          "java_expr": "t.pierceArmor",
+          "godot_symbol": "source_building_collision_damage_input.bullet_pierce_armor",
+          "used_by": [
+            "PortGame.source_building_collision_damage_state"
+          ],
+          "rule": "BulletType pierceArmor supplied for armor gate."
+        },
+        "bullet_armor_multiplier": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "collision(Bullet other)",
+          "java_expr": "t.armorMultiplier",
+          "godot_symbol": "source_building_collision_damage_input.bullet_armor_multiplier",
+          "used_by": [
+            "PortGame.source_building_collision_damage_state"
+          ],
+          "rule": "BulletType armorMultiplier supplied for effective armor expression."
+        },
+        "bullet_block_armor_multiplier": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "collision(Bullet other)",
+          "java_expr": "t.blockArmorMultiplier",
+          "godot_symbol": "source_building_collision_damage_input.bullet_block_armor_multiplier",
+          "used_by": [
+            "PortGame.source_building_collision_damage_state"
+          ],
+          "rule": "BulletType blockArmorMultiplier supplied for effective armor expression."
+        }
+      }
+    },
+    "source_building_collision_damage_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "collision(Bullet other)",
+          "java_expr": "public boolean collision(Bullet other){",
+          "godot_symbol": "source_building_collision_damage_result.method",
+          "used_by": [
+            "PortGame.source_building_collision_damage_state"
+          ],
+          "rule": "BuildingComp collision method boundary."
+        },
+        "was_dead": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "collision(Bullet other)",
+          "java_expr": "boolean wasDead = health <= 0;",
+          "godot_symbol": "source_building_collision_damage_result.was_dead",
+          "used_by": [
+            "PortGame.source_building_collision_damage_state"
+          ],
+          "rule": "Pre-damage death state from current health."
+        },
+        "raw_damage": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_collision_damage_input.bullet_building_damage",
+          "rule": "Carries raw building damage input into result schema boundary."
+        },
+        "armor": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "collision(Bullet other)",
+          "java_expr": "block.armor * t.armorMultiplier * t.blockArmorMultiplier",
+          "godot_symbol": "source_building_collision_damage_result.armor",
+          "used_by": [
+            "PortGame.source_building_collision_damage_state"
+          ],
+          "rule": "Effective armor expression for non-piercing collision damage."
+        },
+        "damage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "collision(Bullet other)",
+          "java_expr": "Damage.applyArmor(damage, block.armor * t.armorMultiplier * t.blockArmorMultiplier)",
+          "godot_symbol": "source_building_collision_damage_result.damage",
+          "used_by": [
+            "PortGame.source_building_collision_damage_state"
+          ],
+          "rule": "Final collision damage after optional armor application."
+        },
+        "removed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "collision(Bullet other)",
+          "java_expr": "return true;",
+          "godot_symbol": "source_building_collision_damage_result.removed",
+          "used_by": [
+            "PortGame.source_building_collision_damage_state"
+          ],
+          "rule": "Collision returns true, meaning the bullet should be removed."
+        },
+        "current_health": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_collision_damage_input.current_health",
+          "rule": "Carries current health input into result schema boundary."
+        },
+        "bullet_pierce_armor": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_collision_damage_input.bullet_pierce_armor",
+          "rule": "Carries pierceArmor input into result schema boundary."
+        }
+      }
     }
   },
   "version": 1

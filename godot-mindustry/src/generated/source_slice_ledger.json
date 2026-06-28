@@ -4413,6 +4413,49 @@
       ],
       "runtime_proof": "/root/Main.source_building_collide_state",
       "rule": "Backfills SSOT for existing canonical source_building_collide_state helper against BuildingComp.collide(Bullet other)."
+    },
+    "N543": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "collision(Bullet other)",
+      "godot_owner": "PortGame.source_building_collision_damage_state",
+      "exact_exprs": [
+        "public boolean collision(Bullet other){",
+        "boolean wasDead = health <= 0;",
+        "BulletType t = other.type;",
+        "float damage = other.type.buildingDamage(other);",
+        "if(!t.pierceArmor){",
+        "damage = Damage.applyArmor(damage, block.armor * t.armorMultiplier * t.blockArmorMultiplier);",
+        "damage(other, other.team, damage);",
+        "return true;"
+      ],
+      "deferred_exprs": [
+        "if(health <= 0 && !wasDead){",
+        "Events.fire(new BuildingBulletDestroyEvent(self(), other));",
+        "Destroy-event proof needs post-damage health input and event bus integration slice."
+      ],
+      "source_symbols": [
+        "building_collision_damage.method",
+        "building_collision_damage.was_dead",
+        "building_collision_damage.raw_damage",
+        "building_collision_damage.pierce_gate",
+        "building_collision_damage.armor",
+        "building_collision_damage.apply_armor",
+        "building_collision_damage.damage_call",
+        "building_collision_damage.return_true",
+        "building_collision_damage.current_health",
+        "building_collision_damage.bullet_building_damage",
+        "building_collision_damage.block_armor",
+        "building_collision_damage.bullet_pierce_armor",
+        "building_collision_damage.bullet_armor_multiplier",
+        "building_collision_damage.bullet_block_armor_multiplier"
+      ],
+      "tests": [
+        "test_building_collision_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_collision_damage_state",
+      "rule": "Backfills SSOT for existing canonical source_building_collision_damage_state helper against BuildingComp.collision(Bullet other) damage, armor, damage-call amount, and return-true removal semantics."
     }
   },
   "version": 1
