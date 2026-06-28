@@ -4213,6 +4213,49 @@
       ],
       "runtime_proof": "/root/Main.source_building_change_team_initial_state",
       "rule": "Backfills SSOT for existing canonical source_building_change_team_initial_state helper against initial guards and assignment of BuildingComp changeTeam."
+    },
+    "N537": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "godot_owner": "PortGame.source_building_change_team_power_links_state",
+      "exact_exprs": [
+        "for(int i = 0; i < power.links.size; i++){",
+        "var other = world.build(power.links.items[i]);",
+        "if(other != null && other.team != team && other.power != null && other.power.graph == oldGraph){",
+        "power.links.removeIndex(i);",
+        "other.power.links.removeValue(pos());",
+        "new PowerGraph().reflow(other);",
+        "i --;",
+        "new PowerGraph().reflow(self());",
+        "updatePowerGraph();",
+        "power.links.size",
+        "team",
+        "var oldGraph = power.graph;"
+      ],
+      "deferred_exprs": [
+        "per-link other team/graph predicate",
+        "world.build(power.links.items[i]) object identity"
+      ],
+      "source_symbols": [
+        "building_change_team_power_links.loop",
+        "building_change_team_power_links.build_other",
+        "building_change_team_power_links.remove_index",
+        "building_change_team_power_links.remove_value",
+        "building_change_team_power_links.reflow_other",
+        "building_change_team_power_links.decrement",
+        "building_change_team_power_links.reflow_self",
+        "building_change_team_power_links.update_power_graph",
+        "building_change_team_power_links.link_count",
+        "building_change_team_power_links.team",
+        "building_change_team_power_links.old_graph"
+      ],
+      "tests": [
+        "test_building_change_team_power_links_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_power_links_state",
+      "rule": "Backfills SSOT for existing canonical source_building_change_team_power_links_state helper against BuildingComp changeTeam power link loop."
     }
   },
   "version": 1

@@ -5400,6 +5400,42 @@
       ],
       "runtime_proof": "/root/Main.source_building_change_team_initial_state",
       "rule": "Public runtime contract for Mindustry BuildingComp initial changeTeam state helper."
+    },
+    "PortGame.source_building_change_team_power_links_state": {
+      "status": "active",
+      "source_slice": "N537",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "changeTeam(Team next, boolean updatePower)",
+      "params": [
+        {
+          "name": "link_count",
+          "type": "int",
+          "schema": "source_building_change_team_power_links_input.link_count"
+        },
+        {
+          "name": "team",
+          "type": "Variant",
+          "schema": "source_building_change_team_power_links_input.team"
+        },
+        {
+          "name": "old_graph",
+          "type": "Variant",
+          "schema": "source_building_change_team_power_links_input.old_graph"
+        }
+      ],
+      "return_keys": [
+        "link_count",
+        "team",
+        "old_graph",
+        "remove_index",
+        "reflow_self",
+        "update_power_graph"
+      ],
+      "tests": [
+        "test_building_change_team_power_links_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_power_links_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp changeTeam power link helper."
     }
   },
   "policy": {

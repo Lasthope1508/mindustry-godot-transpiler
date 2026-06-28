@@ -13189,6 +13189,149 @@
       "java_expr": "block.forceTeam",
       "godot_symbol": "source_building_change_team_initial_input.force_team",
       "rule": "Block forceTeam field supplied to initial changeTeam helper."
+    },
+    "building_change_team_power_links.loop": {
+      "tests": [
+        "test_building_change_team_power_links_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_power_links_state",
+      "godot_owner": "PortGame.source_building_change_team_power_links_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "source-backed",
+      "java_expr": "for(int i = 0; i < power.links.size; i++){",
+      "godot_symbol": "source_building_change_team_power_links_result.link_count",
+      "rule": "Iterates power link array by power.links.size."
+    },
+    "building_change_team_power_links.build_other": {
+      "tests": [
+        "test_building_change_team_power_links_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_power_links_state",
+      "godot_owner": "PortGame.source_building_change_team_power_links_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "source-backed",
+      "java_expr": "var other = world.build(power.links.items[i]);",
+      "godot_symbol": "source_building_change_team_power_links_result.link_count",
+      "rule": "Looks up linked building by stored link position."
+    },
+    "building_change_team_power_links.remove_index": {
+      "tests": [
+        "test_building_change_team_power_links_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_power_links_state",
+      "godot_owner": "PortGame.source_building_change_team_power_links_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "source-backed",
+      "java_expr": "power.links.removeIndex(i);",
+      "godot_symbol": "source_building_change_team_power_links_result.remove_index",
+      "rule": "Removes stale link from current power links."
+    },
+    "building_change_team_power_links.remove_value": {
+      "tests": [
+        "test_building_change_team_power_links_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_power_links_state",
+      "godot_owner": "PortGame.source_building_change_team_power_links_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "source-backed",
+      "java_expr": "other.power.links.removeValue(pos());",
+      "godot_symbol": "source_building_change_team_power_links_result.remove_index",
+      "rule": "Removes current position from other power links."
+    },
+    "building_change_team_power_links.reflow_other": {
+      "tests": [
+        "test_building_change_team_power_links_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_power_links_state",
+      "godot_owner": "PortGame.source_building_change_team_power_links_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "source-backed",
+      "java_expr": "new PowerGraph().reflow(other);",
+      "godot_symbol": "source_building_change_team_power_links_result.remove_index",
+      "rule": "Reflows other after link removal."
+    },
+    "building_change_team_power_links.decrement": {
+      "tests": [
+        "test_building_change_team_power_links_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_power_links_state",
+      "godot_owner": "PortGame.source_building_change_team_power_links_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "source-backed",
+      "java_expr": "i --;",
+      "godot_symbol": "source_building_change_team_power_links_result.remove_index",
+      "rule": "Loop index decrements after removal."
+    },
+    "building_change_team_power_links.reflow_self": {
+      "tests": [
+        "test_building_change_team_power_links_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_power_links_state",
+      "godot_owner": "PortGame.source_building_change_team_power_links_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "source-backed",
+      "java_expr": "new PowerGraph().reflow(self());",
+      "godot_symbol": "source_building_change_team_power_links_result.reflow_self",
+      "rule": "Reflows self after link loop."
+    },
+    "building_change_team_power_links.update_power_graph": {
+      "tests": [
+        "test_building_change_team_power_links_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_power_links_state",
+      "godot_owner": "PortGame.source_building_change_team_power_links_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "source-backed",
+      "java_expr": "updatePowerGraph();",
+      "godot_symbol": "source_building_change_team_power_links_result.update_power_graph",
+      "rule": "Updates power graph after reflow."
+    },
+    "building_change_team_power_links.link_count": {
+      "tests": [
+        "test_building_change_team_power_links_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_power_links_state",
+      "godot_owner": "PortGame.source_building_change_team_power_links_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "explicit-input",
+      "java_expr": "power.links.size",
+      "godot_symbol": "source_building_change_team_power_links_input.link_count",
+      "rule": "Power link count supplied to canonical helper."
+    },
+    "building_change_team_power_links.team": {
+      "tests": [
+        "test_building_change_team_power_links_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_power_links_state",
+      "godot_owner": "PortGame.source_building_change_team_power_links_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "explicit-input",
+      "java_expr": "team",
+      "godot_symbol": "source_building_change_team_power_links_input.team",
+      "rule": "Current team supplied to canonical helper."
+    },
+    "building_change_team_power_links.old_graph": {
+      "tests": [
+        "test_building_change_team_power_links_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_power_links_state",
+      "godot_owner": "PortGame.source_building_change_team_power_links_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "explicit-input",
+      "java_expr": "var oldGraph = power.graph;",
+      "godot_symbol": "source_building_change_team_power_links_input.old_graph",
+      "rule": "Old power graph captured before reflow."
     }
   }
 }

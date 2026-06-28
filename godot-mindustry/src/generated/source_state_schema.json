@@ -17395,6 +17395,106 @@
           "rule": "Canonical alias for was_valid input."
         }
       }
+    },
+    "source_building_change_team_power_links_input": {
+      "status": "active",
+      "keys": {
+        "link_count": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "changeTeam(Team next, boolean updatePower)",
+          "java_expr": "power.links.size",
+          "godot_symbol": "source_building_change_team_power_links_input.link_count",
+          "used_by": [
+            "PortGame.source_building_change_team_power_links_state"
+          ],
+          "rule": "Power link count supplied to canonical helper."
+        },
+        "team": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "changeTeam(Team next, boolean updatePower)",
+          "java_expr": "team",
+          "godot_symbol": "source_building_change_team_power_links_input.team",
+          "used_by": [
+            "PortGame.source_building_change_team_power_links_state"
+          ],
+          "rule": "Current team supplied to canonical helper."
+        },
+        "old_graph": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "changeTeam(Team next, boolean updatePower)",
+          "java_expr": "var oldGraph = power.graph;",
+          "godot_symbol": "source_building_change_team_power_links_input.old_graph",
+          "used_by": [
+            "PortGame.source_building_change_team_power_links_state"
+          ],
+          "rule": "Old power graph captured before link reflow."
+        }
+      }
+    },
+    "source_building_change_team_power_links_result": {
+      "status": "active",
+      "keys": {
+        "link_count": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_change_team_power_links_input.link_count",
+          "rule": "Carries link_count input into result schema."
+        },
+        "team": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_change_team_power_links_input.team",
+          "rule": "Carries team input into result schema."
+        },
+        "old_graph": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_change_team_power_links_input.old_graph",
+          "rule": "Carries old_graph input into result schema."
+        },
+        "remove_index": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "changeTeam(Team next, boolean updatePower)",
+          "java_expr": "power.links.removeIndex(i);",
+          "godot_symbol": "source_building_change_team_power_links_result.remove_index",
+          "used_by": [
+            "PortGame.source_building_change_team_power_links_state"
+          ],
+          "rule": "When link loop has stale links, source removes them from current links."
+        },
+        "reflow_self": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "changeTeam(Team next, boolean updatePower)",
+          "java_expr": "new PowerGraph().reflow(self());",
+          "godot_symbol": "source_building_change_team_power_links_result.reflow_self",
+          "used_by": [
+            "PortGame.source_building_change_team_power_links_state"
+          ],
+          "rule": "Power link update reflows self after link loop."
+        },
+        "update_power_graph": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "changeTeam(Team next, boolean updatePower)",
+          "java_expr": "updatePowerGraph();",
+          "godot_symbol": "source_building_change_team_power_links_result.update_power_graph",
+          "used_by": [
+            "PortGame.source_building_change_team_power_links_state"
+          ],
+          "rule": "Power link update refreshes power graph after reflow."
+        }
+      }
     }
   },
   "version": 1
