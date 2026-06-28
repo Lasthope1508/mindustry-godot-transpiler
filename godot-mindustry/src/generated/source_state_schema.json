@@ -13928,6 +13928,70 @@
           "rule": "Carries Java n input into result schema."
         }
       }
+    },
+    "source_arc_mathf_num_input": {
+      "status": "active",
+      "keys": {
+        "value": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "num(boolean b)",
+          "java_expr": "b",
+          "godot_symbol": "source_arc_mathf_num_input.value",
+          "used_by": [
+            "PortGame.source_arc_mathf_num"
+          ],
+          "rule": "Java b input."
+        }
+      }
+    },
+    "source_arc_mathf_num_result": {
+      "status": "active",
+      "keys": {
+        "trueValue": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "num(boolean b)",
+          "java_expr": "1",
+          "godot_symbol": "source_arc_mathf_num_result.trueValue",
+          "used_by": [
+            "PortGame.source_arc_mathf_num"
+          ],
+          "rule": "True branch literal."
+        },
+        "falseValue": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "num(boolean b)",
+          "java_expr": "0",
+          "godot_symbol": "source_arc_mathf_num_result.falseValue",
+          "used_by": [
+            "PortGame.source_arc_mathf_num"
+          ],
+          "rule": "False branch literal."
+        },
+        "num": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "num(boolean b)",
+          "java_expr": "return b ? 1 : 0;",
+          "godot_symbol": "source_arc_mathf_num_result.num",
+          "used_by": [
+            "PortGame.source_arc_mathf_num"
+          ],
+          "rule": "Boolean converted to integer return value."
+        },
+        "value": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_arc_mathf_num_input.value",
+          "rule": "Carries Java b input into result schema."
+        }
+      }
     }
   },
   "version": 1

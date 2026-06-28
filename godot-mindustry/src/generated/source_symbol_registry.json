@@ -10277,6 +10277,71 @@
       "java_expr": "n",
       "godot_symbol": "source_arc_mathf_mod_float_input.divisor",
       "rule": "Runtime divisor maps to Java n."
+    },
+    "arc_mathf_num.method": {
+      "tests": [
+        "test_arc_mathf_num_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_num",
+      "godot_owner": "PortGame.source_arc_mathf_num",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "num(boolean b)",
+      "status": "source-backed",
+      "java_expr": "public static int num(boolean b){\n        return b ? 1 : 0;\n    }",
+      "godot_symbol": "source_arc_mathf_num_result.num",
+      "rule": "Arc Mathf.num(boolean) converts true to 1 and false to 0."
+    },
+    "arc_mathf_num.ternary": {
+      "tests": [
+        "test_arc_mathf_num_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_num",
+      "godot_owner": "PortGame.source_arc_mathf_num",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "num(boolean b)",
+      "status": "source-backed",
+      "java_expr": "b ? 1 : 0",
+      "godot_symbol": "source_arc_mathf_num_result.num",
+      "rule": "Boolean ternary used by Arc Mathf.num(boolean)."
+    },
+    "arc_mathf_num.true_value": {
+      "tests": [
+        "test_arc_mathf_num_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_num",
+      "godot_owner": "PortGame.source_arc_mathf_num",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "num(boolean b)",
+      "status": "source-backed",
+      "java_expr": "1",
+      "godot_symbol": "source_arc_mathf_num_result.trueValue",
+      "rule": "True branch returns integer 1."
+    },
+    "arc_mathf_num.false_value": {
+      "tests": [
+        "test_arc_mathf_num_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_num",
+      "godot_owner": "PortGame.source_arc_mathf_num",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "num(boolean b)",
+      "status": "source-backed",
+      "java_expr": "0",
+      "godot_symbol": "source_arc_mathf_num_result.falseValue",
+      "rule": "False branch returns integer 0."
+    },
+    "arc_mathf_num.value_input": {
+      "tests": [
+        "test_arc_mathf_num_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_num",
+      "godot_owner": "PortGame.source_arc_mathf_num",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "num(boolean b)",
+      "status": "explicit-input",
+      "java_expr": "b",
+      "godot_symbol": "source_arc_mathf_num_input.value",
+      "rule": "Runtime value maps to Java b."
     }
   }
 }

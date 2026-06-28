@@ -4285,6 +4285,30 @@
       ],
       "runtime_proof": "/root/Main.source_arc_mathf_mod_float",
       "rule": "Public runtime contract for Arc Mathf.mod(float,float) helper."
+    },
+    "PortGame.source_arc_mathf_num": {
+      "status": "active",
+      "source_slice": "N503",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "source_method": "num(boolean b)",
+      "params": [
+        {
+          "name": "value",
+          "type": "bool",
+          "schema": "source_arc_mathf_num_input.value"
+        }
+      ],
+      "return_keys": [
+        "trueValue",
+        "falseValue",
+        "num",
+        "value"
+      ],
+      "tests": [
+        "test_arc_mathf_num_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_num",
+      "rule": "Public runtime contract for Arc Mathf.num(boolean) helper."
     }
   },
   "policy": {

@@ -3135,6 +3135,34 @@
       ],
       "runtime_proof": "/root/Main.source_arc_mathf_mod_float",
       "rule": "Backfills SSOT for existing canonical source_arc_mathf_mod_float helper against Arc Mathf.mod(float,float)."
+    },
+    "N503": {
+      "status": "done",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_class": "arc.math.Mathf",
+      "java_method": "num(boolean b)",
+      "godot_owner": "PortGame.source_arc_mathf_num",
+      "exact_exprs": [
+        "public static int num(boolean b){\n        return b ? 1 : 0;\n    }",
+        "return b ? 1 : 0;",
+        "b ? 1 : 0",
+        "1",
+        "0",
+        "b"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "arc_mathf_num.method",
+        "arc_mathf_num.ternary",
+        "arc_mathf_num.true_value",
+        "arc_mathf_num.false_value",
+        "arc_mathf_num.value_input"
+      ],
+      "tests": [
+        "test_arc_mathf_num_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_num",
+      "rule": "Backfills SSOT for existing canonical source_arc_mathf_num helper against Arc Mathf.num(boolean)."
     }
   },
   "version": 1
