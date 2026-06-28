@@ -4143,11 +4143,7 @@ func source_weapon_update_reload_gate_state(mount_state: Dictionary, weapon_stat
 	}
 
 func source_angles_angle_dist(a: float, b: float) -> float:
-	var mod_a := fposmod(a, 360.0)
-	var mod_b := fposmod(b, 360.0)
-	var forward := mod_a - mod_b + 360.0 if mod_a - mod_b < 0.0 else mod_a - mod_b
-	var backward := mod_b - mod_a + 360.0 if mod_b - mod_a < 0.0 else mod_b - mod_a
-	return min(forward, backward)
+	return source_arc_angles_angle_dist(a, b)
 
 func source_weapon_update_cone_gate_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary) -> Dictionary:
 	var always_shooting := bool(weapon_state.get("alwaysShooting", false))

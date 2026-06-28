@@ -3755,6 +3755,35 @@
       "runtime_proof": "/root/Main.source_angle_distance",
       "rule": "Public runtime contract for Arc Angles.angleDist-backed angle distance helper."
     },
+    "PortGame.source_angles_angle_dist": {
+      "status": "active",
+      "source_slice": "N488",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "source_method": "angleDist(float a, float b)",
+      "params": [
+        {
+          "name": "a",
+          "type": "float",
+          "schema": "source_angles_angle_dist_input.a"
+        },
+        {
+          "name": "b",
+          "type": "float",
+          "schema": "source_angles_angle_dist_input.b"
+        }
+      ],
+      "return_keys": [
+        "angleDistance",
+        "a",
+        "b"
+      ],
+      "tests": [
+        "test_source_angles_angle_dist_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_cone_gate_state"
+      ],
+      "runtime_proof": "/root/Main.source_angles_angle_dist",
+      "rule": "Public runtime contract for source weapon cone angle distance wrapper backed by Arc Angles.angleDist."
+    },
     "PortGame.source_angle_to_target": {
       "status": "active",
       "source_slice": "N487",

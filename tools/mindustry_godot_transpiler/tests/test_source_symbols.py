@@ -2248,6 +2248,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(current_input["java_expr"], "a")
         self.assertEqual(current_input["godot_symbol"], "source_angle_distance_input.currentDegrees")
 
+    def test_source_angles_angle_dist_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "source_angles_angle_dist.method")
+        self.assertEqual(method["java_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(method["java_expr"], "public static float angleDist(float a, float b){\n        a = Mathf.mod(a, 360f);\n        b = Mathf.mod(b, 360f);\n        return Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a);\n    }")
+        self.assertEqual(method["godot_owner"], "PortGame.source_angles_angle_dist")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_angles_angle_dist")
+
+        wrapper = source_symbols.source_symbol(registry, "source_angles_angle_dist.canonical_wrapper")
+        self.assertEqual(wrapper["status"], "generated")
+        self.assertEqual(wrapper["godot_symbol"], "source_angles_angle_dist_result.angleDistance")
+        self.assertEqual(wrapper["rule"], "Runtime delegates to canonical source_arc_angles_angle_dist(a, b) to avoid duplicating the angleDist formula.")
+
     def test_arc_position_angle_to_target_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -2280,9 +2297,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 85)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 86)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 90)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 91)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -2373,6 +2390,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_absin", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -3047,6 +3065,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_angle_to_target["godot_owner"], "PortGame.source_angle_to_target")
         self.assertIn("default float angleTo(Position other){\n        return Angles.angle(getX(), getY(), other.getX(), other.getY());\n    }", source_angle_to_target["exact_exprs"])
         self.assertIn("public static float angle(float x, float y, float x2, float y2){\n        float ang = Mathf.atan2(x2 - x, y2 - y) * Mathf.radDeg;\n        if(ang < 0) ang += 360f;\n        return ang;\n    }", source_angle_to_target["exact_exprs"])
+
+        source_angles_angle_dist = source_symbols.source_slice(ledger, "N488")
+        self.assertEqual(source_angles_angle_dist["java_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(source_angles_angle_dist["java_method"], "angleDist(float a, float b)")
+        self.assertEqual(source_angles_angle_dist["godot_owner"], "PortGame.source_angles_angle_dist")
+        self.assertIn("public static float angleDist(float a, float b){\n        a = Mathf.mod(a, 360f);\n        b = Mathf.mod(b, 360f);\n        return Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a);\n    }", source_angles_angle_dist["exact_exprs"])
+        self.assertIn("source_arc_angles_angle_dist(a, b)", source_angles_angle_dist["exact_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -3879,6 +3904,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("targetMod", angle_distance["return_keys"])
         self.assertIn("angleDistance", angle_distance["return_keys"])
         self.assertEqual(angle_distance["source_method"], "angleDist(float a, float b)")
+
+        source_angles_angle_dist = source_symbols.api_contract(contracts, "PortGame.source_angles_angle_dist")
+        self.assertEqual([param["name"] for param in source_angles_angle_dist["params"]], ["a", "b"])
+        self.assertEqual(source_angles_angle_dist["params"][0]["schema"], "source_angles_angle_dist_input.a")
+        self.assertEqual(source_angles_angle_dist["params"][1]["schema"], "source_angles_angle_dist_input.b")
+        self.assertIn("angleDistance", source_angles_angle_dist["return_keys"])
+        self.assertEqual(source_angles_angle_dist["source_method"], "angleDist(float a, float b)")
 
         angle_to_target = source_symbols.api_contract(contracts, "PortGame.source_angle_to_target")
         self.assertEqual([param["name"] for param in angle_to_target["params"]], ["origin", "target"])
@@ -4780,6 +4812,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_angle_distance_result["keys"]["angleDistance"]["java_expr"], "Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a)")
         self.assertEqual(source_angle_distance_result["keys"]["currentDegrees"]["alias_of"], "source_angle_distance_input.currentDegrees")
         self.assertEqual(source_angle_distance_result["keys"]["targetDegrees"]["alias_of"], "source_angle_distance_input.targetDegrees")
+
+        source_angles_angle_dist_input = source_symbols.state_schema(schema, "source_angles_angle_dist_input")
+        self.assertEqual(source_angles_angle_dist_input["keys"]["a"]["java_expr"], "a")
+        self.assertEqual(source_angles_angle_dist_input["keys"]["b"]["java_expr"], "b")
+
+        source_angles_angle_dist_result = source_symbols.state_schema(schema, "source_angles_angle_dist_result")
+        self.assertEqual(source_angles_angle_dist_result["keys"]["angleDistance"]["java_expr"], "Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a)")
+        self.assertEqual(source_angles_angle_dist_result["keys"]["a"]["alias_of"], "source_angles_angle_dist_input.a")
+        self.assertEqual(source_angles_angle_dist_result["keys"]["b"]["alias_of"], "source_angles_angle_dist_input.b")
 
         source_angle_to_target_input = source_symbols.state_schema(schema, "source_angle_to_target_input")
         self.assertEqual(source_angle_to_target_input["keys"]["originX"]["java_expr"], "getX()")

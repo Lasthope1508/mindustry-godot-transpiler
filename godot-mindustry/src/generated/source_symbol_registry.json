@@ -8901,6 +8901,62 @@
       "godot_symbol": "source_angle_distance_input.targetDegrees",
       "rule": "Runtime target_degrees parameter maps to Java angle b."
     },
+    "source_angles_angle_dist.method": {
+      "tests": [
+        "test_source_angles_angle_dist_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_cone_gate_state"
+      ],
+      "runtime_proof": "/root/Main.source_angles_angle_dist",
+      "godot_owner": "PortGame.source_angles_angle_dist",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "angleDist(float a, float b)",
+      "java_expr": "public static float angleDist(float a, float b){\n        a = Mathf.mod(a, 360f);\n        b = Mathf.mod(b, 360f);\n        return Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a);\n    }",
+      "godot_symbol": "source_angles_angle_dist_result.angleDistance",
+      "rule": "Source weapon cone angle distance wrapper preserves Arc Angles.angleDist."
+    },
+    "source_angles_angle_dist.canonical_wrapper": {
+      "tests": [
+        "test_source_angles_angle_dist_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_cone_gate_state"
+      ],
+      "runtime_proof": "/root/Main.source_angles_angle_dist",
+      "godot_owner": "PortGame.source_angles_angle_dist",
+      "status": "generated",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "angleDist(float a, float b)",
+      "java_expr": "source_arc_angles_angle_dist(a, b)",
+      "godot_symbol": "source_angles_angle_dist_result.angleDistance",
+      "rule": "Runtime delegates to canonical source_arc_angles_angle_dist(a, b) to avoid duplicating the angleDist formula."
+    },
+    "source_angles_angle_dist.a_input": {
+      "tests": [
+        "test_source_angles_angle_dist_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_cone_gate_state"
+      ],
+      "runtime_proof": "/root/Main.source_angles_angle_dist",
+      "godot_owner": "PortGame.source_angles_angle_dist",
+      "status": "explicit-input",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "angleDist(float a, float b)",
+      "java_expr": "a",
+      "godot_symbol": "source_angles_angle_dist_input.a",
+      "rule": "Runtime a parameter maps to Java angleDist angle a."
+    },
+    "source_angles_angle_dist.b_input": {
+      "tests": [
+        "test_source_angles_angle_dist_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_cone_gate_state"
+      ],
+      "runtime_proof": "/root/Main.source_angles_angle_dist",
+      "godot_owner": "PortGame.source_angles_angle_dist",
+      "status": "explicit-input",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "angleDist(float a, float b)",
+      "java_expr": "b",
+      "godot_symbol": "source_angles_angle_dist_input.b",
+      "rule": "Runtime b parameter maps to Java angleDist angle b."
+    },
     "arc_position_angle_to.other_method": {
       "tests": [
         "test_arc_position_angle_to_target_symbols_are_registered_with_source_backing",

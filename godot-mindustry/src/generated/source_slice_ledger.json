@@ -2675,6 +2675,32 @@
       ],
       "runtime_proof": "/root/Main.source_angle_to_target",
       "rule": "Backfills and wires source_angle_to_target to the canonical Arc Angles.angle helper for turret target rotation."
+    },
+    "N488": {
+      "status": "done",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_class": "arc.math.Angles",
+      "java_method": "angleDist(float a, float b)",
+      "godot_owner": "PortGame.source_angles_angle_dist",
+      "exact_exprs": [
+        "public static float angleDist(float a, float b){\n        a = Mathf.mod(a, 360f);\n        b = Mathf.mod(b, 360f);\n        return Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a);\n    }",
+        "source_arc_angles_angle_dist(a, b)",
+        "a",
+        "b"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "source_angles_angle_dist.method",
+        "source_angles_angle_dist.canonical_wrapper",
+        "source_angles_angle_dist.a_input",
+        "source_angles_angle_dist.b_input"
+      ],
+      "tests": [
+        "test_source_angles_angle_dist_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_cone_gate_state"
+      ],
+      "runtime_proof": "/root/Main.source_angles_angle_dist",
+      "rule": "Backfills and wires source_angles_angle_dist to the canonical Arc Angles.angleDist helper for weapon cone gating."
     }
   },
   "version": 1

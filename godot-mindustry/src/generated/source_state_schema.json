@@ -12449,6 +12449,64 @@
         }
       }
     },
+    "source_angles_angle_dist_input": {
+      "status": "active",
+      "keys": {
+        "a": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "angleDist(float a, float b)",
+          "java_expr": "a",
+          "godot_symbol": "source_angles_angle_dist_input.a",
+          "used_by": [
+            "PortGame.source_angles_angle_dist"
+          ],
+          "rule": "Java angleDist first angle a."
+        },
+        "b": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "angleDist(float a, float b)",
+          "java_expr": "b",
+          "godot_symbol": "source_angles_angle_dist_input.b",
+          "used_by": [
+            "PortGame.source_angles_angle_dist"
+          ],
+          "rule": "Java angleDist second angle b."
+        }
+      }
+    },
+    "source_angles_angle_dist_result": {
+      "status": "active",
+      "keys": {
+        "angleDistance": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "angleDist(float a, float b)",
+          "java_expr": "Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a)",
+          "godot_symbol": "source_angles_angle_dist_result.angleDistance",
+          "used_by": [
+            "PortGame.source_angles_angle_dist"
+          ],
+          "rule": "Minimum wrapped angle distance returned by canonical Arc angleDist helper."
+        },
+        "a": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_angles_angle_dist_input.a",
+          "rule": "Carries Java angleDist input a into result schema."
+        },
+        "b": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_angles_angle_dist_input.b",
+          "rule": "Carries Java angleDist input b into result schema."
+        }
+      }
+    },
     "source_angle_to_target_input": {
       "status": "active",
       "keys": {

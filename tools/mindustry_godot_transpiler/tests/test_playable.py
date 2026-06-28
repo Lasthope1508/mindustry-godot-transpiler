@@ -3704,6 +3704,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("var rotate := bool(weapon_state.get(\"rotate\", false))", source)
         self.assertIn("var weapon_rotate := bool(weapon_state.get(\"rotate\", false))", source)
         self.assertIn("var current_rotation := mount_rotation if weapon_rotate else unit_rotation + base_rotation", source)
+        self.assertIn("func source_angles_angle_dist(a: float, b: float) -> float:", source)
+        self.assertIn("return source_arc_angles_angle_dist(a, b)", source)
         self.assertIn("var angle_distance := source_angles_angle_dist(current_rotation, target_rotation)", source)
         self.assertIn("var within_cone := angle_distance <= shoot_cone", source)
         self.assertIn("var cone_gate := always_shooting or within_cone", source)
