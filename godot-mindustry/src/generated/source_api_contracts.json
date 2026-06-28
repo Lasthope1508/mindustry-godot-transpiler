@@ -3762,6 +3762,48 @@
       "runtime_proof": "/root/Main.source_approach",
       "rule": "Public runtime contract for Arc Mathf.approach-backed linear approach helper."
     },
+    "PortGame.source_approach_delta": {
+      "status": "active",
+      "source_slice": "N490",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "source_method": "approachDelta(float from, float to, float speed)",
+      "params": [
+        {
+          "name": "from_value",
+          "type": "float",
+          "schema": "source_approach_delta_input.from"
+        },
+        {
+          "name": "to_value",
+          "type": "float",
+          "schema": "source_approach_delta_input.to"
+        },
+        {
+          "name": "speed",
+          "type": "float",
+          "schema": "source_approach_delta_input.speed"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_approach_delta_input.sourceDelta"
+        }
+      ],
+      "return_keys": [
+        "scaledSpeed",
+        "approachDelta",
+        "from",
+        "to",
+        "speed",
+        "sourceDelta"
+      ],
+      "tests": [
+        "test_arc_mathf_approach_delta_symbols_are_registered_with_source_backing",
+        "test_port_game_applies_source_drill_warmup_to_output_delta"
+      ],
+      "runtime_proof": "/root/Main.source_approach_delta",
+      "rule": "Public runtime contract for Arc Mathf.approachDelta-backed helper with explicit Time.delta input."
+    },
     "PortGame.source_angle_distance": {
       "status": "active",
       "source_slice": "N486",

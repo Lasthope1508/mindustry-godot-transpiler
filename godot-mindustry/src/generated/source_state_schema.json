@@ -12455,6 +12455,112 @@
         }
       }
     },
+    "source_approach_delta_input": {
+      "status": "active",
+      "keys": {
+        "from": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "approachDelta(float from, float to, float speed)",
+          "java_expr": "from",
+          "godot_symbol": "source_approach_delta_input.from",
+          "used_by": [
+            "PortGame.source_approach_delta"
+          ],
+          "rule": "Java approachDelta starting value from."
+        },
+        "to": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "approachDelta(float from, float to, float speed)",
+          "java_expr": "to",
+          "godot_symbol": "source_approach_delta_input.to",
+          "used_by": [
+            "PortGame.source_approach_delta"
+          ],
+          "rule": "Java approachDelta target value to."
+        },
+        "speed": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "approachDelta(float from, float to, float speed)",
+          "java_expr": "speed",
+          "godot_symbol": "source_approach_delta_input.speed",
+          "used_by": [
+            "PortGame.source_approach_delta"
+          ],
+          "rule": "Java approachDelta linear speed."
+        },
+        "sourceDelta": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "approachDelta(float from, float to, float speed)",
+          "java_expr": "Time.delta",
+          "godot_symbol": "source_approach_delta_input.sourceDelta",
+          "used_by": [
+            "PortGame.source_approach_delta"
+          ],
+          "rule": "Runtime source_delta supplies Java Time.delta."
+        }
+      }
+    },
+    "source_approach_delta_result": {
+      "status": "active",
+      "keys": {
+        "scaledSpeed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "approachDelta(float from, float to, float speed)",
+          "java_expr": "Time.delta * speed",
+          "godot_symbol": "source_approach_delta_result.scaledSpeed",
+          "used_by": [
+            "PortGame.source_approach_delta"
+          ],
+          "rule": "Speed after multiplying by Time.delta."
+        },
+        "approachDelta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "approachDelta(float from, float to, float speed)",
+          "java_expr": "approach(from, to, Time.delta * speed)",
+          "godot_symbol": "source_approach_delta_result.approachDelta",
+          "used_by": [
+            "PortGame.source_approach_delta"
+          ],
+          "rule": "ApproachDelta return value."
+        },
+        "from": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_approach_delta_input.from",
+          "rule": "Carries Java approachDelta input from into result schema."
+        },
+        "to": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_approach_delta_input.to",
+          "rule": "Carries Java approachDelta input to into result schema."
+        },
+        "speed": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_approach_delta_input.speed",
+          "rule": "Carries Java approachDelta input speed into result schema."
+        },
+        "sourceDelta": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_approach_delta_input.sourceDelta",
+          "rule": "Carries Java Time.delta input into result schema."
+        }
+      }
+    },
     "source_angle_distance_input": {
       "status": "active",
       "keys": {

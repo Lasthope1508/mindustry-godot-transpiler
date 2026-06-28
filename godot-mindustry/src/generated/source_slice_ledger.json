@@ -2731,6 +2731,37 @@
       ],
       "runtime_proof": "/root/Main.source_approach",
       "rule": "Backfills SSOT for existing source_approach helper against Arc Mathf.approach."
+    },
+    "N490": {
+      "status": "done",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_class": "arc.math.Mathf",
+      "java_method": "approachDelta(float from, float to, float speed)",
+      "godot_owner": "PortGame.source_approach_delta",
+      "exact_exprs": [
+        "public static float approachDelta(float from, float to, float speed){\n        return approach(from, to, Time.delta * speed);\n    }",
+        "approach(from, to, Time.delta * speed)",
+        "Time.delta * speed",
+        "from",
+        "to",
+        "speed"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "arc_mathf_approach_delta.method",
+        "arc_mathf_approach_delta.scaled_speed",
+        "arc_mathf_approach_delta.approach_call",
+        "arc_mathf_approach_delta.from_input",
+        "arc_mathf_approach_delta.to_input",
+        "arc_mathf_approach_delta.speed_input",
+        "arc_mathf_approach_delta.delta_input"
+      ],
+      "tests": [
+        "test_arc_mathf_approach_delta_symbols_are_registered_with_source_backing",
+        "test_port_game_applies_source_drill_warmup_to_output_delta"
+      ],
+      "runtime_proof": "/root/Main.source_approach_delta",
+      "rule": "Backfills SSOT for existing source_approach_delta helper against Arc Mathf.approachDelta."
     }
   },
   "version": 1
