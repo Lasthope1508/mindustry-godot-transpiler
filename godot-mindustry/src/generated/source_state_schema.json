@@ -12561,6 +12561,124 @@
         }
       }
     },
+    "source_arc_angles_angle_input": {
+      "status": "active",
+      "keys": {
+        "fromX": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "angle(float x, float y, float x2, float y2)",
+          "java_expr": "x",
+          "godot_symbol": "source_arc_angles_angle_input.fromX",
+          "used_by": [
+            "PortGame.source_arc_angles_angle"
+          ],
+          "rule": "Java source point x."
+        },
+        "fromY": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "angle(float x, float y, float x2, float y2)",
+          "java_expr": "y",
+          "godot_symbol": "source_arc_angles_angle_input.fromY",
+          "used_by": [
+            "PortGame.source_arc_angles_angle"
+          ],
+          "rule": "Java source point y."
+        },
+        "toX": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "angle(float x, float y, float x2, float y2)",
+          "java_expr": "x2",
+          "godot_symbol": "source_arc_angles_angle_input.toX",
+          "used_by": [
+            "PortGame.source_arc_angles_angle"
+          ],
+          "rule": "Java target point x2."
+        },
+        "toY": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "angle(float x, float y, float x2, float y2)",
+          "java_expr": "y2",
+          "godot_symbol": "source_arc_angles_angle_input.toY",
+          "used_by": [
+            "PortGame.source_arc_angles_angle"
+          ],
+          "rule": "Java target point y2."
+        }
+      }
+    },
+    "source_arc_angles_angle_result": {
+      "status": "active",
+      "keys": {
+        "rawAngle": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "angle(float x, float y, float x2, float y2)",
+          "java_expr": "float ang = Mathf.atan2(x2 - x, y2 - y) * Mathf.radDeg;",
+          "godot_symbol": "source_arc_angles_angle_result.rawAngle",
+          "used_by": [
+            "PortGame.source_arc_angles_angle"
+          ],
+          "rule": "Raw angle before negative wrap."
+        },
+        "negativeWrap": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "angle(float x, float y, float x2, float y2)",
+          "java_expr": "if(ang < 0) ang += 360f;",
+          "godot_symbol": "source_arc_angles_angle_result.negativeWrap",
+          "used_by": [
+            "PortGame.source_arc_angles_angle"
+          ],
+          "rule": "Whether negative raw angle wrap branch applies."
+        },
+        "angle": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "angle(float x, float y, float x2, float y2)",
+          "java_expr": "return ang;",
+          "godot_symbol": "source_arc_angles_angle_result.angle",
+          "used_by": [
+            "PortGame.source_arc_angles_angle"
+          ],
+          "rule": "Final wrapped angle return."
+        },
+        "fromX": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_arc_angles_angle_input.fromX",
+          "rule": "Carries Java x input into result schema."
+        },
+        "fromY": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_arc_angles_angle_input.fromY",
+          "rule": "Carries Java y input into result schema."
+        },
+        "toX": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_arc_angles_angle_input.toX",
+          "rule": "Carries Java x2 input into result schema."
+        },
+        "toY": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_arc_angles_angle_input.toY",
+          "rule": "Carries Java y2 input into result schema."
+        }
+      }
+    },
     "source_angle_distance_input": {
       "status": "active",
       "keys": {

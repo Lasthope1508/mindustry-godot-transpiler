@@ -3804,6 +3804,49 @@
       "runtime_proof": "/root/Main.source_approach_delta",
       "rule": "Public runtime contract for Arc Mathf.approachDelta-backed helper with explicit Time.delta input."
     },
+    "PortGame.source_arc_angles_angle": {
+      "status": "active",
+      "source_slice": "N491",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "source_method": "angle(float x, float y, float x2, float y2)",
+      "params": [
+        {
+          "name": "from_x",
+          "type": "float",
+          "schema": "source_arc_angles_angle_input.fromX"
+        },
+        {
+          "name": "from_y",
+          "type": "float",
+          "schema": "source_arc_angles_angle_input.fromY"
+        },
+        {
+          "name": "to_x",
+          "type": "float",
+          "schema": "source_arc_angles_angle_input.toX"
+        },
+        {
+          "name": "to_y",
+          "type": "float",
+          "schema": "source_arc_angles_angle_input.toY"
+        }
+      ],
+      "return_keys": [
+        "rawAngle",
+        "negativeWrap",
+        "angle",
+        "fromX",
+        "fromY",
+        "toX",
+        "toY"
+      ],
+      "tests": [
+        "test_arc_angles_angle_symbols_are_registered_with_source_backing",
+        "test_arc_position_angle_to_target_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_angle",
+      "rule": "Public runtime contract for Arc Angles.angle helper."
+    },
     "PortGame.source_angle_distance": {
       "status": "active",
       "source_slice": "N486",

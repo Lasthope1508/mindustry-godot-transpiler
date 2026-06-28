@@ -2762,6 +2762,40 @@
       ],
       "runtime_proof": "/root/Main.source_approach_delta",
       "rule": "Backfills SSOT for existing source_approach_delta helper against Arc Mathf.approachDelta."
+    },
+    "N491": {
+      "status": "done",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_class": "arc.math.Angles",
+      "java_method": "angle(float x, float y, float x2, float y2)",
+      "godot_owner": "PortGame.source_arc_angles_angle",
+      "exact_exprs": [
+        "public static float angle(float x, float y, float x2, float y2){\n        float ang = Mathf.atan2(x2 - x, y2 - y) * Mathf.radDeg;\n        if(ang < 0) ang += 360f;\n        return ang;\n    }",
+        "float ang = Mathf.atan2(x2 - x, y2 - y) * Mathf.radDeg;",
+        "if(ang < 0) ang += 360f;",
+        "return ang;",
+        "x",
+        "y",
+        "x2",
+        "y2"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "arc_angles_angle.method",
+        "arc_angles_angle.atan2_expr",
+        "arc_angles_angle.negative_wrap",
+        "arc_angles_angle.return_expr",
+        "arc_angles_angle.from_x_input",
+        "arc_angles_angle.from_y_input",
+        "arc_angles_angle.to_x_input",
+        "arc_angles_angle.to_y_input"
+      ],
+      "tests": [
+        "test_arc_angles_angle_symbols_are_registered_with_source_backing",
+        "test_arc_position_angle_to_target_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_angle",
+      "rule": "Backfills SSOT for existing canonical source_arc_angles_angle helper against Arc Angles.angle."
     }
   },
   "version": 1
