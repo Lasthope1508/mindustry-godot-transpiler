@@ -12760,6 +12760,84 @@
       "java_expr": "tilesize",
       "godot_symbol": "source_building_block_half_extent_input.tilesize",
       "rule": "Runtime source_tilesize argument supplies source tilesize constant."
+    },
+    "building_bullet_damage.delegate": {
+      "tests": [
+        "test_building_bullet_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_bullet_damage_state",
+      "godot_owner": "PortGame.source_building_bullet_damage_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(Bullet bullet, Team source, float damage)",
+      "status": "source-backed",
+      "java_expr": "damage(source, damage);",
+      "godot_symbol": "source_building_bullet_damage_result.delegatesToSourceDamage",
+      "rule": "Source delegates bullet damage to Team source damage overload."
+    },
+    "building_bullet_damage.event": {
+      "tests": [
+        "test_building_bullet_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_bullet_damage_state",
+      "godot_owner": "PortGame.source_building_bullet_damage_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(Bullet bullet, Team source, float damage)",
+      "status": "source-backed",
+      "java_expr": "Events.fire(bulletDamageEvent.set(self(), bullet));",
+      "godot_symbol": "source_building_bullet_damage_result.firesBulletDamageEvent",
+      "rule": "Source fires BuildDamageEvent after bullet damage delegate."
+    },
+    "building_bullet_damage.event_field": {
+      "tests": [
+        "test_building_bullet_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_bullet_damage_state",
+      "godot_owner": "PortGame.source_building_bullet_damage_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(Bullet bullet, Team source, float damage)",
+      "status": "source-backed",
+      "java_expr": "static final BuildDamageEvent bulletDamageEvent = new BuildDamageEvent();",
+      "godot_symbol": "source_building_bullet_damage_result.bulletDamageEvent",
+      "rule": "Source static event instance used by bullet damage event fire."
+    },
+    "building_bullet_damage.bullet": {
+      "tests": [
+        "test_building_bullet_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_bullet_damage_state",
+      "godot_owner": "PortGame.source_building_bullet_damage_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(Bullet bullet, Team source, float damage)",
+      "status": "explicit-input",
+      "java_expr": "bullet",
+      "godot_symbol": "source_building_bullet_damage_input.bullet",
+      "rule": "Runtime bullet argument supplies source bullet parameter."
+    },
+    "building_bullet_damage.source_team": {
+      "tests": [
+        "test_building_bullet_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_bullet_damage_state",
+      "godot_owner": "PortGame.source_building_bullet_damage_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(Bullet bullet, Team source, float damage)",
+      "status": "explicit-input",
+      "java_expr": "source",
+      "godot_symbol": "source_building_bullet_damage_input.sourceTeam",
+      "rule": "Runtime source_team argument supplies source Team parameter."
+    },
+    "building_bullet_damage.damage": {
+      "tests": [
+        "test_building_bullet_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_bullet_damage_state",
+      "godot_owner": "PortGame.source_building_bullet_damage_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(Bullet bullet, Team source, float damage)",
+      "status": "explicit-input",
+      "java_expr": "damage",
+      "godot_symbol": "source_building_bullet_damage_input.damage",
+      "rule": "Runtime damage_amount argument supplies source damage parameter."
     }
   }
 }

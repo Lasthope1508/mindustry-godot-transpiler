@@ -16857,6 +16857,106 @@
           "rule": "Carries tilesize input into result schema."
         }
       }
+    },
+    "source_building_bullet_damage_input": {
+      "status": "active",
+      "keys": {
+        "bullet": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "damage(Bullet bullet, Team source, float damage)",
+          "java_expr": "bullet",
+          "godot_symbol": "source_building_bullet_damage_input.bullet",
+          "used_by": [
+            "PortGame.source_building_bullet_damage_state"
+          ],
+          "rule": "Runtime bullet argument supplies source bullet parameter."
+        },
+        "sourceTeam": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "damage(Bullet bullet, Team source, float damage)",
+          "java_expr": "source",
+          "godot_symbol": "source_building_bullet_damage_input.sourceTeam",
+          "used_by": [
+            "PortGame.source_building_bullet_damage_state"
+          ],
+          "rule": "Runtime source_team argument supplies source Team parameter."
+        },
+        "damage": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "damage(Bullet bullet, Team source, float damage)",
+          "java_expr": "damage",
+          "godot_symbol": "source_building_bullet_damage_input.damage",
+          "used_by": [
+            "PortGame.source_building_bullet_damage_state"
+          ],
+          "rule": "Runtime damage_amount argument supplies source damage parameter."
+        }
+      }
+    },
+    "source_building_bullet_damage_result": {
+      "status": "active",
+      "keys": {
+        "delegatesToSourceDamage": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "damage(Bullet bullet, Team source, float damage)",
+          "java_expr": "damage(source, damage);",
+          "godot_symbol": "source_building_bullet_damage_result.delegatesToSourceDamage",
+          "used_by": [
+            "PortGame.source_building_bullet_damage_state"
+          ],
+          "rule": "Source delegates bullet damage to Team source damage overload."
+        },
+        "firesBulletDamageEvent": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "damage(Bullet bullet, Team source, float damage)",
+          "java_expr": "Events.fire(bulletDamageEvent.set(self(), bullet));",
+          "godot_symbol": "source_building_bullet_damage_result.firesBulletDamageEvent",
+          "used_by": [
+            "PortGame.source_building_bullet_damage_state"
+          ],
+          "rule": "Source fires BuildDamageEvent after bullet damage delegate."
+        },
+        "bulletDamageEvent": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "damage(Bullet bullet, Team source, float damage)",
+          "java_expr": "static final BuildDamageEvent bulletDamageEvent = new BuildDamageEvent();",
+          "godot_symbol": "source_building_bullet_damage_result.bulletDamageEvent",
+          "used_by": [
+            "PortGame.source_building_bullet_damage_state"
+          ],
+          "rule": "Source static event instance used by bullet damage event fire."
+        },
+        "bullet": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_bullet_damage_input.bullet",
+          "rule": "Carries bullet input into result schema."
+        },
+        "sourceTeam": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_bullet_damage_input.sourceTeam",
+          "rule": "Carries sourceTeam input into result schema."
+        },
+        "damage": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_bullet_damage_input.damage",
+          "rule": "Carries damage input into result schema."
+        }
+      }
     }
   },
   "version": 1

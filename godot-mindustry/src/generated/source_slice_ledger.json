@@ -4010,6 +4010,38 @@
       ],
       "runtime_proof": "/root/Main.source_building_block_half_extent",
       "rule": "Backfills SSOT for existing canonical source_building_block_half_extent helper against BuildingComp.drawConfigure square radius expression."
+    },
+    "N530": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "damage(Bullet bullet, Team source, float damage)",
+      "godot_owner": "PortGame.source_building_bullet_damage_state",
+      "exact_exprs": [
+        "static final BuildDamageEvent bulletDamageEvent = new BuildDamageEvent();",
+        "damage(source, damage);",
+        "Events.fire(bulletDamageEvent.set(self(), bullet));",
+        "bullet",
+        "source",
+        "damage"
+      ],
+      "deferred_exprs": [
+        "damage(@Nullable Team source, float damage)",
+        "damage(float damage)"
+      ],
+      "source_symbols": [
+        "building_bullet_damage.delegate",
+        "building_bullet_damage.event",
+        "building_bullet_damage.event_field",
+        "building_bullet_damage.bullet",
+        "building_bullet_damage.source_team",
+        "building_bullet_damage.damage"
+      ],
+      "tests": [
+        "test_building_bullet_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_bullet_damage_state",
+      "rule": "Backfills SSOT for existing canonical source_building_bullet_damage_state helper against BuildingComp bullet damage delegate and event fire path."
     }
   },
   "version": 1

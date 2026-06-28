@@ -5202,6 +5202,42 @@
       ],
       "runtime_proof": "/root/Main.source_building_block_half_extent",
       "rule": "Public runtime contract for Mindustry BuildingComp block half extent helper."
+    },
+    "PortGame.source_building_bullet_damage_state": {
+      "status": "active",
+      "source_slice": "N530",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "damage(Bullet bullet, Team source, float damage)",
+      "params": [
+        {
+          "name": "bullet",
+          "type": "Variant",
+          "schema": "source_building_bullet_damage_input.bullet"
+        },
+        {
+          "name": "source_team",
+          "type": "Variant",
+          "schema": "source_building_bullet_damage_input.sourceTeam"
+        },
+        {
+          "name": "damage_amount",
+          "type": "float",
+          "schema": "source_building_bullet_damage_input.damage"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "sourceTeam",
+        "damage",
+        "delegatesToSourceDamage",
+        "firesBulletDamageEvent",
+        "bulletDamageEvent"
+      ],
+      "tests": [
+        "test_building_bullet_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_bullet_damage_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp bullet damage helper."
     }
   },
   "policy": {

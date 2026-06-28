@@ -3072,6 +3072,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(block_size["java_expr"], "block.size")
         self.assertEqual(block_size["godot_symbol"], "source_building_block_half_extent_input.blockSize")
 
+    def test_building_bullet_damage_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        delegate = source_symbols.source_symbol(registry, "building_bullet_damage.delegate")
+        self.assertEqual(delegate["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(delegate["java_method"], "damage(Bullet bullet, Team source, float damage)")
+        self.assertEqual(delegate["java_expr"], "damage(source, damage);")
+        self.assertEqual(delegate["godot_owner"], "PortGame.source_building_bullet_damage_state")
+        self.assertEqual(delegate["runtime_proof"], "/root/Main.source_building_bullet_damage_state")
+        self.assertEqual(delegate["godot_symbol"], "source_building_bullet_damage_result.delegatesToSourceDamage")
+
+        event = source_symbols.source_symbol(registry, "building_bullet_damage.event")
+        self.assertEqual(event["java_expr"], "Events.fire(bulletDamageEvent.set(self(), bullet));")
+        self.assertEqual(event["godot_symbol"], "source_building_bullet_damage_result.firesBulletDamageEvent")
+
+        event_field = source_symbols.source_symbol(registry, "building_bullet_damage.event_field")
+        self.assertEqual(event_field["java_expr"], "static final BuildDamageEvent bulletDamageEvent = new BuildDamageEvent();")
+        self.assertEqual(event_field["godot_symbol"], "source_building_bullet_damage_result.bulletDamageEvent")
+
+        bullet = source_symbols.source_symbol(registry, "building_bullet_damage.bullet")
+        self.assertEqual(bullet["status"], "explicit-input")
+        self.assertEqual(bullet["java_expr"], "bullet")
+        self.assertEqual(bullet["godot_symbol"], "source_building_bullet_damage_input.bullet")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3356,9 +3383,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 127)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 128)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 132)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 133)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3487,6 +3514,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_ambient_volume", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_apply_boost_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_block_half_extent", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_bullet_damage_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -4464,6 +4492,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("block.size * tilesize / 2f", building_block_half_extent["exact_exprs"])
         self.assertIn("block.size", building_block_half_extent["exact_exprs"])
         self.assertIn("tilesize", building_block_half_extent["exact_exprs"])
+
+        building_bullet_damage = source_symbols.source_slice(ledger, "N530")
+        self.assertEqual(building_bullet_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_bullet_damage["java_method"], "damage(Bullet bullet, Team source, float damage)")
+        self.assertEqual(building_bullet_damage["godot_owner"], "PortGame.source_building_bullet_damage_state")
+        self.assertIn("damage(source, damage);", building_bullet_damage["exact_exprs"])
+        self.assertIn("Events.fire(bulletDamageEvent.set(self(), bullet));", building_bullet_damage["exact_exprs"])
+        self.assertIn("static final BuildDamageEvent bulletDamageEvent = new BuildDamageEvent();", building_bullet_damage["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -5601,6 +5637,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_block_half_extent["params"][1]["schema"], "source_building_block_half_extent_input.tilesize")
         self.assertIn("halfExtent", building_block_half_extent["return_keys"])
         self.assertEqual(building_block_half_extent["source_method"], "drawConfigure()")
+
+        building_bullet_damage = source_symbols.api_contract(contracts, "PortGame.source_building_bullet_damage_state")
+        self.assertEqual([param["name"] for param in building_bullet_damage["params"]], ["bullet", "source_team", "damage_amount"])
+        self.assertEqual(building_bullet_damage["params"][0]["schema"], "source_building_bullet_damage_input.bullet")
+        self.assertEqual(building_bullet_damage["params"][2]["schema"], "source_building_bullet_damage_input.damage")
+        self.assertIn("delegatesToSourceDamage", building_bullet_damage["return_keys"])
+        self.assertIn("firesBulletDamageEvent", building_bullet_damage["return_keys"])
+        self.assertEqual(building_bullet_damage["source_method"], "damage(Bullet bullet, Team source, float damage)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -6951,6 +6995,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_block_half_extent_result["keys"]["drawConfigureSquare"]["java_expr"], "Lines.square(x, y, block.size * tilesize / 2f + 1f);")
         self.assertEqual(source_building_block_half_extent_result["keys"]["halfExtent"]["java_expr"], "block.size * tilesize / 2f")
         self.assertEqual(source_building_block_half_extent_result["keys"]["blockSize"]["alias_of"], "source_building_block_half_extent_input.blockSize")
+
+        source_building_bullet_damage_input = source_symbols.state_schema(schema, "source_building_bullet_damage_input")
+        self.assertEqual(source_building_bullet_damage_input["keys"]["bullet"]["java_expr"], "bullet")
+        self.assertEqual(source_building_bullet_damage_input["keys"]["sourceTeam"]["java_expr"], "source")
+        self.assertEqual(source_building_bullet_damage_input["keys"]["damage"]["java_expr"], "damage")
+
+        source_building_bullet_damage_result = source_symbols.state_schema(schema, "source_building_bullet_damage_result")
+        self.assertEqual(source_building_bullet_damage_result["keys"]["delegatesToSourceDamage"]["java_expr"], "damage(source, damage);")
+        self.assertEqual(source_building_bullet_damage_result["keys"]["firesBulletDamageEvent"]["java_expr"], "Events.fire(bulletDamageEvent.set(self(), bullet));")
+        self.assertEqual(source_building_bullet_damage_result["keys"]["bulletDamageEvent"]["java_expr"], "static final BuildDamageEvent bulletDamageEvent = new BuildDamageEvent();")
+        self.assertEqual(source_building_bullet_damage_result["keys"]["bullet"]["alias_of"], "source_building_bullet_damage_input.bullet")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")
