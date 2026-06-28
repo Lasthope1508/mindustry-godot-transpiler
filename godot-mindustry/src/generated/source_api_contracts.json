@@ -3754,6 +3754,37 @@
       ],
       "runtime_proof": "/root/Main.source_angle_distance",
       "rule": "Public runtime contract for Arc Angles.angleDist-backed angle distance helper."
+    },
+    "PortGame.source_angle_to_target": {
+      "status": "active",
+      "source_slice": "N487",
+      "java_source": "arc-core/src/arc/math/geom/Position.java",
+      "source_method": "angleTo(Position other)",
+      "params": [
+        {
+          "name": "origin",
+          "type": "Vector2",
+          "schema": "source_angle_to_target_input.origin"
+        },
+        {
+          "name": "target",
+          "type": "Variant",
+          "schema": "source_angle_to_target_input.target"
+        }
+      ],
+      "return_keys": [
+        "originX",
+        "originY",
+        "targetX",
+        "targetY",
+        "targetAngle"
+      ],
+      "tests": [
+        "test_arc_position_angle_to_target_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "runtime_proof": "/root/Main.source_angle_to_target",
+      "rule": "Public runtime contract for Position.angleTo(Position)-backed target angle helper."
     }
   },
   "policy": {

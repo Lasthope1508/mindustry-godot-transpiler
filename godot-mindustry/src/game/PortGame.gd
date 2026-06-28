@@ -9571,16 +9571,26 @@ func source_turret_bullet_origin(origin: Vector2, target, turret, shoot_x_offset
 	var side := Vector2(-direction.y, direction.x).normalized()
 	return shoot_y_origin + side * shoot_x_offset
 
-func source_angle_to_target(origin: Vector2, target) -> float:
+func source_angle_to_target(origin, target) -> float:
 	if target == null:
 		return 0.0
+	var origin_x := 0.0
+	var origin_y := 0.0
+	if typeof(origin) == TYPE_DICTIONARY:
+		origin_x = float(origin.get("x", 0.0))
+		origin_y = float(origin.get("y", 0.0))
+	else:
+		origin_x = float(origin.x)
+		origin_y = float(origin.y)
+	if target.has("x") and target.has("y"):
+		return source_arc_angles_angle(origin_x, origin_y, float(target.get("x", 0.0)), float(target.get("y", 0.0)))
 	var sprite = target.get("sprite")
 	if not is_instance_valid(sprite):
 		return 0.0
-	var direction: Vector2 = sprite.position - origin
+	var direction: Vector2 = sprite.position - Vector2(origin_x, origin_y)
 	if direction == Vector2.ZERO:
 		return 0.0
-	return rad_to_deg(direction.angle())
+	return source_arc_angles_angle(origin_x, origin_y, sprite.position.x, sprite.position.y)
 
 func source_angle_distance(current_degrees: float, target_degrees: float) -> float:
 	return abs(wrapf(target_degrees - current_degrees, -180.0, 180.0))

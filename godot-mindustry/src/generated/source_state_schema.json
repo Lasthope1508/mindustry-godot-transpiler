@@ -12448,6 +12448,136 @@
           "rule": "Carries target angle input into result schema."
         }
       }
+    },
+    "source_angle_to_target_input": {
+      "status": "active",
+      "keys": {
+        "origin": {
+          "type": "Vector2",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "java_method": "angleTo(Position other)",
+          "java_expr": "getX(), getY()",
+          "godot_symbol": "source_angle_to_target_input.origin",
+          "used_by": [
+            "PortGame.source_angle_to_target"
+          ],
+          "rule": "Runtime origin vector supplies this Position coordinates."
+        },
+        "target": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "java_method": "angleTo(Position other)",
+          "java_expr": "other",
+          "godot_symbol": "source_angle_to_target_input.target",
+          "used_by": [
+            "PortGame.source_angle_to_target"
+          ],
+          "rule": "Runtime target supplies Java Position other."
+        },
+        "originX": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "java_method": "angleTo(Position other)",
+          "java_expr": "getX()",
+          "godot_symbol": "source_angle_to_target_input.originX",
+          "used_by": [
+            "PortGame.source_angle_to_target"
+          ],
+          "rule": "Origin x coordinate."
+        },
+        "originY": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "java_method": "angleTo(Position other)",
+          "java_expr": "getY()",
+          "godot_symbol": "source_angle_to_target_input.originY",
+          "used_by": [
+            "PortGame.source_angle_to_target"
+          ],
+          "rule": "Origin y coordinate."
+        },
+        "targetX": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "java_method": "angleTo(Position other)",
+          "java_expr": "other.getX()",
+          "godot_symbol": "source_angle_to_target_input.targetX",
+          "used_by": [
+            "PortGame.source_angle_to_target"
+          ],
+          "rule": "Target x coordinate."
+        },
+        "targetY": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "java_method": "angleTo(Position other)",
+          "java_expr": "other.getY()",
+          "godot_symbol": "source_angle_to_target_input.targetY",
+          "used_by": [
+            "PortGame.source_angle_to_target"
+          ],
+          "rule": "Target y coordinate."
+        }
+      }
+    },
+    "source_angle_to_target_result": {
+      "status": "active",
+      "keys": {
+        "targetAngle": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "java_method": "angleTo(Position other)",
+          "java_expr": "Angles.angle(getX(), getY(), other.getX(), other.getY())",
+          "godot_symbol": "source_angle_to_target_result.targetAngle",
+          "used_by": [
+            "PortGame.source_angle_to_target"
+          ],
+          "rule": "Position.angleTo return angle."
+        },
+        "angleFormula": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "angle(float x, float y, float x2, float y2)",
+          "java_expr": "float ang = Mathf.atan2(x2 - x, y2 - y) * Mathf.radDeg;",
+          "godot_symbol": "source_angle_to_target_result.angleFormula",
+          "used_by": [
+            "PortGame.source_angle_to_target"
+          ],
+          "rule": "Angles.angle atan2 formula."
+        },
+        "originX": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_angle_to_target_input.originX",
+          "rule": "Carries origin x into result schema."
+        },
+        "originY": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_angle_to_target_input.originY",
+          "rule": "Carries origin y into result schema."
+        },
+        "targetX": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_angle_to_target_input.targetX",
+          "rule": "Carries target x into result schema."
+        },
+        "targetY": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_angle_to_target_input.targetY",
+          "rule": "Carries target y into result schema."
+        }
+      }
     }
   },
   "version": 1
