@@ -5963,6 +5963,34 @@
       ],
       "runtime_proof": "/root/Main.source_building_hit_size",
       "rule": "Backfills SSOT for existing canonical source_building_hit_size helper against BuildingComp.hitSize()."
+    },
+    "N591": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "hitbox(Rect out)",
+      "godot_owner": "PortGame.source_building_hitbox_state",
+      "exact_exprs": [
+        "public void hitbox(Rect out){",
+        "out.setCentered(x, y, block.size * tilesize, block.size * tilesize);",
+        "block.size * tilesize"
+      ],
+      "deferred_exprs": [
+        "Rect object mutation stays represented as a set_centered result dictionary until the owning collision/geometry runtime consumes it."
+      ],
+      "source_symbols": [
+        "building_hitbox.method",
+        "building_hitbox.set_centered",
+        "building_hitbox.world_x",
+        "building_hitbox.world_y",
+        "building_hitbox.block_size",
+        "building_hitbox.tilesize"
+      ],
+      "tests": [
+        "test_building_hitbox_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_hitbox_state",
+      "rule": "Backfills SSOT for existing canonical source_building_hitbox_state helper against BuildingComp.hitbox(Rect out)."
     }
   },
   "version": 1

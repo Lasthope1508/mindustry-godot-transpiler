@@ -24258,6 +24258,124 @@
           "rule": "Carries source_tilesize input into result schema."
         }
       }
+    },
+    "source_building_hitbox_input": {
+      "status": "active",
+      "keys": {
+        "world_x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "hitbox(Rect out)",
+          "java_expr": "x",
+          "godot_symbol": "source_building_hitbox_input.world_x",
+          "used_by": [
+            "PortGame.source_building_hitbox_state"
+          ],
+          "rule": "Runtime world_x supplies source x."
+        },
+        "world_y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "hitbox(Rect out)",
+          "java_expr": "y",
+          "godot_symbol": "source_building_hitbox_input.world_y",
+          "used_by": [
+            "PortGame.source_building_hitbox_state"
+          ],
+          "rule": "Runtime world_y supplies source y."
+        },
+        "block_size_value": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "hitbox(Rect out)",
+          "java_expr": "block.size",
+          "godot_symbol": "source_building_hitbox_input.block_size_value",
+          "used_by": [
+            "PortGame.source_building_hitbox_state"
+          ],
+          "rule": "Runtime block_size_value supplies source block.size."
+        },
+        "source_tilesize": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "hitbox(Rect out)",
+          "java_expr": "tilesize",
+          "godot_symbol": "source_building_hitbox_input.source_tilesize",
+          "used_by": [
+            "PortGame.source_building_hitbox_state"
+          ],
+          "rule": "Runtime source_tilesize supplies global tilesize."
+        }
+      }
+    },
+    "source_building_hitbox_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "hitbox(Rect out)",
+          "java_expr": "public void hitbox(Rect out){",
+          "godot_symbol": "source_building_hitbox_result.method",
+          "used_by": [
+            "PortGame.source_building_hitbox_state"
+          ],
+          "rule": "Source hitbox method declaration."
+        },
+        "set_centered": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "hitbox(Rect out)",
+          "java_expr": "out.setCentered(x, y, block.size * tilesize, block.size * tilesize);",
+          "godot_symbol": "source_building_hitbox_result.set_centered",
+          "used_by": [
+            "PortGame.source_building_hitbox_state"
+          ],
+          "rule": "Building hitbox centers a square Rect at source x/y using block.size * tilesize for width and height."
+        },
+        "hitbox_size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "hitbox(Rect out)",
+          "java_expr": "block.size * tilesize",
+          "godot_symbol": "source_building_hitbox_result.hitbox_size",
+          "used_by": [
+            "PortGame.source_building_hitbox_state"
+          ],
+          "rule": "Shared width and height expression for the centered hitbox."
+        },
+        "world_x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_hitbox_input.world_x",
+          "rule": "Carries world_x input into result schema."
+        },
+        "world_y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_hitbox_input.world_y",
+          "rule": "Carries world_y input into result schema."
+        },
+        "block_size_value": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_hitbox_input.block_size_value",
+          "rule": "Carries block_size_value input into result schema."
+        },
+        "source_tilesize": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_hitbox_input.source_tilesize",
+          "rule": "Carries source_tilesize input into result schema."
+        }
+      }
     }
   },
   "version": 1

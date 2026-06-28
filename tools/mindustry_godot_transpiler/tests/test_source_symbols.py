@@ -4960,6 +4960,44 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_tilesize["java_expr"], "tilesize")
         self.assertEqual(source_tilesize["godot_symbol"], "source_building_hit_size_input.source_tilesize")
 
+    def test_building_hitbox_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_hitbox.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "hitbox(Rect out)")
+        self.assertEqual(method["java_expr"], "public void hitbox(Rect out){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_hitbox_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_hitbox_state")
+        self.assertEqual(method["godot_symbol"], "source_building_hitbox_result.method")
+
+        set_centered = source_symbols.source_symbol(registry, "building_hitbox.set_centered")
+        self.assertEqual(set_centered["java_expr"], "out.setCentered(x, y, block.size * tilesize, block.size * tilesize);")
+        self.assertEqual(set_centered["godot_symbol"], "source_building_hitbox_result.set_centered")
+
+        world_x = source_symbols.source_symbol(registry, "building_hitbox.world_x")
+        self.assertEqual(world_x["status"], "explicit-input")
+        self.assertEqual(world_x["java_expr"], "x")
+        self.assertEqual(world_x["godot_symbol"], "source_building_hitbox_input.world_x")
+
+        world_y = source_symbols.source_symbol(registry, "building_hitbox.world_y")
+        self.assertEqual(world_y["status"], "explicit-input")
+        self.assertEqual(world_y["java_expr"], "y")
+        self.assertEqual(world_y["godot_symbol"], "source_building_hitbox_input.world_y")
+
+        block_size = source_symbols.source_symbol(registry, "building_hitbox.block_size")
+        self.assertEqual(block_size["status"], "explicit-input")
+        self.assertEqual(block_size["java_expr"], "block.size")
+        self.assertEqual(block_size["godot_symbol"], "source_building_hitbox_input.block_size_value")
+
+        source_tilesize = source_symbols.source_symbol(registry, "building_hitbox.tilesize")
+        self.assertEqual(source_tilesize["status"], "explicit-input")
+        self.assertEqual(source_tilesize["java_expr"], "tilesize")
+        self.assertEqual(source_tilesize["godot_symbol"], "source_building_hitbox_input.source_tilesize")
+
     def test_building_draw_disabled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -5283,9 +5321,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 188)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 189)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 193)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 194)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -7004,6 +7042,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("tile.block().size", building_hit_size["exact_exprs"])
         self.assertIn("tilesize", building_hit_size["exact_exprs"])
 
+        building_hitbox = source_symbols.source_slice(ledger, "N591")
+        self.assertEqual(building_hitbox["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_hitbox["java_method"], "hitbox(Rect out)")
+        self.assertEqual(building_hitbox["godot_owner"], "PortGame.source_building_hitbox_state")
+        self.assertIn("public void hitbox(Rect out){", building_hitbox["exact_exprs"])
+        self.assertIn("out.setCentered(x, y, block.size * tilesize, block.size * tilesize);", building_hitbox["exact_exprs"])
+        self.assertIn("block.size * tilesize", building_hitbox["exact_exprs"])
+
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
         self.assertEqual(arc_mathf_cos_scaled["java_method"], "cos(float radians, float scl, float mag)")
@@ -8625,6 +8671,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_hit_size["params"][1]["schema"], "source_building_hit_size_input.source_tilesize")
         self.assertIn("hit_size", building_hit_size["return_keys"])
         self.assertEqual(building_hit_size["source_method"], "hitSize()")
+
+        building_hitbox = source_symbols.api_contract(contracts, "PortGame.source_building_hitbox_state")
+        self.assertEqual([param["name"] for param in building_hitbox["params"]], ["world_x", "world_y", "block_size_value", "source_tilesize"])
+        self.assertEqual(building_hitbox["params"][0]["schema"], "source_building_hitbox_input.world_x")
+        self.assertEqual(building_hitbox["params"][2]["schema"], "source_building_hitbox_input.block_size_value")
+        self.assertIn("set_centered", building_hitbox["return_keys"])
+        self.assertEqual(building_hitbox["source_method"], "hitbox(Rect out)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -10727,6 +10780,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_hit_size_result["keys"]["hit_size"]["java_expr"], "return tile.block().size * tilesize;")
         self.assertEqual(source_building_hit_size_result["keys"]["block_size_value"]["alias_of"], "source_building_hit_size_input.block_size_value")
         self.assertEqual(source_building_hit_size_result["keys"]["source_tilesize"]["alias_of"], "source_building_hit_size_input.source_tilesize")
+
+        source_building_hitbox_input = source_symbols.state_schema(schema, "source_building_hitbox_input")
+        self.assertEqual(source_building_hitbox_input["keys"]["world_x"]["java_expr"], "x")
+        self.assertEqual(source_building_hitbox_input["keys"]["world_y"]["java_expr"], "y")
+        self.assertEqual(source_building_hitbox_input["keys"]["block_size_value"]["java_expr"], "block.size")
+        self.assertEqual(source_building_hitbox_input["keys"]["source_tilesize"]["java_expr"], "tilesize")
+
+        source_building_hitbox_result = source_symbols.state_schema(schema, "source_building_hitbox_result")
+        self.assertEqual(source_building_hitbox_result["keys"]["method"]["java_expr"], "public void hitbox(Rect out){")
+        self.assertEqual(source_building_hitbox_result["keys"]["set_centered"]["java_expr"], "out.setCentered(x, y, block.size * tilesize, block.size * tilesize);")
+        self.assertEqual(source_building_hitbox_result["keys"]["hitbox_size"]["java_expr"], "block.size * tilesize")
+        self.assertEqual(source_building_hitbox_result["keys"]["world_x"]["alias_of"], "source_building_hitbox_input.world_x")
+        self.assertEqual(source_building_hitbox_result["keys"]["block_size_value"]["alias_of"], "source_building_hitbox_input.block_size_value")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

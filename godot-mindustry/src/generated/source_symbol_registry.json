@@ -18623,6 +18623,84 @@
         "test_building_hit_size_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_building_hit_size"
+    },
+    "building_hitbox.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "hitbox(Rect out)",
+      "java_expr": "public void hitbox(Rect out){",
+      "godot_symbol": "source_building_hitbox_result.method",
+      "godot_owner": "PortGame.source_building_hitbox_state",
+      "rule": "Source hitbox method declaration.",
+      "tests": [
+        "test_building_hitbox_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_hitbox_state"
+    },
+    "building_hitbox.set_centered": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "hitbox(Rect out)",
+      "java_expr": "out.setCentered(x, y, block.size * tilesize, block.size * tilesize);",
+      "godot_symbol": "source_building_hitbox_result.set_centered",
+      "godot_owner": "PortGame.source_building_hitbox_state",
+      "rule": "Building hitbox centers a square Rect at source x/y using block.size * tilesize for width and height.",
+      "tests": [
+        "test_building_hitbox_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_hitbox_state"
+    },
+    "building_hitbox.world_x": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "hitbox(Rect out)",
+      "java_expr": "x",
+      "godot_symbol": "source_building_hitbox_input.world_x",
+      "godot_owner": "PortGame.source_building_hitbox_state",
+      "rule": "Runtime world_x supplies source x.",
+      "tests": [
+        "test_building_hitbox_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_hitbox_state"
+    },
+    "building_hitbox.world_y": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "hitbox(Rect out)",
+      "java_expr": "y",
+      "godot_symbol": "source_building_hitbox_input.world_y",
+      "godot_owner": "PortGame.source_building_hitbox_state",
+      "rule": "Runtime world_y supplies source y.",
+      "tests": [
+        "test_building_hitbox_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_hitbox_state"
+    },
+    "building_hitbox.block_size": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "hitbox(Rect out)",
+      "java_expr": "block.size",
+      "godot_symbol": "source_building_hitbox_input.block_size_value",
+      "godot_owner": "PortGame.source_building_hitbox_state",
+      "rule": "Runtime block_size_value supplies source block.size.",
+      "tests": [
+        "test_building_hitbox_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_hitbox_state"
+    },
+    "building_hitbox.tilesize": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "hitbox(Rect out)",
+      "java_expr": "tilesize",
+      "godot_symbol": "source_building_hitbox_input.source_tilesize",
+      "godot_owner": "PortGame.source_building_hitbox_state",
+      "rule": "Runtime source_tilesize supplies global tilesize.",
+      "tests": [
+        "test_building_hitbox_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_hitbox_state"
     }
   }
 }
