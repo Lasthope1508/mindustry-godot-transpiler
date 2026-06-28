@@ -3924,6 +3924,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(call["runtime_proof"], "/root/Main.source_building_damage_health_changed_call_state")
         self.assertEqual(call["godot_symbol"], "source_building_damage_health_changed_call_result.health_changed")
 
+    def test_building_delta_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        comment = source_symbols.source_symbol(registry, "building_delta.comment")
+        self.assertEqual(comment["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(comment["java_method"], "delta()")
+        self.assertEqual(comment["java_expr"], "/** Scaled delta. */")
+        self.assertEqual(comment["godot_owner"], "PortGame.source_building_delta")
+        self.assertEqual(comment["runtime_proof"], "/root/Main.source_building_delta")
+        self.assertEqual(comment["godot_symbol"], "source_building_delta_result.comment")
+
+        method = source_symbols.source_symbol(registry, "building_delta.method")
+        self.assertEqual(method["java_expr"], "public float delta(){")
+        self.assertEqual(method["godot_symbol"], "source_building_delta_result.method")
+
+        delta_return = source_symbols.source_symbol(registry, "building_delta.return")
+        self.assertEqual(delta_return["java_expr"], "return Time.delta * timeScale;")
+        self.assertEqual(delta_return["godot_symbol"], "source_building_delta_result.delta")
+
+        source_delta = source_symbols.source_symbol(registry, "building_delta.source_delta")
+        self.assertEqual(source_delta["status"], "explicit-input")
+        self.assertEqual(source_delta["java_expr"], "Time.delta")
+        self.assertEqual(source_delta["godot_symbol"], "source_building_delta_input.source_delta")
+
+        time_scale = source_symbols.source_symbol(registry, "building_delta.time_scale")
+        self.assertEqual(time_scale["status"], "explicit-input")
+        self.assertEqual(time_scale["java_expr"], "timeScale")
+        self.assertEqual(time_scale["godot_symbol"], "source_building_delta_input.time_scale")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -4208,9 +4240,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 157)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 158)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 162)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 163)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -4369,6 +4401,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_damage_delegate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_damage_handle_damage_gate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_damage_health_changed_call_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_delta", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -5616,6 +5649,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_damage_health_changed_call["java_method"], "damage(float damage)")
         self.assertEqual(building_damage_health_changed_call["godot_owner"], "PortGame.source_building_damage_health_changed_call_state")
         self.assertIn("healthChanged();", building_damage_health_changed_call["exact_exprs"])
+
+        building_delta = source_symbols.source_slice(ledger, "N560")
+        self.assertEqual(building_delta["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_delta["java_method"], "delta()")
+        self.assertEqual(building_delta["godot_owner"], "PortGame.source_building_delta")
+        self.assertIn("/** Scaled delta. */", building_delta["exact_exprs"])
+        self.assertIn("public float delta(){", building_delta["exact_exprs"])
+        self.assertIn("return Time.delta * timeScale;", building_delta["exact_exprs"])
+        self.assertIn("Time.delta", building_delta["exact_exprs"])
+        self.assertIn("timeScale", building_delta["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -6977,6 +7020,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual([param["name"] for param in building_damage_health_changed_call["params"]], [])
         self.assertIn("health_changed", building_damage_health_changed_call["return_keys"])
         self.assertEqual(building_damage_health_changed_call["source_method"], "damage(float damage)")
+
+        building_delta = source_symbols.api_contract(contracts, "PortGame.source_building_delta")
+        self.assertEqual([param["name"] for param in building_delta["params"]], ["source_delta", "time_scale"])
+        self.assertEqual(building_delta["params"][0]["schema"], "source_building_delta_input.source_delta")
+        self.assertEqual(building_delta["params"][1]["schema"], "source_building_delta_input.time_scale")
+        self.assertIn("delta", building_delta["return_keys"])
+        self.assertEqual(building_delta["source_method"], "delta()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -8633,6 +8683,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         source_building_damage_health_changed_call_result = source_symbols.state_schema(schema, "source_building_damage_health_changed_call_result")
         self.assertEqual(source_building_damage_health_changed_call_result["keys"]["health_changed"]["java_expr"], "healthChanged();")
+
+        source_building_delta_input = source_symbols.state_schema(schema, "source_building_delta_input")
+        self.assertEqual(source_building_delta_input["keys"]["source_delta"]["java_expr"], "Time.delta")
+        self.assertEqual(source_building_delta_input["keys"]["source_delta"]["status"], "explicit-input")
+        self.assertEqual(source_building_delta_input["keys"]["time_scale"]["java_expr"], "timeScale")
+        self.assertEqual(source_building_delta_input["keys"]["time_scale"]["status"], "explicit-input")
+
+        source_building_delta_result = source_symbols.state_schema(schema, "source_building_delta_result")
+        self.assertEqual(source_building_delta_result["keys"]["comment"]["java_expr"], "/** Scaled delta. */")
+        self.assertEqual(source_building_delta_result["keys"]["method"]["java_expr"], "public float delta(){")
+        self.assertEqual(source_building_delta_result["keys"]["delta"]["java_expr"], "return Time.delta * timeScale;")
+        self.assertEqual(source_building_delta_result["keys"]["source_delta"]["alias_of"], "source_building_delta_input.source_delta")
+        self.assertEqual(source_building_delta_result["keys"]["time_scale"]["alias_of"], "source_building_delta_input.time_scale")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

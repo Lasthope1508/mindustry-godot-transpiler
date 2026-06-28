@@ -15100,6 +15100,71 @@
       "java_expr": "healthChanged();",
       "godot_symbol": "source_building_damage_health_changed_call_result.health_changed",
       "rule": "damage(float damage) calls healthChanged() after handleDamage gate."
+    },
+    "building_delta.comment": {
+      "tests": [
+        "test_building_delta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_delta",
+      "godot_owner": "PortGame.source_building_delta",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "delta()",
+      "status": "source-backed",
+      "java_expr": "/** Scaled delta. */",
+      "godot_symbol": "source_building_delta_result.comment",
+      "rule": "Source delta() comment documents scaled delta semantics."
+    },
+    "building_delta.method": {
+      "tests": [
+        "test_building_delta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_delta",
+      "godot_owner": "PortGame.source_building_delta",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "delta()",
+      "status": "source-backed",
+      "java_expr": "public float delta(){",
+      "godot_symbol": "source_building_delta_result.method",
+      "rule": "Source delta() method declaration."
+    },
+    "building_delta.return": {
+      "tests": [
+        "test_building_delta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_delta",
+      "godot_owner": "PortGame.source_building_delta",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "delta()",
+      "status": "source-backed",
+      "java_expr": "return Time.delta * timeScale;",
+      "godot_symbol": "source_building_delta_result.delta",
+      "rule": "BuildingComp delta scales Time.delta by current timeScale."
+    },
+    "building_delta.source_delta": {
+      "tests": [
+        "test_building_delta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_delta",
+      "godot_owner": "PortGame.source_building_delta",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "delta()",
+      "status": "explicit-input",
+      "java_expr": "Time.delta",
+      "godot_symbol": "source_building_delta_input.source_delta",
+      "rule": "Runtime source_delta argument supplies Time.delta."
+    },
+    "building_delta.time_scale": {
+      "tests": [
+        "test_building_delta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_delta",
+      "godot_owner": "PortGame.source_building_delta",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "delta()",
+      "status": "explicit-input",
+      "java_expr": "timeScale",
+      "godot_symbol": "source_building_delta_input.time_scale",
+      "rule": "Runtime time_scale argument supplies BuildingComp timeScale."
     }
   }
 }

@@ -4938,6 +4938,35 @@
       ],
       "runtime_proof": "/root/Main.source_building_damage_health_changed_call_state",
       "rule": "Backfills SSOT for existing canonical source_building_damage_health_changed_call_state helper against BuildingComp.damage healthChanged() call."
+    },
+    "N560": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "delta()",
+      "godot_owner": "PortGame.source_building_delta",
+      "exact_exprs": [
+        "/** Scaled delta. */",
+        "public float delta(){",
+        "return Time.delta * timeScale;",
+        "Time.delta",
+        "timeScale"
+      ],
+      "deferred_exprs": [
+        "Time.delta source clock injection stays explicit runtime input; timeScale mutation remains owned by applyBoost/update duration slices."
+      ],
+      "source_symbols": [
+        "building_delta.comment",
+        "building_delta.method",
+        "building_delta.return",
+        "building_delta.source_delta",
+        "building_delta.time_scale"
+      ],
+      "tests": [
+        "test_building_delta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_delta",
+      "rule": "Backfills SSOT for existing canonical source_building_delta helper against BuildingComp.delta() scaled delta math."
     }
   },
   "version": 1
