@@ -12552,6 +12552,45 @@
       "java_expr": "power.status",
       "godot_symbol": "source_building_after_picked_up_input.currentStatus",
       "rule": "Runtime current_status argument supplies source status before reset."
+    },
+    "building_ambient_volume.method": {
+      "tests": [
+        "test_building_ambient_volume_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_ambient_volume",
+      "godot_owner": "PortGame.source_building_ambient_volume",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "ambientVolume()",
+      "status": "source-backed",
+      "java_expr": "public float ambientVolume(){",
+      "godot_symbol": "source_building_ambient_volume_result.method",
+      "rule": "Source ambientVolume method declaration."
+    },
+    "building_ambient_volume.return_efficiency": {
+      "tests": [
+        "test_building_ambient_volume_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_ambient_volume",
+      "godot_owner": "PortGame.source_building_ambient_volume",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "ambientVolume()",
+      "status": "source-backed",
+      "java_expr": "return efficiency;",
+      "godot_symbol": "source_building_ambient_volume_result.ambientVolume",
+      "rule": "Source ambientVolume return value."
+    },
+    "building_ambient_volume.efficiency": {
+      "tests": [
+        "test_building_ambient_volume_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_ambient_volume",
+      "godot_owner": "PortGame.source_building_ambient_volume",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "ambientVolume()",
+      "status": "explicit-input",
+      "java_expr": "efficiency",
+      "godot_symbol": "source_building_ambient_volume_input.efficiency",
+      "rule": "Runtime efficiency argument supplies source efficiency field."
     }
   }
 }

@@ -2995,6 +2995,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(status_reset["java_expr"], "power.status = 0f;")
         self.assertEqual(status_reset["godot_symbol"], "source_building_after_picked_up_result.status")
 
+    def test_building_ambient_volume_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_ambient_volume.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "ambientVolume()")
+        self.assertEqual(method["java_expr"], "public float ambientVolume(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_ambient_volume")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_ambient_volume")
+        self.assertEqual(method["godot_symbol"], "source_building_ambient_volume_result.method")
+
+        ambient_volume = source_symbols.source_symbol(registry, "building_ambient_volume.return_efficiency")
+        self.assertEqual(ambient_volume["java_expr"], "return efficiency;")
+        self.assertEqual(ambient_volume["godot_symbol"], "source_building_ambient_volume_result.ambientVolume")
+
+        efficiency = source_symbols.source_symbol(registry, "building_ambient_volume.efficiency")
+        self.assertEqual(efficiency["status"], "explicit-input")
+        self.assertEqual(efficiency["java_expr"], "efficiency")
+        self.assertEqual(efficiency["godot_symbol"], "source_building_ambient_volume_input.efficiency")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3279,9 +3302,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 124)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 125)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 129)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 130)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3407,6 +3430,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_accept_stack_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_destroyed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_picked_up_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_ambient_volume", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -4358,6 +4382,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("power.links.clear();", building_after_picked_up["exact_exprs"])
         self.assertIn("if(block.consPower != null && !block.consPower.buffered){", building_after_picked_up["exact_exprs"])
         self.assertIn("power.status = 0f;", building_after_picked_up["exact_exprs"])
+
+        building_ambient_volume = source_symbols.source_slice(ledger, "N527")
+        self.assertEqual(building_ambient_volume["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_ambient_volume["java_method"], "ambientVolume()")
+        self.assertEqual(building_ambient_volume["godot_owner"], "PortGame.source_building_ambient_volume")
+        self.assertIn("public float ambientVolume(){", building_ambient_volume["exact_exprs"])
+        self.assertIn("return efficiency;", building_ambient_volume["exact_exprs"])
+        self.assertIn("efficiency", building_ambient_volume["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -5474,6 +5506,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("clearLinks", building_after_picked_up["return_keys"])
         self.assertIn("status", building_after_picked_up["return_keys"])
         self.assertEqual(building_after_picked_up["source_method"], "afterPickedUp()")
+
+        building_ambient_volume = source_symbols.api_contract(contracts, "PortGame.source_building_ambient_volume")
+        self.assertEqual([param["name"] for param in building_ambient_volume["params"]], ["efficiency"])
+        self.assertEqual(building_ambient_volume["params"][0]["schema"], "source_building_ambient_volume_input.efficiency")
+        self.assertIn("ambientVolume", building_ambient_volume["return_keys"])
+        self.assertEqual(building_ambient_volume["source_method"], "ambientVolume()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -6792,6 +6830,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_after_picked_up_result["keys"]["statusResetGate"]["java_expr"], "if(block.consPower != null && !block.consPower.buffered){")
         self.assertEqual(source_building_after_picked_up_result["keys"]["status"]["java_expr"], "power.status = 0f;")
         self.assertEqual(source_building_after_picked_up_result["keys"]["currentStatus"]["alias_of"], "source_building_after_picked_up_input.currentStatus")
+
+        source_building_ambient_volume_input = source_symbols.state_schema(schema, "source_building_ambient_volume_input")
+        self.assertEqual(source_building_ambient_volume_input["keys"]["efficiency"]["java_expr"], "efficiency")
+        self.assertEqual(source_building_ambient_volume_input["keys"]["efficiency"]["status"], "explicit-input")
+
+        source_building_ambient_volume_result = source_symbols.state_schema(schema, "source_building_ambient_volume_result")
+        self.assertEqual(source_building_ambient_volume_result["keys"]["method"]["java_expr"], "public float ambientVolume(){")
+        self.assertEqual(source_building_ambient_volume_result["keys"]["ambientVolume"]["java_expr"], "return efficiency;")
+        self.assertEqual(source_building_ambient_volume_result["keys"]["efficiency"]["alias_of"], "source_building_ambient_volume_input.efficiency")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

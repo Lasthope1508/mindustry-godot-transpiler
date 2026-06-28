@@ -16587,6 +16587,58 @@
           "rule": "Carries currentStatus input into result schema."
         }
       }
+    },
+    "source_building_ambient_volume_input": {
+      "status": "active",
+      "keys": {
+        "efficiency": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "ambientVolume()",
+          "java_expr": "efficiency",
+          "godot_symbol": "source_building_ambient_volume_input.efficiency",
+          "used_by": [
+            "PortGame.source_building_ambient_volume"
+          ],
+          "rule": "Runtime efficiency argument supplies source efficiency field."
+        }
+      }
+    },
+    "source_building_ambient_volume_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "ambientVolume()",
+          "java_expr": "public float ambientVolume(){",
+          "godot_symbol": "source_building_ambient_volume_result.method",
+          "used_by": [
+            "PortGame.source_building_ambient_volume"
+          ],
+          "rule": "Source ambientVolume method declaration."
+        },
+        "ambientVolume": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "ambientVolume()",
+          "java_expr": "return efficiency;",
+          "godot_symbol": "source_building_ambient_volume_result.ambientVolume",
+          "used_by": [
+            "PortGame.source_building_ambient_volume"
+          ],
+          "rule": "Source ambientVolume return value."
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_ambient_volume_input.efficiency",
+          "rule": "Carries efficiency input into result schema."
+        }
+      }
     }
   },
   "version": 1

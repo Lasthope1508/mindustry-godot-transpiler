@@ -3925,6 +3925,29 @@
       ],
       "runtime_proof": "/root/Main.source_building_after_picked_up_state",
       "rule": "Backfills SSOT for existing canonical source_building_after_picked_up_state helper against BuildingComp.afterPickedUp power graph reset path."
+    },
+    "N527": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "ambientVolume()",
+      "godot_owner": "PortGame.source_building_ambient_volume",
+      "exact_exprs": [
+        "public float ambientVolume(){",
+        "return efficiency;",
+        "efficiency"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "building_ambient_volume.method",
+        "building_ambient_volume.return_efficiency",
+        "building_ambient_volume.efficiency"
+      ],
+      "tests": [
+        "test_building_ambient_volume_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_ambient_volume",
+      "rule": "Backfills SSOT for existing canonical source_building_ambient_volume helper against BuildingComp.ambientVolume direct efficiency return."
     }
   },
   "version": 1

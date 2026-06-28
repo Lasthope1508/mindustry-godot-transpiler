@@ -5101,6 +5101,29 @@
       ],
       "runtime_proof": "/root/Main.source_building_after_picked_up_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.afterPickedUp power reset helper."
+    },
+    "PortGame.source_building_ambient_volume": {
+      "status": "active",
+      "source_slice": "N527",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "ambientVolume()",
+      "params": [
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_building_ambient_volume_input.efficiency"
+        }
+      ],
+      "return_keys": [
+        "efficiency",
+        "method",
+        "ambientVolume"
+      ],
+      "tests": [
+        "test_building_ambient_volume_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_ambient_volume",
+      "rule": "Public runtime contract for Mindustry BuildingComp.ambientVolume helper."
     }
   },
   "policy": {
