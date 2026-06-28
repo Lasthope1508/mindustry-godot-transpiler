@@ -21179,6 +21179,292 @@
           "rule": "Carries source_y input into result schema."
         }
       }
+    },
+    "source_building_draw_item_selection_input": {
+      "status": "active",
+      "keys": {
+        "has_selection": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawItemSelection(@Nullable UnlockableContent selection)",
+          "java_expr": "selection != null",
+          "godot_symbol": "source_building_draw_item_selection_input.has_selection",
+          "used_by": [
+            "PortGame.source_building_draw_item_selection_state"
+          ],
+          "rule": "Runtime has_selection supplies selection non-null guard."
+        },
+        "source_x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawItemSelection(@Nullable UnlockableContent selection)",
+          "java_expr": "x",
+          "godot_symbol": "source_building_draw_item_selection_input.source_x",
+          "used_by": [
+            "PortGame.source_building_draw_item_selection_state"
+          ],
+          "rule": "Runtime source_x supplies BuildingComp x."
+        },
+        "source_y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawItemSelection(@Nullable UnlockableContent selection)",
+          "java_expr": "y",
+          "godot_symbol": "source_building_draw_item_selection_input.source_y",
+          "used_by": [
+            "PortGame.source_building_draw_item_selection_state"
+          ],
+          "rule": "Runtime source_y supplies BuildingComp y."
+        },
+        "block_size_value": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawItemSelection(@Nullable UnlockableContent selection)",
+          "java_expr": "block.size",
+          "godot_symbol": "source_building_draw_item_selection_input.block_size_value",
+          "used_by": [
+            "PortGame.source_building_draw_item_selection_state"
+          ],
+          "rule": "Runtime block_size_value supplies block.size."
+        },
+        "source_tilesize": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawItemSelection(@Nullable UnlockableContent selection)",
+          "java_expr": "tilesize",
+          "godot_symbol": "source_building_draw_item_selection_input.source_tilesize",
+          "used_by": [
+            "PortGame.source_building_draw_item_selection_state"
+          ],
+          "rule": "Runtime source_tilesize supplies tilesize."
+        },
+        "icon_small": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawItemSelection(@Nullable UnlockableContent selection)",
+          "java_expr": "iconSmall",
+          "godot_symbol": "source_building_draw_item_selection_input.icon_small",
+          "used_by": [
+            "PortGame.source_building_draw_item_selection_state"
+          ],
+          "rule": "Runtime icon_small supplies iconSmall."
+        },
+        "selection_icon_ratio": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawItemSelection(@Nullable UnlockableContent selection)",
+          "java_expr": "selection.fullIcon.ratio()",
+          "godot_symbol": "source_building_draw_item_selection_input.selection_icon_ratio",
+          "used_by": [
+            "PortGame.source_building_draw_item_selection_state"
+          ],
+          "rule": "Runtime selection_icon_ratio supplies selection.fullIcon.ratio()."
+        }
+      }
+    },
+    "source_building_draw_item_selection_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawItemSelection(@Nullable UnlockableContent selection)",
+          "java_expr": "public void drawItemSelection(@Nullable UnlockableContent selection){",
+          "godot_symbol": "source_building_draw_item_selection_result.method",
+          "used_by": [
+            "PortGame.source_building_draw_item_selection_state"
+          ],
+          "rule": "Source drawItemSelection method declaration."
+        },
+        "visible": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawItemSelection(@Nullable UnlockableContent selection)",
+          "java_expr": "if(selection != null){",
+          "godot_symbol": "source_building_draw_item_selection_result.visible",
+          "used_by": [
+            "PortGame.source_building_draw_item_selection_state"
+          ],
+          "rule": "drawItemSelection draws only when selection is non-null."
+        },
+        "geometry": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawItemSelection(@Nullable UnlockableContent selection)",
+          "java_expr": "float dx = x - block.size * tilesize/2f, dy = y + block.size * tilesize/2f, s = iconSmall / 4f * selection.fullIcon.ratio(), h = iconSmall / 4f;",
+          "godot_symbol": "source_building_draw_item_selection_result.geometry",
+          "used_by": [
+            "PortGame.source_building_draw_item_selection_state"
+          ],
+          "rule": "drawItemSelection computes x/y and icon dimensions in one source declaration."
+        },
+        "dx": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawItemSelection(@Nullable UnlockableContent selection)",
+          "java_expr": "x - block.size * tilesize/2f",
+          "godot_symbol": "source_building_draw_item_selection_result.dx",
+          "used_by": [
+            "PortGame.source_building_draw_item_selection_state"
+          ],
+          "rule": "drawItemSelection dx formula."
+        },
+        "dy": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawItemSelection(@Nullable UnlockableContent selection)",
+          "java_expr": "y + block.size * tilesize/2f",
+          "godot_symbol": "source_building_draw_item_selection_result.dy",
+          "used_by": [
+            "PortGame.source_building_draw_item_selection_state"
+          ],
+          "rule": "drawItemSelection dy formula."
+        },
+        "selection_width": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawItemSelection(@Nullable UnlockableContent selection)",
+          "java_expr": "iconSmall / 4f * selection.fullIcon.ratio()",
+          "godot_symbol": "source_building_draw_item_selection_result.selection_width",
+          "used_by": [
+            "PortGame.source_building_draw_item_selection_state"
+          ],
+          "rule": "drawItemSelection selection width formula."
+        },
+        "selection_height": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawItemSelection(@Nullable UnlockableContent selection)",
+          "java_expr": "iconSmall / 4f",
+          "godot_symbol": "source_building_draw_item_selection_result.selection_height",
+          "used_by": [
+            "PortGame.source_building_draw_item_selection_state"
+          ],
+          "rule": "drawItemSelection selection height formula."
+        },
+        "shadow_color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawItemSelection(@Nullable UnlockableContent selection)",
+          "java_expr": "Draw.mixcol(Color.darkGray, 1f);",
+          "godot_symbol": "source_building_draw_item_selection_result.shadow_color",
+          "used_by": [
+            "PortGame.source_building_draw_item_selection_state"
+          ],
+          "rule": "drawItemSelection applies dark gray mix color for shadow."
+        },
+        "shadow_alpha": {
+          "type": "float",
+          "status": "generated",
+          "java_expr": "1f",
+          "rule": "Draw.mixcol alpha is 1f."
+        },
+        "shadow_y": {
+          "type": "float",
+          "status": "generated",
+          "java_expr": "dy - 1",
+          "rule": "Runtime shadow_y follows source shadow rect y offset."
+        },
+        "shadow_rect": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawItemSelection(@Nullable UnlockableContent selection)",
+          "java_expr": "Draw.rect(selection.fullIcon, dx, dy - 1, s, h);",
+          "godot_symbol": "source_building_draw_item_selection_result.shadow_rect",
+          "used_by": [
+            "PortGame.source_building_draw_item_selection_state"
+          ],
+          "rule": "drawItemSelection draws selection shadow one unit below foreground y."
+        },
+        "reset": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawItemSelection(@Nullable UnlockableContent selection)",
+          "java_expr": "Draw.reset();",
+          "godot_symbol": "source_building_draw_item_selection_result.reset",
+          "used_by": [
+            "PortGame.source_building_draw_item_selection_state"
+          ],
+          "rule": "drawItemSelection resets draw state before foreground icon."
+        },
+        "foreground_y": {
+          "type": "float",
+          "status": "generated",
+          "java_expr": "dy",
+          "rule": "Runtime foreground_y follows source foreground rect y."
+        },
+        "foreground_rect": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawItemSelection(@Nullable UnlockableContent selection)",
+          "java_expr": "Draw.rect(selection.fullIcon, dx, dy, s, h);",
+          "godot_symbol": "source_building_draw_item_selection_result.foreground_rect",
+          "used_by": [
+            "PortGame.source_building_draw_item_selection_state"
+          ],
+          "rule": "drawItemSelection draws selection foreground icon at dy."
+        },
+        "has_selection": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_draw_item_selection_input.has_selection",
+          "rule": "Carries has_selection input into result schema."
+        },
+        "source_x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_item_selection_input.source_x",
+          "rule": "Carries source_x input into result schema."
+        },
+        "source_y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_item_selection_input.source_y",
+          "rule": "Carries source_y input into result schema."
+        },
+        "block_size_value": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_draw_item_selection_input.block_size_value",
+          "rule": "Carries block_size_value input into result schema."
+        },
+        "source_tilesize": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_item_selection_input.source_tilesize",
+          "rule": "Carries source_tilesize input into result schema."
+        },
+        "icon_small": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_item_selection_input.icon_small",
+          "rule": "Carries icon_small input into result schema."
+        },
+        "selection_icon_ratio": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_item_selection_input.selection_icon_ratio",
+          "rule": "Carries selection_icon_ratio input into result schema."
+        }
+      }
     }
   },
   "version": 1

@@ -6535,6 +6535,65 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_disabled_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.drawDisabled() helper."
+    },
+    "PortGame.source_building_draw_item_selection_state": {
+      "status": "active",
+      "source_slice": "N570",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "drawItemSelection(@Nullable UnlockableContent selection)",
+      "params": [
+        {
+          "name": "has_selection",
+          "type": "bool",
+          "schema": "source_building_draw_item_selection_input.has_selection"
+        },
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_building_draw_item_selection_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_building_draw_item_selection_input.source_y"
+        },
+        {
+          "name": "block_size_value",
+          "type": "int",
+          "schema": "source_building_draw_item_selection_input.block_size_value"
+        },
+        {
+          "name": "source_tilesize",
+          "type": "float",
+          "schema": "source_building_draw_item_selection_input.source_tilesize"
+        },
+        {
+          "name": "icon_small",
+          "type": "float",
+          "schema": "source_building_draw_item_selection_input.icon_small"
+        },
+        {
+          "name": "selection_icon_ratio",
+          "type": "float",
+          "schema": "source_building_draw_item_selection_input.selection_icon_ratio"
+        }
+      ],
+      "return_keys": [
+        "visible",
+        "dx",
+        "dy",
+        "shadow_color",
+        "shadow_alpha",
+        "shadow_y",
+        "foreground_y",
+        "selection_width",
+        "selection_height"
+      ],
+      "tests": [
+        "test_building_draw_item_selection_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_item_selection_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.drawItemSelection() helper."
     }
   },
   "policy": {

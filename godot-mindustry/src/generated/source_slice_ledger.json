@@ -5284,6 +5284,54 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_disabled_state",
       "rule": "Backfills SSOT for existing canonical source_building_draw_disabled_state helper against BuildingComp.drawDisabled()."
+    },
+    "N570": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "drawItemSelection(@Nullable UnlockableContent selection)",
+      "godot_owner": "PortGame.source_building_draw_item_selection_state",
+      "exact_exprs": [
+        "public void drawItemSelection(@Nullable UnlockableContent selection){",
+        "if(selection != null){",
+        "float dx = x - block.size * tilesize/2f, dy = y + block.size * tilesize/2f, s = iconSmall / 4f * selection.fullIcon.ratio(), h = iconSmall / 4f;",
+        "x - block.size * tilesize/2f",
+        "y + block.size * tilesize/2f",
+        "iconSmall / 4f * selection.fullIcon.ratio()",
+        "iconSmall / 4f",
+        "Draw.mixcol(Color.darkGray, 1f);",
+        "Draw.rect(selection.fullIcon, dx, dy - 1, s, h);",
+        "Draw.reset();",
+        "Draw.rect(selection.fullIcon, dx, dy, s, h);"
+      ],
+      "deferred_exprs": [
+        "Concrete TextureRegion selection.fullIcon and Draw.rect calls stay owned by Godot rendering integration; this helper preserves visibility, geometry, shadow, reset, and foreground state."
+      ],
+      "source_symbols": [
+        "building_draw_item_selection.method",
+        "building_draw_item_selection.guard",
+        "building_draw_item_selection.geometry",
+        "building_draw_item_selection.dx",
+        "building_draw_item_selection.dy",
+        "building_draw_item_selection.selection_width",
+        "building_draw_item_selection.selection_height",
+        "building_draw_item_selection.mixcol",
+        "building_draw_item_selection.shadow_rect",
+        "building_draw_item_selection.reset",
+        "building_draw_item_selection.foreground_rect",
+        "building_draw_item_selection.has_selection",
+        "building_draw_item_selection.source_x",
+        "building_draw_item_selection.source_y",
+        "building_draw_item_selection.block_size",
+        "building_draw_item_selection.tilesize",
+        "building_draw_item_selection.icon_small",
+        "building_draw_item_selection.selection_icon_ratio"
+      ],
+      "tests": [
+        "test_building_draw_item_selection_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_item_selection_state",
+      "rule": "Backfills SSOT for existing canonical source_building_draw_item_selection_state helper against BuildingComp.drawItemSelection()."
     }
   },
   "version": 1

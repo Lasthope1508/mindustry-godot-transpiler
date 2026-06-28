@@ -4256,6 +4256,49 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(position_id["java_expr"], "pos()")
         self.assertEqual(position_id["godot_symbol"], "source_building_draw_cracks_input.position_id")
 
+    def test_building_draw_item_selection_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_draw_item_selection.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "drawItemSelection(@Nullable UnlockableContent selection)")
+        self.assertEqual(method["java_expr"], "public void drawItemSelection(@Nullable UnlockableContent selection){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_draw_item_selection_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_draw_item_selection_state")
+        self.assertEqual(method["godot_symbol"], "source_building_draw_item_selection_result.method")
+
+        guard = source_symbols.source_symbol(registry, "building_draw_item_selection.guard")
+        self.assertEqual(guard["java_expr"], "if(selection != null){")
+        self.assertEqual(guard["godot_symbol"], "source_building_draw_item_selection_result.visible")
+
+        dx = source_symbols.source_symbol(registry, "building_draw_item_selection.dx")
+        self.assertEqual(dx["java_expr"], "x - block.size * tilesize/2f")
+        self.assertEqual(dx["godot_symbol"], "source_building_draw_item_selection_result.dx")
+
+        selection_width = source_symbols.source_symbol(registry, "building_draw_item_selection.selection_width")
+        self.assertEqual(selection_width["java_expr"], "iconSmall / 4f * selection.fullIcon.ratio()")
+        self.assertEqual(selection_width["godot_symbol"], "source_building_draw_item_selection_result.selection_width")
+
+        mixcol = source_symbols.source_symbol(registry, "building_draw_item_selection.mixcol")
+        self.assertEqual(mixcol["java_expr"], "Draw.mixcol(Color.darkGray, 1f);")
+        self.assertEqual(mixcol["godot_symbol"], "source_building_draw_item_selection_result.shadow_color")
+
+        shadow_rect = source_symbols.source_symbol(registry, "building_draw_item_selection.shadow_rect")
+        self.assertEqual(shadow_rect["java_expr"], "Draw.rect(selection.fullIcon, dx, dy - 1, s, h);")
+        self.assertEqual(shadow_rect["godot_symbol"], "source_building_draw_item_selection_result.shadow_rect")
+
+        foreground_rect = source_symbols.source_symbol(registry, "building_draw_item_selection.foreground_rect")
+        self.assertEqual(foreground_rect["java_expr"], "Draw.rect(selection.fullIcon, dx, dy, s, h);")
+        self.assertEqual(foreground_rect["godot_symbol"], "source_building_draw_item_selection_result.foreground_rect")
+
+        has_selection = source_symbols.source_symbol(registry, "building_draw_item_selection.has_selection")
+        self.assertEqual(has_selection["status"], "explicit-input")
+        self.assertEqual(has_selection["java_expr"], "selection != null")
+        self.assertEqual(has_selection["godot_symbol"], "source_building_draw_item_selection_input.has_selection")
+
     def test_building_draw_disabled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -4579,9 +4622,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 167)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 168)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 172)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 173)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -4750,6 +4793,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_draw_configure_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_draw_cracks_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_draw_disabled_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_draw_item_selection_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -6106,6 +6150,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("float size = 6f;", building_draw_disabled["exact_exprs"])
         self.assertIn("Draw.rect(Icon.cancel.getRegion(), x, y, size, size);", building_draw_disabled["exact_exprs"])
         self.assertIn("Draw.reset();", building_draw_disabled["exact_exprs"])
+
+        building_draw_item_selection = source_symbols.source_slice(ledger, "N570")
+        self.assertEqual(building_draw_item_selection["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_draw_item_selection["java_method"], "drawItemSelection(@Nullable UnlockableContent selection)")
+        self.assertEqual(building_draw_item_selection["godot_owner"], "PortGame.source_building_draw_item_selection_state")
+        self.assertIn("public void drawItemSelection(@Nullable UnlockableContent selection){", building_draw_item_selection["exact_exprs"])
+        self.assertIn("if(selection != null){", building_draw_item_selection["exact_exprs"])
+        self.assertIn("float dx = x - block.size * tilesize/2f, dy = y + block.size * tilesize/2f, s = iconSmall / 4f * selection.fullIcon.ratio(), h = iconSmall / 4f;", building_draw_item_selection["exact_exprs"])
+        self.assertIn("Draw.mixcol(Color.darkGray, 1f);", building_draw_item_selection["exact_exprs"])
+        self.assertIn("Draw.rect(selection.fullIcon, dx, dy - 1, s, h);", building_draw_item_selection["exact_exprs"])
+        self.assertIn("Draw.reset();", building_draw_item_selection["exact_exprs"])
+        self.assertIn("Draw.rect(selection.fullIcon, dx, dy, s, h);", building_draw_item_selection["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -7554,6 +7610,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("size", building_draw_disabled["return_keys"])
         self.assertIn("reset", building_draw_disabled["return_keys"])
         self.assertEqual(building_draw_disabled["source_method"], "drawDisabled()")
+
+        building_draw_item_selection = source_symbols.api_contract(contracts, "PortGame.source_building_draw_item_selection_state")
+        self.assertEqual([param["name"] for param in building_draw_item_selection["params"]], ["has_selection", "source_x", "source_y", "block_size_value", "source_tilesize", "icon_small", "selection_icon_ratio"])
+        self.assertEqual(building_draw_item_selection["params"][0]["schema"], "source_building_draw_item_selection_input.has_selection")
+        self.assertEqual(building_draw_item_selection["params"][3]["schema"], "source_building_draw_item_selection_input.block_size_value")
+        self.assertEqual(building_draw_item_selection["params"][6]["schema"], "source_building_draw_item_selection_input.selection_icon_ratio")
+        self.assertIn("visible", building_draw_item_selection["return_keys"])
+        self.assertIn("selection_width", building_draw_item_selection["return_keys"])
+        self.assertIn("shadow_y", building_draw_item_selection["return_keys"])
+        self.assertEqual(building_draw_item_selection["source_method"], "drawItemSelection(@Nullable UnlockableContent selection)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -9369,6 +9435,26 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_draw_disabled_result["keys"]["rect"]["java_expr"], "Draw.rect(Icon.cancel.getRegion(), x, y, size, size);")
         self.assertEqual(source_building_draw_disabled_result["keys"]["reset"]["java_expr"], "Draw.reset();")
         self.assertEqual(source_building_draw_disabled_result["keys"]["source_x"]["alias_of"], "source_building_draw_disabled_input.source_x")
+
+        source_building_draw_item_selection_input = source_symbols.state_schema(schema, "source_building_draw_item_selection_input")
+        self.assertEqual(source_building_draw_item_selection_input["keys"]["has_selection"]["java_expr"], "selection != null")
+        self.assertEqual(source_building_draw_item_selection_input["keys"]["has_selection"]["status"], "explicit-input")
+        self.assertEqual(source_building_draw_item_selection_input["keys"]["source_x"]["java_expr"], "x")
+        self.assertEqual(source_building_draw_item_selection_input["keys"]["block_size_value"]["java_expr"], "block.size")
+        self.assertEqual(source_building_draw_item_selection_input["keys"]["selection_icon_ratio"]["java_expr"], "selection.fullIcon.ratio()")
+
+        source_building_draw_item_selection_result = source_symbols.state_schema(schema, "source_building_draw_item_selection_result")
+        self.assertEqual(source_building_draw_item_selection_result["keys"]["method"]["java_expr"], "public void drawItemSelection(@Nullable UnlockableContent selection){")
+        self.assertEqual(source_building_draw_item_selection_result["keys"]["visible"]["java_expr"], "if(selection != null){")
+        self.assertEqual(source_building_draw_item_selection_result["keys"]["geometry"]["java_expr"], "float dx = x - block.size * tilesize/2f, dy = y + block.size * tilesize/2f, s = iconSmall / 4f * selection.fullIcon.ratio(), h = iconSmall / 4f;")
+        self.assertEqual(source_building_draw_item_selection_result["keys"]["dx"]["java_expr"], "x - block.size * tilesize/2f")
+        self.assertEqual(source_building_draw_item_selection_result["keys"]["dy"]["java_expr"], "y + block.size * tilesize/2f")
+        self.assertEqual(source_building_draw_item_selection_result["keys"]["selection_width"]["java_expr"], "iconSmall / 4f * selection.fullIcon.ratio()")
+        self.assertEqual(source_building_draw_item_selection_result["keys"]["selection_height"]["java_expr"], "iconSmall / 4f")
+        self.assertEqual(source_building_draw_item_selection_result["keys"]["shadow_color"]["java_expr"], "Draw.mixcol(Color.darkGray, 1f);")
+        self.assertEqual(source_building_draw_item_selection_result["keys"]["shadow_rect"]["java_expr"], "Draw.rect(selection.fullIcon, dx, dy - 1, s, h);")
+        self.assertEqual(source_building_draw_item_selection_result["keys"]["foreground_rect"]["java_expr"], "Draw.rect(selection.fullIcon, dx, dy, s, h);")
+        self.assertEqual(source_building_draw_item_selection_result["keys"]["source_x"]["alias_of"], "source_building_draw_item_selection_input.source_x")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")
