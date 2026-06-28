@@ -5025,6 +5025,35 @@
       ],
       "runtime_proof": "/root/Main.source_building_display_flow_rate_label",
       "rule": "Backfills SSOT for existing canonical source_building_display_flow_rate_label helper against BuildingComp.display flow-rate label lambda."
+    },
+    "N563": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "display(Table table)",
+      "godot_owner": "PortGame.source_building_display_icon_state",
+      "exact_exprs": [
+        "public void display(Table table){",
+        "t.add(new Image(block.getDisplayIcon(tile))).scaling(Scaling.fit).size(8 * 4);",
+        "block.getDisplayIcon(tile)",
+        "Scaling.fit",
+        "8 * 4"
+      ],
+      "deferred_exprs": [
+        "Concrete Image/Table UI object creation stays owned by Godot UI integration; this helper preserves canonical icon value boundary."
+      ],
+      "source_symbols": [
+        "building_display_icon.method",
+        "building_display_icon.image_call",
+        "building_display_icon.icon_lookup",
+        "building_display_icon.scaling",
+        "building_display_icon.size"
+      ],
+      "tests": [
+        "test_building_display_icon_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_icon_state",
+      "rule": "Backfills SSOT for existing canonical source_building_display_icon_state helper against BuildingComp.display header icon expression."
     }
   },
   "version": 1

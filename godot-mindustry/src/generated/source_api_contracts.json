@@ -6171,6 +6171,32 @@
       ],
       "runtime_proof": "/root/Main.source_building_display_flow_rate_label",
       "rule": "Public runtime contract for Mindustry BuildingComp.display flow-rate label helper."
+    },
+    "PortGame.source_building_display_icon_state": {
+      "status": "active",
+      "source_slice": "N563",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "display(Table table)",
+      "params": [
+        {
+          "name": "block_ui_icon",
+          "type": "Variant",
+          "schema": "source_building_display_icon_input.block_ui_icon"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "imageCall",
+        "icon",
+        "scaling",
+        "size",
+        "block_ui_icon"
+      ],
+      "tests": [
+        "test_building_display_icon_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_icon_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.display icon helper."
     }
   },
   "policy": {

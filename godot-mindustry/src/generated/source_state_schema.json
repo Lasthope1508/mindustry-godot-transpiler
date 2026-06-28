@@ -19849,6 +19849,94 @@
           "rule": "Carries per_second_label input into result schema."
         }
       }
+    },
+    "source_building_display_icon_input": {
+      "status": "active",
+      "keys": {
+        "block_ui_icon": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "block.getDisplayIcon(tile)",
+          "godot_symbol": "source_building_display_icon_input.block_ui_icon",
+          "used_by": [
+            "PortGame.source_building_display_icon_state"
+          ],
+          "rule": "Runtime block_ui_icon supplies block.getDisplayIcon(tile)."
+        }
+      }
+    },
+    "source_building_display_icon_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "public void display(Table table){",
+          "godot_symbol": "source_building_display_icon_result.method",
+          "used_by": [
+            "PortGame.source_building_display_icon_state"
+          ],
+          "rule": "Source display(Table table) method declaration for header icon row."
+        },
+        "imageCall": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "t.add(new Image(block.getDisplayIcon(tile))).scaling(Scaling.fit).size(8 * 4);",
+          "godot_symbol": "source_building_display_icon_result.imageCall",
+          "used_by": [
+            "PortGame.source_building_display_icon_state"
+          ],
+          "rule": "Display header adds block display icon image with fit scaling and 32px size."
+        },
+        "icon": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "block.getDisplayIcon(tile)",
+          "godot_symbol": "source_building_display_icon_result.icon",
+          "used_by": [
+            "PortGame.source_building_display_icon_state"
+          ],
+          "rule": "Display header image uses block.getDisplayIcon(tile)."
+        },
+        "scaling": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "Scaling.fit",
+          "godot_symbol": "source_building_display_icon_result.scaling",
+          "used_by": [
+            "PortGame.source_building_display_icon_state"
+          ],
+          "rule": "Display icon image uses Scaling.fit."
+        },
+        "size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "8 * 4",
+          "godot_symbol": "source_building_display_icon_result.size",
+          "used_by": [
+            "PortGame.source_building_display_icon_state"
+          ],
+          "rule": "Display icon image size is source literal 8 * 4."
+        },
+        "block_ui_icon": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_display_icon_input.block_ui_icon",
+          "rule": "Carries block_ui_icon input into result schema."
+        }
+      }
     }
   },
   "version": 1

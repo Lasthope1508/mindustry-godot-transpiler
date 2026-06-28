@@ -4017,6 +4017,37 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(fixed["java_expr"], "Strings.fixed(flowItems.getFlowRate(item), 1) + ps")
         self.assertEqual(fixed["godot_symbol"], "source_building_display_flow_rate_label_result.fixedLabel")
 
+    def test_building_display_icon_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_display_icon.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "display(Table table)")
+        self.assertEqual(method["java_expr"], "public void display(Table table){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_display_icon_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_display_icon_state")
+        self.assertEqual(method["godot_symbol"], "source_building_display_icon_result.method")
+
+        image_call = source_symbols.source_symbol(registry, "building_display_icon.image_call")
+        self.assertEqual(image_call["java_expr"], "t.add(new Image(block.getDisplayIcon(tile))).scaling(Scaling.fit).size(8 * 4);")
+        self.assertEqual(image_call["godot_symbol"], "source_building_display_icon_result.imageCall")
+
+        icon_lookup = source_symbols.source_symbol(registry, "building_display_icon.icon_lookup")
+        self.assertEqual(icon_lookup["status"], "explicit-input")
+        self.assertEqual(icon_lookup["java_expr"], "block.getDisplayIcon(tile)")
+        self.assertEqual(icon_lookup["godot_symbol"], "source_building_display_icon_input.block_ui_icon")
+
+        scaling = source_symbols.source_symbol(registry, "building_display_icon.scaling")
+        self.assertEqual(scaling["java_expr"], "Scaling.fit")
+        self.assertEqual(scaling["godot_symbol"], "source_building_display_icon_result.scaling")
+
+        size = source_symbols.source_symbol(registry, "building_display_icon.size")
+        self.assertEqual(size["java_expr"], "8 * 4")
+        self.assertEqual(size["godot_symbol"], "source_building_display_icon_result.size")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -4301,9 +4332,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 160)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 161)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 165)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 166)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -4465,6 +4496,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_delta", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_display_efficiency", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_display_flow_rate_label", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_display_icon_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -5742,6 +5774,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("flowItems.getFlowRate(item)", building_display_flow_rate_label["exact_exprs"])
         self.assertIn("flowItems.getFlowRate(item) < 0 ? \"...\"", building_display_flow_rate_label["exact_exprs"])
         self.assertIn("Strings.fixed(flowItems.getFlowRate(item), 1) + ps", building_display_flow_rate_label["exact_exprs"])
+
+        building_display_icon = source_symbols.source_slice(ledger, "N563")
+        self.assertEqual(building_display_icon["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_display_icon["java_method"], "display(Table table)")
+        self.assertEqual(building_display_icon["godot_owner"], "PortGame.source_building_display_icon_state")
+        self.assertIn("public void display(Table table){", building_display_icon["exact_exprs"])
+        self.assertIn("t.add(new Image(block.getDisplayIcon(tile))).scaling(Scaling.fit).size(8 * 4);", building_display_icon["exact_exprs"])
+        self.assertIn("block.getDisplayIcon(tile)", building_display_icon["exact_exprs"])
+        self.assertIn("Scaling.fit", building_display_icon["exact_exprs"])
+        self.assertIn("8 * 4", building_display_icon["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -7125,6 +7167,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("unknown", building_display_flow_rate_label["return_keys"])
         self.assertIn("fixedLabel", building_display_flow_rate_label["return_keys"])
         self.assertEqual(building_display_flow_rate_label["source_method"], "display(Table table)")
+
+        building_display_icon = source_symbols.api_contract(contracts, "PortGame.source_building_display_icon_state")
+        self.assertEqual([param["name"] for param in building_display_icon["params"]], ["block_ui_icon"])
+        self.assertEqual(building_display_icon["params"][0]["schema"], "source_building_display_icon_input.block_ui_icon")
+        self.assertIn("icon", building_display_icon["return_keys"])
+        self.assertIn("scaling", building_display_icon["return_keys"])
+        self.assertIn("size", building_display_icon["return_keys"])
+        self.assertEqual(building_display_icon["source_method"], "display(Table table)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -8819,6 +8869,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_display_flow_rate_label_result["keys"]["fixedLabel"]["java_expr"], "Strings.fixed(flowItems.getFlowRate(item), 1) + ps")
         self.assertEqual(source_building_display_flow_rate_label_result["keys"]["flow_rate"]["alias_of"], "source_building_display_flow_rate_label_input.flow_rate")
         self.assertEqual(source_building_display_flow_rate_label_result["keys"]["per_second_label"]["alias_of"], "source_building_display_flow_rate_label_input.per_second_label")
+
+        source_building_display_icon_input = source_symbols.state_schema(schema, "source_building_display_icon_input")
+        self.assertEqual(source_building_display_icon_input["keys"]["block_ui_icon"]["java_expr"], "block.getDisplayIcon(tile)")
+        self.assertEqual(source_building_display_icon_input["keys"]["block_ui_icon"]["status"], "explicit-input")
+
+        source_building_display_icon_result = source_symbols.state_schema(schema, "source_building_display_icon_result")
+        self.assertEqual(source_building_display_icon_result["keys"]["method"]["java_expr"], "public void display(Table table){")
+        self.assertEqual(source_building_display_icon_result["keys"]["imageCall"]["java_expr"], "t.add(new Image(block.getDisplayIcon(tile))).scaling(Scaling.fit).size(8 * 4);")
+        self.assertEqual(source_building_display_icon_result["keys"]["icon"]["java_expr"], "block.getDisplayIcon(tile)")
+        self.assertEqual(source_building_display_icon_result["keys"]["scaling"]["java_expr"], "Scaling.fit")
+        self.assertEqual(source_building_display_icon_result["keys"]["size"]["java_expr"], "8 * 4")
+        self.assertEqual(source_building_display_icon_result["keys"]["block_ui_icon"]["alias_of"], "source_building_display_icon_input.block_ui_icon")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")
