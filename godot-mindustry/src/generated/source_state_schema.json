@@ -19192,6 +19192,148 @@
           "rule": "Carries player team interactability input into result boundary."
         }
       }
+    },
+    "source_building_damage_block_health_scale_input": {
+      "status": "active",
+      "keys": {
+        "damage_amount": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "damage(float damage)",
+          "java_expr": "damage",
+          "godot_symbol": "source_building_damage_block_health_scale_input.damage_amount",
+          "used_by": [
+            "PortGame.source_building_damage_block_health_scale_state"
+          ],
+          "rule": "Damage parameter input."
+        },
+        "health": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "damage(float damage)",
+          "java_expr": "health",
+          "godot_symbol": "source_building_damage_block_health_scale_input.health",
+          "used_by": [
+            "PortGame.source_building_damage_block_health_scale_state"
+          ],
+          "rule": "Current health input."
+        },
+        "block_health_multiplier": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "damage(float damage)",
+          "java_expr": "state.rules.blockHealth(team)",
+          "godot_symbol": "source_building_damage_block_health_scale_input.block_health_multiplier",
+          "used_by": [
+            "PortGame.source_building_damage_block_health_scale_state"
+          ],
+          "rule": "Rules blockHealth multiplier input."
+        },
+        "source_time": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "damage(float damage)",
+          "java_expr": "Time.time",
+          "godot_symbol": "source_building_damage_block_health_scale_input.source_time",
+          "used_by": [
+            "PortGame.source_building_damage_block_health_scale_state"
+          ],
+          "rule": "Time.time input."
+        }
+      }
+    },
+    "source_building_damage_block_health_scale_result": {
+      "status": "active",
+      "keys": {
+        "block_health": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "damage(float damage)",
+          "java_expr": "float dm = state.rules.blockHealth(team);",
+          "godot_symbol": "source_building_damage_block_health_scale_result.block_health",
+          "used_by": [
+            "PortGame.source_building_damage_block_health_scale_state"
+          ],
+          "rule": "Rules blockHealth multiplier source line."
+        },
+        "last_damage_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "damage(float damage)",
+          "java_expr": "lastDamageTime = Time.time;",
+          "godot_symbol": "source_building_damage_block_health_scale_result.last_damage_time",
+          "used_by": [
+            "PortGame.source_building_damage_block_health_scale_state"
+          ],
+          "rule": "lastDamageTime source assignment."
+        },
+        "zero_guard": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "damage(float damage)",
+          "java_expr": "if(Mathf.zero(dm)){",
+          "godot_symbol": "source_building_damage_block_health_scale_result.zero_guard",
+          "used_by": [
+            "PortGame.source_building_damage_block_health_scale_state"
+          ],
+          "rule": "Zero multiplier guard."
+        },
+        "zero_damage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "damage(float damage)",
+          "java_expr": "damage = health + 1;",
+          "godot_symbol": "source_building_damage_block_health_scale_result.damage",
+          "used_by": [
+            "PortGame.source_building_damage_block_health_scale_state"
+          ],
+          "rule": "Zero multiplier damage assignment."
+        },
+        "damage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "damage(float damage)",
+          "java_expr": "damage /= dm;",
+          "godot_symbol": "source_building_damage_block_health_scale_result.damage",
+          "used_by": [
+            "PortGame.source_building_damage_block_health_scale_state"
+          ],
+          "rule": "Scaled damage assignment."
+        },
+        "damage_amount": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_damage_block_health_scale_input.damage_amount",
+          "rule": "Carries damage input into result boundary."
+        },
+        "health": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_damage_block_health_scale_input.health",
+          "rule": "Carries health input into result boundary."
+        },
+        "block_health_multiplier": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_damage_block_health_scale_input.block_health_multiplier",
+          "rule": "Carries blockHealth multiplier input into result boundary."
+        },
+        "source_time": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_damage_block_health_scale_input.source_time",
+          "rule": "Carries source time input into result boundary."
+        }
+      }
     }
   },
   "version": 1

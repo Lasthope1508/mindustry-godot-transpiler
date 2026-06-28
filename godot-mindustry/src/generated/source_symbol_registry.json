@@ -14788,6 +14788,110 @@
       "java_expr": "interactable(player.team())",
       "godot_symbol": "source_building_cursor_input.interactable_player_team",
       "rule": "Player team interactability supplied to cursor helper."
+    },
+    "building_damage_block_health_scale.block_health": {
+      "tests": [
+        "test_building_damage_block_health_scale_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_block_health_scale_state",
+      "godot_owner": "PortGame.source_building_damage_block_health_scale_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(float damage)",
+      "status": "source-backed",
+      "java_expr": "float dm = state.rules.blockHealth(team);",
+      "godot_symbol": "source_building_damage_block_health_scale_input.block_health_multiplier",
+      "rule": "Damage scaling uses rules blockHealth multiplier."
+    },
+    "building_damage_block_health_scale.last_damage_time": {
+      "tests": [
+        "test_building_damage_block_health_scale_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_block_health_scale_state",
+      "godot_owner": "PortGame.source_building_damage_block_health_scale_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(float damage)",
+      "status": "source-backed",
+      "java_expr": "lastDamageTime = Time.time;",
+      "godot_symbol": "source_building_damage_block_health_scale_result.last_damage_time",
+      "rule": "Damage records current Time.time as lastDamageTime."
+    },
+    "building_damage_block_health_scale.zero_guard": {
+      "tests": [
+        "test_building_damage_block_health_scale_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_block_health_scale_state",
+      "godot_owner": "PortGame.source_building_damage_block_health_scale_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(float damage)",
+      "status": "source-backed",
+      "java_expr": "if(Mathf.zero(dm)){",
+      "godot_symbol": "source_building_damage_block_health_scale_result.damage",
+      "rule": "Zero blockHealth multiplier uses health+1 damage branch."
+    },
+    "building_damage_block_health_scale.zero_assignment": {
+      "tests": [
+        "test_building_damage_block_health_scale_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_block_health_scale_state",
+      "godot_owner": "PortGame.source_building_damage_block_health_scale_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(float damage)",
+      "status": "source-backed",
+      "java_expr": "damage = health + 1;",
+      "godot_symbol": "source_building_damage_block_health_scale_result.damage",
+      "rule": "Zero multiplier damage becomes health plus one."
+    },
+    "building_damage_block_health_scale.scale_assignment": {
+      "tests": [
+        "test_building_damage_block_health_scale_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_block_health_scale_state",
+      "godot_owner": "PortGame.source_building_damage_block_health_scale_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(float damage)",
+      "status": "source-backed",
+      "java_expr": "damage /= dm;",
+      "godot_symbol": "source_building_damage_block_health_scale_result.damage",
+      "rule": "Nonzero multiplier divides damage by blockHealth multiplier."
+    },
+    "building_damage_block_health_scale.damage_amount": {
+      "tests": [
+        "test_building_damage_block_health_scale_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_block_health_scale_state",
+      "godot_owner": "PortGame.source_building_damage_block_health_scale_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(float damage)",
+      "status": "explicit-input",
+      "java_expr": "damage",
+      "godot_symbol": "source_building_damage_block_health_scale_input.damage_amount",
+      "rule": "Damage parameter supplied to scaling helper."
+    },
+    "building_damage_block_health_scale.health": {
+      "tests": [
+        "test_building_damage_block_health_scale_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_block_health_scale_state",
+      "godot_owner": "PortGame.source_building_damage_block_health_scale_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(float damage)",
+      "status": "explicit-input",
+      "java_expr": "health",
+      "godot_symbol": "source_building_damage_block_health_scale_input.health",
+      "rule": "Current health supplied for zero-multiplier health+1 branch."
+    },
+    "building_damage_block_health_scale.source_time": {
+      "tests": [
+        "test_building_damage_block_health_scale_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_block_health_scale_state",
+      "godot_owner": "PortGame.source_building_damage_block_health_scale_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(float damage)",
+      "status": "explicit-input",
+      "java_expr": "Time.time",
+      "godot_symbol": "source_building_damage_block_health_scale_input.source_time",
+      "rule": "Time.time supplied for lastDamageTime result."
     }
   }
 }

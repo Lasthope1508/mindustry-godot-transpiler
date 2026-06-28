@@ -5944,6 +5944,43 @@
       ],
       "runtime_proof": "/root/Main.source_building_cursor_state",
       "rule": "Public runtime contract for Mindustry BuildingComp getCursor helper."
+    },
+    "PortGame.source_building_damage_block_health_scale_state": {
+      "status": "active",
+      "source_slice": "N555",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "damage(float damage)",
+      "params": [
+        {
+          "name": "damage_amount",
+          "type": "float",
+          "schema": "source_building_damage_block_health_scale_input.damage_amount"
+        },
+        {
+          "name": "health",
+          "type": "float",
+          "schema": "source_building_damage_block_health_scale_input.health"
+        },
+        {
+          "name": "block_health_multiplier",
+          "type": "float",
+          "schema": "source_building_damage_block_health_scale_input.block_health_multiplier"
+        },
+        {
+          "name": "source_time",
+          "type": "float",
+          "schema": "source_building_damage_block_health_scale_input.source_time"
+        }
+      ],
+      "return_keys": [
+        "damage",
+        "last_damage_time"
+      ],
+      "tests": [
+        "test_building_damage_block_health_scale_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_block_health_scale_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp damage blockHealth scaling helper."
     }
   },
   "policy": {

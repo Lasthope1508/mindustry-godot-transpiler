@@ -3793,6 +3793,36 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(configurable["java_expr"], "block.configurable")
         self.assertEqual(configurable["godot_symbol"], "source_building_cursor_input.block_configurable")
 
+    def test_building_damage_block_health_scale_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        block_health = source_symbols.source_symbol(registry, "building_damage_block_health_scale.block_health")
+        self.assertEqual(block_health["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(block_health["java_method"], "damage(float damage)")
+        self.assertEqual(block_health["java_expr"], "float dm = state.rules.blockHealth(team);")
+        self.assertEqual(block_health["godot_owner"], "PortGame.source_building_damage_block_health_scale_state")
+        self.assertEqual(block_health["runtime_proof"], "/root/Main.source_building_damage_block_health_scale_state")
+        self.assertEqual(block_health["godot_symbol"], "source_building_damage_block_health_scale_input.block_health_multiplier")
+
+        last_damage_time = source_symbols.source_symbol(registry, "building_damage_block_health_scale.last_damage_time")
+        self.assertEqual(last_damage_time["java_expr"], "lastDamageTime = Time.time;")
+        self.assertEqual(last_damage_time["godot_symbol"], "source_building_damage_block_health_scale_result.last_damage_time")
+
+        zero_guard = source_symbols.source_symbol(registry, "building_damage_block_health_scale.zero_guard")
+        self.assertEqual(zero_guard["java_expr"], "if(Mathf.zero(dm)){")
+        self.assertEqual(zero_guard["godot_symbol"], "source_building_damage_block_health_scale_result.damage")
+
+        zero_assignment = source_symbols.source_symbol(registry, "building_damage_block_health_scale.zero_assignment")
+        self.assertEqual(zero_assignment["java_expr"], "damage = health + 1;")
+        self.assertEqual(zero_assignment["godot_symbol"], "source_building_damage_block_health_scale_result.damage")
+
+        scale_assignment = source_symbols.source_symbol(registry, "building_damage_block_health_scale.scale_assignment")
+        self.assertEqual(scale_assignment["java_expr"], "damage /= dm;")
+        self.assertEqual(scale_assignment["godot_symbol"], "source_building_damage_block_health_scale_result.damage")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -4077,9 +4107,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 152)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 153)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 157)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 158)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -4233,6 +4263,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_control_config_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_control_enabled_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_cursor_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_damage_block_health_scale_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -5441,6 +5472,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return block.configurable && interactable(player.team()) ? SystemCursor.hand : SystemCursor.arrow;", building_cursor["exact_exprs"])
         self.assertIn("block.configurable", building_cursor["exact_exprs"])
         self.assertIn("interactable(player.team())", building_cursor["exact_exprs"])
+
+        building_damage_block_health_scale = source_symbols.source_slice(ledger, "N555")
+        self.assertEqual(building_damage_block_health_scale["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_damage_block_health_scale["java_method"], "damage(float damage)")
+        self.assertEqual(building_damage_block_health_scale["godot_owner"], "PortGame.source_building_damage_block_health_scale_state")
+        self.assertIn("float dm = state.rules.blockHealth(team);", building_damage_block_health_scale["exact_exprs"])
+        self.assertIn("lastDamageTime = Time.time;", building_damage_block_health_scale["exact_exprs"])
+        self.assertIn("if(Mathf.zero(dm)){", building_damage_block_health_scale["exact_exprs"])
+        self.assertIn("damage = health + 1;", building_damage_block_health_scale["exact_exprs"])
+        self.assertIn("damage /= dm;", building_damage_block_health_scale["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -6763,6 +6804,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_cursor["params"][1]["schema"], "source_building_cursor_input.interactable_player_team")
         self.assertIn("cursor", building_cursor["return_keys"])
         self.assertEqual(building_cursor["source_method"], "getCursor()")
+
+        building_damage_block_health_scale = source_symbols.api_contract(contracts, "PortGame.source_building_damage_block_health_scale_state")
+        self.assertEqual([param["name"] for param in building_damage_block_health_scale["params"]], ["damage_amount", "health", "block_health_multiplier", "source_time"])
+        self.assertEqual(building_damage_block_health_scale["params"][0]["schema"], "source_building_damage_block_health_scale_input.damage_amount")
+        self.assertEqual(building_damage_block_health_scale["params"][2]["schema"], "source_building_damage_block_health_scale_input.block_health_multiplier")
+        self.assertIn("damage", building_damage_block_health_scale["return_keys"])
+        self.assertIn("last_damage_time", building_damage_block_health_scale["return_keys"])
+        self.assertEqual(building_damage_block_health_scale["source_method"], "damage(float damage)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -8371,6 +8420,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_cursor_result["keys"]["method"]["java_expr"], "public Cursor getCursor(){")
         self.assertEqual(source_building_cursor_result["keys"]["cursor"]["java_expr"], "return block.configurable && interactable(player.team()) ? SystemCursor.hand : SystemCursor.arrow;")
         self.assertEqual(source_building_cursor_result["keys"]["block_configurable"]["alias_of"], "source_building_cursor_input.block_configurable")
+
+        source_building_damage_block_health_scale_input = source_symbols.state_schema(schema, "source_building_damage_block_health_scale_input")
+        self.assertEqual(source_building_damage_block_health_scale_input["keys"]["damage_amount"]["java_expr"], "damage")
+        self.assertEqual(source_building_damage_block_health_scale_input["keys"]["health"]["java_expr"], "health")
+        self.assertEqual(source_building_damage_block_health_scale_input["keys"]["block_health_multiplier"]["java_expr"], "state.rules.blockHealth(team)")
+        self.assertEqual(source_building_damage_block_health_scale_input["keys"]["source_time"]["java_expr"], "Time.time")
+
+        source_building_damage_block_health_scale_result = source_symbols.state_schema(schema, "source_building_damage_block_health_scale_result")
+        self.assertEqual(source_building_damage_block_health_scale_result["keys"]["block_health"]["java_expr"], "float dm = state.rules.blockHealth(team);")
+        self.assertEqual(source_building_damage_block_health_scale_result["keys"]["last_damage_time"]["java_expr"], "lastDamageTime = Time.time;")
+        self.assertEqual(source_building_damage_block_health_scale_result["keys"]["zero_guard"]["java_expr"], "if(Mathf.zero(dm)){")
+        self.assertEqual(source_building_damage_block_health_scale_result["keys"]["damage"]["java_expr"], "damage /= dm;")
+        self.assertEqual(source_building_damage_block_health_scale_result["keys"]["health"]["alias_of"], "source_building_damage_block_health_scale_input.health")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")
