@@ -5,9 +5,9 @@
     "legacyBackfillStatus": "tracked"
   },
   "totalSourceFunctions": 488,
-  "registeredSourceOwnerCount": 74,
+  "registeredSourceOwnerCount": 75,
   "exemptSourceOwnerCount": 5,
-  "legacyUnregisteredOwnerCount": 409,
+  "legacyUnregisteredOwnerCount": 408,
   "registeredSourceOwners": [
     "PortGame.source_bullet_type_building_damage_state",
     "PortGame.source_bullet_type_calculate_range_despawn_unit_state",
@@ -20,6 +20,7 @@
     "PortGame.source_bullet_type_create_frags_initial_state",
     "PortGame.source_bullet_type_create_frags_random_geometry_state",
     "PortGame.source_bullet_type_create_incend_state",
+    "PortGame.source_bullet_type_create_initial_gate_state",
     "PortGame.source_bullet_type_create_puddles_deposit_state",
     "PortGame.source_bullet_type_create_puddles_initial_state",
     "PortGame.source_bullet_type_create_puddles_tile_world_state",
@@ -290,7 +291,6 @@
     "PortGame.source_bullet_texture",
     "PortGame.source_bullet_type_create_aim_state",
     "PortGame.source_bullet_type_create_bullet_identity_state",
-    "PortGame.source_bullet_type_create_initial_gate_state",
     "PortGame.source_bullet_type_create_keep_velocity_state",
     "PortGame.source_bullet_type_create_lifetime_payload_damage_state",
     "PortGame.source_bullet_type_create_spawn_unit_state",

@@ -1642,6 +1642,54 @@
             "PortGame.source_bullet_type_calculate_range_fallback_state"
           ],
           "rule": "Canonical BulletType.maxRange field; default is -1f."
+        },
+        "angleOffset": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "angleOffset",
+          "godot_symbol": "bullet_type_state.angleOffset",
+          "used_by": [
+            "PortGame.source_bullet_type_create_initial_gate_state"
+          ],
+          "rule": "Canonical BulletType.angleOffset field for create initial angle assignment."
+        },
+        "randomAngleOffset": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "randomAngleOffset",
+          "godot_symbol": "bullet_type_state.randomAngleOffset",
+          "used_by": [
+            "PortGame.source_bullet_type_create_initial_gate_state"
+          ],
+          "rule": "Canonical BulletType.randomAngleOffset field for create initial angle random sample."
+        },
+        "createChance": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "createChance",
+          "godot_symbol": "bullet_type_state.createChance",
+          "used_by": [
+            "PortGame.source_bullet_type_create_initial_gate_state"
+          ],
+          "rule": "Canonical BulletType.createChance field for create initial chance gate."
+        },
+        "ignoreSpawnAngle": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "ignoreSpawnAngle",
+          "godot_symbol": "bullet_type_state.ignoreSpawnAngle",
+          "used_by": [
+            "PortGame.source_bullet_type_create_initial_gate_state"
+          ],
+          "rule": "Canonical BulletType.ignoreSpawnAngle field for create initial angle reset."
         }
       }
     },
@@ -10955,6 +11003,201 @@
           "godot_symbol": "heals_result.healsReturnSource",
           "alias_of": "source_line.heals.return_expr",
           "rule": "Runtime source label for BulletType.heals return."
+        }
+      }
+    },
+    "create_call_state": {
+      "status": "active",
+      "keys": {
+        "bulletContinues": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "prior create overload dispatch reached BulletType.create body",
+          "godot_symbol": "create_call_state.bulletContinues",
+          "used_by": [
+            "PortGame.source_bullet_type_create_initial_gate_state"
+          ],
+          "rule": "Explicit input indicating upstream create call dispatch reached this create body."
+        },
+        "bulletCreateCall": {
+          "type": "Dictionary",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "create(...) arguments: owner, shooter, team, x, y, angle, damage, velocityScl, lifetimeScl, data, mover, aimX, aimY, target",
+          "godot_symbol": "create_call_state.bulletCreateCall",
+          "used_by": [
+            "PortGame.source_bullet_type_create_initial_gate_state"
+          ],
+          "rule": "Explicit create argument dictionary; later slices consume the same canonical call state."
+        }
+      }
+    },
+    "create_initial_gate_input": {
+      "status": "active",
+      "keys": {
+        "randomAngleOffsetSample": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "Mathf.range(randomAngleOffset)",
+          "godot_symbol": "create_initial_gate_input.randomAngleOffsetSample",
+          "used_by": [
+            "PortGame.source_bullet_type_create_initial_gate_state"
+          ],
+          "rule": "Explicit Arc range sample passed as random_angle_offset."
+        },
+        "createChanceRoll": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "chance(double d)",
+          "java_expr": "rand.nextFloat()",
+          "godot_symbol": "create_initial_gate_input.createChanceRoll",
+          "used_by": [
+            "PortGame.source_bullet_type_create_initial_gate_state"
+          ],
+          "rule": "Explicit Arc chance roll passed as create_chance_roll."
+        }
+      }
+    },
+    "create_initial_gate_result": {
+      "status": "active",
+      "keys": {
+        "bulletContinues": {
+          "type": "bool",
+          "status": "generated",
+          "godot_symbol": "create_initial_gate_result.bulletContinues",
+          "alias_of": "create_call_state.bulletContinues",
+          "rule": "Whether the create chain continues into initial gate evaluation."
+        },
+        "bulletCreateCalled": {
+          "type": "bool",
+          "status": "generated",
+          "godot_symbol": "create_initial_gate_result.bulletCreateCalled",
+          "alias_of": "create_call_state.bulletCreateCall",
+          "rule": "Whether a create call record exists for initial gate evaluation."
+        },
+        "bulletCreateReturnsNull": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "!Mathf.chance(createChance)",
+          "godot_symbol": "create_initial_gate_result.bulletCreateReturnsNull",
+          "used_by": [
+            "PortGame.source_bullet_type_create_initial_gate_state"
+          ],
+          "rule": "Create returns null when createChance gate fails or prior create state did not continue."
+        },
+        "createChance": {
+          "type": "float",
+          "status": "generated",
+          "godot_symbol": "create_initial_gate_result.createChance",
+          "alias_of": "bullet_type_state.createChance",
+          "rule": "Runtime echo of createChance used by gate."
+        },
+        "createChanceRoll": {
+          "type": "float",
+          "status": "generated",
+          "godot_symbol": "create_initial_gate_result.createChanceRoll",
+          "alias_of": "create_initial_gate_input.createChanceRoll",
+          "rule": "Runtime echo of explicit Arc chance roll."
+        },
+        "createChancePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "Mathf.chance(createChance)",
+          "godot_symbol": "create_initial_gate_result.createChancePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_create_initial_gate_state"
+          ],
+          "rule": "Whether createChance gate passes using Arc chance semantics."
+        },
+        "angle": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "angle += angleOffset + Mathf.range(randomAngleOffset)",
+          "godot_symbol": "create_initial_gate_result.angle",
+          "used_by": [
+            "PortGame.source_bullet_type_create_initial_gate_state"
+          ],
+          "rule": "Angle after source offset/random sample and optional ignoreSpawnAngle reset."
+        },
+        "angleOffset": {
+          "type": "float",
+          "status": "generated",
+          "godot_symbol": "create_initial_gate_result.angleOffset",
+          "alias_of": "bullet_type_state.angleOffset",
+          "rule": "Runtime echo of angleOffset."
+        },
+        "randomAngleOffset": {
+          "type": "float",
+          "status": "generated",
+          "godot_symbol": "create_initial_gate_result.randomAngleOffset",
+          "alias_of": "create_initial_gate_input.randomAngleOffsetSample",
+          "rule": "Runtime echo of explicit random angle offset sample."
+        },
+        "ignoreSpawnAngleApplied": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "ignoreSpawnAngle",
+          "godot_symbol": "create_initial_gate_result.ignoreSpawnAngleApplied",
+          "used_by": [
+            "PortGame.source_bullet_type_create_initial_gate_state"
+          ],
+          "rule": "Whether ignoreSpawnAngle branch resets angle to zero."
+        },
+        "angleOffsetSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "create_initial_gate_result.angleOffsetSource",
+          "alias_of": "source_line.create_initial_gate.angle_offset_assignment",
+          "rule": "Runtime source label for angle offset assignment."
+        },
+        "mathfRangeSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "create_initial_gate_result.mathfRangeSource",
+          "alias_of": "source_line.create_initial_gate.mathf_range",
+          "rule": "Runtime source label for Arc Mathf.range."
+        },
+        "createChanceSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "create_initial_gate_result.createChanceSource",
+          "alias_of": "source_line.create_initial_gate.create_chance_gate",
+          "rule": "Runtime source label for createChance gate."
+        },
+        "mathfChanceSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "create_initial_gate_result.mathfChanceSource",
+          "alias_of": "source_line.create_initial_gate.mathf_chance",
+          "rule": "Runtime source label for Arc Mathf.chance."
+        },
+        "ignoreSpawnAngleSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "create_initial_gate_result.ignoreSpawnAngleSource",
+          "alias_of": "source_line.create_initial_gate.ignore_spawn_angle",
+          "rule": "Runtime source label for ignoreSpawnAngle branch."
+        },
+        "spawnUnitReservedSource": {
+          "type": "String",
+          "status": "deferred",
+          "godot_symbol": "create_initial_gate_result.spawnUnitReservedSource",
+          "alias_of": "source_line.create_initial_gate.spawn_unit_boundary",
+          "rule": "Boundary for deferred spawnUnit branch."
         }
       }
     }

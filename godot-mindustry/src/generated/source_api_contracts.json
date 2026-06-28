@@ -3279,6 +3279,59 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_heals_state",
       "rule": "Public runtime contract for BulletType.heals predicate."
+    },
+    "PortGame.source_bullet_type_create_initial_gate_state": {
+      "status": "active",
+      "source_slice": "N477",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "params": [
+        {
+          "name": "create_call_state",
+          "type": "Dictionary",
+          "schema": "create_call_state"
+        },
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "random_angle_offset",
+          "type": "float",
+          "schema": "create_initial_gate_input.randomAngleOffsetSample"
+        },
+        {
+          "name": "create_chance_roll",
+          "type": "float",
+          "schema": "create_initial_gate_input.createChanceRoll"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "bulletCreateCalled",
+        "bulletCreateReturnsNull",
+        "createChance",
+        "createChanceRoll",
+        "createChancePassed",
+        "angle",
+        "angleOffset",
+        "randomAngleOffset",
+        "ignoreSpawnAngleApplied",
+        "angleOffsetSource",
+        "mathfRangeSource",
+        "createChanceSource",
+        "mathfChanceSource",
+        "ignoreSpawnAngleSource",
+        "spawnUnitReservedSource"
+      ],
+      "tests": [
+        "test_bullet_type_create_initial_gate_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_initial_gate_state",
+        "test_bullet_type_create_initial_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_initial_gate_state",
+      "rule": "Public runtime contract for BulletType.create initial angle/chance/ignoreSpawnAngle gate."
     }
   },
   "policy": {

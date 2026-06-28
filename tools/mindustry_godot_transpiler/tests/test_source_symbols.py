@@ -1856,14 +1856,72 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(heal_amount["java_expr"], "public float healAmount = 0f;")
         self.assertEqual(heal_amount["godot_symbol"], "bullet_type_state.healAmount")
 
+    def test_bullet_type_create_initial_gate_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        angle_offset = source_symbols.source_symbol(registry, "create_initial_gate.angle_offset_assignment")
+        self.assertEqual(angle_offset["java_expr"], "angle += angleOffset + Mathf.range(randomAngleOffset);")
+        self.assertEqual(angle_offset["godot_symbol"], "create_initial_gate_result.angle")
+        self.assertEqual(angle_offset["godot_owner"], "PortGame.source_bullet_type_create_initial_gate_state")
+        self.assertEqual(angle_offset["runtime_proof"], "/root/Main.source_bullet_type_create_initial_gate_state")
+
+        chance_gate = source_symbols.source_symbol(registry, "create_initial_gate.create_chance_gate")
+        self.assertEqual(chance_gate["java_expr"], "if(!Mathf.chance(createChance)) return null;")
+        self.assertEqual(chance_gate["godot_symbol"], "create_initial_gate_result.createChancePassed")
+
+        ignore_spawn_angle = source_symbols.source_symbol(registry, "create_initial_gate.ignore_spawn_angle")
+        self.assertEqual(ignore_spawn_angle["java_expr"], "if(ignoreSpawnAngle) angle = 0;")
+        self.assertEqual(ignore_spawn_angle["godot_symbol"], "create_initial_gate_result.ignoreSpawnAngleApplied")
+
+        spawn_unit_boundary = source_symbols.source_symbol(registry, "create_initial_gate.spawn_unit_boundary")
+        self.assertEqual(spawn_unit_boundary["status"], "deferred")
+        self.assertEqual(spawn_unit_boundary["java_expr"], "if(spawnUnit != null){")
+
+        angle_offset_field = source_symbols.source_symbol(registry, "create_initial_gate.angle_offset_field")
+        self.assertEqual(angle_offset_field["java_expr"], "public float angleOffset = 0f, randomAngleOffset = 0f;")
+        self.assertEqual(angle_offset_field["godot_symbol"], "bullet_type_state.angleOffset")
+
+        random_angle_offset_field = source_symbols.source_symbol(registry, "create_initial_gate.random_angle_offset_field")
+        self.assertEqual(random_angle_offset_field["java_expr"], "public float angleOffset = 0f, randomAngleOffset = 0f;")
+        self.assertEqual(random_angle_offset_field["godot_symbol"], "bullet_type_state.randomAngleOffset")
+
+        create_chance_field = source_symbols.source_symbol(registry, "create_initial_gate.create_chance_field")
+        self.assertEqual(create_chance_field["java_expr"], "public float createChance = 1;")
+        self.assertEqual(create_chance_field["godot_symbol"], "bullet_type_state.createChance")
+
+        ignore_spawn_angle_field = source_symbols.source_symbol(registry, "create_initial_gate.ignore_spawn_angle_field")
+        self.assertEqual(ignore_spawn_angle_field["java_expr"], "public boolean ignoreSpawnAngle = false;")
+        self.assertEqual(ignore_spawn_angle_field["godot_symbol"], "bullet_type_state.ignoreSpawnAngle")
+
+        random_angle_sample = source_symbols.source_symbol(registry, "create_initial_gate.random_angle_offset_sample")
+        self.assertEqual(random_angle_sample["status"], "explicit-input")
+        self.assertEqual(random_angle_sample["java_expr"], "Mathf.range(randomAngleOffset)")
+        self.assertEqual(random_angle_sample["godot_symbol"], "create_initial_gate_input.randomAngleOffsetSample")
+
+        chance_roll = source_symbols.source_symbol(registry, "create_initial_gate.create_chance_roll")
+        self.assertEqual(chance_roll["status"], "explicit-input")
+        self.assertEqual(chance_roll["java_expr"], "rand.nextFloat()")
+        self.assertEqual(chance_roll["godot_symbol"], "create_initial_gate_input.createChanceRoll")
+
+        mathf_range = source_symbols.source_symbol(registry, "create_initial_gate.mathf_range")
+        self.assertEqual(mathf_range["java_expr"], "return random(-range, range);")
+        self.assertEqual(mathf_range["godot_symbol"], "create_initial_gate_result.mathfRangeSource")
+
+        mathf_chance = source_symbols.source_symbol(registry, "create_initial_gate.mathf_chance")
+        self.assertEqual(mathf_chance["java_expr"], "return d >= 1f || rand.nextFloat() < d;")
+        self.assertEqual(mathf_chance["godot_symbol"], "create_initial_gate_result.mathfChanceSource")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 74)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 75)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 79)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 80)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1932,6 +1990,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_calculate_range_fallback_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_continuous_damage_default_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_heals_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_create_initial_gate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -2481,6 +2540,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return healPercent > 0 || healAmount > 0;", heals["exact_exprs"])
         self.assertIn("public boolean testCollision(Bullet bullet, Building tile){", heals["exact_exprs"])
         self.assertEqual(heals["deferred_exprs"], [])
+
+        create_initial_gate = source_symbols.source_slice(ledger, "N477")
+        self.assertEqual(create_initial_gate["java_method"], "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)")
+        self.assertEqual(create_initial_gate["godot_owner"], "PortGame.source_bullet_type_create_initial_gate_state")
+        self.assertIn("angle += angleOffset + Mathf.range(randomAngleOffset);", create_initial_gate["exact_exprs"])
+        self.assertIn("if(!Mathf.chance(createChance)) return null;", create_initial_gate["exact_exprs"])
+        self.assertIn("if(ignoreSpawnAngle) angle = 0;", create_initial_gate["exact_exprs"])
+        self.assertIn("public float angleOffset = 0f, randomAngleOffset = 0f;", create_initial_gate["exact_exprs"])
+        self.assertIn("public float createChance = 1;", create_initial_gate["exact_exprs"])
+        self.assertIn("public boolean ignoreSpawnAngle = false;", create_initial_gate["exact_exprs"])
+        self.assertIn("return random(-range, range);", create_initial_gate["exact_exprs"])
+        self.assertIn("return d >= 1f || rand.nextFloat() < d;", create_initial_gate["exact_exprs"])
+        self.assertIn("if(spawnUnit != null){", create_initial_gate["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -3160,6 +3232,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("heals", heals["return_keys"])
         self.assertIn("healsReturnSource", heals["return_keys"])
         self.assertEqual(heals["source_method"], "heals()")
+
+        create_initial_gate = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_create_initial_gate_state")
+        self.assertEqual([param["name"] for param in create_initial_gate["params"]], ["create_call_state", "bullet_type_state", "random_angle_offset", "create_chance_roll"])
+        self.assertEqual(create_initial_gate["params"][0]["schema"], "create_call_state")
+        self.assertEqual(create_initial_gate["params"][1]["schema"], "bullet_type_state")
+        self.assertIn("bulletContinues", create_initial_gate["return_keys"])
+        self.assertIn("bulletCreateCalled", create_initial_gate["return_keys"])
+        self.assertIn("bulletCreateReturnsNull", create_initial_gate["return_keys"])
+        self.assertIn("createChancePassed", create_initial_gate["return_keys"])
+        self.assertIn("angle", create_initial_gate["return_keys"])
+        self.assertIn("ignoreSpawnAngleApplied", create_initial_gate["return_keys"])
+        self.assertIn("spawnUnitReservedSource", create_initial_gate["return_keys"])
+        self.assertEqual(create_initial_gate["source_method"], "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -3899,6 +3984,30 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(bullet_type_state["keys"]["healAmount"]["java_expr"], "healAmount")
         self.assertIn("PortGame.source_bullet_type_heals_state", bullet_type_state["keys"]["healPercent"]["used_by"])
         self.assertIn("PortGame.source_bullet_type_heals_state", bullet_type_state["keys"]["healAmount"]["used_by"])
+
+        create_call_state = source_symbols.state_schema(schema, "create_call_state")
+        self.assertEqual(create_call_state["keys"]["bulletContinues"]["status"], "explicit-input")
+        self.assertEqual(create_call_state["keys"]["bulletCreateCall"]["status"], "explicit-input")
+
+        create_initial_gate_output = source_symbols.state_schema(schema, "create_initial_gate_result")
+        self.assertEqual(create_initial_gate_output["keys"]["angle"]["java_expr"], "angle += angleOffset + Mathf.range(randomAngleOffset)")
+        self.assertEqual(create_initial_gate_output["keys"]["createChancePassed"]["java_expr"], "Mathf.chance(createChance)")
+        self.assertEqual(create_initial_gate_output["keys"]["ignoreSpawnAngleApplied"]["java_expr"], "ignoreSpawnAngle")
+        self.assertEqual(create_initial_gate_output["keys"]["bulletCreateReturnsNull"]["java_expr"], "!Mathf.chance(createChance)")
+        self.assertEqual(create_initial_gate_output["keys"]["angleOffset"]["alias_of"], "bullet_type_state.angleOffset")
+        self.assertEqual(create_initial_gate_output["keys"]["randomAngleOffset"]["alias_of"], "create_initial_gate_input.randomAngleOffsetSample")
+        self.assertEqual(create_initial_gate_output["keys"]["createChance"]["alias_of"], "bullet_type_state.createChance")
+        self.assertEqual(create_initial_gate_output["keys"]["angleOffsetSource"]["alias_of"], "source_line.create_initial_gate.angle_offset_assignment")
+        self.assertEqual(create_initial_gate_output["keys"]["spawnUnitReservedSource"]["alias_of"], "source_line.create_initial_gate.spawn_unit_boundary")
+
+        self.assertEqual(bullet_type_state["keys"]["angleOffset"]["java_expr"], "angleOffset")
+        self.assertEqual(bullet_type_state["keys"]["randomAngleOffset"]["java_expr"], "randomAngleOffset")
+        self.assertEqual(bullet_type_state["keys"]["createChance"]["java_expr"], "createChance")
+        self.assertEqual(bullet_type_state["keys"]["ignoreSpawnAngle"]["java_expr"], "ignoreSpawnAngle")
+        self.assertIn("PortGame.source_bullet_type_create_initial_gate_state", bullet_type_state["keys"]["angleOffset"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_create_initial_gate_state", bullet_type_state["keys"]["randomAngleOffset"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_create_initial_gate_state", bullet_type_state["keys"]["createChance"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_create_initial_gate_state", bullet_type_state["keys"]["ignoreSpawnAngle"]["used_by"])
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")

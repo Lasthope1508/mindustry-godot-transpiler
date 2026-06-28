@@ -2232,6 +2232,48 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_heals_state",
       "rule": "Backfills SSOT for existing BulletType.heals runtime state; testCollision consumption remains separate registered owner."
+    },
+    "N477": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "godot_owner": "PortGame.source_bullet_type_create_initial_gate_state",
+      "exact_exprs": [
+        "public @Nullable Bullet create(\n        @Nullable Entityc owner, @Nullable Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl,\n        float lifetimeScl, Object data, @Nullable Mover mover, float aimX, float aimY, @Nullable Teamc target\n    ){",
+        "angle += angleOffset + Mathf.range(randomAngleOffset);",
+        "if(!Mathf.chance(createChance)) return null;",
+        "if(ignoreSpawnAngle) angle = 0;",
+        "public float angleOffset = 0f, randomAngleOffset = 0f;",
+        "public float createChance = 1;",
+        "public boolean ignoreSpawnAngle = false;",
+        "return random(-range, range);",
+        "return d >= 1f || rand.nextFloat() < d;"
+      ],
+      "deferred_exprs": [
+        "if(spawnUnit != null){"
+      ],
+      "source_symbols": [
+        "create_initial_gate.angle_offset_assignment",
+        "create_initial_gate.create_chance_gate",
+        "create_initial_gate.ignore_spawn_angle",
+        "create_initial_gate.spawn_unit_boundary",
+        "create_initial_gate.angle_offset_field",
+        "create_initial_gate.random_angle_offset_field",
+        "create_initial_gate.create_chance_field",
+        "create_initial_gate.ignore_spawn_angle_field",
+        "create_initial_gate.random_angle_offset_sample",
+        "create_initial_gate.create_chance_roll",
+        "create_initial_gate.mathf_range",
+        "create_initial_gate.mathf_chance"
+      ],
+      "tests": [
+        "test_bullet_type_create_initial_gate_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_initial_gate_state",
+        "test_bullet_type_create_initial_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_initial_gate_state",
+      "rule": "Backfills SSOT for existing BulletType.create initial angle/chance/ignore-spawn-angle runtime state; spawnUnit branch remains deferred to its own source-backed owner."
     }
   },
   "version": 1
