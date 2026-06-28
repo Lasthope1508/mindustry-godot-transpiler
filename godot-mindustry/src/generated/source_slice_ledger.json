@@ -3888,6 +3888,43 @@
       ],
       "runtime_proof": "/root/Main.source_building_after_destroyed_state",
       "rule": "Backfills SSOT for existing canonical source_building_after_destroyed_state helper against BuildingComp.afterDestroyed destroy bullet path."
+    },
+    "N526": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "afterPickedUp()",
+      "godot_owner": "PortGame.source_building_after_picked_up_state",
+      "exact_exprs": [
+        "if(power != null){",
+        "power.graph = new PowerGraph();",
+        "power.links.clear();",
+        "if(block.consPower != null && !block.consPower.buffered){",
+        "power.status = 0f;",
+        "power != null",
+        "block.consPower != null",
+        "block.consPower.buffered",
+        "power.status"
+      ],
+      "deferred_exprs": [
+        "new PowerGraph()"
+      ],
+      "source_symbols": [
+        "building_after_picked_up.power_guard",
+        "building_after_picked_up.new_power_graph",
+        "building_after_picked_up.clear_links",
+        "building_after_picked_up.status_reset_guard",
+        "building_after_picked_up.status_reset",
+        "building_after_picked_up.power_present",
+        "building_after_picked_up.has_cons_power",
+        "building_after_picked_up.cons_power_buffered",
+        "building_after_picked_up.current_status"
+      ],
+      "tests": [
+        "test_building_after_picked_up_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_after_picked_up_state",
+      "rule": "Backfills SSOT for existing canonical source_building_after_picked_up_state helper against BuildingComp.afterPickedUp power graph reset path."
     }
   },
   "version": 1

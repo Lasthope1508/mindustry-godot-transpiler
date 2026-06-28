@@ -5057,6 +5057,50 @@
       ],
       "runtime_proof": "/root/Main.source_building_after_destroyed_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.afterDestroyed destroy bullet helper."
+    },
+    "PortGame.source_building_after_picked_up_state": {
+      "status": "active",
+      "source_slice": "N526",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "afterPickedUp()",
+      "params": [
+        {
+          "name": "power_present",
+          "type": "bool",
+          "schema": "source_building_after_picked_up_input.powerPresent"
+        },
+        {
+          "name": "has_cons_power",
+          "type": "bool",
+          "schema": "source_building_after_picked_up_input.hasConsPower"
+        },
+        {
+          "name": "cons_power_buffered",
+          "type": "bool",
+          "schema": "source_building_after_picked_up_input.consPowerBuffered"
+        },
+        {
+          "name": "current_status",
+          "type": "float",
+          "schema": "source_building_after_picked_up_input.currentStatus"
+        }
+      ],
+      "return_keys": [
+        "powerPresent",
+        "hasConsPower",
+        "consPowerBuffered",
+        "currentStatus",
+        "powerGuard",
+        "newPowerGraph",
+        "clearLinks",
+        "statusResetGate",
+        "status"
+      ],
+      "tests": [
+        "test_building_after_picked_up_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_after_picked_up_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.afterPickedUp power reset helper."
     }
   },
   "policy": {

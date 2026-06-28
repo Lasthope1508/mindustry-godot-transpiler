@@ -2965,6 +2965,36 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(rotation["java_expr"], "Mathf.randomSeed(id(), 360f)")
         self.assertEqual(rotation["godot_symbol"], "source_building_after_destroyed_result.rotation")
 
+    def test_building_after_picked_up_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        guard = source_symbols.source_symbol(registry, "building_after_picked_up.power_guard")
+        self.assertEqual(guard["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(guard["java_method"], "afterPickedUp()")
+        self.assertEqual(guard["java_expr"], "if(power != null){")
+        self.assertEqual(guard["godot_owner"], "PortGame.source_building_after_picked_up_state")
+        self.assertEqual(guard["runtime_proof"], "/root/Main.source_building_after_picked_up_state")
+        self.assertEqual(guard["godot_symbol"], "source_building_after_picked_up_result.powerGuard")
+
+        new_graph = source_symbols.source_symbol(registry, "building_after_picked_up.new_power_graph")
+        self.assertEqual(new_graph["java_expr"], "power.graph = new PowerGraph();")
+        self.assertEqual(new_graph["godot_symbol"], "source_building_after_picked_up_result.newPowerGraph")
+
+        clear_links = source_symbols.source_symbol(registry, "building_after_picked_up.clear_links")
+        self.assertEqual(clear_links["java_expr"], "power.links.clear();")
+        self.assertEqual(clear_links["godot_symbol"], "source_building_after_picked_up_result.clearLinks")
+
+        reset_guard = source_symbols.source_symbol(registry, "building_after_picked_up.status_reset_guard")
+        self.assertEqual(reset_guard["java_expr"], "if(block.consPower != null && !block.consPower.buffered){")
+        self.assertEqual(reset_guard["godot_symbol"], "source_building_after_picked_up_result.statusResetGate")
+
+        status_reset = source_symbols.source_symbol(registry, "building_after_picked_up.status_reset")
+        self.assertEqual(status_reset["java_expr"], "power.status = 0f;")
+        self.assertEqual(status_reset["godot_symbol"], "source_building_after_picked_up_result.status")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3249,9 +3279,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 123)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 124)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 128)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 129)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3376,6 +3406,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_accept_payload_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_stack_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_destroyed_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_after_picked_up_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -4317,6 +4348,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(block.destroyBullet != null){", building_after_destroyed["exact_exprs"])
         self.assertIn("block.destroyBullet.create(this, block.destroyBulletSameTeam ? team : Team.derelict, x, y, Mathf.randomSeed(id(), 360f));", building_after_destroyed["exact_exprs"])
         self.assertIn("Mathf.randomSeed(id(), 360f)", building_after_destroyed["exact_exprs"])
+
+        building_after_picked_up = source_symbols.source_slice(ledger, "N526")
+        self.assertEqual(building_after_picked_up["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_after_picked_up["java_method"], "afterPickedUp()")
+        self.assertEqual(building_after_picked_up["godot_owner"], "PortGame.source_building_after_picked_up_state")
+        self.assertIn("if(power != null){", building_after_picked_up["exact_exprs"])
+        self.assertIn("power.graph = new PowerGraph();", building_after_picked_up["exact_exprs"])
+        self.assertIn("power.links.clear();", building_after_picked_up["exact_exprs"])
+        self.assertIn("if(block.consPower != null && !block.consPower.buffered){", building_after_picked_up["exact_exprs"])
+        self.assertIn("power.status = 0f;", building_after_picked_up["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -5424,6 +5465,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("createBullet", building_after_destroyed["return_keys"])
         self.assertIn("rotation", building_after_destroyed["return_keys"])
         self.assertEqual(building_after_destroyed["source_method"], "afterDestroyed()")
+
+        building_after_picked_up = source_symbols.api_contract(contracts, "PortGame.source_building_after_picked_up_state")
+        self.assertEqual([param["name"] for param in building_after_picked_up["params"]], ["power_present", "has_cons_power", "cons_power_buffered", "current_status"])
+        self.assertEqual(building_after_picked_up["params"][0]["schema"], "source_building_after_picked_up_input.powerPresent")
+        self.assertEqual(building_after_picked_up["params"][3]["schema"], "source_building_after_picked_up_input.currentStatus")
+        self.assertIn("newPowerGraph", building_after_picked_up["return_keys"])
+        self.assertIn("clearLinks", building_after_picked_up["return_keys"])
+        self.assertIn("status", building_after_picked_up["return_keys"])
+        self.assertEqual(building_after_picked_up["source_method"], "afterPickedUp()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -6728,6 +6778,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_after_destroyed_result["keys"]["team"]["java_expr"], "block.destroyBulletSameTeam ? team : Team.derelict")
         self.assertEqual(source_building_after_destroyed_result["keys"]["rotation"]["java_expr"], "Mathf.randomSeed(id(), 360f)")
         self.assertEqual(source_building_after_destroyed_result["keys"]["buildingId"]["alias_of"], "source_building_after_destroyed_input.buildingId")
+
+        source_building_after_picked_up_input = source_symbols.state_schema(schema, "source_building_after_picked_up_input")
+        self.assertEqual(source_building_after_picked_up_input["keys"]["powerPresent"]["java_expr"], "power != null")
+        self.assertEqual(source_building_after_picked_up_input["keys"]["hasConsPower"]["java_expr"], "block.consPower != null")
+        self.assertEqual(source_building_after_picked_up_input["keys"]["consPowerBuffered"]["java_expr"], "block.consPower.buffered")
+        self.assertEqual(source_building_after_picked_up_input["keys"]["currentStatus"]["java_expr"], "power.status")
+
+        source_building_after_picked_up_result = source_symbols.state_schema(schema, "source_building_after_picked_up_result")
+        self.assertEqual(source_building_after_picked_up_result["keys"]["powerGuard"]["java_expr"], "if(power != null){")
+        self.assertEqual(source_building_after_picked_up_result["keys"]["newPowerGraph"]["java_expr"], "power.graph = new PowerGraph();")
+        self.assertEqual(source_building_after_picked_up_result["keys"]["clearLinks"]["java_expr"], "power.links.clear();")
+        self.assertEqual(source_building_after_picked_up_result["keys"]["statusResetGate"]["java_expr"], "if(block.consPower != null && !block.consPower.buffered){")
+        self.assertEqual(source_building_after_picked_up_result["keys"]["status"]["java_expr"], "power.status = 0f;")
+        self.assertEqual(source_building_after_picked_up_result["keys"]["currentStatus"]["alias_of"], "source_building_after_picked_up_input.currentStatus")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

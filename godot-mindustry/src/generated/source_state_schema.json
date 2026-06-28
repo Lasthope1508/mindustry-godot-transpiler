@@ -16445,6 +16445,148 @@
           "rule": "Carries buildingId input into result schema."
         }
       }
+    },
+    "source_building_after_picked_up_input": {
+      "status": "active",
+      "keys": {
+        "powerPresent": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "afterPickedUp()",
+          "java_expr": "power != null",
+          "godot_symbol": "source_building_after_picked_up_input.powerPresent",
+          "used_by": [
+            "PortGame.source_building_after_picked_up_state"
+          ],
+          "rule": "Runtime power_present argument supplies source power guard."
+        },
+        "hasConsPower": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "afterPickedUp()",
+          "java_expr": "block.consPower != null",
+          "godot_symbol": "source_building_after_picked_up_input.hasConsPower",
+          "used_by": [
+            "PortGame.source_building_after_picked_up_state"
+          ],
+          "rule": "Runtime has_cons_power argument supplies source consume-power guard."
+        },
+        "consPowerBuffered": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "afterPickedUp()",
+          "java_expr": "block.consPower.buffered",
+          "godot_symbol": "source_building_after_picked_up_input.consPowerBuffered",
+          "used_by": [
+            "PortGame.source_building_after_picked_up_state"
+          ],
+          "rule": "Runtime cons_power_buffered argument supplies source buffered flag."
+        },
+        "currentStatus": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "afterPickedUp()",
+          "java_expr": "power.status",
+          "godot_symbol": "source_building_after_picked_up_input.currentStatus",
+          "used_by": [
+            "PortGame.source_building_after_picked_up_state"
+          ],
+          "rule": "Runtime current_status argument supplies source power status before reset."
+        }
+      }
+    },
+    "source_building_after_picked_up_result": {
+      "status": "active",
+      "keys": {
+        "powerGuard": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "afterPickedUp()",
+          "java_expr": "if(power != null){",
+          "godot_symbol": "source_building_after_picked_up_result.powerGuard",
+          "used_by": [
+            "PortGame.source_building_after_picked_up_state"
+          ],
+          "rule": "Source power component guard for afterPickedUp."
+        },
+        "newPowerGraph": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "afterPickedUp()",
+          "java_expr": "power.graph = new PowerGraph();",
+          "godot_symbol": "source_building_after_picked_up_result.newPowerGraph",
+          "used_by": [
+            "PortGame.source_building_after_picked_up_state"
+          ],
+          "rule": "Source replacement of power graph after pickup."
+        },
+        "clearLinks": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "afterPickedUp()",
+          "java_expr": "power.links.clear();",
+          "godot_symbol": "source_building_after_picked_up_result.clearLinks",
+          "used_by": [
+            "PortGame.source_building_after_picked_up_state"
+          ],
+          "rule": "Source clearing of power links after pickup."
+        },
+        "statusResetGate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "afterPickedUp()",
+          "java_expr": "if(block.consPower != null && !block.consPower.buffered){",
+          "godot_symbol": "source_building_after_picked_up_result.statusResetGate",
+          "used_by": [
+            "PortGame.source_building_after_picked_up_state"
+          ],
+          "rule": "Source non-buffered consume-power status reset guard."
+        },
+        "status": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "afterPickedUp()",
+          "java_expr": "power.status = 0f;",
+          "godot_symbol": "source_building_after_picked_up_result.status",
+          "used_by": [
+            "PortGame.source_building_after_picked_up_state"
+          ],
+          "rule": "Source status reset for non-buffered consume-power blocks."
+        },
+        "powerPresent": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_after_picked_up_input.powerPresent",
+          "rule": "Carries powerPresent input into result schema."
+        },
+        "hasConsPower": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_after_picked_up_input.hasConsPower",
+          "rule": "Carries hasConsPower input into result schema."
+        },
+        "consPowerBuffered": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_after_picked_up_input.consPowerBuffered",
+          "rule": "Carries consPowerBuffered input into result schema."
+        },
+        "currentStatus": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_after_picked_up_input.currentStatus",
+          "rule": "Carries currentStatus input into result schema."
+        }
+      }
     }
   },
   "version": 1

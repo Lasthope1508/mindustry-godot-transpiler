@@ -12435,6 +12435,123 @@
       "java_expr": "id()",
       "godot_symbol": "source_building_after_destroyed_input.buildingId",
       "rule": "Runtime building_id argument supplies source id()."
+    },
+    "building_after_picked_up.power_guard": {
+      "tests": [
+        "test_building_after_picked_up_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_after_picked_up_state",
+      "godot_owner": "PortGame.source_building_after_picked_up_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "afterPickedUp()",
+      "status": "source-backed",
+      "java_expr": "if(power != null){",
+      "godot_symbol": "source_building_after_picked_up_result.powerGuard",
+      "rule": "Source power component guard for afterPickedUp."
+    },
+    "building_after_picked_up.new_power_graph": {
+      "tests": [
+        "test_building_after_picked_up_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_after_picked_up_state",
+      "godot_owner": "PortGame.source_building_after_picked_up_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "afterPickedUp()",
+      "status": "source-backed",
+      "java_expr": "power.graph = new PowerGraph();",
+      "godot_symbol": "source_building_after_picked_up_result.newPowerGraph",
+      "rule": "Source replacement of power graph after pickup."
+    },
+    "building_after_picked_up.clear_links": {
+      "tests": [
+        "test_building_after_picked_up_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_after_picked_up_state",
+      "godot_owner": "PortGame.source_building_after_picked_up_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "afterPickedUp()",
+      "status": "source-backed",
+      "java_expr": "power.links.clear();",
+      "godot_symbol": "source_building_after_picked_up_result.clearLinks",
+      "rule": "Source clearing of power links after pickup."
+    },
+    "building_after_picked_up.status_reset_guard": {
+      "tests": [
+        "test_building_after_picked_up_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_after_picked_up_state",
+      "godot_owner": "PortGame.source_building_after_picked_up_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "afterPickedUp()",
+      "status": "source-backed",
+      "java_expr": "if(block.consPower != null && !block.consPower.buffered){",
+      "godot_symbol": "source_building_after_picked_up_result.statusResetGate",
+      "rule": "Source non-buffered consume-power status reset guard."
+    },
+    "building_after_picked_up.status_reset": {
+      "tests": [
+        "test_building_after_picked_up_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_after_picked_up_state",
+      "godot_owner": "PortGame.source_building_after_picked_up_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "afterPickedUp()",
+      "status": "source-backed",
+      "java_expr": "power.status = 0f;",
+      "godot_symbol": "source_building_after_picked_up_result.status",
+      "rule": "Source status reset for non-buffered consume-power blocks."
+    },
+    "building_after_picked_up.power_present": {
+      "tests": [
+        "test_building_after_picked_up_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_after_picked_up_state",
+      "godot_owner": "PortGame.source_building_after_picked_up_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "afterPickedUp()",
+      "status": "explicit-input",
+      "java_expr": "power != null",
+      "godot_symbol": "source_building_after_picked_up_input.powerPresent",
+      "rule": "Runtime power_present argument supplies source power null guard."
+    },
+    "building_after_picked_up.has_cons_power": {
+      "tests": [
+        "test_building_after_picked_up_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_after_picked_up_state",
+      "godot_owner": "PortGame.source_building_after_picked_up_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "afterPickedUp()",
+      "status": "explicit-input",
+      "java_expr": "block.consPower != null",
+      "godot_symbol": "source_building_after_picked_up_input.hasConsPower",
+      "rule": "Runtime has_cons_power argument supplies source consume-power null guard."
+    },
+    "building_after_picked_up.cons_power_buffered": {
+      "tests": [
+        "test_building_after_picked_up_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_after_picked_up_state",
+      "godot_owner": "PortGame.source_building_after_picked_up_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "afterPickedUp()",
+      "status": "explicit-input",
+      "java_expr": "block.consPower.buffered",
+      "godot_symbol": "source_building_after_picked_up_input.consPowerBuffered",
+      "rule": "Runtime cons_power_buffered argument supplies source buffered flag."
+    },
+    "building_after_picked_up.current_status": {
+      "tests": [
+        "test_building_after_picked_up_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_after_picked_up_state",
+      "godot_owner": "PortGame.source_building_after_picked_up_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "afterPickedUp()",
+      "status": "explicit-input",
+      "java_expr": "power.status",
+      "godot_symbol": "source_building_after_picked_up_input.currentStatus",
+      "rule": "Runtime current_status argument supplies source status before reset."
     }
   }
 }
