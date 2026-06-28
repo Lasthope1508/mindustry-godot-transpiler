@@ -3910,6 +3910,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(handled_damage["java_expr"], "handleDamage(damage)")
         self.assertEqual(handled_damage["godot_symbol"], "source_building_damage_handle_damage_gate_input.handled_damage")
 
+    def test_building_damage_health_changed_call_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        call = source_symbols.source_symbol(registry, "building_damage_health_changed_call.call")
+        self.assertEqual(call["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(call["java_method"], "damage(float damage)")
+        self.assertEqual(call["java_expr"], "healthChanged();")
+        self.assertEqual(call["godot_owner"], "PortGame.source_building_damage_health_changed_call_state")
+        self.assertEqual(call["runtime_proof"], "/root/Main.source_building_damage_health_changed_call_state")
+        self.assertEqual(call["godot_symbol"], "source_building_damage_health_changed_call_result.health_changed")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -4194,9 +4208,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 156)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 157)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 161)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 162)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -4354,6 +4368,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_damage_dead_guard_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_damage_delegate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_damage_handle_damage_gate_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_damage_health_changed_call_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -5595,6 +5610,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("//TODO handle this better on the client.", building_damage_handle_damage_gate["exact_exprs"])
         self.assertIn("if(!net.client()){", building_damage_handle_damage_gate["exact_exprs"])
         self.assertIn("health -= handleDamage(damage);", building_damage_handle_damage_gate["exact_exprs"])
+
+        building_damage_health_changed_call = source_symbols.source_slice(ledger, "N559")
+        self.assertEqual(building_damage_health_changed_call["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_damage_health_changed_call["java_method"], "damage(float damage)")
+        self.assertEqual(building_damage_health_changed_call["godot_owner"], "PortGame.source_building_damage_health_changed_call_state")
+        self.assertIn("healthChanged();", building_damage_health_changed_call["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -6951,6 +6972,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("handled_damage", building_damage_handle_damage_gate["return_keys"])
         self.assertIn("handle_damage_called", building_damage_handle_damage_gate["return_keys"])
         self.assertEqual(building_damage_handle_damage_gate["source_method"], "damage(float damage)")
+
+        building_damage_health_changed_call = source_symbols.api_contract(contracts, "PortGame.source_building_damage_health_changed_call_state")
+        self.assertEqual([param["name"] for param in building_damage_health_changed_call["params"]], [])
+        self.assertIn("health_changed", building_damage_health_changed_call["return_keys"])
+        self.assertEqual(building_damage_health_changed_call["source_method"], "damage(float damage)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -8604,6 +8630,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_damage_handle_damage_gate_result["keys"]["health"]["java_expr"], "health -= handleDamage(damage);")
         self.assertEqual(source_building_damage_handle_damage_gate_result["keys"]["damage"]["alias_of"], "source_building_damage_handle_damage_gate_input.damage")
         self.assertEqual(source_building_damage_handle_damage_gate_result["keys"]["handled_damage"]["alias_of"], "source_building_damage_handle_damage_gate_input.handled_damage")
+
+        source_building_damage_health_changed_call_result = source_symbols.state_schema(schema, "source_building_damage_health_changed_call_result")
+        self.assertEqual(source_building_damage_health_changed_call_result["keys"]["health_changed"]["java_expr"], "healthChanged();")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

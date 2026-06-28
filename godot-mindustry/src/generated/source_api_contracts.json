@@ -6070,6 +6070,21 @@
       ],
       "runtime_proof": "/root/Main.source_building_damage_handle_damage_gate_state",
       "rule": "Public runtime contract for Mindustry BuildingComp damage handleDamage gate helper."
+    },
+    "PortGame.source_building_damage_health_changed_call_state": {
+      "status": "active",
+      "source_slice": "N559",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "damage(float damage)",
+      "params": [],
+      "return_keys": [
+        "health_changed"
+      ],
+      "tests": [
+        "test_building_damage_health_changed_call_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_health_changed_call_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp damage healthChanged() call helper."
     }
   },
   "policy": {

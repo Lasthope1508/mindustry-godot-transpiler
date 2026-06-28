@@ -4917,6 +4917,27 @@
       ],
       "runtime_proof": "/root/Main.source_building_damage_handle_damage_gate_state",
       "rule": "Backfills SSOT for existing canonical source_building_damage_handle_damage_gate_state helper against BuildingComp.damage handleDamage net-client gate."
+    },
+    "N559": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "damage(float damage)",
+      "godot_owner": "PortGame.source_building_damage_health_changed_call_state",
+      "exact_exprs": [
+        "healthChanged();"
+      ],
+      "deferred_exprs": [
+        "healthChanged() body and destroy side effects are owned by separate slices."
+      ],
+      "source_symbols": [
+        "building_damage_health_changed_call.call"
+      ],
+      "tests": [
+        "test_building_damage_health_changed_call_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_health_changed_call_state",
+      "rule": "Backfills SSOT for existing canonical source_building_damage_health_changed_call_state helper against BuildingComp.damage healthChanged() call."
     }
   },
   "version": 1

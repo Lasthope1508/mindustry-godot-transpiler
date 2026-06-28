@@ -19580,6 +19580,23 @@
           "rule": "Carries net-client input into result boundary."
         }
       }
+    },
+    "source_building_damage_health_changed_call_result": {
+      "status": "active",
+      "keys": {
+        "health_changed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "damage(float damage)",
+          "java_expr": "healthChanged();",
+          "godot_symbol": "source_building_damage_health_changed_call_result.health_changed",
+          "used_by": [
+            "PortGame.source_building_damage_health_changed_call_state"
+          ],
+          "rule": "damage(float damage) calls healthChanged() after handleDamage gate."
+        }
+      }
     }
   },
   "version": 1

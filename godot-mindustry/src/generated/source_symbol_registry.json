@@ -15087,6 +15087,19 @@
       "java_expr": "handleDamage(damage)",
       "godot_symbol": "source_building_damage_handle_damage_gate_input.handled_damage",
       "rule": "Precomputed handleDamage(damage) result supplied to gate helper."
+    },
+    "building_damage_health_changed_call.call": {
+      "tests": [
+        "test_building_damage_health_changed_call_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_health_changed_call_state",
+      "godot_owner": "PortGame.source_building_damage_health_changed_call_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(float damage)",
+      "status": "source-backed",
+      "java_expr": "healthChanged();",
+      "godot_symbol": "source_building_damage_health_changed_call_result.health_changed",
+      "rule": "damage(float damage) calls healthChanged() after handleDamage gate."
     }
   }
 }
