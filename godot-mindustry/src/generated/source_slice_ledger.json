@@ -3811,6 +3811,41 @@
       ],
       "runtime_proof": "/root/Main.source_building_accept_payload_state",
       "rule": "Backfills SSOT for existing canonical source_building_accept_payload_state helper against BuildingComp.acceptPayload default false."
+    },
+    "N524": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "acceptStack(Item item, int amount, Teamc source)",
+      "godot_owner": "PortGame.source_building_accept_stack_state",
+      "exact_exprs": [
+        "if(acceptItem(self(), item) && block.hasItems && (source == null || source.team() == team)){",
+        "return Math.min(getMaximumAccepted(item) - items.get(item), amount);",
+        "return 0;",
+        "acceptItem(self(), item)",
+        "block.hasItems",
+        "source == null || source.team() == team",
+        "getMaximumAccepted(item)",
+        "items.get(item)",
+        "amount"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "building_accept_stack.method",
+        "building_accept_stack.result",
+        "building_accept_stack.fallback",
+        "building_accept_stack.accepts_item",
+        "building_accept_stack.has_items",
+        "building_accept_stack.same_team_or_null_source",
+        "building_accept_stack.maximum_accepted",
+        "building_accept_stack.item_count",
+        "building_accept_stack.amount"
+      ],
+      "tests": [
+        "test_building_accept_stack_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_accept_stack_state",
+      "rule": "Backfills SSOT for existing canonical source_building_accept_stack_state helper against BuildingComp.acceptStack."
     }
   },
   "version": 1

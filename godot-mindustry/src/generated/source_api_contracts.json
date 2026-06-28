@@ -4948,6 +4948,60 @@
       ],
       "runtime_proof": "/root/Main.source_building_accept_payload_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.acceptPayload helper."
+    },
+    "PortGame.source_building_accept_stack_state": {
+      "status": "active",
+      "source_slice": "N524",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "acceptStack(Item item, int amount, Teamc source)",
+      "params": [
+        {
+          "name": "accepts_item",
+          "type": "bool",
+          "schema": "source_building_accept_stack_input.acceptsItem"
+        },
+        {
+          "name": "has_items",
+          "type": "bool",
+          "schema": "source_building_accept_stack_input.hasItems"
+        },
+        {
+          "name": "same_team_or_null_source",
+          "type": "bool",
+          "schema": "source_building_accept_stack_input.sameTeamOrNullSource"
+        },
+        {
+          "name": "maximum_accepted",
+          "type": "int",
+          "schema": "source_building_accept_stack_input.maximumAccepted"
+        },
+        {
+          "name": "item_count",
+          "type": "int",
+          "schema": "source_building_accept_stack_input.itemCount"
+        },
+        {
+          "name": "amount",
+          "type": "int",
+          "schema": "source_building_accept_stack_input.amount"
+        }
+      ],
+      "return_keys": [
+        "acceptsItem",
+        "hasItems",
+        "sameTeamOrNullSource",
+        "maximumAccepted",
+        "itemCount",
+        "amount",
+        "acceptStackGate",
+        "acceptStack",
+        "fallback"
+      ],
+      "tests": [
+        "test_building_accept_stack_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_accept_stack_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.acceptStack helper."
     }
   },
   "policy": {

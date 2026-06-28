@@ -12188,6 +12188,123 @@
       "java_expr": "return false;",
       "godot_symbol": "source_building_accept_payload_result.acceptPayload",
       "rule": "Default BuildingComp acceptPayload rejects payloads."
+    },
+    "building_accept_stack.method": {
+      "tests": [
+        "test_building_accept_stack_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_accept_stack_state",
+      "godot_owner": "PortGame.source_building_accept_stack_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "acceptStack(Item item, int amount, Teamc source)",
+      "status": "source-backed",
+      "java_expr": "if(acceptItem(self(), item) && block.hasItems && (source == null || source.team() == team)){",
+      "godot_symbol": "source_building_accept_stack_result.acceptStackGate",
+      "rule": "BuildingComp acceptStack enters capacity calculation only when acceptItem, hasItems, and source team/null guard pass."
+    },
+    "building_accept_stack.result": {
+      "tests": [
+        "test_building_accept_stack_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_accept_stack_state",
+      "godot_owner": "PortGame.source_building_accept_stack_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "acceptStack(Item item, int amount, Teamc source)",
+      "status": "source-backed",
+      "java_expr": "return Math.min(getMaximumAccepted(item) - items.get(item), amount);",
+      "godot_symbol": "source_building_accept_stack_result.acceptStack",
+      "rule": "Accepted stack amount is clamped by remaining accepted capacity and requested amount."
+    },
+    "building_accept_stack.fallback": {
+      "tests": [
+        "test_building_accept_stack_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_accept_stack_state",
+      "godot_owner": "PortGame.source_building_accept_stack_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "acceptStack(Item item, int amount, Teamc source)",
+      "status": "source-backed",
+      "java_expr": "return 0;",
+      "godot_symbol": "source_building_accept_stack_result.fallback",
+      "rule": "Failed acceptStack guard returns zero."
+    },
+    "building_accept_stack.accepts_item": {
+      "tests": [
+        "test_building_accept_stack_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_accept_stack_state",
+      "godot_owner": "PortGame.source_building_accept_stack_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "acceptStack(Item item, int amount, Teamc source)",
+      "status": "explicit-input",
+      "java_expr": "acceptItem(self(), item)",
+      "godot_symbol": "source_building_accept_stack_input.acceptsItem",
+      "rule": "Runtime accepts_item argument supplies source acceptItem(self(), item)."
+    },
+    "building_accept_stack.has_items": {
+      "tests": [
+        "test_building_accept_stack_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_accept_stack_state",
+      "godot_owner": "PortGame.source_building_accept_stack_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "acceptStack(Item item, int amount, Teamc source)",
+      "status": "explicit-input",
+      "java_expr": "block.hasItems",
+      "godot_symbol": "source_building_accept_stack_input.hasItems",
+      "rule": "Runtime has_items argument supplies source block.hasItems."
+    },
+    "building_accept_stack.same_team_or_null_source": {
+      "tests": [
+        "test_building_accept_stack_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_accept_stack_state",
+      "godot_owner": "PortGame.source_building_accept_stack_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "acceptStack(Item item, int amount, Teamc source)",
+      "status": "explicit-input",
+      "java_expr": "source == null || source.team() == team",
+      "godot_symbol": "source_building_accept_stack_input.sameTeamOrNullSource",
+      "rule": "Runtime same_team_or_null_source argument supplies source team/null guard."
+    },
+    "building_accept_stack.maximum_accepted": {
+      "tests": [
+        "test_building_accept_stack_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_accept_stack_state",
+      "godot_owner": "PortGame.source_building_accept_stack_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "acceptStack(Item item, int amount, Teamc source)",
+      "status": "explicit-input",
+      "java_expr": "getMaximumAccepted(item)",
+      "godot_symbol": "source_building_accept_stack_input.maximumAccepted",
+      "rule": "Runtime maximum_accepted argument supplies source getMaximumAccepted(item)."
+    },
+    "building_accept_stack.item_count": {
+      "tests": [
+        "test_building_accept_stack_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_accept_stack_state",
+      "godot_owner": "PortGame.source_building_accept_stack_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "acceptStack(Item item, int amount, Teamc source)",
+      "status": "explicit-input",
+      "java_expr": "items.get(item)",
+      "godot_symbol": "source_building_accept_stack_input.itemCount",
+      "rule": "Runtime item_count argument supplies source items.get(item)."
+    },
+    "building_accept_stack.amount": {
+      "tests": [
+        "test_building_accept_stack_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_accept_stack_state",
+      "godot_owner": "PortGame.source_building_accept_stack_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "acceptStack(Item item, int amount, Teamc source)",
+      "status": "explicit-input",
+      "java_expr": "amount",
+      "godot_symbol": "source_building_accept_stack_input.amount",
+      "rule": "Runtime amount argument supplies source amount parameter."
     }
   }
 }

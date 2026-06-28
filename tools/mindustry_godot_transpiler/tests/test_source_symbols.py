@@ -2917,6 +2917,28 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(method["runtime_proof"], "/root/Main.source_building_accept_payload_state")
         self.assertEqual(method["godot_symbol"], "source_building_accept_payload_result.acceptPayload")
 
+    def test_building_accept_stack_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_accept_stack.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "acceptStack(Item item, int amount, Teamc source)")
+        self.assertEqual(method["java_expr"], "if(acceptItem(self(), item) && block.hasItems && (source == null || source.team() == team)){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_accept_stack_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_accept_stack_state")
+        self.assertEqual(method["godot_symbol"], "source_building_accept_stack_result.acceptStackGate")
+
+        result = source_symbols.source_symbol(registry, "building_accept_stack.result")
+        self.assertEqual(result["java_expr"], "return Math.min(getMaximumAccepted(item) - items.get(item), amount);")
+        self.assertEqual(result["godot_symbol"], "source_building_accept_stack_result.acceptStack")
+
+        fallback = source_symbols.source_symbol(registry, "building_accept_stack.fallback")
+        self.assertEqual(fallback["java_expr"], "return 0;")
+        self.assertEqual(fallback["godot_symbol"], "source_building_accept_stack_result.fallback")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3201,9 +3223,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 121)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 122)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 126)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 127)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3326,6 +3348,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_payload_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_accept_stack_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -4251,6 +4274,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_accept_payload["java_method"], "acceptPayload(Building source, Payload payload)")
         self.assertEqual(building_accept_payload["godot_owner"], "PortGame.source_building_accept_payload_state")
         self.assertIn("return false;", building_accept_payload["exact_exprs"])
+
+        building_accept_stack = source_symbols.source_slice(ledger, "N524")
+        self.assertEqual(building_accept_stack["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_accept_stack["java_method"], "acceptStack(Item item, int amount, Teamc source)")
+        self.assertEqual(building_accept_stack["godot_owner"], "PortGame.source_building_accept_stack_state")
+        self.assertIn("if(acceptItem(self(), item) && block.hasItems && (source == null || source.team() == team)){", building_accept_stack["exact_exprs"])
+        self.assertIn("return Math.min(getMaximumAccepted(item) - items.get(item), amount);", building_accept_stack["exact_exprs"])
+        self.assertIn("return 0;", building_accept_stack["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -5342,6 +5373,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_accept_payload["params"], [])
         self.assertIn("acceptPayload", building_accept_payload["return_keys"])
         self.assertEqual(building_accept_payload["source_method"], "acceptPayload(Building source, Payload payload)")
+
+        building_accept_stack = source_symbols.api_contract(contracts, "PortGame.source_building_accept_stack_state")
+        self.assertEqual([param["name"] for param in building_accept_stack["params"]], ["accepts_item", "has_items", "same_team_or_null_source", "maximum_accepted", "item_count", "amount"])
+        self.assertEqual(building_accept_stack["params"][0]["schema"], "source_building_accept_stack_input.acceptsItem")
+        self.assertEqual(building_accept_stack["params"][5]["schema"], "source_building_accept_stack_input.amount")
+        self.assertIn("acceptStack", building_accept_stack["return_keys"])
+        self.assertIn("fallback", building_accept_stack["return_keys"])
+        self.assertEqual(building_accept_stack["source_method"], "acceptStack(Item item, int amount, Teamc source)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -6617,6 +6656,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         source_building_accept_payload_result = source_symbols.state_schema(schema, "source_building_accept_payload_result")
         self.assertEqual(source_building_accept_payload_result["keys"]["acceptPayload"]["java_expr"], "return false;")
         self.assertEqual(source_building_accept_payload_result["keys"]["acceptPayload"]["status"], "source-backed")
+
+        source_building_accept_stack_input = source_symbols.state_schema(schema, "source_building_accept_stack_input")
+        self.assertEqual(source_building_accept_stack_input["keys"]["acceptsItem"]["java_expr"], "acceptItem(self(), item)")
+        self.assertEqual(source_building_accept_stack_input["keys"]["hasItems"]["java_expr"], "block.hasItems")
+        self.assertEqual(source_building_accept_stack_input["keys"]["sameTeamOrNullSource"]["java_expr"], "source == null || source.team() == team")
+        self.assertEqual(source_building_accept_stack_input["keys"]["maximumAccepted"]["java_expr"], "getMaximumAccepted(item)")
+        self.assertEqual(source_building_accept_stack_input["keys"]["itemCount"]["java_expr"], "items.get(item)")
+        self.assertEqual(source_building_accept_stack_input["keys"]["amount"]["java_expr"], "amount")
+
+        source_building_accept_stack_result = source_symbols.state_schema(schema, "source_building_accept_stack_result")
+        self.assertEqual(source_building_accept_stack_result["keys"]["acceptStackGate"]["java_expr"], "if(acceptItem(self(), item) && block.hasItems && (source == null || source.team() == team)){")
+        self.assertEqual(source_building_accept_stack_result["keys"]["acceptStack"]["java_expr"], "return Math.min(getMaximumAccepted(item) - items.get(item), amount);")
+        self.assertEqual(source_building_accept_stack_result["keys"]["fallback"]["java_expr"], "return 0;")
+        self.assertEqual(source_building_accept_stack_result["keys"]["acceptsItem"]["alias_of"], "source_building_accept_stack_input.acceptsItem")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

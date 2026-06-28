@@ -16125,6 +16125,160 @@
           "rule": "BuildingComp acceptPayload return value."
         }
       }
+    },
+    "source_building_accept_stack_input": {
+      "status": "active",
+      "keys": {
+        "acceptsItem": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "acceptStack(Item item, int amount, Teamc source)",
+          "java_expr": "acceptItem(self(), item)",
+          "godot_symbol": "source_building_accept_stack_input.acceptsItem",
+          "used_by": [
+            "PortGame.source_building_accept_stack_state"
+          ],
+          "rule": "Runtime accepts_item argument supplies source acceptItem(self(), item)."
+        },
+        "hasItems": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "acceptStack(Item item, int amount, Teamc source)",
+          "java_expr": "block.hasItems",
+          "godot_symbol": "source_building_accept_stack_input.hasItems",
+          "used_by": [
+            "PortGame.source_building_accept_stack_state"
+          ],
+          "rule": "Runtime has_items argument supplies source block.hasItems."
+        },
+        "sameTeamOrNullSource": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "acceptStack(Item item, int amount, Teamc source)",
+          "java_expr": "source == null || source.team() == team",
+          "godot_symbol": "source_building_accept_stack_input.sameTeamOrNullSource",
+          "used_by": [
+            "PortGame.source_building_accept_stack_state"
+          ],
+          "rule": "Runtime same_team_or_null_source argument supplies source team/null guard."
+        },
+        "maximumAccepted": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "acceptStack(Item item, int amount, Teamc source)",
+          "java_expr": "getMaximumAccepted(item)",
+          "godot_symbol": "source_building_accept_stack_input.maximumAccepted",
+          "used_by": [
+            "PortGame.source_building_accept_stack_state"
+          ],
+          "rule": "Runtime maximum_accepted argument supplies source getMaximumAccepted(item)."
+        },
+        "itemCount": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "acceptStack(Item item, int amount, Teamc source)",
+          "java_expr": "items.get(item)",
+          "godot_symbol": "source_building_accept_stack_input.itemCount",
+          "used_by": [
+            "PortGame.source_building_accept_stack_state"
+          ],
+          "rule": "Runtime item_count argument supplies source items.get(item)."
+        },
+        "amount": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "acceptStack(Item item, int amount, Teamc source)",
+          "java_expr": "amount",
+          "godot_symbol": "source_building_accept_stack_input.amount",
+          "used_by": [
+            "PortGame.source_building_accept_stack_state"
+          ],
+          "rule": "Runtime amount argument supplies source amount parameter."
+        }
+      }
+    },
+    "source_building_accept_stack_result": {
+      "status": "active",
+      "keys": {
+        "acceptStackGate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "acceptStack(Item item, int amount, Teamc source)",
+          "java_expr": "if(acceptItem(self(), item) && block.hasItems && (source == null || source.team() == team)){",
+          "godot_symbol": "source_building_accept_stack_result.acceptStackGate",
+          "used_by": [
+            "PortGame.source_building_accept_stack_state"
+          ],
+          "rule": "Source acceptStack guard expression."
+        },
+        "acceptStack": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "acceptStack(Item item, int amount, Teamc source)",
+          "java_expr": "return Math.min(getMaximumAccepted(item) - items.get(item), amount);",
+          "godot_symbol": "source_building_accept_stack_result.acceptStack",
+          "used_by": [
+            "PortGame.source_building_accept_stack_state"
+          ],
+          "rule": "Source accepted stack amount expression."
+        },
+        "fallback": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "acceptStack(Item item, int amount, Teamc source)",
+          "java_expr": "return 0;",
+          "godot_symbol": "source_building_accept_stack_result.fallback",
+          "used_by": [
+            "PortGame.source_building_accept_stack_state"
+          ],
+          "rule": "Source fallback return when guard fails."
+        },
+        "acceptsItem": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_accept_stack_input.acceptsItem",
+          "rule": "Carries acceptsItem input into result schema."
+        },
+        "hasItems": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_accept_stack_input.hasItems",
+          "rule": "Carries hasItems input into result schema."
+        },
+        "sameTeamOrNullSource": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_accept_stack_input.sameTeamOrNullSource",
+          "rule": "Carries sameTeamOrNullSource input into result schema."
+        },
+        "maximumAccepted": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_accept_stack_input.maximumAccepted",
+          "rule": "Carries maximumAccepted input into result schema."
+        },
+        "itemCount": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_accept_stack_input.itemCount",
+          "rule": "Carries itemCount input into result schema."
+        },
+        "amount": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_accept_stack_input.amount",
+          "rule": "Carries amount input into result schema."
+        }
+      }
     }
   },
   "version": 1
