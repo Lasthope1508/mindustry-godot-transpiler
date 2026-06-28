@@ -5141,6 +5141,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(heal_suppression_time["java_expr"], "healSuppressionTime")
         self.assertEqual(heal_suppression_time["godot_symbol"], "source_building_is_heal_suppressed_input.heal_suppression_time")
 
+    def test_building_is_insulated_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_is_insulated.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "isInsulated()")
+        self.assertEqual(method["java_expr"], "public boolean isInsulated(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_is_insulated_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_is_insulated_state")
+        self.assertEqual(method["godot_symbol"], "source_building_is_insulated_result.method")
+
+        result = source_symbols.source_symbol(registry, "building_is_insulated.result")
+        self.assertEqual(result["java_expr"], "return block.insulated;")
+        self.assertEqual(result["godot_symbol"], "source_building_is_insulated_result.insulated")
+
+        block_insulated = source_symbols.source_symbol(registry, "building_is_insulated.block_insulated")
+        self.assertEqual(block_insulated["status"], "explicit-input")
+        self.assertEqual(block_insulated["java_expr"], "block.insulated")
+        self.assertEqual(block_insulated["godot_symbol"], "source_building_is_insulated_input.block_insulated")
+
     def test_building_in_fog_discovery_gate_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -5511,9 +5534,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 194)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 195)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 199)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 200)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -5525,6 +5548,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_in_fog_visibility_loop_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_is_commandable_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_is_heal_suppressed_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_is_insulated_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7291,6 +7315,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("block.suppressable", building_is_heal_suppressed["exact_exprs"])
         self.assertIn("Time.time <= healSuppressionTime", building_is_heal_suppressed["exact_exprs"])
 
+        building_is_insulated = source_symbols.source_slice(ledger, "N597")
+        self.assertEqual(building_is_insulated["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_is_insulated["java_method"], "isInsulated()")
+        self.assertEqual(building_is_insulated["godot_owner"], "PortGame.source_building_is_insulated_state")
+        self.assertIn("public boolean isInsulated(){", building_is_insulated["exact_exprs"])
+        self.assertIn("return block.insulated;", building_is_insulated["exact_exprs"])
+        self.assertIn("block.insulated", building_is_insulated["exact_exprs"])
+
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
         self.assertEqual(arc_mathf_cos_scaled["java_method"], "cos(float radians, float scl, float mag)")
@@ -8965,6 +8997,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("method", building_is_heal_suppressed["return_keys"])
         self.assertIn("suppressed", building_is_heal_suppressed["return_keys"])
         self.assertEqual(building_is_heal_suppressed["source_method"], "isHealSuppressed()")
+
+        building_is_insulated = source_symbols.api_contract(contracts, "PortGame.source_building_is_insulated_state")
+        self.assertEqual([param["name"] for param in building_is_insulated["params"]], ["block_insulated"])
+        self.assertEqual(building_is_insulated["params"][0]["schema"], "source_building_is_insulated_input.block_insulated")
+        self.assertIn("block_insulated", building_is_insulated["return_keys"])
+        self.assertIn("method", building_is_insulated["return_keys"])
+        self.assertIn("insulated", building_is_insulated["return_keys"])
+        self.assertEqual(building_is_insulated["source_method"], "isInsulated()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -11148,6 +11188,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_is_heal_suppressed_result["keys"]["block_suppressable"]["alias_of"], "source_building_is_heal_suppressed_input.block_suppressable")
         self.assertEqual(source_building_is_heal_suppressed_result["keys"]["source_time"]["alias_of"], "source_building_is_heal_suppressed_input.source_time")
         self.assertEqual(source_building_is_heal_suppressed_result["keys"]["heal_suppression_time"]["alias_of"], "source_building_is_heal_suppressed_input.heal_suppression_time")
+
+        source_building_is_insulated_input = source_symbols.state_schema(schema, "source_building_is_insulated_input")
+        self.assertEqual(source_building_is_insulated_input["keys"]["block_insulated"]["java_expr"], "block.insulated")
+        self.assertEqual(source_building_is_insulated_input["keys"]["block_insulated"]["status"], "explicit-input")
+
+        source_building_is_insulated_result = source_symbols.state_schema(schema, "source_building_is_insulated_result")
+        self.assertEqual(source_building_is_insulated_result["keys"]["method"]["java_expr"], "public boolean isInsulated(){")
+        self.assertEqual(source_building_is_insulated_result["keys"]["insulated"]["java_expr"], "return block.insulated;")
+        self.assertEqual(source_building_is_insulated_result["keys"]["block_insulated"]["alias_of"], "source_building_is_insulated_input.block_insulated")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

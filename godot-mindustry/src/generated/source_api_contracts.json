@@ -7527,6 +7527,29 @@
       ],
       "runtime_proof": "/root/Main.source_building_is_heal_suppressed_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.isHealSuppressed helper."
+    },
+    "PortGame.source_building_is_insulated_state": {
+      "status": "active",
+      "source_slice": "N597",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "isInsulated()",
+      "params": [
+        {
+          "name": "block_insulated",
+          "type": "bool",
+          "schema": "source_building_is_insulated_input.block_insulated"
+        }
+      ],
+      "return_keys": [
+        "block_insulated",
+        "method",
+        "insulated"
+      ],
+      "tests": [
+        "test_building_is_insulated_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_insulated_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.isInsulated helper."
     }
   },
   "policy": {

@@ -19104,6 +19104,45 @@
       "java_expr": "healSuppressionTime",
       "godot_symbol": "source_building_is_heal_suppressed_input.heal_suppression_time",
       "rule": "Runtime heal_suppression_time supplies source healSuppressionTime field."
+    },
+    "building_is_insulated.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "isInsulated()",
+      "godot_owner": "PortGame.source_building_is_insulated_state",
+      "tests": [
+        "test_building_is_insulated_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_insulated_state",
+      "java_expr": "public boolean isInsulated(){",
+      "godot_symbol": "source_building_is_insulated_result.method",
+      "rule": "BuildingComp isInsulated method boundary."
+    },
+    "building_is_insulated.result": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "isInsulated()",
+      "godot_owner": "PortGame.source_building_is_insulated_state",
+      "tests": [
+        "test_building_is_insulated_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_insulated_state",
+      "java_expr": "return block.insulated;",
+      "godot_symbol": "source_building_is_insulated_result.insulated",
+      "rule": "BuildingComp isInsulated returns block.insulated."
+    },
+    "building_is_insulated.block_insulated": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "isInsulated()",
+      "godot_owner": "PortGame.source_building_is_insulated_state",
+      "tests": [
+        "test_building_is_insulated_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_insulated_state",
+      "java_expr": "block.insulated",
+      "godot_symbol": "source_building_is_insulated_input.block_insulated",
+      "rule": "Block insulated field supplied to isInsulated helper."
     }
   }
 }

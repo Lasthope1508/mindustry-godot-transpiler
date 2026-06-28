@@ -6141,6 +6141,29 @@
       ],
       "runtime_proof": "/root/Main.source_building_is_heal_suppressed_state",
       "rule": "Backfills SSOT for existing canonical source_building_is_heal_suppressed_state helper against BuildingComp.isHealSuppressed()."
+    },
+    "N597": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "isInsulated()",
+      "godot_owner": "PortGame.source_building_is_insulated_state",
+      "exact_exprs": [
+        "public boolean isInsulated(){",
+        "return block.insulated;",
+        "block.insulated"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "building_is_insulated.method",
+        "building_is_insulated.result",
+        "building_is_insulated.block_insulated"
+      ],
+      "tests": [
+        "test_building_is_insulated_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_insulated_state",
+      "rule": "Backfills SSOT for existing canonical source_building_is_insulated_state helper against BuildingComp.isInsulated()."
     }
   },
   "version": 1

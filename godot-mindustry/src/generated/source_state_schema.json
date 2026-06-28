@@ -24942,6 +24942,58 @@
           "rule": "Carries heal_suppression_time input into result schema."
         }
       }
+    },
+    "source_building_is_insulated_input": {
+      "status": "active",
+      "keys": {
+        "block_insulated": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "isInsulated()",
+          "java_expr": "block.insulated",
+          "godot_symbol": "source_building_is_insulated_input.block_insulated",
+          "used_by": [
+            "PortGame.source_building_is_insulated_state"
+          ],
+          "rule": "Block insulated field supplied to isInsulated helper."
+        }
+      }
+    },
+    "source_building_is_insulated_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "isInsulated()",
+          "java_expr": "public boolean isInsulated(){",
+          "godot_symbol": "source_building_is_insulated_result.method",
+          "used_by": [
+            "PortGame.source_building_is_insulated_state"
+          ],
+          "rule": "BuildingComp isInsulated method boundary."
+        },
+        "insulated": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "isInsulated()",
+          "java_expr": "return block.insulated;",
+          "godot_symbol": "source_building_is_insulated_result.insulated",
+          "used_by": [
+            "PortGame.source_building_is_insulated_state"
+          ],
+          "rule": "BuildingComp isInsulated return block field."
+        },
+        "block_insulated": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_is_insulated_input.block_insulated",
+          "rule": "Carries block_insulated input into result schema."
+        }
+      }
     }
   },
   "version": 1
