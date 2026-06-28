@@ -11928,6 +11928,123 @@
       "java_expr": "tile.x, tile.y",
       "godot_symbol": "source_block_time_scale_at_cell_input.cell",
       "rule": "Runtime x/y pair maps to source tile coordinates."
+    },
+    "block_time_scale_duration_at_cell.field": {
+      "tests": [
+        "test_block_time_scale_duration_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_time_scale_duration_at_cell",
+      "godot_owner": "PortGame.source_block_time_scale_duration_at_cell",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "field declaration",
+      "status": "source-backed",
+      "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+      "godot_symbol": "source_block_time_scale_duration_at_cell_result.defaultTimeScaleDuration",
+      "rule": "BuildingComp timeScaleDuration defaults to Java float zero."
+    },
+    "block_time_scale_duration_at_cell.write_duration": {
+      "tests": [
+        "test_block_time_scale_duration_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_time_scale_duration_at_cell",
+      "godot_owner": "PortGame.source_block_time_scale_duration_at_cell",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "write(Writes write)",
+      "status": "source-backed",
+      "java_expr": "write.f(timeScaleDuration);",
+      "godot_symbol": "source_block_time_scale_duration_at_cell_result.writeDuration",
+      "rule": "Serialized time scale duration writes current field value when timeScale is active."
+    },
+    "block_time_scale_duration_at_cell.read_duration": {
+      "tests": [
+        "test_block_time_scale_duration_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_time_scale_duration_at_cell",
+      "godot_owner": "PortGame.source_block_time_scale_duration_at_cell",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "read(Reads read, byte revision)",
+      "status": "source-backed",
+      "java_expr": "timeScaleDuration = read.f();",
+      "godot_symbol": "source_block_time_scale_duration_at_cell_result.readDuration",
+      "rule": "Deserialized time scale duration restores current field value."
+    },
+    "block_time_scale_duration_at_cell.apply_boost_duration": {
+      "tests": [
+        "test_block_time_scale_duration_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_time_scale_duration_at_cell",
+      "godot_owner": "PortGame.source_block_time_scale_duration_at_cell",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "applyBoost(float intensity, float duration)",
+      "status": "source-backed",
+      "java_expr": "timeScaleDuration = Math.max(timeScaleDuration, duration);",
+      "godot_symbol": "source_block_time_scale_duration_at_cell_result.applyBoostDuration",
+      "rule": "Boost duration refresh uses max(current duration, duration)."
+    },
+    "block_time_scale_duration_at_cell.apply_slowdown_duration": {
+      "tests": [
+        "test_block_time_scale_duration_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_time_scale_duration_at_cell",
+      "godot_owner": "PortGame.source_block_time_scale_duration_at_cell",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "applySlowdown(float intensity, float duration)",
+      "status": "source-backed",
+      "java_expr": "timeScaleDuration = Math.max(timeScaleDuration, duration);",
+      "godot_symbol": "source_block_time_scale_duration_at_cell_result.applySlowdownDuration",
+      "rule": "Slowdown duration refresh uses the same max expression."
+    },
+    "block_time_scale_duration_at_cell.decay": {
+      "tests": [
+        "test_block_time_scale_duration_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_time_scale_duration_at_cell",
+      "godot_owner": "PortGame.source_block_time_scale_duration_at_cell",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "update()",
+      "status": "source-backed",
+      "java_expr": "if((timeScaleDuration -= Time.delta) <= 0f){",
+      "godot_symbol": "source_block_time_scale_duration_at_cell_result.decayGate",
+      "rule": "Update decrements timeScaleDuration by Time.delta before reset gate."
+    },
+    "block_time_scale_duration_at_cell.x_input": {
+      "tests": [
+        "test_block_time_scale_duration_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_time_scale_duration_at_cell",
+      "godot_owner": "PortGame.source_block_time_scale_duration_at_cell",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "coordinate",
+      "status": "explicit-input",
+      "java_expr": "tile.x",
+      "godot_symbol": "source_block_time_scale_duration_at_cell_input.x",
+      "rule": "Runtime x selects the source tile x coordinate."
+    },
+    "block_time_scale_duration_at_cell.y_input": {
+      "tests": [
+        "test_block_time_scale_duration_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_time_scale_duration_at_cell",
+      "godot_owner": "PortGame.source_block_time_scale_duration_at_cell",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "coordinate",
+      "status": "explicit-input",
+      "java_expr": "tile.y",
+      "godot_symbol": "source_block_time_scale_duration_at_cell_input.y",
+      "rule": "Runtime y selects the source tile y coordinate."
+    },
+    "block_time_scale_duration_at_cell.cell_input": {
+      "tests": [
+        "test_block_time_scale_duration_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_time_scale_duration_at_cell",
+      "godot_owner": "PortGame.source_block_time_scale_duration_at_cell",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "coordinate",
+      "status": "explicit-input",
+      "java_expr": "tile.x, tile.y",
+      "godot_symbol": "source_block_time_scale_duration_at_cell_input.cell",
+      "rule": "Runtime x/y pair maps to source tile coordinates."
     }
   }
 }

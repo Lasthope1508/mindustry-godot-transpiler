@@ -3681,6 +3681,44 @@
       ],
       "runtime_proof": "/root/Main.source_block_time_scale_at_cell",
       "rule": "Backfills SSOT for existing canonical source_block_time_scale_at_cell helper against BuildingComp timeScale field/accessor/sense state."
+    },
+    "N519": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "field/read/write/update/apply duration state",
+      "godot_owner": "PortGame.source_block_time_scale_duration_at_cell",
+      "exact_exprs": [
+        "private transient float timeScale = 1f, timeScaleDuration;",
+        "write.f(timeScaleDuration);",
+        "timeScaleDuration = read.f();",
+        "timeScaleDuration = Math.max(timeScaleDuration, duration);",
+        "if((timeScaleDuration -= Time.delta) <= 0f){",
+        "tile.x",
+        "tile.y",
+        "tile.x, tile.y"
+      ],
+      "deferred_exprs": [
+        "timeScale = 1f;",
+        "timeScale = Math.max(timeScale, intensity);",
+        "timeScale = Math.min(timeScale, intensity);"
+      ],
+      "source_symbols": [
+        "block_time_scale_duration_at_cell.field",
+        "block_time_scale_duration_at_cell.write_duration",
+        "block_time_scale_duration_at_cell.read_duration",
+        "block_time_scale_duration_at_cell.apply_boost_duration",
+        "block_time_scale_duration_at_cell.apply_slowdown_duration",
+        "block_time_scale_duration_at_cell.decay",
+        "block_time_scale_duration_at_cell.x_input",
+        "block_time_scale_duration_at_cell.y_input",
+        "block_time_scale_duration_at_cell.cell_input"
+      ],
+      "tests": [
+        "test_block_time_scale_duration_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_time_scale_duration_at_cell",
+      "rule": "Backfills SSOT for existing canonical source_block_time_scale_duration_at_cell helper against BuildingComp timeScaleDuration field/read/write/apply/update state."
     }
   },
   "version": 1

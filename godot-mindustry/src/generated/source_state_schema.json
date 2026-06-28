@@ -15774,6 +15774,154 @@
           "rule": "Carries cell input into result schema."
         }
       }
+    },
+    "source_block_time_scale_duration_at_cell_input": {
+      "status": "active",
+      "keys": {
+        "x": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_method": "coordinate",
+          "java_expr": "tile.x",
+          "godot_symbol": "source_block_time_scale_duration_at_cell_input.x",
+          "used_by": [
+            "PortGame.source_block_time_scale_duration_at_cell"
+          ],
+          "rule": "Runtime x selects source tile x coordinate."
+        },
+        "y": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_method": "coordinate",
+          "java_expr": "tile.y",
+          "godot_symbol": "source_block_time_scale_duration_at_cell_input.y",
+          "used_by": [
+            "PortGame.source_block_time_scale_duration_at_cell"
+          ],
+          "rule": "Runtime y selects source tile y coordinate."
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_method": "coordinate",
+          "java_expr": "tile.x, tile.y",
+          "godot_symbol": "source_block_time_scale_duration_at_cell_input.cell",
+          "used_by": [
+            "PortGame.source_block_time_scale_duration_at_cell"
+          ],
+          "rule": "Runtime x/y pair maps to source tile coordinates."
+        }
+      }
+    },
+    "source_block_time_scale_duration_at_cell_result": {
+      "status": "active",
+      "keys": {
+        "defaultTimeScaleDuration": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "field declaration",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "godot_symbol": "source_block_time_scale_duration_at_cell_result.defaultTimeScaleDuration",
+          "used_by": [
+            "PortGame.source_block_time_scale_duration_at_cell"
+          ],
+          "rule": "BuildingComp timeScaleDuration field defaults to Java float zero."
+        },
+        "timeScaleDuration": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "field/read/write/update/apply duration state",
+          "java_expr": "timeScaleDuration",
+          "godot_symbol": "source_block_time_scale_duration_at_cell_result.timeScaleDuration",
+          "used_by": [
+            "PortGame.source_block_time_scale_duration_at_cell"
+          ],
+          "rule": "Current BuildingComp timeScaleDuration field value."
+        },
+        "writeDuration": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "write(Writes write)",
+          "java_expr": "write.f(timeScaleDuration);",
+          "godot_symbol": "source_block_time_scale_duration_at_cell_result.writeDuration",
+          "used_by": [
+            "PortGame.source_block_time_scale_duration_at_cell"
+          ],
+          "rule": "Serialized timeScaleDuration field value."
+        },
+        "readDuration": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "read(Reads read, byte revision)",
+          "java_expr": "timeScaleDuration = read.f();",
+          "godot_symbol": "source_block_time_scale_duration_at_cell_result.readDuration",
+          "used_by": [
+            "PortGame.source_block_time_scale_duration_at_cell"
+          ],
+          "rule": "Deserialized timeScaleDuration field value."
+        },
+        "applyBoostDuration": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "applyBoost(float intensity, float duration)",
+          "java_expr": "timeScaleDuration = Math.max(timeScaleDuration, duration);",
+          "godot_symbol": "source_block_time_scale_duration_at_cell_result.applyBoostDuration",
+          "used_by": [
+            "PortGame.source_block_time_scale_duration_at_cell"
+          ],
+          "rule": "Boost duration refresh expression."
+        },
+        "applySlowdownDuration": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "applySlowdown(float intensity, float duration)",
+          "java_expr": "timeScaleDuration = Math.max(timeScaleDuration, duration);",
+          "godot_symbol": "source_block_time_scale_duration_at_cell_result.applySlowdownDuration",
+          "used_by": [
+            "PortGame.source_block_time_scale_duration_at_cell"
+          ],
+          "rule": "Slowdown duration refresh expression."
+        },
+        "decayGate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "update()",
+          "java_expr": "if((timeScaleDuration -= Time.delta) <= 0f){",
+          "godot_symbol": "source_block_time_scale_duration_at_cell_result.decayGate",
+          "used_by": [
+            "PortGame.source_block_time_scale_duration_at_cell"
+          ],
+          "rule": "Update decrement/reset gate for timeScaleDuration."
+        },
+        "x": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_block_time_scale_duration_at_cell_input.x",
+          "rule": "Carries x input into result schema."
+        },
+        "y": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_block_time_scale_duration_at_cell_input.y",
+          "rule": "Carries y input into result schema."
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "generated",
+          "alias_of": "source_block_time_scale_duration_at_cell_input.cell",
+          "rule": "Carries cell input into result schema."
+        }
+      }
     }
   },
   "version": 1
