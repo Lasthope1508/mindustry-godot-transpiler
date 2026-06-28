@@ -14346,6 +14346,84 @@
       "java_expr": "lastAccessed",
       "godot_symbol": "source_building_configured_last_access_input.current_last_accessed",
       "rule": "Current lastAccessed value preserved when no player builder update occurs."
+    },
+    "building_configured_type.assignment": {
+      "tests": [
+        "test_building_configured_type_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configured_type_state",
+      "godot_owner": "PortGame.source_building_configured_type_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+      "status": "source-backed",
+      "java_expr": "Class<?> type = value == null ? void.class : value.getClass().isAnonymousClass() ? value.getClass().getSuperclass() : value.getClass();",
+      "godot_symbol": "source_building_configured_type_result.type_name",
+      "rule": "Configured resolves null value to void, anonymous class values to superclass, otherwise value class."
+    },
+    "building_configured_type.item_override": {
+      "tests": [
+        "test_building_configured_type_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configured_type_state",
+      "godot_owner": "PortGame.source_building_configured_type_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+      "status": "source-backed",
+      "java_expr": "if(value instanceof Item) type = Item.class;",
+      "godot_symbol": "source_building_configured_type_result.type_name",
+      "rule": "Item configuration values normalize to Item.class."
+    },
+    "building_configured_type.block_override": {
+      "tests": [
+        "test_building_configured_type_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configured_type_state",
+      "godot_owner": "PortGame.source_building_configured_type_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+      "status": "source-backed",
+      "java_expr": "if(value instanceof Block) type = Block.class;",
+      "godot_symbol": "source_building_configured_type_result.type_name",
+      "rule": "Block configuration values normalize to Block.class."
+    },
+    "building_configured_type.liquid_override": {
+      "tests": [
+        "test_building_configured_type_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configured_type_state",
+      "godot_owner": "PortGame.source_building_configured_type_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+      "status": "source-backed",
+      "java_expr": "if(value instanceof Liquid) type = Liquid.class;",
+      "godot_symbol": "source_building_configured_type_result.type_name",
+      "rule": "Liquid configuration values normalize to Liquid.class."
+    },
+    "building_configured_type.unit_type_override": {
+      "tests": [
+        "test_building_configured_type_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configured_type_state",
+      "godot_owner": "PortGame.source_building_configured_type_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+      "status": "source-backed",
+      "java_expr": "if(value instanceof UnitType) type = UnitType.class;",
+      "godot_symbol": "source_building_configured_type_result.type_name",
+      "rule": "UnitType configuration values normalize to UnitType.class."
+    },
+    "building_configured_type.value_state": {
+      "tests": [
+        "test_building_configured_type_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configured_type_state",
+      "godot_owner": "PortGame.source_building_configured_type_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+      "status": "explicit-input",
+      "java_expr": "value",
+      "godot_symbol": "source_building_configured_type_input.value_state",
+      "rule": "Configured value state supplied to type resolution helper."
     }
   }
 }

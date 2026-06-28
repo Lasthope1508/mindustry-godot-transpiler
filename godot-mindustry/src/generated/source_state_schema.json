@@ -18597,6 +18597,166 @@
           "rule": "Carries existing lastAccessed into result schema boundary."
         }
       }
+    },
+    "source_building_configured_type_input": {
+      "status": "active",
+      "keys": {
+        "value_state": {
+          "type": "Dictionary",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "value",
+          "godot_symbol": "source_building_configured_type_input.value_state",
+          "used_by": [
+            "PortGame.source_building_configured_type_state"
+          ],
+          "rule": "Configured value state dictionary supplied to type resolution helper."
+        },
+        "is_null": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "value == null",
+          "godot_symbol": "source_building_configured_type_input.is_null",
+          "used_by": [
+            "PortGame.source_building_configured_type_state"
+          ],
+          "rule": "Null value branch maps configured type to void."
+        },
+        "is_anonymous_class": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "value.getClass().isAnonymousClass()",
+          "godot_symbol": "source_building_configured_type_input.is_anonymous_class",
+          "used_by": [
+            "PortGame.source_building_configured_type_state"
+          ],
+          "rule": "Anonymous class branch chooses superclass."
+        },
+        "class": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "value.getClass()",
+          "godot_symbol": "source_building_configured_type_input.class",
+          "used_by": [
+            "PortGame.source_building_configured_type_state"
+          ],
+          "rule": "Runtime class name for non-null value."
+        },
+        "superclass": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "value.getClass().getSuperclass()",
+          "godot_symbol": "source_building_configured_type_input.superclass",
+          "used_by": [
+            "PortGame.source_building_configured_type_state"
+          ],
+          "rule": "Superclass name for anonymous class values."
+        },
+        "kind": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "value instanceof Item / Block / Liquid / UnitType",
+          "godot_symbol": "source_building_configured_type_input.kind",
+          "used_by": [
+            "PortGame.source_building_configured_type_state"
+          ],
+          "rule": "Canonical content kind used for Item/Block/Liquid/UnitType overrides."
+        }
+      }
+    },
+    "source_building_configured_type_result": {
+      "status": "active",
+      "keys": {
+        "assignment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "Class<?> type = value == null ? void.class : value.getClass().isAnonymousClass() ? value.getClass().getSuperclass() : value.getClass();",
+          "godot_symbol": "source_building_configured_type_result.assignment",
+          "used_by": [
+            "PortGame.source_building_configured_type_state"
+          ],
+          "rule": "Source type assignment expression."
+        },
+        "type_name": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "Class<?> type = value == null ? void.class : value.getClass().isAnonymousClass() ? value.getClass().getSuperclass() : value.getClass();",
+          "godot_symbol": "source_building_configured_type_result.type_name",
+          "used_by": [
+            "PortGame.source_building_configured_type_state"
+          ],
+          "rule": "Normalized configured type name returned by helper."
+        },
+        "item_override": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "if(value instanceof Item) type = Item.class;",
+          "godot_symbol": "source_building_configured_type_result.item_override",
+          "used_by": [
+            "PortGame.source_building_configured_type_state"
+          ],
+          "rule": "Item class override source line."
+        },
+        "block_override": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "if(value instanceof Block) type = Block.class;",
+          "godot_symbol": "source_building_configured_type_result.block_override",
+          "used_by": [
+            "PortGame.source_building_configured_type_state"
+          ],
+          "rule": "Block class override source line."
+        },
+        "liquid_override": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "if(value instanceof Liquid) type = Liquid.class;",
+          "godot_symbol": "source_building_configured_type_result.liquid_override",
+          "used_by": [
+            "PortGame.source_building_configured_type_state"
+          ],
+          "rule": "Liquid class override source line."
+        },
+        "unit_type_override": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "if(value instanceof UnitType) type = UnitType.class;",
+          "godot_symbol": "source_building_configured_type_result.unit_type_override",
+          "used_by": [
+            "PortGame.source_building_configured_type_state"
+          ],
+          "rule": "UnitType class override source line."
+        },
+        "value_state": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "source_building_configured_type_input.value_state",
+          "rule": "Carries configured value state into result schema boundary."
+        }
+      }
     }
   },
   "version": 1

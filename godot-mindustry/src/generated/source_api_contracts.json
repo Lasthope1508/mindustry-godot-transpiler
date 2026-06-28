@@ -5787,6 +5787,27 @@
       ],
       "runtime_proof": "/root/Main.source_building_configured_last_access_state",
       "rule": "Public runtime contract for Mindustry BuildingComp configured lastAccessed update helper."
+    },
+    "PortGame.source_building_configured_type_state": {
+      "status": "active",
+      "source_slice": "N549",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+      "params": [
+        {
+          "name": "value_state",
+          "type": "Dictionary",
+          "schema": "source_building_configured_type_input.value_state"
+        }
+      ],
+      "return_keys": [
+        "type_name"
+      ],
+      "tests": [
+        "test_building_configured_type_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configured_type_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp configured type resolution helper."
     }
   },
   "policy": {

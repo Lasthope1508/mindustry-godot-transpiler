@@ -3619,6 +3619,41 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(current_last_accessed["java_expr"], "lastAccessed")
         self.assertEqual(current_last_accessed["godot_symbol"], "source_building_configured_last_access_input.current_last_accessed")
 
+    def test_building_configured_type_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        assignment = source_symbols.source_symbol(registry, "building_configured_type.assignment")
+        self.assertEqual(assignment["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(assignment["java_method"], "configured(@Nullable Unit builder, @Nullable Object value)")
+        self.assertEqual(assignment["java_expr"], "Class<?> type = value == null ? void.class : value.getClass().isAnonymousClass() ? value.getClass().getSuperclass() : value.getClass();")
+        self.assertEqual(assignment["godot_owner"], "PortGame.source_building_configured_type_state")
+        self.assertEqual(assignment["runtime_proof"], "/root/Main.source_building_configured_type_state")
+        self.assertEqual(assignment["godot_symbol"], "source_building_configured_type_result.type_name")
+
+        item_override = source_symbols.source_symbol(registry, "building_configured_type.item_override")
+        self.assertEqual(item_override["java_expr"], "if(value instanceof Item) type = Item.class;")
+        self.assertEqual(item_override["godot_symbol"], "source_building_configured_type_result.type_name")
+
+        block_override = source_symbols.source_symbol(registry, "building_configured_type.block_override")
+        self.assertEqual(block_override["java_expr"], "if(value instanceof Block) type = Block.class;")
+        self.assertEqual(block_override["godot_symbol"], "source_building_configured_type_result.type_name")
+
+        liquid_override = source_symbols.source_symbol(registry, "building_configured_type.liquid_override")
+        self.assertEqual(liquid_override["java_expr"], "if(value instanceof Liquid) type = Liquid.class;")
+        self.assertEqual(liquid_override["godot_symbol"], "source_building_configured_type_result.type_name")
+
+        unit_type_override = source_symbols.source_symbol(registry, "building_configured_type.unit_type_override")
+        self.assertEqual(unit_type_override["java_expr"], "if(value instanceof UnitType) type = UnitType.class;")
+        self.assertEqual(unit_type_override["godot_symbol"], "source_building_configured_type_result.type_name")
+
+        value_state = source_symbols.source_symbol(registry, "building_configured_type.value_state")
+        self.assertEqual(value_state["status"], "explicit-input")
+        self.assertEqual(value_state["java_expr"], "value")
+        self.assertEqual(value_state["godot_symbol"], "source_building_configured_type_input.value_state")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3903,9 +3938,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 146)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 147)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 151)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 152)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -4053,6 +4088,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_configured_copy_config_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_configured_direct_handler_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_configured_last_access_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_configured_type_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -5202,6 +5238,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("updateLastAccess(builder.getPlayer());", building_configured_last_access["exact_exprs"])
         self.assertIn("public void updateLastAccess(Player player){", building_configured_last_access["exact_exprs"])
         self.assertIn("lastAccessed = player.coloredName();", building_configured_last_access["exact_exprs"])
+
+        building_configured_type = source_symbols.source_slice(ledger, "N549")
+        self.assertEqual(building_configured_type["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_configured_type["java_method"], "configured(@Nullable Unit builder, @Nullable Object value)")
+        self.assertEqual(building_configured_type["godot_owner"], "PortGame.source_building_configured_type_state")
+        self.assertIn("Class<?> type = value == null ? void.class : value.getClass().isAnonymousClass() ? value.getClass().getSuperclass() : value.getClass();", building_configured_type["exact_exprs"])
+        self.assertIn("if(value instanceof Item) type = Item.class;", building_configured_type["exact_exprs"])
+        self.assertIn("if(value instanceof Block) type = Block.class;", building_configured_type["exact_exprs"])
+        self.assertIn("if(value instanceof Liquid) type = Liquid.class;", building_configured_type["exact_exprs"])
+        self.assertIn("if(value instanceof UnitType) type = UnitType.class;", building_configured_type["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -6483,6 +6529,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("last_accessed", building_configured_last_access["return_keys"])
         self.assertIn("updated", building_configured_last_access["return_keys"])
         self.assertEqual(building_configured_last_access["source_method"], "configured(@Nullable Unit builder, @Nullable Object value) / updateLastAccess(Player player)")
+
+        building_configured_type = source_symbols.api_contract(contracts, "PortGame.source_building_configured_type_state")
+        self.assertEqual([param["name"] for param in building_configured_type["params"]], ["value_state"])
+        self.assertEqual(building_configured_type["params"][0]["schema"], "source_building_configured_type_input.value_state")
+        self.assertIn("type_name", building_configured_type["return_keys"])
+        self.assertEqual(building_configured_type["source_method"], "configured(@Nullable Unit builder, @Nullable Object value)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -8024,6 +8076,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_configured_last_access_result["keys"]["method"]["java_expr"], "public void updateLastAccess(Player player){")
         self.assertEqual(source_building_configured_last_access_result["keys"]["last_accessed"]["java_expr"], "lastAccessed = player.coloredName();")
         self.assertEqual(source_building_configured_last_access_result["keys"]["current_last_accessed"]["alias_of"], "source_building_configured_last_access_input.current_last_accessed")
+
+        source_building_configured_type_input = source_symbols.state_schema(schema, "source_building_configured_type_input")
+        self.assertEqual(source_building_configured_type_input["keys"]["value_state"]["java_expr"], "value")
+        self.assertEqual(source_building_configured_type_input["keys"]["value_state"]["status"], "explicit-input")
+        self.assertEqual(source_building_configured_type_input["keys"]["is_null"]["java_expr"], "value == null")
+        self.assertEqual(source_building_configured_type_input["keys"]["is_anonymous_class"]["java_expr"], "value.getClass().isAnonymousClass()")
+        self.assertEqual(source_building_configured_type_input["keys"]["class"]["java_expr"], "value.getClass()")
+        self.assertEqual(source_building_configured_type_input["keys"]["superclass"]["java_expr"], "value.getClass().getSuperclass()")
+        self.assertEqual(source_building_configured_type_input["keys"]["kind"]["java_expr"], "value instanceof Item / Block / Liquid / UnitType")
+
+        source_building_configured_type_result = source_symbols.state_schema(schema, "source_building_configured_type_result")
+        self.assertEqual(source_building_configured_type_result["keys"]["assignment"]["java_expr"], "Class<?> type = value == null ? void.class : value.getClass().isAnonymousClass() ? value.getClass().getSuperclass() : value.getClass();")
+        self.assertEqual(source_building_configured_type_result["keys"]["item_override"]["java_expr"], "if(value instanceof Item) type = Item.class;")
+        self.assertEqual(source_building_configured_type_result["keys"]["block_override"]["java_expr"], "if(value instanceof Block) type = Block.class;")
+        self.assertEqual(source_building_configured_type_result["keys"]["liquid_override"]["java_expr"], "if(value instanceof Liquid) type = Liquid.class;")
+        self.assertEqual(source_building_configured_type_result["keys"]["unit_type_override"]["java_expr"], "if(value instanceof UnitType) type = UnitType.class;")
+        self.assertEqual(source_building_configured_type_result["keys"]["value_state"]["alias_of"], "source_building_configured_type_input.value_state")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")
