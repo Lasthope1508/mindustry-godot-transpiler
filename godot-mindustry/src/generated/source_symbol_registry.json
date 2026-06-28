@@ -15607,6 +15607,214 @@
       "java_expr": "lastAccessed != null",
       "godot_symbol": "source_building_display_ui_gates_input.has_last_accessed",
       "rule": "Runtime has_last_accessed supplies lastAccessed != null."
+    },
+    "building_draw_cached.comment": {
+      "tests": [
+        "test_building_draw_cached_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cached_state",
+      "godot_owner": "PortGame.source_building_draw_cached_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawCached()",
+      "status": "source-backed",
+      "java_expr": "/** Called only if {@link Block#drawCached} is true (off by default). */",
+      "godot_symbol": "source_building_draw_cached_result.comment",
+      "rule": "Source comment marks drawCached as Block#drawCached-only path."
+    },
+    "building_draw_cached.method": {
+      "tests": [
+        "test_building_draw_cached_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cached_state",
+      "godot_owner": "PortGame.source_building_draw_cached_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawCached()",
+      "status": "source-backed",
+      "java_expr": "public void drawCached(){",
+      "godot_symbol": "source_building_draw_cached_result.method",
+      "rule": "Source drawCached method declaration."
+    },
+    "building_draw_cached.draw_delegate": {
+      "tests": [
+        "test_building_draw_cached_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cached_state",
+      "godot_owner": "PortGame.source_building_draw_cached_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawCached()",
+      "status": "source-backed",
+      "java_expr": "draw();",
+      "godot_symbol": "source_building_draw_cached_result.drawDelegate",
+      "rule": "drawCached delegates directly to draw()."
+    },
+    "building_draw_cached.region_draw": {
+      "tests": [
+        "test_building_draw_cached_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cached_state",
+      "godot_owner": "PortGame.source_building_draw_cached_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "status": "source-backed",
+      "java_expr": "Draw.rect(block.region, x, y, drawrot());",
+      "godot_symbol": "source_building_draw_cached_result.regionDraw",
+      "rule": "Delegated draw uses base region draw branch."
+    },
+    "building_draw_cached.variant_draw": {
+      "tests": [
+        "test_building_draw_cached_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cached_state",
+      "godot_owner": "PortGame.source_building_draw_cached_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "status": "source-backed",
+      "java_expr": "Draw.rect(block.variantRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0, block.variantRegions.length - 1))], x, y, drawrot());",
+      "godot_symbol": "source_building_draw_cached_result.variantDraw",
+      "rule": "Delegated draw uses seeded variant region branch."
+    },
+    "building_draw_cached.draw_team_top": {
+      "tests": [
+        "test_building_draw_cached_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cached_state",
+      "godot_owner": "PortGame.source_building_draw_cached_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "status": "source-backed",
+      "java_expr": "drawTeamTop();",
+      "godot_symbol": "source_building_draw_cached_result.drawTeamTop",
+      "rule": "Delegated draw finishes by drawing team top."
+    },
+    "building_draw_cached.drawrot_formula": {
+      "tests": [
+        "test_building_draw_cached_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cached_state",
+      "godot_owner": "PortGame.source_building_draw_cached_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawrot()",
+      "status": "source-backed",
+      "java_expr": "return block.rotate && block.rotateDraw ? rotation * 90 : 0f;",
+      "godot_symbol": "source_building_draw_cached_result.drawrotFormula",
+      "rule": "Delegated draw rotation comes from drawrot()."
+    },
+    "building_draw_cached.variants": {
+      "tests": [
+        "test_building_draw_cached_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cached_state",
+      "godot_owner": "PortGame.source_building_draw_cached_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "status": "explicit-input",
+      "java_expr": "block.variants",
+      "godot_symbol": "source_building_draw_cached_input.variants",
+      "rule": "Runtime variants supplies block.variants."
+    },
+    "building_draw_cached.has_variant_regions": {
+      "tests": [
+        "test_building_draw_cached_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cached_state",
+      "godot_owner": "PortGame.source_building_draw_cached_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "status": "explicit-input",
+      "java_expr": "block.variantRegions != null",
+      "godot_symbol": "source_building_draw_cached_input.has_variant_regions",
+      "rule": "Runtime has_variant_regions supplies block.variantRegions != null."
+    },
+    "building_draw_cached.variant_region_count": {
+      "tests": [
+        "test_building_draw_cached_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cached_state",
+      "godot_owner": "PortGame.source_building_draw_cached_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "status": "explicit-input",
+      "java_expr": "block.variantRegions.length",
+      "godot_symbol": "source_building_draw_cached_input.variant_region_count",
+      "rule": "Runtime variant_region_count supplies block.variantRegions.length."
+    },
+    "building_draw_cached.tile_pos": {
+      "tests": [
+        "test_building_draw_cached_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cached_state",
+      "godot_owner": "PortGame.source_building_draw_cached_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "status": "explicit-input",
+      "java_expr": "tile.pos()",
+      "godot_symbol": "source_building_draw_cached_input.tile_pos",
+      "rule": "Runtime tile_pos supplies tile.pos()."
+    },
+    "building_draw_cached.source_x": {
+      "tests": [
+        "test_building_draw_cached_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cached_state",
+      "godot_owner": "PortGame.source_building_draw_cached_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "status": "explicit-input",
+      "java_expr": "x",
+      "godot_symbol": "source_building_draw_cached_input.source_x",
+      "rule": "Runtime source_x supplies x."
+    },
+    "building_draw_cached.source_y": {
+      "tests": [
+        "test_building_draw_cached_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cached_state",
+      "godot_owner": "PortGame.source_building_draw_cached_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "status": "explicit-input",
+      "java_expr": "y",
+      "godot_symbol": "source_building_draw_cached_input.source_y",
+      "rule": "Runtime source_y supplies y."
+    },
+    "building_draw_cached.block_rotate": {
+      "tests": [
+        "test_building_draw_cached_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cached_state",
+      "godot_owner": "PortGame.source_building_draw_cached_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawrot()",
+      "status": "explicit-input",
+      "java_expr": "block.rotate",
+      "godot_symbol": "source_building_draw_cached_input.block_rotate",
+      "rule": "Runtime block_rotate supplies block.rotate."
+    },
+    "building_draw_cached.block_rotate_draw": {
+      "tests": [
+        "test_building_draw_cached_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cached_state",
+      "godot_owner": "PortGame.source_building_draw_cached_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawrot()",
+      "status": "explicit-input",
+      "java_expr": "block.rotateDraw",
+      "godot_symbol": "source_building_draw_cached_input.block_rotate_draw",
+      "rule": "Runtime block_rotate_draw supplies block.rotateDraw."
+    },
+    "building_draw_cached.rotation_quadrants": {
+      "tests": [
+        "test_building_draw_cached_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cached_state",
+      "godot_owner": "PortGame.source_building_draw_cached_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawrot()",
+      "status": "explicit-input",
+      "java_expr": "rotation",
+      "godot_symbol": "source_building_draw_cached_input.rotation_quadrants",
+      "rule": "Runtime rotation_quadrants supplies rotation."
     }
   }
 }

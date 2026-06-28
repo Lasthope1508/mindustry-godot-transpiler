@@ -6300,6 +6300,83 @@
       ],
       "runtime_proof": "/root/Main.source_building_display_ui_gates_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.display(Table table) UI gates helper."
+    },
+    "PortGame.source_building_draw_cached_state": {
+      "status": "active",
+      "source_slice": "N566",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "drawCached()",
+      "params": [
+        {
+          "name": "variants",
+          "type": "int",
+          "schema": "source_building_draw_cached_input.variants"
+        },
+        {
+          "name": "has_variant_regions",
+          "type": "bool",
+          "schema": "source_building_draw_cached_input.has_variant_regions"
+        },
+        {
+          "name": "variant_region_count",
+          "type": "int",
+          "schema": "source_building_draw_cached_input.variant_region_count"
+        },
+        {
+          "name": "tile_pos",
+          "type": "int",
+          "schema": "source_building_draw_cached_input.tile_pos"
+        },
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_building_draw_cached_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_building_draw_cached_input.source_y"
+        },
+        {
+          "name": "block_rotate",
+          "type": "bool",
+          "schema": "source_building_draw_cached_input.block_rotate"
+        },
+        {
+          "name": "block_rotate_draw",
+          "type": "bool",
+          "schema": "source_building_draw_cached_input.block_rotate_draw"
+        },
+        {
+          "name": "rotation_quadrants",
+          "type": "int",
+          "schema": "source_building_draw_cached_input.rotation_quadrants"
+        }
+      ],
+      "return_keys": [
+        "comment",
+        "method",
+        "drawDelegate",
+        "regionDraw",
+        "variantDraw",
+        "drawTeamTop",
+        "drawrotFormula",
+        "delegatedDraw",
+        "variants",
+        "has_variant_regions",
+        "variant_region_count",
+        "tile_pos",
+        "source_x",
+        "source_y",
+        "block_rotate",
+        "block_rotate_draw",
+        "rotation_quadrants"
+      ],
+      "tests": [
+        "test_building_draw_cached_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_cached_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.drawCached() helper."
     }
   },
   "policy": {

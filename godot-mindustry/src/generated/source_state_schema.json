@@ -20293,6 +20293,268 @@
           "rule": "Carries has_last_accessed input into result schema."
         }
       }
+    },
+    "source_building_draw_cached_input": {
+      "status": "active",
+      "keys": {
+        "variants": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "draw()",
+          "java_expr": "block.variants",
+          "godot_symbol": "source_building_draw_cached_input.variants",
+          "used_by": [
+            "PortGame.source_building_draw_cached_state"
+          ],
+          "rule": "Runtime variants supplies block.variants."
+        },
+        "has_variant_regions": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "draw()",
+          "java_expr": "block.variantRegions != null",
+          "godot_symbol": "source_building_draw_cached_input.has_variant_regions",
+          "used_by": [
+            "PortGame.source_building_draw_cached_state"
+          ],
+          "rule": "Runtime has_variant_regions supplies block.variantRegions != null."
+        },
+        "variant_region_count": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "draw()",
+          "java_expr": "block.variantRegions.length",
+          "godot_symbol": "source_building_draw_cached_input.variant_region_count",
+          "used_by": [
+            "PortGame.source_building_draw_cached_state"
+          ],
+          "rule": "Runtime variant_region_count supplies block.variantRegions.length."
+        },
+        "tile_pos": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "draw()",
+          "java_expr": "tile.pos()",
+          "godot_symbol": "source_building_draw_cached_input.tile_pos",
+          "used_by": [
+            "PortGame.source_building_draw_cached_state"
+          ],
+          "rule": "Runtime tile_pos supplies tile.pos()."
+        },
+        "source_x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "draw()",
+          "java_expr": "x",
+          "godot_symbol": "source_building_draw_cached_input.source_x",
+          "used_by": [
+            "PortGame.source_building_draw_cached_state"
+          ],
+          "rule": "Runtime source_x supplies x."
+        },
+        "source_y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "draw()",
+          "java_expr": "y",
+          "godot_symbol": "source_building_draw_cached_input.source_y",
+          "used_by": [
+            "PortGame.source_building_draw_cached_state"
+          ],
+          "rule": "Runtime source_y supplies y."
+        },
+        "block_rotate": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawrot()",
+          "java_expr": "block.rotate",
+          "godot_symbol": "source_building_draw_cached_input.block_rotate",
+          "used_by": [
+            "PortGame.source_building_draw_cached_state"
+          ],
+          "rule": "Runtime block_rotate supplies block.rotate."
+        },
+        "block_rotate_draw": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawrot()",
+          "java_expr": "block.rotateDraw",
+          "godot_symbol": "source_building_draw_cached_input.block_rotate_draw",
+          "used_by": [
+            "PortGame.source_building_draw_cached_state"
+          ],
+          "rule": "Runtime block_rotate_draw supplies block.rotateDraw."
+        },
+        "rotation_quadrants": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawrot()",
+          "java_expr": "rotation",
+          "godot_symbol": "source_building_draw_cached_input.rotation_quadrants",
+          "used_by": [
+            "PortGame.source_building_draw_cached_state"
+          ],
+          "rule": "Runtime rotation_quadrants supplies rotation."
+        }
+      }
+    },
+    "source_building_draw_cached_result": {
+      "status": "active",
+      "keys": {
+        "comment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawCached()",
+          "java_expr": "/** Called only if {@link Block#drawCached} is true (off by default). */",
+          "godot_symbol": "source_building_draw_cached_result.comment",
+          "used_by": [
+            "PortGame.source_building_draw_cached_state"
+          ],
+          "rule": "Source comment marks drawCached as Block#drawCached-only path."
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawCached()",
+          "java_expr": "public void drawCached(){",
+          "godot_symbol": "source_building_draw_cached_result.method",
+          "used_by": [
+            "PortGame.source_building_draw_cached_state"
+          ],
+          "rule": "Source drawCached method declaration."
+        },
+        "drawDelegate": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawCached()",
+          "java_expr": "draw();",
+          "godot_symbol": "source_building_draw_cached_result.drawDelegate",
+          "used_by": [
+            "PortGame.source_building_draw_cached_state"
+          ],
+          "rule": "drawCached delegates directly to draw()."
+        },
+        "regionDraw": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "draw()",
+          "java_expr": "Draw.rect(block.region, x, y, drawrot());",
+          "godot_symbol": "source_building_draw_cached_result.regionDraw",
+          "used_by": [
+            "PortGame.source_building_draw_cached_state"
+          ],
+          "rule": "Delegated draw uses base region draw branch."
+        },
+        "variantDraw": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "draw()",
+          "java_expr": "Draw.rect(block.variantRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0, block.variantRegions.length - 1))], x, y, drawrot());",
+          "godot_symbol": "source_building_draw_cached_result.variantDraw",
+          "used_by": [
+            "PortGame.source_building_draw_cached_state"
+          ],
+          "rule": "Delegated draw uses seeded variant region branch."
+        },
+        "drawTeamTop": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "draw()",
+          "java_expr": "drawTeamTop();",
+          "godot_symbol": "source_building_draw_cached_result.drawTeamTop",
+          "used_by": [
+            "PortGame.source_building_draw_cached_state"
+          ],
+          "rule": "Delegated draw finishes by drawing team top."
+        },
+        "drawrotFormula": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawrot()",
+          "java_expr": "return block.rotate && block.rotateDraw ? rotation * 90 : 0f;",
+          "godot_symbol": "source_building_draw_cached_result.drawrotFormula",
+          "used_by": [
+            "PortGame.source_building_draw_cached_state"
+          ],
+          "rule": "Delegated draw rotation comes from drawrot()."
+        },
+        "delegatedDraw": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "source_building_draw_state_result",
+          "rule": "Runtime result is delegated source_building_draw_state output."
+        },
+        "variants": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_draw_cached_input.variants",
+          "rule": "Carries variants input into result schema."
+        },
+        "has_variant_regions": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_draw_cached_input.has_variant_regions",
+          "rule": "Carries has_variant_regions input into result schema."
+        },
+        "variant_region_count": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_draw_cached_input.variant_region_count",
+          "rule": "Carries variant_region_count input into result schema."
+        },
+        "tile_pos": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_draw_cached_input.tile_pos",
+          "rule": "Carries tile_pos input into result schema."
+        },
+        "source_x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_cached_input.source_x",
+          "rule": "Carries source_x input into result schema."
+        },
+        "source_y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_cached_input.source_y",
+          "rule": "Carries source_y input into result schema."
+        },
+        "block_rotate": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_draw_cached_input.block_rotate",
+          "rule": "Carries block_rotate input into result schema."
+        },
+        "block_rotate_draw": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_draw_cached_input.block_rotate_draw",
+          "rule": "Carries block_rotate_draw input into result schema."
+        },
+        "rotation_quadrants": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_draw_cached_input.rotation_quadrants",
+          "rule": "Carries rotation_quadrants input into result schema."
+        }
+      }
     }
   },
   "version": 1
