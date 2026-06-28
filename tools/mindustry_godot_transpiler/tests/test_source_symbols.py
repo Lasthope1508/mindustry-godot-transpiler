@@ -3122,6 +3122,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(other_can_replace["java_expr"], "other.canReplace(block)")
         self.assertEqual(other_can_replace["godot_symbol"], "source_building_can_be_replaced_input.otherCanReplaceBlock")
 
+    def test_building_can_consume_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_can_consume.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "canConsume()")
+        self.assertEqual(method["java_expr"], "public boolean canConsume(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_can_consume_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_can_consume_state")
+        self.assertEqual(method["godot_symbol"], "source_building_can_consume_result.method")
+
+        result = source_symbols.source_symbol(registry, "building_can_consume.result")
+        self.assertEqual(result["java_expr"], "return potentialEfficiency > 0;")
+        self.assertEqual(result["godot_symbol"], "source_building_can_consume_result.canConsume")
+
+        potential_efficiency = source_symbols.source_symbol(registry, "building_can_consume.potential_efficiency")
+        self.assertEqual(potential_efficiency["status"], "explicit-input")
+        self.assertEqual(potential_efficiency["java_expr"], "potentialEfficiency")
+        self.assertEqual(potential_efficiency["godot_symbol"], "source_building_can_consume_input.potentialEfficiency")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3406,9 +3429,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 129)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 130)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 134)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 135)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3539,6 +3562,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_block_half_extent", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_bullet_damage_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_can_be_replaced_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_can_consume_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -4532,6 +4556,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public boolean canBeReplaced(Block other){", building_can_be_replaced["exact_exprs"])
         self.assertIn("return other.canReplace(block);", building_can_be_replaced["exact_exprs"])
         self.assertIn("other.canReplace(block)", building_can_be_replaced["exact_exprs"])
+
+        building_can_consume = source_symbols.source_slice(ledger, "N532")
+        self.assertEqual(building_can_consume["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_can_consume["java_method"], "canConsume()")
+        self.assertEqual(building_can_consume["godot_owner"], "PortGame.source_building_can_consume_state")
+        self.assertIn("public boolean canConsume(){", building_can_consume["exact_exprs"])
+        self.assertIn("return potentialEfficiency > 0;", building_can_consume["exact_exprs"])
+        self.assertIn("potentialEfficiency > 0", building_can_consume["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -5683,6 +5715,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_can_be_replaced["params"][0]["schema"], "source_building_can_be_replaced_input.otherCanReplaceBlock")
         self.assertIn("canBeReplaced", building_can_be_replaced["return_keys"])
         self.assertEqual(building_can_be_replaced["source_method"], "canBeReplaced(Block other)")
+
+        building_can_consume = source_symbols.api_contract(contracts, "PortGame.source_building_can_consume_state")
+        self.assertEqual([param["name"] for param in building_can_consume["params"]], ["potential_efficiency"])
+        self.assertEqual(building_can_consume["params"][0]["schema"], "source_building_can_consume_input.potentialEfficiency")
+        self.assertIn("canConsume", building_can_consume["return_keys"])
+        self.assertEqual(building_can_consume["source_method"], "canConsume()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -7053,6 +7091,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_can_be_replaced_result["keys"]["method"]["java_expr"], "public boolean canBeReplaced(Block other){")
         self.assertEqual(source_building_can_be_replaced_result["keys"]["canBeReplaced"]["java_expr"], "return other.canReplace(block);")
         self.assertEqual(source_building_can_be_replaced_result["keys"]["otherCanReplaceBlock"]["alias_of"], "source_building_can_be_replaced_input.otherCanReplaceBlock")
+
+        source_building_can_consume_input = source_symbols.state_schema(schema, "source_building_can_consume_input")
+        self.assertEqual(source_building_can_consume_input["keys"]["potentialEfficiency"]["java_expr"], "potentialEfficiency")
+        self.assertEqual(source_building_can_consume_input["keys"]["potentialEfficiency"]["status"], "explicit-input")
+
+        source_building_can_consume_result = source_symbols.state_schema(schema, "source_building_can_consume_result")
+        self.assertEqual(source_building_can_consume_result["keys"]["method"]["java_expr"], "public boolean canConsume(){")
+        self.assertEqual(source_building_can_consume_result["keys"]["canConsume"]["java_expr"], "return potentialEfficiency > 0;")
+        self.assertEqual(source_building_can_consume_result["keys"]["potentialEfficiency"]["alias_of"], "source_building_can_consume_input.potentialEfficiency")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

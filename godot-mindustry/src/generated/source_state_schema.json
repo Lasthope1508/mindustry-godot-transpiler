@@ -17009,6 +17009,58 @@
           "rule": "Carries Block.canReplace delegate result into result schema."
         }
       }
+    },
+    "source_building_can_consume_input": {
+      "status": "active",
+      "keys": {
+        "potentialEfficiency": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "canConsume()",
+          "java_expr": "potentialEfficiency",
+          "godot_symbol": "source_building_can_consume_input.potentialEfficiency",
+          "used_by": [
+            "PortGame.source_building_can_consume_state"
+          ],
+          "rule": "Building potentialEfficiency field supplied to canConsume helper."
+        }
+      }
+    },
+    "source_building_can_consume_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "canConsume()",
+          "java_expr": "public boolean canConsume(){",
+          "godot_symbol": "source_building_can_consume_result.method",
+          "used_by": [
+            "PortGame.source_building_can_consume_state"
+          ],
+          "rule": "BuildingComp canConsume method boundary."
+        },
+        "canConsume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "canConsume()",
+          "java_expr": "return potentialEfficiency > 0;",
+          "godot_symbol": "source_building_can_consume_result.canConsume",
+          "used_by": [
+            "PortGame.source_building_can_consume_state"
+          ],
+          "rule": "BuildingComp returns potentialEfficiency > 0."
+        },
+        "potentialEfficiency": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_can_consume_input.potentialEfficiency",
+          "rule": "Carries potentialEfficiency input into result schema."
+        }
+      }
     }
   },
   "version": 1

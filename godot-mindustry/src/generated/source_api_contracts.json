@@ -5261,6 +5261,29 @@
       ],
       "runtime_proof": "/root/Main.source_building_can_be_replaced_state",
       "rule": "Public runtime contract for Mindustry BuildingComp canBeReplaced helper."
+    },
+    "PortGame.source_building_can_consume_state": {
+      "status": "active",
+      "source_slice": "N532",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "canConsume()",
+      "params": [
+        {
+          "name": "potential_efficiency",
+          "type": "float",
+          "schema": "source_building_can_consume_input.potentialEfficiency"
+        }
+      ],
+      "return_keys": [
+        "potentialEfficiency",
+        "method",
+        "canConsume"
+      ],
+      "tests": [
+        "test_building_can_consume_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_can_consume_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp canConsume helper."
     }
   },
   "policy": {

@@ -4067,6 +4067,30 @@
       ],
       "runtime_proof": "/root/Main.source_building_can_be_replaced_state",
       "rule": "Backfills SSOT for existing canonical source_building_can_be_replaced_state helper against BuildingComp canBeReplaced delegate."
+    },
+    "N532": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "canConsume()",
+      "godot_owner": "PortGame.source_building_can_consume_state",
+      "exact_exprs": [
+        "public boolean canConsume(){",
+        "return potentialEfficiency > 0;",
+        "potentialEfficiency > 0",
+        "potentialEfficiency"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "building_can_consume.method",
+        "building_can_consume.result",
+        "building_can_consume.potential_efficiency"
+      ],
+      "tests": [
+        "test_building_can_consume_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_can_consume_state",
+      "rule": "Backfills SSOT for existing canonical source_building_can_consume_state helper against BuildingComp canConsume."
     }
   },
   "version": 1
