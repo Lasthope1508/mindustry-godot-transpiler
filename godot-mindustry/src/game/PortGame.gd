@@ -1934,8 +1934,8 @@ func source_building_on_configure_build_tapped_state(clear_on_double_tap: bool, 
 	return base
 func source_building_on_configure_tapped_state(_x: float, _y: float) -> bool:
 	return false
-func source_building_on_configure_closed_state() -> void:
-	pass
+func source_building_on_configure_closed_state() -> Dictionary:
+	return {"method": "public void onConfigureClosed(){}", "no_op": true}
 func source_building_configure_menu_visibility_state(_player: Variant) -> Dictionary:
 	return {"should_show": true, "should_hide": false}
 

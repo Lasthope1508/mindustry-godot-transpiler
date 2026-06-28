@@ -7731,6 +7731,22 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_configure_build_tapped_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.onConfigureBuildTapped helper."
+    },
+    "PortGame.source_building_on_configure_closed_state": {
+      "status": "active",
+      "source_slice": "N605",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "onConfigureClosed()",
+      "params": [],
+      "return_keys": [
+        "method",
+        "no_op"
+      ],
+      "tests": [
+        "test_building_on_configure_closed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_configure_closed_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.onConfigureClosed helper."
     }
   },
   "policy": {

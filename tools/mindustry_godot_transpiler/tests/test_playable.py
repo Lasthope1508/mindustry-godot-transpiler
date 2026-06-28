@@ -1880,8 +1880,9 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn("func source_building_on_configure_closed_state() -> void:", source)
-        self.assertIn("pass", source)
+        self.assertIn("func source_building_on_configure_closed_state() -> Dictionary:", source)
+        self.assertIn('"method": "public void onConfigureClosed(){}"', source)
+        self.assertIn('"no_op": true', source)
     def test_port_game_exposes_source_building_configure_visibility_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

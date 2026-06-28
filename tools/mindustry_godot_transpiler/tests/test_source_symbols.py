@@ -3581,6 +3581,24 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(same_building["java_expr"], "self() == other")
         self.assertEqual(same_building["godot_symbol"], "source_building_on_configure_build_tapped_input.same_building")
 
+    def test_building_on_configure_closed_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_on_configure_closed.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "onConfigureClosed()")
+        self.assertEqual(method["java_expr"], "public void onConfigureClosed(){}")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_on_configure_closed_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_on_configure_closed_state")
+        self.assertEqual(method["godot_symbol"], "source_building_on_configure_closed_result.method")
+
+        no_op = source_symbols.source_symbol(registry, "building_on_configure_closed.no_op")
+        self.assertEqual(no_op["java_expr"], "public void onConfigureClosed(){}")
+        self.assertEqual(no_op["godot_symbol"], "source_building_on_configure_closed_result.no_op")
+
     def test_building_configured_copy_config_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -5753,9 +5771,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 202)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 203)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 207)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 208)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -5775,6 +5793,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_killed_removal_side_effects_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_maximum_accepted", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_on_configure_build_tapped_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_on_configure_closed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7085,6 +7104,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return self() != other;", building_on_configure_build_tapped["exact_exprs"])
         self.assertIn("block.clearOnDoubleTap", building_on_configure_build_tapped["exact_exprs"])
         self.assertIn("self() == other", building_on_configure_build_tapped["exact_exprs"])
+
+        building_on_configure_closed = source_symbols.source_slice(ledger, "N605")
+        self.assertEqual(building_on_configure_closed["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_on_configure_closed["java_method"], "onConfigureClosed()")
+        self.assertEqual(building_on_configure_closed["godot_owner"], "PortGame.source_building_on_configure_closed_state")
+        self.assertIn("/**\n     * Called when this block's config menu is closed.\n     */", building_on_configure_closed["exact_exprs"])
+        self.assertIn("public void onConfigureClosed(){}", building_on_configure_closed["exact_exprs"])
 
         building_configured_copy_config = source_symbols.source_slice(ledger, "N546")
         self.assertEqual(building_configured_copy_config["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -8892,6 +8918,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("configure_null", building_on_configure_build_tapped["return_keys"])
         self.assertIn("consumed", building_on_configure_build_tapped["return_keys"])
         self.assertEqual(building_on_configure_build_tapped["source_method"], "onConfigureBuildTapped(Building other)")
+
+        building_on_configure_closed = source_symbols.api_contract(contracts, "PortGame.source_building_on_configure_closed_state")
+        self.assertEqual([param["name"] for param in building_on_configure_closed["params"]], [])
+        self.assertIn("method", building_on_configure_closed["return_keys"])
+        self.assertIn("no_op", building_on_configure_closed["return_keys"])
+        self.assertEqual(building_on_configure_closed["source_method"], "onConfigureClosed()")
 
         building_configured_copy_config = source_symbols.api_contract(contracts, "PortGame.source_building_configured_copy_config_state")
         self.assertEqual([param["name"] for param in building_configured_copy_config["params"]], ["value_is_building", "copied_config", "copied_config_is_building"])
@@ -10900,6 +10932,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_on_configure_build_tapped_result["keys"]["consumed"]["java_expr"], "return self() != other;")
         self.assertEqual(source_building_on_configure_build_tapped_result["keys"]["clear_on_double_tap"]["alias_of"], "source_building_on_configure_build_tapped_input.clear_on_double_tap")
         self.assertEqual(source_building_on_configure_build_tapped_result["keys"]["same_building"]["alias_of"], "source_building_on_configure_build_tapped_input.same_building")
+
+        source_building_on_configure_closed_result = source_symbols.state_schema(schema, "source_building_on_configure_closed_result")
+        self.assertEqual(source_building_on_configure_closed_result["keys"]["method"]["java_expr"], "public void onConfigureClosed(){}")
+        self.assertEqual(source_building_on_configure_closed_result["keys"]["no_op"]["java_expr"], "public void onConfigureClosed(){}")
 
         source_building_configured_copy_config_input = source_symbols.state_schema(schema, "source_building_configured_copy_config_input")
         self.assertEqual(source_building_configured_copy_config_input["keys"]["value_is_building"]["java_expr"], "value instanceof Building build")

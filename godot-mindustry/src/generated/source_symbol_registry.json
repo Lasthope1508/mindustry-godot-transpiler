@@ -19598,6 +19598,32 @@
       "java_expr": "self() == other",
       "godot_symbol": "source_building_on_configure_build_tapped_input.same_building",
       "rule": "Runtime same_building supplies source self() == other predicate."
+    },
+    "building_on_configure_closed.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onConfigureClosed()",
+      "godot_owner": "PortGame.source_building_on_configure_closed_state",
+      "tests": [
+        "test_building_on_configure_closed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_configure_closed_state",
+      "java_expr": "public void onConfigureClosed(){}",
+      "godot_symbol": "source_building_on_configure_closed_result.method",
+      "rule": "BuildingComp onConfigureClosed empty method boundary."
+    },
+    "building_on_configure_closed.no_op": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onConfigureClosed()",
+      "godot_owner": "PortGame.source_building_on_configure_closed_state",
+      "tests": [
+        "test_building_on_configure_closed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_configure_closed_state",
+      "java_expr": "public void onConfigureClosed(){}",
+      "godot_symbol": "source_building_on_configure_closed_result.no_op",
+      "rule": "Empty onConfigureClosed method has no source side effects."
     }
   }
 }

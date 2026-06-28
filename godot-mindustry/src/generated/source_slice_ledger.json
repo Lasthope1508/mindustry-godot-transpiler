@@ -6373,6 +6373,29 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_configure_build_tapped_state",
       "rule": "Backfills SSOT for existing canonical source_building_on_configure_build_tapped_state helper against BuildingComp.onConfigureBuildTapped(Building other)."
+    },
+    "N605": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "onConfigureClosed()",
+      "godot_owner": "PortGame.source_building_on_configure_closed_state",
+      "exact_exprs": [
+        "/**\n     * Called when this block's config menu is closed.\n     */",
+        "public void onConfigureClosed(){}"
+      ],
+      "deferred_exprs": [
+        "No runtime side effect exists in upstream BuildingComp.onConfigureClosed(); concrete block overrides remain owned by their own block slices."
+      ],
+      "source_symbols": [
+        "building_on_configure_closed.method",
+        "building_on_configure_closed.no_op"
+      ],
+      "tests": [
+        "test_building_on_configure_closed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_configure_closed_state",
+      "rule": "Backfills SSOT for existing canonical source_building_on_configure_closed_state helper against BuildingComp.onConfigureClosed()."
     }
   },
   "version": 1

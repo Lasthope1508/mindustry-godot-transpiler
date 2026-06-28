@@ -25514,6 +25514,35 @@
           "rule": "Carries same_building input into result schema."
         }
       }
+    },
+    "source_building_on_configure_closed_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onConfigureClosed()",
+          "java_expr": "public void onConfigureClosed(){}",
+          "godot_symbol": "source_building_on_configure_closed_result.method",
+          "used_by": [
+            "PortGame.source_building_on_configure_closed_state"
+          ],
+          "rule": "BuildingComp onConfigureClosed empty method boundary."
+        },
+        "no_op": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onConfigureClosed()",
+          "java_expr": "public void onConfigureClosed(){}",
+          "godot_symbol": "source_building_on_configure_closed_result.no_op",
+          "used_by": [
+            "PortGame.source_building_on_configure_closed_state"
+          ],
+          "rule": "Empty onConfigureClosed method has no source side effects."
+        }
+      }
     }
   },
   "version": 1
