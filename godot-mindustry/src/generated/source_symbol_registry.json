@@ -16192,6 +16192,110 @@
       "java_expr": "pos()",
       "godot_symbol": "source_building_draw_cracks_input.position_id",
       "rule": "Runtime position_id supplies pos()."
+    },
+    "building_draw_disabled.method": {
+      "tests": [
+        "test_building_draw_disabled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_disabled_state",
+      "godot_owner": "PortGame.source_building_draw_disabled_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawDisabled()",
+      "status": "source-backed",
+      "java_expr": "public void drawDisabled(){",
+      "godot_symbol": "source_building_draw_disabled_result.method",
+      "rule": "Source drawDisabled method declaration."
+    },
+    "building_draw_disabled.color": {
+      "tests": [
+        "test_building_draw_disabled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_disabled_state",
+      "godot_owner": "PortGame.source_building_draw_disabled_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawDisabled()",
+      "status": "source-backed",
+      "java_expr": "Draw.color(Color.scarlet);",
+      "godot_symbol": "source_building_draw_disabled_result.color",
+      "rule": "drawDisabled colors the disabled icon scarlet."
+    },
+    "building_draw_disabled.alpha": {
+      "tests": [
+        "test_building_draw_disabled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_disabled_state",
+      "godot_owner": "PortGame.source_building_draw_disabled_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawDisabled()",
+      "status": "source-backed",
+      "java_expr": "Draw.alpha(0.8f);",
+      "godot_symbol": "source_building_draw_disabled_result.alpha",
+      "rule": "drawDisabled applies 0.8 alpha before drawing the disabled icon."
+    },
+    "building_draw_disabled.size": {
+      "tests": [
+        "test_building_draw_disabled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_disabled_state",
+      "godot_owner": "PortGame.source_building_draw_disabled_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawDisabled()",
+      "status": "source-backed",
+      "java_expr": "float size = 6f;",
+      "godot_symbol": "source_building_draw_disabled_result.size",
+      "rule": "drawDisabled uses fixed disabled icon size of 6f."
+    },
+    "building_draw_disabled.rect": {
+      "tests": [
+        "test_building_draw_disabled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_disabled_state",
+      "godot_owner": "PortGame.source_building_draw_disabled_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawDisabled()",
+      "status": "source-backed",
+      "java_expr": "Draw.rect(Icon.cancel.getRegion(), x, y, size, size);",
+      "godot_symbol": "source_building_draw_disabled_result.rect",
+      "rule": "drawDisabled draws the cancel icon at building x/y with fixed size."
+    },
+    "building_draw_disabled.reset": {
+      "tests": [
+        "test_building_draw_disabled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_disabled_state",
+      "godot_owner": "PortGame.source_building_draw_disabled_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawDisabled()",
+      "status": "source-backed",
+      "java_expr": "Draw.reset();",
+      "godot_symbol": "source_building_draw_disabled_result.reset",
+      "rule": "drawDisabled resets draw state after drawing the disabled icon."
+    },
+    "building_draw_disabled.source_x": {
+      "tests": [
+        "test_building_draw_disabled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_disabled_state",
+      "godot_owner": "PortGame.source_building_draw_disabled_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawDisabled()",
+      "status": "explicit-input",
+      "java_expr": "x",
+      "godot_symbol": "source_building_draw_disabled_input.source_x",
+      "rule": "Runtime source_x supplies BuildingComp x."
+    },
+    "building_draw_disabled.source_y": {
+      "tests": [
+        "test_building_draw_disabled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_disabled_state",
+      "godot_owner": "PortGame.source_building_draw_disabled_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawDisabled()",
+      "status": "explicit-input",
+      "java_expr": "y",
+      "godot_symbol": "source_building_draw_disabled_input.source_y",
+      "rule": "Runtime source_y supplies BuildingComp y."
     }
   }
 }

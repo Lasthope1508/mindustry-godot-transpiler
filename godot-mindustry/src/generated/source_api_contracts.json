@@ -6496,6 +6496,45 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_cracks_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.drawCracks() helper."
+    },
+    "PortGame.source_building_draw_disabled_state": {
+      "status": "active",
+      "source_slice": "N569",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "drawDisabled()",
+      "params": [
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_building_draw_disabled_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_building_draw_disabled_input.source_y"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "visible",
+        "icon",
+        "color",
+        "alpha",
+        "size",
+        "rect",
+        "reset",
+        "x",
+        "y",
+        "width",
+        "height",
+        "source_x",
+        "source_y"
+      ],
+      "tests": [
+        "test_building_draw_disabled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_disabled_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.drawDisabled() helper."
     }
   },
   "policy": {

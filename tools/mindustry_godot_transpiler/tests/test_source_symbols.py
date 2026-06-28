@@ -4256,6 +4256,45 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(position_id["java_expr"], "pos()")
         self.assertEqual(position_id["godot_symbol"], "source_building_draw_cracks_input.position_id")
 
+    def test_building_draw_disabled_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_draw_disabled.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "drawDisabled()")
+        self.assertEqual(method["java_expr"], "public void drawDisabled(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_draw_disabled_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_draw_disabled_state")
+        self.assertEqual(method["godot_symbol"], "source_building_draw_disabled_result.method")
+
+        color = source_symbols.source_symbol(registry, "building_draw_disabled.color")
+        self.assertEqual(color["java_expr"], "Draw.color(Color.scarlet);")
+        self.assertEqual(color["godot_symbol"], "source_building_draw_disabled_result.color")
+
+        alpha = source_symbols.source_symbol(registry, "building_draw_disabled.alpha")
+        self.assertEqual(alpha["java_expr"], "Draw.alpha(0.8f);")
+        self.assertEqual(alpha["godot_symbol"], "source_building_draw_disabled_result.alpha")
+
+        size = source_symbols.source_symbol(registry, "building_draw_disabled.size")
+        self.assertEqual(size["java_expr"], "float size = 6f;")
+        self.assertEqual(size["godot_symbol"], "source_building_draw_disabled_result.size")
+
+        rect = source_symbols.source_symbol(registry, "building_draw_disabled.rect")
+        self.assertEqual(rect["java_expr"], "Draw.rect(Icon.cancel.getRegion(), x, y, size, size);")
+        self.assertEqual(rect["godot_symbol"], "source_building_draw_disabled_result.rect")
+
+        reset = source_symbols.source_symbol(registry, "building_draw_disabled.reset")
+        self.assertEqual(reset["java_expr"], "Draw.reset();")
+        self.assertEqual(reset["godot_symbol"], "source_building_draw_disabled_result.reset")
+
+        source_x = source_symbols.source_symbol(registry, "building_draw_disabled.source_x")
+        self.assertEqual(source_x["status"], "explicit-input")
+        self.assertEqual(source_x["java_expr"], "x")
+        self.assertEqual(source_x["godot_symbol"], "source_building_draw_disabled_input.source_x")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -4540,9 +4579,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 166)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 167)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 171)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 172)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -4710,6 +4749,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_draw_cached_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_draw_configure_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_draw_cracks_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_draw_disabled_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -6055,6 +6095,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("//TODO could be random, flipped, pseudorandom, etc", building_draw_cracks["exact_exprs"])
         self.assertIn("Draw.rect(region, x, y, (id%4)*90);", building_draw_cracks["exact_exprs"])
         self.assertIn("Draw.color();", building_draw_cracks["exact_exprs"])
+
+        building_draw_disabled = source_symbols.source_slice(ledger, "N569")
+        self.assertEqual(building_draw_disabled["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_draw_disabled["java_method"], "drawDisabled()")
+        self.assertEqual(building_draw_disabled["godot_owner"], "PortGame.source_building_draw_disabled_state")
+        self.assertIn("public void drawDisabled(){", building_draw_disabled["exact_exprs"])
+        self.assertIn("Draw.color(Color.scarlet);", building_draw_disabled["exact_exprs"])
+        self.assertIn("Draw.alpha(0.8f);", building_draw_disabled["exact_exprs"])
+        self.assertIn("float size = 6f;", building_draw_disabled["exact_exprs"])
+        self.assertIn("Draw.rect(Icon.cancel.getRegion(), x, y, size, size);", building_draw_disabled["exact_exprs"])
+        self.assertIn("Draw.reset();", building_draw_disabled["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -7494,6 +7545,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("crackIndex", building_draw_cracks["return_keys"])
         self.assertIn("rotationDegrees", building_draw_cracks["return_keys"])
         self.assertEqual(building_draw_cracks["source_method"], "drawCracks()")
+
+        building_draw_disabled = source_symbols.api_contract(contracts, "PortGame.source_building_draw_disabled_state")
+        self.assertEqual([param["name"] for param in building_draw_disabled["params"]], ["source_x", "source_y"])
+        self.assertEqual(building_draw_disabled["params"][0]["schema"], "source_building_draw_disabled_input.source_x")
+        self.assertEqual(building_draw_disabled["params"][1]["schema"], "source_building_draw_disabled_input.source_y")
+        self.assertIn("icon", building_draw_disabled["return_keys"])
+        self.assertIn("size", building_draw_disabled["return_keys"])
+        self.assertIn("reset", building_draw_disabled["return_keys"])
+        self.assertEqual(building_draw_disabled["source_method"], "drawDisabled()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -9295,6 +9355,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_draw_cracks_result["keys"]["rotationDegrees"]["java_expr"], "(id%4)*90")
         self.assertEqual(source_building_draw_cracks_result["keys"]["colorReset"]["java_expr"], "Draw.color();")
         self.assertEqual(source_building_draw_cracks_result["keys"]["position_id"]["alias_of"], "source_building_draw_cracks_input.position_id")
+
+        source_building_draw_disabled_input = source_symbols.state_schema(schema, "source_building_draw_disabled_input")
+        self.assertEqual(source_building_draw_disabled_input["keys"]["source_x"]["java_expr"], "x")
+        self.assertEqual(source_building_draw_disabled_input["keys"]["source_x"]["status"], "explicit-input")
+        self.assertEqual(source_building_draw_disabled_input["keys"]["source_y"]["java_expr"], "y")
+
+        source_building_draw_disabled_result = source_symbols.state_schema(schema, "source_building_draw_disabled_result")
+        self.assertEqual(source_building_draw_disabled_result["keys"]["method"]["java_expr"], "public void drawDisabled(){")
+        self.assertEqual(source_building_draw_disabled_result["keys"]["color"]["java_expr"], "Draw.color(Color.scarlet);")
+        self.assertEqual(source_building_draw_disabled_result["keys"]["alpha"]["java_expr"], "Draw.alpha(0.8f);")
+        self.assertEqual(source_building_draw_disabled_result["keys"]["size"]["java_expr"], "float size = 6f;")
+        self.assertEqual(source_building_draw_disabled_result["keys"]["rect"]["java_expr"], "Draw.rect(Icon.cancel.getRegion(), x, y, size, size);")
+        self.assertEqual(source_building_draw_disabled_result["keys"]["reset"]["java_expr"], "Draw.reset();")
+        self.assertEqual(source_building_draw_disabled_result["keys"]["source_x"]["alias_of"], "source_building_draw_disabled_input.source_x")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

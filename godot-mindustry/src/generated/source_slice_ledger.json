@@ -5251,6 +5251,39 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_cracks_state",
       "rule": "Backfills SSOT for existing canonical source_building_draw_cracks_state helper against BuildingComp.drawCracks()."
+    },
+    "N569": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "drawDisabled()",
+      "godot_owner": "PortGame.source_building_draw_disabled_state",
+      "exact_exprs": [
+        "public void drawDisabled(){",
+        "Draw.color(Color.scarlet);",
+        "Draw.alpha(0.8f);",
+        "float size = 6f;",
+        "Draw.rect(Icon.cancel.getRegion(), x, y, size, size);",
+        "Draw.reset();"
+      ],
+      "deferred_exprs": [
+        "Concrete Draw color/alpha/rect calls and Icon.cancel texture region stay owned by Godot rendering integration; this helper preserves disabled icon draw state."
+      ],
+      "source_symbols": [
+        "building_draw_disabled.method",
+        "building_draw_disabled.color",
+        "building_draw_disabled.alpha",
+        "building_draw_disabled.size",
+        "building_draw_disabled.rect",
+        "building_draw_disabled.reset",
+        "building_draw_disabled.source_x",
+        "building_draw_disabled.source_y"
+      ],
+      "tests": [
+        "test_building_draw_disabled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_disabled_state",
+      "rule": "Backfills SSOT for existing canonical source_building_draw_disabled_state helper against BuildingComp.drawDisabled()."
     }
   },
   "version": 1
