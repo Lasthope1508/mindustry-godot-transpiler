@@ -2978,6 +2978,32 @@
       ],
       "runtime_proof": "/root/Main.source_arc_chance_delta_threshold",
       "rule": "Backfills SSOT for existing canonical source_arc_chance_delta_threshold helper against Arc Mathf.chanceDelta deterministic threshold; RNG draw remains external."
+    },
+    "N498": {
+      "status": "done",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_class": "arc.math.Mathf",
+      "java_method": "isPowerOfTwo(int value)",
+      "godot_owner": "PortGame.source_arc_is_power_of_two",
+      "exact_exprs": [
+        "public static boolean isPowerOfTwo(int value){\n        return value != 0 && (value & value - 1) == 0;\n    }",
+        "return value != 0 && (value & value - 1) == 0;",
+        "value != 0",
+        "(value & value - 1) == 0",
+        "value"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "arc_is_power_of_two.method",
+        "arc_is_power_of_two.nonzero_guard",
+        "arc_is_power_of_two.bit_test",
+        "arc_is_power_of_two.value_input"
+      ],
+      "tests": [
+        "test_arc_is_power_of_two_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_is_power_of_two",
+      "rule": "Backfills SSOT for existing canonical source_arc_is_power_of_two helper against Arc Mathf.isPowerOfTwo."
     }
   },
   "version": 1

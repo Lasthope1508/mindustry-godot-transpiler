@@ -2287,6 +2287,31 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(delta_input["java_expr"], "Time.delta")
         self.assertEqual(delta_input["godot_symbol"], "source_arc_chance_delta_threshold_input.sourceDelta")
 
+    def test_arc_is_power_of_two_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "arc_is_power_of_two.method")
+        self.assertEqual(method["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(method["java_expr"], "public static boolean isPowerOfTwo(int value){\n        return value != 0 && (value & value - 1) == 0;\n    }")
+        self.assertEqual(method["godot_owner"], "PortGame.source_arc_is_power_of_two")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_arc_is_power_of_two")
+
+        nonzero_guard = source_symbols.source_symbol(registry, "arc_is_power_of_two.nonzero_guard")
+        self.assertEqual(nonzero_guard["java_expr"], "value != 0")
+        self.assertEqual(nonzero_guard["godot_symbol"], "source_arc_is_power_of_two_result.nonzero")
+
+        bit_test = source_symbols.source_symbol(registry, "arc_is_power_of_two.bit_test")
+        self.assertEqual(bit_test["java_expr"], "(value & value - 1) == 0")
+        self.assertEqual(bit_test["godot_symbol"], "source_arc_is_power_of_two_result.bitTest")
+
+        value_input = source_symbols.source_symbol(registry, "arc_is_power_of_two.value_input")
+        self.assertEqual(value_input["status"], "explicit-input")
+        self.assertEqual(value_input["java_expr"], "value")
+        self.assertEqual(value_input["godot_symbol"], "source_arc_is_power_of_two_input.value")
+
     def test_arc_angles_angle_distance_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -2496,9 +2521,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 95)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 96)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 100)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 101)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -2595,6 +2620,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_arc_angles_move_toward", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_trns_vec", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_chance_delta_threshold", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_arc_is_power_of_two", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -3344,6 +3370,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(arc_chance_delta_threshold["godot_owner"], "PortGame.source_arc_chance_delta_threshold")
         self.assertIn("public static boolean chanceDelta(double d){\n        return rand.nextFloat() < d * Time.delta;\n    }", arc_chance_delta_threshold["exact_exprs"])
         self.assertIn("d * Time.delta", arc_chance_delta_threshold["exact_exprs"])
+
+        arc_is_power_of_two = source_symbols.source_slice(ledger, "N498")
+        self.assertEqual(arc_is_power_of_two["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(arc_is_power_of_two["java_method"], "isPowerOfTwo(int value)")
+        self.assertEqual(arc_is_power_of_two["godot_owner"], "PortGame.source_arc_is_power_of_two")
+        self.assertIn("public static boolean isPowerOfTwo(int value){\n        return value != 0 && (value & value - 1) == 0;\n    }", arc_is_power_of_two["exact_exprs"])
+        self.assertIn("(value & value - 1) == 0", arc_is_power_of_two["exact_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -4245,6 +4278,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(arc_chance_delta_threshold["params"][1]["schema"], "source_arc_chance_delta_threshold_input.sourceDelta")
         self.assertIn("threshold", arc_chance_delta_threshold["return_keys"])
         self.assertEqual(arc_chance_delta_threshold["source_method"], "chanceDelta(double d)")
+
+        arc_is_power_of_two = source_symbols.api_contract(contracts, "PortGame.source_arc_is_power_of_two")
+        self.assertEqual([param["name"] for param in arc_is_power_of_two["params"]], ["value"])
+        self.assertEqual(arc_is_power_of_two["params"][0]["schema"], "source_arc_is_power_of_two_input.value")
+        self.assertIn("isPowerOfTwo", arc_is_power_of_two["return_keys"])
+        self.assertIn("bitTest", arc_is_power_of_two["return_keys"])
+        self.assertEqual(arc_is_power_of_two["source_method"], "isPowerOfTwo(int value)")
 
         angle_distance = source_symbols.api_contract(contracts, "PortGame.source_angle_distance")
         self.assertEqual([param["name"] for param in angle_distance["params"]], ["current_degrees", "target_degrees"])
@@ -5247,6 +5287,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_arc_chance_delta_threshold_result["keys"]["threshold"]["java_expr"], "d * Time.delta")
         self.assertEqual(source_arc_chance_delta_threshold_result["keys"]["chance"]["alias_of"], "source_arc_chance_delta_threshold_input.chance")
         self.assertEqual(source_arc_chance_delta_threshold_result["keys"]["sourceDelta"]["alias_of"], "source_arc_chance_delta_threshold_input.sourceDelta")
+
+        source_arc_is_power_of_two_input = source_symbols.state_schema(schema, "source_arc_is_power_of_two_input")
+        self.assertEqual(source_arc_is_power_of_two_input["keys"]["value"]["java_expr"], "value")
+        self.assertEqual(source_arc_is_power_of_two_input["keys"]["value"]["status"], "explicit-input")
+
+        source_arc_is_power_of_two_result = source_symbols.state_schema(schema, "source_arc_is_power_of_two_result")
+        self.assertEqual(source_arc_is_power_of_two_result["keys"]["nonzero"]["java_expr"], "value != 0")
+        self.assertEqual(source_arc_is_power_of_two_result["keys"]["bitTest"]["java_expr"], "(value & value - 1) == 0")
+        self.assertEqual(source_arc_is_power_of_two_result["keys"]["isPowerOfTwo"]["java_expr"], "return value != 0 && (value & value - 1) == 0;")
+        self.assertEqual(source_arc_is_power_of_two_result["keys"]["value"]["alias_of"], "source_arc_is_power_of_two_input.value")
 
         source_angle_distance_input = source_symbols.state_schema(schema, "source_angle_distance_input")
         self.assertEqual(source_angle_distance_input["keys"]["currentDegrees"]["java_expr"], "a")

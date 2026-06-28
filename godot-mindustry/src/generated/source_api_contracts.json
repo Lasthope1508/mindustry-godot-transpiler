@@ -4125,6 +4125,30 @@
       ],
       "runtime_proof": "/root/Main.source_arc_chance_delta_threshold",
       "rule": "Public runtime contract for Arc Mathf.chanceDelta threshold helper with explicit Time.delta input; RNG comparison is not fabricated."
+    },
+    "PortGame.source_arc_is_power_of_two": {
+      "status": "active",
+      "source_slice": "N498",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "source_method": "isPowerOfTwo(int value)",
+      "params": [
+        {
+          "name": "value",
+          "type": "int",
+          "schema": "source_arc_is_power_of_two_input.value"
+        }
+      ],
+      "return_keys": [
+        "nonzero",
+        "bitTest",
+        "isPowerOfTwo",
+        "value"
+      ],
+      "tests": [
+        "test_arc_is_power_of_two_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_is_power_of_two",
+      "rule": "Public runtime contract for Arc Mathf.isPowerOfTwo helper."
     }
   },
   "policy": {

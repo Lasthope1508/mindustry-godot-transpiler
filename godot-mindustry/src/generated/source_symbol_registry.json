@@ -9848,6 +9848,58 @@
       "java_expr": "Time.delta",
       "godot_symbol": "source_arc_chance_delta_threshold_input.sourceDelta",
       "rule": "Runtime source_delta supplies Java Time.delta."
+    },
+    "arc_is_power_of_two.method": {
+      "tests": [
+        "test_arc_is_power_of_two_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_is_power_of_two",
+      "godot_owner": "PortGame.source_arc_is_power_of_two",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "isPowerOfTwo(int value)",
+      "status": "source-backed",
+      "java_expr": "public static boolean isPowerOfTwo(int value){\n        return value != 0 && (value & value - 1) == 0;\n    }",
+      "godot_symbol": "source_arc_is_power_of_two_result.isPowerOfTwo",
+      "rule": "Arc Mathf.isPowerOfTwo returns true only for nonzero values whose single-bit mask clears with value - 1."
+    },
+    "arc_is_power_of_two.nonzero_guard": {
+      "tests": [
+        "test_arc_is_power_of_two_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_is_power_of_two",
+      "godot_owner": "PortGame.source_arc_is_power_of_two",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "isPowerOfTwo(int value)",
+      "status": "source-backed",
+      "java_expr": "value != 0",
+      "godot_symbol": "source_arc_is_power_of_two_result.nonzero",
+      "rule": "Zero is explicitly not a power of two."
+    },
+    "arc_is_power_of_two.bit_test": {
+      "tests": [
+        "test_arc_is_power_of_two_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_is_power_of_two",
+      "godot_owner": "PortGame.source_arc_is_power_of_two",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "isPowerOfTwo(int value)",
+      "status": "source-backed",
+      "java_expr": "(value & value - 1) == 0",
+      "godot_symbol": "source_arc_is_power_of_two_result.bitTest",
+      "rule": "Power-of-two bit test from Java expression value & value - 1."
+    },
+    "arc_is_power_of_two.value_input": {
+      "tests": [
+        "test_arc_is_power_of_two_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_is_power_of_two",
+      "godot_owner": "PortGame.source_arc_is_power_of_two",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "isPowerOfTwo(int value)",
+      "status": "explicit-input",
+      "java_expr": "value",
+      "godot_symbol": "source_arc_is_power_of_two_input.value",
+      "rule": "Runtime value parameter maps to Java isPowerOfTwo value."
     }
   }
 }

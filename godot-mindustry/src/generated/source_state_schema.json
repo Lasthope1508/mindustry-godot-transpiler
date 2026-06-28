@@ -13452,6 +13452,70 @@
           "rule": "Carries Java Time.delta input into result schema."
         }
       }
+    },
+    "source_arc_is_power_of_two_input": {
+      "status": "active",
+      "keys": {
+        "value": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "isPowerOfTwo(int value)",
+          "java_expr": "value",
+          "godot_symbol": "source_arc_is_power_of_two_input.value",
+          "used_by": [
+            "PortGame.source_arc_is_power_of_two"
+          ],
+          "rule": "Java isPowerOfTwo value parameter."
+        }
+      }
+    },
+    "source_arc_is_power_of_two_result": {
+      "status": "active",
+      "keys": {
+        "nonzero": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "isPowerOfTwo(int value)",
+          "java_expr": "value != 0",
+          "godot_symbol": "source_arc_is_power_of_two_result.nonzero",
+          "used_by": [
+            "PortGame.source_arc_is_power_of_two"
+          ],
+          "rule": "Nonzero guard in Mathf.isPowerOfTwo."
+        },
+        "bitTest": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "isPowerOfTwo(int value)",
+          "java_expr": "(value & value - 1) == 0",
+          "godot_symbol": "source_arc_is_power_of_two_result.bitTest",
+          "used_by": [
+            "PortGame.source_arc_is_power_of_two"
+          ],
+          "rule": "Bitmask power-of-two test."
+        },
+        "isPowerOfTwo": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "isPowerOfTwo(int value)",
+          "java_expr": "return value != 0 && (value & value - 1) == 0;",
+          "godot_symbol": "source_arc_is_power_of_two_result.isPowerOfTwo",
+          "used_by": [
+            "PortGame.source_arc_is_power_of_two"
+          ],
+          "rule": "Final return value for Arc Mathf.isPowerOfTwo."
+        },
+        "value": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_arc_is_power_of_two_input.value",
+          "rule": "Carries Java value input into result schema."
+        }
+      }
     }
   },
   "version": 1
