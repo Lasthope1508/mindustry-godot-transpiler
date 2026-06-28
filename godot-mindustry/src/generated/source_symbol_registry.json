@@ -17986,6 +17986,71 @@
         "test_building_drawrot_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_building_drawrot_state"
+    },
+    "building_edelta.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "edelta()",
+      "java_expr": "public float edelta(){",
+      "godot_symbol": "source_building_edelta_result.method",
+      "godot_owner": "PortGame.source_building_edelta",
+      "rule": "Source edelta method declaration.",
+      "tests": [
+        "test_building_edelta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_edelta"
+    },
+    "building_edelta.return": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "edelta()",
+      "java_expr": "return efficiency * delta();",
+      "godot_symbol": "source_building_edelta_result.edelta",
+      "godot_owner": "PortGame.source_building_edelta",
+      "rule": "edelta scales delta() by current efficiency.",
+      "tests": [
+        "test_building_edelta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_edelta"
+    },
+    "building_edelta.efficiency": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "edelta()",
+      "java_expr": "efficiency",
+      "godot_symbol": "source_building_edelta_input.efficiency",
+      "godot_owner": "PortGame.source_building_edelta",
+      "rule": "Runtime efficiency supplies BuildingComp efficiency.",
+      "tests": [
+        "test_building_edelta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_edelta"
+    },
+    "building_edelta.source_delta": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "delta()",
+      "java_expr": "Time.delta",
+      "godot_symbol": "source_building_edelta_input.source_delta",
+      "godot_owner": "PortGame.source_building_edelta",
+      "rule": "Runtime source_delta supplies Time.delta for delegated delta().",
+      "tests": [
+        "test_building_edelta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_edelta"
+    },
+    "building_edelta.time_scale": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "delta()",
+      "java_expr": "timeScale",
+      "godot_symbol": "source_building_edelta_input.time_scale",
+      "godot_owner": "PortGame.source_building_edelta",
+      "rule": "Runtime time_scale supplies timeScale for delegated delta().",
+      "tests": [
+        "test_building_edelta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_edelta"
     }
   }
 }

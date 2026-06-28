@@ -5653,6 +5653,32 @@
       ],
       "runtime_proof": "/root/Main.source_building_drawrot_state",
       "rule": "Backfills SSOT for existing canonical source_building_drawrot_state helper against BuildingComp.drawrot()."
+    },
+    "N579": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "edelta()",
+      "godot_owner": "PortGame.source_building_edelta",
+      "exact_exprs": [
+        "public float edelta(){",
+        "return efficiency * delta();"
+      ],
+      "deferred_exprs": [
+        "delta() source internals stay canonical in N560; this helper preserves edelta's efficiency multiplier over delegated delta()."
+      ],
+      "source_symbols": [
+        "building_edelta.method",
+        "building_edelta.return",
+        "building_edelta.efficiency",
+        "building_edelta.source_delta",
+        "building_edelta.time_scale"
+      ],
+      "tests": [
+        "test_building_edelta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_edelta",
+      "rule": "Backfills SSOT for existing canonical source_building_edelta helper against BuildingComp.edelta()."
     }
   },
   "version": 1

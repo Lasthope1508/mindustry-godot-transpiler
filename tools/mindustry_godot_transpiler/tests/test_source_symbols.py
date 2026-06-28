@@ -4619,6 +4619,41 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(rotation_quadrants["java_expr"], "rotation")
         self.assertEqual(rotation_quadrants["godot_symbol"], "source_building_drawrot_input.rotation_quadrants")
 
+    def test_building_edelta_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_edelta.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "edelta()")
+        self.assertEqual(method["java_expr"], "public float edelta(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_edelta")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_edelta")
+        self.assertEqual(method["godot_symbol"], "source_building_edelta_result.method")
+
+        edelta_return = source_symbols.source_symbol(registry, "building_edelta.return")
+        self.assertEqual(edelta_return["java_expr"], "return efficiency * delta();")
+        self.assertEqual(edelta_return["godot_symbol"], "source_building_edelta_result.edelta")
+
+        efficiency = source_symbols.source_symbol(registry, "building_edelta.efficiency")
+        self.assertEqual(efficiency["status"], "explicit-input")
+        self.assertEqual(efficiency["java_expr"], "efficiency")
+        self.assertEqual(efficiency["godot_symbol"], "source_building_edelta_input.efficiency")
+
+        source_delta = source_symbols.source_symbol(registry, "building_edelta.source_delta")
+        self.assertEqual(source_delta["status"], "explicit-input")
+        self.assertEqual(source_delta["java_method"], "delta()")
+        self.assertEqual(source_delta["java_expr"], "Time.delta")
+        self.assertEqual(source_delta["godot_symbol"], "source_building_edelta_input.source_delta")
+
+        time_scale = source_symbols.source_symbol(registry, "building_edelta.time_scale")
+        self.assertEqual(time_scale["status"], "explicit-input")
+        self.assertEqual(time_scale["java_method"], "delta()")
+        self.assertEqual(time_scale["java_expr"], "timeScale")
+        self.assertEqual(time_scale["godot_symbol"], "source_building_edelta_input.time_scale")
+
     def test_building_draw_disabled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -4942,9 +4977,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 176)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 177)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 181)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 182)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6569,6 +6604,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float drawrot(){", building_drawrot["exact_exprs"])
         self.assertIn("return block.rotate && block.rotateDraw ? rotation * 90 : 0f;", building_drawrot["exact_exprs"])
 
+        building_edelta = source_symbols.source_slice(ledger, "N579")
+        self.assertEqual(building_edelta["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_edelta["java_method"], "edelta()")
+        self.assertEqual(building_edelta["godot_owner"], "PortGame.source_building_edelta")
+        self.assertIn("public float edelta(){", building_edelta["exact_exprs"])
+        self.assertIn("return efficiency * delta();", building_edelta["exact_exprs"])
+        self.assertIn("delta()", building_edelta["deferred_exprs"][0])
+
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
         self.assertEqual(arc_mathf_cos_scaled["java_method"], "cos(float radians, float scl, float mag)")
@@ -8111,6 +8154,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_drawrot["params"][2]["schema"], "source_building_drawrot_input.rotation_quadrants")
         self.assertIn("rotation_degrees", building_drawrot["return_keys"])
         self.assertEqual(building_drawrot["source_method"], "drawrot()")
+
+        building_edelta = source_symbols.api_contract(contracts, "PortGame.source_building_edelta")
+        self.assertEqual([param["name"] for param in building_edelta["params"]], ["source_delta", "time_scale", "efficiency"])
+        self.assertEqual(building_edelta["params"][0]["schema"], "source_building_edelta_input.source_delta")
+        self.assertEqual(building_edelta["params"][1]["schema"], "source_building_edelta_input.time_scale")
+        self.assertEqual(building_edelta["params"][2]["schema"], "source_building_edelta_input.efficiency")
+        self.assertIn("edelta", building_edelta["return_keys"])
+        self.assertEqual(building_edelta["source_method"], "edelta()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -10090,6 +10141,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_drawrot_result["keys"]["method"]["java_expr"], "public float drawrot(){")
         self.assertEqual(source_building_drawrot_result["keys"]["rotation_degrees"]["java_expr"], "return block.rotate && block.rotateDraw ? rotation * 90 : 0f;")
         self.assertEqual(source_building_drawrot_result["keys"]["block_rotate"]["alias_of"], "source_building_drawrot_input.block_rotate")
+
+        source_building_edelta_input = source_symbols.state_schema(schema, "source_building_edelta_input")
+        self.assertEqual(source_building_edelta_input["keys"]["source_delta"]["java_expr"], "Time.delta")
+        self.assertEqual(source_building_edelta_input["keys"]["time_scale"]["java_expr"], "timeScale")
+        self.assertEqual(source_building_edelta_input["keys"]["efficiency"]["java_expr"], "efficiency")
+
+        source_building_edelta_result = source_symbols.state_schema(schema, "source_building_edelta_result")
+        self.assertEqual(source_building_edelta_result["keys"]["method"]["java_expr"], "public float edelta(){")
+        self.assertEqual(source_building_edelta_result["keys"]["edelta"]["java_expr"], "return efficiency * delta();")
+        self.assertEqual(source_building_edelta_result["keys"]["delta_call"]["alias_of"], "source_building_delta_result.delta")
+        self.assertEqual(source_building_edelta_result["keys"]["efficiency"]["alias_of"], "source_building_edelta_input.efficiency")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

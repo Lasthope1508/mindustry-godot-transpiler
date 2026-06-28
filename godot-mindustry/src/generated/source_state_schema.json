@@ -23435,6 +23435,100 @@
           "rule": "Carries rotation_quadrants input into result schema."
         }
       }
+    },
+    "source_building_edelta_input": {
+      "status": "active",
+      "keys": {
+        "source_delta": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "delta()",
+          "java_expr": "Time.delta",
+          "godot_symbol": "source_building_edelta_input.source_delta",
+          "used_by": [
+            "PortGame.source_building_edelta"
+          ],
+          "rule": "Runtime source_delta supplies Time.delta for delegated delta()."
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "delta()",
+          "java_expr": "timeScale",
+          "godot_symbol": "source_building_edelta_input.time_scale",
+          "used_by": [
+            "PortGame.source_building_edelta"
+          ],
+          "rule": "Runtime time_scale supplies timeScale for delegated delta()."
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "edelta()",
+          "java_expr": "efficiency",
+          "godot_symbol": "source_building_edelta_input.efficiency",
+          "used_by": [
+            "PortGame.source_building_edelta"
+          ],
+          "rule": "Runtime efficiency supplies BuildingComp efficiency."
+        }
+      }
+    },
+    "source_building_edelta_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "edelta()",
+          "java_expr": "public float edelta(){",
+          "godot_symbol": "source_building_edelta_result.method",
+          "used_by": [
+            "PortGame.source_building_edelta"
+          ],
+          "rule": "Source edelta method declaration."
+        },
+        "edelta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "edelta()",
+          "java_expr": "return efficiency * delta();",
+          "godot_symbol": "source_building_edelta_result.edelta",
+          "used_by": [
+            "PortGame.source_building_edelta"
+          ],
+          "rule": "edelta scales delta() by current efficiency."
+        },
+        "delta_call": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_delta_result.delta",
+          "rule": "Delegated delta() value comes from canonical source_building_delta_result.delta."
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_edelta_input.source_delta",
+          "rule": "Carries source_delta input into result schema."
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_edelta_input.time_scale",
+          "rule": "Carries time_scale input into result schema."
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_edelta_input.efficiency",
+          "rule": "Carries efficiency input into result schema."
+        }
+      }
     }
   },
   "version": 1

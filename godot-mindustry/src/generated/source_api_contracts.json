@@ -7041,6 +7041,37 @@
       ],
       "runtime_proof": "/root/Main.source_building_drawrot_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.drawrot() helper."
+    },
+    "PortGame.source_building_edelta": {
+      "status": "active",
+      "source_slice": "N579",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "edelta()",
+      "params": [
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_building_edelta_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_building_edelta_input.time_scale"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_building_edelta_input.efficiency"
+        }
+      ],
+      "return_keys": [
+        "edelta"
+      ],
+      "tests": [
+        "test_building_edelta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_edelta",
+      "rule": "Public runtime contract for Mindustry BuildingComp.edelta() helper."
     }
   },
   "policy": {
