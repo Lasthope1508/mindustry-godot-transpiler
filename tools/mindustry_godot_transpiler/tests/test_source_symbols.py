@@ -4819,6 +4819,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(payload_state["java_expr"], "payload")
         self.assertEqual(payload_state["godot_symbol"], "source_building_handle_payload_input.payload_state")
 
+    def test_building_handle_stack_count_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_handle_stack_count.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "handleStack(Item item, int amount, @Nullable Teamc source)")
+        self.assertEqual(method["java_expr"], "public void handleStack(Item item, int amount, @Nullable Teamc source){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_handle_stack_count")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_handle_stack_count")
+        self.assertEqual(method["godot_symbol"], "source_building_handle_stack_count_result.method")
+
+        no_sleep = source_symbols.source_symbol(registry, "building_handle_stack_count.no_sleep")
+        self.assertEqual(no_sleep["java_expr"], "noSleep();")
+        self.assertEqual(no_sleep["godot_symbol"], "source_building_handle_stack_count_result.no_sleep")
+
+        add_call = source_symbols.source_symbol(registry, "building_handle_stack_count.add")
+        self.assertEqual(add_call["java_expr"], "items.add(item, amount);")
+        self.assertEqual(add_call["godot_symbol"], "source_building_handle_stack_count_result.item_count_after")
+
+        current_count = source_symbols.source_symbol(registry, "building_handle_stack_count.current_count")
+        self.assertEqual(current_count["status"], "explicit-input")
+        self.assertEqual(current_count["java_expr"], "items.get(item)")
+        self.assertEqual(current_count["godot_symbol"], "source_building_handle_stack_count_input.current_count")
+
+        amount = source_symbols.source_symbol(registry, "building_handle_stack_count.amount")
+        self.assertEqual(amount["status"], "explicit-input")
+        self.assertEqual(amount["java_expr"], "amount")
+        self.assertEqual(amount["godot_symbol"], "source_building_handle_stack_count_input.amount")
+
     def test_building_draw_disabled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -5142,9 +5174,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 184)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 185)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 189)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 190)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6827,6 +6859,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public void handlePayload(Building source, Payload payload){", building_handle_payload["exact_exprs"])
         self.assertIn("public void handlePayload(Building source, Payload payload){\n\n    }", building_handle_payload["exact_exprs"])
 
+        building_handle_stack_count = source_symbols.source_slice(ledger, "N587")
+        self.assertEqual(building_handle_stack_count["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_handle_stack_count["java_method"], "handleStack(Item item, int amount, @Nullable Teamc source)")
+        self.assertEqual(building_handle_stack_count["godot_owner"], "PortGame.source_building_handle_stack_count")
+        self.assertIn("public void handleStack(Item item, int amount, @Nullable Teamc source){", building_handle_stack_count["exact_exprs"])
+        self.assertIn("noSleep();", building_handle_stack_count["exact_exprs"])
+        self.assertIn("items.add(item, amount);", building_handle_stack_count["exact_exprs"])
+
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
         self.assertEqual(arc_mathf_cos_scaled["java_method"], "cos(float radians, float scl, float mag)")
@@ -8419,6 +8459,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_handle_payload["params"][0]["schema"], "source_building_handle_payload_input.payload_state")
         self.assertIn("payload_state", building_handle_payload["return_keys"])
         self.assertEqual(building_handle_payload["source_method"], "handlePayload(Building source, Payload payload)")
+
+        building_handle_stack_count = source_symbols.api_contract(contracts, "PortGame.source_building_handle_stack_count")
+        self.assertEqual([param["name"] for param in building_handle_stack_count["params"]], ["current_count", "amount"])
+        self.assertEqual(building_handle_stack_count["params"][0]["schema"], "source_building_handle_stack_count_input.current_count")
+        self.assertEqual(building_handle_stack_count["params"][1]["schema"], "source_building_handle_stack_count_input.amount")
+        self.assertIn("item_count_after", building_handle_stack_count["return_keys"])
+        self.assertEqual(building_handle_stack_count["source_method"], "handleStack(Item item, int amount, @Nullable Teamc source)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -10470,6 +10517,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_handle_payload_result["keys"]["method"]["java_expr"], "public void handlePayload(Building source, Payload payload){")
         self.assertEqual(source_building_handle_payload_result["keys"]["no_op"]["java_expr"], "public void handlePayload(Building source, Payload payload){\n\n    }")
         self.assertEqual(source_building_handle_payload_result["keys"]["payload_state"]["alias_of"], "source_building_handle_payload_input.payload_state")
+
+        source_building_handle_stack_count_input = source_symbols.state_schema(schema, "source_building_handle_stack_count_input")
+        self.assertEqual(source_building_handle_stack_count_input["keys"]["current_count"]["java_expr"], "items.get(item)")
+        self.assertEqual(source_building_handle_stack_count_input["keys"]["current_count"]["status"], "explicit-input")
+        self.assertEqual(source_building_handle_stack_count_input["keys"]["amount"]["java_expr"], "amount")
+
+        source_building_handle_stack_count_result = source_symbols.state_schema(schema, "source_building_handle_stack_count_result")
+        self.assertEqual(source_building_handle_stack_count_result["keys"]["method"]["java_expr"], "public void handleStack(Item item, int amount, @Nullable Teamc source){")
+        self.assertEqual(source_building_handle_stack_count_result["keys"]["no_sleep"]["java_expr"], "noSleep();")
+        self.assertEqual(source_building_handle_stack_count_result["keys"]["item_count_after"]["java_expr"], "items.add(item, amount);")
+        self.assertEqual(source_building_handle_stack_count_result["keys"]["current_count"]["alias_of"], "source_building_handle_stack_count_input.current_count")
+        self.assertEqual(source_building_handle_stack_count_result["keys"]["amount"]["alias_of"], "source_building_handle_stack_count_input.amount")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

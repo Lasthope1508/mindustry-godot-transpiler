@@ -5849,6 +5849,33 @@
       ],
       "runtime_proof": "/root/Main.source_building_handle_payload_state",
       "rule": "Backfills SSOT for existing canonical source_building_handle_payload_state helper against BuildingComp.handlePayload(Building source, Payload payload)."
+    },
+    "N587": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "handleStack(Item item, int amount, @Nullable Teamc source)",
+      "godot_owner": "PortGame.source_building_handle_stack_count",
+      "exact_exprs": [
+        "public void handleStack(Item item, int amount, @Nullable Teamc source){",
+        "noSleep();",
+        "items.add(item, amount);"
+      ],
+      "deferred_exprs": [
+        "ItemModule object mutation, item reference, Teamc source, and noSleep side effects stay owned by inventory/runtime slices; this helper preserves count addition."
+      ],
+      "source_symbols": [
+        "building_handle_stack_count.method",
+        "building_handle_stack_count.no_sleep",
+        "building_handle_stack_count.add",
+        "building_handle_stack_count.current_count",
+        "building_handle_stack_count.amount"
+      ],
+      "tests": [
+        "test_building_handle_stack_count_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_handle_stack_count",
+      "rule": "Backfills SSOT for existing canonical source_building_handle_stack_count helper against BuildingComp.handleStack(Item item, int amount, @Nullable Teamc source)."
     }
   },
   "version": 1

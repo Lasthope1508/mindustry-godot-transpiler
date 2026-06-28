@@ -18337,6 +18337,71 @@
         "test_building_handle_payload_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_building_handle_payload_state"
+    },
+    "building_handle_stack_count.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleStack(Item item, int amount, @Nullable Teamc source)",
+      "java_expr": "public void handleStack(Item item, int amount, @Nullable Teamc source){",
+      "godot_symbol": "source_building_handle_stack_count_result.method",
+      "godot_owner": "PortGame.source_building_handle_stack_count",
+      "rule": "Source handleStack method declaration.",
+      "tests": [
+        "test_building_handle_stack_count_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_handle_stack_count"
+    },
+    "building_handle_stack_count.no_sleep": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleStack(Item item, int amount, @Nullable Teamc source)",
+      "java_expr": "noSleep();",
+      "godot_symbol": "source_building_handle_stack_count_result.no_sleep",
+      "godot_owner": "PortGame.source_building_handle_stack_count",
+      "rule": "handleStack wakes the building before adding the stack.",
+      "tests": [
+        "test_building_handle_stack_count_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_handle_stack_count"
+    },
+    "building_handle_stack_count.add": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleStack(Item item, int amount, @Nullable Teamc source)",
+      "java_expr": "items.add(item, amount);",
+      "godot_symbol": "source_building_handle_stack_count_result.item_count_after",
+      "godot_owner": "PortGame.source_building_handle_stack_count",
+      "rule": "handleStack adds amount to the BuildingComp items module.",
+      "tests": [
+        "test_building_handle_stack_count_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_handle_stack_count"
+    },
+    "building_handle_stack_count.current_count": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleStack(Item item, int amount, @Nullable Teamc source)",
+      "java_expr": "items.get(item)",
+      "godot_symbol": "source_building_handle_stack_count_input.current_count",
+      "godot_owner": "PortGame.source_building_handle_stack_count",
+      "rule": "Runtime current_count supplies source items.get(item) before items.add(item, amount).",
+      "tests": [
+        "test_building_handle_stack_count_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_handle_stack_count"
+    },
+    "building_handle_stack_count.amount": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleStack(Item item, int amount, @Nullable Teamc source)",
+      "java_expr": "amount",
+      "godot_symbol": "source_building_handle_stack_count_input.amount",
+      "godot_owner": "PortGame.source_building_handle_stack_count",
+      "rule": "Runtime amount supplies handleStack amount.",
+      "tests": [
+        "test_building_handle_stack_count_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_handle_stack_count"
     }
   }
 }
