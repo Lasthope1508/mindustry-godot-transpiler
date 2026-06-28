@@ -1810,6 +1810,12 @@ func source_building_on_destroyed_rubble_state(source_x: float, source_y: float,
 func source_building_on_destroyed_base_sound_state(headless: bool, destroy_sound: String, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:
 	var should_play_sound := not headless
 	return {
+		"method": "public void onDestroyed(){",
+		"headless": headless,
+		"destroy_sound": destroy_sound,
+		"destroy_pitch_min": destroy_pitch_min,
+		"destroy_pitch_max": destroy_pitch_max,
+		"destroy_sound_volume": destroy_sound_volume,
 		"play_destroy_sound": should_play_sound,
 		"sound": destroy_sound if should_play_sound else "",
 		"pitch_min": destroy_pitch_min,

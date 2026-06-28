@@ -6463,6 +6463,45 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_deconstructed_liquid_state",
       "rule": "Backfills SSOT for existing canonical source_building_on_deconstructed_liquid_state helper against BuildingComp.onDeconstructed(@Nullable Unit builder)."
+    },
+    "N608": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "onDestroyed() / playDestroySound()",
+      "godot_owner": "PortGame.source_building_on_destroyed_base_sound_state",
+      "exact_exprs": [
+        "/** Called when the block is destroyed. The tile is still intact at this stage. */",
+        "public void onDestroyed(){",
+        "if(!headless){",
+        "playDestroySound();",
+        "public void playDestroySound(){",
+        "block.destroySound.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);",
+        "headless",
+        "block.destroySound",
+        "block.destroyPitchMin",
+        "block.destroyPitchMax",
+        "block.destroySoundVolume"
+      ],
+      "deferred_exprs": [
+        "Mathf.random pitch sampling and actual Sound.at side effects remain owned by audio/runtime integration slices."
+      ],
+      "source_symbols": [
+        "building_on_destroyed_base_sound.method",
+        "building_on_destroyed_base_sound.headless_gate",
+        "building_on_destroyed_base_sound.play_destroy_sound",
+        "building_on_destroyed_base_sound.sound_call",
+        "building_on_destroyed_base_sound.headless",
+        "building_on_destroyed_base_sound.destroy_sound",
+        "building_on_destroyed_base_sound.destroy_pitch_min",
+        "building_on_destroyed_base_sound.destroy_pitch_max",
+        "building_on_destroyed_base_sound.destroy_sound_volume"
+      ],
+      "tests": [
+        "test_building_on_destroyed_base_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_base_sound_state",
+      "rule": "Backfills SSOT for existing canonical source_building_on_destroyed_base_sound_state helper against BuildingComp.onDestroyed() and playDestroySound()."
     }
   },
   "version": 1

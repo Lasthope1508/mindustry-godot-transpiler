@@ -7826,6 +7826,57 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_deconstructed_liquid_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.onDeconstructed liquid helper."
+    },
+    "PortGame.source_building_on_destroyed_base_sound_state": {
+      "status": "active",
+      "source_slice": "N608",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "onDestroyed() / playDestroySound()",
+      "params": [
+        {
+          "name": "headless",
+          "type": "bool",
+          "schema": "source_building_on_destroyed_base_sound_input.headless"
+        },
+        {
+          "name": "destroy_sound",
+          "type": "String",
+          "schema": "source_building_on_destroyed_base_sound_input.destroy_sound"
+        },
+        {
+          "name": "destroy_pitch_min",
+          "type": "float",
+          "schema": "source_building_on_destroyed_base_sound_input.destroy_pitch_min"
+        },
+        {
+          "name": "destroy_pitch_max",
+          "type": "float",
+          "schema": "source_building_on_destroyed_base_sound_input.destroy_pitch_max"
+        },
+        {
+          "name": "destroy_sound_volume",
+          "type": "float",
+          "schema": "source_building_on_destroyed_base_sound_input.destroy_sound_volume"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "headless",
+        "destroy_sound",
+        "destroy_pitch_min",
+        "destroy_pitch_max",
+        "destroy_sound_volume",
+        "play_destroy_sound",
+        "sound",
+        "pitch_min",
+        "pitch_max",
+        "volume"
+      ],
+      "tests": [
+        "test_building_on_destroyed_base_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_base_sound_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.onDestroyed base destroy sound helper."
     }
   },
   "policy": {

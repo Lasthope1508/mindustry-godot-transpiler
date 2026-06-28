@@ -3645,6 +3645,42 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(block_size["java_expr"], "block.size")
         self.assertEqual(block_size["godot_symbol"], "source_building_on_deconstructed_liquid_input.source_block_size")
 
+    def test_building_on_destroyed_base_sound_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_on_destroyed_base_sound.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "onDestroyed() / playDestroySound()")
+        self.assertEqual(method["java_expr"], "public void onDestroyed(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_on_destroyed_base_sound_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_on_destroyed_base_sound_state")
+        self.assertEqual(method["godot_symbol"], "source_building_on_destroyed_base_sound_result.method")
+
+        headless_gate = source_symbols.source_symbol(registry, "building_on_destroyed_base_sound.headless_gate")
+        self.assertEqual(headless_gate["java_expr"], "if(!headless){")
+        self.assertEqual(headless_gate["godot_symbol"], "source_building_on_destroyed_base_sound_result.play_destroy_sound")
+
+        play_call = source_symbols.source_symbol(registry, "building_on_destroyed_base_sound.play_destroy_sound")
+        self.assertEqual(play_call["java_expr"], "playDestroySound();")
+        self.assertEqual(play_call["godot_symbol"], "source_building_on_destroyed_base_sound_result.play_destroy_sound")
+
+        sound_call = source_symbols.source_symbol(registry, "building_on_destroyed_base_sound.sound_call")
+        self.assertEqual(sound_call["java_expr"], "block.destroySound.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);")
+        self.assertEqual(sound_call["godot_symbol"], "source_building_on_destroyed_base_sound_result.sound")
+
+        headless = source_symbols.source_symbol(registry, "building_on_destroyed_base_sound.headless")
+        self.assertEqual(headless["status"], "explicit-input")
+        self.assertEqual(headless["java_expr"], "headless")
+        self.assertEqual(headless["godot_symbol"], "source_building_on_destroyed_base_sound_input.headless")
+
+        pitch_min = source_symbols.source_symbol(registry, "building_on_destroyed_base_sound.destroy_pitch_min")
+        self.assertEqual(pitch_min["status"], "explicit-input")
+        self.assertEqual(pitch_min["java_expr"], "block.destroyPitchMin")
+        self.assertEqual(pitch_min["godot_symbol"], "source_building_on_destroyed_base_sound_input.destroy_pitch_min")
+
     def test_building_on_configure_closed_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -5835,9 +5871,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 205)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 206)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 210)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 211)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -5860,6 +5896,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_on_configure_closed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_on_configure_tapped_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_on_deconstructed_liquid_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_on_destroyed_base_sound_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7191,6 +7228,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(liquids != null && liquids.currentAmount() > 0 && (!liquids.current().incinerable || block.deconstructDropAllLiquid)){", building_on_deconstructed_liquid["exact_exprs"])
         self.assertIn("float perCell = liquids.currentAmount() / (block.size * block.size) * 2f;", building_on_deconstructed_liquid["exact_exprs"])
         self.assertIn("tile.getLinkedTiles(other -> Puddles.deposit(other, liquids.current(), perCell));", building_on_deconstructed_liquid["exact_exprs"])
+
+        building_on_destroyed_base_sound = source_symbols.source_slice(ledger, "N608")
+        self.assertEqual(building_on_destroyed_base_sound["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_on_destroyed_base_sound["java_method"], "onDestroyed() / playDestroySound()")
+        self.assertEqual(building_on_destroyed_base_sound["godot_owner"], "PortGame.source_building_on_destroyed_base_sound_state")
+        self.assertIn("public void onDestroyed(){", building_on_destroyed_base_sound["exact_exprs"])
+        self.assertIn("if(!headless){", building_on_destroyed_base_sound["exact_exprs"])
+        self.assertIn("playDestroySound();", building_on_destroyed_base_sound["exact_exprs"])
+        self.assertIn("public void playDestroySound(){", building_on_destroyed_base_sound["exact_exprs"])
+        self.assertIn("block.destroySound.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);", building_on_destroyed_base_sound["exact_exprs"])
 
         building_on_configure_closed = source_symbols.source_slice(ledger, "N605")
         self.assertEqual(building_on_configure_closed["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -9033,6 +9080,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("per_cell", building_on_deconstructed_liquid["return_keys"])
         self.assertIn("deposit_call", building_on_deconstructed_liquid["return_keys"])
         self.assertEqual(building_on_deconstructed_liquid["source_method"], "onDeconstructed(@Nullable Unit builder)")
+
+        building_on_destroyed_base_sound = source_symbols.api_contract(contracts, "PortGame.source_building_on_destroyed_base_sound_state")
+        self.assertEqual([param["name"] for param in building_on_destroyed_base_sound["params"]], ["headless", "destroy_sound", "destroy_pitch_min", "destroy_pitch_max", "destroy_sound_volume"])
+        self.assertEqual(building_on_destroyed_base_sound["params"][0]["schema"], "source_building_on_destroyed_base_sound_input.headless")
+        self.assertEqual(building_on_destroyed_base_sound["params"][1]["schema"], "source_building_on_destroyed_base_sound_input.destroy_sound")
+        self.assertEqual(building_on_destroyed_base_sound["params"][4]["schema"], "source_building_on_destroyed_base_sound_input.destroy_sound_volume")
+        self.assertIn("method", building_on_destroyed_base_sound["return_keys"])
+        self.assertIn("play_destroy_sound", building_on_destroyed_base_sound["return_keys"])
+        self.assertIn("sound", building_on_destroyed_base_sound["return_keys"])
+        self.assertIn("pitch_min", building_on_destroyed_base_sound["return_keys"])
+        self.assertIn("volume", building_on_destroyed_base_sound["return_keys"])
+        self.assertEqual(building_on_destroyed_base_sound["source_method"], "onDestroyed() / playDestroySound()")
 
         building_configured_copy_config = source_symbols.api_contract(contracts, "PortGame.source_building_configured_copy_config_state")
         self.assertEqual([param["name"] for param in building_configured_copy_config["params"]], ["value_is_building", "copied_config", "copied_config_is_building"])
@@ -11071,6 +11130,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_on_deconstructed_liquid_result["keys"]["deposit_call"]["java_expr"], "tile.getLinkedTiles(other -> Puddles.deposit(other, liquids.current(), perCell));")
         self.assertEqual(source_building_on_deconstructed_liquid_result["keys"]["current_amount"]["alias_of"], "source_building_on_deconstructed_liquid_input.current_amount")
         self.assertEqual(source_building_on_deconstructed_liquid_result["keys"]["source_block_size"]["alias_of"], "source_building_on_deconstructed_liquid_input.source_block_size")
+
+        source_building_on_destroyed_base_sound_input = source_symbols.state_schema(schema, "source_building_on_destroyed_base_sound_input")
+        self.assertEqual(source_building_on_destroyed_base_sound_input["keys"]["headless"]["java_expr"], "headless")
+        self.assertEqual(source_building_on_destroyed_base_sound_input["keys"]["destroy_sound"]["java_expr"], "block.destroySound")
+        self.assertEqual(source_building_on_destroyed_base_sound_input["keys"]["destroy_pitch_min"]["java_expr"], "block.destroyPitchMin")
+        self.assertEqual(source_building_on_destroyed_base_sound_input["keys"]["destroy_pitch_max"]["java_expr"], "block.destroyPitchMax")
+        self.assertEqual(source_building_on_destroyed_base_sound_input["keys"]["destroy_sound_volume"]["java_expr"], "block.destroySoundVolume")
+
+        source_building_on_destroyed_base_sound_result = source_symbols.state_schema(schema, "source_building_on_destroyed_base_sound_result")
+        self.assertEqual(source_building_on_destroyed_base_sound_result["keys"]["method"]["java_expr"], "public void onDestroyed(){")
+        self.assertEqual(source_building_on_destroyed_base_sound_result["keys"]["play_destroy_sound"]["java_expr"], "playDestroySound();")
+        self.assertEqual(source_building_on_destroyed_base_sound_result["keys"]["sound"]["java_expr"], "block.destroySound.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);")
+        self.assertEqual(source_building_on_destroyed_base_sound_result["keys"]["pitch_min"]["alias_of"], "source_building_on_destroyed_base_sound_input.destroy_pitch_min")
+        self.assertEqual(source_building_on_destroyed_base_sound_result["keys"]["volume"]["alias_of"], "source_building_on_destroyed_base_sound_input.destroy_sound_volume")
 
         source_building_configured_copy_config_input = source_symbols.state_schema(schema, "source_building_configured_copy_config_input")
         self.assertEqual(source_building_configured_copy_config_input["keys"]["value_is_building"]["java_expr"], "value instanceof Building build")

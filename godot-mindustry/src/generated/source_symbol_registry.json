@@ -19793,6 +19793,123 @@
       "java_expr": "block.size",
       "godot_symbol": "source_building_on_deconstructed_liquid_input.source_block_size",
       "rule": "Runtime source_block_size supplies source block.size."
+    },
+    "building_on_destroyed_base_sound.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed() / playDestroySound()",
+      "godot_owner": "PortGame.source_building_on_destroyed_base_sound_state",
+      "tests": [
+        "test_building_on_destroyed_base_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_base_sound_state",
+      "java_expr": "public void onDestroyed(){",
+      "godot_symbol": "source_building_on_destroyed_base_sound_result.method",
+      "rule": "BuildingComp onDestroyed method boundary."
+    },
+    "building_on_destroyed_base_sound.headless_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed() / playDestroySound()",
+      "godot_owner": "PortGame.source_building_on_destroyed_base_sound_state",
+      "tests": [
+        "test_building_on_destroyed_base_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_base_sound_state",
+      "java_expr": "if(!headless){",
+      "godot_symbol": "source_building_on_destroyed_base_sound_result.play_destroy_sound",
+      "rule": "Destroy sound work runs only when headless is false."
+    },
+    "building_on_destroyed_base_sound.play_destroy_sound": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed() / playDestroySound()",
+      "godot_owner": "PortGame.source_building_on_destroyed_base_sound_state",
+      "tests": [
+        "test_building_on_destroyed_base_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_base_sound_state",
+      "java_expr": "playDestroySound();",
+      "godot_symbol": "source_building_on_destroyed_base_sound_result.play_destroy_sound",
+      "rule": "onDestroyed calls playDestroySound inside the non-headless block."
+    },
+    "building_on_destroyed_base_sound.sound_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed() / playDestroySound()",
+      "godot_owner": "PortGame.source_building_on_destroyed_base_sound_state",
+      "tests": [
+        "test_building_on_destroyed_base_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_base_sound_state",
+      "java_expr": "block.destroySound.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);",
+      "godot_symbol": "source_building_on_destroyed_base_sound_result.sound",
+      "rule": "playDestroySound invokes block.destroySound.at with random pitch range and destroy sound volume."
+    },
+    "building_on_destroyed_base_sound.headless": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed() / playDestroySound()",
+      "godot_owner": "PortGame.source_building_on_destroyed_base_sound_state",
+      "tests": [
+        "test_building_on_destroyed_base_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_base_sound_state",
+      "java_expr": "headless",
+      "godot_symbol": "source_building_on_destroyed_base_sound_input.headless",
+      "rule": "Runtime headless supplies source headless gate."
+    },
+    "building_on_destroyed_base_sound.destroy_sound": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed() / playDestroySound()",
+      "godot_owner": "PortGame.source_building_on_destroyed_base_sound_state",
+      "tests": [
+        "test_building_on_destroyed_base_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_base_sound_state",
+      "java_expr": "block.destroySound",
+      "godot_symbol": "source_building_on_destroyed_base_sound_input.destroy_sound",
+      "rule": "Runtime destroy_sound supplies source block.destroySound."
+    },
+    "building_on_destroyed_base_sound.destroy_pitch_min": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed() / playDestroySound()",
+      "godot_owner": "PortGame.source_building_on_destroyed_base_sound_state",
+      "tests": [
+        "test_building_on_destroyed_base_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_base_sound_state",
+      "java_expr": "block.destroyPitchMin",
+      "godot_symbol": "source_building_on_destroyed_base_sound_input.destroy_pitch_min",
+      "rule": "Runtime destroy_pitch_min supplies source block.destroyPitchMin."
+    },
+    "building_on_destroyed_base_sound.destroy_pitch_max": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed() / playDestroySound()",
+      "godot_owner": "PortGame.source_building_on_destroyed_base_sound_state",
+      "tests": [
+        "test_building_on_destroyed_base_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_base_sound_state",
+      "java_expr": "block.destroyPitchMax",
+      "godot_symbol": "source_building_on_destroyed_base_sound_input.destroy_pitch_max",
+      "rule": "Runtime destroy_pitch_max supplies source block.destroyPitchMax."
+    },
+    "building_on_destroyed_base_sound.destroy_sound_volume": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed() / playDestroySound()",
+      "godot_owner": "PortGame.source_building_on_destroyed_base_sound_state",
+      "tests": [
+        "test_building_on_destroyed_base_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_base_sound_state",
+      "java_expr": "block.destroySoundVolume",
+      "godot_symbol": "source_building_on_destroyed_base_sound_input.destroy_sound_volume",
+      "rule": "Runtime destroy_sound_volume supplies source block.destroySoundVolume."
     }
   }
 }

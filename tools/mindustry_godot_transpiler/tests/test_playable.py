@@ -1781,7 +1781,10 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_building_on_destroyed_base_sound_state(headless: bool, destroy_sound: String, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:", source)
         self.assertIn("var should_play_sound := not headless", source)
+        self.assertIn('"method": "public void onDestroyed(){"', source)
+        self.assertIn('"headless": headless', source)
         self.assertIn('"play_destroy_sound": should_play_sound', source)
+        self.assertIn('"sound": destroy_sound if should_play_sound else ""', source)
         self.assertIn('"pitch_min": destroy_pitch_min', source)
         self.assertIn('"pitch_max": destroy_pitch_max', source)
         self.assertIn('"volume": destroy_sound_volume', source)
