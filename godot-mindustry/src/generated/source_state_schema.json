@@ -19937,6 +19937,166 @@
           "rule": "Carries block_ui_icon input into result schema."
         }
       }
+    },
+    "source_building_display_name_input": {
+      "status": "active",
+      "keys": {
+        "localized_name": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "getDisplayName()",
+          "java_expr": "block.localizedName",
+          "godot_symbol": "source_building_display_name_input.localized_name",
+          "used_by": [
+            "PortGame.source_building_display_name_state"
+          ],
+          "rule": "Runtime localized_name supplies block.localizedName."
+        },
+        "team_is_derelict": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "getDisplayName()",
+          "java_expr": "team == Team.derelict",
+          "godot_symbol": "source_building_display_name_input.team_is_derelict",
+          "used_by": [
+            "PortGame.source_building_display_name_state"
+          ],
+          "rule": "Runtime team_is_derelict supplies team == Team.derelict."
+        },
+        "team_is_player": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "getDisplayName()",
+          "java_expr": "team == player.team()",
+          "godot_symbol": "source_building_display_name_input.team_is_player",
+          "used_by": [
+            "PortGame.source_building_display_name_state"
+          ],
+          "rule": "Runtime team_is_player supplies team == player.team()."
+        },
+        "team_emoji": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "getDisplayName()",
+          "java_expr": "team.emoji",
+          "godot_symbol": "source_building_display_name_input.team_emoji",
+          "used_by": [
+            "PortGame.source_building_display_name_state"
+          ],
+          "rule": "Runtime team_emoji supplies team.emoji."
+        },
+        "derelict_label": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "getDisplayName()",
+          "java_expr": "Core.bundle.get(\"block.derelict\")",
+          "godot_symbol": "source_building_display_name_input.derelict_label",
+          "used_by": [
+            "PortGame.source_building_display_name_state"
+          ],
+          "rule": "Runtime derelict_label supplies Core.bundle.get(\"block.derelict\")."
+        }
+      }
+    },
+    "source_building_display_name_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "getDisplayName()",
+          "java_expr": "public String getDisplayName(){",
+          "godot_symbol": "source_building_display_name_result.method",
+          "used_by": [
+            "PortGame.source_building_display_name_state"
+          ],
+          "rule": "Source getDisplayName() method declaration for building display name helper."
+        },
+        "derelictComment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "getDisplayName()",
+          "java_expr": "//derelict team icon currently doesn't display",
+          "godot_symbol": "source_building_display_name_result.derelictComment",
+          "used_by": [
+            "PortGame.source_building_display_name_state"
+          ],
+          "rule": "Preserves source comment for derelict team display-name special case."
+        },
+        "derelictName": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "getDisplayName()",
+          "java_expr": "block.localizedName + \"\\n\" + Core.bundle.get(\"block.derelict\")",
+          "godot_symbol": "source_building_display_name_result.derelictName",
+          "used_by": [
+            "PortGame.source_building_display_name_state"
+          ],
+          "rule": "Derelict team display name appends localized derelict label on a new line."
+        },
+        "displayName": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "getDisplayName()",
+          "java_expr": "block.localizedName + (team == player.team() || team.emoji.isEmpty() ? \"\" : \" \" + team.emoji)",
+          "godot_symbol": "source_building_display_name_result.displayName",
+          "used_by": [
+            "PortGame.source_building_display_name_state"
+          ],
+          "rule": "Regular display name appends non-player non-empty team emoji."
+        },
+        "labelWrap": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "t.labelWrap(block.getDisplayName(tile)).left().width(190f).padLeft(5);",
+          "godot_symbol": "source_building_display_name_result.labelWrap",
+          "used_by": [
+            "PortGame.source_building_display_name_state"
+          ],
+          "rule": "Display header wraps block.getDisplayName(tile) in the label row."
+        },
+        "localized_name": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_building_display_name_input.localized_name",
+          "rule": "Carries localized_name input into result schema."
+        },
+        "team_is_derelict": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_display_name_input.team_is_derelict",
+          "rule": "Carries team_is_derelict input into result schema."
+        },
+        "team_is_player": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_display_name_input.team_is_player",
+          "rule": "Carries team_is_player input into result schema."
+        },
+        "team_emoji": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_building_display_name_input.team_emoji",
+          "rule": "Carries team_emoji input into result schema."
+        },
+        "derelict_label": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_building_display_name_input.derelict_label",
+          "rule": "Carries derelict_label input into result schema."
+        }
+      }
     }
   },
   "version": 1

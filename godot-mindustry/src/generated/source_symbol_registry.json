@@ -15360,6 +15360,84 @@
       "java_expr": "8 * 4",
       "godot_symbol": "source_building_display_icon_result.size",
       "rule": "Display icon image size is source literal 8 * 4."
+    },
+    "building_display_name.method": {
+      "tests": [
+        "test_building_display_name_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_name_state",
+      "godot_owner": "PortGame.source_building_display_name_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getDisplayName()",
+      "status": "source-backed",
+      "java_expr": "public String getDisplayName(){",
+      "godot_symbol": "source_building_display_name_result.method",
+      "rule": "Source getDisplayName() method declaration for building display name helper."
+    },
+    "building_display_name.derelict_comment": {
+      "tests": [
+        "test_building_display_name_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_name_state",
+      "godot_owner": "PortGame.source_building_display_name_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getDisplayName()",
+      "status": "source-backed",
+      "java_expr": "//derelict team icon currently doesn't display",
+      "godot_symbol": "source_building_display_name_result.derelictComment",
+      "rule": "Preserves source comment for derelict team display-name special case."
+    },
+    "building_display_name.derelict_return": {
+      "tests": [
+        "test_building_display_name_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_name_state",
+      "godot_owner": "PortGame.source_building_display_name_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getDisplayName()",
+      "status": "source-backed",
+      "java_expr": "block.localizedName + \"\\n\" + Core.bundle.get(\"block.derelict\")",
+      "godot_symbol": "source_building_display_name_result.derelictName",
+      "rule": "Derelict team display name appends localized derelict label on a new line."
+    },
+    "building_display_name.regular_return": {
+      "tests": [
+        "test_building_display_name_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_name_state",
+      "godot_owner": "PortGame.source_building_display_name_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getDisplayName()",
+      "status": "source-backed",
+      "java_expr": "block.localizedName + (team == player.team() || team.emoji.isEmpty() ? \"\" : \" \" + team.emoji)",
+      "godot_symbol": "source_building_display_name_result.displayName",
+      "rule": "Regular display name appends non-player non-empty team emoji."
+    },
+    "building_display_name.label_wrap": {
+      "tests": [
+        "test_building_display_name_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_name_state",
+      "godot_owner": "PortGame.source_building_display_name_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "display(Table table)",
+      "status": "source-backed",
+      "java_expr": "t.labelWrap(block.getDisplayName(tile)).left().width(190f).padLeft(5);",
+      "godot_symbol": "source_building_display_name_result.labelWrap",
+      "rule": "Display header wraps block.getDisplayName(tile) in the label row."
+    },
+    "building_display_name.localized_name": {
+      "tests": [
+        "test_building_display_name_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_name_state",
+      "godot_owner": "PortGame.source_building_display_name_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getDisplayName()",
+      "status": "explicit-input",
+      "java_expr": "block.localizedName",
+      "godot_symbol": "source_building_display_name_input.localized_name",
+      "rule": "Runtime localized_name supplies block.localizedName."
     }
   }
 }

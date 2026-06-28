@@ -6197,6 +6197,56 @@
       ],
       "runtime_proof": "/root/Main.source_building_display_icon_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.display icon helper."
+    },
+    "PortGame.source_building_display_name_state": {
+      "status": "active",
+      "source_slice": "N564",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "getDisplayName()",
+      "params": [
+        {
+          "name": "localized_name",
+          "type": "String",
+          "schema": "source_building_display_name_input.localized_name"
+        },
+        {
+          "name": "team_is_derelict",
+          "type": "bool",
+          "schema": "source_building_display_name_input.team_is_derelict"
+        },
+        {
+          "name": "team_is_player",
+          "type": "bool",
+          "schema": "source_building_display_name_input.team_is_player"
+        },
+        {
+          "name": "team_emoji",
+          "type": "String",
+          "schema": "source_building_display_name_input.team_emoji"
+        },
+        {
+          "name": "derelict_label",
+          "type": "String",
+          "schema": "source_building_display_name_input.derelict_label"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "derelictComment",
+        "derelictName",
+        "displayName",
+        "labelWrap",
+        "localized_name",
+        "team_is_derelict",
+        "team_is_player",
+        "team_emoji",
+        "derelict_label"
+      ],
+      "tests": [
+        "test_building_display_name_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_name_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.getDisplayName() helper."
     }
   },
   "policy": {

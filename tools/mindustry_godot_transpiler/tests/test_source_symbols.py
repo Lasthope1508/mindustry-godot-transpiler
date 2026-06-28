@@ -4048,6 +4048,42 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(size["java_expr"], "8 * 4")
         self.assertEqual(size["godot_symbol"], "source_building_display_icon_result.size")
 
+    def test_building_display_name_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_display_name.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "getDisplayName()")
+        self.assertEqual(method["java_expr"], "public String getDisplayName(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_display_name_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_display_name_state")
+        self.assertEqual(method["godot_symbol"], "source_building_display_name_result.method")
+
+        derelict_comment = source_symbols.source_symbol(registry, "building_display_name.derelict_comment")
+        self.assertEqual(derelict_comment["java_expr"], "//derelict team icon currently doesn't display")
+        self.assertEqual(derelict_comment["godot_symbol"], "source_building_display_name_result.derelictComment")
+
+        derelict = source_symbols.source_symbol(registry, "building_display_name.derelict_return")
+        self.assertEqual(derelict["java_expr"], "block.localizedName + \"\\n\" + Core.bundle.get(\"block.derelict\")")
+        self.assertEqual(derelict["godot_symbol"], "source_building_display_name_result.derelictName")
+
+        regular = source_symbols.source_symbol(registry, "building_display_name.regular_return")
+        self.assertEqual(regular["java_expr"], "block.localizedName + (team == player.team() || team.emoji.isEmpty() ? \"\" : \" \" + team.emoji)")
+        self.assertEqual(regular["godot_symbol"], "source_building_display_name_result.displayName")
+
+        label_wrap = source_symbols.source_symbol(registry, "building_display_name.label_wrap")
+        self.assertEqual(label_wrap["java_method"], "display(Table table)")
+        self.assertEqual(label_wrap["java_expr"], "t.labelWrap(block.getDisplayName(tile)).left().width(190f).padLeft(5);")
+        self.assertEqual(label_wrap["godot_symbol"], "source_building_display_name_result.labelWrap")
+
+        localized_name = source_symbols.source_symbol(registry, "building_display_name.localized_name")
+        self.assertEqual(localized_name["status"], "explicit-input")
+        self.assertEqual(localized_name["java_expr"], "block.localizedName")
+        self.assertEqual(localized_name["godot_symbol"], "source_building_display_name_input.localized_name")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -4332,9 +4368,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 161)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 162)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 166)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 167)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -4497,6 +4533,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_display_efficiency", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_display_flow_rate_label", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_display_icon_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_display_name_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -5784,6 +5821,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("block.getDisplayIcon(tile)", building_display_icon["exact_exprs"])
         self.assertIn("Scaling.fit", building_display_icon["exact_exprs"])
         self.assertIn("8 * 4", building_display_icon["exact_exprs"])
+
+        building_display_name = source_symbols.source_slice(ledger, "N564")
+        self.assertEqual(building_display_name["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_display_name["java_method"], "getDisplayName()")
+        self.assertEqual(building_display_name["godot_owner"], "PortGame.source_building_display_name_state")
+        self.assertIn("public String getDisplayName(){", building_display_name["exact_exprs"])
+        self.assertIn("//derelict team icon currently doesn't display", building_display_name["exact_exprs"])
+        self.assertIn("block.localizedName + \"\\n\" + Core.bundle.get(\"block.derelict\")", building_display_name["exact_exprs"])
+        self.assertIn("block.localizedName + (team == player.team() || team.emoji.isEmpty() ? \"\" : \" \" + team.emoji)", building_display_name["exact_exprs"])
+        self.assertIn("t.labelWrap(block.getDisplayName(tile)).left().width(190f).padLeft(5);", building_display_name["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -7175,6 +7222,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("scaling", building_display_icon["return_keys"])
         self.assertIn("size", building_display_icon["return_keys"])
         self.assertEqual(building_display_icon["source_method"], "display(Table table)")
+
+        building_display_name = source_symbols.api_contract(contracts, "PortGame.source_building_display_name_state")
+        self.assertEqual([param["name"] for param in building_display_name["params"]], ["localized_name", "team_is_derelict", "team_is_player", "team_emoji", "derelict_label"])
+        self.assertEqual(building_display_name["params"][0]["schema"], "source_building_display_name_input.localized_name")
+        self.assertEqual(building_display_name["params"][4]["schema"], "source_building_display_name_input.derelict_label")
+        self.assertIn("derelictName", building_display_name["return_keys"])
+        self.assertIn("displayName", building_display_name["return_keys"])
+        self.assertEqual(building_display_name["source_method"], "getDisplayName()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -8881,6 +8936,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_display_icon_result["keys"]["scaling"]["java_expr"], "Scaling.fit")
         self.assertEqual(source_building_display_icon_result["keys"]["size"]["java_expr"], "8 * 4")
         self.assertEqual(source_building_display_icon_result["keys"]["block_ui_icon"]["alias_of"], "source_building_display_icon_input.block_ui_icon")
+
+        source_building_display_name_input = source_symbols.state_schema(schema, "source_building_display_name_input")
+        self.assertEqual(source_building_display_name_input["keys"]["localized_name"]["java_expr"], "block.localizedName")
+        self.assertEqual(source_building_display_name_input["keys"]["localized_name"]["status"], "explicit-input")
+        self.assertEqual(source_building_display_name_input["keys"]["team_is_derelict"]["java_expr"], "team == Team.derelict")
+        self.assertEqual(source_building_display_name_input["keys"]["team_is_player"]["java_expr"], "team == player.team()")
+        self.assertEqual(source_building_display_name_input["keys"]["team_emoji"]["java_expr"], "team.emoji")
+        self.assertEqual(source_building_display_name_input["keys"]["derelict_label"]["java_expr"], "Core.bundle.get(\"block.derelict\")")
+
+        source_building_display_name_result = source_symbols.state_schema(schema, "source_building_display_name_result")
+        self.assertEqual(source_building_display_name_result["keys"]["method"]["java_expr"], "public String getDisplayName(){")
+        self.assertEqual(source_building_display_name_result["keys"]["derelictComment"]["java_expr"], "//derelict team icon currently doesn't display")
+        self.assertEqual(source_building_display_name_result["keys"]["derelictName"]["java_expr"], "block.localizedName + \"\\n\" + Core.bundle.get(\"block.derelict\")")
+        self.assertEqual(source_building_display_name_result["keys"]["displayName"]["java_expr"], "block.localizedName + (team == player.team() || team.emoji.isEmpty() ? \"\" : \" \" + team.emoji)")
+        self.assertEqual(source_building_display_name_result["keys"]["labelWrap"]["java_expr"], "t.labelWrap(block.getDisplayName(tile)).left().width(190f).padLeft(5);")
+        self.assertEqual(source_building_display_name_result["keys"]["localized_name"]["alias_of"], "source_building_display_name_input.localized_name")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")
