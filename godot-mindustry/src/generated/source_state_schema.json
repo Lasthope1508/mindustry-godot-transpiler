@@ -15922,6 +15922,58 @@
           "rule": "Carries cell input into result schema."
         }
       }
+    },
+    "source_building_absorb_lasers_input": {
+      "status": "active",
+      "keys": {
+        "blockAbsorbLasers": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "absorbLasers()",
+          "java_expr": "block.absorbLasers",
+          "godot_symbol": "source_building_absorb_lasers_input.blockAbsorbLasers",
+          "used_by": [
+            "PortGame.source_building_absorb_lasers_state"
+          ],
+          "rule": "Runtime bool maps to source block.absorbLasers."
+        }
+      }
+    },
+    "source_building_absorb_lasers_result": {
+      "status": "active",
+      "keys": {
+        "defaultAbsorbLasers": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "field declaration",
+          "java_expr": "public boolean absorbLasers = false;",
+          "godot_symbol": "source_building_absorb_lasers_result.defaultAbsorbLasers",
+          "used_by": [
+            "PortGame.source_building_absorb_lasers_state"
+          ],
+          "rule": "Block absorbLasers default field."
+        },
+        "absorbLasers": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "absorbLasers()",
+          "java_expr": "return block.absorbLasers;",
+          "godot_symbol": "source_building_absorb_lasers_result.absorbLasers",
+          "used_by": [
+            "PortGame.source_building_absorb_lasers_state"
+          ],
+          "rule": "BuildingComp absorbLasers return value."
+        },
+        "blockAbsorbLasers": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_absorb_lasers_input.blockAbsorbLasers",
+          "rule": "Carries block_absorb_lasers input into result schema."
+        }
+      }
     }
   },
   "version": 1

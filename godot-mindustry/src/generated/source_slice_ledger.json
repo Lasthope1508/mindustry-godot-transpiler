@@ -3719,6 +3719,29 @@
       ],
       "runtime_proof": "/root/Main.source_block_time_scale_duration_at_cell",
       "rule": "Backfills SSOT for existing canonical source_block_time_scale_duration_at_cell helper against BuildingComp timeScaleDuration field/read/write/apply/update state."
+    },
+    "N520": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "absorbLasers()",
+      "godot_owner": "PortGame.source_building_absorb_lasers_state",
+      "exact_exprs": [
+        "return block.absorbLasers;",
+        "public boolean absorbLasers = false;",
+        "block.absorbLasers"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "building_absorb_lasers.method",
+        "building_absorb_lasers.block_field",
+        "building_absorb_lasers.input"
+      ],
+      "tests": [
+        "test_building_absorb_lasers_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_absorb_lasers_state",
+      "rule": "Backfills SSOT for existing canonical source_building_absorb_lasers_state helper against BuildingComp.absorbLasers and Block.absorbLasers field."
     }
   },
   "version": 1

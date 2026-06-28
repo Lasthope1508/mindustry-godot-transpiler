@@ -4848,6 +4848,29 @@
       ],
       "runtime_proof": "/root/Main.source_block_time_scale_duration_at_cell",
       "rule": "Public runtime contract for Mindustry BuildingComp timeScaleDuration lookup by placed cell."
+    },
+    "PortGame.source_building_absorb_lasers_state": {
+      "status": "active",
+      "source_slice": "N520",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "absorbLasers()",
+      "params": [
+        {
+          "name": "block_absorb_lasers",
+          "type": "bool",
+          "schema": "source_building_absorb_lasers_input.blockAbsorbLasers"
+        }
+      ],
+      "return_keys": [
+        "blockAbsorbLasers",
+        "defaultAbsorbLasers",
+        "absorbLasers"
+      ],
+      "tests": [
+        "test_building_absorb_lasers_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_absorb_lasers_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.absorbLasers helper."
     }
   },
   "policy": {

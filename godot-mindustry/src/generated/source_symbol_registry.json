@@ -12045,6 +12045,45 @@
       "java_expr": "tile.x, tile.y",
       "godot_symbol": "source_block_time_scale_duration_at_cell_input.cell",
       "rule": "Runtime x/y pair maps to source tile coordinates."
+    },
+    "building_absorb_lasers.method": {
+      "tests": [
+        "test_building_absorb_lasers_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_absorb_lasers_state",
+      "godot_owner": "PortGame.source_building_absorb_lasers_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "absorbLasers()",
+      "status": "source-backed",
+      "java_expr": "return block.absorbLasers;",
+      "godot_symbol": "source_building_absorb_lasers_result.absorbLasers",
+      "rule": "BuildingComp absorbLasers delegates to block.absorbLasers."
+    },
+    "building_absorb_lasers.block_field": {
+      "tests": [
+        "test_building_absorb_lasers_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_absorb_lasers_state",
+      "godot_owner": "PortGame.source_building_absorb_lasers_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "field declaration",
+      "status": "source-backed",
+      "java_expr": "public boolean absorbLasers = false;",
+      "godot_symbol": "source_building_absorb_lasers_result.defaultAbsorbLasers",
+      "rule": "Block absorbLasers defaults false."
+    },
+    "building_absorb_lasers.input": {
+      "tests": [
+        "test_building_absorb_lasers_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_absorb_lasers_state",
+      "godot_owner": "PortGame.source_building_absorb_lasers_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "absorbLasers()",
+      "status": "explicit-input",
+      "java_expr": "block.absorbLasers",
+      "godot_symbol": "source_building_absorb_lasers_input.blockAbsorbLasers",
+      "rule": "Runtime bool argument supplies source block.absorbLasers."
     }
   }
 }

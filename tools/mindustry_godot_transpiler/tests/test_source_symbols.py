@@ -2825,6 +2825,31 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(decay["java_expr"], "if((timeScaleDuration -= Time.delta) <= 0f){")
         self.assertEqual(decay["godot_symbol"], "source_block_time_scale_duration_at_cell_result.decayGate")
 
+    def test_building_absorb_lasers_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_absorb_lasers.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "absorbLasers()")
+        self.assertEqual(method["java_expr"], "return block.absorbLasers;")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_absorb_lasers_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_absorb_lasers_state")
+        self.assertEqual(method["godot_symbol"], "source_building_absorb_lasers_result.absorbLasers")
+
+        field = source_symbols.source_symbol(registry, "building_absorb_lasers.block_field")
+        self.assertEqual(field["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(field["java_method"], "field declaration")
+        self.assertEqual(field["java_expr"], "public boolean absorbLasers = false;")
+        self.assertEqual(field["godot_symbol"], "source_building_absorb_lasers_result.defaultAbsorbLasers")
+
+        input_value = source_symbols.source_symbol(registry, "building_absorb_lasers.input")
+        self.assertEqual(input_value["status"], "explicit-input")
+        self.assertEqual(input_value["java_expr"], "block.absorbLasers")
+        self.assertEqual(input_value["godot_symbol"], "source_building_absorb_lasers_input.blockAbsorbLasers")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3109,9 +3134,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 117)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 118)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 122)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 123)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3230,6 +3255,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_sprite_base_position", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_time_scale_at_cell", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_time_scale_duration_at_cell", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -4125,6 +4151,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("write.f(timeScaleDuration);", block_time_scale_duration_at_cell["exact_exprs"])
         self.assertIn("timeScaleDuration = read.f();", block_time_scale_duration_at_cell["exact_exprs"])
         self.assertIn("if((timeScaleDuration -= Time.delta) <= 0f){", block_time_scale_duration_at_cell["exact_exprs"])
+
+        building_absorb_lasers = source_symbols.source_slice(ledger, "N520")
+        self.assertEqual(building_absorb_lasers["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_absorb_lasers["java_method"], "absorbLasers()")
+        self.assertEqual(building_absorb_lasers["godot_owner"], "PortGame.source_building_absorb_lasers_state")
+        self.assertIn("return block.absorbLasers;", building_absorb_lasers["exact_exprs"])
+        self.assertIn("public boolean absorbLasers = false;", building_absorb_lasers["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -5189,6 +5222,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("writeDuration", block_time_scale_duration_at_cell["return_keys"])
         self.assertIn("decayGate", block_time_scale_duration_at_cell["return_keys"])
         self.assertEqual(block_time_scale_duration_at_cell["source_method"], "field/read/write/update/apply duration state")
+
+        building_absorb_lasers = source_symbols.api_contract(contracts, "PortGame.source_building_absorb_lasers_state")
+        self.assertEqual([param["name"] for param in building_absorb_lasers["params"]], ["block_absorb_lasers"])
+        self.assertEqual(building_absorb_lasers["params"][0]["schema"], "source_building_absorb_lasers_input.blockAbsorbLasers")
+        self.assertIn("absorbLasers", building_absorb_lasers["return_keys"])
+        self.assertIn("defaultAbsorbLasers", building_absorb_lasers["return_keys"])
+        self.assertEqual(building_absorb_lasers["source_method"], "absorbLasers()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -6429,6 +6469,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_block_time_scale_duration_at_cell_result["keys"]["writeDuration"]["java_expr"], "write.f(timeScaleDuration);")
         self.assertEqual(source_block_time_scale_duration_at_cell_result["keys"]["readDuration"]["java_expr"], "timeScaleDuration = read.f();")
         self.assertEqual(source_block_time_scale_duration_at_cell_result["keys"]["decayGate"]["java_expr"], "if((timeScaleDuration -= Time.delta) <= 0f){")
+
+        source_building_absorb_lasers_input = source_symbols.state_schema(schema, "source_building_absorb_lasers_input")
+        self.assertEqual(source_building_absorb_lasers_input["keys"]["blockAbsorbLasers"]["java_expr"], "block.absorbLasers")
+        self.assertEqual(source_building_absorb_lasers_input["keys"]["blockAbsorbLasers"]["status"], "explicit-input")
+
+        source_building_absorb_lasers_result = source_symbols.state_schema(schema, "source_building_absorb_lasers_result")
+        self.assertEqual(source_building_absorb_lasers_result["keys"]["defaultAbsorbLasers"]["java_expr"], "public boolean absorbLasers = false;")
+        self.assertEqual(source_building_absorb_lasers_result["keys"]["absorbLasers"]["java_expr"], "return block.absorbLasers;")
+        self.assertEqual(source_building_absorb_lasers_result["keys"]["blockAbsorbLasers"]["alias_of"], "source_building_absorb_lasers_input.blockAbsorbLasers")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")
