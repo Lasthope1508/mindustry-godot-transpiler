@@ -13746,6 +13746,106 @@
           "rule": "Source formula for general sine table entries."
         }
       }
+    },
+    "source_arc_mathf_cos_scaled_input": {
+      "status": "active",
+      "keys": {
+        "radians": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "cos(float radians, float scl, float mag)",
+          "java_expr": "radians",
+          "godot_symbol": "source_arc_mathf_cos_scaled_input.radians",
+          "used_by": [
+            "PortGame.source_arc_mathf_cos_scaled"
+          ],
+          "rule": "Java radians input."
+        },
+        "scl": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "cos(float radians, float scl, float mag)",
+          "java_expr": "scl",
+          "godot_symbol": "source_arc_mathf_cos_scaled_input.scl",
+          "used_by": [
+            "PortGame.source_arc_mathf_cos_scaled"
+          ],
+          "rule": "Java scl input."
+        },
+        "mag": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "cos(float radians, float scl, float mag)",
+          "java_expr": "mag",
+          "godot_symbol": "source_arc_mathf_cos_scaled_input.mag",
+          "used_by": [
+            "PortGame.source_arc_mathf_cos_scaled"
+          ],
+          "rule": "Java mag input."
+        }
+      }
+    },
+    "source_arc_mathf_cos_scaled_result": {
+      "status": "active",
+      "keys": {
+        "scaledRadians": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "cos(float radians, float scl, float mag)",
+          "java_expr": "radians / scl",
+          "godot_symbol": "source_arc_mathf_cos_scaled_result.scaledRadians",
+          "used_by": [
+            "PortGame.source_arc_mathf_cos_scaled"
+          ],
+          "rule": "Radians divided by scl before lookup."
+        },
+        "cosLookup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "cos(float radians, float scl, float mag)",
+          "java_expr": "cos(radians / scl)",
+          "godot_symbol": "source_arc_mathf_cos_scaled_result.cosLookup",
+          "used_by": [
+            "PortGame.source_arc_mathf_cos_scaled"
+          ],
+          "rule": "Delegated cosine lookup."
+        },
+        "cosScaled": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "cos(float radians, float scl, float mag)",
+          "java_expr": "return cos(radians / scl) * mag;",
+          "godot_symbol": "source_arc_mathf_cos_scaled_result.cosScaled",
+          "used_by": [
+            "PortGame.source_arc_mathf_cos_scaled"
+          ],
+          "rule": "Scaled cosine return value."
+        },
+        "radians": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_arc_mathf_cos_scaled_input.radians",
+          "rule": "Carries Java radians input into result schema."
+        },
+        "scl": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_arc_mathf_cos_scaled_input.scl",
+          "rule": "Carries Java scl input into result schema."
+        },
+        "mag": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_arc_mathf_cos_scaled_input.mag",
+          "rule": "Carries Java mag input into result schema."
+        }
+      }
     }
   },
   "version": 1

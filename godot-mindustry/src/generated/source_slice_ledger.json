@@ -3073,6 +3073,38 @@
       ],
       "runtime_proof": "/root/Main.source_arc_mathf_cos_lookup",
       "rule": "Backfills SSOT for existing canonical source_arc_mathf_cos_lookup helper against Arc Mathf.cos and sine table lookup constants."
+    },
+    "N501": {
+      "status": "done",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_class": "arc.math.Mathf",
+      "java_method": "cos(float radians, float scl, float mag)",
+      "godot_owner": "PortGame.source_arc_mathf_cos_scaled",
+      "exact_exprs": [
+        "public static float cos(float radians, float scl, float mag){\n        return cos(radians / scl) * mag;\n    }",
+        "return cos(radians / scl) * mag;",
+        "radians / scl",
+        "cos(radians / scl)",
+        "cos(radians / scl) * mag",
+        "radians",
+        "scl",
+        "mag"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "arc_mathf_cos_scaled.method",
+        "arc_mathf_cos_scaled.scaled_radians",
+        "arc_mathf_cos_scaled.cos_lookup",
+        "arc_mathf_cos_scaled.multiply_mag",
+        "arc_mathf_cos_scaled.radians_input",
+        "arc_mathf_cos_scaled.scl_input",
+        "arc_mathf_cos_scaled.mag_input"
+      ],
+      "tests": [
+        "test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_scaled",
+      "rule": "Backfills SSOT for existing canonical source_arc_mathf_cos_scaled helper against Arc Mathf.cos scaled overload."
     }
   },
   "version": 1

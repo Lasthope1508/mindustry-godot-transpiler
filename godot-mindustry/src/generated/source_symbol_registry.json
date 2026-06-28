@@ -10108,6 +10108,97 @@
       "java_expr": "radians",
       "godot_symbol": "source_arc_mathf_cos_lookup_input.radians",
       "rule": "Runtime radians maps to Java radians parameter."
+    },
+    "arc_mathf_cos_scaled.method": {
+      "tests": [
+        "test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_scaled",
+      "godot_owner": "PortGame.source_arc_mathf_cos_scaled",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "cos(float radians, float scl, float mag)",
+      "status": "source-backed",
+      "java_expr": "public static float cos(float radians, float scl, float mag){\n        return cos(radians / scl) * mag;\n    }",
+      "godot_symbol": "source_arc_mathf_cos_scaled_result.cosScaled",
+      "rule": "Arc Mathf.cos scaled overload divides radians by scl, delegates to cos, and multiplies by mag."
+    },
+    "arc_mathf_cos_scaled.scaled_radians": {
+      "tests": [
+        "test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_scaled",
+      "godot_owner": "PortGame.source_arc_mathf_cos_scaled",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "cos(float radians, float scl, float mag)",
+      "status": "source-backed",
+      "java_expr": "radians / scl",
+      "godot_symbol": "source_arc_mathf_cos_scaled_result.scaledRadians",
+      "rule": "Scaled radians before cosine lookup."
+    },
+    "arc_mathf_cos_scaled.cos_lookup": {
+      "tests": [
+        "test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_scaled",
+      "godot_owner": "PortGame.source_arc_mathf_cos_scaled",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "cos(float radians, float scl, float mag)",
+      "status": "source-backed",
+      "java_expr": "cos(radians / scl)",
+      "godot_symbol": "source_arc_mathf_cos_scaled_result.cosLookup",
+      "rule": "Delegates to Arc Mathf.cos(float radians)."
+    },
+    "arc_mathf_cos_scaled.multiply_mag": {
+      "tests": [
+        "test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_scaled",
+      "godot_owner": "PortGame.source_arc_mathf_cos_scaled",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "cos(float radians, float scl, float mag)",
+      "status": "source-backed",
+      "java_expr": "cos(radians / scl) * mag",
+      "godot_symbol": "source_arc_mathf_cos_scaled_result.cosScaled",
+      "rule": "Cosine lookup multiplied by mag."
+    },
+    "arc_mathf_cos_scaled.radians_input": {
+      "tests": [
+        "test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_scaled",
+      "godot_owner": "PortGame.source_arc_mathf_cos_scaled",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "cos(float radians, float scl, float mag)",
+      "status": "explicit-input",
+      "java_expr": "radians",
+      "godot_symbol": "source_arc_mathf_cos_scaled_input.radians",
+      "rule": "Runtime radians maps to Java radians."
+    },
+    "arc_mathf_cos_scaled.scl_input": {
+      "tests": [
+        "test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_scaled",
+      "godot_owner": "PortGame.source_arc_mathf_cos_scaled",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "cos(float radians, float scl, float mag)",
+      "status": "explicit-input",
+      "java_expr": "scl",
+      "godot_symbol": "source_arc_mathf_cos_scaled_input.scl",
+      "rule": "Runtime scl maps to Java scl."
+    },
+    "arc_mathf_cos_scaled.mag_input": {
+      "tests": [
+        "test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_scaled",
+      "godot_owner": "PortGame.source_arc_mathf_cos_scaled",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "cos(float radians, float scl, float mag)",
+      "status": "explicit-input",
+      "java_expr": "mag",
+      "godot_symbol": "source_arc_mathf_cos_scaled_input.mag",
+      "rule": "Runtime mag maps to Java mag."
     }
   }
 }
