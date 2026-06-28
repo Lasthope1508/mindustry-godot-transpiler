@@ -6965,6 +6965,51 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_team_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.drawTeam() helper."
+    },
+    "PortGame.source_building_draw_team_top_state": {
+      "status": "active",
+      "source_slice": "N577",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "drawTeamTop()",
+      "params": [
+        {
+          "name": "team_region_found",
+          "type": "bool",
+          "schema": "source_building_draw_team_top_input.team_region_found"
+        },
+        {
+          "name": "team_region_matches_team",
+          "type": "bool",
+          "schema": "source_building_draw_team_top_input.team_region_matches_team"
+        },
+        {
+          "name": "team_color",
+          "type": "String",
+          "schema": "source_building_draw_team_top_input.team_color"
+        },
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_building_draw_team_top_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_building_draw_team_top_input.source_y"
+        }
+      ],
+      "return_keys": [
+        "visible",
+        "tint_color",
+        "x",
+        "y",
+        "color_reset"
+      ],
+      "tests": [
+        "test_building_draw_team_top_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_team_top_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.drawTeamTop() helper."
     }
   },
   "policy": {

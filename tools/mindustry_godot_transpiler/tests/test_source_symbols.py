@@ -4546,6 +4546,46 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(block_size["java_expr"], "block.size")
         self.assertEqual(block_size["godot_symbol"], "source_building_draw_team_input.block_size_value")
 
+    def test_building_draw_team_top_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_draw_team_top.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "drawTeamTop()")
+        self.assertEqual(method["java_expr"], "public void drawTeamTop(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_draw_team_top_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_draw_team_top_state")
+        self.assertEqual(method["godot_symbol"], "source_building_draw_team_top_result.method")
+
+        guard = source_symbols.source_symbol(registry, "building_draw_team_top.guard")
+        self.assertEqual(guard["java_expr"], "if(block.teamRegion.found()){")
+        self.assertEqual(guard["godot_symbol"], "source_building_draw_team_top_result.visible")
+
+        tint = source_symbols.source_symbol(registry, "building_draw_team_top.tint")
+        self.assertEqual(tint["java_expr"], "if(block.teamRegions[team.id] == block.teamRegion) Draw.color(team.color);")
+        self.assertEqual(tint["godot_symbol"], "source_building_draw_team_top_result.tint_color")
+
+        rect = source_symbols.source_symbol(registry, "building_draw_team_top.rect")
+        self.assertEqual(rect["java_expr"], "Draw.rect(block.teamRegions[team.id], x, y);")
+        self.assertEqual(rect["godot_symbol"], "source_building_draw_team_top_result.rect")
+
+        reset = source_symbols.source_symbol(registry, "building_draw_team_top.reset")
+        self.assertEqual(reset["java_expr"], "Draw.color();")
+        self.assertEqual(reset["godot_symbol"], "source_building_draw_team_top_result.color_reset")
+
+        team_region_found = source_symbols.source_symbol(registry, "building_draw_team_top.team_region_found")
+        self.assertEqual(team_region_found["status"], "explicit-input")
+        self.assertEqual(team_region_found["java_expr"], "block.teamRegion.found()")
+        self.assertEqual(team_region_found["godot_symbol"], "source_building_draw_team_top_input.team_region_found")
+
+        team_region_matches_team = source_symbols.source_symbol(registry, "building_draw_team_top.team_region_matches_team")
+        self.assertEqual(team_region_matches_team["status"], "explicit-input")
+        self.assertEqual(team_region_matches_team["java_expr"], "block.teamRegions[team.id] == block.teamRegion")
+        self.assertEqual(team_region_matches_team["godot_symbol"], "source_building_draw_team_top_input.team_region_matches_team")
+
     def test_building_draw_disabled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -4869,9 +4909,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 174)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 175)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 179)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 180)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6479,6 +6519,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("y - block.size * tilesize / 2f + 4", building_draw_team["exact_exprs"])
         self.assertIn("Draw.color();", building_draw_team["exact_exprs"])
 
+        building_draw_team_top = source_symbols.source_slice(ledger, "N577")
+        self.assertEqual(building_draw_team_top["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_draw_team_top["java_method"], "drawTeamTop()")
+        self.assertEqual(building_draw_team_top["godot_owner"], "PortGame.source_building_draw_team_top_state")
+        self.assertIn("public void drawTeamTop(){", building_draw_team_top["exact_exprs"])
+        self.assertIn("if(block.teamRegion.found()){", building_draw_team_top["exact_exprs"])
+        self.assertIn("if(block.teamRegions[team.id] == block.teamRegion) Draw.color(team.color);", building_draw_team_top["exact_exprs"])
+        self.assertIn("Draw.rect(block.teamRegions[team.id], x, y);", building_draw_team_top["exact_exprs"])
+        self.assertIn("Draw.color();", building_draw_team_top["exact_exprs"])
+
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
         self.assertEqual(arc_mathf_cos_scaled["java_method"], "cos(float radians, float scl, float mag)")
@@ -8001,6 +8051,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("y", building_draw_team["return_keys"])
         self.assertIn("color_reset", building_draw_team["return_keys"])
         self.assertEqual(building_draw_team["source_method"], "drawTeam()")
+
+        building_draw_team_top = source_symbols.api_contract(contracts, "PortGame.source_building_draw_team_top_state")
+        self.assertEqual([param["name"] for param in building_draw_team_top["params"]], ["team_region_found", "team_region_matches_team", "team_color", "source_x", "source_y"])
+        self.assertEqual(building_draw_team_top["params"][0]["schema"], "source_building_draw_team_top_input.team_region_found")
+        self.assertEqual(building_draw_team_top["params"][1]["schema"], "source_building_draw_team_top_input.team_region_matches_team")
+        self.assertEqual(building_draw_team_top["params"][4]["schema"], "source_building_draw_team_top_input.source_y")
+        self.assertIn("visible", building_draw_team_top["return_keys"])
+        self.assertIn("tint_color", building_draw_team_top["return_keys"])
+        self.assertIn("x", building_draw_team_top["return_keys"])
+        self.assertIn("y", building_draw_team_top["return_keys"])
+        self.assertIn("color_reset", building_draw_team_top["return_keys"])
+        self.assertEqual(building_draw_team_top["source_method"], "drawTeamTop()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -9954,6 +10016,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_draw_team_result["keys"]["y"]["java_expr"], "y - block.size * tilesize / 2f + 4")
         self.assertEqual(source_building_draw_team_result["keys"]["color_reset"]["java_expr"], "Draw.color();")
         self.assertEqual(source_building_draw_team_result["keys"]["team_color"]["alias_of"], "source_building_draw_team_input.team_color")
+
+        source_building_draw_team_top_input = source_symbols.state_schema(schema, "source_building_draw_team_top_input")
+        self.assertEqual(source_building_draw_team_top_input["keys"]["team_region_found"]["java_expr"], "block.teamRegion.found()")
+        self.assertEqual(source_building_draw_team_top_input["keys"]["team_region_found"]["status"], "explicit-input")
+        self.assertEqual(source_building_draw_team_top_input["keys"]["team_region_matches_team"]["java_expr"], "block.teamRegions[team.id] == block.teamRegion")
+        self.assertEqual(source_building_draw_team_top_input["keys"]["team_color"]["java_expr"], "team.color")
+        self.assertEqual(source_building_draw_team_top_input["keys"]["source_x"]["java_expr"], "x")
+        self.assertEqual(source_building_draw_team_top_input["keys"]["source_y"]["java_expr"], "y")
+
+        source_building_draw_team_top_result = source_symbols.state_schema(schema, "source_building_draw_team_top_result")
+        self.assertEqual(source_building_draw_team_top_result["keys"]["method"]["java_expr"], "public void drawTeamTop(){")
+        self.assertEqual(source_building_draw_team_top_result["keys"]["visible"]["java_expr"], "if(block.teamRegion.found()){")
+        self.assertEqual(source_building_draw_team_top_result["keys"]["tint_color"]["java_expr"], "if(block.teamRegions[team.id] == block.teamRegion) Draw.color(team.color);")
+        self.assertEqual(source_building_draw_team_top_result["keys"]["rect"]["java_expr"], "Draw.rect(block.teamRegions[team.id], x, y);")
+        self.assertEqual(source_building_draw_team_top_result["keys"]["color_reset"]["java_expr"], "Draw.color();")
+        self.assertEqual(source_building_draw_team_top_result["keys"]["team_region_found"]["alias_of"], "source_building_draw_team_top_input.team_region_found")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

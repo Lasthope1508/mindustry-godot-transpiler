@@ -5593,6 +5593,40 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_team_state",
       "rule": "Backfills SSOT for existing canonical source_building_draw_team_state helper against BuildingComp.drawTeam()."
+    },
+    "N577": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "drawTeamTop()",
+      "godot_owner": "PortGame.source_building_draw_team_top_state",
+      "exact_exprs": [
+        "public void drawTeamTop(){",
+        "if(block.teamRegion.found()){",
+        "if(block.teamRegions[team.id] == block.teamRegion) Draw.color(team.color);",
+        "Draw.rect(block.teamRegions[team.id], x, y);",
+        "Draw.color();"
+      ],
+      "deferred_exprs": [
+        "Concrete TextureRegion identity and Draw.rect rendering stay owned by Godot rendering integration; this helper preserves guard visibility, conditional tint, draw coordinates, and color reset state."
+      ],
+      "source_symbols": [
+        "building_draw_team_top.method",
+        "building_draw_team_top.guard",
+        "building_draw_team_top.tint",
+        "building_draw_team_top.rect",
+        "building_draw_team_top.reset",
+        "building_draw_team_top.team_region_found",
+        "building_draw_team_top.team_region_matches_team",
+        "building_draw_team_top.team_color",
+        "building_draw_team_top.source_x",
+        "building_draw_team_top.source_y"
+      ],
+      "tests": [
+        "test_building_draw_team_top_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_team_top_state",
+      "rule": "Backfills SSOT for existing canonical source_building_draw_team_top_state helper against BuildingComp.drawTeamTop()."
     }
   },
   "version": 1

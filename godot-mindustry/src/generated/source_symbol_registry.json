@@ -17791,6 +17791,136 @@
         "test_building_draw_team_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_building_draw_team_state"
+    },
+    "building_draw_team_top.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawTeamTop()",
+      "java_expr": "public void drawTeamTop(){",
+      "godot_symbol": "source_building_draw_team_top_result.method",
+      "godot_owner": "PortGame.source_building_draw_team_top_state",
+      "rule": "Source drawTeamTop method declaration.",
+      "tests": [
+        "test_building_draw_team_top_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_team_top_state"
+    },
+    "building_draw_team_top.guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawTeamTop()",
+      "java_expr": "if(block.teamRegion.found()){",
+      "godot_symbol": "source_building_draw_team_top_result.visible",
+      "godot_owner": "PortGame.source_building_draw_team_top_state",
+      "rule": "drawTeamTop only draws when block.teamRegion.found() is true.",
+      "tests": [
+        "test_building_draw_team_top_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_team_top_state"
+    },
+    "building_draw_team_top.tint": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawTeamTop()",
+      "java_expr": "if(block.teamRegions[team.id] == block.teamRegion) Draw.color(team.color);",
+      "godot_symbol": "source_building_draw_team_top_result.tint_color",
+      "godot_owner": "PortGame.source_building_draw_team_top_state",
+      "rule": "drawTeamTop tints with team.color only when the team region matches block.teamRegion.",
+      "tests": [
+        "test_building_draw_team_top_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_team_top_state"
+    },
+    "building_draw_team_top.rect": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawTeamTop()",
+      "java_expr": "Draw.rect(block.teamRegions[team.id], x, y);",
+      "godot_symbol": "source_building_draw_team_top_result.rect",
+      "godot_owner": "PortGame.source_building_draw_team_top_state",
+      "rule": "drawTeamTop draws the team indexed region at source x/y.",
+      "tests": [
+        "test_building_draw_team_top_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_team_top_state"
+    },
+    "building_draw_team_top.reset": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawTeamTop()",
+      "java_expr": "Draw.color();",
+      "godot_symbol": "source_building_draw_team_top_result.color_reset",
+      "godot_owner": "PortGame.source_building_draw_team_top_state",
+      "rule": "drawTeamTop resets Draw color after drawing the team region.",
+      "tests": [
+        "test_building_draw_team_top_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_team_top_state"
+    },
+    "building_draw_team_top.team_region_found": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawTeamTop()",
+      "java_expr": "block.teamRegion.found()",
+      "godot_symbol": "source_building_draw_team_top_input.team_region_found",
+      "godot_owner": "PortGame.source_building_draw_team_top_state",
+      "rule": "Runtime team_region_found supplies block.teamRegion.found().",
+      "tests": [
+        "test_building_draw_team_top_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_team_top_state"
+    },
+    "building_draw_team_top.team_region_matches_team": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawTeamTop()",
+      "java_expr": "block.teamRegions[team.id] == block.teamRegion",
+      "godot_symbol": "source_building_draw_team_top_input.team_region_matches_team",
+      "godot_owner": "PortGame.source_building_draw_team_top_state",
+      "rule": "Runtime team_region_matches_team supplies the team-region identity comparison.",
+      "tests": [
+        "test_building_draw_team_top_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_team_top_state"
+    },
+    "building_draw_team_top.team_color": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawTeamTop()",
+      "java_expr": "team.color",
+      "godot_symbol": "source_building_draw_team_top_input.team_color",
+      "godot_owner": "PortGame.source_building_draw_team_top_state",
+      "rule": "Runtime team_color supplies team.color for the conditional tint.",
+      "tests": [
+        "test_building_draw_team_top_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_team_top_state"
+    },
+    "building_draw_team_top.source_x": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawTeamTop()",
+      "java_expr": "x",
+      "godot_symbol": "source_building_draw_team_top_input.source_x",
+      "godot_owner": "PortGame.source_building_draw_team_top_state",
+      "rule": "Runtime source_x supplies BuildingComp x.",
+      "tests": [
+        "test_building_draw_team_top_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_team_top_state"
+    },
+    "building_draw_team_top.source_y": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawTeamTop()",
+      "java_expr": "y",
+      "godot_symbol": "source_building_draw_team_top_input.source_y",
+      "godot_owner": "PortGame.source_building_draw_team_top_state",
+      "rule": "Runtime source_y supplies BuildingComp y.",
+      "tests": [
+        "test_building_draw_team_top_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_team_top_state"
     }
   }
 }
