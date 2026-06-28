@@ -3140,6 +3140,34 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_calculate_range_override_state",
       "rule": "Public runtime contract for BulletType.calculateRange rangeOverride positive early return."
+    },
+    "PortGame.source_bullet_type_calculate_range_spawn_unit_state": {
+      "status": "active",
+      "source_slice": "N472",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "calculateRange()",
+      "params": [
+        {
+          "name": "override_state",
+          "type": "Dictionary",
+          "schema": "calculate_range_override_result"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "spawnUnitRangeGatePassed",
+        "returnEarly",
+        "range",
+        "spawnUnit",
+        "spawnUnitReturnSource"
+      ],
+      "tests": [
+        "test_bullet_type_calculate_range_spawn_unit_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_spawn_unit_state",
+        "test_bullet_type_calculate_range_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_spawn_unit_state",
+      "rule": "Public runtime contract for BulletType.calculateRange spawnUnit early return after rangeOverride state."
     }
   },
   "policy": {

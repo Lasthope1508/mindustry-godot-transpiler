@@ -2075,7 +2075,6 @@
         "if(rangeOverride > 0) return rangeOverride;"
       ],
       "deferred_exprs": [
-        "if(spawnUnit != null) return spawnUnit.lifetime * spawnUnit.speed;",
         "if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed;",
         "return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange);"
       ],
@@ -2090,6 +2089,37 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_calculate_range_override_state",
       "rule": "Backfills SSOT for calculateRange rangeOverride positive gate; spawnUnit, despawnUnit, and fallback range remain separate source-backed slices."
+    },
+    "N472": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "calculateRange()",
+      "godot_owner": "PortGame.source_bullet_type_calculate_range_spawn_unit_state",
+      "exact_exprs": [
+        "public @Nullable UnitType spawnUnit;",
+        "if(rangeOverride > 0) return rangeOverride;",
+        "if(spawnUnit != null) return spawnUnit.lifetime * spawnUnit.speed;",
+        "public float lifetime = 60f * 5f;",
+        "public float speed = 1.1f,"
+      ],
+      "deferred_exprs": [
+        "if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed;",
+        "return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange);"
+      ],
+      "source_symbols": [
+        "calculate_range_spawn_unit.gate_return",
+        "calculate_range_spawn_unit.spawn_unit_field",
+        "calculate_range_spawn_unit.unit_type_lifetime_field",
+        "calculate_range_spawn_unit.unit_type_speed_field"
+      ],
+      "tests": [
+        "test_bullet_type_calculate_range_spawn_unit_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_spawn_unit_state",
+        "test_bullet_type_calculate_range_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_spawn_unit_state",
+      "rule": "Backfills SSOT for calculateRange spawnUnit branch after rangeOverride; despawnUnit and fallback range remain separate source-backed slices."
     }
   },
   "version": 1

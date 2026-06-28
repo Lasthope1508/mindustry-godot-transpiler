@@ -6933,6 +6933,66 @@
         "test_bullet_type_calculate_range_override_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_calculate_range_override_state"
+    },
+    "calculate_range_spawn_unit.gate_return": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "calculateRange()",
+      "java_expr": "if(spawnUnit != null) return spawnUnit.lifetime * spawnUnit.speed;",
+      "godot_symbol": "calculate_range_spawn_unit_result.range",
+      "godot_owner": "PortGame.source_bullet_type_calculate_range_spawn_unit_state",
+      "rule": "Exact calculateRange spawnUnit early return when no prior rangeOverride return exists.",
+      "tests": [
+        "test_bullet_type_calculate_range_spawn_unit_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_spawn_unit_state",
+        "test_bullet_type_calculate_range_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_spawn_unit_state"
+    },
+    "calculate_range_spawn_unit.spawn_unit_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "field",
+      "java_expr": "public @Nullable UnitType spawnUnit;",
+      "godot_symbol": "bullet_type_state.spawnUnit",
+      "godot_owner": "PortGame.source_bullet_type_calculate_range_spawn_unit_state",
+      "rule": "BulletType spawnUnit field gates calculateRange spawnUnit return when non-null.",
+      "tests": [
+        "test_bullet_type_calculate_range_spawn_unit_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_spawn_unit_state",
+        "test_bullet_type_calculate_range_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_spawn_unit_state"
+    },
+    "calculate_range_spawn_unit.unit_type_lifetime_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "field",
+      "java_expr": "public float lifetime = 60f * 5f;",
+      "godot_symbol": "unit_type_state.lifetime",
+      "godot_owner": "PortGame.source_bullet_type_calculate_range_spawn_unit_state",
+      "rule": "UnitType lifetime field participates in spawnUnit calculateRange return.",
+      "tests": [
+        "test_bullet_type_calculate_range_spawn_unit_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_spawn_unit_state",
+        "test_bullet_type_calculate_range_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_spawn_unit_state"
+    },
+    "calculate_range_spawn_unit.unit_type_speed_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "field",
+      "java_expr": "public float speed = 1.1f,",
+      "godot_symbol": "unit_type_state.speed",
+      "godot_owner": "PortGame.source_bullet_type_calculate_range_spawn_unit_state",
+      "rule": "UnitType speed field participates in spawnUnit calculateRange return.",
+      "tests": [
+        "test_bullet_type_calculate_range_spawn_unit_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_spawn_unit_state",
+        "test_bullet_type_calculate_range_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_spawn_unit_state"
     }
   }
 }

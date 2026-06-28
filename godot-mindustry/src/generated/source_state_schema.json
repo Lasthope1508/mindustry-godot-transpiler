@@ -1590,6 +1590,18 @@
             "PortGame.source_bullet_type_calculate_range_override_state"
           ],
           "rule": "Canonical BulletType.rangeOverride field; default is -1f."
+        },
+        "spawnUnit": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "field",
+          "java_expr": "spawnUnit",
+          "godot_symbol": "bullet_type_state.spawnUnit",
+          "used_by": [
+            "PortGame.source_bullet_type_calculate_range_spawn_unit_state"
+          ],
+          "rule": "Canonical BulletType.spawnUnit field; nullable UnitType used by create and calculateRange branches."
         }
       }
     },
@@ -10579,6 +10591,97 @@
           "godot_symbol": "calculate_range_override_result.rangeOverrideReturnSource",
           "alias_of": "source_line.calculate_range_override.gate_return",
           "rule": "Runtime source label for calculateRange rangeOverride early return."
+        }
+      }
+    },
+    "unit_type_state": {
+      "status": "active",
+      "keys": {
+        "lifetime": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "java_method": "field",
+          "java_expr": "lifetime",
+          "godot_symbol": "unit_type_state.lifetime",
+          "used_by": [
+            "PortGame.source_bullet_type_calculate_range_spawn_unit_state"
+          ],
+          "rule": "Canonical UnitType.lifetime field for missile lifetime; default is 60f * 5f."
+        },
+        "speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "java_method": "field",
+          "java_expr": "speed",
+          "godot_symbol": "unit_type_state.speed",
+          "used_by": [
+            "PortGame.source_bullet_type_calculate_range_spawn_unit_state"
+          ],
+          "rule": "Canonical UnitType.speed field; default begins at 1.1f in UnitType.java."
+        }
+      }
+    },
+    "calculate_range_spawn_unit_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "godot_symbol": "calculate_range_spawn_unit_result.bulletType",
+          "alias_of": "bullet_type_state",
+          "rule": "Updated BulletType state during calculateRange spawnUnit gate evaluation."
+        },
+        "spawnUnitRangeGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "calculateRange()",
+          "java_expr": "spawnUnit != null",
+          "godot_symbol": "calculate_range_spawn_unit_result.spawnUnitRangeGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_calculate_range_spawn_unit_state"
+          ],
+          "rule": "Whether calculateRange spawnUnit non-null gate passes after prior return check."
+        },
+        "returnEarly": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "calculateRange()",
+          "java_expr": "spawnUnit != null",
+          "godot_symbol": "calculate_range_spawn_unit_result.returnEarly",
+          "used_by": [
+            "PortGame.source_bullet_type_calculate_range_spawn_unit_state"
+          ],
+          "rule": "Whether calculateRange returns at the spawnUnit branch or earlier."
+        },
+        "range": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "calculateRange()",
+          "java_expr": "spawnUnit.lifetime * spawnUnit.speed",
+          "godot_symbol": "calculate_range_spawn_unit_result.range",
+          "used_by": [
+            "PortGame.source_bullet_type_calculate_range_spawn_unit_state"
+          ],
+          "rule": "Range result when spawnUnit non-null gate returns early; preserves prior or null range otherwise."
+        },
+        "spawnUnit": {
+          "type": "Variant",
+          "status": "source-backed",
+          "godot_symbol": "calculate_range_spawn_unit_result.spawnUnit",
+          "alias_of": "bullet_type_state.spawnUnit",
+          "rule": "Runtime spawnUnit returned only when spawnUnit branch applies."
+        },
+        "spawnUnitReturnSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "calculate_range_spawn_unit_result.spawnUnitReturnSource",
+          "alias_of": "source_line.calculate_range_spawn_unit.gate_return",
+          "rule": "Runtime source label for calculateRange spawnUnit early return."
         }
       }
     }
