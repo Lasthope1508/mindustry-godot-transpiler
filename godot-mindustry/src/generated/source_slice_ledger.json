@@ -2510,6 +2510,40 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_lifetime_payload_damage_state",
       "rule": "Backfills SSOT for existing BulletType.create lifetime, payload, hit size, mover, damage, and building-damage-multiplier runtime state; trail reset/add remains deferred to the next source-backed owner."
+    },
+    "N483": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "godot_owner": "PortGame.source_bullet_type_create_trail_add_state",
+      "exact_exprs": [
+        "if(bullet.trail != null){",
+        "bullet.trail.clear();",
+        "bullet.add();",
+        "transient @Nullable Trail trail;",
+        "public void add(){\n        type.init(self());\n    }",
+        "points.clear();"
+      ],
+      "deferred_exprs": [
+        "if(keepVelocity && owner instanceof Velc v){"
+      ],
+      "source_symbols": [
+        "create_trail_add.trail_null_guard",
+        "create_trail_add.trail_clear_call",
+        "create_trail_add.trail_clear_impl",
+        "create_trail_add.bullet_add_call",
+        "create_trail_add.bullet_comp_add",
+        "create_trail_add.bullet_comp_trail_field",
+        "create_trail_add.keep_velocity_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_trail_add_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_trail_add_state",
+        "test_bullet_type_create_trail_add_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_trail_add_state",
+      "rule": "Backfills SSOT for existing BulletType.create trail reset and Bullet.add runtime state; keepVelocity remains deferred to the next source-backed owner."
     }
   },
   "version": 1

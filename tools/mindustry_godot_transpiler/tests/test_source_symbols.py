@@ -2113,14 +2113,52 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(trail_clear_boundary["status"], "deferred")
         self.assertEqual(trail_clear_boundary["java_expr"], "if(bullet.trail != null){")
 
+    def test_bullet_type_create_trail_add_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        trail_null_guard = source_symbols.source_symbol(registry, "create_trail_add.trail_null_guard")
+        self.assertEqual(trail_null_guard["java_expr"], "if(bullet.trail != null){")
+        self.assertEqual(trail_null_guard["godot_symbol"], "create_trail_add_result.trailNullGuardSource")
+        self.assertEqual(trail_null_guard["godot_owner"], "PortGame.source_bullet_type_create_trail_add_state")
+        self.assertEqual(trail_null_guard["runtime_proof"], "/root/Main.source_bullet_type_create_trail_add_state")
+
+        trail_clear_call = source_symbols.source_symbol(registry, "create_trail_add.trail_clear_call")
+        self.assertEqual(trail_clear_call["java_expr"], "bullet.trail.clear();")
+        self.assertEqual(trail_clear_call["godot_symbol"], "create_trail_add_result.bullet.trail.points")
+
+        trail_clear_impl = source_symbols.source_symbol(registry, "create_trail_add.trail_clear_impl")
+        self.assertEqual(trail_clear_impl["java_source"], "core/src/mindustry/graphics/Trail.java")
+        self.assertEqual(trail_clear_impl["java_expr"], "points.clear();")
+        self.assertEqual(trail_clear_impl["godot_symbol"], "create_trail_add_result.bullet.trail.points")
+
+        bullet_add_call = source_symbols.source_symbol(registry, "create_trail_add.bullet_add_call")
+        self.assertEqual(bullet_add_call["java_expr"], "bullet.add();")
+        self.assertEqual(bullet_add_call["godot_symbol"], "create_trail_add_result.bulletAdded")
+
+        bullet_comp_add = source_symbols.source_symbol(registry, "create_trail_add.bullet_comp_add")
+        self.assertEqual(bullet_comp_add["java_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(bullet_comp_add["java_expr"], "public void add(){\n        type.init(self());\n    }")
+        self.assertEqual(bullet_comp_add["godot_symbol"], "create_trail_add_result.typeInitCall")
+
+        bullet_trail_field = source_symbols.source_symbol(registry, "create_trail_add.bullet_comp_trail_field")
+        self.assertEqual(bullet_trail_field["java_expr"], "transient @Nullable Trail trail;")
+        self.assertEqual(bullet_trail_field["godot_symbol"], "bullet_state.trail")
+
+        keep_velocity_boundary = source_symbols.source_symbol(registry, "create_trail_add.keep_velocity_boundary")
+        self.assertEqual(keep_velocity_boundary["status"], "deferred")
+        self.assertEqual(keep_velocity_boundary["java_expr"], "if(keepVelocity && owner instanceof Velc v){")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 80)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 81)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 85)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 86)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -2195,6 +2233,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_create_aim_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_velocity_position_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_lifetime_payload_damage_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_create_trail_add_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -2830,6 +2869,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float damageMultiplier(){\n        return type.damageMultiplier(self());\n    }", create_lifetime_payload_damage["exact_exprs"])
         self.assertIn("if(bullet.trail != null){", create_lifetime_payload_damage["deferred_exprs"])
         self.assertIn("bullet.add();", create_lifetime_payload_damage["deferred_exprs"])
+
+        create_trail_add = source_symbols.source_slice(ledger, "N483")
+        self.assertEqual(create_trail_add["java_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(create_trail_add["java_method"], "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)")
+        self.assertEqual(create_trail_add["godot_owner"], "PortGame.source_bullet_type_create_trail_add_state")
+        self.assertIn("if(bullet.trail != null){", create_trail_add["exact_exprs"])
+        self.assertIn("bullet.trail.clear();", create_trail_add["exact_exprs"])
+        self.assertIn("bullet.add();", create_trail_add["exact_exprs"])
+        self.assertIn("transient @Nullable Trail trail;", create_trail_add["exact_exprs"])
+        self.assertIn("public void add(){\n        type.init(self());\n    }", create_trail_add["exact_exprs"])
+        self.assertIn("points.clear();", create_trail_add["exact_exprs"])
+        self.assertIn("if(keepVelocity && owner instanceof Velc v){", create_trail_add["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -3605,6 +3656,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("trailClearReservedSource", create_lifetime_payload_damage["return_keys"])
         self.assertIn("addReservedSource", create_lifetime_payload_damage["return_keys"])
         self.assertEqual(create_lifetime_payload_damage["source_method"], "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)")
+
+        create_trail_add = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_create_trail_add_state")
+        self.assertEqual([param["name"] for param in create_trail_add["params"]], ["lifetime_payload_damage_state"])
+        self.assertEqual(create_trail_add["params"][0]["schema"], "create_lifetime_payload_damage_result")
+        self.assertIn("bulletTrailAddApplied", create_trail_add["return_keys"])
+        self.assertIn("trailCleared", create_trail_add["return_keys"])
+        self.assertIn("bulletAdded", create_trail_add["return_keys"])
+        self.assertIn("typeInitCalled", create_trail_add["return_keys"])
+        self.assertIn("typeInitCall", create_trail_add["return_keys"])
+        self.assertIn("bullet", create_trail_add["return_keys"])
+        self.assertIn("trailNullGuardSource", create_trail_add["return_keys"])
+        self.assertIn("trailClearSource", create_trail_add["return_keys"])
+        self.assertIn("trailClearImplSource", create_trail_add["return_keys"])
+        self.assertIn("bulletAddSource", create_trail_add["return_keys"])
+        self.assertIn("bulletCompAddSource", create_trail_add["return_keys"])
+        self.assertIn("keepVelocityReservedSource", create_trail_add["return_keys"])
+        self.assertEqual(create_trail_add["source_method"], "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -4434,6 +4502,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(create_lifetime_payload_damage_output["keys"]["lifetimeSource"]["alias_of"], "source_line.create_lifetime_payload_damage.lifetime_assignment")
         self.assertEqual(create_lifetime_payload_damage_output["keys"]["damageMultiplierSource"]["alias_of"], "source_line.create_lifetime_payload_damage.bullet_comp_damage_multiplier")
         self.assertEqual(create_lifetime_payload_damage_output["keys"]["trailClearReservedSource"]["alias_of"], "source_line.create_lifetime_payload_damage.trail_clear_boundary")
+
+        create_trail_add_output = source_symbols.state_schema(schema, "create_trail_add_result")
+        self.assertEqual(create_trail_add_output["keys"]["bulletTrailAddApplied"]["alias_of"], "if(bullet.trail != null){ bullet.trail.clear(); } bullet.add();")
+        self.assertEqual(create_trail_add_output["keys"]["trailCleared"]["java_expr"], "bullet.trail.clear();")
+        self.assertEqual(create_trail_add_output["keys"]["bulletAdded"]["java_expr"], "bullet.add();")
+        self.assertEqual(create_trail_add_output["keys"]["typeInitCalled"]["java_expr"], "type.init(self());")
+        self.assertEqual(create_trail_add_output["keys"]["bullet"]["alias_of"], "create_lifetime_payload_damage_result.bullet")
+        self.assertEqual(create_trail_add_output["keys"]["trailNullGuardSource"]["alias_of"], "source_line.create_trail_add.trail_null_guard")
+        self.assertEqual(create_trail_add_output["keys"]["trailClearSource"]["alias_of"], "source_line.create_trail_add.trail_clear_call")
+        self.assertEqual(create_trail_add_output["keys"]["trailClearImplSource"]["alias_of"], "source_line.create_trail_add.trail_clear_impl")
+        self.assertEqual(create_trail_add_output["keys"]["bulletAddSource"]["alias_of"], "source_line.create_trail_add.bullet_add_call")
+        self.assertEqual(create_trail_add_output["keys"]["bulletCompAddSource"]["alias_of"], "source_line.create_trail_add.bullet_comp_add")
+        self.assertEqual(create_trail_add_output["keys"]["keepVelocityReservedSource"]["alias_of"], "source_line.create_trail_add.keep_velocity_boundary")
+
+        self.assertEqual(bullet_state["keys"]["trail"]["godot_symbol"], "bullet_state.trail")
+        self.assertIn("PortGame.source_bullet_type_create_trail_add_state", bullet_state["keys"]["trail"]["used_by"])
 
         self.assertEqual(bullet_type_state["keys"]["lifeScaleRandMin"]["java_expr"], "lifeScaleRandMin")
         self.assertEqual(bullet_type_state["keys"]["lifeScaleRandMax"]["java_expr"], "lifeScaleRandMax")

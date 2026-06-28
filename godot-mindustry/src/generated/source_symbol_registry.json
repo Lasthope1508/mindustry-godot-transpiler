@@ -8449,6 +8449,109 @@
       "java_expr": "bullet.add();",
       "godot_symbol": "create_lifetime_payload_damage_result.addReservedSource",
       "rule": "Boundary for next trail reset/add slice; no bullet add behavior is inferred in N482."
+    },
+    "create_trail_add.trail_null_guard": {
+      "tests": [
+        "test_bullet_type_create_trail_add_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_trail_add_state",
+        "test_bullet_type_create_trail_add_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_trail_add_state",
+      "godot_owner": "PortGame.source_bullet_type_create_trail_add_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "if(bullet.trail != null){",
+      "godot_symbol": "create_trail_add_result.trailNullGuardSource",
+      "rule": "Null guard for optional Bullet.trail before clearing trail points."
+    },
+    "create_trail_add.trail_clear_call": {
+      "tests": [
+        "test_bullet_type_create_trail_add_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_trail_add_state",
+        "test_bullet_type_create_trail_add_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_trail_add_state",
+      "godot_owner": "PortGame.source_bullet_type_create_trail_add_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "bullet.trail.clear();",
+      "godot_symbol": "create_trail_add_result.bullet.trail.points",
+      "rule": "Clear Bullet.trail only inside the source null guard."
+    },
+    "create_trail_add.trail_clear_impl": {
+      "tests": [
+        "test_bullet_type_create_trail_add_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_trail_add_state",
+        "test_bullet_type_create_trail_add_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_trail_add_state",
+      "godot_owner": "PortGame.source_bullet_type_create_trail_add_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/graphics/Trail.java",
+      "java_method": "clear()",
+      "java_expr": "points.clear();",
+      "godot_symbol": "create_trail_add_result.bullet.trail.points",
+      "rule": "Trail.clear() empties Trail.points; runtime represents this as an empty points array."
+    },
+    "create_trail_add.bullet_add_call": {
+      "tests": [
+        "test_bullet_type_create_trail_add_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_trail_add_state",
+        "test_bullet_type_create_trail_add_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_trail_add_state",
+      "godot_owner": "PortGame.source_bullet_type_create_trail_add_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "bullet.add();",
+      "godot_symbol": "create_trail_add_result.bulletAdded",
+      "rule": "Call Bullet.add() immediately after optional trail reset."
+    },
+    "create_trail_add.bullet_comp_add": {
+      "tests": [
+        "test_bullet_type_create_trail_add_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_trail_add_state",
+        "test_bullet_type_create_trail_add_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_trail_add_state",
+      "godot_owner": "PortGame.source_bullet_type_create_trail_add_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "java_method": "add()",
+      "java_expr": "public void add(){\n        type.init(self());\n    }",
+      "godot_symbol": "create_trail_add_result.typeInitCall",
+      "rule": "BulletComp.add() delegates to type.init(self()); runtime records this call without expanding init internals."
+    },
+    "create_trail_add.bullet_comp_trail_field": {
+      "tests": [
+        "test_bullet_type_create_trail_add_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_trail_add_state",
+        "test_bullet_type_create_trail_add_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_trail_add_state",
+      "godot_owner": "PortGame.source_bullet_type_create_trail_add_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "java_method": "BulletComp fields",
+      "java_expr": "transient @Nullable Trail trail;",
+      "godot_symbol": "bullet_state.trail",
+      "rule": "Canonical nullable Bullet.trail field used by the trail reset guard."
+    },
+    "create_trail_add.keep_velocity_boundary": {
+      "tests": [
+        "test_bullet_type_create_trail_add_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_trail_add_state",
+        "test_bullet_type_create_trail_add_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_trail_add_state",
+      "godot_owner": "PortGame.source_bullet_type_create_trail_add_state",
+      "status": "deferred",
+      "java_expr": "if(keepVelocity && owner instanceof Velc v){",
+      "godot_symbol": "create_trail_add_result.keepVelocityReservedSource",
+      "rule": "Boundary for next keep-velocity slice; no owner velocity behavior is inferred in N483."
     }
   }
 }

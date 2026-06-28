@@ -7,7 +7,7 @@
     "PortGame.source_symbol_audit_state",
     "PortGame.source_symbol_registry_state"
   ],
-  "legacyUnregisteredOwnerCount": 403,
+  "legacyUnregisteredOwnerCount": 402,
   "legacyUnregisteredOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -206,7 +206,6 @@
     "PortGame.source_bullet_scale",
     "PortGame.source_bullet_texture",
     "PortGame.source_bullet_type_create_keep_velocity_state",
-    "PortGame.source_bullet_type_create_trail_add_state",
     "PortGame.source_bullet_velocity",
     "PortGame.source_bullet_velocity_vector_state",
     "PortGame.source_bullet_world_speed",
@@ -417,7 +416,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 80,
+  "registeredSourceOwnerCount": 81,
   "registeredSourceOwners": [
     "PortGame.source_bullet_type_building_damage_state",
     "PortGame.source_bullet_type_calculate_range_despawn_unit_state",
@@ -442,6 +441,7 @@
     "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state",
     "PortGame.source_bullet_type_create_splash_damage_make_fire_dispatch_state",
     "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state",
+    "PortGame.source_bullet_type_create_trail_add_state",
     "PortGame.source_bullet_type_create_units_initial_state",
     "PortGame.source_bullet_type_create_units_notify_state",
     "PortGame.source_bullet_type_create_units_random_offset_state",

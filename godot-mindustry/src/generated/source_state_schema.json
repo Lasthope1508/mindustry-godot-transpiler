@@ -191,7 +191,8 @@
           "godot_symbol": "bullet_state.trail",
           "used_by": [
             "PortGame.source_bullet_type_removed_trail_fade_state",
-            "PortGame.source_bullet_type_update_trail_state"
+            "PortGame.source_bullet_type_update_trail_state",
+            "PortGame.source_bullet_type_create_trail_add_state"
           ],
           "rule": "Explicit Bullet.trail snapshot; nested size pins b.trail.size() for removed trail fade."
         },
@@ -11982,6 +11983,113 @@
           "status": "deferred",
           "alias_of": "source_line.create_lifetime_payload_damage.add_boundary",
           "rule": "Boundary for deferred bullet add slice."
+        }
+      }
+    },
+    "create_trail_add_result": {
+      "status": "active",
+      "keys": {
+        "bulletContinues": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "create_lifetime_payload_damage_result.bulletContinues",
+          "rule": "Whether create chain continues after trail reset/add handling."
+        },
+        "bulletTrailAddApplied": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "if(bullet.trail != null){ bullet.trail.clear(); } bullet.add();",
+          "rule": "Whether trail reset and Bullet.add handling ran."
+        },
+        "trailCleared": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "bullet.trail.clear();",
+          "godot_symbol": "create_trail_add_result.trailCleared",
+          "used_by": [
+            "PortGame.source_bullet_type_create_trail_add_state"
+          ],
+          "rule": "True only when source nullable trail guard has a non-null trail."
+        },
+        "bulletAdded": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "bullet.add();",
+          "godot_symbol": "create_trail_add_result.bulletAdded",
+          "used_by": [
+            "PortGame.source_bullet_type_create_trail_add_state"
+          ],
+          "rule": "Records the source Bullet.add() call."
+        },
+        "typeInitCalled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "java_method": "add()",
+          "java_expr": "type.init(self());",
+          "godot_symbol": "create_trail_add_result.typeInitCalled",
+          "used_by": [
+            "PortGame.source_bullet_type_create_trail_add_state"
+          ],
+          "rule": "Records BulletComp.add() delegation to type.init(self())."
+        },
+        "typeInitCall": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "java_method": "add()",
+          "java_expr": "type.init(self());",
+          "godot_symbol": "create_trail_add_result.typeInitCall",
+          "used_by": [
+            "PortGame.source_bullet_type_create_trail_add_state"
+          ],
+          "rule": "Structured runtime proof of type.init(self()) call."
+        },
+        "bullet": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "create_lifetime_payload_damage_result.bullet",
+          "rule": "Bullet dictionary after optional trail clear and Bullet.add."
+        },
+        "trailNullGuardSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_trail_add.trail_null_guard",
+          "rule": "Runtime source label for nullable trail guard."
+        },
+        "trailClearSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_trail_add.trail_clear_call",
+          "rule": "Runtime source label for bullet.trail.clear()."
+        },
+        "trailClearImplSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_trail_add.trail_clear_impl",
+          "rule": "Runtime source label for Trail.clear() points.clear()."
+        },
+        "bulletAddSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_trail_add.bullet_add_call",
+          "rule": "Runtime source label for bullet.add()."
+        },
+        "bulletCompAddSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_trail_add.bullet_comp_add",
+          "rule": "Runtime source label for BulletComp.add() internals."
+        },
+        "keepVelocityReservedSource": {
+          "type": "String",
+          "status": "deferred",
+          "alias_of": "source_line.create_trail_add.keep_velocity_boundary",
+          "rule": "Boundary for deferred keepVelocity slice."
         }
       }
     }

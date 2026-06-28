@@ -3607,6 +3607,41 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_lifetime_payload_damage_state",
       "rule": "Public runtime contract for BulletType.create lifetime, payload, hit size, mover, damage, and building damage multiplier before trail reset/add."
+    },
+    "PortGame.source_bullet_type_create_trail_add_state": {
+      "status": "active",
+      "source_slice": "N483",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "params": [
+        {
+          "name": "lifetime_payload_damage_state",
+          "type": "Dictionary",
+          "schema": "create_lifetime_payload_damage_result"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "bulletTrailAddApplied",
+        "trailCleared",
+        "bulletAdded",
+        "typeInitCalled",
+        "typeInitCall",
+        "bullet",
+        "trailNullGuardSource",
+        "trailClearSource",
+        "trailClearImplSource",
+        "bulletAddSource",
+        "bulletCompAddSource",
+        "keepVelocityReservedSource"
+      ],
+      "tests": [
+        "test_bullet_type_create_trail_add_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_trail_add_state",
+        "test_bullet_type_create_trail_add_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_trail_add_state",
+      "rule": "Public runtime contract for BulletType.create trail reset and Bullet.add before keepVelocity owner velocity merge."
     }
   },
   "policy": {
