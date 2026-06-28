@@ -3039,6 +3039,40 @@
       ],
       "runtime_proof": "/root/Main.source_arc_lerp_delta",
       "rule": "Backfills SSOT for existing canonical source_arc_lerp_delta helper against Arc Mathf.lerpDelta, clamp(float), and lerp(float,float,float)."
+    },
+    "N500": {
+      "status": "done",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_class": "arc.math.Mathf",
+      "java_method": "cos(float radians)",
+      "godot_owner": "PortGame.source_arc_mathf_cos_lookup",
+      "exact_exprs": [
+        "public static float cos(float radians){\n        return sinTable[(int)((radians + PI / 2) * radToIndex) & sinMask];\n    }",
+        "private static final int sinBits = 14;",
+        "private static final int sinMask = ~(-1 << sinBits);",
+        "private static final int sinCount = sinMask + 1;",
+        "private static final float radToIndex = sinCount / radFull;",
+        "sinTable[i] = (float)Math.sin((i + 0.5f) / sinCount * radFull);",
+        "return sinTable[(int)((radians + PI / 2) * radToIndex) & sinMask];",
+        "(int)((radians + PI / 2) * radToIndex) & sinMask",
+        "radians"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "arc_mathf_cos_lookup.method",
+        "arc_mathf_cos_lookup.index_expr",
+        "arc_mathf_cos_lookup.sin_bits",
+        "arc_mathf_cos_lookup.sin_mask",
+        "arc_mathf_cos_lookup.sin_count",
+        "arc_mathf_cos_lookup.rad_to_index",
+        "arc_mathf_cos_lookup.sin_table_init",
+        "arc_mathf_cos_lookup.radians_input"
+      ],
+      "tests": [
+        "test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_lookup",
+      "rule": "Backfills SSOT for existing canonical source_arc_mathf_cos_lookup helper against Arc Mathf.cos and sine table lookup constants."
     }
   },
   "version": 1

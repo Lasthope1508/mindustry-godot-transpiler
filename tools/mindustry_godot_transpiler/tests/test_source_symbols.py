@@ -2341,6 +2341,31 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(delta_input["java_expr"], "Time.delta")
         self.assertEqual(delta_input["godot_symbol"], "source_arc_lerp_delta_input.sourceDelta")
 
+    def test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "arc_mathf_cos_lookup.method")
+        self.assertEqual(method["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(method["java_expr"], "public static float cos(float radians){\n        return sinTable[(int)((radians + PI / 2) * radToIndex) & sinMask];\n    }")
+        self.assertEqual(method["godot_owner"], "PortGame.source_arc_mathf_cos_lookup")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_arc_mathf_cos_lookup")
+
+        index_expr = source_symbols.source_symbol(registry, "arc_mathf_cos_lookup.index_expr")
+        self.assertEqual(index_expr["java_expr"], "(int)((radians + PI / 2) * radToIndex) & sinMask")
+        self.assertEqual(index_expr["godot_symbol"], "source_arc_mathf_cos_lookup_result.index")
+
+        table_init = source_symbols.source_symbol(registry, "arc_mathf_cos_lookup.sin_table_init")
+        self.assertEqual(table_init["java_expr"], "sinTable[i] = (float)Math.sin((i + 0.5f) / sinCount * radFull);")
+        self.assertEqual(table_init["godot_symbol"], "source_arc_mathf_cos_lookup_result.tableValueSource")
+
+        radians_input = source_symbols.source_symbol(registry, "arc_mathf_cos_lookup.radians_input")
+        self.assertEqual(radians_input["status"], "explicit-input")
+        self.assertEqual(radians_input["java_expr"], "radians")
+        self.assertEqual(radians_input["godot_symbol"], "source_arc_mathf_cos_lookup_input.radians")
+
     def test_arc_angles_angle_distance_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -2550,9 +2575,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 97)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 98)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 102)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 103)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -2651,6 +2676,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_arc_chance_delta_threshold", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_is_power_of_two", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_lerp_delta", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_arc_mathf_cos_lookup", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -3414,6 +3440,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(arc_lerp_delta["godot_owner"], "PortGame.source_arc_lerp_delta")
         self.assertIn("public static float lerpDelta(float fromValue, float toValue, float progress){\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\n    }", arc_lerp_delta["exact_exprs"])
         self.assertIn("public static float lerp(float fromValue, float toValue, float progress){\n        return fromValue + (toValue - fromValue) * progress;\n    }", arc_lerp_delta["exact_exprs"])
+
+        arc_mathf_cos_lookup = source_symbols.source_slice(ledger, "N500")
+        self.assertEqual(arc_mathf_cos_lookup["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(arc_mathf_cos_lookup["java_method"], "cos(float radians)")
+        self.assertEqual(arc_mathf_cos_lookup["godot_owner"], "PortGame.source_arc_mathf_cos_lookup")
+        self.assertIn("public static float cos(float radians){\n        return sinTable[(int)((radians + PI / 2) * radToIndex) & sinMask];\n    }", arc_mathf_cos_lookup["exact_exprs"])
+        self.assertIn("private static final int sinBits = 14;", arc_mathf_cos_lookup["exact_exprs"])
+        self.assertIn("private static final float radToIndex = sinCount / radFull;", arc_mathf_cos_lookup["exact_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -4330,6 +4364,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("clampedProgress", arc_lerp_delta["return_keys"])
         self.assertIn("lerpDelta", arc_lerp_delta["return_keys"])
         self.assertEqual(arc_lerp_delta["source_method"], "lerpDelta(float fromValue, float toValue, float progress)")
+
+        arc_mathf_cos_lookup = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_lookup")
+        self.assertEqual([param["name"] for param in arc_mathf_cos_lookup["params"]], ["radians"])
+        self.assertEqual(arc_mathf_cos_lookup["params"][0]["schema"], "source_arc_mathf_cos_lookup_input.radians")
+        self.assertIn("index", arc_mathf_cos_lookup["return_keys"])
+        self.assertIn("cos", arc_mathf_cos_lookup["return_keys"])
+        self.assertEqual(arc_mathf_cos_lookup["source_method"], "cos(float radians)")
 
         angle_distance = source_symbols.api_contract(contracts, "PortGame.source_angle_distance")
         self.assertEqual([param["name"] for param in angle_distance["params"]], ["current_degrees", "target_degrees"])
@@ -5355,6 +5396,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_arc_lerp_delta_result["keys"]["lerpDelta"]["java_expr"], "return lerp(fromValue, toValue, clamp(progress * Time.delta));")
         self.assertEqual(source_arc_lerp_delta_result["keys"]["fromValue"]["alias_of"], "source_arc_lerp_delta_input.fromValue")
         self.assertEqual(source_arc_lerp_delta_result["keys"]["sourceDelta"]["alias_of"], "source_arc_lerp_delta_input.sourceDelta")
+
+        source_arc_mathf_cos_lookup_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_lookup_input")
+        self.assertEqual(source_arc_mathf_cos_lookup_input["keys"]["radians"]["java_expr"], "radians")
+        self.assertEqual(source_arc_mathf_cos_lookup_input["keys"]["radians"]["status"], "explicit-input")
+
+        source_arc_mathf_cos_lookup_result = source_symbols.state_schema(schema, "source_arc_mathf_cos_lookup_result")
+        self.assertEqual(source_arc_mathf_cos_lookup_result["keys"]["index"]["java_expr"], "(int)((radians + PI / 2) * radToIndex) & sinMask")
+        self.assertEqual(source_arc_mathf_cos_lookup_result["keys"]["cos"]["java_expr"], "return sinTable[(int)((radians + PI / 2) * radToIndex) & sinMask];")
+        self.assertEqual(source_arc_mathf_cos_lookup_result["keys"]["tableValueSource"]["java_expr"], "sinTable[i] = (float)Math.sin((i + 0.5f) / sinCount * radFull);")
+        self.assertEqual(source_arc_mathf_cos_lookup_result["keys"]["radians"]["alias_of"], "source_arc_mathf_cos_lookup_input.radians")
 
         source_angle_distance_input = source_symbols.state_schema(schema, "source_angle_distance_input")
         self.assertEqual(source_angle_distance_input["keys"]["currentDegrees"]["java_expr"], "a")

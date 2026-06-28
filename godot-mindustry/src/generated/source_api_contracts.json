@@ -4191,6 +4191,34 @@
       ],
       "runtime_proof": "/root/Main.source_arc_lerp_delta",
       "rule": "Public runtime contract for Arc Mathf.lerpDelta helper with explicit Time.delta input."
+    },
+    "PortGame.source_arc_mathf_cos_lookup": {
+      "status": "active",
+      "source_slice": "N500",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "source_method": "cos(float radians)",
+      "params": [
+        {
+          "name": "radians",
+          "type": "float",
+          "schema": "source_arc_mathf_cos_lookup_input.radians"
+        }
+      ],
+      "return_keys": [
+        "index",
+        "cos",
+        "radians",
+        "sinBits",
+        "sinMask",
+        "sinCount",
+        "radToIndex",
+        "tableValueSource"
+      ],
+      "tests": [
+        "test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_lookup",
+      "rule": "Public runtime contract for Arc Mathf.cos lookup helper."
     }
   },
   "policy": {

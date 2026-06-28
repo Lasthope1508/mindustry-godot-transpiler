@@ -10004,6 +10004,110 @@
       "java_expr": "Time.delta",
       "godot_symbol": "source_arc_lerp_delta_input.sourceDelta",
       "rule": "Runtime source_delta supplies Java Time.delta."
+    },
+    "arc_mathf_cos_lookup.method": {
+      "tests": [
+        "test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_lookup",
+      "godot_owner": "PortGame.source_arc_mathf_cos_lookup",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "cos(float radians)",
+      "status": "source-backed",
+      "java_expr": "public static float cos(float radians){\n        return sinTable[(int)((radians + PI / 2) * radToIndex) & sinMask];\n    }",
+      "godot_symbol": "source_arc_mathf_cos_lookup_result.cos",
+      "rule": "Arc Mathf.cos uses the sine lookup table offset by PI / 2."
+    },
+    "arc_mathf_cos_lookup.index_expr": {
+      "tests": [
+        "test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_lookup",
+      "godot_owner": "PortGame.source_arc_mathf_cos_lookup",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "cos(float radians)",
+      "status": "source-backed",
+      "java_expr": "(int)((radians + PI / 2) * radToIndex) & sinMask",
+      "godot_symbol": "source_arc_mathf_cos_lookup_result.index",
+      "rule": "Cosine lookup index with PI / 2 offset and sinMask."
+    },
+    "arc_mathf_cos_lookup.sin_bits": {
+      "tests": [
+        "test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_lookup",
+      "godot_owner": "PortGame.source_arc_mathf_cos_lookup",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "cos(float radians)",
+      "status": "source-backed",
+      "java_expr": "private static final int sinBits = 14;",
+      "godot_symbol": "source_arc_mathf_cos_lookup_result.sinBits",
+      "rule": "Source lookup table bit count."
+    },
+    "arc_mathf_cos_lookup.sin_mask": {
+      "tests": [
+        "test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_lookup",
+      "godot_owner": "PortGame.source_arc_mathf_cos_lookup",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "cos(float radians)",
+      "status": "source-backed",
+      "java_expr": "private static final int sinMask = ~(-1 << sinBits);",
+      "godot_symbol": "source_arc_mathf_cos_lookup_result.sinMask",
+      "rule": "Source lookup table mask."
+    },
+    "arc_mathf_cos_lookup.sin_count": {
+      "tests": [
+        "test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_lookup",
+      "godot_owner": "PortGame.source_arc_mathf_cos_lookup",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "cos(float radians)",
+      "status": "source-backed",
+      "java_expr": "private static final int sinCount = sinMask + 1;",
+      "godot_symbol": "source_arc_mathf_cos_lookup_result.sinCount",
+      "rule": "Source lookup table count."
+    },
+    "arc_mathf_cos_lookup.rad_to_index": {
+      "tests": [
+        "test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_lookup",
+      "godot_owner": "PortGame.source_arc_mathf_cos_lookup",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "cos(float radians)",
+      "status": "source-backed",
+      "java_expr": "private static final float radToIndex = sinCount / radFull;",
+      "godot_symbol": "source_arc_mathf_cos_lookup_result.radToIndex",
+      "rule": "Radians to lookup-table index scale."
+    },
+    "arc_mathf_cos_lookup.sin_table_init": {
+      "tests": [
+        "test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_lookup",
+      "godot_owner": "PortGame.source_arc_mathf_cos_lookup",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "cos(float radians)",
+      "status": "source-backed",
+      "java_expr": "sinTable[i] = (float)Math.sin((i + 0.5f) / sinCount * radFull);",
+      "godot_symbol": "source_arc_mathf_cos_lookup_result.tableValueSource",
+      "rule": "Default sine table entry formula used by cosine lookup."
+    },
+    "arc_mathf_cos_lookup.radians_input": {
+      "tests": [
+        "test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_lookup",
+      "godot_owner": "PortGame.source_arc_mathf_cos_lookup",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "cos(float radians)",
+      "status": "explicit-input",
+      "java_expr": "radians",
+      "godot_symbol": "source_arc_mathf_cos_lookup_input.radians",
+      "rule": "Runtime radians maps to Java radians parameter."
     }
   }
 }
