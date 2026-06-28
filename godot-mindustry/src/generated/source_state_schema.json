@@ -18757,6 +18757,88 @@
           "rule": "Carries configured value state into result schema boundary."
         }
       }
+    },
+    "source_building_consume_input": {
+      "status": "active",
+      "keys": {
+        "consumers": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "consume()",
+          "java_expr": "block.consumers",
+          "godot_symbol": "source_building_consume_input.consumers",
+          "used_by": [
+            "PortGame.source_building_consume_state"
+          ],
+          "rule": "Block consumers array supplied to consume helper."
+        },
+        "self_state": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "consume()",
+          "java_expr": "self()",
+          "godot_symbol": "source_building_consume_input.self_state",
+          "used_by": [
+            "PortGame.source_building_consume_state"
+          ],
+          "rule": "Building self target supplied to consumer triggers."
+        }
+      }
+    },
+    "source_building_consume_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "consume()",
+          "java_expr": "public void consume(){",
+          "godot_symbol": "source_building_consume_result.method",
+          "used_by": [
+            "PortGame.source_building_consume_state"
+          ],
+          "rule": "Consume method boundary."
+        },
+        "loop": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "consume()",
+          "java_expr": "for(Consume cons : block.consumers){",
+          "godot_symbol": "source_building_consume_result.loop",
+          "used_by": [
+            "PortGame.source_building_consume_state"
+          ],
+          "rule": "Consumer iteration source line."
+        },
+        "triggered": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "consume()",
+          "java_expr": "cons.trigger(self());",
+          "godot_symbol": "source_building_consume_result.triggered",
+          "used_by": [
+            "PortGame.source_building_consume_state"
+          ],
+          "rule": "Consumer trigger calls represented as runtime trigger records."
+        },
+        "consumers": {
+          "type": "Array",
+          "status": "generated",
+          "alias_of": "source_building_consume_input.consumers",
+          "rule": "Carries consumers input into result schema boundary."
+        },
+        "self_state": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_consume_input.self_state",
+          "rule": "Carries self target input into result schema boundary."
+        }
+      }
     }
   },
   "version": 1

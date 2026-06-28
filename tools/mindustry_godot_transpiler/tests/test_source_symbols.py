@@ -3654,6 +3654,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(value_state["java_expr"], "value")
         self.assertEqual(value_state["godot_symbol"], "source_building_configured_type_input.value_state")
 
+    def test_building_consume_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_consume.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "consume()")
+        self.assertEqual(method["java_expr"], "public void consume(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_consume_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_consume_state")
+        self.assertEqual(method["godot_symbol"], "source_building_consume_result.method")
+
+        loop = source_symbols.source_symbol(registry, "building_consume.loop")
+        self.assertEqual(loop["java_expr"], "for(Consume cons : block.consumers){")
+        self.assertEqual(loop["godot_symbol"], "source_building_consume_result.triggered")
+
+        trigger_call = source_symbols.source_symbol(registry, "building_consume.trigger_call")
+        self.assertEqual(trigger_call["java_expr"], "cons.trigger(self());")
+        self.assertEqual(trigger_call["godot_symbol"], "source_building_consume_result.triggered")
+
+        consumers = source_symbols.source_symbol(registry, "building_consume.consumers")
+        self.assertEqual(consumers["status"], "explicit-input")
+        self.assertEqual(consumers["java_expr"], "block.consumers")
+        self.assertEqual(consumers["godot_symbol"], "source_building_consume_input.consumers")
+
+        self_state = source_symbols.source_symbol(registry, "building_consume.self_state")
+        self.assertEqual(self_state["status"], "explicit-input")
+        self.assertEqual(self_state["java_expr"], "self()")
+        self.assertEqual(self_state["godot_symbol"], "source_building_consume_input.self_state")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3938,9 +3970,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 147)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 148)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 152)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 153)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -4089,6 +4121,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_configured_direct_handler_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_configured_last_access_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_configured_type_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_consume_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -5248,6 +5281,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(value instanceof Block) type = Block.class;", building_configured_type["exact_exprs"])
         self.assertIn("if(value instanceof Liquid) type = Liquid.class;", building_configured_type["exact_exprs"])
         self.assertIn("if(value instanceof UnitType) type = UnitType.class;", building_configured_type["exact_exprs"])
+
+        building_consume = source_symbols.source_slice(ledger, "N550")
+        self.assertEqual(building_consume["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_consume["java_method"], "consume()")
+        self.assertEqual(building_consume["godot_owner"], "PortGame.source_building_consume_state")
+        self.assertIn("public void consume(){", building_consume["exact_exprs"])
+        self.assertIn("for(Consume cons : block.consumers){", building_consume["exact_exprs"])
+        self.assertIn("cons.trigger(self());", building_consume["exact_exprs"])
+        self.assertIn("block.consumers", building_consume["exact_exprs"])
+        self.assertIn("self()", building_consume["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -6535,6 +6578,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_configured_type["params"][0]["schema"], "source_building_configured_type_input.value_state")
         self.assertIn("type_name", building_configured_type["return_keys"])
         self.assertEqual(building_configured_type["source_method"], "configured(@Nullable Unit builder, @Nullable Object value)")
+
+        building_consume = source_symbols.api_contract(contracts, "PortGame.source_building_consume_state")
+        self.assertEqual([param["name"] for param in building_consume["params"]], ["consumers", "self_state"])
+        self.assertEqual(building_consume["params"][0]["schema"], "source_building_consume_input.consumers")
+        self.assertEqual(building_consume["params"][1]["schema"], "source_building_consume_input.self_state")
+        self.assertIn("triggered", building_consume["return_keys"])
+        self.assertEqual(building_consume["source_method"], "consume()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -8093,6 +8143,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_configured_type_result["keys"]["liquid_override"]["java_expr"], "if(value instanceof Liquid) type = Liquid.class;")
         self.assertEqual(source_building_configured_type_result["keys"]["unit_type_override"]["java_expr"], "if(value instanceof UnitType) type = UnitType.class;")
         self.assertEqual(source_building_configured_type_result["keys"]["value_state"]["alias_of"], "source_building_configured_type_input.value_state")
+
+        source_building_consume_input = source_symbols.state_schema(schema, "source_building_consume_input")
+        self.assertEqual(source_building_consume_input["keys"]["consumers"]["java_expr"], "block.consumers")
+        self.assertEqual(source_building_consume_input["keys"]["consumers"]["status"], "explicit-input")
+        self.assertEqual(source_building_consume_input["keys"]["self_state"]["java_expr"], "self()")
+
+        source_building_consume_result = source_symbols.state_schema(schema, "source_building_consume_result")
+        self.assertEqual(source_building_consume_result["keys"]["method"]["java_expr"], "public void consume(){")
+        self.assertEqual(source_building_consume_result["keys"]["loop"]["java_expr"], "for(Consume cons : block.consumers){")
+        self.assertEqual(source_building_consume_result["keys"]["triggered"]["java_expr"], "cons.trigger(self());")
+        self.assertEqual(source_building_consume_result["keys"]["consumers"]["alias_of"], "source_building_consume_input.consumers")
+        self.assertEqual(source_building_consume_result["keys"]["self_state"]["alias_of"], "source_building_consume_input.self_state")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

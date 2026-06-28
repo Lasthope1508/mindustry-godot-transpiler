@@ -14424,6 +14424,71 @@
       "java_expr": "value",
       "godot_symbol": "source_building_configured_type_input.value_state",
       "rule": "Configured value state supplied to type resolution helper."
+    },
+    "building_consume.method": {
+      "tests": [
+        "test_building_consume_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_consume_state",
+      "godot_owner": "PortGame.source_building_consume_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "consume()",
+      "status": "source-backed",
+      "java_expr": "public void consume(){",
+      "godot_symbol": "source_building_consume_result.method",
+      "rule": "BuildingComp consume method boundary."
+    },
+    "building_consume.loop": {
+      "tests": [
+        "test_building_consume_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_consume_state",
+      "godot_owner": "PortGame.source_building_consume_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "consume()",
+      "status": "source-backed",
+      "java_expr": "for(Consume cons : block.consumers){",
+      "godot_symbol": "source_building_consume_result.triggered",
+      "rule": "Consume loops over all block consumers."
+    },
+    "building_consume.trigger_call": {
+      "tests": [
+        "test_building_consume_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_consume_state",
+      "godot_owner": "PortGame.source_building_consume_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "consume()",
+      "status": "source-backed",
+      "java_expr": "cons.trigger(self());",
+      "godot_symbol": "source_building_consume_result.triggered",
+      "rule": "Each consumer is triggered with self()."
+    },
+    "building_consume.consumers": {
+      "tests": [
+        "test_building_consume_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_consume_state",
+      "godot_owner": "PortGame.source_building_consume_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "consume()",
+      "status": "explicit-input",
+      "java_expr": "block.consumers",
+      "godot_symbol": "source_building_consume_input.consumers",
+      "rule": "Consumer array supplied from block.consumers."
+    },
+    "building_consume.self_state": {
+      "tests": [
+        "test_building_consume_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_consume_state",
+      "godot_owner": "PortGame.source_building_consume_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "consume()",
+      "status": "explicit-input",
+      "java_expr": "self()",
+      "godot_symbol": "source_building_consume_input.self_state",
+      "rule": "Building self() supplied as trigger target."
     }
   }
 }

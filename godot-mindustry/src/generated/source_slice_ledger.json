@@ -4643,6 +4643,35 @@
       ],
       "runtime_proof": "/root/Main.source_building_configured_type_state",
       "rule": "Backfills SSOT for existing canonical source_building_configured_type_state helper against BuildingComp.configured type resolution."
+    },
+    "N550": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "consume()",
+      "godot_owner": "PortGame.source_building_consume_state",
+      "exact_exprs": [
+        "public void consume(){",
+        "for(Consume cons : block.consumers){",
+        "cons.trigger(self());",
+        "block.consumers",
+        "self()"
+      ],
+      "deferred_exprs": [
+        "Concrete consumer trigger side effects belong to individual Consume implementations."
+      ],
+      "source_symbols": [
+        "building_consume.method",
+        "building_consume.loop",
+        "building_consume.trigger_call",
+        "building_consume.consumers",
+        "building_consume.self_state"
+      ],
+      "tests": [
+        "test_building_consume_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_consume_state",
+      "rule": "Backfills SSOT for existing canonical source_building_consume_state helper against BuildingComp.consume consumer trigger loop."
     }
   },
   "version": 1
