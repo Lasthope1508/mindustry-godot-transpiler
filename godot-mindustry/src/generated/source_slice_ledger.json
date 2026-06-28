@@ -6189,6 +6189,35 @@
       ],
       "runtime_proof": "/root/Main.source_building_is_payload_state",
       "rule": "Backfills SSOT for existing canonical source_building_is_payload_state helper against BuildingComp.isPayload()."
+    },
+    "N599": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "isValid()",
+      "godot_owner": "PortGame.source_building_is_valid",
+      "exact_exprs": [
+        "@Replace",
+        "@Override",
+        "public boolean isValid(){",
+        "return tile.build == self() && !dead();",
+        "tile.build == self()",
+        "dead()"
+      ],
+      "deferred_exprs": [
+        "Concrete tile.build object identity and dead() lifecycle mutation remain owned by world/entity runtime slices."
+      ],
+      "source_symbols": [
+        "building_is_valid.method",
+        "building_is_valid.result",
+        "building_is_valid.tile_build_matches_self",
+        "building_is_valid.dead_state"
+      ],
+      "tests": [
+        "test_building_is_valid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_valid",
+      "rule": "Backfills SSOT for existing canonical source_building_is_valid helper against BuildingComp.isValid()."
     }
   },
   "version": 1

@@ -5187,6 +5187,34 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(tile_is_empty_tile["java_expr"], "tile == emptyTile")
         self.assertEqual(tile_is_empty_tile["godot_symbol"], "source_building_is_payload_input.tile_is_empty_tile")
 
+    def test_building_is_valid_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_is_valid.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "isValid()")
+        self.assertEqual(method["java_expr"], "public boolean isValid(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_is_valid")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_is_valid")
+        self.assertEqual(method["godot_symbol"], "source_building_is_valid_result.method")
+
+        result = source_symbols.source_symbol(registry, "building_is_valid.result")
+        self.assertEqual(result["java_expr"], "return tile.build == self() && !dead();")
+        self.assertEqual(result["godot_symbol"], "source_building_is_valid_result.valid")
+
+        tile_build_matches_self = source_symbols.source_symbol(registry, "building_is_valid.tile_build_matches_self")
+        self.assertEqual(tile_build_matches_self["status"], "explicit-input")
+        self.assertEqual(tile_build_matches_self["java_expr"], "tile.build == self()")
+        self.assertEqual(tile_build_matches_self["godot_symbol"], "source_building_is_valid_input.tile_build_matches_self")
+
+        dead_state = source_symbols.source_symbol(registry, "building_is_valid.dead_state")
+        self.assertEqual(dead_state["status"], "explicit-input")
+        self.assertEqual(dead_state["java_expr"], "dead()")
+        self.assertEqual(dead_state["godot_symbol"], "source_building_is_valid_input.dead_state")
+
     def test_building_in_fog_discovery_gate_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -5557,9 +5585,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 196)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 197)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 201)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 202)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -5573,6 +5601,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_is_heal_suppressed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_is_insulated_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_is_payload_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7355,6 +7384,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return tile == emptyTile;", building_is_payload["exact_exprs"])
         self.assertIn("tile == emptyTile", building_is_payload["exact_exprs"])
 
+        building_is_valid = source_symbols.source_slice(ledger, "N599")
+        self.assertEqual(building_is_valid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_is_valid["java_method"], "isValid()")
+        self.assertEqual(building_is_valid["godot_owner"], "PortGame.source_building_is_valid")
+        self.assertIn("@Replace", building_is_valid["exact_exprs"])
+        self.assertIn("@Override", building_is_valid["exact_exprs"])
+        self.assertIn("public boolean isValid(){", building_is_valid["exact_exprs"])
+        self.assertIn("return tile.build == self() && !dead();", building_is_valid["exact_exprs"])
+        self.assertIn("tile.build == self()", building_is_valid["exact_exprs"])
+        self.assertIn("dead()", building_is_valid["exact_exprs"])
+
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
         self.assertEqual(arc_mathf_cos_scaled["java_method"], "cos(float radians, float scl, float mag)")
@@ -9045,6 +9085,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("method", building_is_payload["return_keys"])
         self.assertIn("is_payload", building_is_payload["return_keys"])
         self.assertEqual(building_is_payload["source_method"], "isPayload()")
+
+        building_is_valid = source_symbols.api_contract(contracts, "PortGame.source_building_is_valid")
+        self.assertEqual([param["name"] for param in building_is_valid["params"]], ["tile_build_matches_self", "dead_state"])
+        self.assertEqual(building_is_valid["params"][0]["schema"], "source_building_is_valid_input.tile_build_matches_self")
+        self.assertEqual(building_is_valid["params"][1]["schema"], "source_building_is_valid_input.dead_state")
+        self.assertIn("tile_build_matches_self", building_is_valid["return_keys"])
+        self.assertIn("dead_state", building_is_valid["return_keys"])
+        self.assertIn("method", building_is_valid["return_keys"])
+        self.assertIn("valid", building_is_valid["return_keys"])
+        self.assertEqual(building_is_valid["source_method"], "isValid()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -11246,6 +11296,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_is_payload_result["keys"]["method"]["java_expr"], "public boolean isPayload(){")
         self.assertEqual(source_building_is_payload_result["keys"]["is_payload"]["java_expr"], "return tile == emptyTile;")
         self.assertEqual(source_building_is_payload_result["keys"]["tile_is_empty_tile"]["alias_of"], "source_building_is_payload_input.tile_is_empty_tile")
+
+        source_building_is_valid_input = source_symbols.state_schema(schema, "source_building_is_valid_input")
+        self.assertEqual(source_building_is_valid_input["keys"]["tile_build_matches_self"]["java_expr"], "tile.build == self()")
+        self.assertEqual(source_building_is_valid_input["keys"]["tile_build_matches_self"]["status"], "explicit-input")
+        self.assertEqual(source_building_is_valid_input["keys"]["dead_state"]["java_expr"], "dead()")
+        self.assertEqual(source_building_is_valid_input["keys"]["dead_state"]["status"], "explicit-input")
+
+        source_building_is_valid_result = source_symbols.state_schema(schema, "source_building_is_valid_result")
+        self.assertEqual(source_building_is_valid_result["keys"]["method"]["java_expr"], "public boolean isValid(){")
+        self.assertEqual(source_building_is_valid_result["keys"]["valid"]["java_expr"], "return tile.build == self() && !dead();")
+        self.assertEqual(source_building_is_valid_result["keys"]["tile_build_matches_self"]["alias_of"], "source_building_is_valid_input.tile_build_matches_self")
+        self.assertEqual(source_building_is_valid_result["keys"]["dead_state"]["alias_of"], "source_building_is_valid_input.dead_state")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

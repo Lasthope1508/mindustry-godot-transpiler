@@ -19182,6 +19182,58 @@
       "java_expr": "tile == emptyTile",
       "godot_symbol": "source_building_is_payload_input.tile_is_empty_tile",
       "rule": "Runtime tile_is_empty_tile supplies the source tile == emptyTile predicate."
+    },
+    "building_is_valid.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "isValid()",
+      "godot_owner": "PortGame.source_building_is_valid",
+      "tests": [
+        "test_building_is_valid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_valid",
+      "java_expr": "public boolean isValid(){",
+      "godot_symbol": "source_building_is_valid_result.method",
+      "rule": "BuildingComp isValid method boundary."
+    },
+    "building_is_valid.result": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "isValid()",
+      "godot_owner": "PortGame.source_building_is_valid",
+      "tests": [
+        "test_building_is_valid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_valid",
+      "java_expr": "return tile.build == self() && !dead();",
+      "godot_symbol": "source_building_is_valid_result.valid",
+      "rule": "BuildingComp isValid returns tile.build self identity and not dead predicate."
+    },
+    "building_is_valid.tile_build_matches_self": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "isValid()",
+      "godot_owner": "PortGame.source_building_is_valid",
+      "tests": [
+        "test_building_is_valid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_valid",
+      "java_expr": "tile.build == self()",
+      "godot_symbol": "source_building_is_valid_input.tile_build_matches_self",
+      "rule": "Runtime tile_build_matches_self supplies source tile.build == self() predicate."
+    },
+    "building_is_valid.dead_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "isValid()",
+      "godot_owner": "PortGame.source_building_is_valid",
+      "tests": [
+        "test_building_is_valid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_valid",
+      "java_expr": "dead()",
+      "godot_symbol": "source_building_is_valid_input.dead_state",
+      "rule": "Runtime dead_state supplies source dead() predicate."
     }
   }
 }
