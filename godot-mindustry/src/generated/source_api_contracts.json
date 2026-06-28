@@ -7602,6 +7602,29 @@
       ],
       "runtime_proof": "/root/Main.source_building_is_valid",
       "rule": "Public runtime contract for Mindustry BuildingComp.isValid helper."
+    },
+    "PortGame.source_building_kill_state": {
+      "status": "active",
+      "source_slice": "N600",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "kill()",
+      "params": [
+        {
+          "name": "self_state",
+          "type": "Dictionary",
+          "schema": "source_building_kill_input.self_state"
+        }
+      ],
+      "return_keys": [
+        "self_state",
+        "method",
+        "build_destroyed_call"
+      ],
+      "tests": [
+        "test_building_kill_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_kill_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.kill helper."
     }
   },
   "policy": {

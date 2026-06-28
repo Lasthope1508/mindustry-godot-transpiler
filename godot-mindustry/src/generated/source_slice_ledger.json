@@ -6218,6 +6218,33 @@
       ],
       "runtime_proof": "/root/Main.source_building_is_valid",
       "rule": "Backfills SSOT for existing canonical source_building_is_valid helper against BuildingComp.isValid()."
+    },
+    "N600": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "kill()",
+      "godot_owner": "PortGame.source_building_kill_state",
+      "exact_exprs": [
+        "@Replace",
+        "@Override",
+        "public void kill(){",
+        "Call.buildDestroyed(self());",
+        "self()"
+      ],
+      "deferred_exprs": [
+        "Concrete Call networking and buildDestroyed side effects remain owned by destruction/runtime integration slices."
+      ],
+      "source_symbols": [
+        "building_kill.method",
+        "building_kill.build_destroyed_call",
+        "building_kill.self_state"
+      ],
+      "tests": [
+        "test_building_kill_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_kill_state",
+      "rule": "Backfills SSOT for existing canonical source_building_kill_state helper against BuildingComp.kill()."
     }
   },
   "version": 1

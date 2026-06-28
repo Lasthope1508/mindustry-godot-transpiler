@@ -19234,6 +19234,45 @@
       "java_expr": "dead()",
       "godot_symbol": "source_building_is_valid_input.dead_state",
       "rule": "Runtime dead_state supplies source dead() predicate."
+    },
+    "building_kill.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "kill()",
+      "godot_owner": "PortGame.source_building_kill_state",
+      "tests": [
+        "test_building_kill_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_kill_state",
+      "java_expr": "public void kill(){",
+      "godot_symbol": "source_building_kill_result.method",
+      "rule": "BuildingComp kill method boundary."
+    },
+    "building_kill.build_destroyed_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "kill()",
+      "godot_owner": "PortGame.source_building_kill_state",
+      "tests": [
+        "test_building_kill_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_kill_state",
+      "java_expr": "Call.buildDestroyed(self());",
+      "godot_symbol": "source_building_kill_result.build_destroyed_call",
+      "rule": "BuildingComp kill dispatches Call.buildDestroyed(self())."
+    },
+    "building_kill.self_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "kill()",
+      "godot_owner": "PortGame.source_building_kill_state",
+      "tests": [
+        "test_building_kill_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_kill_state",
+      "java_expr": "self()",
+      "godot_symbol": "source_building_kill_input.self_state",
+      "rule": "Runtime self_state supplies source self() argument."
     }
   }
 }
