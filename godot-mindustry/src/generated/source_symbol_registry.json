@@ -12916,6 +12916,45 @@
       "java_expr": "potentialEfficiency",
       "godot_symbol": "source_building_can_consume_input.potentialEfficiency",
       "rule": "Building potentialEfficiency field supplied to canConsume helper."
+    },
+    "building_can_pickup.method": {
+      "tests": [
+        "test_building_can_pickup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_can_pickup_state",
+      "godot_owner": "PortGame.source_building_can_pickup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "canPickup()",
+      "status": "source-backed",
+      "java_expr": "public boolean canPickup(){",
+      "godot_symbol": "source_building_can_pickup_result.method",
+      "rule": "BuildingComp canPickup method boundary."
+    },
+    "building_can_pickup.result": {
+      "tests": [
+        "test_building_can_pickup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_can_pickup_state",
+      "godot_owner": "PortGame.source_building_can_pickup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "canPickup()",
+      "status": "source-backed",
+      "java_expr": "return block.canPickup;",
+      "godot_symbol": "source_building_can_pickup_result.canPickup",
+      "rule": "BuildingComp canPickup returns block.canPickup."
+    },
+    "building_can_pickup.block_can_pickup": {
+      "tests": [
+        "test_building_can_pickup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_can_pickup_state",
+      "godot_owner": "PortGame.source_building_can_pickup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "canPickup()",
+      "status": "explicit-input",
+      "java_expr": "block.canPickup",
+      "godot_symbol": "source_building_can_pickup_input.blockCanPickup",
+      "rule": "Block canPickup field supplied to canPickup helper."
     }
   }
 }

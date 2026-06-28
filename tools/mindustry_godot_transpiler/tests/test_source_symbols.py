@@ -3145,6 +3145,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(potential_efficiency["java_expr"], "potentialEfficiency")
         self.assertEqual(potential_efficiency["godot_symbol"], "source_building_can_consume_input.potentialEfficiency")
 
+    def test_building_can_pickup_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_can_pickup.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "canPickup()")
+        self.assertEqual(method["java_expr"], "public boolean canPickup(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_can_pickup_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_can_pickup_state")
+        self.assertEqual(method["godot_symbol"], "source_building_can_pickup_result.method")
+
+        result = source_symbols.source_symbol(registry, "building_can_pickup.result")
+        self.assertEqual(result["java_expr"], "return block.canPickup;")
+        self.assertEqual(result["godot_symbol"], "source_building_can_pickup_result.canPickup")
+
+        block_can_pickup = source_symbols.source_symbol(registry, "building_can_pickup.block_can_pickup")
+        self.assertEqual(block_can_pickup["status"], "explicit-input")
+        self.assertEqual(block_can_pickup["java_expr"], "block.canPickup")
+        self.assertEqual(block_can_pickup["godot_symbol"], "source_building_can_pickup_input.blockCanPickup")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3429,9 +3452,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 130)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 131)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 135)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 136)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3563,6 +3586,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_bullet_damage_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_can_be_replaced_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_can_consume_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_can_pickup_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -4564,6 +4588,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public boolean canConsume(){", building_can_consume["exact_exprs"])
         self.assertIn("return potentialEfficiency > 0;", building_can_consume["exact_exprs"])
         self.assertIn("potentialEfficiency > 0", building_can_consume["exact_exprs"])
+
+        building_can_pickup = source_symbols.source_slice(ledger, "N533")
+        self.assertEqual(building_can_pickup["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_can_pickup["java_method"], "canPickup()")
+        self.assertEqual(building_can_pickup["godot_owner"], "PortGame.source_building_can_pickup_state")
+        self.assertIn("public boolean canPickup(){", building_can_pickup["exact_exprs"])
+        self.assertIn("return block.canPickup;", building_can_pickup["exact_exprs"])
+        self.assertIn("block.canPickup", building_can_pickup["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -5721,6 +5753,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_can_consume["params"][0]["schema"], "source_building_can_consume_input.potentialEfficiency")
         self.assertIn("canConsume", building_can_consume["return_keys"])
         self.assertEqual(building_can_consume["source_method"], "canConsume()")
+
+        building_can_pickup = source_symbols.api_contract(contracts, "PortGame.source_building_can_pickup_state")
+        self.assertEqual([param["name"] for param in building_can_pickup["params"]], ["block_can_pickup"])
+        self.assertEqual(building_can_pickup["params"][0]["schema"], "source_building_can_pickup_input.blockCanPickup")
+        self.assertIn("canPickup", building_can_pickup["return_keys"])
+        self.assertEqual(building_can_pickup["source_method"], "canPickup()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -7100,6 +7138,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_can_consume_result["keys"]["method"]["java_expr"], "public boolean canConsume(){")
         self.assertEqual(source_building_can_consume_result["keys"]["canConsume"]["java_expr"], "return potentialEfficiency > 0;")
         self.assertEqual(source_building_can_consume_result["keys"]["potentialEfficiency"]["alias_of"], "source_building_can_consume_input.potentialEfficiency")
+
+        source_building_can_pickup_input = source_symbols.state_schema(schema, "source_building_can_pickup_input")
+        self.assertEqual(source_building_can_pickup_input["keys"]["blockCanPickup"]["java_expr"], "block.canPickup")
+        self.assertEqual(source_building_can_pickup_input["keys"]["blockCanPickup"]["status"], "explicit-input")
+
+        source_building_can_pickup_result = source_symbols.state_schema(schema, "source_building_can_pickup_result")
+        self.assertEqual(source_building_can_pickup_result["keys"]["method"]["java_expr"], "public boolean canPickup(){")
+        self.assertEqual(source_building_can_pickup_result["keys"]["canPickup"]["java_expr"], "return block.canPickup;")
+        self.assertEqual(source_building_can_pickup_result["keys"]["blockCanPickup"]["alias_of"], "source_building_can_pickup_input.blockCanPickup")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

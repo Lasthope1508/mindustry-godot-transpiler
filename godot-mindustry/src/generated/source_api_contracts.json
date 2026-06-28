@@ -5284,6 +5284,29 @@
       ],
       "runtime_proof": "/root/Main.source_building_can_consume_state",
       "rule": "Public runtime contract for Mindustry BuildingComp canConsume helper."
+    },
+    "PortGame.source_building_can_pickup_state": {
+      "status": "active",
+      "source_slice": "N533",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "canPickup()",
+      "params": [
+        {
+          "name": "block_can_pickup",
+          "type": "bool",
+          "schema": "source_building_can_pickup_input.blockCanPickup"
+        }
+      ],
+      "return_keys": [
+        "blockCanPickup",
+        "method",
+        "canPickup"
+      ],
+      "tests": [
+        "test_building_can_pickup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_can_pickup_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp canPickup helper."
     }
   },
   "policy": {
