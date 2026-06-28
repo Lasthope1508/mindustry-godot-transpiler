@@ -18090,6 +18090,45 @@
         "test_building_efficiency_scale_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_building_efficiency_scale_state"
+    },
+    "building_explosion_item_cap.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "explosionItemCap()",
+      "java_expr": "public int explosionItemCap(){",
+      "godot_symbol": "source_building_explosion_item_cap_result.method",
+      "godot_owner": "PortGame.source_building_explosion_item_cap_state",
+      "rule": "Source explosionItemCap method declaration.",
+      "tests": [
+        "test_building_explosion_item_cap_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_explosion_item_cap_state"
+    },
+    "building_explosion_item_cap.return": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "explosionItemCap()",
+      "java_expr": "return block.itemCapacity;",
+      "godot_symbol": "source_building_explosion_item_cap_result.explosion_item_cap",
+      "godot_owner": "PortGame.source_building_explosion_item_cap_state",
+      "rule": "explosionItemCap returns block.itemCapacity.",
+      "tests": [
+        "test_building_explosion_item_cap_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_explosion_item_cap_state"
+    },
+    "building_explosion_item_cap.item_capacity": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "explosionItemCap()",
+      "java_expr": "block.itemCapacity",
+      "godot_symbol": "source_building_explosion_item_cap_input.item_capacity",
+      "godot_owner": "PortGame.source_building_explosion_item_cap_state",
+      "rule": "Runtime item_capacity supplies block.itemCapacity.",
+      "tests": [
+        "test_building_explosion_item_cap_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_explosion_item_cap_state"
     }
   }
 }

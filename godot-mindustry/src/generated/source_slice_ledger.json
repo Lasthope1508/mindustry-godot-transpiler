@@ -5704,6 +5704,30 @@
       ],
       "runtime_proof": "/root/Main.source_building_efficiency_scale_state",
       "rule": "Backfills SSOT for existing canonical source_building_efficiency_scale_state helper against BuildingComp.efficiencyScale()."
+    },
+    "N581": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "explosionItemCap()",
+      "godot_owner": "PortGame.source_building_explosion_item_cap_state",
+      "exact_exprs": [
+        "public int explosionItemCap(){",
+        "return block.itemCapacity;"
+      ],
+      "deferred_exprs": [
+        "Item explosion contribution loops stay owned by onDestroyed item slices; this helper preserves the source cap value used by that caller."
+      ],
+      "source_symbols": [
+        "building_explosion_item_cap.method",
+        "building_explosion_item_cap.return",
+        "building_explosion_item_cap.item_capacity"
+      ],
+      "tests": [
+        "test_building_explosion_item_cap_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_explosion_item_cap_state",
+      "rule": "Backfills SSOT for existing canonical source_building_explosion_item_cap_state helper against BuildingComp.explosionItemCap()."
     }
   },
   "version": 1

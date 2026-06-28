@@ -7087,6 +7087,27 @@
       ],
       "runtime_proof": "/root/Main.source_building_efficiency_scale_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.efficiencyScale() helper."
+    },
+    "PortGame.source_building_explosion_item_cap_state": {
+      "status": "active",
+      "source_slice": "N581",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "explosionItemCap()",
+      "params": [
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_building_explosion_item_cap_input.item_capacity"
+        }
+      ],
+      "return_keys": [
+        "explosion_item_cap"
+      ],
+      "tests": [
+        "test_building_explosion_item_cap_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_explosion_item_cap_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.explosionItemCap() helper."
     }
   },
   "policy": {

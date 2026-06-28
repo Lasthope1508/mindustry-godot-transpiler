@@ -4676,6 +4676,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(return_value["java_expr"], "return 1f;")
         self.assertEqual(return_value["godot_symbol"], "source_building_efficiency_scale_result.efficiency_scale")
 
+    def test_building_explosion_item_cap_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_explosion_item_cap.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "explosionItemCap()")
+        self.assertEqual(method["java_expr"], "public int explosionItemCap(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_explosion_item_cap_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_explosion_item_cap_state")
+        self.assertEqual(method["godot_symbol"], "source_building_explosion_item_cap_result.method")
+
+        return_value = source_symbols.source_symbol(registry, "building_explosion_item_cap.return")
+        self.assertEqual(return_value["java_expr"], "return block.itemCapacity;")
+        self.assertEqual(return_value["godot_symbol"], "source_building_explosion_item_cap_result.explosion_item_cap")
+
+        item_capacity = source_symbols.source_symbol(registry, "building_explosion_item_cap.item_capacity")
+        self.assertEqual(item_capacity["status"], "explicit-input")
+        self.assertEqual(item_capacity["java_expr"], "block.itemCapacity")
+        self.assertEqual(item_capacity["godot_symbol"], "source_building_explosion_item_cap_input.item_capacity")
+
     def test_building_draw_disabled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -4999,9 +5022,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 178)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 179)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 183)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 184)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6642,6 +6665,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float efficiencyScale(){", building_efficiency_scale["exact_exprs"])
         self.assertIn("return 1f;", building_efficiency_scale["exact_exprs"])
 
+        building_explosion_item_cap = source_symbols.source_slice(ledger, "N581")
+        self.assertEqual(building_explosion_item_cap["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_explosion_item_cap["java_method"], "explosionItemCap()")
+        self.assertEqual(building_explosion_item_cap["godot_owner"], "PortGame.source_building_explosion_item_cap_state")
+        self.assertIn("public int explosionItemCap(){", building_explosion_item_cap["exact_exprs"])
+        self.assertIn("return block.itemCapacity;", building_explosion_item_cap["exact_exprs"])
+
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
         self.assertEqual(arc_mathf_cos_scaled["java_method"], "cos(float radians, float scl, float mag)")
@@ -8197,6 +8227,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual([param["name"] for param in building_efficiency_scale["params"]], [])
         self.assertIn("efficiency_scale", building_efficiency_scale["return_keys"])
         self.assertEqual(building_efficiency_scale["source_method"], "efficiencyScale()")
+
+        building_explosion_item_cap = source_symbols.api_contract(contracts, "PortGame.source_building_explosion_item_cap_state")
+        self.assertEqual([param["name"] for param in building_explosion_item_cap["params"]], ["item_capacity"])
+        self.assertEqual(building_explosion_item_cap["params"][0]["schema"], "source_building_explosion_item_cap_input.item_capacity")
+        self.assertIn("explosion_item_cap", building_explosion_item_cap["return_keys"])
+        self.assertEqual(building_explosion_item_cap["source_method"], "explosionItemCap()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -10192,6 +10228,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_efficiency_scale_result["keys"]["comment"]["java_expr"], "/** Calculate your own efficiency multiplier. By default, this is applied in updateEfficiencyMultiplier. */")
         self.assertEqual(source_building_efficiency_scale_result["keys"]["method"]["java_expr"], "public float efficiencyScale(){")
         self.assertEqual(source_building_efficiency_scale_result["keys"]["efficiency_scale"]["java_expr"], "return 1f;")
+
+        source_building_explosion_item_cap_input = source_symbols.state_schema(schema, "source_building_explosion_item_cap_input")
+        self.assertEqual(source_building_explosion_item_cap_input["keys"]["item_capacity"]["java_expr"], "block.itemCapacity")
+        self.assertEqual(source_building_explosion_item_cap_input["keys"]["item_capacity"]["status"], "explicit-input")
+
+        source_building_explosion_item_cap_result = source_symbols.state_schema(schema, "source_building_explosion_item_cap_result")
+        self.assertEqual(source_building_explosion_item_cap_result["keys"]["method"]["java_expr"], "public int explosionItemCap(){")
+        self.assertEqual(source_building_explosion_item_cap_result["keys"]["explosion_item_cap"]["java_expr"], "return block.itemCapacity;")
+        self.assertEqual(source_building_explosion_item_cap_result["keys"]["item_capacity"]["alias_of"], "source_building_explosion_item_cap_input.item_capacity")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

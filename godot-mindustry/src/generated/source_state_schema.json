@@ -23570,6 +23570,58 @@
           "rule": "Default BuildingComp efficiencyScale returns 1f."
         }
       }
+    },
+    "source_building_explosion_item_cap_input": {
+      "status": "active",
+      "keys": {
+        "item_capacity": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "explosionItemCap()",
+          "java_expr": "block.itemCapacity",
+          "godot_symbol": "source_building_explosion_item_cap_input.item_capacity",
+          "used_by": [
+            "PortGame.source_building_explosion_item_cap_state"
+          ],
+          "rule": "Runtime item_capacity supplies block.itemCapacity."
+        }
+      }
+    },
+    "source_building_explosion_item_cap_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "explosionItemCap()",
+          "java_expr": "public int explosionItemCap(){",
+          "godot_symbol": "source_building_explosion_item_cap_result.method",
+          "used_by": [
+            "PortGame.source_building_explosion_item_cap_state"
+          ],
+          "rule": "Source explosionItemCap method declaration."
+        },
+        "explosion_item_cap": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "explosionItemCap()",
+          "java_expr": "return block.itemCapacity;",
+          "godot_symbol": "source_building_explosion_item_cap_result.explosion_item_cap",
+          "used_by": [
+            "PortGame.source_building_explosion_item_cap_state"
+          ],
+          "rule": "explosionItemCap returns block.itemCapacity."
+        },
+        "item_capacity": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_explosion_item_cap_input.item_capacity",
+          "rule": "Carries item_capacity input into result schema."
+        }
+      }
     }
   },
   "version": 1
