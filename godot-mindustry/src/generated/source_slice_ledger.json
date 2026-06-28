@@ -4996,6 +4996,35 @@
       ],
       "runtime_proof": "/root/Main.source_building_display_efficiency",
       "rule": "Backfills SSOT for existing canonical source_building_display_efficiency helper against BuildingComp.getDisplayEfficiency()."
+    },
+    "N562": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "display(Table table)",
+      "godot_owner": "PortGame.source_building_display_flow_rate_label",
+      "exact_exprs": [
+        "if(displayFlow){",
+        "String ps = \" \" + StatUnit.perSecond.localized();",
+        "flowItems.getFlowRate(item)",
+        "flowItems.getFlowRate(item) < 0 ? \"...\"",
+        "Strings.fixed(flowItems.getFlowRate(item), 1) + ps"
+      ],
+      "deferred_exprs": [
+        "Flow item discovery and rebuild/update table wiring are owned by separate display/UI slices."
+      ],
+      "source_symbols": [
+        "building_display_flow_rate_label.display_flow",
+        "building_display_flow_rate_label.per_second_label",
+        "building_display_flow_rate_label.flow_rate_call",
+        "building_display_flow_rate_label.unknown",
+        "building_display_flow_rate_label.fixed"
+      ],
+      "tests": [
+        "test_building_display_flow_rate_label_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_flow_rate_label",
+      "rule": "Backfills SSOT for existing canonical source_building_display_flow_rate_label helper against BuildingComp.display flow-rate label lambda."
     }
   },
   "version": 1

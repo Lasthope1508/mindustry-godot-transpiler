@@ -15230,6 +15230,71 @@
       "java_expr": "edelta()",
       "godot_symbol": "source_building_display_efficiency_input.edelta_value",
       "rule": "Runtime edelta_value argument supplies BuildingComp edelta() result."
+    },
+    "building_display_flow_rate_label.display_flow": {
+      "tests": [
+        "test_building_display_flow_rate_label_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_flow_rate_label",
+      "godot_owner": "PortGame.source_building_display_flow_rate_label",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "display(Table table)",
+      "status": "source-backed",
+      "java_expr": "if(displayFlow){",
+      "godot_symbol": "source_building_display_flow_rate_label_result.displayFlowGate",
+      "rule": "Flow-rate labels are only built inside displayFlow branch."
+    },
+    "building_display_flow_rate_label.per_second_label": {
+      "tests": [
+        "test_building_display_flow_rate_label_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_flow_rate_label",
+      "godot_owner": "PortGame.source_building_display_flow_rate_label",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "display(Table table)",
+      "status": "explicit-input",
+      "java_expr": "String ps = \" \" + StatUnit.perSecond.localized();",
+      "godot_symbol": "source_building_display_flow_rate_label_input.per_second_label",
+      "rule": "Runtime per_second_label supplies localized StatUnit.perSecond text without leading-space duplication."
+    },
+    "building_display_flow_rate_label.flow_rate_call": {
+      "tests": [
+        "test_building_display_flow_rate_label_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_flow_rate_label",
+      "godot_owner": "PortGame.source_building_display_flow_rate_label",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "display(Table table)",
+      "status": "explicit-input",
+      "java_expr": "flowItems.getFlowRate(item)",
+      "godot_symbol": "source_building_display_flow_rate_label_input.flow_rate",
+      "rule": "Runtime flow_rate supplies ItemModule flowItems.getFlowRate(item)."
+    },
+    "building_display_flow_rate_label.unknown": {
+      "tests": [
+        "test_building_display_flow_rate_label_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_flow_rate_label",
+      "godot_owner": "PortGame.source_building_display_flow_rate_label",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "display(Table table)",
+      "status": "source-backed",
+      "java_expr": "flowItems.getFlowRate(item) < 0 ? \"...\"",
+      "godot_symbol": "source_building_display_flow_rate_label_result.unknown",
+      "rule": "Negative source flow rate displays unknown ellipsis."
+    },
+    "building_display_flow_rate_label.fixed": {
+      "tests": [
+        "test_building_display_flow_rate_label_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_flow_rate_label",
+      "godot_owner": "PortGame.source_building_display_flow_rate_label",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "display(Table table)",
+      "status": "source-backed",
+      "java_expr": "Strings.fixed(flowItems.getFlowRate(item), 1) + ps",
+      "godot_symbol": "source_building_display_flow_rate_label_result.fixedLabel",
+      "rule": "Non-negative source flow rate formats one decimal and appends per-second label."
     }
   }
 }

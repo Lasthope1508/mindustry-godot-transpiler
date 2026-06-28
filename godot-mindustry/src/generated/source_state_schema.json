@@ -19755,6 +19755,100 @@
           "rule": "Carries edelta_value input into result schema."
         }
       }
+    },
+    "source_building_display_flow_rate_label_input": {
+      "status": "active",
+      "keys": {
+        "flow_rate": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "flowItems.getFlowRate(item)",
+          "godot_symbol": "source_building_display_flow_rate_label_input.flow_rate",
+          "used_by": [
+            "PortGame.source_building_display_flow_rate_label"
+          ],
+          "rule": "Runtime flow_rate supplies ItemModule flowItems.getFlowRate(item)."
+        },
+        "per_second_label": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "StatUnit.perSecond.localized()",
+          "godot_symbol": "source_building_display_flow_rate_label_input.per_second_label",
+          "used_by": [
+            "PortGame.source_building_display_flow_rate_label"
+          ],
+          "rule": "Runtime per_second_label supplies localized StatUnit.perSecond text."
+        }
+      }
+    },
+    "source_building_display_flow_rate_label_result": {
+      "status": "active",
+      "keys": {
+        "displayFlowGate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "if(displayFlow){",
+          "godot_symbol": "source_building_display_flow_rate_label_result.displayFlowGate",
+          "used_by": [
+            "PortGame.source_building_display_flow_rate_label"
+          ],
+          "rule": "Flow-rate labels are only built inside displayFlow branch."
+        },
+        "ps": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "String ps = \" \" + StatUnit.perSecond.localized();",
+          "godot_symbol": "source_building_display_flow_rate_label_result.ps",
+          "used_by": [
+            "PortGame.source_building_display_flow_rate_label"
+          ],
+          "rule": "Source prepends a space to per-second label."
+        },
+        "unknown": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "flowItems.getFlowRate(item) < 0 ? \"...\"",
+          "godot_symbol": "source_building_display_flow_rate_label_result.unknown",
+          "used_by": [
+            "PortGame.source_building_display_flow_rate_label"
+          ],
+          "rule": "Negative source flow rate displays unknown ellipsis."
+        },
+        "fixedLabel": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "Strings.fixed(flowItems.getFlowRate(item), 1) + ps",
+          "godot_symbol": "source_building_display_flow_rate_label_result.fixedLabel",
+          "used_by": [
+            "PortGame.source_building_display_flow_rate_label"
+          ],
+          "rule": "Non-negative source flow rate formats one decimal and appends per-second label."
+        },
+        "flow_rate": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_display_flow_rate_label_input.flow_rate",
+          "rule": "Carries flow_rate input into result schema."
+        },
+        "per_second_label": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_building_display_flow_rate_label_input.per_second_label",
+          "rule": "Carries per_second_label input into result schema."
+        }
+      }
     }
   },
   "version": 1

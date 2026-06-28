@@ -3987,6 +3987,36 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(edelta_value["java_expr"], "edelta()")
         self.assertEqual(edelta_value["godot_symbol"], "source_building_display_efficiency_input.edelta_value")
 
+    def test_building_display_flow_rate_label_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        display_flow = source_symbols.source_symbol(registry, "building_display_flow_rate_label.display_flow")
+        self.assertEqual(display_flow["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(display_flow["java_method"], "display(Table table)")
+        self.assertEqual(display_flow["java_expr"], "if(displayFlow){")
+        self.assertEqual(display_flow["godot_owner"], "PortGame.source_building_display_flow_rate_label")
+        self.assertEqual(display_flow["runtime_proof"], "/root/Main.source_building_display_flow_rate_label")
+        self.assertEqual(display_flow["godot_symbol"], "source_building_display_flow_rate_label_result.displayFlowGate")
+
+        per_second = source_symbols.source_symbol(registry, "building_display_flow_rate_label.per_second_label")
+        self.assertEqual(per_second["java_expr"], "String ps = \" \" + StatUnit.perSecond.localized();")
+        self.assertEqual(per_second["godot_symbol"], "source_building_display_flow_rate_label_input.per_second_label")
+
+        flow_rate_call = source_symbols.source_symbol(registry, "building_display_flow_rate_label.flow_rate_call")
+        self.assertEqual(flow_rate_call["java_expr"], "flowItems.getFlowRate(item)")
+        self.assertEqual(flow_rate_call["godot_symbol"], "source_building_display_flow_rate_label_input.flow_rate")
+
+        unknown = source_symbols.source_symbol(registry, "building_display_flow_rate_label.unknown")
+        self.assertEqual(unknown["java_expr"], "flowItems.getFlowRate(item) < 0 ? \"...\"")
+        self.assertEqual(unknown["godot_symbol"], "source_building_display_flow_rate_label_result.unknown")
+
+        fixed = source_symbols.source_symbol(registry, "building_display_flow_rate_label.fixed")
+        self.assertEqual(fixed["java_expr"], "Strings.fixed(flowItems.getFlowRate(item), 1) + ps")
+        self.assertEqual(fixed["godot_symbol"], "source_building_display_flow_rate_label_result.fixedLabel")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -4271,9 +4301,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 159)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 160)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 164)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 165)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -4434,6 +4464,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_damage_health_changed_call_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_delta", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_display_efficiency", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_display_flow_rate_label", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -5701,6 +5732,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("getProgressIncrease(1f)", building_display_efficiency["exact_exprs"])
         self.assertIn("1f", building_display_efficiency["exact_exprs"])
         self.assertIn("edelta()", building_display_efficiency["exact_exprs"])
+
+        building_display_flow_rate_label = source_symbols.source_slice(ledger, "N562")
+        self.assertEqual(building_display_flow_rate_label["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_display_flow_rate_label["java_method"], "display(Table table)")
+        self.assertEqual(building_display_flow_rate_label["godot_owner"], "PortGame.source_building_display_flow_rate_label")
+        self.assertIn("if(displayFlow){", building_display_flow_rate_label["exact_exprs"])
+        self.assertIn("String ps = \" \" + StatUnit.perSecond.localized();", building_display_flow_rate_label["exact_exprs"])
+        self.assertIn("flowItems.getFlowRate(item)", building_display_flow_rate_label["exact_exprs"])
+        self.assertIn("flowItems.getFlowRate(item) < 0 ? \"...\"", building_display_flow_rate_label["exact_exprs"])
+        self.assertIn("Strings.fixed(flowItems.getFlowRate(item), 1) + ps", building_display_flow_rate_label["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -7076,6 +7117,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("displayEfficiency", building_display_efficiency["return_keys"])
         self.assertIn("progressIncrease", building_display_efficiency["return_keys"])
         self.assertEqual(building_display_efficiency["source_method"], "getDisplayEfficiency()")
+
+        building_display_flow_rate_label = source_symbols.api_contract(contracts, "PortGame.source_building_display_flow_rate_label")
+        self.assertEqual([param["name"] for param in building_display_flow_rate_label["params"]], ["flow_rate", "per_second_label"])
+        self.assertEqual(building_display_flow_rate_label["params"][0]["schema"], "source_building_display_flow_rate_label_input.flow_rate")
+        self.assertEqual(building_display_flow_rate_label["params"][1]["schema"], "source_building_display_flow_rate_label_input.per_second_label")
+        self.assertIn("unknown", building_display_flow_rate_label["return_keys"])
+        self.assertIn("fixedLabel", building_display_flow_rate_label["return_keys"])
+        self.assertEqual(building_display_flow_rate_label["source_method"], "display(Table table)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -8756,6 +8805,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_display_efficiency_result["keys"]["baseTime"]["java_expr"], "1f")
         self.assertEqual(source_building_display_efficiency_result["keys"]["displayEfficiency"]["java_expr"], "return getProgressIncrease(1f) / edelta();")
         self.assertEqual(source_building_display_efficiency_result["keys"]["edelta_value"]["alias_of"], "source_building_display_efficiency_input.edelta_value")
+
+        source_building_display_flow_rate_label_input = source_symbols.state_schema(schema, "source_building_display_flow_rate_label_input")
+        self.assertEqual(source_building_display_flow_rate_label_input["keys"]["flow_rate"]["java_expr"], "flowItems.getFlowRate(item)")
+        self.assertEqual(source_building_display_flow_rate_label_input["keys"]["flow_rate"]["status"], "explicit-input")
+        self.assertEqual(source_building_display_flow_rate_label_input["keys"]["per_second_label"]["java_expr"], "StatUnit.perSecond.localized()")
+        self.assertEqual(source_building_display_flow_rate_label_input["keys"]["per_second_label"]["status"], "explicit-input")
+
+        source_building_display_flow_rate_label_result = source_symbols.state_schema(schema, "source_building_display_flow_rate_label_result")
+        self.assertEqual(source_building_display_flow_rate_label_result["keys"]["displayFlowGate"]["java_expr"], "if(displayFlow){")
+        self.assertEqual(source_building_display_flow_rate_label_result["keys"]["ps"]["java_expr"], "String ps = \" \" + StatUnit.perSecond.localized();")
+        self.assertEqual(source_building_display_flow_rate_label_result["keys"]["unknown"]["java_expr"], "flowItems.getFlowRate(item) < 0 ? \"...\"")
+        self.assertEqual(source_building_display_flow_rate_label_result["keys"]["fixedLabel"]["java_expr"], "Strings.fixed(flowItems.getFlowRate(item), 1) + ps")
+        self.assertEqual(source_building_display_flow_rate_label_result["keys"]["flow_rate"]["alias_of"], "source_building_display_flow_rate_label_input.flow_rate")
+        self.assertEqual(source_building_display_flow_rate_label_result["keys"]["per_second_label"]["alias_of"], "source_building_display_flow_rate_label_input.per_second_label")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")
