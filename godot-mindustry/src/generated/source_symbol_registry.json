@@ -14996,6 +14996,97 @@
       "java_expr": "damage",
       "godot_symbol": "source_building_damage_delegate_input.damage",
       "rule": "Damage parameter supplied to source-team damage helper."
+    },
+    "building_damage_handle_damage_gate.client_comment": {
+      "tests": [
+        "test_building_damage_handle_damage_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_handle_damage_gate_state",
+      "godot_owner": "PortGame.source_building_damage_handle_damage_gate_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(float damage)",
+      "status": "source-backed",
+      "java_expr": "//TODO handle this better on the client.",
+      "godot_symbol": "source_building_damage_handle_damage_gate_result.client_comment",
+      "rule": "Client TODO comment preserved at handleDamage gate boundary."
+    },
+    "building_damage_handle_damage_gate.client_guard": {
+      "tests": [
+        "test_building_damage_handle_damage_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_handle_damage_gate_state",
+      "godot_owner": "PortGame.source_building_damage_handle_damage_gate_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(float damage)",
+      "status": "source-backed",
+      "java_expr": "if(!net.client()){",
+      "godot_symbol": "source_building_damage_handle_damage_gate_result.handle_damage_called",
+      "rule": "handleDamage is called only when not a net client."
+    },
+    "building_damage_handle_damage_gate.health_assignment": {
+      "tests": [
+        "test_building_damage_handle_damage_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_handle_damage_gate_state",
+      "godot_owner": "PortGame.source_building_damage_handle_damage_gate_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(float damage)",
+      "status": "source-backed",
+      "java_expr": "health -= handleDamage(damage);",
+      "godot_symbol": "source_building_damage_handle_damage_gate_result.health",
+      "rule": "Server-side branch subtracts handled damage from health."
+    },
+    "building_damage_handle_damage_gate.net_client": {
+      "tests": [
+        "test_building_damage_handle_damage_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_handle_damage_gate_state",
+      "godot_owner": "PortGame.source_building_damage_handle_damage_gate_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(float damage)",
+      "status": "explicit-input",
+      "java_expr": "net.client()",
+      "godot_symbol": "source_building_damage_handle_damage_gate_input.net_client",
+      "rule": "Runtime net.client() predicate supplied to gate helper."
+    },
+    "building_damage_handle_damage_gate.health": {
+      "tests": [
+        "test_building_damage_handle_damage_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_handle_damage_gate_state",
+      "godot_owner": "PortGame.source_building_damage_handle_damage_gate_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(float damage)",
+      "status": "explicit-input",
+      "java_expr": "health",
+      "godot_symbol": "source_building_damage_handle_damage_gate_input.health",
+      "rule": "Current health supplied to gate helper."
+    },
+    "building_damage_handle_damage_gate.damage": {
+      "tests": [
+        "test_building_damage_handle_damage_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_handle_damage_gate_state",
+      "godot_owner": "PortGame.source_building_damage_handle_damage_gate_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(float damage)",
+      "status": "explicit-input",
+      "java_expr": "damage",
+      "godot_symbol": "source_building_damage_handle_damage_gate_input.damage",
+      "rule": "Damage value supplied to handleDamage gate helper."
+    },
+    "building_damage_handle_damage_gate.handled_damage": {
+      "tests": [
+        "test_building_damage_handle_damage_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_handle_damage_gate_state",
+      "godot_owner": "PortGame.source_building_damage_handle_damage_gate_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(float damage)",
+      "status": "explicit-input",
+      "java_expr": "handleDamage(damage)",
+      "godot_symbol": "source_building_damage_handle_damage_gate_input.handled_damage",
+      "rule": "Precomputed handleDamage(damage) result supplied to gate helper."
     }
   }
 }

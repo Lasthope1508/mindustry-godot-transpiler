@@ -6031,6 +6031,45 @@
       ],
       "runtime_proof": "/root/Main.source_building_damage_delegate_state",
       "rule": "Public runtime contract for Mindustry BuildingComp source-team damage delegate helper."
+    },
+    "PortGame.source_building_damage_handle_damage_gate_state": {
+      "status": "active",
+      "source_slice": "N558",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "damage(float damage)",
+      "params": [
+        {
+          "name": "net_client",
+          "type": "bool",
+          "schema": "source_building_damage_handle_damage_gate_input.net_client"
+        },
+        {
+          "name": "health",
+          "type": "float",
+          "schema": "source_building_damage_handle_damage_gate_input.health"
+        },
+        {
+          "name": "damage_amount",
+          "type": "float",
+          "schema": "source_building_damage_handle_damage_gate_input.damage"
+        },
+        {
+          "name": "handled_damage",
+          "type": "float",
+          "schema": "source_building_damage_handle_damage_gate_input.handled_damage"
+        }
+      ],
+      "return_keys": [
+        "health",
+        "damage",
+        "handled_damage",
+        "handle_damage_called"
+      ],
+      "tests": [
+        "test_building_damage_handle_damage_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_handle_damage_gate_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp damage handleDamage gate helper."
     }
   },
   "policy": {

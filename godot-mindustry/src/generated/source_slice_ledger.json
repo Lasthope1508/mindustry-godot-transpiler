@@ -4884,6 +4884,39 @@
       ],
       "runtime_proof": "/root/Main.source_building_damage_delegate_state",
       "rule": "Backfills SSOT for existing canonical source_building_damage_delegate_state helper against BuildingComp source-team damage delegate overload."
+    },
+    "N558": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "damage(float damage)",
+      "godot_owner": "PortGame.source_building_damage_handle_damage_gate_state",
+      "exact_exprs": [
+        "//TODO handle this better on the client.",
+        "if(!net.client()){",
+        "health -= handleDamage(damage);",
+        "net.client()",
+        "health",
+        "damage",
+        "handleDamage(damage)"
+      ],
+      "deferred_exprs": [
+        "healthChanged() and destroy side effects are owned by later damage slices."
+      ],
+      "source_symbols": [
+        "building_damage_handle_damage_gate.client_comment",
+        "building_damage_handle_damage_gate.client_guard",
+        "building_damage_handle_damage_gate.health_assignment",
+        "building_damage_handle_damage_gate.net_client",
+        "building_damage_handle_damage_gate.health",
+        "building_damage_handle_damage_gate.damage",
+        "building_damage_handle_damage_gate.handled_damage"
+      ],
+      "tests": [
+        "test_building_damage_handle_damage_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_handle_damage_gate_state",
+      "rule": "Backfills SSOT for existing canonical source_building_damage_handle_damage_gate_state helper against BuildingComp.damage handleDamage net-client gate."
     }
   },
   "version": 1
