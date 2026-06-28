@@ -17165,6 +17165,94 @@
           "rule": "Single-argument changeTeam passes true for updatePower."
         }
       }
+    },
+    "source_building_change_team_final_input": {
+      "status": "active",
+      "keys": {
+        "was": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "changeTeam(Team next, boolean updatePower)",
+          "java_expr": "was",
+          "godot_symbol": "source_building_change_team_final_input.was",
+          "used_by": [
+            "PortGame.source_building_change_team_final_state"
+          ],
+          "rule": "Result of isValid() before team assignment."
+        },
+        "last_team": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "changeTeam(Team next, boolean updatePower)",
+          "java_expr": "last",
+          "godot_symbol": "source_building_change_team_final_input.last_team",
+          "used_by": [
+            "PortGame.source_building_change_team_final_state"
+          ],
+          "rule": "Last team captured before team assignment."
+        }
+      }
+    },
+    "source_building_change_team_final_result": {
+      "status": "active",
+      "keys": {
+        "was": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_change_team_final_input.was",
+          "rule": "Carries was input into result schema."
+        },
+        "add_index": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "changeTeam(Team next, boolean updatePower)",
+          "java_expr": "indexer.addIndex(tile);",
+          "godot_symbol": "source_building_change_team_final_result.add_index",
+          "used_by": [
+            "PortGame.source_building_change_team_final_state"
+          ],
+          "rule": "Valid building re-adds tile index after team change."
+        },
+        "team_change_event": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "changeTeam(Team next, boolean updatePower)",
+          "java_expr": "Events.fire(teamChangeEvent.set(last, self()));",
+          "godot_symbol": "source_building_change_team_final_result.team_change_event",
+          "used_by": [
+            "PortGame.source_building_change_team_final_state"
+          ],
+          "rule": "Valid building fires team change event after team change."
+        },
+        "event_last": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_change_team_final_input.last_team",
+          "rule": "Carries last_team input into event_last result key."
+        },
+        "check_allow_update": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "changeTeam(Team next, boolean updatePower)",
+          "java_expr": "checkAllowUpdate();",
+          "godot_symbol": "source_building_change_team_final_result.check_allow_update",
+          "used_by": [
+            "PortGame.source_building_change_team_final_state"
+          ],
+          "rule": "Team change ends by refreshing update allowance."
+        },
+        "last_team": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_change_team_final_input.last_team",
+          "rule": "Canonical alias for source last team input."
+        }
+      }
     }
   },
   "version": 1

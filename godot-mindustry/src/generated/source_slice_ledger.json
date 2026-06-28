@@ -4140,6 +4140,37 @@
       ],
       "runtime_proof": "/root/Main.source_building_change_team_delegate_state",
       "rule": "Backfills SSOT for existing canonical source_building_change_team_delegate_state helper against BuildingComp changeTeam(Team next)."
+    },
+    "N535": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "godot_owner": "PortGame.source_building_change_team_final_state",
+      "exact_exprs": [
+        "if(was){",
+        "indexer.addIndex(tile);",
+        "Events.fire(teamChangeEvent.set(last, self()));",
+        "checkAllowUpdate();",
+        "was",
+        "last"
+      ],
+      "deferred_exprs": [
+        "isValid()",
+        "teamChangeEvent.set(last, self())"
+      ],
+      "source_symbols": [
+        "building_change_team_final.add_index",
+        "building_change_team_final.team_change_event",
+        "building_change_team_final.check_allow_update",
+        "building_change_team_final.was",
+        "building_change_team_final.last_team"
+      ],
+      "tests": [
+        "test_building_change_team_final_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_final_state",
+      "rule": "Backfills SSOT for existing canonical source_building_change_team_final_state helper against the final BuildingComp two-argument changeTeam block."
     }
   },
   "version": 1
