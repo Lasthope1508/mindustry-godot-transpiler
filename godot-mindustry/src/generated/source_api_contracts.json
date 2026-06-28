@@ -5238,6 +5238,29 @@
       ],
       "runtime_proof": "/root/Main.source_building_bullet_damage_state",
       "rule": "Public runtime contract for Mindustry BuildingComp bullet damage helper."
+    },
+    "PortGame.source_building_can_be_replaced_state": {
+      "status": "active",
+      "source_slice": "N531",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "canBeReplaced(Block other)",
+      "params": [
+        {
+          "name": "other_can_replace_block",
+          "type": "bool",
+          "schema": "source_building_can_be_replaced_input.otherCanReplaceBlock"
+        }
+      ],
+      "return_keys": [
+        "otherCanReplaceBlock",
+        "method",
+        "canBeReplaced"
+      ],
+      "tests": [
+        "test_building_can_be_replaced_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_can_be_replaced_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp canBeReplaced helper."
     }
   },
   "policy": {

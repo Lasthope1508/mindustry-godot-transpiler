@@ -12838,6 +12838,45 @@
       "java_expr": "damage",
       "godot_symbol": "source_building_bullet_damage_input.damage",
       "rule": "Runtime damage_amount argument supplies source damage parameter."
+    },
+    "building_can_be_replaced.method": {
+      "tests": [
+        "test_building_can_be_replaced_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_can_be_replaced_state",
+      "godot_owner": "PortGame.source_building_can_be_replaced_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "canBeReplaced(Block other)",
+      "status": "source-backed",
+      "java_expr": "public boolean canBeReplaced(Block other){",
+      "godot_symbol": "source_building_can_be_replaced_result.method",
+      "rule": "BuildingComp canBeReplaced method boundary."
+    },
+    "building_can_be_replaced.delegate": {
+      "tests": [
+        "test_building_can_be_replaced_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_can_be_replaced_state",
+      "godot_owner": "PortGame.source_building_can_be_replaced_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "canBeReplaced(Block other)",
+      "status": "source-backed",
+      "java_expr": "return other.canReplace(block);",
+      "godot_symbol": "source_building_can_be_replaced_result.canBeReplaced",
+      "rule": "BuildingComp delegates replacement check to other.canReplace(block)."
+    },
+    "building_can_be_replaced.other_can_replace_block": {
+      "tests": [
+        "test_building_can_be_replaced_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_can_be_replaced_state",
+      "godot_owner": "PortGame.source_building_can_be_replaced_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "canBeReplaced(Block other)",
+      "status": "explicit-input",
+      "java_expr": "other.canReplace(block)",
+      "godot_symbol": "source_building_can_be_replaced_input.otherCanReplaceBlock",
+      "rule": "Result of Block.canReplace(Block other), registered separately in N511."
     }
   }
 }
