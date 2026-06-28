@@ -18168,6 +18168,45 @@
         "test_building_flow_items_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_building_flow_items_state"
+    },
+    "building_handle_damage.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleDamage(float amount)",
+      "java_expr": "public float handleDamage(float amount){",
+      "godot_symbol": "source_building_handle_damage_result.method",
+      "godot_owner": "PortGame.source_building_handle_damage_state",
+      "rule": "Source handleDamage method declaration.",
+      "tests": [
+        "test_building_handle_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_handle_damage_state"
+    },
+    "building_handle_damage.return": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleDamage(float amount)",
+      "java_expr": "return amount;",
+      "godot_symbol": "source_building_handle_damage_result.handled_damage",
+      "godot_owner": "PortGame.source_building_handle_damage_state",
+      "rule": "Default handleDamage returns amount unchanged.",
+      "tests": [
+        "test_building_handle_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_handle_damage_state"
+    },
+    "building_handle_damage.amount": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleDamage(float amount)",
+      "java_expr": "amount",
+      "godot_symbol": "source_building_handle_damage_input.amount",
+      "godot_owner": "PortGame.source_building_handle_damage_state",
+      "rule": "Runtime amount supplies handleDamage amount.",
+      "tests": [
+        "test_building_handle_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_handle_damage_state"
     }
   }
 }

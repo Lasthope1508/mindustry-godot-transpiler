@@ -5752,6 +5752,30 @@
       ],
       "runtime_proof": "/root/Main.source_building_flow_items_state",
       "rule": "Backfills SSOT for existing canonical source_building_flow_items_state helper against BuildingComp.flowItems()."
+    },
+    "N583": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "handleDamage(float amount)",
+      "godot_owner": "PortGame.source_building_handle_damage_state",
+      "exact_exprs": [
+        "public float handleDamage(float amount){",
+        "return amount;"
+      ],
+      "deferred_exprs": [
+        "Armor/damage call-site effects stay owned by collision/damage slices; this helper preserves the default handleDamage passthrough."
+      ],
+      "source_symbols": [
+        "building_handle_damage.method",
+        "building_handle_damage.return",
+        "building_handle_damage.amount"
+      ],
+      "tests": [
+        "test_building_handle_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_handle_damage_state",
+      "rule": "Backfills SSOT for existing canonical source_building_handle_damage_state helper against BuildingComp.handleDamage(float amount)."
     }
   },
   "version": 1
