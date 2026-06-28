@@ -2205,6 +2205,33 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_continuous_damage_default_state",
       "rule": "Backfills SSOT for existing BulletType.continuousDamage default runtime state; subclass overrides remain later source-backed slices."
+    },
+    "N476": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "heals()",
+      "godot_owner": "PortGame.source_bullet_type_heals_state",
+      "exact_exprs": [
+        "public float healPercent = 0f;",
+        "public float healAmount = 0f;",
+        "public boolean heals(){",
+        "return healPercent > 0 || healAmount > 0;",
+        "public boolean testCollision(Bullet bullet, Building tile){"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "heals.heal_percent_field",
+        "heals.heal_amount_field",
+        "heals.return_expr"
+      ],
+      "tests": [
+        "test_bullet_type_heals_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_heals_state",
+        "test_bullet_type_heals_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_heals_state",
+      "rule": "Backfills SSOT for existing BulletType.heals runtime state; testCollision consumption remains separate registered owner."
     }
   },
   "version": 1

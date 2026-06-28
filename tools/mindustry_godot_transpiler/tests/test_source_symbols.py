@@ -1836,14 +1836,34 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(doc["java_expr"], "/** @return continuous damage in damage/sec, or -1 if not continuous. */")
         self.assertEqual(doc["godot_symbol"], "source_line.continuous_damage_default.doc")
 
+    def test_bullet_type_heals_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        return_expr = source_symbols.source_symbol(registry, "heals.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return healPercent > 0 || healAmount > 0;")
+        self.assertEqual(return_expr["godot_symbol"], "heals_result.heals")
+        self.assertEqual(return_expr["godot_owner"], "PortGame.source_bullet_type_heals_state")
+        self.assertEqual(return_expr["runtime_proof"], "/root/Main.source_bullet_type_heals_state")
+
+        heal_percent = source_symbols.source_symbol(registry, "heals.heal_percent_field")
+        self.assertEqual(heal_percent["java_expr"], "public float healPercent = 0f;")
+        self.assertEqual(heal_percent["godot_symbol"], "bullet_type_state.healPercent")
+
+        heal_amount = source_symbols.source_symbol(registry, "heals.heal_amount_field")
+        self.assertEqual(heal_amount["java_expr"], "public float healAmount = 0f;")
+        self.assertEqual(heal_amount["godot_symbol"], "bullet_type_state.healAmount")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 73)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 74)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 78)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 79)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1911,6 +1931,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_calculate_range_despawn_unit_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_calculate_range_fallback_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_continuous_damage_default_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_heals_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -2450,6 +2471,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return -1f;", continuous_damage_default["exact_exprs"])
         self.assertIn("public boolean heals(){", continuous_damage_default["exact_exprs"])
         self.assertEqual(continuous_damage_default["deferred_exprs"], [])
+
+        heals = source_symbols.source_slice(ledger, "N476")
+        self.assertEqual(heals["java_method"], "heals()")
+        self.assertEqual(heals["godot_owner"], "PortGame.source_bullet_type_heals_state")
+        self.assertIn("public float healPercent = 0f;", heals["exact_exprs"])
+        self.assertIn("public float healAmount = 0f;", heals["exact_exprs"])
+        self.assertIn("public boolean heals(){", heals["exact_exprs"])
+        self.assertIn("return healPercent > 0 || healAmount > 0;", heals["exact_exprs"])
+        self.assertIn("public boolean testCollision(Bullet bullet, Building tile){", heals["exact_exprs"])
+        self.assertEqual(heals["deferred_exprs"], [])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -3119,6 +3150,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("continuousDamage", continuous_damage_default["return_keys"])
         self.assertIn("continuousDamageReturnSource", continuous_damage_default["return_keys"])
         self.assertEqual(continuous_damage_default["source_method"], "continuousDamage()")
+
+        heals = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_heals_state")
+        self.assertEqual([param["name"] for param in heals["params"]], ["bullet_type_state"])
+        self.assertEqual(heals["params"][0]["schema"], "bullet_type_state")
+        self.assertIn("bulletType", heals["return_keys"])
+        self.assertIn("healPercent", heals["return_keys"])
+        self.assertIn("healAmount", heals["return_keys"])
+        self.assertIn("heals", heals["return_keys"])
+        self.assertIn("healsReturnSource", heals["return_keys"])
+        self.assertEqual(heals["source_method"], "heals()")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -3846,6 +3887,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(continuous_damage_default_output["keys"]["continuousDamage"]["java_expr"], "return -1f;")
         self.assertEqual(continuous_damage_default_output["keys"]["continuousDamageReturnSource"]["alias_of"], "source_line.continuous_damage_default.return_expr")
         self.assertEqual(continuous_damage_default_output["keys"]["bulletType"]["alias_of"], "bullet_type_state")
+
+        heals_output = source_symbols.state_schema(schema, "heals_result")
+        self.assertEqual(heals_output["keys"]["heals"]["java_expr"], "healPercent > 0 || healAmount > 0")
+        self.assertEqual(heals_output["keys"]["healPercent"]["alias_of"], "bullet_type_state.healPercent")
+        self.assertEqual(heals_output["keys"]["healAmount"]["alias_of"], "bullet_type_state.healAmount")
+        self.assertEqual(heals_output["keys"]["healsReturnSource"]["alias_of"], "source_line.heals.return_expr")
+        self.assertEqual(heals_output["keys"]["bulletType"]["alias_of"], "bullet_type_state")
+
+        self.assertEqual(bullet_type_state["keys"]["healPercent"]["java_expr"], "healPercent")
+        self.assertEqual(bullet_type_state["keys"]["healAmount"]["java_expr"], "healAmount")
+        self.assertIn("PortGame.source_bullet_type_heals_state", bullet_type_state["keys"]["healPercent"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_heals_state", bullet_type_state["keys"]["healAmount"]["used_by"])
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")

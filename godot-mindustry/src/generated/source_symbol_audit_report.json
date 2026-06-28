@@ -5,9 +5,9 @@
     "legacyBackfillStatus": "tracked"
   },
   "totalSourceFunctions": 488,
-  "registeredSourceOwnerCount": 73,
+  "registeredSourceOwnerCount": 74,
   "exemptSourceOwnerCount": 5,
-  "legacyUnregisteredOwnerCount": 410,
+  "legacyUnregisteredOwnerCount": 409,
   "registeredSourceOwners": [
     "PortGame.source_bullet_type_building_damage_state",
     "PortGame.source_bullet_type_calculate_range_despawn_unit_state",
@@ -42,6 +42,7 @@
     "PortGame.source_bullet_type_draw_state",
     "PortGame.source_bullet_type_draw_trail_state",
     "PortGame.source_bullet_type_handle_pierce_state",
+    "PortGame.source_bullet_type_heals_state",
     "PortGame.source_bullet_type_hit_default_state",
     "PortGame.source_bullet_type_hit_effects_state",
     "PortGame.source_bullet_type_hit_entity_armor_damage_state",
@@ -295,7 +296,6 @@
     "PortGame.source_bullet_type_create_spawn_unit_state",
     "PortGame.source_bullet_type_create_trail_add_state",
     "PortGame.source_bullet_type_create_velocity_position_state",
-    "PortGame.source_bullet_type_heals_state",
     "PortGame.source_bullet_velocity",
     "PortGame.source_bullet_velocity_vector_state",
     "PortGame.source_bullet_world_speed",

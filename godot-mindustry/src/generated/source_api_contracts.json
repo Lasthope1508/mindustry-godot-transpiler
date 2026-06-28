@@ -3252,6 +3252,33 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_continuous_damage_default_state",
       "rule": "Public runtime contract for BulletType.continuousDamage default -1 sentinel."
+    },
+    "PortGame.source_bullet_type_heals_state": {
+      "status": "active",
+      "source_slice": "N476",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "heals()",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "healPercent",
+        "healAmount",
+        "heals",
+        "healsReturnSource"
+      ],
+      "tests": [
+        "test_bullet_type_heals_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_heals_state",
+        "test_bullet_type_heals_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_heals_state",
+      "rule": "Public runtime contract for BulletType.heals predicate."
     }
   },
   "policy": {

@@ -267,14 +267,15 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
           "java_method": "heals()",
-          "java_expr": "healPercent > 0f",
+          "java_expr": "healPercent",
           "godot_symbol": "bullet_type_state.healPercent",
           "used_by": [
             "PortGame.source_bullet_type_test_collision_state",
             "PortGame.source_bullet_type_hit_tile_heal_state",
-            "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state"
+            "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state",
+            "PortGame.source_bullet_type_heals_state"
           ],
-          "rule": "Canonical field for source_bullet_type_heals_state."
+          "rule": "Canonical BulletType.healPercent field for heals() and healing amount formulas."
         },
         "makeFire": {
           "type": "bool",
@@ -347,9 +348,10 @@
           "godot_symbol": "bullet_type_state.healAmount",
           "used_by": [
             "PortGame.source_bullet_type_hit_tile_heal_state",
-            "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state"
+            "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state",
+            "PortGame.source_bullet_type_heals_state"
           ],
-          "rule": "Canonical BulletType.healAmount field for heals() and hitTile healing amount."
+          "rule": "Canonical BulletType.healAmount field for heals() and healing amount formulas."
         },
         "healColor": {
           "type": "Variant",
@@ -10908,6 +10910,51 @@
           "godot_symbol": "continuous_damage_default_result.continuousDamageReturnSource",
           "alias_of": "source_line.continuous_damage_default.return_expr",
           "rule": "Runtime source label for BulletType.continuousDamage default return."
+        }
+      }
+    },
+    "heals_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "godot_symbol": "heals_result.bulletType",
+          "alias_of": "bullet_type_state",
+          "rule": "Unmodified BulletType state during heals predicate evaluation."
+        },
+        "healPercent": {
+          "type": "float",
+          "status": "generated",
+          "godot_symbol": "heals_result.healPercent",
+          "alias_of": "bullet_type_state.healPercent",
+          "rule": "Runtime echo of canonical healPercent field used by heals()."
+        },
+        "healAmount": {
+          "type": "float",
+          "status": "generated",
+          "godot_symbol": "heals_result.healAmount",
+          "alias_of": "bullet_type_state.healAmount",
+          "rule": "Runtime echo of canonical healAmount field used by heals()."
+        },
+        "heals": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "heals()",
+          "java_expr": "healPercent > 0 || healAmount > 0",
+          "godot_symbol": "heals_result.heals",
+          "used_by": [
+            "PortGame.source_bullet_type_heals_state"
+          ],
+          "rule": "Result of BulletType.heals predicate from source return expression."
+        },
+        "healsReturnSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "heals_result.healsReturnSource",
+          "alias_of": "source_line.heals.return_expr",
+          "rule": "Runtime source label for BulletType.heals return."
         }
       }
     }

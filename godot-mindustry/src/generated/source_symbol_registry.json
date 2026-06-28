@@ -7143,6 +7143,51 @@
         "test_bullet_type_continuous_damage_default_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_continuous_damage_default_state"
+    },
+    "heals.return_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "heals()",
+      "java_expr": "return healPercent > 0 || healAmount > 0;",
+      "godot_symbol": "heals_result.heals",
+      "godot_owner": "PortGame.source_bullet_type_heals_state",
+      "rule": "Use BulletType.heals() as the only source-backed healing predicate; do not infer from damage or status effects.",
+      "tests": [
+        "test_bullet_type_heals_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_heals_state",
+        "test_bullet_type_heals_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_heals_state"
+    },
+    "heals.heal_percent_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "heals()",
+      "java_expr": "public float healPercent = 0f;",
+      "godot_symbol": "bullet_type_state.healPercent",
+      "godot_owner": "PortGame.source_bullet_type_heals_state",
+      "rule": "Canonical BulletType.healPercent field used by heals(); do not duplicate with local synonym names.",
+      "tests": [
+        "test_bullet_type_heals_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_heals_state",
+        "test_bullet_type_heals_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_heals_state"
+    },
+    "heals.heal_amount_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "heals()",
+      "java_expr": "public float healAmount = 0f;",
+      "godot_symbol": "bullet_type_state.healAmount",
+      "godot_owner": "PortGame.source_bullet_type_heals_state",
+      "rule": "Canonical BulletType.healAmount field used by heals(); do not duplicate with local synonym names.",
+      "tests": [
+        "test_bullet_type_heals_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_heals_state",
+        "test_bullet_type_heals_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_heals_state"
     }
   }
 }
