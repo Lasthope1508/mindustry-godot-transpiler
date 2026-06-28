@@ -4734,6 +4734,37 @@
       ],
       "runtime_proof": "/root/Main.source_building_control_config_state",
       "rule": "Backfills SSOT for existing canonical source_building_control_config_state helper against BuildingComp object control config guard."
+    },
+    "N553": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "control(LAccess type, double p1, double p2, double p3, double p4)",
+      "godot_owner": "PortGame.source_building_control_enabled_state",
+      "exact_exprs": [
+        "public void control(LAccess type, double p1, double p2, double p3, double p4){",
+        "if(type == LAccess.enabled){",
+        "enabled = !Mathf.zero((float)p1);",
+        "enabled",
+        "type",
+        "p1"
+      ],
+      "deferred_exprs": [
+        "Mathf.zero(float) threshold source is owned by the earlier control-enabled parity slice."
+      ],
+      "source_symbols": [
+        "building_control_enabled.method",
+        "building_control_enabled.guard",
+        "building_control_enabled.assignment",
+        "building_control_enabled.current_enabled",
+        "building_control_enabled.control_type",
+        "building_control_enabled.p1"
+      ],
+      "tests": [
+        "test_building_control_enabled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_control_enabled_state",
+      "rule": "Backfills SSOT for existing canonical source_building_control_enabled_state helper against BuildingComp numeric control enabled guard."
     }
   },
   "version": 1

@@ -3739,6 +3739,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(p1_value["java_expr"], "p1")
         self.assertEqual(p1_value["godot_symbol"], "source_building_control_config_input.p1_value")
 
+    def test_building_control_enabled_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_control_enabled.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "control(LAccess type, double p1, double p2, double p3, double p4)")
+        self.assertEqual(method["java_expr"], "public void control(LAccess type, double p1, double p2, double p3, double p4){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_control_enabled_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_control_enabled_state")
+        self.assertEqual(method["godot_symbol"], "source_building_control_enabled_result.method")
+
+        guard = source_symbols.source_symbol(registry, "building_control_enabled.guard")
+        self.assertEqual(guard["java_expr"], "if(type == LAccess.enabled){")
+        self.assertEqual(guard["godot_symbol"], "source_building_control_enabled_result.guard")
+
+        assignment = source_symbols.source_symbol(registry, "building_control_enabled.assignment")
+        self.assertEqual(assignment["java_expr"], "enabled = !Mathf.zero((float)p1);")
+        self.assertEqual(assignment["godot_symbol"], "source_building_control_enabled_result.enabled")
+
+        p1 = source_symbols.source_symbol(registry, "building_control_enabled.p1")
+        self.assertEqual(p1["status"], "explicit-input")
+        self.assertEqual(p1["java_expr"], "p1")
+        self.assertEqual(p1["godot_symbol"], "source_building_control_enabled_input.p1")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -4023,9 +4050,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 150)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 151)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 155)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 156)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -4177,6 +4204,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_consume_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_consume_trigger_valid_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_control_config_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_control_enabled_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -5364,6 +5392,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(type == LAccess.config && block.logicConfigurable && !(p1 instanceof LogicBuild)){", building_control_config["exact_exprs"])
         self.assertIn("//change config only if it's new", building_control_config["exact_exprs"])
         self.assertIn("configured(null, p1);", building_control_config["exact_exprs"])
+
+        building_control_enabled = source_symbols.source_slice(ledger, "N553")
+        self.assertEqual(building_control_enabled["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_control_enabled["java_method"], "control(LAccess type, double p1, double p2, double p3, double p4)")
+        self.assertEqual(building_control_enabled["godot_owner"], "PortGame.source_building_control_enabled_state")
+        self.assertIn("public void control(LAccess type, double p1, double p2, double p3, double p4){", building_control_enabled["exact_exprs"])
+        self.assertIn("if(type == LAccess.enabled){", building_control_enabled["exact_exprs"])
+        self.assertIn("enabled = !Mathf.zero((float)p1);", building_control_enabled["exact_exprs"])
+        self.assertIn("enabled", building_control_enabled["exact_exprs"])
+        self.assertIn("type", building_control_enabled["exact_exprs"])
+        self.assertIn("p1", building_control_enabled["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -6672,6 +6711,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("builder", building_control_config["return_keys"])
         self.assertIn("value", building_control_config["return_keys"])
         self.assertEqual(building_control_config["source_method"], "control(LAccess type, Object p1, double p2, double p3, double p4)")
+
+        building_control_enabled = source_symbols.api_contract(contracts, "PortGame.source_building_control_enabled_state")
+        self.assertEqual([param["name"] for param in building_control_enabled["params"]], ["current_enabled", "control_type", "p1"])
+        self.assertEqual(building_control_enabled["params"][0]["schema"], "source_building_control_enabled_input.current_enabled")
+        self.assertEqual(building_control_enabled["params"][2]["schema"], "source_building_control_enabled_input.p1")
+        self.assertIn("enabled", building_control_enabled["return_keys"])
+        self.assertEqual(building_control_enabled["source_method"], "control(LAccess type, double p1, double p2, double p3, double p4)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -8259,6 +8305,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_control_config_result["keys"]["lag_comment"]["java_expr"], "//don't execute configure instructions that copy logic building configures; this can cause extreme lag")
         self.assertEqual(source_building_control_config_result["keys"]["configured_called"]["java_expr"], "if(type == LAccess.config && block.logicConfigurable && !(p1 instanceof LogicBuild)){")
         self.assertEqual(source_building_control_config_result["keys"]["value"]["java_expr"], "configured(null, p1);")
+
+        source_building_control_enabled_input = source_symbols.state_schema(schema, "source_building_control_enabled_input")
+        self.assertEqual(source_building_control_enabled_input["keys"]["current_enabled"]["java_expr"], "enabled")
+        self.assertEqual(source_building_control_enabled_input["keys"]["control_type"]["java_expr"], "type")
+        self.assertEqual(source_building_control_enabled_input["keys"]["p1"]["java_expr"], "p1")
+
+        source_building_control_enabled_result = source_symbols.state_schema(schema, "source_building_control_enabled_result")
+        self.assertEqual(source_building_control_enabled_result["keys"]["method"]["java_expr"], "public void control(LAccess type, double p1, double p2, double p3, double p4){")
+        self.assertEqual(source_building_control_enabled_result["keys"]["guard"]["java_expr"], "if(type == LAccess.enabled){")
+        self.assertEqual(source_building_control_enabled_result["keys"]["enabled"]["java_expr"], "enabled = !Mathf.zero((float)p1);")
+        self.assertEqual(source_building_control_enabled_result["keys"]["current_enabled"]["alias_of"], "source_building_control_enabled_input.current_enabled")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

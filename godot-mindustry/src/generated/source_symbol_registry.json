@@ -14645,6 +14645,84 @@
       "java_expr": "p1",
       "godot_symbol": "source_building_control_config_input.p1_value",
       "rule": "Object control value supplied to configured(null, p1)."
+    },
+    "building_control_enabled.method": {
+      "tests": [
+        "test_building_control_enabled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_control_enabled_state",
+      "godot_owner": "PortGame.source_building_control_enabled_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "control(LAccess type, double p1, double p2, double p3, double p4)",
+      "status": "source-backed",
+      "java_expr": "public void control(LAccess type, double p1, double p2, double p3, double p4){",
+      "godot_symbol": "source_building_control_enabled_result.method",
+      "rule": "BuildingComp numeric control method boundary."
+    },
+    "building_control_enabled.guard": {
+      "tests": [
+        "test_building_control_enabled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_control_enabled_state",
+      "godot_owner": "PortGame.source_building_control_enabled_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "control(LAccess type, double p1, double p2, double p3, double p4)",
+      "status": "source-backed",
+      "java_expr": "if(type == LAccess.enabled){",
+      "godot_symbol": "source_building_control_enabled_result.guard",
+      "rule": "Enabled control only applies for LAccess.enabled."
+    },
+    "building_control_enabled.assignment": {
+      "tests": [
+        "test_building_control_enabled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_control_enabled_state",
+      "godot_owner": "PortGame.source_building_control_enabled_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "control(LAccess type, double p1, double p2, double p3, double p4)",
+      "status": "source-backed",
+      "java_expr": "enabled = !Mathf.zero((float)p1);",
+      "godot_symbol": "source_building_control_enabled_result.enabled",
+      "rule": "Enabled state becomes not Mathf.zero((float)p1)."
+    },
+    "building_control_enabled.current_enabled": {
+      "tests": [
+        "test_building_control_enabled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_control_enabled_state",
+      "godot_owner": "PortGame.source_building_control_enabled_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "control(LAccess type, double p1, double p2, double p3, double p4)",
+      "status": "explicit-input",
+      "java_expr": "enabled",
+      "godot_symbol": "source_building_control_enabled_input.current_enabled",
+      "rule": "Current enabled state is preserved when type is not LAccess.enabled."
+    },
+    "building_control_enabled.control_type": {
+      "tests": [
+        "test_building_control_enabled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_control_enabled_state",
+      "godot_owner": "PortGame.source_building_control_enabled_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "control(LAccess type, double p1, double p2, double p3, double p4)",
+      "status": "explicit-input",
+      "java_expr": "type",
+      "godot_symbol": "source_building_control_enabled_input.control_type",
+      "rule": "Logic access type supplied to enabled control helper."
+    },
+    "building_control_enabled.p1": {
+      "tests": [
+        "test_building_control_enabled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_control_enabled_state",
+      "godot_owner": "PortGame.source_building_control_enabled_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "control(LAccess type, double p1, double p2, double p3, double p4)",
+      "status": "explicit-input",
+      "java_expr": "p1",
+      "godot_symbol": "source_building_control_enabled_input.p1",
+      "rule": "Numeric control p1 supplied to Mathf.zero."
     }
   }
 }

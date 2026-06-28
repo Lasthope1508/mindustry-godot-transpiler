@@ -5887,6 +5887,37 @@
       ],
       "runtime_proof": "/root/Main.source_building_control_config_state",
       "rule": "Public runtime contract for Mindustry BuildingComp object control config helper."
+    },
+    "PortGame.source_building_control_enabled_state": {
+      "status": "active",
+      "source_slice": "N553",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "control(LAccess type, double p1, double p2, double p3, double p4)",
+      "params": [
+        {
+          "name": "current_enabled",
+          "type": "bool",
+          "schema": "source_building_control_enabled_input.current_enabled"
+        },
+        {
+          "name": "control_type",
+          "type": "String",
+          "schema": "source_building_control_enabled_input.control_type"
+        },
+        {
+          "name": "p1",
+          "type": "float",
+          "schema": "source_building_control_enabled_input.p1"
+        }
+      ],
+      "return_keys": [
+        "enabled"
+      ],
+      "tests": [
+        "test_building_control_enabled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_control_enabled_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp numeric enabled control helper."
     }
   },
   "policy": {
