@@ -6003,6 +6003,34 @@
       ],
       "runtime_proof": "/root/Main.source_building_damage_dead_guard_state",
       "rule": "Public runtime contract for Mindustry BuildingComp damage dead() guard helper."
+    },
+    "PortGame.source_building_damage_delegate_state": {
+      "status": "active",
+      "source_slice": "N557",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "damage(@Nullable Team source, float damage)",
+      "params": [
+        {
+          "name": "source_team",
+          "type": "Variant",
+          "schema": "source_building_damage_delegate_input.source_team"
+        },
+        {
+          "name": "damage_amount",
+          "type": "float",
+          "schema": "source_building_damage_delegate_input.damage"
+        }
+      ],
+      "return_keys": [
+        "source_team",
+        "damage",
+        "delegates_to_damage"
+      ],
+      "tests": [
+        "test_building_damage_delegate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_delegate_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp source-team damage delegate helper."
     }
   },
   "policy": {

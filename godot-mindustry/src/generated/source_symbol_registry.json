@@ -14931,6 +14931,71 @@
       "java_expr": "dead()",
       "godot_symbol": "source_building_damage_dead_guard_input.dead_state",
       "rule": "dead() predicate supplied to dead-guard helper."
+    },
+    "building_damage_delegate.comment": {
+      "tests": [
+        "test_building_damage_delegate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_delegate_state",
+      "godot_owner": "PortGame.source_building_damage_delegate_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(@Nullable Team source, float damage)",
+      "status": "source-backed",
+      "java_expr": "/** Used to handle damage from splash damage for certain types of blocks. */",
+      "godot_symbol": "source_building_damage_delegate_result.comment",
+      "rule": "Source comment identifies the source-team splash damage overload."
+    },
+    "building_damage_delegate.method": {
+      "tests": [
+        "test_building_damage_delegate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_delegate_state",
+      "godot_owner": "PortGame.source_building_damage_delegate_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(@Nullable Team source, float damage)",
+      "status": "source-backed",
+      "java_expr": "public void damage(@Nullable Team source, float damage){",
+      "godot_symbol": "source_building_damage_delegate_result.method",
+      "rule": "Source-team damage overload method boundary."
+    },
+    "building_damage_delegate.delegate_call": {
+      "tests": [
+        "test_building_damage_delegate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_delegate_state",
+      "godot_owner": "PortGame.source_building_damage_delegate_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(@Nullable Team source, float damage)",
+      "status": "source-backed",
+      "java_expr": "damage(damage);",
+      "godot_symbol": "source_building_damage_delegate_result.delegates_to_damage",
+      "rule": "Source-team overload delegates to damage(float damage)."
+    },
+    "building_damage_delegate.source_team": {
+      "tests": [
+        "test_building_damage_delegate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_delegate_state",
+      "godot_owner": "PortGame.source_building_damage_delegate_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(@Nullable Team source, float damage)",
+      "status": "explicit-input",
+      "java_expr": "source",
+      "godot_symbol": "source_building_damage_delegate_input.source_team",
+      "rule": "Source Team parameter supplied to source-team damage helper."
+    },
+    "building_damage_delegate.damage": {
+      "tests": [
+        "test_building_damage_delegate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_delegate_state",
+      "godot_owner": "PortGame.source_building_damage_delegate_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(@Nullable Team source, float damage)",
+      "status": "explicit-input",
+      "java_expr": "damage",
+      "godot_symbol": "source_building_damage_delegate_input.damage",
+      "rule": "Damage parameter supplied to source-team damage helper."
     }
   }
 }

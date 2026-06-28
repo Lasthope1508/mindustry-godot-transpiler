@@ -4854,6 +4854,36 @@
       ],
       "runtime_proof": "/root/Main.source_building_damage_dead_guard_state",
       "rule": "Backfills SSOT for existing canonical source_building_damage_dead_guard_state helper against BuildingComp.damage dead() guard."
+    },
+    "N557": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "damage(@Nullable Team source, float damage)",
+      "godot_owner": "PortGame.source_building_damage_delegate_state",
+      "exact_exprs": [
+        "/** Used to handle damage from splash damage for certain types of blocks. */",
+        "public void damage(@Nullable Team source, float damage){",
+        "damage(damage);",
+        "source",
+        "damage"
+      ],
+      "deferred_exprs": [
+        "damage(float damage)",
+        "Bullet damage event is owned by source_building_bullet_damage_state."
+      ],
+      "source_symbols": [
+        "building_damage_delegate.comment",
+        "building_damage_delegate.method",
+        "building_damage_delegate.delegate_call",
+        "building_damage_delegate.source_team",
+        "building_damage_delegate.damage"
+      ],
+      "tests": [
+        "test_building_damage_delegate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_delegate_state",
+      "rule": "Backfills SSOT for existing canonical source_building_damage_delegate_state helper against BuildingComp source-team damage delegate overload."
     }
   },
   "version": 1

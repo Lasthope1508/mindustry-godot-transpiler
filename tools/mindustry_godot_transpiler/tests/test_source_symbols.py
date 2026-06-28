@@ -3846,6 +3846,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(dead_state["java_expr"], "dead()")
         self.assertEqual(dead_state["godot_symbol"], "source_building_damage_dead_guard_input.dead_state")
 
+    def test_building_damage_delegate_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        comment = source_symbols.source_symbol(registry, "building_damage_delegate.comment")
+        self.assertEqual(comment["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(comment["java_method"], "damage(@Nullable Team source, float damage)")
+        self.assertEqual(comment["java_expr"], "/** Used to handle damage from splash damage for certain types of blocks. */")
+        self.assertEqual(comment["godot_owner"], "PortGame.source_building_damage_delegate_state")
+        self.assertEqual(comment["runtime_proof"], "/root/Main.source_building_damage_delegate_state")
+        self.assertEqual(comment["godot_symbol"], "source_building_damage_delegate_result.comment")
+
+        method = source_symbols.source_symbol(registry, "building_damage_delegate.method")
+        self.assertEqual(method["java_expr"], "public void damage(@Nullable Team source, float damage){")
+        self.assertEqual(method["godot_symbol"], "source_building_damage_delegate_result.method")
+
+        delegate_call = source_symbols.source_symbol(registry, "building_damage_delegate.delegate_call")
+        self.assertEqual(delegate_call["java_expr"], "damage(damage);")
+        self.assertEqual(delegate_call["godot_symbol"], "source_building_damage_delegate_result.delegates_to_damage")
+
+        source_team = source_symbols.source_symbol(registry, "building_damage_delegate.source_team")
+        self.assertEqual(source_team["status"], "explicit-input")
+        self.assertEqual(source_team["java_expr"], "source")
+        self.assertEqual(source_team["godot_symbol"], "source_building_damage_delegate_input.source_team")
+
+        damage = source_symbols.source_symbol(registry, "building_damage_delegate.damage")
+        self.assertEqual(damage["status"], "explicit-input")
+        self.assertEqual(damage["java_expr"], "damage")
+        self.assertEqual(damage["godot_symbol"], "source_building_damage_delegate_input.damage")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -4130,9 +4162,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 154)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 155)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 159)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 160)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -4288,6 +4320,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_cursor_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_damage_block_health_scale_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_damage_dead_guard_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_damage_delegate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -5513,6 +5546,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_damage_dead_guard["godot_owner"], "PortGame.source_building_damage_dead_guard_state")
         self.assertIn("if(dead()) return;", building_damage_dead_guard["exact_exprs"])
         self.assertIn("dead()", building_damage_dead_guard["exact_exprs"])
+
+        building_damage_delegate = source_symbols.source_slice(ledger, "N557")
+        self.assertEqual(building_damage_delegate["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_damage_delegate["java_method"], "damage(@Nullable Team source, float damage)")
+        self.assertEqual(building_damage_delegate["godot_owner"], "PortGame.source_building_damage_delegate_state")
+        self.assertIn("/** Used to handle damage from splash damage for certain types of blocks. */", building_damage_delegate["exact_exprs"])
+        self.assertIn("public void damage(@Nullable Team source, float damage){", building_damage_delegate["exact_exprs"])
+        self.assertIn("damage(damage);", building_damage_delegate["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -6850,6 +6891,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("returned", building_damage_dead_guard["return_keys"])
         self.assertIn("continues", building_damage_dead_guard["return_keys"])
         self.assertEqual(building_damage_dead_guard["source_method"], "damage(float damage)")
+
+        building_damage_delegate = source_symbols.api_contract(contracts, "PortGame.source_building_damage_delegate_state")
+        self.assertEqual([param["name"] for param in building_damage_delegate["params"]], ["source_team", "damage_amount"])
+        self.assertEqual(building_damage_delegate["params"][0]["schema"], "source_building_damage_delegate_input.source_team")
+        self.assertEqual(building_damage_delegate["params"][1]["schema"], "source_building_damage_delegate_input.damage")
+        self.assertIn("source_team", building_damage_delegate["return_keys"])
+        self.assertIn("damage", building_damage_delegate["return_keys"])
+        self.assertIn("delegates_to_damage", building_damage_delegate["return_keys"])
+        self.assertEqual(building_damage_delegate["source_method"], "damage(@Nullable Team source, float damage)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -8479,6 +8529,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_damage_dead_guard_result["keys"]["returned"]["java_expr"], "if(dead()) return;")
         self.assertEqual(source_building_damage_dead_guard_result["keys"]["continues"]["java_expr"], "if(dead()) return;")
         self.assertEqual(source_building_damage_dead_guard_result["keys"]["dead_state"]["alias_of"], "source_building_damage_dead_guard_input.dead_state")
+
+        source_building_damage_delegate_input = source_symbols.state_schema(schema, "source_building_damage_delegate_input")
+        self.assertEqual(source_building_damage_delegate_input["keys"]["source_team"]["java_expr"], "source")
+        self.assertEqual(source_building_damage_delegate_input["keys"]["damage"]["java_expr"], "damage")
+
+        source_building_damage_delegate_result = source_symbols.state_schema(schema, "source_building_damage_delegate_result")
+        self.assertEqual(source_building_damage_delegate_result["keys"]["comment"]["java_expr"], "/** Used to handle damage from splash damage for certain types of blocks. */")
+        self.assertEqual(source_building_damage_delegate_result["keys"]["method"]["java_expr"], "public void damage(@Nullable Team source, float damage){")
+        self.assertEqual(source_building_damage_delegate_result["keys"]["delegates_to_damage"]["java_expr"], "damage(damage);")
+        self.assertEqual(source_building_damage_delegate_result["keys"]["source_team"]["alias_of"], "source_building_damage_delegate_input.source_team")
+        self.assertEqual(source_building_damage_delegate_result["keys"]["damage"]["alias_of"], "source_building_damage_delegate_input.damage")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")
