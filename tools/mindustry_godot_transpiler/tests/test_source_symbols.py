@@ -4084,6 +4084,53 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(localized_name["java_expr"], "block.localizedName")
         self.assertEqual(localized_name["godot_symbol"], "source_building_display_name_input.localized_name")
 
+    def test_building_display_ui_gates_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_display_ui_gates.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "display(Table table)")
+        self.assertEqual(method["java_expr"], "public void display(Table table){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_display_ui_gates_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_display_ui_gates_state")
+        self.assertEqual(method["godot_symbol"], "source_building_display_ui_gates_result.method")
+
+        header = source_symbols.source_symbol(registry, "building_display_ui_gates.header_table")
+        self.assertEqual(header["java_expr"], "table.table(t -> {")
+        self.assertEqual(header["godot_symbol"], "source_building_display_ui_gates_result.displayHeader")
+
+        same_team = source_symbols.source_symbol(registry, "building_display_ui_gates.same_team_guard")
+        self.assertEqual(same_team["java_expr"], "if(team == player.team()){")
+        self.assertEqual(same_team["godot_symbol"], "source_building_display_ui_gates_result.sameTeamDetails")
+
+        bars = source_symbols.source_symbol(registry, "building_display_ui_gates.display_bars_call")
+        self.assertEqual(bars["java_expr"], "displayBars(bars);")
+        self.assertEqual(bars["godot_symbol"], "source_building_display_ui_gates_result.displayBars")
+
+        consumption = source_symbols.source_symbol(registry, "building_display_ui_gates.display_consumption_table")
+        self.assertEqual(consumption["java_expr"], "table.table(this::displayConsumption).growX();")
+        self.assertEqual(consumption["godot_symbol"], "source_building_display_ui_gates_result.displayConsumption")
+
+        flow_formula = source_symbols.source_symbol(registry, "building_display_ui_gates.display_flow_formula")
+        self.assertEqual(flow_formula["java_expr"], "boolean displayFlow = (block.category == Category.distribution || block.category == Category.liquid) && block.displayFlow;")
+        self.assertEqual(flow_formula["godot_symbol"], "source_building_display_ui_gates_result.displayFlowFormula")
+
+        flow_guard = source_symbols.source_symbol(registry, "building_display_ui_gates.display_flow_guard")
+        self.assertEqual(flow_guard["java_expr"], "if(displayFlow){")
+        self.assertEqual(flow_guard["godot_symbol"], "source_building_display_ui_gates_result.displayFlow")
+
+        last_accessed = source_symbols.source_symbol(registry, "building_display_ui_gates.last_accessed_guard")
+        self.assertEqual(last_accessed["java_expr"], "if(net.active() && lastAccessed != null){")
+        self.assertEqual(last_accessed["godot_symbol"], "source_building_display_ui_gates_result.displayLastAccessed")
+
+        block_category = source_symbols.source_symbol(registry, "building_display_ui_gates.block_category")
+        self.assertEqual(block_category["status"], "explicit-input")
+        self.assertEqual(block_category["java_expr"], "block.category")
+        self.assertEqual(block_category["godot_symbol"], "source_building_display_ui_gates_input.block_category")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -4368,9 +4415,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 162)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 163)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 167)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 168)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -4534,6 +4581,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_display_flow_rate_label", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_display_icon_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_display_name_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_display_ui_gates_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -5831,6 +5879,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("block.localizedName + \"\\n\" + Core.bundle.get(\"block.derelict\")", building_display_name["exact_exprs"])
         self.assertIn("block.localizedName + (team == player.team() || team.emoji.isEmpty() ? \"\" : \" \" + team.emoji)", building_display_name["exact_exprs"])
         self.assertIn("t.labelWrap(block.getDisplayName(tile)).left().width(190f).padLeft(5);", building_display_name["exact_exprs"])
+
+        building_display_ui_gates = source_symbols.source_slice(ledger, "N565")
+        self.assertEqual(building_display_ui_gates["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_display_ui_gates["java_method"], "display(Table table)")
+        self.assertEqual(building_display_ui_gates["godot_owner"], "PortGame.source_building_display_ui_gates_state")
+        self.assertIn("public void display(Table table){", building_display_ui_gates["exact_exprs"])
+        self.assertIn("table.table(t -> {", building_display_ui_gates["exact_exprs"])
+        self.assertIn("if(team == player.team()){", building_display_ui_gates["exact_exprs"])
+        self.assertIn("displayBars(bars);", building_display_ui_gates["exact_exprs"])
+        self.assertIn("table.table(this::displayConsumption).growX();", building_display_ui_gates["exact_exprs"])
+        self.assertIn("boolean displayFlow = (block.category == Category.distribution || block.category == Category.liquid) && block.displayFlow;", building_display_ui_gates["exact_exprs"])
+        self.assertIn("if(displayFlow){", building_display_ui_gates["exact_exprs"])
+        self.assertIn("if(net.active() && lastAccessed != null){", building_display_ui_gates["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -7230,6 +7291,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("derelictName", building_display_name["return_keys"])
         self.assertIn("displayName", building_display_name["return_keys"])
         self.assertEqual(building_display_name["source_method"], "getDisplayName()")
+
+        building_display_ui_gates = source_symbols.api_contract(contracts, "PortGame.source_building_display_ui_gates_state")
+        self.assertEqual([param["name"] for param in building_display_ui_gates["params"]], ["team_is_player", "block_category", "block_display_flow", "net_active", "has_last_accessed"])
+        self.assertEqual(building_display_ui_gates["params"][0]["schema"], "source_building_display_ui_gates_input.team_is_player")
+        self.assertEqual(building_display_ui_gates["params"][1]["schema"], "source_building_display_ui_gates_input.block_category")
+        self.assertEqual(building_display_ui_gates["params"][4]["schema"], "source_building_display_ui_gates_input.has_last_accessed")
+        self.assertIn("displayHeader", building_display_ui_gates["return_keys"])
+        self.assertIn("displayFlow", building_display_ui_gates["return_keys"])
+        self.assertIn("displayLastAccessed", building_display_ui_gates["return_keys"])
+        self.assertEqual(building_display_ui_gates["source_method"], "display(Table table)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -8952,6 +9023,25 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_display_name_result["keys"]["displayName"]["java_expr"], "block.localizedName + (team == player.team() || team.emoji.isEmpty() ? \"\" : \" \" + team.emoji)")
         self.assertEqual(source_building_display_name_result["keys"]["labelWrap"]["java_expr"], "t.labelWrap(block.getDisplayName(tile)).left().width(190f).padLeft(5);")
         self.assertEqual(source_building_display_name_result["keys"]["localized_name"]["alias_of"], "source_building_display_name_input.localized_name")
+
+        source_building_display_ui_gates_input = source_symbols.state_schema(schema, "source_building_display_ui_gates_input")
+        self.assertEqual(source_building_display_ui_gates_input["keys"]["team_is_player"]["java_expr"], "team == player.team()")
+        self.assertEqual(source_building_display_ui_gates_input["keys"]["team_is_player"]["status"], "explicit-input")
+        self.assertEqual(source_building_display_ui_gates_input["keys"]["block_category"]["java_expr"], "block.category")
+        self.assertEqual(source_building_display_ui_gates_input["keys"]["block_display_flow"]["java_expr"], "block.displayFlow")
+        self.assertEqual(source_building_display_ui_gates_input["keys"]["net_active"]["java_expr"], "net.active()")
+        self.assertEqual(source_building_display_ui_gates_input["keys"]["has_last_accessed"]["java_expr"], "lastAccessed != null")
+
+        source_building_display_ui_gates_result = source_symbols.state_schema(schema, "source_building_display_ui_gates_result")
+        self.assertEqual(source_building_display_ui_gates_result["keys"]["method"]["java_expr"], "public void display(Table table){")
+        self.assertEqual(source_building_display_ui_gates_result["keys"]["displayHeader"]["java_expr"], "table.table(t -> {")
+        self.assertEqual(source_building_display_ui_gates_result["keys"]["sameTeamDetails"]["java_expr"], "if(team == player.team()){")
+        self.assertEqual(source_building_display_ui_gates_result["keys"]["displayBars"]["java_expr"], "displayBars(bars);")
+        self.assertEqual(source_building_display_ui_gates_result["keys"]["displayConsumption"]["java_expr"], "table.table(this::displayConsumption).growX();")
+        self.assertEqual(source_building_display_ui_gates_result["keys"]["displayFlowFormula"]["java_expr"], "boolean displayFlow = (block.category == Category.distribution || block.category == Category.liquid) && block.displayFlow;")
+        self.assertEqual(source_building_display_ui_gates_result["keys"]["displayFlow"]["java_expr"], "if(displayFlow){")
+        self.assertEqual(source_building_display_ui_gates_result["keys"]["displayLastAccessed"]["java_expr"], "if(net.active() && lastAccessed != null){")
+        self.assertEqual(source_building_display_ui_gates_result["keys"]["block_category"]["alias_of"], "source_building_display_ui_gates_input.block_category")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

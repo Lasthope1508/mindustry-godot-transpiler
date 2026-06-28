@@ -20097,6 +20097,202 @@
           "rule": "Carries derelict_label input into result schema."
         }
       }
+    },
+    "source_building_display_ui_gates_input": {
+      "status": "active",
+      "keys": {
+        "team_is_player": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "team == player.team()",
+          "godot_symbol": "source_building_display_ui_gates_input.team_is_player",
+          "used_by": [
+            "PortGame.source_building_display_ui_gates_state"
+          ],
+          "rule": "Runtime team_is_player supplies team == player.team()."
+        },
+        "block_category": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "block.category",
+          "godot_symbol": "source_building_display_ui_gates_input.block_category",
+          "used_by": [
+            "PortGame.source_building_display_ui_gates_state"
+          ],
+          "rule": "Runtime block_category supplies block.category."
+        },
+        "block_display_flow": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "block.displayFlow",
+          "godot_symbol": "source_building_display_ui_gates_input.block_display_flow",
+          "used_by": [
+            "PortGame.source_building_display_ui_gates_state"
+          ],
+          "rule": "Runtime block_display_flow supplies block.displayFlow."
+        },
+        "net_active": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "net.active()",
+          "godot_symbol": "source_building_display_ui_gates_input.net_active",
+          "used_by": [
+            "PortGame.source_building_display_ui_gates_state"
+          ],
+          "rule": "Runtime net_active supplies net.active()."
+        },
+        "has_last_accessed": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "lastAccessed != null",
+          "godot_symbol": "source_building_display_ui_gates_input.has_last_accessed",
+          "used_by": [
+            "PortGame.source_building_display_ui_gates_state"
+          ],
+          "rule": "Runtime has_last_accessed supplies lastAccessed != null."
+        }
+      }
+    },
+    "source_building_display_ui_gates_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "public void display(Table table){",
+          "godot_symbol": "source_building_display_ui_gates_result.method",
+          "used_by": [
+            "PortGame.source_building_display_ui_gates_state"
+          ],
+          "rule": "Source display(Table table) method declaration for UI gate helper."
+        },
+        "displayHeader": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "table.table(t -> {",
+          "godot_symbol": "source_building_display_ui_gates_result.displayHeader",
+          "used_by": [
+            "PortGame.source_building_display_ui_gates_state"
+          ],
+          "rule": "Display header table is always built before same-team detail gate."
+        },
+        "sameTeamDetails": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "if(team == player.team()){",
+          "godot_symbol": "source_building_display_ui_gates_result.sameTeamDetails",
+          "used_by": [
+            "PortGame.source_building_display_ui_gates_state"
+          ],
+          "rule": "Bars, consumption, flow, and last-access details are gated to player team."
+        },
+        "displayBars": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "displayBars(bars);",
+          "godot_symbol": "source_building_display_ui_gates_result.displayBars",
+          "used_by": [
+            "PortGame.source_building_display_ui_gates_state"
+          ],
+          "rule": "Same-team UI calls displayBars(bars)."
+        },
+        "displayConsumption": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "table.table(this::displayConsumption).growX();",
+          "godot_symbol": "source_building_display_ui_gates_result.displayConsumption",
+          "used_by": [
+            "PortGame.source_building_display_ui_gates_state"
+          ],
+          "rule": "Same-team UI adds displayConsumption table."
+        },
+        "displayFlowFormula": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "boolean displayFlow = (block.category == Category.distribution || block.category == Category.liquid) && block.displayFlow;",
+          "godot_symbol": "source_building_display_ui_gates_result.displayFlowFormula",
+          "used_by": [
+            "PortGame.source_building_display_ui_gates_state"
+          ],
+          "rule": "Flow UI is enabled only for distribution/liquid categories with block.displayFlow."
+        },
+        "displayFlow": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "if(displayFlow){",
+          "godot_symbol": "source_building_display_ui_gates_result.displayFlow",
+          "used_by": [
+            "PortGame.source_building_display_ui_gates_state"
+          ],
+          "rule": "Flow rows are only built inside if(displayFlow)."
+        },
+        "displayLastAccessed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "display(Table table)",
+          "java_expr": "if(net.active() && lastAccessed != null){",
+          "godot_symbol": "source_building_display_ui_gates_result.displayLastAccessed",
+          "used_by": [
+            "PortGame.source_building_display_ui_gates_state"
+          ],
+          "rule": "Last-access text is gated by active net and non-null lastAccessed."
+        },
+        "team_is_player": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_display_ui_gates_input.team_is_player",
+          "rule": "Carries team_is_player input into result schema."
+        },
+        "block_category": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_building_display_ui_gates_input.block_category",
+          "rule": "Carries block_category input into result schema."
+        },
+        "block_display_flow": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_display_ui_gates_input.block_display_flow",
+          "rule": "Carries block_display_flow input into result schema."
+        },
+        "net_active": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_display_ui_gates_input.net_active",
+          "rule": "Carries net_active input into result schema."
+        },
+        "has_last_accessed": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_display_ui_gates_input.has_last_accessed",
+          "rule": "Carries has_last_accessed input into result schema."
+        }
+      }
     }
   },
   "version": 1

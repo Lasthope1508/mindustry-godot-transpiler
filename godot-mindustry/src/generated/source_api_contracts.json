@@ -6247,6 +6247,59 @@
       ],
       "runtime_proof": "/root/Main.source_building_display_name_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.getDisplayName() helper."
+    },
+    "PortGame.source_building_display_ui_gates_state": {
+      "status": "active",
+      "source_slice": "N565",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "display(Table table)",
+      "params": [
+        {
+          "name": "team_is_player",
+          "type": "bool",
+          "schema": "source_building_display_ui_gates_input.team_is_player"
+        },
+        {
+          "name": "block_category",
+          "type": "String",
+          "schema": "source_building_display_ui_gates_input.block_category"
+        },
+        {
+          "name": "block_display_flow",
+          "type": "bool",
+          "schema": "source_building_display_ui_gates_input.block_display_flow"
+        },
+        {
+          "name": "net_active",
+          "type": "bool",
+          "schema": "source_building_display_ui_gates_input.net_active"
+        },
+        {
+          "name": "has_last_accessed",
+          "type": "bool",
+          "schema": "source_building_display_ui_gates_input.has_last_accessed"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "displayHeader",
+        "sameTeamDetails",
+        "displayBars",
+        "displayConsumption",
+        "displayFlowFormula",
+        "displayFlow",
+        "displayLastAccessed",
+        "team_is_player",
+        "block_category",
+        "block_display_flow",
+        "net_active",
+        "has_last_accessed"
+      ],
+      "tests": [
+        "test_building_display_ui_gates_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_ui_gates_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.display(Table table) UI gates helper."
     }
   },
   "policy": {

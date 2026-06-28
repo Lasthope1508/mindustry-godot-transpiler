@@ -15438,6 +15438,175 @@
       "java_expr": "block.localizedName",
       "godot_symbol": "source_building_display_name_input.localized_name",
       "rule": "Runtime localized_name supplies block.localizedName."
+    },
+    "building_display_ui_gates.method": {
+      "tests": [
+        "test_building_display_ui_gates_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_ui_gates_state",
+      "godot_owner": "PortGame.source_building_display_ui_gates_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "display(Table table)",
+      "status": "source-backed",
+      "java_expr": "public void display(Table table){",
+      "godot_symbol": "source_building_display_ui_gates_result.method",
+      "rule": "Source display(Table table) method declaration for UI gate helper."
+    },
+    "building_display_ui_gates.header_table": {
+      "tests": [
+        "test_building_display_ui_gates_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_ui_gates_state",
+      "godot_owner": "PortGame.source_building_display_ui_gates_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "display(Table table)",
+      "status": "source-backed",
+      "java_expr": "table.table(t -> {",
+      "godot_symbol": "source_building_display_ui_gates_result.displayHeader",
+      "rule": "Display header table is always built before same-team detail gate."
+    },
+    "building_display_ui_gates.same_team_guard": {
+      "tests": [
+        "test_building_display_ui_gates_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_ui_gates_state",
+      "godot_owner": "PortGame.source_building_display_ui_gates_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "display(Table table)",
+      "status": "source-backed",
+      "java_expr": "if(team == player.team()){",
+      "godot_symbol": "source_building_display_ui_gates_result.sameTeamDetails",
+      "rule": "Bars, consumption, flow, and last-access details are gated to player team."
+    },
+    "building_display_ui_gates.display_bars_call": {
+      "tests": [
+        "test_building_display_ui_gates_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_ui_gates_state",
+      "godot_owner": "PortGame.source_building_display_ui_gates_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "display(Table table)",
+      "status": "source-backed",
+      "java_expr": "displayBars(bars);",
+      "godot_symbol": "source_building_display_ui_gates_result.displayBars",
+      "rule": "Same-team UI calls displayBars(bars)."
+    },
+    "building_display_ui_gates.display_consumption_table": {
+      "tests": [
+        "test_building_display_ui_gates_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_ui_gates_state",
+      "godot_owner": "PortGame.source_building_display_ui_gates_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "display(Table table)",
+      "status": "source-backed",
+      "java_expr": "table.table(this::displayConsumption).growX();",
+      "godot_symbol": "source_building_display_ui_gates_result.displayConsumption",
+      "rule": "Same-team UI adds displayConsumption table."
+    },
+    "building_display_ui_gates.display_flow_formula": {
+      "tests": [
+        "test_building_display_ui_gates_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_ui_gates_state",
+      "godot_owner": "PortGame.source_building_display_ui_gates_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "display(Table table)",
+      "status": "source-backed",
+      "java_expr": "boolean displayFlow = (block.category == Category.distribution || block.category == Category.liquid) && block.displayFlow;",
+      "godot_symbol": "source_building_display_ui_gates_result.displayFlowFormula",
+      "rule": "Flow UI is enabled only for distribution/liquid categories with block.displayFlow."
+    },
+    "building_display_ui_gates.display_flow_guard": {
+      "tests": [
+        "test_building_display_ui_gates_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_ui_gates_state",
+      "godot_owner": "PortGame.source_building_display_ui_gates_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "display(Table table)",
+      "status": "source-backed",
+      "java_expr": "if(displayFlow){",
+      "godot_symbol": "source_building_display_ui_gates_result.displayFlow",
+      "rule": "Flow rows are only built inside if(displayFlow)."
+    },
+    "building_display_ui_gates.last_accessed_guard": {
+      "tests": [
+        "test_building_display_ui_gates_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_ui_gates_state",
+      "godot_owner": "PortGame.source_building_display_ui_gates_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "display(Table table)",
+      "status": "source-backed",
+      "java_expr": "if(net.active() && lastAccessed != null){",
+      "godot_symbol": "source_building_display_ui_gates_result.displayLastAccessed",
+      "rule": "Last-access text is gated by active net and non-null lastAccessed."
+    },
+    "building_display_ui_gates.team_is_player": {
+      "tests": [
+        "test_building_display_ui_gates_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_ui_gates_state",
+      "godot_owner": "PortGame.source_building_display_ui_gates_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "display(Table table)",
+      "status": "explicit-input",
+      "java_expr": "team == player.team()",
+      "godot_symbol": "source_building_display_ui_gates_input.team_is_player",
+      "rule": "Runtime team_is_player supplies team == player.team()."
+    },
+    "building_display_ui_gates.block_category": {
+      "tests": [
+        "test_building_display_ui_gates_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_ui_gates_state",
+      "godot_owner": "PortGame.source_building_display_ui_gates_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "display(Table table)",
+      "status": "explicit-input",
+      "java_expr": "block.category",
+      "godot_symbol": "source_building_display_ui_gates_input.block_category",
+      "rule": "Runtime block_category supplies block.category."
+    },
+    "building_display_ui_gates.block_display_flow": {
+      "tests": [
+        "test_building_display_ui_gates_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_ui_gates_state",
+      "godot_owner": "PortGame.source_building_display_ui_gates_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "display(Table table)",
+      "status": "explicit-input",
+      "java_expr": "block.displayFlow",
+      "godot_symbol": "source_building_display_ui_gates_input.block_display_flow",
+      "rule": "Runtime block_display_flow supplies block.displayFlow."
+    },
+    "building_display_ui_gates.net_active": {
+      "tests": [
+        "test_building_display_ui_gates_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_ui_gates_state",
+      "godot_owner": "PortGame.source_building_display_ui_gates_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "display(Table table)",
+      "status": "explicit-input",
+      "java_expr": "net.active()",
+      "godot_symbol": "source_building_display_ui_gates_input.net_active",
+      "rule": "Runtime net_active supplies net.active()."
+    },
+    "building_display_ui_gates.has_last_accessed": {
+      "tests": [
+        "test_building_display_ui_gates_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_ui_gates_state",
+      "godot_owner": "PortGame.source_building_display_ui_gates_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "display(Table table)",
+      "status": "explicit-input",
+      "java_expr": "lastAccessed != null",
+      "godot_symbol": "source_building_display_ui_gates_input.has_last_accessed",
+      "rule": "Runtime has_last_accessed supplies lastAccessed != null."
     }
   }
 }

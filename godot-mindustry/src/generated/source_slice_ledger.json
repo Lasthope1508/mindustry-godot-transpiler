@@ -5084,6 +5084,46 @@
       ],
       "runtime_proof": "/root/Main.source_building_display_name_state",
       "rule": "Backfills SSOT for existing canonical source_building_display_name_state helper against BuildingComp.getDisplayName()."
+    },
+    "N565": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "display(Table table)",
+      "godot_owner": "PortGame.source_building_display_ui_gates_state",
+      "exact_exprs": [
+        "public void display(Table table){",
+        "table.table(t -> {",
+        "if(team == player.team()){",
+        "displayBars(bars);",
+        "table.table(this::displayConsumption).growX();",
+        "boolean displayFlow = (block.category == Category.distribution || block.category == Category.liquid) && block.displayFlow;",
+        "if(displayFlow){",
+        "if(net.active() && lastAccessed != null){"
+      ],
+      "deferred_exprs": [
+        "Concrete Table row/widget construction, flow item rows, and last-access label text remain owned by Godot UI integration; this helper preserves canonical visibility gates."
+      ],
+      "source_symbols": [
+        "building_display_ui_gates.method",
+        "building_display_ui_gates.header_table",
+        "building_display_ui_gates.same_team_guard",
+        "building_display_ui_gates.display_bars_call",
+        "building_display_ui_gates.display_consumption_table",
+        "building_display_ui_gates.display_flow_formula",
+        "building_display_ui_gates.display_flow_guard",
+        "building_display_ui_gates.last_accessed_guard",
+        "building_display_ui_gates.team_is_player",
+        "building_display_ui_gates.block_category",
+        "building_display_ui_gates.block_display_flow",
+        "building_display_ui_gates.net_active",
+        "building_display_ui_gates.has_last_accessed"
+      ],
+      "tests": [
+        "test_building_display_ui_gates_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_ui_gates_state",
+      "rule": "Backfills SSOT for existing canonical source_building_display_ui_gates_state helper against BuildingComp.display(Table table) visibility gates."
     }
   },
   "version": 1
