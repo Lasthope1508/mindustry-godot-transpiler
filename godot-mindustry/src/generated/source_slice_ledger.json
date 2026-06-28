@@ -3310,6 +3310,42 @@
       ],
       "runtime_proof": "/root/Main.source_arc_random_seed_float_max",
       "rule": "Backfills SSOT for existing canonical source_arc_random_seed_float_max helper against Arc Mathf.randomSeed(long,float)."
+    },
+    "N508": {
+      "status": "done",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_class": "arc.math.Mathf",
+      "java_method": "randomSeed(long seed, int min, int max)",
+      "godot_owner": "PortGame.source_arc_random_seed_int",
+      "exact_exprs": [
+        "private static final Rand seedr = new Rand();",
+        "public static int randomSeed(long seed, int min, int max){\n        seedr.setSeed(seed);\n        if(isPowerOfTwo(max)){\n            seedr.nextInt();\n        }\n        return seedr.nextInt(max - min + 1) + min;\n    }",
+        "seedr.setSeed(seed);",
+        "if(isPowerOfTwo(max))",
+        "seedr.nextInt();",
+        "return seedr.nextInt(max - min + 1) + min;",
+        "max - min + 1",
+        "seed",
+        "min",
+        "max"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "arc_random_seed_int.method",
+        "arc_random_seed_int.set_seed",
+        "arc_random_seed_int.power_of_two_gate",
+        "arc_random_seed_int.power_of_two_next_int",
+        "arc_random_seed_int.bound",
+        "arc_random_seed_int.return_expr",
+        "arc_random_seed_int.seed_input",
+        "arc_random_seed_int.min_input",
+        "arc_random_seed_int.max_input"
+      ],
+      "tests": [
+        "test_arc_random_seed_int_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_random_seed_int",
+      "rule": "Backfills SSOT for existing canonical source_arc_random_seed_int helper against Arc Mathf.randomSeed(long,int,int)."
     }
   },
   "version": 1

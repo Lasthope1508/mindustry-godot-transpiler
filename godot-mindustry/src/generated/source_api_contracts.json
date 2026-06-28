@@ -4433,6 +4433,45 @@
       ],
       "runtime_proof": "/root/Main.source_arc_random_seed_float_max",
       "rule": "Public runtime contract for Arc Mathf.randomSeed(long,float) max helper."
+    },
+    "PortGame.source_arc_random_seed_int": {
+      "status": "active",
+      "source_slice": "N508",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "source_method": "randomSeed(long seed, int min, int max)",
+      "params": [
+        {
+          "name": "source_seed",
+          "type": "int",
+          "schema": "source_arc_random_seed_int_input.seed"
+        },
+        {
+          "name": "min_value",
+          "type": "int",
+          "schema": "source_arc_random_seed_int_input.min"
+        },
+        {
+          "name": "max_value",
+          "type": "int",
+          "schema": "source_arc_random_seed_int_input.max"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "setSeed",
+        "powerOfTwoGate",
+        "powerOfTwoNextInt",
+        "bound",
+        "randomSeed",
+        "seed",
+        "min",
+        "max"
+      ],
+      "tests": [
+        "test_arc_random_seed_int_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_random_seed_int",
+      "rule": "Public runtime contract for Arc Mathf.randomSeed(long,int,int) helper."
     }
   },
   "policy": {

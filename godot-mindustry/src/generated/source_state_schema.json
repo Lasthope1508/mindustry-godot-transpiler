@@ -14458,6 +14458,142 @@
           "rule": "Carries Java max into result schema."
         }
       }
+    },
+    "source_arc_random_seed_int_input": {
+      "status": "active",
+      "keys": {
+        "seed": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "randomSeed(long seed, int min, int max)",
+          "java_expr": "seed",
+          "godot_symbol": "source_arc_random_seed_int_input.seed",
+          "used_by": [
+            "PortGame.source_arc_random_seed_int"
+          ],
+          "rule": "Java seed input."
+        },
+        "min": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "randomSeed(long seed, int min, int max)",
+          "java_expr": "min",
+          "godot_symbol": "source_arc_random_seed_int_input.min",
+          "used_by": [
+            "PortGame.source_arc_random_seed_int"
+          ],
+          "rule": "Java min input."
+        },
+        "max": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "randomSeed(long seed, int min, int max)",
+          "java_expr": "max",
+          "godot_symbol": "source_arc_random_seed_int_input.max",
+          "used_by": [
+            "PortGame.source_arc_random_seed_int"
+          ],
+          "rule": "Java max input."
+        }
+      }
+    },
+    "source_arc_random_seed_int_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "string",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "randomSeed(long seed, int min, int max)",
+          "java_expr": "public static int randomSeed(long seed, int min, int max){\n        seedr.setSeed(seed);\n        if(isPowerOfTwo(max)){\n            seedr.nextInt();\n        }\n        return seedr.nextInt(max - min + 1) + min;\n    }",
+          "godot_symbol": "source_arc_random_seed_int_result.method",
+          "used_by": [
+            "PortGame.source_arc_random_seed_int"
+          ],
+          "rule": "Arc randomSeed integer overload body."
+        },
+        "setSeed": {
+          "type": "string",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "randomSeed(long seed, int min, int max)",
+          "java_expr": "seedr.setSeed(seed);",
+          "godot_symbol": "source_arc_random_seed_int_result.setSeed",
+          "used_by": [
+            "PortGame.source_arc_random_seed_int"
+          ],
+          "rule": "Set seed call."
+        },
+        "powerOfTwoGate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "randomSeed(long seed, int min, int max)",
+          "java_expr": "if(isPowerOfTwo(max))",
+          "godot_symbol": "source_arc_random_seed_int_result.powerOfTwoGate",
+          "used_by": [
+            "PortGame.source_arc_random_seed_int"
+          ],
+          "rule": "Power-of-two gate."
+        },
+        "powerOfTwoNextInt": {
+          "type": "string",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "randomSeed(long seed, int min, int max)",
+          "java_expr": "seedr.nextInt();",
+          "godot_symbol": "source_arc_random_seed_int_result.powerOfTwoNextInt",
+          "used_by": [
+            "PortGame.source_arc_random_seed_int"
+          ],
+          "rule": "Power-of-two sequence advance."
+        },
+        "bound": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "randomSeed(long seed, int min, int max)",
+          "java_expr": "max - min + 1",
+          "godot_symbol": "source_arc_random_seed_int_result.bound",
+          "used_by": [
+            "PortGame.source_arc_random_seed_int"
+          ],
+          "rule": "Inclusive range bound."
+        },
+        "randomSeed": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "randomSeed(long seed, int min, int max)",
+          "java_expr": "return seedr.nextInt(max - min + 1) + min;",
+          "godot_symbol": "source_arc_random_seed_int_result.randomSeed",
+          "used_by": [
+            "PortGame.source_arc_random_seed_int"
+          ],
+          "rule": "Returned random integer value."
+        },
+        "seed": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_arc_random_seed_int_input.seed",
+          "rule": "Carries Java seed into result schema."
+        },
+        "min": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_arc_random_seed_int_input.min",
+          "rule": "Carries Java min into result schema."
+        },
+        "max": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_arc_random_seed_int_input.max",
+          "rule": "Carries Java max into result schema."
+        }
+      }
     }
   },
   "version": 1
