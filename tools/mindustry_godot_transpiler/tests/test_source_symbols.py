@@ -4851,6 +4851,47 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(amount["java_expr"], "amount")
         self.assertEqual(amount["godot_symbol"], "source_building_handle_stack_count_input.amount")
 
+    def test_building_heal_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method_no_arg = source_symbols.source_symbol(registry, "building_heal.method_no_arg")
+        self.assertEqual(method_no_arg["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method_no_arg["java_method"], "heal()")
+        self.assertEqual(method_no_arg["java_expr"], "public void heal(){")
+        self.assertEqual(method_no_arg["godot_owner"], "PortGame.source_building_heal_state")
+        self.assertEqual(method_no_arg["runtime_proof"], "/root/Main.source_building_heal_state")
+        self.assertEqual(method_no_arg["godot_symbol"], "source_building_heal_result.method_no_arg")
+
+        method_amount = source_symbols.source_symbol(registry, "building_heal.method_amount")
+        self.assertEqual(method_amount["java_method"], "heal(float amount)")
+        self.assertEqual(method_amount["java_expr"], "public void heal(float amount){")
+        self.assertEqual(method_amount["godot_owner"], "PortGame.source_building_heal_state")
+        self.assertEqual(method_amount["runtime_proof"], "/root/Main.source_building_heal_state")
+        self.assertEqual(method_amount["godot_symbol"], "source_building_heal_result.method_amount")
+
+        priority = source_symbols.source_symbol(registry, "building_heal.priority")
+        self.assertEqual(priority["java_expr"], "@MethodPriority(100)")
+        self.assertEqual(priority["godot_symbol"], "source_building_heal_result.priority")
+
+        no_arg_health_changed = source_symbols.source_symbol(registry, "building_heal.no_arg_health_changed")
+        self.assertEqual(no_arg_health_changed["java_method"], "heal()")
+        self.assertEqual(no_arg_health_changed["java_expr"], "healthChanged();")
+        self.assertEqual(no_arg_health_changed["godot_symbol"], "source_building_heal_result.no_arg_health_changed")
+
+        amount_health_changed = source_symbols.source_symbol(registry, "building_heal.amount_health_changed")
+        self.assertEqual(amount_health_changed["java_method"], "heal(float amount)")
+        self.assertEqual(amount_health_changed["java_expr"], "healthChanged();")
+        self.assertEqual(amount_health_changed["godot_symbol"], "source_building_heal_result.amount_health_changed")
+
+        amount = source_symbols.source_symbol(registry, "building_heal.amount")
+        self.assertEqual(amount["status"], "explicit-input")
+        self.assertEqual(amount["java_method"], "heal(float amount)")
+        self.assertEqual(amount["java_expr"], "amount")
+        self.assertEqual(amount["godot_symbol"], "source_building_heal_input.amount")
+
     def test_building_draw_disabled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -5174,9 +5215,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 185)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 186)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 190)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 191)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6867,6 +6908,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("noSleep();", building_handle_stack_count["exact_exprs"])
         self.assertIn("items.add(item, amount);", building_handle_stack_count["exact_exprs"])
 
+        building_heal = source_symbols.source_slice(ledger, "N588")
+        self.assertEqual(building_heal["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_heal["java_method"], "heal()/heal(float amount)")
+        self.assertEqual(building_heal["godot_owner"], "PortGame.source_building_heal_state")
+        self.assertIn("public void heal(){", building_heal["exact_exprs"])
+        self.assertIn("public void heal(float amount){", building_heal["exact_exprs"])
+        self.assertIn("@MethodPriority(100)", building_heal["exact_exprs"])
+        self.assertIn("healthChanged();", building_heal["exact_exprs"])
+
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
         self.assertEqual(arc_mathf_cos_scaled["java_method"], "cos(float radians, float scl, float mag)")
@@ -8466,6 +8516,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_handle_stack_count["params"][1]["schema"], "source_building_handle_stack_count_input.amount")
         self.assertIn("item_count_after", building_handle_stack_count["return_keys"])
         self.assertEqual(building_handle_stack_count["source_method"], "handleStack(Item item, int amount, @Nullable Teamc source)")
+
+        building_heal = source_symbols.api_contract(contracts, "PortGame.source_building_heal_state")
+        self.assertEqual([param["name"] for param in building_heal["params"]], ["amount"])
+        self.assertEqual(building_heal["params"][0]["schema"], "source_building_heal_input.amount")
+        self.assertIn("health_changed", building_heal["return_keys"])
+        self.assertEqual(building_heal["source_method"], "heal()/heal(float amount)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -10529,6 +10585,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_handle_stack_count_result["keys"]["item_count_after"]["java_expr"], "items.add(item, amount);")
         self.assertEqual(source_building_handle_stack_count_result["keys"]["current_count"]["alias_of"], "source_building_handle_stack_count_input.current_count")
         self.assertEqual(source_building_handle_stack_count_result["keys"]["amount"]["alias_of"], "source_building_handle_stack_count_input.amount")
+
+        source_building_heal_input = source_symbols.state_schema(schema, "source_building_heal_input")
+        self.assertEqual(source_building_heal_input["keys"]["amount"]["java_expr"], "amount")
+        self.assertEqual(source_building_heal_input["keys"]["amount"]["status"], "explicit-input")
+
+        source_building_heal_result = source_symbols.state_schema(schema, "source_building_heal_result")
+        self.assertEqual(source_building_heal_result["keys"]["method_no_arg"]["java_expr"], "public void heal(){")
+        self.assertEqual(source_building_heal_result["keys"]["method_amount"]["java_expr"], "public void heal(float amount){")
+        self.assertEqual(source_building_heal_result["keys"]["priority"]["java_expr"], "@MethodPriority(100)")
+        self.assertEqual(source_building_heal_result["keys"]["no_arg_health_changed"]["java_expr"], "healthChanged();")
+        self.assertEqual(source_building_heal_result["keys"]["amount_health_changed"]["java_expr"], "healthChanged();")
+        self.assertEqual(source_building_heal_result["keys"]["amount"]["alias_of"], "source_building_heal_input.amount")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

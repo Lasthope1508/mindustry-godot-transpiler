@@ -7244,6 +7244,28 @@
       ],
       "runtime_proof": "/root/Main.source_building_handle_stack_count",
       "rule": "Public runtime contract for Mindustry BuildingComp.handleStack(Item item, int amount, @Nullable Teamc source) count helper."
+    },
+    "PortGame.source_building_heal_state": {
+      "status": "active",
+      "source_slice": "N588",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "heal()/heal(float amount)",
+      "params": [
+        {
+          "name": "amount",
+          "type": "Variant",
+          "schema": "source_building_heal_input.amount"
+        }
+      ],
+      "return_keys": [
+        "amount",
+        "health_changed"
+      ],
+      "tests": [
+        "test_building_heal_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_heal_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.heal overload helper."
     }
   },
   "policy": {

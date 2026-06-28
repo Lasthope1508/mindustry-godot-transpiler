@@ -5876,6 +5876,35 @@
       ],
       "runtime_proof": "/root/Main.source_building_handle_stack_count",
       "rule": "Backfills SSOT for existing canonical source_building_handle_stack_count helper against BuildingComp.handleStack(Item item, int amount, @Nullable Teamc source)."
+    },
+    "N588": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "heal()/heal(float amount)",
+      "godot_owner": "PortGame.source_building_heal_state",
+      "exact_exprs": [
+        "@MethodPriority(100)",
+        "public void heal(){",
+        "public void heal(float amount){",
+        "healthChanged();"
+      ],
+      "deferred_exprs": [
+        "healthChanged() side effects stay owned by PortGame.source_building_health_changed_state; both heal overloads delegate to it."
+      ],
+      "source_symbols": [
+        "building_heal.method_no_arg",
+        "building_heal.method_amount",
+        "building_heal.priority",
+        "building_heal.no_arg_health_changed",
+        "building_heal.amount_health_changed",
+        "building_heal.amount"
+      ],
+      "tests": [
+        "test_building_heal_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_heal_state",
+      "rule": "Backfills SSOT for existing canonical source_building_heal_state helper against BuildingComp.heal() and BuildingComp.heal(float amount)."
     }
   },
   "version": 1

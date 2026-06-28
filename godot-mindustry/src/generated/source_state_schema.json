@@ -23982,6 +23982,100 @@
           "rule": "Carries amount input into result schema."
         }
       }
+    },
+    "source_building_heal_input": {
+      "status": "active",
+      "keys": {
+        "amount": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "heal(float amount)",
+          "java_expr": "amount",
+          "godot_symbol": "source_building_heal_input.amount",
+          "used_by": [
+            "PortGame.source_building_heal_state"
+          ],
+          "rule": "Runtime amount supplies heal(float amount) argument."
+        }
+      }
+    },
+    "source_building_heal_result": {
+      "status": "active",
+      "keys": {
+        "method_no_arg": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "heal()",
+          "java_expr": "public void heal(){",
+          "godot_symbol": "source_building_heal_result.method_no_arg",
+          "used_by": [
+            "PortGame.source_building_heal_state"
+          ],
+          "rule": "Source heal() method declaration."
+        },
+        "method_amount": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "heal(float amount)",
+          "java_expr": "public void heal(float amount){",
+          "godot_symbol": "source_building_heal_result.method_amount",
+          "used_by": [
+            "PortGame.source_building_heal_state"
+          ],
+          "rule": "Source heal(float amount) method declaration."
+        },
+        "priority": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "heal()/heal(float amount)",
+          "java_expr": "@MethodPriority(100)",
+          "godot_symbol": "source_building_heal_result.priority",
+          "used_by": [
+            "PortGame.source_building_heal_state"
+          ],
+          "rule": "Both heal overloads use MethodPriority 100."
+        },
+        "no_arg_health_changed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "heal()",
+          "java_expr": "healthChanged();",
+          "godot_symbol": "source_building_heal_result.no_arg_health_changed",
+          "used_by": [
+            "PortGame.source_building_heal_state"
+          ],
+          "rule": "heal() delegates to healthChanged()."
+        },
+        "amount_health_changed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "heal(float amount)",
+          "java_expr": "healthChanged();",
+          "godot_symbol": "source_building_heal_result.amount_health_changed",
+          "used_by": [
+            "PortGame.source_building_heal_state"
+          ],
+          "rule": "heal(float amount) delegates to healthChanged()."
+        },
+        "health_changed": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_heal_result.amount_health_changed",
+          "rule": "Runtime boolean reports that heal delegates to healthChanged()."
+        },
+        "amount": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_heal_input.amount",
+          "rule": "Carries amount input into result schema."
+        }
+      }
     }
   },
   "version": 1
