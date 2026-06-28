@@ -9279,6 +9279,58 @@
       "godot_symbol": "source_arc_angles_angle_dist_input.angleB",
       "rule": "Runtime angle_b parameter maps to Java b."
     },
+    "arc_angles_backward_distance.method": {
+      "tests": [
+        "test_arc_angles_backward_distance_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_backward_distance",
+      "godot_owner": "PortGame.source_arc_angles_backward_distance",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "backwardDistance(float angle1, float angle2)",
+      "java_expr": "public static float backwardDistance(float angle1, float angle2){\n        return 360 - Math.abs(angle1 - angle2);\n    }",
+      "godot_symbol": "source_arc_angles_backward_distance_result.backwardDistance",
+      "rule": "Canonical Arc Angles.backwardDistance helper returns the remaining wrapped distance around 360 degrees."
+    },
+    "arc_angles_backward_distance.return_expr": {
+      "tests": [
+        "test_arc_angles_backward_distance_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_backward_distance",
+      "godot_owner": "PortGame.source_arc_angles_backward_distance",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "backwardDistance(float angle1, float angle2)",
+      "java_expr": "return 360 - Math.abs(angle1 - angle2);",
+      "godot_symbol": "source_arc_angles_backward_distance_result.backwardDistance",
+      "rule": "Backward angle distance subtracts the direct absolute difference from 360."
+    },
+    "arc_angles_backward_distance.angle1_input": {
+      "tests": [
+        "test_arc_angles_backward_distance_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_backward_distance",
+      "godot_owner": "PortGame.source_arc_angles_backward_distance",
+      "status": "explicit-input",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "backwardDistance(float angle1, float angle2)",
+      "java_expr": "angle1",
+      "godot_symbol": "source_arc_angles_backward_distance_input.angle1",
+      "rule": "Runtime angle1 parameter maps to Java angle1."
+    },
+    "arc_angles_backward_distance.angle2_input": {
+      "tests": [
+        "test_arc_angles_backward_distance_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_backward_distance",
+      "godot_owner": "PortGame.source_arc_angles_backward_distance",
+      "status": "explicit-input",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "backwardDistance(float angle1, float angle2)",
+      "java_expr": "angle2",
+      "godot_symbol": "source_arc_angles_backward_distance_input.angle2",
+      "rule": "Runtime angle2 parameter maps to Java angle2."
+    },
     "source_angles_angle_dist.method": {
       "tests": [
         "test_source_angles_angle_dist_symbols_are_registered_with_source_backing",

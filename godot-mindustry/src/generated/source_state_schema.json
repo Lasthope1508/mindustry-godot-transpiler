@@ -12761,6 +12761,64 @@
         }
       }
     },
+    "source_arc_angles_backward_distance_input": {
+      "status": "active",
+      "keys": {
+        "angle1": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "backwardDistance(float angle1, float angle2)",
+          "java_expr": "angle1",
+          "godot_symbol": "source_arc_angles_backward_distance_input.angle1",
+          "used_by": [
+            "PortGame.source_arc_angles_backward_distance"
+          ],
+          "rule": "Java backwardDistance first angle angle1."
+        },
+        "angle2": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "backwardDistance(float angle1, float angle2)",
+          "java_expr": "angle2",
+          "godot_symbol": "source_arc_angles_backward_distance_input.angle2",
+          "used_by": [
+            "PortGame.source_arc_angles_backward_distance"
+          ],
+          "rule": "Java backwardDistance second angle angle2."
+        }
+      }
+    },
+    "source_arc_angles_backward_distance_result": {
+      "status": "active",
+      "keys": {
+        "backwardDistance": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "backwardDistance(float angle1, float angle2)",
+          "java_expr": "return 360 - Math.abs(angle1 - angle2);",
+          "godot_symbol": "source_arc_angles_backward_distance_result.backwardDistance",
+          "used_by": [
+            "PortGame.source_arc_angles_backward_distance"
+          ],
+          "rule": "Backward distance return value."
+        },
+        "angle1": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_arc_angles_backward_distance_input.angle1",
+          "rule": "Carries Java angle1 input into result schema."
+        },
+        "angle2": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_arc_angles_backward_distance_input.angle2",
+          "rule": "Carries Java angle2 input into result schema."
+        }
+      }
+    },
     "source_angle_distance_input": {
       "status": "active",
       "keys": {
