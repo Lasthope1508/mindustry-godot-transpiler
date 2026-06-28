@@ -7694,6 +7694,139 @@
       "godot_symbol": "create_spawn_unit_result.bulletCreationReservedSource",
       "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",
       "rule": "Boundary for next normal bullet identity slice; no bullet allocation is inferred here."
+    },
+    "create_bullet_identity.bullet_create": {
+      "tests": [
+        "test_bullet_type_create_bullet_identity_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_bullet_identity_state",
+        "test_bullet_type_create_bullet_identity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_bullet_identity_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "Bullet bullet = Bullet.create();",
+      "godot_symbol": "create_bullet_identity_result.bullet",
+      "godot_owner": "PortGame.source_bullet_type_create_bullet_identity_state",
+      "rule": "Allocate the normal Bullet only after initial gate and spawnUnit branch permit continuation."
+    },
+    "create_bullet_identity.type_assignment": {
+      "tests": [
+        "test_bullet_type_create_bullet_identity_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_bullet_identity_state",
+        "test_bullet_type_create_bullet_identity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_bullet_identity_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "bullet.type = this;",
+      "godot_symbol": "create_bullet_identity_result.bullet.type",
+      "godot_owner": "PortGame.source_bullet_type_create_bullet_identity_state",
+      "rule": "Assign Bullet.type from the current BulletType instance; represent this as the supplied bullet_type_state identity."
+    },
+    "create_bullet_identity.owner_assignment": {
+      "tests": [
+        "test_bullet_type_create_bullet_identity_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_bullet_identity_state",
+        "test_bullet_type_create_bullet_identity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_bullet_identity_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "bullet.owner = owner;",
+      "godot_symbol": "create_bullet_identity_result.bullet.owner",
+      "godot_owner": "PortGame.source_bullet_type_create_bullet_identity_state",
+      "rule": "Assign Bullet.owner directly from the create call owner."
+    },
+    "create_bullet_identity.shooter_assignment": {
+      "tests": [
+        "test_bullet_type_create_bullet_identity_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_bullet_identity_state",
+        "test_bullet_type_create_bullet_identity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_bullet_identity_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "bullet.shooter = (shooter == null ? owner : shooter);",
+      "godot_symbol": "create_bullet_identity_result.bullet.shooter",
+      "godot_owner": "PortGame.source_bullet_type_create_bullet_identity_state",
+      "rule": "Use exact source shooter fallback: owner only when shooter is null."
+    },
+    "create_bullet_identity.team_assignment": {
+      "tests": [
+        "test_bullet_type_create_bullet_identity_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_bullet_identity_state",
+        "test_bullet_type_create_bullet_identity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_bullet_identity_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "bullet.team = team;",
+      "godot_symbol": "create_bullet_identity_result.bullet.team",
+      "godot_owner": "PortGame.source_bullet_type_create_bullet_identity_state",
+      "rule": "Assign Bullet.team directly from the create call team."
+    },
+    "create_bullet_identity.time_assignment": {
+      "tests": [
+        "test_bullet_type_create_bullet_identity_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_bullet_identity_state",
+        "test_bullet_type_create_bullet_identity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_bullet_identity_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "bullet.time = 0f;",
+      "godot_symbol": "create_bullet_identity_result.bullet.time",
+      "godot_owner": "PortGame.source_bullet_type_create_bullet_identity_state",
+      "rule": "Initialize Bullet.time to 0f exactly at normal allocation."
+    },
+    "create_bullet_identity.origin_x_assignment": {
+      "tests": [
+        "test_bullet_type_create_bullet_identity_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_bullet_identity_state",
+        "test_bullet_type_create_bullet_identity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_bullet_identity_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "bullet.originX = x;",
+      "godot_symbol": "create_bullet_identity_result.bullet.originX",
+      "godot_owner": "PortGame.source_bullet_type_create_bullet_identity_state",
+      "rule": "Assign Bullet.originX from the create call x coordinate."
+    },
+    "create_bullet_identity.origin_y_assignment": {
+      "tests": [
+        "test_bullet_type_create_bullet_identity_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_bullet_identity_state",
+        "test_bullet_type_create_bullet_identity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_bullet_identity_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "bullet.originY = y;",
+      "godot_symbol": "create_bullet_identity_result.bullet.originY",
+      "godot_owner": "PortGame.source_bullet_type_create_bullet_identity_state",
+      "rule": "Assign Bullet.originY from the create call y coordinate."
+    },
+    "create_bullet_identity.aim_tile_boundary": {
+      "tests": [
+        "test_bullet_type_create_bullet_identity_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_bullet_identity_state",
+        "test_bullet_type_create_bullet_identity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_bullet_identity_state",
+      "status": "deferred",
+      "java_expr": "if(!(aimX == -1f && aimY == -1f)){",
+      "godot_symbol": "create_bullet_identity_result.aimTileReservedSource",
+      "godot_owner": "PortGame.source_bullet_type_create_bullet_identity_state",
+      "rule": "Boundary for the next aim target slice; no aimTile behavior is inferred in N479."
     }
   }
 }

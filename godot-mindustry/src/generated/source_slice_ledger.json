@@ -2336,6 +2336,43 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
       "rule": "Backfills SSOT for existing BulletType.create spawnUnit branch runtime state; normal Bullet allocation remains deferred to the next source-backed owner."
+    },
+    "N479": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "godot_owner": "PortGame.source_bullet_type_create_bullet_identity_state",
+      "exact_exprs": [
+        "Bullet bullet = Bullet.create();",
+        "bullet.type = this;",
+        "bullet.owner = owner;",
+        "bullet.shooter = (shooter == null ? owner : shooter);",
+        "bullet.team = team;",
+        "bullet.time = 0f;",
+        "bullet.originX = x;",
+        "bullet.originY = y;"
+      ],
+      "deferred_exprs": [
+        "if(!(aimX == -1f && aimY == -1f)){"
+      ],
+      "source_symbols": [
+        "create_bullet_identity.bullet_create",
+        "create_bullet_identity.type_assignment",
+        "create_bullet_identity.owner_assignment",
+        "create_bullet_identity.shooter_assignment",
+        "create_bullet_identity.team_assignment",
+        "create_bullet_identity.time_assignment",
+        "create_bullet_identity.origin_x_assignment",
+        "create_bullet_identity.origin_y_assignment",
+        "create_bullet_identity.aim_tile_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_bullet_identity_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_bullet_identity_state",
+        "test_bullet_type_create_bullet_identity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_bullet_identity_state"
     }
   },
   "version": 1

@@ -3393,6 +3393,56 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
       "rule": "Public runtime contract for BulletType.create spawnUnit branch through return null, without normal Bullet allocation."
+    },
+    "PortGame.source_bullet_type_create_bullet_identity_state": {
+      "status": "active",
+      "source_slice": "N479",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "params": [
+        {
+          "name": "create_call_state",
+          "type": "Dictionary",
+          "schema": "create_call_state"
+        },
+        {
+          "name": "initial_gate_state",
+          "type": "Dictionary",
+          "schema": "create_initial_gate_result"
+        },
+        {
+          "name": "spawn_unit_state",
+          "type": "Dictionary",
+          "schema": "create_spawn_unit_result"
+        },
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "bulletAllocated",
+        "bulletCreateReturnsNull",
+        "bullet",
+        "bulletCreateSource",
+        "typeSource",
+        "ownerSource",
+        "shooterSource",
+        "teamSource",
+        "timeSource",
+        "originXSource",
+        "originYSource",
+        "aimTileReservedSource"
+      ],
+      "tests": [
+        "test_bullet_type_create_bullet_identity_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_bullet_identity_state",
+        "test_bullet_type_create_bullet_identity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_bullet_identity_state",
+      "rule": "Public runtime contract for BulletType.create normal bullet identity allocation, before aim target handling."
     }
   },
   "policy": {

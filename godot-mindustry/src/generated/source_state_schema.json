@@ -11069,7 +11069,8 @@
           "java_expr": "create(...) arguments: owner, shooter, team, x, y, angle, damage, velocityScl, lifetimeScl, data, mover, aimX, aimY, target",
           "godot_symbol": "create_call_state.bulletCreateCall",
           "used_by": [
-            "PortGame.source_bullet_type_create_initial_gate_state"
+            "PortGame.source_bullet_type_create_initial_gate_state",
+            "PortGame.source_bullet_type_create_bullet_identity_state"
           ],
           "rule": "Explicit create argument dictionary; later slices consume the same canonical call state."
         }
@@ -11112,7 +11113,10 @@
           "status": "generated",
           "godot_symbol": "create_initial_gate_result.bulletContinues",
           "alias_of": "create_call_state.bulletContinues",
-          "rule": "Whether the create chain continues into initial gate evaluation."
+          "rule": "Whether the create chain continues into initial gate evaluation.",
+          "used_by": [
+            "PortGame.source_bullet_type_create_bullet_identity_state"
+          ]
         },
         "bulletCreateCalled": {
           "type": "bool",
@@ -11129,7 +11133,8 @@
           "java_expr": "!Mathf.chance(createChance)",
           "godot_symbol": "create_initial_gate_result.bulletCreateReturnsNull",
           "used_by": [
-            "PortGame.source_bullet_type_create_initial_gate_state"
+            "PortGame.source_bullet_type_create_initial_gate_state",
+            "PortGame.source_bullet_type_create_bullet_identity_state"
           ],
           "rule": "Create returns null when createChance gate fails or prior create state did not continue."
         },
@@ -11258,7 +11263,8 @@
           "java_expr": "spawnUnit != null",
           "godot_symbol": "create_spawn_unit_result.spawnUnitBranchEntered",
           "used_by": [
-            "PortGame.source_bullet_type_create_spawn_unit_state"
+            "PortGame.source_bullet_type_create_spawn_unit_state",
+            "PortGame.source_bullet_type_create_bullet_identity_state"
           ],
           "rule": "Whether source spawnUnit branch is entered."
         },
@@ -11282,7 +11288,8 @@
           "java_expr": "return null;",
           "godot_symbol": "create_spawn_unit_result.bulletCreateReturnsNull",
           "used_by": [
-            "PortGame.source_bullet_type_create_spawn_unit_state"
+            "PortGame.source_bullet_type_create_spawn_unit_state",
+            "PortGame.source_bullet_type_create_bullet_identity_state"
           ],
           "rule": "SpawnUnit branch returns null instead of a Bullet."
         },
@@ -11387,6 +11394,95 @@
           "status": "deferred",
           "alias_of": "source_line.create_spawn_unit.bullet_create_boundary",
           "rule": "Boundary for normal Bullet allocation slice."
+        }
+      }
+    },
+    "create_bullet_identity_result": {
+      "status": "active",
+      "keys": {
+        "bulletContinues": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "create_spawn_unit_result.bulletContinues",
+          "rule": "Whether create chain continues after normal bullet identity evaluation."
+        },
+        "bulletAllocated": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "Bullet bullet = Bullet.create()",
+          "rule": "Whether source normal Bullet allocation is reached."
+        },
+        "bulletCreateReturnsNull": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "create_initial_gate_result.bulletCreateReturnsNull or create_spawn_unit_result.bulletCreateReturnsNull",
+          "rule": "Preserves prior return-null gate state; normal identity allocation itself does not return null."
+        },
+        "bullet": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "Bullet bullet = Bullet.create()",
+          "godot_symbol": "create_bullet_identity_result.bullet",
+          "used_by": [
+            "PortGame.source_bullet_type_create_bullet_identity_state"
+          ],
+          "rule": "Recorded normal Bullet identity state allocated by Bullet.create()."
+        },
+        "bulletCreateSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_bullet_identity.bullet_create",
+          "rule": "Runtime source label for Bullet.create()."
+        },
+        "typeSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_bullet_identity.type_assignment",
+          "rule": "Runtime source label for bullet.type assignment."
+        },
+        "ownerSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_bullet_identity.owner_assignment",
+          "rule": "Runtime source label for bullet.owner assignment."
+        },
+        "shooterSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_bullet_identity.shooter_assignment",
+          "rule": "Runtime source label for bullet.shooter fallback assignment."
+        },
+        "teamSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_bullet_identity.team_assignment",
+          "rule": "Runtime source label for bullet.team assignment."
+        },
+        "timeSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_bullet_identity.time_assignment",
+          "rule": "Runtime source label for bullet.time assignment."
+        },
+        "originXSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_bullet_identity.origin_x_assignment",
+          "rule": "Runtime source label for bullet.originX assignment."
+        },
+        "originYSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_bullet_identity.origin_y_assignment",
+          "rule": "Runtime source label for bullet.originY assignment."
+        },
+        "aimTileReservedSource": {
+          "type": "String",
+          "status": "deferred",
+          "alias_of": "source_line.create_bullet_identity.aim_tile_boundary",
+          "rule": "Boundary for deferred aim target slice."
         }
       }
     }
