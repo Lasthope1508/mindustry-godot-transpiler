@@ -2528,6 +2528,35 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(value_input["java_expr"], "d")
         self.assertEqual(value_input["godot_symbol"], "source_arc_strings_fixed_one_decimal_input.value")
 
+    def test_arc_vec2_limit_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "arc_vec2_limit.method")
+        self.assertEqual(method["java_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(method["java_expr"], "public Vec2 limit(float limit){\n        return limit2(limit * limit);\n    }")
+        self.assertEqual(method["godot_owner"], "PortGame.source_arc_vec2_limit")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_arc_vec2_limit")
+
+        limit2 = source_symbols.source_symbol(registry, "arc_vec2_limit.limit2_expr")
+        self.assertEqual(limit2["java_expr"], "limit * limit")
+        self.assertEqual(limit2["godot_symbol"], "source_arc_vec2_limit_result.limit2")
+
+        len2 = source_symbols.source_symbol(registry, "arc_vec2_limit.len2_method")
+        self.assertEqual(len2["java_expr"], "public float len2(){\n        return x * x + y * y;\n    }")
+        self.assertEqual(len2["godot_symbol"], "source_arc_vec2_limit_result.len2")
+
+        scale_expr = source_symbols.source_symbol(registry, "arc_vec2_limit.scale_expr")
+        self.assertEqual(scale_expr["java_expr"], "(float)Math.sqrt(limit2 / len2)")
+        self.assertEqual(scale_expr["godot_symbol"], "source_arc_vec2_limit_result.scale")
+
+        vec_input = source_symbols.source_symbol(registry, "arc_vec2_limit.vec_input")
+        self.assertEqual(vec_input["status"], "explicit-input")
+        self.assertEqual(vec_input["java_expr"], "this")
+        self.assertEqual(vec_input["godot_symbol"], "source_arc_vec2_limit_input.vec")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -2812,9 +2841,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 107)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 108)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 112)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 113)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -2923,6 +2952,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_arc_random_seed_float_max", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_random_seed_int", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_strings_fixed_one_decimal", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_arc_vec2_limit", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -3739,6 +3769,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public static String fixed(float d, int decimalPlaces){\n        return fixedBuilder(d, decimalPlaces).toString();\n    }", arc_strings_fixed_one_decimal["exact_exprs"])
         self.assertIn("dec.append((int)(float)(d * Math.pow(10, decimalPlaces) + 0.0001f));", arc_strings_fixed_one_decimal["exact_exprs"])
         self.assertIn("result.append(\".\");", arc_strings_fixed_one_decimal["exact_exprs"])
+
+        arc_vec2_limit = source_symbols.source_slice(ledger, "N510")
+        self.assertEqual(arc_vec2_limit["java_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(arc_vec2_limit["java_method"], "limit(float limit)")
+        self.assertEqual(arc_vec2_limit["godot_owner"], "PortGame.source_arc_vec2_limit")
+        self.assertIn("public Vec2 limit(float limit){\n        return limit2(limit * limit);\n    }", arc_vec2_limit["exact_exprs"])
+        self.assertIn("public Vec2 limit2(float limit2){\n        float len2 = len2();\n        if(len2 > limit2){\n            return scl((float)Math.sqrt(limit2 / len2));\n        }\n        return this;\n    }", arc_vec2_limit["exact_exprs"])
+        self.assertIn("public float len2(){\n        return x * x + y * y;\n    }", arc_vec2_limit["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -4729,6 +4767,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("decimalPlaces", arc_strings_fixed_one_decimal["return_keys"])
         self.assertIn("fixed", arc_strings_fixed_one_decimal["return_keys"])
         self.assertEqual(arc_strings_fixed_one_decimal["source_method"], "fixed(float d, int decimalPlaces)")
+
+        arc_vec2_limit = source_symbols.api_contract(contracts, "PortGame.source_arc_vec2_limit")
+        self.assertEqual([param["name"] for param in arc_vec2_limit["params"]], ["vec", "limit"])
+        self.assertEqual(arc_vec2_limit["params"][0]["schema"], "source_arc_vec2_limit_input.vec")
+        self.assertEqual(arc_vec2_limit["params"][1]["schema"], "source_arc_vec2_limit_input.limit")
+        self.assertIn("limit2", arc_vec2_limit["return_keys"])
+        self.assertIn("scale", arc_vec2_limit["return_keys"])
+        self.assertEqual(arc_vec2_limit["source_method"], "limit(float limit)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -5859,6 +5905,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_arc_strings_fixed_one_decimal_result["keys"]["dotInserted"]["java_expr"], "result.append(\".\");")
         self.assertEqual(source_arc_strings_fixed_one_decimal_result["keys"]["fixed"]["java_expr"], "return fixedBuilder(d, decimalPlaces).toString();")
         self.assertEqual(source_arc_strings_fixed_one_decimal_result["keys"]["value"]["alias_of"], "source_arc_strings_fixed_one_decimal_input.value")
+
+        source_arc_vec2_limit_input = source_symbols.state_schema(schema, "source_arc_vec2_limit_input")
+        self.assertEqual(source_arc_vec2_limit_input["keys"]["vec"]["java_expr"], "this")
+        self.assertEqual(source_arc_vec2_limit_input["keys"]["vec"]["status"], "explicit-input")
+        self.assertEqual(source_arc_vec2_limit_input["keys"]["limit"]["java_expr"], "limit")
+
+        source_arc_vec2_limit_result = source_symbols.state_schema(schema, "source_arc_vec2_limit_result")
+        self.assertEqual(source_arc_vec2_limit_result["keys"]["limit2"]["java_expr"], "limit * limit")
+        self.assertEqual(source_arc_vec2_limit_result["keys"]["len2"]["java_expr"], "return x * x + y * y;")
+        self.assertEqual(source_arc_vec2_limit_result["keys"]["limitGate"]["java_expr"], "if(len2 > limit2)")
+        self.assertEqual(source_arc_vec2_limit_result["keys"]["scale"]["java_expr"], "(float)Math.sqrt(limit2 / len2)")
+        self.assertEqual(source_arc_vec2_limit_result["keys"]["x"]["java_expr"], "x *= scalar;")
+        self.assertEqual(source_arc_vec2_limit_result["keys"]["vec"]["alias_of"], "source_arc_vec2_limit_input.vec")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

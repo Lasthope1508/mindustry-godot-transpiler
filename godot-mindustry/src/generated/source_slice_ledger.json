@@ -3384,6 +3384,43 @@
       ],
       "runtime_proof": "/root/Main.source_arc_strings_fixed_one_decimal",
       "rule": "Backfills SSOT for existing canonical source_arc_strings_fixed_one_decimal helper against Arc Strings.fixed(value, 1)."
+    },
+    "N510": {
+      "status": "done",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_class": "arc.math.geom.Vec2",
+      "java_method": "limit(float limit)",
+      "godot_owner": "PortGame.source_arc_vec2_limit",
+      "exact_exprs": [
+        "public Vec2 limit(float limit){\n        return limit2(limit * limit);\n    }",
+        "public Vec2 limit2(float limit2){\n        float len2 = len2();\n        if(len2 > limit2){\n            return scl((float)Math.sqrt(limit2 / len2));\n        }\n        return this;\n    }",
+        "public float len2(){\n        return x * x + y * y;\n    }",
+        "public Vec2 scl(float scalar){\n        x *= scalar;\n        y *= scalar;\n        return this;\n    }",
+        "limit * limit",
+        "if(len2 > limit2)",
+        "(float)Math.sqrt(limit2 / len2)",
+        "return this;",
+        "this",
+        "limit"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "arc_vec2_limit.method",
+        "arc_vec2_limit.limit2_method",
+        "arc_vec2_limit.limit2_expr",
+        "arc_vec2_limit.len2_method",
+        "arc_vec2_limit.gate",
+        "arc_vec2_limit.scale_expr",
+        "arc_vec2_limit.scl_method",
+        "arc_vec2_limit.return_this",
+        "arc_vec2_limit.vec_input",
+        "arc_vec2_limit.limit_input"
+      ],
+      "tests": [
+        "test_arc_vec2_limit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_vec2_limit",
+      "rule": "Backfills SSOT for existing canonical source_arc_vec2_limit helper against Arc Vec2.limit(float)."
     }
   },
   "version": 1

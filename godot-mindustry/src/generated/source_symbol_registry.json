@@ -11057,6 +11057,136 @@
       "java_expr": "d",
       "godot_symbol": "source_arc_strings_fixed_one_decimal_input.value",
       "rule": "Runtime value maps to Java d."
+    },
+    "arc_vec2_limit.method": {
+      "tests": [
+        "test_arc_vec2_limit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_vec2_limit",
+      "godot_owner": "PortGame.source_arc_vec2_limit",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "limit(float limit)",
+      "status": "source-backed",
+      "java_expr": "public Vec2 limit(float limit){\n        return limit2(limit * limit);\n    }",
+      "godot_symbol": "source_arc_vec2_limit_result.method",
+      "rule": "Arc Vec2.limit delegates to limit2(limit * limit)."
+    },
+    "arc_vec2_limit.limit2_method": {
+      "tests": [
+        "test_arc_vec2_limit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_vec2_limit",
+      "godot_owner": "PortGame.source_arc_vec2_limit",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "limit2(float limit2)",
+      "status": "source-backed",
+      "java_expr": "public Vec2 limit2(float limit2){\n        float len2 = len2();\n        if(len2 > limit2){\n            return scl((float)Math.sqrt(limit2 / len2));\n        }\n        return this;\n    }",
+      "godot_symbol": "source_arc_vec2_limit_result.limit2Method",
+      "rule": "Arc Vec2.limit2 body."
+    },
+    "arc_vec2_limit.limit2_expr": {
+      "tests": [
+        "test_arc_vec2_limit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_vec2_limit",
+      "godot_owner": "PortGame.source_arc_vec2_limit",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "limit(float limit)",
+      "status": "source-backed",
+      "java_expr": "limit * limit",
+      "godot_symbol": "source_arc_vec2_limit_result.limit2",
+      "rule": "Limit squared passed into limit2."
+    },
+    "arc_vec2_limit.len2_method": {
+      "tests": [
+        "test_arc_vec2_limit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_vec2_limit",
+      "godot_owner": "PortGame.source_arc_vec2_limit",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "len2()",
+      "status": "source-backed",
+      "java_expr": "public float len2(){\n        return x * x + y * y;\n    }",
+      "godot_symbol": "source_arc_vec2_limit_result.len2",
+      "rule": "Arc Vec2.len2 computes squared vector length."
+    },
+    "arc_vec2_limit.gate": {
+      "tests": [
+        "test_arc_vec2_limit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_vec2_limit",
+      "godot_owner": "PortGame.source_arc_vec2_limit",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "limit2(float limit2)",
+      "status": "source-backed",
+      "java_expr": "if(len2 > limit2)",
+      "godot_symbol": "source_arc_vec2_limit_result.limitGate",
+      "rule": "Limit only scales when current length squared exceeds limit squared."
+    },
+    "arc_vec2_limit.scale_expr": {
+      "tests": [
+        "test_arc_vec2_limit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_vec2_limit",
+      "godot_owner": "PortGame.source_arc_vec2_limit",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "limit2(float limit2)",
+      "status": "source-backed",
+      "java_expr": "(float)Math.sqrt(limit2 / len2)",
+      "godot_symbol": "source_arc_vec2_limit_result.scale",
+      "rule": "Scale factor used when limit gate passes."
+    },
+    "arc_vec2_limit.scl_method": {
+      "tests": [
+        "test_arc_vec2_limit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_vec2_limit",
+      "godot_owner": "PortGame.source_arc_vec2_limit",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "scl(float scalar)",
+      "status": "source-backed",
+      "java_expr": "public Vec2 scl(float scalar){\n        x *= scalar;\n        y *= scalar;\n        return this;\n    }",
+      "godot_symbol": "source_arc_vec2_limit_result.scl",
+      "rule": "Scale mutates x and y by scalar."
+    },
+    "arc_vec2_limit.return_this": {
+      "tests": [
+        "test_arc_vec2_limit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_vec2_limit",
+      "godot_owner": "PortGame.source_arc_vec2_limit",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "limit2(float limit2)",
+      "status": "source-backed",
+      "java_expr": "return this;",
+      "godot_symbol": "source_arc_vec2_limit_result.returnThis",
+      "rule": "Limit2 returns unchanged vector when gate does not pass."
+    },
+    "arc_vec2_limit.vec_input": {
+      "tests": [
+        "test_arc_vec2_limit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_vec2_limit",
+      "godot_owner": "PortGame.source_arc_vec2_limit",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "limit(float limit)",
+      "status": "explicit-input",
+      "java_expr": "this",
+      "godot_symbol": "source_arc_vec2_limit_input.vec",
+      "rule": "Runtime Vector2 maps to Java this Vec2."
+    },
+    "arc_vec2_limit.limit_input": {
+      "tests": [
+        "test_arc_vec2_limit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_vec2_limit",
+      "godot_owner": "PortGame.source_arc_vec2_limit",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "limit(float limit)",
+      "status": "explicit-input",
+      "java_expr": "limit",
+      "godot_symbol": "source_arc_vec2_limit_input.limit",
+      "rule": "Runtime limit maps to Java limit."
     }
   }
 }

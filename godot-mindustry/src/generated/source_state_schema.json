@@ -14718,6 +14718,172 @@
           "rule": "Carries Java d into result schema."
         }
       }
+    },
+    "source_arc_vec2_limit_input": {
+      "status": "active",
+      "keys": {
+        "vec": {
+          "type": "Vector2",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "java_method": "limit(float limit)",
+          "java_expr": "this",
+          "godot_symbol": "source_arc_vec2_limit_input.vec",
+          "used_by": [
+            "PortGame.source_arc_vec2_limit"
+          ],
+          "rule": "Java this Vec2 input."
+        },
+        "limit": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "java_method": "limit(float limit)",
+          "java_expr": "limit",
+          "godot_symbol": "source_arc_vec2_limit_input.limit",
+          "used_by": [
+            "PortGame.source_arc_vec2_limit"
+          ],
+          "rule": "Java limit input."
+        }
+      }
+    },
+    "source_arc_vec2_limit_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "string",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "java_method": "limit(float limit)",
+          "java_expr": "public Vec2 limit(float limit){\n        return limit2(limit * limit);\n    }",
+          "godot_symbol": "source_arc_vec2_limit_result.method",
+          "used_by": [
+            "PortGame.source_arc_vec2_limit"
+          ],
+          "rule": "Vec2.limit method body."
+        },
+        "limit2Method": {
+          "type": "string",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "java_method": "limit2(float limit2)",
+          "java_expr": "public Vec2 limit2(float limit2){\n        float len2 = len2();\n        if(len2 > limit2){\n            return scl((float)Math.sqrt(limit2 / len2));\n        }\n        return this;\n    }",
+          "godot_symbol": "source_arc_vec2_limit_result.limit2Method",
+          "used_by": [
+            "PortGame.source_arc_vec2_limit"
+          ],
+          "rule": "Vec2.limit2 method body."
+        },
+        "limit2": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "java_method": "limit(float limit)",
+          "java_expr": "limit * limit",
+          "godot_symbol": "source_arc_vec2_limit_result.limit2",
+          "used_by": [
+            "PortGame.source_arc_vec2_limit"
+          ],
+          "rule": "Limit squared."
+        },
+        "len2": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "java_method": "len2()",
+          "java_expr": "return x * x + y * y;",
+          "godot_symbol": "source_arc_vec2_limit_result.len2",
+          "used_by": [
+            "PortGame.source_arc_vec2_limit"
+          ],
+          "rule": "Vector squared length."
+        },
+        "limitGate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "java_method": "limit2(float limit2)",
+          "java_expr": "if(len2 > limit2)",
+          "godot_symbol": "source_arc_vec2_limit_result.limitGate",
+          "used_by": [
+            "PortGame.source_arc_vec2_limit"
+          ],
+          "rule": "Scale gate."
+        },
+        "scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "java_method": "limit2(float limit2)",
+          "java_expr": "(float)Math.sqrt(limit2 / len2)",
+          "godot_symbol": "source_arc_vec2_limit_result.scale",
+          "used_by": [
+            "PortGame.source_arc_vec2_limit"
+          ],
+          "rule": "Scale factor."
+        },
+        "scl": {
+          "type": "string",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "java_method": "scl(float scalar)",
+          "java_expr": "public Vec2 scl(float scalar){\n        x *= scalar;\n        y *= scalar;\n        return this;\n    }",
+          "godot_symbol": "source_arc_vec2_limit_result.scl",
+          "used_by": [
+            "PortGame.source_arc_vec2_limit"
+          ],
+          "rule": "Scale method body."
+        },
+        "returnThis": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "java_method": "limit2(float limit2)",
+          "java_expr": "return this;",
+          "godot_symbol": "source_arc_vec2_limit_result.returnThis",
+          "used_by": [
+            "PortGame.source_arc_vec2_limit"
+          ],
+          "rule": "Unchanged branch."
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "java_method": "scl(float scalar)",
+          "java_expr": "x *= scalar;",
+          "godot_symbol": "source_arc_vec2_limit_result.x",
+          "used_by": [
+            "PortGame.source_arc_vec2_limit"
+          ],
+          "rule": "Scaled x result."
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "java_method": "scl(float scalar)",
+          "java_expr": "y *= scalar;",
+          "godot_symbol": "source_arc_vec2_limit_result.y",
+          "used_by": [
+            "PortGame.source_arc_vec2_limit"
+          ],
+          "rule": "Scaled y result."
+        },
+        "vec": {
+          "type": "Vector2",
+          "status": "generated",
+          "alias_of": "source_arc_vec2_limit_input.vec",
+          "rule": "Carries Java this Vec2 into result schema."
+        },
+        "limit": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_arc_vec2_limit_input.limit",
+          "rule": "Carries Java limit into result schema."
+        }
+      }
     }
   },
   "version": 1

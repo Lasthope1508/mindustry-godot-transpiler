@@ -4501,6 +4501,43 @@
       ],
       "runtime_proof": "/root/Main.source_arc_strings_fixed_one_decimal",
       "rule": "Public runtime contract for Arc Strings.fixed(float,1) helper."
+    },
+    "PortGame.source_arc_vec2_limit": {
+      "status": "active",
+      "source_slice": "N510",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "source_method": "limit(float limit)",
+      "params": [
+        {
+          "name": "vec",
+          "type": "Vector2",
+          "schema": "source_arc_vec2_limit_input.vec"
+        },
+        {
+          "name": "limit",
+          "type": "float",
+          "schema": "source_arc_vec2_limit_input.limit"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "limit2Method",
+        "limit2",
+        "len2",
+        "limitGate",
+        "scale",
+        "scl",
+        "returnThis",
+        "x",
+        "y",
+        "vec",
+        "limit"
+      ],
+      "tests": [
+        "test_arc_vec2_limit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_vec2_limit",
+      "rule": "Public runtime contract for Arc Vec2.limit(float) helper."
     }
   },
   "policy": {
