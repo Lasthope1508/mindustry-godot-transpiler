@@ -7072,6 +7072,21 @@
       ],
       "runtime_proof": "/root/Main.source_building_edelta",
       "rule": "Public runtime contract for Mindustry BuildingComp.edelta() helper."
+    },
+    "PortGame.source_building_efficiency_scale_state": {
+      "status": "active",
+      "source_slice": "N580",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "efficiencyScale()",
+      "params": [],
+      "return_keys": [
+        "efficiency_scale"
+      ],
+      "tests": [
+        "test_building_efficiency_scale_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_efficiency_scale_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.efficiencyScale() helper."
     }
   },
   "policy": {

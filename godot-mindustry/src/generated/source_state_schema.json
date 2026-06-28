@@ -23529,6 +23529,47 @@
           "rule": "Carries efficiency input into result schema."
         }
       }
+    },
+    "source_building_efficiency_scale_result": {
+      "status": "active",
+      "keys": {
+        "comment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "efficiencyScale()",
+          "java_expr": "/** Calculate your own efficiency multiplier. By default, this is applied in updateEfficiencyMultiplier. */",
+          "godot_symbol": "source_building_efficiency_scale_result.comment",
+          "used_by": [
+            "PortGame.source_building_efficiency_scale_state"
+          ],
+          "rule": "Source efficiencyScale comment documents default multiplier semantics."
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "efficiencyScale()",
+          "java_expr": "public float efficiencyScale(){",
+          "godot_symbol": "source_building_efficiency_scale_result.method",
+          "used_by": [
+            "PortGame.source_building_efficiency_scale_state"
+          ],
+          "rule": "Source efficiencyScale method declaration."
+        },
+        "efficiency_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "efficiencyScale()",
+          "java_expr": "return 1f;",
+          "godot_symbol": "source_building_efficiency_scale_result.efficiency_scale",
+          "used_by": [
+            "PortGame.source_building_efficiency_scale_state"
+          ],
+          "rule": "Default BuildingComp efficiencyScale returns 1f."
+        }
+      }
     }
   },
   "version": 1

@@ -18051,6 +18051,45 @@
         "test_building_edelta_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_building_edelta"
+    },
+    "building_efficiency_scale.comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "efficiencyScale()",
+      "java_expr": "/** Calculate your own efficiency multiplier. By default, this is applied in updateEfficiencyMultiplier. */",
+      "godot_symbol": "source_building_efficiency_scale_result.comment",
+      "godot_owner": "PortGame.source_building_efficiency_scale_state",
+      "rule": "Source efficiencyScale comment documents default multiplier semantics.",
+      "tests": [
+        "test_building_efficiency_scale_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_efficiency_scale_state"
+    },
+    "building_efficiency_scale.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "efficiencyScale()",
+      "java_expr": "public float efficiencyScale(){",
+      "godot_symbol": "source_building_efficiency_scale_result.method",
+      "godot_owner": "PortGame.source_building_efficiency_scale_state",
+      "rule": "Source efficiencyScale method declaration.",
+      "tests": [
+        "test_building_efficiency_scale_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_efficiency_scale_state"
+    },
+    "building_efficiency_scale.return": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "efficiencyScale()",
+      "java_expr": "return 1f;",
+      "godot_symbol": "source_building_efficiency_scale_result.efficiency_scale",
+      "godot_owner": "PortGame.source_building_efficiency_scale_state",
+      "rule": "Default BuildingComp efficiencyScale returns 1f.",
+      "tests": [
+        "test_building_efficiency_scale_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_efficiency_scale_state"
     }
   }
 }

@@ -4654,6 +4654,28 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(time_scale["java_expr"], "timeScale")
         self.assertEqual(time_scale["godot_symbol"], "source_building_edelta_input.time_scale")
 
+    def test_building_efficiency_scale_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        comment = source_symbols.source_symbol(registry, "building_efficiency_scale.comment")
+        self.assertEqual(comment["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(comment["java_method"], "efficiencyScale()")
+        self.assertEqual(comment["java_expr"], "/** Calculate your own efficiency multiplier. By default, this is applied in updateEfficiencyMultiplier. */")
+        self.assertEqual(comment["godot_owner"], "PortGame.source_building_efficiency_scale_state")
+        self.assertEqual(comment["runtime_proof"], "/root/Main.source_building_efficiency_scale_state")
+        self.assertEqual(comment["godot_symbol"], "source_building_efficiency_scale_result.comment")
+
+        method = source_symbols.source_symbol(registry, "building_efficiency_scale.method")
+        self.assertEqual(method["java_expr"], "public float efficiencyScale(){")
+        self.assertEqual(method["godot_symbol"], "source_building_efficiency_scale_result.method")
+
+        return_value = source_symbols.source_symbol(registry, "building_efficiency_scale.return")
+        self.assertEqual(return_value["java_expr"], "return 1f;")
+        self.assertEqual(return_value["godot_symbol"], "source_building_efficiency_scale_result.efficiency_scale")
+
     def test_building_draw_disabled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -4977,9 +4999,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 177)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 178)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 182)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 183)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6612,6 +6634,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return efficiency * delta();", building_edelta["exact_exprs"])
         self.assertIn("delta()", building_edelta["deferred_exprs"][0])
 
+        building_efficiency_scale = source_symbols.source_slice(ledger, "N580")
+        self.assertEqual(building_efficiency_scale["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_efficiency_scale["java_method"], "efficiencyScale()")
+        self.assertEqual(building_efficiency_scale["godot_owner"], "PortGame.source_building_efficiency_scale_state")
+        self.assertIn("/** Calculate your own efficiency multiplier. By default, this is applied in updateEfficiencyMultiplier. */", building_efficiency_scale["exact_exprs"])
+        self.assertIn("public float efficiencyScale(){", building_efficiency_scale["exact_exprs"])
+        self.assertIn("return 1f;", building_efficiency_scale["exact_exprs"])
+
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
         self.assertEqual(arc_mathf_cos_scaled["java_method"], "cos(float radians, float scl, float mag)")
@@ -8162,6 +8192,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_edelta["params"][2]["schema"], "source_building_edelta_input.efficiency")
         self.assertIn("edelta", building_edelta["return_keys"])
         self.assertEqual(building_edelta["source_method"], "edelta()")
+
+        building_efficiency_scale = source_symbols.api_contract(contracts, "PortGame.source_building_efficiency_scale_state")
+        self.assertEqual([param["name"] for param in building_efficiency_scale["params"]], [])
+        self.assertIn("efficiency_scale", building_efficiency_scale["return_keys"])
+        self.assertEqual(building_efficiency_scale["source_method"], "efficiencyScale()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -10152,6 +10187,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_edelta_result["keys"]["edelta"]["java_expr"], "return efficiency * delta();")
         self.assertEqual(source_building_edelta_result["keys"]["delta_call"]["alias_of"], "source_building_delta_result.delta")
         self.assertEqual(source_building_edelta_result["keys"]["efficiency"]["alias_of"], "source_building_edelta_input.efficiency")
+
+        source_building_efficiency_scale_result = source_symbols.state_schema(schema, "source_building_efficiency_scale_result")
+        self.assertEqual(source_building_efficiency_scale_result["keys"]["comment"]["java_expr"], "/** Calculate your own efficiency multiplier. By default, this is applied in updateEfficiencyMultiplier. */")
+        self.assertEqual(source_building_efficiency_scale_result["keys"]["method"]["java_expr"], "public float efficiencyScale(){")
+        self.assertEqual(source_building_efficiency_scale_result["keys"]["efficiency_scale"]["java_expr"], "return 1f;")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")
