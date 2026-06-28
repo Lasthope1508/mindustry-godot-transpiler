@@ -2939,6 +2939,32 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(fallback["java_expr"], "return 0;")
         self.assertEqual(fallback["godot_symbol"], "source_building_accept_stack_result.fallback")
 
+    def test_building_after_destroyed_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        guard = source_symbols.source_symbol(registry, "building_after_destroyed.guard")
+        self.assertEqual(guard["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(guard["java_method"], "afterDestroyed()")
+        self.assertEqual(guard["java_expr"], "if(block.destroyBullet != null){")
+        self.assertEqual(guard["godot_owner"], "PortGame.source_building_after_destroyed_state")
+        self.assertEqual(guard["runtime_proof"], "/root/Main.source_building_after_destroyed_state")
+        self.assertEqual(guard["godot_symbol"], "source_building_after_destroyed_result.createBulletGate")
+
+        create_call = source_symbols.source_symbol(registry, "building_after_destroyed.create_call")
+        self.assertEqual(create_call["java_expr"], "block.destroyBullet.create(this, block.destroyBulletSameTeam ? team : Team.derelict, x, y, Mathf.randomSeed(id(), 360f));")
+        self.assertEqual(create_call["godot_symbol"], "source_building_after_destroyed_result.createBullet")
+
+        team_choice = source_symbols.source_symbol(registry, "building_after_destroyed.team_choice")
+        self.assertEqual(team_choice["java_expr"], "block.destroyBulletSameTeam ? team : Team.derelict")
+        self.assertEqual(team_choice["godot_symbol"], "source_building_after_destroyed_result.team")
+
+        rotation = source_symbols.source_symbol(registry, "building_after_destroyed.rotation")
+        self.assertEqual(rotation["java_expr"], "Mathf.randomSeed(id(), 360f)")
+        self.assertEqual(rotation["godot_symbol"], "source_building_after_destroyed_result.rotation")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3223,9 +3249,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 122)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 123)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 127)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 128)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3349,6 +3375,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_payload_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_stack_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_after_destroyed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -4282,6 +4309,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(acceptItem(self(), item) && block.hasItems && (source == null || source.team() == team)){", building_accept_stack["exact_exprs"])
         self.assertIn("return Math.min(getMaximumAccepted(item) - items.get(item), amount);", building_accept_stack["exact_exprs"])
         self.assertIn("return 0;", building_accept_stack["exact_exprs"])
+
+        building_after_destroyed = source_symbols.source_slice(ledger, "N525")
+        self.assertEqual(building_after_destroyed["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_after_destroyed["java_method"], "afterDestroyed()")
+        self.assertEqual(building_after_destroyed["godot_owner"], "PortGame.source_building_after_destroyed_state")
+        self.assertIn("if(block.destroyBullet != null){", building_after_destroyed["exact_exprs"])
+        self.assertIn("block.destroyBullet.create(this, block.destroyBulletSameTeam ? team : Team.derelict, x, y, Mathf.randomSeed(id(), 360f));", building_after_destroyed["exact_exprs"])
+        self.assertIn("Mathf.randomSeed(id(), 360f)", building_after_destroyed["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -5381,6 +5416,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("acceptStack", building_accept_stack["return_keys"])
         self.assertIn("fallback", building_accept_stack["return_keys"])
         self.assertEqual(building_accept_stack["source_method"], "acceptStack(Item item, int amount, Teamc source)")
+
+        building_after_destroyed = source_symbols.api_contract(contracts, "PortGame.source_building_after_destroyed_state")
+        self.assertEqual([param["name"] for param in building_after_destroyed["params"]], ["has_destroy_bullet", "destroy_bullet_same_team", "team_id", "source_x", "source_y", "building_id"])
+        self.assertEqual(building_after_destroyed["params"][0]["schema"], "source_building_after_destroyed_input.hasDestroyBullet")
+        self.assertEqual(building_after_destroyed["params"][5]["schema"], "source_building_after_destroyed_input.buildingId")
+        self.assertIn("createBullet", building_after_destroyed["return_keys"])
+        self.assertIn("rotation", building_after_destroyed["return_keys"])
+        self.assertEqual(building_after_destroyed["source_method"], "afterDestroyed()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -6670,6 +6713,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_accept_stack_result["keys"]["acceptStack"]["java_expr"], "return Math.min(getMaximumAccepted(item) - items.get(item), amount);")
         self.assertEqual(source_building_accept_stack_result["keys"]["fallback"]["java_expr"], "return 0;")
         self.assertEqual(source_building_accept_stack_result["keys"]["acceptsItem"]["alias_of"], "source_building_accept_stack_input.acceptsItem")
+
+        source_building_after_destroyed_input = source_symbols.state_schema(schema, "source_building_after_destroyed_input")
+        self.assertEqual(source_building_after_destroyed_input["keys"]["hasDestroyBullet"]["java_expr"], "block.destroyBullet != null")
+        self.assertEqual(source_building_after_destroyed_input["keys"]["destroyBulletSameTeam"]["java_expr"], "block.destroyBulletSameTeam")
+        self.assertEqual(source_building_after_destroyed_input["keys"]["teamId"]["java_expr"], "team")
+        self.assertEqual(source_building_after_destroyed_input["keys"]["sourceX"]["java_expr"], "x")
+        self.assertEqual(source_building_after_destroyed_input["keys"]["sourceY"]["java_expr"], "y")
+        self.assertEqual(source_building_after_destroyed_input["keys"]["buildingId"]["java_expr"], "id()")
+
+        source_building_after_destroyed_result = source_symbols.state_schema(schema, "source_building_after_destroyed_result")
+        self.assertEqual(source_building_after_destroyed_result["keys"]["createBulletGate"]["java_expr"], "if(block.destroyBullet != null){")
+        self.assertEqual(source_building_after_destroyed_result["keys"]["createBullet"]["java_expr"], "block.destroyBullet.create(this, block.destroyBulletSameTeam ? team : Team.derelict, x, y, Mathf.randomSeed(id(), 360f));")
+        self.assertEqual(source_building_after_destroyed_result["keys"]["team"]["java_expr"], "block.destroyBulletSameTeam ? team : Team.derelict")
+        self.assertEqual(source_building_after_destroyed_result["keys"]["rotation"]["java_expr"], "Mathf.randomSeed(id(), 360f)")
+        self.assertEqual(source_building_after_destroyed_result["keys"]["buildingId"]["alias_of"], "source_building_after_destroyed_input.buildingId")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

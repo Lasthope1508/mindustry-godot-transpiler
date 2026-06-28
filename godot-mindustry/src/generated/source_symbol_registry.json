@@ -12305,6 +12305,136 @@
       "java_expr": "amount",
       "godot_symbol": "source_building_accept_stack_input.amount",
       "rule": "Runtime amount argument supplies source amount parameter."
+    },
+    "building_after_destroyed.guard": {
+      "tests": [
+        "test_building_after_destroyed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_after_destroyed_state",
+      "godot_owner": "PortGame.source_building_after_destroyed_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "afterDestroyed()",
+      "status": "source-backed",
+      "java_expr": "if(block.destroyBullet != null){",
+      "godot_symbol": "source_building_after_destroyed_result.createBulletGate",
+      "rule": "Source destroy bullet guard."
+    },
+    "building_after_destroyed.create_call": {
+      "tests": [
+        "test_building_after_destroyed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_after_destroyed_state",
+      "godot_owner": "PortGame.source_building_after_destroyed_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "afterDestroyed()",
+      "status": "source-backed",
+      "java_expr": "block.destroyBullet.create(this, block.destroyBulletSameTeam ? team : Team.derelict, x, y, Mathf.randomSeed(id(), 360f));",
+      "godot_symbol": "source_building_after_destroyed_result.createBullet",
+      "rule": "Source destroy bullet create call."
+    },
+    "building_after_destroyed.team_choice": {
+      "tests": [
+        "test_building_after_destroyed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_after_destroyed_state",
+      "godot_owner": "PortGame.source_building_after_destroyed_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "afterDestroyed()",
+      "status": "source-backed",
+      "java_expr": "block.destroyBulletSameTeam ? team : Team.derelict",
+      "godot_symbol": "source_building_after_destroyed_result.team",
+      "rule": "Source team choice for destroy bullet."
+    },
+    "building_after_destroyed.rotation": {
+      "tests": [
+        "test_building_after_destroyed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_after_destroyed_state",
+      "godot_owner": "PortGame.source_building_after_destroyed_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "afterDestroyed()",
+      "status": "source-backed",
+      "java_expr": "Mathf.randomSeed(id(), 360f)",
+      "godot_symbol": "source_building_after_destroyed_result.rotation",
+      "rule": "Source random rotation expression for destroy bullet."
+    },
+    "building_after_destroyed.has_destroy_bullet": {
+      "tests": [
+        "test_building_after_destroyed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_after_destroyed_state",
+      "godot_owner": "PortGame.source_building_after_destroyed_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "afterDestroyed()",
+      "status": "explicit-input",
+      "java_expr": "block.destroyBullet != null",
+      "godot_symbol": "source_building_after_destroyed_input.hasDestroyBullet",
+      "rule": "Runtime has_destroy_bullet argument supplies source destroyBullet null guard."
+    },
+    "building_after_destroyed.destroy_bullet_same_team": {
+      "tests": [
+        "test_building_after_destroyed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_after_destroyed_state",
+      "godot_owner": "PortGame.source_building_after_destroyed_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "afterDestroyed()",
+      "status": "explicit-input",
+      "java_expr": "block.destroyBulletSameTeam",
+      "godot_symbol": "source_building_after_destroyed_input.destroyBulletSameTeam",
+      "rule": "Runtime destroy_bullet_same_team argument supplies source team-selection flag."
+    },
+    "building_after_destroyed.team_id": {
+      "tests": [
+        "test_building_after_destroyed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_after_destroyed_state",
+      "godot_owner": "PortGame.source_building_after_destroyed_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "afterDestroyed()",
+      "status": "explicit-input",
+      "java_expr": "team",
+      "godot_symbol": "source_building_after_destroyed_input.teamId",
+      "rule": "Runtime team_id argument supplies source building team."
+    },
+    "building_after_destroyed.source_x": {
+      "tests": [
+        "test_building_after_destroyed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_after_destroyed_state",
+      "godot_owner": "PortGame.source_building_after_destroyed_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "afterDestroyed()",
+      "status": "explicit-input",
+      "java_expr": "x",
+      "godot_symbol": "source_building_after_destroyed_input.sourceX",
+      "rule": "Runtime source_x argument supplies source building x."
+    },
+    "building_after_destroyed.source_y": {
+      "tests": [
+        "test_building_after_destroyed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_after_destroyed_state",
+      "godot_owner": "PortGame.source_building_after_destroyed_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "afterDestroyed()",
+      "status": "explicit-input",
+      "java_expr": "y",
+      "godot_symbol": "source_building_after_destroyed_input.sourceY",
+      "rule": "Runtime source_y argument supplies source building y."
+    },
+    "building_after_destroyed.building_id": {
+      "tests": [
+        "test_building_after_destroyed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_after_destroyed_state",
+      "godot_owner": "PortGame.source_building_after_destroyed_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "afterDestroyed()",
+      "status": "explicit-input",
+      "java_expr": "id()",
+      "godot_symbol": "source_building_after_destroyed_input.buildingId",
+      "rule": "Runtime building_id argument supplies source id()."
     }
   }
 }

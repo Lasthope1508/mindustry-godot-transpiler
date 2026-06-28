@@ -3846,6 +3846,48 @@
       ],
       "runtime_proof": "/root/Main.source_building_accept_stack_state",
       "rule": "Backfills SSOT for existing canonical source_building_accept_stack_state helper against BuildingComp.acceptStack."
+    },
+    "N525": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "afterDestroyed()",
+      "godot_owner": "PortGame.source_building_after_destroyed_state",
+      "exact_exprs": [
+        "if(block.destroyBullet != null){",
+        "block.destroyBullet.create(this, block.destroyBulletSameTeam ? team : Team.derelict, x, y, Mathf.randomSeed(id(), 360f));",
+        "block.destroyBulletSameTeam ? team : Team.derelict",
+        "Mathf.randomSeed(id(), 360f)",
+        "block.destroyBullet != null",
+        "block.destroyBulletSameTeam",
+        "team",
+        "x",
+        "y",
+        "id()"
+      ],
+      "deferred_exprs": [
+        "public static float randomSeed(long seed, float max){",
+        "seedr.setSeed(seed * 99999);",
+        "return seedr.nextFloat() * max;",
+        "return (float)((nextLong() >>> 40) * NORM_FLOAT);"
+      ],
+      "source_symbols": [
+        "building_after_destroyed.guard",
+        "building_after_destroyed.create_call",
+        "building_after_destroyed.team_choice",
+        "building_after_destroyed.rotation",
+        "building_after_destroyed.has_destroy_bullet",
+        "building_after_destroyed.destroy_bullet_same_team",
+        "building_after_destroyed.team_id",
+        "building_after_destroyed.source_x",
+        "building_after_destroyed.source_y",
+        "building_after_destroyed.building_id"
+      ],
+      "tests": [
+        "test_building_after_destroyed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_after_destroyed_state",
+      "rule": "Backfills SSOT for existing canonical source_building_after_destroyed_state helper against BuildingComp.afterDestroyed destroy bullet path."
     }
   },
   "version": 1

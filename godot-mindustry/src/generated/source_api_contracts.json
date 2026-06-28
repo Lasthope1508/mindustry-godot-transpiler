@@ -5002,6 +5002,61 @@
       ],
       "runtime_proof": "/root/Main.source_building_accept_stack_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.acceptStack helper."
+    },
+    "PortGame.source_building_after_destroyed_state": {
+      "status": "active",
+      "source_slice": "N525",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "afterDestroyed()",
+      "params": [
+        {
+          "name": "has_destroy_bullet",
+          "type": "bool",
+          "schema": "source_building_after_destroyed_input.hasDestroyBullet"
+        },
+        {
+          "name": "destroy_bullet_same_team",
+          "type": "bool",
+          "schema": "source_building_after_destroyed_input.destroyBulletSameTeam"
+        },
+        {
+          "name": "team_id",
+          "type": "String",
+          "schema": "source_building_after_destroyed_input.teamId"
+        },
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_building_after_destroyed_input.sourceX"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_building_after_destroyed_input.sourceY"
+        },
+        {
+          "name": "building_id",
+          "type": "int",
+          "schema": "source_building_after_destroyed_input.buildingId"
+        }
+      ],
+      "return_keys": [
+        "hasDestroyBullet",
+        "destroyBulletSameTeam",
+        "teamId",
+        "sourceX",
+        "sourceY",
+        "buildingId",
+        "createBulletGate",
+        "createBullet",
+        "team",
+        "rotation"
+      ],
+      "tests": [
+        "test_building_after_destroyed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_after_destroyed_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.afterDestroyed destroy bullet helper."
     }
   },
   "policy": {

@@ -16279,6 +16279,172 @@
           "rule": "Carries amount input into result schema."
         }
       }
+    },
+    "source_building_after_destroyed_input": {
+      "status": "active",
+      "keys": {
+        "hasDestroyBullet": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "afterDestroyed()",
+          "java_expr": "block.destroyBullet != null",
+          "godot_symbol": "source_building_after_destroyed_input.hasDestroyBullet",
+          "used_by": [
+            "PortGame.source_building_after_destroyed_state"
+          ],
+          "rule": "Runtime has_destroy_bullet argument supplies source destroyBullet null guard."
+        },
+        "destroyBulletSameTeam": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "afterDestroyed()",
+          "java_expr": "block.destroyBulletSameTeam",
+          "godot_symbol": "source_building_after_destroyed_input.destroyBulletSameTeam",
+          "used_by": [
+            "PortGame.source_building_after_destroyed_state"
+          ],
+          "rule": "Runtime destroy_bullet_same_team argument supplies source team-selection flag."
+        },
+        "teamId": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "afterDestroyed()",
+          "java_expr": "team",
+          "godot_symbol": "source_building_after_destroyed_input.teamId",
+          "used_by": [
+            "PortGame.source_building_after_destroyed_state"
+          ],
+          "rule": "Runtime team_id argument supplies source building team."
+        },
+        "sourceX": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "afterDestroyed()",
+          "java_expr": "x",
+          "godot_symbol": "source_building_after_destroyed_input.sourceX",
+          "used_by": [
+            "PortGame.source_building_after_destroyed_state"
+          ],
+          "rule": "Runtime source_x argument supplies source building x."
+        },
+        "sourceY": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "afterDestroyed()",
+          "java_expr": "y",
+          "godot_symbol": "source_building_after_destroyed_input.sourceY",
+          "used_by": [
+            "PortGame.source_building_after_destroyed_state"
+          ],
+          "rule": "Runtime source_y argument supplies source building y."
+        },
+        "buildingId": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "afterDestroyed()",
+          "java_expr": "id()",
+          "godot_symbol": "source_building_after_destroyed_input.buildingId",
+          "used_by": [
+            "PortGame.source_building_after_destroyed_state"
+          ],
+          "rule": "Runtime building_id argument supplies source id()."
+        }
+      }
+    },
+    "source_building_after_destroyed_result": {
+      "status": "active",
+      "keys": {
+        "createBulletGate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "afterDestroyed()",
+          "java_expr": "if(block.destroyBullet != null){",
+          "godot_symbol": "source_building_after_destroyed_result.createBulletGate",
+          "used_by": [
+            "PortGame.source_building_after_destroyed_state"
+          ],
+          "rule": "Source destroy bullet guard."
+        },
+        "createBullet": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "afterDestroyed()",
+          "java_expr": "block.destroyBullet.create(this, block.destroyBulletSameTeam ? team : Team.derelict, x, y, Mathf.randomSeed(id(), 360f));",
+          "godot_symbol": "source_building_after_destroyed_result.createBullet",
+          "used_by": [
+            "PortGame.source_building_after_destroyed_state"
+          ],
+          "rule": "Source destroy bullet create call."
+        },
+        "team": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "afterDestroyed()",
+          "java_expr": "block.destroyBulletSameTeam ? team : Team.derelict",
+          "godot_symbol": "source_building_after_destroyed_result.team",
+          "used_by": [
+            "PortGame.source_building_after_destroyed_state"
+          ],
+          "rule": "Source team choice for destroy bullet."
+        },
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "afterDestroyed()",
+          "java_expr": "Mathf.randomSeed(id(), 360f)",
+          "godot_symbol": "source_building_after_destroyed_result.rotation",
+          "used_by": [
+            "PortGame.source_building_after_destroyed_state"
+          ],
+          "rule": "Source random rotation expression for destroy bullet."
+        },
+        "hasDestroyBullet": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_after_destroyed_input.hasDestroyBullet",
+          "rule": "Carries hasDestroyBullet input into result schema."
+        },
+        "destroyBulletSameTeam": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_after_destroyed_input.destroyBulletSameTeam",
+          "rule": "Carries destroyBulletSameTeam input into result schema."
+        },
+        "teamId": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_building_after_destroyed_input.teamId",
+          "rule": "Carries teamId input into result schema."
+        },
+        "sourceX": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_after_destroyed_input.sourceX",
+          "rule": "Carries sourceX input into result schema."
+        },
+        "sourceY": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_after_destroyed_input.sourceY",
+          "rule": "Carries sourceY input into result schema."
+        },
+        "buildingId": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_after_destroyed_input.buildingId",
+          "rule": "Carries buildingId input into result schema."
+        }
+      }
     }
   },
   "version": 1
