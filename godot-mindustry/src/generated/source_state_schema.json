@@ -26593,6 +26593,124 @@
           "rule": "Carries base_explosiveness input into result schema."
         }
       }
+    },
+    "source_building_on_destroyed_liquid_explosion_input": {
+      "status": "active",
+      "keys": {
+        "current_explosiveness": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "explosiveness",
+          "godot_symbol": "source_building_on_destroyed_liquid_explosion_input.current_explosiveness",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_liquid_explosion_state"
+          ],
+          "rule": "Runtime current_explosiveness supplies source explosiveness accumulator."
+        },
+        "current_flammability": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "flammability",
+          "godot_symbol": "source_building_on_destroyed_liquid_explosion_input.current_flammability",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_liquid_explosion_state"
+          ],
+          "rule": "Runtime current_flammability supplies source flammability accumulator."
+        },
+        "has_liquids": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "block.hasLiquids",
+          "godot_symbol": "source_building_on_destroyed_liquid_explosion_input.has_liquids",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_liquid_explosion_state"
+          ],
+          "rule": "Runtime has_liquids supplies source block.hasLiquids gate."
+        },
+        "liquid_states": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "liquids.sum((liquid, amount) -> ...)",
+          "godot_symbol": "source_building_on_destroyed_liquid_explosion_input.liquid_states",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_liquid_explosion_state"
+          ],
+          "rule": "Runtime liquid_states supplies source liquid amount and liquid property values."
+        }
+      }
+    },
+    "source_building_on_destroyed_liquid_explosion_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "public void onDestroyed(){",
+          "godot_symbol": "source_building_on_destroyed_liquid_explosion_result.method",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_liquid_explosion_state"
+          ],
+          "rule": "BuildingComp onDestroyed method boundary."
+        },
+        "has_liquids": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "if(block.hasLiquids){",
+          "godot_symbol": "source_building_on_destroyed_liquid_explosion_result.has_liquids",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_liquid_explosion_state"
+          ],
+          "rule": "Liquid contribution gate."
+        },
+        "flammability": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "flammability += liquids.sum((liquid, amount) -> liquid.flammability * amount / 2f);",
+          "godot_symbol": "source_building_on_destroyed_liquid_explosion_result.flammability",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_liquid_explosion_state"
+          ],
+          "rule": "Liquid flammability contribution."
+        },
+        "explosiveness": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "explosiveness += liquids.sum((liquid, amount) -> liquid.explosiveness * amount / 2f);",
+          "godot_symbol": "source_building_on_destroyed_liquid_explosion_result.explosiveness",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_liquid_explosion_state"
+          ],
+          "rule": "Liquid explosiveness contribution."
+        },
+        "current_explosiveness": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_liquid_explosion_input.current_explosiveness",
+          "rule": "Carries current_explosiveness input into result schema."
+        },
+        "current_flammability": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_liquid_explosion_input.current_flammability",
+          "rule": "Carries current_flammability input into result schema."
+        }
+      }
     }
   },
   "version": 1

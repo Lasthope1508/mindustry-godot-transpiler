@@ -1739,6 +1739,10 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_building_on_destroyed_liquid_explosion_state(current_explosiveness: float, current_flammability: float, has_liquids: bool, liquid_states: Array) -> Dictionary:", source)
+        self.assertIn('"method": "public void onDestroyed(){"', source)
+        self.assertIn('"current_explosiveness": current_explosiveness', source)
+        self.assertIn('"current_flammability": current_flammability', source)
+        self.assertIn('"has_liquids": has_liquids', source)
         self.assertIn('flammability += float(liquid_state.get("flammability", 0.0)) * float(liquid_state.get("amount", 0.0)) / 2.0', source)
         self.assertIn('explosiveness += float(liquid_state.get("explosiveness", 0.0)) * float(liquid_state.get("amount", 0.0)) / 2.0', source)
 

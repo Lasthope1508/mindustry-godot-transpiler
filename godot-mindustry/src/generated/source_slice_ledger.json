@@ -6643,6 +6643,40 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_destroyed_item_explosion_state",
       "rule": "Backfills SSOT for existing canonical source_building_on_destroyed_item_explosion_state helper against BuildingComp.onDestroyed() item explosion contributions."
+    },
+    "N612": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_liquid_explosion_state",
+      "exact_exprs": [
+        "public void onDestroyed(){",
+        "if(block.hasLiquids){",
+        "flammability += liquids.sum((liquid, amount) -> liquid.flammability * amount / 2f);",
+        "explosiveness += liquids.sum((liquid, amount) -> liquid.explosiveness * amount / 2f);",
+        "block.hasLiquids",
+        "liquids.sum((liquid, amount) -> liquid.flammability * amount / 2f)",
+        "liquids.sum((liquid, amount) -> liquid.explosiveness * amount / 2f)"
+      ],
+      "deferred_exprs": [
+        "Concrete LiquidModule storage and content liquid iteration remain covered by adjacent liquid/runtime integration slices."
+      ],
+      "source_symbols": [
+        "building_on_destroyed_liquid_explosion.method",
+        "building_on_destroyed_liquid_explosion.has_liquids_gate",
+        "building_on_destroyed_liquid_explosion.flammability",
+        "building_on_destroyed_liquid_explosion.explosiveness",
+        "building_on_destroyed_liquid_explosion.current_explosiveness",
+        "building_on_destroyed_liquid_explosion.current_flammability",
+        "building_on_destroyed_liquid_explosion.has_liquids",
+        "building_on_destroyed_liquid_explosion.liquid_states"
+      ],
+      "tests": [
+        "test_building_on_destroyed_liquid_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_liquid_explosion_state",
+      "rule": "Backfills SSOT for existing canonical source_building_on_destroyed_liquid_explosion_state helper against BuildingComp.onDestroyed() liquid explosion contributions."
     }
   },
   "version": 1

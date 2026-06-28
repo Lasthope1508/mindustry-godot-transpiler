@@ -8055,6 +8055,47 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_destroyed_item_explosion_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.onDestroyed item explosion contribution helper."
+    },
+    "PortGame.source_building_on_destroyed_liquid_explosion_state": {
+      "status": "active",
+      "source_slice": "N612",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "onDestroyed()",
+      "params": [
+        {
+          "name": "current_explosiveness",
+          "type": "float",
+          "schema": "source_building_on_destroyed_liquid_explosion_input.current_explosiveness"
+        },
+        {
+          "name": "current_flammability",
+          "type": "float",
+          "schema": "source_building_on_destroyed_liquid_explosion_input.current_flammability"
+        },
+        {
+          "name": "has_liquids",
+          "type": "bool",
+          "schema": "source_building_on_destroyed_liquid_explosion_input.has_liquids"
+        },
+        {
+          "name": "liquid_states",
+          "type": "Array",
+          "schema": "source_building_on_destroyed_liquid_explosion_input.liquid_states"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "current_explosiveness",
+        "current_flammability",
+        "has_liquids",
+        "explosiveness",
+        "flammability"
+      ],
+      "tests": [
+        "test_building_on_destroyed_liquid_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_liquid_explosion_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.onDestroyed liquid explosion contribution helper."
     }
   },
   "policy": {

@@ -20495,6 +20495,110 @@
       "java_expr": "explosionItemCap()",
       "godot_symbol": "source_building_on_destroyed_item_explosion_input.item_cap",
       "rule": "Runtime item_cap supplies source explosionItemCap()."
+    },
+    "building_on_destroyed_liquid_explosion.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_liquid_explosion_state",
+      "tests": [
+        "test_building_on_destroyed_liquid_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_liquid_explosion_state",
+      "java_expr": "public void onDestroyed(){",
+      "godot_symbol": "source_building_on_destroyed_liquid_explosion_result.method",
+      "rule": "BuildingComp onDestroyed method boundary."
+    },
+    "building_on_destroyed_liquid_explosion.has_liquids_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_liquid_explosion_state",
+      "tests": [
+        "test_building_on_destroyed_liquid_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_liquid_explosion_state",
+      "java_expr": "if(block.hasLiquids){",
+      "godot_symbol": "source_building_on_destroyed_liquid_explosion_result.has_liquids",
+      "rule": "Liquid contribution gate."
+    },
+    "building_on_destroyed_liquid_explosion.flammability": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_liquid_explosion_state",
+      "tests": [
+        "test_building_on_destroyed_liquid_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_liquid_explosion_state",
+      "java_expr": "flammability += liquids.sum((liquid, amount) -> liquid.flammability * amount / 2f);",
+      "godot_symbol": "source_building_on_destroyed_liquid_explosion_result.flammability",
+      "rule": "Liquid flammability contribution."
+    },
+    "building_on_destroyed_liquid_explosion.explosiveness": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_liquid_explosion_state",
+      "tests": [
+        "test_building_on_destroyed_liquid_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_liquid_explosion_state",
+      "java_expr": "explosiveness += liquids.sum((liquid, amount) -> liquid.explosiveness * amount / 2f);",
+      "godot_symbol": "source_building_on_destroyed_liquid_explosion_result.explosiveness",
+      "rule": "Liquid explosiveness contribution."
+    },
+    "building_on_destroyed_liquid_explosion.current_explosiveness": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_liquid_explosion_state",
+      "tests": [
+        "test_building_on_destroyed_liquid_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_liquid_explosion_state",
+      "java_expr": "explosiveness",
+      "godot_symbol": "source_building_on_destroyed_liquid_explosion_input.current_explosiveness",
+      "rule": "Runtime current_explosiveness supplies current source explosiveness accumulator before this slice."
+    },
+    "building_on_destroyed_liquid_explosion.current_flammability": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_liquid_explosion_state",
+      "tests": [
+        "test_building_on_destroyed_liquid_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_liquid_explosion_state",
+      "java_expr": "flammability",
+      "godot_symbol": "source_building_on_destroyed_liquid_explosion_input.current_flammability",
+      "rule": "Runtime current_flammability supplies current source flammability accumulator before this slice."
+    },
+    "building_on_destroyed_liquid_explosion.has_liquids": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_liquid_explosion_state",
+      "tests": [
+        "test_building_on_destroyed_liquid_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_liquid_explosion_state",
+      "java_expr": "block.hasLiquids",
+      "godot_symbol": "source_building_on_destroyed_liquid_explosion_input.has_liquids",
+      "rule": "Runtime has_liquids supplies source block.hasLiquids gate."
+    },
+    "building_on_destroyed_liquid_explosion.liquid_states": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_liquid_explosion_state",
+      "tests": [
+        "test_building_on_destroyed_liquid_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_liquid_explosion_state",
+      "java_expr": "liquids.sum((liquid, amount) -> ...)",
+      "godot_symbol": "source_building_on_destroyed_liquid_explosion_input.liquid_states",
+      "rule": "Runtime liquid_states supplies source liquid amounts and liquid flammability/explosiveness values."
     }
   }
 }
