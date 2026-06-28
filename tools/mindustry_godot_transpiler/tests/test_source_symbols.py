@@ -3382,6 +3382,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_time["java_expr"], "Time.time")
         self.assertEqual(source_time["godot_symbol"], "source_building_check_suppression_input.source_time")
 
+    def test_building_collide_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_collide.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "collide(Bullet other)")
+        self.assertEqual(method["java_expr"], "public boolean collide(Bullet other){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_collide_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_collide_state")
+        self.assertEqual(method["godot_symbol"], "source_building_collide_result.method")
+
+        result = source_symbols.source_symbol(registry, "building_collide.result")
+        self.assertEqual(result["java_expr"], "return true;")
+        self.assertEqual(result["godot_symbol"], "source_building_collide_result.collide")
+
+        other = source_symbols.source_symbol(registry, "building_collide.other")
+        self.assertEqual(other["status"], "explicit-input")
+        self.assertEqual(other["java_expr"], "other")
+        self.assertEqual(other["godot_symbol"], "source_building_collide_input.other")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3666,9 +3689,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 139)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 140)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 144)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 145)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3809,6 +3832,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_check_allow_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_check_solid_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_check_suppression_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_collide_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -4893,6 +4917,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return block.suppressable && Time.time <= healSuppressionTime;", building_check_suppression["exact_exprs"])
         self.assertIn("return true;", building_check_suppression["exact_exprs"])
         self.assertIn("return false;", building_check_suppression["exact_exprs"])
+
+        building_collide = source_symbols.source_slice(ledger, "N542")
+        self.assertEqual(building_collide["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_collide["java_method"], "collide(Bullet other)")
+        self.assertEqual(building_collide["godot_owner"], "PortGame.source_building_collide_state")
+        self.assertIn("public boolean collide(Bullet other){", building_collide["exact_exprs"])
+        self.assertIn("return true;", building_collide["exact_exprs"])
+        self.assertIn("other", building_collide["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -6115,6 +6147,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("chance_threshold", building_check_suppression["return_keys"])
         self.assertIn("particle_range", building_check_suppression["return_keys"])
         self.assertEqual(building_check_suppression["source_method"], "checkSuppression()")
+
+        building_collide = source_symbols.api_contract(contracts, "PortGame.source_building_collide_state")
+        self.assertEqual([param["name"] for param in building_collide["params"]], ["_other"])
+        self.assertEqual(building_collide["params"][0]["schema"], "source_building_collide_input.other")
+        self.assertIn("collide", building_collide["return_keys"])
+        self.assertEqual(building_collide["source_method"], "collide(Bullet other)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -7584,6 +7622,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_check_suppression_result["keys"]["effect"]["java_expr"], "Fx.regenSuppressParticle.at(x + Mathf.range(block.size * tilesize/2f - 1f), y + Mathf.range(block.size * tilesize/2f - 1f), suppressColor);")
         self.assertEqual(source_building_check_suppression_result["keys"]["particle_range"]["java_expr"], "block.size * tilesize/2f - 1f")
         self.assertEqual(source_building_check_suppression_result["keys"]["suppress_color"]["alias_of"], "source_building_check_suppression_input.suppress_color")
+
+        source_building_collide_input = source_symbols.state_schema(schema, "source_building_collide_input")
+        self.assertEqual(source_building_collide_input["keys"]["other"]["java_expr"], "other")
+        self.assertEqual(source_building_collide_input["keys"]["other"]["status"], "explicit-input")
+
+        source_building_collide_result = source_symbols.state_schema(schema, "source_building_collide_result")
+        self.assertEqual(source_building_collide_result["keys"]["method"]["java_expr"], "public boolean collide(Bullet other){")
+        self.assertEqual(source_building_collide_result["keys"]["collide"]["java_expr"], "return true;")
+        self.assertEqual(source_building_collide_result["keys"]["other"]["alias_of"], "source_building_collide_input.other")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

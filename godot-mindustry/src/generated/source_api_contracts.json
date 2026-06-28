@@ -5586,6 +5586,27 @@
       ],
       "runtime_proof": "/root/Main.source_building_check_suppression_state",
       "rule": "Public runtime contract for Mindustry BuildingComp checkSuppression helper."
+    },
+    "PortGame.source_building_collide_state": {
+      "status": "active",
+      "source_slice": "N542",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "collide(Bullet other)",
+      "params": [
+        {
+          "name": "_other",
+          "type": "Variant",
+          "schema": "source_building_collide_input.other"
+        }
+      ],
+      "return_keys": [
+        "collide"
+      ],
+      "tests": [
+        "test_building_collide_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_collide_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp collide helper; GDScript parameter is intentionally underscored because source default ignores other."
     }
   },
   "policy": {

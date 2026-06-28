@@ -4388,6 +4388,31 @@
       ],
       "runtime_proof": "/root/Main.source_building_check_suppression_state",
       "rule": "Backfills SSOT for existing canonical source_building_check_suppression_state helper against BuildingComp.checkSuppression() and isHealSuppressed()."
+    },
+    "N542": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "collide(Bullet other)",
+      "godot_owner": "PortGame.source_building_collide_state",
+      "exact_exprs": [
+        "public boolean collide(Bullet other){",
+        "return true;",
+        "other"
+      ],
+      "deferred_exprs": [
+        "collision(Bullet other) handles damage and removal in separate source owners"
+      ],
+      "source_symbols": [
+        "building_collide.method",
+        "building_collide.result",
+        "building_collide.other"
+      ],
+      "tests": [
+        "test_building_collide_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_collide_state",
+      "rule": "Backfills SSOT for existing canonical source_building_collide_state helper against BuildingComp.collide(Bullet other)."
     }
   },
   "version": 1

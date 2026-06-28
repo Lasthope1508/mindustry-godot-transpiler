@@ -17914,6 +17914,58 @@
           "rule": "Carries suppressColor input into result schema boundary."
         }
       }
+    },
+    "source_building_collide_input": {
+      "status": "active",
+      "keys": {
+        "other": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "collide(Bullet other)",
+          "java_expr": "other",
+          "godot_symbol": "source_building_collide_input.other",
+          "used_by": [
+            "PortGame.source_building_collide_state"
+          ],
+          "rule": "Bullet other argument supplied to collide default helper."
+        }
+      }
+    },
+    "source_building_collide_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "collide(Bullet other)",
+          "java_expr": "public boolean collide(Bullet other){",
+          "godot_symbol": "source_building_collide_result.method",
+          "used_by": [
+            "PortGame.source_building_collide_state"
+          ],
+          "rule": "BuildingComp collide method boundary."
+        },
+        "collide": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "collide(Bullet other)",
+          "java_expr": "return true;",
+          "godot_symbol": "source_building_collide_result.collide",
+          "used_by": [
+            "PortGame.source_building_collide_state"
+          ],
+          "rule": "Default BuildingComp collide returns true."
+        },
+        "other": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_collide_input.other",
+          "rule": "Carries other input into result schema boundary."
+        }
+      }
     }
   },
   "version": 1

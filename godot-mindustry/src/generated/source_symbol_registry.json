@@ -13722,6 +13722,45 @@
       "java_expr": "suppressColor",
       "godot_symbol": "source_building_check_suppression_input.suppress_color",
       "rule": "Suppression color supplied for regenSuppressParticle."
+    },
+    "building_collide.method": {
+      "tests": [
+        "test_building_collide_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_collide_state",
+      "godot_owner": "PortGame.source_building_collide_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "collide(Bullet other)",
+      "status": "source-backed",
+      "java_expr": "public boolean collide(Bullet other){",
+      "godot_symbol": "source_building_collide_result.method",
+      "rule": "BuildingComp collide method boundary."
+    },
+    "building_collide.result": {
+      "tests": [
+        "test_building_collide_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_collide_state",
+      "godot_owner": "PortGame.source_building_collide_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "collide(Bullet other)",
+      "status": "source-backed",
+      "java_expr": "return true;",
+      "godot_symbol": "source_building_collide_result.collide",
+      "rule": "Default BuildingComp collide accepts bullet collision."
+    },
+    "building_collide.other": {
+      "tests": [
+        "test_building_collide_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_collide_state",
+      "godot_owner": "PortGame.source_building_collide_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "collide(Bullet other)",
+      "status": "explicit-input",
+      "java_expr": "other",
+      "godot_symbol": "source_building_collide_input.other",
+      "rule": "Bullet argument supplied to collide helper even though default implementation ignores it."
     }
   }
 }
