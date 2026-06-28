@@ -3546,6 +3546,43 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(copied_config["java_expr"], "build.config()")
         self.assertEqual(copied_config["godot_symbol"], "source_building_configured_copy_config_input.copied_config")
 
+    def test_building_configured_direct_handler_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        guard = source_symbols.source_symbol(registry, "building_configured_direct_handler.guard")
+        self.assertEqual(guard["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(guard["java_method"], "configured(@Nullable Unit builder, @Nullable Object value)")
+        self.assertEqual(guard["java_expr"], "if(block.configurations.containsKey(type)){")
+        self.assertEqual(guard["godot_owner"], "PortGame.source_building_configured_direct_handler_state")
+        self.assertEqual(guard["runtime_proof"], "/root/Main.source_building_configured_direct_handler_state")
+        self.assertEqual(guard["godot_symbol"], "source_building_configured_direct_handler_result.handled")
+
+        handler_call = source_symbols.source_symbol(registry, "building_configured_direct_handler.handler_call")
+        self.assertEqual(handler_call["java_expr"], "block.configurations.get(type).get(this, value);")
+        self.assertEqual(handler_call["godot_symbol"], "source_building_configured_direct_handler_result.handled")
+
+        copy_boundary = source_symbols.source_symbol(registry, "building_configured_direct_handler.copy_boundary")
+        self.assertEqual(copy_boundary["java_expr"], "}else if(value instanceof Building build){")
+        self.assertEqual(copy_boundary["godot_symbol"], "source_building_configured_direct_handler_result.copy_boundary")
+
+        has_configuration = source_symbols.source_symbol(registry, "building_configured_direct_handler.has_configuration")
+        self.assertEqual(has_configuration["status"], "explicit-input")
+        self.assertEqual(has_configuration["java_expr"], "block.configurations.containsKey(type)")
+        self.assertEqual(has_configuration["godot_symbol"], "source_building_configured_direct_handler_input.has_configuration")
+
+        configured_type = source_symbols.source_symbol(registry, "building_configured_direct_handler.configured_type")
+        self.assertEqual(configured_type["status"], "explicit-input")
+        self.assertEqual(configured_type["java_expr"], "type")
+        self.assertEqual(configured_type["godot_symbol"], "source_building_configured_direct_handler_input.configured_type")
+
+        value_state = source_symbols.source_symbol(registry, "building_configured_direct_handler.value_state")
+        self.assertEqual(value_state["status"], "explicit-input")
+        self.assertEqual(value_state["java_expr"], "value")
+        self.assertEqual(value_state["godot_symbol"], "source_building_configured_direct_handler_input.value_state")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3830,9 +3867,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 144)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 145)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 149)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 150)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3978,6 +4015,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_config_default", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_configure_menu_visibility_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_configured_copy_config_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_configured_direct_handler_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -5110,6 +5148,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("var conf = build.config();", building_configured_copy_config["exact_exprs"])
         self.assertIn("if(conf != null && !(conf instanceof Building)){", building_configured_copy_config["exact_exprs"])
         self.assertIn("configured(builder, conf);", building_configured_copy_config["exact_exprs"])
+
+        building_configured_direct_handler = source_symbols.source_slice(ledger, "N547")
+        self.assertEqual(building_configured_direct_handler["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_configured_direct_handler["java_method"], "configured(@Nullable Unit builder, @Nullable Object value)")
+        self.assertEqual(building_configured_direct_handler["godot_owner"], "PortGame.source_building_configured_direct_handler_state")
+        self.assertIn("if(block.configurations.containsKey(type)){", building_configured_direct_handler["exact_exprs"])
+        self.assertIn("block.configurations.get(type).get(this, value);", building_configured_direct_handler["exact_exprs"])
+        self.assertIn("}else if(value instanceof Building build){", building_configured_direct_handler["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -6374,6 +6420,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("recurse", building_configured_copy_config["return_keys"])
         self.assertIn("config", building_configured_copy_config["return_keys"])
         self.assertEqual(building_configured_copy_config["source_method"], "configured(@Nullable Unit builder, @Nullable Object value)")
+
+        building_configured_direct_handler = source_symbols.api_contract(contracts, "PortGame.source_building_configured_direct_handler_state")
+        self.assertEqual([param["name"] for param in building_configured_direct_handler["params"]], ["has_configuration", "configured_type", "value_state"])
+        self.assertEqual(building_configured_direct_handler["params"][0]["schema"], "source_building_configured_direct_handler_input.has_configuration")
+        self.assertEqual(building_configured_direct_handler["params"][2]["schema"], "source_building_configured_direct_handler_input.value_state")
+        self.assertIn("handled", building_configured_direct_handler["return_keys"])
+        self.assertIn("handler_type", building_configured_direct_handler["return_keys"])
+        self.assertIn("value", building_configured_direct_handler["return_keys"])
+        self.assertEqual(building_configured_direct_handler["source_method"], "configured(@Nullable Unit builder, @Nullable Object value)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -7894,6 +7949,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_configured_copy_config_result["keys"]["comment"]["java_expr"], "//copy config of another building")
         self.assertEqual(source_building_configured_copy_config_result["keys"]["config"]["alias_of"], "source_building_configured_copy_config_input.copied_config")
         self.assertEqual(source_building_configured_copy_config_result["keys"]["recurse"]["java_expr"], "configured(builder, conf);")
+
+        source_building_configured_direct_handler_input = source_symbols.state_schema(schema, "source_building_configured_direct_handler_input")
+        self.assertEqual(source_building_configured_direct_handler_input["keys"]["has_configuration"]["java_expr"], "block.configurations.containsKey(type)")
+        self.assertEqual(source_building_configured_direct_handler_input["keys"]["configured_type"]["java_expr"], "type")
+        self.assertEqual(source_building_configured_direct_handler_input["keys"]["value_state"]["java_expr"], "value")
+
+        source_building_configured_direct_handler_result = source_symbols.state_schema(schema, "source_building_configured_direct_handler_result")
+        self.assertEqual(source_building_configured_direct_handler_result["keys"]["handled"]["java_expr"], "block.configurations.get(type).get(this, value);")
+        self.assertEqual(source_building_configured_direct_handler_result["keys"]["copy_boundary"]["java_expr"], "}else if(value instanceof Building build){")
+        self.assertEqual(source_building_configured_direct_handler_result["keys"]["handler_type"]["alias_of"], "source_building_configured_direct_handler_input.configured_type")
+        self.assertEqual(source_building_configured_direct_handler_result["keys"]["value"]["alias_of"], "source_building_configured_direct_handler_input.value_state")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

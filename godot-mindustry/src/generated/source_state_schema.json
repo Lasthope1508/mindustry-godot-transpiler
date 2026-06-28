@@ -18403,6 +18403,106 @@
           "rule": "Carries copied config type guard into result schema boundary."
         }
       }
+    },
+    "source_building_configured_direct_handler_input": {
+      "status": "active",
+      "keys": {
+        "has_configuration": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "block.configurations.containsKey(type)",
+          "godot_symbol": "source_building_configured_direct_handler_input.has_configuration",
+          "used_by": [
+            "PortGame.source_building_configured_direct_handler_state"
+          ],
+          "rule": "Direct handler guard result supplied to helper."
+        },
+        "configured_type": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "type",
+          "godot_symbol": "source_building_configured_direct_handler_input.configured_type",
+          "used_by": [
+            "PortGame.source_building_configured_direct_handler_state"
+          ],
+          "rule": "Normalized configuration type supplied to helper."
+        },
+        "value_state": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "value",
+          "godot_symbol": "source_building_configured_direct_handler_input.value_state",
+          "used_by": [
+            "PortGame.source_building_configured_direct_handler_state"
+          ],
+          "rule": "Configured value supplied to helper."
+        }
+      }
+    },
+    "source_building_configured_direct_handler_result": {
+      "status": "active",
+      "keys": {
+        "guard": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "if(block.configurations.containsKey(type)){",
+          "godot_symbol": "source_building_configured_direct_handler_result.guard",
+          "used_by": [
+            "PortGame.source_building_configured_direct_handler_state"
+          ],
+          "rule": "Source guard for direct configuration handler."
+        },
+        "handled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "block.configurations.get(type).get(this, value);",
+          "godot_symbol": "source_building_configured_direct_handler_result.handled",
+          "used_by": [
+            "PortGame.source_building_configured_direct_handler_state"
+          ],
+          "rule": "Whether direct configuration handler would be invoked."
+        },
+        "copy_boundary": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "}else if(value instanceof Building build){",
+          "godot_symbol": "source_building_configured_direct_handler_result.copy_boundary",
+          "used_by": [
+            "PortGame.source_building_configured_direct_handler_state"
+          ],
+          "rule": "Else boundary to copy-config fallback."
+        },
+        "handler_type": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_building_configured_direct_handler_input.configured_type",
+          "rule": "Carries normalized type into result schema boundary."
+        },
+        "value": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_configured_direct_handler_input.value_state",
+          "rule": "Carries configured value into result schema boundary."
+        },
+        "has_configuration": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_configured_direct_handler_input.has_configuration",
+          "rule": "Carries direct handler guard input into result schema boundary."
+        }
+      }
     }
   },
   "version": 1

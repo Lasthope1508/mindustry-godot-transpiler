@@ -4547,6 +4547,38 @@
       ],
       "runtime_proof": "/root/Main.source_building_configured_copy_config_state",
       "rule": "Backfills SSOT for existing canonical source_building_configured_copy_config_state helper against BuildingComp.configured copy-config fallback branch."
+    },
+    "N547": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+      "godot_owner": "PortGame.source_building_configured_direct_handler_state",
+      "exact_exprs": [
+        "if(block.configurations.containsKey(type)){",
+        "block.configurations.get(type).get(this, value);",
+        "}else if(value instanceof Building build){",
+        "block.configurations.containsKey(type)",
+        "type",
+        "value"
+      ],
+      "deferred_exprs": [
+        "Actual handler side effects belong to concrete block configuration handlers.",
+        "Copy-config fallback branch is owned by N546."
+      ],
+      "source_symbols": [
+        "building_configured_direct_handler.guard",
+        "building_configured_direct_handler.handler_call",
+        "building_configured_direct_handler.copy_boundary",
+        "building_configured_direct_handler.has_configuration",
+        "building_configured_direct_handler.configured_type",
+        "building_configured_direct_handler.value_state"
+      ],
+      "tests": [
+        "test_building_configured_direct_handler_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configured_direct_handler_state",
+      "rule": "Backfills SSOT for existing canonical source_building_configured_direct_handler_state helper against BuildingComp.configured direct handler branch."
     }
   },
   "version": 1

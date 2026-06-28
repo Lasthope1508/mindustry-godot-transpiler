@@ -14190,6 +14190,84 @@
       "java_expr": "conf instanceof Building",
       "godot_symbol": "source_building_configured_copy_config_input.copied_config_is_building",
       "rule": "Whether copied config is another Building and must not recurse."
+    },
+    "building_configured_direct_handler.guard": {
+      "tests": [
+        "test_building_configured_direct_handler_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configured_direct_handler_state",
+      "godot_owner": "PortGame.source_building_configured_direct_handler_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+      "status": "source-backed",
+      "java_expr": "if(block.configurations.containsKey(type)){",
+      "godot_symbol": "source_building_configured_direct_handler_result.handled",
+      "rule": "Configured direct handler branch enters when block has a handler for type."
+    },
+    "building_configured_direct_handler.handler_call": {
+      "tests": [
+        "test_building_configured_direct_handler_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configured_direct_handler_state",
+      "godot_owner": "PortGame.source_building_configured_direct_handler_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+      "status": "source-backed",
+      "java_expr": "block.configurations.get(type).get(this, value);",
+      "godot_symbol": "source_building_configured_direct_handler_result.handled",
+      "rule": "Configured direct handler invokes block configuration handler with this building and value."
+    },
+    "building_configured_direct_handler.copy_boundary": {
+      "tests": [
+        "test_building_configured_direct_handler_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configured_direct_handler_state",
+      "godot_owner": "PortGame.source_building_configured_direct_handler_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+      "status": "source-backed",
+      "java_expr": "}else if(value instanceof Building build){",
+      "godot_symbol": "source_building_configured_direct_handler_result.copy_boundary",
+      "rule": "Else boundary falls through to copy-config branch when no direct handler exists."
+    },
+    "building_configured_direct_handler.has_configuration": {
+      "tests": [
+        "test_building_configured_direct_handler_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configured_direct_handler_state",
+      "godot_owner": "PortGame.source_building_configured_direct_handler_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+      "status": "explicit-input",
+      "java_expr": "block.configurations.containsKey(type)",
+      "godot_symbol": "source_building_configured_direct_handler_input.has_configuration",
+      "rule": "Whether block has a direct configuration handler for normalized type."
+    },
+    "building_configured_direct_handler.configured_type": {
+      "tests": [
+        "test_building_configured_direct_handler_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configured_direct_handler_state",
+      "godot_owner": "PortGame.source_building_configured_direct_handler_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+      "status": "explicit-input",
+      "java_expr": "type",
+      "godot_symbol": "source_building_configured_direct_handler_input.configured_type",
+      "rule": "Normalized configured value type supplied from configured type slice."
+    },
+    "building_configured_direct_handler.value_state": {
+      "tests": [
+        "test_building_configured_direct_handler_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configured_direct_handler_state",
+      "godot_owner": "PortGame.source_building_configured_direct_handler_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+      "status": "explicit-input",
+      "java_expr": "value",
+      "godot_symbol": "source_building_configured_direct_handler_input.value_state",
+      "rule": "Configured value passed to direct handler."
     }
   }
 }

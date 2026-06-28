@@ -5727,6 +5727,39 @@
       ],
       "runtime_proof": "/root/Main.source_building_configured_copy_config_state",
       "rule": "Public runtime contract for Mindustry BuildingComp configured copy-config fallback helper."
+    },
+    "PortGame.source_building_configured_direct_handler_state": {
+      "status": "active",
+      "source_slice": "N547",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+      "params": [
+        {
+          "name": "has_configuration",
+          "type": "bool",
+          "schema": "source_building_configured_direct_handler_input.has_configuration"
+        },
+        {
+          "name": "configured_type",
+          "type": "String",
+          "schema": "source_building_configured_direct_handler_input.configured_type"
+        },
+        {
+          "name": "value_state",
+          "type": "Variant",
+          "schema": "source_building_configured_direct_handler_input.value_state"
+        }
+      ],
+      "return_keys": [
+        "handled",
+        "handler_type",
+        "value"
+      ],
+      "tests": [
+        "test_building_configured_direct_handler_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configured_direct_handler_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp configured direct handler helper."
     }
   },
   "policy": {
