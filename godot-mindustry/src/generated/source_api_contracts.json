@@ -4871,6 +4871,40 @@
       ],
       "runtime_proof": "/root/Main.source_building_absorb_lasers_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.absorbLasers helper."
+    },
+    "PortGame.source_building_accept_item_state": {
+      "status": "active",
+      "source_slice": "N521",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "acceptItem(Building source, Item item)",
+      "params": [
+        {
+          "name": "consumes_item",
+          "type": "bool",
+          "schema": "source_building_accept_item_input.consumesItem"
+        },
+        {
+          "name": "item_count",
+          "type": "int",
+          "schema": "source_building_accept_item_input.itemCount"
+        },
+        {
+          "name": "maximum_accepted",
+          "type": "int",
+          "schema": "source_building_accept_item_input.maximumAccepted"
+        }
+      ],
+      "return_keys": [
+        "consumesItem",
+        "itemCount",
+        "maximumAccepted",
+        "acceptItem"
+      ],
+      "tests": [
+        "test_building_accept_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_accept_item_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.acceptItem helper."
     }
   },
   "policy": {

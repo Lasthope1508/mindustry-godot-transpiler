@@ -12084,6 +12084,58 @@
       "java_expr": "block.absorbLasers",
       "godot_symbol": "source_building_absorb_lasers_input.blockAbsorbLasers",
       "rule": "Runtime bool argument supplies source block.absorbLasers."
+    },
+    "building_accept_item.method": {
+      "tests": [
+        "test_building_accept_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_accept_item_state",
+      "godot_owner": "PortGame.source_building_accept_item_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "acceptItem(Building source, Item item)",
+      "status": "source-backed",
+      "java_expr": "return block.consumesItem(item) && items.get(item) < getMaximumAccepted(item);",
+      "godot_symbol": "source_building_accept_item_result.acceptItem",
+      "rule": "BuildingComp acceptItem requires the block item consumer and current item count below getMaximumAccepted(item)."
+    },
+    "building_accept_item.consumes_item": {
+      "tests": [
+        "test_building_accept_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_accept_item_state",
+      "godot_owner": "PortGame.source_building_accept_item_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "acceptItem(Building source, Item item)",
+      "status": "explicit-input",
+      "java_expr": "block.consumesItem(item)",
+      "godot_symbol": "source_building_accept_item_input.consumesItem",
+      "rule": "Runtime consumes_item argument supplies the source block.consumesItem(item) predicate."
+    },
+    "building_accept_item.item_count": {
+      "tests": [
+        "test_building_accept_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_accept_item_state",
+      "godot_owner": "PortGame.source_building_accept_item_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "acceptItem(Building source, Item item)",
+      "status": "explicit-input",
+      "java_expr": "items.get(item)",
+      "godot_symbol": "source_building_accept_item_input.itemCount",
+      "rule": "Runtime item_count argument supplies the source items.get(item) value."
+    },
+    "building_accept_item.maximum_accepted": {
+      "tests": [
+        "test_building_accept_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_accept_item_state",
+      "godot_owner": "PortGame.source_building_accept_item_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "acceptItem(Building source, Item item)",
+      "status": "explicit-input",
+      "java_expr": "getMaximumAccepted(item)",
+      "godot_symbol": "source_building_accept_item_input.maximumAccepted",
+      "rule": "Runtime maximum_accepted argument supplies the source getMaximumAccepted(item) value."
     }
   }
 }

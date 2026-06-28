@@ -2850,6 +2850,35 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_value["java_expr"], "block.absorbLasers")
         self.assertEqual(input_value["godot_symbol"], "source_building_absorb_lasers_input.blockAbsorbLasers")
 
+    def test_building_accept_item_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_accept_item.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "acceptItem(Building source, Item item)")
+        self.assertEqual(method["java_expr"], "return block.consumesItem(item) && items.get(item) < getMaximumAccepted(item);")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_accept_item_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_accept_item_state")
+        self.assertEqual(method["godot_symbol"], "source_building_accept_item_result.acceptItem")
+
+        consumes_item = source_symbols.source_symbol(registry, "building_accept_item.consumes_item")
+        self.assertEqual(consumes_item["status"], "explicit-input")
+        self.assertEqual(consumes_item["java_expr"], "block.consumesItem(item)")
+        self.assertEqual(consumes_item["godot_symbol"], "source_building_accept_item_input.consumesItem")
+
+        item_count = source_symbols.source_symbol(registry, "building_accept_item.item_count")
+        self.assertEqual(item_count["status"], "explicit-input")
+        self.assertEqual(item_count["java_expr"], "items.get(item)")
+        self.assertEqual(item_count["godot_symbol"], "source_building_accept_item_input.itemCount")
+
+        maximum_accepted = source_symbols.source_symbol(registry, "building_accept_item.maximum_accepted")
+        self.assertEqual(maximum_accepted["status"], "explicit-input")
+        self.assertEqual(maximum_accepted["java_expr"], "getMaximumAccepted(item)")
+        self.assertEqual(maximum_accepted["godot_symbol"], "source_building_accept_item_input.maximumAccepted")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3134,9 +3163,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 118)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 119)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 123)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 124)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3256,6 +3285,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_time_scale_at_cell", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_time_scale_duration_at_cell", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -4158,6 +4188,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_absorb_lasers["godot_owner"], "PortGame.source_building_absorb_lasers_state")
         self.assertIn("return block.absorbLasers;", building_absorb_lasers["exact_exprs"])
         self.assertIn("public boolean absorbLasers = false;", building_absorb_lasers["exact_exprs"])
+
+        building_accept_item = source_symbols.source_slice(ledger, "N521")
+        self.assertEqual(building_accept_item["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_accept_item["java_method"], "acceptItem(Building source, Item item)")
+        self.assertEqual(building_accept_item["godot_owner"], "PortGame.source_building_accept_item_state")
+        self.assertIn("return block.consumesItem(item) && items.get(item) < getMaximumAccepted(item);", building_accept_item["exact_exprs"])
+        self.assertIn("block.consumesItem(item)", building_accept_item["exact_exprs"])
+        self.assertIn("items.get(item)", building_accept_item["exact_exprs"])
+        self.assertIn("getMaximumAccepted(item)", building_accept_item["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -5229,6 +5268,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("absorbLasers", building_absorb_lasers["return_keys"])
         self.assertIn("defaultAbsorbLasers", building_absorb_lasers["return_keys"])
         self.assertEqual(building_absorb_lasers["source_method"], "absorbLasers()")
+
+        building_accept_item = source_symbols.api_contract(contracts, "PortGame.source_building_accept_item_state")
+        self.assertEqual([param["name"] for param in building_accept_item["params"]], ["consumes_item", "item_count", "maximum_accepted"])
+        self.assertEqual(building_accept_item["params"][0]["schema"], "source_building_accept_item_input.consumesItem")
+        self.assertEqual(building_accept_item["params"][1]["schema"], "source_building_accept_item_input.itemCount")
+        self.assertEqual(building_accept_item["params"][2]["schema"], "source_building_accept_item_input.maximumAccepted")
+        self.assertIn("acceptItem", building_accept_item["return_keys"])
+        self.assertEqual(building_accept_item["source_method"], "acceptItem(Building source, Item item)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -6478,6 +6525,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_absorb_lasers_result["keys"]["defaultAbsorbLasers"]["java_expr"], "public boolean absorbLasers = false;")
         self.assertEqual(source_building_absorb_lasers_result["keys"]["absorbLasers"]["java_expr"], "return block.absorbLasers;")
         self.assertEqual(source_building_absorb_lasers_result["keys"]["blockAbsorbLasers"]["alias_of"], "source_building_absorb_lasers_input.blockAbsorbLasers")
+
+        source_building_accept_item_input = source_symbols.state_schema(schema, "source_building_accept_item_input")
+        self.assertEqual(source_building_accept_item_input["keys"]["consumesItem"]["java_expr"], "block.consumesItem(item)")
+        self.assertEqual(source_building_accept_item_input["keys"]["consumesItem"]["status"], "explicit-input")
+        self.assertEqual(source_building_accept_item_input["keys"]["itemCount"]["java_expr"], "items.get(item)")
+        self.assertEqual(source_building_accept_item_input["keys"]["maximumAccepted"]["java_expr"], "getMaximumAccepted(item)")
+
+        source_building_accept_item_result = source_symbols.state_schema(schema, "source_building_accept_item_result")
+        self.assertEqual(source_building_accept_item_result["keys"]["acceptItem"]["java_expr"], "return block.consumesItem(item) && items.get(item) < getMaximumAccepted(item);")
+        self.assertEqual(source_building_accept_item_result["keys"]["consumesItem"]["alias_of"], "source_building_accept_item_input.consumesItem")
+        self.assertEqual(source_building_accept_item_result["keys"]["itemCount"]["alias_of"], "source_building_accept_item_input.itemCount")
+        self.assertEqual(source_building_accept_item_result["keys"]["maximumAccepted"]["alias_of"], "source_building_accept_item_input.maximumAccepted")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

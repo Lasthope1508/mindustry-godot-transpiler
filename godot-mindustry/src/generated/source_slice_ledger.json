@@ -3742,6 +3742,31 @@
       ],
       "runtime_proof": "/root/Main.source_building_absorb_lasers_state",
       "rule": "Backfills SSOT for existing canonical source_building_absorb_lasers_state helper against BuildingComp.absorbLasers and Block.absorbLasers field."
+    },
+    "N521": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "acceptItem(Building source, Item item)",
+      "godot_owner": "PortGame.source_building_accept_item_state",
+      "exact_exprs": [
+        "return block.consumesItem(item) && items.get(item) < getMaximumAccepted(item);",
+        "block.consumesItem(item)",
+        "items.get(item)",
+        "getMaximumAccepted(item)"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "building_accept_item.method",
+        "building_accept_item.consumes_item",
+        "building_accept_item.item_count",
+        "building_accept_item.maximum_accepted"
+      ],
+      "tests": [
+        "test_building_accept_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_accept_item_state",
+      "rule": "Backfills SSOT for existing canonical source_building_accept_item_state helper against BuildingComp.acceptItem."
     }
   },
   "version": 1
