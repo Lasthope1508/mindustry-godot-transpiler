@@ -4830,6 +4830,30 @@
       ],
       "runtime_proof": "/root/Main.source_building_damage_block_health_scale_state",
       "rule": "Backfills SSOT for existing canonical source_building_damage_block_health_scale_state helper against BuildingComp.damage blockHealth scaling."
+    },
+    "N556": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "damage(float damage)",
+      "godot_owner": "PortGame.source_building_damage_dead_guard_state",
+      "exact_exprs": [
+        "if(dead()) return;",
+        "dead()"
+      ],
+      "deferred_exprs": [
+        "Block-health scaling, handleDamage, healthChanged, and destroy side effects are owned by later damage slices."
+      ],
+      "source_symbols": [
+        "building_damage_dead_guard.dead_guard",
+        "building_damage_dead_guard.continues",
+        "building_damage_dead_guard.dead_state"
+      ],
+      "tests": [
+        "test_building_damage_dead_guard_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_dead_guard_state",
+      "rule": "Backfills SSOT for existing canonical source_building_damage_dead_guard_state helper against BuildingComp.damage dead() guard."
     }
   },
   "version": 1

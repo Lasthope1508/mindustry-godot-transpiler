@@ -5981,6 +5981,28 @@
       ],
       "runtime_proof": "/root/Main.source_building_damage_block_health_scale_state",
       "rule": "Public runtime contract for Mindustry BuildingComp damage blockHealth scaling helper."
+    },
+    "PortGame.source_building_damage_dead_guard_state": {
+      "status": "active",
+      "source_slice": "N556",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "damage(float damage)",
+      "params": [
+        {
+          "name": "dead_state",
+          "type": "bool",
+          "schema": "source_building_damage_dead_guard_input.dead_state"
+        }
+      ],
+      "return_keys": [
+        "returned",
+        "continues"
+      ],
+      "tests": [
+        "test_building_damage_dead_guard_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_dead_guard_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp damage dead() guard helper."
     }
   },
   "policy": {

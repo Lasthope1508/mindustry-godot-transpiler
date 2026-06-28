@@ -14892,6 +14892,45 @@
       "java_expr": "Time.time",
       "godot_symbol": "source_building_damage_block_health_scale_input.source_time",
       "rule": "Time.time supplied for lastDamageTime result."
+    },
+    "building_damage_dead_guard.dead_guard": {
+      "tests": [
+        "test_building_damage_dead_guard_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_dead_guard_state",
+      "godot_owner": "PortGame.source_building_damage_dead_guard_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(float damage)",
+      "status": "source-backed",
+      "java_expr": "if(dead()) return;",
+      "godot_symbol": "source_building_damage_dead_guard_result.returned",
+      "rule": "Damage returns immediately when dead() is true."
+    },
+    "building_damage_dead_guard.continues": {
+      "tests": [
+        "test_building_damage_dead_guard_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_dead_guard_state",
+      "godot_owner": "PortGame.source_building_damage_dead_guard_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(float damage)",
+      "status": "source-backed",
+      "java_expr": "if(dead()) return;",
+      "godot_symbol": "source_building_damage_dead_guard_result.continues",
+      "rule": "Damage continues only when dead() guard does not return."
+    },
+    "building_damage_dead_guard.dead_state": {
+      "tests": [
+        "test_building_damage_dead_guard_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_damage_dead_guard_state",
+      "godot_owner": "PortGame.source_building_damage_dead_guard_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "damage(float damage)",
+      "status": "explicit-input",
+      "java_expr": "dead()",
+      "godot_symbol": "source_building_damage_dead_guard_input.dead_state",
+      "rule": "dead() predicate supplied to dead-guard helper."
     }
   }
 }

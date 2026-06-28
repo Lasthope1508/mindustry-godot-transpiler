@@ -19334,6 +19334,58 @@
           "rule": "Carries source time input into result boundary."
         }
       }
+    },
+    "source_building_damage_dead_guard_input": {
+      "status": "active",
+      "keys": {
+        "dead_state": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "damage(float damage)",
+          "java_expr": "dead()",
+          "godot_symbol": "source_building_damage_dead_guard_input.dead_state",
+          "used_by": [
+            "PortGame.source_building_damage_dead_guard_state"
+          ],
+          "rule": "dead() predicate input."
+        }
+      }
+    },
+    "source_building_damage_dead_guard_result": {
+      "status": "active",
+      "keys": {
+        "returned": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "damage(float damage)",
+          "java_expr": "if(dead()) return;",
+          "godot_symbol": "source_building_damage_dead_guard_result.returned",
+          "used_by": [
+            "PortGame.source_building_damage_dead_guard_state"
+          ],
+          "rule": "Returned branch when dead() is true."
+        },
+        "continues": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "damage(float damage)",
+          "java_expr": "if(dead()) return;",
+          "godot_symbol": "source_building_damage_dead_guard_result.continues",
+          "used_by": [
+            "PortGame.source_building_damage_dead_guard_state"
+          ],
+          "rule": "Continues branch when dead() is false."
+        },
+        "dead_state": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_damage_dead_guard_input.dead_state",
+          "rule": "Carries dead() predicate into result boundary."
+        }
+      }
     }
   },
   "version": 1
