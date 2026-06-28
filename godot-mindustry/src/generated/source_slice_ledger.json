@@ -3612,6 +3612,41 @@
       ],
       "runtime_proof": "/root/Main.source_block_item_capacity",
       "rule": "Backfills SSOT for existing canonical source_block_item_capacity helper against Mindustry Block itemCapacity and itemCapacity sense paths."
+    },
+    "N517": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "create(Block block, Team team)",
+      "godot_owner": "PortGame.source_block_sprite_base_position",
+      "exact_exprs": [
+        "set(tile.drawx(), tile.drawy());",
+        "return block().offset + worldx();",
+        "return block().offset + worldy();",
+        "return x * tilesize;",
+        "return y * tilesize;",
+        "offset = ((size + 1) % 2) * tilesize / 2f;",
+        "public static final int tilesize = 8;",
+        "block",
+        "tile.x, tile.y"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "block_sprite_base_position.create_position",
+        "block_sprite_base_position.tile_drawx",
+        "block_sprite_base_position.tile_drawy",
+        "block_sprite_base_position.tile_worldx",
+        "block_sprite_base_position.tile_worldy",
+        "block_sprite_base_position.block_offset",
+        "block_sprite_base_position.tilesize_constant",
+        "block_sprite_base_position.block_input",
+        "block_sprite_base_position.cell_input"
+      ],
+      "tests": [
+        "test_block_sprite_base_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_sprite_base_position",
+      "rule": "Backfills SSOT for existing canonical source_block_sprite_base_position helper against BuildingComp create tile draw position."
     }
   },
   "version": 1

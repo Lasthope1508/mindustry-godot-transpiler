@@ -11733,6 +11733,123 @@
       "java_expr": "name",
       "godot_symbol": "source_block_item_capacity_input.blockId",
       "rule": "Runtime block_id selects the source Block name."
+    },
+    "block_sprite_base_position.create_position": {
+      "tests": [
+        "test_block_sprite_base_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_sprite_base_position",
+      "godot_owner": "PortGame.source_block_sprite_base_position",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "create(Block block, Team team)",
+      "status": "source-backed",
+      "java_expr": "set(tile.drawx(), tile.drawy());",
+      "godot_symbol": "source_block_sprite_base_position_result.position",
+      "rule": "BuildingComp create places building sprite at tile draw position."
+    },
+    "block_sprite_base_position.tile_drawx": {
+      "tests": [
+        "test_block_sprite_base_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_sprite_base_position",
+      "godot_owner": "PortGame.source_block_sprite_base_position",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "drawx()",
+      "status": "source-backed",
+      "java_expr": "return block().offset + worldx();",
+      "godot_symbol": "source_block_sprite_base_position_result.drawX",
+      "rule": "Tile draw x adds block offset to tile world x."
+    },
+    "block_sprite_base_position.tile_drawy": {
+      "tests": [
+        "test_block_sprite_base_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_sprite_base_position",
+      "godot_owner": "PortGame.source_block_sprite_base_position",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "drawy()",
+      "status": "source-backed",
+      "java_expr": "return block().offset + worldy();",
+      "godot_symbol": "source_block_sprite_base_position_result.drawY",
+      "rule": "Tile draw y adds block offset to tile world y."
+    },
+    "block_sprite_base_position.tile_worldx": {
+      "tests": [
+        "test_block_sprite_base_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_sprite_base_position",
+      "godot_owner": "PortGame.source_block_sprite_base_position",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "worldx()",
+      "status": "source-backed",
+      "java_expr": "return x * tilesize;",
+      "godot_symbol": "source_block_sprite_base_position_result.worldX",
+      "rule": "Tile world x is tile x multiplied by Vars.tilesize."
+    },
+    "block_sprite_base_position.tile_worldy": {
+      "tests": [
+        "test_block_sprite_base_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_sprite_base_position",
+      "godot_owner": "PortGame.source_block_sprite_base_position",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "worldy()",
+      "status": "source-backed",
+      "java_expr": "return y * tilesize;",
+      "godot_symbol": "source_block_sprite_base_position_result.worldY",
+      "rule": "Tile world y is tile y multiplied by Vars.tilesize."
+    },
+    "block_sprite_base_position.block_offset": {
+      "tests": [
+        "test_block_sprite_base_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_sprite_base_position",
+      "godot_owner": "PortGame.source_block_sprite_base_position",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "afterPatch()",
+      "status": "source-backed",
+      "java_expr": "offset = ((size + 1) % 2) * tilesize / 2f;",
+      "godot_symbol": "source_block_sprite_base_position_result.offset",
+      "rule": "Block offset centers even-sized blocks on tile draw position."
+    },
+    "block_sprite_base_position.tilesize_constant": {
+      "tests": [
+        "test_block_sprite_base_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_sprite_base_position",
+      "godot_owner": "PortGame.source_block_sprite_base_position",
+      "java_source": "core/src/mindustry/Vars.java",
+      "java_method": "field declaration",
+      "status": "source-backed",
+      "java_expr": "public static final int tilesize = 8;",
+      "godot_symbol": "source_block_sprite_base_position_result.tilesize",
+      "rule": "Mindustry source tile size backing for draw position scaling."
+    },
+    "block_sprite_base_position.block_input": {
+      "tests": [
+        "test_block_sprite_base_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_sprite_base_position",
+      "godot_owner": "PortGame.source_block_sprite_base_position",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "create(Block block, Team team)",
+      "status": "explicit-input",
+      "java_expr": "block",
+      "godot_symbol": "source_block_sprite_base_position_input.block",
+      "rule": "Runtime block argument supplies source Block size/offset inputs."
+    },
+    "block_sprite_base_position.cell_input": {
+      "tests": [
+        "test_block_sprite_base_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_sprite_base_position",
+      "godot_owner": "PortGame.source_block_sprite_base_position",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "drawx()/drawy()",
+      "status": "explicit-input",
+      "java_expr": "tile.x, tile.y",
+      "godot_symbol": "source_block_sprite_base_position_input.cell",
+      "rule": "Runtime cell maps to source tile coordinates."
     }
   }
 }

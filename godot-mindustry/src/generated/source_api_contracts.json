@@ -4748,6 +4748,40 @@
       ],
       "runtime_proof": "/root/Main.source_block_item_capacity",
       "rule": "Public runtime contract for Mindustry Block itemCapacity helper."
+    },
+    "PortGame.source_block_sprite_base_position": {
+      "status": "active",
+      "source_slice": "N517",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "create(Block block, Team team)",
+      "params": [
+        {
+          "name": "block",
+          "type": "Dictionary",
+          "schema": "source_block_sprite_base_position_input.block"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_block_sprite_base_position_input.cell"
+        }
+      ],
+      "return_keys": [
+        "worldX",
+        "worldY",
+        "offset",
+        "drawX",
+        "drawY",
+        "position",
+        "tilesize",
+        "block",
+        "cell"
+      ],
+      "tests": [
+        "test_block_sprite_base_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_sprite_base_position",
+      "rule": "Public runtime contract for Mindustry BuildingComp create tile draw position helper."
     }
   },
   "policy": {

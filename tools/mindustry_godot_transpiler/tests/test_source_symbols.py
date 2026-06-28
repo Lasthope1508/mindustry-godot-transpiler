@@ -2734,6 +2734,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(block_id_input["java_expr"], "name")
         self.assertEqual(block_id_input["godot_symbol"], "source_block_item_capacity_input.blockId")
 
+    def test_block_sprite_base_position_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        create_position = source_symbols.source_symbol(registry, "block_sprite_base_position.create_position")
+        self.assertEqual(create_position["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(create_position["java_method"], "create(Block block, Team team)")
+        self.assertEqual(create_position["java_expr"], "set(tile.drawx(), tile.drawy());")
+        self.assertEqual(create_position["godot_owner"], "PortGame.source_block_sprite_base_position")
+        self.assertEqual(create_position["runtime_proof"], "/root/Main.source_block_sprite_base_position")
+
+        drawx = source_symbols.source_symbol(registry, "block_sprite_base_position.tile_drawx")
+        self.assertEqual(drawx["java_source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(drawx["java_expr"], "return block().offset + worldx();")
+        self.assertEqual(drawx["godot_symbol"], "source_block_sprite_base_position_result.drawX")
+
+        worldx = source_symbols.source_symbol(registry, "block_sprite_base_position.tile_worldx")
+        self.assertEqual(worldx["java_expr"], "return x * tilesize;")
+        self.assertEqual(worldx["godot_symbol"], "source_block_sprite_base_position_result.worldX")
+
+        offset = source_symbols.source_symbol(registry, "block_sprite_base_position.block_offset")
+        self.assertEqual(offset["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(offset["java_expr"], "offset = ((size + 1) % 2) * tilesize / 2f;")
+        self.assertEqual(offset["godot_symbol"], "source_block_sprite_base_position_result.offset")
+
+        cell_input = source_symbols.source_symbol(registry, "block_sprite_base_position.cell_input")
+        self.assertEqual(cell_input["status"], "explicit-input")
+        self.assertEqual(cell_input["java_expr"], "tile.x, tile.y")
+        self.assertEqual(cell_input["godot_symbol"], "source_block_sprite_base_position_input.cell")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3018,9 +3050,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 114)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 115)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 119)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 120)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3136,6 +3168,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_health_at_cell", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_is_damaged", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_item_capacity", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_sprite_base_position", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -4006,6 +4039,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public int itemCapacity = 10;", block_item_capacity["exact_exprs"])
         self.assertIn("case itemCapacity -> block.hasItems ? block.itemCapacity : 0;", block_item_capacity["exact_exprs"])
         self.assertIn("if(sensor == LAccess.itemCapacity) return storageCapacity;", block_item_capacity["exact_exprs"])
+
+        block_sprite_base_position = source_symbols.source_slice(ledger, "N517")
+        self.assertEqual(block_sprite_base_position["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(block_sprite_base_position["java_method"], "create(Block block, Team team)")
+        self.assertEqual(block_sprite_base_position["godot_owner"], "PortGame.source_block_sprite_base_position")
+        self.assertIn("set(tile.drawx(), tile.drawy());", block_sprite_base_position["exact_exprs"])
+        self.assertIn("return block().offset + worldx();", block_sprite_base_position["exact_exprs"])
+        self.assertIn("offset = ((size + 1) % 2) * tilesize / 2f;", block_sprite_base_position["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -5048,6 +5089,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("itemCapacity", block_item_capacity["return_keys"])
         self.assertIn("buildingSenseItemCapacity", block_item_capacity["return_keys"])
         self.assertEqual(block_item_capacity["source_method"], "field declaration")
+
+        block_sprite_base_position = source_symbols.api_contract(contracts, "PortGame.source_block_sprite_base_position")
+        self.assertEqual([param["name"] for param in block_sprite_base_position["params"]], ["block", "cell"])
+        self.assertEqual(block_sprite_base_position["params"][1]["schema"], "source_block_sprite_base_position_input.cell")
+        self.assertIn("drawX", block_sprite_base_position["return_keys"])
+        self.assertIn("offset", block_sprite_base_position["return_keys"])
+        self.assertEqual(block_sprite_base_position["source_method"], "create(Block block, Team team)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -6255,6 +6303,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_block_item_capacity_result["keys"]["buildingSenseItemCapacity"]["java_expr"], "case itemCapacity -> block.hasItems ? block.itemCapacity : 0;")
         self.assertEqual(source_block_item_capacity_result["keys"]["coreStorageCapacity"]["java_expr"], "if(sensor == LAccess.itemCapacity) return storageCapacity;")
         self.assertEqual(source_block_item_capacity_result["keys"]["blockId"]["alias_of"], "source_block_item_capacity_input.blockId")
+
+        source_block_sprite_base_position_input = source_symbols.state_schema(schema, "source_block_sprite_base_position_input")
+        self.assertEqual(source_block_sprite_base_position_input["keys"]["block"]["java_expr"], "block")
+        self.assertEqual(source_block_sprite_base_position_input["keys"]["cell"]["java_expr"], "tile.x, tile.y")
+        self.assertEqual(source_block_sprite_base_position_input["keys"]["cell"]["status"], "explicit-input")
+
+        source_block_sprite_base_position_result = source_symbols.state_schema(schema, "source_block_sprite_base_position_result")
+        self.assertEqual(source_block_sprite_base_position_result["keys"]["worldX"]["java_expr"], "return x * tilesize;")
+        self.assertEqual(source_block_sprite_base_position_result["keys"]["worldY"]["java_expr"], "return y * tilesize;")
+        self.assertEqual(source_block_sprite_base_position_result["keys"]["offset"]["java_expr"], "offset = ((size + 1) % 2) * tilesize / 2f;")
+        self.assertEqual(source_block_sprite_base_position_result["keys"]["drawX"]["java_expr"], "return block().offset + worldx();")
+        self.assertEqual(source_block_sprite_base_position_result["keys"]["cell"]["alias_of"], "source_block_sprite_base_position_input.cell")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")
