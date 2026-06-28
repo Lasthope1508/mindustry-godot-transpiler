@@ -7010,6 +7010,37 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_team_top_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.drawTeamTop() helper."
+    },
+    "PortGame.source_building_drawrot_state": {
+      "status": "active",
+      "source_slice": "N578",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "drawrot()",
+      "params": [
+        {
+          "name": "block_rotate",
+          "type": "bool",
+          "schema": "source_building_drawrot_input.block_rotate"
+        },
+        {
+          "name": "block_rotate_draw",
+          "type": "bool",
+          "schema": "source_building_drawrot_input.block_rotate_draw"
+        },
+        {
+          "name": "rotation_quadrants",
+          "type": "int",
+          "schema": "source_building_drawrot_input.rotation_quadrants"
+        }
+      ],
+      "return_keys": [
+        "rotation_degrees"
+      ],
+      "tests": [
+        "test_building_drawrot_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_drawrot_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.drawrot() helper."
     }
   },
   "policy": {

@@ -5627,6 +5627,32 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_team_top_state",
       "rule": "Backfills SSOT for existing canonical source_building_draw_team_top_state helper against BuildingComp.drawTeamTop()."
+    },
+    "N578": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "drawrot()",
+      "godot_owner": "PortGame.source_building_drawrot_state",
+      "exact_exprs": [
+        "public float drawrot(){",
+        "return block.rotate && block.rotateDraw ? rotation * 90 : 0f;"
+      ],
+      "deferred_exprs": [
+        "Concrete Draw.rect consumers stay in draw()/drawCached() slices; this helper preserves the canonical rotation guard and degree conversion."
+      ],
+      "source_symbols": [
+        "building_drawrot.method",
+        "building_drawrot.rotation",
+        "building_drawrot.block_rotate",
+        "building_drawrot.block_rotate_draw",
+        "building_drawrot.rotation_quadrants"
+      ],
+      "tests": [
+        "test_building_drawrot_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_drawrot_state",
+      "rule": "Backfills SSOT for existing canonical source_building_drawrot_state helper against BuildingComp.drawrot()."
     }
   },
   "version": 1

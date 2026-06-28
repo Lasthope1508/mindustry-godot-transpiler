@@ -23347,6 +23347,94 @@
           "rule": "Carries source_y input into result schema."
         }
       }
+    },
+    "source_building_drawrot_input": {
+      "status": "active",
+      "keys": {
+        "block_rotate": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawrot()",
+          "java_expr": "block.rotate",
+          "godot_symbol": "source_building_drawrot_input.block_rotate",
+          "used_by": [
+            "PortGame.source_building_drawrot_state"
+          ],
+          "rule": "Runtime block_rotate supplies block.rotate."
+        },
+        "block_rotate_draw": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawrot()",
+          "java_expr": "block.rotateDraw",
+          "godot_symbol": "source_building_drawrot_input.block_rotate_draw",
+          "used_by": [
+            "PortGame.source_building_drawrot_state"
+          ],
+          "rule": "Runtime block_rotate_draw supplies block.rotateDraw."
+        },
+        "rotation_quadrants": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawrot()",
+          "java_expr": "rotation",
+          "godot_symbol": "source_building_drawrot_input.rotation_quadrants",
+          "used_by": [
+            "PortGame.source_building_drawrot_state"
+          ],
+          "rule": "Runtime rotation_quadrants supplies BuildingComp rotation."
+        }
+      }
+    },
+    "source_building_drawrot_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawrot()",
+          "java_expr": "public float drawrot(){",
+          "godot_symbol": "source_building_drawrot_result.method",
+          "used_by": [
+            "PortGame.source_building_drawrot_state"
+          ],
+          "rule": "Source drawrot method declaration."
+        },
+        "rotation_degrees": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawrot()",
+          "java_expr": "return block.rotate && block.rotateDraw ? rotation * 90 : 0f;",
+          "godot_symbol": "source_building_drawrot_result.rotation_degrees",
+          "used_by": [
+            "PortGame.source_building_drawrot_state"
+          ],
+          "rule": "drawrot returns rotation * 90 only when both rotate flags are true."
+        },
+        "block_rotate": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_drawrot_input.block_rotate",
+          "rule": "Carries block_rotate input into result schema."
+        },
+        "block_rotate_draw": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_drawrot_input.block_rotate_draw",
+          "rule": "Carries block_rotate_draw input into result schema."
+        },
+        "rotation_quadrants": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_drawrot_input.rotation_quadrants",
+          "rule": "Carries rotation_quadrants input into result schema."
+        }
+      }
     }
   },
   "version": 1
