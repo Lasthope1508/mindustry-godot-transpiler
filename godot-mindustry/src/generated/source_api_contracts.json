@@ -7356,6 +7356,49 @@
       ],
       "runtime_proof": "/root/Main.source_building_hitbox_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.hitbox(Rect out) helper."
+    },
+    "PortGame.source_building_in_fog_discovery_gate_state": {
+      "status": "active",
+      "source_slice": "N592",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "inFogTo(Team viewer)",
+      "params": [
+        {
+          "name": "block_size_value",
+          "type": "int",
+          "schema": "source_building_in_fog_discovery_gate_input.block_size_value"
+        },
+        {
+          "name": "block_size_offset",
+          "type": "int",
+          "schema": "source_building_in_fog_discovery_gate_input.block_size_offset"
+        },
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_building_in_fog_discovery_gate_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_building_in_fog_discovery_gate_input.tile_y"
+        },
+        {
+          "name": "is_discovered",
+          "type": "bool",
+          "schema": "source_building_in_fog_discovery_gate_input.is_discovered"
+        }
+      ],
+      "return_keys": [
+        "returned",
+        "value",
+        "grid"
+      ],
+      "tests": [
+        "test_building_in_fog_discovery_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_in_fog_discovery_gate_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.inFogTo(Team viewer) discovery gate helper."
     }
   },
   "policy": {

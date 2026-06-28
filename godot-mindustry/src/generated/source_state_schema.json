@@ -24376,6 +24376,160 @@
           "rule": "Carries source_tilesize input into result schema."
         }
       }
+    },
+    "source_building_in_fog_discovery_gate_input": {
+      "status": "active",
+      "keys": {
+        "block_size_value": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "inFogTo(Team viewer)",
+          "java_expr": "block.size",
+          "godot_symbol": "source_building_in_fog_discovery_gate_input.block_size_value",
+          "used_by": [
+            "PortGame.source_building_in_fog_discovery_gate_state"
+          ],
+          "rule": "Runtime block_size_value supplies source block.size."
+        },
+        "block_size_offset": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "inFogTo(Team viewer)",
+          "java_expr": "block.sizeOffset",
+          "godot_symbol": "source_building_in_fog_discovery_gate_input.block_size_offset",
+          "used_by": [
+            "PortGame.source_building_in_fog_discovery_gate_state"
+          ],
+          "rule": "Runtime block_size_offset supplies source block.sizeOffset."
+        },
+        "tile_x": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "inFogTo(Team viewer)",
+          "java_expr": "tile.x",
+          "godot_symbol": "source_building_in_fog_discovery_gate_input.tile_x",
+          "used_by": [
+            "PortGame.source_building_in_fog_discovery_gate_state"
+          ],
+          "rule": "Runtime tile_x supplies source tile.x."
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "inFogTo(Team viewer)",
+          "java_expr": "tile.y",
+          "godot_symbol": "source_building_in_fog_discovery_gate_input.tile_y",
+          "used_by": [
+            "PortGame.source_building_in_fog_discovery_gate_state"
+          ],
+          "rule": "Runtime tile_y supplies source tile.y."
+        },
+        "is_discovered": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "inFogTo(Team viewer)",
+          "java_expr": "isDiscovered(viewer)",
+          "godot_symbol": "source_building_in_fog_discovery_gate_input.is_discovered",
+          "used_by": [
+            "PortGame.source_building_in_fog_discovery_gate_state"
+          ],
+          "rule": "Runtime is_discovered supplies the source isDiscovered(viewer) call result."
+        }
+      }
+    },
+    "source_building_in_fog_discovery_gate_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "inFogTo(Team viewer)",
+          "java_expr": "public boolean inFogTo(Team viewer){",
+          "godot_symbol": "source_building_in_fog_discovery_gate_result.method",
+          "used_by": [
+            "PortGame.source_building_in_fog_discovery_gate_state"
+          ],
+          "rule": "Source inFogTo method declaration."
+        },
+        "grid_declaration": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "inFogTo(Team viewer)",
+          "java_expr": "int size = block.size, of = block.sizeOffset, tx = tile.x, ty = tile.y;",
+          "godot_symbol": "source_building_in_fog_discovery_gate_result.grid_declaration",
+          "used_by": [
+            "PortGame.source_building_in_fog_discovery_gate_state"
+          ],
+          "rule": "Source inFogTo copies block size, offset, and tile coordinates before discovery and visibility checks."
+        },
+        "undiscovered_return": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "inFogTo(Team viewer)",
+          "java_expr": "if(!isDiscovered(viewer)) return true;",
+          "godot_symbol": "source_building_in_fog_discovery_gate_result.undiscovered_return",
+          "used_by": [
+            "PortGame.source_building_in_fog_discovery_gate_state"
+          ],
+          "rule": "Undiscovered buildings remain in fog before visible tile iteration."
+        },
+        "returned": {
+          "type": "bool",
+          "status": "generated",
+          "java_expr": "if(!isDiscovered(viewer)) return true;",
+          "rule": "Reports whether the discovery gate returned from inFogTo before visible tile iteration."
+        },
+        "value": {
+          "type": "Variant",
+          "status": "generated",
+          "java_expr": "if(!isDiscovered(viewer)) return true;",
+          "rule": "Carries true when undiscovered branch returns, otherwise null for continuation."
+        },
+        "grid": {
+          "type": "Dictionary",
+          "status": "generated",
+          "java_expr": "int size = block.size, of = block.sizeOffset, tx = tile.x, ty = tile.y;",
+          "rule": "Carries size, offset, tile_x, and tile_y values into the visibility-loop slice."
+        },
+        "block_size_value": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_in_fog_discovery_gate_input.block_size_value",
+          "rule": "Carries block_size_value input into result schema."
+        },
+        "block_size_offset": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_in_fog_discovery_gate_input.block_size_offset",
+          "rule": "Carries block_size_offset input into result schema."
+        },
+        "tile_x": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_in_fog_discovery_gate_input.tile_x",
+          "rule": "Carries tile_x input into result schema."
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_in_fog_discovery_gate_input.tile_y",
+          "rule": "Carries tile_y input into result schema."
+        },
+        "is_discovered": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_in_fog_discovery_gate_input.is_discovered",
+          "rule": "Carries is_discovered input into result schema."
+        }
+      }
     }
   },
   "version": 1

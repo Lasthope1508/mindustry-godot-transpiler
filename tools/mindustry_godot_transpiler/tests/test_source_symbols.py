@@ -4998,6 +4998,53 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_tilesize["java_expr"], "tilesize")
         self.assertEqual(source_tilesize["godot_symbol"], "source_building_hitbox_input.source_tilesize")
 
+    def test_building_in_fog_discovery_gate_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_in_fog_discovery_gate.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "inFogTo(Team viewer)")
+        self.assertEqual(method["java_expr"], "public boolean inFogTo(Team viewer){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_in_fog_discovery_gate_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_in_fog_discovery_gate_state")
+        self.assertEqual(method["godot_symbol"], "source_building_in_fog_discovery_gate_result.method")
+
+        grid_declaration = source_symbols.source_symbol(registry, "building_in_fog_discovery_gate.grid_declaration")
+        self.assertEqual(grid_declaration["java_expr"], "int size = block.size, of = block.sizeOffset, tx = tile.x, ty = tile.y;")
+        self.assertEqual(grid_declaration["godot_symbol"], "source_building_in_fog_discovery_gate_result.grid_declaration")
+
+        undiscovered_return = source_symbols.source_symbol(registry, "building_in_fog_discovery_gate.undiscovered_return")
+        self.assertEqual(undiscovered_return["java_expr"], "if(!isDiscovered(viewer)) return true;")
+        self.assertEqual(undiscovered_return["godot_symbol"], "source_building_in_fog_discovery_gate_result.undiscovered_return")
+
+        block_size = source_symbols.source_symbol(registry, "building_in_fog_discovery_gate.block_size")
+        self.assertEqual(block_size["status"], "explicit-input")
+        self.assertEqual(block_size["java_expr"], "block.size")
+        self.assertEqual(block_size["godot_symbol"], "source_building_in_fog_discovery_gate_input.block_size_value")
+
+        block_size_offset = source_symbols.source_symbol(registry, "building_in_fog_discovery_gate.block_size_offset")
+        self.assertEqual(block_size_offset["status"], "explicit-input")
+        self.assertEqual(block_size_offset["java_expr"], "block.sizeOffset")
+        self.assertEqual(block_size_offset["godot_symbol"], "source_building_in_fog_discovery_gate_input.block_size_offset")
+
+        tile_x = source_symbols.source_symbol(registry, "building_in_fog_discovery_gate.tile_x")
+        self.assertEqual(tile_x["status"], "explicit-input")
+        self.assertEqual(tile_x["java_expr"], "tile.x")
+        self.assertEqual(tile_x["godot_symbol"], "source_building_in_fog_discovery_gate_input.tile_x")
+
+        tile_y = source_symbols.source_symbol(registry, "building_in_fog_discovery_gate.tile_y")
+        self.assertEqual(tile_y["status"], "explicit-input")
+        self.assertEqual(tile_y["java_expr"], "tile.y")
+        self.assertEqual(tile_y["godot_symbol"], "source_building_in_fog_discovery_gate_input.tile_y")
+
+        is_discovered = source_symbols.source_symbol(registry, "building_in_fog_discovery_gate.is_discovered")
+        self.assertEqual(is_discovered["status"], "explicit-input")
+        self.assertEqual(is_discovered["java_expr"], "isDiscovered(viewer)")
+        self.assertEqual(is_discovered["godot_symbol"], "source_building_in_fog_discovery_gate_input.is_discovered")
+
     def test_building_draw_disabled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -5321,15 +5368,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 189)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 190)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 194)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 195)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_api_contract_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_state_schema_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_draw_parts_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_in_fog_discovery_gate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7050,6 +7098,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("out.setCentered(x, y, block.size * tilesize, block.size * tilesize);", building_hitbox["exact_exprs"])
         self.assertIn("block.size * tilesize", building_hitbox["exact_exprs"])
 
+        building_in_fog_discovery_gate = source_symbols.source_slice(ledger, "N592")
+        self.assertEqual(building_in_fog_discovery_gate["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_in_fog_discovery_gate["java_method"], "inFogTo(Team viewer)")
+        self.assertEqual(building_in_fog_discovery_gate["godot_owner"], "PortGame.source_building_in_fog_discovery_gate_state")
+        self.assertIn("public boolean inFogTo(Team viewer){", building_in_fog_discovery_gate["exact_exprs"])
+        self.assertIn("int size = block.size, of = block.sizeOffset, tx = tile.x, ty = tile.y;", building_in_fog_discovery_gate["exact_exprs"])
+        self.assertIn("if(!isDiscovered(viewer)) return true;", building_in_fog_discovery_gate["exact_exprs"])
+        self.assertIn("isDiscovered(viewer)", building_in_fog_discovery_gate["exact_exprs"])
+
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
         self.assertEqual(arc_mathf_cos_scaled["java_method"], "cos(float radians, float scl, float mag)")
@@ -8678,6 +8735,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_hitbox["params"][2]["schema"], "source_building_hitbox_input.block_size_value")
         self.assertIn("set_centered", building_hitbox["return_keys"])
         self.assertEqual(building_hitbox["source_method"], "hitbox(Rect out)")
+
+        building_in_fog_discovery_gate = source_symbols.api_contract(contracts, "PortGame.source_building_in_fog_discovery_gate_state")
+        self.assertEqual([param["name"] for param in building_in_fog_discovery_gate["params"]], ["block_size_value", "block_size_offset", "tile_x", "tile_y", "is_discovered"])
+        self.assertEqual(building_in_fog_discovery_gate["params"][0]["schema"], "source_building_in_fog_discovery_gate_input.block_size_value")
+        self.assertEqual(building_in_fog_discovery_gate["params"][4]["schema"], "source_building_in_fog_discovery_gate_input.is_discovered")
+        self.assertIn("returned", building_in_fog_discovery_gate["return_keys"])
+        self.assertIn("value", building_in_fog_discovery_gate["return_keys"])
+        self.assertIn("grid", building_in_fog_discovery_gate["return_keys"])
+        self.assertEqual(building_in_fog_discovery_gate["source_method"], "inFogTo(Team viewer)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -10793,6 +10859,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_hitbox_result["keys"]["hitbox_size"]["java_expr"], "block.size * tilesize")
         self.assertEqual(source_building_hitbox_result["keys"]["world_x"]["alias_of"], "source_building_hitbox_input.world_x")
         self.assertEqual(source_building_hitbox_result["keys"]["block_size_value"]["alias_of"], "source_building_hitbox_input.block_size_value")
+
+        source_building_in_fog_discovery_gate_input = source_symbols.state_schema(schema, "source_building_in_fog_discovery_gate_input")
+        self.assertEqual(source_building_in_fog_discovery_gate_input["keys"]["block_size_value"]["java_expr"], "block.size")
+        self.assertEqual(source_building_in_fog_discovery_gate_input["keys"]["block_size_offset"]["java_expr"], "block.sizeOffset")
+        self.assertEqual(source_building_in_fog_discovery_gate_input["keys"]["tile_x"]["java_expr"], "tile.x")
+        self.assertEqual(source_building_in_fog_discovery_gate_input["keys"]["tile_y"]["java_expr"], "tile.y")
+        self.assertEqual(source_building_in_fog_discovery_gate_input["keys"]["is_discovered"]["java_expr"], "isDiscovered(viewer)")
+
+        source_building_in_fog_discovery_gate_result = source_symbols.state_schema(schema, "source_building_in_fog_discovery_gate_result")
+        self.assertEqual(source_building_in_fog_discovery_gate_result["keys"]["method"]["java_expr"], "public boolean inFogTo(Team viewer){")
+        self.assertEqual(source_building_in_fog_discovery_gate_result["keys"]["grid_declaration"]["java_expr"], "int size = block.size, of = block.sizeOffset, tx = tile.x, ty = tile.y;")
+        self.assertEqual(source_building_in_fog_discovery_gate_result["keys"]["undiscovered_return"]["java_expr"], "if(!isDiscovered(viewer)) return true;")
+        self.assertEqual(source_building_in_fog_discovery_gate_result["keys"]["block_size_value"]["alias_of"], "source_building_in_fog_discovery_gate_input.block_size_value")
+        self.assertEqual(source_building_in_fog_discovery_gate_result["keys"]["is_discovered"]["alias_of"], "source_building_in_fog_discovery_gate_input.is_discovered")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

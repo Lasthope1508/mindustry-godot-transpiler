@@ -5991,6 +5991,37 @@
       ],
       "runtime_proof": "/root/Main.source_building_hitbox_state",
       "rule": "Backfills SSOT for existing canonical source_building_hitbox_state helper against BuildingComp.hitbox(Rect out)."
+    },
+    "N592": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "inFogTo(Team viewer)",
+      "godot_owner": "PortGame.source_building_in_fog_discovery_gate_state",
+      "exact_exprs": [
+        "public boolean inFogTo(Team viewer){",
+        "int size = block.size, of = block.sizeOffset, tx = tile.x, ty = tile.y;",
+        "if(!isDiscovered(viewer)) return true;",
+        "isDiscovered(viewer)"
+      ],
+      "deferred_exprs": [
+        "Initial same-team/rules fog guard and visible tile iteration remain owned by adjacent inFogTo helper slices."
+      ],
+      "source_symbols": [
+        "building_in_fog_discovery_gate.method",
+        "building_in_fog_discovery_gate.grid_declaration",
+        "building_in_fog_discovery_gate.undiscovered_return",
+        "building_in_fog_discovery_gate.block_size",
+        "building_in_fog_discovery_gate.block_size_offset",
+        "building_in_fog_discovery_gate.tile_x",
+        "building_in_fog_discovery_gate.tile_y",
+        "building_in_fog_discovery_gate.is_discovered"
+      ],
+      "tests": [
+        "test_building_in_fog_discovery_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_in_fog_discovery_gate_state",
+      "rule": "Backfills SSOT for existing canonical source_building_in_fog_discovery_gate_state helper against BuildingComp.inFogTo(Team viewer)."
     }
   },
   "version": 1
