@@ -2133,9 +2133,7 @@
         "public float lifetime = 60f * 5f;",
         "public float speed = 1.1f,"
       ],
-      "deferred_exprs": [
-        "return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange);"
-      ],
+      "deferred_exprs": [],
       "source_symbols": [
         "calculate_range_despawn_unit.gate_return",
         "calculate_range_despawn_unit.despawn_unit_field"
@@ -2147,6 +2145,41 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_calculate_range_despawn_unit_state",
       "rule": "Backfills SSOT for calculateRange despawnUnit branch after rangeOverride and spawnUnit; fallback range remains a separate source-backed slice."
+    },
+    "N474": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "calculateRange()",
+      "godot_owner": "PortGame.source_bullet_type_calculate_range_fallback_state",
+      "exact_exprs": [
+        "public float speed = 1f;",
+        "public float lifetime = 40f;",
+        "public float drag = 0f;",
+        "public float maxRange = -1f;",
+        "if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed;",
+        "return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange);",
+        "public static final float FLOAT_ROUNDING_ERROR = 0.000001f;",
+        "return Math.abs(value) <= FLOAT_ROUNDING_ERROR;",
+        "return (float)Math.pow(a, b);"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "calculate_range_fallback.return_expr",
+        "calculate_range_fallback.drag_field",
+        "calculate_range_fallback.max_range_field",
+        "calculate_range_fallback.lifetime_field",
+        "init_draw_size.speed_field",
+        "calculate_range_fallback.mathf_zero",
+        "calculate_range_fallback.mathf_pow"
+      ],
+      "tests": [
+        "test_bullet_type_calculate_range_fallback_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_fallback_state",
+        "test_bullet_type_calculate_range_fallback_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_fallback_state",
+      "rule": "Backfills SSOT for final calculateRange fallback formula after rangeOverride, spawnUnit, and despawnUnit branches."
     }
   },
   "version": 1

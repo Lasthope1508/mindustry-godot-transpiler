@@ -7023,6 +7023,96 @@
         "test_bullet_type_calculate_range_despawn_unit_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_calculate_range_despawn_unit_state"
+    },
+    "calculate_range_fallback.return_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "calculateRange()",
+      "java_expr": "return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange);",
+      "godot_symbol": "calculate_range_fallback_result.range",
+      "godot_owner": "PortGame.source_bullet_type_calculate_range_fallback_state",
+      "rule": "Exact calculateRange fallback return after rangeOverride, spawnUnit, and despawnUnit branches miss.",
+      "tests": [
+        "test_bullet_type_calculate_range_fallback_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_fallback_state",
+        "test_bullet_type_calculate_range_fallback_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_fallback_state"
+    },
+    "calculate_range_fallback.drag_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "field",
+      "java_expr": "public float drag = 0f;",
+      "godot_symbol": "bullet_type_state.drag",
+      "godot_owner": "PortGame.source_bullet_type_calculate_range_fallback_state",
+      "rule": "BulletType drag field controls zero-drag versus drag formula in calculateRange fallback.",
+      "tests": [
+        "test_bullet_type_calculate_range_fallback_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_fallback_state",
+        "test_bullet_type_calculate_range_fallback_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_fallback_state"
+    },
+    "calculate_range_fallback.max_range_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "field",
+      "java_expr": "public float maxRange = -1f;",
+      "godot_symbol": "bullet_type_state.maxRange",
+      "godot_owner": "PortGame.source_bullet_type_calculate_range_fallback_state",
+      "rule": "BulletType maxRange field floors calculateRange fallback with Math.max.",
+      "tests": [
+        "test_bullet_type_calculate_range_fallback_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_fallback_state",
+        "test_bullet_type_calculate_range_fallback_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_fallback_state"
+    },
+    "calculate_range_fallback.lifetime_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "field",
+      "java_expr": "public float lifetime = 40f;",
+      "godot_symbol": "bullet_type_state.lifetime",
+      "godot_owner": "PortGame.source_bullet_type_calculate_range_fallback_state",
+      "rule": "BulletType lifetime field participates in calculateRange fallback.",
+      "tests": [
+        "test_bullet_type_calculate_range_fallback_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_fallback_state",
+        "test_bullet_type_calculate_range_fallback_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_fallback_state"
+    },
+    "calculate_range_fallback.mathf_zero": {
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "zero(float value)",
+      "java_expr": "return Math.abs(value) <= FLOAT_ROUNDING_ERROR;",
+      "godot_symbol": "calculate_range_fallback_result.zeroDrag",
+      "godot_owner": "PortGame.source_bullet_type_calculate_range_fallback_state",
+      "rule": "Arc Mathf.zero(float) tolerance check used by calculateRange fallback drag branch.",
+      "tests": [
+        "test_bullet_type_calculate_range_fallback_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_fallback_state",
+        "test_bullet_type_calculate_range_fallback_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_fallback_state"
+    },
+    "calculate_range_fallback.mathf_pow": {
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "pow(float a, float b)",
+      "java_expr": "return (float)Math.pow(a, b);",
+      "godot_symbol": "calculate_range_fallback_result.fallbackRange",
+      "godot_owner": "PortGame.source_bullet_type_calculate_range_fallback_state",
+      "rule": "Arc Mathf.pow(float,float) used by nonzero-drag calculateRange fallback.",
+      "tests": [
+        "test_bullet_type_calculate_range_fallback_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_fallback_state",
+        "test_bullet_type_calculate_range_fallback_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_fallback_state"
     }
   }
 }

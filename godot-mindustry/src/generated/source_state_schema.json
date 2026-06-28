@@ -1056,7 +1056,8 @@
           "java_expr": "lifetime",
           "godot_symbol": "bullet_type_state.lifetime",
           "used_by": [
-            "PortGame.source_bullet_type_init_initial_state"
+            "PortGame.source_bullet_type_init_initial_state",
+            "PortGame.source_bullet_type_calculate_range_fallback_state"
           ],
           "rule": "Canonical BulletType.lifetime field; default is 40f in BulletType.java."
         },
@@ -1306,7 +1307,8 @@
           "godot_symbol": "bullet_type_state.speed",
           "used_by": [
             "PortGame.source_bullet_type_update_weaving_circle_shooter_state",
-            "PortGame.source_bullet_type_init_draw_size_state"
+            "PortGame.source_bullet_type_init_draw_size_state",
+            "PortGame.source_bullet_type_calculate_range_fallback_state"
           ],
           "rule": "Canonical BulletType.speed field for drawSize init and movement formulas; default is 1f.",
           "java_method": "field"
@@ -1614,6 +1616,30 @@
             "PortGame.source_bullet_type_calculate_range_despawn_unit_state"
           ],
           "rule": "Canonical BulletType.despawnUnit field; nullable UnitType used by despawn and calculateRange branches."
+        },
+        "drag": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "field",
+          "java_expr": "drag",
+          "godot_symbol": "bullet_type_state.drag",
+          "used_by": [
+            "PortGame.source_bullet_type_calculate_range_fallback_state"
+          ],
+          "rule": "Canonical BulletType.drag field; default is 0f."
+        },
+        "maxRange": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "field",
+          "java_expr": "maxRange",
+          "godot_symbol": "bullet_type_state.maxRange",
+          "used_by": [
+            "PortGame.source_bullet_type_calculate_range_fallback_state"
+          ],
+          "rule": "Canonical BulletType.maxRange field; default is -1f."
         }
       }
     },
@@ -10758,6 +10784,99 @@
           "godot_symbol": "calculate_range_despawn_unit_result.despawnUnitReturnSource",
           "alias_of": "source_line.calculate_range_despawn_unit.gate_return",
           "rule": "Runtime source label for calculateRange despawnUnit early return."
+        }
+      }
+    },
+    "calculate_range_fallback_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "godot_symbol": "calculate_range_fallback_result.bulletType",
+          "alias_of": "bullet_type_state",
+          "rule": "Updated BulletType state during calculateRange fallback evaluation."
+        },
+        "fallbackRangeGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "calculateRange()",
+          "java_expr": "rangeOverride <= 0 && spawnUnit == null && despawnUnit == null",
+          "godot_symbol": "calculate_range_fallback_result.fallbackRangeGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_calculate_range_fallback_state"
+          ],
+          "rule": "Whether calculateRange falls through all early returns to the fallback return."
+        },
+        "returnEarly": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "calculateRange()",
+          "java_expr": "return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange);",
+          "godot_symbol": "calculate_range_fallback_result.returnEarly",
+          "used_by": [
+            "PortGame.source_bullet_type_calculate_range_fallback_state"
+          ],
+          "rule": "Fallback is the final calculateRange return when reached."
+        },
+        "range": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "calculateRange()",
+          "java_expr": "Math.max(fallbackRange, maxRange)",
+          "godot_symbol": "calculate_range_fallback_result.range",
+          "used_by": [
+            "PortGame.source_bullet_type_calculate_range_fallback_state"
+          ],
+          "rule": "Final calculateRange value after Math.max applies maxRange floor."
+        },
+        "fallbackRange": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "calculateRange()",
+          "java_expr": "Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag",
+          "godot_symbol": "calculate_range_fallback_result.fallbackRange",
+          "used_by": [
+            "PortGame.source_bullet_type_calculate_range_fallback_state"
+          ],
+          "rule": "Range before maxRange floor from the calculateRange ternary formula."
+        },
+        "zeroDrag": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "zero(float value)",
+          "java_expr": "Mathf.zero(drag)",
+          "godot_symbol": "calculate_range_fallback_result.zeroDrag",
+          "used_by": [
+            "PortGame.source_bullet_type_calculate_range_fallback_state"
+          ],
+          "rule": "Arc Mathf.zero(drag) result using FLOAT_ROUNDING_ERROR tolerance."
+        },
+        "drag": {
+          "type": "float",
+          "status": "generated",
+          "godot_symbol": "calculate_range_fallback_result.drag",
+          "alias_of": "bullet_type_state.drag",
+          "rule": "Runtime echo of drag input used by fallback formula."
+        },
+        "maxRange": {
+          "type": "float",
+          "status": "generated",
+          "godot_symbol": "calculate_range_fallback_result.maxRange",
+          "alias_of": "bullet_type_state.maxRange",
+          "rule": "Runtime echo of maxRange input used by Math.max."
+        },
+        "fallbackReturnSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "calculate_range_fallback_result.fallbackReturnSource",
+          "alias_of": "source_line.calculate_range_fallback.return_expr",
+          "rule": "Runtime source label for calculateRange fallback return."
         }
       }
     }

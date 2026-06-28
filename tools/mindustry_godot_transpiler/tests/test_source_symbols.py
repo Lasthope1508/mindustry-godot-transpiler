@@ -1788,14 +1788,46 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(despawn_unit_field["java_expr"], "public @Nullable UnitType despawnUnit;")
         self.assertEqual(despawn_unit_field["godot_symbol"], "bullet_type_state.despawnUnit")
 
+    def test_bullet_type_calculate_range_fallback_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        fallback_return = source_symbols.source_symbol(registry, "calculate_range_fallback.return_expr")
+        self.assertEqual(fallback_return["java_expr"], "return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange);")
+        self.assertEqual(fallback_return["godot_symbol"], "calculate_range_fallback_result.range")
+        self.assertEqual(fallback_return["godot_owner"], "PortGame.source_bullet_type_calculate_range_fallback_state")
+        self.assertEqual(fallback_return["runtime_proof"], "/root/Main.source_bullet_type_calculate_range_fallback_state")
+
+        drag_field = source_symbols.source_symbol(registry, "calculate_range_fallback.drag_field")
+        self.assertEqual(drag_field["java_expr"], "public float drag = 0f;")
+        self.assertEqual(drag_field["godot_symbol"], "bullet_type_state.drag")
+
+        max_range_field = source_symbols.source_symbol(registry, "calculate_range_fallback.max_range_field")
+        self.assertEqual(max_range_field["java_expr"], "public float maxRange = -1f;")
+        self.assertEqual(max_range_field["godot_symbol"], "bullet_type_state.maxRange")
+
+        lifetime_field = source_symbols.source_symbol(registry, "calculate_range_fallback.lifetime_field")
+        self.assertEqual(lifetime_field["java_expr"], "public float lifetime = 40f;")
+        self.assertEqual(lifetime_field["godot_symbol"], "bullet_type_state.lifetime")
+
+        mathf_zero = source_symbols.source_symbol(registry, "calculate_range_fallback.mathf_zero")
+        self.assertEqual(mathf_zero["java_expr"], "return Math.abs(value) <= FLOAT_ROUNDING_ERROR;")
+        self.assertEqual(mathf_zero["godot_symbol"], "calculate_range_fallback_result.zeroDrag")
+
+        mathf_pow = source_symbols.source_symbol(registry, "calculate_range_fallback.mathf_pow")
+        self.assertEqual(mathf_pow["java_expr"], "return (float)Math.pow(a, b);")
+        self.assertEqual(mathf_pow["godot_symbol"], "calculate_range_fallback_result.fallbackRange")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 71)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 72)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 76)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 77)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1861,6 +1893,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_calculate_range_override_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_calculate_range_spawn_unit_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_calculate_range_despawn_unit_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_calculate_range_fallback_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -2379,7 +2412,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public @Nullable UnitType despawnUnit;", calculate_range_despawn_unit["exact_exprs"])
         self.assertIn("if(spawnUnit != null) return spawnUnit.lifetime * spawnUnit.speed;", calculate_range_despawn_unit["exact_exprs"])
         self.assertIn("if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed;", calculate_range_despawn_unit["exact_exprs"])
-        self.assertIn("return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange);", calculate_range_despawn_unit["deferred_exprs"])
+        self.assertNotIn("return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange);", calculate_range_despawn_unit["deferred_exprs"])
+
+        calculate_range_fallback = source_symbols.source_slice(ledger, "N474")
+        self.assertEqual(calculate_range_fallback["java_method"], "calculateRange()")
+        self.assertEqual(calculate_range_fallback["godot_owner"], "PortGame.source_bullet_type_calculate_range_fallback_state")
+        self.assertIn("public float speed = 1f;", calculate_range_fallback["exact_exprs"])
+        self.assertIn("public float lifetime = 40f;", calculate_range_fallback["exact_exprs"])
+        self.assertIn("public float drag = 0f;", calculate_range_fallback["exact_exprs"])
+        self.assertIn("public float maxRange = -1f;", calculate_range_fallback["exact_exprs"])
+        self.assertIn("if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed;", calculate_range_fallback["exact_exprs"])
+        self.assertIn("return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange);", calculate_range_fallback["exact_exprs"])
+        self.assertEqual(calculate_range_fallback["deferred_exprs"], [])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -3027,6 +3071,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("despawnUnit", calculate_range_despawn_unit["return_keys"])
         self.assertIn("despawnUnitReturnSource", calculate_range_despawn_unit["return_keys"])
         self.assertEqual(calculate_range_despawn_unit["source_method"], "calculateRange()")
+
+        calculate_range_fallback = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_calculate_range_fallback_state")
+        self.assertEqual([param["name"] for param in calculate_range_fallback["params"]], ["despawn_unit_state"])
+        self.assertEqual(calculate_range_fallback["params"][0]["schema"], "calculate_range_despawn_unit_result")
+        self.assertIn("bulletType", calculate_range_fallback["return_keys"])
+        self.assertIn("fallbackRangeGatePassed", calculate_range_fallback["return_keys"])
+        self.assertIn("returnEarly", calculate_range_fallback["return_keys"])
+        self.assertIn("range", calculate_range_fallback["return_keys"])
+        self.assertIn("fallbackRange", calculate_range_fallback["return_keys"])
+        self.assertIn("zeroDrag", calculate_range_fallback["return_keys"])
+        self.assertIn("drag", calculate_range_fallback["return_keys"])
+        self.assertIn("maxRange", calculate_range_fallback["return_keys"])
+        self.assertIn("fallbackReturnSource", calculate_range_fallback["return_keys"])
+        self.assertEqual(calculate_range_fallback["source_method"], "calculateRange()")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -3733,6 +3791,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_calculate_range_despawn_unit_state", bullet_type_state["keys"]["despawnUnit"]["used_by"])
         self.assertIn("PortGame.source_bullet_type_calculate_range_despawn_unit_state", unit_type_state["keys"]["lifetime"]["used_by"])
         self.assertIn("PortGame.source_bullet_type_calculate_range_despawn_unit_state", unit_type_state["keys"]["speed"]["used_by"])
+
+        calculate_range_fallback_output = source_symbols.state_schema(schema, "calculate_range_fallback_result")
+        self.assertEqual(calculate_range_fallback_output["keys"]["fallbackRangeGatePassed"]["java_expr"], "rangeOverride <= 0 && spawnUnit == null && despawnUnit == null")
+        self.assertEqual(calculate_range_fallback_output["keys"]["zeroDrag"]["java_expr"], "Mathf.zero(drag)")
+        self.assertEqual(calculate_range_fallback_output["keys"]["fallbackRange"]["java_expr"], "Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag")
+        self.assertEqual(calculate_range_fallback_output["keys"]["range"]["java_expr"], "Math.max(fallbackRange, maxRange)")
+        self.assertEqual(calculate_range_fallback_output["keys"]["drag"]["alias_of"], "bullet_type_state.drag")
+        self.assertEqual(calculate_range_fallback_output["keys"]["maxRange"]["alias_of"], "bullet_type_state.maxRange")
+        self.assertEqual(calculate_range_fallback_output["keys"]["fallbackReturnSource"]["alias_of"], "source_line.calculate_range_fallback.return_expr")
+
+        self.assertEqual(bullet_type_state["keys"]["drag"]["java_expr"], "drag")
+        self.assertEqual(bullet_type_state["keys"]["maxRange"]["java_expr"], "maxRange")
+        self.assertIn("PortGame.source_bullet_type_calculate_range_fallback_state", bullet_type_state["keys"]["speed"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_calculate_range_fallback_state", bullet_type_state["keys"]["lifetime"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_calculate_range_fallback_state", bullet_type_state["keys"]["drag"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_calculate_range_fallback_state", bullet_type_state["keys"]["maxRange"]["used_by"])
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")

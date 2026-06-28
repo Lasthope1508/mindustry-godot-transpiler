@@ -3196,6 +3196,37 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_calculate_range_despawn_unit_state",
       "rule": "Public runtime contract for BulletType.calculateRange despawnUnit early return after spawnUnit state."
+    },
+    "PortGame.source_bullet_type_calculate_range_fallback_state": {
+      "status": "active",
+      "source_slice": "N474",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "calculateRange()",
+      "params": [
+        {
+          "name": "despawn_unit_state",
+          "type": "Dictionary",
+          "schema": "calculate_range_despawn_unit_result"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "fallbackRangeGatePassed",
+        "returnEarly",
+        "range",
+        "fallbackRange",
+        "zeroDrag",
+        "drag",
+        "maxRange",
+        "fallbackReturnSource"
+      ],
+      "tests": [
+        "test_bullet_type_calculate_range_fallback_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_fallback_state",
+        "test_bullet_type_calculate_range_fallback_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_fallback_state",
+      "rule": "Public runtime contract for BulletType.calculateRange fallback formula after all early returns miss."
     }
   },
   "policy": {
