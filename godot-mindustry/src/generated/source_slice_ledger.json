@@ -3203,6 +3203,38 @@
       ],
       "runtime_proof": "/root/Main.source_arc_mathf_sin_lookup",
       "rule": "Backfills SSOT for existing canonical source_arc_mathf_sin_lookup helper against Arc Mathf.sin(float radians)."
+    },
+    "N505": {
+      "status": "done",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_class": "arc.math.Mathf",
+      "java_method": "sin(float radians, float scl, float mag)",
+      "godot_owner": "PortGame.source_arc_mathf_sin_scaled",
+      "exact_exprs": [
+        "public static float sin(float radians, float scl, float mag){\n        return sin(radians / scl) * mag;\n    }",
+        "return sin(radians / scl) * mag;",
+        "radians / scl",
+        "sin(radians / scl)",
+        "sin(radians / scl) * mag",
+        "radians",
+        "scl",
+        "mag"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "arc_mathf_sin_scaled.method",
+        "arc_mathf_sin_scaled.scaled_radians",
+        "arc_mathf_sin_scaled.sin_lookup",
+        "arc_mathf_sin_scaled.multiply_mag",
+        "arc_mathf_sin_scaled.radians_input",
+        "arc_mathf_sin_scaled.scl_input",
+        "arc_mathf_sin_scaled.mag_input"
+      ],
+      "tests": [
+        "test_arc_mathf_sin_scaled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_scaled",
+      "rule": "Backfills SSOT for existing canonical source_arc_mathf_sin_scaled helper against Arc Mathf.sin scaled overload."
     }
   },
   "version": 1

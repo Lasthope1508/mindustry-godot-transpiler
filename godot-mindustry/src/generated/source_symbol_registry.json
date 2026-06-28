@@ -10472,6 +10472,97 @@
       "java_expr": "radians",
       "godot_symbol": "source_arc_mathf_sin_lookup_input.radians",
       "rule": "Runtime radians maps to Java radians."
+    },
+    "arc_mathf_sin_scaled.method": {
+      "tests": [
+        "test_arc_mathf_sin_scaled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_scaled",
+      "godot_owner": "PortGame.source_arc_mathf_sin_scaled",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "sin(float radians, float scl, float mag)",
+      "status": "source-backed",
+      "java_expr": "public static float sin(float radians, float scl, float mag){\n        return sin(radians / scl) * mag;\n    }",
+      "godot_symbol": "source_arc_mathf_sin_scaled_result.sinScaled",
+      "rule": "Arc Mathf.sin scaled overload divides radians by scl, delegates to sin, and multiplies by mag."
+    },
+    "arc_mathf_sin_scaled.scaled_radians": {
+      "tests": [
+        "test_arc_mathf_sin_scaled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_scaled",
+      "godot_owner": "PortGame.source_arc_mathf_sin_scaled",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "sin(float radians, float scl, float mag)",
+      "status": "source-backed",
+      "java_expr": "radians / scl",
+      "godot_symbol": "source_arc_mathf_sin_scaled_result.scaledRadians",
+      "rule": "Scaled radians before sine lookup."
+    },
+    "arc_mathf_sin_scaled.sin_lookup": {
+      "tests": [
+        "test_arc_mathf_sin_scaled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_scaled",
+      "godot_owner": "PortGame.source_arc_mathf_sin_scaled",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "sin(float radians, float scl, float mag)",
+      "status": "source-backed",
+      "java_expr": "sin(radians / scl)",
+      "godot_symbol": "source_arc_mathf_sin_scaled_result.sinLookup",
+      "rule": "Delegates to Arc Mathf.sin(float radians)."
+    },
+    "arc_mathf_sin_scaled.multiply_mag": {
+      "tests": [
+        "test_arc_mathf_sin_scaled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_scaled",
+      "godot_owner": "PortGame.source_arc_mathf_sin_scaled",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "sin(float radians, float scl, float mag)",
+      "status": "source-backed",
+      "java_expr": "sin(radians / scl) * mag",
+      "godot_symbol": "source_arc_mathf_sin_scaled_result.sinScaled",
+      "rule": "Sine lookup multiplied by mag."
+    },
+    "arc_mathf_sin_scaled.radians_input": {
+      "tests": [
+        "test_arc_mathf_sin_scaled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_scaled",
+      "godot_owner": "PortGame.source_arc_mathf_sin_scaled",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "sin(float radians, float scl, float mag)",
+      "status": "explicit-input",
+      "java_expr": "radians",
+      "godot_symbol": "source_arc_mathf_sin_scaled_input.radians",
+      "rule": "Runtime radians maps to Java radians."
+    },
+    "arc_mathf_sin_scaled.scl_input": {
+      "tests": [
+        "test_arc_mathf_sin_scaled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_scaled",
+      "godot_owner": "PortGame.source_arc_mathf_sin_scaled",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "sin(float radians, float scl, float mag)",
+      "status": "explicit-input",
+      "java_expr": "scl",
+      "godot_symbol": "source_arc_mathf_sin_scaled_input.scl",
+      "rule": "Runtime scl maps to Java scl."
+    },
+    "arc_mathf_sin_scaled.mag_input": {
+      "tests": [
+        "test_arc_mathf_sin_scaled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_scaled",
+      "godot_owner": "PortGame.source_arc_mathf_sin_scaled",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "sin(float radians, float scl, float mag)",
+      "status": "explicit-input",
+      "java_expr": "mag",
+      "godot_symbol": "source_arc_mathf_sin_scaled_input.mag",
+      "rule": "Runtime mag maps to Java mag."
     }
   }
 }

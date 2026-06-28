@@ -4338,6 +4338,42 @@
       ],
       "runtime_proof": "/root/Main.source_arc_mathf_sin_lookup",
       "rule": "Public runtime contract for Arc Mathf.sin(float) lookup helper."
+    },
+    "PortGame.source_arc_mathf_sin_scaled": {
+      "status": "active",
+      "source_slice": "N505",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "source_method": "sin(float radians, float scl, float mag)",
+      "params": [
+        {
+          "name": "radians",
+          "type": "float",
+          "schema": "source_arc_mathf_sin_scaled_input.radians"
+        },
+        {
+          "name": "scl",
+          "type": "float",
+          "schema": "source_arc_mathf_sin_scaled_input.scl"
+        },
+        {
+          "name": "mag",
+          "type": "float",
+          "schema": "source_arc_mathf_sin_scaled_input.mag"
+        }
+      ],
+      "return_keys": [
+        "scaledRadians",
+        "sinLookup",
+        "sinScaled",
+        "radians",
+        "scl",
+        "mag"
+      ],
+      "tests": [
+        "test_arc_mathf_sin_scaled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_scaled",
+      "rule": "Public runtime contract for Arc Mathf.sin(float,float,float) scaled helper."
     }
   },
   "policy": {
