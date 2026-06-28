@@ -17253,6 +17253,148 @@
           "rule": "Canonical alias for source last team input."
         }
       }
+    },
+    "source_building_change_team_initial_input": {
+      "status": "active",
+      "keys": {
+        "current_team": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "changeTeam(Team next, boolean updatePower)",
+          "java_expr": "this.team",
+          "godot_symbol": "source_building_change_team_initial_input.current_team",
+          "used_by": [
+            "PortGame.source_building_change_team_initial_state"
+          ],
+          "rule": "Current team supplied to initial changeTeam helper."
+        },
+        "next_team": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "changeTeam(Team next, boolean updatePower)",
+          "java_expr": "next",
+          "godot_symbol": "source_building_change_team_initial_input.next_team",
+          "used_by": [
+            "PortGame.source_building_change_team_initial_state"
+          ],
+          "rule": "Next team argument supplied to initial changeTeam helper."
+        },
+        "force_team": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "changeTeam(Team next, boolean updatePower)",
+          "java_expr": "block.forceTeam",
+          "godot_symbol": "source_building_change_team_initial_input.force_team",
+          "used_by": [
+            "PortGame.source_building_change_team_initial_state"
+          ],
+          "rule": "Block forceTeam field supplied to initial changeTeam helper."
+        },
+        "was_valid": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "changeTeam(Team next, boolean updatePower)",
+          "java_expr": "isValid()",
+          "godot_symbol": "source_building_change_team_initial_input.was_valid",
+          "used_by": [
+            "PortGame.source_building_change_team_initial_state"
+          ],
+          "rule": "Validity result supplied to initial changeTeam helper."
+        }
+      }
+    },
+    "source_building_change_team_initial_result": {
+      "status": "active",
+      "keys": {
+        "team": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "changeTeam(Team next, boolean updatePower)",
+          "java_expr": "this.team = next;",
+          "godot_symbol": "source_building_change_team_initial_result.team",
+          "used_by": [
+            "PortGame.source_building_change_team_initial_state"
+          ],
+          "rule": "Team after guards is next team, or force/current team on returned branch."
+        },
+        "last_team": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "changeTeam(Team next, boolean updatePower)",
+          "java_expr": "Team last = this.team;",
+          "godot_symbol": "source_building_change_team_initial_result.last_team",
+          "used_by": [
+            "PortGame.source_building_change_team_initial_state"
+          ],
+          "rule": "Last team captured after force-team assignment."
+        },
+        "returned": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "changeTeam(Team next, boolean updatePower)",
+          "java_expr": "if(this.team == next) return;",
+          "godot_symbol": "source_building_change_team_initial_result.returned",
+          "used_by": [
+            "PortGame.source_building_change_team_initial_state"
+          ],
+          "rule": "Returned branch covers current-team and last-team equality guards."
+        },
+        "remove_index": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "changeTeam(Team next, boolean updatePower)",
+          "java_expr": "if(was) indexer.removeIndex(tile);",
+          "godot_symbol": "source_building_change_team_initial_result.remove_index",
+          "used_by": [
+            "PortGame.source_building_change_team_initial_state"
+          ],
+          "rule": "Valid building removes old tile index before assignment."
+        },
+        "assign_next": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "changeTeam(Team next, boolean updatePower)",
+          "java_expr": "this.team = next;",
+          "godot_symbol": "source_building_change_team_initial_result.assign_next",
+          "used_by": [
+            "PortGame.source_building_change_team_initial_state"
+          ],
+          "rule": "Initial changeTeam assigns next team after guards."
+        },
+        "next_team": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_change_team_initial_input.next_team",
+          "rule": "Canonical alias for next team input."
+        },
+        "current_team": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_change_team_initial_input.current_team",
+          "rule": "Canonical alias for current team input."
+        },
+        "force_team": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_change_team_initial_input.force_team",
+          "rule": "Canonical alias for force team input."
+        },
+        "was_valid": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_change_team_initial_input.was_valid",
+          "rule": "Canonical alias for was_valid input."
+        }
+      }
     }
   },
   "version": 1

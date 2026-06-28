@@ -4171,6 +4171,48 @@
       ],
       "runtime_proof": "/root/Main.source_building_change_team_final_state",
       "rule": "Backfills SSOT for existing canonical source_building_change_team_final_state helper against the final BuildingComp two-argument changeTeam block."
+    },
+    "N536": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "godot_owner": "PortGame.source_building_change_team_initial_state",
+      "exact_exprs": [
+        "public void changeTeam(Team next, boolean updatePower){",
+        "if(this.team == next) return;",
+        "if(block.forceTeam != null) team = block.forceTeam;",
+        "Team last = this.team;",
+        "if(last == next) return;",
+        "boolean was = isValid();",
+        "if(was) indexer.removeIndex(tile);",
+        "this.team = next;",
+        "this.team",
+        "next",
+        "block.forceTeam",
+        "isValid()"
+      ],
+      "deferred_exprs": [
+        "power proximity/link update block",
+        "final index/event/checkAllowUpdate block"
+      ],
+      "source_symbols": [
+        "building_change_team_initial.current_team_guard",
+        "building_change_team_initial.force_team",
+        "building_change_team_initial.last_team",
+        "building_change_team_initial.last_team_guard",
+        "building_change_team_initial.was_valid",
+        "building_change_team_initial.remove_index",
+        "building_change_team_initial.assign_next",
+        "building_change_team_initial.current_team",
+        "building_change_team_initial.next_team",
+        "building_change_team_initial.force_team_input"
+      ],
+      "tests": [
+        "test_building_change_team_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_initial_state",
+      "rule": "Backfills SSOT for existing canonical source_building_change_team_initial_state helper against initial guards and assignment of BuildingComp changeTeam."
     }
   },
   "version": 1

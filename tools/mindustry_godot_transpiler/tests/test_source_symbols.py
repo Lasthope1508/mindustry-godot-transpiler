@@ -3218,6 +3218,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(last_team["java_expr"], "last")
         self.assertEqual(last_team["godot_symbol"], "source_building_change_team_final_input.last_team")
 
+    def test_building_change_team_initial_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        current_guard = source_symbols.source_symbol(registry, "building_change_team_initial.current_team_guard")
+        self.assertEqual(current_guard["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(current_guard["java_method"], "changeTeam(Team next, boolean updatePower)")
+        self.assertEqual(current_guard["java_expr"], "if(this.team == next) return;")
+        self.assertEqual(current_guard["godot_owner"], "PortGame.source_building_change_team_initial_state")
+        self.assertEqual(current_guard["runtime_proof"], "/root/Main.source_building_change_team_initial_state")
+        self.assertEqual(current_guard["godot_symbol"], "source_building_change_team_initial_result.returned")
+
+        force_team = source_symbols.source_symbol(registry, "building_change_team_initial.force_team")
+        self.assertEqual(force_team["java_expr"], "if(block.forceTeam != null) team = block.forceTeam;")
+        self.assertEqual(force_team["godot_symbol"], "source_building_change_team_initial_result.team")
+
+        remove_index = source_symbols.source_symbol(registry, "building_change_team_initial.remove_index")
+        self.assertEqual(remove_index["java_expr"], "if(was) indexer.removeIndex(tile);")
+        self.assertEqual(remove_index["godot_symbol"], "source_building_change_team_initial_result.remove_index")
+
+        next_team = source_symbols.source_symbol(registry, "building_change_team_initial.next_team")
+        self.assertEqual(next_team["status"], "explicit-input")
+        self.assertEqual(next_team["java_expr"], "next")
+        self.assertEqual(next_team["godot_symbol"], "source_building_change_team_initial_input.next_team")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3502,9 +3529,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 133)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 134)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 138)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 139)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3639,6 +3666,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_can_pickup_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_change_team_delegate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_change_team_final_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_change_team_initial_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -4666,6 +4694,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("indexer.addIndex(tile);", building_change_team_final["exact_exprs"])
         self.assertIn("Events.fire(teamChangeEvent.set(last, self()));", building_change_team_final["exact_exprs"])
         self.assertIn("checkAllowUpdate();", building_change_team_final["exact_exprs"])
+
+        building_change_team_initial = source_symbols.source_slice(ledger, "N536")
+        self.assertEqual(building_change_team_initial["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_change_team_initial["java_method"], "changeTeam(Team next, boolean updatePower)")
+        self.assertEqual(building_change_team_initial["godot_owner"], "PortGame.source_building_change_team_initial_state")
+        self.assertIn("if(this.team == next) return;", building_change_team_initial["exact_exprs"])
+        self.assertIn("if(block.forceTeam != null) team = block.forceTeam;", building_change_team_initial["exact_exprs"])
+        self.assertIn("Team last = this.team;", building_change_team_initial["exact_exprs"])
+        self.assertIn("if(was) indexer.removeIndex(tile);", building_change_team_initial["exact_exprs"])
+        self.assertIn("this.team = next;", building_change_team_initial["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -5843,6 +5881,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("team_change_event", building_change_team_final["return_keys"])
         self.assertIn("check_allow_update", building_change_team_final["return_keys"])
         self.assertEqual(building_change_team_final["source_method"], "changeTeam(Team next, boolean updatePower)")
+
+        building_change_team_initial = source_symbols.api_contract(contracts, "PortGame.source_building_change_team_initial_state")
+        self.assertEqual([param["name"] for param in building_change_team_initial["params"]], ["current_team", "next_team", "force_team", "was_valid"])
+        self.assertEqual(building_change_team_initial["params"][0]["schema"], "source_building_change_team_initial_input.current_team")
+        self.assertEqual(building_change_team_initial["params"][3]["schema"], "source_building_change_team_initial_input.was_valid")
+        self.assertIn("remove_index", building_change_team_initial["return_keys"])
+        self.assertIn("assign_next", building_change_team_initial["return_keys"])
+        self.assertEqual(building_change_team_initial["source_method"], "changeTeam(Team next, boolean updatePower)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -7251,6 +7297,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_change_team_final_result["keys"]["team_change_event"]["java_expr"], "Events.fire(teamChangeEvent.set(last, self()));")
         self.assertEqual(source_building_change_team_final_result["keys"]["check_allow_update"]["java_expr"], "checkAllowUpdate();")
         self.assertEqual(source_building_change_team_final_result["keys"]["last_team"]["alias_of"], "source_building_change_team_final_input.last_team")
+
+        source_building_change_team_initial_input = source_symbols.state_schema(schema, "source_building_change_team_initial_input")
+        self.assertEqual(source_building_change_team_initial_input["keys"]["current_team"]["java_expr"], "this.team")
+        self.assertEqual(source_building_change_team_initial_input["keys"]["next_team"]["java_expr"], "next")
+        self.assertEqual(source_building_change_team_initial_input["keys"]["force_team"]["java_expr"], "block.forceTeam")
+        self.assertEqual(source_building_change_team_initial_input["keys"]["was_valid"]["java_expr"], "isValid()")
+
+        source_building_change_team_initial_result = source_symbols.state_schema(schema, "source_building_change_team_initial_result")
+        self.assertEqual(source_building_change_team_initial_result["keys"]["returned"]["java_expr"], "if(this.team == next) return;")
+        self.assertEqual(source_building_change_team_initial_result["keys"]["team"]["java_expr"], "this.team = next;")
+        self.assertEqual(source_building_change_team_initial_result["keys"]["remove_index"]["java_expr"], "if(was) indexer.removeIndex(tile);")
+        self.assertEqual(source_building_change_team_initial_result["keys"]["next_team"]["alias_of"], "source_building_change_team_initial_input.next_team")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

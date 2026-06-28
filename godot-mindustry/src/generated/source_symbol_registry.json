@@ -13059,6 +13059,136 @@
       "java_expr": "last",
       "godot_symbol": "source_building_change_team_final_input.last_team",
       "rule": "Last team captured before team assignment."
+    },
+    "building_change_team_initial.current_team_guard": {
+      "tests": [
+        "test_building_change_team_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_initial_state",
+      "godot_owner": "PortGame.source_building_change_team_initial_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "source-backed",
+      "java_expr": "if(this.team == next) return;",
+      "godot_symbol": "source_building_change_team_initial_result.returned",
+      "rule": "Current-team equality returns immediately."
+    },
+    "building_change_team_initial.force_team": {
+      "tests": [
+        "test_building_change_team_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_initial_state",
+      "godot_owner": "PortGame.source_building_change_team_initial_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "source-backed",
+      "java_expr": "if(block.forceTeam != null) team = block.forceTeam;",
+      "godot_symbol": "source_building_change_team_initial_result.team",
+      "rule": "Forced block team overrides current team before last capture."
+    },
+    "building_change_team_initial.last_team": {
+      "tests": [
+        "test_building_change_team_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_initial_state",
+      "godot_owner": "PortGame.source_building_change_team_initial_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "source-backed",
+      "java_expr": "Team last = this.team;",
+      "godot_symbol": "source_building_change_team_initial_result.last_team",
+      "rule": "Last team captured after force-team assignment."
+    },
+    "building_change_team_initial.last_team_guard": {
+      "tests": [
+        "test_building_change_team_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_initial_state",
+      "godot_owner": "PortGame.source_building_change_team_initial_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "source-backed",
+      "java_expr": "if(last == next) return;",
+      "godot_symbol": "source_building_change_team_initial_result.returned",
+      "rule": "Forced/current last team equality returns before assignment."
+    },
+    "building_change_team_initial.was_valid": {
+      "tests": [
+        "test_building_change_team_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_initial_state",
+      "godot_owner": "PortGame.source_building_change_team_initial_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "explicit-input",
+      "java_expr": "isValid()",
+      "godot_symbol": "source_building_change_team_initial_input.was_valid",
+      "rule": "Validity result supplied to initial changeTeam helper."
+    },
+    "building_change_team_initial.remove_index": {
+      "tests": [
+        "test_building_change_team_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_initial_state",
+      "godot_owner": "PortGame.source_building_change_team_initial_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "source-backed",
+      "java_expr": "if(was) indexer.removeIndex(tile);",
+      "godot_symbol": "source_building_change_team_initial_result.remove_index",
+      "rule": "Valid building removes old tile index before assignment."
+    },
+    "building_change_team_initial.assign_next": {
+      "tests": [
+        "test_building_change_team_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_initial_state",
+      "godot_owner": "PortGame.source_building_change_team_initial_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "source-backed",
+      "java_expr": "this.team = next;",
+      "godot_symbol": "source_building_change_team_initial_result.assign_next",
+      "rule": "Initial changeTeam assigns next team after guards."
+    },
+    "building_change_team_initial.current_team": {
+      "tests": [
+        "test_building_change_team_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_initial_state",
+      "godot_owner": "PortGame.source_building_change_team_initial_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "explicit-input",
+      "java_expr": "this.team",
+      "godot_symbol": "source_building_change_team_initial_input.current_team",
+      "rule": "Current team supplied to initial changeTeam helper."
+    },
+    "building_change_team_initial.next_team": {
+      "tests": [
+        "test_building_change_team_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_initial_state",
+      "godot_owner": "PortGame.source_building_change_team_initial_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "explicit-input",
+      "java_expr": "next",
+      "godot_symbol": "source_building_change_team_initial_input.next_team",
+      "rule": "Next team argument supplied to initial changeTeam helper."
+    },
+    "building_change_team_initial.force_team_input": {
+      "tests": [
+        "test_building_change_team_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_initial_state",
+      "godot_owner": "PortGame.source_building_change_team_initial_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "status": "explicit-input",
+      "java_expr": "block.forceTeam",
+      "godot_symbol": "source_building_change_team_initial_input.force_team",
+      "rule": "Block forceTeam field supplied to initial changeTeam helper."
     }
   }
 }
