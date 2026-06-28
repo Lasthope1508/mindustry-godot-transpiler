@@ -5728,6 +5728,30 @@
       ],
       "runtime_proof": "/root/Main.source_building_explosion_item_cap_state",
       "rule": "Backfills SSOT for existing canonical source_building_explosion_item_cap_state helper against BuildingComp.explosionItemCap()."
+    },
+    "N582": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "flowItems()",
+      "godot_owner": "PortGame.source_building_flow_items_state",
+      "exact_exprs": [
+        "public ItemModule flowItems(){",
+        "return items;"
+      ],
+      "deferred_exprs": [
+        "Display flow UI iteration and ItemModule flow-rate behavior stay owned by display flow slices; this helper preserves the source items-module reference."
+      ],
+      "source_symbols": [
+        "building_flow_items.method",
+        "building_flow_items.return",
+        "building_flow_items.items_module"
+      ],
+      "tests": [
+        "test_building_flow_items_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_flow_items_state",
+      "rule": "Backfills SSOT for existing canonical source_building_flow_items_state helper against BuildingComp.flowItems()."
     }
   },
   "version": 1

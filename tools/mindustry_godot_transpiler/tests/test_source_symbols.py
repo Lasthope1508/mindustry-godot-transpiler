@@ -4699,6 +4699,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(item_capacity["java_expr"], "block.itemCapacity")
         self.assertEqual(item_capacity["godot_symbol"], "source_building_explosion_item_cap_input.item_capacity")
 
+    def test_building_flow_items_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_flow_items.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "flowItems()")
+        self.assertEqual(method["java_expr"], "public ItemModule flowItems(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_flow_items_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_flow_items_state")
+        self.assertEqual(method["godot_symbol"], "source_building_flow_items_result.method")
+
+        return_value = source_symbols.source_symbol(registry, "building_flow_items.return")
+        self.assertEqual(return_value["java_expr"], "return items;")
+        self.assertEqual(return_value["godot_symbol"], "source_building_flow_items_result.flow_items")
+
+        items_module = source_symbols.source_symbol(registry, "building_flow_items.items_module")
+        self.assertEqual(items_module["status"], "explicit-input")
+        self.assertEqual(items_module["java_expr"], "items")
+        self.assertEqual(items_module["godot_symbol"], "source_building_flow_items_input.items_module")
+
     def test_building_draw_disabled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -5022,9 +5045,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 179)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 180)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 184)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 185)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6672,6 +6695,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public int explosionItemCap(){", building_explosion_item_cap["exact_exprs"])
         self.assertIn("return block.itemCapacity;", building_explosion_item_cap["exact_exprs"])
 
+        building_flow_items = source_symbols.source_slice(ledger, "N582")
+        self.assertEqual(building_flow_items["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_flow_items["java_method"], "flowItems()")
+        self.assertEqual(building_flow_items["godot_owner"], "PortGame.source_building_flow_items_state")
+        self.assertIn("public ItemModule flowItems(){", building_flow_items["exact_exprs"])
+        self.assertIn("return items;", building_flow_items["exact_exprs"])
+
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
         self.assertEqual(arc_mathf_cos_scaled["java_method"], "cos(float radians, float scl, float mag)")
@@ -8233,6 +8263,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_explosion_item_cap["params"][0]["schema"], "source_building_explosion_item_cap_input.item_capacity")
         self.assertIn("explosion_item_cap", building_explosion_item_cap["return_keys"])
         self.assertEqual(building_explosion_item_cap["source_method"], "explosionItemCap()")
+
+        building_flow_items = source_symbols.api_contract(contracts, "PortGame.source_building_flow_items_state")
+        self.assertEqual([param["name"] for param in building_flow_items["params"]], ["items_module"])
+        self.assertEqual(building_flow_items["params"][0]["schema"], "source_building_flow_items_input.items_module")
+        self.assertIn("flow_items", building_flow_items["return_keys"])
+        self.assertEqual(building_flow_items["source_method"], "flowItems()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -10237,6 +10273,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_explosion_item_cap_result["keys"]["method"]["java_expr"], "public int explosionItemCap(){")
         self.assertEqual(source_building_explosion_item_cap_result["keys"]["explosion_item_cap"]["java_expr"], "return block.itemCapacity;")
         self.assertEqual(source_building_explosion_item_cap_result["keys"]["item_capacity"]["alias_of"], "source_building_explosion_item_cap_input.item_capacity")
+
+        source_building_flow_items_input = source_symbols.state_schema(schema, "source_building_flow_items_input")
+        self.assertEqual(source_building_flow_items_input["keys"]["items_module"]["java_expr"], "items")
+        self.assertEqual(source_building_flow_items_input["keys"]["items_module"]["status"], "explicit-input")
+
+        source_building_flow_items_result = source_symbols.state_schema(schema, "source_building_flow_items_result")
+        self.assertEqual(source_building_flow_items_result["keys"]["method"]["java_expr"], "public ItemModule flowItems(){")
+        self.assertEqual(source_building_flow_items_result["keys"]["flow_items"]["java_expr"], "return items;")
+        self.assertEqual(source_building_flow_items_result["keys"]["items_module"]["alias_of"], "source_building_flow_items_input.items_module")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

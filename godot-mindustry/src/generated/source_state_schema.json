@@ -23622,6 +23622,58 @@
           "rule": "Carries item_capacity input into result schema."
         }
       }
+    },
+    "source_building_flow_items_input": {
+      "status": "active",
+      "keys": {
+        "items_module": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "flowItems()",
+          "java_expr": "items",
+          "godot_symbol": "source_building_flow_items_input.items_module",
+          "used_by": [
+            "PortGame.source_building_flow_items_state"
+          ],
+          "rule": "Runtime items_module supplies BuildingComp items."
+        }
+      }
+    },
+    "source_building_flow_items_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "flowItems()",
+          "java_expr": "public ItemModule flowItems(){",
+          "godot_symbol": "source_building_flow_items_result.method",
+          "used_by": [
+            "PortGame.source_building_flow_items_state"
+          ],
+          "rule": "Source flowItems method declaration."
+        },
+        "flow_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "flowItems()",
+          "java_expr": "return items;",
+          "godot_symbol": "source_building_flow_items_result.flow_items",
+          "used_by": [
+            "PortGame.source_building_flow_items_state"
+          ],
+          "rule": "flowItems returns the BuildingComp items module."
+        },
+        "items_module": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_flow_items_input.items_module",
+          "rule": "Carries items_module input into result schema."
+        }
+      }
     }
   },
   "version": 1

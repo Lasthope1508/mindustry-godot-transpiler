@@ -7108,6 +7108,27 @@
       ],
       "runtime_proof": "/root/Main.source_building_explosion_item_cap_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.explosionItemCap() helper."
+    },
+    "PortGame.source_building_flow_items_state": {
+      "status": "active",
+      "source_slice": "N582",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "flowItems()",
+      "params": [
+        {
+          "name": "items_module",
+          "type": "Variant",
+          "schema": "source_building_flow_items_input.items_module"
+        }
+      ],
+      "return_keys": [
+        "flow_items"
+      ],
+      "tests": [
+        "test_building_flow_items_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_flow_items_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.flowItems() helper."
     }
   },
   "policy": {

@@ -18129,6 +18129,45 @@
         "test_building_explosion_item_cap_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_building_explosion_item_cap_state"
+    },
+    "building_flow_items.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "flowItems()",
+      "java_expr": "public ItemModule flowItems(){",
+      "godot_symbol": "source_building_flow_items_result.method",
+      "godot_owner": "PortGame.source_building_flow_items_state",
+      "rule": "Source flowItems method declaration.",
+      "tests": [
+        "test_building_flow_items_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_flow_items_state"
+    },
+    "building_flow_items.return": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "flowItems()",
+      "java_expr": "return items;",
+      "godot_symbol": "source_building_flow_items_result.flow_items",
+      "godot_owner": "PortGame.source_building_flow_items_state",
+      "rule": "flowItems returns the BuildingComp items module.",
+      "tests": [
+        "test_building_flow_items_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_flow_items_state"
+    },
+    "building_flow_items.items_module": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "flowItems()",
+      "java_expr": "items",
+      "godot_symbol": "source_building_flow_items_input.items_module",
+      "godot_owner": "PortGame.source_building_flow_items_state",
+      "rule": "Runtime items_module supplies BuildingComp items.",
+      "tests": [
+        "test_building_flow_items_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_flow_items_state"
     }
   }
 }
