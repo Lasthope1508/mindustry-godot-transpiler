@@ -7698,6 +7698,39 @@
       ],
       "runtime_proof": "/root/Main.source_building_maximum_accepted",
       "rule": "Public runtime contract for Mindustry BuildingComp.getMaximumAccepted helper."
+    },
+    "PortGame.source_building_on_configure_build_tapped_state": {
+      "status": "active",
+      "source_slice": "N604",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "onConfigureBuildTapped(Building other)",
+      "params": [
+        {
+          "name": "clear_on_double_tap",
+          "type": "bool",
+          "schema": "source_building_on_configure_build_tapped_input.clear_on_double_tap"
+        },
+        {
+          "name": "same_building",
+          "type": "bool",
+          "schema": "source_building_on_configure_build_tapped_input.same_building"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "clear_on_double_tap",
+        "same_building",
+        "clear_on_double_tap_gate",
+        "same_building_gate",
+        "deselect",
+        "configure_null",
+        "consumed"
+      ],
+      "tests": [
+        "test_building_on_configure_build_tapped_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_configure_build_tapped_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.onConfigureBuildTapped helper."
     }
   },
   "policy": {

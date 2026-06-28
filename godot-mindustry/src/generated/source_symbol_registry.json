@@ -19468,6 +19468,136 @@
       "java_expr": "block.itemCapacity",
       "godot_symbol": "source_building_maximum_accepted_input.block_item_capacity",
       "rule": "Runtime block_item_capacity supplies source block.itemCapacity field."
+    },
+    "building_on_configure_build_tapped.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onConfigureBuildTapped(Building other)",
+      "godot_owner": "PortGame.source_building_on_configure_build_tapped_state",
+      "tests": [
+        "test_building_on_configure_build_tapped_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_configure_build_tapped_state",
+      "java_expr": "public boolean onConfigureBuildTapped(Building other){",
+      "godot_symbol": "source_building_on_configure_build_tapped_result.method",
+      "rule": "BuildingComp onConfigureBuildTapped method boundary."
+    },
+    "building_on_configure_build_tapped.clear_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onConfigureBuildTapped(Building other)",
+      "godot_owner": "PortGame.source_building_on_configure_build_tapped_state",
+      "tests": [
+        "test_building_on_configure_build_tapped_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_configure_build_tapped_state",
+      "java_expr": "if(block.clearOnDoubleTap){",
+      "godot_symbol": "source_building_on_configure_build_tapped_result.clear_on_double_tap_gate",
+      "rule": "Double-tap clear branch enters only when block.clearOnDoubleTap is true."
+    },
+    "building_on_configure_build_tapped.same_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onConfigureBuildTapped(Building other)",
+      "godot_owner": "PortGame.source_building_on_configure_build_tapped_state",
+      "tests": [
+        "test_building_on_configure_build_tapped_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_configure_build_tapped_state",
+      "java_expr": "if(self() == other){",
+      "godot_symbol": "source_building_on_configure_build_tapped_result.same_building_gate",
+      "rule": "Same-building branch enters when self() equals tapped building."
+    },
+    "building_on_configure_build_tapped.deselect_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onConfigureBuildTapped(Building other)",
+      "godot_owner": "PortGame.source_building_on_configure_build_tapped_state",
+      "tests": [
+        "test_building_on_configure_build_tapped_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_configure_build_tapped_state",
+      "java_expr": "deselect();",
+      "godot_symbol": "source_building_on_configure_build_tapped_result.deselect",
+      "rule": "Same-building double tap deselects current build."
+    },
+    "building_on_configure_build_tapped.configure_null_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onConfigureBuildTapped(Building other)",
+      "godot_owner": "PortGame.source_building_on_configure_build_tapped_state",
+      "tests": [
+        "test_building_on_configure_build_tapped_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_configure_build_tapped_state",
+      "java_expr": "configure(null);",
+      "godot_symbol": "source_building_on_configure_build_tapped_result.configure_null",
+      "rule": "Same-building double tap clears config with configure(null)."
+    },
+    "building_on_configure_build_tapped.same_return_false": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onConfigureBuildTapped(Building other)",
+      "godot_owner": "PortGame.source_building_on_configure_build_tapped_state",
+      "tests": [
+        "test_building_on_configure_build_tapped_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_configure_build_tapped_state",
+      "java_expr": "return false;",
+      "godot_symbol": "source_building_on_configure_build_tapped_result.consumed",
+      "rule": "Same-building double tap returns false after clearing config."
+    },
+    "building_on_configure_build_tapped.other_return_true": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onConfigureBuildTapped(Building other)",
+      "godot_owner": "PortGame.source_building_on_configure_build_tapped_state",
+      "tests": [
+        "test_building_on_configure_build_tapped_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_configure_build_tapped_state",
+      "java_expr": "return true;",
+      "godot_symbol": "source_building_on_configure_build_tapped_result.consumed",
+      "rule": "Different building under clearOnDoubleTap returns true."
+    },
+    "building_on_configure_build_tapped.default_return": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onConfigureBuildTapped(Building other)",
+      "godot_owner": "PortGame.source_building_on_configure_build_tapped_state",
+      "tests": [
+        "test_building_on_configure_build_tapped_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_configure_build_tapped_state",
+      "java_expr": "return self() != other;",
+      "godot_symbol": "source_building_on_configure_build_tapped_result.consumed",
+      "rule": "Default consumed value is whether other is not self."
+    },
+    "building_on_configure_build_tapped.clear_on_double_tap": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onConfigureBuildTapped(Building other)",
+      "godot_owner": "PortGame.source_building_on_configure_build_tapped_state",
+      "tests": [
+        "test_building_on_configure_build_tapped_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_configure_build_tapped_state",
+      "java_expr": "block.clearOnDoubleTap",
+      "godot_symbol": "source_building_on_configure_build_tapped_input.clear_on_double_tap",
+      "rule": "Runtime clear_on_double_tap supplies source block.clearOnDoubleTap."
+    },
+    "building_on_configure_build_tapped.same_building": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onConfigureBuildTapped(Building other)",
+      "godot_owner": "PortGame.source_building_on_configure_build_tapped_state",
+      "tests": [
+        "test_building_on_configure_build_tapped_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_configure_build_tapped_state",
+      "java_expr": "self() == other",
+      "godot_symbol": "source_building_on_configure_build_tapped_input.same_building",
+      "rule": "Runtime same_building supplies source self() == other predicate."
     }
   }
 }

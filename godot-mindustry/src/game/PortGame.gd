@@ -1917,11 +1917,21 @@ func source_building_cursor_state(block_configurable: bool, interactable_player_
 	return "hand" if block_configurable and interactable_player_team else "arrow"
 
 func source_building_on_configure_build_tapped_state(clear_on_double_tap: bool, same_building: bool) -> Dictionary:
+	var base := {
+		"method": "public boolean onConfigureBuildTapped(Building other){",
+		"clear_on_double_tap": clear_on_double_tap,
+		"same_building": same_building,
+		"clear_on_double_tap_gate": clear_on_double_tap,
+		"same_building_gate": clear_on_double_tap and same_building,
+	}
 	if clear_on_double_tap:
 		if same_building:
-			return {"deselect": true, "configure_null": true, "consumed": false}
-		return {"deselect": false, "configure_null": false, "consumed": true}
-	return {"deselect": false, "configure_null": false, "consumed": not same_building}
+			base.merge({"deselect": true, "configure_null": true, "consumed": false}, true)
+			return base
+		base.merge({"deselect": false, "configure_null": false, "consumed": true}, true)
+		return base
+	base.merge({"deselect": false, "configure_null": false, "consumed": not same_building}, true)
+	return base
 func source_building_on_configure_tapped_state(_x: float, _y: float) -> bool:
 	return false
 func source_building_on_configure_closed_state() -> void:

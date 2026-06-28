@@ -6334,6 +6334,45 @@
       ],
       "runtime_proof": "/root/Main.source_building_maximum_accepted",
       "rule": "Backfills SSOT for existing canonical source_building_maximum_accepted helper against BuildingComp.getMaximumAccepted(Item item)."
+    },
+    "N604": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "onConfigureBuildTapped(Building other)",
+      "godot_owner": "PortGame.source_building_on_configure_build_tapped_state",
+      "exact_exprs": [
+        "public boolean onConfigureBuildTapped(Building other){",
+        "if(block.clearOnDoubleTap){",
+        "if(self() == other){",
+        "deselect();",
+        "configure(null);",
+        "return false;",
+        "return true;",
+        "return self() != other;",
+        "block.clearOnDoubleTap",
+        "self() == other"
+      ],
+      "deferred_exprs": [
+        "Concrete deselect/configure(null) UI and network side effects remain owned by configure/runtime integration slices."
+      ],
+      "source_symbols": [
+        "building_on_configure_build_tapped.method",
+        "building_on_configure_build_tapped.clear_gate",
+        "building_on_configure_build_tapped.same_gate",
+        "building_on_configure_build_tapped.deselect_call",
+        "building_on_configure_build_tapped.configure_null_call",
+        "building_on_configure_build_tapped.same_return_false",
+        "building_on_configure_build_tapped.other_return_true",
+        "building_on_configure_build_tapped.default_return",
+        "building_on_configure_build_tapped.clear_on_double_tap",
+        "building_on_configure_build_tapped.same_building"
+      ],
+      "tests": [
+        "test_building_on_configure_build_tapped_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_configure_build_tapped_state",
+      "rule": "Backfills SSOT for existing canonical source_building_on_configure_build_tapped_state helper against BuildingComp.onConfigureBuildTapped(Building other)."
     }
   },
   "version": 1

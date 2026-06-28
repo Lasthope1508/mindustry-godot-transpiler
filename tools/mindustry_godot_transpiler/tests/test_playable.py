@@ -1861,10 +1861,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_on_configure_build_tapped_state(clear_on_double_tap: bool, same_building: bool) -> Dictionary:", source)
         self.assertIn('if clear_on_double_tap:', source)
         self.assertIn('if same_building:', source)
+        self.assertIn('"method": "public boolean onConfigureBuildTapped(Building other){",', source)
+        self.assertIn('"clear_on_double_tap": clear_on_double_tap,', source)
+        self.assertIn('"same_building": same_building,', source)
+        self.assertIn('"clear_on_double_tap_gate": clear_on_double_tap,', source)
+        self.assertIn('"same_building_gate": clear_on_double_tap and same_building,', source)
         self.assertIn('"deselect": true', source)
         self.assertIn('"configure_null": true', source)
         self.assertIn('"consumed": false', source)
-        self.assertIn('return {"deselect": false, "configure_null": false, "consumed": not same_building}', source)
+        self.assertIn('base.merge({"deselect": false, "configure_null": false, "consumed": not same_building}, true)', source)
     def test_port_game_exposes_source_building_configure_position_tap_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
