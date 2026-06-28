@@ -2950,6 +2950,34 @@
       ],
       "runtime_proof": "/root/Main.source_arc_angles_trns_vec",
       "rule": "Backfills SSOT for existing canonical source_arc_angles_trns_vec helper against Arc Angles.trnsx/trnsy and Vec2 rotation source."
+    },
+    "N497": {
+      "status": "done",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_class": "arc.math.Mathf",
+      "java_method": "chanceDelta(double d)",
+      "godot_owner": "PortGame.source_arc_chance_delta_threshold",
+      "exact_exprs": [
+        "public static boolean chanceDelta(double d){\n        return rand.nextFloat() < d * Time.delta;\n    }",
+        "return rand.nextFloat() < d * Time.delta;",
+        "d * Time.delta",
+        "d",
+        "Time.delta"
+      ],
+      "deferred_exprs": [
+        "rand.nextFloat()"
+      ],
+      "source_symbols": [
+        "arc_chance_delta_threshold.method",
+        "arc_chance_delta_threshold.threshold_expr",
+        "arc_chance_delta_threshold.chance_input",
+        "arc_chance_delta_threshold.delta_input"
+      ],
+      "tests": [
+        "test_arc_chance_delta_threshold_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_chance_delta_threshold",
+      "rule": "Backfills SSOT for existing canonical source_arc_chance_delta_threshold helper against Arc Mathf.chanceDelta deterministic threshold; RNG draw remains external."
     }
   },
   "version": 1

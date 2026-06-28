@@ -2261,6 +2261,32 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(delta_input["java_expr"], "Time.delta")
         self.assertEqual(delta_input["godot_symbol"], "source_approach_delta_input.sourceDelta")
 
+    def test_arc_chance_delta_threshold_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "arc_chance_delta_threshold.method")
+        self.assertEqual(method["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(method["java_expr"], "public static boolean chanceDelta(double d){\n        return rand.nextFloat() < d * Time.delta;\n    }")
+        self.assertEqual(method["godot_owner"], "PortGame.source_arc_chance_delta_threshold")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_arc_chance_delta_threshold")
+
+        threshold = source_symbols.source_symbol(registry, "arc_chance_delta_threshold.threshold_expr")
+        self.assertEqual(threshold["java_expr"], "d * Time.delta")
+        self.assertEqual(threshold["godot_symbol"], "source_arc_chance_delta_threshold_result.threshold")
+
+        chance_input = source_symbols.source_symbol(registry, "arc_chance_delta_threshold.chance_input")
+        self.assertEqual(chance_input["status"], "explicit-input")
+        self.assertEqual(chance_input["java_expr"], "d")
+        self.assertEqual(chance_input["godot_symbol"], "source_arc_chance_delta_threshold_input.chance")
+
+        delta_input = source_symbols.source_symbol(registry, "arc_chance_delta_threshold.delta_input")
+        self.assertEqual(delta_input["status"], "explicit-input")
+        self.assertEqual(delta_input["java_expr"], "Time.delta")
+        self.assertEqual(delta_input["godot_symbol"], "source_arc_chance_delta_threshold_input.sourceDelta")
+
     def test_arc_angles_angle_distance_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -2470,9 +2496,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 94)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 95)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 99)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 100)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -2568,6 +2594,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_arc_angles_forward_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_move_toward", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_trns_vec", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_arc_chance_delta_threshold", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -3310,6 +3337,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public static float trnsx(float angle, float x, float y){\n        return rv.set(x, y).rotate(angle).x;\n    }", arc_angles_trns_vec["exact_exprs"])
         self.assertIn("public static float trnsy(float angle, float x, float y){\n        return rv.set(x, y).rotate(angle).y;\n    }", arc_angles_trns_vec["exact_exprs"])
         self.assertIn("float newX = this.x * cos - this.y * sin;\n        float newY = this.x * sin + this.y * cos;", arc_angles_trns_vec["exact_exprs"])
+
+        arc_chance_delta_threshold = source_symbols.source_slice(ledger, "N497")
+        self.assertEqual(arc_chance_delta_threshold["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(arc_chance_delta_threshold["java_method"], "chanceDelta(double d)")
+        self.assertEqual(arc_chance_delta_threshold["godot_owner"], "PortGame.source_arc_chance_delta_threshold")
+        self.assertIn("public static boolean chanceDelta(double d){\n        return rand.nextFloat() < d * Time.delta;\n    }", arc_chance_delta_threshold["exact_exprs"])
+        self.assertIn("d * Time.delta", arc_chance_delta_threshold["exact_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -4204,6 +4238,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("y", arc_angles_trns_vec["return_keys"])
         self.assertIn("vec2RotateSource", arc_angles_trns_vec["return_keys"])
         self.assertEqual(arc_angles_trns_vec["source_method"], "trnsx/trnsy(float angle, float x, float y)")
+
+        arc_chance_delta_threshold = source_symbols.api_contract(contracts, "PortGame.source_arc_chance_delta_threshold")
+        self.assertEqual([param["name"] for param in arc_chance_delta_threshold["params"]], ["chance", "source_delta"])
+        self.assertEqual(arc_chance_delta_threshold["params"][0]["schema"], "source_arc_chance_delta_threshold_input.chance")
+        self.assertEqual(arc_chance_delta_threshold["params"][1]["schema"], "source_arc_chance_delta_threshold_input.sourceDelta")
+        self.assertIn("threshold", arc_chance_delta_threshold["return_keys"])
+        self.assertEqual(arc_chance_delta_threshold["source_method"], "chanceDelta(double d)")
 
         angle_distance = source_symbols.api_contract(contracts, "PortGame.source_angle_distance")
         self.assertEqual([param["name"] for param in angle_distance["params"]], ["current_degrees", "target_degrees"])
@@ -5197,6 +5238,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_arc_angles_trns_vec_result["keys"]["y"]["java_expr"], "return rv.set(x, y).rotate(angle).y;")
         self.assertEqual(source_arc_angles_trns_vec_result["keys"]["vec2RotateSource"]["java_expr"], "float newX = this.x * cos - this.y * sin;\n        float newY = this.x * sin + this.y * cos;")
         self.assertEqual(source_arc_angles_trns_vec_result["keys"]["angle"]["alias_of"], "source_arc_angles_trns_vec_input.angleDegrees")
+
+        source_arc_chance_delta_threshold_input = source_symbols.state_schema(schema, "source_arc_chance_delta_threshold_input")
+        self.assertEqual(source_arc_chance_delta_threshold_input["keys"]["chance"]["java_expr"], "d")
+        self.assertEqual(source_arc_chance_delta_threshold_input["keys"]["sourceDelta"]["java_expr"], "Time.delta")
+
+        source_arc_chance_delta_threshold_result = source_symbols.state_schema(schema, "source_arc_chance_delta_threshold_result")
+        self.assertEqual(source_arc_chance_delta_threshold_result["keys"]["threshold"]["java_expr"], "d * Time.delta")
+        self.assertEqual(source_arc_chance_delta_threshold_result["keys"]["chance"]["alias_of"], "source_arc_chance_delta_threshold_input.chance")
+        self.assertEqual(source_arc_chance_delta_threshold_result["keys"]["sourceDelta"]["alias_of"], "source_arc_chance_delta_threshold_input.sourceDelta")
 
         source_angle_distance_input = source_symbols.state_schema(schema, "source_angle_distance_input")
         self.assertEqual(source_angle_distance_input["keys"]["currentDegrees"]["java_expr"], "a")

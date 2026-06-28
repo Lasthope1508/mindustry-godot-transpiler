@@ -4097,6 +4097,34 @@
       ],
       "runtime_proof": "/root/Main.source_angle_to_target",
       "rule": "Public runtime contract for Position.angleTo(Position)-backed target angle helper."
+    },
+    "PortGame.source_arc_chance_delta_threshold": {
+      "status": "active",
+      "source_slice": "N497",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "source_method": "chanceDelta(double d)",
+      "params": [
+        {
+          "name": "chance",
+          "type": "float",
+          "schema": "source_arc_chance_delta_threshold_input.chance"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_arc_chance_delta_threshold_input.sourceDelta"
+        }
+      ],
+      "return_keys": [
+        "threshold",
+        "chance",
+        "sourceDelta"
+      ],
+      "tests": [
+        "test_arc_chance_delta_threshold_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_chance_delta_threshold",
+      "rule": "Public runtime contract for Arc Mathf.chanceDelta threshold helper with explicit Time.delta input; RNG comparison is not fabricated."
     }
   },
   "policy": {

@@ -9796,6 +9796,58 @@
       "java_expr": "other",
       "godot_symbol": "source_angle_to_target_input.target",
       "rule": "Runtime target object represents Java Position other."
+    },
+    "arc_chance_delta_threshold.method": {
+      "tests": [
+        "test_arc_chance_delta_threshold_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_chance_delta_threshold",
+      "godot_owner": "PortGame.source_arc_chance_delta_threshold",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "chanceDelta(double d)",
+      "status": "source-backed",
+      "java_expr": "public static boolean chanceDelta(double d){\n        return rand.nextFloat() < d * Time.delta;\n    }",
+      "godot_symbol": "source_arc_chance_delta_threshold_result.threshold",
+      "rule": "Arc Mathf.chanceDelta compares rand.nextFloat() against chance multiplied by Time.delta; runtime exposes only the deterministic threshold."
+    },
+    "arc_chance_delta_threshold.threshold_expr": {
+      "tests": [
+        "test_arc_chance_delta_threshold_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_chance_delta_threshold",
+      "godot_owner": "PortGame.source_arc_chance_delta_threshold",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "chanceDelta(double d)",
+      "status": "source-backed",
+      "java_expr": "d * Time.delta",
+      "godot_symbol": "source_arc_chance_delta_threshold_result.threshold",
+      "rule": "Deterministic threshold side of rand.nextFloat() < d * Time.delta."
+    },
+    "arc_chance_delta_threshold.chance_input": {
+      "tests": [
+        "test_arc_chance_delta_threshold_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_chance_delta_threshold",
+      "godot_owner": "PortGame.source_arc_chance_delta_threshold",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "chanceDelta(double d)",
+      "status": "explicit-input",
+      "java_expr": "d",
+      "godot_symbol": "source_arc_chance_delta_threshold_input.chance",
+      "rule": "Runtime chance parameter maps to Java chanceDelta argument d."
+    },
+    "arc_chance_delta_threshold.delta_input": {
+      "tests": [
+        "test_arc_chance_delta_threshold_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_chance_delta_threshold",
+      "godot_owner": "PortGame.source_arc_chance_delta_threshold",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "chanceDelta(double d)",
+      "status": "explicit-input",
+      "java_expr": "Time.delta",
+      "godot_symbol": "source_arc_chance_delta_threshold_input.sourceDelta",
+      "rule": "Runtime source_delta supplies Java Time.delta."
     }
   }
 }

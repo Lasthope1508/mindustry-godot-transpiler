@@ -13394,6 +13394,64 @@
           "rule": "Carries target y into result schema."
         }
       }
+    },
+    "source_arc_chance_delta_threshold_input": {
+      "status": "active",
+      "keys": {
+        "chance": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "chanceDelta(double d)",
+          "java_expr": "d",
+          "godot_symbol": "source_arc_chance_delta_threshold_input.chance",
+          "used_by": [
+            "PortGame.source_arc_chance_delta_threshold"
+          ],
+          "rule": "Java chanceDelta argument d."
+        },
+        "sourceDelta": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "chanceDelta(double d)",
+          "java_expr": "Time.delta",
+          "godot_symbol": "source_arc_chance_delta_threshold_input.sourceDelta",
+          "used_by": [
+            "PortGame.source_arc_chance_delta_threshold"
+          ],
+          "rule": "Runtime source_delta supplies Java Time.delta."
+        }
+      }
+    },
+    "source_arc_chance_delta_threshold_result": {
+      "status": "active",
+      "keys": {
+        "threshold": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "chanceDelta(double d)",
+          "java_expr": "d * Time.delta",
+          "godot_symbol": "source_arc_chance_delta_threshold_result.threshold",
+          "used_by": [
+            "PortGame.source_arc_chance_delta_threshold"
+          ],
+          "rule": "Threshold compared against rand.nextFloat() in Arc Mathf.chanceDelta."
+        },
+        "chance": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_arc_chance_delta_threshold_input.chance",
+          "rule": "Carries Java chanceDelta argument d into result schema."
+        },
+        "sourceDelta": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_arc_chance_delta_threshold_input.sourceDelta",
+          "rule": "Carries Java Time.delta input into result schema."
+        }
+      }
     }
   },
   "version": 1
