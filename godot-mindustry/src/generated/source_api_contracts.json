@@ -7197,6 +7197,27 @@
       ],
       "runtime_proof": "/root/Main.source_building_handle_liquid_amount",
       "rule": "Public runtime contract for Mindustry BuildingComp.handleLiquid(Building source, Liquid liquid, float amount) amount helper."
+    },
+    "PortGame.source_building_handle_payload_state": {
+      "status": "active",
+      "source_slice": "N586",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "handlePayload(Building source, Payload payload)",
+      "params": [
+        {
+          "name": "payload_state",
+          "type": "Variant",
+          "schema": "source_building_handle_payload_input.payload_state"
+        }
+      ],
+      "return_keys": [
+        "payload_state"
+      ],
+      "tests": [
+        "test_building_handle_payload_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_handle_payload_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.handlePayload(Building source, Payload payload) no-op helper."
     }
   },
   "policy": {

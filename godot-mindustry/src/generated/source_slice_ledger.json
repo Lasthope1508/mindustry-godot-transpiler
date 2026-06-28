@@ -5825,6 +5825,30 @@
       ],
       "runtime_proof": "/root/Main.source_building_handle_liquid_amount",
       "rule": "Backfills SSOT for existing canonical source_building_handle_liquid_amount helper against BuildingComp.handleLiquid(Building source, Liquid liquid, float amount)."
+    },
+    "N586": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "handlePayload(Building source, Payload payload)",
+      "godot_owner": "PortGame.source_building_handle_payload_state",
+      "exact_exprs": [
+        "public void handlePayload(Building source, Payload payload){",
+        "public void handlePayload(Building source, Payload payload){\n\n    }"
+      ],
+      "deferred_exprs": [
+        "Concrete payload handling stays owned by block-specific payload slices; default BuildingComp.handlePayload has no body statements."
+      ],
+      "source_symbols": [
+        "building_handle_payload.method",
+        "building_handle_payload.no_op",
+        "building_handle_payload.payload_state"
+      ],
+      "tests": [
+        "test_building_handle_payload_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_handle_payload_state",
+      "rule": "Backfills SSOT for existing canonical source_building_handle_payload_state helper against BuildingComp.handlePayload(Building source, Payload payload)."
     }
   },
   "version": 1

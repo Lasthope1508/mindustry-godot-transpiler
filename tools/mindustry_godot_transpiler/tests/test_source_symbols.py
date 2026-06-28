@@ -4796,6 +4796,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(amount["java_expr"], "amount")
         self.assertEqual(amount["godot_symbol"], "source_building_handle_liquid_amount_input.amount")
 
+    def test_building_handle_payload_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_handle_payload.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "handlePayload(Building source, Payload payload)")
+        self.assertEqual(method["java_expr"], "public void handlePayload(Building source, Payload payload){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_handle_payload_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_handle_payload_state")
+        self.assertEqual(method["godot_symbol"], "source_building_handle_payload_result.method")
+
+        no_op = source_symbols.source_symbol(registry, "building_handle_payload.no_op")
+        self.assertEqual(no_op["java_expr"], "public void handlePayload(Building source, Payload payload){\n\n    }")
+        self.assertEqual(no_op["godot_symbol"], "source_building_handle_payload_result.no_op")
+
+        payload_state = source_symbols.source_symbol(registry, "building_handle_payload.payload_state")
+        self.assertEqual(payload_state["status"], "explicit-input")
+        self.assertEqual(payload_state["java_expr"], "payload")
+        self.assertEqual(payload_state["godot_symbol"], "source_building_handle_payload_input.payload_state")
+
     def test_building_draw_disabled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -5119,9 +5142,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 183)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 184)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 188)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 189)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6797,6 +6820,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public void handleLiquid(Building source, Liquid liquid, float amount){", building_handle_liquid_amount["exact_exprs"])
         self.assertIn("liquids.add(liquid, amount);", building_handle_liquid_amount["exact_exprs"])
 
+        building_handle_payload = source_symbols.source_slice(ledger, "N586")
+        self.assertEqual(building_handle_payload["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_handle_payload["java_method"], "handlePayload(Building source, Payload payload)")
+        self.assertEqual(building_handle_payload["godot_owner"], "PortGame.source_building_handle_payload_state")
+        self.assertIn("public void handlePayload(Building source, Payload payload){", building_handle_payload["exact_exprs"])
+        self.assertIn("public void handlePayload(Building source, Payload payload){\n\n    }", building_handle_payload["exact_exprs"])
+
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
         self.assertEqual(arc_mathf_cos_scaled["java_method"], "cos(float radians, float scl, float mag)")
@@ -8383,6 +8413,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_handle_liquid_amount["params"][1]["schema"], "source_building_handle_liquid_amount_input.amount")
         self.assertIn("liquid_amount_after", building_handle_liquid_amount["return_keys"])
         self.assertEqual(building_handle_liquid_amount["source_method"], "handleLiquid(Building source, Liquid liquid, float amount)")
+
+        building_handle_payload = source_symbols.api_contract(contracts, "PortGame.source_building_handle_payload_state")
+        self.assertEqual([param["name"] for param in building_handle_payload["params"]], ["payload_state"])
+        self.assertEqual(building_handle_payload["params"][0]["schema"], "source_building_handle_payload_input.payload_state")
+        self.assertIn("payload_state", building_handle_payload["return_keys"])
+        self.assertEqual(building_handle_payload["source_method"], "handlePayload(Building source, Payload payload)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -10425,6 +10461,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_handle_liquid_amount_result["keys"]["liquid_amount_after"]["java_expr"], "liquids.add(liquid, amount);")
         self.assertEqual(source_building_handle_liquid_amount_result["keys"]["current_amount"]["alias_of"], "source_building_handle_liquid_amount_input.current_amount")
         self.assertEqual(source_building_handle_liquid_amount_result["keys"]["amount"]["alias_of"], "source_building_handle_liquid_amount_input.amount")
+
+        source_building_handle_payload_input = source_symbols.state_schema(schema, "source_building_handle_payload_input")
+        self.assertEqual(source_building_handle_payload_input["keys"]["payload_state"]["java_expr"], "payload")
+        self.assertEqual(source_building_handle_payload_input["keys"]["payload_state"]["status"], "explicit-input")
+
+        source_building_handle_payload_result = source_symbols.state_schema(schema, "source_building_handle_payload_result")
+        self.assertEqual(source_building_handle_payload_result["keys"]["method"]["java_expr"], "public void handlePayload(Building source, Payload payload){")
+        self.assertEqual(source_building_handle_payload_result["keys"]["no_op"]["java_expr"], "public void handlePayload(Building source, Payload payload){\n\n    }")
+        self.assertEqual(source_building_handle_payload_result["keys"]["payload_state"]["alias_of"], "source_building_handle_payload_input.payload_state")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

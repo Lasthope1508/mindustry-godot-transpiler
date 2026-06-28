@@ -18298,6 +18298,45 @@
         "test_building_handle_liquid_amount_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_building_handle_liquid_amount"
+    },
+    "building_handle_payload.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handlePayload(Building source, Payload payload)",
+      "java_expr": "public void handlePayload(Building source, Payload payload){",
+      "godot_symbol": "source_building_handle_payload_result.method",
+      "godot_owner": "PortGame.source_building_handle_payload_state",
+      "rule": "Source handlePayload method declaration.",
+      "tests": [
+        "test_building_handle_payload_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_handle_payload_state"
+    },
+    "building_handle_payload.no_op": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handlePayload(Building source, Payload payload)",
+      "java_expr": "public void handlePayload(Building source, Payload payload){\n\n    }",
+      "godot_symbol": "source_building_handle_payload_result.no_op",
+      "godot_owner": "PortGame.source_building_handle_payload_state",
+      "rule": "Default handlePayload method has no body statements.",
+      "tests": [
+        "test_building_handle_payload_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_handle_payload_state"
+    },
+    "building_handle_payload.payload_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handlePayload(Building source, Payload payload)",
+      "java_expr": "payload",
+      "godot_symbol": "source_building_handle_payload_input.payload_state",
+      "godot_owner": "PortGame.source_building_handle_payload_state",
+      "rule": "Runtime payload_state supplies the source payload argument for no-op passthrough.",
+      "tests": [
+        "test_building_handle_payload_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_handle_payload_state"
     }
   }
 }
