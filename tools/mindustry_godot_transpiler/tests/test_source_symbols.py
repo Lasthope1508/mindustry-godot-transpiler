@@ -4932,6 +4932,34 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(self_state["java_expr"], "self()")
         self.assertEqual(self_state["godot_symbol"], "source_building_health_changed_input.self_state")
 
+    def test_building_hit_size_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_hit_size.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "hitSize()")
+        self.assertEqual(method["java_expr"], "public float hitSize(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_hit_size")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_hit_size")
+        self.assertEqual(method["godot_symbol"], "source_building_hit_size_result.method")
+
+        hit_size = source_symbols.source_symbol(registry, "building_hit_size.return_expr")
+        self.assertEqual(hit_size["java_expr"], "return tile.block().size * tilesize;")
+        self.assertEqual(hit_size["godot_symbol"], "source_building_hit_size_result.hit_size")
+
+        block_size = source_symbols.source_symbol(registry, "building_hit_size.block_size")
+        self.assertEqual(block_size["status"], "explicit-input")
+        self.assertEqual(block_size["java_expr"], "tile.block().size")
+        self.assertEqual(block_size["godot_symbol"], "source_building_hit_size_input.block_size_value")
+
+        source_tilesize = source_symbols.source_symbol(registry, "building_hit_size.tilesize")
+        self.assertEqual(source_tilesize["status"], "explicit-input")
+        self.assertEqual(source_tilesize["java_expr"], "tilesize")
+        self.assertEqual(source_tilesize["godot_symbol"], "source_building_hit_size_input.source_tilesize")
+
     def test_building_draw_disabled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -5255,9 +5283,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 187)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 188)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 192)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 193)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6967,6 +6995,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("netServer.buildHealthUpdate(self());", building_health_changed["exact_exprs"])
         self.assertIn("indexer.notifyHealthChanged(self());", building_health_changed["exact_exprs"])
 
+        building_hit_size = source_symbols.source_slice(ledger, "N590")
+        self.assertEqual(building_hit_size["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_hit_size["java_method"], "hitSize()")
+        self.assertEqual(building_hit_size["godot_owner"], "PortGame.source_building_hit_size")
+        self.assertIn("public float hitSize(){", building_hit_size["exact_exprs"])
+        self.assertIn("return tile.block().size * tilesize;", building_hit_size["exact_exprs"])
+        self.assertIn("tile.block().size", building_hit_size["exact_exprs"])
+        self.assertIn("tilesize", building_hit_size["exact_exprs"])
+
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
         self.assertEqual(arc_mathf_cos_scaled["java_method"], "cos(float radians, float scl, float mag)")
@@ -8581,6 +8618,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("build_health_update", building_health_changed["return_keys"])
         self.assertIn("notify_health_changed", building_health_changed["return_keys"])
         self.assertEqual(building_health_changed["source_method"], "healthChanged()")
+
+        building_hit_size = source_symbols.api_contract(contracts, "PortGame.source_building_hit_size")
+        self.assertEqual([param["name"] for param in building_hit_size["params"]], ["block_size_value", "source_tilesize"])
+        self.assertEqual(building_hit_size["params"][0]["schema"], "source_building_hit_size_input.block_size_value")
+        self.assertEqual(building_hit_size["params"][1]["schema"], "source_building_hit_size_input.source_tilesize")
+        self.assertIn("hit_size", building_hit_size["return_keys"])
+        self.assertEqual(building_hit_size["source_method"], "hitSize()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -10671,6 +10715,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_health_changed_result["keys"]["notify_health_changed"]["java_expr"], "indexer.notifyHealthChanged(self());")
         self.assertEqual(source_building_health_changed_result["keys"]["net_server"]["alias_of"], "source_building_health_changed_input.net_server")
         self.assertEqual(source_building_health_changed_result["keys"]["self_state"]["alias_of"], "source_building_health_changed_input.self_state")
+
+        source_building_hit_size_input = source_symbols.state_schema(schema, "source_building_hit_size_input")
+        self.assertEqual(source_building_hit_size_input["keys"]["block_size_value"]["java_expr"], "tile.block().size")
+        self.assertEqual(source_building_hit_size_input["keys"]["block_size_value"]["status"], "explicit-input")
+        self.assertEqual(source_building_hit_size_input["keys"]["source_tilesize"]["java_expr"], "tilesize")
+        self.assertEqual(source_building_hit_size_input["keys"]["source_tilesize"]["status"], "explicit-input")
+
+        source_building_hit_size_result = source_symbols.state_schema(schema, "source_building_hit_size_result")
+        self.assertEqual(source_building_hit_size_result["keys"]["method"]["java_expr"], "public float hitSize(){")
+        self.assertEqual(source_building_hit_size_result["keys"]["hit_size"]["java_expr"], "return tile.block().size * tilesize;")
+        self.assertEqual(source_building_hit_size_result["keys"]["block_size_value"]["alias_of"], "source_building_hit_size_input.block_size_value")
+        self.assertEqual(source_building_hit_size_result["keys"]["source_tilesize"]["alias_of"], "source_building_hit_size_input.source_tilesize")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

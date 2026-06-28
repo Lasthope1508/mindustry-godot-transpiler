@@ -24188,6 +24188,76 @@
           "rule": "Carries self_state input into result schema."
         }
       }
+    },
+    "source_building_hit_size_input": {
+      "status": "active",
+      "keys": {
+        "block_size_value": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "hitSize()",
+          "java_expr": "tile.block().size",
+          "godot_symbol": "source_building_hit_size_input.block_size_value",
+          "used_by": [
+            "PortGame.source_building_hit_size"
+          ],
+          "rule": "Runtime block_size_value supplies tile.block().size."
+        },
+        "source_tilesize": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "hitSize()",
+          "java_expr": "tilesize",
+          "godot_symbol": "source_building_hit_size_input.source_tilesize",
+          "used_by": [
+            "PortGame.source_building_hit_size"
+          ],
+          "rule": "Runtime source_tilesize supplies global tilesize."
+        }
+      }
+    },
+    "source_building_hit_size_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "hitSize()",
+          "java_expr": "public float hitSize(){",
+          "godot_symbol": "source_building_hit_size_result.method",
+          "used_by": [
+            "PortGame.source_building_hit_size"
+          ],
+          "rule": "Source hitSize method declaration."
+        },
+        "hit_size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "hitSize()",
+          "java_expr": "return tile.block().size * tilesize;",
+          "godot_symbol": "source_building_hit_size_result.hit_size",
+          "used_by": [
+            "PortGame.source_building_hit_size"
+          ],
+          "rule": "Building hitSize multiplies block size by tilesize."
+        },
+        "block_size_value": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_hit_size_input.block_size_value",
+          "rule": "Carries block_size_value input into result schema."
+        },
+        "source_tilesize": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_hit_size_input.source_tilesize",
+          "rule": "Carries source_tilesize input into result schema."
+        }
+      }
     }
   },
   "version": 1

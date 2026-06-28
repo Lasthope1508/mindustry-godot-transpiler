@@ -18571,6 +18571,58 @@
         "test_building_health_changed_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_building_health_changed_state"
+    },
+    "building_hit_size.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "hitSize()",
+      "java_expr": "public float hitSize(){",
+      "godot_symbol": "source_building_hit_size_result.method",
+      "godot_owner": "PortGame.source_building_hit_size",
+      "rule": "Source hitSize method declaration.",
+      "tests": [
+        "test_building_hit_size_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_hit_size"
+    },
+    "building_hit_size.return_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "hitSize()",
+      "java_expr": "return tile.block().size * tilesize;",
+      "godot_symbol": "source_building_hit_size_result.hit_size",
+      "godot_owner": "PortGame.source_building_hit_size",
+      "rule": "Building hitSize multiplies block size by tilesize.",
+      "tests": [
+        "test_building_hit_size_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_hit_size"
+    },
+    "building_hit_size.block_size": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "hitSize()",
+      "java_expr": "tile.block().size",
+      "godot_symbol": "source_building_hit_size_input.block_size_value",
+      "godot_owner": "PortGame.source_building_hit_size",
+      "rule": "Runtime block_size_value supplies tile.block().size.",
+      "tests": [
+        "test_building_hit_size_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_hit_size"
+    },
+    "building_hit_size.tilesize": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "hitSize()",
+      "java_expr": "tilesize",
+      "godot_symbol": "source_building_hit_size_input.source_tilesize",
+      "godot_owner": "PortGame.source_building_hit_size",
+      "rule": "Runtime source_tilesize supplies global tilesize.",
+      "tests": [
+        "test_building_hit_size_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_hit_size"
     }
   }
 }

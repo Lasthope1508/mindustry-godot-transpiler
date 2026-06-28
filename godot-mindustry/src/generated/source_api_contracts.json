@@ -7294,6 +7294,32 @@
       ],
       "runtime_proof": "/root/Main.source_building_health_changed_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.healthChanged() helper."
+    },
+    "PortGame.source_building_hit_size": {
+      "status": "active",
+      "source_slice": "N590",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "hitSize()",
+      "params": [
+        {
+          "name": "block_size_value",
+          "type": "int",
+          "schema": "source_building_hit_size_input.block_size_value"
+        },
+        {
+          "name": "source_tilesize",
+          "type": "float",
+          "schema": "source_building_hit_size_input.source_tilesize"
+        }
+      ],
+      "return_keys": [
+        "hit_size"
+      ],
+      "tests": [
+        "test_building_hit_size_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_hit_size",
+      "rule": "Public runtime contract for Mindustry BuildingComp.hitSize() helper."
     }
   },
   "policy": {

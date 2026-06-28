@@ -5936,6 +5936,33 @@
       ],
       "runtime_proof": "/root/Main.source_building_health_changed_state",
       "rule": "Backfills SSOT for existing canonical source_building_health_changed_state helper against BuildingComp.healthChanged()."
+    },
+    "N590": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "hitSize()",
+      "godot_owner": "PortGame.source_building_hit_size",
+      "exact_exprs": [
+        "public float hitSize(){",
+        "return tile.block().size * tilesize;",
+        "tile.block().size",
+        "tilesize"
+      ],
+      "deferred_exprs": [
+        "Tile/block object lookup and global tilesize ownership stay with world/block runtime slices; this helper preserves the source hitSize multiplication."
+      ],
+      "source_symbols": [
+        "building_hit_size.method",
+        "building_hit_size.return_expr",
+        "building_hit_size.block_size",
+        "building_hit_size.tilesize"
+      ],
+      "tests": [
+        "test_building_hit_size_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_hit_size",
+      "rule": "Backfills SSOT for existing canonical source_building_hit_size helper against BuildingComp.hitSize()."
     }
   },
   "version": 1
