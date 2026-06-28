@@ -3708,6 +3708,37 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result["java_expr"], "return false;")
         self.assertEqual(result["godot_symbol"], "source_building_consume_trigger_valid_result.consume_trigger_valid")
 
+    def test_building_control_config_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_control_config.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "control(LAccess type, Object p1, double p2, double p3, double p4)")
+        self.assertEqual(method["java_expr"], "public void control(LAccess type, Object p1, double p2, double p3, double p4){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_control_config_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_control_config_state")
+        self.assertEqual(method["godot_symbol"], "source_building_control_config_result.method")
+
+        lag_comment = source_symbols.source_symbol(registry, "building_control_config.lag_comment")
+        self.assertEqual(lag_comment["java_expr"], "//don't execute configure instructions that copy logic building configures; this can cause extreme lag")
+        self.assertEqual(lag_comment["godot_symbol"], "source_building_control_config_result.lag_comment")
+
+        guard = source_symbols.source_symbol(registry, "building_control_config.guard")
+        self.assertEqual(guard["java_expr"], "if(type == LAccess.config && block.logicConfigurable && !(p1 instanceof LogicBuild)){")
+        self.assertEqual(guard["godot_symbol"], "source_building_control_config_result.configured_called")
+
+        configured_call = source_symbols.source_symbol(registry, "building_control_config.configured_call")
+        self.assertEqual(configured_call["java_expr"], "configured(null, p1);")
+        self.assertEqual(configured_call["godot_symbol"], "source_building_control_config_result.value")
+
+        p1_value = source_symbols.source_symbol(registry, "building_control_config.p1_value")
+        self.assertEqual(p1_value["status"], "explicit-input")
+        self.assertEqual(p1_value["java_expr"], "p1")
+        self.assertEqual(p1_value["godot_symbol"], "source_building_control_config_input.p1_value")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3992,9 +4023,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 149)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 150)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 154)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 155)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -4145,6 +4176,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_configured_type_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_consume_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_consume_trigger_valid_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_control_config_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -5322,6 +5354,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("/** @return whether this building is currently \"burning\" a trigger consumer (an item) - if true, valid() on those will return true. */", building_consume_trigger_valid["exact_exprs"])
         self.assertIn("public boolean consumeTriggerValid(){", building_consume_trigger_valid["exact_exprs"])
         self.assertIn("return false;", building_consume_trigger_valid["exact_exprs"])
+
+        building_control_config = source_symbols.source_slice(ledger, "N552")
+        self.assertEqual(building_control_config["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_control_config["java_method"], "control(LAccess type, Object p1, double p2, double p3, double p4)")
+        self.assertEqual(building_control_config["godot_owner"], "PortGame.source_building_control_config_state")
+        self.assertIn("public void control(LAccess type, Object p1, double p2, double p3, double p4){", building_control_config["exact_exprs"])
+        self.assertIn("//don't execute configure instructions that copy logic building configures; this can cause extreme lag", building_control_config["exact_exprs"])
+        self.assertIn("if(type == LAccess.config && block.logicConfigurable && !(p1 instanceof LogicBuild)){", building_control_config["exact_exprs"])
+        self.assertIn("//change config only if it's new", building_control_config["exact_exprs"])
+        self.assertIn("configured(null, p1);", building_control_config["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -6621,6 +6663,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual([param["name"] for param in building_consume_trigger_valid["params"]], [])
         self.assertIn("consume_trigger_valid", building_consume_trigger_valid["return_keys"])
         self.assertEqual(building_consume_trigger_valid["source_method"], "consumeTriggerValid()")
+
+        building_control_config = source_symbols.api_contract(contracts, "PortGame.source_building_control_config_state")
+        self.assertEqual([param["name"] for param in building_control_config["params"]], ["control_type", "block_logic_configurable", "p1_is_logic_build", "p1_value"])
+        self.assertEqual(building_control_config["params"][0]["schema"], "source_building_control_config_input.control_type")
+        self.assertEqual(building_control_config["params"][3]["schema"], "source_building_control_config_input.p1_value")
+        self.assertIn("configured_called", building_control_config["return_keys"])
+        self.assertIn("builder", building_control_config["return_keys"])
+        self.assertIn("value", building_control_config["return_keys"])
+        self.assertEqual(building_control_config["source_method"], "control(LAccess type, Object p1, double p2, double p3, double p4)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -8196,6 +8247,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_consume_trigger_valid_result["keys"]["comment"]["java_expr"], "/** @return whether this building is currently \"burning\" a trigger consumer (an item) - if true, valid() on those will return true. */")
         self.assertEqual(source_building_consume_trigger_valid_result["keys"]["method"]["java_expr"], "public boolean consumeTriggerValid(){")
         self.assertEqual(source_building_consume_trigger_valid_result["keys"]["consume_trigger_valid"]["java_expr"], "return false;")
+
+        source_building_control_config_input = source_symbols.state_schema(schema, "source_building_control_config_input")
+        self.assertEqual(source_building_control_config_input["keys"]["control_type"]["java_expr"], "type")
+        self.assertEqual(source_building_control_config_input["keys"]["block_logic_configurable"]["java_expr"], "block.logicConfigurable")
+        self.assertEqual(source_building_control_config_input["keys"]["p1_is_logic_build"]["java_expr"], "p1 instanceof LogicBuild")
+        self.assertEqual(source_building_control_config_input["keys"]["p1_value"]["java_expr"], "p1")
+
+        source_building_control_config_result = source_symbols.state_schema(schema, "source_building_control_config_result")
+        self.assertEqual(source_building_control_config_result["keys"]["method"]["java_expr"], "public void control(LAccess type, Object p1, double p2, double p3, double p4){")
+        self.assertEqual(source_building_control_config_result["keys"]["lag_comment"]["java_expr"], "//don't execute configure instructions that copy logic building configures; this can cause extreme lag")
+        self.assertEqual(source_building_control_config_result["keys"]["configured_called"]["java_expr"], "if(type == LAccess.config && block.logicConfigurable && !(p1 instanceof LogicBuild)){")
+        self.assertEqual(source_building_control_config_result["keys"]["value"]["java_expr"], "configured(null, p1);")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

@@ -18880,6 +18880,136 @@
           "rule": "Default consume trigger valid runtime value."
         }
       }
+    },
+    "source_building_control_config_input": {
+      "status": "active",
+      "keys": {
+        "control_type": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "control(LAccess type, Object p1, double p2, double p3, double p4)",
+          "java_expr": "type",
+          "godot_symbol": "source_building_control_config_input.control_type",
+          "used_by": [
+            "PortGame.source_building_control_config_state"
+          ],
+          "rule": "Logic access type input."
+        },
+        "block_logic_configurable": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "control(LAccess type, Object p1, double p2, double p3, double p4)",
+          "java_expr": "block.logicConfigurable",
+          "godot_symbol": "source_building_control_config_input.block_logic_configurable",
+          "used_by": [
+            "PortGame.source_building_control_config_state"
+          ],
+          "rule": "Block logicConfigurable flag input."
+        },
+        "p1_is_logic_build": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "control(LAccess type, Object p1, double p2, double p3, double p4)",
+          "java_expr": "p1 instanceof LogicBuild",
+          "godot_symbol": "source_building_control_config_input.p1_is_logic_build",
+          "used_by": [
+            "PortGame.source_building_control_config_state"
+          ],
+          "rule": "LogicBuild guard input."
+        },
+        "p1_value": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "control(LAccess type, Object p1, double p2, double p3, double p4)",
+          "java_expr": "p1",
+          "godot_symbol": "source_building_control_config_input.p1_value",
+          "used_by": [
+            "PortGame.source_building_control_config_state"
+          ],
+          "rule": "Object control value input."
+        }
+      }
+    },
+    "source_building_control_config_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "control(LAccess type, Object p1, double p2, double p3, double p4)",
+          "java_expr": "public void control(LAccess type, Object p1, double p2, double p3, double p4){",
+          "godot_symbol": "source_building_control_config_result.method",
+          "used_by": [
+            "PortGame.source_building_control_config_state"
+          ],
+          "rule": "Object control method boundary."
+        },
+        "lag_comment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "control(LAccess type, Object p1, double p2, double p3, double p4)",
+          "java_expr": "//don't execute configure instructions that copy logic building configures; this can cause extreme lag",
+          "godot_symbol": "source_building_control_config_result.lag_comment",
+          "used_by": [
+            "PortGame.source_building_control_config_state"
+          ],
+          "rule": "Lag guard source comment."
+        },
+        "configured_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "control(LAccess type, Object p1, double p2, double p3, double p4)",
+          "java_expr": "if(type == LAccess.config && block.logicConfigurable && !(p1 instanceof LogicBuild)){",
+          "godot_symbol": "source_building_control_config_result.configured_called",
+          "used_by": [
+            "PortGame.source_building_control_config_state"
+          ],
+          "rule": "Configured call gate result."
+        },
+        "new_comment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "control(LAccess type, Object p1, double p2, double p3, double p4)",
+          "java_expr": "//change config only if it's new",
+          "godot_symbol": "source_building_control_config_result.new_comment",
+          "used_by": [
+            "PortGame.source_building_control_config_state"
+          ],
+          "rule": "Configured call source comment."
+        },
+        "builder": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "control(LAccess type, Object p1, double p2, double p3, double p4)",
+          "java_expr": "configured(null, p1);",
+          "godot_symbol": "source_building_control_config_result.builder",
+          "used_by": [
+            "PortGame.source_building_control_config_state"
+          ],
+          "rule": "Configured call uses null builder."
+        },
+        "value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "control(LAccess type, Object p1, double p2, double p3, double p4)",
+          "java_expr": "configured(null, p1);",
+          "godot_symbol": "source_building_control_config_result.value",
+          "used_by": [
+            "PortGame.source_building_control_config_state"
+          ],
+          "rule": "Configured call uses p1 value."
+        }
+      }
     }
   },
   "version": 1

@@ -5849,6 +5849,44 @@
       ],
       "runtime_proof": "/root/Main.source_building_consume_trigger_valid_state",
       "rule": "Public runtime contract for Mindustry BuildingComp consumeTriggerValid default false helper."
+    },
+    "PortGame.source_building_control_config_state": {
+      "status": "active",
+      "source_slice": "N552",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "control(LAccess type, Object p1, double p2, double p3, double p4)",
+      "params": [
+        {
+          "name": "control_type",
+          "type": "String",
+          "schema": "source_building_control_config_input.control_type"
+        },
+        {
+          "name": "block_logic_configurable",
+          "type": "bool",
+          "schema": "source_building_control_config_input.block_logic_configurable"
+        },
+        {
+          "name": "p1_is_logic_build",
+          "type": "bool",
+          "schema": "source_building_control_config_input.p1_is_logic_build"
+        },
+        {
+          "name": "p1_value",
+          "type": "Variant",
+          "schema": "source_building_control_config_input.p1_value"
+        }
+      ],
+      "return_keys": [
+        "configured_called",
+        "builder",
+        "value"
+      ],
+      "tests": [
+        "test_building_control_config_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_control_config_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp object control config helper."
     }
   },
   "policy": {
