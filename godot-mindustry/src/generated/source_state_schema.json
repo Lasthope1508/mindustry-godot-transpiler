@@ -17676,6 +17676,244 @@
           "rule": "Default BuildingComp checkSolid returns false."
         }
       }
+    },
+    "source_building_check_suppression_input": {
+      "status": "active",
+      "keys": {
+        "block_suppressable": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "isHealSuppressed()",
+          "java_expr": "block.suppressable",
+          "godot_symbol": "source_building_check_suppression_input.block_suppressable",
+          "used_by": [
+            "PortGame.source_building_check_suppression_state"
+          ],
+          "rule": "Block suppressable field used by isHealSuppressed."
+        },
+        "source_time": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "isHealSuppressed()",
+          "java_expr": "Time.time",
+          "godot_symbol": "source_building_check_suppression_input.source_time",
+          "used_by": [
+            "PortGame.source_building_check_suppression_state"
+          ],
+          "rule": "Current source time used by isHealSuppressed."
+        },
+        "heal_suppression_time": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "isHealSuppressed()",
+          "java_expr": "healSuppressionTime",
+          "godot_symbol": "source_building_check_suppression_input.heal_suppression_time",
+          "used_by": [
+            "PortGame.source_building_check_suppression_state"
+          ],
+          "rule": "Suppression expiry time used by isHealSuppressed."
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "checkSuppression()",
+          "java_expr": "Time.delta",
+          "godot_symbol": "source_building_check_suppression_input.source_delta",
+          "used_by": [
+            "PortGame.source_building_check_suppression_state"
+          ],
+          "rule": "Current Time.delta used by chanceDelta threshold helper."
+        },
+        "source_x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "checkSuppression()",
+          "java_expr": "x",
+          "godot_symbol": "source_building_check_suppression_input.source_x",
+          "used_by": [
+            "PortGame.source_building_check_suppression_state"
+          ],
+          "rule": "Building x position for particle bounds."
+        },
+        "source_y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "checkSuppression()",
+          "java_expr": "y",
+          "godot_symbol": "source_building_check_suppression_input.source_y",
+          "used_by": [
+            "PortGame.source_building_check_suppression_state"
+          ],
+          "rule": "Building y position for particle bounds."
+        },
+        "block_size_value": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "checkSuppression()",
+          "java_expr": "block.size",
+          "godot_symbol": "source_building_check_suppression_input.block_size_value",
+          "used_by": [
+            "PortGame.source_building_check_suppression_state"
+          ],
+          "rule": "Block size for particle range."
+        },
+        "source_tilesize": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "checkSuppression()",
+          "java_expr": "tilesize",
+          "godot_symbol": "source_building_check_suppression_input.source_tilesize",
+          "used_by": [
+            "PortGame.source_building_check_suppression_state"
+          ],
+          "rule": "Tile size for particle range."
+        },
+        "suppress_color": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "checkSuppression()",
+          "java_expr": "suppressColor",
+          "godot_symbol": "source_building_check_suppression_input.suppress_color",
+          "used_by": [
+            "PortGame.source_building_check_suppression_state"
+          ],
+          "rule": "Suppression particle color."
+        }
+      }
+    },
+    "source_building_check_suppression_result": {
+      "status": "active",
+      "keys": {
+        "suppressed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "checkSuppression()",
+          "java_expr": "if(isHealSuppressed()){",
+          "godot_symbol": "source_building_check_suppression_result.suppressed",
+          "used_by": [
+            "PortGame.source_building_check_suppression_state"
+          ],
+          "rule": "True when isHealSuppressed branch runs; false at fallback return."
+        },
+        "particle_visible": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "checkSuppression()",
+          "java_expr": "if(Mathf.chanceDelta(0.03)){",
+          "godot_symbol": "source_building_check_suppression_result.particle_visible",
+          "used_by": [
+            "PortGame.source_building_check_suppression_state"
+          ],
+          "rule": "Particle is possible only under chanceDelta gate; runtime labels RNG-dependent branch."
+        },
+        "chance_threshold": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "checkSuppression()",
+          "java_expr": "Mathf.chanceDelta(0.03)",
+          "godot_symbol": "source_building_check_suppression_result.chance_threshold",
+          "used_by": [
+            "PortGame.source_building_check_suppression_state"
+          ],
+          "rule": "Deterministic chanceDelta threshold for 0.03 * Time.delta."
+        },
+        "effect": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "checkSuppression()",
+          "java_expr": "Fx.regenSuppressParticle.at(x + Mathf.range(block.size * tilesize/2f - 1f), y + Mathf.range(block.size * tilesize/2f - 1f), suppressColor);",
+          "godot_symbol": "source_building_check_suppression_result.effect",
+          "used_by": [
+            "PortGame.source_building_check_suppression_state"
+          ],
+          "rule": "Suppression particle effect name from Fx.regenSuppressParticle."
+        },
+        "color": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_building_check_suppression_input.suppress_color",
+          "rule": "Runtime color key carries suppressColor input."
+        },
+        "particle_range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "checkSuppression()",
+          "java_expr": "block.size * tilesize/2f - 1f",
+          "godot_symbol": "source_building_check_suppression_result.particle_range",
+          "used_by": [
+            "PortGame.source_building_check_suppression_state"
+          ],
+          "rule": "Range used by both Mathf.range calls."
+        },
+        "x_min": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "x + Mathf.range(block.size * tilesize/2f - 1f) lower bound",
+          "rule": "Lower x bound for deferred random offset."
+        },
+        "x_max": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "x + Mathf.range(block.size * tilesize/2f - 1f) upper bound",
+          "rule": "Upper x bound for deferred random offset."
+        },
+        "y_min": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "y + Mathf.range(block.size * tilesize/2f - 1f) lower bound",
+          "rule": "Lower y bound for deferred random offset."
+        },
+        "y_max": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "y + Mathf.range(block.size * tilesize/2f - 1f) upper bound",
+          "rule": "Upper y bound for deferred random offset."
+        },
+        "block_suppressable": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_check_suppression_input.block_suppressable",
+          "rule": "Carries block.suppressable input into result schema boundary."
+        },
+        "source_time": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_check_suppression_input.source_time",
+          "rule": "Carries Time.time input into result schema boundary."
+        },
+        "heal_suppression_time": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_check_suppression_input.heal_suppression_time",
+          "rule": "Carries healSuppressionTime input into result schema boundary."
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_check_suppression_input.source_delta",
+          "rule": "Carries Time.delta input into result schema boundary."
+        },
+        "suppress_color": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_building_check_suppression_input.suppress_color",
+          "rule": "Carries suppressColor input into result schema boundary."
+        }
+      }
     }
   },
   "version": 1

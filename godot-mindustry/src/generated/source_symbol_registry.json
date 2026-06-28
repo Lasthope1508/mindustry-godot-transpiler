@@ -13527,6 +13527,201 @@
       "java_expr": "return false;",
       "godot_symbol": "source_building_check_solid_result.checkSolid",
       "rule": "Default BuildingComp checkSolid returns false."
+    },
+    "building_check_suppression.gate": {
+      "tests": [
+        "test_building_check_suppression_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_suppression_state",
+      "godot_owner": "PortGame.source_building_check_suppression_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "checkSuppression()",
+      "status": "source-backed",
+      "java_expr": "if(isHealSuppressed()){",
+      "godot_symbol": "source_building_check_suppression_result.suppressed",
+      "rule": "checkSuppression runs particle and true branch only when healing is suppressed."
+    },
+    "building_check_suppression.heal_suppressed": {
+      "tests": [
+        "test_building_check_suppression_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_suppression_state",
+      "godot_owner": "PortGame.source_building_check_suppression_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "isHealSuppressed()",
+      "status": "source-backed",
+      "java_expr": "return block.suppressable && Time.time <= healSuppressionTime;",
+      "godot_symbol": "source_building_check_suppression_result.suppressed",
+      "rule": "isHealSuppressed source predicate backing for checkSuppression."
+    },
+    "building_check_suppression.chance_delta": {
+      "tests": [
+        "test_building_check_suppression_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_suppression_state",
+      "godot_owner": "PortGame.source_building_check_suppression_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "checkSuppression()",
+      "status": "source-backed",
+      "java_expr": "if(Mathf.chanceDelta(0.03)){",
+      "godot_symbol": "source_building_check_suppression_result.chance_threshold",
+      "rule": "Particle spawn is gated by Mathf.chanceDelta(0.03); runtime exposes deterministic threshold."
+    },
+    "building_check_suppression.particle": {
+      "tests": [
+        "test_building_check_suppression_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_suppression_state",
+      "godot_owner": "PortGame.source_building_check_suppression_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "checkSuppression()",
+      "status": "source-backed",
+      "java_expr": "Fx.regenSuppressParticle.at(x + Mathf.range(block.size * tilesize/2f - 1f), y + Mathf.range(block.size * tilesize/2f - 1f), suppressColor);",
+      "godot_symbol": "source_building_check_suppression_result.effect",
+      "rule": "Suppression particle effect and random-position boundary."
+    },
+    "building_check_suppression.return_true": {
+      "tests": [
+        "test_building_check_suppression_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_suppression_state",
+      "godot_owner": "PortGame.source_building_check_suppression_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "checkSuppression()",
+      "status": "source-backed",
+      "java_expr": "return true;",
+      "godot_symbol": "source_building_check_suppression_result.suppressed",
+      "rule": "Suppressed branch returns true."
+    },
+    "building_check_suppression.return_false": {
+      "tests": [
+        "test_building_check_suppression_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_suppression_state",
+      "godot_owner": "PortGame.source_building_check_suppression_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "checkSuppression()",
+      "status": "source-backed",
+      "java_expr": "return false;",
+      "godot_symbol": "source_building_check_suppression_result.suppressed",
+      "rule": "Unsuppressed branch returns false."
+    },
+    "building_check_suppression.block_suppressable": {
+      "tests": [
+        "test_building_check_suppression_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_suppression_state",
+      "godot_owner": "PortGame.source_building_check_suppression_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "isHealSuppressed()",
+      "status": "explicit-input",
+      "java_expr": "block.suppressable",
+      "godot_symbol": "source_building_check_suppression_input.block_suppressable",
+      "rule": "Block suppressable field supplied for isHealSuppressed predicate."
+    },
+    "building_check_suppression.source_time": {
+      "tests": [
+        "test_building_check_suppression_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_suppression_state",
+      "godot_owner": "PortGame.source_building_check_suppression_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "isHealSuppressed()",
+      "status": "explicit-input",
+      "java_expr": "Time.time",
+      "godot_symbol": "source_building_check_suppression_input.source_time",
+      "rule": "Current Time.time supplied for isHealSuppressed predicate."
+    },
+    "building_check_suppression.heal_suppression_time": {
+      "tests": [
+        "test_building_check_suppression_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_suppression_state",
+      "godot_owner": "PortGame.source_building_check_suppression_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "isHealSuppressed()",
+      "status": "explicit-input",
+      "java_expr": "healSuppressionTime",
+      "godot_symbol": "source_building_check_suppression_input.heal_suppression_time",
+      "rule": "healSuppressionTime field supplied for isHealSuppressed predicate."
+    },
+    "building_check_suppression.source_delta": {
+      "tests": [
+        "test_building_check_suppression_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_suppression_state",
+      "godot_owner": "PortGame.source_building_check_suppression_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "checkSuppression()",
+      "status": "explicit-input",
+      "java_expr": "Time.delta",
+      "godot_symbol": "source_building_check_suppression_input.source_delta",
+      "rule": "Time.delta supplied to canonical chanceDelta threshold helper."
+    },
+    "building_check_suppression.source_x": {
+      "tests": [
+        "test_building_check_suppression_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_suppression_state",
+      "godot_owner": "PortGame.source_building_check_suppression_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "checkSuppression()",
+      "status": "explicit-input",
+      "java_expr": "x",
+      "godot_symbol": "source_building_check_suppression_input.source_x",
+      "rule": "Building x position supplied for particle x bounds."
+    },
+    "building_check_suppression.source_y": {
+      "tests": [
+        "test_building_check_suppression_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_suppression_state",
+      "godot_owner": "PortGame.source_building_check_suppression_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "checkSuppression()",
+      "status": "explicit-input",
+      "java_expr": "y",
+      "godot_symbol": "source_building_check_suppression_input.source_y",
+      "rule": "Building y position supplied for particle y bounds."
+    },
+    "building_check_suppression.block_size_value": {
+      "tests": [
+        "test_building_check_suppression_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_suppression_state",
+      "godot_owner": "PortGame.source_building_check_suppression_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "checkSuppression()",
+      "status": "explicit-input",
+      "java_expr": "block.size",
+      "godot_symbol": "source_building_check_suppression_input.block_size_value",
+      "rule": "Block size supplied for particle range."
+    },
+    "building_check_suppression.source_tilesize": {
+      "tests": [
+        "test_building_check_suppression_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_suppression_state",
+      "godot_owner": "PortGame.source_building_check_suppression_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "checkSuppression()",
+      "status": "explicit-input",
+      "java_expr": "tilesize",
+      "godot_symbol": "source_building_check_suppression_input.source_tilesize",
+      "rule": "Mindustry tilesize supplied for particle range."
+    },
+    "building_check_suppression.suppress_color": {
+      "tests": [
+        "test_building_check_suppression_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_suppression_state",
+      "godot_owner": "PortGame.source_building_check_suppression_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "checkSuppression()",
+      "status": "explicit-input",
+      "java_expr": "suppressColor",
+      "godot_symbol": "source_building_check_suppression_input.suppress_color",
+      "rule": "Suppression color supplied for regenSuppressParticle."
     }
   }
 }

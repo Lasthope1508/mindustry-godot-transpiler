@@ -3345,6 +3345,43 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result["java_expr"], "return false;")
         self.assertEqual(result["godot_symbol"], "source_building_check_solid_result.checkSolid")
 
+    def test_building_check_suppression_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        gate = source_symbols.source_symbol(registry, "building_check_suppression.gate")
+        self.assertEqual(gate["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(gate["java_method"], "checkSuppression()")
+        self.assertEqual(gate["java_expr"], "if(isHealSuppressed()){")
+        self.assertEqual(gate["godot_owner"], "PortGame.source_building_check_suppression_state")
+        self.assertEqual(gate["runtime_proof"], "/root/Main.source_building_check_suppression_state")
+        self.assertEqual(gate["godot_symbol"], "source_building_check_suppression_result.suppressed")
+
+        heal_suppressed = source_symbols.source_symbol(registry, "building_check_suppression.heal_suppressed")
+        self.assertEqual(heal_suppressed["java_method"], "isHealSuppressed()")
+        self.assertEqual(heal_suppressed["java_expr"], "return block.suppressable && Time.time <= healSuppressionTime;")
+        self.assertEqual(heal_suppressed["godot_symbol"], "source_building_check_suppression_result.suppressed")
+
+        chance = source_symbols.source_symbol(registry, "building_check_suppression.chance_delta")
+        self.assertEqual(chance["java_expr"], "if(Mathf.chanceDelta(0.03)){")
+        self.assertEqual(chance["godot_symbol"], "source_building_check_suppression_result.chance_threshold")
+
+        particle = source_symbols.source_symbol(registry, "building_check_suppression.particle")
+        self.assertEqual(particle["java_expr"], "Fx.regenSuppressParticle.at(x + Mathf.range(block.size * tilesize/2f - 1f), y + Mathf.range(block.size * tilesize/2f - 1f), suppressColor);")
+        self.assertEqual(particle["godot_symbol"], "source_building_check_suppression_result.effect")
+
+        block_suppressable = source_symbols.source_symbol(registry, "building_check_suppression.block_suppressable")
+        self.assertEqual(block_suppressable["status"], "explicit-input")
+        self.assertEqual(block_suppressable["java_expr"], "block.suppressable")
+        self.assertEqual(block_suppressable["godot_symbol"], "source_building_check_suppression_input.block_suppressable")
+
+        source_time = source_symbols.source_symbol(registry, "building_check_suppression.source_time")
+        self.assertEqual(source_time["status"], "explicit-input")
+        self.assertEqual(source_time["java_expr"], "Time.time")
+        self.assertEqual(source_time["godot_symbol"], "source_building_check_suppression_input.source_time")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3629,9 +3666,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 138)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 139)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 143)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 144)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3771,6 +3808,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_change_team_power_proximity_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_check_allow_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_check_solid_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_check_suppression_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -4843,6 +4881,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_check_solid["godot_owner"], "PortGame.source_building_check_solid_state")
         self.assertIn("public boolean checkSolid(){", building_check_solid["exact_exprs"])
         self.assertIn("return false;", building_check_solid["exact_exprs"])
+
+        building_check_suppression = source_symbols.source_slice(ledger, "N541")
+        self.assertEqual(building_check_suppression["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_check_suppression["java_method"], "checkSuppression()")
+        self.assertEqual(building_check_suppression["godot_owner"], "PortGame.source_building_check_suppression_state")
+        self.assertIn("public boolean checkSuppression(){", building_check_suppression["exact_exprs"])
+        self.assertIn("if(isHealSuppressed()){", building_check_suppression["exact_exprs"])
+        self.assertIn("if(Mathf.chanceDelta(0.03)){", building_check_suppression["exact_exprs"])
+        self.assertIn("Fx.regenSuppressParticle.at(x + Mathf.range(block.size * tilesize/2f - 1f), y + Mathf.range(block.size * tilesize/2f - 1f), suppressColor);", building_check_suppression["exact_exprs"])
+        self.assertIn("return block.suppressable && Time.time <= healSuppressionTime;", building_check_suppression["exact_exprs"])
+        self.assertIn("return true;", building_check_suppression["exact_exprs"])
+        self.assertIn("return false;", building_check_suppression["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -6056,6 +6106,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual([param["name"] for param in building_check_solid["params"]], [])
         self.assertIn("checkSolid", building_check_solid["return_keys"])
         self.assertEqual(building_check_solid["source_method"], "checkSolid()")
+
+        building_check_suppression = source_symbols.api_contract(contracts, "PortGame.source_building_check_suppression_state")
+        self.assertEqual([param["name"] for param in building_check_suppression["params"]], ["block_suppressable", "source_time", "heal_suppression_time", "source_delta", "source_x", "source_y", "block_size_value", "source_tilesize", "suppress_color"])
+        self.assertEqual(building_check_suppression["params"][0]["schema"], "source_building_check_suppression_input.block_suppressable")
+        self.assertEqual(building_check_suppression["params"][2]["schema"], "source_building_check_suppression_input.heal_suppression_time")
+        self.assertIn("suppressed", building_check_suppression["return_keys"])
+        self.assertIn("chance_threshold", building_check_suppression["return_keys"])
+        self.assertIn("particle_range", building_check_suppression["return_keys"])
+        self.assertEqual(building_check_suppression["source_method"], "checkSuppression()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -7511,6 +7570,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         source_building_check_solid_result = source_symbols.state_schema(schema, "source_building_check_solid_result")
         self.assertEqual(source_building_check_solid_result["keys"]["method"]["java_expr"], "public boolean checkSolid(){")
         self.assertEqual(source_building_check_solid_result["keys"]["checkSolid"]["java_expr"], "return false;")
+
+        source_building_check_suppression_input = source_symbols.state_schema(schema, "source_building_check_suppression_input")
+        self.assertEqual(source_building_check_suppression_input["keys"]["block_suppressable"]["java_expr"], "block.suppressable")
+        self.assertEqual(source_building_check_suppression_input["keys"]["source_time"]["java_expr"], "Time.time")
+        self.assertEqual(source_building_check_suppression_input["keys"]["heal_suppression_time"]["java_expr"], "healSuppressionTime")
+        self.assertEqual(source_building_check_suppression_input["keys"]["source_delta"]["java_expr"], "Time.delta")
+        self.assertEqual(source_building_check_suppression_input["keys"]["suppress_color"]["java_expr"], "suppressColor")
+
+        source_building_check_suppression_result = source_symbols.state_schema(schema, "source_building_check_suppression_result")
+        self.assertEqual(source_building_check_suppression_result["keys"]["suppressed"]["java_expr"], "if(isHealSuppressed()){")
+        self.assertEqual(source_building_check_suppression_result["keys"]["chance_threshold"]["java_expr"], "Mathf.chanceDelta(0.03)")
+        self.assertEqual(source_building_check_suppression_result["keys"]["effect"]["java_expr"], "Fx.regenSuppressParticle.at(x + Mathf.range(block.size * tilesize/2f - 1f), y + Mathf.range(block.size * tilesize/2f - 1f), suppressColor);")
+        self.assertEqual(source_building_check_suppression_result["keys"]["particle_range"]["java_expr"], "block.size * tilesize/2f - 1f")
+        self.assertEqual(source_building_check_suppression_result["keys"]["suppress_color"]["alias_of"], "source_building_check_suppression_input.suppress_color")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

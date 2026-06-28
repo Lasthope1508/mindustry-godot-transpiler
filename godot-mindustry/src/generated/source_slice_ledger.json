@@ -4343,6 +4343,51 @@
       ],
       "runtime_proof": "/root/Main.source_building_check_solid_state",
       "rule": "Backfills SSOT for existing canonical source_building_check_solid_state helper against BuildingComp.checkSolid()."
+    },
+    "N541": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "checkSuppression()",
+      "godot_owner": "PortGame.source_building_check_suppression_state",
+      "exact_exprs": [
+        "public boolean checkSuppression(){",
+        "if(isHealSuppressed()){",
+        "if(Mathf.chanceDelta(0.03)){",
+        "Fx.regenSuppressParticle.at(x + Mathf.range(block.size * tilesize/2f - 1f), y + Mathf.range(block.size * tilesize/2f - 1f), suppressColor);",
+        "return block.suppressable && Time.time <= healSuppressionTime;",
+        "return true;",
+        "return false;",
+        "block.size * tilesize/2f - 1f",
+        "suppressColor",
+        "Time.delta"
+      ],
+      "deferred_exprs": [
+        "actual Mathf.range random x/y offset",
+        "actual Arc RNG result for Mathf.chanceDelta"
+      ],
+      "source_symbols": [
+        "building_check_suppression.gate",
+        "building_check_suppression.heal_suppressed",
+        "building_check_suppression.chance_delta",
+        "building_check_suppression.particle",
+        "building_check_suppression.return_true",
+        "building_check_suppression.return_false",
+        "building_check_suppression.block_suppressable",
+        "building_check_suppression.source_time",
+        "building_check_suppression.heal_suppression_time",
+        "building_check_suppression.source_delta",
+        "building_check_suppression.source_x",
+        "building_check_suppression.source_y",
+        "building_check_suppression.block_size_value",
+        "building_check_suppression.source_tilesize",
+        "building_check_suppression.suppress_color"
+      ],
+      "tests": [
+        "test_building_check_suppression_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_suppression_state",
+      "rule": "Backfills SSOT for existing canonical source_building_check_suppression_state helper against BuildingComp.checkSuppression() and isHealSuppressed()."
     }
   },
   "version": 1

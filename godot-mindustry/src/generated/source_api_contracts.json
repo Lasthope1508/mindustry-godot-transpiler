@@ -5516,6 +5516,76 @@
       ],
       "runtime_proof": "/root/Main.source_building_check_solid_state",
       "rule": "Public runtime contract for Mindustry BuildingComp checkSolid helper."
+    },
+    "PortGame.source_building_check_suppression_state": {
+      "status": "active",
+      "source_slice": "N541",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "checkSuppression()",
+      "params": [
+        {
+          "name": "block_suppressable",
+          "type": "bool",
+          "schema": "source_building_check_suppression_input.block_suppressable"
+        },
+        {
+          "name": "source_time",
+          "type": "float",
+          "schema": "source_building_check_suppression_input.source_time"
+        },
+        {
+          "name": "heal_suppression_time",
+          "type": "float",
+          "schema": "source_building_check_suppression_input.heal_suppression_time"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_building_check_suppression_input.source_delta"
+        },
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_building_check_suppression_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_building_check_suppression_input.source_y"
+        },
+        {
+          "name": "block_size_value",
+          "type": "int",
+          "schema": "source_building_check_suppression_input.block_size_value"
+        },
+        {
+          "name": "source_tilesize",
+          "type": "float",
+          "schema": "source_building_check_suppression_input.source_tilesize"
+        },
+        {
+          "name": "suppress_color",
+          "type": "String",
+          "schema": "source_building_check_suppression_input.suppress_color"
+        }
+      ],
+      "return_keys": [
+        "suppressed",
+        "particle_visible",
+        "chance_threshold",
+        "effect",
+        "color",
+        "particle_range",
+        "x_min",
+        "x_max",
+        "y_min",
+        "y_max"
+      ],
+      "tests": [
+        "test_building_check_suppression_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_suppression_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp checkSuppression helper."
     }
   },
   "policy": {
