@@ -5557,6 +5557,42 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_status_state",
       "rule": "Backfills SSOT for existing canonical source_building_draw_status_state helper against BuildingComp.drawStatus()."
+    },
+    "N576": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "drawTeam()",
+      "godot_owner": "PortGame.source_building_draw_team_state",
+      "exact_exprs": [
+        "public void drawTeam(){",
+        "Draw.color(team.color);",
+        "Draw.rect(\"block-border\", x - block.size * tilesize / 2f + 4, y - block.size * tilesize / 2f + 4);",
+        "x - block.size * tilesize / 2f + 4",
+        "y - block.size * tilesize / 2f + 4",
+        "Draw.color();"
+      ],
+      "deferred_exprs": [
+        "Concrete Draw.color and block-border texture rendering stay owned by Godot rendering integration; this helper preserves canonical team tint, border coordinates, and color reset state."
+      ],
+      "source_symbols": [
+        "building_draw_team.method",
+        "building_draw_team.color",
+        "building_draw_team.rect",
+        "building_draw_team.border_x",
+        "building_draw_team.border_y",
+        "building_draw_team.reset",
+        "building_draw_team.team_color",
+        "building_draw_team.source_x",
+        "building_draw_team.source_y",
+        "building_draw_team.block_size",
+        "building_draw_team.tilesize"
+      ],
+      "tests": [
+        "test_building_draw_team_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_team_state",
+      "rule": "Backfills SSOT for existing canonical source_building_draw_team_state helper against BuildingComp.drawTeam()."
     }
   },
   "version": 1

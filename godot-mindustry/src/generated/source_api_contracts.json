@@ -6919,6 +6919,52 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_status_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.drawStatus() helper."
+    },
+    "PortGame.source_building_draw_team_state": {
+      "status": "active",
+      "source_slice": "N576",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "drawTeam()",
+      "params": [
+        {
+          "name": "team_color",
+          "type": "String",
+          "schema": "source_building_draw_team_input.team_color"
+        },
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_building_draw_team_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_building_draw_team_input.source_y"
+        },
+        {
+          "name": "block_size_value",
+          "type": "int",
+          "schema": "source_building_draw_team_input.block_size_value"
+        },
+        {
+          "name": "source_tilesize",
+          "type": "float",
+          "schema": "source_building_draw_team_input.source_tilesize"
+        }
+      ],
+      "return_keys": [
+        "visible",
+        "region",
+        "color",
+        "x",
+        "y",
+        "color_reset"
+      ],
+      "tests": [
+        "test_building_draw_team_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_team_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.drawTeam() helper."
     }
   },
   "policy": {

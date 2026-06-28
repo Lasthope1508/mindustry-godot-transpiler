@@ -22967,6 +22967,202 @@
           "rule": "Carries source_tilesize input into result schema."
         }
       }
+    },
+    "source_building_draw_team_input": {
+      "status": "active",
+      "keys": {
+        "team_color": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawTeam()",
+          "java_expr": "team.color",
+          "godot_symbol": "source_building_draw_team_input.team_color",
+          "used_by": [
+            "PortGame.source_building_draw_team_state"
+          ],
+          "rule": "Runtime team_color supplies team.color."
+        },
+        "source_x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawTeam()",
+          "java_expr": "x",
+          "godot_symbol": "source_building_draw_team_input.source_x",
+          "used_by": [
+            "PortGame.source_building_draw_team_state"
+          ],
+          "rule": "Runtime source_x supplies BuildingComp x."
+        },
+        "source_y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawTeam()",
+          "java_expr": "y",
+          "godot_symbol": "source_building_draw_team_input.source_y",
+          "used_by": [
+            "PortGame.source_building_draw_team_state"
+          ],
+          "rule": "Runtime source_y supplies BuildingComp y."
+        },
+        "block_size_value": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawTeam()",
+          "java_expr": "block.size",
+          "godot_symbol": "source_building_draw_team_input.block_size_value",
+          "used_by": [
+            "PortGame.source_building_draw_team_state"
+          ],
+          "rule": "Runtime block_size_value supplies block.size."
+        },
+        "source_tilesize": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawTeam()",
+          "java_expr": "tilesize",
+          "godot_symbol": "source_building_draw_team_input.source_tilesize",
+          "used_by": [
+            "PortGame.source_building_draw_team_state"
+          ],
+          "rule": "Runtime source_tilesize supplies tilesize."
+        }
+      }
+    },
+    "source_building_draw_team_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawTeam()",
+          "java_expr": "public void drawTeam(){",
+          "godot_symbol": "source_building_draw_team_result.method",
+          "used_by": [
+            "PortGame.source_building_draw_team_state"
+          ],
+          "rule": "Source drawTeam method declaration."
+        },
+        "color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawTeam()",
+          "java_expr": "Draw.color(team.color);",
+          "godot_symbol": "source_building_draw_team_result.color",
+          "used_by": [
+            "PortGame.source_building_draw_team_state"
+          ],
+          "rule": "Source team color tint call."
+        },
+        "rect": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawTeam()",
+          "java_expr": "Draw.rect(\"block-border\", x - block.size * tilesize / 2f + 4, y - block.size * tilesize / 2f + 4);",
+          "godot_symbol": "source_building_draw_team_result.rect",
+          "used_by": [
+            "PortGame.source_building_draw_team_state"
+          ],
+          "rule": "Source block-border rect call."
+        },
+        "region": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawTeam()",
+          "java_expr": "\"block-border\"",
+          "godot_symbol": "source_building_draw_team_result.region",
+          "used_by": [
+            "PortGame.source_building_draw_team_state"
+          ],
+          "rule": "Source border region name."
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawTeam()",
+          "java_expr": "x - block.size * tilesize / 2f + 4",
+          "godot_symbol": "source_building_draw_team_result.x",
+          "used_by": [
+            "PortGame.source_building_draw_team_state"
+          ],
+          "rule": "Source drawTeam border x formula."
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawTeam()",
+          "java_expr": "y - block.size * tilesize / 2f + 4",
+          "godot_symbol": "source_building_draw_team_result.y",
+          "used_by": [
+            "PortGame.source_building_draw_team_state"
+          ],
+          "rule": "Source drawTeam border y formula."
+        },
+        "color_reset": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawTeam()",
+          "java_expr": "Draw.color();",
+          "godot_symbol": "source_building_draw_team_result.color_reset",
+          "used_by": [
+            "PortGame.source_building_draw_team_state"
+          ],
+          "rule": "Source drawTeam color reset call."
+        },
+        "visible": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawTeam()",
+          "java_expr": "public void drawTeam(){",
+          "godot_symbol": "source_building_draw_team_result.visible",
+          "used_by": [
+            "PortGame.source_building_draw_team_state"
+          ],
+          "rule": "drawTeam always emits visible border draw state."
+        },
+        "team_color": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_building_draw_team_input.team_color",
+          "rule": "Carries team_color input into result schema."
+        },
+        "source_x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_team_input.source_x",
+          "rule": "Carries source_x input into result schema."
+        },
+        "source_y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_team_input.source_y",
+          "rule": "Carries source_y input into result schema."
+        },
+        "block_size_value": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_draw_team_input.block_size_value",
+          "rule": "Carries block_size_value input into result schema."
+        },
+        "source_tilesize": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_team_input.source_tilesize",
+          "rule": "Carries source_tilesize input into result schema."
+        }
+      }
     }
   },
   "version": 1
