@@ -19039,6 +19039,71 @@
       "java_expr": "block.commandable",
       "godot_symbol": "source_building_is_commandable_input.block_commandable",
       "rule": "Block commandable field supplied to isCommandable helper."
+    },
+    "building_is_heal_suppressed.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "isHealSuppressed()",
+      "godot_owner": "PortGame.source_building_is_heal_suppressed_state",
+      "tests": [
+        "test_building_is_heal_suppressed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_heal_suppressed_state",
+      "java_expr": "public boolean isHealSuppressed(){",
+      "godot_symbol": "source_building_is_heal_suppressed_result.method",
+      "rule": "BuildingComp isHealSuppressed method boundary."
+    },
+    "building_is_heal_suppressed.result": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "isHealSuppressed()",
+      "godot_owner": "PortGame.source_building_is_heal_suppressed_state",
+      "tests": [
+        "test_building_is_heal_suppressed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_heal_suppressed_state",
+      "java_expr": "return block.suppressable && Time.time <= healSuppressionTime;",
+      "godot_symbol": "source_building_is_heal_suppressed_result.suppressed",
+      "rule": "BuildingComp isHealSuppressed returns block.suppressable and active Time.time gate."
+    },
+    "building_is_heal_suppressed.block_suppressable": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "isHealSuppressed()",
+      "godot_owner": "PortGame.source_building_is_heal_suppressed_state",
+      "tests": [
+        "test_building_is_heal_suppressed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_heal_suppressed_state",
+      "java_expr": "block.suppressable",
+      "godot_symbol": "source_building_is_heal_suppressed_input.block_suppressable",
+      "rule": "Block suppressable field supplied to isHealSuppressed helper."
+    },
+    "building_is_heal_suppressed.source_time": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "isHealSuppressed()",
+      "godot_owner": "PortGame.source_building_is_heal_suppressed_state",
+      "tests": [
+        "test_building_is_heal_suppressed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_heal_suppressed_state",
+      "java_expr": "Time.time",
+      "godot_symbol": "source_building_is_heal_suppressed_input.source_time",
+      "rule": "Runtime source_time supplies source Time.time."
+    },
+    "building_is_heal_suppressed.heal_suppression_time": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "isHealSuppressed()",
+      "godot_owner": "PortGame.source_building_is_heal_suppressed_state",
+      "tests": [
+        "test_building_is_heal_suppressed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_heal_suppressed_state",
+      "java_expr": "healSuppressionTime",
+      "godot_symbol": "source_building_is_heal_suppressed_input.heal_suppression_time",
+      "rule": "Runtime heal_suppression_time supplies source healSuppressionTime field."
     }
   }
 }

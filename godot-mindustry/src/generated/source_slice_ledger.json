@@ -6112,6 +6112,35 @@
       ],
       "runtime_proof": "/root/Main.source_building_is_commandable_state",
       "rule": "Backfills SSOT for existing canonical source_building_is_commandable_state helper against BuildingComp.isCommandable()."
+    },
+    "N596": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "isHealSuppressed()",
+      "godot_owner": "PortGame.source_building_is_heal_suppressed_state",
+      "exact_exprs": [
+        "public boolean isHealSuppressed(){",
+        "return block.suppressable && Time.time <= healSuppressionTime;",
+        "block.suppressable",
+        "Time.time <= healSuppressionTime",
+        "healSuppressionTime"
+      ],
+      "deferred_exprs": [
+        "applyHealSuppression mutation and checkSuppression particle effects remain owned by adjacent helper slices."
+      ],
+      "source_symbols": [
+        "building_is_heal_suppressed.method",
+        "building_is_heal_suppressed.result",
+        "building_is_heal_suppressed.block_suppressable",
+        "building_is_heal_suppressed.source_time",
+        "building_is_heal_suppressed.heal_suppression_time"
+      ],
+      "tests": [
+        "test_building_is_heal_suppressed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_heal_suppressed_state",
+      "rule": "Backfills SSOT for existing canonical source_building_is_heal_suppressed_state helper against BuildingComp.isHealSuppressed()."
     }
   },
   "version": 1

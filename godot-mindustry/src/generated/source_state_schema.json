@@ -24854,6 +24854,94 @@
           "rule": "Carries block_commandable input into result schema."
         }
       }
+    },
+    "source_building_is_heal_suppressed_input": {
+      "status": "active",
+      "keys": {
+        "block_suppressable": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "isHealSuppressed()",
+          "java_expr": "block.suppressable",
+          "godot_symbol": "source_building_is_heal_suppressed_input.block_suppressable",
+          "used_by": [
+            "PortGame.source_building_is_heal_suppressed_state"
+          ],
+          "rule": "Block suppressable field supplied to isHealSuppressed helper."
+        },
+        "source_time": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "isHealSuppressed()",
+          "java_expr": "Time.time",
+          "godot_symbol": "source_building_is_heal_suppressed_input.source_time",
+          "used_by": [
+            "PortGame.source_building_is_heal_suppressed_state"
+          ],
+          "rule": "Runtime source_time supplies source Time.time."
+        },
+        "heal_suppression_time": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "isHealSuppressed()",
+          "java_expr": "healSuppressionTime",
+          "godot_symbol": "source_building_is_heal_suppressed_input.heal_suppression_time",
+          "used_by": [
+            "PortGame.source_building_is_heal_suppressed_state"
+          ],
+          "rule": "Runtime heal_suppression_time supplies source healSuppressionTime field."
+        }
+      }
+    },
+    "source_building_is_heal_suppressed_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "isHealSuppressed()",
+          "java_expr": "public boolean isHealSuppressed(){",
+          "godot_symbol": "source_building_is_heal_suppressed_result.method",
+          "used_by": [
+            "PortGame.source_building_is_heal_suppressed_state"
+          ],
+          "rule": "BuildingComp isHealSuppressed method boundary."
+        },
+        "suppressed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "isHealSuppressed()",
+          "java_expr": "return block.suppressable && Time.time <= healSuppressionTime;",
+          "godot_symbol": "source_building_is_heal_suppressed_result.suppressed",
+          "used_by": [
+            "PortGame.source_building_is_heal_suppressed_state"
+          ],
+          "rule": "BuildingComp isHealSuppressed return predicate."
+        },
+        "block_suppressable": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_is_heal_suppressed_input.block_suppressable",
+          "rule": "Carries block_suppressable input into result schema."
+        },
+        "source_time": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_is_heal_suppressed_input.source_time",
+          "rule": "Carries source_time input into result schema."
+        },
+        "heal_suppression_time": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_is_heal_suppressed_input.heal_suppression_time",
+          "rule": "Carries heal_suppression_time input into result schema."
+        }
+      }
     }
   },
   "version": 1

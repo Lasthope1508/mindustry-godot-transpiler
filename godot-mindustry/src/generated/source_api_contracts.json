@@ -7492,6 +7492,41 @@
       ],
       "runtime_proof": "/root/Main.source_building_is_commandable_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.isCommandable helper."
+    },
+    "PortGame.source_building_is_heal_suppressed_state": {
+      "status": "active",
+      "source_slice": "N596",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "isHealSuppressed()",
+      "params": [
+        {
+          "name": "block_suppressable",
+          "type": "bool",
+          "schema": "source_building_is_heal_suppressed_input.block_suppressable"
+        },
+        {
+          "name": "source_time",
+          "type": "float",
+          "schema": "source_building_is_heal_suppressed_input.source_time"
+        },
+        {
+          "name": "heal_suppression_time",
+          "type": "float",
+          "schema": "source_building_is_heal_suppressed_input.heal_suppression_time"
+        }
+      ],
+      "return_keys": [
+        "block_suppressable",
+        "source_time",
+        "heal_suppression_time",
+        "method",
+        "suppressed"
+      ],
+      "tests": [
+        "test_building_is_heal_suppressed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_heal_suppressed_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.isHealSuppressed helper."
     }
   },
   "policy": {
