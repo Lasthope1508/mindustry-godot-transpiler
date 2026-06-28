@@ -6594,6 +6594,96 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_item_selection_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.drawItemSelection() helper."
+    },
+    "PortGame.source_building_draw_light_state": {
+      "status": "active",
+      "source_slice": "N571",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "drawLight()",
+      "params": [
+        {
+          "name": "has_liquids",
+          "type": "bool",
+          "schema": "source_building_draw_light_input.has_liquids"
+        },
+        {
+          "name": "draw_liquid_light",
+          "type": "bool",
+          "schema": "source_building_draw_light_input.draw_liquid_light"
+        },
+        {
+          "name": "light_liquid_is_null",
+          "type": "bool",
+          "schema": "source_building_draw_light_input.light_liquid_is_null"
+        },
+        {
+          "name": "current_liquid_color",
+          "type": "String",
+          "schema": "source_building_draw_light_input.current_liquid_color"
+        },
+        {
+          "name": "current_liquid_alpha",
+          "type": "float",
+          "schema": "source_building_draw_light_input.current_liquid_alpha"
+        },
+        {
+          "name": "light_liquid_color",
+          "type": "String",
+          "schema": "source_building_draw_light_input.light_liquid_color"
+        },
+        {
+          "name": "light_liquid_alpha",
+          "type": "float",
+          "schema": "source_building_draw_light_input.light_liquid_alpha"
+        },
+        {
+          "name": "selected_liquid_amount",
+          "type": "float",
+          "schema": "source_building_draw_light_input.selected_liquid_amount"
+        },
+        {
+          "name": "visual_liquid",
+          "type": "float",
+          "schema": "source_building_draw_light_input.visual_liquid"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_building_draw_light_input.source_delta"
+        },
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_building_draw_light_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_building_draw_light_input.source_y"
+        },
+        {
+          "name": "block_size_value",
+          "type": "int",
+          "schema": "source_building_draw_light_input.block_size_value"
+        }
+      ],
+      "return_keys": [
+        "visible",
+        "visual_liquid",
+        "x",
+        "y",
+        "radius",
+        "color",
+        "opacity",
+        "alpha",
+        "fract",
+        "drawLiquidLightCall"
+      ],
+      "tests": [
+        "test_building_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_light_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.drawLight() helper."
     }
   },
   "policy": {

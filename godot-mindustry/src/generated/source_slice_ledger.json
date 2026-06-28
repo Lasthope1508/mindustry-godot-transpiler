@@ -5332,6 +5332,54 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_item_selection_state",
       "rule": "Backfills SSOT for existing canonical source_building_draw_item_selection_state helper against BuildingComp.drawItemSelection()."
+    },
+    "N571": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "drawLight()",
+      "godot_owner": "PortGame.source_building_draw_light_state",
+      "exact_exprs": [
+        "public void drawLight(){",
+        "Liquid liq = block.hasLiquids && block.lightLiquid == null ? liquids.current() : block.lightLiquid;",
+        "if(block.hasLiquids && block.drawLiquidLight && liq.lightColor.a > 0.001f){",
+        "//yes, I am updating in draw()... but this is purely visual anyway, better have it here than in update() where it wastes time",
+        "visualLiquid = Mathf.lerpDelta(visualLiquid, liquids.get(liq)>= 0.01f ? 1f : 0f, 0.06f);",
+        "liquids.get(liq)>= 0.01f ? 1f : 0f",
+        "0.06f",
+        "drawLiquidLight(liq, visualLiquid);"
+      ],
+      "deferred_exprs": [
+        "Concrete liquid object identity and Drawf.light inside drawLiquidLight stay owned by Godot liquid-light rendering integration; this helper preserves liquid selection, visibility gate, visualLiquid update, and delegation state."
+      ],
+      "source_symbols": [
+        "building_draw_light.method",
+        "building_draw_light.liquid_select",
+        "building_draw_light.guard",
+        "building_draw_light.visual_comment",
+        "building_draw_light.visual_update",
+        "building_draw_light.amount_gate",
+        "building_draw_light.lerp_progress",
+        "building_draw_light.draw_liquid_light",
+        "building_draw_light.has_liquids",
+        "building_draw_light.draw_liquid_light_enabled",
+        "building_draw_light.light_liquid_is_null",
+        "building_draw_light.current_liquid_color",
+        "building_draw_light.current_liquid_alpha",
+        "building_draw_light.light_liquid_color",
+        "building_draw_light.light_liquid_alpha",
+        "building_draw_light.selected_liquid_amount",
+        "building_draw_light.visual_liquid_input",
+        "building_draw_light.source_delta",
+        "building_draw_light.source_x",
+        "building_draw_light.source_y",
+        "building_draw_light.block_size"
+      ],
+      "tests": [
+        "test_building_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_light_state",
+      "rule": "Backfills SSOT for existing canonical source_building_draw_light_state helper against BuildingComp.drawLight()."
     }
   },
   "version": 1

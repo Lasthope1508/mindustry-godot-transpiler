@@ -4299,6 +4299,41 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(has_selection["java_expr"], "selection != null")
         self.assertEqual(has_selection["godot_symbol"], "source_building_draw_item_selection_input.has_selection")
 
+    def test_building_draw_light_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_draw_light.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "drawLight()")
+        self.assertEqual(method["java_expr"], "public void drawLight(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_draw_light_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_draw_light_state")
+        self.assertEqual(method["godot_symbol"], "source_building_draw_light_result.method")
+
+        liquid_select = source_symbols.source_symbol(registry, "building_draw_light.liquid_select")
+        self.assertEqual(liquid_select["java_expr"], "Liquid liq = block.hasLiquids && block.lightLiquid == null ? liquids.current() : block.lightLiquid;")
+        self.assertEqual(liquid_select["godot_symbol"], "source_building_draw_light_result.liquidSelect")
+
+        guard = source_symbols.source_symbol(registry, "building_draw_light.guard")
+        self.assertEqual(guard["java_expr"], "if(block.hasLiquids && block.drawLiquidLight && liq.lightColor.a > 0.001f){")
+        self.assertEqual(guard["godot_symbol"], "source_building_draw_light_result.visible")
+
+        visual_update = source_symbols.source_symbol(registry, "building_draw_light.visual_update")
+        self.assertEqual(visual_update["java_expr"], "visualLiquid = Mathf.lerpDelta(visualLiquid, liquids.get(liq)>= 0.01f ? 1f : 0f, 0.06f);")
+        self.assertEqual(visual_update["godot_symbol"], "source_building_draw_light_result.visualLiquid")
+
+        draw_liquid_light = source_symbols.source_symbol(registry, "building_draw_light.draw_liquid_light")
+        self.assertEqual(draw_liquid_light["java_expr"], "drawLiquidLight(liq, visualLiquid);")
+        self.assertEqual(draw_liquid_light["godot_symbol"], "source_building_draw_light_result.drawLiquidLightCall")
+
+        has_liquids = source_symbols.source_symbol(registry, "building_draw_light.has_liquids")
+        self.assertEqual(has_liquids["status"], "explicit-input")
+        self.assertEqual(has_liquids["java_expr"], "block.hasLiquids")
+        self.assertEqual(has_liquids["godot_symbol"], "source_building_draw_light_input.has_liquids")
+
     def test_building_draw_disabled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -4622,9 +4657,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 168)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 169)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 173)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 174)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -4794,6 +4829,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_draw_cracks_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_draw_disabled_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_draw_item_selection_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_draw_light_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -6162,6 +6198,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("Draw.rect(selection.fullIcon, dx, dy - 1, s, h);", building_draw_item_selection["exact_exprs"])
         self.assertIn("Draw.reset();", building_draw_item_selection["exact_exprs"])
         self.assertIn("Draw.rect(selection.fullIcon, dx, dy, s, h);", building_draw_item_selection["exact_exprs"])
+
+        building_draw_light = source_symbols.source_slice(ledger, "N571")
+        self.assertEqual(building_draw_light["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_draw_light["java_method"], "drawLight()")
+        self.assertEqual(building_draw_light["godot_owner"], "PortGame.source_building_draw_light_state")
+        self.assertIn("public void drawLight(){", building_draw_light["exact_exprs"])
+        self.assertIn("Liquid liq = block.hasLiquids && block.lightLiquid == null ? liquids.current() : block.lightLiquid;", building_draw_light["exact_exprs"])
+        self.assertIn("if(block.hasLiquids && block.drawLiquidLight && liq.lightColor.a > 0.001f){", building_draw_light["exact_exprs"])
+        self.assertIn("//yes, I am updating in draw()... but this is purely visual anyway, better have it here than in update() where it wastes time", building_draw_light["exact_exprs"])
+        self.assertIn("visualLiquid = Mathf.lerpDelta(visualLiquid, liquids.get(liq)>= 0.01f ? 1f : 0f, 0.06f);", building_draw_light["exact_exprs"])
+        self.assertIn("drawLiquidLight(liq, visualLiquid);", building_draw_light["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -7620,6 +7667,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("selection_width", building_draw_item_selection["return_keys"])
         self.assertIn("shadow_y", building_draw_item_selection["return_keys"])
         self.assertEqual(building_draw_item_selection["source_method"], "drawItemSelection(@Nullable UnlockableContent selection)")
+
+        building_draw_light = source_symbols.api_contract(contracts, "PortGame.source_building_draw_light_state")
+        self.assertEqual([param["name"] for param in building_draw_light["params"]], ["has_liquids", "draw_liquid_light", "light_liquid_is_null", "current_liquid_color", "current_liquid_alpha", "light_liquid_color", "light_liquid_alpha", "selected_liquid_amount", "visual_liquid", "source_delta", "source_x", "source_y", "block_size_value"])
+        self.assertEqual(building_draw_light["params"][0]["schema"], "source_building_draw_light_input.has_liquids")
+        self.assertEqual(building_draw_light["params"][7]["schema"], "source_building_draw_light_input.selected_liquid_amount")
+        self.assertEqual(building_draw_light["params"][12]["schema"], "source_building_draw_light_input.block_size_value")
+        self.assertIn("visible", building_draw_light["return_keys"])
+        self.assertIn("visual_liquid", building_draw_light["return_keys"])
+        self.assertIn("drawLiquidLightCall", building_draw_light["return_keys"])
+        self.assertEqual(building_draw_light["source_method"], "drawLight()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -9455,6 +9512,24 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_draw_item_selection_result["keys"]["shadow_rect"]["java_expr"], "Draw.rect(selection.fullIcon, dx, dy - 1, s, h);")
         self.assertEqual(source_building_draw_item_selection_result["keys"]["foreground_rect"]["java_expr"], "Draw.rect(selection.fullIcon, dx, dy, s, h);")
         self.assertEqual(source_building_draw_item_selection_result["keys"]["source_x"]["alias_of"], "source_building_draw_item_selection_input.source_x")
+
+        source_building_draw_light_input = source_symbols.state_schema(schema, "source_building_draw_light_input")
+        self.assertEqual(source_building_draw_light_input["keys"]["has_liquids"]["java_expr"], "block.hasLiquids")
+        self.assertEqual(source_building_draw_light_input["keys"]["has_liquids"]["status"], "explicit-input")
+        self.assertEqual(source_building_draw_light_input["keys"]["draw_liquid_light"]["java_expr"], "block.drawLiquidLight")
+        self.assertEqual(source_building_draw_light_input["keys"]["light_liquid_is_null"]["java_expr"], "block.lightLiquid == null")
+        self.assertEqual(source_building_draw_light_input["keys"]["selected_liquid_amount"]["java_expr"], "liquids.get(liq)")
+        self.assertEqual(source_building_draw_light_input["keys"]["source_delta"]["java_expr"], "Time.delta")
+
+        source_building_draw_light_result = source_symbols.state_schema(schema, "source_building_draw_light_result")
+        self.assertEqual(source_building_draw_light_result["keys"]["method"]["java_expr"], "public void drawLight(){")
+        self.assertEqual(source_building_draw_light_result["keys"]["liquidSelect"]["java_expr"], "Liquid liq = block.hasLiquids && block.lightLiquid == null ? liquids.current() : block.lightLiquid;")
+        self.assertEqual(source_building_draw_light_result["keys"]["visible"]["java_expr"], "if(block.hasLiquids && block.drawLiquidLight && liq.lightColor.a > 0.001f){")
+        self.assertEqual(source_building_draw_light_result["keys"]["visualComment"]["java_expr"], "//yes, I am updating in draw()... but this is purely visual anyway, better have it here than in update() where it wastes time")
+        self.assertEqual(source_building_draw_light_result["keys"]["visualLiquid"]["java_expr"], "visualLiquid = Mathf.lerpDelta(visualLiquid, liquids.get(liq)>= 0.01f ? 1f : 0f, 0.06f);")
+        self.assertEqual(source_building_draw_light_result["keys"]["amountGate"]["java_expr"], "liquids.get(liq)>= 0.01f ? 1f : 0f")
+        self.assertEqual(source_building_draw_light_result["keys"]["drawLiquidLightCall"]["java_expr"], "drawLiquidLight(liq, visualLiquid);")
+        self.assertEqual(source_building_draw_light_result["keys"]["has_liquids"]["alias_of"], "source_building_draw_light_input.has_liquids")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

@@ -21465,6 +21465,364 @@
           "rule": "Carries selection_icon_ratio input into result schema."
         }
       }
+    },
+    "source_building_draw_light_input": {
+      "status": "active",
+      "keys": {
+        "has_liquids": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLight()",
+          "java_expr": "block.hasLiquids",
+          "godot_symbol": "source_building_draw_light_input.has_liquids",
+          "used_by": [
+            "PortGame.source_building_draw_light_state"
+          ],
+          "rule": "Runtime has_liquids supplies block.hasLiquids."
+        },
+        "draw_liquid_light": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLight()",
+          "java_expr": "block.drawLiquidLight",
+          "godot_symbol": "source_building_draw_light_input.draw_liquid_light",
+          "used_by": [
+            "PortGame.source_building_draw_light_state"
+          ],
+          "rule": "Runtime draw_liquid_light supplies block.drawLiquidLight."
+        },
+        "light_liquid_is_null": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLight()",
+          "java_expr": "block.lightLiquid == null",
+          "godot_symbol": "source_building_draw_light_input.light_liquid_is_null",
+          "used_by": [
+            "PortGame.source_building_draw_light_state"
+          ],
+          "rule": "Runtime light_liquid_is_null supplies block.lightLiquid null state."
+        },
+        "current_liquid_color": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLight()",
+          "java_expr": "liquids.current().lightColor",
+          "godot_symbol": "source_building_draw_light_input.current_liquid_color",
+          "used_by": [
+            "PortGame.source_building_draw_light_state"
+          ],
+          "rule": "Runtime current_liquid_color supplies liquids.current().lightColor color identity."
+        },
+        "current_liquid_alpha": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLight()",
+          "java_expr": "liquids.current().lightColor.a",
+          "godot_symbol": "source_building_draw_light_input.current_liquid_alpha",
+          "used_by": [
+            "PortGame.source_building_draw_light_state"
+          ],
+          "rule": "Runtime current_liquid_alpha supplies liquids.current().lightColor.a."
+        },
+        "light_liquid_color": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLight()",
+          "java_expr": "block.lightLiquid.lightColor",
+          "godot_symbol": "source_building_draw_light_input.light_liquid_color",
+          "used_by": [
+            "PortGame.source_building_draw_light_state"
+          ],
+          "rule": "Runtime light_liquid_color supplies block.lightLiquid.lightColor color identity."
+        },
+        "light_liquid_alpha": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLight()",
+          "java_expr": "block.lightLiquid.lightColor.a",
+          "godot_symbol": "source_building_draw_light_input.light_liquid_alpha",
+          "used_by": [
+            "PortGame.source_building_draw_light_state"
+          ],
+          "rule": "Runtime light_liquid_alpha supplies block.lightLiquid.lightColor.a."
+        },
+        "selected_liquid_amount": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLight()",
+          "java_expr": "liquids.get(liq)",
+          "godot_symbol": "source_building_draw_light_input.selected_liquid_amount",
+          "used_by": [
+            "PortGame.source_building_draw_light_state"
+          ],
+          "rule": "Runtime selected_liquid_amount supplies liquids.get(liq)."
+        },
+        "visual_liquid": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLight()",
+          "java_expr": "visualLiquid",
+          "godot_symbol": "source_building_draw_light_input.visual_liquid",
+          "used_by": [
+            "PortGame.source_building_draw_light_state"
+          ],
+          "rule": "Runtime visual_liquid supplies prior visualLiquid."
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLight()",
+          "java_expr": "Time.delta",
+          "godot_symbol": "source_building_draw_light_input.source_delta",
+          "used_by": [
+            "PortGame.source_building_draw_light_state"
+          ],
+          "rule": "Runtime source_delta supplies Time.delta for Mathf.lerpDelta."
+        },
+        "source_x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLight()",
+          "java_expr": "x",
+          "godot_symbol": "source_building_draw_light_input.source_x",
+          "used_by": [
+            "PortGame.source_building_draw_light_state"
+          ],
+          "rule": "Runtime source_x supplies BuildingComp x for drawLiquidLight."
+        },
+        "source_y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLight()",
+          "java_expr": "y",
+          "godot_symbol": "source_building_draw_light_input.source_y",
+          "used_by": [
+            "PortGame.source_building_draw_light_state"
+          ],
+          "rule": "Runtime source_y supplies BuildingComp y for drawLiquidLight."
+        },
+        "block_size_value": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLight()",
+          "java_expr": "block.size",
+          "godot_symbol": "source_building_draw_light_input.block_size_value",
+          "used_by": [
+            "PortGame.source_building_draw_light_state"
+          ],
+          "rule": "Runtime block_size_value supplies block.size for drawLiquidLight radius."
+        }
+      }
+    },
+    "source_building_draw_light_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLight()",
+          "java_expr": "public void drawLight(){",
+          "godot_symbol": "source_building_draw_light_result.method",
+          "used_by": [
+            "PortGame.source_building_draw_light_state"
+          ],
+          "rule": "Source drawLight method declaration."
+        },
+        "liquidSelect": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLight()",
+          "java_expr": "Liquid liq = block.hasLiquids && block.lightLiquid == null ? liquids.current() : block.lightLiquid;",
+          "godot_symbol": "source_building_draw_light_result.liquidSelect",
+          "used_by": [
+            "PortGame.source_building_draw_light_state"
+          ],
+          "rule": "drawLight selected liquid expression."
+        },
+        "visible": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLight()",
+          "java_expr": "if(block.hasLiquids && block.drawLiquidLight && liq.lightColor.a > 0.001f){",
+          "godot_symbol": "source_building_draw_light_result.visible",
+          "used_by": [
+            "PortGame.source_building_draw_light_state"
+          ],
+          "rule": "drawLight visible gate."
+        },
+        "visualComment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLight()",
+          "java_expr": "//yes, I am updating in draw()... but this is purely visual anyway, better have it here than in update() where it wastes time",
+          "godot_symbol": "source_building_draw_light_result.visualComment",
+          "used_by": [
+            "PortGame.source_building_draw_light_state"
+          ],
+          "rule": "Source comment for visualLiquid update placement."
+        },
+        "visualLiquid": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLight()",
+          "java_expr": "visualLiquid = Mathf.lerpDelta(visualLiquid, liquids.get(liq)>= 0.01f ? 1f : 0f, 0.06f);",
+          "godot_symbol": "source_building_draw_light_result.visualLiquid",
+          "used_by": [
+            "PortGame.source_building_draw_light_state"
+          ],
+          "rule": "drawLight updates visualLiquid with Mathf.lerpDelta."
+        },
+        "amountGate": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLight()",
+          "java_expr": "liquids.get(liq)>= 0.01f ? 1f : 0f",
+          "godot_symbol": "source_building_draw_light_result.amountGate",
+          "used_by": [
+            "PortGame.source_building_draw_light_state"
+          ],
+          "rule": "drawLight target amount ternary."
+        },
+        "lerpProgress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLight()",
+          "java_expr": "0.06f",
+          "godot_symbol": "source_building_draw_light_result.lerpProgress",
+          "used_by": [
+            "PortGame.source_building_draw_light_state"
+          ],
+          "rule": "drawLight lerpDelta progress."
+        },
+        "drawLiquidLightCall": {
+          "type": "Dictionary|null",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLight()",
+          "java_expr": "drawLiquidLight(liq, visualLiquid);",
+          "godot_symbol": "source_building_draw_light_result.drawLiquidLightCall",
+          "used_by": [
+            "PortGame.source_building_draw_light_state"
+          ],
+          "rule": "drawLight drawLiquidLight delegation."
+        },
+        "x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_light_input.source_x",
+          "rule": "Visible runtime x comes from source_x through drawLiquidLight."
+        },
+        "y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_light_input.source_y",
+          "rule": "Visible runtime y comes from source_y through drawLiquidLight."
+        },
+        "radius": {
+          "type": "float",
+          "status": "generated",
+          "java_expr": "block.size * 30f * fract",
+          "rule": "Visible runtime radius comes from drawLiquidLight helper."
+        },
+        "color": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "liq.lightColor",
+          "rule": "Visible runtime color follows selected liquid light color."
+        },
+        "opacity": {
+          "type": "float",
+          "status": "generated",
+          "java_expr": "liq.lightColor.a * fract",
+          "rule": "Visible runtime opacity comes from drawLiquidLight helper."
+        },
+        "alpha": {
+          "type": "float",
+          "status": "generated",
+          "java_expr": "opacity * amount",
+          "rule": "Visible runtime alpha comes from drawLiquidLight helper."
+        },
+        "fract": {
+          "type": "float",
+          "status": "generated",
+          "java_expr": "1f",
+          "rule": "Current drawLiquidLight helper uses fract of 1.0."
+        },
+        "has_liquids": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_draw_light_input.has_liquids",
+          "rule": "Carries has_liquids input into result schema."
+        },
+        "draw_liquid_light": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_draw_light_input.draw_liquid_light",
+          "rule": "Carries draw_liquid_light input into result schema."
+        },
+        "light_liquid_is_null": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_draw_light_input.light_liquid_is_null",
+          "rule": "Carries light_liquid_is_null input into result schema."
+        },
+        "selected_liquid_amount": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_light_input.selected_liquid_amount",
+          "rule": "Carries selected_liquid_amount input into result schema."
+        },
+        "visual_liquid": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_light_input.visual_liquid",
+          "rule": "Carries visual_liquid input into result schema."
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_light_input.source_delta",
+          "rule": "Carries source_delta input into result schema."
+        },
+        "source_x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_light_input.source_x",
+          "rule": "Carries source_x input into result schema."
+        },
+        "source_y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_light_input.source_y",
+          "rule": "Carries source_y input into result schema."
+        },
+        "block_size_value": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_draw_light_input.block_size_value",
+          "rule": "Carries block_size_value input into result schema."
+        }
+      }
     }
   },
   "version": 1

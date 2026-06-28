@@ -16530,6 +16530,279 @@
       "java_expr": "selection.fullIcon.ratio()",
       "godot_symbol": "source_building_draw_item_selection_input.selection_icon_ratio",
       "rule": "Runtime selection_icon_ratio supplies selection.fullIcon.ratio()."
+    },
+    "building_draw_light.method": {
+      "tests": [
+        "test_building_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_light_state",
+      "godot_owner": "PortGame.source_building_draw_light_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawLight()",
+      "status": "source-backed",
+      "java_expr": "public void drawLight(){",
+      "godot_symbol": "source_building_draw_light_result.method",
+      "rule": "Source drawLight method declaration."
+    },
+    "building_draw_light.liquid_select": {
+      "tests": [
+        "test_building_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_light_state",
+      "godot_owner": "PortGame.source_building_draw_light_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawLight()",
+      "status": "source-backed",
+      "java_expr": "Liquid liq = block.hasLiquids && block.lightLiquid == null ? liquids.current() : block.lightLiquid;",
+      "godot_symbol": "source_building_draw_light_result.liquidSelect",
+      "rule": "drawLight selects current liquid when block has liquids and lightLiquid is null, otherwise block.lightLiquid."
+    },
+    "building_draw_light.guard": {
+      "tests": [
+        "test_building_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_light_state",
+      "godot_owner": "PortGame.source_building_draw_light_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawLight()",
+      "status": "source-backed",
+      "java_expr": "if(block.hasLiquids && block.drawLiquidLight && liq.lightColor.a > 0.001f){",
+      "godot_symbol": "source_building_draw_light_result.visible",
+      "rule": "drawLight proceeds only when liquid light drawing is enabled and selected light color alpha is visible."
+    },
+    "building_draw_light.visual_comment": {
+      "tests": [
+        "test_building_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_light_state",
+      "godot_owner": "PortGame.source_building_draw_light_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawLight()",
+      "status": "source-backed",
+      "java_expr": "//yes, I am updating in draw()... but this is purely visual anyway, better have it here than in update() where it wastes time",
+      "godot_symbol": "source_building_draw_light_result.visualComment",
+      "rule": "Preserves source comment for updating visualLiquid in draw()."
+    },
+    "building_draw_light.visual_update": {
+      "tests": [
+        "test_building_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_light_state",
+      "godot_owner": "PortGame.source_building_draw_light_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawLight()",
+      "status": "source-backed",
+      "java_expr": "visualLiquid = Mathf.lerpDelta(visualLiquid, liquids.get(liq)>= 0.01f ? 1f : 0f, 0.06f);",
+      "godot_symbol": "source_building_draw_light_result.visualLiquid",
+      "rule": "drawLight updates visualLiquid through Mathf.lerpDelta toward amount gate."
+    },
+    "building_draw_light.amount_gate": {
+      "tests": [
+        "test_building_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_light_state",
+      "godot_owner": "PortGame.source_building_draw_light_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawLight()",
+      "status": "source-backed",
+      "java_expr": "liquids.get(liq)>= 0.01f ? 1f : 0f",
+      "godot_symbol": "source_building_draw_light_result.amountGate",
+      "rule": "drawLight target is 1f when liquids.get(liq) is at least 0.01f."
+    },
+    "building_draw_light.lerp_progress": {
+      "tests": [
+        "test_building_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_light_state",
+      "godot_owner": "PortGame.source_building_draw_light_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawLight()",
+      "status": "source-backed",
+      "java_expr": "0.06f",
+      "godot_symbol": "source_building_draw_light_result.lerpProgress",
+      "rule": "drawLight uses 0.06f lerpDelta progress."
+    },
+    "building_draw_light.draw_liquid_light": {
+      "tests": [
+        "test_building_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_light_state",
+      "godot_owner": "PortGame.source_building_draw_light_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawLight()",
+      "status": "source-backed",
+      "java_expr": "drawLiquidLight(liq, visualLiquid);",
+      "godot_symbol": "source_building_draw_light_result.drawLiquidLightCall",
+      "rule": "drawLight delegates selected liquid and updated visualLiquid to drawLiquidLight."
+    },
+    "building_draw_light.has_liquids": {
+      "tests": [
+        "test_building_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_light_state",
+      "godot_owner": "PortGame.source_building_draw_light_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawLight()",
+      "status": "explicit-input",
+      "java_expr": "block.hasLiquids",
+      "godot_symbol": "source_building_draw_light_input.has_liquids",
+      "rule": "Runtime has_liquids supplies block.hasLiquids."
+    },
+    "building_draw_light.draw_liquid_light_enabled": {
+      "tests": [
+        "test_building_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_light_state",
+      "godot_owner": "PortGame.source_building_draw_light_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawLight()",
+      "status": "explicit-input",
+      "java_expr": "block.drawLiquidLight",
+      "godot_symbol": "source_building_draw_light_input.draw_liquid_light",
+      "rule": "Runtime draw_liquid_light supplies block.drawLiquidLight."
+    },
+    "building_draw_light.light_liquid_is_null": {
+      "tests": [
+        "test_building_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_light_state",
+      "godot_owner": "PortGame.source_building_draw_light_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawLight()",
+      "status": "explicit-input",
+      "java_expr": "block.lightLiquid == null",
+      "godot_symbol": "source_building_draw_light_input.light_liquid_is_null",
+      "rule": "Runtime light_liquid_is_null supplies block.lightLiquid null state."
+    },
+    "building_draw_light.current_liquid_color": {
+      "tests": [
+        "test_building_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_light_state",
+      "godot_owner": "PortGame.source_building_draw_light_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawLight()",
+      "status": "explicit-input",
+      "java_expr": "liquids.current().lightColor",
+      "godot_symbol": "source_building_draw_light_input.current_liquid_color",
+      "rule": "Runtime current_liquid_color supplies liquids.current().lightColor color identity."
+    },
+    "building_draw_light.current_liquid_alpha": {
+      "tests": [
+        "test_building_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_light_state",
+      "godot_owner": "PortGame.source_building_draw_light_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawLight()",
+      "status": "explicit-input",
+      "java_expr": "liquids.current().lightColor.a",
+      "godot_symbol": "source_building_draw_light_input.current_liquid_alpha",
+      "rule": "Runtime current_liquid_alpha supplies liquids.current().lightColor.a."
+    },
+    "building_draw_light.light_liquid_color": {
+      "tests": [
+        "test_building_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_light_state",
+      "godot_owner": "PortGame.source_building_draw_light_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawLight()",
+      "status": "explicit-input",
+      "java_expr": "block.lightLiquid.lightColor",
+      "godot_symbol": "source_building_draw_light_input.light_liquid_color",
+      "rule": "Runtime light_liquid_color supplies block.lightLiquid.lightColor color identity."
+    },
+    "building_draw_light.light_liquid_alpha": {
+      "tests": [
+        "test_building_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_light_state",
+      "godot_owner": "PortGame.source_building_draw_light_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawLight()",
+      "status": "explicit-input",
+      "java_expr": "block.lightLiquid.lightColor.a",
+      "godot_symbol": "source_building_draw_light_input.light_liquid_alpha",
+      "rule": "Runtime light_liquid_alpha supplies block.lightLiquid.lightColor.a."
+    },
+    "building_draw_light.selected_liquid_amount": {
+      "tests": [
+        "test_building_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_light_state",
+      "godot_owner": "PortGame.source_building_draw_light_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawLight()",
+      "status": "explicit-input",
+      "java_expr": "liquids.get(liq)",
+      "godot_symbol": "source_building_draw_light_input.selected_liquid_amount",
+      "rule": "Runtime selected_liquid_amount supplies liquids.get(liq)."
+    },
+    "building_draw_light.visual_liquid_input": {
+      "tests": [
+        "test_building_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_light_state",
+      "godot_owner": "PortGame.source_building_draw_light_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawLight()",
+      "status": "explicit-input",
+      "java_expr": "visualLiquid",
+      "godot_symbol": "source_building_draw_light_input.visual_liquid",
+      "rule": "Runtime visual_liquid supplies prior visualLiquid."
+    },
+    "building_draw_light.source_delta": {
+      "tests": [
+        "test_building_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_light_state",
+      "godot_owner": "PortGame.source_building_draw_light_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawLight()",
+      "status": "explicit-input",
+      "java_expr": "Time.delta",
+      "godot_symbol": "source_building_draw_light_input.source_delta",
+      "rule": "Runtime source_delta supplies Time.delta for Mathf.lerpDelta."
+    },
+    "building_draw_light.source_x": {
+      "tests": [
+        "test_building_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_light_state",
+      "godot_owner": "PortGame.source_building_draw_light_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawLight()",
+      "status": "explicit-input",
+      "java_expr": "x",
+      "godot_symbol": "source_building_draw_light_input.source_x",
+      "rule": "Runtime source_x supplies BuildingComp x for drawLiquidLight."
+    },
+    "building_draw_light.source_y": {
+      "tests": [
+        "test_building_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_light_state",
+      "godot_owner": "PortGame.source_building_draw_light_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawLight()",
+      "status": "explicit-input",
+      "java_expr": "y",
+      "godot_symbol": "source_building_draw_light_input.source_y",
+      "rule": "Runtime source_y supplies BuildingComp y for drawLiquidLight."
+    },
+    "building_draw_light.block_size": {
+      "tests": [
+        "test_building_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_light_state",
+      "godot_owner": "PortGame.source_building_draw_light_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawLight()",
+      "status": "explicit-input",
+      "java_expr": "block.size",
+      "godot_symbol": "source_building_draw_light_input.block_size_value",
+      "rule": "Runtime block_size_value supplies block.size for drawLiquidLight radius."
     }
   }
 }
