@@ -6115,6 +6115,31 @@
       ],
       "runtime_proof": "/root/Main.source_building_delta",
       "rule": "Public runtime contract for Mindustry BuildingComp.delta scaled delta helper."
+    },
+    "PortGame.source_building_display_efficiency": {
+      "status": "active",
+      "source_slice": "N561",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "getDisplayEfficiency()",
+      "params": [
+        {
+          "name": "edelta_value",
+          "type": "float",
+          "schema": "source_building_display_efficiency_input.edelta_value"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "progressIncrease",
+        "baseTime",
+        "displayEfficiency",
+        "edelta_value"
+      ],
+      "tests": [
+        "test_building_display_efficiency_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_efficiency",
+      "rule": "Public runtime contract for Mindustry BuildingComp.getDisplayEfficiency helper."
     }
   },
   "policy": {

@@ -4967,6 +4967,35 @@
       ],
       "runtime_proof": "/root/Main.source_building_delta",
       "rule": "Backfills SSOT for existing canonical source_building_delta helper against BuildingComp.delta() scaled delta math."
+    },
+    "N561": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "getDisplayEfficiency()",
+      "godot_owner": "PortGame.source_building_display_efficiency",
+      "exact_exprs": [
+        "public float getDisplayEfficiency(){",
+        "return getProgressIncrease(1f) / edelta();",
+        "getProgressIncrease(1f)",
+        "1f",
+        "edelta()"
+      ],
+      "deferred_exprs": [
+        "getProgressIncrease(float baseTime) and edelta() bodies are owned by their own canonical helper slices."
+      ],
+      "source_symbols": [
+        "building_display_efficiency.method",
+        "building_display_efficiency.return",
+        "building_display_efficiency.progress_increase",
+        "building_display_efficiency.base_time",
+        "building_display_efficiency.edelta"
+      ],
+      "tests": [
+        "test_building_display_efficiency_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_efficiency",
+      "rule": "Backfills SSOT for existing canonical source_building_display_efficiency helper against BuildingComp.getDisplayEfficiency()."
     }
   },
   "version": 1

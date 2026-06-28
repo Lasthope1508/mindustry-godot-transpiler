@@ -3956,6 +3956,37 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(time_scale["java_expr"], "timeScale")
         self.assertEqual(time_scale["godot_symbol"], "source_building_delta_input.time_scale")
 
+    def test_building_display_efficiency_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_display_efficiency.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "getDisplayEfficiency()")
+        self.assertEqual(method["java_expr"], "public float getDisplayEfficiency(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_display_efficiency")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_display_efficiency")
+        self.assertEqual(method["godot_symbol"], "source_building_display_efficiency_result.method")
+
+        display_efficiency = source_symbols.source_symbol(registry, "building_display_efficiency.return")
+        self.assertEqual(display_efficiency["java_expr"], "return getProgressIncrease(1f) / edelta();")
+        self.assertEqual(display_efficiency["godot_symbol"], "source_building_display_efficiency_result.displayEfficiency")
+
+        progress_increase = source_symbols.source_symbol(registry, "building_display_efficiency.progress_increase")
+        self.assertEqual(progress_increase["java_expr"], "getProgressIncrease(1f)")
+        self.assertEqual(progress_increase["godot_symbol"], "source_building_display_efficiency_result.progressIncrease")
+
+        base_time = source_symbols.source_symbol(registry, "building_display_efficiency.base_time")
+        self.assertEqual(base_time["java_expr"], "1f")
+        self.assertEqual(base_time["godot_symbol"], "source_building_display_efficiency_result.baseTime")
+
+        edelta_value = source_symbols.source_symbol(registry, "building_display_efficiency.edelta")
+        self.assertEqual(edelta_value["status"], "explicit-input")
+        self.assertEqual(edelta_value["java_expr"], "edelta()")
+        self.assertEqual(edelta_value["godot_symbol"], "source_building_display_efficiency_input.edelta_value")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -4240,9 +4271,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 158)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 159)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 163)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 164)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -4402,6 +4433,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_damage_handle_damage_gate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_damage_health_changed_call_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_delta", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_display_efficiency", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -5659,6 +5691,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return Time.delta * timeScale;", building_delta["exact_exprs"])
         self.assertIn("Time.delta", building_delta["exact_exprs"])
         self.assertIn("timeScale", building_delta["exact_exprs"])
+
+        building_display_efficiency = source_symbols.source_slice(ledger, "N561")
+        self.assertEqual(building_display_efficiency["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_display_efficiency["java_method"], "getDisplayEfficiency()")
+        self.assertEqual(building_display_efficiency["godot_owner"], "PortGame.source_building_display_efficiency")
+        self.assertIn("public float getDisplayEfficiency(){", building_display_efficiency["exact_exprs"])
+        self.assertIn("return getProgressIncrease(1f) / edelta();", building_display_efficiency["exact_exprs"])
+        self.assertIn("getProgressIncrease(1f)", building_display_efficiency["exact_exprs"])
+        self.assertIn("1f", building_display_efficiency["exact_exprs"])
+        self.assertIn("edelta()", building_display_efficiency["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -7027,6 +7069,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_delta["params"][1]["schema"], "source_building_delta_input.time_scale")
         self.assertIn("delta", building_delta["return_keys"])
         self.assertEqual(building_delta["source_method"], "delta()")
+
+        building_display_efficiency = source_symbols.api_contract(contracts, "PortGame.source_building_display_efficiency")
+        self.assertEqual([param["name"] for param in building_display_efficiency["params"]], ["edelta_value"])
+        self.assertEqual(building_display_efficiency["params"][0]["schema"], "source_building_display_efficiency_input.edelta_value")
+        self.assertIn("displayEfficiency", building_display_efficiency["return_keys"])
+        self.assertIn("progressIncrease", building_display_efficiency["return_keys"])
+        self.assertEqual(building_display_efficiency["source_method"], "getDisplayEfficiency()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -8696,6 +8745,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_delta_result["keys"]["delta"]["java_expr"], "return Time.delta * timeScale;")
         self.assertEqual(source_building_delta_result["keys"]["source_delta"]["alias_of"], "source_building_delta_input.source_delta")
         self.assertEqual(source_building_delta_result["keys"]["time_scale"]["alias_of"], "source_building_delta_input.time_scale")
+
+        source_building_display_efficiency_input = source_symbols.state_schema(schema, "source_building_display_efficiency_input")
+        self.assertEqual(source_building_display_efficiency_input["keys"]["edelta_value"]["java_expr"], "edelta()")
+        self.assertEqual(source_building_display_efficiency_input["keys"]["edelta_value"]["status"], "explicit-input")
+
+        source_building_display_efficiency_result = source_symbols.state_schema(schema, "source_building_display_efficiency_result")
+        self.assertEqual(source_building_display_efficiency_result["keys"]["method"]["java_expr"], "public float getDisplayEfficiency(){")
+        self.assertEqual(source_building_display_efficiency_result["keys"]["progressIncrease"]["java_expr"], "getProgressIncrease(1f)")
+        self.assertEqual(source_building_display_efficiency_result["keys"]["baseTime"]["java_expr"], "1f")
+        self.assertEqual(source_building_display_efficiency_result["keys"]["displayEfficiency"]["java_expr"], "return getProgressIncrease(1f) / edelta();")
+        self.assertEqual(source_building_display_efficiency_result["keys"]["edelta_value"]["alias_of"], "source_building_display_efficiency_input.edelta_value")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

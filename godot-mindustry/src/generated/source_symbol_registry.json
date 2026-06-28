@@ -15165,6 +15165,71 @@
       "java_expr": "timeScale",
       "godot_symbol": "source_building_delta_input.time_scale",
       "rule": "Runtime time_scale argument supplies BuildingComp timeScale."
+    },
+    "building_display_efficiency.method": {
+      "tests": [
+        "test_building_display_efficiency_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_efficiency",
+      "godot_owner": "PortGame.source_building_display_efficiency",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getDisplayEfficiency()",
+      "status": "source-backed",
+      "java_expr": "public float getDisplayEfficiency(){",
+      "godot_symbol": "source_building_display_efficiency_result.method",
+      "rule": "Source getDisplayEfficiency method declaration."
+    },
+    "building_display_efficiency.return": {
+      "tests": [
+        "test_building_display_efficiency_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_efficiency",
+      "godot_owner": "PortGame.source_building_display_efficiency",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getDisplayEfficiency()",
+      "status": "source-backed",
+      "java_expr": "return getProgressIncrease(1f) / edelta();",
+      "godot_symbol": "source_building_display_efficiency_result.displayEfficiency",
+      "rule": "BuildingComp display efficiency divides progress increase by edelta."
+    },
+    "building_display_efficiency.progress_increase": {
+      "tests": [
+        "test_building_display_efficiency_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_efficiency",
+      "godot_owner": "PortGame.source_building_display_efficiency",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getDisplayEfficiency()",
+      "status": "source-backed",
+      "java_expr": "getProgressIncrease(1f)",
+      "godot_symbol": "source_building_display_efficiency_result.progressIncrease",
+      "rule": "Display efficiency uses getProgressIncrease with base time 1f."
+    },
+    "building_display_efficiency.base_time": {
+      "tests": [
+        "test_building_display_efficiency_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_efficiency",
+      "godot_owner": "PortGame.source_building_display_efficiency",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getDisplayEfficiency()",
+      "status": "source-backed",
+      "java_expr": "1f",
+      "godot_symbol": "source_building_display_efficiency_result.baseTime",
+      "rule": "Display efficiency uses source base time literal 1f."
+    },
+    "building_display_efficiency.edelta": {
+      "tests": [
+        "test_building_display_efficiency_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_display_efficiency",
+      "godot_owner": "PortGame.source_building_display_efficiency",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getDisplayEfficiency()",
+      "status": "explicit-input",
+      "java_expr": "edelta()",
+      "godot_symbol": "source_building_display_efficiency_input.edelta_value",
+      "rule": "Runtime edelta_value argument supplies BuildingComp edelta() result."
     }
   }
 }
