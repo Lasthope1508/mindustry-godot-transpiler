@@ -25344,6 +25344,58 @@
           "rule": "Carries tile_not_empty_tile input into result schema."
         }
       }
+    },
+    "source_building_maximum_accepted_input": {
+      "status": "active",
+      "keys": {
+        "block_item_capacity": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "getMaximumAccepted(Item item)",
+          "java_expr": "block.itemCapacity",
+          "godot_symbol": "source_building_maximum_accepted_input.block_item_capacity",
+          "used_by": [
+            "PortGame.source_building_maximum_accepted"
+          ],
+          "rule": "Runtime block_item_capacity supplies source block.itemCapacity field."
+        }
+      }
+    },
+    "source_building_maximum_accepted_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "getMaximumAccepted(Item item)",
+          "java_expr": "public int getMaximumAccepted(Item item){",
+          "godot_symbol": "source_building_maximum_accepted_result.method",
+          "used_by": [
+            "PortGame.source_building_maximum_accepted"
+          ],
+          "rule": "BuildingComp getMaximumAccepted method boundary."
+        },
+        "maximum_accepted": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "getMaximumAccepted(Item item)",
+          "java_expr": "return block.itemCapacity;",
+          "godot_symbol": "source_building_maximum_accepted_result.maximum_accepted",
+          "used_by": [
+            "PortGame.source_building_maximum_accepted"
+          ],
+          "rule": "BuildingComp getMaximumAccepted return value."
+        },
+        "block_item_capacity": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_maximum_accepted_input.block_item_capacity",
+          "rule": "Carries block_item_capacity input into result schema."
+        }
+      }
     }
   },
   "version": 1

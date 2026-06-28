@@ -2939,6 +2939,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(fallback["java_expr"], "return 0;")
         self.assertEqual(fallback["godot_symbol"], "source_building_accept_stack_result.fallback")
 
+    def test_building_maximum_accepted_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_maximum_accepted.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "getMaximumAccepted(Item item)")
+        self.assertEqual(method["java_expr"], "public int getMaximumAccepted(Item item){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_maximum_accepted")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_maximum_accepted")
+        self.assertEqual(method["godot_symbol"], "source_building_maximum_accepted_result.method")
+
+        result = source_symbols.source_symbol(registry, "building_maximum_accepted.result")
+        self.assertEqual(result["java_expr"], "return block.itemCapacity;")
+        self.assertEqual(result["godot_symbol"], "source_building_maximum_accepted_result.maximum_accepted")
+
+        block_item_capacity = source_symbols.source_symbol(registry, "building_maximum_accepted.block_item_capacity")
+        self.assertEqual(block_item_capacity["status"], "explicit-input")
+        self.assertEqual(block_item_capacity["java_expr"], "block.itemCapacity")
+        self.assertEqual(block_item_capacity["godot_symbol"], "source_building_maximum_accepted_input.block_item_capacity")
+
     def test_building_after_destroyed_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -5678,9 +5701,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 200)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 201)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 205)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 206)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -5698,6 +5721,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_removal_side_effects_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_maximum_accepted", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -6796,6 +6820,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(acceptItem(self(), item) && block.hasItems && (source == null || source.team() == team)){", building_accept_stack["exact_exprs"])
         self.assertIn("return Math.min(getMaximumAccepted(item) - items.get(item), amount);", building_accept_stack["exact_exprs"])
         self.assertIn("return 0;", building_accept_stack["exact_exprs"])
+
+        building_maximum_accepted = source_symbols.source_slice(ledger, "N603")
+        self.assertEqual(building_maximum_accepted["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_maximum_accepted["java_method"], "getMaximumAccepted(Item item)")
+        self.assertEqual(building_maximum_accepted["godot_owner"], "PortGame.source_building_maximum_accepted")
+        self.assertIn("public int getMaximumAccepted(Item item){", building_maximum_accepted["exact_exprs"])
+        self.assertIn("return block.itemCapacity;", building_maximum_accepted["exact_exprs"])
+        self.assertIn("block.itemCapacity", building_maximum_accepted["exact_exprs"])
 
         building_after_destroyed = source_symbols.source_slice(ledger, "N525")
         self.assertEqual(building_after_destroyed["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -8621,6 +8653,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("acceptStack", building_accept_stack["return_keys"])
         self.assertIn("fallback", building_accept_stack["return_keys"])
         self.assertEqual(building_accept_stack["source_method"], "acceptStack(Item item, int amount, Teamc source)")
+
+        building_maximum_accepted = source_symbols.api_contract(contracts, "PortGame.source_building_maximum_accepted")
+        self.assertEqual([param["name"] for param in building_maximum_accepted["params"]], ["block_item_capacity"])
+        self.assertEqual(building_maximum_accepted["params"][0]["schema"], "source_building_maximum_accepted_input.block_item_capacity")
+        self.assertIn("maximum_accepted", building_maximum_accepted["return_keys"])
+        self.assertEqual(building_maximum_accepted["source_method"], "getMaximumAccepted(Item item)")
 
         building_after_destroyed = source_symbols.api_contract(contracts, "PortGame.source_building_after_destroyed_state")
         self.assertEqual([param["name"] for param in building_after_destroyed["params"]], ["has_destroy_bullet", "destroy_bullet_same_team", "team_id", "source_x", "source_y", "building_id"])
@@ -10542,6 +10580,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_accept_stack_result["keys"]["acceptStack"]["java_expr"], "return Math.min(getMaximumAccepted(item) - items.get(item), amount);")
         self.assertEqual(source_building_accept_stack_result["keys"]["fallback"]["java_expr"], "return 0;")
         self.assertEqual(source_building_accept_stack_result["keys"]["acceptsItem"]["alias_of"], "source_building_accept_stack_input.acceptsItem")
+
+        source_building_maximum_accepted_input = source_symbols.state_schema(schema, "source_building_maximum_accepted_input")
+        self.assertEqual(source_building_maximum_accepted_input["keys"]["block_item_capacity"]["java_expr"], "block.itemCapacity")
+        self.assertEqual(source_building_maximum_accepted_input["keys"]["block_item_capacity"]["status"], "explicit-input")
+
+        source_building_maximum_accepted_result = source_symbols.state_schema(schema, "source_building_maximum_accepted_result")
+        self.assertEqual(source_building_maximum_accepted_result["keys"]["method"]["java_expr"], "public int getMaximumAccepted(Item item){")
+        self.assertEqual(source_building_maximum_accepted_result["keys"]["maximum_accepted"]["java_expr"], "return block.itemCapacity;")
+        self.assertEqual(source_building_maximum_accepted_result["keys"]["block_item_capacity"]["alias_of"], "source_building_maximum_accepted_input.block_item_capacity")
 
         source_building_after_destroyed_input = source_symbols.state_schema(schema, "source_building_after_destroyed_input")
         self.assertEqual(source_building_after_destroyed_input["keys"]["hasDestroyBullet"]["java_expr"], "block.destroyBullet != null")

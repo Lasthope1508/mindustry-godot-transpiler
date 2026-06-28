@@ -6309,6 +6309,31 @@
       ],
       "runtime_proof": "/root/Main.source_building_killed_removal_side_effects_state",
       "rule": "Backfills SSOT for existing canonical source_building_killed_removal_side_effects_state helper against BuildingComp.killed() removal side effects."
+    },
+    "N603": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "getMaximumAccepted(Item item)",
+      "godot_owner": "PortGame.source_building_maximum_accepted",
+      "exact_exprs": [
+        "public int getMaximumAccepted(Item item){",
+        "return block.itemCapacity;",
+        "block.itemCapacity"
+      ],
+      "deferred_exprs": [
+        "Concrete Block itemCapacity ownership remains covered by source_block_item_capacity_state and content/runtime block integration slices."
+      ],
+      "source_symbols": [
+        "building_maximum_accepted.method",
+        "building_maximum_accepted.result",
+        "building_maximum_accepted.block_item_capacity"
+      ],
+      "tests": [
+        "test_building_maximum_accepted_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_maximum_accepted",
+      "rule": "Backfills SSOT for existing canonical source_building_maximum_accepted helper against BuildingComp.getMaximumAccepted(Item item)."
     }
   },
   "version": 1

@@ -19429,6 +19429,45 @@
       "java_expr": "tile != emptyTile",
       "godot_symbol": "source_building_killed_removal_side_effects_input.tile_not_empty_tile",
       "rule": "Runtime tile_not_empty_tile supplies exact source tile != emptyTile gate."
+    },
+    "building_maximum_accepted.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getMaximumAccepted(Item item)",
+      "godot_owner": "PortGame.source_building_maximum_accepted",
+      "tests": [
+        "test_building_maximum_accepted_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_maximum_accepted",
+      "java_expr": "public int getMaximumAccepted(Item item){",
+      "godot_symbol": "source_building_maximum_accepted_result.method",
+      "rule": "BuildingComp getMaximumAccepted method boundary."
+    },
+    "building_maximum_accepted.result": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getMaximumAccepted(Item item)",
+      "godot_owner": "PortGame.source_building_maximum_accepted",
+      "tests": [
+        "test_building_maximum_accepted_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_maximum_accepted",
+      "java_expr": "return block.itemCapacity;",
+      "godot_symbol": "source_building_maximum_accepted_result.maximum_accepted",
+      "rule": "BuildingComp getMaximumAccepted returns block.itemCapacity."
+    },
+    "building_maximum_accepted.block_item_capacity": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getMaximumAccepted(Item item)",
+      "godot_owner": "PortGame.source_building_maximum_accepted",
+      "tests": [
+        "test_building_maximum_accepted_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_maximum_accepted",
+      "java_expr": "block.itemCapacity",
+      "godot_symbol": "source_building_maximum_accepted_input.block_item_capacity",
+      "rule": "Runtime block_item_capacity supplies source block.itemCapacity field."
     }
   }
 }

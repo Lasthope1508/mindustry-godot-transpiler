@@ -7677,6 +7677,27 @@
       ],
       "runtime_proof": "/root/Main.source_building_killed_removal_side_effects_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.killed removal side effects helper."
+    },
+    "PortGame.source_building_maximum_accepted": {
+      "status": "active",
+      "source_slice": "N603",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "getMaximumAccepted(Item item)",
+      "params": [
+        {
+          "name": "block_item_capacity",
+          "type": "int",
+          "schema": "source_building_maximum_accepted_input.block_item_capacity"
+        }
+      ],
+      "return_keys": [
+        "maximum_accepted"
+      ],
+      "tests": [
+        "test_building_maximum_accepted_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_maximum_accepted",
+      "rule": "Public runtime contract for Mindustry BuildingComp.getMaximumAccepted helper."
     }
   },
   "policy": {
