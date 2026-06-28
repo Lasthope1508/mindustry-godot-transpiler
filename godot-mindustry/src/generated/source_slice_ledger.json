@@ -3346,6 +3346,44 @@
       ],
       "runtime_proof": "/root/Main.source_arc_random_seed_int",
       "rule": "Backfills SSOT for existing canonical source_arc_random_seed_int helper against Arc Mathf.randomSeed(long,int,int)."
+    },
+    "N509": {
+      "status": "done",
+      "java_source": "arc-core/src/arc/util/Strings.java",
+      "java_class": "arc.util.Strings",
+      "java_method": "fixed(float d, int decimalPlaces)",
+      "godot_owner": "PortGame.source_arc_strings_fixed_one_decimal",
+      "exact_exprs": [
+        "public static String fixed(float d, int decimalPlaces){\n        return fixedBuilder(d, decimalPlaces).toString();\n    }",
+        "public static StringBuilder fixedBuilder(float d, int decimalPlaces){",
+        "if(decimalPlaces < 0 || decimalPlaces > 8)",
+        "boolean negative = d < 0;",
+        "d = Math.abs(d);",
+        "dec.append((int)(float)(d * Math.pow(10, decimalPlaces) + 0.0001f));",
+        "int decimalPosition = len - decimalPlaces;",
+        "if(negative) result.append('-');",
+        "result.append(\".\");",
+        "return fixedBuilder(d, decimalPlaces).toString();",
+        "d",
+        "decimalPlaces = 1"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "arc_strings_fixed_one_decimal.method",
+        "arc_strings_fixed_one_decimal.decimal_places",
+        "arc_strings_fixed_one_decimal.negative",
+        "arc_strings_fixed_one_decimal.absolute_value",
+        "arc_strings_fixed_one_decimal.scaled",
+        "arc_strings_fixed_one_decimal.decimal_position",
+        "arc_strings_fixed_one_decimal.dot_insert",
+        "arc_strings_fixed_one_decimal.return_expr",
+        "arc_strings_fixed_one_decimal.value_input"
+      ],
+      "tests": [
+        "test_arc_strings_fixed_one_decimal_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_strings_fixed_one_decimal",
+      "rule": "Backfills SSOT for existing canonical source_arc_strings_fixed_one_decimal helper against Arc Strings.fixed(value, 1)."
     }
   },
   "version": 1

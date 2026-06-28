@@ -2499,6 +2499,35 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(min_input["java_expr"], "min")
         self.assertEqual(min_input["godot_symbol"], "source_arc_random_seed_int_input.min")
 
+    def test_arc_strings_fixed_one_decimal_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "arc_strings_fixed_one_decimal.method")
+        self.assertEqual(method["java_source"], "arc-core/src/arc/util/Strings.java")
+        self.assertEqual(method["java_expr"], "public static String fixed(float d, int decimalPlaces){\n        return fixedBuilder(d, decimalPlaces).toString();\n    }")
+        self.assertEqual(method["godot_owner"], "PortGame.source_arc_strings_fixed_one_decimal")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_arc_strings_fixed_one_decimal")
+
+        decimal_places = source_symbols.source_symbol(registry, "arc_strings_fixed_one_decimal.decimal_places")
+        self.assertEqual(decimal_places["java_expr"], "decimalPlaces = 1")
+        self.assertEqual(decimal_places["godot_symbol"], "source_arc_strings_fixed_one_decimal_result.decimalPlaces")
+
+        scaled = source_symbols.source_symbol(registry, "arc_strings_fixed_one_decimal.scaled")
+        self.assertEqual(scaled["java_expr"], "dec.append((int)(float)(d * Math.pow(10, decimalPlaces) + 0.0001f));")
+        self.assertEqual(scaled["godot_symbol"], "source_arc_strings_fixed_one_decimal_result.scaled")
+
+        dot_insert = source_symbols.source_symbol(registry, "arc_strings_fixed_one_decimal.dot_insert")
+        self.assertEqual(dot_insert["java_expr"], "result.append(\".\");")
+        self.assertEqual(dot_insert["godot_symbol"], "source_arc_strings_fixed_one_decimal_result.dotInserted")
+
+        value_input = source_symbols.source_symbol(registry, "arc_strings_fixed_one_decimal.value_input")
+        self.assertEqual(value_input["status"], "explicit-input")
+        self.assertEqual(value_input["java_expr"], "d")
+        self.assertEqual(value_input["godot_symbol"], "source_arc_strings_fixed_one_decimal_input.value")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -2783,9 +2812,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 106)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 107)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 111)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 112)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -2893,6 +2922,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_arc_mathf_sin_table_value", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_random_seed_float_max", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_random_seed_int", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_arc_strings_fixed_one_decimal", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -3701,6 +3731,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public static int randomSeed(long seed, int min, int max){\n        seedr.setSeed(seed);\n        if(isPowerOfTwo(max)){\n            seedr.nextInt();\n        }\n        return seedr.nextInt(max - min + 1) + min;\n    }", arc_random_seed_int["exact_exprs"])
         self.assertIn("if(isPowerOfTwo(max))", arc_random_seed_int["exact_exprs"])
         self.assertIn("return seedr.nextInt(max - min + 1) + min;", arc_random_seed_int["exact_exprs"])
+
+        arc_strings_fixed_one_decimal = source_symbols.source_slice(ledger, "N509")
+        self.assertEqual(arc_strings_fixed_one_decimal["java_source"], "arc-core/src/arc/util/Strings.java")
+        self.assertEqual(arc_strings_fixed_one_decimal["java_method"], "fixed(float d, int decimalPlaces)")
+        self.assertEqual(arc_strings_fixed_one_decimal["godot_owner"], "PortGame.source_arc_strings_fixed_one_decimal")
+        self.assertIn("public static String fixed(float d, int decimalPlaces){\n        return fixedBuilder(d, decimalPlaces).toString();\n    }", arc_strings_fixed_one_decimal["exact_exprs"])
+        self.assertIn("dec.append((int)(float)(d * Math.pow(10, decimalPlaces) + 0.0001f));", arc_strings_fixed_one_decimal["exact_exprs"])
+        self.assertIn("result.append(\".\");", arc_strings_fixed_one_decimal["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -4684,6 +4722,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("powerOfTwoGate", arc_random_seed_int["return_keys"])
         self.assertIn("randomSeed", arc_random_seed_int["return_keys"])
         self.assertEqual(arc_random_seed_int["source_method"], "randomSeed(long seed, int min, int max)")
+
+        arc_strings_fixed_one_decimal = source_symbols.api_contract(contracts, "PortGame.source_arc_strings_fixed_one_decimal")
+        self.assertEqual([param["name"] for param in arc_strings_fixed_one_decimal["params"]], ["value"])
+        self.assertEqual(arc_strings_fixed_one_decimal["params"][0]["schema"], "source_arc_strings_fixed_one_decimal_input.value")
+        self.assertIn("decimalPlaces", arc_strings_fixed_one_decimal["return_keys"])
+        self.assertIn("fixed", arc_strings_fixed_one_decimal["return_keys"])
+        self.assertEqual(arc_strings_fixed_one_decimal["source_method"], "fixed(float d, int decimalPlaces)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -5801,6 +5846,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_arc_random_seed_int_result["keys"]["bound"]["java_expr"], "max - min + 1")
         self.assertEqual(source_arc_random_seed_int_result["keys"]["randomSeed"]["java_expr"], "return seedr.nextInt(max - min + 1) + min;")
         self.assertEqual(source_arc_random_seed_int_result["keys"]["min"]["alias_of"], "source_arc_random_seed_int_input.min")
+
+        source_arc_strings_fixed_one_decimal_input = source_symbols.state_schema(schema, "source_arc_strings_fixed_one_decimal_input")
+        self.assertEqual(source_arc_strings_fixed_one_decimal_input["keys"]["value"]["java_expr"], "d")
+        self.assertEqual(source_arc_strings_fixed_one_decimal_input["keys"]["value"]["status"], "explicit-input")
+
+        source_arc_strings_fixed_one_decimal_result = source_symbols.state_schema(schema, "source_arc_strings_fixed_one_decimal_result")
+        self.assertEqual(source_arc_strings_fixed_one_decimal_result["keys"]["decimalPlaces"]["java_expr"], "decimalPlaces = 1")
+        self.assertEqual(source_arc_strings_fixed_one_decimal_result["keys"]["negative"]["java_expr"], "boolean negative = d < 0;")
+        self.assertEqual(source_arc_strings_fixed_one_decimal_result["keys"]["absoluteValue"]["java_expr"], "d = Math.abs(d);")
+        self.assertEqual(source_arc_strings_fixed_one_decimal_result["keys"]["scaled"]["java_expr"], "dec.append((int)(float)(d * Math.pow(10, decimalPlaces) + 0.0001f));")
+        self.assertEqual(source_arc_strings_fixed_one_decimal_result["keys"]["dotInserted"]["java_expr"], "result.append(\".\");")
+        self.assertEqual(source_arc_strings_fixed_one_decimal_result["keys"]["fixed"]["java_expr"], "return fixedBuilder(d, decimalPlaces).toString();")
+        self.assertEqual(source_arc_strings_fixed_one_decimal_result["keys"]["value"]["alias_of"], "source_arc_strings_fixed_one_decimal_input.value")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

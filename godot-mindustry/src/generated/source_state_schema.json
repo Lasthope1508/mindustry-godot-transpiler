@@ -14594,6 +14594,130 @@
           "rule": "Carries Java max into result schema."
         }
       }
+    },
+    "source_arc_strings_fixed_one_decimal_input": {
+      "status": "active",
+      "keys": {
+        "value": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/util/Strings.java",
+          "java_method": "fixed(float d, int decimalPlaces)",
+          "java_expr": "d",
+          "godot_symbol": "source_arc_strings_fixed_one_decimal_input.value",
+          "used_by": [
+            "PortGame.source_arc_strings_fixed_one_decimal"
+          ],
+          "rule": "Java d input."
+        }
+      }
+    },
+    "source_arc_strings_fixed_one_decimal_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "string",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Strings.java",
+          "java_method": "fixed(float d, int decimalPlaces)",
+          "java_expr": "public static String fixed(float d, int decimalPlaces){\n        return fixedBuilder(d, decimalPlaces).toString();\n    }",
+          "godot_symbol": "source_arc_strings_fixed_one_decimal_result.method",
+          "used_by": [
+            "PortGame.source_arc_strings_fixed_one_decimal"
+          ],
+          "rule": "Arc Strings.fixed method body."
+        },
+        "decimalPlaces": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Strings.java",
+          "java_method": "fixed(float d, int decimalPlaces)",
+          "java_expr": "decimalPlaces = 1",
+          "godot_symbol": "source_arc_strings_fixed_one_decimal_result.decimalPlaces",
+          "used_by": [
+            "PortGame.source_arc_strings_fixed_one_decimal"
+          ],
+          "rule": "One-decimal helper pins decimalPlaces to 1."
+        },
+        "negative": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Strings.java",
+          "java_method": "fixedBuilder(float d, int decimalPlaces)",
+          "java_expr": "boolean negative = d < 0;",
+          "godot_symbol": "source_arc_strings_fixed_one_decimal_result.negative",
+          "used_by": [
+            "PortGame.source_arc_strings_fixed_one_decimal"
+          ],
+          "rule": "Negative sign source."
+        },
+        "absoluteValue": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Strings.java",
+          "java_method": "fixedBuilder(float d, int decimalPlaces)",
+          "java_expr": "d = Math.abs(d);",
+          "godot_symbol": "source_arc_strings_fixed_one_decimal_result.absoluteValue",
+          "used_by": [
+            "PortGame.source_arc_strings_fixed_one_decimal"
+          ],
+          "rule": "Absolute value before decimal formatting."
+        },
+        "scaled": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Strings.java",
+          "java_method": "fixedBuilder(float d, int decimalPlaces)",
+          "java_expr": "dec.append((int)(float)(d * Math.pow(10, decimalPlaces) + 0.0001f));",
+          "godot_symbol": "source_arc_strings_fixed_one_decimal_result.scaled",
+          "used_by": [
+            "PortGame.source_arc_strings_fixed_one_decimal"
+          ],
+          "rule": "Scaled integer digits."
+        },
+        "decimalPosition": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Strings.java",
+          "java_method": "fixedBuilder(float d, int decimalPlaces)",
+          "java_expr": "int decimalPosition = len - decimalPlaces;",
+          "godot_symbol": "source_arc_strings_fixed_one_decimal_result.decimalPosition",
+          "used_by": [
+            "PortGame.source_arc_strings_fixed_one_decimal"
+          ],
+          "rule": "Position for decimal dot."
+        },
+        "dotInserted": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Strings.java",
+          "java_method": "fixedBuilder(float d, int decimalPlaces)",
+          "java_expr": "result.append(\".\");",
+          "godot_symbol": "source_arc_strings_fixed_one_decimal_result.dotInserted",
+          "used_by": [
+            "PortGame.source_arc_strings_fixed_one_decimal"
+          ],
+          "rule": "Decimal dot insertion for nonzero decimalPlaces."
+        },
+        "fixed": {
+          "type": "string",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Strings.java",
+          "java_method": "fixed(float d, int decimalPlaces)",
+          "java_expr": "return fixedBuilder(d, decimalPlaces).toString();",
+          "godot_symbol": "source_arc_strings_fixed_one_decimal_result.fixed",
+          "used_by": [
+            "PortGame.source_arc_strings_fixed_one_decimal"
+          ],
+          "rule": "Returned fixed string."
+        },
+        "value": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_arc_strings_fixed_one_decimal_input.value",
+          "rule": "Carries Java d into result schema."
+        }
+      }
     }
   },
   "version": 1
