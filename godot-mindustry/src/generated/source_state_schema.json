@@ -24076,6 +24076,118 @@
           "rule": "Carries amount input into result schema."
         }
       }
+    },
+    "source_building_health_changed_input": {
+      "status": "active",
+      "keys": {
+        "net_server": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "healthChanged()",
+          "java_expr": "net.server()",
+          "godot_symbol": "source_building_health_changed_input.net_server",
+          "used_by": [
+            "PortGame.source_building_health_changed_state"
+          ],
+          "rule": "Runtime net_server supplies the source net.server() guard."
+        },
+        "self_state": {
+          "type": "Dictionary",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "healthChanged()",
+          "java_expr": "self()",
+          "godot_symbol": "source_building_health_changed_input.self_state",
+          "used_by": [
+            "PortGame.source_building_health_changed_state"
+          ],
+          "rule": "Runtime self_state supplies the source self() object for both healthChanged side effects."
+        }
+      }
+    },
+    "source_building_health_changed_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "healthChanged()",
+          "java_expr": "public void healthChanged(){",
+          "godot_symbol": "source_building_health_changed_result.method",
+          "used_by": [
+            "PortGame.source_building_health_changed_state"
+          ],
+          "rule": "Source healthChanged method declaration."
+        },
+        "server_batched_comment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "healthChanged()",
+          "java_expr": "//server-side, health updates are batched.",
+          "godot_symbol": "source_building_health_changed_result.server_batched_comment",
+          "used_by": [
+            "PortGame.source_building_health_changed_state"
+          ],
+          "rule": "Source comment documents server-side batched health updates."
+        },
+        "net_server_guard": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "healthChanged()",
+          "java_expr": "if(net.server()){",
+          "godot_symbol": "source_building_health_changed_result.net_server_guard",
+          "used_by": [
+            "PortGame.source_building_health_changed_state"
+          ],
+          "rule": "buildHealthUpdate is gated by net.server()."
+        },
+        "build_health_update": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "healthChanged()",
+          "java_expr": "netServer.buildHealthUpdate(self());",
+          "godot_symbol": "source_building_health_changed_result.build_health_update",
+          "used_by": [
+            "PortGame.source_building_health_changed_state"
+          ],
+          "rule": "Server-side healthChanged batches a build health update for self()."
+        },
+        "notify_health_changed": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "healthChanged()",
+          "java_expr": "indexer.notifyHealthChanged(self());",
+          "godot_symbol": "source_building_health_changed_result.notify_health_changed",
+          "used_by": [
+            "PortGame.source_building_health_changed_state"
+          ],
+          "rule": "healthChanged always notifies the indexer for self()."
+        },
+        "build_health_update_called": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_health_changed_input.net_server",
+          "rule": "Runtime boolean exposes whether the net.server() buildHealthUpdate branch ran."
+        },
+        "net_server": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_health_changed_input.net_server",
+          "rule": "Carries net_server input into result schema."
+        },
+        "self_state": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "source_building_health_changed_input.self_state",
+          "rule": "Carries self_state input into result schema."
+        }
+      }
     }
   },
   "version": 1

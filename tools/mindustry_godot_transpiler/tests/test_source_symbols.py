@@ -4892,6 +4892,46 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(amount["java_expr"], "amount")
         self.assertEqual(amount["godot_symbol"], "source_building_heal_input.amount")
 
+    def test_building_health_changed_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_health_changed.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "healthChanged()")
+        self.assertEqual(method["java_expr"], "public void healthChanged(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_health_changed_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_health_changed_state")
+        self.assertEqual(method["godot_symbol"], "source_building_health_changed_result.method")
+
+        server_batched_comment = source_symbols.source_symbol(registry, "building_health_changed.server_batched_comment")
+        self.assertEqual(server_batched_comment["java_expr"], "//server-side, health updates are batched.")
+        self.assertEqual(server_batched_comment["godot_symbol"], "source_building_health_changed_result.server_batched_comment")
+
+        net_server_guard = source_symbols.source_symbol(registry, "building_health_changed.net_server_guard")
+        self.assertEqual(net_server_guard["java_expr"], "if(net.server()){")
+        self.assertEqual(net_server_guard["godot_symbol"], "source_building_health_changed_result.net_server_guard")
+
+        build_health_update = source_symbols.source_symbol(registry, "building_health_changed.build_health_update")
+        self.assertEqual(build_health_update["java_expr"], "netServer.buildHealthUpdate(self());")
+        self.assertEqual(build_health_update["godot_symbol"], "source_building_health_changed_result.build_health_update")
+
+        notify_health_changed = source_symbols.source_symbol(registry, "building_health_changed.notify_health_changed")
+        self.assertEqual(notify_health_changed["java_expr"], "indexer.notifyHealthChanged(self());")
+        self.assertEqual(notify_health_changed["godot_symbol"], "source_building_health_changed_result.notify_health_changed")
+
+        net_server = source_symbols.source_symbol(registry, "building_health_changed.net_server")
+        self.assertEqual(net_server["status"], "explicit-input")
+        self.assertEqual(net_server["java_expr"], "net.server()")
+        self.assertEqual(net_server["godot_symbol"], "source_building_health_changed_input.net_server")
+
+        self_state = source_symbols.source_symbol(registry, "building_health_changed.self_state")
+        self.assertEqual(self_state["status"], "explicit-input")
+        self.assertEqual(self_state["java_expr"], "self()")
+        self.assertEqual(self_state["godot_symbol"], "source_building_health_changed_input.self_state")
+
     def test_building_draw_disabled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -5215,9 +5255,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 186)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 187)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 191)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 192)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6917,6 +6957,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("@MethodPriority(100)", building_heal["exact_exprs"])
         self.assertIn("healthChanged();", building_heal["exact_exprs"])
 
+        building_health_changed = source_symbols.source_slice(ledger, "N589")
+        self.assertEqual(building_health_changed["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_health_changed["java_method"], "healthChanged()")
+        self.assertEqual(building_health_changed["godot_owner"], "PortGame.source_building_health_changed_state")
+        self.assertIn("public void healthChanged(){", building_health_changed["exact_exprs"])
+        self.assertIn("//server-side, health updates are batched.", building_health_changed["exact_exprs"])
+        self.assertIn("if(net.server()){", building_health_changed["exact_exprs"])
+        self.assertIn("netServer.buildHealthUpdate(self());", building_health_changed["exact_exprs"])
+        self.assertIn("indexer.notifyHealthChanged(self());", building_health_changed["exact_exprs"])
+
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
         self.assertEqual(arc_mathf_cos_scaled["java_method"], "cos(float radians, float scl, float mag)")
@@ -8522,6 +8572,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_heal["params"][0]["schema"], "source_building_heal_input.amount")
         self.assertIn("health_changed", building_heal["return_keys"])
         self.assertEqual(building_heal["source_method"], "heal()/heal(float amount)")
+
+        building_health_changed = source_symbols.api_contract(contracts, "PortGame.source_building_health_changed_state")
+        self.assertEqual([param["name"] for param in building_health_changed["params"]], ["net_server", "self_state"])
+        self.assertEqual(building_health_changed["params"][0]["schema"], "source_building_health_changed_input.net_server")
+        self.assertEqual(building_health_changed["params"][1]["schema"], "source_building_health_changed_input.self_state")
+        self.assertIn("build_health_update_called", building_health_changed["return_keys"])
+        self.assertIn("build_health_update", building_health_changed["return_keys"])
+        self.assertIn("notify_health_changed", building_health_changed["return_keys"])
+        self.assertEqual(building_health_changed["source_method"], "healthChanged()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -10597,6 +10656,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_heal_result["keys"]["no_arg_health_changed"]["java_expr"], "healthChanged();")
         self.assertEqual(source_building_heal_result["keys"]["amount_health_changed"]["java_expr"], "healthChanged();")
         self.assertEqual(source_building_heal_result["keys"]["amount"]["alias_of"], "source_building_heal_input.amount")
+
+        source_building_health_changed_input = source_symbols.state_schema(schema, "source_building_health_changed_input")
+        self.assertEqual(source_building_health_changed_input["keys"]["net_server"]["java_expr"], "net.server()")
+        self.assertEqual(source_building_health_changed_input["keys"]["net_server"]["status"], "explicit-input")
+        self.assertEqual(source_building_health_changed_input["keys"]["self_state"]["java_expr"], "self()")
+        self.assertEqual(source_building_health_changed_input["keys"]["self_state"]["status"], "explicit-input")
+
+        source_building_health_changed_result = source_symbols.state_schema(schema, "source_building_health_changed_result")
+        self.assertEqual(source_building_health_changed_result["keys"]["method"]["java_expr"], "public void healthChanged(){")
+        self.assertEqual(source_building_health_changed_result["keys"]["server_batched_comment"]["java_expr"], "//server-side, health updates are batched.")
+        self.assertEqual(source_building_health_changed_result["keys"]["net_server_guard"]["java_expr"], "if(net.server()){")
+        self.assertEqual(source_building_health_changed_result["keys"]["build_health_update"]["java_expr"], "netServer.buildHealthUpdate(self());")
+        self.assertEqual(source_building_health_changed_result["keys"]["notify_health_changed"]["java_expr"], "indexer.notifyHealthChanged(self());")
+        self.assertEqual(source_building_health_changed_result["keys"]["net_server"]["alias_of"], "source_building_health_changed_input.net_server")
+        self.assertEqual(source_building_health_changed_result["keys"]["self_state"]["alias_of"], "source_building_health_changed_input.self_state")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

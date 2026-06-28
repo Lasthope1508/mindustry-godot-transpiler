@@ -7266,6 +7266,34 @@
       ],
       "runtime_proof": "/root/Main.source_building_heal_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.heal overload helper."
+    },
+    "PortGame.source_building_health_changed_state": {
+      "status": "active",
+      "source_slice": "N589",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "healthChanged()",
+      "params": [
+        {
+          "name": "net_server",
+          "type": "bool",
+          "schema": "source_building_health_changed_input.net_server"
+        },
+        {
+          "name": "self_state",
+          "type": "Dictionary",
+          "schema": "source_building_health_changed_input.self_state"
+        }
+      ],
+      "return_keys": [
+        "build_health_update_called",
+        "build_health_update",
+        "notify_health_changed"
+      ],
+      "tests": [
+        "test_building_health_changed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_health_changed_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.healthChanged() helper."
     }
   },
   "policy": {

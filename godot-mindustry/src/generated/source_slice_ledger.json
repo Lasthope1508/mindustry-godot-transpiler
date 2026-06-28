@@ -5905,6 +5905,37 @@
       ],
       "runtime_proof": "/root/Main.source_building_heal_state",
       "rule": "Backfills SSOT for existing canonical source_building_heal_state helper against BuildingComp.heal() and BuildingComp.heal(float amount)."
+    },
+    "N589": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "healthChanged()",
+      "godot_owner": "PortGame.source_building_health_changed_state",
+      "exact_exprs": [
+        "public void healthChanged(){",
+        "//server-side, health updates are batched.",
+        "if(net.server()){",
+        "netServer.buildHealthUpdate(self());",
+        "indexer.notifyHealthChanged(self());"
+      ],
+      "deferred_exprs": [
+        "Concrete NetServer batching, indexer mutation, and self() object identity stay owned by engine/network/indexer integration slices; this helper preserves the source call gates and payload identities."
+      ],
+      "source_symbols": [
+        "building_health_changed.method",
+        "building_health_changed.server_batched_comment",
+        "building_health_changed.net_server_guard",
+        "building_health_changed.build_health_update",
+        "building_health_changed.notify_health_changed",
+        "building_health_changed.net_server",
+        "building_health_changed.self_state"
+      ],
+      "tests": [
+        "test_building_health_changed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_health_changed_state",
+      "rule": "Backfills SSOT for existing canonical source_building_health_changed_state helper against BuildingComp.healthChanged()."
     }
   },
   "version": 1

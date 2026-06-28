@@ -18480,6 +18480,97 @@
         "test_building_heal_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_building_heal_state"
+    },
+    "building_health_changed.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "healthChanged()",
+      "java_expr": "public void healthChanged(){",
+      "godot_symbol": "source_building_health_changed_result.method",
+      "godot_owner": "PortGame.source_building_health_changed_state",
+      "rule": "Source healthChanged method declaration.",
+      "tests": [
+        "test_building_health_changed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_health_changed_state"
+    },
+    "building_health_changed.server_batched_comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "healthChanged()",
+      "java_expr": "//server-side, health updates are batched.",
+      "godot_symbol": "source_building_health_changed_result.server_batched_comment",
+      "godot_owner": "PortGame.source_building_health_changed_state",
+      "rule": "Source comment documents server-side batched health updates.",
+      "tests": [
+        "test_building_health_changed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_health_changed_state"
+    },
+    "building_health_changed.net_server_guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "healthChanged()",
+      "java_expr": "if(net.server()){",
+      "godot_symbol": "source_building_health_changed_result.net_server_guard",
+      "godot_owner": "PortGame.source_building_health_changed_state",
+      "rule": "buildHealthUpdate is gated by net.server().",
+      "tests": [
+        "test_building_health_changed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_health_changed_state"
+    },
+    "building_health_changed.build_health_update": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "healthChanged()",
+      "java_expr": "netServer.buildHealthUpdate(self());",
+      "godot_symbol": "source_building_health_changed_result.build_health_update",
+      "godot_owner": "PortGame.source_building_health_changed_state",
+      "rule": "Server-side healthChanged batches a build health update for self().",
+      "tests": [
+        "test_building_health_changed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_health_changed_state"
+    },
+    "building_health_changed.notify_health_changed": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "healthChanged()",
+      "java_expr": "indexer.notifyHealthChanged(self());",
+      "godot_symbol": "source_building_health_changed_result.notify_health_changed",
+      "godot_owner": "PortGame.source_building_health_changed_state",
+      "rule": "healthChanged always notifies the indexer for self().",
+      "tests": [
+        "test_building_health_changed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_health_changed_state"
+    },
+    "building_health_changed.net_server": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "healthChanged()",
+      "java_expr": "net.server()",
+      "godot_symbol": "source_building_health_changed_input.net_server",
+      "godot_owner": "PortGame.source_building_health_changed_state",
+      "rule": "Runtime net_server supplies the source net.server() guard.",
+      "tests": [
+        "test_building_health_changed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_health_changed_state"
+    },
+    "building_health_changed.self_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "healthChanged()",
+      "java_expr": "self()",
+      "godot_symbol": "source_building_health_changed_input.self_state",
+      "godot_owner": "PortGame.source_building_health_changed_state",
+      "rule": "Runtime self_state supplies the source self() object for both healthChanged side effects.",
+      "tests": [
+        "test_building_health_changed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_health_changed_state"
     }
   }
 }
