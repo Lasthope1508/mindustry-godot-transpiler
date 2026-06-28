@@ -6801,6 +6801,73 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_select_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.drawSelect() helper."
+    },
+    "PortGame.source_building_draw_state": {
+      "status": "active",
+      "source_slice": "N574",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "draw()",
+      "params": [
+        {
+          "name": "variants",
+          "type": "int",
+          "schema": "source_building_draw_input.variants"
+        },
+        {
+          "name": "has_variant_regions",
+          "type": "bool",
+          "schema": "source_building_draw_input.has_variant_regions"
+        },
+        {
+          "name": "variant_region_count",
+          "type": "int",
+          "schema": "source_building_draw_input.variant_region_count"
+        },
+        {
+          "name": "tile_pos",
+          "type": "int",
+          "schema": "source_building_draw_input.tile_pos"
+        },
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_building_draw_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_building_draw_input.source_y"
+        },
+        {
+          "name": "block_rotate",
+          "type": "bool",
+          "schema": "source_building_draw_input.block_rotate"
+        },
+        {
+          "name": "block_rotate_draw",
+          "type": "bool",
+          "schema": "source_building_draw_input.block_rotate_draw"
+        },
+        {
+          "name": "rotation_quadrants",
+          "type": "int",
+          "schema": "source_building_draw_input.rotation_quadrants"
+        }
+      ],
+      "return_keys": [
+        "visible",
+        "region_kind",
+        "variant_index",
+        "x",
+        "y",
+        "rotation_degrees",
+        "draw_team_top"
+      ],
+      "tests": [
+        "test_building_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.draw() helper."
     }
   },
   "policy": {

@@ -4414,6 +4414,50 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(unit_activation_delay["java_expr"], "state.rules.unitActivationDelay(team)")
         self.assertEqual(unit_activation_delay["godot_symbol"], "source_building_draw_select_input.unit_activation_delay")
 
+    def test_building_draw_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_draw.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "draw()")
+        self.assertEqual(method["java_expr"], "public void draw(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_draw_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_draw_state")
+        self.assertEqual(method["godot_symbol"], "source_building_draw_result.method")
+
+        comment = source_symbols.source_symbol(registry, "building_draw.comment")
+        self.assertEqual(comment["java_expr"], "/** Called only if {@link Block#drawDynamic} is true (on by default). */")
+        self.assertEqual(comment["godot_symbol"], "source_building_draw_result.comment")
+
+        base_guard = source_symbols.source_symbol(registry, "building_draw.base_region_guard")
+        self.assertEqual(base_guard["java_expr"], "if(block.variants == 0 || block.variantRegions == null){")
+        self.assertEqual(base_guard["godot_symbol"], "source_building_draw_result.baseRegionGuard")
+
+        region_draw = source_symbols.source_symbol(registry, "building_draw.region_draw")
+        self.assertEqual(region_draw["java_expr"], "Draw.rect(block.region, x, y, drawrot());")
+        self.assertEqual(region_draw["godot_symbol"], "source_building_draw_result.regionDraw")
+
+        variant_draw = source_symbols.source_symbol(registry, "building_draw.variant_draw")
+        self.assertEqual(variant_draw["java_expr"], "Draw.rect(block.variantRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0, block.variantRegions.length - 1))], x, y, drawrot());")
+        self.assertEqual(variant_draw["godot_symbol"], "source_building_draw_result.variantDraw")
+
+        random_seed = source_symbols.source_symbol(registry, "building_draw.random_seed")
+        self.assertEqual(random_seed["java_expr"], "Mathf.randomSeed(tile.pos(), 0, Math.max(0, block.variantRegions.length - 1))")
+        self.assertEqual(random_seed["godot_symbol"], "source_building_draw_result.variant_index")
+
+        variants = source_symbols.source_symbol(registry, "building_draw.variants")
+        self.assertEqual(variants["status"], "explicit-input")
+        self.assertEqual(variants["java_expr"], "block.variants")
+        self.assertEqual(variants["godot_symbol"], "source_building_draw_input.variants")
+
+        rotation_quadrants = source_symbols.source_symbol(registry, "building_draw.rotation_quadrants")
+        self.assertEqual(rotation_quadrants["status"], "explicit-input")
+        self.assertEqual(rotation_quadrants["java_expr"], "rotation")
+        self.assertEqual(rotation_quadrants["godot_symbol"], "source_building_draw_input.rotation_quadrants")
+
     def test_building_draw_disabled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -4737,9 +4781,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 171)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 172)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 176)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 177)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6313,6 +6357,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(status() == BlockStatus.inactiveUnitFactory){", building_draw_select["exact_exprs"])
         self.assertIn("block.drawPlaceText(Core.bundle.format(\"rules.unitfactoryactivation.objective\", UI.formatTime((float)Math.max(0f, state.rules.unitActivationDelay(team) - state.tick))), tile.x, tile.y, false);", building_draw_select["exact_exprs"])
 
+        building_draw = source_symbols.source_slice(ledger, "N574")
+        self.assertEqual(building_draw["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_draw["java_method"], "draw()")
+        self.assertEqual(building_draw["godot_owner"], "PortGame.source_building_draw_state")
+        self.assertIn("/** Called only if {@link Block#drawDynamic} is true (on by default). */", building_draw["exact_exprs"])
+        self.assertIn("public void draw(){", building_draw["exact_exprs"])
+        self.assertIn("if(block.variants == 0 || block.variantRegions == null){", building_draw["exact_exprs"])
+        self.assertIn("Draw.rect(block.region, x, y, drawrot());", building_draw["exact_exprs"])
+        self.assertIn("Draw.rect(block.variantRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0, block.variantRegions.length - 1))], x, y, drawrot());", building_draw["exact_exprs"])
+        self.assertIn("drawTeamTop();", building_draw["exact_exprs"])
+
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
         self.assertEqual(arc_mathf_cos_scaled["java_method"], "cos(float radians, float scl, float mag)")
@@ -7800,6 +7855,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("place_text_visible", building_draw_select["return_keys"])
         self.assertIn("place_text_time", building_draw_select["return_keys"])
         self.assertEqual(building_draw_select["source_method"], "drawSelect()")
+
+        building_draw = source_symbols.api_contract(contracts, "PortGame.source_building_draw_state")
+        self.assertEqual([param["name"] for param in building_draw["params"]], ["variants", "has_variant_regions", "variant_region_count", "tile_pos", "source_x", "source_y", "block_rotate", "block_rotate_draw", "rotation_quadrants"])
+        self.assertEqual(building_draw["params"][0]["schema"], "source_building_draw_input.variants")
+        self.assertEqual(building_draw["params"][3]["schema"], "source_building_draw_input.tile_pos")
+        self.assertEqual(building_draw["params"][8]["schema"], "source_building_draw_input.rotation_quadrants")
+        self.assertIn("region_kind", building_draw["return_keys"])
+        self.assertIn("variant_index", building_draw["return_keys"])
+        self.assertIn("rotation_degrees", building_draw["return_keys"])
+        self.assertIn("draw_team_top", building_draw["return_keys"])
+        self.assertEqual(building_draw["source_method"], "draw()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -9692,6 +9758,30 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_draw_select_result["keys"]["placeText"]["java_expr"], "block.drawPlaceText(Core.bundle.format(\"rules.unitfactoryactivation.objective\", UI.formatTime((float)Math.max(0f, state.rules.unitActivationDelay(team) - state.tick))), tile.x, tile.y, false);")
         self.assertEqual(source_building_draw_select_result["keys"]["place_text_time"]["java_expr"], "Math.max(0f, state.rules.unitActivationDelay(team) - state.tick)")
         self.assertEqual(source_building_draw_select_result["keys"]["block_status"]["alias_of"], "source_building_draw_select_input.block_status")
+
+        source_building_draw_input = source_symbols.state_schema(schema, "source_building_draw_input")
+        self.assertEqual(source_building_draw_input["keys"]["variants"]["java_expr"], "block.variants")
+        self.assertEqual(source_building_draw_input["keys"]["variants"]["status"], "explicit-input")
+        self.assertEqual(source_building_draw_input["keys"]["has_variant_regions"]["java_expr"], "block.variantRegions != null")
+        self.assertEqual(source_building_draw_input["keys"]["variant_region_count"]["java_expr"], "block.variantRegions.length")
+        self.assertEqual(source_building_draw_input["keys"]["tile_pos"]["java_expr"], "tile.pos()")
+        self.assertEqual(source_building_draw_input["keys"]["source_x"]["java_expr"], "x")
+        self.assertEqual(source_building_draw_input["keys"]["source_y"]["java_expr"], "y")
+        self.assertEqual(source_building_draw_input["keys"]["block_rotate"]["java_expr"], "block.rotate")
+        self.assertEqual(source_building_draw_input["keys"]["block_rotate_draw"]["java_expr"], "block.rotateDraw")
+        self.assertEqual(source_building_draw_input["keys"]["rotation_quadrants"]["java_expr"], "rotation")
+
+        source_building_draw_result = source_symbols.state_schema(schema, "source_building_draw_result")
+        self.assertEqual(source_building_draw_result["keys"]["comment"]["java_expr"], "/** Called only if {@link Block#drawDynamic} is true (on by default). */")
+        self.assertEqual(source_building_draw_result["keys"]["method"]["java_expr"], "public void draw(){")
+        self.assertEqual(source_building_draw_result["keys"]["baseRegionGuard"]["java_expr"], "if(block.variants == 0 || block.variantRegions == null){")
+        self.assertEqual(source_building_draw_result["keys"]["regionDraw"]["java_expr"], "Draw.rect(block.region, x, y, drawrot());")
+        self.assertEqual(source_building_draw_result["keys"]["variantDraw"]["java_expr"], "Draw.rect(block.variantRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0, block.variantRegions.length - 1))], x, y, drawrot());")
+        self.assertEqual(source_building_draw_result["keys"]["randomSeed"]["java_expr"], "Mathf.randomSeed(tile.pos(), 0, Math.max(0, block.variantRegions.length - 1))")
+        self.assertEqual(source_building_draw_result["keys"]["drawTeamTop"]["java_expr"], "drawTeamTop();")
+        self.assertEqual(source_building_draw_result["keys"]["rotation_degrees"]["java_expr"], "drawrot()")
+        self.assertEqual(source_building_draw_result["keys"]["variants"]["alias_of"], "source_building_draw_input.variants")
+        self.assertEqual(source_building_draw_cached_result["keys"]["delegatedDraw"]["alias_of"], "source_building_draw_result")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

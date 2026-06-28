@@ -5464,6 +5464,52 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_select_state",
       "rule": "Backfills SSOT for existing canonical source_building_draw_select_state helper against BuildingComp.drawSelect()."
+    },
+    "N574": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "draw()",
+      "godot_owner": "PortGame.source_building_draw_state",
+      "exact_exprs": [
+        "/** Called only if {@link Block#drawDynamic} is true (on by default). */",
+        "public void draw(){",
+        "if(block.variants == 0 || block.variantRegions == null){",
+        "Draw.rect(block.region, x, y, drawrot());",
+        "Draw.rect(block.variantRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0, block.variantRegions.length - 1))], x, y, drawrot());",
+        "Math.max(0, block.variantRegions.length - 1)",
+        "Mathf.randomSeed(tile.pos(), 0, Math.max(0, block.variantRegions.length - 1))",
+        "drawrot()",
+        "drawTeamTop();"
+      ],
+      "deferred_exprs": [
+        "Concrete TextureRegion Draw.rect rendering and drawTeamTop visuals stay owned by Godot rendering integration; this helper preserves canonical draw branch, random variant selection, drawrot output, and team-top flag state."
+      ],
+      "source_symbols": [
+        "building_draw.comment",
+        "building_draw.method",
+        "building_draw.base_region_guard",
+        "building_draw.region_draw",
+        "building_draw.variant_draw",
+        "building_draw.max_variant_index",
+        "building_draw.random_seed",
+        "building_draw.drawrot",
+        "building_draw.draw_team_top",
+        "building_draw.variants",
+        "building_draw.has_variant_regions",
+        "building_draw.variant_region_count",
+        "building_draw.tile_pos",
+        "building_draw.source_x",
+        "building_draw.source_y",
+        "building_draw.block_rotate",
+        "building_draw.block_rotate_draw",
+        "building_draw.rotation_quadrants"
+      ],
+      "tests": [
+        "test_building_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_state",
+      "rule": "Backfills SSOT for existing canonical source_building_draw_state helper against BuildingComp.draw()."
     }
   },
   "version": 1

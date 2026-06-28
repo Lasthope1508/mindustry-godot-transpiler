@@ -17193,6 +17193,240 @@
         "test_building_draw_select_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_building_draw_select_state"
+    },
+    "building_draw.comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "java_expr": "/** Called only if {@link Block#drawDynamic} is true (on by default). */",
+      "godot_symbol": "source_building_draw_result.comment",
+      "godot_owner": "PortGame.source_building_draw_state",
+      "rule": "Preserve draw() drawDynamic comment from BuildingComp.",
+      "tests": [
+        "test_building_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_state"
+    },
+    "building_draw.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "java_expr": "public void draw(){",
+      "godot_symbol": "source_building_draw_result.method",
+      "godot_owner": "PortGame.source_building_draw_state",
+      "rule": "Source draw method declaration.",
+      "tests": [
+        "test_building_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_state"
+    },
+    "building_draw.base_region_guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "java_expr": "if(block.variants == 0 || block.variantRegions == null){",
+      "godot_symbol": "source_building_draw_result.baseRegionGuard",
+      "godot_owner": "PortGame.source_building_draw_state",
+      "rule": "draw() uses base block region when variants are disabled or variant regions are absent.",
+      "tests": [
+        "test_building_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_state"
+    },
+    "building_draw.region_draw": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "java_expr": "Draw.rect(block.region, x, y, drawrot());",
+      "godot_symbol": "source_building_draw_result.regionDraw",
+      "godot_owner": "PortGame.source_building_draw_state",
+      "rule": "draw() base-region branch draws block.region at x/y with drawrot().",
+      "tests": [
+        "test_building_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_state"
+    },
+    "building_draw.variant_draw": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "java_expr": "Draw.rect(block.variantRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0, block.variantRegions.length - 1))], x, y, drawrot());",
+      "godot_symbol": "source_building_draw_result.variantDraw",
+      "godot_owner": "PortGame.source_building_draw_state",
+      "rule": "draw() variant branch draws selected variant region at x/y with drawrot().",
+      "tests": [
+        "test_building_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_state"
+    },
+    "building_draw.max_variant_index": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "java_expr": "Math.max(0, block.variantRegions.length - 1)",
+      "godot_symbol": "source_building_draw_result.maxVariantIndex",
+      "godot_owner": "PortGame.source_building_draw_state",
+      "rule": "draw() clamps the random variant upper bound at zero.",
+      "tests": [
+        "test_building_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_state"
+    },
+    "building_draw.random_seed": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "java_expr": "Mathf.randomSeed(tile.pos(), 0, Math.max(0, block.variantRegions.length - 1))",
+      "godot_symbol": "source_building_draw_result.variant_index",
+      "godot_owner": "PortGame.source_building_draw_state",
+      "rule": "draw() selects variant index with Mathf.randomSeed(tile.pos(), 0, max).",
+      "tests": [
+        "test_building_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_state"
+    },
+    "building_draw.drawrot": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "java_expr": "drawrot()",
+      "godot_symbol": "source_building_draw_result.rotation_degrees",
+      "godot_owner": "PortGame.source_building_draw_state",
+      "rule": "draw() rotation comes from drawrot().",
+      "tests": [
+        "test_building_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_state"
+    },
+    "building_draw.draw_team_top": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "java_expr": "drawTeamTop();",
+      "godot_symbol": "source_building_draw_result.drawTeamTop",
+      "godot_owner": "PortGame.source_building_draw_state",
+      "rule": "draw() always calls drawTeamTop after region drawing.",
+      "tests": [
+        "test_building_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_state"
+    },
+    "building_draw.variants": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "java_expr": "block.variants",
+      "godot_symbol": "source_building_draw_input.variants",
+      "godot_owner": "PortGame.source_building_draw_state",
+      "rule": "Runtime variants supplies block.variants.",
+      "tests": [
+        "test_building_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_state"
+    },
+    "building_draw.has_variant_regions": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "java_expr": "block.variantRegions != null",
+      "godot_symbol": "source_building_draw_input.has_variant_regions",
+      "godot_owner": "PortGame.source_building_draw_state",
+      "rule": "Runtime has_variant_regions supplies block.variantRegions null check.",
+      "tests": [
+        "test_building_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_state"
+    },
+    "building_draw.variant_region_count": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "java_expr": "block.variantRegions.length",
+      "godot_symbol": "source_building_draw_input.variant_region_count",
+      "godot_owner": "PortGame.source_building_draw_state",
+      "rule": "Runtime variant_region_count supplies block.variantRegions.length.",
+      "tests": [
+        "test_building_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_state"
+    },
+    "building_draw.tile_pos": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "java_expr": "tile.pos()",
+      "godot_symbol": "source_building_draw_input.tile_pos",
+      "godot_owner": "PortGame.source_building_draw_state",
+      "rule": "Runtime tile_pos supplies tile.pos().",
+      "tests": [
+        "test_building_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_state"
+    },
+    "building_draw.source_x": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "java_expr": "x",
+      "godot_symbol": "source_building_draw_input.source_x",
+      "godot_owner": "PortGame.source_building_draw_state",
+      "rule": "Runtime source_x supplies BuildingComp x.",
+      "tests": [
+        "test_building_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_state"
+    },
+    "building_draw.source_y": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "java_expr": "y",
+      "godot_symbol": "source_building_draw_input.source_y",
+      "godot_owner": "PortGame.source_building_draw_state",
+      "rule": "Runtime source_y supplies BuildingComp y.",
+      "tests": [
+        "test_building_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_state"
+    },
+    "building_draw.block_rotate": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "java_expr": "block.rotate",
+      "godot_symbol": "source_building_draw_input.block_rotate",
+      "godot_owner": "PortGame.source_building_draw_state",
+      "rule": "Runtime block_rotate supplies block.rotate for drawrot().",
+      "tests": [
+        "test_building_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_state"
+    },
+    "building_draw.block_rotate_draw": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "java_expr": "block.rotateDraw",
+      "godot_symbol": "source_building_draw_input.block_rotate_draw",
+      "godot_owner": "PortGame.source_building_draw_state",
+      "rule": "Runtime block_rotate_draw supplies block.rotateDraw for drawrot().",
+      "tests": [
+        "test_building_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_state"
+    },
+    "building_draw.rotation_quadrants": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "draw()",
+      "java_expr": "rotation",
+      "godot_symbol": "source_building_draw_input.rotation_quadrants",
+      "godot_owner": "PortGame.source_building_draw_state",
+      "rule": "Runtime rotation_quadrants supplies BuildingComp rotation for drawrot().",
+      "tests": [
+        "test_building_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_state"
     }
   }
 }
