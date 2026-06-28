@@ -4456,6 +4456,31 @@
       ],
       "runtime_proof": "/root/Main.source_building_collision_damage_state",
       "rule": "Backfills SSOT for existing canonical source_building_collision_damage_state helper against BuildingComp.collision(Bullet other) damage, armor, damage-call amount, and return-true removal semantics."
+    },
+    "N544": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "config()",
+      "godot_owner": "PortGame.source_building_config_default",
+      "exact_exprs": [
+        "/** Tile configuration. Defaults to null. Used for block rebuilding. */",
+        "@Nullable",
+        "public Object config(){",
+        "return null;"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "building_config_default.comment",
+        "building_config_default.nullable",
+        "building_config_default.method",
+        "building_config_default.result"
+      ],
+      "tests": [
+        "test_building_config_default_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_config_default",
+      "rule": "Backfills SSOT for existing canonical source_building_config_default helper against BuildingComp.config() default null configuration."
     }
   },
   "version": 1

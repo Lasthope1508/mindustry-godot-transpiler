@@ -3449,6 +3449,32 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(pierce_armor["java_expr"], "t.pierceArmor")
         self.assertEqual(pierce_armor["godot_symbol"], "source_building_collision_damage_input.bullet_pierce_armor")
 
+    def test_building_config_default_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        comment = source_symbols.source_symbol(registry, "building_config_default.comment")
+        self.assertEqual(comment["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(comment["java_method"], "config()")
+        self.assertEqual(comment["java_expr"], "/** Tile configuration. Defaults to null. Used for block rebuilding. */")
+        self.assertEqual(comment["godot_owner"], "PortGame.source_building_config_default")
+        self.assertEqual(comment["runtime_proof"], "/root/Main.source_building_config_default")
+        self.assertEqual(comment["godot_symbol"], "source_building_config_default_result.comment")
+
+        nullable = source_symbols.source_symbol(registry, "building_config_default.nullable")
+        self.assertEqual(nullable["java_expr"], "@Nullable")
+        self.assertEqual(nullable["godot_symbol"], "source_building_config_default_result.nullable")
+
+        method = source_symbols.source_symbol(registry, "building_config_default.method")
+        self.assertEqual(method["java_expr"], "public Object config(){")
+        self.assertEqual(method["godot_symbol"], "source_building_config_default_result.method")
+
+        result = source_symbols.source_symbol(registry, "building_config_default.result")
+        self.assertEqual(result["java_expr"], "return null;")
+        self.assertEqual(result["godot_symbol"], "source_building_config_default_result.config")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3733,9 +3759,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 141)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 142)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 146)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 147)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3878,6 +3904,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_check_suppression_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_collide_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_collision_damage_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_config_default", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -4980,6 +5007,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("float damage = other.type.buildingDamage(other);", building_collision_damage["exact_exprs"])
         self.assertIn("damage = Damage.applyArmor(damage, block.armor * t.armorMultiplier * t.blockArmorMultiplier);", building_collision_damage["exact_exprs"])
         self.assertIn("return true;", building_collision_damage["exact_exprs"])
+
+        building_config_default = source_symbols.source_slice(ledger, "N544")
+        self.assertEqual(building_config_default["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_config_default["java_method"], "config()")
+        self.assertEqual(building_config_default["godot_owner"], "PortGame.source_building_config_default")
+        self.assertIn("/** Tile configuration. Defaults to null. Used for block rebuilding. */", building_config_default["exact_exprs"])
+        self.assertIn("@Nullable", building_config_default["exact_exprs"])
+        self.assertIn("public Object config(){", building_config_default["exact_exprs"])
+        self.assertIn("return null;", building_config_default["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -6223,6 +6259,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("damage", building_collision_damage["return_keys"])
         self.assertIn("removed", building_collision_damage["return_keys"])
         self.assertEqual(building_collision_damage["source_method"], "collision(Bullet other)")
+
+        building_config_default = source_symbols.api_contract(contracts, "PortGame.source_building_config_default")
+        self.assertEqual([param["name"] for param in building_config_default["params"]], [])
+        self.assertIn("config", building_config_default["return_keys"])
+        self.assertEqual(building_config_default["source_method"], "config()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -7715,6 +7756,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_collision_damage_result["keys"]["armor"]["java_expr"], "block.armor * t.armorMultiplier * t.blockArmorMultiplier")
         self.assertEqual(source_building_collision_damage_result["keys"]["damage"]["java_expr"], "Damage.applyArmor(damage, block.armor * t.armorMultiplier * t.blockArmorMultiplier)")
         self.assertEqual(source_building_collision_damage_result["keys"]["removed"]["java_expr"], "return true;")
+
+        source_building_config_default_result = source_symbols.state_schema(schema, "source_building_config_default_result")
+        self.assertEqual(source_building_config_default_result["keys"]["comment"]["java_expr"], "/** Tile configuration. Defaults to null. Used for block rebuilding. */")
+        self.assertEqual(source_building_config_default_result["keys"]["nullable"]["java_expr"], "@Nullable")
+        self.assertEqual(source_building_config_default_result["keys"]["method"]["java_expr"], "public Object config(){")
+        self.assertEqual(source_building_config_default_result["keys"]["config"]["java_expr"], "return null;")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

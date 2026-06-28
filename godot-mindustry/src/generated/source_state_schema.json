@@ -18126,6 +18126,59 @@
           "rule": "Carries pierceArmor input into result schema boundary."
         }
       }
+    },
+    "source_building_config_default_result": {
+      "status": "active",
+      "keys": {
+        "comment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "config()",
+          "java_expr": "/** Tile configuration. Defaults to null. Used for block rebuilding. */",
+          "godot_symbol": "source_building_config_default_result.comment",
+          "used_by": [
+            "PortGame.source_building_config_default"
+          ],
+          "rule": "Source comment documents config null default."
+        },
+        "nullable": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "config()",
+          "java_expr": "@Nullable",
+          "godot_symbol": "source_building_config_default_result.nullable",
+          "used_by": [
+            "PortGame.source_building_config_default"
+          ],
+          "rule": "Nullable annotation permits null return."
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "config()",
+          "java_expr": "public Object config(){",
+          "godot_symbol": "source_building_config_default_result.method",
+          "used_by": [
+            "PortGame.source_building_config_default"
+          ],
+          "rule": "BuildingComp config method boundary."
+        },
+        "config": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "config()",
+          "java_expr": "return null;",
+          "godot_symbol": "source_building_config_default_result.config",
+          "used_by": [
+            "PortGame.source_building_config_default"
+          ],
+          "rule": "Default tile configuration return value."
+        }
+      }
     }
   },
   "version": 1

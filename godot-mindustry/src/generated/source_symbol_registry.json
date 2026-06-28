@@ -13943,6 +13943,58 @@
       "java_expr": "t.blockArmorMultiplier",
       "godot_symbol": "source_building_collision_damage_input.bullet_block_armor_multiplier",
       "rule": "BulletType blockArmorMultiplier supplied for effective armor expression."
+    },
+    "building_config_default.comment": {
+      "tests": [
+        "test_building_config_default_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_config_default",
+      "godot_owner": "PortGame.source_building_config_default",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "config()",
+      "status": "source-backed",
+      "java_expr": "/** Tile configuration. Defaults to null. Used for block rebuilding. */",
+      "godot_symbol": "source_building_config_default_result.comment",
+      "rule": "BuildingComp config() source comment documents null default and block rebuilding use."
+    },
+    "building_config_default.nullable": {
+      "tests": [
+        "test_building_config_default_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_config_default",
+      "godot_owner": "PortGame.source_building_config_default",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "config()",
+      "status": "source-backed",
+      "java_expr": "@Nullable",
+      "godot_symbol": "source_building_config_default_result.nullable",
+      "rule": "BuildingComp config() is explicitly nullable in upstream source."
+    },
+    "building_config_default.method": {
+      "tests": [
+        "test_building_config_default_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_config_default",
+      "godot_owner": "PortGame.source_building_config_default",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "config()",
+      "status": "source-backed",
+      "java_expr": "public Object config(){",
+      "godot_symbol": "source_building_config_default_result.method",
+      "rule": "BuildingComp config method boundary."
+    },
+    "building_config_default.result": {
+      "tests": [
+        "test_building_config_default_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_config_default",
+      "godot_owner": "PortGame.source_building_config_default",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "config()",
+      "status": "source-backed",
+      "java_expr": "return null;",
+      "godot_symbol": "source_building_config_default_result.config",
+      "rule": "Default tile configuration returns null."
     }
   }
 }
