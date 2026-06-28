@@ -13516,6 +13516,124 @@
           "rule": "Carries Java value input into result schema."
         }
       }
+    },
+    "source_arc_lerp_delta_input": {
+      "status": "active",
+      "keys": {
+        "fromValue": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+          "java_expr": "fromValue",
+          "godot_symbol": "source_arc_lerp_delta_input.fromValue",
+          "used_by": [
+            "PortGame.source_arc_lerp_delta"
+          ],
+          "rule": "Java lerpDelta fromValue input."
+        },
+        "toValue": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+          "java_expr": "toValue",
+          "godot_symbol": "source_arc_lerp_delta_input.toValue",
+          "used_by": [
+            "PortGame.source_arc_lerp_delta"
+          ],
+          "rule": "Java lerpDelta toValue input."
+        },
+        "progress": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+          "java_expr": "progress",
+          "godot_symbol": "source_arc_lerp_delta_input.progress",
+          "used_by": [
+            "PortGame.source_arc_lerp_delta"
+          ],
+          "rule": "Java lerpDelta progress input."
+        },
+        "sourceDelta": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+          "java_expr": "Time.delta",
+          "godot_symbol": "source_arc_lerp_delta_input.sourceDelta",
+          "used_by": [
+            "PortGame.source_arc_lerp_delta"
+          ],
+          "rule": "Runtime source_delta supplies Java Time.delta."
+        }
+      }
+    },
+    "source_arc_lerp_delta_result": {
+      "status": "active",
+      "keys": {
+        "scaledProgress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+          "java_expr": "progress * Time.delta",
+          "godot_symbol": "source_arc_lerp_delta_result.scaledProgress",
+          "used_by": [
+            "PortGame.source_arc_lerp_delta"
+          ],
+          "rule": "Progress multiplied by Time.delta."
+        },
+        "clampedProgress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+          "java_expr": "clamp(progress * Time.delta)",
+          "godot_symbol": "source_arc_lerp_delta_result.clampedProgress",
+          "used_by": [
+            "PortGame.source_arc_lerp_delta"
+          ],
+          "rule": "Scaled progress after Mathf.clamp(float)."
+        },
+        "lerpDelta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+          "java_expr": "return lerp(fromValue, toValue, clamp(progress * Time.delta));",
+          "godot_symbol": "source_arc_lerp_delta_result.lerpDelta",
+          "used_by": [
+            "PortGame.source_arc_lerp_delta"
+          ],
+          "rule": "Return value of Mathf.lerpDelta."
+        },
+        "fromValue": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_arc_lerp_delta_input.fromValue",
+          "rule": "Carries Java fromValue input into result schema."
+        },
+        "toValue": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_arc_lerp_delta_input.toValue",
+          "rule": "Carries Java toValue input into result schema."
+        },
+        "progress": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_arc_lerp_delta_input.progress",
+          "rule": "Carries Java progress input into result schema."
+        },
+        "sourceDelta": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_arc_lerp_delta_input.sourceDelta",
+          "rule": "Carries Java Time.delta input into result schema."
+        }
+      }
     }
   },
   "version": 1

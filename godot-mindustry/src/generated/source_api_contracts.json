@@ -4149,6 +4149,48 @@
       ],
       "runtime_proof": "/root/Main.source_arc_is_power_of_two",
       "rule": "Public runtime contract for Arc Mathf.isPowerOfTwo helper."
+    },
+    "PortGame.source_arc_lerp_delta": {
+      "status": "active",
+      "source_slice": "N499",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "source_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "params": [
+        {
+          "name": "from_value",
+          "type": "float",
+          "schema": "source_arc_lerp_delta_input.fromValue"
+        },
+        {
+          "name": "to_value",
+          "type": "float",
+          "schema": "source_arc_lerp_delta_input.toValue"
+        },
+        {
+          "name": "progress",
+          "type": "float",
+          "schema": "source_arc_lerp_delta_input.progress"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_arc_lerp_delta_input.sourceDelta"
+        }
+      ],
+      "return_keys": [
+        "scaledProgress",
+        "clampedProgress",
+        "lerpDelta",
+        "fromValue",
+        "toValue",
+        "progress",
+        "sourceDelta"
+      ],
+      "tests": [
+        "test_arc_lerp_delta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_lerp_delta",
+      "rule": "Public runtime contract for Arc Mathf.lerpDelta helper with explicit Time.delta input."
     }
   },
   "policy": {

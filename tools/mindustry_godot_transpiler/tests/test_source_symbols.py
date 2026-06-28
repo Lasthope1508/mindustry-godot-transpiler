@@ -2312,6 +2312,35 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(value_input["java_expr"], "value")
         self.assertEqual(value_input["godot_symbol"], "source_arc_is_power_of_two_input.value")
 
+    def test_arc_lerp_delta_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "arc_lerp_delta.method")
+        self.assertEqual(method["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(method["java_expr"], "public static float lerpDelta(float fromValue, float toValue, float progress){\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\n    }")
+        self.assertEqual(method["godot_owner"], "PortGame.source_arc_lerp_delta")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_arc_lerp_delta")
+
+        scaled_progress = source_symbols.source_symbol(registry, "arc_lerp_delta.scaled_progress")
+        self.assertEqual(scaled_progress["java_expr"], "progress * Time.delta")
+        self.assertEqual(scaled_progress["godot_symbol"], "source_arc_lerp_delta_result.scaledProgress")
+
+        clamp_expr = source_symbols.source_symbol(registry, "arc_lerp_delta.clamp_expr")
+        self.assertEqual(clamp_expr["java_expr"], "public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }")
+        self.assertEqual(clamp_expr["godot_symbol"], "source_arc_lerp_delta_result.clampedProgress")
+
+        lerp_expr = source_symbols.source_symbol(registry, "arc_lerp_delta.lerp_expr")
+        self.assertEqual(lerp_expr["java_expr"], "public static float lerp(float fromValue, float toValue, float progress){\n        return fromValue + (toValue - fromValue) * progress;\n    }")
+        self.assertEqual(lerp_expr["godot_symbol"], "source_arc_lerp_delta_result.lerpDelta")
+
+        delta_input = source_symbols.source_symbol(registry, "arc_lerp_delta.delta_input")
+        self.assertEqual(delta_input["status"], "explicit-input")
+        self.assertEqual(delta_input["java_expr"], "Time.delta")
+        self.assertEqual(delta_input["godot_symbol"], "source_arc_lerp_delta_input.sourceDelta")
+
     def test_arc_angles_angle_distance_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -2521,9 +2550,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 96)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 97)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 101)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 102)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -2621,6 +2650,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_arc_angles_trns_vec", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_chance_delta_threshold", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_is_power_of_two", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_arc_lerp_delta", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -3377,6 +3407,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(arc_is_power_of_two["godot_owner"], "PortGame.source_arc_is_power_of_two")
         self.assertIn("public static boolean isPowerOfTwo(int value){\n        return value != 0 && (value & value - 1) == 0;\n    }", arc_is_power_of_two["exact_exprs"])
         self.assertIn("(value & value - 1) == 0", arc_is_power_of_two["exact_exprs"])
+
+        arc_lerp_delta = source_symbols.source_slice(ledger, "N499")
+        self.assertEqual(arc_lerp_delta["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(arc_lerp_delta["java_method"], "lerpDelta(float fromValue, float toValue, float progress)")
+        self.assertEqual(arc_lerp_delta["godot_owner"], "PortGame.source_arc_lerp_delta")
+        self.assertIn("public static float lerpDelta(float fromValue, float toValue, float progress){\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\n    }", arc_lerp_delta["exact_exprs"])
+        self.assertIn("public static float lerp(float fromValue, float toValue, float progress){\n        return fromValue + (toValue - fromValue) * progress;\n    }", arc_lerp_delta["exact_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -4285,6 +4322,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("isPowerOfTwo", arc_is_power_of_two["return_keys"])
         self.assertIn("bitTest", arc_is_power_of_two["return_keys"])
         self.assertEqual(arc_is_power_of_two["source_method"], "isPowerOfTwo(int value)")
+
+        arc_lerp_delta = source_symbols.api_contract(contracts, "PortGame.source_arc_lerp_delta")
+        self.assertEqual([param["name"] for param in arc_lerp_delta["params"]], ["from_value", "to_value", "progress", "source_delta"])
+        self.assertEqual(arc_lerp_delta["params"][0]["schema"], "source_arc_lerp_delta_input.fromValue")
+        self.assertEqual(arc_lerp_delta["params"][3]["schema"], "source_arc_lerp_delta_input.sourceDelta")
+        self.assertIn("clampedProgress", arc_lerp_delta["return_keys"])
+        self.assertIn("lerpDelta", arc_lerp_delta["return_keys"])
+        self.assertEqual(arc_lerp_delta["source_method"], "lerpDelta(float fromValue, float toValue, float progress)")
 
         angle_distance = source_symbols.api_contract(contracts, "PortGame.source_angle_distance")
         self.assertEqual([param["name"] for param in angle_distance["params"]], ["current_degrees", "target_degrees"])
@@ -5297,6 +5342,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_arc_is_power_of_two_result["keys"]["bitTest"]["java_expr"], "(value & value - 1) == 0")
         self.assertEqual(source_arc_is_power_of_two_result["keys"]["isPowerOfTwo"]["java_expr"], "return value != 0 && (value & value - 1) == 0;")
         self.assertEqual(source_arc_is_power_of_two_result["keys"]["value"]["alias_of"], "source_arc_is_power_of_two_input.value")
+
+        source_arc_lerp_delta_input = source_symbols.state_schema(schema, "source_arc_lerp_delta_input")
+        self.assertEqual(source_arc_lerp_delta_input["keys"]["fromValue"]["java_expr"], "fromValue")
+        self.assertEqual(source_arc_lerp_delta_input["keys"]["toValue"]["java_expr"], "toValue")
+        self.assertEqual(source_arc_lerp_delta_input["keys"]["progress"]["java_expr"], "progress")
+        self.assertEqual(source_arc_lerp_delta_input["keys"]["sourceDelta"]["java_expr"], "Time.delta")
+
+        source_arc_lerp_delta_result = source_symbols.state_schema(schema, "source_arc_lerp_delta_result")
+        self.assertEqual(source_arc_lerp_delta_result["keys"]["scaledProgress"]["java_expr"], "progress * Time.delta")
+        self.assertEqual(source_arc_lerp_delta_result["keys"]["clampedProgress"]["java_expr"], "clamp(progress * Time.delta)")
+        self.assertEqual(source_arc_lerp_delta_result["keys"]["lerpDelta"]["java_expr"], "return lerp(fromValue, toValue, clamp(progress * Time.delta));")
+        self.assertEqual(source_arc_lerp_delta_result["keys"]["fromValue"]["alias_of"], "source_arc_lerp_delta_input.fromValue")
+        self.assertEqual(source_arc_lerp_delta_result["keys"]["sourceDelta"]["alias_of"], "source_arc_lerp_delta_input.sourceDelta")
 
         source_angle_distance_input = source_symbols.state_schema(schema, "source_angle_distance_input")
         self.assertEqual(source_angle_distance_input["keys"]["currentDegrees"]["java_expr"], "a")
