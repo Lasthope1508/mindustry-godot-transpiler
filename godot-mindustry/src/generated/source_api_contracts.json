@@ -8013,6 +8013,48 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_destroyed_dynamic_explosion_call_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.onDestroyed Damage.dynamicExplosion call argument helper."
+    },
+    "PortGame.source_building_on_destroyed_item_explosion_state": {
+      "status": "active",
+      "source_slice": "N611",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "onDestroyed()",
+      "params": [
+        {
+          "name": "base_explosiveness",
+          "type": "float",
+          "schema": "source_building_on_destroyed_item_explosion_input.base_explosiveness"
+        },
+        {
+          "name": "has_items",
+          "type": "bool",
+          "schema": "source_building_on_destroyed_item_explosion_input.has_items"
+        },
+        {
+          "name": "item_states",
+          "type": "Array",
+          "schema": "source_building_on_destroyed_item_explosion_input.item_states"
+        },
+        {
+          "name": "item_cap",
+          "type": "int",
+          "schema": "source_building_on_destroyed_item_explosion_input.item_cap"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "base_explosiveness",
+        "has_items",
+        "item_cap",
+        "explosiveness",
+        "flammability",
+        "power"
+      ],
+      "tests": [
+        "test_building_on_destroyed_item_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_item_explosion_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.onDestroyed item explosion contribution helper."
     }
   },
   "policy": {

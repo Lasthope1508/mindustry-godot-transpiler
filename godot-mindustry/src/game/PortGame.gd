@@ -1761,7 +1761,15 @@ func source_building_on_destroyed_item_explosion_state(base_explosiveness: float
 			explosiveness += float(item_state.get("explosiveness", 0.0)) * float(item_amount)
 			flammability += float(item_state.get("flammability", 0.0)) * float(item_amount)
 			power += float(item_state.get("charge", 0.0)) * pow(float(item_amount), 1.1) * 150.0
-	return {"explosiveness": explosiveness, "flammability": flammability, "power": power}
+	return {
+		"method": "public void onDestroyed(){",
+		"base_explosiveness": base_explosiveness,
+		"has_items": has_items,
+		"item_cap": item_cap,
+		"explosiveness": explosiveness,
+		"flammability": flammability,
+		"power": power,
+	}
 
 func source_building_on_destroyed_liquid_explosion_state(current_explosiveness: float, current_flammability: float, has_liquids: bool, liquid_states: Array) -> Dictionary:
 	var explosiveness := current_explosiveness

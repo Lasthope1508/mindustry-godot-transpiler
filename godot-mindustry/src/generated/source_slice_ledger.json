@@ -6594,6 +6594,55 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_destroyed_dynamic_explosion_call_state",
       "rule": "Backfills SSOT for existing canonical source_building_on_destroyed_dynamic_explosion_call_state helper against BuildingComp.onDestroyed() Damage.dynamicExplosion call arguments."
+    },
+    "N611": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_item_explosion_state",
+      "exact_exprs": [
+        "/** Called when the block is destroyed. The tile is still intact at this stage. */",
+        "public void onDestroyed(){",
+        "float explosiveness = block.baseExplosiveness;",
+        "float flammability = 0f;",
+        "float power = 0f;",
+        "if(block.hasItems){",
+        "for(Item item : content.items()){",
+        "int amount = Math.min(items.get(item), explosionItemCap());",
+        "explosiveness += item.explosiveness * amount;",
+        "flammability += item.flammability * amount;",
+        "power += item.charge * Mathf.pow(amount, 1.1f) * 150f;",
+        "block.baseExplosiveness",
+        "block.hasItems",
+        "content.items()",
+        "items.get(item)",
+        "explosionItemCap()"
+      ],
+      "deferred_exprs": [
+        "Concrete ItemModule storage, content registry iteration, and explosionItemCap() ownership remain covered by adjacent inventory/content helper slices."
+      ],
+      "source_symbols": [
+        "building_on_destroyed_item_explosion.method",
+        "building_on_destroyed_item_explosion.base_explosiveness_init",
+        "building_on_destroyed_item_explosion.flammability_init",
+        "building_on_destroyed_item_explosion.power_init",
+        "building_on_destroyed_item_explosion.has_items_gate",
+        "building_on_destroyed_item_explosion.item_loop",
+        "building_on_destroyed_item_explosion.item_cap",
+        "building_on_destroyed_item_explosion.explosiveness",
+        "building_on_destroyed_item_explosion.flammability",
+        "building_on_destroyed_item_explosion.power",
+        "building_on_destroyed_item_explosion.base_explosiveness",
+        "building_on_destroyed_item_explosion.has_items",
+        "building_on_destroyed_item_explosion.item_states",
+        "building_on_destroyed_item_explosion.input_item_cap"
+      ],
+      "tests": [
+        "test_building_on_destroyed_item_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_item_explosion_state",
+      "rule": "Backfills SSOT for existing canonical source_building_on_destroyed_item_explosion_state helper against BuildingComp.onDestroyed() item explosion contributions."
     }
   },
   "version": 1

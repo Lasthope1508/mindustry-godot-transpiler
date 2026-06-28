@@ -3717,6 +3717,41 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(destroy_effect["java_expr"], "block.destroyEffect")
         self.assertEqual(destroy_effect["godot_symbol"], "source_building_on_destroyed_dynamic_explosion_call_input.destroy_effect")
 
+    def test_building_on_destroyed_item_explosion_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_on_destroyed_item_explosion.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "onDestroyed()")
+        self.assertEqual(method["java_expr"], "public void onDestroyed(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_on_destroyed_item_explosion_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_on_destroyed_item_explosion_state")
+        self.assertEqual(method["godot_symbol"], "source_building_on_destroyed_item_explosion_result.method")
+
+        base = source_symbols.source_symbol(registry, "building_on_destroyed_item_explosion.base_explosiveness_init")
+        self.assertEqual(base["java_expr"], "float explosiveness = block.baseExplosiveness;")
+        self.assertEqual(base["godot_symbol"], "source_building_on_destroyed_item_explosion_result.explosiveness")
+
+        gate = source_symbols.source_symbol(registry, "building_on_destroyed_item_explosion.has_items_gate")
+        self.assertEqual(gate["java_expr"], "if(block.hasItems){")
+        self.assertEqual(gate["godot_symbol"], "source_building_on_destroyed_item_explosion_result.has_items")
+
+        item_cap = source_symbols.source_symbol(registry, "building_on_destroyed_item_explosion.item_cap")
+        self.assertEqual(item_cap["java_expr"], "int amount = Math.min(items.get(item), explosionItemCap());")
+        self.assertEqual(item_cap["godot_symbol"], "source_building_on_destroyed_item_explosion_result.item_cap")
+
+        power = source_symbols.source_symbol(registry, "building_on_destroyed_item_explosion.power")
+        self.assertEqual(power["java_expr"], "power += item.charge * Mathf.pow(amount, 1.1f) * 150f;")
+        self.assertEqual(power["godot_symbol"], "source_building_on_destroyed_item_explosion_result.power")
+
+        base_input = source_symbols.source_symbol(registry, "building_on_destroyed_item_explosion.base_explosiveness")
+        self.assertEqual(base_input["status"], "explicit-input")
+        self.assertEqual(base_input["java_expr"], "block.baseExplosiveness")
+        self.assertEqual(base_input["godot_symbol"], "source_building_on_destroyed_item_explosion_input.base_explosiveness")
+
     def test_building_on_destroyed_base_sound_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -5943,9 +5978,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 208)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 209)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 213)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 214)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -5971,6 +6006,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_on_destroyed_base_sound_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_on_destroyed_buffered_power_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_on_destroyed_dynamic_explosion_call_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_on_destroyed_item_explosion_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7323,6 +7359,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("flammability * block.flammabilityScale", building_on_destroyed_dynamic_explosion_call["exact_exprs"])
         self.assertIn("explosiveness * 3.5f * block.explosivenessScale", building_on_destroyed_dynamic_explosion_call["exact_exprs"])
         self.assertIn("tilesize * block.size / 2f", building_on_destroyed_dynamic_explosion_call["exact_exprs"])
+
+        building_on_destroyed_item_explosion = source_symbols.source_slice(ledger, "N611")
+        self.assertEqual(building_on_destroyed_item_explosion["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_on_destroyed_item_explosion["java_method"], "onDestroyed()")
+        self.assertEqual(building_on_destroyed_item_explosion["godot_owner"], "PortGame.source_building_on_destroyed_item_explosion_state")
+        self.assertIn("public void onDestroyed(){", building_on_destroyed_item_explosion["exact_exprs"])
+        self.assertIn("float explosiveness = block.baseExplosiveness;", building_on_destroyed_item_explosion["exact_exprs"])
+        self.assertIn("float flammability = 0f;", building_on_destroyed_item_explosion["exact_exprs"])
+        self.assertIn("float power = 0f;", building_on_destroyed_item_explosion["exact_exprs"])
+        self.assertIn("if(block.hasItems){", building_on_destroyed_item_explosion["exact_exprs"])
+        self.assertIn("for(Item item : content.items()){", building_on_destroyed_item_explosion["exact_exprs"])
+        self.assertIn("int amount = Math.min(items.get(item), explosionItemCap());", building_on_destroyed_item_explosion["exact_exprs"])
+        self.assertIn("power += item.charge * Mathf.pow(amount, 1.1f) * 150f;", building_on_destroyed_item_explosion["exact_exprs"])
 
         building_on_destroyed_base_sound = source_symbols.source_slice(ledger, "N608")
         self.assertEqual(building_on_destroyed_base_sound["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -9199,6 +9248,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("radius", building_on_destroyed_dynamic_explosion_call["return_keys"])
         self.assertIn("damage_explosions", building_on_destroyed_dynamic_explosion_call["return_keys"])
         self.assertEqual(building_on_destroyed_dynamic_explosion_call["source_method"], "onDestroyed()")
+
+        building_on_destroyed_item_explosion = source_symbols.api_contract(contracts, "PortGame.source_building_on_destroyed_item_explosion_state")
+        self.assertEqual([param["name"] for param in building_on_destroyed_item_explosion["params"]], ["base_explosiveness", "has_items", "item_states", "item_cap"])
+        self.assertEqual(building_on_destroyed_item_explosion["params"][0]["schema"], "source_building_on_destroyed_item_explosion_input.base_explosiveness")
+        self.assertEqual(building_on_destroyed_item_explosion["params"][1]["schema"], "source_building_on_destroyed_item_explosion_input.has_items")
+        self.assertEqual(building_on_destroyed_item_explosion["params"][3]["schema"], "source_building_on_destroyed_item_explosion_input.item_cap")
+        self.assertIn("method", building_on_destroyed_item_explosion["return_keys"])
+        self.assertIn("base_explosiveness", building_on_destroyed_item_explosion["return_keys"])
+        self.assertIn("has_items", building_on_destroyed_item_explosion["return_keys"])
+        self.assertIn("item_cap", building_on_destroyed_item_explosion["return_keys"])
+        self.assertIn("explosiveness", building_on_destroyed_item_explosion["return_keys"])
+        self.assertIn("flammability", building_on_destroyed_item_explosion["return_keys"])
+        self.assertIn("power", building_on_destroyed_item_explosion["return_keys"])
+        self.assertEqual(building_on_destroyed_item_explosion["source_method"], "onDestroyed()")
 
         building_on_destroyed_base_sound = source_symbols.api_contract(contracts, "PortGame.source_building_on_destroyed_base_sound_state")
         self.assertEqual([param["name"] for param in building_on_destroyed_base_sound["params"]], ["headless", "destroy_sound", "destroy_pitch_min", "destroy_pitch_max", "destroy_sound_volume"])
@@ -11280,6 +11343,24 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_on_destroyed_dynamic_explosion_call_result["keys"]["explosiveness"]["java_expr"], "explosiveness * 3.5f * block.explosivenessScale")
         self.assertEqual(source_building_on_destroyed_dynamic_explosion_call_result["keys"]["radius"]["java_expr"], "tilesize * block.size / 2f")
         self.assertEqual(source_building_on_destroyed_dynamic_explosion_call_result["keys"]["source_x"]["alias_of"], "source_building_on_destroyed_dynamic_explosion_call_input.source_x")
+
+        source_building_on_destroyed_item_explosion_input = source_symbols.state_schema(schema, "source_building_on_destroyed_item_explosion_input")
+        self.assertEqual(source_building_on_destroyed_item_explosion_input["keys"]["base_explosiveness"]["java_expr"], "block.baseExplosiveness")
+        self.assertEqual(source_building_on_destroyed_item_explosion_input["keys"]["has_items"]["java_expr"], "block.hasItems")
+        self.assertEqual(source_building_on_destroyed_item_explosion_input["keys"]["item_states"]["java_expr"], "content.items() / items.get(item)")
+        self.assertEqual(source_building_on_destroyed_item_explosion_input["keys"]["item_cap"]["java_expr"], "explosionItemCap()")
+
+        source_building_on_destroyed_item_explosion_result = source_symbols.state_schema(schema, "source_building_on_destroyed_item_explosion_result")
+        self.assertEqual(source_building_on_destroyed_item_explosion_result["keys"]["method"]["java_expr"], "public void onDestroyed(){")
+        self.assertEqual(source_building_on_destroyed_item_explosion_result["keys"]["base_explosiveness_init"]["java_expr"], "float explosiveness = block.baseExplosiveness;")
+        self.assertEqual(source_building_on_destroyed_item_explosion_result["keys"]["flammability_init"]["java_expr"], "float flammability = 0f;")
+        self.assertEqual(source_building_on_destroyed_item_explosion_result["keys"]["power_init"]["java_expr"], "float power = 0f;")
+        self.assertEqual(source_building_on_destroyed_item_explosion_result["keys"]["has_items"]["java_expr"], "if(block.hasItems){")
+        self.assertEqual(source_building_on_destroyed_item_explosion_result["keys"]["item_cap"]["java_expr"], "int amount = Math.min(items.get(item), explosionItemCap());")
+        self.assertEqual(source_building_on_destroyed_item_explosion_result["keys"]["explosiveness"]["java_expr"], "explosiveness += item.explosiveness * amount;")
+        self.assertEqual(source_building_on_destroyed_item_explosion_result["keys"]["flammability"]["java_expr"], "flammability += item.flammability * amount;")
+        self.assertEqual(source_building_on_destroyed_item_explosion_result["keys"]["power"]["java_expr"], "power += item.charge * Mathf.pow(amount, 1.1f) * 150f;")
+        self.assertEqual(source_building_on_destroyed_item_explosion_result["keys"]["base_explosiveness"]["alias_of"], "source_building_on_destroyed_item_explosion_input.base_explosiveness")
 
         source_building_on_destroyed_base_sound_input = source_symbols.state_schema(schema, "source_building_on_destroyed_base_sound_input")
         self.assertEqual(source_building_on_destroyed_base_sound_input["keys"]["headless"]["java_expr"], "headless")

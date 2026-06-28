@@ -20313,6 +20313,188 @@
       "java_expr": "block.baseShake",
       "godot_symbol": "source_building_on_destroyed_dynamic_explosion_call_input.base_shake",
       "rule": "Runtime base_shake supplies source block.baseShake."
+    },
+    "building_on_destroyed_item_explosion.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_item_explosion_state",
+      "tests": [
+        "test_building_on_destroyed_item_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_item_explosion_state",
+      "java_expr": "public void onDestroyed(){",
+      "godot_symbol": "source_building_on_destroyed_item_explosion_result.method",
+      "rule": "BuildingComp onDestroyed method boundary."
+    },
+    "building_on_destroyed_item_explosion.base_explosiveness_init": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_item_explosion_state",
+      "tests": [
+        "test_building_on_destroyed_item_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_item_explosion_state",
+      "java_expr": "float explosiveness = block.baseExplosiveness;",
+      "godot_symbol": "source_building_on_destroyed_item_explosion_result.explosiveness",
+      "rule": "Initial explosiveness comes from block.baseExplosiveness."
+    },
+    "building_on_destroyed_item_explosion.flammability_init": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_item_explosion_state",
+      "tests": [
+        "test_building_on_destroyed_item_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_item_explosion_state",
+      "java_expr": "float flammability = 0f;",
+      "godot_symbol": "source_building_on_destroyed_item_explosion_result.flammability",
+      "rule": "Initial flammability starts at 0f."
+    },
+    "building_on_destroyed_item_explosion.power_init": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_item_explosion_state",
+      "tests": [
+        "test_building_on_destroyed_item_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_item_explosion_state",
+      "java_expr": "float power = 0f;",
+      "godot_symbol": "source_building_on_destroyed_item_explosion_result.power",
+      "rule": "Initial power starts at 0f."
+    },
+    "building_on_destroyed_item_explosion.has_items_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_item_explosion_state",
+      "tests": [
+        "test_building_on_destroyed_item_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_item_explosion_state",
+      "java_expr": "if(block.hasItems){",
+      "godot_symbol": "source_building_on_destroyed_item_explosion_result.has_items",
+      "rule": "Item contribution runs only when block.hasItems."
+    },
+    "building_on_destroyed_item_explosion.item_loop": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_item_explosion_state",
+      "tests": [
+        "test_building_on_destroyed_item_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_item_explosion_state",
+      "java_expr": "for(Item item : content.items()){",
+      "godot_symbol": "source_building_on_destroyed_item_explosion_result.item_states",
+      "rule": "Item contribution iterates content.items()."
+    },
+    "building_on_destroyed_item_explosion.item_cap": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_item_explosion_state",
+      "tests": [
+        "test_building_on_destroyed_item_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_item_explosion_state",
+      "java_expr": "int amount = Math.min(items.get(item), explosionItemCap());",
+      "godot_symbol": "source_building_on_destroyed_item_explosion_result.item_cap",
+      "rule": "Item amount is capped through explosionItemCap()."
+    },
+    "building_on_destroyed_item_explosion.explosiveness": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_item_explosion_state",
+      "tests": [
+        "test_building_on_destroyed_item_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_item_explosion_state",
+      "java_expr": "explosiveness += item.explosiveness * amount;",
+      "godot_symbol": "source_building_on_destroyed_item_explosion_result.explosiveness",
+      "rule": "Item explosiveness contribution."
+    },
+    "building_on_destroyed_item_explosion.flammability": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_item_explosion_state",
+      "tests": [
+        "test_building_on_destroyed_item_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_item_explosion_state",
+      "java_expr": "flammability += item.flammability * amount;",
+      "godot_symbol": "source_building_on_destroyed_item_explosion_result.flammability",
+      "rule": "Item flammability contribution."
+    },
+    "building_on_destroyed_item_explosion.power": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_item_explosion_state",
+      "tests": [
+        "test_building_on_destroyed_item_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_item_explosion_state",
+      "java_expr": "power += item.charge * Mathf.pow(amount, 1.1f) * 150f;",
+      "godot_symbol": "source_building_on_destroyed_item_explosion_result.power",
+      "rule": "Item charge power contribution."
+    },
+    "building_on_destroyed_item_explosion.base_explosiveness": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_item_explosion_state",
+      "tests": [
+        "test_building_on_destroyed_item_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_item_explosion_state",
+      "java_expr": "block.baseExplosiveness",
+      "godot_symbol": "source_building_on_destroyed_item_explosion_input.base_explosiveness",
+      "rule": "Runtime base_explosiveness supplies source block.baseExplosiveness."
+    },
+    "building_on_destroyed_item_explosion.has_items": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_item_explosion_state",
+      "tests": [
+        "test_building_on_destroyed_item_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_item_explosion_state",
+      "java_expr": "block.hasItems",
+      "godot_symbol": "source_building_on_destroyed_item_explosion_input.has_items",
+      "rule": "Runtime has_items supplies source block.hasItems gate."
+    },
+    "building_on_destroyed_item_explosion.item_states": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_item_explosion_state",
+      "tests": [
+        "test_building_on_destroyed_item_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_item_explosion_state",
+      "java_expr": "content.items() / items.get(item)",
+      "godot_symbol": "source_building_on_destroyed_item_explosion_input.item_states",
+      "rule": "Runtime item_states supplies source content item states and item amounts."
+    },
+    "building_on_destroyed_item_explosion.input_item_cap": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_item_explosion_state",
+      "tests": [
+        "test_building_on_destroyed_item_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_item_explosion_state",
+      "java_expr": "explosionItemCap()",
+      "godot_symbol": "source_building_on_destroyed_item_explosion_input.item_cap",
+      "rule": "Runtime item_cap supplies source explosionItemCap()."
     }
   }
 }
