@@ -4768,6 +4768,34 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(current_count["java_expr"], "items.get(item)")
         self.assertEqual(current_count["godot_symbol"], "source_building_handle_item_count_input.current_count")
 
+    def test_building_handle_liquid_amount_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_handle_liquid_amount.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "handleLiquid(Building source, Liquid liquid, float amount)")
+        self.assertEqual(method["java_expr"], "public void handleLiquid(Building source, Liquid liquid, float amount){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_handle_liquid_amount")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_handle_liquid_amount")
+        self.assertEqual(method["godot_symbol"], "source_building_handle_liquid_amount_result.method")
+
+        add_call = source_symbols.source_symbol(registry, "building_handle_liquid_amount.add")
+        self.assertEqual(add_call["java_expr"], "liquids.add(liquid, amount);")
+        self.assertEqual(add_call["godot_symbol"], "source_building_handle_liquid_amount_result.liquid_amount_after")
+
+        current_amount = source_symbols.source_symbol(registry, "building_handle_liquid_amount.current_amount")
+        self.assertEqual(current_amount["status"], "explicit-input")
+        self.assertEqual(current_amount["java_expr"], "liquids.get(liquid)")
+        self.assertEqual(current_amount["godot_symbol"], "source_building_handle_liquid_amount_input.current_amount")
+
+        amount = source_symbols.source_symbol(registry, "building_handle_liquid_amount.amount")
+        self.assertEqual(amount["status"], "explicit-input")
+        self.assertEqual(amount["java_expr"], "amount")
+        self.assertEqual(amount["godot_symbol"], "source_building_handle_liquid_amount_input.amount")
+
     def test_building_draw_disabled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -5091,9 +5119,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 182)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 183)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 187)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 188)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6762,6 +6790,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public void handleItem(Building source, Item item){", building_handle_item_count["exact_exprs"])
         self.assertIn("items.add(item, 1);", building_handle_item_count["exact_exprs"])
 
+        building_handle_liquid_amount = source_symbols.source_slice(ledger, "N585")
+        self.assertEqual(building_handle_liquid_amount["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_handle_liquid_amount["java_method"], "handleLiquid(Building source, Liquid liquid, float amount)")
+        self.assertEqual(building_handle_liquid_amount["godot_owner"], "PortGame.source_building_handle_liquid_amount")
+        self.assertIn("public void handleLiquid(Building source, Liquid liquid, float amount){", building_handle_liquid_amount["exact_exprs"])
+        self.assertIn("liquids.add(liquid, amount);", building_handle_liquid_amount["exact_exprs"])
+
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
         self.assertEqual(arc_mathf_cos_scaled["java_method"], "cos(float radians, float scl, float mag)")
@@ -8341,6 +8376,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_handle_item_count["params"][0]["schema"], "source_building_handle_item_count_input.current_count")
         self.assertIn("item_count_after", building_handle_item_count["return_keys"])
         self.assertEqual(building_handle_item_count["source_method"], "handleItem(Building source, Item item)")
+
+        building_handle_liquid_amount = source_symbols.api_contract(contracts, "PortGame.source_building_handle_liquid_amount")
+        self.assertEqual([param["name"] for param in building_handle_liquid_amount["params"]], ["current_amount", "amount"])
+        self.assertEqual(building_handle_liquid_amount["params"][0]["schema"], "source_building_handle_liquid_amount_input.current_amount")
+        self.assertEqual(building_handle_liquid_amount["params"][1]["schema"], "source_building_handle_liquid_amount_input.amount")
+        self.assertIn("liquid_amount_after", building_handle_liquid_amount["return_keys"])
+        self.assertEqual(building_handle_liquid_amount["source_method"], "handleLiquid(Building source, Liquid liquid, float amount)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -10372,6 +10414,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_handle_item_count_result["keys"]["method"]["java_expr"], "public void handleItem(Building source, Item item){")
         self.assertEqual(source_building_handle_item_count_result["keys"]["item_count_after"]["java_expr"], "items.add(item, 1);")
         self.assertEqual(source_building_handle_item_count_result["keys"]["current_count"]["alias_of"], "source_building_handle_item_count_input.current_count")
+
+        source_building_handle_liquid_amount_input = source_symbols.state_schema(schema, "source_building_handle_liquid_amount_input")
+        self.assertEqual(source_building_handle_liquid_amount_input["keys"]["current_amount"]["java_expr"], "liquids.get(liquid)")
+        self.assertEqual(source_building_handle_liquid_amount_input["keys"]["current_amount"]["status"], "explicit-input")
+        self.assertEqual(source_building_handle_liquid_amount_input["keys"]["amount"]["java_expr"], "amount")
+
+        source_building_handle_liquid_amount_result = source_symbols.state_schema(schema, "source_building_handle_liquid_amount_result")
+        self.assertEqual(source_building_handle_liquid_amount_result["keys"]["method"]["java_expr"], "public void handleLiquid(Building source, Liquid liquid, float amount){")
+        self.assertEqual(source_building_handle_liquid_amount_result["keys"]["liquid_amount_after"]["java_expr"], "liquids.add(liquid, amount);")
+        self.assertEqual(source_building_handle_liquid_amount_result["keys"]["current_amount"]["alias_of"], "source_building_handle_liquid_amount_input.current_amount")
+        self.assertEqual(source_building_handle_liquid_amount_result["keys"]["amount"]["alias_of"], "source_building_handle_liquid_amount_input.amount")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

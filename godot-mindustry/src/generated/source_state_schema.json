@@ -23778,6 +23778,76 @@
           "rule": "Carries current_count input into result schema."
         }
       }
+    },
+    "source_building_handle_liquid_amount_input": {
+      "status": "active",
+      "keys": {
+        "current_amount": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "handleLiquid(Building source, Liquid liquid, float amount)",
+          "java_expr": "liquids.get(liquid)",
+          "godot_symbol": "source_building_handle_liquid_amount_input.current_amount",
+          "used_by": [
+            "PortGame.source_building_handle_liquid_amount"
+          ],
+          "rule": "Runtime current_amount supplies source liquids.get(liquid) before liquids.add(liquid, amount)."
+        },
+        "amount": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "handleLiquid(Building source, Liquid liquid, float amount)",
+          "java_expr": "amount",
+          "godot_symbol": "source_building_handle_liquid_amount_input.amount",
+          "used_by": [
+            "PortGame.source_building_handle_liquid_amount"
+          ],
+          "rule": "Runtime amount supplies handleLiquid amount."
+        }
+      }
+    },
+    "source_building_handle_liquid_amount_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "handleLiquid(Building source, Liquid liquid, float amount)",
+          "java_expr": "public void handleLiquid(Building source, Liquid liquid, float amount){",
+          "godot_symbol": "source_building_handle_liquid_amount_result.method",
+          "used_by": [
+            "PortGame.source_building_handle_liquid_amount"
+          ],
+          "rule": "Source handleLiquid method declaration."
+        },
+        "liquid_amount_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "handleLiquid(Building source, Liquid liquid, float amount)",
+          "java_expr": "liquids.add(liquid, amount);",
+          "godot_symbol": "source_building_handle_liquid_amount_result.liquid_amount_after",
+          "used_by": [
+            "PortGame.source_building_handle_liquid_amount"
+          ],
+          "rule": "handleLiquid adds amount to the BuildingComp liquids module."
+        },
+        "current_amount": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_handle_liquid_amount_input.current_amount",
+          "rule": "Carries current_amount input into result schema."
+        },
+        "amount": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_handle_liquid_amount_input.amount",
+          "rule": "Carries amount input into result schema."
+        }
+      }
     }
   },
   "version": 1

@@ -5800,6 +5800,31 @@
       ],
       "runtime_proof": "/root/Main.source_building_handle_item_count",
       "rule": "Backfills SSOT for existing canonical source_building_handle_item_count helper against BuildingComp.handleItem(Building source, Item item)."
+    },
+    "N585": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "handleLiquid(Building source, Liquid liquid, float amount)",
+      "godot_owner": "PortGame.source_building_handle_liquid_amount",
+      "exact_exprs": [
+        "public void handleLiquid(Building source, Liquid liquid, float amount){",
+        "liquids.add(liquid, amount);"
+      ],
+      "deferred_exprs": [
+        "LiquidModule mutation object identity, source building, and liquid reference wiring stay owned by liquid/runtime slices; this helper preserves the amount increment."
+      ],
+      "source_symbols": [
+        "building_handle_liquid_amount.method",
+        "building_handle_liquid_amount.add",
+        "building_handle_liquid_amount.current_amount",
+        "building_handle_liquid_amount.amount"
+      ],
+      "tests": [
+        "test_building_handle_liquid_amount_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_handle_liquid_amount",
+      "rule": "Backfills SSOT for existing canonical source_building_handle_liquid_amount helper against BuildingComp.handleLiquid(Building source, Liquid liquid, float amount)."
     }
   },
   "version": 1

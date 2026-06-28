@@ -7171,6 +7171,32 @@
       ],
       "runtime_proof": "/root/Main.source_building_handle_item_count",
       "rule": "Public runtime contract for Mindustry BuildingComp.handleItem(Building source, Item item) count helper."
+    },
+    "PortGame.source_building_handle_liquid_amount": {
+      "status": "active",
+      "source_slice": "N585",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "handleLiquid(Building source, Liquid liquid, float amount)",
+      "params": [
+        {
+          "name": "current_amount",
+          "type": "float",
+          "schema": "source_building_handle_liquid_amount_input.current_amount"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_building_handle_liquid_amount_input.amount"
+        }
+      ],
+      "return_keys": [
+        "liquid_amount_after"
+      ],
+      "tests": [
+        "test_building_handle_liquid_amount_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_handle_liquid_amount",
+      "rule": "Public runtime contract for Mindustry BuildingComp.handleLiquid(Building source, Liquid liquid, float amount) amount helper."
     }
   },
   "policy": {
