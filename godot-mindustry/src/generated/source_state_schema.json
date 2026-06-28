@@ -13846,6 +13846,88 @@
           "rule": "Carries Java mag input into result schema."
         }
       }
+    },
+    "source_arc_mathf_mod_float_input": {
+      "status": "active",
+      "keys": {
+        "value": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "mod(float f, float n)",
+          "java_expr": "f",
+          "godot_symbol": "source_arc_mathf_mod_float_input.value",
+          "used_by": [
+            "PortGame.source_arc_mathf_mod_float"
+          ],
+          "rule": "Java f input."
+        },
+        "divisor": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "mod(float f, float n)",
+          "java_expr": "n",
+          "godot_symbol": "source_arc_mathf_mod_float_input.divisor",
+          "used_by": [
+            "PortGame.source_arc_mathf_mod_float"
+          ],
+          "rule": "Java n input."
+        }
+      }
+    },
+    "source_arc_mathf_mod_float_result": {
+      "status": "active",
+      "keys": {
+        "rawMod": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "mod(float f, float n)",
+          "java_expr": "f % n",
+          "godot_symbol": "source_arc_mathf_mod_float_result.rawMod",
+          "used_by": [
+            "PortGame.source_arc_mathf_mod_float"
+          ],
+          "rule": "Raw Java float remainder."
+        },
+        "offsetMod": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "mod(float f, float n)",
+          "java_expr": "(f % n) + n",
+          "godot_symbol": "source_arc_mathf_mod_float_result.offsetMod",
+          "used_by": [
+            "PortGame.source_arc_mathf_mod_float"
+          ],
+          "rule": "Remainder shifted by divisor."
+        },
+        "mod": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "mod(float f, float n)",
+          "java_expr": "return ((f % n) + n) % n;",
+          "godot_symbol": "source_arc_mathf_mod_float_result.mod",
+          "used_by": [
+            "PortGame.source_arc_mathf_mod_float"
+          ],
+          "rule": "Normalized modulo return value."
+        },
+        "value": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_arc_mathf_mod_float_input.value",
+          "rule": "Carries Java f input into result schema."
+        },
+        "divisor": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_arc_mathf_mod_float_input.divisor",
+          "rule": "Carries Java n input into result schema."
+        }
+      }
     }
   },
   "version": 1

@@ -10199,6 +10199,84 @@
       "java_expr": "mag",
       "godot_symbol": "source_arc_mathf_cos_scaled_input.mag",
       "rule": "Runtime mag maps to Java mag."
+    },
+    "arc_mathf_mod_float.method": {
+      "tests": [
+        "test_arc_mathf_mod_float_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_mod_float",
+      "godot_owner": "PortGame.source_arc_mathf_mod_float",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "mod(float f, float n)",
+      "status": "source-backed",
+      "java_expr": "public static float mod(float f, float n){\n        return ((f % n) + n) % n;\n    }",
+      "godot_symbol": "source_arc_mathf_mod_float_result.mod",
+      "rule": "Arc Mathf.mod(float,float) normalizes modulo for negative float values."
+    },
+    "arc_mathf_mod_float.raw_mod": {
+      "tests": [
+        "test_arc_mathf_mod_float_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_mod_float",
+      "godot_owner": "PortGame.source_arc_mathf_mod_float",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "mod(float f, float n)",
+      "status": "source-backed",
+      "java_expr": "f % n",
+      "godot_symbol": "source_arc_mathf_mod_float_result.rawMod",
+      "rule": "Initial Java float remainder before positive normalization."
+    },
+    "arc_mathf_mod_float.offset_mod": {
+      "tests": [
+        "test_arc_mathf_mod_float_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_mod_float",
+      "godot_owner": "PortGame.source_arc_mathf_mod_float",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "mod(float f, float n)",
+      "status": "source-backed",
+      "java_expr": "(f % n) + n",
+      "godot_symbol": "source_arc_mathf_mod_float_result.offsetMod",
+      "rule": "Adds divisor after raw remainder to shift negative values into positive range."
+    },
+    "arc_mathf_mod_float.normalized_mod": {
+      "tests": [
+        "test_arc_mathf_mod_float_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_mod_float",
+      "godot_owner": "PortGame.source_arc_mathf_mod_float",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "mod(float f, float n)",
+      "status": "source-backed",
+      "java_expr": "return ((f % n) + n) % n;",
+      "godot_symbol": "source_arc_mathf_mod_float_result.mod",
+      "rule": "Final modulo by divisor returns normalized result."
+    },
+    "arc_mathf_mod_float.value_input": {
+      "tests": [
+        "test_arc_mathf_mod_float_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_mod_float",
+      "godot_owner": "PortGame.source_arc_mathf_mod_float",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "mod(float f, float n)",
+      "status": "explicit-input",
+      "java_expr": "f",
+      "godot_symbol": "source_arc_mathf_mod_float_input.value",
+      "rule": "Runtime value maps to Java f."
+    },
+    "arc_mathf_mod_float.divisor_input": {
+      "tests": [
+        "test_arc_mathf_mod_float_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_mod_float",
+      "godot_owner": "PortGame.source_arc_mathf_mod_float",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "mod(float f, float n)",
+      "status": "explicit-input",
+      "java_expr": "n",
+      "godot_symbol": "source_arc_mathf_mod_float_input.divisor",
+      "rule": "Runtime divisor maps to Java n."
     }
   }
 }

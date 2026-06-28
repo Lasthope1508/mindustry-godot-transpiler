@@ -4255,6 +4255,36 @@
       ],
       "runtime_proof": "/root/Main.source_arc_mathf_cos_scaled",
       "rule": "Public runtime contract for Arc Mathf.cos(float,float,float) scaled helper."
+    },
+    "PortGame.source_arc_mathf_mod_float": {
+      "status": "active",
+      "source_slice": "N502",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "source_method": "mod(float f, float n)",
+      "params": [
+        {
+          "name": "value",
+          "type": "float",
+          "schema": "source_arc_mathf_mod_float_input.value"
+        },
+        {
+          "name": "divisor",
+          "type": "float",
+          "schema": "source_arc_mathf_mod_float_input.divisor"
+        }
+      ],
+      "return_keys": [
+        "rawMod",
+        "offsetMod",
+        "mod",
+        "value",
+        "divisor"
+      ],
+      "tests": [
+        "test_arc_mathf_mod_float_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_mod_float",
+      "rule": "Public runtime contract for Arc Mathf.mod(float,float) helper."
     }
   },
   "policy": {

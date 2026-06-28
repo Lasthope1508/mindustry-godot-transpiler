@@ -3105,6 +3105,36 @@
       ],
       "runtime_proof": "/root/Main.source_arc_mathf_cos_scaled",
       "rule": "Backfills SSOT for existing canonical source_arc_mathf_cos_scaled helper against Arc Mathf.cos scaled overload."
+    },
+    "N502": {
+      "status": "done",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_class": "arc.math.Mathf",
+      "java_method": "mod(float f, float n)",
+      "godot_owner": "PortGame.source_arc_mathf_mod_float",
+      "exact_exprs": [
+        "public static float mod(float f, float n){\n        return ((f % n) + n) % n;\n    }",
+        "return ((f % n) + n) % n;",
+        "f % n",
+        "(f % n) + n",
+        "((f % n) + n) % n",
+        "f",
+        "n"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "arc_mathf_mod_float.method",
+        "arc_mathf_mod_float.raw_mod",
+        "arc_mathf_mod_float.offset_mod",
+        "arc_mathf_mod_float.normalized_mod",
+        "arc_mathf_mod_float.value_input",
+        "arc_mathf_mod_float.divisor_input"
+      ],
+      "tests": [
+        "test_arc_mathf_mod_float_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_mod_float",
+      "rule": "Backfills SSOT for existing canonical source_arc_mathf_mod_float helper against Arc Mathf.mod(float,float)."
     }
   },
   "version": 1

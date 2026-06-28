@@ -2391,6 +2391,31 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(mag_input["java_expr"], "mag")
         self.assertEqual(mag_input["godot_symbol"], "source_arc_mathf_cos_scaled_input.mag")
 
+    def test_arc_mathf_mod_float_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "arc_mathf_mod_float.method")
+        self.assertEqual(method["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(method["java_expr"], "public static float mod(float f, float n){\n        return ((f % n) + n) % n;\n    }")
+        self.assertEqual(method["godot_owner"], "PortGame.source_arc_mathf_mod_float")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_arc_mathf_mod_float")
+
+        raw_mod = source_symbols.source_symbol(registry, "arc_mathf_mod_float.raw_mod")
+        self.assertEqual(raw_mod["java_expr"], "f % n")
+        self.assertEqual(raw_mod["godot_symbol"], "source_arc_mathf_mod_float_result.rawMod")
+
+        offset_mod = source_symbols.source_symbol(registry, "arc_mathf_mod_float.offset_mod")
+        self.assertEqual(offset_mod["java_expr"], "(f % n) + n")
+        self.assertEqual(offset_mod["godot_symbol"], "source_arc_mathf_mod_float_result.offsetMod")
+
+        divisor_input = source_symbols.source_symbol(registry, "arc_mathf_mod_float.divisor_input")
+        self.assertEqual(divisor_input["status"], "explicit-input")
+        self.assertEqual(divisor_input["java_expr"], "n")
+        self.assertEqual(divisor_input["godot_symbol"], "source_arc_mathf_mod_float_input.divisor")
+
     def test_arc_angles_angle_distance_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -2600,9 +2625,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 99)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 100)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 104)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 105)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -2703,6 +2728,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_arc_lerp_delta", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_mathf_cos_lookup", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_mathf_cos_scaled", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_arc_mathf_mod_float", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -3481,6 +3507,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(arc_mathf_cos_scaled["godot_owner"], "PortGame.source_arc_mathf_cos_scaled")
         self.assertIn("public static float cos(float radians, float scl, float mag){\n        return cos(radians / scl) * mag;\n    }", arc_mathf_cos_scaled["exact_exprs"])
         self.assertIn("return cos(radians / scl) * mag;", arc_mathf_cos_scaled["exact_exprs"])
+
+        arc_mathf_mod_float = source_symbols.source_slice(ledger, "N502")
+        self.assertEqual(arc_mathf_mod_float["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(arc_mathf_mod_float["java_method"], "mod(float f, float n)")
+        self.assertEqual(arc_mathf_mod_float["godot_owner"], "PortGame.source_arc_mathf_mod_float")
+        self.assertIn("public static float mod(float f, float n){\n        return ((f % n) + n) % n;\n    }", arc_mathf_mod_float["exact_exprs"])
+        self.assertIn("return ((f % n) + n) % n;", arc_mathf_mod_float["exact_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -4412,6 +4445,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("scaledRadians", arc_mathf_cos_scaled["return_keys"])
         self.assertIn("cosScaled", arc_mathf_cos_scaled["return_keys"])
         self.assertEqual(arc_mathf_cos_scaled["source_method"], "cos(float radians, float scl, float mag)")
+
+        arc_mathf_mod_float = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_mod_float")
+        self.assertEqual([param["name"] for param in arc_mathf_mod_float["params"]], ["value", "divisor"])
+        self.assertEqual(arc_mathf_mod_float["params"][0]["schema"], "source_arc_mathf_mod_float_input.value")
+        self.assertEqual(arc_mathf_mod_float["params"][1]["schema"], "source_arc_mathf_mod_float_input.divisor")
+        self.assertIn("rawMod", arc_mathf_mod_float["return_keys"])
+        self.assertIn("offsetMod", arc_mathf_mod_float["return_keys"])
+        self.assertIn("mod", arc_mathf_mod_float["return_keys"])
+        self.assertEqual(arc_mathf_mod_float["source_method"], "mod(float f, float n)")
 
         angle_distance = source_symbols.api_contract(contracts, "PortGame.source_angle_distance")
         self.assertEqual([param["name"] for param in angle_distance["params"]], ["current_degrees", "target_degrees"])
@@ -5458,6 +5500,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_arc_mathf_cos_scaled_result["keys"]["cosLookup"]["java_expr"], "cos(radians / scl)")
         self.assertEqual(source_arc_mathf_cos_scaled_result["keys"]["cosScaled"]["java_expr"], "return cos(radians / scl) * mag;")
         self.assertEqual(source_arc_mathf_cos_scaled_result["keys"]["mag"]["alias_of"], "source_arc_mathf_cos_scaled_input.mag")
+
+        source_arc_mathf_mod_float_input = source_symbols.state_schema(schema, "source_arc_mathf_mod_float_input")
+        self.assertEqual(source_arc_mathf_mod_float_input["keys"]["value"]["java_expr"], "f")
+        self.assertEqual(source_arc_mathf_mod_float_input["keys"]["value"]["status"], "explicit-input")
+        self.assertEqual(source_arc_mathf_mod_float_input["keys"]["divisor"]["java_expr"], "n")
+        self.assertEqual(source_arc_mathf_mod_float_input["keys"]["divisor"]["status"], "explicit-input")
+
+        source_arc_mathf_mod_float_result = source_symbols.state_schema(schema, "source_arc_mathf_mod_float_result")
+        self.assertEqual(source_arc_mathf_mod_float_result["keys"]["rawMod"]["java_expr"], "f % n")
+        self.assertEqual(source_arc_mathf_mod_float_result["keys"]["offsetMod"]["java_expr"], "(f % n) + n")
+        self.assertEqual(source_arc_mathf_mod_float_result["keys"]["mod"]["java_expr"], "return ((f % n) + n) % n;")
+        self.assertEqual(source_arc_mathf_mod_float_result["keys"]["value"]["alias_of"], "source_arc_mathf_mod_float_input.value")
+        self.assertEqual(source_arc_mathf_mod_float_result["keys"]["divisor"]["alias_of"], "source_arc_mathf_mod_float_input.divisor")
 
         source_angle_distance_input = source_symbols.state_schema(schema, "source_angle_distance_input")
         self.assertEqual(source_angle_distance_input["keys"]["currentDegrees"]["java_expr"], "a")
