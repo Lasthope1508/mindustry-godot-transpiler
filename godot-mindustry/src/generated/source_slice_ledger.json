@@ -3497,6 +3497,36 @@
       ],
       "runtime_proof": "/root/Main.source_block_dump_time",
       "rule": "Backfills SSOT for existing canonical source_block_dump_time helper against Mindustry Block.dumpTime default field."
+    },
+    "N513": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "mindustry.world.Block",
+      "java_method": "init()",
+      "godot_owner": "PortGame.source_block_health",
+      "exact_exprs": [
+        "public int health = -1;",
+        "public float scaledHealth = -1;",
+        "if(health == -1)",
+        "if(scaledHealth < 0)",
+        "scaledHealth = 40;",
+        "scaledHealth *= scaling;",
+        "health = round ?\n                Mathf.round(size * size * scaledHealth, 5) :\n                (int)(size * size * scaledHealth);",
+        "name"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "block_health.field",
+        "block_health.scaled_health_field",
+        "block_health.default_scaled_health",
+        "block_health.computed_health",
+        "block_health.block_id_input"
+      ],
+      "tests": [
+        "test_block_health_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_health",
+      "rule": "Backfills SSOT for existing canonical source_block_health helper against Mindustry Block health fields and init health formula."
     }
   },
   "version": 1

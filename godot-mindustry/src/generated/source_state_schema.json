@@ -15222,6 +15222,82 @@
           "rule": "Carries block_id input into result schema."
         }
       }
+    },
+    "source_block_health_input": {
+      "status": "active",
+      "keys": {
+        "blockId": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "init()",
+          "java_expr": "name",
+          "godot_symbol": "source_block_health_input.blockId",
+          "used_by": [
+            "PortGame.source_block_health"
+          ],
+          "rule": "Runtime block_id maps to Java Block name."
+        }
+      }
+    },
+    "source_block_health_result": {
+      "status": "active",
+      "keys": {
+        "declaredHealth": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "init()",
+          "java_expr": "public int health = -1;",
+          "godot_symbol": "source_block_health_result.declaredHealth",
+          "used_by": [
+            "PortGame.source_block_health"
+          ],
+          "rule": "Block.health field default."
+        },
+        "scaledHealth": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "init()",
+          "java_expr": "public float scaledHealth = -1;",
+          "godot_symbol": "source_block_health_result.scaledHealth",
+          "used_by": [
+            "PortGame.source_block_health"
+          ],
+          "rule": "Block.scaledHealth field default."
+        },
+        "defaultScaledHealth": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "init()",
+          "java_expr": "scaledHealth = 40;",
+          "godot_symbol": "source_block_health_result.defaultScaledHealth",
+          "used_by": [
+            "PortGame.source_block_health"
+          ],
+          "rule": "Default scaledHealth assignment."
+        },
+        "health": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "init()",
+          "java_expr": "health = round ?\n                Mathf.round(size * size * scaledHealth, 5) :\n                (int)(size * size * scaledHealth);",
+          "godot_symbol": "source_block_health_result.health",
+          "used_by": [
+            "PortGame.source_block_health"
+          ],
+          "rule": "Final Block.init health formula."
+        },
+        "blockId": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_block_health_input.blockId",
+          "rule": "Carries block_id input into result schema."
+        }
+      }
     }
   },
   "version": 1

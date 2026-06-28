@@ -4642,6 +4642,31 @@
       ],
       "runtime_proof": "/root/Main.source_block_dump_time",
       "rule": "Public runtime contract for Mindustry Block.dumpTime helper."
+    },
+    "PortGame.source_block_health": {
+      "status": "active",
+      "source_slice": "N513",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "init()",
+      "params": [
+        {
+          "name": "block_id",
+          "type": "String",
+          "schema": "source_block_health_input.blockId"
+        }
+      ],
+      "return_keys": [
+        "declaredHealth",
+        "scaledHealth",
+        "defaultScaledHealth",
+        "health",
+        "blockId"
+      ],
+      "tests": [
+        "test_block_health_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_health",
+      "rule": "Public runtime contract for Mindustry Block health helper."
     }
   },
   "policy": {

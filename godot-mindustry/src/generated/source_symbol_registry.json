@@ -11460,6 +11460,71 @@
       "java_expr": "name",
       "godot_symbol": "source_block_dump_time_input.blockId",
       "rule": "Runtime block_id selects the source Block name."
+    },
+    "block_health.field": {
+      "tests": [
+        "test_block_health_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_health",
+      "godot_owner": "PortGame.source_block_health",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "init()",
+      "status": "source-backed",
+      "java_expr": "public int health = -1;",
+      "godot_symbol": "source_block_health_result.declaredHealth",
+      "rule": "Block.health source field default."
+    },
+    "block_health.scaled_health_field": {
+      "tests": [
+        "test_block_health_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_health",
+      "godot_owner": "PortGame.source_block_health",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "init()",
+      "status": "source-backed",
+      "java_expr": "public float scaledHealth = -1;",
+      "godot_symbol": "source_block_health_result.scaledHealth",
+      "rule": "Block.scaledHealth source field default."
+    },
+    "block_health.default_scaled_health": {
+      "tests": [
+        "test_block_health_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_health",
+      "godot_owner": "PortGame.source_block_health",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "init()",
+      "status": "source-backed",
+      "java_expr": "scaledHealth = 40;",
+      "godot_symbol": "source_block_health_result.defaultScaledHealth",
+      "rule": "Default scaledHealth assigned when no explicit health/scaledHealth is set."
+    },
+    "block_health.computed_health": {
+      "tests": [
+        "test_block_health_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_health",
+      "godot_owner": "PortGame.source_block_health",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "init()",
+      "status": "source-backed",
+      "java_expr": "health = round ?\n                Mathf.round(size * size * scaledHealth, 5) :\n                (int)(size * size * scaledHealth);",
+      "godot_symbol": "source_block_health_result.health",
+      "rule": "Block.init computes final health from size and scaledHealth when health is unset."
+    },
+    "block_health.block_id_input": {
+      "tests": [
+        "test_block_health_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_health",
+      "godot_owner": "PortGame.source_block_health",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "init()",
+      "status": "explicit-input",
+      "java_expr": "name",
+      "godot_symbol": "source_block_health_input.blockId",
+      "rule": "Runtime block_id selects the source Block name."
     }
   }
 }
