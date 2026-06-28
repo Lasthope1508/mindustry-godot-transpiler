@@ -15480,6 +15480,70 @@
           "rule": "Carries receiver input into result schema."
         }
       }
+    },
+    "source_block_item_capacity_input": {
+      "status": "active",
+      "keys": {
+        "blockId": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "field declaration",
+          "java_expr": "name",
+          "godot_symbol": "source_block_item_capacity_input.blockId",
+          "used_by": [
+            "PortGame.source_block_item_capacity"
+          ],
+          "rule": "Runtime block_id selects the source Block name."
+        }
+      }
+    },
+    "source_block_item_capacity_result": {
+      "status": "active",
+      "keys": {
+        "itemCapacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "field declaration",
+          "java_expr": "public int itemCapacity = 10;",
+          "godot_symbol": "source_block_item_capacity_result.itemCapacity",
+          "used_by": [
+            "PortGame.source_block_item_capacity"
+          ],
+          "rule": "Block itemCapacity field/default."
+        },
+        "buildingSenseItemCapacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "case itemCapacity -> block.hasItems ? block.itemCapacity : 0;",
+          "godot_symbol": "source_block_item_capacity_result.buildingSenseItemCapacity",
+          "used_by": [
+            "PortGame.source_block_item_capacity"
+          ],
+          "rule": "BuildingComp itemCapacity logic sense gate."
+        },
+        "coreStorageCapacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+          "java_method": "CoreBuild.sense(LAccess sensor)",
+          "java_expr": "if(sensor == LAccess.itemCapacity) return storageCapacity;",
+          "godot_symbol": "source_block_item_capacity_result.coreStorageCapacity",
+          "used_by": [
+            "PortGame.source_block_item_capacity"
+          ],
+          "rule": "CoreBuild itemCapacity sense override."
+        },
+        "blockId": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_block_item_capacity_input.blockId",
+          "rule": "Carries block_id input into result schema."
+        }
+      }
     }
   },
   "version": 1

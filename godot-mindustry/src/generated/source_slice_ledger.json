@@ -3587,6 +3587,31 @@
       ],
       "runtime_proof": "/root/Main.source_block_is_damaged",
       "rule": "Backfills and corrects existing canonical source_block_is_damaged helper against Mindustry HealthComp.damaged epsilon predicate."
+    },
+    "N516": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "mindustry.world.Block",
+      "java_method": "field declaration",
+      "godot_owner": "PortGame.source_block_item_capacity",
+      "exact_exprs": [
+        "public int itemCapacity = 10;",
+        "case itemCapacity -> block.hasItems ? block.itemCapacity : 0;",
+        "if(sensor == LAccess.itemCapacity) return storageCapacity;",
+        "name"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "block_item_capacity.field",
+        "block_item_capacity.building_sense",
+        "block_item_capacity.core_sense",
+        "block_item_capacity.block_id_input"
+      ],
+      "tests": [
+        "test_block_item_capacity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_item_capacity",
+      "rule": "Backfills SSOT for existing canonical source_block_item_capacity helper against Mindustry Block itemCapacity and itemCapacity sense paths."
     }
   },
   "version": 1

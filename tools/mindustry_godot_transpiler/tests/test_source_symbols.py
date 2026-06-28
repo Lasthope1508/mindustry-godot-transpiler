@@ -2706,6 +2706,34 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(damaged["java_expr"], "return health < maxHealth - 0.001f;")
         self.assertEqual(damaged["godot_symbol"], "source_block_is_damaged_result.damaged")
 
+    def test_block_item_capacity_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        field = source_symbols.source_symbol(registry, "block_item_capacity.field")
+        self.assertEqual(field["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(field["java_method"], "field declaration")
+        self.assertEqual(field["java_expr"], "public int itemCapacity = 10;")
+        self.assertEqual(field["godot_owner"], "PortGame.source_block_item_capacity")
+        self.assertEqual(field["runtime_proof"], "/root/Main.source_block_item_capacity")
+
+        sense = source_symbols.source_symbol(registry, "block_item_capacity.building_sense")
+        self.assertEqual(sense["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(sense["java_expr"], "case itemCapacity -> block.hasItems ? block.itemCapacity : 0;")
+        self.assertEqual(sense["godot_symbol"], "source_block_item_capacity_result.buildingSenseItemCapacity")
+
+        core_sense = source_symbols.source_symbol(registry, "block_item_capacity.core_sense")
+        self.assertEqual(core_sense["java_source"], "core/src/mindustry/world/blocks/storage/CoreBlock.java")
+        self.assertEqual(core_sense["java_expr"], "if(sensor == LAccess.itemCapacity) return storageCapacity;")
+        self.assertEqual(core_sense["godot_symbol"], "source_block_item_capacity_result.coreStorageCapacity")
+
+        block_id_input = source_symbols.source_symbol(registry, "block_item_capacity.block_id_input")
+        self.assertEqual(block_id_input["status"], "explicit-input")
+        self.assertEqual(block_id_input["java_expr"], "name")
+        self.assertEqual(block_id_input["godot_symbol"], "source_block_item_capacity_input.blockId")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -2990,9 +3018,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 113)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 114)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 118)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 119)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3107,6 +3135,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_health", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_health_at_cell", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_is_damaged", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_item_capacity", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -3969,6 +3998,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(block_is_damaged["godot_owner"], "PortGame.source_block_is_damaged")
         self.assertIn("boolean damaged(){\n        return health < maxHealth - 0.001f;\n    }", block_is_damaged["exact_exprs"])
         self.assertIn("return health < maxHealth - 0.001f;", block_is_damaged["exact_exprs"])
+
+        block_item_capacity = source_symbols.source_slice(ledger, "N516")
+        self.assertEqual(block_item_capacity["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(block_item_capacity["java_method"], "field declaration")
+        self.assertEqual(block_item_capacity["godot_owner"], "PortGame.source_block_item_capacity")
+        self.assertIn("public int itemCapacity = 10;", block_item_capacity["exact_exprs"])
+        self.assertIn("case itemCapacity -> block.hasItems ? block.itemCapacity : 0;", block_item_capacity["exact_exprs"])
+        self.assertIn("if(sensor == LAccess.itemCapacity) return storageCapacity;", block_item_capacity["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -5004,6 +5041,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("damaged", block_is_damaged["return_keys"])
         self.assertIn("epsilon", block_is_damaged["return_keys"])
         self.assertEqual(block_is_damaged["source_method"], "damaged()")
+
+        block_item_capacity = source_symbols.api_contract(contracts, "PortGame.source_block_item_capacity")
+        self.assertEqual([param["name"] for param in block_item_capacity["params"]], ["block_id"])
+        self.assertEqual(block_item_capacity["params"][0]["schema"], "source_block_item_capacity_input.blockId")
+        self.assertIn("itemCapacity", block_item_capacity["return_keys"])
+        self.assertIn("buildingSenseItemCapacity", block_item_capacity["return_keys"])
+        self.assertEqual(block_item_capacity["source_method"], "field declaration")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -6201,6 +6245,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_block_is_damaged_result["keys"]["epsilon"]["java_expr"], "0.001f")
         self.assertEqual(source_block_is_damaged_result["keys"]["damaged"]["java_expr"], "return health < maxHealth - 0.001f;")
         self.assertEqual(source_block_is_damaged_result["keys"]["sprite"]["alias_of"], "source_block_is_damaged_input.sprite")
+
+        source_block_item_capacity_input = source_symbols.state_schema(schema, "source_block_item_capacity_input")
+        self.assertEqual(source_block_item_capacity_input["keys"]["blockId"]["java_expr"], "name")
+        self.assertEqual(source_block_item_capacity_input["keys"]["blockId"]["status"], "explicit-input")
+
+        source_block_item_capacity_result = source_symbols.state_schema(schema, "source_block_item_capacity_result")
+        self.assertEqual(source_block_item_capacity_result["keys"]["itemCapacity"]["java_expr"], "public int itemCapacity = 10;")
+        self.assertEqual(source_block_item_capacity_result["keys"]["buildingSenseItemCapacity"]["java_expr"], "case itemCapacity -> block.hasItems ? block.itemCapacity : 0;")
+        self.assertEqual(source_block_item_capacity_result["keys"]["coreStorageCapacity"]["java_expr"], "if(sensor == LAccess.itemCapacity) return storageCapacity;")
+        self.assertEqual(source_block_item_capacity_result["keys"]["blockId"]["alias_of"], "source_block_item_capacity_input.blockId")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

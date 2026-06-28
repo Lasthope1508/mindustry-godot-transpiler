@@ -11681,6 +11681,58 @@
       "java_expr": "this",
       "godot_symbol": "source_block_is_damaged_input.sprite",
       "rule": "Runtime sprite carries the Building receiver health metadata."
+    },
+    "block_item_capacity.field": {
+      "tests": [
+        "test_block_item_capacity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_item_capacity",
+      "godot_owner": "PortGame.source_block_item_capacity",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "field declaration",
+      "status": "source-backed",
+      "java_expr": "public int itemCapacity = 10;",
+      "godot_symbol": "source_block_item_capacity_result.itemCapacity",
+      "rule": "Block itemCapacity default field."
+    },
+    "block_item_capacity.building_sense": {
+      "tests": [
+        "test_block_item_capacity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_item_capacity",
+      "godot_owner": "PortGame.source_block_item_capacity",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "status": "source-backed",
+      "java_expr": "case itemCapacity -> block.hasItems ? block.itemCapacity : 0;",
+      "godot_symbol": "source_block_item_capacity_result.buildingSenseItemCapacity",
+      "rule": "BuildingComp logic sense exposes item capacity only for item blocks."
+    },
+    "block_item_capacity.core_sense": {
+      "tests": [
+        "test_block_item_capacity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_item_capacity",
+      "godot_owner": "PortGame.source_block_item_capacity",
+      "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+      "java_method": "CoreBuild.sense(LAccess sensor)",
+      "status": "source-backed",
+      "java_expr": "if(sensor == LAccess.itemCapacity) return storageCapacity;",
+      "godot_symbol": "source_block_item_capacity_result.coreStorageCapacity",
+      "rule": "CoreBuild overrides itemCapacity sense with merged storageCapacity."
+    },
+    "block_item_capacity.block_id_input": {
+      "tests": [
+        "test_block_item_capacity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_item_capacity",
+      "godot_owner": "PortGame.source_block_item_capacity",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "field declaration",
+      "status": "explicit-input",
+      "java_expr": "name",
+      "godot_symbol": "source_block_item_capacity_input.blockId",
+      "rule": "Runtime block_id selects the source Block name."
     }
   }
 }
