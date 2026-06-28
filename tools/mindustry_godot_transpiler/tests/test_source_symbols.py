@@ -3677,6 +3677,46 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(power_status["java_expr"], "this.power.status")
         self.assertEqual(power_status["godot_symbol"], "source_building_on_destroyed_buffered_power_input.power_status")
 
+    def test_building_on_destroyed_dynamic_explosion_call_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_on_destroyed_dynamic_explosion_call.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "onDestroyed()")
+        self.assertEqual(method["java_expr"], "public void onDestroyed(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_on_destroyed_dynamic_explosion_call_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_on_destroyed_dynamic_explosion_call_state")
+        self.assertEqual(method["godot_symbol"], "source_building_on_destroyed_dynamic_explosion_call_result.method")
+
+        comment = source_symbols.source_symbol(registry, "building_on_destroyed_dynamic_explosion_call.comment")
+        self.assertEqual(comment["java_expr"], "//cap explosiveness so fluid tanks/vaults don't instakill units")
+        self.assertEqual(comment["godot_symbol"], "source_building_on_destroyed_dynamic_explosion_call_result.comment")
+
+        call = source_symbols.source_symbol(registry, "building_on_destroyed_dynamic_explosion_call.call")
+        self.assertEqual(call["java_expr"], "Damage.dynamicExplosion(x, y, flammability * block.flammabilityScale, explosiveness * 3.5f * block.explosivenessScale, power, tilesize * block.size / 2f, state.rules.damageExplosions, block.destroyEffect, block.baseShake);")
+        self.assertEqual(call["godot_symbol"], "source_building_on_destroyed_dynamic_explosion_call_result.call")
+
+        flammability_arg = source_symbols.source_symbol(registry, "building_on_destroyed_dynamic_explosion_call.flammability_arg")
+        self.assertEqual(flammability_arg["java_expr"], "flammability * block.flammabilityScale")
+        self.assertEqual(flammability_arg["godot_symbol"], "source_building_on_destroyed_dynamic_explosion_call_result.flammability")
+
+        radius_arg = source_symbols.source_symbol(registry, "building_on_destroyed_dynamic_explosion_call.radius_arg")
+        self.assertEqual(radius_arg["java_expr"], "tilesize * block.size / 2f")
+        self.assertEqual(radius_arg["godot_symbol"], "source_building_on_destroyed_dynamic_explosion_call_result.radius")
+
+        source_x = source_symbols.source_symbol(registry, "building_on_destroyed_dynamic_explosion_call.source_x")
+        self.assertEqual(source_x["status"], "explicit-input")
+        self.assertEqual(source_x["java_expr"], "x")
+        self.assertEqual(source_x["godot_symbol"], "source_building_on_destroyed_dynamic_explosion_call_input.source_x")
+
+        destroy_effect = source_symbols.source_symbol(registry, "building_on_destroyed_dynamic_explosion_call.destroy_effect")
+        self.assertEqual(destroy_effect["status"], "explicit-input")
+        self.assertEqual(destroy_effect["java_expr"], "block.destroyEffect")
+        self.assertEqual(destroy_effect["godot_symbol"], "source_building_on_destroyed_dynamic_explosion_call_input.destroy_effect")
+
     def test_building_on_destroyed_base_sound_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -5903,9 +5943,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 207)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 208)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 212)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 213)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -5930,6 +5970,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_on_deconstructed_liquid_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_on_destroyed_base_sound_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_on_destroyed_buffered_power_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_on_destroyed_dynamic_explosion_call_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7271,6 +7312,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("power += this.power.status * block.consPower.capacity;", building_on_destroyed_buffered_power["exact_exprs"])
         self.assertIn("this.power.status", building_on_destroyed_buffered_power["exact_exprs"])
         self.assertIn("block.consPower.capacity", building_on_destroyed_buffered_power["exact_exprs"])
+
+        building_on_destroyed_dynamic_explosion_call = source_symbols.source_slice(ledger, "N610")
+        self.assertEqual(building_on_destroyed_dynamic_explosion_call["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_on_destroyed_dynamic_explosion_call["java_method"], "onDestroyed()")
+        self.assertEqual(building_on_destroyed_dynamic_explosion_call["godot_owner"], "PortGame.source_building_on_destroyed_dynamic_explosion_call_state")
+        self.assertIn("public void onDestroyed(){", building_on_destroyed_dynamic_explosion_call["exact_exprs"])
+        self.assertIn("//cap explosiveness so fluid tanks/vaults don't instakill units", building_on_destroyed_dynamic_explosion_call["exact_exprs"])
+        self.assertIn("Damage.dynamicExplosion(x, y, flammability * block.flammabilityScale, explosiveness * 3.5f * block.explosivenessScale, power, tilesize * block.size / 2f, state.rules.damageExplosions, block.destroyEffect, block.baseShake);", building_on_destroyed_dynamic_explosion_call["exact_exprs"])
+        self.assertIn("flammability * block.flammabilityScale", building_on_destroyed_dynamic_explosion_call["exact_exprs"])
+        self.assertIn("explosiveness * 3.5f * block.explosivenessScale", building_on_destroyed_dynamic_explosion_call["exact_exprs"])
+        self.assertIn("tilesize * block.size / 2f", building_on_destroyed_dynamic_explosion_call["exact_exprs"])
 
         building_on_destroyed_base_sound = source_symbols.source_slice(ledger, "N608")
         self.assertEqual(building_on_destroyed_base_sound["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -9134,6 +9186,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("buffered_power_contribution", building_on_destroyed_buffered_power["return_keys"])
         self.assertIn("power", building_on_destroyed_buffered_power["return_keys"])
         self.assertEqual(building_on_destroyed_buffered_power["source_method"], "onDestroyed()")
+
+        building_on_destroyed_dynamic_explosion_call = source_symbols.api_contract(contracts, "PortGame.source_building_on_destroyed_dynamic_explosion_call_state")
+        self.assertEqual([param["name"] for param in building_on_destroyed_dynamic_explosion_call["params"]], ["source_x", "source_y", "flammability", "explosiveness", "power", "flammability_scale", "explosiveness_scale", "source_tilesize", "source_block_size", "damage_explosions", "destroy_effect", "base_shake"])
+        self.assertEqual(building_on_destroyed_dynamic_explosion_call["params"][0]["schema"], "source_building_on_destroyed_dynamic_explosion_call_input.source_x")
+        self.assertEqual(building_on_destroyed_dynamic_explosion_call["params"][5]["schema"], "source_building_on_destroyed_dynamic_explosion_call_input.flammability_scale")
+        self.assertEqual(building_on_destroyed_dynamic_explosion_call["params"][11]["schema"], "source_building_on_destroyed_dynamic_explosion_call_input.base_shake")
+        self.assertIn("method", building_on_destroyed_dynamic_explosion_call["return_keys"])
+        self.assertIn("call", building_on_destroyed_dynamic_explosion_call["return_keys"])
+        self.assertIn("flammability", building_on_destroyed_dynamic_explosion_call["return_keys"])
+        self.assertIn("explosiveness", building_on_destroyed_dynamic_explosion_call["return_keys"])
+        self.assertIn("radius", building_on_destroyed_dynamic_explosion_call["return_keys"])
+        self.assertIn("damage_explosions", building_on_destroyed_dynamic_explosion_call["return_keys"])
+        self.assertEqual(building_on_destroyed_dynamic_explosion_call["source_method"], "onDestroyed()")
 
         building_on_destroyed_base_sound = source_symbols.api_contract(contracts, "PortGame.source_building_on_destroyed_base_sound_state")
         self.assertEqual([param["name"] for param in building_on_destroyed_base_sound["params"]], ["headless", "destroy_sound", "destroy_pitch_min", "destroy_pitch_max", "destroy_sound_volume"])
@@ -11198,6 +11263,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_on_destroyed_buffered_power_result["keys"]["buffered_power_contribution"]["java_expr"], "this.power.status * block.consPower.capacity")
         self.assertEqual(source_building_on_destroyed_buffered_power_result["keys"]["power"]["java_expr"], "power += this.power.status * block.consPower.capacity;")
         self.assertEqual(source_building_on_destroyed_buffered_power_result["keys"]["current_power"]["alias_of"], "source_building_on_destroyed_buffered_power_input.current_power")
+
+        source_building_on_destroyed_dynamic_explosion_call_input = source_symbols.state_schema(schema, "source_building_on_destroyed_dynamic_explosion_call_input")
+        self.assertEqual(source_building_on_destroyed_dynamic_explosion_call_input["keys"]["source_x"]["java_expr"], "x")
+        self.assertEqual(source_building_on_destroyed_dynamic_explosion_call_input["keys"]["source_y"]["java_expr"], "y")
+        self.assertEqual(source_building_on_destroyed_dynamic_explosion_call_input["keys"]["flammability"]["java_expr"], "flammability")
+        self.assertEqual(source_building_on_destroyed_dynamic_explosion_call_input["keys"]["explosiveness"]["java_expr"], "explosiveness")
+        self.assertEqual(source_building_on_destroyed_dynamic_explosion_call_input["keys"]["source_block_size"]["java_expr"], "block.size")
+        self.assertEqual(source_building_on_destroyed_dynamic_explosion_call_input["keys"]["destroy_effect"]["java_expr"], "block.destroyEffect")
+
+        source_building_on_destroyed_dynamic_explosion_call_result = source_symbols.state_schema(schema, "source_building_on_destroyed_dynamic_explosion_call_result")
+        self.assertEqual(source_building_on_destroyed_dynamic_explosion_call_result["keys"]["method"]["java_expr"], "public void onDestroyed(){")
+        self.assertEqual(source_building_on_destroyed_dynamic_explosion_call_result["keys"]["comment"]["java_expr"], "//cap explosiveness so fluid tanks/vaults don't instakill units")
+        self.assertEqual(source_building_on_destroyed_dynamic_explosion_call_result["keys"]["call"]["java_expr"], "Damage.dynamicExplosion(x, y, flammability * block.flammabilityScale, explosiveness * 3.5f * block.explosivenessScale, power, tilesize * block.size / 2f, state.rules.damageExplosions, block.destroyEffect, block.baseShake);")
+        self.assertEqual(source_building_on_destroyed_dynamic_explosion_call_result["keys"]["flammability"]["java_expr"], "flammability * block.flammabilityScale")
+        self.assertEqual(source_building_on_destroyed_dynamic_explosion_call_result["keys"]["explosiveness"]["java_expr"], "explosiveness * 3.5f * block.explosivenessScale")
+        self.assertEqual(source_building_on_destroyed_dynamic_explosion_call_result["keys"]["radius"]["java_expr"], "tilesize * block.size / 2f")
+        self.assertEqual(source_building_on_destroyed_dynamic_explosion_call_result["keys"]["source_x"]["alias_of"], "source_building_on_destroyed_dynamic_explosion_call_input.source_x")
 
         source_building_on_destroyed_base_sound_input = source_symbols.state_schema(schema, "source_building_on_destroyed_base_sound_input")
         self.assertEqual(source_building_on_destroyed_base_sound_input["keys"]["headless"]["java_expr"], "headless")

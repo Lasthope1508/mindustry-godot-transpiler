@@ -26075,6 +26075,340 @@
           "rule": "Carries cons_power_capacity input into result schema."
         }
       }
+    },
+    "source_building_on_destroyed_dynamic_explosion_call_input": {
+      "status": "active",
+      "keys": {
+        "source_x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "x",
+          "godot_symbol": "source_building_on_destroyed_dynamic_explosion_call_input.source_x",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"
+          ],
+          "rule": "Runtime source_x supplies source x coordinate."
+        },
+        "source_y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "y",
+          "godot_symbol": "source_building_on_destroyed_dynamic_explosion_call_input.source_y",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"
+          ],
+          "rule": "Runtime source_y supplies source y coordinate."
+        },
+        "flammability": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "flammability",
+          "godot_symbol": "source_building_on_destroyed_dynamic_explosion_call_input.flammability",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"
+          ],
+          "rule": "Runtime flammability supplies source flammability accumulator."
+        },
+        "explosiveness": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "explosiveness",
+          "godot_symbol": "source_building_on_destroyed_dynamic_explosion_call_input.explosiveness",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"
+          ],
+          "rule": "Runtime explosiveness supplies source explosiveness accumulator."
+        },
+        "power": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "power",
+          "godot_symbol": "source_building_on_destroyed_dynamic_explosion_call_input.power",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"
+          ],
+          "rule": "Runtime power supplies source power accumulator."
+        },
+        "flammability_scale": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "block.flammabilityScale",
+          "godot_symbol": "source_building_on_destroyed_dynamic_explosion_call_input.flammability_scale",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"
+          ],
+          "rule": "Runtime flammability_scale supplies source block.flammabilityScale."
+        },
+        "explosiveness_scale": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "block.explosivenessScale",
+          "godot_symbol": "source_building_on_destroyed_dynamic_explosion_call_input.explosiveness_scale",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"
+          ],
+          "rule": "Runtime explosiveness_scale supplies source block.explosivenessScale."
+        },
+        "source_tilesize": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "tilesize",
+          "godot_symbol": "source_building_on_destroyed_dynamic_explosion_call_input.source_tilesize",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"
+          ],
+          "rule": "Runtime source_tilesize supplies source tilesize."
+        },
+        "source_block_size": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "block.size",
+          "godot_symbol": "source_building_on_destroyed_dynamic_explosion_call_input.source_block_size",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"
+          ],
+          "rule": "Runtime source_block_size supplies source block.size."
+        },
+        "damage_explosions": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "state.rules.damageExplosions",
+          "godot_symbol": "source_building_on_destroyed_dynamic_explosion_call_input.damage_explosions",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"
+          ],
+          "rule": "Runtime damage_explosions supplies source state.rules.damageExplosions."
+        },
+        "destroy_effect": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "block.destroyEffect",
+          "godot_symbol": "source_building_on_destroyed_dynamic_explosion_call_input.destroy_effect",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"
+          ],
+          "rule": "Runtime destroy_effect supplies source block.destroyEffect."
+        },
+        "base_shake": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "block.baseShake",
+          "godot_symbol": "source_building_on_destroyed_dynamic_explosion_call_input.base_shake",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"
+          ],
+          "rule": "Runtime base_shake supplies source block.baseShake."
+        }
+      }
+    },
+    "source_building_on_destroyed_dynamic_explosion_call_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "public void onDestroyed(){",
+          "godot_symbol": "source_building_on_destroyed_dynamic_explosion_call_result.method",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"
+          ],
+          "rule": "BuildingComp onDestroyed method boundary."
+        },
+        "comment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "//cap explosiveness so fluid tanks/vaults don't instakill units",
+          "godot_symbol": "source_building_on_destroyed_dynamic_explosion_call_result.comment",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"
+          ],
+          "rule": "Upstream dynamicExplosion cap comment."
+        },
+        "call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "Damage.dynamicExplosion(x, y, flammability * block.flammabilityScale, explosiveness * 3.5f * block.explosivenessScale, power, tilesize * block.size / 2f, state.rules.damageExplosions, block.destroyEffect, block.baseShake);",
+          "godot_symbol": "source_building_on_destroyed_dynamic_explosion_call_result.call",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"
+          ],
+          "rule": "BuildingComp Damage.dynamicExplosion call boundary."
+        },
+        "flammability": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "flammability * block.flammabilityScale",
+          "godot_symbol": "source_building_on_destroyed_dynamic_explosion_call_result.flammability",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"
+          ],
+          "rule": "dynamicExplosion flammability argument."
+        },
+        "explosiveness": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "explosiveness * 3.5f * block.explosivenessScale",
+          "godot_symbol": "source_building_on_destroyed_dynamic_explosion_call_result.explosiveness",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"
+          ],
+          "rule": "dynamicExplosion explosiveness argument."
+        },
+        "power": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "power",
+          "godot_symbol": "source_building_on_destroyed_dynamic_explosion_call_result.power",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"
+          ],
+          "rule": "dynamicExplosion power argument."
+        },
+        "radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "tilesize * block.size / 2f",
+          "godot_symbol": "source_building_on_destroyed_dynamic_explosion_call_result.radius",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"
+          ],
+          "rule": "dynamicExplosion radius argument."
+        },
+        "damage_explosions": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "state.rules.damageExplosions",
+          "godot_symbol": "source_building_on_destroyed_dynamic_explosion_call_result.damage_explosions",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"
+          ],
+          "rule": "dynamicExplosion damageExplosions argument."
+        },
+        "effect": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "block.destroyEffect",
+          "godot_symbol": "source_building_on_destroyed_dynamic_explosion_call_result.effect",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"
+          ],
+          "rule": "dynamicExplosion destroy effect argument."
+        },
+        "shake": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "block.baseShake",
+          "godot_symbol": "source_building_on_destroyed_dynamic_explosion_call_result.shake",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"
+          ],
+          "rule": "dynamicExplosion shake argument."
+        },
+        "source_x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_dynamic_explosion_call_input.source_x",
+          "rule": "Carries source_x input into result schema."
+        },
+        "source_y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_dynamic_explosion_call_input.source_y",
+          "rule": "Carries source_y input into result schema."
+        },
+        "x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_dynamic_explosion_call_input.source_x",
+          "rule": "Aliases source x coordinate in result schema."
+        },
+        "y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_dynamic_explosion_call_input.source_y",
+          "rule": "Aliases source y coordinate in result schema."
+        },
+        "flammability_scale": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_dynamic_explosion_call_input.flammability_scale",
+          "rule": "Carries flammability_scale input into result schema."
+        },
+        "explosiveness_scale": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_dynamic_explosion_call_input.explosiveness_scale",
+          "rule": "Carries explosiveness_scale input into result schema."
+        },
+        "source_tilesize": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_dynamic_explosion_call_input.source_tilesize",
+          "rule": "Carries source_tilesize input into result schema."
+        },
+        "source_block_size": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_dynamic_explosion_call_input.source_block_size",
+          "rule": "Carries source_block_size input into result schema."
+        },
+        "destroy_effect": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_dynamic_explosion_call_input.destroy_effect",
+          "rule": "Carries destroy_effect input into result schema."
+        },
+        "base_shake": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_dynamic_explosion_call_input.base_shake",
+          "rule": "Carries base_shake input into result schema."
+        }
+      }
     }
   },
   "version": 1

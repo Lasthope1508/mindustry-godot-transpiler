@@ -7926,6 +7926,93 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_destroyed_buffered_power_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.onDestroyed buffered consumer power helper."
+    },
+    "PortGame.source_building_on_destroyed_dynamic_explosion_call_state": {
+      "status": "active",
+      "source_slice": "N610",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "onDestroyed()",
+      "params": [
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_building_on_destroyed_dynamic_explosion_call_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_building_on_destroyed_dynamic_explosion_call_input.source_y"
+        },
+        {
+          "name": "flammability",
+          "type": "float",
+          "schema": "source_building_on_destroyed_dynamic_explosion_call_input.flammability"
+        },
+        {
+          "name": "explosiveness",
+          "type": "float",
+          "schema": "source_building_on_destroyed_dynamic_explosion_call_input.explosiveness"
+        },
+        {
+          "name": "power",
+          "type": "float",
+          "schema": "source_building_on_destroyed_dynamic_explosion_call_input.power"
+        },
+        {
+          "name": "flammability_scale",
+          "type": "float",
+          "schema": "source_building_on_destroyed_dynamic_explosion_call_input.flammability_scale"
+        },
+        {
+          "name": "explosiveness_scale",
+          "type": "float",
+          "schema": "source_building_on_destroyed_dynamic_explosion_call_input.explosiveness_scale"
+        },
+        {
+          "name": "source_tilesize",
+          "type": "float",
+          "schema": "source_building_on_destroyed_dynamic_explosion_call_input.source_tilesize"
+        },
+        {
+          "name": "source_block_size",
+          "type": "int",
+          "schema": "source_building_on_destroyed_dynamic_explosion_call_input.source_block_size"
+        },
+        {
+          "name": "damage_explosions",
+          "type": "bool",
+          "schema": "source_building_on_destroyed_dynamic_explosion_call_input.damage_explosions"
+        },
+        {
+          "name": "destroy_effect",
+          "type": "String",
+          "schema": "source_building_on_destroyed_dynamic_explosion_call_input.destroy_effect"
+        },
+        {
+          "name": "base_shake",
+          "type": "float",
+          "schema": "source_building_on_destroyed_dynamic_explosion_call_input.base_shake"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "comment",
+        "call",
+        "x",
+        "y",
+        "flammability",
+        "explosiveness",
+        "power",
+        "radius",
+        "damage_explosions",
+        "effect",
+        "shake"
+      ],
+      "tests": [
+        "test_building_on_destroyed_dynamic_explosion_call_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_dynamic_explosion_call_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.onDestroyed Damage.dynamicExplosion call argument helper."
     }
   },
   "policy": {

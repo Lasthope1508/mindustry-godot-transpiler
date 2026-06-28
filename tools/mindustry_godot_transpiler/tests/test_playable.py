@@ -1762,6 +1762,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_building_on_destroyed_dynamic_explosion_call_state(source_x: float, source_y: float, flammability: float, explosiveness: float, power: float, flammability_scale: float, explosiveness_scale: float, source_tilesize: float, source_block_size: int, damage_explosions: bool, destroy_effect: String, base_shake: float) -> Dictionary:", source)
+        self.assertIn('"method": "public void onDestroyed(){"', source)
+        self.assertIn('"call": "Damage.dynamicExplosion(x, y, flammability * block.flammabilityScale, explosiveness * 3.5f * block.explosivenessScale, power, tilesize * block.size / 2f, state.rules.damageExplosions, block.destroyEffect, block.baseShake);"', source)
         self.assertIn('"flammability": flammability * flammability_scale', source)
         self.assertIn('"explosiveness": explosiveness * 3.5 * explosiveness_scale', source)
         self.assertIn('"radius": source_tilesize * float(source_block_size) / 2.0', source)

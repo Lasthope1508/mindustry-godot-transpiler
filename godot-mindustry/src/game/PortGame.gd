@@ -1797,6 +1797,9 @@ func source_building_on_destroyed_splash_liquid_state(has_liquids: bool, damage_
 
 func source_building_on_destroyed_dynamic_explosion_call_state(source_x: float, source_y: float, flammability: float, explosiveness: float, power: float, flammability_scale: float, explosiveness_scale: float, source_tilesize: float, source_block_size: int, damage_explosions: bool, destroy_effect: String, base_shake: float) -> Dictionary:
 	return {
+		"method": "public void onDestroyed(){",
+		"comment": "//cap explosiveness so fluid tanks/vaults don't instakill units",
+		"call": "Damage.dynamicExplosion(x, y, flammability * block.flammabilityScale, explosiveness * 3.5f * block.explosivenessScale, power, tilesize * block.size / 2f, state.rules.damageExplosions, block.destroyEffect, block.baseShake);",
 		"x": source_x,
 		"y": source_y,
 		"flammability": flammability * flammability_scale,

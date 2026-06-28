@@ -6540,6 +6540,60 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_destroyed_buffered_power_state",
       "rule": "Backfills SSOT for existing canonical source_building_on_destroyed_buffered_power_state helper against BuildingComp.onDestroyed() buffered consumer power contribution."
+    },
+    "N610": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_dynamic_explosion_call_state",
+      "exact_exprs": [
+        "/** Called when the block is destroyed. The tile is still intact at this stage. */",
+        "public void onDestroyed(){",
+        "//cap explosiveness so fluid tanks/vaults don't instakill units",
+        "Damage.dynamicExplosion(x, y, flammability * block.flammabilityScale, explosiveness * 3.5f * block.explosivenessScale, power, tilesize * block.size / 2f, state.rules.damageExplosions, block.destroyEffect, block.baseShake);",
+        "x",
+        "y",
+        "flammability * block.flammabilityScale",
+        "explosiveness * 3.5f * block.explosivenessScale",
+        "power",
+        "tilesize * block.size / 2f",
+        "state.rules.damageExplosions",
+        "block.destroyEffect",
+        "block.baseShake"
+      ],
+      "deferred_exprs": [
+        "Concrete Damage.dynamicExplosion body, splash damage, fire, effects, and camera shake remain owned by damage/effect/runtime integration slices."
+      ],
+      "source_symbols": [
+        "building_on_destroyed_dynamic_explosion_call.method",
+        "building_on_destroyed_dynamic_explosion_call.comment",
+        "building_on_destroyed_dynamic_explosion_call.call",
+        "building_on_destroyed_dynamic_explosion_call.flammability_arg",
+        "building_on_destroyed_dynamic_explosion_call.explosiveness_arg",
+        "building_on_destroyed_dynamic_explosion_call.power_arg",
+        "building_on_destroyed_dynamic_explosion_call.radius_arg",
+        "building_on_destroyed_dynamic_explosion_call.damage_explosions_arg",
+        "building_on_destroyed_dynamic_explosion_call.effect_arg",
+        "building_on_destroyed_dynamic_explosion_call.shake_arg",
+        "building_on_destroyed_dynamic_explosion_call.source_x",
+        "building_on_destroyed_dynamic_explosion_call.source_y",
+        "building_on_destroyed_dynamic_explosion_call.flammability",
+        "building_on_destroyed_dynamic_explosion_call.explosiveness",
+        "building_on_destroyed_dynamic_explosion_call.power",
+        "building_on_destroyed_dynamic_explosion_call.flammability_scale",
+        "building_on_destroyed_dynamic_explosion_call.explosiveness_scale",
+        "building_on_destroyed_dynamic_explosion_call.source_tilesize",
+        "building_on_destroyed_dynamic_explosion_call.source_block_size",
+        "building_on_destroyed_dynamic_explosion_call.damage_explosions",
+        "building_on_destroyed_dynamic_explosion_call.destroy_effect",
+        "building_on_destroyed_dynamic_explosion_call.base_shake"
+      ],
+      "tests": [
+        "test_building_on_destroyed_dynamic_explosion_call_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_dynamic_explosion_call_state",
+      "rule": "Backfills SSOT for existing canonical source_building_on_destroyed_dynamic_explosion_call_state helper against BuildingComp.onDestroyed() Damage.dynamicExplosion call arguments."
     }
   },
   "version": 1
