@@ -7877,6 +7877,55 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_destroyed_base_sound_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.onDestroyed base destroy sound helper."
+    },
+    "PortGame.source_building_on_destroyed_buffered_power_state": {
+      "status": "active",
+      "source_slice": "N609",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "onDestroyed()",
+      "params": [
+        {
+          "name": "current_power",
+          "type": "float",
+          "schema": "source_building_on_destroyed_buffered_power_input.current_power"
+        },
+        {
+          "name": "has_cons_power",
+          "type": "bool",
+          "schema": "source_building_on_destroyed_buffered_power_input.has_cons_power"
+        },
+        {
+          "name": "cons_power_buffered",
+          "type": "bool",
+          "schema": "source_building_on_destroyed_buffered_power_input.cons_power_buffered"
+        },
+        {
+          "name": "power_status",
+          "type": "float",
+          "schema": "source_building_on_destroyed_buffered_power_input.power_status"
+        },
+        {
+          "name": "cons_power_capacity",
+          "type": "float",
+          "schema": "source_building_on_destroyed_buffered_power_input.cons_power_capacity"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "current_power",
+        "has_cons_power",
+        "cons_power_buffered",
+        "power_status",
+        "cons_power_capacity",
+        "apply_buffered_power",
+        "buffered_power_contribution",
+        "power"
+      ],
+      "tests": [
+        "test_building_on_destroyed_buffered_power_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_buffered_power_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.onDestroyed buffered consumer power helper."
     }
   },
   "policy": {

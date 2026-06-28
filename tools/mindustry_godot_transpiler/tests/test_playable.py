@@ -1742,10 +1742,11 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn("func source_building_on_destroyed_buffered_power_state(current_power: float, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float) -> float:", source)
-        self.assertIn("if has_cons_power and cons_power_buffered:", source)
-        self.assertIn("return current_power + power_status * cons_power_capacity", source)
-        self.assertIn("return current_power", source)
+        self.assertIn("func source_building_on_destroyed_buffered_power_state(current_power: float, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float) -> Dictionary:", source)
+        self.assertIn('"method": "public void onDestroyed(){"', source)
+        self.assertIn("var apply_buffered_power := has_cons_power and cons_power_buffered", source)
+        self.assertIn("var buffered_power_contribution := power_status * cons_power_capacity if apply_buffered_power else 0.0", source)
+        self.assertIn('"power": current_power + buffered_power_contribution', source)
 
     def test_port_game_exposes_source_building_on_destroyed_splash_liquid_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

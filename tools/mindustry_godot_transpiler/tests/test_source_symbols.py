@@ -3645,6 +3645,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(block_size["java_expr"], "block.size")
         self.assertEqual(block_size["godot_symbol"], "source_building_on_deconstructed_liquid_input.source_block_size")
 
+    def test_building_on_destroyed_buffered_power_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_on_destroyed_buffered_power.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "onDestroyed()")
+        self.assertEqual(method["java_expr"], "public void onDestroyed(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_on_destroyed_buffered_power_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_on_destroyed_buffered_power_state")
+        self.assertEqual(method["godot_symbol"], "source_building_on_destroyed_buffered_power_result.method")
+
+        guard = source_symbols.source_symbol(registry, "building_on_destroyed_buffered_power.guard")
+        self.assertEqual(guard["java_expr"], "if(block.consPower != null && block.consPower.buffered){")
+        self.assertEqual(guard["godot_symbol"], "source_building_on_destroyed_buffered_power_result.apply_buffered_power")
+
+        add = source_symbols.source_symbol(registry, "building_on_destroyed_buffered_power.add")
+        self.assertEqual(add["java_expr"], "power += this.power.status * block.consPower.capacity;")
+        self.assertEqual(add["godot_symbol"], "source_building_on_destroyed_buffered_power_result.power")
+
+        current_power = source_symbols.source_symbol(registry, "building_on_destroyed_buffered_power.current_power")
+        self.assertEqual(current_power["status"], "explicit-input")
+        self.assertEqual(current_power["java_expr"], "power")
+        self.assertEqual(current_power["godot_symbol"], "source_building_on_destroyed_buffered_power_input.current_power")
+
+        power_status = source_symbols.source_symbol(registry, "building_on_destroyed_buffered_power.power_status")
+        self.assertEqual(power_status["status"], "explicit-input")
+        self.assertEqual(power_status["java_expr"], "this.power.status")
+        self.assertEqual(power_status["godot_symbol"], "source_building_on_destroyed_buffered_power_input.power_status")
+
     def test_building_on_destroyed_base_sound_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -5871,9 +5903,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 206)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 207)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 211)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 212)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -5897,6 +5929,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_on_configure_tapped_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_on_deconstructed_liquid_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_on_destroyed_base_sound_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_on_destroyed_buffered_power_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7228,6 +7261,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(liquids != null && liquids.currentAmount() > 0 && (!liquids.current().incinerable || block.deconstructDropAllLiquid)){", building_on_deconstructed_liquid["exact_exprs"])
         self.assertIn("float perCell = liquids.currentAmount() / (block.size * block.size) * 2f;", building_on_deconstructed_liquid["exact_exprs"])
         self.assertIn("tile.getLinkedTiles(other -> Puddles.deposit(other, liquids.current(), perCell));", building_on_deconstructed_liquid["exact_exprs"])
+
+        building_on_destroyed_buffered_power = source_symbols.source_slice(ledger, "N609")
+        self.assertEqual(building_on_destroyed_buffered_power["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_on_destroyed_buffered_power["java_method"], "onDestroyed()")
+        self.assertEqual(building_on_destroyed_buffered_power["godot_owner"], "PortGame.source_building_on_destroyed_buffered_power_state")
+        self.assertIn("public void onDestroyed(){", building_on_destroyed_buffered_power["exact_exprs"])
+        self.assertIn("if(block.consPower != null && block.consPower.buffered){", building_on_destroyed_buffered_power["exact_exprs"])
+        self.assertIn("power += this.power.status * block.consPower.capacity;", building_on_destroyed_buffered_power["exact_exprs"])
+        self.assertIn("this.power.status", building_on_destroyed_buffered_power["exact_exprs"])
+        self.assertIn("block.consPower.capacity", building_on_destroyed_buffered_power["exact_exprs"])
 
         building_on_destroyed_base_sound = source_symbols.source_slice(ledger, "N608")
         self.assertEqual(building_on_destroyed_base_sound["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -9080,6 +9123,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("per_cell", building_on_deconstructed_liquid["return_keys"])
         self.assertIn("deposit_call", building_on_deconstructed_liquid["return_keys"])
         self.assertEqual(building_on_deconstructed_liquid["source_method"], "onDeconstructed(@Nullable Unit builder)")
+
+        building_on_destroyed_buffered_power = source_symbols.api_contract(contracts, "PortGame.source_building_on_destroyed_buffered_power_state")
+        self.assertEqual([param["name"] for param in building_on_destroyed_buffered_power["params"]], ["current_power", "has_cons_power", "cons_power_buffered", "power_status", "cons_power_capacity"])
+        self.assertEqual(building_on_destroyed_buffered_power["params"][0]["schema"], "source_building_on_destroyed_buffered_power_input.current_power")
+        self.assertEqual(building_on_destroyed_buffered_power["params"][3]["schema"], "source_building_on_destroyed_buffered_power_input.power_status")
+        self.assertEqual(building_on_destroyed_buffered_power["params"][4]["schema"], "source_building_on_destroyed_buffered_power_input.cons_power_capacity")
+        self.assertIn("method", building_on_destroyed_buffered_power["return_keys"])
+        self.assertIn("apply_buffered_power", building_on_destroyed_buffered_power["return_keys"])
+        self.assertIn("buffered_power_contribution", building_on_destroyed_buffered_power["return_keys"])
+        self.assertIn("power", building_on_destroyed_buffered_power["return_keys"])
+        self.assertEqual(building_on_destroyed_buffered_power["source_method"], "onDestroyed()")
 
         building_on_destroyed_base_sound = source_symbols.api_contract(contracts, "PortGame.source_building_on_destroyed_base_sound_state")
         self.assertEqual([param["name"] for param in building_on_destroyed_base_sound["params"]], ["headless", "destroy_sound", "destroy_pitch_min", "destroy_pitch_max", "destroy_sound_volume"])
@@ -11130,6 +11184,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_on_deconstructed_liquid_result["keys"]["deposit_call"]["java_expr"], "tile.getLinkedTiles(other -> Puddles.deposit(other, liquids.current(), perCell));")
         self.assertEqual(source_building_on_deconstructed_liquid_result["keys"]["current_amount"]["alias_of"], "source_building_on_deconstructed_liquid_input.current_amount")
         self.assertEqual(source_building_on_deconstructed_liquid_result["keys"]["source_block_size"]["alias_of"], "source_building_on_deconstructed_liquid_input.source_block_size")
+
+        source_building_on_destroyed_buffered_power_input = source_symbols.state_schema(schema, "source_building_on_destroyed_buffered_power_input")
+        self.assertEqual(source_building_on_destroyed_buffered_power_input["keys"]["current_power"]["java_expr"], "power")
+        self.assertEqual(source_building_on_destroyed_buffered_power_input["keys"]["has_cons_power"]["java_expr"], "block.consPower != null")
+        self.assertEqual(source_building_on_destroyed_buffered_power_input["keys"]["cons_power_buffered"]["java_expr"], "block.consPower.buffered")
+        self.assertEqual(source_building_on_destroyed_buffered_power_input["keys"]["power_status"]["java_expr"], "this.power.status")
+        self.assertEqual(source_building_on_destroyed_buffered_power_input["keys"]["cons_power_capacity"]["java_expr"], "block.consPower.capacity")
+
+        source_building_on_destroyed_buffered_power_result = source_symbols.state_schema(schema, "source_building_on_destroyed_buffered_power_result")
+        self.assertEqual(source_building_on_destroyed_buffered_power_result["keys"]["method"]["java_expr"], "public void onDestroyed(){")
+        self.assertEqual(source_building_on_destroyed_buffered_power_result["keys"]["apply_buffered_power"]["java_expr"], "if(block.consPower != null && block.consPower.buffered){")
+        self.assertEqual(source_building_on_destroyed_buffered_power_result["keys"]["buffered_power_contribution"]["java_expr"], "this.power.status * block.consPower.capacity")
+        self.assertEqual(source_building_on_destroyed_buffered_power_result["keys"]["power"]["java_expr"], "power += this.power.status * block.consPower.capacity;")
+        self.assertEqual(source_building_on_destroyed_buffered_power_result["keys"]["current_power"]["alias_of"], "source_building_on_destroyed_buffered_power_input.current_power")
 
         source_building_on_destroyed_base_sound_input = source_symbols.state_schema(schema, "source_building_on_destroyed_base_sound_input")
         self.assertEqual(source_building_on_destroyed_base_sound_input["keys"]["headless"]["java_expr"], "headless")

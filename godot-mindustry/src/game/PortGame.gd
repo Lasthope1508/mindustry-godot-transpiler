@@ -1772,10 +1772,20 @@ func source_building_on_destroyed_liquid_explosion_state(current_explosiveness: 
 			explosiveness += float(liquid_state.get("explosiveness", 0.0)) * float(liquid_state.get("amount", 0.0)) / 2.0
 	return {"explosiveness": explosiveness, "flammability": flammability}
 
-func source_building_on_destroyed_buffered_power_state(current_power: float, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float) -> float:
-	if has_cons_power and cons_power_buffered:
-		return current_power + power_status * cons_power_capacity
-	return current_power
+func source_building_on_destroyed_buffered_power_state(current_power: float, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float) -> Dictionary:
+	var apply_buffered_power := has_cons_power and cons_power_buffered
+	var buffered_power_contribution := power_status * cons_power_capacity if apply_buffered_power else 0.0
+	return {
+		"method": "public void onDestroyed(){",
+		"current_power": current_power,
+		"has_cons_power": has_cons_power,
+		"cons_power_buffered": cons_power_buffered,
+		"power_status": power_status,
+		"cons_power_capacity": cons_power_capacity,
+		"apply_buffered_power": apply_buffered_power,
+		"buffered_power_contribution": buffered_power_contribution,
+		"power": current_power + buffered_power_contribution,
+	}
 
 func source_building_on_destroyed_splash_liquid_state(has_liquids: bool, damage_explosions: bool, liquid_states: Array) -> Dictionary:
 	var should_splash := has_liquids and damage_explosions

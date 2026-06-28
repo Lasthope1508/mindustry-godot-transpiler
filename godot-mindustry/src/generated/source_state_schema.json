@@ -25927,6 +25927,154 @@
           "rule": "Aliases source block.destroySoundVolume in result schema."
         }
       }
+    },
+    "source_building_on_destroyed_buffered_power_input": {
+      "status": "active",
+      "keys": {
+        "current_power": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "power",
+          "godot_symbol": "source_building_on_destroyed_buffered_power_input.current_power",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_buffered_power_state"
+          ],
+          "rule": "Runtime current_power supplies source power accumulator before this slice."
+        },
+        "has_cons_power": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "block.consPower != null",
+          "godot_symbol": "source_building_on_destroyed_buffered_power_input.has_cons_power",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_buffered_power_state"
+          ],
+          "rule": "Runtime has_cons_power supplies source block.consPower != null predicate."
+        },
+        "cons_power_buffered": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "block.consPower.buffered",
+          "godot_symbol": "source_building_on_destroyed_buffered_power_input.cons_power_buffered",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_buffered_power_state"
+          ],
+          "rule": "Runtime cons_power_buffered supplies source block.consPower.buffered predicate."
+        },
+        "power_status": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "this.power.status",
+          "godot_symbol": "source_building_on_destroyed_buffered_power_input.power_status",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_buffered_power_state"
+          ],
+          "rule": "Runtime power_status supplies source this.power.status."
+        },
+        "cons_power_capacity": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "block.consPower.capacity",
+          "godot_symbol": "source_building_on_destroyed_buffered_power_input.cons_power_capacity",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_buffered_power_state"
+          ],
+          "rule": "Runtime cons_power_capacity supplies source block.consPower.capacity."
+        }
+      }
+    },
+    "source_building_on_destroyed_buffered_power_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "public void onDestroyed(){",
+          "godot_symbol": "source_building_on_destroyed_buffered_power_result.method",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_buffered_power_state"
+          ],
+          "rule": "BuildingComp onDestroyed method boundary."
+        },
+        "apply_buffered_power": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "if(block.consPower != null && block.consPower.buffered){",
+          "godot_symbol": "source_building_on_destroyed_buffered_power_result.apply_buffered_power",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_buffered_power_state"
+          ],
+          "rule": "Buffered consumer power contribution gate."
+        },
+        "buffered_power_contribution": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "this.power.status * block.consPower.capacity",
+          "godot_symbol": "source_building_on_destroyed_buffered_power_result.buffered_power_contribution",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_buffered_power_state"
+          ],
+          "rule": "Buffered consumer power contribution value."
+        },
+        "power": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "power += this.power.status * block.consPower.capacity;",
+          "godot_symbol": "source_building_on_destroyed_buffered_power_result.power",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_buffered_power_state"
+          ],
+          "rule": "Power accumulator after buffered consumer power contribution."
+        },
+        "current_power": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_buffered_power_input.current_power",
+          "rule": "Carries current_power input into result schema."
+        },
+        "has_cons_power": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_buffered_power_input.has_cons_power",
+          "rule": "Carries has_cons_power input into result schema."
+        },
+        "cons_power_buffered": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_buffered_power_input.cons_power_buffered",
+          "rule": "Carries cons_power_buffered input into result schema."
+        },
+        "power_status": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_buffered_power_input.power_status",
+          "rule": "Carries power_status input into result schema."
+        },
+        "cons_power_capacity": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_buffered_power_input.cons_power_capacity",
+          "rule": "Carries cons_power_capacity input into result schema."
+        }
+      }
     }
   },
   "version": 1

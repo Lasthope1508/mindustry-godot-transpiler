@@ -6502,6 +6502,44 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_destroyed_base_sound_state",
       "rule": "Backfills SSOT for existing canonical source_building_on_destroyed_base_sound_state helper against BuildingComp.onDestroyed() and playDestroySound()."
+    },
+    "N609": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_buffered_power_state",
+      "exact_exprs": [
+        "/** Called when the block is destroyed. The tile is still intact at this stage. */",
+        "public void onDestroyed(){",
+        "float power = 0f;",
+        "if(block.consPower != null && block.consPower.buffered){",
+        "power += this.power.status * block.consPower.capacity;",
+        "power",
+        "block.consPower != null",
+        "block.consPower.buffered",
+        "this.power.status",
+        "block.consPower.capacity"
+      ],
+      "deferred_exprs": [
+        "Concrete ConsumePower object identity and PowerGraph status mutation remain owned by power/runtime integration slices."
+      ],
+      "source_symbols": [
+        "building_on_destroyed_buffered_power.method",
+        "building_on_destroyed_buffered_power.guard",
+        "building_on_destroyed_buffered_power.add",
+        "building_on_destroyed_buffered_power.contribution",
+        "building_on_destroyed_buffered_power.current_power",
+        "building_on_destroyed_buffered_power.has_cons_power",
+        "building_on_destroyed_buffered_power.cons_power_buffered",
+        "building_on_destroyed_buffered_power.power_status",
+        "building_on_destroyed_buffered_power.cons_power_capacity"
+      ],
+      "tests": [
+        "test_building_on_destroyed_buffered_power_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_buffered_power_state",
+      "rule": "Backfills SSOT for existing canonical source_building_on_destroyed_buffered_power_state helper against BuildingComp.onDestroyed() buffered consumer power contribution."
     }
   },
   "version": 1
