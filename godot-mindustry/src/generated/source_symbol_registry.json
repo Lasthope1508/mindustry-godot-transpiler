@@ -10563,6 +10563,175 @@
       "java_expr": "mag",
       "godot_symbol": "source_arc_mathf_sin_scaled_input.mag",
       "rule": "Runtime mag maps to Java mag."
+    },
+    "arc_mathf_sin_table_value.loop": {
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "static sinTable initializer",
+      "status": "source-backed",
+      "java_expr": "for(int i = 0; i < sinCount; i++)",
+      "godot_symbol": "source_arc_mathf_sin_table_value_result.loop",
+      "rule": "Static initializer iterates every sinTable index."
+    },
+    "arc_mathf_sin_table_value.table_init": {
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "static sinTable initializer",
+      "status": "source-backed",
+      "java_expr": "sinTable[i] = (float)Math.sin((i + 0.5f) / sinCount * radFull);",
+      "godot_symbol": "source_arc_mathf_sin_table_value_result.tableValue",
+      "rule": "Default sine table sample formula."
+    },
+    "arc_mathf_sin_table_value.sin_bits": {
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "static sinTable initializer",
+      "status": "source-backed",
+      "java_expr": "private static final int sinBits = 14;",
+      "godot_symbol": "source_arc_mathf_sin_table_value_result.sinBits",
+      "rule": "Sine table bit count."
+    },
+    "arc_mathf_sin_table_value.sin_mask": {
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "static sinTable initializer",
+      "status": "source-backed",
+      "java_expr": "private static final int sinMask = ~(-1 << sinBits);",
+      "godot_symbol": "source_arc_mathf_sin_table_value_result.sinMask",
+      "rule": "Sine table mask."
+    },
+    "arc_mathf_sin_table_value.sin_count": {
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "static sinTable initializer",
+      "status": "source-backed",
+      "java_expr": "private static final int sinCount = sinMask + 1;",
+      "godot_symbol": "source_arc_mathf_sin_table_value_result.sinCount",
+      "rule": "Sine table entry count."
+    },
+    "arc_mathf_sin_table_value.rad_full": {
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "static sinTable initializer",
+      "status": "source-backed",
+      "java_expr": "private static final float radFull = PI * 2;",
+      "godot_symbol": "source_arc_mathf_sin_table_value_result.radFull",
+      "rule": "Full radians source constant."
+    },
+    "arc_mathf_sin_table_value.deg_to_index": {
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "static sinTable initializer",
+      "status": "source-backed",
+      "java_expr": "private static final float degToIndex = sinCount / degFull;",
+      "godot_symbol": "source_arc_mathf_sin_table_value_result.degToIndex",
+      "rule": "Degree-to-table-index scale for cardinal overrides."
+    },
+    "arc_mathf_sin_table_value.cardinal_loop": {
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "static sinTable initializer",
+      "status": "source-backed",
+      "java_expr": "for(int i = 0; i < 360; i += 90)",
+      "godot_symbol": "source_arc_mathf_sin_table_value_result.cardinalLoop",
+      "rule": "Static initializer visits cardinal degree samples."
+    },
+    "arc_mathf_sin_table_value.cardinal_zero": {
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "static sinTable initializer",
+      "status": "source-backed",
+      "java_expr": "sinTable[0] = 0f;",
+      "godot_symbol": "source_arc_mathf_sin_table_value_result.cardinalZero",
+      "rule": "Pins zero degrees to exact zero."
+    },
+    "arc_mathf_sin_table_value.cardinal_ninety": {
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "static sinTable initializer",
+      "status": "source-backed",
+      "java_expr": "sinTable[(int)(90 * degToIndex) & sinMask] = 1f;",
+      "godot_symbol": "source_arc_mathf_sin_table_value_result.cardinalNinety",
+      "rule": "Pins ninety degrees to exact one."
+    },
+    "arc_mathf_sin_table_value.cardinal_one_eighty": {
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "static sinTable initializer",
+      "status": "source-backed",
+      "java_expr": "sinTable[(int)(180 * degToIndex) & sinMask] = 0f;",
+      "godot_symbol": "source_arc_mathf_sin_table_value_result.cardinalOneEighty",
+      "rule": "Pins one-eighty degrees to exact zero."
+    },
+    "arc_mathf_sin_table_value.cardinal_two_seventy": {
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "static sinTable initializer",
+      "status": "source-backed",
+      "java_expr": "sinTable[(int)(270 * degToIndex) & sinMask] = -1f;",
+      "godot_symbol": "source_arc_mathf_sin_table_value_result.cardinalTwoSeventy",
+      "rule": "Pins two-seventy degrees to exact negative one."
+    },
+    "arc_mathf_sin_table_value.index_input": {
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "static sinTable initializer",
+      "status": "explicit-input",
+      "java_expr": "i",
+      "godot_symbol": "source_arc_mathf_sin_table_value_input.index",
+      "rule": "Runtime index maps to static initializer loop variable i."
     }
   }
 }

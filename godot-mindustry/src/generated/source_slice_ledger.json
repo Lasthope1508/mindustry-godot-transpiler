@@ -3235,6 +3235,49 @@
       ],
       "runtime_proof": "/root/Main.source_arc_mathf_sin_scaled",
       "rule": "Backfills SSOT for existing canonical source_arc_mathf_sin_scaled helper against Arc Mathf.sin scaled overload."
+    },
+    "N506": {
+      "status": "done",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_class": "arc.math.Mathf",
+      "java_method": "static sinTable initializer",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "exact_exprs": [
+        "private static final int sinBits = 14;",
+        "private static final int sinMask = ~(-1 << sinBits);",
+        "private static final int sinCount = sinMask + 1;",
+        "private static final float radFull = PI * 2;",
+        "private static final float degToIndex = sinCount / degFull;",
+        "for(int i = 0; i < sinCount; i++)",
+        "sinTable[i] = (float)Math.sin((i + 0.5f) / sinCount * radFull);",
+        "for(int i = 0; i < 360; i += 90)",
+        "sinTable[0] = 0f;",
+        "sinTable[(int)(90 * degToIndex) & sinMask] = 1f;",
+        "sinTable[(int)(180 * degToIndex) & sinMask] = 0f;",
+        "sinTable[(int)(270 * degToIndex) & sinMask] = -1f;",
+        "i"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "arc_mathf_sin_table_value.loop",
+        "arc_mathf_sin_table_value.table_init",
+        "arc_mathf_sin_table_value.sin_bits",
+        "arc_mathf_sin_table_value.sin_mask",
+        "arc_mathf_sin_table_value.sin_count",
+        "arc_mathf_sin_table_value.rad_full",
+        "arc_mathf_sin_table_value.deg_to_index",
+        "arc_mathf_sin_table_value.cardinal_loop",
+        "arc_mathf_sin_table_value.cardinal_zero",
+        "arc_mathf_sin_table_value.cardinal_ninety",
+        "arc_mathf_sin_table_value.cardinal_one_eighty",
+        "arc_mathf_sin_table_value.cardinal_two_seventy",
+        "arc_mathf_sin_table_value.index_input"
+      ],
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "rule": "Backfills SSOT for existing canonical source_arc_mathf_sin_table_value helper against Arc Mathf static sine table initializer."
     }
   },
   "version": 1

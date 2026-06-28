@@ -4374,6 +4374,33 @@
       ],
       "runtime_proof": "/root/Main.source_arc_mathf_sin_scaled",
       "rule": "Public runtime contract for Arc Mathf.sin(float,float,float) scaled helper."
+    },
+    "PortGame.source_arc_mathf_sin_table_value": {
+      "status": "active",
+      "source_slice": "N506",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "source_method": "static sinTable initializer",
+      "params": [
+        {
+          "name": "index",
+          "type": "int",
+          "schema": "source_arc_mathf_sin_table_value_input.index"
+        }
+      ],
+      "return_keys": [
+        "loop",
+        "tableValue",
+        "cardinalZero",
+        "cardinalNinety",
+        "cardinalOneEighty",
+        "cardinalTwoSeventy",
+        "index"
+      ],
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "rule": "Public runtime contract for Arc sine table value helper."
     }
   },
   "policy": {

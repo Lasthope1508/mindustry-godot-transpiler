@@ -2416,6 +2416,31 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(mag_input["java_expr"], "mag")
         self.assertEqual(mag_input["godot_symbol"], "source_arc_mathf_sin_scaled_input.mag")
 
+    def test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        table_init = source_symbols.source_symbol(registry, "arc_mathf_sin_table_value.table_init")
+        self.assertEqual(table_init["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(table_init["java_expr"], "sinTable[i] = (float)Math.sin((i + 0.5f) / sinCount * radFull);")
+        self.assertEqual(table_init["godot_owner"], "PortGame.source_arc_mathf_sin_table_value")
+        self.assertEqual(table_init["runtime_proof"], "/root/Main.source_arc_mathf_sin_table_value")
+
+        cardinal_zero = source_symbols.source_symbol(registry, "arc_mathf_sin_table_value.cardinal_zero")
+        self.assertEqual(cardinal_zero["java_expr"], "sinTable[0] = 0f;")
+        self.assertEqual(cardinal_zero["godot_symbol"], "source_arc_mathf_sin_table_value_result.cardinalZero")
+
+        cardinal_ninety = source_symbols.source_symbol(registry, "arc_mathf_sin_table_value.cardinal_ninety")
+        self.assertEqual(cardinal_ninety["java_expr"], "sinTable[(int)(90 * degToIndex) & sinMask] = 1f;")
+        self.assertEqual(cardinal_ninety["godot_symbol"], "source_arc_mathf_sin_table_value_result.cardinalNinety")
+
+        index_input = source_symbols.source_symbol(registry, "arc_mathf_sin_table_value.index_input")
+        self.assertEqual(index_input["status"], "explicit-input")
+        self.assertEqual(index_input["java_expr"], "i")
+        self.assertEqual(index_input["godot_symbol"], "source_arc_mathf_sin_table_value_input.index")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -2700,9 +2725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 103)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 104)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 108)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 109)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -2807,6 +2832,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_arc_mathf_num", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_mathf_sin_lookup", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_mathf_sin_scaled", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_arc_mathf_sin_table_value", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -3592,6 +3618,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(arc_mathf_sin_scaled["godot_owner"], "PortGame.source_arc_mathf_sin_scaled")
         self.assertIn("public static float sin(float radians, float scl, float mag){\n        return sin(radians / scl) * mag;\n    }", arc_mathf_sin_scaled["exact_exprs"])
         self.assertIn("return sin(radians / scl) * mag;", arc_mathf_sin_scaled["exact_exprs"])
+
+        arc_mathf_sin_table_value = source_symbols.source_slice(ledger, "N506")
+        self.assertEqual(arc_mathf_sin_table_value["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(arc_mathf_sin_table_value["java_method"], "static sinTable initializer")
+        self.assertEqual(arc_mathf_sin_table_value["godot_owner"], "PortGame.source_arc_mathf_sin_table_value")
+        self.assertIn("sinTable[i] = (float)Math.sin((i + 0.5f) / sinCount * radFull);", arc_mathf_sin_table_value["exact_exprs"])
+        self.assertIn("sinTable[(int)(90 * degToIndex) & sinMask] = 1f;", arc_mathf_sin_table_value["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -4551,6 +4584,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("scaledRadians", arc_mathf_sin_scaled["return_keys"])
         self.assertIn("sinScaled", arc_mathf_sin_scaled["return_keys"])
         self.assertEqual(arc_mathf_sin_scaled["source_method"], "sin(float radians, float scl, float mag)")
+
+        arc_mathf_sin_table_value = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_sin_table_value")
+        self.assertEqual([param["name"] for param in arc_mathf_sin_table_value["params"]], ["index"])
+        self.assertEqual(arc_mathf_sin_table_value["params"][0]["schema"], "source_arc_mathf_sin_table_value_input.index")
+        self.assertIn("tableValue", arc_mathf_sin_table_value["return_keys"])
+        self.assertIn("cardinalNinety", arc_mathf_sin_table_value["return_keys"])
+        self.assertEqual(arc_mathf_sin_table_value["source_method"], "static sinTable initializer")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -5632,6 +5672,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_arc_mathf_sin_scaled_result["keys"]["sinLookup"]["java_expr"], "sin(radians / scl)")
         self.assertEqual(source_arc_mathf_sin_scaled_result["keys"]["sinScaled"]["java_expr"], "return sin(radians / scl) * mag;")
         self.assertEqual(source_arc_mathf_sin_scaled_result["keys"]["mag"]["alias_of"], "source_arc_mathf_sin_scaled_input.mag")
+
+        source_arc_mathf_sin_table_value_input = source_symbols.state_schema(schema, "source_arc_mathf_sin_table_value_input")
+        self.assertEqual(source_arc_mathf_sin_table_value_input["keys"]["index"]["java_expr"], "i")
+        self.assertEqual(source_arc_mathf_sin_table_value_input["keys"]["index"]["status"], "explicit-input")
+
+        source_arc_mathf_sin_table_value_result = source_symbols.state_schema(schema, "source_arc_mathf_sin_table_value_result")
+        self.assertEqual(source_arc_mathf_sin_table_value_result["keys"]["tableValue"]["java_expr"], "sinTable[i] = (float)Math.sin((i + 0.5f) / sinCount * radFull);")
+        self.assertEqual(source_arc_mathf_sin_table_value_result["keys"]["cardinalZero"]["java_expr"], "sinTable[0] = 0f;")
+        self.assertEqual(source_arc_mathf_sin_table_value_result["keys"]["cardinalNinety"]["java_expr"], "sinTable[(int)(90 * degToIndex) & sinMask] = 1f;")
+        self.assertEqual(source_arc_mathf_sin_table_value_result["keys"]["index"]["alias_of"], "source_arc_mathf_sin_table_value_input.index")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")
