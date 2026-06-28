@@ -5307,6 +5307,29 @@
       ],
       "runtime_proof": "/root/Main.source_building_can_pickup_state",
       "rule": "Public runtime contract for Mindustry BuildingComp canPickup helper."
+    },
+    "PortGame.source_building_change_team_delegate_state": {
+      "status": "active",
+      "source_slice": "N534",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "changeTeam(Team next)",
+      "params": [
+        {
+          "name": "next_team",
+          "type": "Variant",
+          "schema": "source_building_change_team_delegate_input.next_team"
+        }
+      ],
+      "return_keys": [
+        "next_team",
+        "delegates_to_change_team",
+        "update_power"
+      ],
+      "tests": [
+        "test_building_change_team_delegate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_delegate_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp single-argument changeTeam delegate helper."
     }
   },
   "policy": {

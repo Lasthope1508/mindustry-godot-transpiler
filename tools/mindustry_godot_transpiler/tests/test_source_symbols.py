@@ -3168,6 +3168,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(block_can_pickup["java_expr"], "block.canPickup")
         self.assertEqual(block_can_pickup["godot_symbol"], "source_building_can_pickup_input.blockCanPickup")
 
+    def test_building_change_team_delegate_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        delegate = source_symbols.source_symbol(registry, "building_change_team_delegate.call")
+        self.assertEqual(delegate["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(delegate["java_method"], "changeTeam(Team next)")
+        self.assertEqual(delegate["java_expr"], "changeTeam(next, true);")
+        self.assertEqual(delegate["godot_owner"], "PortGame.source_building_change_team_delegate_state")
+        self.assertEqual(delegate["runtime_proof"], "/root/Main.source_building_change_team_delegate_state")
+        self.assertEqual(delegate["godot_symbol"], "source_building_change_team_delegate_result.delegates_to_change_team")
+
+        update_power = source_symbols.source_symbol(registry, "building_change_team_delegate.update_power")
+        self.assertEqual(update_power["java_expr"], "true")
+        self.assertEqual(update_power["godot_symbol"], "source_building_change_team_delegate_result.update_power")
+
+        next_team = source_symbols.source_symbol(registry, "building_change_team_delegate.next_team")
+        self.assertEqual(next_team["status"], "explicit-input")
+        self.assertEqual(next_team["java_expr"], "next")
+        self.assertEqual(next_team["godot_symbol"], "source_building_change_team_delegate_input.next_team")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3452,9 +3475,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 131)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 132)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 136)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 137)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3587,6 +3610,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_can_be_replaced_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_can_consume_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_can_pickup_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_change_team_delegate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -4596,6 +4620,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public boolean canPickup(){", building_can_pickup["exact_exprs"])
         self.assertIn("return block.canPickup;", building_can_pickup["exact_exprs"])
         self.assertIn("block.canPickup", building_can_pickup["exact_exprs"])
+
+        building_change_team_delegate = source_symbols.source_slice(ledger, "N534")
+        self.assertEqual(building_change_team_delegate["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_change_team_delegate["java_method"], "changeTeam(Team next)")
+        self.assertEqual(building_change_team_delegate["godot_owner"], "PortGame.source_building_change_team_delegate_state")
+        self.assertIn("public void changeTeam(Team next){", building_change_team_delegate["exact_exprs"])
+        self.assertIn("changeTeam(next, true);", building_change_team_delegate["exact_exprs"])
+        self.assertIn("next", building_change_team_delegate["exact_exprs"])
+        self.assertIn("true", building_change_team_delegate["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -5759,6 +5792,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_can_pickup["params"][0]["schema"], "source_building_can_pickup_input.blockCanPickup")
         self.assertIn("canPickup", building_can_pickup["return_keys"])
         self.assertEqual(building_can_pickup["source_method"], "canPickup()")
+
+        building_change_team_delegate = source_symbols.api_contract(contracts, "PortGame.source_building_change_team_delegate_state")
+        self.assertEqual([param["name"] for param in building_change_team_delegate["params"]], ["next_team"])
+        self.assertEqual(building_change_team_delegate["params"][0]["schema"], "source_building_change_team_delegate_input.next_team")
+        self.assertIn("delegates_to_change_team", building_change_team_delegate["return_keys"])
+        self.assertIn("update_power", building_change_team_delegate["return_keys"])
+        self.assertEqual(building_change_team_delegate["source_method"], "changeTeam(Team next)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -7147,6 +7187,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_can_pickup_result["keys"]["method"]["java_expr"], "public boolean canPickup(){")
         self.assertEqual(source_building_can_pickup_result["keys"]["canPickup"]["java_expr"], "return block.canPickup;")
         self.assertEqual(source_building_can_pickup_result["keys"]["blockCanPickup"]["alias_of"], "source_building_can_pickup_input.blockCanPickup")
+
+        source_building_change_team_delegate_input = source_symbols.state_schema(schema, "source_building_change_team_delegate_input")
+        self.assertEqual(source_building_change_team_delegate_input["keys"]["next_team"]["java_expr"], "next")
+        self.assertEqual(source_building_change_team_delegate_input["keys"]["next_team"]["status"], "explicit-input")
+
+        source_building_change_team_delegate_result = source_symbols.state_schema(schema, "source_building_change_team_delegate_result")
+        self.assertEqual(source_building_change_team_delegate_result["keys"]["delegates_to_change_team"]["java_expr"], "changeTeam(next, true);")
+        self.assertEqual(source_building_change_team_delegate_result["keys"]["update_power"]["java_expr"], "true")
+        self.assertEqual(source_building_change_team_delegate_result["keys"]["next_team"]["alias_of"], "source_building_change_team_delegate_input.next_team")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

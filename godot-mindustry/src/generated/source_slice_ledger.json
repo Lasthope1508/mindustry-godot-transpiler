@@ -4114,6 +4114,32 @@
       ],
       "runtime_proof": "/root/Main.source_building_can_pickup_state",
       "rule": "Backfills SSOT for existing canonical source_building_can_pickup_state helper against BuildingComp canPickup."
+    },
+    "N534": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "changeTeam(Team next)",
+      "godot_owner": "PortGame.source_building_change_team_delegate_state",
+      "exact_exprs": [
+        "public void changeTeam(Team next){",
+        "changeTeam(next, true);",
+        "next",
+        "true"
+      ],
+      "deferred_exprs": [
+        "changeTeam(Team next, boolean updatePower)"
+      ],
+      "source_symbols": [
+        "building_change_team_delegate.call",
+        "building_change_team_delegate.update_power",
+        "building_change_team_delegate.next_team"
+      ],
+      "tests": [
+        "test_building_change_team_delegate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_change_team_delegate_state",
+      "rule": "Backfills SSOT for existing canonical source_building_change_team_delegate_state helper against BuildingComp changeTeam(Team next)."
     }
   },
   "version": 1
