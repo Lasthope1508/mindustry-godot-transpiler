@@ -9279,6 +9279,58 @@
       "godot_symbol": "source_arc_angles_angle_dist_input.angleB",
       "rule": "Runtime angle_b parameter maps to Java b."
     },
+    "arc_angles_forward_distance.method": {
+      "tests": [
+        "test_arc_angles_forward_distance_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_forward_distance",
+      "godot_owner": "PortGame.source_arc_angles_forward_distance",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "forwardDistance(float angle1, float angle2)",
+      "java_expr": "public static float forwardDistance(float angle1, float angle2){\n        return Math.abs(angle1 - angle2);\n    }",
+      "godot_symbol": "source_arc_angles_forward_distance_result.forwardDistance",
+      "rule": "Canonical Arc Angles.forwardDistance helper returns the direct absolute angle distance."
+    },
+    "arc_angles_forward_distance.return_expr": {
+      "tests": [
+        "test_arc_angles_forward_distance_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_forward_distance",
+      "godot_owner": "PortGame.source_arc_angles_forward_distance",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "forwardDistance(float angle1, float angle2)",
+      "java_expr": "return Math.abs(angle1 - angle2);",
+      "godot_symbol": "source_arc_angles_forward_distance_result.forwardDistance",
+      "rule": "Forward angle distance is the direct absolute difference."
+    },
+    "arc_angles_forward_distance.angle1_input": {
+      "tests": [
+        "test_arc_angles_forward_distance_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_forward_distance",
+      "godot_owner": "PortGame.source_arc_angles_forward_distance",
+      "status": "explicit-input",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "forwardDistance(float angle1, float angle2)",
+      "java_expr": "angle1",
+      "godot_symbol": "source_arc_angles_forward_distance_input.angle1",
+      "rule": "Runtime angle1 parameter maps to Java angle1."
+    },
+    "arc_angles_forward_distance.angle2_input": {
+      "tests": [
+        "test_arc_angles_forward_distance_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_forward_distance",
+      "godot_owner": "PortGame.source_arc_angles_forward_distance",
+      "status": "explicit-input",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "forwardDistance(float angle1, float angle2)",
+      "java_expr": "angle2",
+      "godot_symbol": "source_arc_angles_forward_distance_input.angle2",
+      "rule": "Runtime angle2 parameter maps to Java angle2."
+    },
     "arc_angles_backward_distance.method": {
       "tests": [
         "test_arc_angles_backward_distance_symbols_are_registered_with_source_backing"

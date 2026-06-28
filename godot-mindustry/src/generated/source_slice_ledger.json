@@ -2851,6 +2851,31 @@
       ],
       "runtime_proof": "/root/Main.source_arc_angles_backward_distance",
       "rule": "Backfills SSOT for existing canonical source_arc_angles_backward_distance helper against Arc Angles.backwardDistance."
+    },
+    "N494": {
+      "status": "done",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_class": "arc.math.Angles",
+      "java_method": "forwardDistance(float angle1, float angle2)",
+      "godot_owner": "PortGame.source_arc_angles_forward_distance",
+      "exact_exprs": [
+        "public static float forwardDistance(float angle1, float angle2){\n        return Math.abs(angle1 - angle2);\n    }",
+        "return Math.abs(angle1 - angle2);",
+        "angle1",
+        "angle2"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "arc_angles_forward_distance.method",
+        "arc_angles_forward_distance.return_expr",
+        "arc_angles_forward_distance.angle1_input",
+        "arc_angles_forward_distance.angle2_input"
+      ],
+      "tests": [
+        "test_arc_angles_forward_distance_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_forward_distance",
+      "rule": "Backfills SSOT for existing canonical source_arc_angles_forward_distance helper against Arc Angles.forwardDistance."
     }
   },
   "version": 1

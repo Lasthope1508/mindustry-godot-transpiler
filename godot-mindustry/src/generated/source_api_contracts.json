@@ -3906,6 +3906,34 @@
       "runtime_proof": "/root/Main.source_arc_angles_backward_distance",
       "rule": "Public runtime contract for canonical Arc Angles.backwardDistance helper."
     },
+    "PortGame.source_arc_angles_forward_distance": {
+      "status": "active",
+      "source_slice": "N494",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "source_method": "forwardDistance(float angle1, float angle2)",
+      "params": [
+        {
+          "name": "angle1",
+          "type": "float",
+          "schema": "source_arc_angles_forward_distance_input.angle1"
+        },
+        {
+          "name": "angle2",
+          "type": "float",
+          "schema": "source_arc_angles_forward_distance_input.angle2"
+        }
+      ],
+      "return_keys": [
+        "forwardDistance",
+        "angle1",
+        "angle2"
+      ],
+      "tests": [
+        "test_arc_angles_forward_distance_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_forward_distance",
+      "rule": "Public runtime contract for canonical Arc Angles.forwardDistance helper."
+    },
     "PortGame.source_angle_distance": {
       "status": "active",
       "source_slice": "N486",
