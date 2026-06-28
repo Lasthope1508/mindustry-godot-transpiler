@@ -7,7 +7,7 @@
     "PortGame.source_symbol_audit_state",
     "PortGame.source_symbol_registry_state"
   ],
-  "legacyUnregisteredOwnerCount": 415,
+  "legacyUnregisteredOwnerCount": 414,
   "legacyUnregisteredOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -207,7 +207,6 @@
     "PortGame.source_bullet_texture",
     "PortGame.source_bullet_type_calculate_range_despawn_unit_state",
     "PortGame.source_bullet_type_calculate_range_fallback_state",
-    "PortGame.source_bullet_type_calculate_range_override_state",
     "PortGame.source_bullet_type_calculate_range_spawn_unit_state",
     "PortGame.source_bullet_type_continuous_damage_default_state",
     "PortGame.source_bullet_type_create_aim_state",
@@ -429,9 +428,10 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 68,
+  "registeredSourceOwnerCount": 69,
   "registeredSourceOwners": [
     "PortGame.source_bullet_type_building_damage_state",
+    "PortGame.source_bullet_type_calculate_range_override_state",
     "PortGame.source_bullet_type_create_frags_create_call_state",
     "PortGame.source_bullet_type_create_frags_increment_state",
     "PortGame.source_bullet_type_create_frags_initial_state",

@@ -2049,9 +2049,7 @@
         "drawSize = Math.max(drawSize, trailLength * speed * 2f);",
         "range = calculateRange();"
       ],
-      "deferred_exprs": [
-        "protected float calculateRange(){"
-      ],
+      "deferred_exprs": [],
       "source_symbols": [
         "init_range_assignment.assign",
         "init_range_assignment.range_field",
@@ -2064,6 +2062,34 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_init_range_assignment_state",
       "rule": "Backfills SSOT for existing BulletType.init range assignment; calculateRange body remains separate source-backed slices."
+    },
+    "N471": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "calculateRange()",
+      "godot_owner": "PortGame.source_bullet_type_calculate_range_override_state",
+      "exact_exprs": [
+        "public float rangeOverride = -1f;",
+        "protected float calculateRange(){",
+        "if(rangeOverride > 0) return rangeOverride;"
+      ],
+      "deferred_exprs": [
+        "if(spawnUnit != null) return spawnUnit.lifetime * spawnUnit.speed;",
+        "if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed;",
+        "return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange);"
+      ],
+      "source_symbols": [
+        "calculate_range_override.gate_return",
+        "calculate_range_override.range_override_field"
+      ],
+      "tests": [
+        "test_bullet_type_calculate_range_override_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_override_state",
+        "test_bullet_type_calculate_range_override_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_override_state",
+      "rule": "Backfills SSOT for calculateRange rangeOverride positive gate; spawnUnit, despawnUnit, and fallback range remain separate source-backed slices."
     }
   },
   "version": 1

@@ -6903,6 +6903,36 @@
         "test_bullet_type_init_range_assignment_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_init_range_assignment_state"
+    },
+    "calculate_range_override.gate_return": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "calculateRange()",
+      "java_expr": "if(rangeOverride > 0) return rangeOverride;",
+      "godot_symbol": "calculate_range_override_result.range",
+      "godot_owner": "PortGame.source_bullet_type_calculate_range_override_state",
+      "rule": "Exact calculateRange early return when rangeOverride is positive.",
+      "tests": [
+        "test_bullet_type_calculate_range_override_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_override_state",
+        "test_bullet_type_calculate_range_override_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_override_state"
+    },
+    "calculate_range_override.range_override_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "field",
+      "java_expr": "public float rangeOverride = -1f;",
+      "godot_symbol": "bullet_type_state.rangeOverride",
+      "godot_owner": "PortGame.source_bullet_type_calculate_range_override_state",
+      "rule": "BulletType rangeOverride field gates calculateRange early return when positive.",
+      "tests": [
+        "test_bullet_type_calculate_range_override_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_override_state",
+        "test_bullet_type_calculate_range_override_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_override_state"
     }
   }
 }

@@ -1732,14 +1732,30 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(calculate_range_method["java_expr"], "protected float calculateRange(){")
         self.assertEqual(calculate_range_method["godot_symbol"], "init_range_assignment_result.calculateRangeDeferred")
 
+    def test_bullet_type_calculate_range_override_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        gate_return = source_symbols.source_symbol(registry, "calculate_range_override.gate_return")
+        self.assertEqual(gate_return["java_expr"], "if(rangeOverride > 0) return rangeOverride;")
+        self.assertEqual(gate_return["godot_symbol"], "calculate_range_override_result.range")
+        self.assertEqual(gate_return["godot_owner"], "PortGame.source_bullet_type_calculate_range_override_state")
+        self.assertEqual(gate_return["runtime_proof"], "/root/Main.source_bullet_type_calculate_range_override_state")
+
+        range_override_field = source_symbols.source_symbol(registry, "calculate_range_override.range_override_field")
+        self.assertEqual(range_override_field["java_expr"], "public float rangeOverride = -1f;")
+        self.assertEqual(range_override_field["godot_symbol"], "bullet_type_state.rangeOverride")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 68)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 69)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 73)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 74)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1802,6 +1818,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_init_light_radius_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_init_draw_size_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_init_range_assignment_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_calculate_range_override_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -2296,7 +2313,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float range = 0f;", init_range_assignment["exact_exprs"])
         self.assertIn("drawSize = Math.max(drawSize, trailLength * speed * 2f);", init_range_assignment["exact_exprs"])
         self.assertIn("range = calculateRange();", init_range_assignment["exact_exprs"])
-        self.assertIn("protected float calculateRange(){", init_range_assignment["deferred_exprs"])
+        self.assertNotIn("protected float calculateRange(){", init_range_assignment["deferred_exprs"])
+
+        calculate_range_override = source_symbols.source_slice(ledger, "N471")
+        self.assertEqual(calculate_range_override["java_method"], "calculateRange()")
+        self.assertEqual(calculate_range_override["godot_owner"], "PortGame.source_bullet_type_calculate_range_override_state")
+        self.assertIn("public float rangeOverride = -1f;", calculate_range_override["exact_exprs"])
+        self.assertIn("protected float calculateRange(){", calculate_range_override["exact_exprs"])
+        self.assertIn("if(rangeOverride > 0) return rangeOverride;", calculate_range_override["exact_exprs"])
+        self.assertIn("if(spawnUnit != null) return spawnUnit.lifetime * spawnUnit.speed;", calculate_range_override["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -2911,6 +2936,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("rangeAssignSource", init_range_assignment["return_keys"])
         self.assertIn("calculateRangeDeferred", init_range_assignment["return_keys"])
         self.assertEqual(init_range_assignment["source_method"], "init()")
+
+        calculate_range_override = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_calculate_range_override_state")
+        self.assertEqual([param["name"] for param in calculate_range_override["params"]], ["bullet_type_state"])
+        self.assertEqual(calculate_range_override["params"][0]["schema"], "bullet_type_state")
+        self.assertIn("bulletType", calculate_range_override["return_keys"])
+        self.assertIn("rangeOverride", calculate_range_override["return_keys"])
+        self.assertIn("rangeOverrideGatePassed", calculate_range_override["return_keys"])
+        self.assertIn("returnEarly", calculate_range_override["return_keys"])
+        self.assertIn("range", calculate_range_override["return_keys"])
+        self.assertIn("rangeOverrideReturnSource", calculate_range_override["return_keys"])
+        self.assertEqual(calculate_range_override["source_method"], "calculateRange()")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -3581,6 +3617,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         self.assertEqual(bullet_type_state["keys"]["range"]["java_expr"], "range")
         self.assertIn("PortGame.source_bullet_type_init_range_assignment_state", bullet_type_state["keys"]["range"]["used_by"])
+
+        calculate_range_override_output = source_symbols.state_schema(schema, "calculate_range_override_result")
+        self.assertEqual(calculate_range_override_output["keys"]["rangeOverride"]["alias_of"], "bullet_type_state.rangeOverride")
+        self.assertEqual(calculate_range_override_output["keys"]["rangeOverrideGatePassed"]["java_expr"], "rangeOverride > 0")
+        self.assertEqual(calculate_range_override_output["keys"]["returnEarly"]["java_expr"], "rangeOverride > 0")
+        self.assertEqual(calculate_range_override_output["keys"]["range"]["java_expr"], "rangeOverride")
+        self.assertEqual(calculate_range_override_output["keys"]["rangeOverrideReturnSource"]["alias_of"], "source_line.calculate_range_override.gate_return")
+
+        self.assertEqual(bullet_type_state["keys"]["rangeOverride"]["java_expr"], "rangeOverride")
+        self.assertIn("PortGame.source_bullet_type_calculate_range_override_state", bullet_type_state["keys"]["rangeOverride"]["used_by"])
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")

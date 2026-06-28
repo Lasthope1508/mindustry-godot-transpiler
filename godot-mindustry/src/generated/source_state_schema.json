@@ -1578,6 +1578,18 @@
             "PortGame.source_bullet_type_init_range_assignment_state"
           ],
           "rule": "Canonical BulletType.range field; default is 0f."
+        },
+        "rangeOverride": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "field",
+          "java_expr": "rangeOverride",
+          "godot_symbol": "bullet_type_state.rangeOverride",
+          "used_by": [
+            "PortGame.source_bullet_type_calculate_range_override_state"
+          ],
+          "rule": "Canonical BulletType.rangeOverride field; default is -1f."
         }
       }
     },
@@ -10505,6 +10517,68 @@
           "godot_symbol": "init_range_assignment_result.calculateRangeDeferred",
           "alias_of": "source_line.init_range_assignment.calculate_range_method",
           "rule": "Runtime marker that calculateRange body is verified by separate source-backed slices."
+        }
+      }
+    },
+    "calculate_range_override_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "godot_symbol": "calculate_range_override_result.bulletType",
+          "alias_of": "bullet_type_state",
+          "rule": "Updated BulletType state during calculateRange rangeOverride gate evaluation."
+        },
+        "rangeOverride": {
+          "type": "float",
+          "status": "source-backed",
+          "godot_symbol": "calculate_range_override_result.rangeOverride",
+          "alias_of": "bullet_type_state.rangeOverride",
+          "rule": "Runtime value of BulletType.rangeOverride used by calculateRange gate."
+        },
+        "rangeOverrideGatePassed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "calculateRange()",
+          "java_expr": "rangeOverride > 0",
+          "godot_symbol": "calculate_range_override_result.rangeOverrideGatePassed",
+          "used_by": [
+            "PortGame.source_bullet_type_calculate_range_override_state"
+          ],
+          "rule": "Whether calculateRange rangeOverride positive gate passes."
+        },
+        "returnEarly": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "calculateRange()",
+          "java_expr": "rangeOverride > 0",
+          "godot_symbol": "calculate_range_override_result.returnEarly",
+          "used_by": [
+            "PortGame.source_bullet_type_calculate_range_override_state"
+          ],
+          "rule": "Whether calculateRange returns before later range branches."
+        },
+        "range": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "calculateRange()",
+          "java_expr": "rangeOverride",
+          "godot_symbol": "calculate_range_override_result.range",
+          "used_by": [
+            "PortGame.source_bullet_type_calculate_range_override_state"
+          ],
+          "rule": "Range result when rangeOverride positive gate returns early; null when later branches are deferred."
+        },
+        "rangeOverrideReturnSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "calculate_range_override_result.rangeOverrideReturnSource",
+          "alias_of": "source_line.calculate_range_override.gate_return",
+          "rule": "Runtime source label for calculateRange rangeOverride early return."
         }
       }
     }
