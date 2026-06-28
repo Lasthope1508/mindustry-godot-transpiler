@@ -2544,6 +2544,51 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_trail_add_state",
       "rule": "Backfills SSOT for existing BulletType.create trail reset and Bullet.add runtime state; keepVelocity remains deferred to the next source-backed owner."
+    },
+    "N484": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "godot_owner": "PortGame.source_bullet_type_create_keep_velocity_state",
+      "exact_exprs": [
+        "public boolean keepVelocity = true;",
+        "public boolean scaleKeepVelocity = false;",
+        "if(keepVelocity && owner instanceof Velc v){",
+        "float len = bullet.vel.len();",
+        "bullet.vel.add(v.vel());",
+        "if(scaleKeepVelocity){",
+        "float newLen = bullet.vel.len();",
+        "if(newLen > 0f) bullet.lifetime *= Math.min(1f, len / newLen);",
+        "return bullet;",
+        "@SyncLocal Vec2 vel = new Vec2();",
+        "public float len(){\n        return (float)Math.sqrt(x * x + y * y);\n    }",
+        "public Vec2 add(Vec2 v){\n        x += v.x;\n        y += v.y;\n        return this;\n    }"
+      ],
+      "deferred_exprs": [
+        "public void createNet(Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl){"
+      ],
+      "source_symbols": [
+        "create_keep_velocity.keep_velocity_field",
+        "create_keep_velocity.scale_keep_velocity_field",
+        "create_keep_velocity.keep_velocity_gate",
+        "create_keep_velocity.len_before",
+        "create_keep_velocity.add_owner_velocity",
+        "create_keep_velocity.scale_gate",
+        "create_keep_velocity.len_after",
+        "create_keep_velocity.lifetime_scale",
+        "create_keep_velocity.return_bullet",
+        "create_keep_velocity.vel_comp_vel",
+        "create_keep_velocity.vec2_len",
+        "create_keep_velocity.vec2_add"
+      ],
+      "tests": [
+        "test_bullet_type_create_keep_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_keep_velocity_state",
+        "test_bullet_type_create_keep_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_keep_velocity_state",
+      "rule": "Backfills SSOT for existing BulletType.create keepVelocity owner velocity merge, optional scaleKeepVelocity lifetime reduction, and final return bullet."
     }
   },
   "version": 1

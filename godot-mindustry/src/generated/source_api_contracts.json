@@ -3642,6 +3642,56 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_trail_add_state",
       "rule": "Public runtime contract for BulletType.create trail reset and Bullet.add before keepVelocity owner velocity merge."
+    },
+    "PortGame.source_bullet_type_create_keep_velocity_state": {
+      "status": "active",
+      "source_slice": "N484",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "params": [
+        {
+          "name": "trail_add_state",
+          "type": "Dictionary",
+          "schema": "create_trail_add_result"
+        },
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "owner_state",
+          "type": "Dictionary",
+          "schema": "create_keep_velocity_owner_state"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "keepVelocityApplied",
+        "scaleKeepVelocityApplied",
+        "keepVelocity",
+        "scaleKeepVelocity",
+        "ownerIsVelc",
+        "ownerVel",
+        "lenBefore",
+        "lenAfter",
+        "bulletVelBefore",
+        "bulletVelAfter",
+        "returnedBullet",
+        "bullet",
+        "keepVelocitySource",
+        "vec2LenSource",
+        "vec2AddSource",
+        "lifetimeScaleSource",
+        "returnSource"
+      ],
+      "tests": [
+        "test_bullet_type_create_keep_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_keep_velocity_state",
+        "test_bullet_type_create_keep_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_keep_velocity_state",
+      "rule": "Public runtime contract for BulletType.create keepVelocity owner velocity merge, scaleKeepVelocity lifetime clamp, and return bullet."
     }
   },
   "policy": {

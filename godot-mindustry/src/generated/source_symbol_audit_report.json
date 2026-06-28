@@ -7,7 +7,7 @@
     "PortGame.source_symbol_audit_state",
     "PortGame.source_symbol_registry_state"
   ],
-  "legacyUnregisteredOwnerCount": 402,
+  "legacyUnregisteredOwnerCount": 401,
   "legacyUnregisteredOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -205,7 +205,6 @@
     "PortGame.source_bullet_rotation_degrees",
     "PortGame.source_bullet_scale",
     "PortGame.source_bullet_texture",
-    "PortGame.source_bullet_type_create_keep_velocity_state",
     "PortGame.source_bullet_velocity",
     "PortGame.source_bullet_velocity_vector_state",
     "PortGame.source_bullet_world_speed",
@@ -416,7 +415,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 81,
+  "registeredSourceOwnerCount": 82,
   "registeredSourceOwners": [
     "PortGame.source_bullet_type_building_damage_state",
     "PortGame.source_bullet_type_calculate_range_despawn_unit_state",
@@ -432,6 +431,7 @@
     "PortGame.source_bullet_type_create_frags_random_geometry_state",
     "PortGame.source_bullet_type_create_incend_state",
     "PortGame.source_bullet_type_create_initial_gate_state",
+    "PortGame.source_bullet_type_create_keep_velocity_state",
     "PortGame.source_bullet_type_create_lifetime_payload_damage_state",
     "PortGame.source_bullet_type_create_puddles_deposit_state",
     "PortGame.source_bullet_type_create_puddles_initial_state",

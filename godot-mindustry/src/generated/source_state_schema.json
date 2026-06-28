@@ -1602,7 +1602,8 @@
           "java_expr": "keepVelocity",
           "godot_symbol": "bullet_type_state.keepVelocity",
           "used_by": [
-            "PortGame.source_bullet_type_init_frag_velocity_state"
+            "PortGame.source_bullet_type_init_frag_velocity_state",
+            "PortGame.source_bullet_type_create_keep_velocity_state"
           ],
           "rule": "Canonical BulletType.keepVelocity field; default is true."
         },
@@ -1614,7 +1615,8 @@
           "java_expr": "scaleKeepVelocity",
           "godot_symbol": "bullet_type_state.scaleKeepVelocity",
           "used_by": [
-            "PortGame.source_bullet_type_init_frag_velocity_state"
+            "PortGame.source_bullet_type_init_frag_velocity_state",
+            "PortGame.source_bullet_type_create_keep_velocity_state"
           ],
           "rule": "Canonical BulletType.scaleKeepVelocity field; default is false."
         },
@@ -12090,6 +12092,190 @@
           "status": "deferred",
           "alias_of": "source_line.create_trail_add.keep_velocity_boundary",
           "rule": "Boundary for deferred keepVelocity slice."
+        }
+      }
+    },
+    "create_keep_velocity_owner_state": {
+      "status": "active",
+      "keys": {
+        "isVelc": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "owner instanceof Velc v",
+          "godot_symbol": "create_keep_velocity_owner_state.isVelc",
+          "used_by": [
+            "PortGame.source_bullet_type_create_keep_velocity_state"
+          ],
+          "rule": "Explicit runtime representation of the source owner instanceof Velc gate."
+        },
+        "vel": {
+          "type": "Dictionary",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/VelComp.java",
+          "java_method": "VelComp fields",
+          "java_expr": "v.vel()",
+          "godot_symbol": "create_keep_velocity_owner_state.vel",
+          "used_by": [
+            "PortGame.source_bullet_type_create_keep_velocity_state"
+          ],
+          "rule": "Explicit runtime owner velocity vector returned by v.vel()."
+        }
+      }
+    },
+    "create_keep_velocity_result": {
+      "status": "active",
+      "keys": {
+        "bulletContinues": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "create_trail_add_result.bulletContinues",
+          "rule": "Whether create chain continues after keepVelocity handling."
+        },
+        "keepVelocityApplied": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "if(keepVelocity && owner instanceof Velc v){",
+          "godot_symbol": "create_keep_velocity_result.keepVelocityApplied",
+          "used_by": [
+            "PortGame.source_bullet_type_create_keep_velocity_state"
+          ],
+          "rule": "True when source keepVelocity and Velc owner gate passes."
+        },
+        "scaleKeepVelocityApplied": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "if(scaleKeepVelocity){",
+          "godot_symbol": "create_keep_velocity_result.scaleKeepVelocityApplied",
+          "used_by": [
+            "PortGame.source_bullet_type_create_keep_velocity_state"
+          ],
+          "rule": "True when scaleKeepVelocity branch applies lifetime scaling."
+        },
+        "keepVelocity": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "bullet_type_state.keepVelocity",
+          "rule": "Runtime echo of BulletType.keepVelocity."
+        },
+        "scaleKeepVelocity": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "bullet_type_state.scaleKeepVelocity",
+          "rule": "Runtime echo of BulletType.scaleKeepVelocity."
+        },
+        "ownerIsVelc": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "create_keep_velocity_owner_state.isVelc",
+          "rule": "Runtime echo of source owner instanceof Velc gate."
+        },
+        "ownerVel": {
+          "type": "Dictionary",
+          "status": "generated",
+          "alias_of": "create_keep_velocity_owner_state.vel",
+          "rule": "Runtime owner velocity vector used by bullet.vel.add(v.vel())."
+        },
+        "lenBefore": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "float len = bullet.vel.len();",
+          "godot_symbol": "create_keep_velocity_result.lenBefore",
+          "used_by": [
+            "PortGame.source_bullet_type_create_keep_velocity_state"
+          ],
+          "rule": "Bullet velocity length before inherited owner velocity."
+        },
+        "lenAfter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "float newLen = bullet.vel.len();",
+          "godot_symbol": "create_keep_velocity_result.lenAfter",
+          "used_by": [
+            "PortGame.source_bullet_type_create_keep_velocity_state"
+          ],
+          "rule": "Bullet velocity length after inherited owner velocity."
+        },
+        "bulletVelBefore": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "bullet.vel",
+          "godot_symbol": "create_keep_velocity_result.bulletVelBefore",
+          "used_by": [
+            "PortGame.source_bullet_type_create_keep_velocity_state"
+          ],
+          "rule": "Bullet velocity before bullet.vel.add(v.vel())."
+        },
+        "bulletVelAfter": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "bullet.vel.add(v.vel());",
+          "godot_symbol": "create_keep_velocity_result.bulletVelAfter",
+          "used_by": [
+            "PortGame.source_bullet_type_create_keep_velocity_state"
+          ],
+          "rule": "Bullet velocity after adding owner velocity."
+        },
+        "returnedBullet": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "return bullet;",
+          "godot_symbol": "create_keep_velocity_result.returnedBullet",
+          "used_by": [
+            "PortGame.source_bullet_type_create_keep_velocity_state"
+          ],
+          "rule": "Final bullet returned from BulletType.create."
+        },
+        "bullet": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "create_trail_add_result.bullet",
+          "rule": "Bullet dictionary after keepVelocity handling."
+        },
+        "keepVelocitySource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_keep_velocity.keep_velocity_gate",
+          "rule": "Runtime source label for keepVelocity gate."
+        },
+        "vec2LenSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_keep_velocity.vec2_len",
+          "rule": "Runtime source label for Vec2.len()."
+        },
+        "vec2AddSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_keep_velocity.vec2_add",
+          "rule": "Runtime source label for Vec2.add(Vec2)."
+        },
+        "lifetimeScaleSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_keep_velocity.lifetime_scale",
+          "rule": "Runtime source label for scaleKeepVelocity lifetime clamp."
+        },
+        "returnSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_keep_velocity.return_bullet",
+          "rule": "Runtime source label for return bullet."
         }
       }
     }

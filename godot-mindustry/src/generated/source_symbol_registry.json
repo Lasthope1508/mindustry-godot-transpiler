@@ -8552,6 +8552,186 @@
       "java_expr": "if(keepVelocity && owner instanceof Velc v){",
       "godot_symbol": "create_trail_add_result.keepVelocityReservedSource",
       "rule": "Boundary for next keep-velocity slice; no owner velocity behavior is inferred in N483."
+    },
+    "create_keep_velocity.keep_velocity_field": {
+      "tests": [
+        "test_bullet_type_create_keep_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_keep_velocity_state",
+        "test_bullet_type_create_keep_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_keep_velocity_state",
+      "godot_owner": "PortGame.source_bullet_type_create_keep_velocity_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "BulletType fields",
+      "java_expr": "public boolean keepVelocity = true;",
+      "godot_symbol": "bullet_type_state.keepVelocity",
+      "rule": "Canonical BulletType.keepVelocity field gating inherited owner velocity."
+    },
+    "create_keep_velocity.scale_keep_velocity_field": {
+      "tests": [
+        "test_bullet_type_create_keep_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_keep_velocity_state",
+        "test_bullet_type_create_keep_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_keep_velocity_state",
+      "godot_owner": "PortGame.source_bullet_type_create_keep_velocity_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "BulletType fields",
+      "java_expr": "public boolean scaleKeepVelocity = false;",
+      "godot_symbol": "bullet_type_state.scaleKeepVelocity",
+      "rule": "Canonical BulletType.scaleKeepVelocity field gating lifetime reduction after inherited velocity."
+    },
+    "create_keep_velocity.keep_velocity_gate": {
+      "tests": [
+        "test_bullet_type_create_keep_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_keep_velocity_state",
+        "test_bullet_type_create_keep_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_keep_velocity_state",
+      "godot_owner": "PortGame.source_bullet_type_create_keep_velocity_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "if(keepVelocity && owner instanceof Velc v){",
+      "godot_symbol": "create_keep_velocity_result.keepVelocityApplied",
+      "rule": "Source gate for inheriting velocity from owners that implement Velc."
+    },
+    "create_keep_velocity.len_before": {
+      "tests": [
+        "test_bullet_type_create_keep_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_keep_velocity_state",
+        "test_bullet_type_create_keep_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_keep_velocity_state",
+      "godot_owner": "PortGame.source_bullet_type_create_keep_velocity_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "float len = bullet.vel.len();",
+      "godot_symbol": "create_keep_velocity_result.lenBefore",
+      "rule": "Capture bullet velocity length before adding owner velocity."
+    },
+    "create_keep_velocity.add_owner_velocity": {
+      "tests": [
+        "test_bullet_type_create_keep_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_keep_velocity_state",
+        "test_bullet_type_create_keep_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_keep_velocity_state",
+      "godot_owner": "PortGame.source_bullet_type_create_keep_velocity_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "bullet.vel.add(v.vel());",
+      "godot_symbol": "create_keep_velocity_result.bulletVelAfter",
+      "rule": "Add owner velocity vector to bullet velocity using Vec2.add(Vec2)."
+    },
+    "create_keep_velocity.scale_gate": {
+      "tests": [
+        "test_bullet_type_create_keep_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_keep_velocity_state",
+        "test_bullet_type_create_keep_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_keep_velocity_state",
+      "godot_owner": "PortGame.source_bullet_type_create_keep_velocity_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "if(scaleKeepVelocity){",
+      "godot_symbol": "create_keep_velocity_result.scaleKeepVelocityApplied",
+      "rule": "Source gate for optional lifetime scaling after owner velocity is added."
+    },
+    "create_keep_velocity.len_after": {
+      "tests": [
+        "test_bullet_type_create_keep_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_keep_velocity_state",
+        "test_bullet_type_create_keep_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_keep_velocity_state",
+      "godot_owner": "PortGame.source_bullet_type_create_keep_velocity_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "float newLen = bullet.vel.len();",
+      "godot_symbol": "create_keep_velocity_result.lenAfter",
+      "rule": "Capture bullet velocity length after owner velocity is added."
+    },
+    "create_keep_velocity.lifetime_scale": {
+      "tests": [
+        "test_bullet_type_create_keep_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_keep_velocity_state",
+        "test_bullet_type_create_keep_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_keep_velocity_state",
+      "godot_owner": "PortGame.source_bullet_type_create_keep_velocity_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "if(newLen > 0f) bullet.lifetime *= Math.min(1f, len / newLen);",
+      "godot_symbol": "create_keep_velocity_result.bullet.lifetime",
+      "rule": "Reduce lifetime by Math.min(1f, len / newLen) only when newLen is positive."
+    },
+    "create_keep_velocity.return_bullet": {
+      "tests": [
+        "test_bullet_type_create_keep_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_keep_velocity_state",
+        "test_bullet_type_create_keep_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_keep_velocity_state",
+      "godot_owner": "PortGame.source_bullet_type_create_keep_velocity_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "return bullet;",
+      "godot_symbol": "create_keep_velocity_result.returnedBullet",
+      "rule": "Return final Bullet instance after keepVelocity handling."
+    },
+    "create_keep_velocity.vel_comp_vel": {
+      "tests": [
+        "test_bullet_type_create_keep_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_keep_velocity_state",
+        "test_bullet_type_create_keep_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_keep_velocity_state",
+      "godot_owner": "PortGame.source_bullet_type_create_keep_velocity_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/VelComp.java",
+      "java_method": "VelComp fields",
+      "java_expr": "@SyncLocal Vec2 vel = new Vec2();",
+      "godot_symbol": "create_keep_velocity_owner_state.vel",
+      "rule": "Velc owner velocity backing field used by v.vel()."
+    },
+    "create_keep_velocity.vec2_len": {
+      "tests": [
+        "test_bullet_type_create_keep_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_keep_velocity_state",
+        "test_bullet_type_create_keep_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_keep_velocity_state",
+      "godot_owner": "PortGame.source_bullet_type_create_keep_velocity_state",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "len()",
+      "java_expr": "public float len(){\n        return (float)Math.sqrt(x * x + y * y);\n    }",
+      "godot_symbol": "create_keep_velocity_result.vec2LenSource",
+      "rule": "Vec2.len() uses sqrt(x*x + y*y) for lenBefore and lenAfter."
+    },
+    "create_keep_velocity.vec2_add": {
+      "tests": [
+        "test_bullet_type_create_keep_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_keep_velocity_state",
+        "test_bullet_type_create_keep_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_keep_velocity_state",
+      "godot_owner": "PortGame.source_bullet_type_create_keep_velocity_state",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "add(Vec2 v)",
+      "java_expr": "public Vec2 add(Vec2 v){\n        x += v.x;\n        y += v.y;\n        return this;\n    }",
+      "godot_symbol": "create_keep_velocity_result.vec2AddSource",
+      "rule": "Vec2.add(Vec2) mutates x and y by owner velocity components."
     }
   }
 }
