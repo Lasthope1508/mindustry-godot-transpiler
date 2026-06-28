@@ -5380,6 +5380,49 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_light_state",
       "rule": "Backfills SSOT for existing canonical source_building_draw_light_state helper against BuildingComp.drawLight()."
+    },
+    "N572": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "drawLiquidLight(Liquid liquid, float amount)",
+      "godot_owner": "PortGame.source_building_draw_liquid_light_state",
+      "exact_exprs": [
+        "public void drawLiquidLight(Liquid liquid, float amount){",
+        "if(amount > 0.01f){",
+        "Color color = liquid.lightColor;",
+        "float fract = 1f;",
+        "float opacity = color.a * fract;",
+        "if(opacity > 0.001f){",
+        "Drawf.light(x, y, block.size * 30f * fract, color, opacity * amount);",
+        "block.size * 30f * fract",
+        "opacity * amount"
+      ],
+      "deferred_exprs": [
+        "Concrete Drawf.light rendering stays owned by Godot lighting integration; this helper preserves gates, radius, color, opacity, and alpha state."
+      ],
+      "source_symbols": [
+        "building_draw_liquid_light.method",
+        "building_draw_liquid_light.amount_gate",
+        "building_draw_liquid_light.color",
+        "building_draw_liquid_light.fract",
+        "building_draw_liquid_light.opacity",
+        "building_draw_liquid_light.opacity_gate",
+        "building_draw_liquid_light.radius",
+        "building_draw_liquid_light.alpha",
+        "building_draw_liquid_light.drawf_light",
+        "building_draw_liquid_light.source_x",
+        "building_draw_liquid_light.source_y",
+        "building_draw_liquid_light.block_size",
+        "building_draw_liquid_light.light_color",
+        "building_draw_liquid_light.light_alpha",
+        "building_draw_liquid_light.amount"
+      ],
+      "tests": [
+        "test_building_draw_liquid_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_liquid_light_state",
+      "rule": "Backfills SSOT for existing canonical source_building_draw_liquid_light_state helper against BuildingComp.drawLiquidLight()."
     }
   },
   "version": 1

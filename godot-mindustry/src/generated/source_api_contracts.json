@@ -6684,6 +6684,59 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_light_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.drawLight() helper."
+    },
+    "PortGame.source_building_draw_liquid_light_state": {
+      "status": "active",
+      "source_slice": "N572",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "drawLiquidLight(Liquid liquid, float amount)",
+      "params": [
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_building_draw_liquid_light_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_building_draw_liquid_light_input.source_y"
+        },
+        {
+          "name": "block_size_value",
+          "type": "int",
+          "schema": "source_building_draw_liquid_light_input.block_size_value"
+        },
+        {
+          "name": "light_color",
+          "type": "String",
+          "schema": "source_building_draw_liquid_light_input.light_color"
+        },
+        {
+          "name": "light_alpha",
+          "type": "float",
+          "schema": "source_building_draw_liquid_light_input.light_alpha"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_building_draw_liquid_light_input.amount"
+        }
+      ],
+      "return_keys": [
+        "visible",
+        "x",
+        "y",
+        "radius",
+        "color",
+        "opacity",
+        "alpha",
+        "fract"
+      ],
+      "tests": [
+        "test_building_draw_liquid_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_liquid_light_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.drawLiquidLight() helper."
     }
   },
   "policy": {

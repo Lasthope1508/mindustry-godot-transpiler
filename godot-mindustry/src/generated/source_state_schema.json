@@ -21823,6 +21823,244 @@
           "rule": "Carries block_size_value input into result schema."
         }
       }
+    },
+    "source_building_draw_liquid_light_input": {
+      "status": "active",
+      "keys": {
+        "source_x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLiquidLight(Liquid liquid, float amount)",
+          "java_expr": "x",
+          "godot_symbol": "source_building_draw_liquid_light_input.source_x",
+          "used_by": [
+            "PortGame.source_building_draw_liquid_light_state"
+          ],
+          "rule": "Runtime source_x supplies BuildingComp x."
+        },
+        "source_y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLiquidLight(Liquid liquid, float amount)",
+          "java_expr": "y",
+          "godot_symbol": "source_building_draw_liquid_light_input.source_y",
+          "used_by": [
+            "PortGame.source_building_draw_liquid_light_state"
+          ],
+          "rule": "Runtime source_y supplies BuildingComp y."
+        },
+        "block_size_value": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLiquidLight(Liquid liquid, float amount)",
+          "java_expr": "block.size",
+          "godot_symbol": "source_building_draw_liquid_light_input.block_size_value",
+          "used_by": [
+            "PortGame.source_building_draw_liquid_light_state"
+          ],
+          "rule": "Runtime block_size_value supplies block.size."
+        },
+        "light_color": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLiquidLight(Liquid liquid, float amount)",
+          "java_expr": "liquid.lightColor",
+          "godot_symbol": "source_building_draw_liquid_light_input.light_color",
+          "used_by": [
+            "PortGame.source_building_draw_liquid_light_state"
+          ],
+          "rule": "Runtime light_color supplies liquid.lightColor color identity."
+        },
+        "light_alpha": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLiquidLight(Liquid liquid, float amount)",
+          "java_expr": "liquid.lightColor.a",
+          "godot_symbol": "source_building_draw_liquid_light_input.light_alpha",
+          "used_by": [
+            "PortGame.source_building_draw_liquid_light_state"
+          ],
+          "rule": "Runtime light_alpha supplies liquid.lightColor.a."
+        },
+        "amount": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLiquidLight(Liquid liquid, float amount)",
+          "java_expr": "amount",
+          "godot_symbol": "source_building_draw_liquid_light_input.amount",
+          "used_by": [
+            "PortGame.source_building_draw_liquid_light_state"
+          ],
+          "rule": "Runtime amount supplies drawLiquidLight amount parameter."
+        }
+      }
+    },
+    "source_building_draw_liquid_light_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLiquidLight(Liquid liquid, float amount)",
+          "java_expr": "public void drawLiquidLight(Liquid liquid, float amount){",
+          "godot_symbol": "source_building_draw_liquid_light_result.method",
+          "used_by": [
+            "PortGame.source_building_draw_liquid_light_state"
+          ],
+          "rule": "Source drawLiquidLight method declaration."
+        },
+        "visible": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLiquidLight(Liquid liquid, float amount)",
+          "java_expr": "if(amount > 0.01f){",
+          "godot_symbol": "source_building_draw_liquid_light_result.visible",
+          "used_by": [
+            "PortGame.source_building_draw_liquid_light_state"
+          ],
+          "rule": "Runtime visibility follows amount and opacity gates."
+        },
+        "amountGate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLiquidLight(Liquid liquid, float amount)",
+          "java_expr": "if(amount > 0.01f){",
+          "godot_symbol": "source_building_draw_liquid_light_result.amountGate",
+          "used_by": [
+            "PortGame.source_building_draw_liquid_light_state"
+          ],
+          "rule": "drawLiquidLight amount gate."
+        },
+        "color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLiquidLight(Liquid liquid, float amount)",
+          "java_expr": "Color color = liquid.lightColor;",
+          "godot_symbol": "source_building_draw_liquid_light_result.color",
+          "used_by": [
+            "PortGame.source_building_draw_liquid_light_state"
+          ],
+          "rule": "drawLiquidLight color comes from liquid.lightColor."
+        },
+        "fract": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLiquidLight(Liquid liquid, float amount)",
+          "java_expr": "float fract = 1f;",
+          "godot_symbol": "source_building_draw_liquid_light_result.fract",
+          "used_by": [
+            "PortGame.source_building_draw_liquid_light_state"
+          ],
+          "rule": "drawLiquidLight fract is 1f."
+        },
+        "opacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLiquidLight(Liquid liquid, float amount)",
+          "java_expr": "float opacity = color.a * fract;",
+          "godot_symbol": "source_building_draw_liquid_light_result.opacity",
+          "used_by": [
+            "PortGame.source_building_draw_liquid_light_state"
+          ],
+          "rule": "drawLiquidLight opacity formula."
+        },
+        "opacityGate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLiquidLight(Liquid liquid, float amount)",
+          "java_expr": "if(opacity > 0.001f){",
+          "godot_symbol": "source_building_draw_liquid_light_result.opacityGate",
+          "used_by": [
+            "PortGame.source_building_draw_liquid_light_state"
+          ],
+          "rule": "drawLiquidLight opacity gate."
+        },
+        "radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLiquidLight(Liquid liquid, float amount)",
+          "java_expr": "block.size * 30f * fract",
+          "godot_symbol": "source_building_draw_liquid_light_result.radius",
+          "used_by": [
+            "PortGame.source_building_draw_liquid_light_state"
+          ],
+          "rule": "drawLiquidLight radius formula."
+        },
+        "alpha": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLiquidLight(Liquid liquid, float amount)",
+          "java_expr": "opacity * amount",
+          "godot_symbol": "source_building_draw_liquid_light_result.alpha",
+          "used_by": [
+            "PortGame.source_building_draw_liquid_light_state"
+          ],
+          "rule": "drawLiquidLight alpha formula."
+        },
+        "drawfLightCall": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawLiquidLight(Liquid liquid, float amount)",
+          "java_expr": "Drawf.light(x, y, block.size * 30f * fract, color, opacity * amount);",
+          "godot_symbol": "source_building_draw_liquid_light_result.drawfLightCall",
+          "used_by": [
+            "PortGame.source_building_draw_liquid_light_state"
+          ],
+          "rule": "drawLiquidLight Drawf.light call."
+        },
+        "x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_liquid_light_input.source_x",
+          "rule": "Carries source_x input into result schema."
+        },
+        "y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_liquid_light_input.source_y",
+          "rule": "Carries source_y input into result schema."
+        },
+        "block_size_value": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_draw_liquid_light_input.block_size_value",
+          "rule": "Carries block_size_value input into result schema."
+        },
+        "light_color": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_building_draw_liquid_light_input.light_color",
+          "rule": "Carries light_color input into result schema."
+        },
+        "light_alpha": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_liquid_light_input.light_alpha",
+          "rule": "Carries light_alpha input into result schema."
+        },
+        "amount": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_liquid_light_input.amount",
+          "rule": "Carries amount input into result schema."
+        }
+      }
     }
   },
   "version": 1
