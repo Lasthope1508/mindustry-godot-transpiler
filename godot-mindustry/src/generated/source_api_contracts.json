@@ -3934,6 +3934,46 @@
       "runtime_proof": "/root/Main.source_arc_angles_forward_distance",
       "rule": "Public runtime contract for canonical Arc Angles.forwardDistance helper."
     },
+    "PortGame.source_arc_angles_move_toward": {
+      "status": "active",
+      "source_slice": "N495",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "source_method": "moveToward(float angle, float to, float speed)",
+      "params": [
+        {
+          "name": "angle",
+          "type": "float",
+          "schema": "source_arc_angles_move_toward_input.angle"
+        },
+        {
+          "name": "to",
+          "type": "float",
+          "schema": "source_arc_angles_move_toward_input.to"
+        },
+        {
+          "name": "speed",
+          "type": "float",
+          "schema": "source_arc_angles_move_toward_input.speed"
+        }
+      ],
+      "return_keys": [
+        "snapToTarget",
+        "angleMod",
+        "toMod",
+        "turnBackward",
+        "backwardDistance",
+        "forwardDistance",
+        "moveToward",
+        "angle",
+        "to",
+        "speed"
+      ],
+      "tests": [
+        "test_arc_angles_move_toward_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_move_toward",
+      "rule": "Public runtime contract for canonical Arc Angles.moveToward helper."
+    },
     "PortGame.source_angle_distance": {
       "status": "active",
       "source_slice": "N486",

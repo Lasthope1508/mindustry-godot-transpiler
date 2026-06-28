@@ -12877,6 +12877,154 @@
         }
       }
     },
+    "source_arc_angles_move_toward_input": {
+      "status": "active",
+      "keys": {
+        "angle": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "moveToward(float angle, float to, float speed)",
+          "java_expr": "angle",
+          "godot_symbol": "source_arc_angles_move_toward_input.angle",
+          "used_by": [
+            "PortGame.source_arc_angles_move_toward"
+          ],
+          "rule": "Java moveToward source angle."
+        },
+        "to": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "moveToward(float angle, float to, float speed)",
+          "java_expr": "to",
+          "godot_symbol": "source_arc_angles_move_toward_input.to",
+          "used_by": [
+            "PortGame.source_arc_angles_move_toward"
+          ],
+          "rule": "Java moveToward target angle."
+        },
+        "speed": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "moveToward(float angle, float to, float speed)",
+          "java_expr": "speed",
+          "godot_symbol": "source_arc_angles_move_toward_input.speed",
+          "used_by": [
+            "PortGame.source_arc_angles_move_toward"
+          ],
+          "rule": "Java moveToward speed."
+        }
+      }
+    },
+    "source_arc_angles_move_toward_result": {
+      "status": "active",
+      "keys": {
+        "snapToTarget": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "moveToward(float angle, float to, float speed)",
+          "java_expr": "if(Math.abs(angleDist(angle, to)) < speed) return to;",
+          "godot_symbol": "source_arc_angles_move_toward_result.snapToTarget",
+          "used_by": [
+            "PortGame.source_arc_angles_move_toward"
+          ],
+          "rule": "Whether source snap guard returns target."
+        },
+        "angleMod": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "moveToward(float angle, float to, float speed)",
+          "java_expr": "angle = Mathf.mod(angle, 360f);",
+          "godot_symbol": "source_arc_angles_move_toward_result.angleMod",
+          "used_by": [
+            "PortGame.source_arc_angles_move_toward"
+          ],
+          "rule": "Normalized source angle."
+        },
+        "toMod": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "moveToward(float angle, float to, float speed)",
+          "java_expr": "to = Mathf.mod(to, 360f);",
+          "godot_symbol": "source_arc_angles_move_toward_result.toMod",
+          "used_by": [
+            "PortGame.source_arc_angles_move_toward"
+          ],
+          "rule": "Normalized target angle."
+        },
+        "turnBackward": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "moveToward(float angle, float to, float speed)",
+          "java_expr": "angle > to == backwardDistance(angle, to) > forwardDistance(angle, to)",
+          "godot_symbol": "source_arc_angles_move_toward_result.turnBackward",
+          "used_by": [
+            "PortGame.source_arc_angles_move_toward"
+          ],
+          "rule": "Source wrapped direction branch predicate."
+        },
+        "backwardDistance": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "moveToward(float angle, float to, float speed)",
+          "java_expr": "backwardDistance(angle, to)",
+          "godot_symbol": "source_arc_angles_move_toward_result.backwardDistance",
+          "used_by": [
+            "PortGame.source_arc_angles_move_toward"
+          ],
+          "rule": "Nested backwardDistance value used by branch predicate."
+        },
+        "forwardDistance": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "moveToward(float angle, float to, float speed)",
+          "java_expr": "forwardDistance(angle, to)",
+          "godot_symbol": "source_arc_angles_move_toward_result.forwardDistance",
+          "used_by": [
+            "PortGame.source_arc_angles_move_toward"
+          ],
+          "rule": "Nested forwardDistance value used by branch predicate."
+        },
+        "moveToward": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "moveToward(float angle, float to, float speed)",
+          "java_expr": "return angle;",
+          "godot_symbol": "source_arc_angles_move_toward_result.moveToward",
+          "used_by": [
+            "PortGame.source_arc_angles_move_toward"
+          ],
+          "rule": "Final adjusted angle returned by moveToward."
+        },
+        "angle": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_arc_angles_move_toward_input.angle",
+          "rule": "Carries Java angle input into result schema."
+        },
+        "to": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_arc_angles_move_toward_input.to",
+          "rule": "Carries Java to input into result schema."
+        },
+        "speed": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_arc_angles_move_toward_input.speed",
+          "rule": "Carries Java speed input into result schema."
+        }
+      }
+    },
     "source_angle_distance_input": {
       "status": "active",
       "keys": {

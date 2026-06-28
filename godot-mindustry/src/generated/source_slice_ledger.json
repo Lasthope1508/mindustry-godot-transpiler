@@ -2876,6 +2876,45 @@
       ],
       "runtime_proof": "/root/Main.source_arc_angles_forward_distance",
       "rule": "Backfills SSOT for existing canonical source_arc_angles_forward_distance helper against Arc Angles.forwardDistance."
+    },
+    "N495": {
+      "status": "done",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_class": "arc.math.Angles",
+      "java_method": "moveToward(float angle, float to, float speed)",
+      "godot_owner": "PortGame.source_arc_angles_move_toward",
+      "exact_exprs": [
+        "public static float moveToward(float angle, float to, float speed){\n        if(Math.abs(angleDist(angle, to)) < speed) return to;\n        angle = Mathf.mod(angle, 360f);\n        to = Mathf.mod(to, 360f);\n\n        if(angle > to == backwardDistance(angle, to) > forwardDistance(angle, to)){\n            angle -= speed;\n        }else{\n            angle += speed;\n        }\n\n        return angle;\n    }",
+        "if(Math.abs(angleDist(angle, to)) < speed) return to;",
+        "angle = Mathf.mod(angle, 360f);",
+        "to = Mathf.mod(to, 360f);",
+        "angle > to == backwardDistance(angle, to) > forwardDistance(angle, to)",
+        "angle -= speed;",
+        "angle += speed;",
+        "return angle;",
+        "angle",
+        "to",
+        "speed"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "arc_angles_move_toward.method",
+        "arc_angles_move_toward.snap_guard",
+        "arc_angles_move_toward.angle_mod",
+        "arc_angles_move_toward.to_mod",
+        "arc_angles_move_toward.branch_condition",
+        "arc_angles_move_toward.subtract_speed",
+        "arc_angles_move_toward.add_speed",
+        "arc_angles_move_toward.return_expr",
+        "arc_angles_move_toward.angle_input",
+        "arc_angles_move_toward.to_input",
+        "arc_angles_move_toward.speed_input"
+      ],
+      "tests": [
+        "test_arc_angles_move_toward_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_move_toward",
+      "rule": "Backfills SSOT for existing canonical source_arc_angles_move_toward helper against Arc Angles.moveToward."
     }
   },
   "version": 1

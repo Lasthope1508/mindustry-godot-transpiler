@@ -2352,6 +2352,30 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(angle1_input["java_expr"], "angle1")
         self.assertEqual(angle1_input["godot_symbol"], "source_arc_angles_forward_distance_input.angle1")
 
+    def test_arc_angles_move_toward_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "arc_angles_move_toward.method")
+        self.assertEqual(method["java_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(method["java_expr"], "public static float moveToward(float angle, float to, float speed){\n        if(Math.abs(angleDist(angle, to)) < speed) return to;\n        angle = Mathf.mod(angle, 360f);\n        to = Mathf.mod(to, 360f);\n\n        if(angle > to == backwardDistance(angle, to) > forwardDistance(angle, to)){\n            angle -= speed;\n        }else{\n            angle += speed;\n        }\n\n        return angle;\n    }")
+        self.assertEqual(method["godot_owner"], "PortGame.source_arc_angles_move_toward")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_arc_angles_move_toward")
+
+        snap_guard = source_symbols.source_symbol(registry, "arc_angles_move_toward.snap_guard")
+        self.assertEqual(snap_guard["java_expr"], "if(Math.abs(angleDist(angle, to)) < speed) return to;")
+        self.assertEqual(snap_guard["godot_symbol"], "source_arc_angles_move_toward_result.snapToTarget")
+
+        branch = source_symbols.source_symbol(registry, "arc_angles_move_toward.branch_condition")
+        self.assertEqual(branch["java_expr"], "angle > to == backwardDistance(angle, to) > forwardDistance(angle, to)")
+        self.assertEqual(branch["godot_symbol"], "source_arc_angles_move_toward_result.turnBackward")
+
+        return_expr = source_symbols.source_symbol(registry, "arc_angles_move_toward.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return angle;")
+        self.assertEqual(return_expr["godot_symbol"], "source_arc_angles_move_toward_result.moveToward")
+
     def test_source_angles_angle_dist_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -2421,9 +2445,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 92)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 93)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 97)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 98)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -2517,6 +2541,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_arc_angles_angle", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_backward_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_forward_distance", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_arc_angles_move_toward", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -3244,6 +3269,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(arc_angles_forward_distance["godot_owner"], "PortGame.source_arc_angles_forward_distance")
         self.assertIn("public static float forwardDistance(float angle1, float angle2){\n        return Math.abs(angle1 - angle2);\n    }", arc_angles_forward_distance["exact_exprs"])
         self.assertIn("return Math.abs(angle1 - angle2);", arc_angles_forward_distance["exact_exprs"])
+
+        arc_angles_move_toward = source_symbols.source_slice(ledger, "N495")
+        self.assertEqual(arc_angles_move_toward["java_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(arc_angles_move_toward["java_method"], "moveToward(float angle, float to, float speed)")
+        self.assertEqual(arc_angles_move_toward["godot_owner"], "PortGame.source_arc_angles_move_toward")
+        self.assertIn("public static float moveToward(float angle, float to, float speed){\n        if(Math.abs(angleDist(angle, to)) < speed) return to;\n        angle = Mathf.mod(angle, 360f);\n        to = Mathf.mod(to, 360f);\n\n        if(angle > to == backwardDistance(angle, to) > forwardDistance(angle, to)){\n            angle -= speed;\n        }else{\n            angle += speed;\n        }\n\n        return angle;\n    }", arc_angles_move_toward["exact_exprs"])
+        self.assertIn("angle > to == backwardDistance(angle, to) > forwardDistance(angle, to)", arc_angles_move_toward["exact_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -4119,6 +4151,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(arc_angles_forward_distance["params"][1]["schema"], "source_arc_angles_forward_distance_input.angle2")
         self.assertIn("forwardDistance", arc_angles_forward_distance["return_keys"])
         self.assertEqual(arc_angles_forward_distance["source_method"], "forwardDistance(float angle1, float angle2)")
+
+        arc_angles_move_toward = source_symbols.api_contract(contracts, "PortGame.source_arc_angles_move_toward")
+        self.assertEqual([param["name"] for param in arc_angles_move_toward["params"]], ["angle", "to", "speed"])
+        self.assertEqual(arc_angles_move_toward["params"][0]["schema"], "source_arc_angles_move_toward_input.angle")
+        self.assertEqual(arc_angles_move_toward["params"][1]["schema"], "source_arc_angles_move_toward_input.to")
+        self.assertEqual(arc_angles_move_toward["params"][2]["schema"], "source_arc_angles_move_toward_input.speed")
+        self.assertIn("moveToward", arc_angles_move_toward["return_keys"])
+        self.assertIn("turnBackward", arc_angles_move_toward["return_keys"])
+        self.assertEqual(arc_angles_move_toward["source_method"], "moveToward(float angle, float to, float speed)")
 
         angle_distance = source_symbols.api_contract(contracts, "PortGame.source_angle_distance")
         self.assertEqual([param["name"] for param in angle_distance["params"]], ["current_degrees", "target_degrees"])
@@ -5089,6 +5130,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_arc_angles_forward_distance_result["keys"]["forwardDistance"]["java_expr"], "return Math.abs(angle1 - angle2);")
         self.assertEqual(source_arc_angles_forward_distance_result["keys"]["angle1"]["alias_of"], "source_arc_angles_forward_distance_input.angle1")
         self.assertEqual(source_arc_angles_forward_distance_result["keys"]["angle2"]["alias_of"], "source_arc_angles_forward_distance_input.angle2")
+
+        source_arc_angles_move_toward_input = source_symbols.state_schema(schema, "source_arc_angles_move_toward_input")
+        self.assertEqual(source_arc_angles_move_toward_input["keys"]["angle"]["java_expr"], "angle")
+        self.assertEqual(source_arc_angles_move_toward_input["keys"]["to"]["java_expr"], "to")
+        self.assertEqual(source_arc_angles_move_toward_input["keys"]["speed"]["java_expr"], "speed")
+
+        source_arc_angles_move_toward_result = source_symbols.state_schema(schema, "source_arc_angles_move_toward_result")
+        self.assertEqual(source_arc_angles_move_toward_result["keys"]["snapToTarget"]["java_expr"], "if(Math.abs(angleDist(angle, to)) < speed) return to;")
+        self.assertEqual(source_arc_angles_move_toward_result["keys"]["turnBackward"]["java_expr"], "angle > to == backwardDistance(angle, to) > forwardDistance(angle, to)")
+        self.assertEqual(source_arc_angles_move_toward_result["keys"]["moveToward"]["java_expr"], "return angle;")
+        self.assertEqual(source_arc_angles_move_toward_result["keys"]["angle"]["alias_of"], "source_arc_angles_move_toward_input.angle")
+        self.assertEqual(source_arc_angles_move_toward_result["keys"]["speed"]["alias_of"], "source_arc_angles_move_toward_input.speed")
 
         source_angle_distance_input = source_symbols.state_schema(schema, "source_angle_distance_input")
         self.assertEqual(source_angle_distance_input["keys"]["currentDegrees"]["java_expr"], "a")

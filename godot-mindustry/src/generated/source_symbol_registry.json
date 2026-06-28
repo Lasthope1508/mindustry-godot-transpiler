@@ -9383,6 +9383,149 @@
       "godot_symbol": "source_arc_angles_backward_distance_input.angle2",
       "rule": "Runtime angle2 parameter maps to Java angle2."
     },
+    "arc_angles_move_toward.method": {
+      "tests": [
+        "test_arc_angles_move_toward_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_move_toward",
+      "godot_owner": "PortGame.source_arc_angles_move_toward",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "moveToward(float angle, float to, float speed)",
+      "java_expr": "public static float moveToward(float angle, float to, float speed){\n        if(Math.abs(angleDist(angle, to)) < speed) return to;\n        angle = Mathf.mod(angle, 360f);\n        to = Mathf.mod(to, 360f);\n\n        if(angle > to == backwardDistance(angle, to) > forwardDistance(angle, to)){\n            angle -= speed;\n        }else{\n            angle += speed;\n        }\n\n        return angle;\n    }",
+      "godot_symbol": "source_arc_angles_move_toward_result.moveToward",
+      "rule": "Canonical Arc Angles.moveToward helper snaps when within speed, normalizes angles, chooses wrapped turn direction, and applies speed."
+    },
+    "arc_angles_move_toward.snap_guard": {
+      "tests": [
+        "test_arc_angles_move_toward_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_move_toward",
+      "godot_owner": "PortGame.source_arc_angles_move_toward",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "moveToward(float angle, float to, float speed)",
+      "java_expr": "if(Math.abs(angleDist(angle, to)) < speed) return to;",
+      "godot_symbol": "source_arc_angles_move_toward_result.snapToTarget",
+      "rule": "If angleDist is less than speed, return target angle directly."
+    },
+    "arc_angles_move_toward.angle_mod": {
+      "tests": [
+        "test_arc_angles_move_toward_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_move_toward",
+      "godot_owner": "PortGame.source_arc_angles_move_toward",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "moveToward(float angle, float to, float speed)",
+      "java_expr": "angle = Mathf.mod(angle, 360f);",
+      "godot_symbol": "source_arc_angles_move_toward_result.angleMod",
+      "rule": "Normalize moving angle before wrapped direction branch."
+    },
+    "arc_angles_move_toward.to_mod": {
+      "tests": [
+        "test_arc_angles_move_toward_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_move_toward",
+      "godot_owner": "PortGame.source_arc_angles_move_toward",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "moveToward(float angle, float to, float speed)",
+      "java_expr": "to = Mathf.mod(to, 360f);",
+      "godot_symbol": "source_arc_angles_move_toward_result.toMod",
+      "rule": "Normalize target angle before wrapped direction branch."
+    },
+    "arc_angles_move_toward.branch_condition": {
+      "tests": [
+        "test_arc_angles_move_toward_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_move_toward",
+      "godot_owner": "PortGame.source_arc_angles_move_toward",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "moveToward(float angle, float to, float speed)",
+      "java_expr": "angle > to == backwardDistance(angle, to) > forwardDistance(angle, to)",
+      "godot_symbol": "source_arc_angles_move_toward_result.turnBackward",
+      "rule": "Branch chooses subtracting speed when source wrapped direction predicate is true."
+    },
+    "arc_angles_move_toward.subtract_speed": {
+      "tests": [
+        "test_arc_angles_move_toward_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_move_toward",
+      "godot_owner": "PortGame.source_arc_angles_move_toward",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "moveToward(float angle, float to, float speed)",
+      "java_expr": "angle -= speed;",
+      "godot_symbol": "source_arc_angles_move_toward_result.moveToward",
+      "rule": "Subtract speed when branch condition is true."
+    },
+    "arc_angles_move_toward.add_speed": {
+      "tests": [
+        "test_arc_angles_move_toward_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_move_toward",
+      "godot_owner": "PortGame.source_arc_angles_move_toward",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "moveToward(float angle, float to, float speed)",
+      "java_expr": "angle += speed;",
+      "godot_symbol": "source_arc_angles_move_toward_result.moveToward",
+      "rule": "Add speed when branch condition is false."
+    },
+    "arc_angles_move_toward.return_expr": {
+      "tests": [
+        "test_arc_angles_move_toward_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_move_toward",
+      "godot_owner": "PortGame.source_arc_angles_move_toward",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "moveToward(float angle, float to, float speed)",
+      "java_expr": "return angle;",
+      "godot_symbol": "source_arc_angles_move_toward_result.moveToward",
+      "rule": "Return adjusted angle after source branch."
+    },
+    "arc_angles_move_toward.angle_input": {
+      "tests": [
+        "test_arc_angles_move_toward_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_move_toward",
+      "godot_owner": "PortGame.source_arc_angles_move_toward",
+      "status": "explicit-input",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "moveToward(float angle, float to, float speed)",
+      "java_expr": "angle",
+      "godot_symbol": "source_arc_angles_move_toward_input.angle",
+      "rule": "Runtime angle parameter maps to Java angle."
+    },
+    "arc_angles_move_toward.to_input": {
+      "tests": [
+        "test_arc_angles_move_toward_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_move_toward",
+      "godot_owner": "PortGame.source_arc_angles_move_toward",
+      "status": "explicit-input",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "moveToward(float angle, float to, float speed)",
+      "java_expr": "to",
+      "godot_symbol": "source_arc_angles_move_toward_input.to",
+      "rule": "Runtime to parameter maps to Java to."
+    },
+    "arc_angles_move_toward.speed_input": {
+      "tests": [
+        "test_arc_angles_move_toward_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_move_toward",
+      "godot_owner": "PortGame.source_arc_angles_move_toward",
+      "status": "explicit-input",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "moveToward(float angle, float to, float speed)",
+      "java_expr": "speed",
+      "godot_symbol": "source_arc_angles_move_toward_input.speed",
+      "rule": "Runtime speed parameter maps to Java speed."
+    },
     "source_angles_angle_dist.method": {
       "tests": [
         "test_source_angles_angle_dist_symbols_are_registered_with_source_backing",
