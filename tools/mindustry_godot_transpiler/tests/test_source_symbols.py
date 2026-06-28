@@ -2557,6 +2557,44 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(vec_input["java_expr"], "this")
         self.assertEqual(vec_input["godot_symbol"], "source_arc_vec2_limit_input.vec")
 
+    def test_block_can_replace_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_can_replace.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "canReplace(Block other)")
+        self.assertEqual(method["java_expr"], "public boolean canReplace(Block other){\n        if(other.alwaysReplace) return true;\n        if(other.privileged) return false;\n        return other.replaceable && (other != this || (rotate && quickRotate)) && ((this.group != BlockGroup.none && other.group == this.group) || other == this) &&\n            (size == other.size || (size >= other.size && ((subclass != null && subclass == other.subclass) || group.anyReplace)));\n    }")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_can_replace_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_can_replace_state")
+
+        always_replace = source_symbols.source_symbol(registry, "block_can_replace.other_always_replace")
+        self.assertEqual(always_replace["java_expr"], "if(other.alwaysReplace) return true;")
+        self.assertEqual(always_replace["godot_symbol"], "source_block_can_replace_result.otherAlwaysReplace")
+
+        privileged = source_symbols.source_symbol(registry, "block_can_replace.other_privileged")
+        self.assertEqual(privileged["java_expr"], "if(other.privileged) return false;")
+        self.assertEqual(privileged["godot_symbol"], "source_block_can_replace_result.otherPrivileged")
+
+        replacement_gate = source_symbols.source_symbol(registry, "block_can_replace.replacement_gate")
+        self.assertEqual(replacement_gate["java_expr"], "other.replaceable && (other != this || (rotate && quickRotate)) && ((this.group != BlockGroup.none && other.group == this.group) || other == this)")
+        self.assertEqual(replacement_gate["godot_symbol"], "source_block_can_replace_result.replacementGate")
+
+        size_gate = source_symbols.source_symbol(registry, "block_can_replace.size_gate")
+        self.assertEqual(size_gate["java_expr"], "size == other.size || (size >= other.size && ((subclass != null && subclass == other.subclass) || group.anyReplace))")
+        self.assertEqual(size_gate["godot_symbol"], "source_block_can_replace_result.sizeGate")
+
+        result = source_symbols.source_symbol(registry, "block_can_replace.result")
+        self.assertEqual(result["java_expr"], "return other.replaceable && (other != this || (rotate && quickRotate)) && ((this.group != BlockGroup.none && other.group == this.group) || other == this) &&\n            (size == other.size || (size >= other.size && ((subclass != null && subclass == other.subclass) || group.anyReplace)));")
+        self.assertEqual(result["godot_symbol"], "source_block_can_replace_result.canReplace")
+
+        input_other_replaceable = source_symbols.source_symbol(registry, "block_can_replace.other_replaceable_input")
+        self.assertEqual(input_other_replaceable["status"], "explicit-input")
+        self.assertEqual(input_other_replaceable["java_expr"], "other.replaceable")
+        self.assertEqual(input_other_replaceable["godot_symbol"], "source_block_can_replace_input.otherReplaceable")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -2841,9 +2879,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 108)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 109)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 113)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 114)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -2953,6 +2991,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_arc_random_seed_int", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_strings_fixed_one_decimal", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_vec2_limit", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_can_replace_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -3777,6 +3816,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public Vec2 limit(float limit){\n        return limit2(limit * limit);\n    }", arc_vec2_limit["exact_exprs"])
         self.assertIn("public Vec2 limit2(float limit2){\n        float len2 = len2();\n        if(len2 > limit2){\n            return scl((float)Math.sqrt(limit2 / len2));\n        }\n        return this;\n    }", arc_vec2_limit["exact_exprs"])
         self.assertIn("public float len2(){\n        return x * x + y * y;\n    }", arc_vec2_limit["exact_exprs"])
+
+        block_can_replace = source_symbols.source_slice(ledger, "N511")
+        self.assertEqual(block_can_replace["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(block_can_replace["java_method"], "canReplace(Block other)")
+        self.assertEqual(block_can_replace["godot_owner"], "PortGame.source_block_can_replace_state")
+        self.assertIn("if(other.alwaysReplace) return true;", block_can_replace["exact_exprs"])
+        self.assertIn("if(other.privileged) return false;", block_can_replace["exact_exprs"])
+        self.assertIn("return other.replaceable && (other != this || (rotate && quickRotate)) && ((this.group != BlockGroup.none && other.group == this.group) || other == this) &&\n            (size == other.size || (size >= other.size && ((subclass != null && subclass == other.subclass) || group.anyReplace)));", block_can_replace["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -4775,6 +4822,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("limit2", arc_vec2_limit["return_keys"])
         self.assertIn("scale", arc_vec2_limit["return_keys"])
         self.assertEqual(arc_vec2_limit["source_method"], "limit(float limit)")
+
+        block_can_replace = source_symbols.api_contract(contracts, "PortGame.source_block_can_replace_state")
+        self.assertEqual([param["name"] for param in block_can_replace["params"]], ["existing_always_replace", "existing_privileged", "existing_replaceable", "same_block", "new_rotate", "new_quick_rotate", "new_group_is_none", "same_group", "new_size", "existing_size", "same_subclass", "group_any_replace"])
+        self.assertEqual(block_can_replace["params"][0]["schema"], "source_block_can_replace_input.otherAlwaysReplace")
+        self.assertEqual(block_can_replace["params"][11]["schema"], "source_block_can_replace_input.groupAnyReplace")
+        self.assertIn("replacementGate", block_can_replace["return_keys"])
+        self.assertIn("sizeGate", block_can_replace["return_keys"])
+        self.assertEqual(block_can_replace["source_method"], "canReplace(Block other)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -5918,6 +5973,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_arc_vec2_limit_result["keys"]["scale"]["java_expr"], "(float)Math.sqrt(limit2 / len2)")
         self.assertEqual(source_arc_vec2_limit_result["keys"]["x"]["java_expr"], "x *= scalar;")
         self.assertEqual(source_arc_vec2_limit_result["keys"]["vec"]["alias_of"], "source_arc_vec2_limit_input.vec")
+
+        source_block_can_replace_input = source_symbols.state_schema(schema, "source_block_can_replace_input")
+        self.assertEqual(source_block_can_replace_input["keys"]["otherAlwaysReplace"]["java_expr"], "other.alwaysReplace")
+        self.assertEqual(source_block_can_replace_input["keys"]["otherReplaceable"]["status"], "explicit-input")
+        self.assertEqual(source_block_can_replace_input["keys"]["groupAnyReplace"]["java_expr"], "group.anyReplace")
+
+        source_block_can_replace_result = source_symbols.state_schema(schema, "source_block_can_replace_result")
+        self.assertEqual(source_block_can_replace_result["keys"]["otherAlwaysReplace"]["java_expr"], "if(other.alwaysReplace) return true;")
+        self.assertEqual(source_block_can_replace_result["keys"]["otherPrivileged"]["java_expr"], "if(other.privileged) return false;")
+        self.assertEqual(source_block_can_replace_result["keys"]["replacementGate"]["java_expr"], "other.replaceable && (other != this || (rotate && quickRotate)) && ((this.group != BlockGroup.none && other.group == this.group) || other == this)")
+        self.assertEqual(source_block_can_replace_result["keys"]["sizeGate"]["java_expr"], "size == other.size || (size >= other.size && ((subclass != null && subclass == other.subclass) || group.anyReplace))")
+        self.assertEqual(source_block_can_replace_result["keys"]["canReplace"]["java_expr"], "return other.replaceable && (other != this || (rotate && quickRotate)) && ((this.group != BlockGroup.none && other.group == this.group) || other == this) &&\n            (size == other.size || (size >= other.size && ((subclass != null && subclass == other.subclass) || group.anyReplace)));")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

@@ -4538,6 +4538,87 @@
       ],
       "runtime_proof": "/root/Main.source_arc_vec2_limit",
       "rule": "Public runtime contract for Arc Vec2.limit(float) helper."
+    },
+    "PortGame.source_block_can_replace_state": {
+      "status": "active",
+      "source_slice": "N511",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "canReplace(Block other)",
+      "params": [
+        {
+          "name": "existing_always_replace",
+          "type": "bool",
+          "schema": "source_block_can_replace_input.otherAlwaysReplace"
+        },
+        {
+          "name": "existing_privileged",
+          "type": "bool",
+          "schema": "source_block_can_replace_input.otherPrivileged"
+        },
+        {
+          "name": "existing_replaceable",
+          "type": "bool",
+          "schema": "source_block_can_replace_input.otherReplaceable"
+        },
+        {
+          "name": "same_block",
+          "type": "bool",
+          "schema": "source_block_can_replace_input.sameBlock"
+        },
+        {
+          "name": "new_rotate",
+          "type": "bool",
+          "schema": "source_block_can_replace_input.rotate"
+        },
+        {
+          "name": "new_quick_rotate",
+          "type": "bool",
+          "schema": "source_block_can_replace_input.quickRotate"
+        },
+        {
+          "name": "new_group_is_none",
+          "type": "bool",
+          "schema": "source_block_can_replace_input.groupIsNone"
+        },
+        {
+          "name": "same_group",
+          "type": "bool",
+          "schema": "source_block_can_replace_input.sameGroup"
+        },
+        {
+          "name": "new_size",
+          "type": "int",
+          "schema": "source_block_can_replace_input.size"
+        },
+        {
+          "name": "existing_size",
+          "type": "int",
+          "schema": "source_block_can_replace_input.otherSize"
+        },
+        {
+          "name": "same_subclass",
+          "type": "bool",
+          "schema": "source_block_can_replace_input.sameSubclass"
+        },
+        {
+          "name": "group_any_replace",
+          "type": "bool",
+          "schema": "source_block_can_replace_input.groupAnyReplace"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "otherAlwaysReplace",
+        "otherPrivileged",
+        "replacementGate",
+        "sizeGate",
+        "canReplace"
+      ],
+      "tests": [
+        "test_block_can_replace_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_can_replace_state",
+      "rule": "Public runtime contract for Mindustry Block.canReplace(Block other) helper."
     }
   },
   "policy": {

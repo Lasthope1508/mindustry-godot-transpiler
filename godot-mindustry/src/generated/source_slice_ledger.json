@@ -3421,6 +3421,59 @@
       ],
       "runtime_proof": "/root/Main.source_arc_vec2_limit",
       "rule": "Backfills SSOT for existing canonical source_arc_vec2_limit helper against Arc Vec2.limit(float)."
+    },
+    "N511": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "mindustry.world.Block",
+      "java_method": "canReplace(Block other)",
+      "godot_owner": "PortGame.source_block_can_replace_state",
+      "exact_exprs": [
+        "public boolean canReplace(Block other){\n        if(other.alwaysReplace) return true;\n        if(other.privileged) return false;\n        return other.replaceable && (other != this || (rotate && quickRotate)) && ((this.group != BlockGroup.none && other.group == this.group) || other == this) &&\n            (size == other.size || (size >= other.size && ((subclass != null && subclass == other.subclass) || group.anyReplace)));\n    }",
+        "if(other.alwaysReplace) return true;",
+        "if(other.privileged) return false;",
+        "other.replaceable && (other != this || (rotate && quickRotate)) && ((this.group != BlockGroup.none && other.group == this.group) || other == this)",
+        "size == other.size || (size >= other.size && ((subclass != null && subclass == other.subclass) || group.anyReplace))",
+        "return other.replaceable && (other != this || (rotate && quickRotate)) && ((this.group != BlockGroup.none && other.group == this.group) || other == this) &&\n            (size == other.size || (size >= other.size && ((subclass != null && subclass == other.subclass) || group.anyReplace)));",
+        "other.alwaysReplace",
+        "other.privileged",
+        "other.replaceable",
+        "other == this",
+        "rotate",
+        "quickRotate",
+        "this.group != BlockGroup.none",
+        "other.group == this.group",
+        "size",
+        "other.size",
+        "subclass != null && subclass == other.subclass",
+        "group.anyReplace"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "block_can_replace.method",
+        "block_can_replace.other_always_replace",
+        "block_can_replace.other_privileged",
+        "block_can_replace.replacement_gate",
+        "block_can_replace.size_gate",
+        "block_can_replace.result",
+        "block_can_replace.other_always_replace_input",
+        "block_can_replace.other_privileged_input",
+        "block_can_replace.other_replaceable_input",
+        "block_can_replace.same_block_input",
+        "block_can_replace.rotate_input",
+        "block_can_replace.quick_rotate_input",
+        "block_can_replace.group_is_none_input",
+        "block_can_replace.same_group_input",
+        "block_can_replace.size_input",
+        "block_can_replace.other_size_input",
+        "block_can_replace.same_subclass_input",
+        "block_can_replace.group_any_replace_input"
+      ],
+      "tests": [
+        "test_block_can_replace_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_can_replace_state",
+      "rule": "Backfills SSOT for existing canonical source_block_can_replace_state helper against Mindustry Block.canReplace(Block other)."
     }
   },
   "version": 1

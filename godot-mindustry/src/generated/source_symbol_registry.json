@@ -11187,6 +11187,240 @@
       "java_expr": "limit",
       "godot_symbol": "source_arc_vec2_limit_input.limit",
       "rule": "Runtime limit maps to Java limit."
+    },
+    "block_can_replace.method": {
+      "tests": [
+        "test_block_can_replace_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_can_replace_state",
+      "godot_owner": "PortGame.source_block_can_replace_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "canReplace(Block other)",
+      "status": "source-backed",
+      "java_expr": "public boolean canReplace(Block other){\n        if(other.alwaysReplace) return true;\n        if(other.privileged) return false;\n        return other.replaceable && (other != this || (rotate && quickRotate)) && ((this.group != BlockGroup.none && other.group == this.group) || other == this) &&\n            (size == other.size || (size >= other.size && ((subclass != null && subclass == other.subclass) || group.anyReplace)));\n    }",
+      "godot_symbol": "source_block_can_replace_result.method",
+      "rule": "Block.canReplace source body."
+    },
+    "block_can_replace.other_always_replace": {
+      "tests": [
+        "test_block_can_replace_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_can_replace_state",
+      "godot_owner": "PortGame.source_block_can_replace_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "canReplace(Block other)",
+      "status": "source-backed",
+      "java_expr": "if(other.alwaysReplace) return true;",
+      "godot_symbol": "source_block_can_replace_result.otherAlwaysReplace",
+      "rule": "Always-replace blocks are always replaceable."
+    },
+    "block_can_replace.other_privileged": {
+      "tests": [
+        "test_block_can_replace_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_can_replace_state",
+      "godot_owner": "PortGame.source_block_can_replace_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "canReplace(Block other)",
+      "status": "source-backed",
+      "java_expr": "if(other.privileged) return false;",
+      "godot_symbol": "source_block_can_replace_result.otherPrivileged",
+      "rule": "Privileged existing blocks cannot be replaced."
+    },
+    "block_can_replace.replacement_gate": {
+      "tests": [
+        "test_block_can_replace_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_can_replace_state",
+      "godot_owner": "PortGame.source_block_can_replace_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "canReplace(Block other)",
+      "status": "source-backed",
+      "java_expr": "other.replaceable && (other != this || (rotate && quickRotate)) && ((this.group != BlockGroup.none && other.group == this.group) || other == this)",
+      "godot_symbol": "source_block_can_replace_result.replacementGate",
+      "rule": "Replaceable/same-block/group gate from Block.canReplace."
+    },
+    "block_can_replace.size_gate": {
+      "tests": [
+        "test_block_can_replace_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_can_replace_state",
+      "godot_owner": "PortGame.source_block_can_replace_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "canReplace(Block other)",
+      "status": "source-backed",
+      "java_expr": "size == other.size || (size >= other.size && ((subclass != null && subclass == other.subclass) || group.anyReplace))",
+      "godot_symbol": "source_block_can_replace_result.sizeGate",
+      "rule": "Size/subclass/group replacement gate from Block.canReplace."
+    },
+    "block_can_replace.result": {
+      "tests": [
+        "test_block_can_replace_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_can_replace_state",
+      "godot_owner": "PortGame.source_block_can_replace_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "canReplace(Block other)",
+      "status": "source-backed",
+      "java_expr": "return other.replaceable && (other != this || (rotate && quickRotate)) && ((this.group != BlockGroup.none && other.group == this.group) || other == this) &&\n            (size == other.size || (size >= other.size && ((subclass != null && subclass == other.subclass) || group.anyReplace)));",
+      "godot_symbol": "source_block_can_replace_result.canReplace",
+      "rule": "Final Block.canReplace return expression."
+    },
+    "block_can_replace.other_always_replace_input": {
+      "tests": [
+        "test_block_can_replace_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_can_replace_state",
+      "godot_owner": "PortGame.source_block_can_replace_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "canReplace(Block other)",
+      "status": "explicit-input",
+      "java_expr": "other.alwaysReplace",
+      "godot_symbol": "source_block_can_replace_input.otherAlwaysReplace",
+      "rule": "Existing block alwaysReplace input."
+    },
+    "block_can_replace.other_privileged_input": {
+      "tests": [
+        "test_block_can_replace_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_can_replace_state",
+      "godot_owner": "PortGame.source_block_can_replace_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "canReplace(Block other)",
+      "status": "explicit-input",
+      "java_expr": "other.privileged",
+      "godot_symbol": "source_block_can_replace_input.otherPrivileged",
+      "rule": "Existing block privileged input."
+    },
+    "block_can_replace.other_replaceable_input": {
+      "tests": [
+        "test_block_can_replace_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_can_replace_state",
+      "godot_owner": "PortGame.source_block_can_replace_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "canReplace(Block other)",
+      "status": "explicit-input",
+      "java_expr": "other.replaceable",
+      "godot_symbol": "source_block_can_replace_input.otherReplaceable",
+      "rule": "Existing block replaceable input."
+    },
+    "block_can_replace.same_block_input": {
+      "tests": [
+        "test_block_can_replace_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_can_replace_state",
+      "godot_owner": "PortGame.source_block_can_replace_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "canReplace(Block other)",
+      "status": "explicit-input",
+      "java_expr": "other == this",
+      "godot_symbol": "source_block_can_replace_input.sameBlock",
+      "rule": "Runtime same-block relation."
+    },
+    "block_can_replace.rotate_input": {
+      "tests": [
+        "test_block_can_replace_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_can_replace_state",
+      "godot_owner": "PortGame.source_block_can_replace_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "canReplace(Block other)",
+      "status": "explicit-input",
+      "java_expr": "rotate",
+      "godot_symbol": "source_block_can_replace_input.rotate",
+      "rule": "New block rotate input."
+    },
+    "block_can_replace.quick_rotate_input": {
+      "tests": [
+        "test_block_can_replace_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_can_replace_state",
+      "godot_owner": "PortGame.source_block_can_replace_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "canReplace(Block other)",
+      "status": "explicit-input",
+      "java_expr": "quickRotate",
+      "godot_symbol": "source_block_can_replace_input.quickRotate",
+      "rule": "New block quickRotate input."
+    },
+    "block_can_replace.group_is_none_input": {
+      "tests": [
+        "test_block_can_replace_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_can_replace_state",
+      "godot_owner": "PortGame.source_block_can_replace_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "canReplace(Block other)",
+      "status": "explicit-input",
+      "java_expr": "this.group == BlockGroup.none",
+      "godot_symbol": "source_block_can_replace_input.groupIsNone",
+      "rule": "New block group none relation."
+    },
+    "block_can_replace.same_group_input": {
+      "tests": [
+        "test_block_can_replace_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_can_replace_state",
+      "godot_owner": "PortGame.source_block_can_replace_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "canReplace(Block other)",
+      "status": "explicit-input",
+      "java_expr": "other.group == this.group",
+      "godot_symbol": "source_block_can_replace_input.sameGroup",
+      "rule": "Runtime same-group relation."
+    },
+    "block_can_replace.size_input": {
+      "tests": [
+        "test_block_can_replace_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_can_replace_state",
+      "godot_owner": "PortGame.source_block_can_replace_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "canReplace(Block other)",
+      "status": "explicit-input",
+      "java_expr": "size",
+      "godot_symbol": "source_block_can_replace_input.size",
+      "rule": "New block size input."
+    },
+    "block_can_replace.other_size_input": {
+      "tests": [
+        "test_block_can_replace_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_can_replace_state",
+      "godot_owner": "PortGame.source_block_can_replace_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "canReplace(Block other)",
+      "status": "explicit-input",
+      "java_expr": "other.size",
+      "godot_symbol": "source_block_can_replace_input.otherSize",
+      "rule": "Existing block size input."
+    },
+    "block_can_replace.same_subclass_input": {
+      "tests": [
+        "test_block_can_replace_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_can_replace_state",
+      "godot_owner": "PortGame.source_block_can_replace_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "canReplace(Block other)",
+      "status": "explicit-input",
+      "java_expr": "subclass != null && subclass == other.subclass",
+      "godot_symbol": "source_block_can_replace_input.sameSubclass",
+      "rule": "Runtime same-subclass relation."
+    },
+    "block_can_replace.group_any_replace_input": {
+      "tests": [
+        "test_block_can_replace_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_can_replace_state",
+      "godot_owner": "PortGame.source_block_can_replace_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "canReplace(Block other)",
+      "status": "explicit-input",
+      "java_expr": "group.anyReplace",
+      "godot_symbol": "source_block_can_replace_input.groupAnyReplace",
+      "rule": "New block group anyReplace input."
     }
   }
 }

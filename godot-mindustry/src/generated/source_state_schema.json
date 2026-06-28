@@ -14884,6 +14884,292 @@
           "rule": "Carries Java limit into result schema."
         }
       }
+    },
+    "source_block_can_replace_input": {
+      "status": "active",
+      "keys": {
+        "otherAlwaysReplace": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "canReplace(Block other)",
+          "java_expr": "other.alwaysReplace",
+          "godot_symbol": "source_block_can_replace_input.otherAlwaysReplace",
+          "used_by": [
+            "PortGame.source_block_can_replace_state"
+          ],
+          "rule": "Existing block alwaysReplace input."
+        },
+        "otherPrivileged": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "canReplace(Block other)",
+          "java_expr": "other.privileged",
+          "godot_symbol": "source_block_can_replace_input.otherPrivileged",
+          "used_by": [
+            "PortGame.source_block_can_replace_state"
+          ],
+          "rule": "Existing block privileged input."
+        },
+        "otherReplaceable": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "canReplace(Block other)",
+          "java_expr": "other.replaceable",
+          "godot_symbol": "source_block_can_replace_input.otherReplaceable",
+          "used_by": [
+            "PortGame.source_block_can_replace_state"
+          ],
+          "rule": "Existing block replaceable input."
+        },
+        "sameBlock": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "canReplace(Block other)",
+          "java_expr": "other == this",
+          "godot_symbol": "source_block_can_replace_input.sameBlock",
+          "used_by": [
+            "PortGame.source_block_can_replace_state"
+          ],
+          "rule": "Runtime same-block relation."
+        },
+        "rotate": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "canReplace(Block other)",
+          "java_expr": "rotate",
+          "godot_symbol": "source_block_can_replace_input.rotate",
+          "used_by": [
+            "PortGame.source_block_can_replace_state"
+          ],
+          "rule": "New block rotate input."
+        },
+        "quickRotate": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "canReplace(Block other)",
+          "java_expr": "quickRotate",
+          "godot_symbol": "source_block_can_replace_input.quickRotate",
+          "used_by": [
+            "PortGame.source_block_can_replace_state"
+          ],
+          "rule": "New block quickRotate input."
+        },
+        "groupIsNone": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "canReplace(Block other)",
+          "java_expr": "this.group == BlockGroup.none",
+          "godot_symbol": "source_block_can_replace_input.groupIsNone",
+          "used_by": [
+            "PortGame.source_block_can_replace_state"
+          ],
+          "rule": "New block group none relation."
+        },
+        "sameGroup": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "canReplace(Block other)",
+          "java_expr": "other.group == this.group",
+          "godot_symbol": "source_block_can_replace_input.sameGroup",
+          "used_by": [
+            "PortGame.source_block_can_replace_state"
+          ],
+          "rule": "Runtime same-group relation."
+        },
+        "size": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "canReplace(Block other)",
+          "java_expr": "size",
+          "godot_symbol": "source_block_can_replace_input.size",
+          "used_by": [
+            "PortGame.source_block_can_replace_state"
+          ],
+          "rule": "New block size input."
+        },
+        "otherSize": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "canReplace(Block other)",
+          "java_expr": "other.size",
+          "godot_symbol": "source_block_can_replace_input.otherSize",
+          "used_by": [
+            "PortGame.source_block_can_replace_state"
+          ],
+          "rule": "Existing block size input."
+        },
+        "sameSubclass": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "canReplace(Block other)",
+          "java_expr": "subclass != null && subclass == other.subclass",
+          "godot_symbol": "source_block_can_replace_input.sameSubclass",
+          "used_by": [
+            "PortGame.source_block_can_replace_state"
+          ],
+          "rule": "Runtime same-subclass relation."
+        },
+        "groupAnyReplace": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "canReplace(Block other)",
+          "java_expr": "group.anyReplace",
+          "godot_symbol": "source_block_can_replace_input.groupAnyReplace",
+          "used_by": [
+            "PortGame.source_block_can_replace_state"
+          ],
+          "rule": "New block group anyReplace input."
+        }
+      }
+    },
+    "source_block_can_replace_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "string",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "canReplace(Block other)",
+          "java_expr": "public boolean canReplace(Block other){\n        if(other.alwaysReplace) return true;\n        if(other.privileged) return false;\n        return other.replaceable && (other != this || (rotate && quickRotate)) && ((this.group != BlockGroup.none && other.group == this.group) || other == this) &&\n            (size == other.size || (size >= other.size && ((subclass != null && subclass == other.subclass) || group.anyReplace)));\n    }",
+          "godot_symbol": "source_block_can_replace_result.method",
+          "used_by": [
+            "PortGame.source_block_can_replace_state"
+          ],
+          "rule": "Block.canReplace source body."
+        },
+        "otherAlwaysReplace": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "canReplace(Block other)",
+          "java_expr": "if(other.alwaysReplace) return true;",
+          "godot_symbol": "source_block_can_replace_result.otherAlwaysReplace",
+          "used_by": [
+            "PortGame.source_block_can_replace_state"
+          ],
+          "rule": "Always replace early return."
+        },
+        "otherPrivileged": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "canReplace(Block other)",
+          "java_expr": "if(other.privileged) return false;",
+          "godot_symbol": "source_block_can_replace_result.otherPrivileged",
+          "used_by": [
+            "PortGame.source_block_can_replace_state"
+          ],
+          "rule": "Privileged early return."
+        },
+        "replacementGate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "canReplace(Block other)",
+          "java_expr": "other.replaceable && (other != this || (rotate && quickRotate)) && ((this.group != BlockGroup.none && other.group == this.group) || other == this)",
+          "godot_symbol": "source_block_can_replace_result.replacementGate",
+          "used_by": [
+            "PortGame.source_block_can_replace_state"
+          ],
+          "rule": "Replaceable and group/same-block gate."
+        },
+        "sizeGate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "canReplace(Block other)",
+          "java_expr": "size == other.size || (size >= other.size && ((subclass != null && subclass == other.subclass) || group.anyReplace))",
+          "godot_symbol": "source_block_can_replace_result.sizeGate",
+          "used_by": [
+            "PortGame.source_block_can_replace_state"
+          ],
+          "rule": "Size/subclass/group gate."
+        },
+        "canReplace": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "canReplace(Block other)",
+          "java_expr": "return other.replaceable && (other != this || (rotate && quickRotate)) && ((this.group != BlockGroup.none && other.group == this.group) || other == this) &&\n            (size == other.size || (size >= other.size && ((subclass != null && subclass == other.subclass) || group.anyReplace)));",
+          "godot_symbol": "source_block_can_replace_result.canReplace",
+          "used_by": [
+            "PortGame.source_block_can_replace_state"
+          ],
+          "rule": "Final canReplace result."
+        },
+        "otherReplaceable": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_block_can_replace_input.otherReplaceable",
+          "rule": "Carries otherReplaceable input into result schema."
+        },
+        "sameBlock": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_block_can_replace_input.sameBlock",
+          "rule": "Carries sameBlock input into result schema."
+        },
+        "rotate": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_block_can_replace_input.rotate",
+          "rule": "Carries rotate input into result schema."
+        },
+        "quickRotate": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_block_can_replace_input.quickRotate",
+          "rule": "Carries quickRotate input into result schema."
+        },
+        "groupIsNone": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_block_can_replace_input.groupIsNone",
+          "rule": "Carries groupIsNone input into result schema."
+        },
+        "sameGroup": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_block_can_replace_input.sameGroup",
+          "rule": "Carries sameGroup input into result schema."
+        },
+        "size": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_block_can_replace_input.size",
+          "rule": "Carries size input into result schema."
+        },
+        "otherSize": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_block_can_replace_input.otherSize",
+          "rule": "Carries otherSize input into result schema."
+        },
+        "sameSubclass": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_block_can_replace_input.sameSubclass",
+          "rule": "Carries sameSubclass input into result schema."
+        },
+        "groupAnyReplace": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_block_can_replace_input.groupAnyReplace",
+          "rule": "Carries groupAnyReplace input into result schema."
+        }
+      }
     }
   },
   "version": 1
