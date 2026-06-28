@@ -13449,6 +13449,58 @@
       "java_expr": "team",
       "godot_symbol": "source_building_change_team_power_proximity_input.team",
       "rule": "Current team supplied to canonical helper."
+    },
+    "building_check_allow_update.guard": {
+      "tests": [
+        "test_building_check_allow_update_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_allow_update_state",
+      "godot_owner": "PortGame.source_building_check_allow_update_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "checkAllowUpdate()",
+      "status": "source-backed",
+      "java_expr": "if(!allowUpdate()){",
+      "godot_symbol": "source_building_check_allow_update_result.enabled",
+      "rule": "checkAllowUpdate disables building updates when allowUpdate is false."
+    },
+    "building_check_allow_update.disable": {
+      "tests": [
+        "test_building_check_allow_update_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_allow_update_state",
+      "godot_owner": "PortGame.source_building_check_allow_update_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "checkAllowUpdate()",
+      "status": "source-backed",
+      "java_expr": "enabled = false;",
+      "godot_symbol": "source_building_check_allow_update_result.enabled",
+      "rule": "Disallowed building update forces enabled false."
+    },
+    "building_check_allow_update.current_enabled": {
+      "tests": [
+        "test_building_check_allow_update_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_allow_update_state",
+      "godot_owner": "PortGame.source_building_check_allow_update_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "checkAllowUpdate()",
+      "status": "explicit-input",
+      "java_expr": "enabled",
+      "godot_symbol": "source_building_check_allow_update_input.current_enabled",
+      "rule": "Existing enabled value supplied so runtime can preserve allowed branch and report mutation."
+    },
+    "building_check_allow_update.allow_update_result": {
+      "tests": [
+        "test_building_check_allow_update_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_allow_update_state",
+      "godot_owner": "PortGame.source_building_check_allow_update_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "checkAllowUpdate()",
+      "status": "explicit-input",
+      "java_expr": "allowUpdate()",
+      "godot_symbol": "source_building_check_allow_update_input.allow_update_result",
+      "rule": "allowUpdate result is supplied to canonical helper instead of reimplementing every allowUpdate dependency."
     }
   }
 }

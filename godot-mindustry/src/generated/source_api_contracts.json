@@ -5474,6 +5474,33 @@
       ],
       "runtime_proof": "/root/Main.source_building_change_team_power_proximity_state",
       "rule": "Public runtime contract for Mindustry BuildingComp changeTeam power proximity helper."
+    },
+    "PortGame.source_building_check_allow_update_state": {
+      "status": "active",
+      "source_slice": "N539",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "checkAllowUpdate()",
+      "params": [
+        {
+          "name": "current_enabled",
+          "type": "bool",
+          "schema": "source_building_check_allow_update_input.current_enabled"
+        },
+        {
+          "name": "allow_update_result",
+          "type": "bool",
+          "schema": "source_building_check_allow_update_input.allow_update_result"
+        }
+      ],
+      "return_keys": [
+        "enabled",
+        "changed"
+      ],
+      "tests": [
+        "test_building_check_allow_update_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_allow_update_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp checkAllowUpdate helper."
     }
   },
   "policy": {

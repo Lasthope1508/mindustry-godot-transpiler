@@ -4292,6 +4292,34 @@
       ],
       "runtime_proof": "/root/Main.source_building_change_team_power_proximity_state",
       "rule": "Backfills SSOT for existing canonical source_building_change_team_power_proximity_state helper against BuildingComp changeTeam proximity power reflow gate."
+    },
+    "N539": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "checkAllowUpdate()",
+      "godot_owner": "PortGame.source_building_check_allow_update_state",
+      "exact_exprs": [
+        "public void checkAllowUpdate(){",
+        "if(!allowUpdate()){",
+        "enabled = false;",
+        "allowUpdate()",
+        "enabled"
+      ],
+      "deferred_exprs": [
+        "full allowUpdate() predicate remains owned by its source helper"
+      ],
+      "source_symbols": [
+        "building_check_allow_update.guard",
+        "building_check_allow_update.disable",
+        "building_check_allow_update.current_enabled",
+        "building_check_allow_update.allow_update_result"
+      ],
+      "tests": [
+        "test_building_check_allow_update_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_allow_update_state",
+      "rule": "Backfills SSOT for existing canonical source_building_check_allow_update_state helper against BuildingComp.checkAllowUpdate()."
     }
   },
   "version": 1

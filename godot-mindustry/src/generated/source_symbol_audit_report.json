@@ -7,9 +7,8 @@
     "PortGame.source_symbol_audit_state",
     "PortGame.source_symbol_registry_state"
   ],
-  "legacyUnregisteredOwnerCount": 347,
+  "legacyUnregisteredOwnerCount": 346,
   "legacyUnregisteredOwners": [
-    "PortGame.source_building_check_allow_update_state",
     "PortGame.source_building_check_solid_state",
     "PortGame.source_building_check_suppression_state",
     "PortGame.source_building_collide_state",
@@ -361,7 +360,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 136,
+  "registeredSourceOwnerCount": 137,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -417,6 +416,7 @@
     "PortGame.source_building_change_team_initial_state",
     "PortGame.source_building_change_team_power_links_state",
     "PortGame.source_building_change_team_power_proximity_state",
+    "PortGame.source_building_check_allow_update_state",
     "PortGame.source_bullet_type_building_damage_state",
     "PortGame.source_bullet_type_calculate_range_despawn_unit_state",
     "PortGame.source_bullet_type_calculate_range_fallback_state",

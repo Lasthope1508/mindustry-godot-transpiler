@@ -17589,6 +17589,64 @@
           "rule": "Canonical alias for update_power input."
         }
       }
+    },
+    "source_building_check_allow_update_input": {
+      "status": "active",
+      "keys": {
+        "current_enabled": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "checkAllowUpdate()",
+          "java_expr": "enabled",
+          "godot_symbol": "source_building_check_allow_update_input.current_enabled",
+          "used_by": [
+            "PortGame.source_building_check_allow_update_state"
+          ],
+          "rule": "Current enabled value supplied to preserve allowed branch and detect whether false assignment changes state."
+        },
+        "allow_update_result": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "checkAllowUpdate()",
+          "java_expr": "allowUpdate()",
+          "godot_symbol": "source_building_check_allow_update_input.allow_update_result",
+          "used_by": [
+            "PortGame.source_building_check_allow_update_state"
+          ],
+          "rule": "Result of allowUpdate() supplied to avoid duplicating its separate source-owned logic."
+        }
+      }
+    },
+    "source_building_check_allow_update_result": {
+      "status": "active",
+      "keys": {
+        "enabled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "checkAllowUpdate()",
+          "java_expr": "enabled = false;",
+          "godot_symbol": "source_building_check_allow_update_result.enabled",
+          "used_by": [
+            "PortGame.source_building_check_allow_update_state"
+          ],
+          "rule": "False allowUpdate branch writes enabled false; true branch preserves current enabled."
+        },
+        "changed": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_check_allow_update_input.current_enabled",
+          "rule": "Reports whether assigning enabled false changed an enabled building."
+        },
+        "allow_update_result": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_check_allow_update_input.allow_update_result",
+          "rule": "Carries allowUpdate result into result schema boundary."
+        }
+      }
     }
   },
   "version": 1

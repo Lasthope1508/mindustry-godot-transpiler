@@ -3299,6 +3299,34 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(power_present["java_expr"], "power != null")
         self.assertEqual(power_present["godot_symbol"], "source_building_change_team_power_proximity_input.power_present")
 
+    def test_building_check_allow_update_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        guard = source_symbols.source_symbol(registry, "building_check_allow_update.guard")
+        self.assertEqual(guard["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(guard["java_method"], "checkAllowUpdate()")
+        self.assertEqual(guard["java_expr"], "if(!allowUpdate()){")
+        self.assertEqual(guard["godot_owner"], "PortGame.source_building_check_allow_update_state")
+        self.assertEqual(guard["runtime_proof"], "/root/Main.source_building_check_allow_update_state")
+        self.assertEqual(guard["godot_symbol"], "source_building_check_allow_update_result.enabled")
+
+        disable = source_symbols.source_symbol(registry, "building_check_allow_update.disable")
+        self.assertEqual(disable["java_expr"], "enabled = false;")
+        self.assertEqual(disable["godot_symbol"], "source_building_check_allow_update_result.enabled")
+
+        current_enabled = source_symbols.source_symbol(registry, "building_check_allow_update.current_enabled")
+        self.assertEqual(current_enabled["status"], "explicit-input")
+        self.assertEqual(current_enabled["java_expr"], "enabled")
+        self.assertEqual(current_enabled["godot_symbol"], "source_building_check_allow_update_input.current_enabled")
+
+        allow_update_result = source_symbols.source_symbol(registry, "building_check_allow_update.allow_update_result")
+        self.assertEqual(allow_update_result["status"], "explicit-input")
+        self.assertEqual(allow_update_result["java_expr"], "allowUpdate()")
+        self.assertEqual(allow_update_result["godot_symbol"], "source_building_check_allow_update_input.allow_update_result")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3583,9 +3611,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 136)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 137)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 141)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 142)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3723,6 +3751,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_change_team_initial_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_change_team_power_links_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_change_team_power_proximity_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_check_allow_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -4778,6 +4807,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("var oldGraph = power.graph;", building_change_team_power_proximity["exact_exprs"])
         self.assertIn("for(var other : proximity){", building_change_team_power_proximity["exact_exprs"])
         self.assertIn("new PowerGraph().reflow(other);", building_change_team_power_proximity["exact_exprs"])
+
+        building_check_allow_update = source_symbols.source_slice(ledger, "N539")
+        self.assertEqual(building_check_allow_update["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_check_allow_update["java_method"], "checkAllowUpdate()")
+        self.assertEqual(building_check_allow_update["godot_owner"], "PortGame.source_building_check_allow_update_state")
+        self.assertIn("public void checkAllowUpdate(){", building_check_allow_update["exact_exprs"])
+        self.assertIn("if(!allowUpdate()){", building_check_allow_update["exact_exprs"])
+        self.assertIn("enabled = false;", building_check_allow_update["exact_exprs"])
+        self.assertIn("allowUpdate()", building_check_allow_update["exact_exprs"])
+        self.assertIn("enabled", building_check_allow_update["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -5978,6 +6017,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_change_team_power_proximity["params"][2]["schema"], "source_building_change_team_power_proximity_input.old_graph")
         self.assertIn("proximity_reflow", building_change_team_power_proximity["return_keys"])
         self.assertEqual(building_change_team_power_proximity["source_method"], "changeTeam(Team next, boolean updatePower)")
+
+        building_check_allow_update = source_symbols.api_contract(contracts, "PortGame.source_building_check_allow_update_state")
+        self.assertEqual([param["name"] for param in building_check_allow_update["params"]], ["current_enabled", "allow_update_result"])
+        self.assertEqual(building_check_allow_update["params"][0]["schema"], "source_building_check_allow_update_input.current_enabled")
+        self.assertEqual(building_check_allow_update["params"][1]["schema"], "source_building_check_allow_update_input.allow_update_result")
+        self.assertIn("enabled", building_check_allow_update["return_keys"])
+        self.assertIn("changed", building_check_allow_update["return_keys"])
+        self.assertEqual(building_check_allow_update["source_method"], "checkAllowUpdate()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -7419,6 +7466,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_change_team_power_proximity_result["keys"]["proximity_reflow"]["java_expr"], "new PowerGraph().reflow(other);")
         self.assertEqual(source_building_change_team_power_proximity_result["keys"]["old_graph"]["alias_of"], "source_building_change_team_power_proximity_input.old_graph")
         self.assertEqual(source_building_change_team_power_proximity_result["keys"]["team"]["alias_of"], "source_building_change_team_power_proximity_input.team")
+
+        source_building_check_allow_update_input = source_symbols.state_schema(schema, "source_building_check_allow_update_input")
+        self.assertEqual(source_building_check_allow_update_input["keys"]["current_enabled"]["java_expr"], "enabled")
+        self.assertEqual(source_building_check_allow_update_input["keys"]["allow_update_result"]["java_expr"], "allowUpdate()")
+        self.assertEqual(source_building_check_allow_update_input["keys"]["allow_update_result"]["status"], "explicit-input")
+
+        source_building_check_allow_update_result = source_symbols.state_schema(schema, "source_building_check_allow_update_result")
+        self.assertEqual(source_building_check_allow_update_result["keys"]["enabled"]["java_expr"], "enabled = false;")
+        self.assertEqual(source_building_check_allow_update_result["keys"]["changed"]["alias_of"], "source_building_check_allow_update_input.current_enabled")
+        self.assertEqual(source_building_check_allow_update_result["keys"]["allow_update_result"]["alias_of"], "source_building_check_allow_update_input.allow_update_result")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")
