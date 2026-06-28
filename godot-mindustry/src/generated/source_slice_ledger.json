@@ -3527,6 +3527,36 @@
       ],
       "runtime_proof": "/root/Main.source_block_health",
       "rule": "Backfills SSOT for existing canonical source_block_health helper against Mindustry Block health fields and init health formula."
+    },
+    "N514": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "create(Block block, Team team)",
+      "godot_owner": "PortGame.source_block_health_at_cell",
+      "exact_exprs": [
+        "@Import float x, y, health, maxHealth;",
+        "health = block.health;",
+        "maxHealth(block.health);",
+        "case health -> health;",
+        "health = (float)Mathf.clamp(value, 0, maxHealth);",
+        "tile.x",
+        "tile.y"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "block_health_at_cell.health_import",
+        "block_health_at_cell.create_health",
+        "block_health_at_cell.sense_health",
+        "block_health_at_cell.clamp_health",
+        "block_health_at_cell.x_input",
+        "block_health_at_cell.y_input"
+      ],
+      "tests": [
+        "test_block_health_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_health_at_cell",
+      "rule": "Backfills SSOT for existing canonical source_block_health_at_cell helper against Mindustry BuildingComp health state."
     }
   },
   "version": 1

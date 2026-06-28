@@ -4667,6 +4667,37 @@
       ],
       "runtime_proof": "/root/Main.source_block_health",
       "rule": "Public runtime contract for Mindustry Block health helper."
+    },
+    "PortGame.source_block_health_at_cell": {
+      "status": "active",
+      "source_slice": "N514",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "create(Block block, Team team)",
+      "params": [
+        {
+          "name": "x",
+          "type": "int",
+          "schema": "source_block_health_at_cell_input.x"
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "schema": "source_block_health_at_cell_input.y"
+        }
+      ],
+      "return_keys": [
+        "healthImport",
+        "health",
+        "senseHealth",
+        "clampHealth",
+        "x",
+        "y"
+      ],
+      "tests": [
+        "test_block_health_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_health_at_cell",
+      "rule": "Public runtime contract for current building health by cell."
     }
   },
   "policy": {

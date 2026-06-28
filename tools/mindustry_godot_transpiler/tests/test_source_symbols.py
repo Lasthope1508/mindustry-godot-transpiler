@@ -2647,6 +2647,36 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(block_id_input["java_expr"], "name")
         self.assertEqual(block_id_input["godot_symbol"], "source_block_health_input.blockId")
 
+    def test_block_health_at_cell_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        import_field = source_symbols.source_symbol(registry, "block_health_at_cell.health_import")
+        self.assertEqual(import_field["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(import_field["java_method"], "create(Block block, Team team)")
+        self.assertEqual(import_field["java_expr"], "@Import float x, y, health, maxHealth;")
+        self.assertEqual(import_field["godot_owner"], "PortGame.source_block_health_at_cell")
+        self.assertEqual(import_field["runtime_proof"], "/root/Main.source_block_health_at_cell")
+
+        create_health = source_symbols.source_symbol(registry, "block_health_at_cell.create_health")
+        self.assertEqual(create_health["java_expr"], "health = block.health;")
+        self.assertEqual(create_health["godot_symbol"], "source_block_health_at_cell_result.health")
+
+        sense_health = source_symbols.source_symbol(registry, "block_health_at_cell.sense_health")
+        self.assertEqual(sense_health["java_expr"], "case health -> health;")
+        self.assertEqual(sense_health["godot_symbol"], "source_block_health_at_cell_result.senseHealth")
+
+        clamp_health = source_symbols.source_symbol(registry, "block_health_at_cell.clamp_health")
+        self.assertEqual(clamp_health["java_expr"], "health = (float)Mathf.clamp(value, 0, maxHealth);")
+        self.assertEqual(clamp_health["godot_symbol"], "source_block_health_at_cell_result.clampHealth")
+
+        x_input = source_symbols.source_symbol(registry, "block_health_at_cell.x_input")
+        self.assertEqual(x_input["status"], "explicit-input")
+        self.assertEqual(x_input["java_expr"], "tile.x")
+        self.assertEqual(x_input["godot_symbol"], "source_block_health_at_cell_input.x")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -2931,9 +2961,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 111)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 112)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 116)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 117)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3046,6 +3076,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_can_replace_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_dump_time", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_health", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_health_at_cell", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -3893,6 +3924,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public int health = -1;", block_health["exact_exprs"])
         self.assertIn("public float scaledHealth = -1;", block_health["exact_exprs"])
         self.assertIn("health = round ?\n                Mathf.round(size * size * scaledHealth, 5) :\n                (int)(size * size * scaledHealth);", block_health["exact_exprs"])
+
+        block_health_at_cell = source_symbols.source_slice(ledger, "N514")
+        self.assertEqual(block_health_at_cell["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(block_health_at_cell["java_method"], "create(Block block, Team team)")
+        self.assertEqual(block_health_at_cell["godot_owner"], "PortGame.source_block_health_at_cell")
+        self.assertIn("@Import float x, y, health, maxHealth;", block_health_at_cell["exact_exprs"])
+        self.assertIn("health = block.health;", block_health_at_cell["exact_exprs"])
+        self.assertIn("case health -> health;", block_health_at_cell["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -4913,6 +4952,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("health", block_health["return_keys"])
         self.assertIn("scaledHealth", block_health["return_keys"])
         self.assertEqual(block_health["source_method"], "init()")
+
+        block_health_at_cell = source_symbols.api_contract(contracts, "PortGame.source_block_health_at_cell")
+        self.assertEqual([param["name"] for param in block_health_at_cell["params"]], ["x", "y"])
+        self.assertEqual(block_health_at_cell["params"][0]["schema"], "source_block_health_at_cell_input.x")
+        self.assertEqual(block_health_at_cell["params"][1]["schema"], "source_block_health_at_cell_input.y")
+        self.assertIn("health", block_health_at_cell["return_keys"])
+        self.assertIn("senseHealth", block_health_at_cell["return_keys"])
+        self.assertEqual(block_health_at_cell["source_method"], "create(Block block, Team team)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -6088,6 +6135,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_block_health_result["keys"]["defaultScaledHealth"]["java_expr"], "scaledHealth = 40;")
         self.assertEqual(source_block_health_result["keys"]["health"]["java_expr"], "health = round ?\n                Mathf.round(size * size * scaledHealth, 5) :\n                (int)(size * size * scaledHealth);")
         self.assertEqual(source_block_health_result["keys"]["blockId"]["alias_of"], "source_block_health_input.blockId")
+
+        source_block_health_at_cell_input = source_symbols.state_schema(schema, "source_block_health_at_cell_input")
+        self.assertEqual(source_block_health_at_cell_input["keys"]["x"]["java_expr"], "tile.x")
+        self.assertEqual(source_block_health_at_cell_input["keys"]["x"]["status"], "explicit-input")
+        self.assertEqual(source_block_health_at_cell_input["keys"]["y"]["java_expr"], "tile.y")
+
+        source_block_health_at_cell_result = source_symbols.state_schema(schema, "source_block_health_at_cell_result")
+        self.assertEqual(source_block_health_at_cell_result["keys"]["health"]["java_expr"], "health = block.health;")
+        self.assertEqual(source_block_health_at_cell_result["keys"]["senseHealth"]["java_expr"], "case health -> health;")
+        self.assertEqual(source_block_health_at_cell_result["keys"]["clampHealth"]["java_expr"], "health = (float)Mathf.clamp(value, 0, maxHealth);")
+        self.assertEqual(source_block_health_at_cell_result["keys"]["x"]["alias_of"], "source_block_health_at_cell_input.x")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

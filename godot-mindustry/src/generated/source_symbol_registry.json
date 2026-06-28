@@ -11525,6 +11525,84 @@
       "java_expr": "name",
       "godot_symbol": "source_block_health_input.blockId",
       "rule": "Runtime block_id selects the source Block name."
+    },
+    "block_health_at_cell.health_import": {
+      "tests": [
+        "test_block_health_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_health_at_cell",
+      "godot_owner": "PortGame.source_block_health_at_cell",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "create(Block block, Team team)",
+      "status": "source-backed",
+      "java_expr": "@Import float x, y, health, maxHealth;",
+      "godot_symbol": "source_block_health_at_cell_result.healthImport",
+      "rule": "BuildingComp imports runtime health state."
+    },
+    "block_health_at_cell.create_health": {
+      "tests": [
+        "test_block_health_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_health_at_cell",
+      "godot_owner": "PortGame.source_block_health_at_cell",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "create(Block block, Team team)",
+      "status": "source-backed",
+      "java_expr": "health = block.health;",
+      "godot_symbol": "source_block_health_at_cell_result.health",
+      "rule": "Building create initializes health from block.health."
+    },
+    "block_health_at_cell.sense_health": {
+      "tests": [
+        "test_block_health_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_health_at_cell",
+      "godot_owner": "PortGame.source_block_health_at_cell",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "create(Block block, Team team)",
+      "status": "source-backed",
+      "java_expr": "case health -> health;",
+      "godot_symbol": "source_block_health_at_cell_result.senseHealth",
+      "rule": "Building sense returns current health."
+    },
+    "block_health_at_cell.clamp_health": {
+      "tests": [
+        "test_block_health_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_health_at_cell",
+      "godot_owner": "PortGame.source_block_health_at_cell",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(LAccess prop, double value)",
+      "status": "source-backed",
+      "java_expr": "health = (float)Mathf.clamp(value, 0, maxHealth);",
+      "godot_symbol": "source_block_health_at_cell_result.clampHealth",
+      "rule": "Logic health set clamps between zero and maxHealth."
+    },
+    "block_health_at_cell.x_input": {
+      "tests": [
+        "test_block_health_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_health_at_cell",
+      "godot_owner": "PortGame.source_block_health_at_cell",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "create(Block block, Team team)",
+      "status": "explicit-input",
+      "java_expr": "tile.x",
+      "godot_symbol": "source_block_health_at_cell_input.x",
+      "rule": "Runtime x selects tile/building cell."
+    },
+    "block_health_at_cell.y_input": {
+      "tests": [
+        "test_block_health_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_health_at_cell",
+      "godot_owner": "PortGame.source_block_health_at_cell",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "create(Block block, Team team)",
+      "status": "explicit-input",
+      "java_expr": "tile.y",
+      "godot_symbol": "source_block_health_at_cell_input.y",
+      "rule": "Runtime y selects tile/building cell."
     }
   }
 }

@@ -15298,6 +15298,100 @@
           "rule": "Carries block_id input into result schema."
         }
       }
+    },
+    "source_block_health_at_cell_input": {
+      "status": "active",
+      "keys": {
+        "x": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "create(Block block, Team team)",
+          "java_expr": "tile.x",
+          "godot_symbol": "source_block_health_at_cell_input.x",
+          "used_by": [
+            "PortGame.source_block_health_at_cell"
+          ],
+          "rule": "Runtime x maps to tile.x."
+        },
+        "y": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "create(Block block, Team team)",
+          "java_expr": "tile.y",
+          "godot_symbol": "source_block_health_at_cell_input.y",
+          "used_by": [
+            "PortGame.source_block_health_at_cell"
+          ],
+          "rule": "Runtime y maps to tile.y."
+        }
+      }
+    },
+    "source_block_health_at_cell_result": {
+      "status": "active",
+      "keys": {
+        "healthImport": {
+          "type": "string",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "create(Block block, Team team)",
+          "java_expr": "@Import float x, y, health, maxHealth;",
+          "godot_symbol": "source_block_health_at_cell_result.healthImport",
+          "used_by": [
+            "PortGame.source_block_health_at_cell"
+          ],
+          "rule": "Imported health field."
+        },
+        "health": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "create(Block block, Team team)",
+          "java_expr": "health = block.health;",
+          "godot_symbol": "source_block_health_at_cell_result.health",
+          "used_by": [
+            "PortGame.source_block_health_at_cell"
+          ],
+          "rule": "Current building health value."
+        },
+        "senseHealth": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "case health -> health;",
+          "godot_symbol": "source_block_health_at_cell_result.senseHealth",
+          "used_by": [
+            "PortGame.source_block_health_at_cell"
+          ],
+          "rule": "Logic health sense returns health."
+        },
+        "clampHealth": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "java_expr": "health = (float)Mathf.clamp(value, 0, maxHealth);",
+          "godot_symbol": "source_block_health_at_cell_result.clampHealth",
+          "used_by": [
+            "PortGame.source_block_health_at_cell"
+          ],
+          "rule": "Health mutation clamps to valid range."
+        },
+        "x": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_block_health_at_cell_input.x",
+          "rule": "Carries x input into result schema."
+        },
+        "y": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_block_health_at_cell_input.y",
+          "rule": "Carries y input into result schema."
+        }
+      }
     }
   },
   "version": 1
