@@ -7747,6 +7747,35 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_configure_closed_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.onConfigureClosed helper."
+    },
+    "PortGame.source_building_on_configure_tapped_state": {
+      "status": "active",
+      "source_slice": "N606",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "onConfigureTapped(float x, float y)",
+      "params": [
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_building_on_configure_tapped_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_building_on_configure_tapped_input.y"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "x",
+        "y",
+        "consumed"
+      ],
+      "tests": [
+        "test_building_on_configure_tapped_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_configure_tapped_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.onConfigureTapped helper."
     }
   },
   "policy": {

@@ -1874,8 +1874,11 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn("func source_building_on_configure_tapped_state(_x: float, _y: float) -> bool:", source)
-        self.assertIn("return false", source)
+        self.assertIn("func source_building_on_configure_tapped_state(x: float, y: float) -> Dictionary:", source)
+        self.assertIn('"method": "public boolean onConfigureTapped(float x, float y){"', source)
+        self.assertIn('"x": x', source)
+        self.assertIn('"y": y', source)
+        self.assertIn('"consumed": false', source)
     def test_port_game_exposes_source_building_configure_closed_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

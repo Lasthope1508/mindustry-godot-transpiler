@@ -25543,6 +25543,76 @@
           "rule": "Empty onConfigureClosed method has no source side effects."
         }
       }
+    },
+    "source_building_on_configure_tapped_input": {
+      "status": "active",
+      "keys": {
+        "x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onConfigureTapped(float x, float y)",
+          "java_expr": "x",
+          "godot_symbol": "source_building_on_configure_tapped_input.x",
+          "used_by": [
+            "PortGame.source_building_on_configure_tapped_state"
+          ],
+          "rule": "Runtime x supplies source tapped x coordinate."
+        },
+        "y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onConfigureTapped(float x, float y)",
+          "java_expr": "y",
+          "godot_symbol": "source_building_on_configure_tapped_input.y",
+          "used_by": [
+            "PortGame.source_building_on_configure_tapped_state"
+          ],
+          "rule": "Runtime y supplies source tapped y coordinate."
+        }
+      }
+    },
+    "source_building_on_configure_tapped_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onConfigureTapped(float x, float y)",
+          "java_expr": "public boolean onConfigureTapped(float x, float y){",
+          "godot_symbol": "source_building_on_configure_tapped_result.method",
+          "used_by": [
+            "PortGame.source_building_on_configure_tapped_state"
+          ],
+          "rule": "BuildingComp onConfigureTapped method boundary."
+        },
+        "consumed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onConfigureTapped(float x, float y)",
+          "java_expr": "return false;",
+          "godot_symbol": "source_building_on_configure_tapped_result.consumed",
+          "used_by": [
+            "PortGame.source_building_on_configure_tapped_state"
+          ],
+          "rule": "Base BuildingComp onConfigureTapped always returns false."
+        },
+        "x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_configure_tapped_input.x",
+          "rule": "Carries x input into result schema."
+        },
+        "y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_configure_tapped_input.y",
+          "rule": "Carries y input into result schema."
+        }
+      }
     }
   },
   "version": 1

@@ -6396,6 +6396,34 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_configure_closed_state",
       "rule": "Backfills SSOT for existing canonical source_building_on_configure_closed_state helper against BuildingComp.onConfigureClosed()."
+    },
+    "N606": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "onConfigureTapped(float x, float y)",
+      "godot_owner": "PortGame.source_building_on_configure_tapped_state",
+      "exact_exprs": [
+        "/**\n     * Called when a position is tapped while this building is selected.\n     *\n     * @return whether the tap event is consumed - if true, the player will not start shooting or interact with things under the cursor.\n     * */",
+        "public boolean onConfigureTapped(float x, float y){",
+        "return false;",
+        "x",
+        "y"
+      ],
+      "deferred_exprs": [
+        "Concrete block-specific position tap behavior remains owned by block override slices."
+      ],
+      "source_symbols": [
+        "building_on_configure_tapped.method",
+        "building_on_configure_tapped.return_false",
+        "building_on_configure_tapped.x",
+        "building_on_configure_tapped.y"
+      ],
+      "tests": [
+        "test_building_on_configure_tapped_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_configure_tapped_state",
+      "rule": "Backfills SSOT for existing canonical source_building_on_configure_tapped_state helper against BuildingComp.onConfigureTapped(float x, float y)."
     }
   },
   "version": 1

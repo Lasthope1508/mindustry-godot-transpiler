@@ -1932,8 +1932,8 @@ func source_building_on_configure_build_tapped_state(clear_on_double_tap: bool, 
 		return base
 	base.merge({"deselect": false, "configure_null": false, "consumed": not same_building}, true)
 	return base
-func source_building_on_configure_tapped_state(_x: float, _y: float) -> bool:
-	return false
+func source_building_on_configure_tapped_state(x: float, y: float) -> Dictionary:
+	return {"method": "public boolean onConfigureTapped(float x, float y){", "x": x, "y": y, "consumed": false}
 func source_building_on_configure_closed_state() -> Dictionary:
 	return {"method": "public void onConfigureClosed(){}", "no_op": true}
 func source_building_configure_menu_visibility_state(_player: Variant) -> Dictionary:

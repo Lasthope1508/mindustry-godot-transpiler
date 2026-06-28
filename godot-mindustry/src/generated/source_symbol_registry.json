@@ -19624,6 +19624,58 @@
       "java_expr": "public void onConfigureClosed(){}",
       "godot_symbol": "source_building_on_configure_closed_result.no_op",
       "rule": "Empty onConfigureClosed method has no source side effects."
+    },
+    "building_on_configure_tapped.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onConfigureTapped(float x, float y)",
+      "godot_owner": "PortGame.source_building_on_configure_tapped_state",
+      "tests": [
+        "test_building_on_configure_tapped_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_configure_tapped_state",
+      "java_expr": "public boolean onConfigureTapped(float x, float y){",
+      "godot_symbol": "source_building_on_configure_tapped_result.method",
+      "rule": "BuildingComp onConfigureTapped method boundary."
+    },
+    "building_on_configure_tapped.return_false": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onConfigureTapped(float x, float y)",
+      "godot_owner": "PortGame.source_building_on_configure_tapped_state",
+      "tests": [
+        "test_building_on_configure_tapped_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_configure_tapped_state",
+      "java_expr": "return false;",
+      "godot_symbol": "source_building_on_configure_tapped_result.consumed",
+      "rule": "Base BuildingComp onConfigureTapped always returns false."
+    },
+    "building_on_configure_tapped.x": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onConfigureTapped(float x, float y)",
+      "godot_owner": "PortGame.source_building_on_configure_tapped_state",
+      "tests": [
+        "test_building_on_configure_tapped_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_configure_tapped_state",
+      "java_expr": "x",
+      "godot_symbol": "source_building_on_configure_tapped_input.x",
+      "rule": "Runtime x supplies source tapped x coordinate."
+    },
+    "building_on_configure_tapped.y": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onConfigureTapped(float x, float y)",
+      "godot_owner": "PortGame.source_building_on_configure_tapped_state",
+      "tests": [
+        "test_building_on_configure_tapped_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_configure_tapped_state",
+      "java_expr": "y",
+      "godot_symbol": "source_building_on_configure_tapped_input.y",
+      "rule": "Runtime y supplies source tapped y coordinate."
     }
   }
 }
