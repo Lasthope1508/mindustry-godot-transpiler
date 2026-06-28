@@ -4168,6 +4168,50 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(drawrot["java_expr"], "return block.rotate && block.rotateDraw ? rotation * 90 : 0f;")
         self.assertEqual(drawrot["godot_symbol"], "source_building_draw_cached_result.drawrotFormula")
 
+    def test_building_draw_configure_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_draw_configure.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "drawConfigure()")
+        self.assertEqual(method["java_expr"], "public void drawConfigure(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_draw_configure_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_draw_configure_state")
+        self.assertEqual(method["godot_symbol"], "source_building_draw_configure_result.method")
+
+        color = source_symbols.source_symbol(registry, "building_draw_configure.color")
+        self.assertEqual(color["java_expr"], "Draw.color(Pal.accent);")
+        self.assertEqual(color["godot_symbol"], "source_building_draw_configure_result.color")
+
+        stroke = source_symbols.source_symbol(registry, "building_draw_configure.stroke")
+        self.assertEqual(stroke["java_expr"], "Lines.stroke(1f);")
+        self.assertEqual(stroke["godot_symbol"], "source_building_draw_configure_result.stroke")
+
+        square = source_symbols.source_symbol(registry, "building_draw_configure.square")
+        self.assertEqual(square["java_expr"], "Lines.square(x, y, block.size * tilesize / 2f + 1f);")
+        self.assertEqual(square["godot_symbol"], "source_building_draw_configure_result.square")
+
+        radius_offset = source_symbols.source_symbol(registry, "building_draw_configure.radius_offset")
+        self.assertEqual(radius_offset["java_expr"], "+ 1f")
+        self.assertEqual(radius_offset["godot_symbol"], "source_building_draw_configure_result.radiusOffset")
+
+        reset = source_symbols.source_symbol(registry, "building_draw_configure.reset")
+        self.assertEqual(reset["java_expr"], "Draw.reset();")
+        self.assertEqual(reset["godot_symbol"], "source_building_draw_configure_result.reset")
+
+        source_x = source_symbols.source_symbol(registry, "building_draw_configure.source_x")
+        self.assertEqual(source_x["status"], "explicit-input")
+        self.assertEqual(source_x["java_expr"], "x")
+        self.assertEqual(source_x["godot_symbol"], "source_building_draw_configure_input.source_x")
+
+        block_size = source_symbols.source_symbol(registry, "building_draw_configure.block_size")
+        self.assertEqual(block_size["status"], "explicit-input")
+        self.assertEqual(block_size["java_expr"], "block.size")
+        self.assertEqual(block_size["godot_symbol"], "source_building_draw_configure_input.block_size_value")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -4452,9 +4496,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 164)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 165)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 169)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 170)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -4620,6 +4664,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_display_name_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_display_ui_gates_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_draw_cached_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_draw_configure_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -5941,6 +5986,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("Draw.rect(block.region, x, y, drawrot());", building_draw_cached["exact_exprs"])
         self.assertIn("Draw.rect(block.variantRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0, block.variantRegions.length - 1))], x, y, drawrot());", building_draw_cached["exact_exprs"])
         self.assertIn("drawTeamTop();", building_draw_cached["exact_exprs"])
+
+        building_draw_configure = source_symbols.source_slice(ledger, "N567")
+        self.assertEqual(building_draw_configure["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_draw_configure["java_method"], "drawConfigure()")
+        self.assertEqual(building_draw_configure["godot_owner"], "PortGame.source_building_draw_configure_state")
+        self.assertIn("public void drawConfigure(){", building_draw_configure["exact_exprs"])
+        self.assertIn("Draw.color(Pal.accent);", building_draw_configure["exact_exprs"])
+        self.assertIn("Lines.stroke(1f);", building_draw_configure["exact_exprs"])
+        self.assertIn("Lines.square(x, y, block.size * tilesize / 2f + 1f);", building_draw_configure["exact_exprs"])
+        self.assertIn("+ 1f", building_draw_configure["exact_exprs"])
+        self.assertIn("Draw.reset();", building_draw_configure["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -7360,6 +7416,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("drawrotFormula", building_draw_cached["return_keys"])
         self.assertIn("delegatedDraw", building_draw_cached["return_keys"])
         self.assertEqual(building_draw_cached["source_method"], "drawCached()")
+
+        building_draw_configure = source_symbols.api_contract(contracts, "PortGame.source_building_draw_configure_state")
+        self.assertEqual([param["name"] for param in building_draw_configure["params"]], ["source_x", "source_y", "block_size_value", "source_tilesize"])
+        self.assertEqual(building_draw_configure["params"][0]["schema"], "source_building_draw_configure_input.source_x")
+        self.assertEqual(building_draw_configure["params"][2]["schema"], "source_building_draw_configure_input.block_size_value")
+        self.assertEqual(building_draw_configure["params"][3]["schema"], "source_building_draw_configure_input.source_tilesize")
+        self.assertIn("color", building_draw_configure["return_keys"])
+        self.assertIn("radius", building_draw_configure["return_keys"])
+        self.assertIn("reset", building_draw_configure["return_keys"])
+        self.assertEqual(building_draw_configure["source_method"], "drawConfigure()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -9123,6 +9189,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_draw_cached_result["keys"]["drawTeamTop"]["java_expr"], "drawTeamTop();")
         self.assertEqual(source_building_draw_cached_result["keys"]["drawrotFormula"]["java_expr"], "return block.rotate && block.rotateDraw ? rotation * 90 : 0f;")
         self.assertEqual(source_building_draw_cached_result["keys"]["tile_pos"]["alias_of"], "source_building_draw_cached_input.tile_pos")
+
+        source_building_draw_configure_input = source_symbols.state_schema(schema, "source_building_draw_configure_input")
+        self.assertEqual(source_building_draw_configure_input["keys"]["source_x"]["java_expr"], "x")
+        self.assertEqual(source_building_draw_configure_input["keys"]["source_x"]["status"], "explicit-input")
+        self.assertEqual(source_building_draw_configure_input["keys"]["source_y"]["java_expr"], "y")
+        self.assertEqual(source_building_draw_configure_input["keys"]["block_size_value"]["java_expr"], "block.size")
+        self.assertEqual(source_building_draw_configure_input["keys"]["source_tilesize"]["java_expr"], "tilesize")
+
+        source_building_draw_configure_result = source_symbols.state_schema(schema, "source_building_draw_configure_result")
+        self.assertEqual(source_building_draw_configure_result["keys"]["method"]["java_expr"], "public void drawConfigure(){")
+        self.assertEqual(source_building_draw_configure_result["keys"]["color"]["java_expr"], "Draw.color(Pal.accent);")
+        self.assertEqual(source_building_draw_configure_result["keys"]["stroke"]["java_expr"], "Lines.stroke(1f);")
+        self.assertEqual(source_building_draw_configure_result["keys"]["square"]["java_expr"], "Lines.square(x, y, block.size * tilesize / 2f + 1f);")
+        self.assertEqual(source_building_draw_configure_result["keys"]["radiusOffset"]["java_expr"], "+ 1f")
+        self.assertEqual(source_building_draw_configure_result["keys"]["reset"]["java_expr"], "Draw.reset();")
+        self.assertEqual(source_building_draw_configure_result["keys"]["halfExtent"]["alias_of"], "source_building_block_half_extent_result.halfExtent")
+        self.assertEqual(source_building_draw_configure_result["keys"]["block_size_value"]["alias_of"], "source_building_draw_configure_input.block_size_value")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

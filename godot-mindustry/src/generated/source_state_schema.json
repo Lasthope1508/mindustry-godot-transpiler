@@ -20555,6 +20555,196 @@
           "rule": "Carries rotation_quadrants input into result schema."
         }
       }
+    },
+    "source_building_draw_configure_input": {
+      "status": "active",
+      "keys": {
+        "source_x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawConfigure()",
+          "java_expr": "x",
+          "godot_symbol": "source_building_draw_configure_input.source_x",
+          "used_by": [
+            "PortGame.source_building_draw_configure_state"
+          ],
+          "rule": "Runtime source_x supplies x."
+        },
+        "source_y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawConfigure()",
+          "java_expr": "y",
+          "godot_symbol": "source_building_draw_configure_input.source_y",
+          "used_by": [
+            "PortGame.source_building_draw_configure_state"
+          ],
+          "rule": "Runtime source_y supplies y."
+        },
+        "block_size_value": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawConfigure()",
+          "java_expr": "block.size",
+          "godot_symbol": "source_building_draw_configure_input.block_size_value",
+          "used_by": [
+            "PortGame.source_building_draw_configure_state"
+          ],
+          "rule": "Runtime block_size_value supplies block.size."
+        },
+        "source_tilesize": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawConfigure()",
+          "java_expr": "tilesize",
+          "godot_symbol": "source_building_draw_configure_input.source_tilesize",
+          "used_by": [
+            "PortGame.source_building_draw_configure_state"
+          ],
+          "rule": "Runtime source_tilesize supplies tilesize."
+        }
+      }
+    },
+    "source_building_draw_configure_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawConfigure()",
+          "java_expr": "public void drawConfigure(){",
+          "godot_symbol": "source_building_draw_configure_result.method",
+          "used_by": [
+            "PortGame.source_building_draw_configure_state"
+          ],
+          "rule": "Source drawConfigure method declaration."
+        },
+        "color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawConfigure()",
+          "java_expr": "Draw.color(Pal.accent);",
+          "godot_symbol": "source_building_draw_configure_result.color",
+          "used_by": [
+            "PortGame.source_building_draw_configure_state"
+          ],
+          "rule": "drawConfigure uses Pal.accent color."
+        },
+        "stroke": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawConfigure()",
+          "java_expr": "Lines.stroke(1f);",
+          "godot_symbol": "source_building_draw_configure_result.stroke",
+          "used_by": [
+            "PortGame.source_building_draw_configure_state"
+          ],
+          "rule": "drawConfigure uses source stroke 1f."
+        },
+        "shape": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawConfigure()",
+          "java_expr": "Lines.square(x, y, block.size * tilesize / 2f + 1f);",
+          "godot_symbol": "source_building_draw_configure_result.shape",
+          "used_by": [
+            "PortGame.source_building_draw_configure_state"
+          ],
+          "rule": "drawConfigure uses Lines.square shape."
+        },
+        "square": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawConfigure()",
+          "java_expr": "Lines.square(x, y, block.size * tilesize / 2f + 1f);",
+          "godot_symbol": "source_building_draw_configure_result.square",
+          "used_by": [
+            "PortGame.source_building_draw_configure_state"
+          ],
+          "rule": "drawConfigure draws square at x/y with half extent plus source offset."
+        },
+        "x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_configure_input.source_x",
+          "rule": "Carries x input into result schema."
+        },
+        "y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_configure_input.source_y",
+          "rule": "Carries y input into result schema."
+        },
+        "halfExtent": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_block_half_extent_result.halfExtent",
+          "rule": "Reuses canonical N529 block half extent result."
+        },
+        "radiusOffset": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawConfigure()",
+          "java_expr": "+ 1f",
+          "godot_symbol": "source_building_draw_configure_result.radiusOffset",
+          "used_by": [
+            "PortGame.source_building_draw_configure_state"
+          ],
+          "rule": "drawConfigure adds source radius offset 1f."
+        },
+        "radius": {
+          "type": "float",
+          "status": "generated",
+          "java_expr": "block.size * tilesize / 2f + 1f",
+          "rule": "Runtime radius is canonical half extent plus source offset."
+        },
+        "reset": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "drawConfigure()",
+          "java_expr": "Draw.reset();",
+          "godot_symbol": "source_building_draw_configure_result.reset",
+          "used_by": [
+            "PortGame.source_building_draw_configure_state"
+          ],
+          "rule": "drawConfigure resets draw state after square."
+        },
+        "source_x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_configure_input.source_x",
+          "rule": "Carries source_x input into result schema."
+        },
+        "source_y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_configure_input.source_y",
+          "rule": "Carries source_y input into result schema."
+        },
+        "block_size_value": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_draw_configure_input.block_size_value",
+          "rule": "Carries block_size_value input into result schema."
+        },
+        "source_tilesize": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_configure_input.source_tilesize",
+          "rule": "Carries source_tilesize input into result schema."
+        }
+      }
     }
   },
   "version": 1

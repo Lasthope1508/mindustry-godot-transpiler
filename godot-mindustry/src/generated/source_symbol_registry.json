@@ -15815,6 +15815,149 @@
       "java_expr": "rotation",
       "godot_symbol": "source_building_draw_cached_input.rotation_quadrants",
       "rule": "Runtime rotation_quadrants supplies rotation."
+    },
+    "building_draw_configure.method": {
+      "tests": [
+        "test_building_draw_configure_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_configure_state",
+      "godot_owner": "PortGame.source_building_draw_configure_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawConfigure()",
+      "status": "source-backed",
+      "java_expr": "public void drawConfigure(){",
+      "godot_symbol": "source_building_draw_configure_result.method",
+      "rule": "Source drawConfigure method declaration."
+    },
+    "building_draw_configure.color": {
+      "tests": [
+        "test_building_draw_configure_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_configure_state",
+      "godot_owner": "PortGame.source_building_draw_configure_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawConfigure()",
+      "status": "source-backed",
+      "java_expr": "Draw.color(Pal.accent);",
+      "godot_symbol": "source_building_draw_configure_result.color",
+      "rule": "drawConfigure uses Pal.accent color."
+    },
+    "building_draw_configure.stroke": {
+      "tests": [
+        "test_building_draw_configure_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_configure_state",
+      "godot_owner": "PortGame.source_building_draw_configure_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawConfigure()",
+      "status": "source-backed",
+      "java_expr": "Lines.stroke(1f);",
+      "godot_symbol": "source_building_draw_configure_result.stroke",
+      "rule": "drawConfigure uses source stroke 1f."
+    },
+    "building_draw_configure.square": {
+      "tests": [
+        "test_building_draw_configure_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_configure_state",
+      "godot_owner": "PortGame.source_building_draw_configure_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawConfigure()",
+      "status": "source-backed",
+      "java_expr": "Lines.square(x, y, block.size * tilesize / 2f + 1f);",
+      "godot_symbol": "source_building_draw_configure_result.square",
+      "rule": "drawConfigure draws square at x/y with half extent plus source offset."
+    },
+    "building_draw_configure.half_extent": {
+      "tests": [
+        "test_building_draw_configure_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_configure_state",
+      "godot_owner": "PortGame.source_building_draw_configure_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawConfigure()",
+      "status": "source-backed",
+      "java_expr": "block.size * tilesize / 2f",
+      "godot_symbol": "source_building_draw_configure_result.halfExtent",
+      "rule": "drawConfigure reuses canonical block half extent expression owned by N529."
+    },
+    "building_draw_configure.radius_offset": {
+      "tests": [
+        "test_building_draw_configure_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_configure_state",
+      "godot_owner": "PortGame.source_building_draw_configure_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawConfigure()",
+      "status": "source-backed",
+      "java_expr": "+ 1f",
+      "godot_symbol": "source_building_draw_configure_result.radiusOffset",
+      "rule": "drawConfigure adds source radius offset 1f."
+    },
+    "building_draw_configure.reset": {
+      "tests": [
+        "test_building_draw_configure_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_configure_state",
+      "godot_owner": "PortGame.source_building_draw_configure_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawConfigure()",
+      "status": "source-backed",
+      "java_expr": "Draw.reset();",
+      "godot_symbol": "source_building_draw_configure_result.reset",
+      "rule": "drawConfigure resets draw state after square."
+    },
+    "building_draw_configure.source_x": {
+      "tests": [
+        "test_building_draw_configure_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_configure_state",
+      "godot_owner": "PortGame.source_building_draw_configure_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawConfigure()",
+      "status": "explicit-input",
+      "java_expr": "x",
+      "godot_symbol": "source_building_draw_configure_input.source_x",
+      "rule": "Runtime source_x supplies x."
+    },
+    "building_draw_configure.source_y": {
+      "tests": [
+        "test_building_draw_configure_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_configure_state",
+      "godot_owner": "PortGame.source_building_draw_configure_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawConfigure()",
+      "status": "explicit-input",
+      "java_expr": "y",
+      "godot_symbol": "source_building_draw_configure_input.source_y",
+      "rule": "Runtime source_y supplies y."
+    },
+    "building_draw_configure.block_size": {
+      "tests": [
+        "test_building_draw_configure_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_configure_state",
+      "godot_owner": "PortGame.source_building_draw_configure_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawConfigure()",
+      "status": "explicit-input",
+      "java_expr": "block.size",
+      "godot_symbol": "source_building_draw_configure_input.block_size_value",
+      "rule": "Runtime block_size_value supplies block.size."
+    },
+    "building_draw_configure.tilesize": {
+      "tests": [
+        "test_building_draw_configure_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_configure_state",
+      "godot_owner": "PortGame.source_building_draw_configure_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "drawConfigure()",
+      "status": "explicit-input",
+      "java_expr": "tilesize",
+      "godot_symbol": "source_building_draw_configure_input.source_tilesize",
+      "rule": "Runtime source_tilesize supplies tilesize."
     }
   }
 }

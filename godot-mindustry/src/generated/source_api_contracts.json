@@ -6377,6 +6377,56 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_cached_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.drawCached() helper."
+    },
+    "PortGame.source_building_draw_configure_state": {
+      "status": "active",
+      "source_slice": "N567",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "drawConfigure()",
+      "params": [
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_building_draw_configure_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_building_draw_configure_input.source_y"
+        },
+        {
+          "name": "block_size_value",
+          "type": "int",
+          "schema": "source_building_draw_configure_input.block_size_value"
+        },
+        {
+          "name": "source_tilesize",
+          "type": "float",
+          "schema": "source_building_draw_configure_input.source_tilesize"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "color",
+        "stroke",
+        "shape",
+        "square",
+        "x",
+        "y",
+        "halfExtent",
+        "radiusOffset",
+        "radius",
+        "reset",
+        "source_x",
+        "source_y",
+        "block_size_value",
+        "source_tilesize"
+      ],
+      "tests": [
+        "test_building_draw_configure_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_configure_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.drawConfigure() helper."
     }
   },
   "policy": {

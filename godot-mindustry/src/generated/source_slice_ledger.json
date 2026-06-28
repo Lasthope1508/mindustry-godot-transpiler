@@ -5166,6 +5166,43 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_cached_state",
       "rule": "Backfills SSOT for existing canonical source_building_draw_cached_state helper against BuildingComp.drawCached() delegate to draw()."
+    },
+    "N567": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "drawConfigure()",
+      "godot_owner": "PortGame.source_building_draw_configure_state",
+      "exact_exprs": [
+        "public void drawConfigure(){",
+        "Draw.color(Pal.accent);",
+        "Lines.stroke(1f);",
+        "Lines.square(x, y, block.size * tilesize / 2f + 1f);",
+        "block.size * tilesize / 2f",
+        "+ 1f",
+        "Draw.reset();"
+      ],
+      "deferred_exprs": [
+        "Concrete Draw/Lines rendering calls stay owned by Godot rendering integration; this helper preserves canonical drawConfigure square state and reuses N529 half-extent boundary."
+      ],
+      "source_symbols": [
+        "building_draw_configure.method",
+        "building_draw_configure.color",
+        "building_draw_configure.stroke",
+        "building_draw_configure.square",
+        "building_draw_configure.half_extent",
+        "building_draw_configure.radius_offset",
+        "building_draw_configure.reset",
+        "building_draw_configure.source_x",
+        "building_draw_configure.source_y",
+        "building_draw_configure.block_size",
+        "building_draw_configure.tilesize"
+      ],
+      "tests": [
+        "test_building_draw_configure_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_draw_configure_state",
+      "rule": "Backfills SSOT for existing canonical source_building_draw_configure_state helper against BuildingComp.drawConfigure()."
     }
   },
   "version": 1
