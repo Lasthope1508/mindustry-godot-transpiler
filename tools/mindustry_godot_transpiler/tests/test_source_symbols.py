@@ -2766,6 +2766,34 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(cell_input["java_expr"], "tile.x, tile.y")
         self.assertEqual(cell_input["godot_symbol"], "source_block_sprite_base_position_input.cell")
 
+    def test_block_time_scale_at_cell_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        field = source_symbols.source_symbol(registry, "block_time_scale_at_cell.field")
+        self.assertEqual(field["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(field["java_method"], "field declaration")
+        self.assertEqual(field["java_expr"], "private transient float timeScale = 1f, timeScaleDuration;")
+        self.assertEqual(field["godot_owner"], "PortGame.source_block_time_scale_at_cell")
+        self.assertEqual(field["runtime_proof"], "/root/Main.source_block_time_scale_at_cell")
+
+        getter = source_symbols.source_symbol(registry, "block_time_scale_at_cell.getter")
+        self.assertEqual(getter["java_method"], "timeScale()")
+        self.assertEqual(getter["java_expr"], "return timeScale;")
+        self.assertEqual(getter["godot_symbol"], "source_block_time_scale_at_cell_result.timeScale")
+
+        sense = source_symbols.source_symbol(registry, "block_time_scale_at_cell.sense")
+        self.assertEqual(sense["java_method"], "sense(LAccess sensor)")
+        self.assertEqual(sense["java_expr"], "case timescale -> timeScale;")
+        self.assertEqual(sense["godot_symbol"], "source_block_time_scale_at_cell_result.senseTimeScale")
+
+        cell_input = source_symbols.source_symbol(registry, "block_time_scale_at_cell.cell_input")
+        self.assertEqual(cell_input["status"], "explicit-input")
+        self.assertEqual(cell_input["java_expr"], "tile.x, tile.y")
+        self.assertEqual(cell_input["godot_symbol"], "source_block_time_scale_at_cell_input.cell")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3050,9 +3078,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 115)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 116)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 120)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 121)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3169,6 +3197,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_is_damaged", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_item_capacity", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_sprite_base_position", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_time_scale_at_cell", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -4047,6 +4076,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("set(tile.drawx(), tile.drawy());", block_sprite_base_position["exact_exprs"])
         self.assertIn("return block().offset + worldx();", block_sprite_base_position["exact_exprs"])
         self.assertIn("offset = ((size + 1) % 2) * tilesize / 2f;", block_sprite_base_position["exact_exprs"])
+
+        block_time_scale_at_cell = source_symbols.source_slice(ledger, "N518")
+        self.assertEqual(block_time_scale_at_cell["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(block_time_scale_at_cell["java_method"], "timeScale()")
+        self.assertEqual(block_time_scale_at_cell["godot_owner"], "PortGame.source_block_time_scale_at_cell")
+        self.assertIn("private transient float timeScale = 1f, timeScaleDuration;", block_time_scale_at_cell["exact_exprs"])
+        self.assertIn("return timeScale;", block_time_scale_at_cell["exact_exprs"])
+        self.assertIn("case timescale -> timeScale;", block_time_scale_at_cell["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -5096,6 +5133,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("drawX", block_sprite_base_position["return_keys"])
         self.assertIn("offset", block_sprite_base_position["return_keys"])
         self.assertEqual(block_sprite_base_position["source_method"], "create(Block block, Team team)")
+
+        block_time_scale_at_cell = source_symbols.api_contract(contracts, "PortGame.source_block_time_scale_at_cell")
+        self.assertEqual([param["name"] for param in block_time_scale_at_cell["params"]], ["x", "y"])
+        self.assertEqual(block_time_scale_at_cell["params"][0]["schema"], "source_block_time_scale_at_cell_input.x")
+        self.assertIn("timeScale", block_time_scale_at_cell["return_keys"])
+        self.assertIn("senseTimeScale", block_time_scale_at_cell["return_keys"])
+        self.assertEqual(block_time_scale_at_cell["source_method"], "timeScale()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -6315,6 +6359,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_block_sprite_base_position_result["keys"]["offset"]["java_expr"], "offset = ((size + 1) % 2) * tilesize / 2f;")
         self.assertEqual(source_block_sprite_base_position_result["keys"]["drawX"]["java_expr"], "return block().offset + worldx();")
         self.assertEqual(source_block_sprite_base_position_result["keys"]["cell"]["alias_of"], "source_block_sprite_base_position_input.cell")
+
+        source_block_time_scale_at_cell_input = source_symbols.state_schema(schema, "source_block_time_scale_at_cell_input")
+        self.assertEqual(source_block_time_scale_at_cell_input["keys"]["x"]["java_expr"], "tile.x")
+        self.assertEqual(source_block_time_scale_at_cell_input["keys"]["y"]["java_expr"], "tile.y")
+        self.assertEqual(source_block_time_scale_at_cell_input["keys"]["cell"]["java_expr"], "tile.x, tile.y")
+
+        source_block_time_scale_at_cell_result = source_symbols.state_schema(schema, "source_block_time_scale_at_cell_result")
+        self.assertEqual(source_block_time_scale_at_cell_result["keys"]["defaultTimeScale"]["java_expr"], "private transient float timeScale = 1f, timeScaleDuration;")
+        self.assertEqual(source_block_time_scale_at_cell_result["keys"]["timeScale"]["java_expr"], "return timeScale;")
+        self.assertEqual(source_block_time_scale_at_cell_result["keys"]["senseTimeScale"]["java_expr"], "case timescale -> timeScale;")
+        self.assertEqual(source_block_time_scale_at_cell_result["keys"]["x"]["alias_of"], "source_block_time_scale_at_cell_input.x")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

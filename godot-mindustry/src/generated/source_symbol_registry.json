@@ -11850,6 +11850,84 @@
       "java_expr": "tile.x, tile.y",
       "godot_symbol": "source_block_sprite_base_position_input.cell",
       "rule": "Runtime cell maps to source tile coordinates."
+    },
+    "block_time_scale_at_cell.field": {
+      "tests": [
+        "test_block_time_scale_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_time_scale_at_cell",
+      "godot_owner": "PortGame.source_block_time_scale_at_cell",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "field declaration",
+      "status": "source-backed",
+      "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+      "godot_symbol": "source_block_time_scale_at_cell_result.defaultTimeScale",
+      "rule": "BuildingComp timeScale defaults to 1f for new buildings."
+    },
+    "block_time_scale_at_cell.getter": {
+      "tests": [
+        "test_block_time_scale_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_time_scale_at_cell",
+      "godot_owner": "PortGame.source_block_time_scale_at_cell",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "timeScale()",
+      "status": "source-backed",
+      "java_expr": "return timeScale;",
+      "godot_symbol": "source_block_time_scale_at_cell_result.timeScale",
+      "rule": "BuildingComp timeScale accessor returns current timeScale field."
+    },
+    "block_time_scale_at_cell.sense": {
+      "tests": [
+        "test_block_time_scale_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_time_scale_at_cell",
+      "godot_owner": "PortGame.source_block_time_scale_at_cell",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "status": "source-backed",
+      "java_expr": "case timescale -> timeScale;",
+      "godot_symbol": "source_block_time_scale_at_cell_result.senseTimeScale",
+      "rule": "Logic sensor timescale reads the same timeScale field."
+    },
+    "block_time_scale_at_cell.x_input": {
+      "tests": [
+        "test_block_time_scale_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_time_scale_at_cell",
+      "godot_owner": "PortGame.source_block_time_scale_at_cell",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "coordinate",
+      "status": "explicit-input",
+      "java_expr": "tile.x",
+      "godot_symbol": "source_block_time_scale_at_cell_input.x",
+      "rule": "Runtime x selects the source tile x coordinate."
+    },
+    "block_time_scale_at_cell.y_input": {
+      "tests": [
+        "test_block_time_scale_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_time_scale_at_cell",
+      "godot_owner": "PortGame.source_block_time_scale_at_cell",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "coordinate",
+      "status": "explicit-input",
+      "java_expr": "tile.y",
+      "godot_symbol": "source_block_time_scale_at_cell_input.y",
+      "rule": "Runtime y selects the source tile y coordinate."
+    },
+    "block_time_scale_at_cell.cell_input": {
+      "tests": [
+        "test_block_time_scale_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_time_scale_at_cell",
+      "godot_owner": "PortGame.source_block_time_scale_at_cell",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "coordinate",
+      "status": "explicit-input",
+      "java_expr": "tile.x, tile.y",
+      "godot_symbol": "source_block_time_scale_at_cell_input.cell",
+      "rule": "Runtime x/y pair maps to source tile coordinates."
     }
   }
 }

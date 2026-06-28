@@ -4782,6 +4782,37 @@
       ],
       "runtime_proof": "/root/Main.source_block_sprite_base_position",
       "rule": "Public runtime contract for Mindustry BuildingComp create tile draw position helper."
+    },
+    "PortGame.source_block_time_scale_at_cell": {
+      "status": "active",
+      "source_slice": "N518",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "timeScale()",
+      "params": [
+        {
+          "name": "x",
+          "type": "int",
+          "schema": "source_block_time_scale_at_cell_input.x"
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "schema": "source_block_time_scale_at_cell_input.y"
+        }
+      ],
+      "return_keys": [
+        "defaultTimeScale",
+        "timeScale",
+        "senseTimeScale",
+        "x",
+        "y",
+        "cell"
+      ],
+      "tests": [
+        "test_block_time_scale_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_time_scale_at_cell",
+      "rule": "Public runtime contract for Mindustry BuildingComp timeScale lookup by placed cell."
     }
   },
   "policy": {

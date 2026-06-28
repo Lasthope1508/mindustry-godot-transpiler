@@ -3647,6 +3647,40 @@
       ],
       "runtime_proof": "/root/Main.source_block_sprite_base_position",
       "rule": "Backfills SSOT for existing canonical source_block_sprite_base_position helper against BuildingComp create tile draw position."
+    },
+    "N518": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "timeScale()",
+      "godot_owner": "PortGame.source_block_time_scale_at_cell",
+      "exact_exprs": [
+        "private transient float timeScale = 1f, timeScaleDuration;",
+        "return timeScale;",
+        "case timescale -> timeScale;",
+        "tile.x",
+        "tile.y",
+        "tile.x, tile.y"
+      ],
+      "deferred_exprs": [
+        "if((timeScaleDuration -= Time.delta) <= 0f){",
+        "timeScale = 1f;",
+        "applyBoost(float intensity, float duration)",
+        "applySlowdown(float intensity, float duration)"
+      ],
+      "source_symbols": [
+        "block_time_scale_at_cell.field",
+        "block_time_scale_at_cell.getter",
+        "block_time_scale_at_cell.sense",
+        "block_time_scale_at_cell.x_input",
+        "block_time_scale_at_cell.y_input",
+        "block_time_scale_at_cell.cell_input"
+      ],
+      "tests": [
+        "test_block_time_scale_at_cell_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_time_scale_at_cell",
+      "rule": "Backfills SSOT for existing canonical source_block_time_scale_at_cell helper against BuildingComp timeScale field/accessor/sense state."
     }
   },
   "version": 1

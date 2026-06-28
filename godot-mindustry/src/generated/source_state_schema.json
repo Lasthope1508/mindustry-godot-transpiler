@@ -15674,6 +15674,106 @@
           "rule": "Carries cell input into result schema."
         }
       }
+    },
+    "source_block_time_scale_at_cell_input": {
+      "status": "active",
+      "keys": {
+        "x": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_method": "coordinate",
+          "java_expr": "tile.x",
+          "godot_symbol": "source_block_time_scale_at_cell_input.x",
+          "used_by": [
+            "PortGame.source_block_time_scale_at_cell"
+          ],
+          "rule": "Runtime x selects source tile x coordinate."
+        },
+        "y": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_method": "coordinate",
+          "java_expr": "tile.y",
+          "godot_symbol": "source_block_time_scale_at_cell_input.y",
+          "used_by": [
+            "PortGame.source_block_time_scale_at_cell"
+          ],
+          "rule": "Runtime y selects source tile y coordinate."
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_method": "coordinate",
+          "java_expr": "tile.x, tile.y",
+          "godot_symbol": "source_block_time_scale_at_cell_input.cell",
+          "used_by": [
+            "PortGame.source_block_time_scale_at_cell"
+          ],
+          "rule": "Runtime x/y pair maps to source tile coordinates."
+        }
+      }
+    },
+    "source_block_time_scale_at_cell_result": {
+      "status": "active",
+      "keys": {
+        "defaultTimeScale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "field declaration",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "godot_symbol": "source_block_time_scale_at_cell_result.defaultTimeScale",
+          "used_by": [
+            "PortGame.source_block_time_scale_at_cell"
+          ],
+          "rule": "BuildingComp default timeScale is 1f."
+        },
+        "timeScale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "timeScale()",
+          "java_expr": "return timeScale;",
+          "godot_symbol": "source_block_time_scale_at_cell_result.timeScale",
+          "used_by": [
+            "PortGame.source_block_time_scale_at_cell"
+          ],
+          "rule": "BuildingComp accessor returns current timeScale."
+        },
+        "senseTimeScale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "case timescale -> timeScale;",
+          "godot_symbol": "source_block_time_scale_at_cell_result.senseTimeScale",
+          "used_by": [
+            "PortGame.source_block_time_scale_at_cell"
+          ],
+          "rule": "Logic sensor timescale reads timeScale."
+        },
+        "x": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_block_time_scale_at_cell_input.x",
+          "rule": "Carries x input into result schema."
+        },
+        "y": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_block_time_scale_at_cell_input.y",
+          "rule": "Carries y input into result schema."
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "generated",
+          "alias_of": "source_block_time_scale_at_cell_input.cell",
+          "rule": "Carries cell input into result schema."
+        }
+      }
     }
   },
   "version": 1
