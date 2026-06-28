@@ -2915,6 +2915,41 @@
       ],
       "runtime_proof": "/root/Main.source_arc_angles_move_toward",
       "rule": "Backfills SSOT for existing canonical source_arc_angles_move_toward helper against Arc Angles.moveToward."
+    },
+    "N496": {
+      "status": "done",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_class": "arc.math.Angles",
+      "java_method": "trnsx/trnsy(float angle, float x, float y)",
+      "godot_owner": "PortGame.source_arc_angles_trns_vec",
+      "exact_exprs": [
+        "public static float trnsx(float angle, float x, float y){\n        return rv.set(x, y).rotate(angle).x;\n    }",
+        "public static float trnsy(float angle, float x, float y){\n        return rv.set(x, y).rotate(angle).y;\n    }",
+        "public Vec2 trns(float angle, float x, float y){\n        return set(x, y).rotate(angle);\n    }",
+        "public Vec2 set(float x, float y){\n        this.x = x;\n        this.y = y;\n        return this;\n    }",
+        "public Vec2 rotate(float degrees){\n        return rotateRad(degrees * Mathf.degreesToRadians);\n    }",
+        "float newX = this.x * cos - this.y * sin;\n        float newY = this.x * sin + this.y * cos;",
+        "angle",
+        "x",
+        "y"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "arc_angles_trns_vec.trnsx_method",
+        "arc_angles_trns_vec.trnsy_method",
+        "arc_angles_trns_vec.vec2_trns",
+        "arc_angles_trns_vec.vec2_set",
+        "arc_angles_trns_vec.rotate_method",
+        "arc_angles_trns_vec.rotate_rad",
+        "arc_angles_trns_vec.angle_input",
+        "arc_angles_trns_vec.x_input",
+        "arc_angles_trns_vec.y_input"
+      ],
+      "tests": [
+        "test_arc_angles_trns_vec_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_trns_vec",
+      "rule": "Backfills SSOT for existing canonical source_arc_angles_trns_vec helper against Arc Angles.trnsx/trnsy and Vec2 rotation source."
     }
   },
   "version": 1

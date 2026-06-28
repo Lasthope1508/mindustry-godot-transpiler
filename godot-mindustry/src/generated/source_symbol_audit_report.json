@@ -7,9 +7,8 @@
     "PortGame.source_symbol_audit_state",
     "PortGame.source_symbol_registry_state"
   ],
-  "legacyUnregisteredOwnerCount": 390,
+  "legacyUnregisteredOwnerCount": 389,
   "legacyUnregisteredOwners": [
-    "PortGame.source_arc_angles_trns_vec",
     "PortGame.source_arc_chance_delta_threshold",
     "PortGame.source_arc_is_power_of_two",
     "PortGame.source_arc_lerp_delta",
@@ -404,7 +403,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 93,
+  "registeredSourceOwnerCount": 94,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -417,6 +416,7 @@
     "PortGame.source_arc_angles_backward_distance",
     "PortGame.source_arc_angles_forward_distance",
     "PortGame.source_arc_angles_move_toward",
+    "PortGame.source_arc_angles_trns_vec",
     "PortGame.source_bullet_type_building_damage_state",
     "PortGame.source_bullet_type_calculate_range_despawn_unit_state",
     "PortGame.source_bullet_type_calculate_range_fallback_state",

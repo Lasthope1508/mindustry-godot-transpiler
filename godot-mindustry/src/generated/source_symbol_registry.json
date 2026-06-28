@@ -9526,6 +9526,123 @@
       "godot_symbol": "source_arc_angles_move_toward_input.speed",
       "rule": "Runtime speed parameter maps to Java speed."
     },
+    "arc_angles_trns_vec.trnsx_method": {
+      "tests": [
+        "test_arc_angles_trns_vec_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_trns_vec",
+      "godot_owner": "PortGame.source_arc_angles_trns_vec",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "trnsx(float angle, float x, float y)",
+      "java_expr": "public static float trnsx(float angle, float x, float y){\n        return rv.set(x, y).rotate(angle).x;\n    }",
+      "godot_symbol": "source_arc_angles_trns_vec_result.x",
+      "rule": "Arc Angles.trnsx angle/x/y overload rotates reusable vector and returns x."
+    },
+    "arc_angles_trns_vec.trnsy_method": {
+      "tests": [
+        "test_arc_angles_trns_vec_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_trns_vec",
+      "godot_owner": "PortGame.source_arc_angles_trns_vec",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "trnsy(float angle, float x, float y)",
+      "java_expr": "public static float trnsy(float angle, float x, float y){\n        return rv.set(x, y).rotate(angle).y;\n    }",
+      "godot_symbol": "source_arc_angles_trns_vec_result.y",
+      "rule": "Arc Angles.trnsy angle/x/y overload rotates reusable vector and returns y."
+    },
+    "arc_angles_trns_vec.vec2_trns": {
+      "tests": [
+        "test_arc_angles_trns_vec_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_trns_vec",
+      "godot_owner": "PortGame.source_arc_angles_trns_vec",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "trns(float angle, float x, float y)",
+      "java_expr": "public Vec2 trns(float angle, float x, float y){\n        return set(x, y).rotate(angle);\n    }",
+      "godot_symbol": "source_arc_angles_trns_vec_result.source",
+      "rule": "Vec2.trns(angle, x, y) sets components and rotates by degrees."
+    },
+    "arc_angles_trns_vec.vec2_set": {
+      "tests": [
+        "test_arc_angles_trns_vec_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_trns_vec",
+      "godot_owner": "PortGame.source_arc_angles_trns_vec",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "set(float x, float y)",
+      "java_expr": "public Vec2 set(float x, float y){\n        this.x = x;\n        this.y = y;\n        return this;\n    }",
+      "godot_symbol": "source_arc_angles_trns_vec_result.source",
+      "rule": "Vec2.set stores explicit x and y before rotation."
+    },
+    "arc_angles_trns_vec.rotate_method": {
+      "tests": [
+        "test_arc_angles_trns_vec_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_trns_vec",
+      "godot_owner": "PortGame.source_arc_angles_trns_vec",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "rotate(float degrees)",
+      "java_expr": "public Vec2 rotate(float degrees){\n        return rotateRad(degrees * Mathf.degreesToRadians);\n    }",
+      "godot_symbol": "source_arc_angles_trns_vec_result.source",
+      "rule": "Vec2.rotate converts degrees to radians and delegates to rotateRad."
+    },
+    "arc_angles_trns_vec.rotate_rad": {
+      "tests": [
+        "test_arc_angles_trns_vec_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_trns_vec",
+      "godot_owner": "PortGame.source_arc_angles_trns_vec",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "rotateRad(float radians)",
+      "java_expr": "float newX = this.x * cos - this.y * sin;\n        float newY = this.x * sin + this.y * cos;",
+      "godot_symbol": "source_arc_angles_trns_vec_result.vec2RotateSource",
+      "rule": "Vec2.rotateRad applies the exact 2D rotation formulas."
+    },
+    "arc_angles_trns_vec.angle_input": {
+      "tests": [
+        "test_arc_angles_trns_vec_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_trns_vec",
+      "godot_owner": "PortGame.source_arc_angles_trns_vec",
+      "status": "explicit-input",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "trnsx/trnsy(float angle, float x, float y)",
+      "java_expr": "angle",
+      "godot_symbol": "source_arc_angles_trns_vec_input.angleDegrees",
+      "rule": "Runtime angle_degrees parameter maps to Java angle."
+    },
+    "arc_angles_trns_vec.x_input": {
+      "tests": [
+        "test_arc_angles_trns_vec_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_trns_vec",
+      "godot_owner": "PortGame.source_arc_angles_trns_vec",
+      "status": "explicit-input",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "trnsx/trnsy(float angle, float x, float y)",
+      "java_expr": "x",
+      "godot_symbol": "source_arc_angles_trns_vec_input.x",
+      "rule": "Runtime x_value parameter maps to Java x."
+    },
+    "arc_angles_trns_vec.y_input": {
+      "tests": [
+        "test_arc_angles_trns_vec_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_trns_vec",
+      "godot_owner": "PortGame.source_arc_angles_trns_vec",
+      "status": "explicit-input",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "trnsx/trnsy(float angle, float x, float y)",
+      "java_expr": "y",
+      "godot_symbol": "source_arc_angles_trns_vec_input.y",
+      "rule": "Runtime y_value parameter maps to Java y."
+    },
     "source_angles_angle_dist.method": {
       "tests": [
         "test_source_angles_angle_dist_symbols_are_registered_with_source_backing",

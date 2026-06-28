@@ -3974,6 +3974,41 @@
       "runtime_proof": "/root/Main.source_arc_angles_move_toward",
       "rule": "Public runtime contract for canonical Arc Angles.moveToward helper."
     },
+    "PortGame.source_arc_angles_trns_vec": {
+      "status": "active",
+      "source_slice": "N496",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "source_method": "trnsx/trnsy(float angle, float x, float y)",
+      "params": [
+        {
+          "name": "angle_degrees",
+          "type": "float",
+          "schema": "source_arc_angles_trns_vec_input.angleDegrees"
+        },
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_arc_angles_trns_vec_input.x"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_arc_angles_trns_vec_input.y"
+        }
+      ],
+      "return_keys": [
+        "x",
+        "y",
+        "angle",
+        "source",
+        "vec2RotateSource"
+      ],
+      "tests": [
+        "test_arc_angles_trns_vec_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_trns_vec",
+      "rule": "Public runtime contract for canonical Arc Angles.trnsx/trnsy vector rotation helper."
+    },
     "PortGame.source_angle_distance": {
       "status": "active",
       "source_slice": "N486",

@@ -13025,6 +13025,106 @@
         }
       }
     },
+    "source_arc_angles_trns_vec_input": {
+      "status": "active",
+      "keys": {
+        "angleDegrees": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "trnsx/trnsy(float angle, float x, float y)",
+          "java_expr": "angle",
+          "godot_symbol": "source_arc_angles_trns_vec_input.angleDegrees",
+          "used_by": [
+            "PortGame.source_arc_angles_trns_vec"
+          ],
+          "rule": "Java trnsx/trnsy angle in degrees."
+        },
+        "x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "trnsx/trnsy(float angle, float x, float y)",
+          "java_expr": "x",
+          "godot_symbol": "source_arc_angles_trns_vec_input.x",
+          "used_by": [
+            "PortGame.source_arc_angles_trns_vec"
+          ],
+          "rule": "Java trnsx/trnsy x component."
+        },
+        "y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "trnsx/trnsy(float angle, float x, float y)",
+          "java_expr": "y",
+          "godot_symbol": "source_arc_angles_trns_vec_input.y",
+          "used_by": [
+            "PortGame.source_arc_angles_trns_vec"
+          ],
+          "rule": "Java trnsx/trnsy y component."
+        }
+      }
+    },
+    "source_arc_angles_trns_vec_result": {
+      "status": "active",
+      "keys": {
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "trnsx(float angle, float x, float y)",
+          "java_expr": "return rv.set(x, y).rotate(angle).x;",
+          "godot_symbol": "source_arc_angles_trns_vec_result.x",
+          "used_by": [
+            "PortGame.source_arc_angles_trns_vec"
+          ],
+          "rule": "Arc trnsx result after Vec2 rotation."
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "trnsy(float angle, float x, float y)",
+          "java_expr": "return rv.set(x, y).rotate(angle).y;",
+          "godot_symbol": "source_arc_angles_trns_vec_result.y",
+          "used_by": [
+            "PortGame.source_arc_angles_trns_vec"
+          ],
+          "rule": "Arc trnsy result after Vec2 rotation."
+        },
+        "angle": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_arc_angles_trns_vec_input.angleDegrees",
+          "rule": "Runtime key carries Java angle input."
+        },
+        "source": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "java_method": "trns(float angle, float x, float y)",
+          "java_expr": "return set(x, y).rotate(angle);",
+          "godot_symbol": "source_arc_angles_trns_vec_result.source",
+          "used_by": [
+            "PortGame.source_arc_angles_trns_vec"
+          ],
+          "rule": "Runtime source label for Vec2.trns angle/x/y semantics."
+        },
+        "vec2RotateSource": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "java_method": "rotateRad(float radians)",
+          "java_expr": "float newX = this.x * cos - this.y * sin;\n        float newY = this.x * sin + this.y * cos;",
+          "godot_symbol": "source_arc_angles_trns_vec_result.vec2RotateSource",
+          "used_by": [
+            "PortGame.source_arc_angles_trns_vec"
+          ],
+          "rule": "Runtime source label for Vec2.rotateRad formula."
+        }
+      }
+    },
     "source_angle_distance_input": {
       "status": "active",
       "keys": {
