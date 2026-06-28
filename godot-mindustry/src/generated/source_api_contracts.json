@@ -5834,6 +5834,21 @@
       ],
       "runtime_proof": "/root/Main.source_building_consume_state",
       "rule": "Public runtime contract for Mindustry BuildingComp consume trigger loop helper."
+    },
+    "PortGame.source_building_consume_trigger_valid_state": {
+      "status": "active",
+      "source_slice": "N551",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "consumeTriggerValid()",
+      "params": [],
+      "return_keys": [
+        "consume_trigger_valid"
+      ],
+      "tests": [
+        "test_building_consume_trigger_valid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_consume_trigger_valid_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp consumeTriggerValid default false helper."
     }
   },
   "policy": {

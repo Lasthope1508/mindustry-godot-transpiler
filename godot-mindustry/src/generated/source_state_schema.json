@@ -18839,6 +18839,47 @@
           "rule": "Carries self target input into result schema boundary."
         }
       }
+    },
+    "source_building_consume_trigger_valid_result": {
+      "status": "active",
+      "keys": {
+        "comment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "consumeTriggerValid()",
+          "java_expr": "/** @return whether this building is currently \"burning\" a trigger consumer (an item) - if true, valid() on those will return true. */",
+          "godot_symbol": "source_building_consume_trigger_valid_result.comment",
+          "used_by": [
+            "PortGame.source_building_consume_trigger_valid_state"
+          ],
+          "rule": "Consume trigger valid source comment."
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "consumeTriggerValid()",
+          "java_expr": "public boolean consumeTriggerValid(){",
+          "godot_symbol": "source_building_consume_trigger_valid_result.method",
+          "used_by": [
+            "PortGame.source_building_consume_trigger_valid_state"
+          ],
+          "rule": "ConsumeTriggerValid method boundary."
+        },
+        "consume_trigger_valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "consumeTriggerValid()",
+          "java_expr": "return false;",
+          "godot_symbol": "source_building_consume_trigger_valid_result.consume_trigger_valid",
+          "used_by": [
+            "PortGame.source_building_consume_trigger_valid_state"
+          ],
+          "rule": "Default consume trigger valid runtime value."
+        }
+      }
     }
   },
   "version": 1

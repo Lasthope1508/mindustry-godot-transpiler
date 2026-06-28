@@ -14489,6 +14489,45 @@
       "java_expr": "self()",
       "godot_symbol": "source_building_consume_input.self_state",
       "rule": "Building self() supplied as trigger target."
+    },
+    "building_consume_trigger_valid.comment": {
+      "tests": [
+        "test_building_consume_trigger_valid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_consume_trigger_valid_state",
+      "godot_owner": "PortGame.source_building_consume_trigger_valid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "consumeTriggerValid()",
+      "status": "source-backed",
+      "java_expr": "/** @return whether this building is currently \"burning\" a trigger consumer (an item) - if true, valid() on those will return true. */",
+      "godot_symbol": "source_building_consume_trigger_valid_result.comment",
+      "rule": "Consume trigger valid source comment defines trigger-consumer validity semantics."
+    },
+    "building_consume_trigger_valid.method": {
+      "tests": [
+        "test_building_consume_trigger_valid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_consume_trigger_valid_state",
+      "godot_owner": "PortGame.source_building_consume_trigger_valid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "consumeTriggerValid()",
+      "status": "source-backed",
+      "java_expr": "public boolean consumeTriggerValid(){",
+      "godot_symbol": "source_building_consume_trigger_valid_result.method",
+      "rule": "BuildingComp consumeTriggerValid method boundary."
+    },
+    "building_consume_trigger_valid.result": {
+      "tests": [
+        "test_building_consume_trigger_valid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_consume_trigger_valid_state",
+      "godot_owner": "PortGame.source_building_consume_trigger_valid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "consumeTriggerValid()",
+      "status": "source-backed",
+      "java_expr": "return false;",
+      "godot_symbol": "source_building_consume_trigger_valid_result.consume_trigger_valid",
+      "rule": "Default consume trigger valid state is false."
     }
   }
 }

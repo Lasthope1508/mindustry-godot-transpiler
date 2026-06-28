@@ -4672,6 +4672,31 @@
       ],
       "runtime_proof": "/root/Main.source_building_consume_state",
       "rule": "Backfills SSOT for existing canonical source_building_consume_state helper against BuildingComp.consume consumer trigger loop."
+    },
+    "N551": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "consumeTriggerValid()",
+      "godot_owner": "PortGame.source_building_consume_trigger_valid_state",
+      "exact_exprs": [
+        "/** @return whether this building is currently \"burning\" a trigger consumer (an item) - if true, valid() on those will return true. */",
+        "public boolean consumeTriggerValid(){",
+        "return false;"
+      ],
+      "deferred_exprs": [
+        "Trigger consumer burn windows belong to concrete Consume implementations."
+      ],
+      "source_symbols": [
+        "building_consume_trigger_valid.comment",
+        "building_consume_trigger_valid.method",
+        "building_consume_trigger_valid.result"
+      ],
+      "tests": [
+        "test_building_consume_trigger_valid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_consume_trigger_valid_state",
+      "rule": "Backfills SSOT for existing canonical source_building_consume_trigger_valid_state helper against BuildingComp.consumeTriggerValid default false result."
     }
   },
   "version": 1
