@@ -3557,6 +3557,36 @@
       ],
       "runtime_proof": "/root/Main.source_block_health_at_cell",
       "rule": "Backfills SSOT for existing canonical source_block_health_at_cell helper against Mindustry BuildingComp health state."
+    },
+    "N515": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+      "java_class": "mindustry.entities.comp.HealthComp",
+      "java_method": "damaged()",
+      "godot_owner": "PortGame.source_block_is_damaged",
+      "exact_exprs": [
+        "boolean damaged(){\n        return health < maxHealth - 0.001f;\n    }",
+        "return health < maxHealth - 0.001f;",
+        "health",
+        "maxHealth",
+        "0.001f",
+        "this"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "block_is_damaged.method",
+        "block_is_damaged.health",
+        "block_is_damaged.max_health",
+        "block_is_damaged.epsilon",
+        "block_is_damaged.return",
+        "block_is_damaged.sprite_input"
+      ],
+      "tests": [
+        "test_block_is_damaged_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_healthcomp_damaged_epsilon"
+      ],
+      "runtime_proof": "/root/Main.source_block_is_damaged",
+      "rule": "Backfills and corrects existing canonical source_block_is_damaged helper against Mindustry HealthComp.damaged epsilon predicate."
     }
   },
   "version": 1

@@ -2707,7 +2707,7 @@ func step_factory_drill(seconds: float) -> Dictionary:
 func source_block_is_damaged(sprite) -> bool:
 	if not is_instance_valid(sprite):
 		return false
-	return float(sprite.get_meta("source_block_health", 0.0)) < float(sprite.get_meta("source_block_max_health", 0.0))
+	return float(sprite.get_meta("source_block_health", 0.0)) < float(sprite.get_meta("source_block_max_health", 0.0)) - 0.001
 
 func source_mend_projector_range(mend_projector, phase_heat := 0.0) -> float:
 	if mend_projector == null:

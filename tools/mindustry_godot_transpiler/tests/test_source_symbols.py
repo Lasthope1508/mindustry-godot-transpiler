@@ -2677,6 +2677,35 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(x_input["java_expr"], "tile.x")
         self.assertEqual(x_input["godot_symbol"], "source_block_health_at_cell_input.x")
 
+    def test_block_is_damaged_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_is_damaged.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/HealthComp.java")
+        self.assertEqual(method["java_method"], "damaged()")
+        self.assertEqual(method["java_expr"], "boolean damaged(){\n        return health < maxHealth - 0.001f;\n    }")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_is_damaged")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_is_damaged")
+
+        health = source_symbols.source_symbol(registry, "block_is_damaged.health")
+        self.assertEqual(health["java_expr"], "health")
+        self.assertEqual(health["godot_symbol"], "source_block_is_damaged_result.health")
+
+        max_health = source_symbols.source_symbol(registry, "block_is_damaged.max_health")
+        self.assertEqual(max_health["java_expr"], "maxHealth")
+        self.assertEqual(max_health["godot_symbol"], "source_block_is_damaged_result.maxHealth")
+
+        epsilon = source_symbols.source_symbol(registry, "block_is_damaged.epsilon")
+        self.assertEqual(epsilon["java_expr"], "0.001f")
+        self.assertEqual(epsilon["godot_symbol"], "source_block_is_damaged_result.epsilon")
+
+        damaged = source_symbols.source_symbol(registry, "block_is_damaged.return")
+        self.assertEqual(damaged["java_expr"], "return health < maxHealth - 0.001f;")
+        self.assertEqual(damaged["godot_symbol"], "source_block_is_damaged_result.damaged")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -2961,9 +2990,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 112)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 113)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 117)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 118)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3077,6 +3106,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_dump_time", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_health", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_health_at_cell", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_is_damaged", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -3932,6 +3962,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("@Import float x, y, health, maxHealth;", block_health_at_cell["exact_exprs"])
         self.assertIn("health = block.health;", block_health_at_cell["exact_exprs"])
         self.assertIn("case health -> health;", block_health_at_cell["exact_exprs"])
+
+        block_is_damaged = source_symbols.source_slice(ledger, "N515")
+        self.assertEqual(block_is_damaged["java_source"], "core/src/mindustry/entities/comp/HealthComp.java")
+        self.assertEqual(block_is_damaged["java_method"], "damaged()")
+        self.assertEqual(block_is_damaged["godot_owner"], "PortGame.source_block_is_damaged")
+        self.assertIn("boolean damaged(){\n        return health < maxHealth - 0.001f;\n    }", block_is_damaged["exact_exprs"])
+        self.assertIn("return health < maxHealth - 0.001f;", block_is_damaged["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -4960,6 +4997,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("health", block_health_at_cell["return_keys"])
         self.assertIn("senseHealth", block_health_at_cell["return_keys"])
         self.assertEqual(block_health_at_cell["source_method"], "create(Block block, Team team)")
+
+        block_is_damaged = source_symbols.api_contract(contracts, "PortGame.source_block_is_damaged")
+        self.assertEqual([param["name"] for param in block_is_damaged["params"]], ["sprite"])
+        self.assertEqual(block_is_damaged["params"][0]["schema"], "source_block_is_damaged_input.sprite")
+        self.assertIn("damaged", block_is_damaged["return_keys"])
+        self.assertIn("epsilon", block_is_damaged["return_keys"])
+        self.assertEqual(block_is_damaged["source_method"], "damaged()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -6146,6 +6190,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_block_health_at_cell_result["keys"]["senseHealth"]["java_expr"], "case health -> health;")
         self.assertEqual(source_block_health_at_cell_result["keys"]["clampHealth"]["java_expr"], "health = (float)Mathf.clamp(value, 0, maxHealth);")
         self.assertEqual(source_block_health_at_cell_result["keys"]["x"]["alias_of"], "source_block_health_at_cell_input.x")
+
+        source_block_is_damaged_input = source_symbols.state_schema(schema, "source_block_is_damaged_input")
+        self.assertEqual(source_block_is_damaged_input["keys"]["sprite"]["java_expr"], "this")
+        self.assertEqual(source_block_is_damaged_input["keys"]["sprite"]["status"], "explicit-input")
+
+        source_block_is_damaged_result = source_symbols.state_schema(schema, "source_block_is_damaged_result")
+        self.assertEqual(source_block_is_damaged_result["keys"]["health"]["java_expr"], "health")
+        self.assertEqual(source_block_is_damaged_result["keys"]["maxHealth"]["java_expr"], "maxHealth")
+        self.assertEqual(source_block_is_damaged_result["keys"]["epsilon"]["java_expr"], "0.001f")
+        self.assertEqual(source_block_is_damaged_result["keys"]["damaged"]["java_expr"], "return health < maxHealth - 0.001f;")
+        self.assertEqual(source_block_is_damaged_result["keys"]["sprite"]["alias_of"], "source_block_is_damaged_input.sprite")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

@@ -15392,6 +15392,94 @@
           "rule": "Carries y input into result schema."
         }
       }
+    },
+    "source_block_is_damaged_input": {
+      "status": "active",
+      "keys": {
+        "sprite": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+          "java_method": "damaged()",
+          "java_expr": "this",
+          "godot_symbol": "source_block_is_damaged_input.sprite",
+          "used_by": [
+            "PortGame.source_block_is_damaged"
+          ],
+          "rule": "Runtime sprite represents the HealthComp/Building receiver carrying health metadata."
+        }
+      }
+    },
+    "source_block_is_damaged_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "string",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+          "java_method": "damaged()",
+          "java_expr": "boolean damaged(){\n        return health < maxHealth - 0.001f;\n    }",
+          "godot_symbol": "source_block_is_damaged_result.method",
+          "used_by": [
+            "PortGame.source_block_is_damaged"
+          ],
+          "rule": "HealthComp.damaged method source."
+        },
+        "health": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+          "java_method": "damaged()",
+          "java_expr": "health",
+          "godot_symbol": "source_block_is_damaged_result.health",
+          "used_by": [
+            "PortGame.source_block_is_damaged"
+          ],
+          "rule": "Current health field."
+        },
+        "maxHealth": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+          "java_method": "damaged()",
+          "java_expr": "maxHealth",
+          "godot_symbol": "source_block_is_damaged_result.maxHealth",
+          "used_by": [
+            "PortGame.source_block_is_damaged"
+          ],
+          "rule": "Maximum health field."
+        },
+        "epsilon": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+          "java_method": "damaged()",
+          "java_expr": "0.001f",
+          "godot_symbol": "source_block_is_damaged_result.epsilon",
+          "used_by": [
+            "PortGame.source_block_is_damaged"
+          ],
+          "rule": "Damaged threshold epsilon."
+        },
+        "damaged": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+          "java_method": "damaged()",
+          "java_expr": "return health < maxHealth - 0.001f;",
+          "godot_symbol": "source_block_is_damaged_result.damaged",
+          "used_by": [
+            "PortGame.source_block_is_damaged"
+          ],
+          "rule": "HealthComp.damaged return predicate."
+        },
+        "sprite": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_block_is_damaged_input.sprite",
+          "rule": "Carries receiver input into result schema."
+        }
+      }
     }
   },
   "version": 1

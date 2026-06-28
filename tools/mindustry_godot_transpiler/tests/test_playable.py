@@ -484,6 +484,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func step_mend_projectors(seconds: float) -> Dictionary:", source)
         self.assertIn('"last_mend_projector_healed_amount": last_mend_projector_healed_amount', source)
 
+    def test_port_game_uses_source_healthcomp_damaged_epsilon(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_is_damaged(sprite) -> bool:", source)
+        self.assertIn('float(sprite.get_meta("source_block_health", 0.0)) < float(sprite.get_meta("source_block_max_health", 0.0)) - 0.001', source)
+
     def test_port_game_simulates_source_mend_projector_phase_boost(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -11603,6 +11603,84 @@
       "java_expr": "tile.y",
       "godot_symbol": "source_block_health_at_cell_input.y",
       "rule": "Runtime y selects tile/building cell."
+    },
+    "block_is_damaged.method": {
+      "tests": [
+        "test_block_is_damaged_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_is_damaged",
+      "godot_owner": "PortGame.source_block_is_damaged",
+      "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+      "java_method": "damaged()",
+      "status": "source-backed",
+      "java_expr": "boolean damaged(){\n        return health < maxHealth - 0.001f;\n    }",
+      "godot_symbol": "source_block_is_damaged_result.method",
+      "rule": "HealthComp.damaged method body."
+    },
+    "block_is_damaged.health": {
+      "tests": [
+        "test_block_is_damaged_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_is_damaged",
+      "godot_owner": "PortGame.source_block_is_damaged",
+      "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+      "java_method": "damaged()",
+      "status": "source-backed",
+      "java_expr": "health",
+      "godot_symbol": "source_block_is_damaged_result.health",
+      "rule": "HealthComp current health field used by damaged()."
+    },
+    "block_is_damaged.max_health": {
+      "tests": [
+        "test_block_is_damaged_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_is_damaged",
+      "godot_owner": "PortGame.source_block_is_damaged",
+      "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+      "java_method": "damaged()",
+      "status": "source-backed",
+      "java_expr": "maxHealth",
+      "godot_symbol": "source_block_is_damaged_result.maxHealth",
+      "rule": "HealthComp maxHealth field used by damaged()."
+    },
+    "block_is_damaged.epsilon": {
+      "tests": [
+        "test_block_is_damaged_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_is_damaged",
+      "godot_owner": "PortGame.source_block_is_damaged",
+      "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+      "java_method": "damaged()",
+      "status": "source-backed",
+      "java_expr": "0.001f",
+      "godot_symbol": "source_block_is_damaged_result.epsilon",
+      "rule": "HealthComp damaged epsilon."
+    },
+    "block_is_damaged.return": {
+      "tests": [
+        "test_block_is_damaged_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_is_damaged",
+      "godot_owner": "PortGame.source_block_is_damaged",
+      "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+      "java_method": "damaged()",
+      "status": "source-backed",
+      "java_expr": "return health < maxHealth - 0.001f;",
+      "godot_symbol": "source_block_is_damaged_result.damaged",
+      "rule": "HealthComp damaged return predicate."
+    },
+    "block_is_damaged.sprite_input": {
+      "tests": [
+        "test_block_is_damaged_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_is_damaged",
+      "godot_owner": "PortGame.source_block_is_damaged",
+      "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+      "java_method": "damaged()",
+      "status": "explicit-input",
+      "java_expr": "this",
+      "godot_symbol": "source_block_is_damaged_input.sprite",
+      "rule": "Runtime sprite carries the Building receiver health metadata."
     }
   }
 }

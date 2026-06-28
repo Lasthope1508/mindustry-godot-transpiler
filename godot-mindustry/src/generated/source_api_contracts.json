@@ -4698,6 +4698,32 @@
       ],
       "runtime_proof": "/root/Main.source_block_health_at_cell",
       "rule": "Public runtime contract for current building health by cell."
+    },
+    "PortGame.source_block_is_damaged": {
+      "status": "active",
+      "source_slice": "N515",
+      "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+      "source_method": "damaged()",
+      "params": [
+        {
+          "name": "sprite",
+          "type": "Variant",
+          "schema": "source_block_is_damaged_input.sprite"
+        }
+      ],
+      "return_keys": [
+        "health",
+        "maxHealth",
+        "epsilon",
+        "damaged",
+        "sprite"
+      ],
+      "tests": [
+        "test_block_is_damaged_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_healthcomp_damaged_epsilon"
+      ],
+      "runtime_proof": "/root/Main.source_block_is_damaged",
+      "rule": "Public runtime contract for Mindustry HealthComp.damaged predicate over a placed block sprite."
     }
   },
   "policy": {
