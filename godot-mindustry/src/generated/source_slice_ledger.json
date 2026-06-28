@@ -3278,6 +3278,38 @@
       ],
       "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
       "rule": "Backfills SSOT for existing canonical source_arc_mathf_sin_table_value helper against Arc Mathf static sine table initializer."
+    },
+    "N507": {
+      "status": "done",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_class": "arc.math.Mathf",
+      "java_method": "randomSeed(long seed, float max)",
+      "godot_owner": "PortGame.source_arc_random_seed_float_max",
+      "exact_exprs": [
+        "private static final Rand seedr = new Rand();",
+        "public static float randomSeed(long seed, float max){\n        seedr.setSeed(seed * 99999);\n        return seedr.nextFloat() * max;\n    }",
+        "seedr.setSeed(seed * 99999);",
+        "return seedr.nextFloat() * max;",
+        "seed * 99999",
+        "seedr.nextFloat()",
+        "seed",
+        "max"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "arc_random_seed_float_max.method",
+        "arc_random_seed_float_max.seed_scale",
+        "arc_random_seed_float_max.set_seed",
+        "arc_random_seed_float_max.next_float",
+        "arc_random_seed_float_max.multiply_max",
+        "arc_random_seed_float_max.seed_input",
+        "arc_random_seed_float_max.max_input"
+      ],
+      "tests": [
+        "test_arc_random_seed_float_max_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_random_seed_float_max",
+      "rule": "Backfills SSOT for existing canonical source_arc_random_seed_float_max helper against Arc Mathf.randomSeed(long,float)."
     }
   },
   "version": 1

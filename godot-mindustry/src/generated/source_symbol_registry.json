@@ -10732,6 +10732,97 @@
       "java_expr": "i",
       "godot_symbol": "source_arc_mathf_sin_table_value_input.index",
       "rule": "Runtime index maps to static initializer loop variable i."
+    },
+    "arc_random_seed_float_max.method": {
+      "tests": [
+        "test_arc_random_seed_float_max_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_random_seed_float_max",
+      "godot_owner": "PortGame.source_arc_random_seed_float_max",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "randomSeed(long seed, float max)",
+      "status": "source-backed",
+      "java_expr": "public static float randomSeed(long seed, float max){\n        seedr.setSeed(seed * 99999);\n        return seedr.nextFloat() * max;\n    }",
+      "godot_symbol": "source_arc_random_seed_float_max_result.method",
+      "rule": "Arc randomSeed float-max overload body."
+    },
+    "arc_random_seed_float_max.seed_scale": {
+      "tests": [
+        "test_arc_random_seed_float_max_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_random_seed_float_max",
+      "godot_owner": "PortGame.source_arc_random_seed_float_max",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "randomSeed(long seed, float max)",
+      "status": "source-backed",
+      "java_expr": "seed * 99999",
+      "godot_symbol": "source_arc_random_seed_float_max_result.scaledSeed",
+      "rule": "Arc seeds this overload by multiplying seed by 99999 before Rand.setSeed."
+    },
+    "arc_random_seed_float_max.set_seed": {
+      "tests": [
+        "test_arc_random_seed_float_max_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_random_seed_float_max",
+      "godot_owner": "PortGame.source_arc_random_seed_float_max",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "randomSeed(long seed, float max)",
+      "status": "source-backed",
+      "java_expr": "seedr.setSeed(seed * 99999);",
+      "godot_symbol": "source_arc_random_seed_float_max_result.setSeed",
+      "rule": "Shared Arc seed Rand receives the scaled seed."
+    },
+    "arc_random_seed_float_max.next_float": {
+      "tests": [
+        "test_arc_random_seed_float_max_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_random_seed_float_max",
+      "godot_owner": "PortGame.source_arc_random_seed_float_max",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "randomSeed(long seed, float max)",
+      "status": "source-backed",
+      "java_expr": "seedr.nextFloat()",
+      "godot_symbol": "source_arc_random_seed_float_max_result.nextFloat",
+      "rule": "Float sample comes from seeded Rand.nextFloat."
+    },
+    "arc_random_seed_float_max.multiply_max": {
+      "tests": [
+        "test_arc_random_seed_float_max_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_random_seed_float_max",
+      "godot_owner": "PortGame.source_arc_random_seed_float_max",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "randomSeed(long seed, float max)",
+      "status": "source-backed",
+      "java_expr": "return seedr.nextFloat() * max;",
+      "godot_symbol": "source_arc_random_seed_float_max_result.randomSeed",
+      "rule": "Final result multiplies seeded float by max."
+    },
+    "arc_random_seed_float_max.seed_input": {
+      "tests": [
+        "test_arc_random_seed_float_max_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_random_seed_float_max",
+      "godot_owner": "PortGame.source_arc_random_seed_float_max",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "randomSeed(long seed, float max)",
+      "status": "explicit-input",
+      "java_expr": "seed",
+      "godot_symbol": "source_arc_random_seed_float_max_input.seed",
+      "rule": "Runtime source_seed maps to Java seed."
+    },
+    "arc_random_seed_float_max.max_input": {
+      "tests": [
+        "test_arc_random_seed_float_max_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_random_seed_float_max",
+      "godot_owner": "PortGame.source_arc_random_seed_float_max",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "randomSeed(long seed, float max)",
+      "status": "explicit-input",
+      "java_expr": "max",
+      "godot_symbol": "source_arc_random_seed_float_max_input.max",
+      "rule": "Runtime max_value maps to Java max."
     }
   }
 }

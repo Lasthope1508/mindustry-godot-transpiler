@@ -2441,6 +2441,35 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(index_input["java_expr"], "i")
         self.assertEqual(index_input["godot_symbol"], "source_arc_mathf_sin_table_value_input.index")
 
+    def test_arc_random_seed_float_max_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "arc_random_seed_float_max.method")
+        self.assertEqual(method["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(method["java_expr"], "public static float randomSeed(long seed, float max){\n        seedr.setSeed(seed * 99999);\n        return seedr.nextFloat() * max;\n    }")
+        self.assertEqual(method["godot_owner"], "PortGame.source_arc_random_seed_float_max")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_arc_random_seed_float_max")
+
+        seed_scale = source_symbols.source_symbol(registry, "arc_random_seed_float_max.seed_scale")
+        self.assertEqual(seed_scale["java_expr"], "seed * 99999")
+        self.assertEqual(seed_scale["godot_symbol"], "source_arc_random_seed_float_max_result.scaledSeed")
+
+        set_seed = source_symbols.source_symbol(registry, "arc_random_seed_float_max.set_seed")
+        self.assertEqual(set_seed["java_expr"], "seedr.setSeed(seed * 99999);")
+        self.assertEqual(set_seed["godot_symbol"], "source_arc_random_seed_float_max_result.setSeed")
+
+        next_float = source_symbols.source_symbol(registry, "arc_random_seed_float_max.next_float")
+        self.assertEqual(next_float["java_expr"], "seedr.nextFloat()")
+        self.assertEqual(next_float["godot_symbol"], "source_arc_random_seed_float_max_result.nextFloat")
+
+        max_input = source_symbols.source_symbol(registry, "arc_random_seed_float_max.max_input")
+        self.assertEqual(max_input["status"], "explicit-input")
+        self.assertEqual(max_input["java_expr"], "max")
+        self.assertEqual(max_input["godot_symbol"], "source_arc_random_seed_float_max_input.max")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -2725,9 +2754,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 104)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 105)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 109)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 110)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -2833,6 +2862,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_arc_mathf_sin_lookup", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_mathf_sin_scaled", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_mathf_sin_table_value", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_arc_random_seed_float_max", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -3625,6 +3655,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(arc_mathf_sin_table_value["godot_owner"], "PortGame.source_arc_mathf_sin_table_value")
         self.assertIn("sinTable[i] = (float)Math.sin((i + 0.5f) / sinCount * radFull);", arc_mathf_sin_table_value["exact_exprs"])
         self.assertIn("sinTable[(int)(90 * degToIndex) & sinMask] = 1f;", arc_mathf_sin_table_value["exact_exprs"])
+
+        arc_random_seed_float_max = source_symbols.source_slice(ledger, "N507")
+        self.assertEqual(arc_random_seed_float_max["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(arc_random_seed_float_max["java_method"], "randomSeed(long seed, float max)")
+        self.assertEqual(arc_random_seed_float_max["godot_owner"], "PortGame.source_arc_random_seed_float_max")
+        self.assertIn("public static float randomSeed(long seed, float max){\n        seedr.setSeed(seed * 99999);\n        return seedr.nextFloat() * max;\n    }", arc_random_seed_float_max["exact_exprs"])
+        self.assertIn("seedr.setSeed(seed * 99999);", arc_random_seed_float_max["exact_exprs"])
+        self.assertIn("return seedr.nextFloat() * max;", arc_random_seed_float_max["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -4591,6 +4629,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("tableValue", arc_mathf_sin_table_value["return_keys"])
         self.assertIn("cardinalNinety", arc_mathf_sin_table_value["return_keys"])
         self.assertEqual(arc_mathf_sin_table_value["source_method"], "static sinTable initializer")
+
+        arc_random_seed_float_max = source_symbols.api_contract(contracts, "PortGame.source_arc_random_seed_float_max")
+        self.assertEqual([param["name"] for param in arc_random_seed_float_max["params"]], ["source_seed", "max_value"])
+        self.assertEqual(arc_random_seed_float_max["params"][0]["schema"], "source_arc_random_seed_float_max_input.seed")
+        self.assertEqual(arc_random_seed_float_max["params"][1]["schema"], "source_arc_random_seed_float_max_input.max")
+        self.assertIn("scaledSeed", arc_random_seed_float_max["return_keys"])
+        self.assertIn("randomSeed", arc_random_seed_float_max["return_keys"])
+        self.assertEqual(arc_random_seed_float_max["source_method"], "randomSeed(long seed, float max)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -5682,6 +5728,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_arc_mathf_sin_table_value_result["keys"]["cardinalZero"]["java_expr"], "sinTable[0] = 0f;")
         self.assertEqual(source_arc_mathf_sin_table_value_result["keys"]["cardinalNinety"]["java_expr"], "sinTable[(int)(90 * degToIndex) & sinMask] = 1f;")
         self.assertEqual(source_arc_mathf_sin_table_value_result["keys"]["index"]["alias_of"], "source_arc_mathf_sin_table_value_input.index")
+
+        source_arc_random_seed_float_max_input = source_symbols.state_schema(schema, "source_arc_random_seed_float_max_input")
+        self.assertEqual(source_arc_random_seed_float_max_input["keys"]["seed"]["java_expr"], "seed")
+        self.assertEqual(source_arc_random_seed_float_max_input["keys"]["seed"]["status"], "explicit-input")
+        self.assertEqual(source_arc_random_seed_float_max_input["keys"]["max"]["java_expr"], "max")
+        self.assertEqual(source_arc_random_seed_float_max_input["keys"]["max"]["status"], "explicit-input")
+
+        source_arc_random_seed_float_max_result = source_symbols.state_schema(schema, "source_arc_random_seed_float_max_result")
+        self.assertEqual(source_arc_random_seed_float_max_result["keys"]["scaledSeed"]["java_expr"], "seed * 99999")
+        self.assertEqual(source_arc_random_seed_float_max_result["keys"]["setSeed"]["java_expr"], "seedr.setSeed(seed * 99999);")
+        self.assertEqual(source_arc_random_seed_float_max_result["keys"]["nextFloat"]["java_expr"], "seedr.nextFloat()")
+        self.assertEqual(source_arc_random_seed_float_max_result["keys"]["randomSeed"]["java_expr"], "return seedr.nextFloat() * max;")
+        self.assertEqual(source_arc_random_seed_float_max_result["keys"]["max"]["alias_of"], "source_arc_random_seed_float_max_input.max")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

@@ -14352,6 +14352,112 @@
           "rule": "Carries Java i into result schema."
         }
       }
+    },
+    "source_arc_random_seed_float_max_input": {
+      "status": "active",
+      "keys": {
+        "seed": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "randomSeed(long seed, float max)",
+          "java_expr": "seed",
+          "godot_symbol": "source_arc_random_seed_float_max_input.seed",
+          "used_by": [
+            "PortGame.source_arc_random_seed_float_max"
+          ],
+          "rule": "Java seed input."
+        },
+        "max": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "randomSeed(long seed, float max)",
+          "java_expr": "max",
+          "godot_symbol": "source_arc_random_seed_float_max_input.max",
+          "used_by": [
+            "PortGame.source_arc_random_seed_float_max"
+          ],
+          "rule": "Java max input."
+        }
+      }
+    },
+    "source_arc_random_seed_float_max_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "string",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "randomSeed(long seed, float max)",
+          "java_expr": "public static float randomSeed(long seed, float max){\n        seedr.setSeed(seed * 99999);\n        return seedr.nextFloat() * max;\n    }",
+          "godot_symbol": "source_arc_random_seed_float_max_result.method",
+          "used_by": [
+            "PortGame.source_arc_random_seed_float_max"
+          ],
+          "rule": "Arc randomSeed float-max overload body."
+        },
+        "scaledSeed": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "randomSeed(long seed, float max)",
+          "java_expr": "seed * 99999",
+          "godot_symbol": "source_arc_random_seed_float_max_result.scaledSeed",
+          "used_by": [
+            "PortGame.source_arc_random_seed_float_max"
+          ],
+          "rule": "Seed scale before Rand.setSeed."
+        },
+        "setSeed": {
+          "type": "string",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "randomSeed(long seed, float max)",
+          "java_expr": "seedr.setSeed(seed * 99999);",
+          "godot_symbol": "source_arc_random_seed_float_max_result.setSeed",
+          "used_by": [
+            "PortGame.source_arc_random_seed_float_max"
+          ],
+          "rule": "Set seed call."
+        },
+        "nextFloat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "randomSeed(long seed, float max)",
+          "java_expr": "seedr.nextFloat()",
+          "godot_symbol": "source_arc_random_seed_float_max_result.nextFloat",
+          "used_by": [
+            "PortGame.source_arc_random_seed_float_max"
+          ],
+          "rule": "Seeded random float sample."
+        },
+        "randomSeed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "randomSeed(long seed, float max)",
+          "java_expr": "return seedr.nextFloat() * max;",
+          "godot_symbol": "source_arc_random_seed_float_max_result.randomSeed",
+          "used_by": [
+            "PortGame.source_arc_random_seed_float_max"
+          ],
+          "rule": "Returned random value multiplied by max."
+        },
+        "seed": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_arc_random_seed_float_max_input.seed",
+          "rule": "Carries Java seed into result schema."
+        },
+        "max": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_arc_random_seed_float_max_input.max",
+          "rule": "Carries Java max into result schema."
+        }
+      }
     }
   },
   "version": 1

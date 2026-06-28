@@ -4401,6 +4401,38 @@
       ],
       "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
       "rule": "Public runtime contract for Arc sine table value helper."
+    },
+    "PortGame.source_arc_random_seed_float_max": {
+      "status": "active",
+      "source_slice": "N507",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "source_method": "randomSeed(long seed, float max)",
+      "params": [
+        {
+          "name": "source_seed",
+          "type": "int",
+          "schema": "source_arc_random_seed_float_max_input.seed"
+        },
+        {
+          "name": "max_value",
+          "type": "float",
+          "schema": "source_arc_random_seed_float_max_input.max"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "scaledSeed",
+        "setSeed",
+        "nextFloat",
+        "randomSeed",
+        "seed",
+        "max"
+      ],
+      "tests": [
+        "test_arc_random_seed_float_max_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_random_seed_float_max",
+      "rule": "Public runtime contract for Arc Mathf.randomSeed(long,float) max helper."
     }
   },
   "policy": {
