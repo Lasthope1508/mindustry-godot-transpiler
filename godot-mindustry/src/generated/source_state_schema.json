@@ -18179,6 +18179,106 @@
           "rule": "Default tile configuration return value."
         }
       }
+    },
+    "source_building_configure_menu_visibility_input": {
+      "status": "active",
+      "keys": {
+        "player": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "shouldShowConfigure(Player player) / shouldHideConfigure(Player player)",
+          "java_expr": "player",
+          "godot_symbol": "source_building_configure_menu_visibility_input.player",
+          "used_by": [
+            "PortGame.source_building_configure_menu_visibility_state"
+          ],
+          "rule": "Player argument supplied to shouldShowConfigure/shouldHideConfigure default helper."
+        }
+      }
+    },
+    "source_building_configure_menu_visibility_result": {
+      "status": "active",
+      "keys": {
+        "show_comment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "shouldShowConfigure(Player player) / shouldHideConfigure(Player player)",
+          "java_expr": "/** Returns whether this config menu should show when the specified player taps it. */",
+          "godot_symbol": "source_building_configure_menu_visibility_result.show_comment",
+          "used_by": [
+            "PortGame.source_building_configure_menu_visibility_state"
+          ],
+          "rule": "Source comment for shouldShowConfigure."
+        },
+        "show_method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "shouldShowConfigure(Player player) / shouldHideConfigure(Player player)",
+          "java_expr": "public boolean shouldShowConfigure(Player player){",
+          "godot_symbol": "source_building_configure_menu_visibility_result.show_method",
+          "used_by": [
+            "PortGame.source_building_configure_menu_visibility_state"
+          ],
+          "rule": "shouldShowConfigure method boundary."
+        },
+        "should_show": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "shouldShowConfigure(Player player) / shouldHideConfigure(Player player)",
+          "java_expr": "return true;",
+          "godot_symbol": "source_building_configure_menu_visibility_result.should_show",
+          "used_by": [
+            "PortGame.source_building_configure_menu_visibility_state"
+          ],
+          "rule": "Default shouldShowConfigure return value."
+        },
+        "hide_comment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "shouldShowConfigure(Player player) / shouldHideConfigure(Player player)",
+          "java_expr": "/** Whether this configuration should be hidden now. Called every frame the config is open. */",
+          "godot_symbol": "source_building_configure_menu_visibility_result.hide_comment",
+          "used_by": [
+            "PortGame.source_building_configure_menu_visibility_state"
+          ],
+          "rule": "Source comment for shouldHideConfigure."
+        },
+        "hide_method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "shouldShowConfigure(Player player) / shouldHideConfigure(Player player)",
+          "java_expr": "public boolean shouldHideConfigure(Player player){",
+          "godot_symbol": "source_building_configure_menu_visibility_result.hide_method",
+          "used_by": [
+            "PortGame.source_building_configure_menu_visibility_state"
+          ],
+          "rule": "shouldHideConfigure method boundary."
+        },
+        "should_hide": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "shouldShowConfigure(Player player) / shouldHideConfigure(Player player)",
+          "java_expr": "return false;",
+          "godot_symbol": "source_building_configure_menu_visibility_result.should_hide",
+          "used_by": [
+            "PortGame.source_building_configure_menu_visibility_state"
+          ],
+          "rule": "Default shouldHideConfigure return value."
+        },
+        "player": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_configure_menu_visibility_input.player",
+          "rule": "Carries player input into result schema boundary."
+        }
+      }
     }
   },
   "version": 1

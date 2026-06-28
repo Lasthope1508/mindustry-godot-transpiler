@@ -13995,6 +13995,97 @@
       "java_expr": "return null;",
       "godot_symbol": "source_building_config_default_result.config",
       "rule": "Default tile configuration returns null."
+    },
+    "building_configure_menu_visibility.show_comment": {
+      "tests": [
+        "test_building_configure_menu_visibility_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configure_menu_visibility_state",
+      "godot_owner": "PortGame.source_building_configure_menu_visibility_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "shouldShowConfigure(Player player) / shouldHideConfigure(Player player)",
+      "status": "source-backed",
+      "java_expr": "/** Returns whether this config menu should show when the specified player taps it. */",
+      "godot_symbol": "source_building_configure_menu_visibility_result.show_comment",
+      "rule": "Source comment for default configure menu show predicate."
+    },
+    "building_configure_menu_visibility.show_method": {
+      "tests": [
+        "test_building_configure_menu_visibility_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configure_menu_visibility_state",
+      "godot_owner": "PortGame.source_building_configure_menu_visibility_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "shouldShowConfigure(Player player) / shouldHideConfigure(Player player)",
+      "status": "source-backed",
+      "java_expr": "public boolean shouldShowConfigure(Player player){",
+      "godot_symbol": "source_building_configure_menu_visibility_result.show_method",
+      "rule": "BuildingComp shouldShowConfigure method boundary."
+    },
+    "building_configure_menu_visibility.should_show": {
+      "tests": [
+        "test_building_configure_menu_visibility_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configure_menu_visibility_state",
+      "godot_owner": "PortGame.source_building_configure_menu_visibility_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "shouldShowConfigure(Player player) / shouldHideConfigure(Player player)",
+      "status": "source-backed",
+      "java_expr": "return true;",
+      "godot_symbol": "source_building_configure_menu_visibility_result.should_show",
+      "rule": "Default BuildingComp config menu shows when tapped."
+    },
+    "building_configure_menu_visibility.hide_comment": {
+      "tests": [
+        "test_building_configure_menu_visibility_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configure_menu_visibility_state",
+      "godot_owner": "PortGame.source_building_configure_menu_visibility_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "shouldShowConfigure(Player player) / shouldHideConfigure(Player player)",
+      "status": "source-backed",
+      "java_expr": "/** Whether this configuration should be hidden now. Called every frame the config is open. */",
+      "godot_symbol": "source_building_configure_menu_visibility_result.hide_comment",
+      "rule": "Source comment for default configure menu hide predicate."
+    },
+    "building_configure_menu_visibility.hide_method": {
+      "tests": [
+        "test_building_configure_menu_visibility_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configure_menu_visibility_state",
+      "godot_owner": "PortGame.source_building_configure_menu_visibility_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "shouldShowConfigure(Player player) / shouldHideConfigure(Player player)",
+      "status": "source-backed",
+      "java_expr": "public boolean shouldHideConfigure(Player player){",
+      "godot_symbol": "source_building_configure_menu_visibility_result.hide_method",
+      "rule": "BuildingComp shouldHideConfigure method boundary."
+    },
+    "building_configure_menu_visibility.should_hide": {
+      "tests": [
+        "test_building_configure_menu_visibility_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configure_menu_visibility_state",
+      "godot_owner": "PortGame.source_building_configure_menu_visibility_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "shouldShowConfigure(Player player) / shouldHideConfigure(Player player)",
+      "status": "source-backed",
+      "java_expr": "return false;",
+      "godot_symbol": "source_building_configure_menu_visibility_result.should_hide",
+      "rule": "Default BuildingComp config menu does not hide each frame."
+    },
+    "building_configure_menu_visibility.player": {
+      "tests": [
+        "test_building_configure_menu_visibility_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configure_menu_visibility_state",
+      "godot_owner": "PortGame.source_building_configure_menu_visibility_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "shouldShowConfigure(Player player) / shouldHideConfigure(Player player)",
+      "status": "explicit-input",
+      "java_expr": "player",
+      "godot_symbol": "source_building_configure_menu_visibility_input.player",
+      "rule": "Player argument supplied to default configure visibility helper even though default predicates ignore it."
     }
   }
 }

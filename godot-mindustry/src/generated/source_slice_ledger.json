@@ -4481,6 +4481,37 @@
       ],
       "runtime_proof": "/root/Main.source_building_config_default",
       "rule": "Backfills SSOT for existing canonical source_building_config_default helper against BuildingComp.config() default null configuration."
+    },
+    "N545": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "shouldShowConfigure(Player player) / shouldHideConfigure(Player player)",
+      "godot_owner": "PortGame.source_building_configure_menu_visibility_state",
+      "exact_exprs": [
+        "/** Returns whether this config menu should show when the specified player taps it. */",
+        "public boolean shouldShowConfigure(Player player){",
+        "return true;",
+        "/** Whether this configuration should be hidden now. Called every frame the config is open. */",
+        "public boolean shouldHideConfigure(Player player){",
+        "return false;",
+        "player"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "building_configure_menu_visibility.show_comment",
+        "building_configure_menu_visibility.show_method",
+        "building_configure_menu_visibility.should_show",
+        "building_configure_menu_visibility.hide_comment",
+        "building_configure_menu_visibility.hide_method",
+        "building_configure_menu_visibility.should_hide",
+        "building_configure_menu_visibility.player"
+      ],
+      "tests": [
+        "test_building_configure_menu_visibility_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configure_menu_visibility_state",
+      "rule": "Backfills SSOT for existing canonical source_building_configure_menu_visibility_state helper against BuildingComp shouldShowConfigure and shouldHideConfigure defaults."
     }
   },
   "version": 1

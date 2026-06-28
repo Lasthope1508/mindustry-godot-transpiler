@@ -5672,6 +5672,28 @@
       ],
       "runtime_proof": "/root/Main.source_building_config_default",
       "rule": "Public runtime contract for Mindustry BuildingComp config() default null helper."
+    },
+    "PortGame.source_building_configure_menu_visibility_state": {
+      "status": "active",
+      "source_slice": "N545",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "shouldShowConfigure(Player player) / shouldHideConfigure(Player player)",
+      "params": [
+        {
+          "name": "_player",
+          "type": "Variant",
+          "schema": "source_building_configure_menu_visibility_input.player"
+        }
+      ],
+      "return_keys": [
+        "should_show",
+        "should_hide"
+      ],
+      "tests": [
+        "test_building_configure_menu_visibility_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configure_menu_visibility_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp default configure menu visibility helper."
     }
   },
   "policy": {

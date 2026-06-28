@@ -3475,6 +3475,37 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result["java_expr"], "return null;")
         self.assertEqual(result["godot_symbol"], "source_building_config_default_result.config")
 
+    def test_building_configure_menu_visibility_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        show_method = source_symbols.source_symbol(registry, "building_configure_menu_visibility.show_method")
+        self.assertEqual(show_method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(show_method["java_method"], "shouldShowConfigure(Player player) / shouldHideConfigure(Player player)")
+        self.assertEqual(show_method["java_expr"], "public boolean shouldShowConfigure(Player player){")
+        self.assertEqual(show_method["godot_owner"], "PortGame.source_building_configure_menu_visibility_state")
+        self.assertEqual(show_method["runtime_proof"], "/root/Main.source_building_configure_menu_visibility_state")
+        self.assertEqual(show_method["godot_symbol"], "source_building_configure_menu_visibility_result.show_method")
+
+        show_result = source_symbols.source_symbol(registry, "building_configure_menu_visibility.should_show")
+        self.assertEqual(show_result["java_expr"], "return true;")
+        self.assertEqual(show_result["godot_symbol"], "source_building_configure_menu_visibility_result.should_show")
+
+        hide_method = source_symbols.source_symbol(registry, "building_configure_menu_visibility.hide_method")
+        self.assertEqual(hide_method["java_expr"], "public boolean shouldHideConfigure(Player player){")
+        self.assertEqual(hide_method["godot_symbol"], "source_building_configure_menu_visibility_result.hide_method")
+
+        hide_result = source_symbols.source_symbol(registry, "building_configure_menu_visibility.should_hide")
+        self.assertEqual(hide_result["java_expr"], "return false;")
+        self.assertEqual(hide_result["godot_symbol"], "source_building_configure_menu_visibility_result.should_hide")
+
+        player = source_symbols.source_symbol(registry, "building_configure_menu_visibility.player")
+        self.assertEqual(player["status"], "explicit-input")
+        self.assertEqual(player["java_expr"], "player")
+        self.assertEqual(player["godot_symbol"], "source_building_configure_menu_visibility_input.player")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3759,9 +3790,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 142)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 143)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 147)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 148)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3905,6 +3936,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_collide_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_collision_damage_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_config_default", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_configure_menu_visibility_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -5016,6 +5048,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("@Nullable", building_config_default["exact_exprs"])
         self.assertIn("public Object config(){", building_config_default["exact_exprs"])
         self.assertIn("return null;", building_config_default["exact_exprs"])
+
+        building_configure_menu_visibility = source_symbols.source_slice(ledger, "N545")
+        self.assertEqual(building_configure_menu_visibility["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_configure_menu_visibility["java_method"], "shouldShowConfigure(Player player) / shouldHideConfigure(Player player)")
+        self.assertEqual(building_configure_menu_visibility["godot_owner"], "PortGame.source_building_configure_menu_visibility_state")
+        self.assertIn("/** Returns whether this config menu should show when the specified player taps it. */", building_configure_menu_visibility["exact_exprs"])
+        self.assertIn("public boolean shouldShowConfigure(Player player){", building_configure_menu_visibility["exact_exprs"])
+        self.assertIn("return true;", building_configure_menu_visibility["exact_exprs"])
+        self.assertIn("/** Whether this configuration should be hidden now. Called every frame the config is open. */", building_configure_menu_visibility["exact_exprs"])
+        self.assertIn("public boolean shouldHideConfigure(Player player){", building_configure_menu_visibility["exact_exprs"])
+        self.assertIn("return false;", building_configure_menu_visibility["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -6264,6 +6307,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual([param["name"] for param in building_config_default["params"]], [])
         self.assertIn("config", building_config_default["return_keys"])
         self.assertEqual(building_config_default["source_method"], "config()")
+
+        building_configure_menu_visibility = source_symbols.api_contract(contracts, "PortGame.source_building_configure_menu_visibility_state")
+        self.assertEqual([param["name"] for param in building_configure_menu_visibility["params"]], ["_player"])
+        self.assertEqual(building_configure_menu_visibility["params"][0]["schema"], "source_building_configure_menu_visibility_input.player")
+        self.assertIn("should_show", building_configure_menu_visibility["return_keys"])
+        self.assertIn("should_hide", building_configure_menu_visibility["return_keys"])
+        self.assertEqual(building_configure_menu_visibility["source_method"], "shouldShowConfigure(Player player) / shouldHideConfigure(Player player)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -7762,6 +7812,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_config_default_result["keys"]["nullable"]["java_expr"], "@Nullable")
         self.assertEqual(source_building_config_default_result["keys"]["method"]["java_expr"], "public Object config(){")
         self.assertEqual(source_building_config_default_result["keys"]["config"]["java_expr"], "return null;")
+
+        source_building_configure_menu_visibility_input = source_symbols.state_schema(schema, "source_building_configure_menu_visibility_input")
+        self.assertEqual(source_building_configure_menu_visibility_input["keys"]["player"]["java_expr"], "player")
+        self.assertEqual(source_building_configure_menu_visibility_input["keys"]["player"]["status"], "explicit-input")
+
+        source_building_configure_menu_visibility_result = source_symbols.state_schema(schema, "source_building_configure_menu_visibility_result")
+        self.assertEqual(source_building_configure_menu_visibility_result["keys"]["show_method"]["java_expr"], "public boolean shouldShowConfigure(Player player){")
+        self.assertEqual(source_building_configure_menu_visibility_result["keys"]["should_show"]["java_expr"], "return true;")
+        self.assertEqual(source_building_configure_menu_visibility_result["keys"]["hide_method"]["java_expr"], "public boolean shouldHideConfigure(Player player){")
+        self.assertEqual(source_building_configure_menu_visibility_result["keys"]["should_hide"]["java_expr"], "return false;")
+        self.assertEqual(source_building_configure_menu_visibility_result["keys"]["player"]["alias_of"], "source_building_configure_menu_visibility_input.player")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")
