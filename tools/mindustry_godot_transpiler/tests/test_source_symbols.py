@@ -3583,6 +3583,42 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(value_state["java_expr"], "value")
         self.assertEqual(value_state["godot_symbol"], "source_building_configured_direct_handler_input.value_state")
 
+    def test_building_configured_last_access_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        guard = source_symbols.source_symbol(registry, "building_configured_last_access.guard")
+        self.assertEqual(guard["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(guard["java_method"], "configured(@Nullable Unit builder, @Nullable Object value) / updateLastAccess(Player player)")
+        self.assertEqual(guard["java_expr"], "if(builder != null && builder.isPlayer()){")
+        self.assertEqual(guard["godot_owner"], "PortGame.source_building_configured_last_access_state")
+        self.assertEqual(guard["runtime_proof"], "/root/Main.source_building_configured_last_access_state")
+        self.assertEqual(guard["godot_symbol"], "source_building_configured_last_access_result.updated")
+
+        update_call = source_symbols.source_symbol(registry, "building_configured_last_access.update_call")
+        self.assertEqual(update_call["java_expr"], "updateLastAccess(builder.getPlayer());")
+        self.assertEqual(update_call["godot_symbol"], "source_building_configured_last_access_result.updated")
+
+        method = source_symbols.source_symbol(registry, "building_configured_last_access.method")
+        self.assertEqual(method["java_expr"], "public void updateLastAccess(Player player){")
+        self.assertEqual(method["godot_symbol"], "source_building_configured_last_access_result.method")
+
+        assignment = source_symbols.source_symbol(registry, "building_configured_last_access.assignment")
+        self.assertEqual(assignment["java_expr"], "lastAccessed = player.coloredName();")
+        self.assertEqual(assignment["godot_symbol"], "source_building_configured_last_access_result.last_accessed")
+
+        builder_state = source_symbols.source_symbol(registry, "building_configured_last_access.builder_state")
+        self.assertEqual(builder_state["status"], "explicit-input")
+        self.assertEqual(builder_state["java_expr"], "builder")
+        self.assertEqual(builder_state["godot_symbol"], "source_building_configured_last_access_input.builder_state")
+
+        current_last_accessed = source_symbols.source_symbol(registry, "building_configured_last_access.current_last_accessed")
+        self.assertEqual(current_last_accessed["status"], "explicit-input")
+        self.assertEqual(current_last_accessed["java_expr"], "lastAccessed")
+        self.assertEqual(current_last_accessed["godot_symbol"], "source_building_configured_last_access_input.current_last_accessed")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3867,9 +3903,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 145)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 146)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 150)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 151)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -4016,6 +4052,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_configure_menu_visibility_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_configured_copy_config_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_configured_direct_handler_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_configured_last_access_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -5156,6 +5193,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(block.configurations.containsKey(type)){", building_configured_direct_handler["exact_exprs"])
         self.assertIn("block.configurations.get(type).get(this, value);", building_configured_direct_handler["exact_exprs"])
         self.assertIn("}else if(value instanceof Building build){", building_configured_direct_handler["exact_exprs"])
+
+        building_configured_last_access = source_symbols.source_slice(ledger, "N548")
+        self.assertEqual(building_configured_last_access["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_configured_last_access["java_method"], "configured(@Nullable Unit builder, @Nullable Object value) / updateLastAccess(Player player)")
+        self.assertEqual(building_configured_last_access["godot_owner"], "PortGame.source_building_configured_last_access_state")
+        self.assertIn("if(builder != null && builder.isPlayer()){", building_configured_last_access["exact_exprs"])
+        self.assertIn("updateLastAccess(builder.getPlayer());", building_configured_last_access["exact_exprs"])
+        self.assertIn("public void updateLastAccess(Player player){", building_configured_last_access["exact_exprs"])
+        self.assertIn("lastAccessed = player.coloredName();", building_configured_last_access["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -6429,6 +6475,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("handler_type", building_configured_direct_handler["return_keys"])
         self.assertIn("value", building_configured_direct_handler["return_keys"])
         self.assertEqual(building_configured_direct_handler["source_method"], "configured(@Nullable Unit builder, @Nullable Object value)")
+
+        building_configured_last_access = source_symbols.api_contract(contracts, "PortGame.source_building_configured_last_access_state")
+        self.assertEqual([param["name"] for param in building_configured_last_access["params"]], ["builder_state", "current_last_accessed"])
+        self.assertEqual(building_configured_last_access["params"][0]["schema"], "source_building_configured_last_access_input.builder_state")
+        self.assertEqual(building_configured_last_access["params"][1]["schema"], "source_building_configured_last_access_input.current_last_accessed")
+        self.assertIn("last_accessed", building_configured_last_access["return_keys"])
+        self.assertIn("updated", building_configured_last_access["return_keys"])
+        self.assertEqual(building_configured_last_access["source_method"], "configured(@Nullable Unit builder, @Nullable Object value) / updateLastAccess(Player player)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -7960,6 +8014,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_configured_direct_handler_result["keys"]["copy_boundary"]["java_expr"], "}else if(value instanceof Building build){")
         self.assertEqual(source_building_configured_direct_handler_result["keys"]["handler_type"]["alias_of"], "source_building_configured_direct_handler_input.configured_type")
         self.assertEqual(source_building_configured_direct_handler_result["keys"]["value"]["alias_of"], "source_building_configured_direct_handler_input.value_state")
+
+        source_building_configured_last_access_input = source_symbols.state_schema(schema, "source_building_configured_last_access_input")
+        self.assertEqual(source_building_configured_last_access_input["keys"]["builder_state"]["java_expr"], "builder")
+        self.assertEqual(source_building_configured_last_access_input["keys"]["current_last_accessed"]["java_expr"], "lastAccessed")
+
+        source_building_configured_last_access_result = source_symbols.state_schema(schema, "source_building_configured_last_access_result")
+        self.assertEqual(source_building_configured_last_access_result["keys"]["updated"]["java_expr"], "updateLastAccess(builder.getPlayer());")
+        self.assertEqual(source_building_configured_last_access_result["keys"]["method"]["java_expr"], "public void updateLastAccess(Player player){")
+        self.assertEqual(source_building_configured_last_access_result["keys"]["last_accessed"]["java_expr"], "lastAccessed = player.coloredName();")
+        self.assertEqual(source_building_configured_last_access_result["keys"]["current_last_accessed"]["alias_of"], "source_building_configured_last_access_input.current_last_accessed")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")
