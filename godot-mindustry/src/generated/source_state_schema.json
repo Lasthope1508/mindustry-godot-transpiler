@@ -10879,6 +10879,37 @@
           "rule": "Runtime source label for calculateRange fallback return."
         }
       }
+    },
+    "continuous_damage_default_result": {
+      "status": "active",
+      "keys": {
+        "bulletType": {
+          "type": "Dictionary",
+          "status": "generated",
+          "godot_symbol": "continuous_damage_default_result.bulletType",
+          "alias_of": "bullet_type_state",
+          "rule": "Unmodified BulletType state during continuousDamage default evaluation."
+        },
+        "continuousDamage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "continuousDamage()",
+          "java_expr": "return -1f;",
+          "godot_symbol": "continuous_damage_default_result.continuousDamage",
+          "used_by": [
+            "PortGame.source_bullet_type_continuous_damage_default_state"
+          ],
+          "rule": "Default BulletType continuousDamage return value; -1 means not continuous."
+        },
+        "continuousDamageReturnSource": {
+          "type": "String",
+          "status": "generated",
+          "godot_symbol": "continuous_damage_default_result.continuousDamageReturnSource",
+          "alias_of": "source_line.continuous_damage_default.return_expr",
+          "rule": "Runtime source label for BulletType.continuousDamage default return."
+        }
+      }
     }
   },
   "version": 1

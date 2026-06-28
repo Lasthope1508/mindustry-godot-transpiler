@@ -7113,6 +7113,36 @@
         "test_bullet_type_calculate_range_fallback_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_calculate_range_fallback_state"
+    },
+    "continuous_damage_default.return_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "continuousDamage()",
+      "java_expr": "return -1f;",
+      "godot_symbol": "continuous_damage_default_result.continuousDamage",
+      "godot_owner": "PortGame.source_bullet_type_continuous_damage_default_state",
+      "rule": "Use BulletType.continuousDamage default return exactly; do not infer continuous damage from damage or lifetime.",
+      "tests": [
+        "test_bullet_type_continuous_damage_default_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_continuous_damage_default_state",
+        "test_bullet_type_continuous_damage_default_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_continuous_damage_default_state"
+    },
+    "continuous_damage_default.doc": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "continuousDamage()",
+      "java_expr": "/** @return continuous damage in damage/sec, or -1 if not continuous. */",
+      "godot_symbol": "source_line.continuous_damage_default.doc",
+      "godot_owner": "PortGame.source_bullet_type_continuous_damage_default_state",
+      "rule": "Preserve upstream documentation meaning for -1 non-continuous sentinel.",
+      "tests": [
+        "test_bullet_type_continuous_damage_default_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_continuous_damage_default_state",
+        "test_bullet_type_continuous_damage_default_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_continuous_damage_default_state"
     }
   }
 }

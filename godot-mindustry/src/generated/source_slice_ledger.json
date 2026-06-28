@@ -2180,6 +2180,31 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_calculate_range_fallback_state",
       "rule": "Backfills SSOT for final calculateRange fallback formula after rangeOverride, spawnUnit, and despawnUnit branches."
+    },
+    "N475": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "continuousDamage()",
+      "godot_owner": "PortGame.source_bullet_type_continuous_damage_default_state",
+      "exact_exprs": [
+        "/** @return continuous damage in damage/sec, or -1 if not continuous. */",
+        "public float continuousDamage(){",
+        "return -1f;",
+        "public boolean heals(){"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "continuous_damage_default.doc",
+        "continuous_damage_default.return_expr"
+      ],
+      "tests": [
+        "test_bullet_type_continuous_damage_default_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_continuous_damage_default_state",
+        "test_bullet_type_continuous_damage_default_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_continuous_damage_default_state",
+      "rule": "Backfills SSOT for existing BulletType.continuousDamage default runtime state; subclass overrides remain later source-backed slices."
     }
   },
   "version": 1

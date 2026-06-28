@@ -1820,14 +1820,30 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(mathf_pow["java_expr"], "return (float)Math.pow(a, b);")
         self.assertEqual(mathf_pow["godot_symbol"], "calculate_range_fallback_result.fallbackRange")
 
+    def test_bullet_type_continuous_damage_default_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        default_return = source_symbols.source_symbol(registry, "continuous_damage_default.return_expr")
+        self.assertEqual(default_return["java_expr"], "return -1f;")
+        self.assertEqual(default_return["godot_symbol"], "continuous_damage_default_result.continuousDamage")
+        self.assertEqual(default_return["godot_owner"], "PortGame.source_bullet_type_continuous_damage_default_state")
+        self.assertEqual(default_return["runtime_proof"], "/root/Main.source_bullet_type_continuous_damage_default_state")
+
+        doc = source_symbols.source_symbol(registry, "continuous_damage_default.doc")
+        self.assertEqual(doc["java_expr"], "/** @return continuous damage in damage/sec, or -1 if not continuous. */")
+        self.assertEqual(doc["godot_symbol"], "source_line.continuous_damage_default.doc")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 72)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 73)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 77)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 78)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -1894,6 +1910,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_calculate_range_spawn_unit_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_calculate_range_despawn_unit_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_calculate_range_fallback_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_continuous_damage_default_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -2424,6 +2441,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed;", calculate_range_fallback["exact_exprs"])
         self.assertIn("return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange);", calculate_range_fallback["exact_exprs"])
         self.assertEqual(calculate_range_fallback["deferred_exprs"], [])
+
+        continuous_damage_default = source_symbols.source_slice(ledger, "N475")
+        self.assertEqual(continuous_damage_default["java_method"], "continuousDamage()")
+        self.assertEqual(continuous_damage_default["godot_owner"], "PortGame.source_bullet_type_continuous_damage_default_state")
+        self.assertIn("/** @return continuous damage in damage/sec, or -1 if not continuous. */", continuous_damage_default["exact_exprs"])
+        self.assertIn("public float continuousDamage(){", continuous_damage_default["exact_exprs"])
+        self.assertIn("return -1f;", continuous_damage_default["exact_exprs"])
+        self.assertIn("public boolean heals(){", continuous_damage_default["exact_exprs"])
+        self.assertEqual(continuous_damage_default["deferred_exprs"], [])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -3085,6 +3111,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("maxRange", calculate_range_fallback["return_keys"])
         self.assertIn("fallbackReturnSource", calculate_range_fallback["return_keys"])
         self.assertEqual(calculate_range_fallback["source_method"], "calculateRange()")
+
+        continuous_damage_default = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_continuous_damage_default_state")
+        self.assertEqual([param["name"] for param in continuous_damage_default["params"]], ["bullet_type_state"])
+        self.assertEqual(continuous_damage_default["params"][0]["schema"], "bullet_type_state")
+        self.assertIn("bulletType", continuous_damage_default["return_keys"])
+        self.assertIn("continuousDamage", continuous_damage_default["return_keys"])
+        self.assertIn("continuousDamageReturnSource", continuous_damage_default["return_keys"])
+        self.assertEqual(continuous_damage_default["source_method"], "continuousDamage()")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -3807,6 +3841,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_calculate_range_fallback_state", bullet_type_state["keys"]["lifetime"]["used_by"])
         self.assertIn("PortGame.source_bullet_type_calculate_range_fallback_state", bullet_type_state["keys"]["drag"]["used_by"])
         self.assertIn("PortGame.source_bullet_type_calculate_range_fallback_state", bullet_type_state["keys"]["maxRange"]["used_by"])
+
+        continuous_damage_default_output = source_symbols.state_schema(schema, "continuous_damage_default_result")
+        self.assertEqual(continuous_damage_default_output["keys"]["continuousDamage"]["java_expr"], "return -1f;")
+        self.assertEqual(continuous_damage_default_output["keys"]["continuousDamageReturnSource"]["alias_of"], "source_line.continuous_damage_default.return_expr")
+        self.assertEqual(continuous_damage_default_output["keys"]["bulletType"]["alias_of"], "bullet_type_state")
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")

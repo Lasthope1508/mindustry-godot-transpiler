@@ -3227,6 +3227,31 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_calculate_range_fallback_state",
       "rule": "Public runtime contract for BulletType.calculateRange fallback formula after all early returns miss."
+    },
+    "PortGame.source_bullet_type_continuous_damage_default_state": {
+      "status": "active",
+      "source_slice": "N475",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "continuousDamage()",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "continuousDamage",
+        "continuousDamageReturnSource"
+      ],
+      "tests": [
+        "test_bullet_type_continuous_damage_default_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_continuous_damage_default_state",
+        "test_bullet_type_continuous_damage_default_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_continuous_damage_default_state",
+      "rule": "Public runtime contract for BulletType.continuousDamage default -1 sentinel."
     }
   },
   "policy": {
