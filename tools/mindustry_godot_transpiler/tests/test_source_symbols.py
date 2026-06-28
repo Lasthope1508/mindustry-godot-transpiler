@@ -2219,14 +2219,43 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(value_input["java_expr"], "in")
         self.assertEqual(value_input["godot_symbol"], "source_absin_input.value")
 
+    def test_arc_angles_angle_distance_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        angle_dist_method = source_symbols.source_symbol(registry, "arc_angles_angle_dist.method")
+        self.assertEqual(angle_dist_method["java_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(angle_dist_method["java_expr"], "public static float angleDist(float a, float b){\n        a = Mathf.mod(a, 360f);\n        b = Mathf.mod(b, 360f);\n        return Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a);\n    }")
+        self.assertEqual(angle_dist_method["godot_owner"], "PortGame.source_angle_distance")
+        self.assertEqual(angle_dist_method["runtime_proof"], "/root/Main.source_angle_distance")
+
+        mod_a = source_symbols.source_symbol(registry, "arc_angles_angle_dist.mod_a")
+        self.assertEqual(mod_a["java_expr"], "a = Mathf.mod(a, 360f);")
+        self.assertEqual(mod_a["godot_symbol"], "source_angle_distance_result.currentMod")
+
+        mod_b = source_symbols.source_symbol(registry, "arc_angles_angle_dist.mod_b")
+        self.assertEqual(mod_b["java_expr"], "b = Mathf.mod(b, 360f);")
+        self.assertEqual(mod_b["godot_symbol"], "source_angle_distance_result.targetMod")
+
+        min_distance = source_symbols.source_symbol(registry, "arc_angles_angle_dist.min_distance")
+        self.assertEqual(min_distance["java_expr"], "Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a)")
+        self.assertEqual(min_distance["godot_symbol"], "source_angle_distance_result.angleDistance")
+
+        current_input = source_symbols.source_symbol(registry, "arc_angles_angle_dist.current_input")
+        self.assertEqual(current_input["status"], "explicit-input")
+        self.assertEqual(current_input["java_expr"], "a")
+        self.assertEqual(current_input["godot_symbol"], "source_angle_distance_input.currentDegrees")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 83)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 84)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 88)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 89)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -2315,6 +2344,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_draw_trail_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_draw_light_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_absin", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
@@ -2976,6 +3006,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public static float absin(float scl, float mag){\n        return absin(Time.time, scl, mag);\n    }", arc_mathf_absin["exact_exprs"])
         self.assertIn("public static float absin(float in, float scl, float mag){\n        return (sin(in, scl * 2f, mag) + mag) / 2f;\n    }", arc_mathf_absin["exact_exprs"])
         self.assertIn("public static float sin(float radians, float scl, float mag){\n        return sin(radians / scl) * mag;\n    }", arc_mathf_absin["exact_exprs"])
+
+        arc_angle_distance = source_symbols.source_slice(ledger, "N486")
+        self.assertEqual(arc_angle_distance["java_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(arc_angle_distance["java_method"], "angleDist(float a, float b)")
+        self.assertEqual(arc_angle_distance["godot_owner"], "PortGame.source_angle_distance")
+        self.assertIn("public static float angleDist(float a, float b){\n        a = Mathf.mod(a, 360f);\n        b = Mathf.mod(b, 360f);\n        return Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a);\n    }", arc_angle_distance["exact_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -3799,6 +3835,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("absin", arc_absin["return_keys"])
         self.assertIn("sinScaled", arc_absin["return_keys"])
         self.assertEqual(arc_absin["source_method"], "absin(float in, float scl, float mag)")
+
+        angle_distance = source_symbols.api_contract(contracts, "PortGame.source_angle_distance")
+        self.assertEqual([param["name"] for param in angle_distance["params"]], ["current_degrees", "target_degrees"])
+        self.assertEqual(angle_distance["params"][0]["schema"], "source_angle_distance_input.currentDegrees")
+        self.assertEqual(angle_distance["params"][1]["schema"], "source_angle_distance_input.targetDegrees")
+        self.assertIn("currentMod", angle_distance["return_keys"])
+        self.assertIn("targetMod", angle_distance["return_keys"])
+        self.assertIn("angleDistance", angle_distance["return_keys"])
+        self.assertEqual(angle_distance["source_method"], "angleDist(float a, float b)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -4678,6 +4723,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_absin_result["keys"]["value"]["alias_of"], "source_absin_input.value")
         self.assertEqual(source_absin_result["keys"]["scl"]["alias_of"], "source_absin_input.scl")
         self.assertEqual(source_absin_result["keys"]["mag"]["alias_of"], "source_absin_input.mag")
+
+        source_angle_distance_input = source_symbols.state_schema(schema, "source_angle_distance_input")
+        self.assertEqual(source_angle_distance_input["keys"]["currentDegrees"]["java_expr"], "a")
+        self.assertEqual(source_angle_distance_input["keys"]["currentDegrees"]["status"], "explicit-input")
+        self.assertEqual(source_angle_distance_input["keys"]["targetDegrees"]["java_expr"], "b")
+        self.assertEqual(source_angle_distance_input["keys"]["targetDegrees"]["status"], "explicit-input")
+
+        source_angle_distance_result = source_symbols.state_schema(schema, "source_angle_distance_result")
+        self.assertEqual(source_angle_distance_result["keys"]["currentMod"]["java_expr"], "a = Mathf.mod(a, 360f);")
+        self.assertEqual(source_angle_distance_result["keys"]["targetMod"]["java_expr"], "b = Mathf.mod(b, 360f);")
+        self.assertEqual(source_angle_distance_result["keys"]["angleDistance"]["java_expr"], "Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a)")
+        self.assertEqual(source_angle_distance_result["keys"]["currentDegrees"]["alias_of"], "source_angle_distance_input.currentDegrees")
+        self.assertEqual(source_angle_distance_result["keys"]["targetDegrees"]["alias_of"], "source_angle_distance_input.targetDegrees")
 
         self.assertEqual(bullet_type_state["keys"]["lifeScaleRandMin"]["java_expr"], "lifeScaleRandMin")
         self.assertEqual(bullet_type_state["keys"]["lifeScaleRandMax"]["java_expr"], "lifeScaleRandMax")

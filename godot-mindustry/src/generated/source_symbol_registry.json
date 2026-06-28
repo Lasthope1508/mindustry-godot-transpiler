@@ -8816,6 +8816,90 @@
       "java_expr": "mag",
       "godot_symbol": "source_absin_input.mag",
       "rule": "Runtime magnitude parameter maps to Java mag."
+    },
+    "arc_angles_angle_dist.method": {
+      "tests": [
+        "test_arc_angles_angle_distance_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "runtime_proof": "/root/Main.source_angle_distance",
+      "godot_owner": "PortGame.source_angle_distance",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "angleDist(float a, float b)",
+      "java_expr": "public static float angleDist(float a, float b){\n        a = Mathf.mod(a, 360f);\n        b = Mathf.mod(b, 360f);\n        return Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a);\n    }",
+      "godot_symbol": "source_angle_distance_result.angleDistance",
+      "rule": "Arc Angles.angleDist normalizes both inputs then returns the smaller wrapped distance."
+    },
+    "arc_angles_angle_dist.mod_a": {
+      "tests": [
+        "test_arc_angles_angle_distance_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "runtime_proof": "/root/Main.source_angle_distance",
+      "godot_owner": "PortGame.source_angle_distance",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "angleDist(float a, float b)",
+      "java_expr": "a = Mathf.mod(a, 360f);",
+      "godot_symbol": "source_angle_distance_result.currentMod",
+      "rule": "Current angle is normalized with Mathf.mod before distance comparison."
+    },
+    "arc_angles_angle_dist.mod_b": {
+      "tests": [
+        "test_arc_angles_angle_distance_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "runtime_proof": "/root/Main.source_angle_distance",
+      "godot_owner": "PortGame.source_angle_distance",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "angleDist(float a, float b)",
+      "java_expr": "b = Mathf.mod(b, 360f);",
+      "godot_symbol": "source_angle_distance_result.targetMod",
+      "rule": "Target angle is normalized with Mathf.mod before distance comparison."
+    },
+    "arc_angles_angle_dist.min_distance": {
+      "tests": [
+        "test_arc_angles_angle_distance_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "runtime_proof": "/root/Main.source_angle_distance",
+      "godot_owner": "PortGame.source_angle_distance",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "angleDist(float a, float b)",
+      "java_expr": "Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a)",
+      "godot_symbol": "source_angle_distance_result.angleDistance",
+      "rule": "Angle distance is the smaller of forward and backward wrapped deltas."
+    },
+    "arc_angles_angle_dist.current_input": {
+      "tests": [
+        "test_arc_angles_angle_distance_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "runtime_proof": "/root/Main.source_angle_distance",
+      "godot_owner": "PortGame.source_angle_distance",
+      "status": "explicit-input",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "angleDist(float a, float b)",
+      "java_expr": "a",
+      "godot_symbol": "source_angle_distance_input.currentDegrees",
+      "rule": "Runtime current_degrees parameter maps to Java angle a."
+    },
+    "arc_angles_angle_dist.target_input": {
+      "tests": [
+        "test_arc_angles_angle_distance_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "runtime_proof": "/root/Main.source_angle_distance",
+      "godot_owner": "PortGame.source_angle_distance",
+      "status": "explicit-input",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "angleDist(float a, float b)",
+      "java_expr": "b",
+      "godot_symbol": "source_angle_distance_input.targetDegrees",
+      "rule": "Runtime target_degrees parameter maps to Java angle b."
     }
   }
 }

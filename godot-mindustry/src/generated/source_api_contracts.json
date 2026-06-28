@@ -3725,6 +3725,35 @@
       ],
       "runtime_proof": "/root/Main.source_absin",
       "rule": "Public runtime contract for Arc Mathf.absin(value, scl, mag) with source-backed scale doubled by the Java overload."
+    },
+    "PortGame.source_angle_distance": {
+      "status": "active",
+      "source_slice": "N486",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "source_method": "angleDist(float a, float b)",
+      "params": [
+        {
+          "name": "current_degrees",
+          "type": "float",
+          "schema": "source_angle_distance_input.currentDegrees"
+        },
+        {
+          "name": "target_degrees",
+          "type": "float",
+          "schema": "source_angle_distance_input.targetDegrees"
+        }
+      ],
+      "return_keys": [
+        "currentMod",
+        "targetMod",
+        "angleDistance"
+      ],
+      "tests": [
+        "test_arc_angles_angle_distance_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "runtime_proof": "/root/Main.source_angle_distance",
+      "rule": "Public runtime contract for Arc Angles.angleDist-backed angle distance helper."
     }
   },
   "policy": {
