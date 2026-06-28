@@ -5501,6 +5501,21 @@
       ],
       "runtime_proof": "/root/Main.source_building_check_allow_update_state",
       "rule": "Public runtime contract for Mindustry BuildingComp checkAllowUpdate helper."
+    },
+    "PortGame.source_building_check_solid_state": {
+      "status": "active",
+      "source_slice": "N540",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "checkSolid()",
+      "params": [],
+      "return_keys": [
+        "checkSolid"
+      ],
+      "tests": [
+        "test_building_check_solid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_solid_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp checkSolid helper."
     }
   },
   "policy": {

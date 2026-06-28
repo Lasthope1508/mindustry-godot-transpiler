@@ -4320,6 +4320,29 @@
       ],
       "runtime_proof": "/root/Main.source_building_check_allow_update_state",
       "rule": "Backfills SSOT for existing canonical source_building_check_allow_update_state helper against BuildingComp.checkAllowUpdate()."
+    },
+    "N540": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "checkSolid()",
+      "godot_owner": "PortGame.source_building_check_solid_state",
+      "exact_exprs": [
+        "public boolean checkSolid(){",
+        "return false;"
+      ],
+      "deferred_exprs": [
+        "sense(LAccess.solid) combines block.solid with checkSolid() in a separate source owner"
+      ],
+      "source_symbols": [
+        "building_check_solid.method",
+        "building_check_solid.result"
+      ],
+      "tests": [
+        "test_building_check_solid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_solid_state",
+      "rule": "Backfills SSOT for existing canonical source_building_check_solid_state helper against BuildingComp.checkSolid()."
     }
   },
   "version": 1

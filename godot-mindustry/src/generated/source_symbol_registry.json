@@ -13501,6 +13501,32 @@
       "java_expr": "allowUpdate()",
       "godot_symbol": "source_building_check_allow_update_input.allow_update_result",
       "rule": "allowUpdate result is supplied to canonical helper instead of reimplementing every allowUpdate dependency."
+    },
+    "building_check_solid.method": {
+      "tests": [
+        "test_building_check_solid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_solid_state",
+      "godot_owner": "PortGame.source_building_check_solid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "checkSolid()",
+      "status": "source-backed",
+      "java_expr": "public boolean checkSolid(){",
+      "godot_symbol": "source_building_check_solid_result.method",
+      "rule": "BuildingComp checkSolid method boundary."
+    },
+    "building_check_solid.result": {
+      "tests": [
+        "test_building_check_solid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_check_solid_state",
+      "godot_owner": "PortGame.source_building_check_solid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "checkSolid()",
+      "status": "source-backed",
+      "java_expr": "return false;",
+      "godot_symbol": "source_building_check_solid_result.checkSolid",
+      "rule": "Default BuildingComp checkSolid returns false."
     }
   }
 }

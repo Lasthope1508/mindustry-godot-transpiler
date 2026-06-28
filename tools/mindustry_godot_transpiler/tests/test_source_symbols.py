@@ -3327,6 +3327,24 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(allow_update_result["java_expr"], "allowUpdate()")
         self.assertEqual(allow_update_result["godot_symbol"], "source_building_check_allow_update_input.allow_update_result")
 
+    def test_building_check_solid_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_check_solid.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "checkSolid()")
+        self.assertEqual(method["java_expr"], "public boolean checkSolid(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_check_solid_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_check_solid_state")
+        self.assertEqual(method["godot_symbol"], "source_building_check_solid_result.method")
+
+        result = source_symbols.source_symbol(registry, "building_check_solid.result")
+        self.assertEqual(result["java_expr"], "return false;")
+        self.assertEqual(result["godot_symbol"], "source_building_check_solid_result.checkSolid")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3611,9 +3629,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 137)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 138)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 142)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 143)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3752,6 +3770,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_change_team_power_links_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_change_team_power_proximity_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_check_allow_update_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_check_solid_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -4817,6 +4836,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("enabled = false;", building_check_allow_update["exact_exprs"])
         self.assertIn("allowUpdate()", building_check_allow_update["exact_exprs"])
         self.assertIn("enabled", building_check_allow_update["exact_exprs"])
+
+        building_check_solid = source_symbols.source_slice(ledger, "N540")
+        self.assertEqual(building_check_solid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_check_solid["java_method"], "checkSolid()")
+        self.assertEqual(building_check_solid["godot_owner"], "PortGame.source_building_check_solid_state")
+        self.assertIn("public boolean checkSolid(){", building_check_solid["exact_exprs"])
+        self.assertIn("return false;", building_check_solid["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -6025,6 +6051,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("enabled", building_check_allow_update["return_keys"])
         self.assertIn("changed", building_check_allow_update["return_keys"])
         self.assertEqual(building_check_allow_update["source_method"], "checkAllowUpdate()")
+
+        building_check_solid = source_symbols.api_contract(contracts, "PortGame.source_building_check_solid_state")
+        self.assertEqual([param["name"] for param in building_check_solid["params"]], [])
+        self.assertIn("checkSolid", building_check_solid["return_keys"])
+        self.assertEqual(building_check_solid["source_method"], "checkSolid()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -7476,6 +7507,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_check_allow_update_result["keys"]["enabled"]["java_expr"], "enabled = false;")
         self.assertEqual(source_building_check_allow_update_result["keys"]["changed"]["alias_of"], "source_building_check_allow_update_input.current_enabled")
         self.assertEqual(source_building_check_allow_update_result["keys"]["allow_update_result"]["alias_of"], "source_building_check_allow_update_input.allow_update_result")
+
+        source_building_check_solid_result = source_symbols.state_schema(schema, "source_building_check_solid_result")
+        self.assertEqual(source_building_check_solid_result["keys"]["method"]["java_expr"], "public boolean checkSolid(){")
+        self.assertEqual(source_building_check_solid_result["keys"]["checkSolid"]["java_expr"], "return false;")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

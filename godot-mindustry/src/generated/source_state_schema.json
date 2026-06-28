@@ -17647,6 +17647,35 @@
           "rule": "Carries allowUpdate result into result schema boundary."
         }
       }
+    },
+    "source_building_check_solid_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "checkSolid()",
+          "java_expr": "public boolean checkSolid(){",
+          "godot_symbol": "source_building_check_solid_result.method",
+          "used_by": [
+            "PortGame.source_building_check_solid_state"
+          ],
+          "rule": "BuildingComp checkSolid method boundary."
+        },
+        "checkSolid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "checkSolid()",
+          "java_expr": "return false;",
+          "godot_symbol": "source_building_check_solid_result.checkSolid",
+          "used_by": [
+            "PortGame.source_building_check_solid_state"
+          ],
+          "rule": "Default BuildingComp checkSolid returns false."
+        }
+      }
     }
   },
   "version": 1
