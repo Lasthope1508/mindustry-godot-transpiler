@@ -18279,6 +18279,130 @@
           "rule": "Carries player input into result schema boundary."
         }
       }
+    },
+    "source_building_configured_copy_config_input": {
+      "status": "active",
+      "keys": {
+        "value_is_building": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "value instanceof Building build",
+          "godot_symbol": "source_building_configured_copy_config_input.value_is_building",
+          "used_by": [
+            "PortGame.source_building_configured_copy_config_state"
+          ],
+          "rule": "Whether configured value enters copy-config branch."
+        },
+        "copied_config": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "build.config()",
+          "godot_symbol": "source_building_configured_copy_config_input.copied_config",
+          "used_by": [
+            "PortGame.source_building_configured_copy_config_state"
+          ],
+          "rule": "Copied config returned by build.config()."
+        },
+        "copied_config_is_building": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "conf instanceof Building",
+          "godot_symbol": "source_building_configured_copy_config_input.copied_config_is_building",
+          "used_by": [
+            "PortGame.source_building_configured_copy_config_state"
+          ],
+          "rule": "Whether copied config is another Building."
+        }
+      }
+    },
+    "source_building_configured_copy_config_result": {
+      "status": "active",
+      "keys": {
+        "copy_branch": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "}else if(value instanceof Building build){",
+          "godot_symbol": "source_building_configured_copy_config_result.copy_branch",
+          "used_by": [
+            "PortGame.source_building_configured_copy_config_state"
+          ],
+          "rule": "Whether configured fallback copy branch was entered."
+        },
+        "comment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "//copy config of another building",
+          "godot_symbol": "source_building_configured_copy_config_result.comment",
+          "used_by": [
+            "PortGame.source_building_configured_copy_config_state"
+          ],
+          "rule": "Source comment for copy-config branch."
+        },
+        "config_line": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "var conf = build.config();",
+          "godot_symbol": "source_building_configured_copy_config_result.config_line",
+          "used_by": [
+            "PortGame.source_building_configured_copy_config_state"
+          ],
+          "rule": "Source line that reads copied config."
+        },
+        "guard": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "if(conf != null && !(conf instanceof Building)){",
+          "godot_symbol": "source_building_configured_copy_config_result.guard",
+          "used_by": [
+            "PortGame.source_building_configured_copy_config_state"
+          ],
+          "rule": "Source guard for recursion into copied config."
+        },
+        "recurse": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+          "java_expr": "configured(builder, conf);",
+          "godot_symbol": "source_building_configured_copy_config_result.recurse",
+          "used_by": [
+            "PortGame.source_building_configured_copy_config_state"
+          ],
+          "rule": "Whether helper would recurse with copied config."
+        },
+        "config": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_configured_copy_config_input.copied_config",
+          "rule": "Carries copied config input into result schema boundary."
+        },
+        "value_is_building": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_configured_copy_config_input.value_is_building",
+          "rule": "Carries branch input into result schema boundary."
+        },
+        "copied_config_is_building": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_configured_copy_config_input.copied_config_is_building",
+          "rule": "Carries copied config type guard into result schema boundary."
+        }
+      }
     }
   },
   "version": 1

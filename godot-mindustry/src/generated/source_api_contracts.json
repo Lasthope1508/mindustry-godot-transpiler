@@ -5694,6 +5694,39 @@
       ],
       "runtime_proof": "/root/Main.source_building_configure_menu_visibility_state",
       "rule": "Public runtime contract for Mindustry BuildingComp default configure menu visibility helper."
+    },
+    "PortGame.source_building_configured_copy_config_state": {
+      "status": "active",
+      "source_slice": "N546",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+      "params": [
+        {
+          "name": "value_is_building",
+          "type": "bool",
+          "schema": "source_building_configured_copy_config_input.value_is_building"
+        },
+        {
+          "name": "copied_config",
+          "type": "Variant",
+          "schema": "source_building_configured_copy_config_input.copied_config"
+        },
+        {
+          "name": "copied_config_is_building",
+          "type": "bool",
+          "schema": "source_building_configured_copy_config_input.copied_config_is_building"
+        }
+      ],
+      "return_keys": [
+        "copy_branch",
+        "recurse",
+        "config"
+      ],
+      "tests": [
+        "test_building_configured_copy_config_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configured_copy_config_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp configured copy-config fallback helper."
     }
   },
   "policy": {

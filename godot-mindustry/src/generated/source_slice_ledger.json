@@ -4512,6 +4512,41 @@
       ],
       "runtime_proof": "/root/Main.source_building_configure_menu_visibility_state",
       "rule": "Backfills SSOT for existing canonical source_building_configure_menu_visibility_state helper against BuildingComp shouldShowConfigure and shouldHideConfigure defaults."
+    },
+    "N546": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "configured(@Nullable Unit builder, @Nullable Object value)",
+      "godot_owner": "PortGame.source_building_configured_copy_config_state",
+      "exact_exprs": [
+        "}else if(value instanceof Building build){",
+        "//copy config of another building",
+        "var conf = build.config();",
+        "if(conf != null && !(conf instanceof Building)){",
+        "configured(builder, conf);",
+        "value instanceof Building build",
+        "build.config()",
+        "conf instanceof Building"
+      ],
+      "deferred_exprs": [
+        "Actual recursive configured(builder, conf) side effects remain owned by configured type/direct-handler/last-access slices."
+      ],
+      "source_symbols": [
+        "building_configured_copy_config.branch",
+        "building_configured_copy_config.comment",
+        "building_configured_copy_config.config_line",
+        "building_configured_copy_config.guard",
+        "building_configured_copy_config.recurse",
+        "building_configured_copy_config.value_is_building",
+        "building_configured_copy_config.copied_config",
+        "building_configured_copy_config.copied_config_is_building"
+      ],
+      "tests": [
+        "test_building_configured_copy_config_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_configured_copy_config_state",
+      "rule": "Backfills SSOT for existing canonical source_building_configured_copy_config_state helper against BuildingComp.configured copy-config fallback branch."
     }
   },
   "version": 1

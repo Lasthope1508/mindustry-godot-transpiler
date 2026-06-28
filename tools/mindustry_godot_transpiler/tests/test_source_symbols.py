@@ -3506,6 +3506,46 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(player["java_expr"], "player")
         self.assertEqual(player["godot_symbol"], "source_building_configure_menu_visibility_input.player")
 
+    def test_building_configured_copy_config_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        branch = source_symbols.source_symbol(registry, "building_configured_copy_config.branch")
+        self.assertEqual(branch["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(branch["java_method"], "configured(@Nullable Unit builder, @Nullable Object value)")
+        self.assertEqual(branch["java_expr"], "}else if(value instanceof Building build){")
+        self.assertEqual(branch["godot_owner"], "PortGame.source_building_configured_copy_config_state")
+        self.assertEqual(branch["runtime_proof"], "/root/Main.source_building_configured_copy_config_state")
+        self.assertEqual(branch["godot_symbol"], "source_building_configured_copy_config_result.copy_branch")
+
+        comment = source_symbols.source_symbol(registry, "building_configured_copy_config.comment")
+        self.assertEqual(comment["java_expr"], "//copy config of another building")
+        self.assertEqual(comment["godot_symbol"], "source_building_configured_copy_config_result.comment")
+
+        config_line = source_symbols.source_symbol(registry, "building_configured_copy_config.config_line")
+        self.assertEqual(config_line["java_expr"], "var conf = build.config();")
+        self.assertEqual(config_line["godot_symbol"], "source_building_configured_copy_config_result.config")
+
+        guard = source_symbols.source_symbol(registry, "building_configured_copy_config.guard")
+        self.assertEqual(guard["java_expr"], "if(conf != null && !(conf instanceof Building)){")
+        self.assertEqual(guard["godot_symbol"], "source_building_configured_copy_config_result.recurse")
+
+        recurse = source_symbols.source_symbol(registry, "building_configured_copy_config.recurse")
+        self.assertEqual(recurse["java_expr"], "configured(builder, conf);")
+        self.assertEqual(recurse["godot_symbol"], "source_building_configured_copy_config_result.recurse")
+
+        value_is_building = source_symbols.source_symbol(registry, "building_configured_copy_config.value_is_building")
+        self.assertEqual(value_is_building["status"], "explicit-input")
+        self.assertEqual(value_is_building["java_expr"], "value instanceof Building build")
+        self.assertEqual(value_is_building["godot_symbol"], "source_building_configured_copy_config_input.value_is_building")
+
+        copied_config = source_symbols.source_symbol(registry, "building_configured_copy_config.copied_config")
+        self.assertEqual(copied_config["status"], "explicit-input")
+        self.assertEqual(copied_config["java_expr"], "build.config()")
+        self.assertEqual(copied_config["godot_symbol"], "source_building_configured_copy_config_input.copied_config")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3790,9 +3830,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 143)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 144)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 148)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 149)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3937,6 +3977,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_collision_damage_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_config_default", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_configure_menu_visibility_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_configured_copy_config_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -5059,6 +5100,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("/** Whether this configuration should be hidden now. Called every frame the config is open. */", building_configure_menu_visibility["exact_exprs"])
         self.assertIn("public boolean shouldHideConfigure(Player player){", building_configure_menu_visibility["exact_exprs"])
         self.assertIn("return false;", building_configure_menu_visibility["exact_exprs"])
+
+        building_configured_copy_config = source_symbols.source_slice(ledger, "N546")
+        self.assertEqual(building_configured_copy_config["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_configured_copy_config["java_method"], "configured(@Nullable Unit builder, @Nullable Object value)")
+        self.assertEqual(building_configured_copy_config["godot_owner"], "PortGame.source_building_configured_copy_config_state")
+        self.assertIn("}else if(value instanceof Building build){", building_configured_copy_config["exact_exprs"])
+        self.assertIn("//copy config of another building", building_configured_copy_config["exact_exprs"])
+        self.assertIn("var conf = build.config();", building_configured_copy_config["exact_exprs"])
+        self.assertIn("if(conf != null && !(conf instanceof Building)){", building_configured_copy_config["exact_exprs"])
+        self.assertIn("configured(builder, conf);", building_configured_copy_config["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -6314,6 +6365,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("should_show", building_configure_menu_visibility["return_keys"])
         self.assertIn("should_hide", building_configure_menu_visibility["return_keys"])
         self.assertEqual(building_configure_menu_visibility["source_method"], "shouldShowConfigure(Player player) / shouldHideConfigure(Player player)")
+
+        building_configured_copy_config = source_symbols.api_contract(contracts, "PortGame.source_building_configured_copy_config_state")
+        self.assertEqual([param["name"] for param in building_configured_copy_config["params"]], ["value_is_building", "copied_config", "copied_config_is_building"])
+        self.assertEqual(building_configured_copy_config["params"][0]["schema"], "source_building_configured_copy_config_input.value_is_building")
+        self.assertEqual(building_configured_copy_config["params"][1]["schema"], "source_building_configured_copy_config_input.copied_config")
+        self.assertIn("copy_branch", building_configured_copy_config["return_keys"])
+        self.assertIn("recurse", building_configured_copy_config["return_keys"])
+        self.assertIn("config", building_configured_copy_config["return_keys"])
+        self.assertEqual(building_configured_copy_config["source_method"], "configured(@Nullable Unit builder, @Nullable Object value)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -7823,6 +7883,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_configure_menu_visibility_result["keys"]["hide_method"]["java_expr"], "public boolean shouldHideConfigure(Player player){")
         self.assertEqual(source_building_configure_menu_visibility_result["keys"]["should_hide"]["java_expr"], "return false;")
         self.assertEqual(source_building_configure_menu_visibility_result["keys"]["player"]["alias_of"], "source_building_configure_menu_visibility_input.player")
+
+        source_building_configured_copy_config_input = source_symbols.state_schema(schema, "source_building_configured_copy_config_input")
+        self.assertEqual(source_building_configured_copy_config_input["keys"]["value_is_building"]["java_expr"], "value instanceof Building build")
+        self.assertEqual(source_building_configured_copy_config_input["keys"]["copied_config"]["java_expr"], "build.config()")
+        self.assertEqual(source_building_configured_copy_config_input["keys"]["copied_config_is_building"]["java_expr"], "conf instanceof Building")
+
+        source_building_configured_copy_config_result = source_symbols.state_schema(schema, "source_building_configured_copy_config_result")
+        self.assertEqual(source_building_configured_copy_config_result["keys"]["copy_branch"]["java_expr"], "}else if(value instanceof Building build){")
+        self.assertEqual(source_building_configured_copy_config_result["keys"]["comment"]["java_expr"], "//copy config of another building")
+        self.assertEqual(source_building_configured_copy_config_result["keys"]["config"]["alias_of"], "source_building_configured_copy_config_input.copied_config")
+        self.assertEqual(source_building_configured_copy_config_result["keys"]["recurse"]["java_expr"], "configured(builder, conf);")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")
