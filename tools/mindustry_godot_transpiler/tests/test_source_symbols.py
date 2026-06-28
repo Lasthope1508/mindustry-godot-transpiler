@@ -2030,14 +2030,55 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(init_vel_boundary["status"], "deferred")
         self.assertEqual(init_vel_boundary["java_expr"], "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));")
 
+    def test_bullet_type_create_velocity_position_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        init_vel_call = source_symbols.source_symbol(registry, "create_velocity_position.init_vel_call")
+        self.assertEqual(init_vel_call["java_expr"], "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));")
+        self.assertEqual(init_vel_call["godot_symbol"], "create_velocity_position_result.bullet.velocity")
+        self.assertEqual(init_vel_call["godot_owner"], "PortGame.source_bullet_type_create_velocity_position_state")
+        self.assertEqual(init_vel_call["runtime_proof"], "/root/Main.source_bullet_type_create_velocity_position_state")
+
+        velocity_scale_random_factor = source_symbols.source_symbol(registry, "create_velocity_position.velocity_scale_random_factor")
+        self.assertEqual(velocity_scale_random_factor["status"], "explicit-input")
+        self.assertEqual(velocity_scale_random_factor["java_expr"], "Mathf.random(velocityScaleRandMin, velocityScaleRandMax)")
+        self.assertEqual(velocity_scale_random_factor["godot_symbol"], "velocity_scale_random_factor")
+
+        velocity_scale_fields = source_symbols.source_symbol(registry, "create_velocity_position.velocity_scale_rand_fields")
+        self.assertEqual(velocity_scale_fields["java_expr"], "public float velocityScaleRandMin = 1f, velocityScaleRandMax = 1f;")
+        self.assertEqual(velocity_scale_fields["godot_symbol"], "bullet_type_state.velocityScaleRandMin")
+
+        bullet_comp_init_vel = source_symbols.source_symbol(registry, "create_velocity_position.bullet_comp_init_vel")
+        self.assertEqual(bullet_comp_init_vel["java_expr"], "public void initVel(float angle, float amount){\n        vel.trns(angle, amount);\n        rotation = angle;\n    }")
+        self.assertEqual(bullet_comp_init_vel["godot_symbol"], "create_velocity_position_result.bullet.rotation")
+
+        set_call = source_symbols.source_symbol(registry, "create_velocity_position.set_call")
+        self.assertEqual(set_call["java_expr"], "bullet.set(x, y);")
+        self.assertEqual(set_call["godot_symbol"], "create_velocity_position_result.bullet.x")
+
+        last_x_assignment = source_symbols.source_symbol(registry, "create_velocity_position.last_x_assignment")
+        self.assertEqual(last_x_assignment["java_expr"], "bullet.lastX = x;")
+        self.assertEqual(last_x_assignment["godot_symbol"], "create_velocity_position_result.bullet.lastX")
+
+        last_y_assignment = source_symbols.source_symbol(registry, "create_velocity_position.last_y_assignment")
+        self.assertEqual(last_y_assignment["java_expr"], "bullet.lastY = y;")
+        self.assertEqual(last_y_assignment["godot_symbol"], "create_velocity_position_result.bullet.lastY")
+
+        lifetime_boundary = source_symbols.source_symbol(registry, "create_velocity_position.lifetime_boundary")
+        self.assertEqual(lifetime_boundary["status"], "deferred")
+        self.assertEqual(lifetime_boundary["java_expr"], "bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f);")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 78)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 79)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 83)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 84)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -2110,6 +2151,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_create_spawn_unit_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_bullet_identity_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_aim_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_create_velocity_position_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -2719,6 +2761,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("transient Tile tile;", create_aim["exact_exprs"])
         self.assertIn("return tile(Math.round(x / tilesize), Math.round(y / tilesize));", create_aim["exact_exprs"])
         self.assertIn("bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));", create_aim["deferred_exprs"])
+
+        create_velocity_position = source_symbols.source_slice(ledger, "N481")
+        self.assertEqual(create_velocity_position["java_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(create_velocity_position["java_method"], "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)")
+        self.assertEqual(create_velocity_position["godot_owner"], "PortGame.source_bullet_type_create_velocity_position_state")
+        self.assertIn("bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));", create_velocity_position["exact_exprs"])
+        self.assertIn("bullet.set(x, y);", create_velocity_position["exact_exprs"])
+        self.assertIn("bullet.lastX = x;", create_velocity_position["exact_exprs"])
+        self.assertIn("bullet.lastY = y;", create_velocity_position["exact_exprs"])
+        self.assertIn("public void initVel(float angle, float amount){\n        vel.trns(angle, amount);\n        rotation = angle;\n    }", create_velocity_position["exact_exprs"])
+        self.assertIn("@Import float x, y, damage, lastX, lastY, time, lifetime;", create_velocity_position["exact_exprs"])
+        self.assertIn("bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f);", create_velocity_position["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -3452,6 +3506,28 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("worldTileWorldSource", create_aim["return_keys"])
         self.assertIn("initVelReservedSource", create_aim["return_keys"])
         self.assertEqual(create_aim["source_method"], "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)")
+
+        create_velocity_position = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_create_velocity_position_state")
+        self.assertEqual([param["name"] for param in create_velocity_position["params"]], ["aim_state", "initial_gate_state", "create_call_state", "bullet_type_state", "velocity_scale_random_factor"])
+        self.assertEqual(create_velocity_position["params"][0]["schema"], "create_aim_result")
+        self.assertEqual(create_velocity_position["params"][1]["schema"], "create_initial_gate_result")
+        self.assertEqual(create_velocity_position["params"][2]["schema"], "create_call_state")
+        self.assertEqual(create_velocity_position["params"][3]["schema"], "bullet_type_state")
+        self.assertEqual(create_velocity_position["params"][4]["schema"], "Mathf.random(velocityScaleRandMin, velocityScaleRandMax)")
+        self.assertIn("bulletVelocityPositionApplied", create_velocity_position["return_keys"])
+        self.assertIn("velocityScaleRandMin", create_velocity_position["return_keys"])
+        self.assertIn("velocityScaleRandMax", create_velocity_position["return_keys"])
+        self.assertIn("velocityScaleRandomFactor", create_velocity_position["return_keys"])
+        self.assertIn("velocityRandomMultiplier", create_velocity_position["return_keys"])
+        self.assertIn("velocityAmount", create_velocity_position["return_keys"])
+        self.assertIn("bullet", create_velocity_position["return_keys"])
+        self.assertIn("initVelSource", create_velocity_position["return_keys"])
+        self.assertIn("bulletCompInitVelSource", create_velocity_position["return_keys"])
+        self.assertIn("setSource", create_velocity_position["return_keys"])
+        self.assertIn("lastXSource", create_velocity_position["return_keys"])
+        self.assertIn("lastYSource", create_velocity_position["return_keys"])
+        self.assertIn("lifetimeReservedSource", create_velocity_position["return_keys"])
+        self.assertEqual(create_velocity_position["source_method"], "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -4252,6 +4328,24 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(create_aim_output["keys"]["aimYSource"]["alias_of"], "source_line.create_aim.aim_y_assignment")
         self.assertEqual(create_aim_output["keys"]["worldTileWorldSource"]["alias_of"], "source_line.create_aim.world_tile_world")
         self.assertEqual(create_aim_output["keys"]["initVelReservedSource"]["alias_of"], "source_line.create_aim.init_vel_boundary")
+
+        create_velocity_position_output = source_symbols.state_schema(schema, "create_velocity_position_result")
+        self.assertEqual(create_velocity_position_output["keys"]["bulletVelocityPositionApplied"]["alias_of"], "bullet.initVel(...); bullet.set(x, y); bullet.lastX = x; bullet.lastY = y;")
+        self.assertEqual(create_velocity_position_output["keys"]["velocityAmount"]["java_expr"], "speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f)")
+        self.assertEqual(create_velocity_position_output["keys"]["velocityRandomMultiplier"]["java_expr"], "velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f")
+        self.assertEqual(create_velocity_position_output["keys"]["bullet"]["alias_of"], "create_aim_result.bullet")
+        self.assertEqual(create_velocity_position_output["keys"]["initVelSource"]["alias_of"], "source_line.create_velocity_position.init_vel_call")
+        self.assertEqual(create_velocity_position_output["keys"]["bulletCompInitVelSource"]["alias_of"], "source_line.create_velocity_position.bullet_comp_init_vel")
+        self.assertEqual(create_velocity_position_output["keys"]["setSource"]["alias_of"], "source_line.create_velocity_position.set_call")
+        self.assertEqual(create_velocity_position_output["keys"]["lastXSource"]["alias_of"], "source_line.create_velocity_position.last_x_assignment")
+        self.assertEqual(create_velocity_position_output["keys"]["lastYSource"]["alias_of"], "source_line.create_velocity_position.last_y_assignment")
+        self.assertEqual(create_velocity_position_output["keys"]["lifetimeReservedSource"]["alias_of"], "source_line.create_velocity_position.lifetime_boundary")
+
+        self.assertEqual(bullet_type_state["keys"]["velocityScaleRandMin"]["java_expr"], "velocityScaleRandMin")
+        self.assertEqual(bullet_type_state["keys"]["velocityScaleRandMax"]["java_expr"], "velocityScaleRandMax")
+        self.assertIn("PortGame.source_bullet_type_create_velocity_position_state", bullet_type_state["keys"]["speed"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_create_velocity_position_state", bullet_type_state["keys"]["velocityScaleRandMin"]["used_by"])
+        self.assertIn("PortGame.source_bullet_type_create_velocity_position_state", bullet_type_state["keys"]["velocityScaleRandMax"]["used_by"])
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")

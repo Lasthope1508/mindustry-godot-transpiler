@@ -7960,6 +7960,199 @@
       "godot_symbol": "create_aim_result.initVelReservedSource",
       "godot_owner": "PortGame.source_bullet_type_create_aim_state",
       "rule": "Boundary for next velocity/position slice; no velocity behavior is inferred in N480."
+    },
+    "create_velocity_position.init_vel_call": {
+      "tests": [
+        "test_bullet_type_create_velocity_position_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_velocity_position_state",
+        "test_bullet_type_create_velocity_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_velocity_position_state",
+      "godot_owner": "PortGame.source_bullet_type_create_velocity_position_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));",
+      "godot_symbol": "create_velocity_position_result.bullet.velocity",
+      "rule": "Use exact BulletType.create initVel amount expression before setting position."
+    },
+    "create_velocity_position.velocity_amount_formula": {
+      "tests": [
+        "test_bullet_type_create_velocity_position_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_velocity_position_state",
+        "test_bullet_type_create_velocity_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_velocity_position_state",
+      "godot_owner": "PortGame.source_bullet_type_create_velocity_position_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f)",
+      "godot_symbol": "create_velocity_position_result.velocityAmount",
+      "rule": "Compute initVel amount from BulletType.speed, create velocityScl, and the source velocity random multiplier."
+    },
+    "create_velocity_position.velocity_random_multiplier": {
+      "tests": [
+        "test_bullet_type_create_velocity_position_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_velocity_position_state",
+        "test_bullet_type_create_velocity_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_velocity_position_state",
+      "godot_owner": "PortGame.source_bullet_type_create_velocity_position_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f",
+      "godot_symbol": "create_velocity_position_result.velocityRandomMultiplier",
+      "rule": "Use source ternary: random multiplier only when either velocity random bound differs from 1f."
+    },
+    "create_velocity_position.velocity_scale_random_factor": {
+      "tests": [
+        "test_bullet_type_create_velocity_position_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_velocity_position_state",
+        "test_bullet_type_create_velocity_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_velocity_position_state",
+      "godot_owner": "PortGame.source_bullet_type_create_velocity_position_state",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "Mathf.random(velocityScaleRandMin, velocityScaleRandMax)",
+      "godot_symbol": "velocity_scale_random_factor",
+      "rule": "Represent the non-deterministic Mathf.random velocity multiplier as explicit input."
+    },
+    "create_velocity_position.speed_field": {
+      "tests": [
+        "test_bullet_type_create_velocity_position_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_velocity_position_state",
+        "test_bullet_type_create_velocity_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_velocity_position_state",
+      "godot_owner": "PortGame.source_bullet_type_create_velocity_position_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "BulletType fields",
+      "java_expr": "public float speed = 1f;",
+      "godot_symbol": "bullet_type_state.speed",
+      "rule": "Canonical BulletType.speed field used by create initVel amount."
+    },
+    "create_velocity_position.velocity_scale_rand_fields": {
+      "tests": [
+        "test_bullet_type_create_velocity_position_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_velocity_position_state",
+        "test_bullet_type_create_velocity_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_velocity_position_state",
+      "godot_owner": "PortGame.source_bullet_type_create_velocity_position_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "BulletType fields",
+      "java_expr": "public float velocityScaleRandMin = 1f, velocityScaleRandMax = 1f;",
+      "godot_symbol": "bullet_type_state.velocityScaleRandMin",
+      "rule": "Canonical BulletType velocity random min/max fields; max is registered by create_velocity_position.velocity_scale_rand_max_field."
+    },
+    "create_velocity_position.velocity_scale_rand_max_field": {
+      "tests": [
+        "test_bullet_type_create_velocity_position_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_velocity_position_state",
+        "test_bullet_type_create_velocity_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_velocity_position_state",
+      "godot_owner": "PortGame.source_bullet_type_create_velocity_position_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "BulletType fields",
+      "java_expr": "public float velocityScaleRandMin = 1f, velocityScaleRandMax = 1f;",
+      "godot_symbol": "bullet_type_state.velocityScaleRandMax",
+      "rule": "Canonical BulletType velocityScaleRandMax field paired with velocityScaleRandMin."
+    },
+    "create_velocity_position.bullet_comp_init_vel": {
+      "tests": [
+        "test_bullet_type_create_velocity_position_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_velocity_position_state",
+        "test_bullet_type_create_velocity_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_velocity_position_state",
+      "godot_owner": "PortGame.source_bullet_type_create_velocity_position_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "java_method": "initVel(float angle, float amount)",
+      "java_expr": "public void initVel(float angle, float amount){\n        vel.trns(angle, amount);\n        rotation = angle;\n    }",
+      "godot_symbol": "create_velocity_position_result.bullet.rotation",
+      "rule": "BulletComp.initVel sets vel.trns(angle, amount) and rotation = angle."
+    },
+    "create_velocity_position.set_call": {
+      "tests": [
+        "test_bullet_type_create_velocity_position_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_velocity_position_state",
+        "test_bullet_type_create_velocity_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_velocity_position_state",
+      "godot_owner": "PortGame.source_bullet_type_create_velocity_position_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "bullet.set(x, y);",
+      "godot_symbol": "create_velocity_position_result.bullet.x",
+      "rule": "Assign bullet position from create call x/y through bullet.set(x, y)."
+    },
+    "create_velocity_position.last_x_assignment": {
+      "tests": [
+        "test_bullet_type_create_velocity_position_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_velocity_position_state",
+        "test_bullet_type_create_velocity_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_velocity_position_state",
+      "godot_owner": "PortGame.source_bullet_type_create_velocity_position_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "bullet.lastX = x;",
+      "godot_symbol": "create_velocity_position_result.bullet.lastX",
+      "rule": "Assign Bullet.lastX from create call x immediately after bullet.set(x, y)."
+    },
+    "create_velocity_position.last_y_assignment": {
+      "tests": [
+        "test_bullet_type_create_velocity_position_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_velocity_position_state",
+        "test_bullet_type_create_velocity_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_velocity_position_state",
+      "godot_owner": "PortGame.source_bullet_type_create_velocity_position_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "bullet.lastY = y;",
+      "godot_symbol": "create_velocity_position_result.bullet.lastY",
+      "rule": "Assign Bullet.lastY from create call y immediately after bullet.set(x, y)."
+    },
+    "create_velocity_position.bullet_comp_last_xy_imports": {
+      "tests": [
+        "test_bullet_type_create_velocity_position_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_velocity_position_state",
+        "test_bullet_type_create_velocity_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_velocity_position_state",
+      "godot_owner": "PortGame.source_bullet_type_create_velocity_position_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "java_method": "BulletComp fields",
+      "java_expr": "@Import float x, y, damage, lastX, lastY, time, lifetime;",
+      "godot_symbol": "create_velocity_position_result.bullet.lastX",
+      "rule": "BulletComp imports lastX/lastY as canonical bullet position history fields."
+    },
+    "create_velocity_position.lifetime_boundary": {
+      "tests": [
+        "test_bullet_type_create_velocity_position_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_velocity_position_state",
+        "test_bullet_type_create_velocity_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_velocity_position_state",
+      "godot_owner": "PortGame.source_bullet_type_create_velocity_position_state",
+      "status": "deferred",
+      "java_expr": "bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f);",
+      "godot_symbol": "create_velocity_position_result.lifetimeReservedSource",
+      "rule": "Boundary for next lifetime/payload/damage slice; no lifetime behavior is inferred in N481."
     }
   }
 }

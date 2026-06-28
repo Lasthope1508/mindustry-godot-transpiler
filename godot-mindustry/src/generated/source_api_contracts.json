@@ -3489,6 +3489,62 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_aim_state",
       "rule": "Public runtime contract for BulletType.create aim target assignment before initVel."
+    },
+    "PortGame.source_bullet_type_create_velocity_position_state": {
+      "status": "active",
+      "source_slice": "N481",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "params": [
+        {
+          "name": "aim_state",
+          "type": "Dictionary",
+          "schema": "create_aim_result"
+        },
+        {
+          "name": "initial_gate_state",
+          "type": "Dictionary",
+          "schema": "create_initial_gate_result"
+        },
+        {
+          "name": "create_call_state",
+          "type": "Dictionary",
+          "schema": "create_call_state"
+        },
+        {
+          "name": "bullet_type_state",
+          "type": "Dictionary",
+          "schema": "bullet_type_state"
+        },
+        {
+          "name": "velocity_scale_random_factor",
+          "type": "float",
+          "schema": "Mathf.random(velocityScaleRandMin, velocityScaleRandMax)"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "bulletVelocityPositionApplied",
+        "velocityScaleRandMin",
+        "velocityScaleRandMax",
+        "velocityScaleRandomFactor",
+        "velocityRandomMultiplier",
+        "velocityAmount",
+        "bullet",
+        "initVelSource",
+        "bulletCompInitVelSource",
+        "setSource",
+        "lastXSource",
+        "lastYSource",
+        "lifetimeReservedSource"
+      ],
+      "tests": [
+        "test_bullet_type_create_velocity_position_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_velocity_position_state",
+        "test_bullet_type_create_velocity_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_velocity_position_state",
+      "rule": "Public runtime contract for BulletType.create initVel, position, and last position assignment before lifetime/payload/damage."
     }
   },
   "policy": {

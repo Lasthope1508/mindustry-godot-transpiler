@@ -36,7 +36,8 @@
             "PortGame.source_bullet_type_update_dispatch_state",
             "PortGame.source_bullet_type_update_bullet_interval_state",
             "PortGame.source_bullet_type_update_homing_target_velocity_state",
-            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+            "PortGame.source_bullet_type_update_trail_effects_chance_state",
+            "PortGame.source_bullet_type_create_velocity_position_state"
           ],
           "rule": "Explicit input until RotComp/BulletComp rotation state is ported."
         },
@@ -123,7 +124,8 @@
             "PortGame.source_bullet_type_update_homing_target_velocity_state",
             "PortGame.source_bullet_type_update_homing_follow_aim_state",
             "PortGame.source_bullet_type_update_weaving_circle_shooter_state",
-            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+            "PortGame.source_bullet_type_update_trail_effects_chance_state",
+            "PortGame.source_bullet_type_create_velocity_position_state"
           ],
           "rule": "Use source bullet x field."
         },
@@ -146,7 +148,8 @@
             "PortGame.source_bullet_type_update_homing_target_velocity_state",
             "PortGame.source_bullet_type_update_homing_follow_aim_state",
             "PortGame.source_bullet_type_update_weaving_circle_shooter_state",
-            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+            "PortGame.source_bullet_type_update_trail_effects_chance_state",
+            "PortGame.source_bullet_type_create_velocity_position_state"
           ],
           "rule": "Use source bullet y field."
         },
@@ -242,7 +245,8 @@
             "PortGame.source_bullet_type_update_weaving_state",
             "PortGame.source_bullet_type_update_weaving_rotate_speed_state",
             "PortGame.source_bullet_type_update_weaving_circle_shooter_state",
-            "PortGame.source_bullet_type_update_trail_effects_chance_state"
+            "PortGame.source_bullet_type_update_trail_effects_chance_state",
+            "PortGame.source_bullet_type_create_velocity_position_state"
           ],
           "rule": "BulletComp Vec2 velocity state."
         },
@@ -256,6 +260,30 @@
             "PortGame.source_bullet_type_update_weaving_state"
           ],
           "rule": "Bullet entity id used by deterministic Arc randomSeed calls."
+        },
+        "lastX": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "java_method": "BulletComp fields",
+          "java_expr": "lastX",
+          "godot_symbol": "bullet_state.lastX",
+          "used_by": [
+            "PortGame.source_bullet_type_create_velocity_position_state"
+          ],
+          "rule": "Canonical Bullet lastX field assigned during BulletType.create velocity/position setup."
+        },
+        "lastY": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "java_method": "BulletComp fields",
+          "java_expr": "lastY",
+          "godot_symbol": "bullet_state.lastY",
+          "used_by": [
+            "PortGame.source_bullet_type_create_velocity_position_state"
+          ],
+          "rule": "Canonical Bullet lastY field assigned during BulletType.create velocity/position setup."
         }
       }
     },
@@ -1311,7 +1339,8 @@
           "used_by": [
             "PortGame.source_bullet_type_update_weaving_circle_shooter_state",
             "PortGame.source_bullet_type_init_draw_size_state",
-            "PortGame.source_bullet_type_calculate_range_fallback_state"
+            "PortGame.source_bullet_type_calculate_range_fallback_state",
+            "PortGame.source_bullet_type_create_velocity_position_state"
           ],
           "rule": "Canonical BulletType.speed field for drawSize init and movement formulas; default is 1f.",
           "java_method": "field"
@@ -1692,6 +1721,30 @@
             "PortGame.source_bullet_type_create_initial_gate_state"
           ],
           "rule": "Canonical BulletType.ignoreSpawnAngle field for create initial angle reset."
+        },
+        "velocityScaleRandMin": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "BulletType fields",
+          "java_expr": "velocityScaleRandMin",
+          "godot_symbol": "bullet_type_state.velocityScaleRandMin",
+          "used_by": [
+            "PortGame.source_bullet_type_create_velocity_position_state"
+          ],
+          "rule": "Canonical BulletType.velocityScaleRandMin field; default is 1f."
+        },
+        "velocityScaleRandMax": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "BulletType fields",
+          "java_expr": "velocityScaleRandMax",
+          "godot_symbol": "bullet_type_state.velocityScaleRandMax",
+          "used_by": [
+            "PortGame.source_bullet_type_create_velocity_position_state"
+          ],
+          "rule": "Canonical BulletType.velocityScaleRandMax field; default is 1f."
         }
       }
     },
@@ -11572,6 +11625,113 @@
           "status": "deferred",
           "alias_of": "source_line.create_aim.init_vel_boundary",
           "rule": "Boundary for next velocity/position slice."
+        }
+      }
+    },
+    "create_velocity_position_result": {
+      "status": "active",
+      "keys": {
+        "bulletContinues": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "create_aim_result.bulletContinues",
+          "rule": "Whether create chain continues after velocity/position handling."
+        },
+        "bulletVelocityPositionApplied": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "bullet.initVel(...); bullet.set(x, y); bullet.lastX = x; bullet.lastY = y;",
+          "rule": "Whether velocity and position assignments were applied to an allocated bullet."
+        },
+        "velocityScaleRandMin": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_type_state.velocityScaleRandMin",
+          "rule": "Runtime echo of velocityScaleRandMin used by the source random multiplier gate."
+        },
+        "velocityScaleRandMax": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "bullet_type_state.velocityScaleRandMax",
+          "rule": "Runtime echo of velocityScaleRandMax used by the source random multiplier gate."
+        },
+        "velocityScaleRandomFactor": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "Mathf.random(velocityScaleRandMin, velocityScaleRandMax)",
+          "godot_symbol": "create_velocity_position_result.velocityScaleRandomFactor",
+          "used_by": [
+            "PortGame.source_bullet_type_create_velocity_position_state"
+          ],
+          "rule": "Explicit input for source random velocity factor when random bounds differ from 1f."
+        },
+        "velocityRandomMultiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f",
+          "godot_symbol": "create_velocity_position_result.velocityRandomMultiplier",
+          "used_by": [
+            "PortGame.source_bullet_type_create_velocity_position_state"
+          ],
+          "rule": "Exact source ternary selecting random velocity multiplier or 1f."
+        },
+        "velocityAmount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f)",
+          "godot_symbol": "create_velocity_position_result.velocityAmount",
+          "used_by": [
+            "PortGame.source_bullet_type_create_velocity_position_state"
+          ],
+          "rule": "Exact amount passed to bullet.initVel(angle, amount)."
+        },
+        "bullet": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "create_aim_result.bullet",
+          "rule": "Bullet dictionary after initVel, set, lastX, and lastY assignment."
+        },
+        "initVelSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_velocity_position.init_vel_call",
+          "rule": "Runtime source label for BulletType.create initVel call."
+        },
+        "bulletCompInitVelSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_velocity_position.bullet_comp_init_vel",
+          "rule": "Runtime source label for BulletComp.initVel internals."
+        },
+        "setSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_velocity_position.set_call",
+          "rule": "Runtime source label for bullet.set(x, y)."
+        },
+        "lastXSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_velocity_position.last_x_assignment",
+          "rule": "Runtime source label for bullet.lastX assignment."
+        },
+        "lastYSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_velocity_position.last_y_assignment",
+          "rule": "Runtime source label for bullet.lastY assignment."
+        },
+        "lifetimeReservedSource": {
+          "type": "String",
+          "status": "deferred",
+          "alias_of": "source_line.create_velocity_position.lifetime_boundary",
+          "rule": "Boundary for deferred lifetime/payload/damage slice."
         }
       }
     }

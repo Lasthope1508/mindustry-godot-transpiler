@@ -2410,6 +2410,48 @@
         "test_bullet_type_create_aim_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_aim_state"
+    },
+    "N481": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "godot_owner": "PortGame.source_bullet_type_create_velocity_position_state",
+      "exact_exprs": [
+        "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));",
+        "bullet.set(x, y);",
+        "bullet.lastX = x;",
+        "bullet.lastY = y;",
+        "public float speed = 1f;",
+        "public float velocityScaleRandMin = 1f, velocityScaleRandMax = 1f;",
+        "public void initVel(float angle, float amount){\n        vel.trns(angle, amount);\n        rotation = angle;\n    }",
+        "@Import float x, y, damage, lastX, lastY, time, lifetime;"
+      ],
+      "deferred_exprs": [
+        "bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f);"
+      ],
+      "source_symbols": [
+        "create_velocity_position.init_vel_call",
+        "create_velocity_position.velocity_amount_formula",
+        "create_velocity_position.velocity_random_multiplier",
+        "create_velocity_position.velocity_scale_random_factor",
+        "create_velocity_position.speed_field",
+        "create_velocity_position.velocity_scale_rand_fields",
+        "create_velocity_position.velocity_scale_rand_max_field",
+        "create_velocity_position.bullet_comp_init_vel",
+        "create_velocity_position.set_call",
+        "create_velocity_position.last_x_assignment",
+        "create_velocity_position.last_y_assignment",
+        "create_velocity_position.bullet_comp_last_xy_imports",
+        "create_velocity_position.lifetime_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_velocity_position_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_velocity_position_state",
+        "test_bullet_type_create_velocity_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_velocity_position_state",
+      "rule": "Backfills SSOT for existing BulletType.create velocity and position runtime state; lifetime/payload/damage remains deferred to the next source-backed owner."
     }
   },
   "version": 1
