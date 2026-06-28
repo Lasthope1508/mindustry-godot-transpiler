@@ -7827,6 +7827,139 @@
       "godot_symbol": "create_bullet_identity_result.aimTileReservedSource",
       "godot_owner": "PortGame.source_bullet_type_create_bullet_identity_state",
       "rule": "Boundary for the next aim target slice; no aimTile behavior is inferred in N479."
+    },
+    "create_aim.aim_gate": {
+      "tests": [
+        "test_bullet_type_create_aim_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_aim_state",
+        "test_bullet_type_create_aim_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_aim_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "if(!(aimX == -1f && aimY == -1f)){",
+      "godot_symbol": "create_aim_result.hasAimTile",
+      "godot_owner": "PortGame.source_bullet_type_create_aim_state",
+      "rule": "Use the exact source aim sentinel gate before assigning aimTile."
+    },
+    "create_aim.aim_tile_assignment": {
+      "tests": [
+        "test_bullet_type_create_aim_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_aim_state",
+        "test_bullet_type_create_aim_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_aim_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "bullet.aimTile = target instanceof Building b ? b.tile : world.tileWorld(aimX, aimY);",
+      "godot_symbol": "create_aim_result.bullet.aimTile",
+      "godot_owner": "PortGame.source_bullet_type_create_aim_state",
+      "rule": "Use Building target tile when target is a Building; otherwise use world.tileWorld(aimX, aimY)."
+    },
+    "create_aim.aim_x_assignment": {
+      "tests": [
+        "test_bullet_type_create_aim_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_aim_state",
+        "test_bullet_type_create_aim_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_aim_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "bullet.aimX = aimX;",
+      "godot_symbol": "create_aim_result.bullet.aimX",
+      "godot_owner": "PortGame.source_bullet_type_create_aim_state",
+      "rule": "Assign Bullet.aimX directly from create call aimX."
+    },
+    "create_aim.aim_y_assignment": {
+      "tests": [
+        "test_bullet_type_create_aim_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_aim_state",
+        "test_bullet_type_create_aim_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_aim_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_expr": "bullet.aimY = aimY;",
+      "godot_symbol": "create_aim_result.bullet.aimY",
+      "godot_owner": "PortGame.source_bullet_type_create_aim_state",
+      "rule": "Assign Bullet.aimY directly from create call aimY."
+    },
+    "create_aim.world_tile_world": {
+      "tests": [
+        "test_bullet_type_create_aim_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_aim_state",
+        "test_bullet_type_create_aim_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_aim_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/core/World.java",
+      "java_method": "tileWorld(float x, float y)",
+      "java_expr": "return tile(Math.round(x / tilesize), Math.round(y / tilesize));",
+      "godot_symbol": "create_aim_result.worldTileWorldSource",
+      "godot_owner": "PortGame.source_bullet_type_create_aim_state",
+      "rule": "Represent World.tileWorld(float, float) as explicit supplied tile result for deterministic proof."
+    },
+    "create_aim.bullet_comp_aim_tile": {
+      "tests": [
+        "test_bullet_type_create_aim_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_aim_state",
+        "test_bullet_type_create_aim_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_aim_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "java_method": "BulletComp fields",
+      "java_expr": "transient @Nullable Tile aimTile;",
+      "godot_symbol": "create_aim_result.bullet.aimTile",
+      "godot_owner": "PortGame.source_bullet_type_create_aim_state",
+      "rule": "Canonical BulletComp aimTile transient field assigned during BulletType.create aim handling."
+    },
+    "create_aim.bullet_comp_aim_xy": {
+      "tests": [
+        "test_bullet_type_create_aim_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_aim_state",
+        "test_bullet_type_create_aim_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_aim_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "java_method": "BulletComp fields",
+      "java_expr": "transient float aimX, aimY;",
+      "godot_symbol": "create_aim_result.bullet.aimX",
+      "godot_owner": "PortGame.source_bullet_type_create_aim_state",
+      "rule": "Canonical BulletComp aimX/aimY transient fields assigned during BulletType.create aim handling."
+    },
+    "create_aim.building_tile": {
+      "tests": [
+        "test_bullet_type_create_aim_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_aim_state",
+        "test_bullet_type_create_aim_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_aim_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp fields",
+      "java_expr": "transient Tile tile;",
+      "godot_symbol": "target_state.tile",
+      "godot_owner": "PortGame.source_bullet_type_create_aim_state",
+      "rule": "Use BuildingComp.tile as target tile source when target instanceof Building."
+    },
+    "create_aim.init_vel_boundary": {
+      "tests": [
+        "test_bullet_type_create_aim_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_aim_state",
+        "test_bullet_type_create_aim_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_aim_state",
+      "status": "deferred",
+      "java_expr": "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));",
+      "godot_symbol": "create_aim_result.initVelReservedSource",
+      "godot_owner": "PortGame.source_bullet_type_create_aim_state",
+      "rule": "Boundary for next velocity/position slice; no velocity behavior is inferred in N480."
     }
   }
 }

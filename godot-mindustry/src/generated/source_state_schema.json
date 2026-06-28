@@ -9279,6 +9279,28 @@
             "PortGame.source_bullet_type_update_homing_target_velocity_state"
           ],
           "rule": "Explicit selected target Y from Position.getY()."
+        },
+        "kind": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "target instanceof Building b",
+          "godot_symbol": "target_state.kind",
+          "used_by": [
+            "PortGame.source_bullet_type_create_aim_state"
+          ],
+          "rule": "Explicit target runtime type fact for the source Building pattern match."
+        },
+        "tile": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "transient Tile tile;",
+          "godot_symbol": "target_state.tile",
+          "used_by": [
+            "PortGame.source_bullet_type_create_aim_state"
+          ],
+          "rule": "Building target tile used by target instanceof Building branch."
         }
       }
     },
@@ -11070,7 +11092,8 @@
           "godot_symbol": "create_call_state.bulletCreateCall",
           "used_by": [
             "PortGame.source_bullet_type_create_initial_gate_state",
-            "PortGame.source_bullet_type_create_bullet_identity_state"
+            "PortGame.source_bullet_type_create_bullet_identity_state",
+            "PortGame.source_bullet_type_create_aim_state"
           ],
           "rule": "Explicit create argument dictionary; later slices consume the same canonical call state."
         }
@@ -11426,7 +11449,8 @@
           "java_expr": "Bullet bullet = Bullet.create()",
           "godot_symbol": "create_bullet_identity_result.bullet",
           "used_by": [
-            "PortGame.source_bullet_type_create_bullet_identity_state"
+            "PortGame.source_bullet_type_create_bullet_identity_state",
+            "PortGame.source_bullet_type_create_aim_state"
           ],
           "rule": "Recorded normal Bullet identity state allocated by Bullet.create()."
         },
@@ -11483,6 +11507,71 @@
           "status": "deferred",
           "alias_of": "source_line.create_bullet_identity.aim_tile_boundary",
           "rule": "Boundary for deferred aim target slice."
+        }
+      }
+    },
+    "create_aim_result": {
+      "status": "active",
+      "keys": {
+        "bulletContinues": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "create_bullet_identity_result.bulletContinues",
+          "rule": "Whether create chain continues after aim handling."
+        },
+        "bulletAimApplied": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "bullet.aimX = aimX; bullet.aimY = aimY;",
+          "rule": "Whether aim assignments were applied to an allocated bullet."
+        },
+        "hasAimTile": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_expr": "!(aimX == -1f && aimY == -1f)",
+          "godot_symbol": "create_aim_result.hasAimTile",
+          "used_by": [
+            "PortGame.source_bullet_type_create_aim_state"
+          ],
+          "rule": "Exact source aimTile sentinel gate."
+        },
+        "bullet": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "create_bullet_identity_result.bullet",
+          "rule": "Bullet dictionary after aimTile/aimX/aimY assignment."
+        },
+        "aimTileSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_aim.aim_tile_assignment",
+          "rule": "Runtime source label for aimTile assignment."
+        },
+        "aimXSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_aim.aim_x_assignment",
+          "rule": "Runtime source label for aimX assignment."
+        },
+        "aimYSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_aim.aim_y_assignment",
+          "rule": "Runtime source label for aimY assignment."
+        },
+        "worldTileWorldSource": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_line.create_aim.world_tile_world",
+          "rule": "Runtime source label for World.tileWorld fallback."
+        },
+        "initVelReservedSource": {
+          "type": "String",
+          "status": "deferred",
+          "alias_of": "source_line.create_aim.init_vel_boundary",
+          "rule": "Boundary for next velocity/position slice."
         }
       }
     }

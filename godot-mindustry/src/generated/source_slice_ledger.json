@@ -2373,6 +2373,43 @@
         "test_bullet_type_create_bullet_identity_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_bullet_identity_state"
+    },
+    "N480": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_class": "mindustry.entities.bullet.BulletType",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "godot_owner": "PortGame.source_bullet_type_create_aim_state",
+      "exact_exprs": [
+        "if(!(aimX == -1f && aimY == -1f)){",
+        "bullet.aimTile = target instanceof Building b ? b.tile : world.tileWorld(aimX, aimY);",
+        "bullet.aimX = aimX;",
+        "bullet.aimY = aimY;",
+        "transient @Nullable Tile aimTile;",
+        "transient float aimX, aimY;",
+        "transient Tile tile;",
+        "return tile(Math.round(x / tilesize), Math.round(y / tilesize));"
+      ],
+      "deferred_exprs": [
+        "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));"
+      ],
+      "source_symbols": [
+        "create_aim.aim_gate",
+        "create_aim.aim_tile_assignment",
+        "create_aim.aim_x_assignment",
+        "create_aim.aim_y_assignment",
+        "create_aim.world_tile_world",
+        "create_aim.bullet_comp_aim_tile",
+        "create_aim.bullet_comp_aim_xy",
+        "create_aim.building_tile",
+        "create_aim.init_vel_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_aim_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_aim_state",
+        "test_bullet_type_create_aim_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_aim_state"
     }
   },
   "version": 1

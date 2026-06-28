@@ -3443,6 +3443,52 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_bullet_identity_state",
       "rule": "Public runtime contract for BulletType.create normal bullet identity allocation, before aim target handling."
+    },
+    "PortGame.source_bullet_type_create_aim_state": {
+      "status": "active",
+      "source_slice": "N480",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "params": [
+        {
+          "name": "identity_state",
+          "type": "Dictionary",
+          "schema": "create_bullet_identity_result"
+        },
+        {
+          "name": "create_call_state",
+          "type": "Dictionary",
+          "schema": "create_call_state"
+        },
+        {
+          "name": "target_state",
+          "type": "Dictionary",
+          "schema": "target_state"
+        },
+        {
+          "name": "world_tile_from_aim",
+          "type": "Variant",
+          "schema": "world.tileWorld(aimX, aimY)"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "bulletAimApplied",
+        "hasAimTile",
+        "bullet",
+        "aimTileSource",
+        "aimXSource",
+        "aimYSource",
+        "worldTileWorldSource",
+        "initVelReservedSource"
+      ],
+      "tests": [
+        "test_bullet_type_create_aim_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_aim_state",
+        "test_bullet_type_create_aim_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_aim_state",
+      "rule": "Public runtime contract for BulletType.create aim target assignment before initVel."
     }
   },
   "policy": {

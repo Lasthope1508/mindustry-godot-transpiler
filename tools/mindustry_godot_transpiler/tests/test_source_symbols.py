@@ -1998,14 +1998,46 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(aim_tile_boundary["status"], "deferred")
         self.assertEqual(aim_tile_boundary["java_expr"], "if(!(aimX == -1f && aimY == -1f)){")
 
+    def test_bullet_type_create_aim_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        aim_gate = source_symbols.source_symbol(registry, "create_aim.aim_gate")
+        self.assertEqual(aim_gate["java_expr"], "if(!(aimX == -1f && aimY == -1f)){")
+        self.assertEqual(aim_gate["godot_symbol"], "create_aim_result.hasAimTile")
+        self.assertEqual(aim_gate["godot_owner"], "PortGame.source_bullet_type_create_aim_state")
+        self.assertEqual(aim_gate["runtime_proof"], "/root/Main.source_bullet_type_create_aim_state")
+
+        aim_tile_assignment = source_symbols.source_symbol(registry, "create_aim.aim_tile_assignment")
+        self.assertEqual(aim_tile_assignment["java_expr"], "bullet.aimTile = target instanceof Building b ? b.tile : world.tileWorld(aimX, aimY);")
+        self.assertEqual(aim_tile_assignment["godot_symbol"], "create_aim_result.bullet.aimTile")
+
+        aim_x_assignment = source_symbols.source_symbol(registry, "create_aim.aim_x_assignment")
+        self.assertEqual(aim_x_assignment["java_expr"], "bullet.aimX = aimX;")
+        self.assertEqual(aim_x_assignment["godot_symbol"], "create_aim_result.bullet.aimX")
+
+        aim_y_assignment = source_symbols.source_symbol(registry, "create_aim.aim_y_assignment")
+        self.assertEqual(aim_y_assignment["java_expr"], "bullet.aimY = aimY;")
+        self.assertEqual(aim_y_assignment["godot_symbol"], "create_aim_result.bullet.aimY")
+
+        world_tile_world = source_symbols.source_symbol(registry, "create_aim.world_tile_world")
+        self.assertEqual(world_tile_world["java_expr"], "return tile(Math.round(x / tilesize), Math.round(y / tilesize));")
+        self.assertEqual(world_tile_world["godot_symbol"], "create_aim_result.worldTileWorldSource")
+
+        init_vel_boundary = source_symbols.source_symbol(registry, "create_aim.init_vel_boundary")
+        self.assertEqual(init_vel_boundary["status"], "deferred")
+        self.assertEqual(init_vel_boundary["java_expr"], "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));")
+
     def test_audit_reports_whole_godot_source_surface(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 77)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 78)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 82)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 83)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -2077,6 +2109,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_create_initial_gate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_spawn_unit_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_create_bullet_identity_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_type_create_aim_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_dispatch_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_despawned_sound_state", audit["registeredSourceOwners"])
@@ -2673,6 +2706,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("bullet.originX = x;", create_bullet_identity["exact_exprs"])
         self.assertIn("bullet.originY = y;", create_bullet_identity["exact_exprs"])
         self.assertIn("if(!(aimX == -1f && aimY == -1f)){", create_bullet_identity["deferred_exprs"])
+
+        create_aim = source_symbols.source_slice(ledger, "N480")
+        self.assertEqual(create_aim["java_method"], "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)")
+        self.assertEqual(create_aim["godot_owner"], "PortGame.source_bullet_type_create_aim_state")
+        self.assertIn("if(!(aimX == -1f && aimY == -1f)){", create_aim["exact_exprs"])
+        self.assertIn("bullet.aimTile = target instanceof Building b ? b.tile : world.tileWorld(aimX, aimY);", create_aim["exact_exprs"])
+        self.assertIn("bullet.aimX = aimX;", create_aim["exact_exprs"])
+        self.assertIn("bullet.aimY = aimY;", create_aim["exact_exprs"])
+        self.assertIn("transient @Nullable Tile aimTile;", create_aim["exact_exprs"])
+        self.assertIn("transient float aimX, aimY;", create_aim["exact_exprs"])
+        self.assertIn("transient Tile tile;", create_aim["exact_exprs"])
+        self.assertIn("return tile(Math.round(x / tilesize), Math.round(y / tilesize));", create_aim["exact_exprs"])
+        self.assertIn("bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));", create_aim["deferred_exprs"])
 
     def test_api_contracts_pin_runtime_params_and_return_keys(self):
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -3392,6 +3438,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("shooterSource", create_bullet_identity["return_keys"])
         self.assertIn("aimTileReservedSource", create_bullet_identity["return_keys"])
         self.assertEqual(create_bullet_identity["source_method"], "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)")
+
+        create_aim = source_symbols.api_contract(contracts, "PortGame.source_bullet_type_create_aim_state")
+        self.assertEqual([param["name"] for param in create_aim["params"]], ["identity_state", "create_call_state", "target_state", "world_tile_from_aim"])
+        self.assertEqual(create_aim["params"][0]["schema"], "create_bullet_identity_result")
+        self.assertEqual(create_aim["params"][1]["schema"], "create_call_state")
+        self.assertEqual(create_aim["params"][2]["schema"], "target_state")
+        self.assertEqual(create_aim["params"][3]["schema"], "world.tileWorld(aimX, aimY)")
+        self.assertIn("bulletAimApplied", create_aim["return_keys"])
+        self.assertIn("hasAimTile", create_aim["return_keys"])
+        self.assertIn("bullet", create_aim["return_keys"])
+        self.assertIn("aimTileSource", create_aim["return_keys"])
+        self.assertIn("worldTileWorldSource", create_aim["return_keys"])
+        self.assertIn("initVelReservedSource", create_aim["return_keys"])
+        self.assertEqual(create_aim["source_method"], "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)")
 
     def test_state_schema_pins_dictionary_keys_and_aliases(self):
         schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
@@ -4182,6 +4242,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(create_bullet_identity_output["keys"]["originXSource"]["alias_of"], "source_line.create_bullet_identity.origin_x_assignment")
         self.assertEqual(create_bullet_identity_output["keys"]["originYSource"]["alias_of"], "source_line.create_bullet_identity.origin_y_assignment")
         self.assertEqual(create_bullet_identity_output["keys"]["aimTileReservedSource"]["alias_of"], "source_line.create_bullet_identity.aim_tile_boundary")
+
+        create_aim_output = source_symbols.state_schema(schema, "create_aim_result")
+        self.assertEqual(create_aim_output["keys"]["hasAimTile"]["java_expr"], "!(aimX == -1f && aimY == -1f)")
+        self.assertEqual(create_aim_output["keys"]["bullet"]["alias_of"], "create_bullet_identity_result.bullet")
+        self.assertEqual(create_aim_output["keys"]["bulletAimApplied"]["alias_of"], "bullet.aimX = aimX; bullet.aimY = aimY;")
+        self.assertEqual(create_aim_output["keys"]["aimTileSource"]["alias_of"], "source_line.create_aim.aim_tile_assignment")
+        self.assertEqual(create_aim_output["keys"]["aimXSource"]["alias_of"], "source_line.create_aim.aim_x_assignment")
+        self.assertEqual(create_aim_output["keys"]["aimYSource"]["alias_of"], "source_line.create_aim.aim_y_assignment")
+        self.assertEqual(create_aim_output["keys"]["worldTileWorldSource"]["alias_of"], "source_line.create_aim.world_tile_world")
+        self.assertEqual(create_aim_output["keys"]["initVelReservedSource"]["alias_of"], "source_line.create_aim.init_vel_boundary")
 
         despawned_shake_output = source_symbols.state_schema(schema, "despawned_shake_result")
         self.assertEqual(despawned_shake_output["keys"]["shakeCall"]["java_expr"], "Effect.shake(despawnShake, despawnShake, b)")
