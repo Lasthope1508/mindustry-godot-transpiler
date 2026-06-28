@@ -3163,6 +3163,46 @@
       ],
       "runtime_proof": "/root/Main.source_arc_mathf_num",
       "rule": "Backfills SSOT for existing canonical source_arc_mathf_num helper against Arc Mathf.num(boolean)."
+    },
+    "N504": {
+      "status": "done",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_class": "arc.math.Mathf",
+      "java_method": "sin(float radians)",
+      "godot_owner": "PortGame.source_arc_mathf_sin_lookup",
+      "exact_exprs": [
+        "public static float sin(float radians){\n        return sinTable[(int)(radians * radToIndex) & sinMask];\n    }",
+        "return sinTable[(int)(radians * radToIndex) & sinMask];",
+        "(int)(radians * radToIndex) & sinMask",
+        "private static final int sinBits = 14;",
+        "private static final int sinMask = ~(-1 << sinBits);",
+        "private static final int sinCount = sinMask + 1;",
+        "private static final float radToIndex = sinCount / radFull;",
+        "sinTable[i] = (float)Math.sin((i + 0.5f) / sinCount * radFull);",
+        "sinTable[0] = 0f;",
+        "sinTable[(int)(90 * degToIndex) & sinMask] = 1f;",
+        "sinTable[(int)(180 * degToIndex) & sinMask] = 0f;",
+        "sinTable[(int)(270 * degToIndex) & sinMask] = -1f;",
+        "radians"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "arc_mathf_sin_lookup.method",
+        "arc_mathf_sin_lookup.index_expr",
+        "arc_mathf_sin_lookup.return_expr",
+        "arc_mathf_sin_lookup.sin_bits",
+        "arc_mathf_sin_lookup.sin_mask",
+        "arc_mathf_sin_lookup.sin_count",
+        "arc_mathf_sin_lookup.rad_to_index",
+        "arc_mathf_sin_lookup.sin_table_init",
+        "arc_mathf_sin_lookup.cardinal_overrides",
+        "arc_mathf_sin_lookup.radians_input"
+      ],
+      "tests": [
+        "test_arc_mathf_sin_lookup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_lookup",
+      "rule": "Backfills SSOT for existing canonical source_arc_mathf_sin_lookup helper against Arc Mathf.sin(float radians)."
     }
   },
   "version": 1

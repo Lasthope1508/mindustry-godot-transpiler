@@ -4309,6 +4309,35 @@
       ],
       "runtime_proof": "/root/Main.source_arc_mathf_num",
       "rule": "Public runtime contract for Arc Mathf.num(boolean) helper."
+    },
+    "PortGame.source_arc_mathf_sin_lookup": {
+      "status": "active",
+      "source_slice": "N504",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "source_method": "sin(float radians)",
+      "params": [
+        {
+          "name": "radians",
+          "type": "float",
+          "schema": "source_arc_mathf_sin_lookup_input.radians"
+        }
+      ],
+      "return_keys": [
+        "index",
+        "sin",
+        "sinBits",
+        "sinMask",
+        "sinCount",
+        "radToIndex",
+        "tableValueSource",
+        "cardinalOverrides",
+        "radians"
+      ],
+      "tests": [
+        "test_arc_mathf_sin_lookup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_lookup",
+      "rule": "Public runtime contract for Arc Mathf.sin(float) lookup helper."
     }
   },
   "policy": {

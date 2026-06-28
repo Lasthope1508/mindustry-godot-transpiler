@@ -10342,6 +10342,136 @@
       "java_expr": "b",
       "godot_symbol": "source_arc_mathf_num_input.value",
       "rule": "Runtime value maps to Java b."
+    },
+    "arc_mathf_sin_lookup.method": {
+      "tests": [
+        "test_arc_mathf_sin_lookup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_lookup",
+      "godot_owner": "PortGame.source_arc_mathf_sin_lookup",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "sin(float radians)",
+      "status": "source-backed",
+      "java_expr": "public static float sin(float radians){\n        return sinTable[(int)(radians * radToIndex) & sinMask];\n    }",
+      "godot_symbol": "source_arc_mathf_sin_lookup_result.sin",
+      "rule": "Arc Mathf.sin(float) reads radians from the shared sine lookup table."
+    },
+    "arc_mathf_sin_lookup.index_expr": {
+      "tests": [
+        "test_arc_mathf_sin_lookup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_lookup",
+      "godot_owner": "PortGame.source_arc_mathf_sin_lookup",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "sin(float radians)",
+      "status": "source-backed",
+      "java_expr": "(int)(radians * radToIndex) & sinMask",
+      "godot_symbol": "source_arc_mathf_sin_lookup_result.index",
+      "rule": "Sine lookup index multiplies radians by radToIndex and masks by sinMask."
+    },
+    "arc_mathf_sin_lookup.return_expr": {
+      "tests": [
+        "test_arc_mathf_sin_lookup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_lookup",
+      "godot_owner": "PortGame.source_arc_mathf_sin_lookup",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "sin(float radians)",
+      "status": "source-backed",
+      "java_expr": "return sinTable[(int)(radians * radToIndex) & sinMask];",
+      "godot_symbol": "source_arc_mathf_sin_lookup_result.sin",
+      "rule": "Sine lookup returns the selected sinTable entry."
+    },
+    "arc_mathf_sin_lookup.sin_bits": {
+      "tests": [
+        "test_arc_mathf_sin_lookup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_lookup",
+      "godot_owner": "PortGame.source_arc_mathf_sin_lookup",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "sin(float radians)",
+      "status": "source-backed",
+      "java_expr": "private static final int sinBits = 14;",
+      "godot_symbol": "source_arc_mathf_sin_lookup_result.sinBits",
+      "rule": "Shared sine table bit count."
+    },
+    "arc_mathf_sin_lookup.sin_mask": {
+      "tests": [
+        "test_arc_mathf_sin_lookup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_lookup",
+      "godot_owner": "PortGame.source_arc_mathf_sin_lookup",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "sin(float radians)",
+      "status": "source-backed",
+      "java_expr": "private static final int sinMask = ~(-1 << sinBits);",
+      "godot_symbol": "source_arc_mathf_sin_lookup_result.sinMask",
+      "rule": "Shared sine table mask."
+    },
+    "arc_mathf_sin_lookup.sin_count": {
+      "tests": [
+        "test_arc_mathf_sin_lookup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_lookup",
+      "godot_owner": "PortGame.source_arc_mathf_sin_lookup",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "sin(float radians)",
+      "status": "source-backed",
+      "java_expr": "private static final int sinCount = sinMask + 1;",
+      "godot_symbol": "source_arc_mathf_sin_lookup_result.sinCount",
+      "rule": "Shared sine table count."
+    },
+    "arc_mathf_sin_lookup.rad_to_index": {
+      "tests": [
+        "test_arc_mathf_sin_lookup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_lookup",
+      "godot_owner": "PortGame.source_arc_mathf_sin_lookup",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "sin(float radians)",
+      "status": "source-backed",
+      "java_expr": "private static final float radToIndex = sinCount / radFull;",
+      "godot_symbol": "source_arc_mathf_sin_lookup_result.radToIndex",
+      "rule": "Radians-to-table-index scale."
+    },
+    "arc_mathf_sin_lookup.sin_table_init": {
+      "tests": [
+        "test_arc_mathf_sin_lookup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_lookup",
+      "godot_owner": "PortGame.source_arc_mathf_sin_lookup",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "sin(float radians)",
+      "status": "source-backed",
+      "java_expr": "sinTable[i] = (float)Math.sin((i + 0.5f) / sinCount * radFull);",
+      "godot_symbol": "source_arc_mathf_sin_lookup_result.tableValueSource",
+      "rule": "Default sine table sample initialization."
+    },
+    "arc_mathf_sin_lookup.cardinal_overrides": {
+      "tests": [
+        "test_arc_mathf_sin_lookup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_lookup",
+      "godot_owner": "PortGame.source_arc_mathf_sin_lookup",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "sin(float radians)",
+      "status": "source-backed",
+      "java_expr": "sinTable[0] = 0f;\nsinTable[(int)(90 * degToIndex) & sinMask] = 1f;\nsinTable[(int)(180 * degToIndex) & sinMask] = 0f;\nsinTable[(int)(270 * degToIndex) & sinMask] = -1f;",
+      "godot_symbol": "source_arc_mathf_sin_lookup_result.cardinalOverrides",
+      "rule": "Static initializer pins cardinal sine table values exactly."
+    },
+    "arc_mathf_sin_lookup.radians_input": {
+      "tests": [
+        "test_arc_mathf_sin_lookup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_lookup",
+      "godot_owner": "PortGame.source_arc_mathf_sin_lookup",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "sin(float radians)",
+      "status": "explicit-input",
+      "java_expr": "radians",
+      "godot_symbol": "source_arc_mathf_sin_lookup_input.radians",
+      "rule": "Runtime radians maps to Java radians."
     }
   }
 }
