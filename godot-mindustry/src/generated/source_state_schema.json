@@ -16050,6 +16050,64 @@
           "rule": "Carries maximum_accepted input into result schema."
         }
       }
+    },
+    "source_building_accept_liquid_input": {
+      "status": "active",
+      "keys": {
+        "hasLiquids": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "acceptLiquid(Building source, Liquid liquid)",
+          "java_expr": "block.hasLiquids",
+          "godot_symbol": "source_building_accept_liquid_input.hasLiquids",
+          "used_by": [
+            "PortGame.source_building_accept_liquid_state"
+          ],
+          "rule": "Runtime bool maps to source block.hasLiquids."
+        },
+        "consumesLiquid": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "acceptLiquid(Building source, Liquid liquid)",
+          "java_expr": "block.consumesLiquid(liquid)",
+          "godot_symbol": "source_building_accept_liquid_input.consumesLiquid",
+          "used_by": [
+            "PortGame.source_building_accept_liquid_state"
+          ],
+          "rule": "Runtime bool maps to source block.consumesLiquid(liquid)."
+        }
+      }
+    },
+    "source_building_accept_liquid_result": {
+      "status": "active",
+      "keys": {
+        "acceptLiquid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "acceptLiquid(Building source, Liquid liquid)",
+          "java_expr": "return block.hasLiquids && block.consumesLiquid(liquid);",
+          "godot_symbol": "source_building_accept_liquid_result.acceptLiquid",
+          "used_by": [
+            "PortGame.source_building_accept_liquid_state"
+          ],
+          "rule": "BuildingComp acceptLiquid return value."
+        },
+        "hasLiquids": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_accept_liquid_input.hasLiquids",
+          "rule": "Carries has_liquids input into result schema."
+        },
+        "consumesLiquid": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_accept_liquid_input.consumesLiquid",
+          "rule": "Carries consumes_liquid input into result schema."
+        }
+      }
     }
   },
   "version": 1

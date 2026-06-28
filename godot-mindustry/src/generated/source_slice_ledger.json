@@ -3767,6 +3767,29 @@
       ],
       "runtime_proof": "/root/Main.source_building_accept_item_state",
       "rule": "Backfills SSOT for existing canonical source_building_accept_item_state helper against BuildingComp.acceptItem."
+    },
+    "N522": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "acceptLiquid(Building source, Liquid liquid)",
+      "godot_owner": "PortGame.source_building_accept_liquid_state",
+      "exact_exprs": [
+        "return block.hasLiquids && block.consumesLiquid(liquid);",
+        "block.hasLiquids",
+        "block.consumesLiquid(liquid)"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "building_accept_liquid.method",
+        "building_accept_liquid.has_liquids",
+        "building_accept_liquid.consumes_liquid"
+      ],
+      "tests": [
+        "test_building_accept_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_accept_liquid_state",
+      "rule": "Backfills SSOT for existing canonical source_building_accept_liquid_state helper against BuildingComp.acceptLiquid."
     }
   },
   "version": 1

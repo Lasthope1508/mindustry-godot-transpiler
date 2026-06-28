@@ -12136,6 +12136,45 @@
       "java_expr": "getMaximumAccepted(item)",
       "godot_symbol": "source_building_accept_item_input.maximumAccepted",
       "rule": "Runtime maximum_accepted argument supplies the source getMaximumAccepted(item) value."
+    },
+    "building_accept_liquid.method": {
+      "tests": [
+        "test_building_accept_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_accept_liquid_state",
+      "godot_owner": "PortGame.source_building_accept_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "acceptLiquid(Building source, Liquid liquid)",
+      "status": "source-backed",
+      "java_expr": "return block.hasLiquids && block.consumesLiquid(liquid);",
+      "godot_symbol": "source_building_accept_liquid_result.acceptLiquid",
+      "rule": "BuildingComp acceptLiquid requires block.hasLiquids and block.consumesLiquid(liquid)."
+    },
+    "building_accept_liquid.has_liquids": {
+      "tests": [
+        "test_building_accept_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_accept_liquid_state",
+      "godot_owner": "PortGame.source_building_accept_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "acceptLiquid(Building source, Liquid liquid)",
+      "status": "explicit-input",
+      "java_expr": "block.hasLiquids",
+      "godot_symbol": "source_building_accept_liquid_input.hasLiquids",
+      "rule": "Runtime has_liquids argument supplies the source block.hasLiquids flag."
+    },
+    "building_accept_liquid.consumes_liquid": {
+      "tests": [
+        "test_building_accept_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_accept_liquid_state",
+      "godot_owner": "PortGame.source_building_accept_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "acceptLiquid(Building source, Liquid liquid)",
+      "status": "explicit-input",
+      "java_expr": "block.consumesLiquid(liquid)",
+      "godot_symbol": "source_building_accept_liquid_input.consumesLiquid",
+      "rule": "Runtime consumes_liquid argument supplies the source block.consumesLiquid(liquid) predicate."
     }
   }
 }

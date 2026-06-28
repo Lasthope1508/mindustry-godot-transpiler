@@ -2879,6 +2879,30 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(maximum_accepted["java_expr"], "getMaximumAccepted(item)")
         self.assertEqual(maximum_accepted["godot_symbol"], "source_building_accept_item_input.maximumAccepted")
 
+    def test_building_accept_liquid_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_accept_liquid.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "acceptLiquid(Building source, Liquid liquid)")
+        self.assertEqual(method["java_expr"], "return block.hasLiquids && block.consumesLiquid(liquid);")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_accept_liquid_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_accept_liquid_state")
+        self.assertEqual(method["godot_symbol"], "source_building_accept_liquid_result.acceptLiquid")
+
+        has_liquids = source_symbols.source_symbol(registry, "building_accept_liquid.has_liquids")
+        self.assertEqual(has_liquids["status"], "explicit-input")
+        self.assertEqual(has_liquids["java_expr"], "block.hasLiquids")
+        self.assertEqual(has_liquids["godot_symbol"], "source_building_accept_liquid_input.hasLiquids")
+
+        consumes_liquid = source_symbols.source_symbol(registry, "building_accept_liquid.consumes_liquid")
+        self.assertEqual(consumes_liquid["status"], "explicit-input")
+        self.assertEqual(consumes_liquid["java_expr"], "block.consumesLiquid(liquid)")
+        self.assertEqual(consumes_liquid["godot_symbol"], "source_building_accept_liquid_input.consumesLiquid")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -3163,9 +3187,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 119)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 120)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 124)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 125)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -3286,6 +3310,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_time_scale_duration_at_cell", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -4197,6 +4222,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("block.consumesItem(item)", building_accept_item["exact_exprs"])
         self.assertIn("items.get(item)", building_accept_item["exact_exprs"])
         self.assertIn("getMaximumAccepted(item)", building_accept_item["exact_exprs"])
+
+        building_accept_liquid = source_symbols.source_slice(ledger, "N522")
+        self.assertEqual(building_accept_liquid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_accept_liquid["java_method"], "acceptLiquid(Building source, Liquid liquid)")
+        self.assertEqual(building_accept_liquid["godot_owner"], "PortGame.source_building_accept_liquid_state")
+        self.assertIn("return block.hasLiquids && block.consumesLiquid(liquid);", building_accept_liquid["exact_exprs"])
+        self.assertIn("block.hasLiquids", building_accept_liquid["exact_exprs"])
+        self.assertIn("block.consumesLiquid(liquid)", building_accept_liquid["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -5276,6 +5309,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_accept_item["params"][2]["schema"], "source_building_accept_item_input.maximumAccepted")
         self.assertIn("acceptItem", building_accept_item["return_keys"])
         self.assertEqual(building_accept_item["source_method"], "acceptItem(Building source, Item item)")
+
+        building_accept_liquid = source_symbols.api_contract(contracts, "PortGame.source_building_accept_liquid_state")
+        self.assertEqual([param["name"] for param in building_accept_liquid["params"]], ["has_liquids", "consumes_liquid"])
+        self.assertEqual(building_accept_liquid["params"][0]["schema"], "source_building_accept_liquid_input.hasLiquids")
+        self.assertEqual(building_accept_liquid["params"][1]["schema"], "source_building_accept_liquid_input.consumesLiquid")
+        self.assertIn("acceptLiquid", building_accept_liquid["return_keys"])
+        self.assertEqual(building_accept_liquid["source_method"], "acceptLiquid(Building source, Liquid liquid)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -6537,6 +6577,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_accept_item_result["keys"]["consumesItem"]["alias_of"], "source_building_accept_item_input.consumesItem")
         self.assertEqual(source_building_accept_item_result["keys"]["itemCount"]["alias_of"], "source_building_accept_item_input.itemCount")
         self.assertEqual(source_building_accept_item_result["keys"]["maximumAccepted"]["alias_of"], "source_building_accept_item_input.maximumAccepted")
+
+        source_building_accept_liquid_input = source_symbols.state_schema(schema, "source_building_accept_liquid_input")
+        self.assertEqual(source_building_accept_liquid_input["keys"]["hasLiquids"]["java_expr"], "block.hasLiquids")
+        self.assertEqual(source_building_accept_liquid_input["keys"]["hasLiquids"]["status"], "explicit-input")
+        self.assertEqual(source_building_accept_liquid_input["keys"]["consumesLiquid"]["java_expr"], "block.consumesLiquid(liquid)")
+
+        source_building_accept_liquid_result = source_symbols.state_schema(schema, "source_building_accept_liquid_result")
+        self.assertEqual(source_building_accept_liquid_result["keys"]["acceptLiquid"]["java_expr"], "return block.hasLiquids && block.consumesLiquid(liquid);")
+        self.assertEqual(source_building_accept_liquid_result["keys"]["hasLiquids"]["alias_of"], "source_building_accept_liquid_input.hasLiquids")
+        self.assertEqual(source_building_accept_liquid_result["keys"]["consumesLiquid"]["alias_of"], "source_building_accept_liquid_input.consumesLiquid")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

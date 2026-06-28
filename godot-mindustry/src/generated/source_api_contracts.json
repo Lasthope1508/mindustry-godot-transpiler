@@ -4905,6 +4905,34 @@
       ],
       "runtime_proof": "/root/Main.source_building_accept_item_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.acceptItem helper."
+    },
+    "PortGame.source_building_accept_liquid_state": {
+      "status": "active",
+      "source_slice": "N522",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "acceptLiquid(Building source, Liquid liquid)",
+      "params": [
+        {
+          "name": "has_liquids",
+          "type": "bool",
+          "schema": "source_building_accept_liquid_input.hasLiquids"
+        },
+        {
+          "name": "consumes_liquid",
+          "type": "bool",
+          "schema": "source_building_accept_liquid_input.consumesLiquid"
+        }
+      ],
+      "return_keys": [
+        "hasLiquids",
+        "consumesLiquid",
+        "acceptLiquid"
+      ],
+      "tests": [
+        "test_building_accept_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_accept_liquid_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.acceptLiquid helper."
     }
   },
   "policy": {
