@@ -4619,6 +4619,29 @@
       ],
       "runtime_proof": "/root/Main.source_block_can_replace_state",
       "rule": "Public runtime contract for Mindustry Block.canReplace(Block other) helper."
+    },
+    "PortGame.source_block_dump_time": {
+      "status": "active",
+      "source_slice": "N512",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "field declaration",
+      "params": [
+        {
+          "name": "block_id",
+          "type": "String",
+          "schema": "source_block_dump_time_input.blockId"
+        }
+      ],
+      "return_keys": [
+        "dumpTime",
+        "defaultDumpTime",
+        "blockId"
+      ],
+      "tests": [
+        "test_block_dump_time_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_dump_time",
+      "rule": "Public runtime contract for Mindustry Block.dumpTime helper."
     }
   },
   "policy": {

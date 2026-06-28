@@ -2595,6 +2595,28 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_other_replaceable["java_expr"], "other.replaceable")
         self.assertEqual(input_other_replaceable["godot_symbol"], "source_block_can_replace_input.otherReplaceable")
 
+    def test_block_dump_time_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        field = source_symbols.source_symbol(registry, "block_dump_time.field")
+        self.assertEqual(field["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(field["java_method"], "field declaration")
+        self.assertEqual(field["java_expr"], "public int dumpTime = 5;")
+        self.assertEqual(field["godot_owner"], "PortGame.source_block_dump_time")
+        self.assertEqual(field["runtime_proof"], "/root/Main.source_block_dump_time")
+
+        default_value = source_symbols.source_symbol(registry, "block_dump_time.default_value")
+        self.assertEqual(default_value["java_expr"], "5")
+        self.assertEqual(default_value["godot_symbol"], "source_block_dump_time_result.defaultDumpTime")
+
+        block_id_input = source_symbols.source_symbol(registry, "block_dump_time.block_id_input")
+        self.assertEqual(block_id_input["status"], "explicit-input")
+        self.assertEqual(block_id_input["java_expr"], "name")
+        self.assertEqual(block_id_input["godot_symbol"], "source_block_dump_time_input.blockId")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -2879,9 +2901,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 109)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 110)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 114)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 115)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -2992,6 +3014,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_arc_strings_fixed_one_decimal", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_vec2_limit", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_can_replace_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_dump_time", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -3824,6 +3847,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(other.alwaysReplace) return true;", block_can_replace["exact_exprs"])
         self.assertIn("if(other.privileged) return false;", block_can_replace["exact_exprs"])
         self.assertIn("return other.replaceable && (other != this || (rotate && quickRotate)) && ((this.group != BlockGroup.none && other.group == this.group) || other == this) &&\n            (size == other.size || (size >= other.size && ((subclass != null && subclass == other.subclass) || group.anyReplace)));", block_can_replace["exact_exprs"])
+
+        block_dump_time = source_symbols.source_slice(ledger, "N512")
+        self.assertEqual(block_dump_time["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(block_dump_time["java_method"], "field declaration")
+        self.assertEqual(block_dump_time["godot_owner"], "PortGame.source_block_dump_time")
+        self.assertIn("public int dumpTime = 5;", block_dump_time["exact_exprs"])
+        self.assertIn("5", block_dump_time["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -4830,6 +4860,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("replacementGate", block_can_replace["return_keys"])
         self.assertIn("sizeGate", block_can_replace["return_keys"])
         self.assertEqual(block_can_replace["source_method"], "canReplace(Block other)")
+
+        block_dump_time = source_symbols.api_contract(contracts, "PortGame.source_block_dump_time")
+        self.assertEqual([param["name"] for param in block_dump_time["params"]], ["block_id"])
+        self.assertEqual(block_dump_time["params"][0]["schema"], "source_block_dump_time_input.blockId")
+        self.assertIn("dumpTime", block_dump_time["return_keys"])
+        self.assertIn("defaultDumpTime", block_dump_time["return_keys"])
+        self.assertEqual(block_dump_time["source_method"], "field declaration")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -5985,6 +6022,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_block_can_replace_result["keys"]["replacementGate"]["java_expr"], "other.replaceable && (other != this || (rotate && quickRotate)) && ((this.group != BlockGroup.none && other.group == this.group) || other == this)")
         self.assertEqual(source_block_can_replace_result["keys"]["sizeGate"]["java_expr"], "size == other.size || (size >= other.size && ((subclass != null && subclass == other.subclass) || group.anyReplace))")
         self.assertEqual(source_block_can_replace_result["keys"]["canReplace"]["java_expr"], "return other.replaceable && (other != this || (rotate && quickRotate)) && ((this.group != BlockGroup.none && other.group == this.group) || other == this) &&\n            (size == other.size || (size >= other.size && ((subclass != null && subclass == other.subclass) || group.anyReplace)));")
+
+        source_block_dump_time_input = source_symbols.state_schema(schema, "source_block_dump_time_input")
+        self.assertEqual(source_block_dump_time_input["keys"]["blockId"]["java_expr"], "name")
+        self.assertEqual(source_block_dump_time_input["keys"]["blockId"]["status"], "explicit-input")
+
+        source_block_dump_time_result = source_symbols.state_schema(schema, "source_block_dump_time_result")
+        self.assertEqual(source_block_dump_time_result["keys"]["dumpTime"]["java_expr"], "public int dumpTime = 5;")
+        self.assertEqual(source_block_dump_time_result["keys"]["defaultDumpTime"]["java_expr"], "5")
+        self.assertEqual(source_block_dump_time_result["keys"]["blockId"]["alias_of"], "source_block_dump_time_input.blockId")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

@@ -11421,6 +11421,45 @@
       "java_expr": "group.anyReplace",
       "godot_symbol": "source_block_can_replace_input.groupAnyReplace",
       "rule": "New block group anyReplace input."
+    },
+    "block_dump_time.field": {
+      "tests": [
+        "test_block_dump_time_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_dump_time",
+      "godot_owner": "PortGame.source_block_dump_time",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "field declaration",
+      "status": "source-backed",
+      "java_expr": "public int dumpTime = 5;",
+      "godot_symbol": "source_block_dump_time_result.dumpTime",
+      "rule": "Block.dumpTime source default field."
+    },
+    "block_dump_time.default_value": {
+      "tests": [
+        "test_block_dump_time_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_dump_time",
+      "godot_owner": "PortGame.source_block_dump_time",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "field declaration",
+      "status": "source-backed",
+      "java_expr": "5",
+      "godot_symbol": "source_block_dump_time_result.defaultDumpTime",
+      "rule": "Default dump interval value in ticks."
+    },
+    "block_dump_time.block_id_input": {
+      "tests": [
+        "test_block_dump_time_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_dump_time",
+      "godot_owner": "PortGame.source_block_dump_time",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "field declaration",
+      "status": "explicit-input",
+      "java_expr": "name",
+      "godot_symbol": "source_block_dump_time_input.blockId",
+      "rule": "Runtime block_id selects the source Block name."
     }
   }
 }

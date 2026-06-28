@@ -15170,6 +15170,58 @@
           "rule": "Carries groupAnyReplace input into result schema."
         }
       }
+    },
+    "source_block_dump_time_input": {
+      "status": "active",
+      "keys": {
+        "blockId": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "field declaration",
+          "java_expr": "name",
+          "godot_symbol": "source_block_dump_time_input.blockId",
+          "used_by": [
+            "PortGame.source_block_dump_time"
+          ],
+          "rule": "Runtime block_id maps to Java Block name."
+        }
+      }
+    },
+    "source_block_dump_time_result": {
+      "status": "active",
+      "keys": {
+        "dumpTime": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "field declaration",
+          "java_expr": "public int dumpTime = 5;",
+          "godot_symbol": "source_block_dump_time_result.dumpTime",
+          "used_by": [
+            "PortGame.source_block_dump_time"
+          ],
+          "rule": "Block dump interval field."
+        },
+        "defaultDumpTime": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "field declaration",
+          "java_expr": "5",
+          "godot_symbol": "source_block_dump_time_result.defaultDumpTime",
+          "used_by": [
+            "PortGame.source_block_dump_time"
+          ],
+          "rule": "Default dump interval value in ticks."
+        },
+        "blockId": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_block_dump_time_input.blockId",
+          "rule": "Carries block_id input into result schema."
+        }
+      }
     }
   },
   "version": 1

@@ -3474,6 +3474,29 @@
       ],
       "runtime_proof": "/root/Main.source_block_can_replace_state",
       "rule": "Backfills SSOT for existing canonical source_block_can_replace_state helper against Mindustry Block.canReplace(Block other)."
+    },
+    "N512": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "mindustry.world.Block",
+      "java_method": "field declaration",
+      "godot_owner": "PortGame.source_block_dump_time",
+      "exact_exprs": [
+        "public int dumpTime = 5;",
+        "5",
+        "name"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "block_dump_time.field",
+        "block_dump_time.default_value",
+        "block_dump_time.block_id_input"
+      ],
+      "tests": [
+        "test_block_dump_time_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_dump_time",
+      "rule": "Backfills SSOT for existing canonical source_block_dump_time helper against Mindustry Block.dumpTime default field."
     }
   },
   "version": 1
