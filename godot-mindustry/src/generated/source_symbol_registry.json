@@ -14723,6 +14723,71 @@
       "java_expr": "p1",
       "godot_symbol": "source_building_control_enabled_input.p1",
       "rule": "Numeric control p1 supplied to Mathf.zero."
+    },
+    "building_cursor.comment": {
+      "tests": [
+        "test_building_cursor_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_cursor_state",
+      "godot_owner": "PortGame.source_building_cursor_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getCursor()",
+      "status": "source-backed",
+      "java_expr": "/** Returns whether a hand cursor should be shown over this block. */",
+      "godot_symbol": "source_building_cursor_result.comment",
+      "rule": "Cursor method comment defines hand cursor intent."
+    },
+    "building_cursor.method": {
+      "tests": [
+        "test_building_cursor_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_cursor_state",
+      "godot_owner": "PortGame.source_building_cursor_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getCursor()",
+      "status": "source-backed",
+      "java_expr": "public Cursor getCursor(){",
+      "godot_symbol": "source_building_cursor_result.method",
+      "rule": "BuildingComp cursor method boundary."
+    },
+    "building_cursor.result": {
+      "tests": [
+        "test_building_cursor_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_cursor_state",
+      "godot_owner": "PortGame.source_building_cursor_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getCursor()",
+      "status": "source-backed",
+      "java_expr": "return block.configurable && interactable(player.team()) ? SystemCursor.hand : SystemCursor.arrow;",
+      "godot_symbol": "source_building_cursor_result.cursor",
+      "rule": "Cursor is hand only when block is configurable and player team can interact."
+    },
+    "building_cursor.block_configurable": {
+      "tests": [
+        "test_building_cursor_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_cursor_state",
+      "godot_owner": "PortGame.source_building_cursor_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getCursor()",
+      "status": "explicit-input",
+      "java_expr": "block.configurable",
+      "godot_symbol": "source_building_cursor_input.block_configurable",
+      "rule": "Block configurable flag supplied to cursor helper."
+    },
+    "building_cursor.interactable_player_team": {
+      "tests": [
+        "test_building_cursor_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_cursor_state",
+      "godot_owner": "PortGame.source_building_cursor_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getCursor()",
+      "status": "explicit-input",
+      "java_expr": "interactable(player.team())",
+      "godot_symbol": "source_building_cursor_input.interactable_player_team",
+      "rule": "Player team interactability supplied to cursor helper."
     }
   }
 }

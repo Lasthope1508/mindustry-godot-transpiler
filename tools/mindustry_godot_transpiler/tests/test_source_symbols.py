@@ -3766,6 +3766,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(p1["java_expr"], "p1")
         self.assertEqual(p1["godot_symbol"], "source_building_control_enabled_input.p1")
 
+    def test_building_cursor_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        comment = source_symbols.source_symbol(registry, "building_cursor.comment")
+        self.assertEqual(comment["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(comment["java_method"], "getCursor()")
+        self.assertEqual(comment["java_expr"], "/** Returns whether a hand cursor should be shown over this block. */")
+        self.assertEqual(comment["godot_owner"], "PortGame.source_building_cursor_state")
+        self.assertEqual(comment["runtime_proof"], "/root/Main.source_building_cursor_state")
+        self.assertEqual(comment["godot_symbol"], "source_building_cursor_result.comment")
+
+        method = source_symbols.source_symbol(registry, "building_cursor.method")
+        self.assertEqual(method["java_expr"], "public Cursor getCursor(){")
+        self.assertEqual(method["godot_symbol"], "source_building_cursor_result.method")
+
+        result = source_symbols.source_symbol(registry, "building_cursor.result")
+        self.assertEqual(result["java_expr"], "return block.configurable && interactable(player.team()) ? SystemCursor.hand : SystemCursor.arrow;")
+        self.assertEqual(result["godot_symbol"], "source_building_cursor_result.cursor")
+
+        configurable = source_symbols.source_symbol(registry, "building_cursor.block_configurable")
+        self.assertEqual(configurable["status"], "explicit-input")
+        self.assertEqual(configurable["java_expr"], "block.configurable")
+        self.assertEqual(configurable["godot_symbol"], "source_building_cursor_input.block_configurable")
+
     def test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -4050,9 +4077,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 151)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 152)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 156)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 157)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -4205,6 +4232,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_consume_trigger_valid_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_control_config_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_control_enabled_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_cursor_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -5403,6 +5431,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("enabled", building_control_enabled["exact_exprs"])
         self.assertIn("type", building_control_enabled["exact_exprs"])
         self.assertIn("p1", building_control_enabled["exact_exprs"])
+
+        building_cursor = source_symbols.source_slice(ledger, "N554")
+        self.assertEqual(building_cursor["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_cursor["java_method"], "getCursor()")
+        self.assertEqual(building_cursor["godot_owner"], "PortGame.source_building_cursor_state")
+        self.assertIn("/** Returns whether a hand cursor should be shown over this block. */", building_cursor["exact_exprs"])
+        self.assertIn("public Cursor getCursor(){", building_cursor["exact_exprs"])
+        self.assertIn("return block.configurable && interactable(player.team()) ? SystemCursor.hand : SystemCursor.arrow;", building_cursor["exact_exprs"])
+        self.assertIn("block.configurable", building_cursor["exact_exprs"])
+        self.assertIn("interactable(player.team())", building_cursor["exact_exprs"])
 
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
@@ -6718,6 +6756,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_control_enabled["params"][2]["schema"], "source_building_control_enabled_input.p1")
         self.assertIn("enabled", building_control_enabled["return_keys"])
         self.assertEqual(building_control_enabled["source_method"], "control(LAccess type, double p1, double p2, double p3, double p4)")
+
+        building_cursor = source_symbols.api_contract(contracts, "PortGame.source_building_cursor_state")
+        self.assertEqual([param["name"] for param in building_cursor["params"]], ["block_configurable", "interactable_player_team"])
+        self.assertEqual(building_cursor["params"][0]["schema"], "source_building_cursor_input.block_configurable")
+        self.assertEqual(building_cursor["params"][1]["schema"], "source_building_cursor_input.interactable_player_team")
+        self.assertIn("cursor", building_cursor["return_keys"])
+        self.assertEqual(building_cursor["source_method"], "getCursor()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -8316,6 +8361,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_control_enabled_result["keys"]["guard"]["java_expr"], "if(type == LAccess.enabled){")
         self.assertEqual(source_building_control_enabled_result["keys"]["enabled"]["java_expr"], "enabled = !Mathf.zero((float)p1);")
         self.assertEqual(source_building_control_enabled_result["keys"]["current_enabled"]["alias_of"], "source_building_control_enabled_input.current_enabled")
+
+        source_building_cursor_input = source_symbols.state_schema(schema, "source_building_cursor_input")
+        self.assertEqual(source_building_cursor_input["keys"]["block_configurable"]["java_expr"], "block.configurable")
+        self.assertEqual(source_building_cursor_input["keys"]["interactable_player_team"]["java_expr"], "interactable(player.team())")
+
+        source_building_cursor_result = source_symbols.state_schema(schema, "source_building_cursor_result")
+        self.assertEqual(source_building_cursor_result["keys"]["comment"]["java_expr"], "/** Returns whether a hand cursor should be shown over this block. */")
+        self.assertEqual(source_building_cursor_result["keys"]["method"]["java_expr"], "public Cursor getCursor(){")
+        self.assertEqual(source_building_cursor_result["keys"]["cursor"]["java_expr"], "return block.configurable && interactable(player.team()) ? SystemCursor.hand : SystemCursor.arrow;")
+        self.assertEqual(source_building_cursor_result["keys"]["block_configurable"]["alias_of"], "source_building_cursor_input.block_configurable")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

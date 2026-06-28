@@ -19110,6 +19110,88 @@
           "rule": "Carries p1 input into result boundary."
         }
       }
+    },
+    "source_building_cursor_input": {
+      "status": "active",
+      "keys": {
+        "block_configurable": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "getCursor()",
+          "java_expr": "block.configurable",
+          "godot_symbol": "source_building_cursor_input.block_configurable",
+          "used_by": [
+            "PortGame.source_building_cursor_state"
+          ],
+          "rule": "Block configurable flag input."
+        },
+        "interactable_player_team": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "getCursor()",
+          "java_expr": "interactable(player.team())",
+          "godot_symbol": "source_building_cursor_input.interactable_player_team",
+          "used_by": [
+            "PortGame.source_building_cursor_state"
+          ],
+          "rule": "Player team interactability input."
+        }
+      }
+    },
+    "source_building_cursor_result": {
+      "status": "active",
+      "keys": {
+        "comment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "getCursor()",
+          "java_expr": "/** Returns whether a hand cursor should be shown over this block. */",
+          "godot_symbol": "source_building_cursor_result.comment",
+          "used_by": [
+            "PortGame.source_building_cursor_state"
+          ],
+          "rule": "Cursor method source comment."
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "getCursor()",
+          "java_expr": "public Cursor getCursor(){",
+          "godot_symbol": "source_building_cursor_result.method",
+          "used_by": [
+            "PortGame.source_building_cursor_state"
+          ],
+          "rule": "Cursor method boundary."
+        },
+        "cursor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "getCursor()",
+          "java_expr": "return block.configurable && interactable(player.team()) ? SystemCursor.hand : SystemCursor.arrow;",
+          "godot_symbol": "source_building_cursor_result.cursor",
+          "used_by": [
+            "PortGame.source_building_cursor_state"
+          ],
+          "rule": "Hand or arrow cursor result."
+        },
+        "block_configurable": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_cursor_input.block_configurable",
+          "rule": "Carries block configurable input into result boundary."
+        },
+        "interactable_player_team": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_cursor_input.interactable_player_team",
+          "rule": "Carries player team interactability input into result boundary."
+        }
+      }
     }
   },
   "version": 1
