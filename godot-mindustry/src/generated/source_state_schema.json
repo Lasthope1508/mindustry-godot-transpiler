@@ -24612,6 +24612,196 @@
           "rule": "Carries rules_fog input into result schema."
         }
       }
+    },
+    "source_building_in_fog_visibility_loop_input": {
+      "status": "active",
+      "keys": {
+        "block_size_value": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "inFogTo(Team viewer)",
+          "java_expr": "block.size",
+          "godot_symbol": "source_building_in_fog_visibility_loop_input.block_size_value",
+          "used_by": [
+            "PortGame.source_building_in_fog_visibility_loop_state"
+          ],
+          "rule": "Runtime block_size_value supplies source block.size."
+        },
+        "block_size_offset": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "inFogTo(Team viewer)",
+          "java_expr": "block.sizeOffset",
+          "godot_symbol": "source_building_in_fog_visibility_loop_input.block_size_offset",
+          "used_by": [
+            "PortGame.source_building_in_fog_visibility_loop_state"
+          ],
+          "rule": "Runtime block_size_offset supplies source block.sizeOffset."
+        },
+        "tile_x": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "inFogTo(Team viewer)",
+          "java_expr": "tile.x",
+          "godot_symbol": "source_building_in_fog_visibility_loop_input.tile_x",
+          "used_by": [
+            "PortGame.source_building_in_fog_visibility_loop_state"
+          ],
+          "rule": "Runtime tile_x supplies source tile.x."
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "inFogTo(Team viewer)",
+          "java_expr": "tile.y",
+          "godot_symbol": "source_building_in_fog_visibility_loop_input.tile_y",
+          "used_by": [
+            "PortGame.source_building_in_fog_visibility_loop_state"
+          ],
+          "rule": "Runtime tile_y supplies source tile.y."
+        },
+        "visible_tiles": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "inFogTo(Team viewer)",
+          "java_expr": "fogControl.isVisibleTile(viewer, tx + x + of, ty + y + of)",
+          "godot_symbol": "source_building_in_fog_visibility_loop_input.visible_tiles",
+          "used_by": [
+            "PortGame.source_building_in_fog_visibility_loop_state"
+          ],
+          "rule": "Runtime visible_tiles supplies source fogControl.isVisibleTile checks for candidate tile coordinates."
+        }
+      }
+    },
+    "source_building_in_fog_visibility_loop_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "inFogTo(Team viewer)",
+          "java_expr": "public boolean inFogTo(Team viewer){",
+          "godot_symbol": "source_building_in_fog_visibility_loop_result.method",
+          "used_by": [
+            "PortGame.source_building_in_fog_visibility_loop_state"
+          ],
+          "rule": "Source inFogTo method declaration."
+        },
+        "outer_loop": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "inFogTo(Team viewer)",
+          "java_expr": "for(int x = 0; x < size; x++){",
+          "godot_symbol": "source_building_in_fog_visibility_loop_result.outer_loop",
+          "used_by": [
+            "PortGame.source_building_in_fog_visibility_loop_state"
+          ],
+          "rule": "Source inFogTo iterates every block-size x offset."
+        },
+        "inner_loop": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "inFogTo(Team viewer)",
+          "java_expr": "for(int y = 0; y < size; y++){",
+          "godot_symbol": "source_building_in_fog_visibility_loop_result.inner_loop",
+          "used_by": [
+            "PortGame.source_building_in_fog_visibility_loop_state"
+          ],
+          "rule": "Source inFogTo iterates every block-size y offset."
+        },
+        "visible_tile_check": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "inFogTo(Team viewer)",
+          "java_expr": "if(fogControl.isVisibleTile(viewer, tx + x + of, ty + y + of)){",
+          "godot_symbol": "source_building_in_fog_visibility_loop_result.visible_tile_check",
+          "used_by": [
+            "PortGame.source_building_in_fog_visibility_loop_state"
+          ],
+          "rule": "Source inFogTo tests visible tiles at tx + x + of and ty + y + of."
+        },
+        "visible_return": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "inFogTo(Team viewer)",
+          "java_expr": "return false;",
+          "godot_symbol": "source_building_in_fog_visibility_loop_result.visible_return",
+          "used_by": [
+            "PortGame.source_building_in_fog_visibility_loop_state"
+          ],
+          "rule": "A visible tile makes inFogTo return false."
+        },
+        "final_return": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "inFogTo(Team viewer)",
+          "java_expr": "return true;",
+          "godot_symbol": "source_building_in_fog_visibility_loop_result.final_return",
+          "used_by": [
+            "PortGame.source_building_in_fog_visibility_loop_state"
+          ],
+          "rule": "If no visible tile is found, inFogTo returns true."
+        },
+        "in_fog": {
+          "type": "bool",
+          "status": "generated",
+          "java_expr": "return true;",
+          "rule": "Reports source inFogTo result after visible tile iteration."
+        },
+        "checked_tiles": {
+          "type": "Array",
+          "status": "generated",
+          "java_expr": "for(int x = 0; x < size; x++){",
+          "rule": "Carries candidate tile coordinates visited by the nested source loops."
+        },
+        "visible_tile": {
+          "type": "Variant",
+          "status": "generated",
+          "java_expr": "if(fogControl.isVisibleTile(viewer, tx + x + of, ty + y + of)){",
+          "rule": "Carries first visible tile coordinate when the source returns false."
+        },
+        "block_size_value": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_in_fog_visibility_loop_input.block_size_value",
+          "rule": "Carries block_size_value input into result schema."
+        },
+        "block_size_offset": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_in_fog_visibility_loop_input.block_size_offset",
+          "rule": "Carries block_size_offset input into result schema."
+        },
+        "tile_x": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_in_fog_visibility_loop_input.tile_x",
+          "rule": "Carries tile_x input into result schema."
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_in_fog_visibility_loop_input.tile_y",
+          "rule": "Carries tile_y input into result schema."
+        },
+        "visible_tiles": {
+          "type": "Array",
+          "status": "generated",
+          "alias_of": "source_building_in_fog_visibility_loop_input.visible_tiles",
+          "rule": "Carries visible_tiles input into result schema."
+        }
+      }
     }
   },
   "version": 1

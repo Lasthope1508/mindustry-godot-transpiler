@@ -6049,6 +6049,44 @@
       ],
       "runtime_proof": "/root/Main.source_building_in_fog_initial_gate_state",
       "rule": "Backfills SSOT for existing canonical source_building_in_fog_initial_gate_state helper against BuildingComp.inFogTo(Team viewer)."
+    },
+    "N594": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "inFogTo(Team viewer)",
+      "godot_owner": "PortGame.source_building_in_fog_visibility_loop_state",
+      "exact_exprs": [
+        "public boolean inFogTo(Team viewer){",
+        "for(int x = 0; x < size; x++){",
+        "for(int y = 0; y < size; y++){",
+        "if(fogControl.isVisibleTile(viewer, tx + x + of, ty + y + of)){",
+        "return false;",
+        "return true;",
+        "tx + x + of",
+        "ty + y + of"
+      ],
+      "deferred_exprs": [
+        "Initial same-team/rules fog guard and discovery gate remain owned by adjacent inFogTo helper slices."
+      ],
+      "source_symbols": [
+        "building_in_fog_visibility_loop.method",
+        "building_in_fog_visibility_loop.outer_loop",
+        "building_in_fog_visibility_loop.inner_loop",
+        "building_in_fog_visibility_loop.visible_tile_check",
+        "building_in_fog_visibility_loop.visible_return",
+        "building_in_fog_visibility_loop.final_return",
+        "building_in_fog_visibility_loop.block_size",
+        "building_in_fog_visibility_loop.block_size_offset",
+        "building_in_fog_visibility_loop.tile_x",
+        "building_in_fog_visibility_loop.tile_y",
+        "building_in_fog_visibility_loop.visible_tiles"
+      ],
+      "tests": [
+        "test_building_in_fog_visibility_loop_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_in_fog_visibility_loop_state",
+      "rule": "Backfills SSOT for existing canonical source_building_in_fog_visibility_loop_state helper against BuildingComp.inFogTo(Team viewer)."
     }
   },
   "version": 1

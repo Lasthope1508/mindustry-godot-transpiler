@@ -5026,6 +5026,65 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(rules_fog["java_expr"], "state.rules.fog")
         self.assertEqual(rules_fog["godot_symbol"], "source_building_in_fog_initial_gate_input.rules_fog")
 
+    def test_building_in_fog_visibility_loop_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_in_fog_visibility_loop.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "inFogTo(Team viewer)")
+        self.assertEqual(method["java_expr"], "public boolean inFogTo(Team viewer){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_in_fog_visibility_loop_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_in_fog_visibility_loop_state")
+        self.assertEqual(method["godot_symbol"], "source_building_in_fog_visibility_loop_result.method")
+
+        outer_loop = source_symbols.source_symbol(registry, "building_in_fog_visibility_loop.outer_loop")
+        self.assertEqual(outer_loop["java_expr"], "for(int x = 0; x < size; x++){")
+        self.assertEqual(outer_loop["godot_symbol"], "source_building_in_fog_visibility_loop_result.outer_loop")
+
+        inner_loop = source_symbols.source_symbol(registry, "building_in_fog_visibility_loop.inner_loop")
+        self.assertEqual(inner_loop["java_expr"], "for(int y = 0; y < size; y++){")
+        self.assertEqual(inner_loop["godot_symbol"], "source_building_in_fog_visibility_loop_result.inner_loop")
+
+        visible_tile_check = source_symbols.source_symbol(registry, "building_in_fog_visibility_loop.visible_tile_check")
+        self.assertEqual(visible_tile_check["java_expr"], "if(fogControl.isVisibleTile(viewer, tx + x + of, ty + y + of)){")
+        self.assertEqual(visible_tile_check["godot_symbol"], "source_building_in_fog_visibility_loop_result.visible_tile_check")
+
+        visible_return = source_symbols.source_symbol(registry, "building_in_fog_visibility_loop.visible_return")
+        self.assertEqual(visible_return["java_expr"], "return false;")
+        self.assertEqual(visible_return["godot_symbol"], "source_building_in_fog_visibility_loop_result.visible_return")
+
+        final_return = source_symbols.source_symbol(registry, "building_in_fog_visibility_loop.final_return")
+        self.assertEqual(final_return["java_expr"], "return true;")
+        self.assertEqual(final_return["godot_symbol"], "source_building_in_fog_visibility_loop_result.final_return")
+
+        block_size = source_symbols.source_symbol(registry, "building_in_fog_visibility_loop.block_size")
+        self.assertEqual(block_size["status"], "explicit-input")
+        self.assertEqual(block_size["java_expr"], "block.size")
+        self.assertEqual(block_size["godot_symbol"], "source_building_in_fog_visibility_loop_input.block_size_value")
+
+        block_size_offset = source_symbols.source_symbol(registry, "building_in_fog_visibility_loop.block_size_offset")
+        self.assertEqual(block_size_offset["status"], "explicit-input")
+        self.assertEqual(block_size_offset["java_expr"], "block.sizeOffset")
+        self.assertEqual(block_size_offset["godot_symbol"], "source_building_in_fog_visibility_loop_input.block_size_offset")
+
+        tile_x = source_symbols.source_symbol(registry, "building_in_fog_visibility_loop.tile_x")
+        self.assertEqual(tile_x["status"], "explicit-input")
+        self.assertEqual(tile_x["java_expr"], "tile.x")
+        self.assertEqual(tile_x["godot_symbol"], "source_building_in_fog_visibility_loop_input.tile_x")
+
+        tile_y = source_symbols.source_symbol(registry, "building_in_fog_visibility_loop.tile_y")
+        self.assertEqual(tile_y["status"], "explicit-input")
+        self.assertEqual(tile_y["java_expr"], "tile.y")
+        self.assertEqual(tile_y["godot_symbol"], "source_building_in_fog_visibility_loop_input.tile_y")
+
+        visible_tiles = source_symbols.source_symbol(registry, "building_in_fog_visibility_loop.visible_tiles")
+        self.assertEqual(visible_tiles["status"], "explicit-input")
+        self.assertEqual(visible_tiles["java_expr"], "fogControl.isVisibleTile(viewer, tx + x + of, ty + y + of)")
+        self.assertEqual(visible_tiles["godot_symbol"], "source_building_in_fog_visibility_loop_input.visible_tiles")
+
     def test_building_in_fog_discovery_gate_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -5396,9 +5455,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 191)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 192)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 196)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 197)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -5407,6 +5466,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_type_draw_parts_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_in_fog_discovery_gate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_in_fog_initial_gate_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_in_fog_visibility_loop_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7145,6 +7205,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("team == viewer", building_in_fog_initial_gate["exact_exprs"])
         self.assertIn("state.rules.fog", building_in_fog_initial_gate["exact_exprs"])
 
+        building_in_fog_visibility_loop = source_symbols.source_slice(ledger, "N594")
+        self.assertEqual(building_in_fog_visibility_loop["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_in_fog_visibility_loop["java_method"], "inFogTo(Team viewer)")
+        self.assertEqual(building_in_fog_visibility_loop["godot_owner"], "PortGame.source_building_in_fog_visibility_loop_state")
+        self.assertIn("public boolean inFogTo(Team viewer){", building_in_fog_visibility_loop["exact_exprs"])
+        self.assertIn("for(int x = 0; x < size; x++){", building_in_fog_visibility_loop["exact_exprs"])
+        self.assertIn("for(int y = 0; y < size; y++){", building_in_fog_visibility_loop["exact_exprs"])
+        self.assertIn("if(fogControl.isVisibleTile(viewer, tx + x + of, ty + y + of)){", building_in_fog_visibility_loop["exact_exprs"])
+        self.assertIn("return false;", building_in_fog_visibility_loop["exact_exprs"])
+        self.assertIn("return true;", building_in_fog_visibility_loop["exact_exprs"])
+
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
         self.assertEqual(arc_mathf_cos_scaled["java_method"], "cos(float radians, float scl, float mag)")
@@ -8790,6 +8861,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("returned", building_in_fog_initial_gate["return_keys"])
         self.assertIn("value", building_in_fog_initial_gate["return_keys"])
         self.assertEqual(building_in_fog_initial_gate["source_method"], "inFogTo(Team viewer)")
+
+        building_in_fog_visibility_loop = source_symbols.api_contract(contracts, "PortGame.source_building_in_fog_visibility_loop_state")
+        self.assertEqual([param["name"] for param in building_in_fog_visibility_loop["params"]], ["block_size_value", "block_size_offset", "tile_x", "tile_y", "visible_tiles"])
+        self.assertEqual(building_in_fog_visibility_loop["params"][0]["schema"], "source_building_in_fog_visibility_loop_input.block_size_value")
+        self.assertEqual(building_in_fog_visibility_loop["params"][4]["schema"], "source_building_in_fog_visibility_loop_input.visible_tiles")
+        self.assertIn("in_fog", building_in_fog_visibility_loop["return_keys"])
+        self.assertIn("checked_tiles", building_in_fog_visibility_loop["return_keys"])
+        self.assertIn("visible_tile", building_in_fog_visibility_loop["return_keys"])
+        self.assertEqual(building_in_fog_visibility_loop["source_method"], "inFogTo(Team viewer)")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -10932,6 +11012,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_in_fog_initial_gate_result["keys"]["returned"]["java_expr"], "if(team == viewer || !state.rules.fog) return false;")
         self.assertEqual(source_building_in_fog_initial_gate_result["keys"]["same_team"]["alias_of"], "source_building_in_fog_initial_gate_input.same_team")
         self.assertEqual(source_building_in_fog_initial_gate_result["keys"]["rules_fog"]["alias_of"], "source_building_in_fog_initial_gate_input.rules_fog")
+
+        source_building_in_fog_visibility_loop_input = source_symbols.state_schema(schema, "source_building_in_fog_visibility_loop_input")
+        self.assertEqual(source_building_in_fog_visibility_loop_input["keys"]["block_size_value"]["java_expr"], "block.size")
+        self.assertEqual(source_building_in_fog_visibility_loop_input["keys"]["block_size_offset"]["java_expr"], "block.sizeOffset")
+        self.assertEqual(source_building_in_fog_visibility_loop_input["keys"]["tile_x"]["java_expr"], "tile.x")
+        self.assertEqual(source_building_in_fog_visibility_loop_input["keys"]["tile_y"]["java_expr"], "tile.y")
+        self.assertEqual(source_building_in_fog_visibility_loop_input["keys"]["visible_tiles"]["java_expr"], "fogControl.isVisibleTile(viewer, tx + x + of, ty + y + of)")
+
+        source_building_in_fog_visibility_loop_result = source_symbols.state_schema(schema, "source_building_in_fog_visibility_loop_result")
+        self.assertEqual(source_building_in_fog_visibility_loop_result["keys"]["method"]["java_expr"], "public boolean inFogTo(Team viewer){")
+        self.assertEqual(source_building_in_fog_visibility_loop_result["keys"]["outer_loop"]["java_expr"], "for(int x = 0; x < size; x++){")
+        self.assertEqual(source_building_in_fog_visibility_loop_result["keys"]["inner_loop"]["java_expr"], "for(int y = 0; y < size; y++){")
+        self.assertEqual(source_building_in_fog_visibility_loop_result["keys"]["visible_tile_check"]["java_expr"], "if(fogControl.isVisibleTile(viewer, tx + x + of, ty + y + of)){")
+        self.assertEqual(source_building_in_fog_visibility_loop_result["keys"]["visible_return"]["java_expr"], "return false;")
+        self.assertEqual(source_building_in_fog_visibility_loop_result["keys"]["final_return"]["java_expr"], "return true;")
+        self.assertEqual(source_building_in_fog_visibility_loop_result["keys"]["block_size_value"]["alias_of"], "source_building_in_fog_visibility_loop_input.block_size_value")
+        self.assertEqual(source_building_in_fog_visibility_loop_result["keys"]["visible_tiles"]["alias_of"], "source_building_in_fog_visibility_loop_input.visible_tiles")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

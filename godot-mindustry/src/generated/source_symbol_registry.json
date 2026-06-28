@@ -18857,6 +18857,149 @@
         "test_building_in_fog_initial_gate_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_building_in_fog_initial_gate_state"
+    },
+    "building_in_fog_visibility_loop.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "inFogTo(Team viewer)",
+      "java_expr": "public boolean inFogTo(Team viewer){",
+      "godot_symbol": "source_building_in_fog_visibility_loop_result.method",
+      "godot_owner": "PortGame.source_building_in_fog_visibility_loop_state",
+      "rule": "Source inFogTo method declaration.",
+      "tests": [
+        "test_building_in_fog_visibility_loop_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_in_fog_visibility_loop_state"
+    },
+    "building_in_fog_visibility_loop.outer_loop": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "inFogTo(Team viewer)",
+      "java_expr": "for(int x = 0; x < size; x++){",
+      "godot_symbol": "source_building_in_fog_visibility_loop_result.outer_loop",
+      "godot_owner": "PortGame.source_building_in_fog_visibility_loop_state",
+      "rule": "Source inFogTo iterates every block-size x offset.",
+      "tests": [
+        "test_building_in_fog_visibility_loop_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_in_fog_visibility_loop_state"
+    },
+    "building_in_fog_visibility_loop.inner_loop": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "inFogTo(Team viewer)",
+      "java_expr": "for(int y = 0; y < size; y++){",
+      "godot_symbol": "source_building_in_fog_visibility_loop_result.inner_loop",
+      "godot_owner": "PortGame.source_building_in_fog_visibility_loop_state",
+      "rule": "Source inFogTo iterates every block-size y offset.",
+      "tests": [
+        "test_building_in_fog_visibility_loop_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_in_fog_visibility_loop_state"
+    },
+    "building_in_fog_visibility_loop.visible_tile_check": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "inFogTo(Team viewer)",
+      "java_expr": "if(fogControl.isVisibleTile(viewer, tx + x + of, ty + y + of)){",
+      "godot_symbol": "source_building_in_fog_visibility_loop_result.visible_tile_check",
+      "godot_owner": "PortGame.source_building_in_fog_visibility_loop_state",
+      "rule": "Source inFogTo tests visible tiles at tx + x + of and ty + y + of.",
+      "tests": [
+        "test_building_in_fog_visibility_loop_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_in_fog_visibility_loop_state"
+    },
+    "building_in_fog_visibility_loop.visible_return": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "inFogTo(Team viewer)",
+      "java_expr": "return false;",
+      "godot_symbol": "source_building_in_fog_visibility_loop_result.visible_return",
+      "godot_owner": "PortGame.source_building_in_fog_visibility_loop_state",
+      "rule": "A visible tile makes inFogTo return false.",
+      "tests": [
+        "test_building_in_fog_visibility_loop_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_in_fog_visibility_loop_state"
+    },
+    "building_in_fog_visibility_loop.final_return": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "inFogTo(Team viewer)",
+      "java_expr": "return true;",
+      "godot_symbol": "source_building_in_fog_visibility_loop_result.final_return",
+      "godot_owner": "PortGame.source_building_in_fog_visibility_loop_state",
+      "rule": "If no visible tile is found, inFogTo returns true.",
+      "tests": [
+        "test_building_in_fog_visibility_loop_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_in_fog_visibility_loop_state"
+    },
+    "building_in_fog_visibility_loop.block_size": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "inFogTo(Team viewer)",
+      "java_expr": "block.size",
+      "godot_symbol": "source_building_in_fog_visibility_loop_input.block_size_value",
+      "godot_owner": "PortGame.source_building_in_fog_visibility_loop_state",
+      "rule": "Runtime block_size_value supplies source block.size.",
+      "tests": [
+        "test_building_in_fog_visibility_loop_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_in_fog_visibility_loop_state"
+    },
+    "building_in_fog_visibility_loop.block_size_offset": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "inFogTo(Team viewer)",
+      "java_expr": "block.sizeOffset",
+      "godot_symbol": "source_building_in_fog_visibility_loop_input.block_size_offset",
+      "godot_owner": "PortGame.source_building_in_fog_visibility_loop_state",
+      "rule": "Runtime block_size_offset supplies source block.sizeOffset.",
+      "tests": [
+        "test_building_in_fog_visibility_loop_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_in_fog_visibility_loop_state"
+    },
+    "building_in_fog_visibility_loop.tile_x": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "inFogTo(Team viewer)",
+      "java_expr": "tile.x",
+      "godot_symbol": "source_building_in_fog_visibility_loop_input.tile_x",
+      "godot_owner": "PortGame.source_building_in_fog_visibility_loop_state",
+      "rule": "Runtime tile_x supplies source tile.x.",
+      "tests": [
+        "test_building_in_fog_visibility_loop_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_in_fog_visibility_loop_state"
+    },
+    "building_in_fog_visibility_loop.tile_y": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "inFogTo(Team viewer)",
+      "java_expr": "tile.y",
+      "godot_symbol": "source_building_in_fog_visibility_loop_input.tile_y",
+      "godot_owner": "PortGame.source_building_in_fog_visibility_loop_state",
+      "rule": "Runtime tile_y supplies source tile.y.",
+      "tests": [
+        "test_building_in_fog_visibility_loop_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_in_fog_visibility_loop_state"
+    },
+    "building_in_fog_visibility_loop.visible_tiles": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "inFogTo(Team viewer)",
+      "java_expr": "fogControl.isVisibleTile(viewer, tx + x + of, ty + y + of)",
+      "godot_symbol": "source_building_in_fog_visibility_loop_input.visible_tiles",
+      "godot_owner": "PortGame.source_building_in_fog_visibility_loop_state",
+      "rule": "Runtime visible_tiles supplies source fogControl.isVisibleTile checks for candidate tile coordinates.",
+      "tests": [
+        "test_building_in_fog_visibility_loop_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_in_fog_visibility_loop_state"
     }
   }
 }
