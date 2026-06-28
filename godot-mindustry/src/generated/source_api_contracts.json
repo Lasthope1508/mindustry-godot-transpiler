@@ -7550,6 +7550,29 @@
       ],
       "runtime_proof": "/root/Main.source_building_is_insulated_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.isInsulated helper."
+    },
+    "PortGame.source_building_is_payload_state": {
+      "status": "active",
+      "source_slice": "N598",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "isPayload()",
+      "params": [
+        {
+          "name": "tile_is_empty_tile",
+          "type": "bool",
+          "schema": "source_building_is_payload_input.tile_is_empty_tile"
+        }
+      ],
+      "return_keys": [
+        "tile_is_empty_tile",
+        "method",
+        "is_payload"
+      ],
+      "tests": [
+        "test_building_is_payload_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_payload_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.isPayload helper."
     }
   },
   "policy": {

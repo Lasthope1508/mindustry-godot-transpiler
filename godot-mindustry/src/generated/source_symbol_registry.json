@@ -19143,6 +19143,45 @@
       "java_expr": "block.insulated",
       "godot_symbol": "source_building_is_insulated_input.block_insulated",
       "rule": "Block insulated field supplied to isInsulated helper."
+    },
+    "building_is_payload.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "isPayload()",
+      "godot_owner": "PortGame.source_building_is_payload_state",
+      "tests": [
+        "test_building_is_payload_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_payload_state",
+      "java_expr": "public boolean isPayload(){",
+      "godot_symbol": "source_building_is_payload_result.method",
+      "rule": "BuildingComp isPayload method boundary."
+    },
+    "building_is_payload.result": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "isPayload()",
+      "godot_owner": "PortGame.source_building_is_payload_state",
+      "tests": [
+        "test_building_is_payload_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_payload_state",
+      "java_expr": "return tile == emptyTile;",
+      "godot_symbol": "source_building_is_payload_result.is_payload",
+      "rule": "BuildingComp isPayload returns tile == emptyTile."
+    },
+    "building_is_payload.tile_is_empty_tile": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "isPayload()",
+      "godot_owner": "PortGame.source_building_is_payload_state",
+      "tests": [
+        "test_building_is_payload_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_payload_state",
+      "java_expr": "tile == emptyTile",
+      "godot_symbol": "source_building_is_payload_input.tile_is_empty_tile",
+      "rule": "Runtime tile_is_empty_tile supplies the source tile == emptyTile predicate."
     }
   }
 }

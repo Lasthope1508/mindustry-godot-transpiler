@@ -6164,6 +6164,31 @@
       ],
       "runtime_proof": "/root/Main.source_building_is_insulated_state",
       "rule": "Backfills SSOT for existing canonical source_building_is_insulated_state helper against BuildingComp.isInsulated()."
+    },
+    "N598": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "isPayload()",
+      "godot_owner": "PortGame.source_building_is_payload_state",
+      "exact_exprs": [
+        "public boolean isPayload(){",
+        "return tile == emptyTile;",
+        "tile == emptyTile"
+      ],
+      "deferred_exprs": [
+        "Concrete emptyTile identity and payload lifecycle mutation remain owned by payload/runtime integration slices."
+      ],
+      "source_symbols": [
+        "building_is_payload.method",
+        "building_is_payload.result",
+        "building_is_payload.tile_is_empty_tile"
+      ],
+      "tests": [
+        "test_building_is_payload_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_is_payload_state",
+      "rule": "Backfills SSOT for existing canonical source_building_is_payload_state helper against BuildingComp.isPayload()."
     }
   },
   "version": 1

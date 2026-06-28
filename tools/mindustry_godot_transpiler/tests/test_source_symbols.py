@@ -5164,6 +5164,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(block_insulated["java_expr"], "block.insulated")
         self.assertEqual(block_insulated["godot_symbol"], "source_building_is_insulated_input.block_insulated")
 
+    def test_building_is_payload_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_is_payload.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "isPayload()")
+        self.assertEqual(method["java_expr"], "public boolean isPayload(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_is_payload_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_is_payload_state")
+        self.assertEqual(method["godot_symbol"], "source_building_is_payload_result.method")
+
+        result = source_symbols.source_symbol(registry, "building_is_payload.result")
+        self.assertEqual(result["java_expr"], "return tile == emptyTile;")
+        self.assertEqual(result["godot_symbol"], "source_building_is_payload_result.is_payload")
+
+        tile_is_empty_tile = source_symbols.source_symbol(registry, "building_is_payload.tile_is_empty_tile")
+        self.assertEqual(tile_is_empty_tile["status"], "explicit-input")
+        self.assertEqual(tile_is_empty_tile["java_expr"], "tile == emptyTile")
+        self.assertEqual(tile_is_empty_tile["godot_symbol"], "source_building_is_payload_input.tile_is_empty_tile")
+
     def test_building_in_fog_discovery_gate_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -5534,9 +5557,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 195)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 196)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 200)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 201)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -5549,6 +5572,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_is_commandable_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_is_heal_suppressed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_is_insulated_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_is_payload_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7323,6 +7347,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return block.insulated;", building_is_insulated["exact_exprs"])
         self.assertIn("block.insulated", building_is_insulated["exact_exprs"])
 
+        building_is_payload = source_symbols.source_slice(ledger, "N598")
+        self.assertEqual(building_is_payload["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_is_payload["java_method"], "isPayload()")
+        self.assertEqual(building_is_payload["godot_owner"], "PortGame.source_building_is_payload_state")
+        self.assertIn("public boolean isPayload(){", building_is_payload["exact_exprs"])
+        self.assertIn("return tile == emptyTile;", building_is_payload["exact_exprs"])
+        self.assertIn("tile == emptyTile", building_is_payload["exact_exprs"])
+
         arc_mathf_cos_scaled = source_symbols.source_slice(ledger, "N501")
         self.assertEqual(arc_mathf_cos_scaled["java_source"], "arc-core/src/arc/math/Mathf.java")
         self.assertEqual(arc_mathf_cos_scaled["java_method"], "cos(float radians, float scl, float mag)")
@@ -9005,6 +9037,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("method", building_is_insulated["return_keys"])
         self.assertIn("insulated", building_is_insulated["return_keys"])
         self.assertEqual(building_is_insulated["source_method"], "isInsulated()")
+
+        building_is_payload = source_symbols.api_contract(contracts, "PortGame.source_building_is_payload_state")
+        self.assertEqual([param["name"] for param in building_is_payload["params"]], ["tile_is_empty_tile"])
+        self.assertEqual(building_is_payload["params"][0]["schema"], "source_building_is_payload_input.tile_is_empty_tile")
+        self.assertIn("tile_is_empty_tile", building_is_payload["return_keys"])
+        self.assertIn("method", building_is_payload["return_keys"])
+        self.assertIn("is_payload", building_is_payload["return_keys"])
+        self.assertEqual(building_is_payload["source_method"], "isPayload()")
 
         arc_mathf_cos_scaled = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_scaled")
         self.assertEqual([param["name"] for param in arc_mathf_cos_scaled["params"]], ["radians", "scl", "mag"])
@@ -11197,6 +11237,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_is_insulated_result["keys"]["method"]["java_expr"], "public boolean isInsulated(){")
         self.assertEqual(source_building_is_insulated_result["keys"]["insulated"]["java_expr"], "return block.insulated;")
         self.assertEqual(source_building_is_insulated_result["keys"]["block_insulated"]["alias_of"], "source_building_is_insulated_input.block_insulated")
+
+        source_building_is_payload_input = source_symbols.state_schema(schema, "source_building_is_payload_input")
+        self.assertEqual(source_building_is_payload_input["keys"]["tile_is_empty_tile"]["java_expr"], "tile == emptyTile")
+        self.assertEqual(source_building_is_payload_input["keys"]["tile_is_empty_tile"]["status"], "explicit-input")
+
+        source_building_is_payload_result = source_symbols.state_schema(schema, "source_building_is_payload_result")
+        self.assertEqual(source_building_is_payload_result["keys"]["method"]["java_expr"], "public boolean isPayload(){")
+        self.assertEqual(source_building_is_payload_result["keys"]["is_payload"]["java_expr"], "return tile == emptyTile;")
+        self.assertEqual(source_building_is_payload_result["keys"]["tile_is_empty_tile"]["alias_of"], "source_building_is_payload_input.tile_is_empty_tile")
 
         source_arc_mathf_cos_scaled_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_scaled_input")
         self.assertEqual(source_arc_mathf_cos_scaled_input["keys"]["radians"]["java_expr"], "radians")

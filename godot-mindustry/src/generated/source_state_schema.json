@@ -24994,6 +24994,58 @@
           "rule": "Carries block_insulated input into result schema."
         }
       }
+    },
+    "source_building_is_payload_input": {
+      "status": "active",
+      "keys": {
+        "tile_is_empty_tile": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "isPayload()",
+          "java_expr": "tile == emptyTile",
+          "godot_symbol": "source_building_is_payload_input.tile_is_empty_tile",
+          "used_by": [
+            "PortGame.source_building_is_payload_state"
+          ],
+          "rule": "Runtime tile_is_empty_tile supplies the source tile == emptyTile predicate."
+        }
+      }
+    },
+    "source_building_is_payload_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "isPayload()",
+          "java_expr": "public boolean isPayload(){",
+          "godot_symbol": "source_building_is_payload_result.method",
+          "used_by": [
+            "PortGame.source_building_is_payload_state"
+          ],
+          "rule": "BuildingComp isPayload method boundary."
+        },
+        "is_payload": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "isPayload()",
+          "java_expr": "return tile == emptyTile;",
+          "godot_symbol": "source_building_is_payload_result.is_payload",
+          "used_by": [
+            "PortGame.source_building_is_payload_state"
+          ],
+          "rule": "BuildingComp isPayload return predicate."
+        },
+        "tile_is_empty_tile": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_is_payload_input.tile_is_empty_tile",
+          "rule": "Carries tile_is_empty_tile input into result schema."
+        }
+      }
     }
   },
   "version": 1
