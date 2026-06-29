@@ -10087,6 +10087,29 @@
       ],
       "runtime_proof": "/root/Main.source_building_update_consumption_initial_state",
       "rule": "Backfills SSOT for updateConsumption initial no-consumer/cheating branch; later consumer passes remain separate slices."
+    },
+    "PortGame.source_building_update_consumption_non_optional_pass_state": {
+      "status": "active",
+      "source_slice": "N662",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "updateConsumption()",
+      "params": [
+        {
+          "name": "non_optional_consumer_results",
+          "type": "Array",
+          "schema": "source_building_update_consumption_non_optional_pass_input.non_optional_consumer_results"
+        }
+      ],
+      "return_keys": [
+        "min_efficiency",
+        "should_consume_power"
+      ],
+      "tests": [
+        "test_building_update_consumption_non_optional_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_non_optional_pass_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_consumption_non_optional_pass_state",
+      "rule": "Backfills SSOT for updateConsumption first non-optional consumer pass; optional pass and later assignment remain separate slices."
     }
   },
   "policy": {

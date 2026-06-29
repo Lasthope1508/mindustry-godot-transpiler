@@ -2262,6 +2262,13 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_NON_OPTIONAL_METHOD := "public void updateConsumption(){"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_NON_OPTIONAL_COMMENT := "//first pass: get the minimum efficiency of any consumer"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_NON_OPTIONAL_LOOP := "for(var cons : block.nonOptionalConsumers){"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_NON_OPTIONAL_RESULT := "float result = cons.efficiency(self());"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_NON_OPTIONAL_POWER_GATE := "if(cons != block.consPower && result <= 0.0000001f){"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_NON_OPTIONAL_POWER_STATE := "shouldConsumePower = false;"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_NON_OPTIONAL_MIN := "minEfficiency = Math.min(minEfficiency, result);"', source)
         self.assertIn("func source_building_update_consumption_non_optional_pass_state(non_optional_consumer_results: Array) -> Dictionary:", source)
         self.assertIn('for consumer in non_optional_consumer_results:', source)
         self.assertIn('"min_efficiency": min_efficiency', source)

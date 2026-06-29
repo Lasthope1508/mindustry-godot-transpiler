@@ -34092,6 +34092,153 @@
           "alias_of": "source_building_update_consumption_initial_input.efficiency_scale"
         }
       }
+    },
+    "source_building_update_consumption_non_optional_pass_input": {
+      "status": "active",
+      "owner": "PortGame.source_building_update_consumption_non_optional_pass_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_non_optional_pass_state",
+      "keys": {
+        "non_optional_consumer_results": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_non_optional_pass_state"
+          ],
+          "java_expr": "block.nonOptionalConsumers",
+          "godot_symbol": "source_building_update_consumption_non_optional_pass_input.non_optional_consumer_results",
+          "rule": "Explicit runtime input representing upstream block.nonOptionalConsumers iteration results."
+        }
+      }
+    },
+    "source_building_update_consumption_non_optional_pass_result": {
+      "status": "active",
+      "owner": "PortGame.source_building_update_consumption_non_optional_pass_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_non_optional_pass_state",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_non_optional_pass_state"
+          ],
+          "java_expr": "public void updateConsumption(){",
+          "godot_symbol": "source_building_update_consumption_non_optional_pass_result.method",
+          "rule": "Method boundary for source slice."
+        },
+        "comment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_non_optional_pass_state"
+          ],
+          "java_expr": "//first pass: get the minimum efficiency of any consumer",
+          "godot_symbol": "source_building_update_consumption_non_optional_pass_result.comment",
+          "rule": "Exact upstream first-pass comment."
+        },
+        "loop": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_non_optional_pass_state"
+          ],
+          "java_expr": "for(var cons : block.nonOptionalConsumers){",
+          "godot_symbol": "source_building_update_consumption_non_optional_pass_result.loop",
+          "rule": "Exact upstream non-optional consumer loop."
+        },
+        "result": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_non_optional_pass_state"
+          ],
+          "java_expr": "float result = cons.efficiency(self());",
+          "godot_symbol": "source_building_update_consumption_non_optional_pass_result.result",
+          "rule": "Exact upstream consumer efficiency read."
+        },
+        "power_gate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_non_optional_pass_state"
+          ],
+          "java_expr": "if(cons != block.consPower && result <= 0.0000001f){",
+          "godot_symbol": "source_building_update_consumption_non_optional_pass_result.power_gate",
+          "rule": "Exact upstream non-power zero-result gate."
+        },
+        "power_state": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_non_optional_pass_state"
+          ],
+          "java_expr": "shouldConsumePower = false;",
+          "godot_symbol": "source_building_update_consumption_non_optional_pass_result.power_state",
+          "rule": "Exact upstream power flag mutation."
+        },
+        "min": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_non_optional_pass_state"
+          ],
+          "java_expr": "minEfficiency = Math.min(minEfficiency, result);",
+          "godot_symbol": "source_building_update_consumption_non_optional_pass_result.min",
+          "rule": "Exact upstream minEfficiency fold."
+        },
+        "non_optional_consumer_results": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_non_optional_pass_state"
+          ],
+          "java_expr": "block.nonOptionalConsumers",
+          "godot_symbol": "source_building_update_consumption_non_optional_pass_result.non_optional_consumer_results",
+          "rule": "Result aliases explicit non-optional consumer input.",
+          "alias_of": "source_building_update_consumption_non_optional_pass_input.non_optional_consumer_results"
+        },
+        "min_efficiency": {
+          "type": "float",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_non_optional_pass_state"
+          ],
+          "java_expr": "minEfficiency = Math.min(minEfficiency, result);",
+          "godot_symbol": "source_building_update_consumption_non_optional_pass_result.min_efficiency",
+          "rule": "Generated folded minEfficiency result."
+        },
+        "should_consume_power": {
+          "type": "bool",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_non_optional_pass_state"
+          ],
+          "java_expr": "shouldConsumePower = false;",
+          "godot_symbol": "source_building_update_consumption_non_optional_pass_result.should_consume_power",
+          "rule": "Generated power flag result."
+        }
+      }
     }
   },
   "version": 1

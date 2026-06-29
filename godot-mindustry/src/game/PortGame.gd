@@ -2413,6 +2413,14 @@ func source_building_update_consumption_setup_state(should_consume_state: bool, 
 		"should_consume_power": true,
 	}
 
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_NON_OPTIONAL_METHOD := "public void updateConsumption(){"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_NON_OPTIONAL_COMMENT := "//first pass: get the minimum efficiency of any consumer"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_NON_OPTIONAL_LOOP := "for(var cons : block.nonOptionalConsumers){"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_NON_OPTIONAL_RESULT := "float result = cons.efficiency(self());"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_NON_OPTIONAL_POWER_GATE := "if(cons != block.consPower && result <= 0.0000001f){"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_NON_OPTIONAL_POWER_STATE := "shouldConsumePower = false;"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_NON_OPTIONAL_MIN := "minEfficiency = Math.min(minEfficiency, result);"
+
 func source_building_update_consumption_non_optional_pass_state(non_optional_consumer_results: Array) -> Dictionary:
 	var min_efficiency := 1.0
 	var should_consume_power := true

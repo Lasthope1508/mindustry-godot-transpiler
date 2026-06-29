@@ -8323,6 +8323,41 @@
       ],
       "runtime_proof": "/root/Main.source_building_update_consumption_initial_state",
       "rule": "Backfills SSOT for existing canonical source_building_update_consumption_initial_state helper against BuildingComp.updateConsumption initial branch."
+    },
+    "N662": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "BuildingComp",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_non_optional_pass_state",
+      "exact_exprs": [
+        "public void updateConsumption(){",
+        "//first pass: get the minimum efficiency of any consumer",
+        "for(var cons : block.nonOptionalConsumers){",
+        "float result = cons.efficiency(self());",
+        "if(cons != block.consPower && result <= 0.0000001f){",
+        "shouldConsumePower = false;",
+        "minEfficiency = Math.min(minEfficiency, result);",
+        "block.nonOptionalConsumers"
+      ],
+      "source_symbols": [
+        "building_update_consumption_non_optional.method",
+        "building_update_consumption_non_optional.comment",
+        "building_update_consumption_non_optional.loop",
+        "building_update_consumption_non_optional.result",
+        "building_update_consumption_non_optional.power_gate",
+        "building_update_consumption_non_optional.power_state",
+        "building_update_consumption_non_optional.min",
+        "building_update_consumption_non_optional.non_optional_consumer_results",
+        "building_update_consumption_non_optional.min_efficiency",
+        "building_update_consumption_non_optional.should_consume_power"
+      ],
+      "tests": [
+        "test_building_update_consumption_non_optional_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_non_optional_pass_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_consumption_non_optional_pass_state",
+      "rule": "Backfills SSOT for existing canonical source_building_update_consumption_non_optional_pass_state helper against BuildingComp.updateConsumption first non-optional consumer pass."
     }
   },
   "version": 1
