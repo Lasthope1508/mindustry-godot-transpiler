@@ -8318,6 +8318,29 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_nearby_build_added_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.onNearbyBuildAdded no-op helper."
+    },
+    "PortGame.source_building_on_removed_state": {
+      "status": "active",
+      "source_slice": "N618",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "onRemoved()",
+      "params": [
+        {
+          "name": "current_state",
+          "type": "Variant",
+          "schema": "source_building_on_removed_input.current_state"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "no_op",
+        "current_state"
+      ],
+      "tests": [
+        "test_building_on_removed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_removed_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.onRemoved no-op helper."
     }
   },
   "policy": {

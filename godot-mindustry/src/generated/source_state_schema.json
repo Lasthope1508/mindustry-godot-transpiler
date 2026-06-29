@@ -27379,6 +27379,58 @@
           "rule": "Carries other_state input into no-op result schema."
         }
       }
+    },
+    "source_building_on_removed_input": {
+      "status": "active",
+      "keys": {
+        "current_state": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onRemoved()",
+          "java_expr": "public void onRemoved(){",
+          "godot_symbol": "source_building_on_removed_input.current_state",
+          "used_by": [
+            "PortGame.source_building_on_removed_state"
+          ],
+          "rule": "Runtime current_state supplies existing no-op passthrough state for the source onRemoved method."
+        }
+      }
+    },
+    "source_building_on_removed_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onRemoved()",
+          "java_expr": "public void onRemoved(){",
+          "godot_symbol": "source_building_on_removed_result.method",
+          "used_by": [
+            "PortGame.source_building_on_removed_state"
+          ],
+          "rule": "BuildingComp onRemoved method boundary."
+        },
+        "no_op": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onRemoved()",
+          "java_expr": "public void onRemoved(){",
+          "godot_symbol": "source_building_on_removed_result.no_op",
+          "used_by": [
+            "PortGame.source_building_on_removed_state"
+          ],
+          "rule": "Base onRemoved implementation is empty."
+        },
+        "current_state": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_on_removed_input.current_state",
+          "rule": "Carries current_state input into no-op result schema."
+        }
+      }
     }
   },
   "version": 1

@@ -1652,8 +1652,12 @@ func source_building_is_payload_state(tile_is_empty_tile: bool) -> bool:
 func source_building_overwrote_state(previous_state: Variant) -> Variant:
 	return previous_state
 
-func source_building_on_removed_state(current_state: Variant) -> Variant:
-	return current_state
+func source_building_on_removed_state(current_state: Variant) -> Dictionary:
+	return {
+		"method": "public void onRemoved(){",
+		"no_op": true,
+		"current_state": current_state,
+	}
 
 func source_building_unit_on_state(unit_state: Variant) -> Variant:
 	return unit_state

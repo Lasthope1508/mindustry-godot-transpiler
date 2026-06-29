@@ -3948,6 +3948,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(other_state["java_expr"], "Building other")
         self.assertEqual(other_state["godot_symbol"], "source_building_on_nearby_build_added_input.other_state")
 
+    def test_building_on_removed_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_on_removed.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "onRemoved()")
+        self.assertEqual(method["java_expr"], "public void onRemoved(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_on_removed_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_on_removed_state")
+        self.assertEqual(method["godot_symbol"], "source_building_on_removed_result.method")
+
+        no_op = source_symbols.source_symbol(registry, "building_on_removed.no_op")
+        self.assertEqual(no_op["java_expr"], "public void onRemoved(){")
+        self.assertEqual(no_op["godot_symbol"], "source_building_on_removed_result.no_op")
+
+        current_state = source_symbols.source_symbol(registry, "building_on_removed.current_state")
+        self.assertEqual(current_state["status"], "explicit-input")
+        self.assertEqual(current_state["java_expr"], "public void onRemoved(){")
+        self.assertEqual(current_state["godot_symbol"], "source_building_on_removed_input.current_state")
+
     def test_building_on_destroyed_base_sound_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -6174,9 +6197,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 215)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 216)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 220)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 221)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6209,6 +6232,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_on_destroyed_rubble_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_on_destroyed_splash_liquid_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_on_nearby_build_added_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_on_removed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7628,6 +7652,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_on_nearby_build_added["godot_owner"], "PortGame.source_building_on_nearby_build_added_state")
         self.assertIn("public void onNearbyBuildAdded(Building other){}", building_on_nearby_build_added["exact_exprs"])
         self.assertIn("Building other", building_on_nearby_build_added["exact_exprs"])
+
+        building_on_removed = source_symbols.source_slice(ledger, "N618")
+        self.assertEqual(building_on_removed["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_on_removed["java_method"], "onRemoved()")
+        self.assertEqual(building_on_removed["godot_owner"], "PortGame.source_building_on_removed_state")
+        self.assertIn("public void onRemoved(){", building_on_removed["exact_exprs"])
 
         building_on_destroyed_base_sound = source_symbols.source_slice(ledger, "N608")
         self.assertEqual(building_on_destroyed_base_sound["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -9597,6 +9627,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("no_op", building_on_nearby_build_added["return_keys"])
         self.assertIn("other_state", building_on_nearby_build_added["return_keys"])
         self.assertEqual(building_on_nearby_build_added["source_method"], "onNearbyBuildAdded(Building other)")
+
+        building_on_removed = source_symbols.api_contract(contracts, "PortGame.source_building_on_removed_state")
+        self.assertEqual([param["name"] for param in building_on_removed["params"]], ["current_state"])
+        self.assertEqual(building_on_removed["params"][0]["schema"], "source_building_on_removed_input.current_state")
+        self.assertIn("method", building_on_removed["return_keys"])
+        self.assertIn("no_op", building_on_removed["return_keys"])
+        self.assertIn("current_state", building_on_removed["return_keys"])
+        self.assertEqual(building_on_removed["source_method"], "onRemoved()")
 
         building_on_destroyed_base_sound = source_symbols.api_contract(contracts, "PortGame.source_building_on_destroyed_base_sound_state")
         self.assertEqual([param["name"] for param in building_on_destroyed_base_sound["params"]], ["headless", "destroy_sound", "destroy_pitch_min", "destroy_pitch_max", "destroy_sound_volume"])
@@ -11773,6 +11811,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_on_nearby_build_added_result["keys"]["method"]["java_expr"], "public void onNearbyBuildAdded(Building other){}")
         self.assertEqual(source_building_on_nearby_build_added_result["keys"]["no_op"]["java_expr"], "public void onNearbyBuildAdded(Building other){}")
         self.assertEqual(source_building_on_nearby_build_added_result["keys"]["other_state"]["alias_of"], "source_building_on_nearby_build_added_input.other_state")
+
+        source_building_on_removed_input = source_symbols.state_schema(schema, "source_building_on_removed_input")
+        self.assertEqual(source_building_on_removed_input["keys"]["current_state"]["java_expr"], "public void onRemoved(){")
+
+        source_building_on_removed_result = source_symbols.state_schema(schema, "source_building_on_removed_result")
+        self.assertEqual(source_building_on_removed_result["keys"]["method"]["java_expr"], "public void onRemoved(){")
+        self.assertEqual(source_building_on_removed_result["keys"]["no_op"]["java_expr"], "public void onRemoved(){")
+        self.assertEqual(source_building_on_removed_result["keys"]["current_state"]["alias_of"], "source_building_on_removed_input.current_state")
 
         source_building_on_destroyed_base_sound_input = source_symbols.state_schema(schema, "source_building_on_destroyed_base_sound_input")
         self.assertEqual(source_building_on_destroyed_base_sound_input["keys"]["headless"]["java_expr"], "headless")

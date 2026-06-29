@@ -6844,6 +6844,29 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_nearby_build_added_state",
       "rule": "Backfills SSOT for existing canonical source_building_on_nearby_build_added_state helper against BuildingComp.onNearbyBuildAdded(Building other) no-op."
+    },
+    "N618": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "onRemoved()",
+      "godot_owner": "PortGame.source_building_on_removed_state",
+      "exact_exprs": [
+        "public void onRemoved(){"
+      ],
+      "deferred_exprs": [
+        "Concrete block-specific onRemoved overrides remain covered by their own block runtime integration slices."
+      ],
+      "source_symbols": [
+        "building_on_removed.method",
+        "building_on_removed.no_op",
+        "building_on_removed.current_state"
+      ],
+      "tests": [
+        "test_building_on_removed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_removed_state",
+      "rule": "Backfills SSOT for existing canonical source_building_on_removed_state helper against BuildingComp.onRemoved() no-op."
     }
   },
   "version": 1
