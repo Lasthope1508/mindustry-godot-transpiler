@@ -4157,6 +4157,65 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(accept_gate["java_expr"], "if(other != null && other.team == team && other.acceptItem(self(), item)){")
         self.assertEqual(accept_gate["alias_of"], "move_forward_accept.gate")
 
+    def test_move_payload_state_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "move_payload_state.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "movePayload(Payload todump)")
+        self.assertEqual(method["java_expr"], "public boolean movePayload(Payload todump){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_move_payload_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_move_payload_state")
+        self.assertEqual(method["godot_symbol"], "source_move_payload_state_result.method")
+
+        trns = source_symbols.source_symbol(registry, "move_payload_state.trns")
+        self.assertEqual(trns["java_expr"], "int trns = block.size/2 + 1;")
+        self.assertEqual(trns["godot_symbol"], "source_move_payload_state_result.trns")
+
+        next_tile = source_symbols.source_symbol(registry, "move_payload_state.next_tile")
+        self.assertEqual(next_tile["java_expr"], "Tile next = tile.nearby(Geometry.d4(rotation).x * trns, Geometry.d4(rotation).y * trns);")
+        self.assertEqual(next_tile["godot_symbol"], "source_move_payload_state_result.nextTile")
+
+        gate = source_symbols.source_symbol(registry, "move_payload_state.gate")
+        self.assertEqual(gate["java_expr"], "if(next != null && next.build != null && next.build.team == team && next.build.acceptPayload(self(), todump)){")
+        self.assertEqual(gate["godot_symbol"], "source_move_payload_state_result.movePayload")
+
+        handle_deferred = source_symbols.source_symbol(registry, "move_payload_state.handle_deferred")
+        self.assertEqual(handle_deferred["status"], "deferred")
+        self.assertEqual(handle_deferred["java_expr"], "next.build.handlePayload(self(), todump);")
+        self.assertEqual(handle_deferred["godot_symbol"], "source_move_payload_state_result.handleDeferred")
+
+        return_true = source_symbols.source_symbol(registry, "move_payload_state.return_true")
+        self.assertEqual(return_true["java_expr"], "return true;")
+        self.assertEqual(return_true["godot_symbol"], "source_move_payload_state_result.movePayload")
+
+        return_false = source_symbols.source_symbol(registry, "move_payload_state.return_false")
+        self.assertEqual(return_false["java_expr"], "return false;")
+        self.assertEqual(return_false["godot_symbol"], "source_move_payload_state_result.movePayload")
+
+        has_next_tile = source_symbols.source_symbol(registry, "move_payload_state.has_next_tile")
+        self.assertEqual(has_next_tile["status"], "explicit-input")
+        self.assertEqual(has_next_tile["java_expr"], "next != null")
+        self.assertEqual(has_next_tile["godot_symbol"], "source_move_payload_state_input.hasNextTile")
+
+        has_next_build = source_symbols.source_symbol(registry, "move_payload_state.has_next_build")
+        self.assertEqual(has_next_build["status"], "explicit-input")
+        self.assertEqual(has_next_build["java_expr"], "next.build != null")
+        self.assertEqual(has_next_build["godot_symbol"], "source_move_payload_state_input.hasNextBuild")
+
+        same_team = source_symbols.source_symbol(registry, "move_payload_state.same_team")
+        self.assertEqual(same_team["status"], "explicit-input")
+        self.assertEqual(same_team["java_expr"], "next.build.team == team")
+        self.assertEqual(same_team["godot_symbol"], "source_move_payload_state_input.sameTeam")
+
+        accepts_payload = source_symbols.source_symbol(registry, "move_payload_state.accepts_payload")
+        self.assertEqual(accepts_payload["status"], "explicit-input")
+        self.assertEqual(accepts_payload["java_expr"], "next.build.acceptPayload(self(), todump)")
+        self.assertEqual(accepts_payload["godot_symbol"], "source_move_payload_state_input.acceptsPayload")
+
     def test_dump_drill_item_to_core_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -10288,9 +10347,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 320)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 321)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 325)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 326)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -10501,6 +10560,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_core_accept_item", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_core_handle_item", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_move_forward_to_core", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_move_payload_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_delay", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_dump_interval", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_inactive_warmup_state", audit["registeredSourceOwners"])
@@ -11713,6 +11773,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return false;", move_forward_to_core["exact_exprs"])
         self.assertIn("source_core_accept_item(item_id)", move_forward_to_core["bridge_exprs"])
         self.assertIn("source_core_handle_item(item_id)", move_forward_to_core["bridge_exprs"])
+
+        move_payload_state = source_symbols.source_slice(ledger, "N723")
+        self.assertEqual(move_payload_state["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(move_payload_state["java_method"], "movePayload(Payload todump)")
+        self.assertEqual(move_payload_state["godot_owner"], "PortGame.source_move_payload_state")
+        self.assertIn("public boolean movePayload(Payload todump){", move_payload_state["exact_exprs"])
+        self.assertIn("int trns = block.size/2 + 1;", move_payload_state["exact_exprs"])
+        self.assertIn("Tile next = tile.nearby(Geometry.d4(rotation).x * trns, Geometry.d4(rotation).y * trns);", move_payload_state["exact_exprs"])
+        self.assertIn("if(next != null && next.build != null && next.build.team == team && next.build.acceptPayload(self(), todump)){", move_payload_state["exact_exprs"])
+        self.assertIn("return true;", move_payload_state["exact_exprs"])
+        self.assertIn("return false;", move_payload_state["exact_exprs"])
+        self.assertIn("next.build.handlePayload(self(), todump);", move_payload_state["deferred_exprs"])
 
         dump_drill_item_to_core = source_symbols.source_slice(ledger, "N705")
         self.assertEqual(dump_drill_item_to_core["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -14699,6 +14771,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("handled", move_forward_to_core["return_keys"])
         self.assertIn("moved", move_forward_to_core["return_keys"])
         self.assertEqual(move_forward_to_core["source_method"], "moveForward(Item item)")
+
+        move_payload_state = source_symbols.api_contract(contracts, "PortGame.source_move_payload_state")
+        self.assertEqual([param["name"] for param in move_payload_state["params"]], ["has_next_tile", "has_next_build", "same_team", "accepts_payload"])
+        self.assertEqual(move_payload_state["params"][0]["schema"], "source_move_payload_state_input.hasNextTile")
+        self.assertEqual(move_payload_state["params"][1]["schema"], "source_move_payload_state_input.hasNextBuild")
+        self.assertEqual(move_payload_state["params"][2]["schema"], "source_move_payload_state_input.sameTeam")
+        self.assertEqual(move_payload_state["params"][3]["schema"], "source_move_payload_state_input.acceptsPayload")
+        self.assertIn("movePayload", move_payload_state["return_keys"])
+        self.assertIn("handleDeferred", move_payload_state["return_keys"])
+        self.assertEqual(move_payload_state["source_method"], "movePayload(Payload todump)")
 
         drill_delay = source_symbols.api_contract(contracts, "PortGame.source_drill_delay")
         self.assertEqual([param["name"] for param in drill_delay["params"]], ["block_id", "item_id"])
@@ -18086,6 +18168,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_move_forward_to_core_result["keys"]["handled"]["godot_symbol"], "source_core_handle_item(item_id)")
         self.assertEqual(source_move_forward_to_core_result["keys"]["moved"]["java_expr"], "return true; / return false;")
         self.assertEqual(source_move_forward_to_core_result["keys"]["item_id"]["alias_of"], "source_move_forward_to_core_input.item_id")
+
+        source_move_payload_state_input = source_symbols.state_schema(schema, "source_move_payload_state_input")
+        self.assertEqual(source_move_payload_state_input["keys"]["hasNextTile"]["java_expr"], "next != null")
+        self.assertEqual(source_move_payload_state_input["keys"]["hasNextBuild"]["java_expr"], "next.build != null")
+        self.assertEqual(source_move_payload_state_input["keys"]["sameTeam"]["java_expr"], "next.build.team == team")
+        self.assertEqual(source_move_payload_state_input["keys"]["acceptsPayload"]["java_expr"], "next.build.acceptPayload(self(), todump)")
+
+        source_move_payload_state_result = source_symbols.state_schema(schema, "source_move_payload_state_result")
+        self.assertEqual(source_move_payload_state_result["keys"]["method"]["java_expr"], "public boolean movePayload(Payload todump){")
+        self.assertEqual(source_move_payload_state_result["keys"]["trns"]["java_expr"], "int trns = block.size/2 + 1;")
+        self.assertEqual(source_move_payload_state_result["keys"]["nextTile"]["java_expr"], "Tile next = tile.nearby(Geometry.d4(rotation).x * trns, Geometry.d4(rotation).y * trns);")
+        self.assertEqual(source_move_payload_state_result["keys"]["movePayload"]["java_expr"], "if(next != null && next.build != null && next.build.team == team && next.build.acceptPayload(self(), todump)){")
+        self.assertEqual(source_move_payload_state_result["keys"]["handleDeferred"]["java_expr"], "next.build.handlePayload(self(), todump);")
+        self.assertEqual(source_move_payload_state_result["keys"]["returnTrue"]["java_expr"], "return true;")
+        self.assertEqual(source_move_payload_state_result["keys"]["returnFalse"]["java_expr"], "return false;")
+        self.assertEqual(source_move_payload_state_result["keys"]["hasNextTile"]["alias_of"], "source_move_payload_state_input.hasNextTile")
+        self.assertEqual(source_move_payload_state_result["keys"]["acceptsPayload"]["alias_of"], "source_move_payload_state_input.acceptsPayload")
 
         source_dump_drill_item_to_core_input = source_symbols.state_schema(schema, "source_dump_drill_item_to_core_input")
         self.assertEqual(source_dump_drill_item_to_core_input["keys"]["item_id"]["java_expr"], "todump")

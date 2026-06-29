@@ -1487,6 +1487,13 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_MOVE_PAYLOAD_STATE_METHOD := "public boolean movePayload(Payload todump){"', source)
+        self.assertIn('const SOURCE_MOVE_PAYLOAD_STATE_TRNS := "int trns = block.size/2 + 1;"', source)
+        self.assertIn('const SOURCE_MOVE_PAYLOAD_STATE_NEXT := "Tile next = tile.nearby(Geometry.d4(rotation).x * trns, Geometry.d4(rotation).y * trns);"', source)
+        self.assertIn('const SOURCE_MOVE_PAYLOAD_STATE_GATE := "if(next != null && next.build != null && next.build.team == team && next.build.acceptPayload(self(), todump)){"', source)
+        self.assertIn('const SOURCE_MOVE_PAYLOAD_STATE_HANDLE_DEFERRED := "next.build.handlePayload(self(), todump);"', source)
+        self.assertIn('const SOURCE_MOVE_PAYLOAD_STATE_RETURN_TRUE := "return true;"', source)
+        self.assertIn('const SOURCE_MOVE_PAYLOAD_STATE_RETURN_FALSE := "return false;"', source)
         self.assertIn("func source_payload_forward_offset(payload_block_size: int) -> int:", source)
         self.assertIn("return floori(float(payload_block_size) / 2.0) + 1", source)
         self.assertNotIn("func source_payload_forward_offset(block_size: int) -> int:", source)

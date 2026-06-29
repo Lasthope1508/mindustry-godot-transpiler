@@ -10338,6 +10338,42 @@
         "test_move_forward_to_core_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_move_forward_to_core"
       ]
+    },
+    "N723": {
+      "deferred_exprs": [
+        "next.build.handlePayload(self(), todump);"
+      ],
+      "exact_exprs": [
+        "public boolean movePayload(Payload todump){",
+        "int trns = block.size/2 + 1;",
+        "Tile next = tile.nearby(Geometry.d4(rotation).x * trns, Geometry.d4(rotation).y * trns);",
+        "if(next != null && next.build != null && next.build.team == team && next.build.acceptPayload(self(), todump)){",
+        "return true;",
+        "return false;"
+      ],
+      "godot_owner": "PortGame.source_move_payload_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "movePayload(Payload todump)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "runtime_proof": "/root/Main.source_move_payload_state",
+      "source_symbols": [
+        "move_payload_state.method",
+        "move_payload_state.trns",
+        "move_payload_state.next_tile",
+        "move_payload_state.gate",
+        "move_payload_state.handle_deferred",
+        "move_payload_state.return_true",
+        "move_payload_state.return_false",
+        "move_payload_state.has_next_tile",
+        "move_payload_state.has_next_build",
+        "move_payload_state.same_team",
+        "move_payload_state.accepts_payload"
+      ],
+      "status": "done",
+      "tests": [
+        "test_move_payload_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_payload_state"
+      ]
     }
   },
   "version": 1

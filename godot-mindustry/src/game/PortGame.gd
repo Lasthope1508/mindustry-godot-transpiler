@@ -1532,6 +1532,14 @@ func source_building_handle_payload_state(payload_state: Variant) -> Variant:
 func source_payload_forward_offset(payload_block_size: int) -> int:
 	return floori(float(payload_block_size) / 2.0) + 1
 
+const SOURCE_MOVE_PAYLOAD_STATE_METHOD := "public boolean movePayload(Payload todump){"
+const SOURCE_MOVE_PAYLOAD_STATE_TRNS := "int trns = block.size/2 + 1;"
+const SOURCE_MOVE_PAYLOAD_STATE_NEXT := "Tile next = tile.nearby(Geometry.d4(rotation).x * trns, Geometry.d4(rotation).y * trns);"
+const SOURCE_MOVE_PAYLOAD_STATE_GATE := "if(next != null && next.build != null && next.build.team == team && next.build.acceptPayload(self(), todump)){"
+const SOURCE_MOVE_PAYLOAD_STATE_HANDLE_DEFERRED := "next.build.handlePayload(self(), todump);"
+const SOURCE_MOVE_PAYLOAD_STATE_RETURN_TRUE := "return true;"
+const SOURCE_MOVE_PAYLOAD_STATE_RETURN_FALSE := "return false;"
+
 func source_move_payload_state(has_next_tile: bool, has_next_build: bool, same_team: bool, accepts_payload: bool) -> bool:
 	return has_next_tile and has_next_build and same_team and accepts_payload
 

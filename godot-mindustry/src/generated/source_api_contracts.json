@@ -12046,6 +12046,44 @@
         "test_move_forward_to_core_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_move_forward_to_core"
       ]
+    },
+    "PortGame.source_move_payload_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "has_next_tile",
+          "schema": "source_move_payload_state_input.hasNextTile",
+          "type": "bool"
+        },
+        {
+          "name": "has_next_build",
+          "schema": "source_move_payload_state_input.hasNextBuild",
+          "type": "bool"
+        },
+        {
+          "name": "same_team",
+          "schema": "source_move_payload_state_input.sameTeam",
+          "type": "bool"
+        },
+        {
+          "name": "accepts_payload",
+          "schema": "source_move_payload_state_input.acceptsPayload",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "movePayload",
+        "handleDeferred"
+      ],
+      "rule": "Public runtime contract for BuildingComp.movePayload(Payload todump) accept gate before deferred handlePayload side effect.",
+      "runtime_proof": "/root/Main.source_move_payload_state",
+      "source_method": "movePayload(Payload todump)",
+      "source_slice": "N723",
+      "status": "active",
+      "tests": [
+        "test_move_payload_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_payload_state"
+      ]
     }
   },
   "policy": {

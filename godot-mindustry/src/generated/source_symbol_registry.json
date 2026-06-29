@@ -32771,6 +32771,160 @@
         "test_port_game_exposes_source_move_forward_to_core"
       ],
       "alias_of": "move_forward_accept.gate"
+    },
+    "move_payload_state.method": {
+      "godot_owner": "PortGame.source_move_payload_state",
+      "godot_symbol": "source_move_payload_state_result.method",
+      "java_expr": "public boolean movePayload(Payload todump){",
+      "java_method": "movePayload(Payload todump)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "BuildingComp movePayload method boundary for facing-direction payload transfer.",
+      "runtime_proof": "/root/Main.source_move_payload_state",
+      "status": "source-backed",
+      "tests": [
+        "test_move_payload_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_payload_state"
+      ]
+    },
+    "move_payload_state.trns": {
+      "godot_owner": "PortGame.source_move_payload_state",
+      "godot_symbol": "source_move_payload_state_result.trns",
+      "java_expr": "int trns = block.size/2 + 1;",
+      "java_method": "movePayload(Payload todump)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Forward payload tile offset expression from block size.",
+      "runtime_proof": "/root/Main.source_move_payload_state",
+      "status": "source-backed",
+      "tests": [
+        "test_move_payload_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_payload_state"
+      ]
+    },
+    "move_payload_state.next_tile": {
+      "godot_owner": "PortGame.source_move_payload_state",
+      "godot_symbol": "source_move_payload_state_result.nextTile",
+      "java_expr": "Tile next = tile.nearby(Geometry.d4(rotation).x * trns, Geometry.d4(rotation).y * trns);",
+      "java_method": "movePayload(Payload todump)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Forward tile lookup using Geometry.d4(rotation) and trns.",
+      "runtime_proof": "/root/Main.source_move_payload_state",
+      "status": "source-backed",
+      "tests": [
+        "test_move_payload_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_payload_state"
+      ]
+    },
+    "move_payload_state.gate": {
+      "godot_owner": "PortGame.source_move_payload_state",
+      "godot_symbol": "source_move_payload_state_result.movePayload",
+      "java_expr": "if(next != null && next.build != null && next.build.team == team && next.build.acceptPayload(self(), todump)){",
+      "java_method": "movePayload(Payload todump)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Payload transfer succeeds only when next tile/build exist, same team, and acceptPayload passes.",
+      "runtime_proof": "/root/Main.source_move_payload_state",
+      "status": "source-backed",
+      "tests": [
+        "test_move_payload_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_payload_state"
+      ]
+    },
+    "move_payload_state.handle_deferred": {
+      "godot_owner": "PortGame.source_move_payload_state",
+      "godot_symbol": "source_move_payload_state_result.handleDeferred",
+      "java_expr": "next.build.handlePayload(self(), todump);",
+      "java_method": "movePayload(Payload todump)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Side effect pinned but deferred from pure gate helper.",
+      "runtime_proof": "/root/Main.source_move_payload_state",
+      "status": "deferred",
+      "tests": [
+        "test_move_payload_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_payload_state"
+      ]
+    },
+    "move_payload_state.return_true": {
+      "godot_owner": "PortGame.source_move_payload_state",
+      "godot_symbol": "source_move_payload_state_result.movePayload",
+      "java_expr": "return true;",
+      "java_method": "movePayload(Payload todump)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Accepted branch return.",
+      "runtime_proof": "/root/Main.source_move_payload_state",
+      "status": "source-backed",
+      "tests": [
+        "test_move_payload_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_payload_state"
+      ]
+    },
+    "move_payload_state.return_false": {
+      "godot_owner": "PortGame.source_move_payload_state",
+      "godot_symbol": "source_move_payload_state_result.movePayload",
+      "java_expr": "return false;",
+      "java_method": "movePayload(Payload todump)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Rejected branch return.",
+      "runtime_proof": "/root/Main.source_move_payload_state",
+      "status": "source-backed",
+      "tests": [
+        "test_move_payload_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_payload_state"
+      ]
+    },
+    "move_payload_state.has_next_tile": {
+      "godot_owner": "PortGame.source_move_payload_state",
+      "godot_symbol": "source_move_payload_state_input.hasNextTile",
+      "java_expr": "next != null",
+      "java_method": "movePayload(Payload todump)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime has_next_tile parameter maps to Java next != null subexpression.",
+      "runtime_proof": "/root/Main.source_move_payload_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_move_payload_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_payload_state"
+      ]
+    },
+    "move_payload_state.has_next_build": {
+      "godot_owner": "PortGame.source_move_payload_state",
+      "godot_symbol": "source_move_payload_state_input.hasNextBuild",
+      "java_expr": "next.build != null",
+      "java_method": "movePayload(Payload todump)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime has_next_build parameter maps to Java next.build != null subexpression.",
+      "runtime_proof": "/root/Main.source_move_payload_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_move_payload_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_payload_state"
+      ]
+    },
+    "move_payload_state.same_team": {
+      "godot_owner": "PortGame.source_move_payload_state",
+      "godot_symbol": "source_move_payload_state_input.sameTeam",
+      "java_expr": "next.build.team == team",
+      "java_method": "movePayload(Payload todump)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime same_team parameter maps to Java same-team gate.",
+      "runtime_proof": "/root/Main.source_move_payload_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_move_payload_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_payload_state"
+      ]
+    },
+    "move_payload_state.accepts_payload": {
+      "godot_owner": "PortGame.source_move_payload_state",
+      "godot_symbol": "source_move_payload_state_input.acceptsPayload",
+      "java_expr": "next.build.acceptPayload(self(), todump)",
+      "java_method": "movePayload(Payload todump)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime accepts_payload parameter maps to Java acceptPayload call result.",
+      "runtime_proof": "/root/Main.source_move_payload_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_move_payload_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_payload_state"
+      ]
     }
   },
   "version": 1
