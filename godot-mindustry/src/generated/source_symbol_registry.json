@@ -21249,6 +21249,58 @@
       "java_expr": "block.flags.contains(BlockFlag.hasFogRadius)",
       "godot_symbol": "source_building_on_repaired_input.has_fog_radius",
       "rule": "Runtime has_fog_radius supplies source block flag membership."
+    },
+    "building_overwrote.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "overwrote(Seq<Building> previous)",
+      "godot_owner": "PortGame.source_building_overwrote_state",
+      "tests": [
+        "test_building_overwrote_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_overwrote_state",
+      "java_expr": "public void overwrote(Seq<Building> previous){",
+      "godot_symbol": "source_building_overwrote_result.method",
+      "rule": "BuildingComp overwrote method boundary."
+    },
+    "building_overwrote.comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "overwrote(Seq<Building> previous)",
+      "godot_owner": "PortGame.source_building_overwrote_state",
+      "tests": [
+        "test_building_overwrote_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_overwrote_state",
+      "java_expr": "Called when a block is placed over some other blocks. This seq will always have at least one item.",
+      "godot_symbol": "source_building_overwrote_result.comment",
+      "rule": "Source comment documents previous seq contract."
+    },
+    "building_overwrote.no_op": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "overwrote(Seq<Building> previous)",
+      "godot_owner": "PortGame.source_building_overwrote_state",
+      "tests": [
+        "test_building_overwrote_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_overwrote_state",
+      "java_expr": "public void overwrote(Seq<Building> previous){",
+      "godot_symbol": "source_building_overwrote_result.no_op",
+      "rule": "Base overwrote implementation is empty."
+    },
+    "building_overwrote.previous_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "overwrote(Seq<Building> previous)",
+      "godot_owner": "PortGame.source_building_overwrote_state",
+      "tests": [
+        "test_building_overwrote_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_overwrote_state",
+      "java_expr": "Seq<Building> previous",
+      "godot_symbol": "source_building_overwrote_input.previous_state",
+      "rule": "Runtime previous_state supplies source previous building seq for no-op passthrough."
     }
   }
 }

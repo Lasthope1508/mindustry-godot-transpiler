@@ -6899,6 +6899,33 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_repaired_state",
       "rule": "Backfills SSOT for existing canonical source_building_on_repaired_state helper against BuildingComp.onRepaired() placed and fog update behavior."
+    },
+    "N620": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "overwrote(Seq<Building> previous)",
+      "godot_owner": "PortGame.source_building_overwrote_state",
+      "exact_exprs": [
+        "Called when a block is placed over some other blocks. This seq will always have at least one item.",
+        "Should load some previous state, if necessary. */",
+        "public void overwrote(Seq<Building> previous){",
+        "Seq<Building> previous"
+      ],
+      "deferred_exprs": [
+        "Concrete block-specific overwrote overrides remain covered by their own block runtime integration slices."
+      ],
+      "source_symbols": [
+        "building_overwrote.method",
+        "building_overwrote.comment",
+        "building_overwrote.no_op",
+        "building_overwrote.previous_state"
+      ],
+      "tests": [
+        "test_building_overwrote_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_overwrote_state",
+      "rule": "Backfills SSOT for existing canonical source_building_overwrote_state helper against BuildingComp.overwrote(Seq<Building> previous) no-op."
     }
   },
   "version": 1

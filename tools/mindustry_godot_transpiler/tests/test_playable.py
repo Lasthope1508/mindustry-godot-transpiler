@@ -1600,8 +1600,11 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn("func source_building_overwrote_state(previous_state: Variant) -> Variant:", source)
-        self.assertIn("return previous_state", source)
+        self.assertIn("func source_building_overwrote_state(previous_state: Variant) -> Dictionary:", source)
+        self.assertIn('"method": "public void overwrote(Seq<Building> previous){"', source)
+        self.assertIn('"comment": "Called when a block is placed over some other blocks. This seq will always have at least one item."', source)
+        self.assertIn('"no_op": true', source)
+        self.assertIn('"previous_state": previous_state', source)
 
     def test_port_game_exposes_source_building_on_removed_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

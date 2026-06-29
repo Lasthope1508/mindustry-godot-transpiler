@@ -1658,8 +1658,13 @@ func source_building_is_commandable_state(block_commandable: bool) -> bool:
 func source_building_is_payload_state(tile_is_empty_tile: bool) -> bool:
 	return tile_is_empty_tile
 
-func source_building_overwrote_state(previous_state: Variant) -> Variant:
-	return previous_state
+func source_building_overwrote_state(previous_state: Variant) -> Dictionary:
+	return {
+		"method": "public void overwrote(Seq<Building> previous){",
+		"comment": "Called when a block is placed over some other blocks. This seq will always have at least one item.",
+		"no_op": true,
+		"previous_state": previous_state,
+	}
 
 func source_building_on_removed_state(current_state: Variant) -> Dictionary:
 	return {

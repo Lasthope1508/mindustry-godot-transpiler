@@ -8369,6 +8369,30 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_repaired_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.onRepaired helper."
+    },
+    "PortGame.source_building_overwrote_state": {
+      "status": "active",
+      "source_slice": "N620",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "overwrote(Seq<Building> previous)",
+      "params": [
+        {
+          "name": "previous_state",
+          "type": "Variant",
+          "schema": "source_building_overwrote_input.previous_state"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "comment",
+        "no_op",
+        "previous_state"
+      ],
+      "tests": [
+        "test_building_overwrote_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_overwrote_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.overwrote no-op helper."
     }
   },
   "policy": {

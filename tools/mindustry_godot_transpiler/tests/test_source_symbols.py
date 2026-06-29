@@ -4006,6 +4006,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(has_fog_radius["java_expr"], "block.flags.contains(BlockFlag.hasFogRadius)")
         self.assertEqual(has_fog_radius["godot_symbol"], "source_building_on_repaired_input.has_fog_radius")
 
+    def test_building_overwrote_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_overwrote.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "overwrote(Seq<Building> previous)")
+        self.assertEqual(method["java_expr"], "public void overwrote(Seq<Building> previous){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_overwrote_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_overwrote_state")
+        self.assertEqual(method["godot_symbol"], "source_building_overwrote_result.method")
+
+        comment = source_symbols.source_symbol(registry, "building_overwrote.comment")
+        self.assertEqual(comment["java_expr"], "Called when a block is placed over some other blocks. This seq will always have at least one item.")
+        self.assertEqual(comment["godot_symbol"], "source_building_overwrote_result.comment")
+
+        no_op = source_symbols.source_symbol(registry, "building_overwrote.no_op")
+        self.assertEqual(no_op["java_expr"], "public void overwrote(Seq<Building> previous){")
+        self.assertEqual(no_op["godot_symbol"], "source_building_overwrote_result.no_op")
+
+        previous_state = source_symbols.source_symbol(registry, "building_overwrote.previous_state")
+        self.assertEqual(previous_state["status"], "explicit-input")
+        self.assertEqual(previous_state["java_expr"], "Seq<Building> previous")
+        self.assertEqual(previous_state["godot_symbol"], "source_building_overwrote_input.previous_state")
+
     def test_building_on_destroyed_base_sound_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -6232,9 +6259,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 217)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 218)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 222)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 223)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6269,6 +6296,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_on_nearby_build_added_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_on_removed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_on_repaired_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_overwrote_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7704,6 +7732,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("placed();", building_on_repaired["exact_exprs"])
         self.assertIn("if(block.flags.contains(BlockFlag.hasFogRadius)){", building_on_repaired["exact_exprs"])
         self.assertIn("fogControl.forceUpdate(team, self());", building_on_repaired["exact_exprs"])
+
+        building_overwrote = source_symbols.source_slice(ledger, "N620")
+        self.assertEqual(building_overwrote["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_overwrote["java_method"], "overwrote(Seq<Building> previous)")
+        self.assertEqual(building_overwrote["godot_owner"], "PortGame.source_building_overwrote_state")
+        self.assertIn("Called when a block is placed over some other blocks. This seq will always have at least one item.", building_overwrote["exact_exprs"])
+        self.assertIn("Should load some previous state, if necessary. */", building_overwrote["exact_exprs"])
+        self.assertIn("public void overwrote(Seq<Building> previous){", building_overwrote["exact_exprs"])
+        self.assertIn("Seq<Building> previous", building_overwrote["exact_exprs"])
 
         building_on_destroyed_base_sound = source_symbols.source_slice(ledger, "N608")
         self.assertEqual(building_on_destroyed_base_sound["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -9694,6 +9731,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("placed", building_on_repaired["return_keys"])
         self.assertIn("fog_force_update", building_on_repaired["return_keys"])
         self.assertEqual(building_on_repaired["source_method"], "onRepaired()")
+
+        building_overwrote = source_symbols.api_contract(contracts, "PortGame.source_building_overwrote_state")
+        self.assertEqual([param["name"] for param in building_overwrote["params"]], ["previous_state"])
+        self.assertEqual(building_overwrote["params"][0]["schema"], "source_building_overwrote_input.previous_state")
+        self.assertIn("method", building_overwrote["return_keys"])
+        self.assertIn("comment", building_overwrote["return_keys"])
+        self.assertIn("no_op", building_overwrote["return_keys"])
+        self.assertIn("previous_state", building_overwrote["return_keys"])
+        self.assertEqual(building_overwrote["source_method"], "overwrote(Seq<Building> previous)")
 
         building_on_destroyed_base_sound = source_symbols.api_contract(contracts, "PortGame.source_building_on_destroyed_base_sound_state")
         self.assertEqual([param["name"] for param in building_on_destroyed_base_sound["params"]], ["headless", "destroy_sound", "destroy_pitch_min", "destroy_pitch_max", "destroy_sound_volume"])
@@ -11889,6 +11935,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_on_repaired_result["keys"]["fog_force_update"]["java_expr"], "if(block.flags.contains(BlockFlag.hasFogRadius)){")
         self.assertEqual(source_building_on_repaired_result["keys"]["fog_call"]["java_expr"], "fogControl.forceUpdate(team, self());")
         self.assertEqual(source_building_on_repaired_result["keys"]["has_fog_radius"]["alias_of"], "source_building_on_repaired_input.has_fog_radius")
+
+        source_building_overwrote_input = source_symbols.state_schema(schema, "source_building_overwrote_input")
+        self.assertEqual(source_building_overwrote_input["keys"]["previous_state"]["java_expr"], "Seq<Building> previous")
+
+        source_building_overwrote_result = source_symbols.state_schema(schema, "source_building_overwrote_result")
+        self.assertEqual(source_building_overwrote_result["keys"]["method"]["java_expr"], "public void overwrote(Seq<Building> previous){")
+        self.assertEqual(source_building_overwrote_result["keys"]["comment"]["java_expr"], "Called when a block is placed over some other blocks. This seq will always have at least one item.")
+        self.assertEqual(source_building_overwrote_result["keys"]["no_op"]["java_expr"], "public void overwrote(Seq<Building> previous){")
+        self.assertEqual(source_building_overwrote_result["keys"]["previous_state"]["alias_of"], "source_building_overwrote_input.previous_state")
 
         source_building_on_destroyed_base_sound_input = source_symbols.state_schema(schema, "source_building_on_destroyed_base_sound_input")
         self.assertEqual(source_building_on_destroyed_base_sound_input["keys"]["headless"]["java_expr"], "headless")
