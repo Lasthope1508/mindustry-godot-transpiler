@@ -37020,6 +37020,166 @@
       },
       "status": "active"
     },
+    "source_drill_ore_count_input": {
+      "keys": {
+        "block_id": {
+          "godot_symbol": "source_drill_ore_count_input.block_id",
+          "java_expr": "Drill block",
+          "java_method": "countOre(Tile tile)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input Drill block identity for linked tile footprint.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_ore_count"
+          ]
+        },
+        "cell": {
+          "godot_symbol": "source_drill_ore_count_input.cell",
+          "java_expr": "Tile tile",
+          "java_method": "countOre(Tile tile)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input source Tile tile for countOre.",
+          "status": "explicit-input",
+          "type": "Vector2i",
+          "used_by": [
+            "PortGame.source_drill_ore_count"
+          ]
+        },
+        "item_id": {
+          "godot_symbol": "source_drill_ore_count_input.item_id",
+          "java_expr": "returnItem = itemArray.peek();",
+          "java_method": "countOre(Tile tile)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input selected returnItem identity to count in Godot.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_ore_count"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_drill_ore_count_result": {
+      "keys": {
+        "block_id": {
+          "alias_of": "source_drill_ore_count_input.block_id",
+          "rule": "Carries Drill block identity into ore count result schema.",
+          "status": "generated",
+          "type": "String"
+        },
+        "canMineGate": {
+          "godot_symbol": "source_drill_ore_count_result.canMineGate",
+          "java_expr": "if(canMine(other)){",
+          "java_method": "countOre(Tile tile)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Source gate before oreCount increment.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_ore_count"
+          ]
+        },
+        "cell": {
+          "alias_of": "source_drill_ore_count_input.cell",
+          "rule": "Carries countOre Tile cell into result schema.",
+          "status": "generated",
+          "type": "Vector2i"
+        },
+        "item_id": {
+          "alias_of": "source_drill_ore_count_input.item_id",
+          "rule": "Carries selected returnItem identity into ore count result schema.",
+          "status": "generated",
+          "type": "String"
+        },
+        "linkedTilesLoop": {
+          "godot_symbol": "source_drill_ore_count_result.linkedTilesLoop",
+          "java_expr": "for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){",
+          "java_method": "countOre(Tile tile)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Source linked tile loop backing occupied_cells(cell, block).",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_ore_count"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_drill_ore_count_result.method",
+          "java_expr": "protected void countOre(Tile tile){",
+          "java_method": "countOre(Tile tile)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Source method boundary for ore count slice.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_ore_count"
+          ]
+        },
+        "oreIncrement": {
+          "godot_symbol": "source_drill_ore_count_result.oreIncrement",
+          "java_expr": "oreCount.increment(getDrop(other), 0, 1);",
+          "java_method": "countOre(Tile tile)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Source count increment for mineable linked tile drop.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_ore_count"
+          ]
+        },
+        "returnCount": {
+          "godot_symbol": "source_drill_ore_count_result.returnCount",
+          "java_expr": "returnCount = oreCount.get(itemArray.peek(), 0);",
+          "java_method": "countOre(Tile tile)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Source returnCount read for selected returnItem.",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_drill_ore_count"
+          ]
+        },
+        "returnCountReset": {
+          "godot_symbol": "source_drill_ore_count_result.returnCountReset",
+          "java_expr": "returnCount = 0;",
+          "java_method": "countOre(Tile tile)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Source returnCount reset before scanning.",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_drill_ore_count"
+          ]
+        },
+        "returnItem": {
+          "godot_symbol": "source_drill_ore_count_result.returnItem",
+          "java_expr": "returnItem = itemArray.peek();",
+          "java_method": "countOre(Tile tile)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Source selected returnItem after sorting counted ores.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_ore_count"
+          ]
+        },
+        "returnItemReset": {
+          "godot_symbol": "source_drill_ore_count_result.returnItemReset",
+          "java_expr": "returnItem = null;",
+          "java_method": "countOre(Tile tile)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Source returnItem reset before scanning.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_ore_count"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

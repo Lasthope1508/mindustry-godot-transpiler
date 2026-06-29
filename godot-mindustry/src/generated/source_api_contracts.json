@@ -11018,6 +11018,38 @@
       "tests": [
         "test_drill_last_speed_for_cell_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_drill_ore_count": {
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "params": [
+        {
+          "name": "block_id",
+          "schema": "source_drill_ore_count_input.block_id",
+          "type": "String"
+        },
+        {
+          "name": "cell",
+          "schema": "source_drill_ore_count_input.cell",
+          "type": "Vector2i"
+        },
+        {
+          "name": "item_id",
+          "schema": "source_drill_ore_count_input.item_id",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "returnCount",
+        "returnItem"
+      ],
+      "rule": "Public runtime contract for Drill.countOre(Tile tile) item count over linked drill cells.",
+      "runtime_proof": "/root/Main.source_drill_ore_count",
+      "source_method": "countOre(Tile tile)",
+      "source_slice": "N695",
+      "status": "active",
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

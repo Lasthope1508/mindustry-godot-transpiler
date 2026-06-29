@@ -3177,6 +3177,53 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(dominant_items["java_expr"], "dominantItems")
         self.assertEqual(dominant_items["godot_symbol"], "source_drill_last_speed_for_cell_input.dominant_items")
 
+    def test_drill_ore_count_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "drill_ore_count.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/production/Drill.java")
+        self.assertEqual(method["java_method"], "countOre(Tile tile)")
+        self.assertEqual(method["java_expr"], "protected void countOre(Tile tile){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_drill_ore_count")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_drill_ore_count")
+        self.assertEqual(method["godot_symbol"], "source_drill_ore_count_result.method")
+
+        reset_item = source_symbols.source_symbol(registry, "drill_ore_count.return_item_reset")
+        self.assertEqual(reset_item["java_expr"], "returnItem = null;")
+        self.assertEqual(reset_item["godot_symbol"], "source_drill_ore_count_result.returnItemReset")
+
+        reset_count = source_symbols.source_symbol(registry, "drill_ore_count.return_count_reset")
+        self.assertEqual(reset_count["java_expr"], "returnCount = 0;")
+        self.assertEqual(reset_count["godot_symbol"], "source_drill_ore_count_result.returnCountReset")
+
+        linked_tiles = source_symbols.source_symbol(registry, "drill_ore_count.linked_tiles_loop")
+        self.assertEqual(linked_tiles["java_expr"], "for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){")
+        self.assertEqual(linked_tiles["godot_symbol"], "source_drill_ore_count_result.linkedTilesLoop")
+
+        can_mine = source_symbols.source_symbol(registry, "drill_ore_count.can_mine_gate")
+        self.assertEqual(can_mine["java_expr"], "if(canMine(other)){")
+        self.assertEqual(can_mine["godot_symbol"], "source_drill_ore_count_result.canMineGate")
+
+        increment = source_symbols.source_symbol(registry, "drill_ore_count.increment")
+        self.assertEqual(increment["java_expr"], "oreCount.increment(getDrop(other), 0, 1);")
+        self.assertEqual(increment["godot_symbol"], "source_drill_ore_count_result.oreIncrement")
+
+        return_item = source_symbols.source_symbol(registry, "drill_ore_count.return_item")
+        self.assertEqual(return_item["java_expr"], "returnItem = itemArray.peek();")
+        self.assertEqual(return_item["godot_symbol"], "source_drill_ore_count_result.returnItem")
+
+        return_count = source_symbols.source_symbol(registry, "drill_ore_count.return_count")
+        self.assertEqual(return_count["java_expr"], "returnCount = oreCount.get(itemArray.peek(), 0);")
+        self.assertEqual(return_count["godot_symbol"], "source_drill_ore_count_result.returnCount")
+
+        item_id = source_symbols.source_symbol(registry, "drill_ore_count.item_id")
+        self.assertEqual(item_id["status"], "explicit-input")
+        self.assertEqual(item_id["java_expr"], "returnItem = itemArray.peek();")
+        self.assertEqual(item_id["godot_symbol"], "source_drill_ore_count_input.item_id")
+
     def test_building_accept_liquid_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -9107,9 +9154,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 292)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 293)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 297)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 298)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -9309,6 +9356,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_drill_inactive_warmup_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_last_speed", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_last_speed_for_cell", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_drill_ore_count", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -10365,6 +10413,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return tile.x;", drill_last_speed_for_cell["exact_exprs"])
         self.assertIn("return tile.y;", drill_last_speed_for_cell["exact_exprs"])
         self.assertIn("lastDrillSpeed = (speed * dominantItems * warmup) / delay;", drill_last_speed_for_cell["exact_exprs"])
+
+        drill_ore_count = source_symbols.source_slice(ledger, "N695")
+        self.assertEqual(drill_ore_count["java_source"], "core/src/mindustry/world/blocks/production/Drill.java")
+        self.assertEqual(drill_ore_count["java_method"], "countOre(Tile tile)")
+        self.assertEqual(drill_ore_count["godot_owner"], "PortGame.source_drill_ore_count")
+        self.assertIn("protected void countOre(Tile tile){", drill_ore_count["exact_exprs"])
+        self.assertIn("returnItem = null;", drill_ore_count["exact_exprs"])
+        self.assertIn("returnCount = 0;", drill_ore_count["exact_exprs"])
+        self.assertIn("for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){", drill_ore_count["exact_exprs"])
+        self.assertIn("oreCount.increment(getDrop(other), 0, 1);", drill_ore_count["exact_exprs"])
+        self.assertIn("returnItem = itemArray.peek();", drill_ore_count["exact_exprs"])
+        self.assertIn("returnCount = oreCount.get(itemArray.peek(), 0);", drill_ore_count["exact_exprs"])
 
         building_accept_liquid = source_symbols.source_slice(ledger, "N522")
         self.assertEqual(building_accept_liquid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -13135,6 +13195,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("lastDrillSpeed", drill_last_speed_for_cell["return_keys"])
         self.assertIn("block_id", drill_last_speed_for_cell["return_keys"])
         self.assertEqual(drill_last_speed_for_cell["source_method"], "tile/block fields and DrillBuild.updateTile() delegate")
+
+        drill_ore_count = source_symbols.api_contract(contracts, "PortGame.source_drill_ore_count")
+        self.assertEqual([param["name"] for param in drill_ore_count["params"]], ["block_id", "cell", "item_id"])
+        self.assertEqual(drill_ore_count["params"][0]["schema"], "source_drill_ore_count_input.block_id")
+        self.assertEqual(drill_ore_count["params"][1]["schema"], "source_drill_ore_count_input.cell")
+        self.assertEqual(drill_ore_count["params"][2]["schema"], "source_drill_ore_count_input.item_id")
+        self.assertIn("returnCount", drill_ore_count["return_keys"])
+        self.assertIn("returnItem", drill_ore_count["return_keys"])
+        self.assertEqual(drill_ore_count["source_method"], "countOre(Tile tile)")
 
         building_accept_liquid = source_symbols.api_contract(contracts, "PortGame.source_building_accept_liquid_state")
         self.assertEqual([param["name"] for param in building_accept_liquid["params"]], ["has_liquids", "consumes_liquid"])
@@ -16028,6 +16097,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_drill_last_speed_for_cell_result["keys"]["lastDrillSpeed"]["java_expr"], "lastDrillSpeed = (speed * dominantItems * warmup) / delay;")
         self.assertEqual(source_drill_last_speed_for_cell_result["keys"]["x"]["alias_of"], "source_drill_last_speed_for_cell_input.x")
         self.assertEqual(source_drill_last_speed_for_cell_result["keys"]["item_id"]["alias_of"], "source_drill_last_speed_for_cell_input.item_id")
+
+        source_drill_ore_count_input = source_symbols.state_schema(schema, "source_drill_ore_count_input")
+        self.assertEqual(source_drill_ore_count_input["keys"]["block_id"]["java_expr"], "Drill block")
+        self.assertEqual(source_drill_ore_count_input["keys"]["cell"]["java_expr"], "Tile tile")
+        self.assertEqual(source_drill_ore_count_input["keys"]["item_id"]["java_expr"], "returnItem = itemArray.peek();")
+
+        source_drill_ore_count_result = source_symbols.state_schema(schema, "source_drill_ore_count_result")
+        self.assertEqual(source_drill_ore_count_result["keys"]["method"]["java_expr"], "protected void countOre(Tile tile){")
+        self.assertEqual(source_drill_ore_count_result["keys"]["linkedTilesLoop"]["java_expr"], "for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){")
+        self.assertEqual(source_drill_ore_count_result["keys"]["oreIncrement"]["java_expr"], "oreCount.increment(getDrop(other), 0, 1);")
+        self.assertEqual(source_drill_ore_count_result["keys"]["returnItem"]["java_expr"], "returnItem = itemArray.peek();")
+        self.assertEqual(source_drill_ore_count_result["keys"]["returnCount"]["java_expr"], "returnCount = oreCount.get(itemArray.peek(), 0);")
+        self.assertEqual(source_drill_ore_count_result["keys"]["item_id"]["alias_of"], "source_drill_ore_count_input.item_id")
 
         source_building_accept_liquid_input = source_symbols.state_schema(schema, "source_building_accept_liquid_input")
         self.assertEqual(source_building_accept_liquid_input["keys"]["hasLiquids"]["java_expr"], "block.hasLiquids")

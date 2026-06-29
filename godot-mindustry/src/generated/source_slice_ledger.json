@@ -9419,6 +9419,43 @@
         "test_drill_last_speed_for_cell_symbols_are_registered_with_source_backing",
         "test_port_game_tracks_source_drill_last_speed"
       ]
+    },
+    "N695": {
+      "exact_exprs": [
+        "protected void countOre(Tile tile){",
+        "returnItem = null;",
+        "returnCount = 0;",
+        "for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){",
+        "if(canMine(other)){",
+        "oreCount.increment(getDrop(other), 0, 1);",
+        "returnItem = itemArray.peek();",
+        "returnCount = oreCount.get(itemArray.peek(), 0);",
+        "Drill block",
+        "Tile tile"
+      ],
+      "godot_owner": "PortGame.source_drill_ore_count",
+      "java_class": "mindustry.world.blocks.production.Drill",
+      "java_method": "countOre(Tile tile)",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "runtime_proof": "/root/Main.source_drill_ore_count",
+      "source_symbols": [
+        "drill_ore_count.method",
+        "drill_ore_count.return_item_reset",
+        "drill_ore_count.return_count_reset",
+        "drill_ore_count.linked_tiles_loop",
+        "drill_ore_count.can_mine_gate",
+        "drill_ore_count.increment",
+        "drill_ore_count.return_item",
+        "drill_ore_count.return_count",
+        "drill_ore_count.block_id",
+        "drill_ore_count.cell",
+        "drill_ore_count.item_id"
+      ],
+      "status": "done",
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_drill_rate"
+      ]
     }
   },
   "version": 1

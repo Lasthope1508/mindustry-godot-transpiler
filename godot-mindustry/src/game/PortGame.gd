@@ -1041,6 +1041,15 @@ const SOURCE_DRILL_INACTIVE_WARMUP_WARMUP_SPEED_FIELD := "public float warmupSpe
 func source_drill_dump_interval(block_id: String, time_scale := 1.0) -> float:
 	return source_block_dump_time(block_id) / time_scale
 
+const SOURCE_DRILL_ORE_COUNT_METHOD := "protected void countOre(Tile tile){"
+const SOURCE_DRILL_ORE_COUNT_RETURN_ITEM_RESET := "returnItem = null;"
+const SOURCE_DRILL_ORE_COUNT_RETURN_COUNT_RESET := "returnCount = 0;"
+const SOURCE_DRILL_ORE_COUNT_LINKED_TILES_LOOP := "for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){"
+const SOURCE_DRILL_ORE_COUNT_CAN_MINE_GATE := "if(canMine(other)){"
+const SOURCE_DRILL_ORE_COUNT_INCREMENT := "oreCount.increment(getDrop(other), 0, 1);"
+const SOURCE_DRILL_ORE_COUNT_RETURN_ITEM := "returnItem = itemArray.peek();"
+const SOURCE_DRILL_ORE_COUNT_RETURN_COUNT := "returnCount = oreCount.get(itemArray.peek(), 0);"
+
 func source_drill_ore_count(block_id: String, cell: Vector2i, item_id: String) -> int:
 	if content_catalog == null:
 		return 0

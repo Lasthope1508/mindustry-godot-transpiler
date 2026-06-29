@@ -25401,6 +25401,149 @@
         "test_drill_last_speed_for_cell_symbols_are_registered_with_source_backing"
       ]
     },
+    "drill_ore_count.block_id": {
+      "godot_owner": "PortGame.source_drill_ore_count",
+      "godot_symbol": "source_drill_ore_count_input.block_id",
+      "java_expr": "Drill block",
+      "java_method": "countOre(Tile tile)",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Godot block_id identifies the source Drill block footprint.",
+      "runtime_proof": "/root/Main.source_drill_ore_count",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_ore_count.can_mine_gate": {
+      "godot_owner": "PortGame.source_drill_ore_count",
+      "godot_symbol": "source_drill_ore_count_result.canMineGate",
+      "java_expr": "if(canMine(other)){",
+      "java_method": "countOre(Tile tile)",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "countOre increments only when canMine(other) passes.",
+      "runtime_proof": "/root/Main.source_drill_ore_count",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_ore_count.cell": {
+      "godot_owner": "PortGame.source_drill_ore_count",
+      "godot_symbol": "source_drill_ore_count_input.cell",
+      "java_expr": "Tile tile",
+      "java_method": "countOre(Tile tile)",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Godot cell supplies the source countOre tile.",
+      "runtime_proof": "/root/Main.source_drill_ore_count",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_ore_count.increment": {
+      "godot_owner": "PortGame.source_drill_ore_count",
+      "godot_symbol": "source_drill_ore_count_result.oreIncrement",
+      "java_expr": "oreCount.increment(getDrop(other), 0, 1);",
+      "java_method": "countOre(Tile tile)",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "countOre increments oreCount for getDrop(other).",
+      "runtime_proof": "/root/Main.source_drill_ore_count",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_ore_count.item_id": {
+      "godot_owner": "PortGame.source_drill_ore_count",
+      "godot_symbol": "source_drill_ore_count_input.item_id",
+      "java_expr": "returnItem = itemArray.peek();",
+      "java_method": "countOre(Tile tile)",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Godot item_id identifies the selected returnItem being counted.",
+      "runtime_proof": "/root/Main.source_drill_ore_count",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_ore_count.linked_tiles_loop": {
+      "godot_owner": "PortGame.source_drill_ore_count",
+      "godot_symbol": "source_drill_ore_count_result.linkedTilesLoop",
+      "java_expr": "for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){",
+      "java_method": "countOre(Tile tile)",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "countOre scans linked tiles for the drill footprint.",
+      "runtime_proof": "/root/Main.source_drill_ore_count",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_ore_count.method": {
+      "godot_owner": "PortGame.source_drill_ore_count",
+      "godot_symbol": "source_drill_ore_count_result.method",
+      "java_expr": "protected void countOre(Tile tile){",
+      "java_method": "countOre(Tile tile)",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Source countOre method backing ore count selection.",
+      "runtime_proof": "/root/Main.source_drill_ore_count",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_ore_count.return_count": {
+      "godot_owner": "PortGame.source_drill_ore_count",
+      "godot_symbol": "source_drill_ore_count_result.returnCount",
+      "java_expr": "returnCount = oreCount.get(itemArray.peek(), 0);",
+      "java_method": "countOre(Tile tile)",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "countOre returns the ore count for the selected itemArray peek.",
+      "runtime_proof": "/root/Main.source_drill_ore_count",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_ore_count.return_count_reset": {
+      "godot_owner": "PortGame.source_drill_ore_count",
+      "godot_symbol": "source_drill_ore_count_result.returnCountReset",
+      "java_expr": "returnCount = 0;",
+      "java_method": "countOre(Tile tile)",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "countOre clears returnCount before scanning linked tiles.",
+      "runtime_proof": "/root/Main.source_drill_ore_count",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_ore_count.return_item": {
+      "godot_owner": "PortGame.source_drill_ore_count",
+      "godot_symbol": "source_drill_ore_count_result.returnItem",
+      "java_expr": "returnItem = itemArray.peek();",
+      "java_method": "countOre(Tile tile)",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "countOre selects the dominant return item from sorted itemArray.",
+      "runtime_proof": "/root/Main.source_drill_ore_count",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_ore_count.return_item_reset": {
+      "godot_owner": "PortGame.source_drill_ore_count",
+      "godot_symbol": "source_drill_ore_count_result.returnItemReset",
+      "java_expr": "returnItem = null;",
+      "java_method": "countOre(Tile tile)",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "countOre clears returnItem before scanning linked tiles.",
+      "runtime_proof": "/root/Main.source_drill_ore_count",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing"
+      ]
+    },
     "handle_pierce.bullet.damage": {
       "godot_owner": "PortGame.source_bullet_type_handle_pierce_state",
       "godot_symbol": "bullet_state.damage",
