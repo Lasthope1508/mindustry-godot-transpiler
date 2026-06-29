@@ -9205,6 +9205,47 @@
         "test_core_accept_item_symbols_are_registered_with_source_backing",
         "test_port_game_dump_respects_source_core_accept_item_capacity"
       ]
+    },
+    "N689": {
+      "exact_exprs": [
+        "public void handleItem(Building source, Item item){",
+        "boolean incinerate = incinerateNonBuildable && !item.buildable;",
+        "if(items.get(item) >= storageCapacity || incinerate){",
+        "super.handleItem(source, item);",
+        "items.add(item, 1);",
+        "public boolean incinerateNonBuildable = false;",
+        "If true, this material is used by buildings. If false, this material will be incinerated in certain cores.",
+        "public boolean buildable = true;",
+        "Item item",
+        "item.buildable",
+        "items.get(item)",
+        "storageCapacity"
+      ],
+      "godot_owner": "PortGame.source_core_handle_item",
+      "java_class": "CoreBlock/CoreBuild/BuildingComp/Item",
+      "java_method": "handleItem(Building source, Item item)",
+      "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+      "runtime_proof": "/root/Main.source_core_handle_item",
+      "source_symbols": [
+        "core_handle_item.building_handle_add",
+        "core_handle_item.full_or_incinerate_gate",
+        "core_handle_item.handled",
+        "core_handle_item.incinerate",
+        "core_handle_item.incinerate_non_buildable_field",
+        "core_handle_item.item_buildable",
+        "core_handle_item.item_buildable_comment",
+        "core_handle_item.item_buildable_field",
+        "core_handle_item.item_count",
+        "core_handle_item.item_id",
+        "core_handle_item.method",
+        "core_handle_item.storage_capacity",
+        "core_handle_item.super_handle"
+      ],
+      "status": "done",
+      "tests": [
+        "test_core_handle_item_symbols_are_registered_with_source_backing",
+        "test_port_game_handles_core_item_like_source_before_dump_remove"
+      ]
     }
   },
   "version": 1

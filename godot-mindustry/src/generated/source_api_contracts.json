@@ -10813,6 +10813,31 @@
       "tests": [
         "test_core_accept_item_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_core_handle_item": {
+      "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+      "params": [
+        {
+          "name": "item_id",
+          "schema": "source_core_handle_item_input.item_id",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "handled",
+        "incinerate",
+        "itemBuildable",
+        "itemCount",
+        "storageCapacity"
+      ],
+      "rule": "Public runtime contract for CoreBuild.handleItem full/incinerate gate and BuildingComp.handleItem add path.",
+      "runtime_proof": "/root/Main.source_core_handle_item",
+      "source_method": "handleItem(Building source, Item item)",
+      "source_slice": "N689",
+      "status": "active",
+      "tests": [
+        "test_core_handle_item_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

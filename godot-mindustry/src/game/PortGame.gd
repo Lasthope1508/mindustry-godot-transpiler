@@ -94,6 +94,7 @@ var core_inventory := 0
 var core_items: Dictionary = {"copper": 0}
 var core_item_capacity := 0
 var core_incinerates := true
+var core_incinerate_non_buildable := false
 var core_max_health := 0.0
 var core_health := 0.0
 var drill_output_item_id := "copper"
@@ -1308,6 +1309,14 @@ const SOURCE_CORE_ACCEPT_ITEM_RESULT := "return state.rules.coreIncinerates || i
 const SOURCE_CORE_ACCEPT_ITEM_MAXIMUM_METHOD := "public int getMaximumAccepted(Item item){"
 const SOURCE_CORE_ACCEPT_ITEM_MAXIMUM_RESULT := "return state.rules.coreIncinerates ? Integer.MAX_VALUE/2 : storageCapacity;"
 const SOURCE_CORE_ACCEPT_ITEM_RULES_CORE_INCINERATES_FIELD := "public boolean coreIncinerates = true;"
+const SOURCE_CORE_HANDLE_ITEM_METHOD := "public void handleItem(Building source, Item item){"
+const SOURCE_CORE_HANDLE_ITEM_INCINERATE := "boolean incinerate = incinerateNonBuildable && !item.buildable;"
+const SOURCE_CORE_HANDLE_ITEM_FULL_OR_INCINERATE_GATE := "if(items.get(item) >= storageCapacity || incinerate){"
+const SOURCE_CORE_HANDLE_ITEM_SUPER_HANDLE := "super.handleItem(source, item);"
+const SOURCE_CORE_HANDLE_ITEM_BUILDING_HANDLE_ADD := "items.add(item, 1);"
+const SOURCE_CORE_HANDLE_ITEM_INCINERATE_NON_BUILDABLE_FIELD := "public boolean incinerateNonBuildable = false;"
+const SOURCE_CORE_HANDLE_ITEM_ITEM_BUILDABLE_COMMENT := "If true, this material is used by buildings. If false, this material will be incinerated in certain cores."
+const SOURCE_CORE_HANDLE_ITEM_ITEM_BUILDABLE_FIELD := "public boolean buildable = true;"
 
 func source_core_accept_item(item_id: String) -> bool:
 	return core_incinerates or core_item_count(item_id) < core_item_capacity
@@ -1315,6 +1324,14 @@ func source_core_accept_item(item_id: String) -> bool:
 func source_core_handle_item(item_id: String) -> bool:
 	if not source_core_accept_item(item_id):
 		return false
+	var item_buildable := true
+	if content_catalog != null:
+		var item = content_catalog.get_by_id(item_id)
+		if item != null:
+			item_buildable = bool(item.properties.get("buildable", true))
+	var incinerate := core_incinerate_non_buildable and not item_buildable
+	if core_item_count(item_id) >= core_item_capacity or incinerate:
+		return true
 	add_core_item(item_id, 1)
 	return true
 

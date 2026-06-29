@@ -2927,6 +2927,55 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(storage_capacity["java_expr"], "storageCapacity")
         self.assertEqual(storage_capacity["godot_symbol"], "source_core_accept_item_result.storageCapacity")
 
+    def test_core_handle_item_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "core_handle_item.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/storage/CoreBlock.java")
+        self.assertEqual(method["java_method"], "handleItem(Building source, Item item)")
+        self.assertEqual(method["java_expr"], "public void handleItem(Building source, Item item){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_core_handle_item")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_core_handle_item")
+        self.assertEqual(method["godot_symbol"], "source_core_handle_item_result.method")
+
+        incinerate = source_symbols.source_symbol(registry, "core_handle_item.incinerate")
+        self.assertEqual(incinerate["java_expr"], "boolean incinerate = incinerateNonBuildable && !item.buildable;")
+        self.assertEqual(incinerate["godot_symbol"], "source_core_handle_item_result.incinerate")
+
+        full_gate = source_symbols.source_symbol(registry, "core_handle_item.full_or_incinerate_gate")
+        self.assertEqual(full_gate["java_expr"], "if(items.get(item) >= storageCapacity || incinerate){")
+        self.assertEqual(full_gate["godot_symbol"], "source_core_handle_item_result.fullOrIncinerateGate")
+
+        super_handle = source_symbols.source_symbol(registry, "core_handle_item.super_handle")
+        self.assertEqual(super_handle["java_expr"], "super.handleItem(source, item);")
+        self.assertEqual(super_handle["godot_symbol"], "source_core_handle_item_result.superHandle")
+
+        building_handle = source_symbols.source_symbol(registry, "core_handle_item.building_handle_add")
+        self.assertEqual(building_handle["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_handle["java_expr"], "items.add(item, 1);")
+        self.assertEqual(building_handle["godot_symbol"], "source_core_handle_item_result.buildingHandleAdd")
+
+        incinerate_field = source_symbols.source_symbol(registry, "core_handle_item.incinerate_non_buildable_field")
+        self.assertEqual(incinerate_field["java_expr"], "public boolean incinerateNonBuildable = false;")
+        self.assertEqual(incinerate_field["godot_symbol"], "source_core_handle_item_result.incinerateNonBuildableField")
+
+        buildable_field = source_symbols.source_symbol(registry, "core_handle_item.item_buildable_field")
+        self.assertEqual(buildable_field["java_source"], "core/src/mindustry/type/Item.java")
+        self.assertEqual(buildable_field["java_expr"], "public boolean buildable = true;")
+        self.assertEqual(buildable_field["godot_symbol"], "source_core_handle_item_result.itemBuildableField")
+
+        item_id = source_symbols.source_symbol(registry, "core_handle_item.item_id")
+        self.assertEqual(item_id["status"], "explicit-input")
+        self.assertEqual(item_id["java_expr"], "Item item")
+        self.assertEqual(item_id["godot_symbol"], "source_core_handle_item_input.item_id")
+
+        handled = source_symbols.source_symbol(registry, "core_handle_item.handled")
+        self.assertEqual(handled["status"], "generated")
+        self.assertEqual(handled["godot_symbol"], "source_core_handle_item_result.handled")
+
     def test_building_accept_liquid_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -8857,9 +8906,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 286)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 287)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 291)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 292)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -9053,6 +9102,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_conveyor_path_progress_rate", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_conveyor_world_speed", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_core_accept_item", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_core_handle_item", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -10049,6 +10099,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public int getMaximumAccepted(Item item){", core_accept_item["exact_exprs"])
         self.assertIn("return state.rules.coreIncinerates ? Integer.MAX_VALUE/2 : storageCapacity;", core_accept_item["exact_exprs"])
         self.assertIn("public boolean coreIncinerates = true;", core_accept_item["exact_exprs"])
+
+        core_handle_item = source_symbols.source_slice(ledger, "N689")
+        self.assertEqual(core_handle_item["java_source"], "core/src/mindustry/world/blocks/storage/CoreBlock.java")
+        self.assertEqual(core_handle_item["java_method"], "handleItem(Building source, Item item)")
+        self.assertEqual(core_handle_item["godot_owner"], "PortGame.source_core_handle_item")
+        self.assertIn("public void handleItem(Building source, Item item){", core_handle_item["exact_exprs"])
+        self.assertIn("boolean incinerate = incinerateNonBuildable && !item.buildable;", core_handle_item["exact_exprs"])
+        self.assertIn("if(items.get(item) >= storageCapacity || incinerate){", core_handle_item["exact_exprs"])
+        self.assertIn("super.handleItem(source, item);", core_handle_item["exact_exprs"])
+        self.assertIn("items.add(item, 1);", core_handle_item["exact_exprs"])
+        self.assertIn("public boolean incinerateNonBuildable = false;", core_handle_item["exact_exprs"])
+        self.assertIn("public boolean buildable = true;", core_handle_item["exact_exprs"])
 
         building_accept_liquid = source_symbols.source_slice(ledger, "N522")
         self.assertEqual(building_accept_liquid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -12757,6 +12819,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("coreIncinerates", core_accept_item["return_keys"])
         self.assertIn("maximumAccepted", core_accept_item["return_keys"])
         self.assertEqual(core_accept_item["source_method"], "acceptItem(Building source, Item item)/getMaximumAccepted(Item item)")
+
+        core_handle_item = source_symbols.api_contract(contracts, "PortGame.source_core_handle_item")
+        self.assertEqual([param["name"] for param in core_handle_item["params"]], ["item_id"])
+        self.assertEqual(core_handle_item["params"][0]["schema"], "source_core_handle_item_input.item_id")
+        self.assertIn("handled", core_handle_item["return_keys"])
+        self.assertIn("incinerate", core_handle_item["return_keys"])
+        self.assertIn("itemCount", core_handle_item["return_keys"])
+        self.assertIn("storageCapacity", core_handle_item["return_keys"])
+        self.assertEqual(core_handle_item["source_method"], "handleItem(Building source, Item item)")
 
         building_accept_liquid = source_symbols.api_contract(contracts, "PortGame.source_building_accept_liquid_state")
         self.assertEqual([param["name"] for param in building_accept_liquid["params"]], ["has_liquids", "consumes_liquid"])
@@ -15547,6 +15618,24 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_core_accept_item_result["keys"]["itemCount"]["java_expr"], "items.get(item)")
         self.assertEqual(source_core_accept_item_result["keys"]["storageCapacity"]["java_expr"], "storageCapacity")
         self.assertEqual(source_core_accept_item_result["keys"]["item_id"]["alias_of"], "source_core_accept_item_input.item_id")
+
+        source_core_handle_item_input = source_symbols.state_schema(schema, "source_core_handle_item_input")
+        self.assertEqual(source_core_handle_item_input["keys"]["item_id"]["java_expr"], "Item item")
+        self.assertEqual(source_core_handle_item_input["keys"]["item_id"]["status"], "explicit-input")
+
+        source_core_handle_item_result = source_symbols.state_schema(schema, "source_core_handle_item_result")
+        self.assertEqual(source_core_handle_item_result["keys"]["method"]["java_expr"], "public void handleItem(Building source, Item item){")
+        self.assertEqual(source_core_handle_item_result["keys"]["incinerate"]["java_expr"], "boolean incinerate = incinerateNonBuildable && !item.buildable;")
+        self.assertEqual(source_core_handle_item_result["keys"]["fullOrIncinerateGate"]["java_expr"], "if(items.get(item) >= storageCapacity || incinerate){")
+        self.assertEqual(source_core_handle_item_result["keys"]["superHandle"]["java_expr"], "super.handleItem(source, item);")
+        self.assertEqual(source_core_handle_item_result["keys"]["buildingHandleAdd"]["java_expr"], "items.add(item, 1);")
+        self.assertEqual(source_core_handle_item_result["keys"]["incinerateNonBuildableField"]["java_expr"], "public boolean incinerateNonBuildable = false;")
+        self.assertEqual(source_core_handle_item_result["keys"]["itemBuildableField"]["java_expr"], "public boolean buildable = true;")
+        self.assertEqual(source_core_handle_item_result["keys"]["itemBuildable"]["java_expr"], "item.buildable")
+        self.assertEqual(source_core_handle_item_result["keys"]["itemCount"]["java_expr"], "items.get(item)")
+        self.assertEqual(source_core_handle_item_result["keys"]["storageCapacity"]["java_expr"], "storageCapacity")
+        self.assertEqual(source_core_handle_item_result["keys"]["handled"]["status"], "generated")
+        self.assertEqual(source_core_handle_item_result["keys"]["item_id"]["alias_of"], "source_core_handle_item_input.item_id")
 
         source_building_accept_liquid_input = source_symbols.state_schema(schema, "source_building_accept_liquid_input")
         self.assertEqual(source_building_accept_liquid_input["keys"]["hasLiquids"]["java_expr"], "block.hasLiquids")

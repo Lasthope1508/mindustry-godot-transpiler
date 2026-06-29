@@ -36096,6 +36096,178 @@
       },
       "status": "active"
     },
+    "source_core_handle_item_input": {
+      "keys": {
+        "item_id": {
+          "godot_symbol": "source_core_handle_item_input.item_id",
+          "java_expr": "Item item",
+          "java_method": "handleItem(Building source, Item item)",
+          "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+          "rule": "Godot item_id identifies source Item item parameter.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_core_handle_item"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_core_handle_item_result": {
+      "keys": {
+        "buildingHandleAdd": {
+          "godot_symbol": "source_core_handle_item_result.buildingHandleAdd",
+          "java_expr": "items.add(item, 1);",
+          "java_method": "handleItem(Building source, Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source BuildingComp add call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_core_handle_item"
+          ]
+        },
+        "fullOrIncinerateGate": {
+          "godot_symbol": "source_core_handle_item_result.fullOrIncinerateGate",
+          "java_expr": "if(items.get(item) >= storageCapacity || incinerate){",
+          "java_method": "handleItem(Building source, Item item)",
+          "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+          "rule": "Source full/incinerate gate.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_core_handle_item"
+          ]
+        },
+        "handled": {
+          "godot_symbol": "source_core_handle_item_result.handled",
+          "java_expr": "void handleItem handled by Godot bool bridge",
+          "java_method": "handleItem(Building source, Item item)",
+          "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+          "rule": "Generated bool bridge for void source method.",
+          "status": "generated",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_core_handle_item"
+          ]
+        },
+        "incinerate": {
+          "godot_symbol": "source_core_handle_item_result.incinerate",
+          "java_expr": "boolean incinerate = incinerateNonBuildable && !item.buildable;",
+          "java_method": "handleItem(Building source, Item item)",
+          "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+          "rule": "Source incinerate expression.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_core_handle_item"
+          ]
+        },
+        "incinerateNonBuildableField": {
+          "godot_symbol": "source_core_handle_item_result.incinerateNonBuildableField",
+          "java_expr": "public boolean incinerateNonBuildable = false;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+          "rule": "CoreBlock default incinerateNonBuildable field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_core_handle_item"
+          ]
+        },
+        "itemBuildable": {
+          "godot_symbol": "source_core_handle_item_result.itemBuildable",
+          "java_expr": "item.buildable",
+          "java_method": "handleItem(Building source, Item item)",
+          "java_source": "core/src/mindustry/type/Item.java",
+          "rule": "Runtime content property supplies source item.buildable.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_core_handle_item"
+          ]
+        },
+        "itemBuildableComment": {
+          "godot_symbol": "source_core_handle_item_result.itemBuildableComment",
+          "java_expr": "If true, this material is used by buildings. If false, this material will be incinerated in certain cores.",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/type/Item.java",
+          "rule": "Item.buildable comment defines incineration semantics.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_core_handle_item"
+          ]
+        },
+        "itemBuildableField": {
+          "godot_symbol": "source_core_handle_item_result.itemBuildableField",
+          "java_expr": "public boolean buildable = true;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/type/Item.java",
+          "rule": "Item.buildable default true.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_core_handle_item"
+          ]
+        },
+        "itemCount": {
+          "godot_symbol": "source_core_handle_item_result.itemCount",
+          "java_expr": "items.get(item)",
+          "java_method": "handleItem(Building source, Item item)",
+          "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+          "rule": "Runtime core item count supplies source items.get(item).",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_core_handle_item"
+          ]
+        },
+        "item_id": {
+          "alias_of": "source_core_handle_item_input.item_id",
+          "rule": "Carries item id input into core handle result schema.",
+          "status": "generated",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_core_handle_item_result.method",
+          "java_expr": "public void handleItem(Building source, Item item){",
+          "java_method": "handleItem(Building source, Item item)",
+          "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+          "rule": "Source CoreBuild handleItem method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_core_handle_item"
+          ]
+        },
+        "storageCapacity": {
+          "godot_symbol": "source_core_handle_item_result.storageCapacity",
+          "java_expr": "storageCapacity",
+          "java_method": "handleItem(Building source, Item item)",
+          "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+          "rule": "Runtime core capacity supplies source storageCapacity.",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_core_handle_item"
+          ]
+        },
+        "superHandle": {
+          "godot_symbol": "source_core_handle_item_result.superHandle",
+          "java_expr": "super.handleItem(source, item);",
+          "java_method": "handleItem(Building source, Item item)",
+          "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+          "rule": "Source super handle call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_core_handle_item"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {
