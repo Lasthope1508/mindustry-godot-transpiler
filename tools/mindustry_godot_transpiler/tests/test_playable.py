@@ -1816,6 +1816,9 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_building_on_destroyed_power_sound_state(headless: bool, power: float, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:", source)
         self.assertIn("var should_play_power_sound := not headless", source)
+        self.assertIn('"method": "public void onDestroyed(){"', source)
+        self.assertIn('"headless": headless', source)
+        self.assertIn('"power": power', source)
         self.assertIn('"power_sound_kind": "big"', source)
         self.assertIn('"sound": "blockExplodeElectricBig"', source)
         self.assertIn('"power_sound_kind": "normal"', source)

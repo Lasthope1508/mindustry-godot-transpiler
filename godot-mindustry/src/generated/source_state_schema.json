@@ -26711,6 +26711,154 @@
           "rule": "Carries current_flammability input into result schema."
         }
       }
+    },
+    "source_building_on_destroyed_power_sound_input": {
+      "status": "active",
+      "keys": {
+        "headless": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "headless",
+          "godot_symbol": "source_building_on_destroyed_power_sound_input.headless",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_power_sound_state"
+          ],
+          "rule": "Runtime headless supplies source headless gate."
+        },
+        "power": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "power",
+          "godot_symbol": "source_building_on_destroyed_power_sound_input.power",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_power_sound_state"
+          ],
+          "rule": "Runtime power supplies source power accumulator."
+        },
+        "destroy_pitch_min": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "block.destroyPitchMin",
+          "godot_symbol": "source_building_on_destroyed_power_sound_input.destroy_pitch_min",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_power_sound_state"
+          ],
+          "rule": "Runtime destroy_pitch_min supplies source block.destroyPitchMin."
+        },
+        "destroy_pitch_max": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "block.destroyPitchMax",
+          "godot_symbol": "source_building_on_destroyed_power_sound_input.destroy_pitch_max",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_power_sound_state"
+          ],
+          "rule": "Runtime destroy_pitch_max supplies source block.destroyPitchMax."
+        },
+        "destroy_sound_volume": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "block.destroySoundVolume",
+          "godot_symbol": "source_building_on_destroyed_power_sound_input.destroy_sound_volume",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_power_sound_state"
+          ],
+          "rule": "Runtime destroy_sound_volume supplies source block.destroySoundVolume."
+        }
+      }
+    },
+    "source_building_on_destroyed_power_sound_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "public void onDestroyed(){",
+          "godot_symbol": "source_building_on_destroyed_power_sound_result.method",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_power_sound_state"
+          ],
+          "rule": "BuildingComp onDestroyed method boundary."
+        },
+        "play_power_sound": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "if(!headless){",
+          "godot_symbol": "source_building_on_destroyed_power_sound_result.play_power_sound",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_power_sound_state"
+          ],
+          "rule": "Power explosion sound is gated by non-headless runtime."
+        },
+        "power_sound_kind": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "if(power > 30000f){ / }else if(power > 2000f){",
+          "godot_symbol": "source_building_on_destroyed_power_sound_result.power_sound_kind",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_power_sound_state"
+          ],
+          "rule": "Electric power sound branch kind."
+        },
+        "sound": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "Sounds.blockExplodeElectricBig.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume); / Sounds.blockExplodeElectric.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);",
+          "godot_symbol": "source_building_on_destroyed_power_sound_result.sound",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_power_sound_state"
+          ],
+          "rule": "Electric power sound call selection."
+        },
+        "headless": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_power_sound_input.headless",
+          "rule": "Carries headless input into result schema."
+        },
+        "power": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_power_sound_input.power",
+          "rule": "Carries power input into result schema."
+        },
+        "pitch_min": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_power_sound_input.destroy_pitch_min",
+          "rule": "Carries destroy_pitch_min input into result schema."
+        },
+        "pitch_max": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_power_sound_input.destroy_pitch_max",
+          "rule": "Carries destroy_pitch_max input into result schema."
+        },
+        "volume": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_power_sound_input.destroy_sound_volume",
+          "rule": "Carries destroy_sound_volume input into result schema."
+        }
+      }
     }
   },
   "version": 1

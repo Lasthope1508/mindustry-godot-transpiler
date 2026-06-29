@@ -1892,6 +1892,9 @@ func source_building_on_destroyed_reactive_sound_state(headless: bool, explosive
 func source_building_on_destroyed_power_sound_state(headless: bool, power: float, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:
 	var should_play_power_sound := not headless
 	var silent_state := {
+		"method": "public void onDestroyed(){",
+		"headless": headless,
+		"power": power,
 		"play_power_sound": false,
 		"power_sound_kind": "",
 		"sound": "",
@@ -1903,6 +1906,9 @@ func source_building_on_destroyed_power_sound_state(headless: bool, power: float
 		return silent_state
 	if power > 30000.0:
 		return {
+			"method": "public void onDestroyed(){",
+			"headless": headless,
+			"power": power,
 			"play_power_sound": true,
 			"power_sound_kind": "big",
 			"sound": "blockExplodeElectricBig",
@@ -1912,6 +1918,9 @@ func source_building_on_destroyed_power_sound_state(headless: bool, power: float
 		}
 	if power > 2000.0:
 		return {
+			"method": "public void onDestroyed(){",
+			"headless": headless,
+			"power": power,
 			"play_power_sound": true,
 			"power_sound_kind": "normal",
 			"sound": "blockExplodeElectric",

@@ -6677,6 +6677,44 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_destroyed_liquid_explosion_state",
       "rule": "Backfills SSOT for existing canonical source_building_on_destroyed_liquid_explosion_state helper against BuildingComp.onDestroyed() liquid explosion contributions."
+    },
+    "N613": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_power_sound_state",
+      "exact_exprs": [
+        "public void onDestroyed(){",
+        "if(!headless){",
+        "if(power > 30000f){",
+        "Sounds.blockExplodeElectricBig.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);",
+        "}else if(power > 2000f){",
+        "Sounds.blockExplodeElectric.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);",
+        "Mathf.random(block.destroyPitchMin, block.destroyPitchMax)",
+        "block.destroySoundVolume"
+      ],
+      "deferred_exprs": [
+        "Concrete audio playback, tile position routing, and random pitch sampling remain covered by audio/runtime integration slices."
+      ],
+      "source_symbols": [
+        "building_on_destroyed_power_sound.method",
+        "building_on_destroyed_power_sound.headless_gate",
+        "building_on_destroyed_power_sound.big_gate",
+        "building_on_destroyed_power_sound.big_sound",
+        "building_on_destroyed_power_sound.normal_gate",
+        "building_on_destroyed_power_sound.normal_sound",
+        "building_on_destroyed_power_sound.headless",
+        "building_on_destroyed_power_sound.power",
+        "building_on_destroyed_power_sound.destroy_pitch_min",
+        "building_on_destroyed_power_sound.destroy_pitch_max",
+        "building_on_destroyed_power_sound.destroy_sound_volume"
+      ],
+      "tests": [
+        "test_building_on_destroyed_power_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_power_sound_state",
+      "rule": "Backfills SSOT for existing canonical source_building_on_destroyed_power_sound_state helper against BuildingComp.onDestroyed() electric power sound gates."
     }
   },
   "version": 1

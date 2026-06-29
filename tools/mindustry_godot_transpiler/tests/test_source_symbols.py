@@ -3783,6 +3783,45 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(current_explosiveness["java_expr"], "explosiveness")
         self.assertEqual(current_explosiveness["godot_symbol"], "source_building_on_destroyed_liquid_explosion_input.current_explosiveness")
 
+    def test_building_on_destroyed_power_sound_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_on_destroyed_power_sound.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "onDestroyed()")
+        self.assertEqual(method["java_expr"], "public void onDestroyed(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_on_destroyed_power_sound_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_on_destroyed_power_sound_state")
+        self.assertEqual(method["godot_symbol"], "source_building_on_destroyed_power_sound_result.method")
+
+        headless_gate = source_symbols.source_symbol(registry, "building_on_destroyed_power_sound.headless_gate")
+        self.assertEqual(headless_gate["java_expr"], "if(!headless){")
+        self.assertEqual(headless_gate["godot_symbol"], "source_building_on_destroyed_power_sound_result.play_power_sound")
+
+        big_gate = source_symbols.source_symbol(registry, "building_on_destroyed_power_sound.big_gate")
+        self.assertEqual(big_gate["java_expr"], "if(power > 30000f){")
+        self.assertEqual(big_gate["godot_symbol"], "source_building_on_destroyed_power_sound_result.power_sound_kind")
+
+        big_sound = source_symbols.source_symbol(registry, "building_on_destroyed_power_sound.big_sound")
+        self.assertEqual(big_sound["java_expr"], "Sounds.blockExplodeElectricBig.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);")
+        self.assertEqual(big_sound["godot_symbol"], "source_building_on_destroyed_power_sound_result.sound")
+
+        normal_gate = source_symbols.source_symbol(registry, "building_on_destroyed_power_sound.normal_gate")
+        self.assertEqual(normal_gate["java_expr"], "}else if(power > 2000f){")
+        self.assertEqual(normal_gate["godot_symbol"], "source_building_on_destroyed_power_sound_result.power_sound_kind")
+
+        normal_sound = source_symbols.source_symbol(registry, "building_on_destroyed_power_sound.normal_sound")
+        self.assertEqual(normal_sound["java_expr"], "Sounds.blockExplodeElectric.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);")
+        self.assertEqual(normal_sound["godot_symbol"], "source_building_on_destroyed_power_sound_result.sound")
+
+        power = source_symbols.source_symbol(registry, "building_on_destroyed_power_sound.power")
+        self.assertEqual(power["status"], "explicit-input")
+        self.assertEqual(power["java_expr"], "power")
+        self.assertEqual(power["godot_symbol"], "source_building_on_destroyed_power_sound_input.power")
+
     def test_building_on_destroyed_base_sound_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -6009,9 +6048,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 210)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 211)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 215)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 216)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6039,6 +6078,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_on_destroyed_dynamic_explosion_call_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_on_destroyed_item_explosion_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_on_destroyed_liquid_explosion_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_on_destroyed_power_sound_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7413,6 +7453,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(block.hasLiquids){", building_on_destroyed_liquid_explosion["exact_exprs"])
         self.assertIn("flammability += liquids.sum((liquid, amount) -> liquid.flammability * amount / 2f);", building_on_destroyed_liquid_explosion["exact_exprs"])
         self.assertIn("explosiveness += liquids.sum((liquid, amount) -> liquid.explosiveness * amount / 2f);", building_on_destroyed_liquid_explosion["exact_exprs"])
+
+        building_on_destroyed_power_sound = source_symbols.source_slice(ledger, "N613")
+        self.assertEqual(building_on_destroyed_power_sound["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_on_destroyed_power_sound["java_method"], "onDestroyed()")
+        self.assertEqual(building_on_destroyed_power_sound["godot_owner"], "PortGame.source_building_on_destroyed_power_sound_state")
+        self.assertIn("public void onDestroyed(){", building_on_destroyed_power_sound["exact_exprs"])
+        self.assertIn("if(!headless){", building_on_destroyed_power_sound["exact_exprs"])
+        self.assertIn("if(power > 30000f){", building_on_destroyed_power_sound["exact_exprs"])
+        self.assertIn("Sounds.blockExplodeElectricBig.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);", building_on_destroyed_power_sound["exact_exprs"])
+        self.assertIn("}else if(power > 2000f){", building_on_destroyed_power_sound["exact_exprs"])
+        self.assertIn("Sounds.blockExplodeElectric.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);", building_on_destroyed_power_sound["exact_exprs"])
 
         building_on_destroyed_base_sound = source_symbols.source_slice(ledger, "N608")
         self.assertEqual(building_on_destroyed_base_sound["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -9316,6 +9367,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("explosiveness", building_on_destroyed_liquid_explosion["return_keys"])
         self.assertIn("flammability", building_on_destroyed_liquid_explosion["return_keys"])
         self.assertEqual(building_on_destroyed_liquid_explosion["source_method"], "onDestroyed()")
+
+        building_on_destroyed_power_sound = source_symbols.api_contract(contracts, "PortGame.source_building_on_destroyed_power_sound_state")
+        self.assertEqual([param["name"] for param in building_on_destroyed_power_sound["params"]], ["headless", "power", "destroy_pitch_min", "destroy_pitch_max", "destroy_sound_volume"])
+        self.assertEqual(building_on_destroyed_power_sound["params"][0]["schema"], "source_building_on_destroyed_power_sound_input.headless")
+        self.assertEqual(building_on_destroyed_power_sound["params"][1]["schema"], "source_building_on_destroyed_power_sound_input.power")
+        self.assertEqual(building_on_destroyed_power_sound["params"][4]["schema"], "source_building_on_destroyed_power_sound_input.destroy_sound_volume")
+        self.assertIn("method", building_on_destroyed_power_sound["return_keys"])
+        self.assertIn("headless", building_on_destroyed_power_sound["return_keys"])
+        self.assertIn("power", building_on_destroyed_power_sound["return_keys"])
+        self.assertIn("play_power_sound", building_on_destroyed_power_sound["return_keys"])
+        self.assertIn("power_sound_kind", building_on_destroyed_power_sound["return_keys"])
+        self.assertIn("sound", building_on_destroyed_power_sound["return_keys"])
+        self.assertIn("pitch_min", building_on_destroyed_power_sound["return_keys"])
+        self.assertIn("volume", building_on_destroyed_power_sound["return_keys"])
+        self.assertEqual(building_on_destroyed_power_sound["source_method"], "onDestroyed()")
 
         building_on_destroyed_base_sound = source_symbols.api_contract(contracts, "PortGame.source_building_on_destroyed_base_sound_state")
         self.assertEqual([param["name"] for param in building_on_destroyed_base_sound["params"]], ["headless", "destroy_sound", "destroy_pitch_min", "destroy_pitch_max", "destroy_sound_volume"])
@@ -11428,6 +11494,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_on_destroyed_liquid_explosion_result["keys"]["flammability"]["java_expr"], "flammability += liquids.sum((liquid, amount) -> liquid.flammability * amount / 2f);")
         self.assertEqual(source_building_on_destroyed_liquid_explosion_result["keys"]["explosiveness"]["java_expr"], "explosiveness += liquids.sum((liquid, amount) -> liquid.explosiveness * amount / 2f);")
         self.assertEqual(source_building_on_destroyed_liquid_explosion_result["keys"]["current_explosiveness"]["alias_of"], "source_building_on_destroyed_liquid_explosion_input.current_explosiveness")
+
+        source_building_on_destroyed_power_sound_input = source_symbols.state_schema(schema, "source_building_on_destroyed_power_sound_input")
+        self.assertEqual(source_building_on_destroyed_power_sound_input["keys"]["headless"]["java_expr"], "headless")
+        self.assertEqual(source_building_on_destroyed_power_sound_input["keys"]["power"]["java_expr"], "power")
+        self.assertEqual(source_building_on_destroyed_power_sound_input["keys"]["destroy_pitch_min"]["java_expr"], "block.destroyPitchMin")
+        self.assertEqual(source_building_on_destroyed_power_sound_input["keys"]["destroy_pitch_max"]["java_expr"], "block.destroyPitchMax")
+        self.assertEqual(source_building_on_destroyed_power_sound_input["keys"]["destroy_sound_volume"]["java_expr"], "block.destroySoundVolume")
+
+        source_building_on_destroyed_power_sound_result = source_symbols.state_schema(schema, "source_building_on_destroyed_power_sound_result")
+        self.assertEqual(source_building_on_destroyed_power_sound_result["keys"]["method"]["java_expr"], "public void onDestroyed(){")
+        self.assertEqual(source_building_on_destroyed_power_sound_result["keys"]["play_power_sound"]["java_expr"], "if(!headless){")
+        self.assertEqual(source_building_on_destroyed_power_sound_result["keys"]["power_sound_kind"]["java_expr"], "if(power > 30000f){ / }else if(power > 2000f){")
+        self.assertEqual(source_building_on_destroyed_power_sound_result["keys"]["sound"]["java_expr"], "Sounds.blockExplodeElectricBig.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume); / Sounds.blockExplodeElectric.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);")
+        self.assertEqual(source_building_on_destroyed_power_sound_result["keys"]["power"]["alias_of"], "source_building_on_destroyed_power_sound_input.power")
 
         source_building_on_destroyed_base_sound_input = source_symbols.state_schema(schema, "source_building_on_destroyed_base_sound_input")
         self.assertEqual(source_building_on_destroyed_base_sound_input["keys"]["headless"]["java_expr"], "headless")

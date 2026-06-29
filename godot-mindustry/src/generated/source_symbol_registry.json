@@ -20599,6 +20599,149 @@
       "java_expr": "liquids.sum((liquid, amount) -> ...)",
       "godot_symbol": "source_building_on_destroyed_liquid_explosion_input.liquid_states",
       "rule": "Runtime liquid_states supplies source liquid amounts and liquid flammability/explosiveness values."
+    },
+    "building_on_destroyed_power_sound.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_power_sound_state",
+      "tests": [
+        "test_building_on_destroyed_power_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_power_sound_state",
+      "java_expr": "public void onDestroyed(){",
+      "godot_symbol": "source_building_on_destroyed_power_sound_result.method",
+      "rule": "BuildingComp onDestroyed method boundary."
+    },
+    "building_on_destroyed_power_sound.headless_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_power_sound_state",
+      "tests": [
+        "test_building_on_destroyed_power_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_power_sound_state",
+      "java_expr": "if(!headless){",
+      "godot_symbol": "source_building_on_destroyed_power_sound_result.play_power_sound",
+      "rule": "Power explosion sound is gated by non-headless runtime."
+    },
+    "building_on_destroyed_power_sound.big_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_power_sound_state",
+      "tests": [
+        "test_building_on_destroyed_power_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_power_sound_state",
+      "java_expr": "if(power > 30000f){",
+      "godot_symbol": "source_building_on_destroyed_power_sound_result.power_sound_kind",
+      "rule": "Large electric explosion sound gate."
+    },
+    "building_on_destroyed_power_sound.big_sound": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_power_sound_state",
+      "tests": [
+        "test_building_on_destroyed_power_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_power_sound_state",
+      "java_expr": "Sounds.blockExplodeElectricBig.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);",
+      "godot_symbol": "source_building_on_destroyed_power_sound_result.sound",
+      "rule": "Large electric explosion sound call."
+    },
+    "building_on_destroyed_power_sound.normal_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_power_sound_state",
+      "tests": [
+        "test_building_on_destroyed_power_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_power_sound_state",
+      "java_expr": "}else if(power > 2000f){",
+      "godot_symbol": "source_building_on_destroyed_power_sound_result.power_sound_kind",
+      "rule": "Normal electric explosion sound gate."
+    },
+    "building_on_destroyed_power_sound.normal_sound": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_power_sound_state",
+      "tests": [
+        "test_building_on_destroyed_power_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_power_sound_state",
+      "java_expr": "Sounds.blockExplodeElectric.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);",
+      "godot_symbol": "source_building_on_destroyed_power_sound_result.sound",
+      "rule": "Normal electric explosion sound call."
+    },
+    "building_on_destroyed_power_sound.headless": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_power_sound_state",
+      "tests": [
+        "test_building_on_destroyed_power_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_power_sound_state",
+      "java_expr": "headless",
+      "godot_symbol": "source_building_on_destroyed_power_sound_input.headless",
+      "rule": "Runtime headless supplies source headless gate."
+    },
+    "building_on_destroyed_power_sound.power": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_power_sound_state",
+      "tests": [
+        "test_building_on_destroyed_power_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_power_sound_state",
+      "java_expr": "power",
+      "godot_symbol": "source_building_on_destroyed_power_sound_input.power",
+      "rule": "Runtime power supplies source power accumulator."
+    },
+    "building_on_destroyed_power_sound.destroy_pitch_min": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_power_sound_state",
+      "tests": [
+        "test_building_on_destroyed_power_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_power_sound_state",
+      "java_expr": "block.destroyPitchMin",
+      "godot_symbol": "source_building_on_destroyed_power_sound_input.destroy_pitch_min",
+      "rule": "Runtime destroy_pitch_min supplies source block.destroyPitchMin."
+    },
+    "building_on_destroyed_power_sound.destroy_pitch_max": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_power_sound_state",
+      "tests": [
+        "test_building_on_destroyed_power_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_power_sound_state",
+      "java_expr": "block.destroyPitchMax",
+      "godot_symbol": "source_building_on_destroyed_power_sound_input.destroy_pitch_max",
+      "rule": "Runtime destroy_pitch_max supplies source block.destroyPitchMax."
+    },
+    "building_on_destroyed_power_sound.destroy_sound_volume": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_power_sound_state",
+      "tests": [
+        "test_building_on_destroyed_power_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_power_sound_state",
+      "java_expr": "block.destroySoundVolume",
+      "godot_symbol": "source_building_on_destroyed_power_sound_input.destroy_sound_volume",
+      "rule": "Runtime destroy_sound_volume supplies source block.destroySoundVolume."
     }
   }
 }
