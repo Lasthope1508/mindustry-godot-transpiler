@@ -10284,6 +10284,51 @@
       ],
       "runtime_proof": "/root/Main.source_building_update_fog_visibility_state",
       "rule": "Backfills SSOT for updateFogVisibility reveal gate, visible flags, shadow update, and minimap update."
+    },
+    "PortGame.source_building_update_proximity_state": {
+      "status": "active",
+      "source_slice": "N668",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "updateProximity()",
+      "params": [
+        {
+          "name": "nearby_count",
+          "type": "int",
+          "schema": "source_building_update_proximity_input.nearby_count"
+        },
+        {
+          "name": "same_team_count",
+          "type": "int",
+          "schema": "source_building_update_proximity_input.same_team_count"
+        },
+        {
+          "name": "headless",
+          "type": "bool",
+          "schema": "source_building_update_proximity_input.headless"
+        },
+        {
+          "name": "draw_cached",
+          "type": "bool",
+          "schema": "source_building_update_proximity_input.draw_cached"
+        }
+      ],
+      "return_keys": [
+        "tmp_tiles_cleared",
+        "proximity_cleared",
+        "nearby_count",
+        "same_team_count",
+        "add_unique_calls",
+        "on_proximity_added",
+        "self_proximity_update",
+        "other_proximity_updates",
+        "recache"
+      ],
+      "tests": [
+        "test_building_update_proximity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_proximity_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_proximity_state",
+      "rule": "Backfills SSOT for updateProximity proximity rebuild and recache gate."
     }
   },
   "policy": {

@@ -26824,6 +26824,258 @@
         "test_building_update_fog_visibility_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_building_update_fog_visibility_state"
       ]
+    },
+    "building_update_proximity.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity()",
+      "godot_owner": "PortGame.source_building_update_proximity_state",
+      "tests": [
+        "test_building_update_proximity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_proximity_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_proximity_state",
+      "java_expr": "public void updateProximity(){",
+      "godot_symbol": "source_building_update_proximity_result.method",
+      "rule": "BuildingComp.updateProximity method boundary."
+    },
+    "building_update_proximity.tmp_tiles_clear": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity()",
+      "godot_owner": "PortGame.source_building_update_proximity_state",
+      "tests": [
+        "test_building_update_proximity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_proximity_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_proximity_state",
+      "java_expr": "tmpTiles.clear();",
+      "godot_symbol": "source_building_update_proximity_result.tmp_tiles_cleared",
+      "rule": "updateProximity clears tmpTiles before scanning edges."
+    },
+    "building_update_proximity.proximity_clear": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity()",
+      "godot_owner": "PortGame.source_building_update_proximity_state",
+      "tests": [
+        "test_building_update_proximity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_proximity_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_proximity_state",
+      "java_expr": "proximity.clear();",
+      "godot_symbol": "source_building_update_proximity_result.proximity_cleared",
+      "rule": "updateProximity clears this proximity before rebuilding it."
+    },
+    "building_update_proximity.edges_get": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity()",
+      "godot_owner": "PortGame.source_building_update_proximity_state",
+      "tests": [
+        "test_building_update_proximity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_proximity_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_proximity_state",
+      "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+      "godot_symbol": "source_building_update_proximity_result.edges_get",
+      "rule": "updateProximity uses Edges.getEdges(block.size) for nearby offsets."
+    },
+    "building_update_proximity.world_build": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity()",
+      "godot_owner": "PortGame.source_building_update_proximity_state",
+      "tests": [
+        "test_building_update_proximity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_proximity_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_proximity_state",
+      "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+      "godot_symbol": "source_building_update_proximity_result.world_build",
+      "rule": "updateProximity resolves nearby Building other from world.build tile offsets."
+    },
+    "building_update_proximity.same_team_guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity()",
+      "godot_owner": "PortGame.source_building_update_proximity_state",
+      "tests": [
+        "test_building_update_proximity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_proximity_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_proximity_state",
+      "java_expr": "if(other == null || other.team != team) continue;",
+      "godot_symbol": "source_building_update_proximity_result.same_team_count",
+      "rule": "Exact upstream guard keeps only non-null same-team buildings."
+    },
+    "building_update_proximity.add_unique": {
+      "status": "generated",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity()",
+      "godot_owner": "PortGame.source_building_update_proximity_state",
+      "tests": [
+        "test_building_update_proximity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_proximity_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_proximity_state",
+      "java_expr": "other.proximity.addUnique(self());",
+      "godot_symbol": "source_building_update_proximity_result.add_unique_calls",
+      "rule": "Generated addUnique call count from same-team buildings."
+    },
+    "building_update_proximity.tmp_tiles_add": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity()",
+      "godot_owner": "PortGame.source_building_update_proximity_state",
+      "tests": [
+        "test_building_update_proximity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_proximity_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_proximity_state",
+      "java_expr": "tmpTiles.add(other);",
+      "godot_symbol": "source_building_update_proximity_result.tmp_tiles_add",
+      "rule": "updateProximity queues same-team buildings into tmpTiles."
+    },
+    "building_update_proximity.dedupe_comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity()",
+      "godot_owner": "PortGame.source_building_update_proximity_state",
+      "tests": [
+        "test_building_update_proximity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_proximity_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_proximity_state",
+      "java_expr": "//using a set to prevent duplicates",
+      "godot_symbol": "source_building_update_proximity_result.dedupe_comment",
+      "rule": "Exact upstream comment before tmpTiles-to-proximity copy."
+    },
+    "building_update_proximity.proximity_add": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity()",
+      "godot_owner": "PortGame.source_building_update_proximity_state",
+      "tests": [
+        "test_building_update_proximity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_proximity_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_proximity_state",
+      "java_expr": "proximity.add(tile);",
+      "godot_symbol": "source_building_update_proximity_result.proximity_add",
+      "rule": "updateProximity adds each tmpTiles item to this proximity."
+    },
+    "building_update_proximity.on_proximity_added": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity()",
+      "godot_owner": "PortGame.source_building_update_proximity_state",
+      "tests": [
+        "test_building_update_proximity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_proximity_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_proximity_state",
+      "java_expr": "onProximityAdded();",
+      "godot_symbol": "source_building_update_proximity_result.on_proximity_added",
+      "rule": "Exact upstream self onProximityAdded call."
+    },
+    "building_update_proximity.self_proximity_update": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity()",
+      "godot_owner": "PortGame.source_building_update_proximity_state",
+      "tests": [
+        "test_building_update_proximity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_proximity_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_proximity_state",
+      "java_expr": "onProximityUpdate();",
+      "godot_symbol": "source_building_update_proximity_result.self_proximity_update",
+      "rule": "Exact upstream self onProximityUpdate call."
+    },
+    "building_update_proximity.other_update": {
+      "status": "generated",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity()",
+      "godot_owner": "PortGame.source_building_update_proximity_state",
+      "tests": [
+        "test_building_update_proximity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_proximity_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_proximity_state",
+      "java_expr": "other.onProximityUpdate();",
+      "godot_symbol": "source_building_update_proximity_result.other_proximity_updates",
+      "rule": "Generated other onProximityUpdate count from same-team tmpTiles."
+    },
+    "building_update_proximity.recache_gate": {
+      "status": "generated",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity()",
+      "godot_owner": "PortGame.source_building_update_proximity_state",
+      "tests": [
+        "test_building_update_proximity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_proximity_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_proximity_state",
+      "java_expr": "if(!headless && block.drawCached) recache();",
+      "godot_symbol": "source_building_update_proximity_result.recache",
+      "rule": "Generated recache flag from exact upstream headless/drawCached gate."
+    },
+    "building_update_proximity.nearby_count": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity()",
+      "godot_owner": "PortGame.source_building_update_proximity_state",
+      "tests": [
+        "test_building_update_proximity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_proximity_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_proximity_state",
+      "java_expr": "nearby.length",
+      "godot_symbol": "source_building_update_proximity_input.nearby_count",
+      "rule": "Runtime nearby_count supplies Edges.getEdges(block.size) length."
+    },
+    "building_update_proximity.same_team_count": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity()",
+      "godot_owner": "PortGame.source_building_update_proximity_state",
+      "tests": [
+        "test_building_update_proximity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_proximity_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_proximity_state",
+      "java_expr": "other != null && other.team == team",
+      "godot_symbol": "source_building_update_proximity_input.same_team_count",
+      "rule": "Runtime same_team_count supplies count passing other != null && other.team == team."
+    },
+    "building_update_proximity.headless": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity()",
+      "godot_owner": "PortGame.source_building_update_proximity_state",
+      "tests": [
+        "test_building_update_proximity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_proximity_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_proximity_state",
+      "java_expr": "headless",
+      "godot_symbol": "source_building_update_proximity_input.headless",
+      "rule": "Runtime headless supplies upstream headless flag."
+    },
+    "building_update_proximity.draw_cached": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity()",
+      "godot_owner": "PortGame.source_building_update_proximity_state",
+      "tests": [
+        "test_building_update_proximity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_proximity_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_proximity_state",
+      "java_expr": "block.drawCached",
+      "godot_symbol": "source_building_update_proximity_input.draw_cached",
+      "rule": "Runtime draw_cached supplies block.drawCached."
     }
   }
 }
