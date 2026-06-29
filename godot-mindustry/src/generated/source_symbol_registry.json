@@ -32925,6 +32925,231 @@
         "test_move_payload_state_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_move_payload_state"
       ]
+    },
+    "offload_to_inventory.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "offload(Item item)",
+      "java_expr": "public void offload(Item item){",
+      "godot_owner": "PortGame.source_offload_to_inventory",
+      "godot_symbol": "source_offload_to_inventory_result.method",
+      "runtime_proof": "/root/Main.source_offload_to_inventory",
+      "rule": "BuildingComp offload method boundary for item offload fallback to own inventory.",
+      "tests": [
+        "test_offload_to_inventory_symbols_are_registered_with_source_backing",
+        "test_port_game_tracks_source_drill_internal_inventory"
+      ]
+    },
+    "offload_to_inventory.produced_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "offload(Item item)",
+      "java_expr": "produced(item, 1);",
+      "godot_owner": "PortGame.source_offload_to_inventory",
+      "godot_symbol": "source_offload_to_inventory_result.produced",
+      "runtime_proof": "/root/Main.source_offload_to_inventory",
+      "rule": "Source production accounting call before offload attempts.",
+      "tests": [
+        "test_offload_to_inventory_symbols_are_registered_with_source_backing",
+        "test_port_game_tracks_source_drill_internal_inventory"
+      ]
+    },
+    "offload_to_inventory.dump_cursor_deferred": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "offload(Item item)",
+      "java_expr": "int dump = this.cdump;",
+      "godot_owner": "PortGame.source_offload_to_inventory",
+      "godot_symbol": "source_offload_to_inventory_result.dumpCursorDeferred",
+      "runtime_proof": "/root/Main.source_offload_to_inventory",
+      "rule": "Neighbor dump cursor pinned for later non-inventory offload routing.",
+      "tests": [
+        "test_offload_to_inventory_symbols_are_registered_with_source_backing",
+        "test_port_game_tracks_source_drill_internal_inventory"
+      ]
+    },
+    "offload_to_inventory.neighbor_loop_deferred": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "offload(Item item)",
+      "java_expr": "for(int i = 0; i < proximity.size; i++){",
+      "godot_owner": "PortGame.source_offload_to_inventory",
+      "godot_symbol": "source_offload_to_inventory_result.neighborLoopDeferred",
+      "runtime_proof": "/root/Main.source_offload_to_inventory",
+      "rule": "Neighbor loop pinned for later offload routing slice.",
+      "tests": [
+        "test_offload_to_inventory_symbols_are_registered_with_source_backing",
+        "test_port_game_tracks_source_drill_internal_inventory"
+      ]
+    },
+    "offload_to_inventory.increment_dump_deferred": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "offload(Item item)",
+      "java_expr": "incrementDump(proximity.size);",
+      "godot_owner": "PortGame.source_offload_to_inventory",
+      "godot_symbol": "source_offload_to_inventory_result.incrementDumpDeferred",
+      "runtime_proof": "/root/Main.source_offload_to_inventory",
+      "rule": "Neighbor dump cursor increment pinned for later routing slice.",
+      "tests": [
+        "test_offload_to_inventory_symbols_are_registered_with_source_backing",
+        "test_port_game_tracks_source_drill_internal_inventory"
+      ]
+    },
+    "offload_to_inventory.proximity_get_deferred": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "offload(Item item)",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "godot_owner": "PortGame.source_offload_to_inventory",
+      "godot_symbol": "source_offload_to_inventory_result.proximityGetDeferred",
+      "runtime_proof": "/root/Main.source_offload_to_inventory",
+      "rule": "Neighbor lookup pinned for later routing slice.",
+      "tests": [
+        "test_offload_to_inventory_symbols_are_registered_with_source_backing",
+        "test_port_game_tracks_source_drill_internal_inventory"
+      ]
+    },
+    "offload_to_inventory.accept_can_dump_deferred": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "offload(Item item)",
+      "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+      "godot_owner": "PortGame.source_offload_to_inventory",
+      "godot_symbol": "source_offload_to_inventory_result.acceptCanDumpDeferred",
+      "runtime_proof": "/root/Main.source_offload_to_inventory",
+      "rule": "Neighbor accept/canDump gate pinned for later routing slice.",
+      "tests": [
+        "test_offload_to_inventory_symbols_are_registered_with_source_backing",
+        "test_port_game_tracks_source_drill_internal_inventory"
+      ]
+    },
+    "offload_to_inventory.neighbor_handle_deferred": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "offload(Item item)",
+      "java_expr": "other.handleItem(self(), item);",
+      "godot_owner": "PortGame.source_offload_to_inventory",
+      "godot_symbol": "source_offload_to_inventory_result.neighborHandleDeferred",
+      "runtime_proof": "/root/Main.source_offload_to_inventory",
+      "rule": "Neighbor side effect pinned but deferred from inventory fallback helper.",
+      "tests": [
+        "test_offload_to_inventory_symbols_are_registered_with_source_backing",
+        "test_port_game_tracks_source_drill_internal_inventory"
+      ]
+    },
+    "offload_to_inventory.neighbor_return_deferred": {
+      "status": "deferred",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "offload(Item item)",
+      "java_expr": "return;",
+      "godot_owner": "PortGame.source_offload_to_inventory",
+      "godot_symbol": "source_offload_to_inventory_result.neighborReturnDeferred",
+      "runtime_proof": "/root/Main.source_offload_to_inventory",
+      "rule": "Neighbor success return pinned for later routing slice.",
+      "tests": [
+        "test_offload_to_inventory_symbols_are_registered_with_source_backing",
+        "test_port_game_tracks_source_drill_internal_inventory"
+      ]
+    },
+    "offload_to_inventory.fallback_handle_item": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "offload(Item item)",
+      "java_expr": "handleItem(self(), item);",
+      "godot_owner": "PortGame.source_offload_to_inventory",
+      "godot_symbol": "source_offload_to_inventory_result.handleItem",
+      "runtime_proof": "/root/Main.source_offload_to_inventory",
+      "rule": "Source fallback adds item to this building inventory when no neighbor accepts it.",
+      "tests": [
+        "test_offload_to_inventory_symbols_are_registered_with_source_backing",
+        "test_port_game_tracks_source_drill_internal_inventory"
+      ]
+    },
+    "offload_to_inventory.building_handle_add": {
+      "status": "generated",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleItem(Building source, Item item)",
+      "java_expr": "items.add(item, 1);",
+      "godot_owner": "PortGame.source_offload_to_inventory",
+      "godot_symbol": "source_offload_to_inventory_result.itemCountAfter",
+      "runtime_proof": "/root/Main.source_offload_to_inventory",
+      "rule": "Inventory fallback reuses BuildingComp.handleItem item add semantics.",
+      "tests": [
+        "test_offload_to_inventory_symbols_are_registered_with_source_backing",
+        "test_port_game_tracks_source_drill_internal_inventory"
+      ],
+      "alias_of": "building_handle_item_count.add"
+    },
+    "offload_to_inventory.batch_amount": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.updateTile()",
+      "java_expr": "int amount = (int)(progress / delay);",
+      "godot_owner": "PortGame.source_offload_to_inventory",
+      "godot_symbol": "source_offload_to_inventory_input.amount",
+      "runtime_proof": "/root/Main.source_offload_to_inventory",
+      "rule": "Runtime amount parameter comes from DrillBuild output batch amount.",
+      "tests": [
+        "test_offload_to_inventory_symbols_are_registered_with_source_backing",
+        "test_port_game_tracks_source_drill_internal_inventory"
+      ]
+    },
+    "offload_to_inventory.batch_loop": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.updateTile()",
+      "java_expr": "for(int i = 0; i < amount; i++){",
+      "godot_owner": "PortGame.source_offload_to_inventory",
+      "godot_symbol": "source_offload_to_inventory_result.batchLoop",
+      "runtime_proof": "/root/Main.source_offload_to_inventory",
+      "rule": "Drill output repeats offload once per produced item.",
+      "tests": [
+        "test_offload_to_inventory_symbols_are_registered_with_source_backing",
+        "test_port_game_tracks_source_drill_internal_inventory"
+      ]
+    },
+    "offload_to_inventory.batch_offload": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.updateTile()",
+      "java_expr": "offload(dominantItem);",
+      "godot_owner": "PortGame.source_offload_to_inventory",
+      "godot_symbol": "source_offload_to_inventory_result.offloadCall",
+      "runtime_proof": "/root/Main.source_offload_to_inventory",
+      "rule": "Drill output calls BuildingComp.offload for each produced dominant item.",
+      "tests": [
+        "test_offload_to_inventory_symbols_are_registered_with_source_backing",
+        "test_port_game_tracks_source_drill_internal_inventory"
+      ]
+    },
+    "offload_to_inventory.item_id": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.updateTile()/offload(Item item)",
+      "java_expr": "dominantItem / Item item",
+      "godot_owner": "PortGame.source_offload_to_inventory",
+      "godot_symbol": "source_offload_to_inventory_input.item_id",
+      "runtime_proof": "/root/Main.source_offload_to_inventory",
+      "rule": "Runtime item id maps to Drill dominantItem passed as offload Item item.",
+      "tests": [
+        "test_offload_to_inventory_symbols_are_registered_with_source_backing",
+        "test_port_game_tracks_source_drill_internal_inventory"
+      ]
+    },
+    "offload_to_inventory.amount": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.updateTile()",
+      "java_expr": "amount",
+      "godot_owner": "PortGame.source_offload_to_inventory",
+      "godot_symbol": "source_offload_to_inventory_input.amount",
+      "runtime_proof": "/root/Main.source_offload_to_inventory",
+      "rule": "Runtime amount maps to Java Drill output amount loop count.",
+      "tests": [
+        "test_offload_to_inventory_symbols_are_registered_with_source_backing",
+        "test_port_game_tracks_source_drill_internal_inventory"
+      ]
     }
   },
   "version": 1

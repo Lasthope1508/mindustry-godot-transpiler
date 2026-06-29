@@ -4216,6 +4216,59 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(accepts_payload["java_expr"], "next.build.acceptPayload(self(), todump)")
         self.assertEqual(accepts_payload["godot_symbol"], "source_move_payload_state_input.acceptsPayload")
 
+    def test_offload_to_inventory_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "offload_to_inventory.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "offload(Item item)")
+        self.assertEqual(method["java_expr"], "public void offload(Item item){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_offload_to_inventory")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_offload_to_inventory")
+        self.assertEqual(method["godot_symbol"], "source_offload_to_inventory_result.method")
+
+        produced_call = source_symbols.source_symbol(registry, "offload_to_inventory.produced_call")
+        self.assertEqual(produced_call["java_expr"], "produced(item, 1);")
+        self.assertEqual(produced_call["godot_symbol"], "source_offload_to_inventory_result.produced")
+
+        fallback_handle = source_symbols.source_symbol(registry, "offload_to_inventory.fallback_handle_item")
+        self.assertEqual(fallback_handle["java_expr"], "handleItem(self(), item);")
+        self.assertEqual(fallback_handle["godot_symbol"], "source_offload_to_inventory_result.handleItem")
+
+        building_handle_add = source_symbols.source_symbol(registry, "offload_to_inventory.building_handle_add")
+        self.assertEqual(building_handle_add["java_expr"], "items.add(item, 1);")
+        self.assertEqual(building_handle_add["alias_of"], "building_handle_item_count.add")
+
+        batch_amount = source_symbols.source_symbol(registry, "offload_to_inventory.batch_amount")
+        self.assertEqual(batch_amount["java_source"], "core/src/mindustry/world/blocks/production/Drill.java")
+        self.assertEqual(batch_amount["java_expr"], "int amount = (int)(progress / delay);")
+        self.assertEqual(batch_amount["godot_symbol"], "source_offload_to_inventory_input.amount")
+
+        batch_loop = source_symbols.source_symbol(registry, "offload_to_inventory.batch_loop")
+        self.assertEqual(batch_loop["java_expr"], "for(int i = 0; i < amount; i++){")
+        self.assertEqual(batch_loop["godot_symbol"], "source_offload_to_inventory_result.batchLoop")
+
+        batch_offload = source_symbols.source_symbol(registry, "offload_to_inventory.batch_offload")
+        self.assertEqual(batch_offload["java_expr"], "offload(dominantItem);")
+        self.assertEqual(batch_offload["godot_symbol"], "source_offload_to_inventory_result.offloadCall")
+
+        item_id = source_symbols.source_symbol(registry, "offload_to_inventory.item_id")
+        self.assertEqual(item_id["status"], "explicit-input")
+        self.assertEqual(item_id["java_expr"], "dominantItem / Item item")
+        self.assertEqual(item_id["godot_symbol"], "source_offload_to_inventory_input.item_id")
+
+        amount_input = source_symbols.source_symbol(registry, "offload_to_inventory.amount")
+        self.assertEqual(amount_input["status"], "explicit-input")
+        self.assertEqual(amount_input["java_expr"], "amount")
+        self.assertEqual(amount_input["godot_symbol"], "source_offload_to_inventory_input.amount")
+
+        neighbor_loop = source_symbols.source_symbol(registry, "offload_to_inventory.neighbor_loop_deferred")
+        self.assertEqual(neighbor_loop["status"], "deferred")
+        self.assertEqual(neighbor_loop["java_expr"], "for(int i = 0; i < proximity.size; i++){")
+
     def test_dump_drill_item_to_core_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -10347,9 +10400,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 321)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 322)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 326)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 327)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -10561,6 +10614,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_core_handle_item", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_move_forward_to_core", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_move_payload_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_offload_to_inventory", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_delay", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_dump_interval", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_inactive_warmup_state", audit["registeredSourceOwners"])
@@ -11785,6 +11839,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return true;", move_payload_state["exact_exprs"])
         self.assertIn("return false;", move_payload_state["exact_exprs"])
         self.assertIn("next.build.handlePayload(self(), todump);", move_payload_state["deferred_exprs"])
+
+        offload_to_inventory = source_symbols.source_slice(ledger, "N724")
+        self.assertEqual(offload_to_inventory["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(offload_to_inventory["java_method"], "offload(Item item)")
+        self.assertEqual(offload_to_inventory["godot_owner"], "PortGame.source_offload_to_inventory")
+        self.assertIn("public void offload(Item item){", offload_to_inventory["exact_exprs"])
+        self.assertIn("produced(item, 1);", offload_to_inventory["exact_exprs"])
+        self.assertIn("handleItem(self(), item);", offload_to_inventory["exact_exprs"])
+        self.assertIn("items.add(item, 1);", offload_to_inventory["exact_exprs"])
+        self.assertIn("int amount = (int)(progress / delay);", offload_to_inventory["exact_exprs"])
+        self.assertIn("for(int i = 0; i < amount; i++){", offload_to_inventory["exact_exprs"])
+        self.assertIn("offload(dominantItem);", offload_to_inventory["exact_exprs"])
+        self.assertIn("for(int i = 0; i < proximity.size; i++){", offload_to_inventory["deferred_exprs"])
 
         dump_drill_item_to_core = source_symbols.source_slice(ledger, "N705")
         self.assertEqual(dump_drill_item_to_core["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -14781,6 +14848,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("movePayload", move_payload_state["return_keys"])
         self.assertIn("handleDeferred", move_payload_state["return_keys"])
         self.assertEqual(move_payload_state["source_method"], "movePayload(Payload todump)")
+
+        offload_to_inventory = source_symbols.api_contract(contracts, "PortGame.source_offload_to_inventory")
+        self.assertEqual([param["name"] for param in offload_to_inventory["params"]], ["item_id", "amount"])
+        self.assertEqual(offload_to_inventory["params"][0]["schema"], "source_offload_to_inventory_input.item_id")
+        self.assertEqual(offload_to_inventory["params"][1]["schema"], "source_offload_to_inventory_input.amount")
+        self.assertIn("produced", offload_to_inventory["return_keys"])
+        self.assertIn("handleItem", offload_to_inventory["return_keys"])
+        self.assertIn("itemCountAfter", offload_to_inventory["return_keys"])
+        self.assertEqual(offload_to_inventory["source_method"], "offload(Item item)/DrillBuild.updateTile()")
 
         drill_delay = source_symbols.api_contract(contracts, "PortGame.source_drill_delay")
         self.assertEqual([param["name"] for param in drill_delay["params"]], ["block_id", "item_id"])
@@ -18185,6 +18261,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_move_payload_state_result["keys"]["returnFalse"]["java_expr"], "return false;")
         self.assertEqual(source_move_payload_state_result["keys"]["hasNextTile"]["alias_of"], "source_move_payload_state_input.hasNextTile")
         self.assertEqual(source_move_payload_state_result["keys"]["acceptsPayload"]["alias_of"], "source_move_payload_state_input.acceptsPayload")
+
+        source_offload_to_inventory_input = source_symbols.state_schema(schema, "source_offload_to_inventory_input")
+        self.assertEqual(source_offload_to_inventory_input["keys"]["item_id"]["java_expr"], "dominantItem / Item item")
+        self.assertEqual(source_offload_to_inventory_input["keys"]["amount"]["java_expr"], "amount")
+
+        source_offload_to_inventory_result = source_symbols.state_schema(schema, "source_offload_to_inventory_result")
+        self.assertEqual(source_offload_to_inventory_result["keys"]["method"]["java_expr"], "public void offload(Item item){")
+        self.assertEqual(source_offload_to_inventory_result["keys"]["produced"]["java_expr"], "produced(item, 1);")
+        self.assertEqual(source_offload_to_inventory_result["keys"]["handleItem"]["java_expr"], "handleItem(self(), item);")
+        self.assertEqual(source_offload_to_inventory_result["keys"]["buildingHandleAdd"]["java_expr"], "items.add(item, 1);")
+        self.assertEqual(source_offload_to_inventory_result["keys"]["batchAmount"]["java_expr"], "int amount = (int)(progress / delay);")
+        self.assertEqual(source_offload_to_inventory_result["keys"]["batchLoop"]["java_expr"], "for(int i = 0; i < amount; i++){")
+        self.assertEqual(source_offload_to_inventory_result["keys"]["offloadCall"]["java_expr"], "offload(dominantItem);")
+        self.assertEqual(source_offload_to_inventory_result["keys"]["neighborLoopDeferred"]["java_expr"], "for(int i = 0; i < proximity.size; i++){")
+        self.assertEqual(source_offload_to_inventory_result["keys"]["itemCountAfter"]["godot_symbol"], "drill_item_count(item_id)")
+        self.assertEqual(source_offload_to_inventory_result["keys"]["amount"]["alias_of"], "source_offload_to_inventory_input.amount")
 
         source_dump_drill_item_to_core_input = source_symbols.state_schema(schema, "source_dump_drill_item_to_core_input")
         self.assertEqual(source_dump_drill_item_to_core_input["keys"]["item_id"]["java_expr"], "todump")

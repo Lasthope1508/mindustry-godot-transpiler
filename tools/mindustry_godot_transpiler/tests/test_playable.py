@@ -1284,6 +1284,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("var drill_items: Dictionary = {}", source)
+        self.assertIn('const SOURCE_OFFLOAD_TO_INVENTORY_METHOD := "public void offload(Item item){"', source)
+        self.assertIn('const SOURCE_OFFLOAD_TO_INVENTORY_PRODUCED := "produced(item, 1);"', source)
+        self.assertIn('const SOURCE_OFFLOAD_TO_INVENTORY_FALLBACK_HANDLE := "handleItem(self(), item);"', source)
+        self.assertIn('const SOURCE_OFFLOAD_TO_INVENTORY_BUILDING_HANDLE_ADD := "items.add(item, 1);"', source)
+        self.assertIn('const SOURCE_OFFLOAD_TO_INVENTORY_BATCH_AMOUNT := "int amount = (int)(progress / delay);"', source)
+        self.assertIn('const SOURCE_OFFLOAD_TO_INVENTORY_BATCH_LOOP := "for(int i = 0; i < amount; i++){"', source)
+        self.assertIn('const SOURCE_OFFLOAD_TO_INVENTORY_BATCH_OFFLOAD := "offload(dominantItem);"', source)
         self.assertIn("func drill_item_count(item_id: String) -> int:", source)
         self.assertIn("return int(drill_items.get(item_id, 0))", source)
         self.assertIn("func drill_items_total() -> int:", source)

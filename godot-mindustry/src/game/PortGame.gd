@@ -3345,6 +3345,14 @@ func drill_items_total() -> int:
 func add_drill_item(item_id: String, amount: int) -> void:
 	drill_items[item_id] = drill_item_count(item_id) + amount
 
+const SOURCE_OFFLOAD_TO_INVENTORY_METHOD := "public void offload(Item item){"
+const SOURCE_OFFLOAD_TO_INVENTORY_PRODUCED := "produced(item, 1);"
+const SOURCE_OFFLOAD_TO_INVENTORY_FALLBACK_HANDLE := "handleItem(self(), item);"
+const SOURCE_OFFLOAD_TO_INVENTORY_BUILDING_HANDLE_ADD := "items.add(item, 1);"
+const SOURCE_OFFLOAD_TO_INVENTORY_BATCH_AMOUNT := "int amount = (int)(progress / delay);"
+const SOURCE_OFFLOAD_TO_INVENTORY_BATCH_LOOP := "for(int i = 0; i < amount; i++){"
+const SOURCE_OFFLOAD_TO_INVENTORY_BATCH_OFFLOAD := "offload(dominantItem);"
+
 func source_offload_to_inventory(item_id: String, amount: int) -> void:
 	add_drill_item(item_id, amount)
 

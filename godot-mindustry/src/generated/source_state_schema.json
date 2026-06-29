@@ -42100,6 +42100,220 @@
         }
       },
       "status": "active"
+    },
+    "source_offload_to_inventory_input": {
+      "status": "active",
+      "keys": {
+        "item_id": {
+          "godot_symbol": "source_offload_to_inventory_input.item_id",
+          "java_expr": "dominantItem / Item item",
+          "java_method": "DrillBuild.updateTile()/offload(Item item)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Explicit item id input for Drill dominantItem passed to offload Item item.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_offload_to_inventory"
+          ]
+        },
+        "amount": {
+          "godot_symbol": "source_offload_to_inventory_input.amount",
+          "java_expr": "amount",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Explicit amount input for Drill output batch loop count.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_offload_to_inventory"
+          ]
+        }
+      }
+    },
+    "source_offload_to_inventory_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "godot_symbol": "source_offload_to_inventory_result.method",
+          "java_expr": "public void offload(Item item){",
+          "java_method": "offload(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_offload_to_inventory"
+          ]
+        },
+        "produced": {
+          "godot_symbol": "source_offload_to_inventory_result.produced",
+          "java_expr": "produced(item, 1);",
+          "java_method": "offload(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source production accounting call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_offload_to_inventory"
+          ]
+        },
+        "handleItem": {
+          "godot_symbol": "source_offload_to_inventory_result.handleItem",
+          "java_expr": "handleItem(self(), item);",
+          "java_method": "offload(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source fallback handleItem call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_offload_to_inventory"
+          ]
+        },
+        "buildingHandleAdd": {
+          "godot_symbol": "source_offload_to_inventory_result.itemCountAfter",
+          "java_expr": "items.add(item, 1);",
+          "java_method": "handleItem(Building source, Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Fallback handleItem adds one item to building inventory.",
+          "status": "generated",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_offload_to_inventory"
+          ]
+        },
+        "batchAmount": {
+          "godot_symbol": "source_offload_to_inventory_input.amount",
+          "java_expr": "int amount = (int)(progress / delay);",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Drill output batch amount assignment.",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_offload_to_inventory"
+          ]
+        },
+        "batchLoop": {
+          "godot_symbol": "source_offload_to_inventory_result.batchLoop",
+          "java_expr": "for(int i = 0; i < amount; i++){",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Drill output batch loop.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_offload_to_inventory"
+          ]
+        },
+        "offloadCall": {
+          "godot_symbol": "source_offload_to_inventory_result.offloadCall",
+          "java_expr": "offload(dominantItem);",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Drill output calls offload for each item.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_offload_to_inventory"
+          ]
+        },
+        "neighborLoopDeferred": {
+          "godot_symbol": "source_offload_to_inventory_result.neighborLoopDeferred",
+          "java_expr": "for(int i = 0; i < proximity.size; i++){",
+          "java_method": "offload(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Neighbor routing loop pinned but deferred.",
+          "status": "deferred",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_offload_to_inventory"
+          ]
+        },
+        "neighborIncrementDeferred": {
+          "godot_symbol": "source_offload_to_inventory_result.incrementDumpDeferred",
+          "java_expr": "incrementDump(proximity.size);",
+          "java_method": "offload(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Neighbor routing dump increment pinned but deferred.",
+          "status": "deferred",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_offload_to_inventory"
+          ]
+        },
+        "neighborGetDeferred": {
+          "godot_symbol": "source_offload_to_inventory_result.proximityGetDeferred",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "java_method": "offload(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Neighbor lookup pinned but deferred.",
+          "status": "deferred",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_offload_to_inventory"
+          ]
+        },
+        "neighborAcceptCanDumpDeferred": {
+          "godot_symbol": "source_offload_to_inventory_result.acceptCanDumpDeferred",
+          "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+          "java_method": "offload(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Neighbor accept/canDump gate pinned but deferred.",
+          "status": "deferred",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_offload_to_inventory"
+          ]
+        },
+        "neighborHandleDeferred": {
+          "godot_symbol": "source_offload_to_inventory_result.neighborHandleDeferred",
+          "java_expr": "other.handleItem(self(), item);",
+          "java_method": "offload(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Neighbor handle side effect pinned but deferred.",
+          "status": "deferred",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_offload_to_inventory"
+          ]
+        },
+        "neighborReturnDeferred": {
+          "godot_symbol": "source_offload_to_inventory_result.neighborReturnDeferred",
+          "java_expr": "return;",
+          "java_method": "offload(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Neighbor success return pinned but deferred.",
+          "status": "deferred",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_offload_to_inventory"
+          ]
+        },
+        "itemCountAfter": {
+          "godot_symbol": "drill_item_count(item_id)",
+          "java_expr": "items.add(item, 1);",
+          "java_method": "handleItem(Building source, Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime inventory count after applying amount fallback additions.",
+          "status": "generated",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_offload_to_inventory"
+          ]
+        },
+        "item_id": {
+          "alias_of": "source_offload_to_inventory_input.item_id",
+          "rule": "Runtime echo of item id input.",
+          "status": "generated",
+          "type": "String"
+        },
+        "amount": {
+          "alias_of": "source_offload_to_inventory_input.amount",
+          "rule": "Runtime echo of amount input.",
+          "status": "generated",
+          "type": "int"
+        }
+      }
     }
   },
   "version": 1

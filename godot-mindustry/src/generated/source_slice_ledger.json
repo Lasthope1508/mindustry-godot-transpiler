@@ -10374,6 +10374,56 @@
         "test_move_payload_state_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_move_payload_state"
       ]
+    },
+    "N724": {
+      "deferred_exprs": [
+        "int dump = this.cdump;",
+        "for(int i = 0; i < proximity.size; i++){",
+        "incrementDump(proximity.size);",
+        "Building other = proximity.get((i + dump) % proximity.size);",
+        "if(other.acceptItem(self(), item) && canDump(other, item)){",
+        "other.handleItem(self(), item);",
+        "return;"
+      ],
+      "exact_exprs": [
+        "public void offload(Item item){",
+        "produced(item, 1);",
+        "handleItem(self(), item);",
+        "items.add(item, 1);",
+        "int amount = (int)(progress / delay);",
+        "for(int i = 0; i < amount; i++){",
+        "offload(dominantItem);",
+        "dominantItem / Item item",
+        "amount"
+      ],
+      "godot_owner": "PortGame.source_offload_to_inventory",
+      "java_class": "mindustry.entities.comp.BuildingComp/DrillBuild",
+      "java_method": "offload(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "runtime_proof": "/root/Main.source_offload_to_inventory",
+      "source_symbols": [
+        "offload_to_inventory.method",
+        "offload_to_inventory.produced_call",
+        "offload_to_inventory.dump_cursor_deferred",
+        "offload_to_inventory.neighbor_loop_deferred",
+        "offload_to_inventory.increment_dump_deferred",
+        "offload_to_inventory.proximity_get_deferred",
+        "offload_to_inventory.accept_can_dump_deferred",
+        "offload_to_inventory.neighbor_handle_deferred",
+        "offload_to_inventory.neighbor_return_deferred",
+        "offload_to_inventory.fallback_handle_item",
+        "offload_to_inventory.building_handle_add",
+        "offload_to_inventory.batch_amount",
+        "offload_to_inventory.batch_loop",
+        "offload_to_inventory.batch_offload",
+        "offload_to_inventory.item_id",
+        "offload_to_inventory.amount"
+      ],
+      "status": "done",
+      "tests": [
+        "test_offload_to_inventory_symbols_are_registered_with_source_backing",
+        "test_port_game_tracks_source_drill_internal_inventory"
+      ]
     }
   },
   "version": 1

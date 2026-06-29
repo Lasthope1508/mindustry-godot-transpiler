@@ -12084,6 +12084,37 @@
         "test_move_payload_state_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_move_payload_state"
       ]
+    },
+    "PortGame.source_offload_to_inventory": {
+      "status": "active",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "offload(Item item)/DrillBuild.updateTile()",
+      "source_slice": "N724",
+      "runtime_proof": "/root/Main.source_offload_to_inventory",
+      "params": [
+        {
+          "name": "item_id",
+          "type": "String",
+          "schema": "source_offload_to_inventory_input.item_id"
+        },
+        {
+          "name": "amount",
+          "type": "int",
+          "schema": "source_offload_to_inventory_input.amount"
+        }
+      ],
+      "return_keys": [
+        "produced",
+        "handleItem",
+        "itemCountAfter",
+        "batchLoop",
+        "offloadCall"
+      ],
+      "rule": "Public runtime contract for batched Drill output calling BuildingComp.offload and falling back to this building inventory when neighbor routing is deferred.",
+      "tests": [
+        "test_offload_to_inventory_symbols_are_registered_with_source_backing",
+        "test_port_game_tracks_source_drill_internal_inventory"
+      ]
     }
   },
   "policy": {
