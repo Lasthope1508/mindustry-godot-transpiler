@@ -32169,6 +32169,132 @@
         "test_port_game_exposes_overdrive_projector_range_state_like_source"
       ]
     },
+    "overdrive_projector_target_filter_state.apply_boost_call": {
+      "godot_owner": "PortGame.source_overdrive_projector_target_filter_state",
+      "godot_symbol": "source_overdrive_projector_target_filter_state_result.applyBoost",
+      "java_expr": "other.applyBoost(realBoost(), reload + 1f)",
+      "java_method": "updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Source applyBoost action call.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_target_filter_state",
+      "status": "source-backed",
+      "tests": [
+        "test_overdrive_projector_target_filter_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_target_filter_like_source"
+      ]
+    },
+    "overdrive_projector_target_filter_state.boost_branch": {
+      "godot_owner": "PortGame.source_overdrive_projector_target_filter_state",
+      "godot_symbol": "source_overdrive_projector_target_filter_state_result.boostBranch",
+      "java_expr": "if(charge >= reload){\n                float realRange = range + phaseHeat * phaseRangeBoost;\n\n                charge = 0f;\n                indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> other.applyBoost(realBoost(), reload + 1f));\n            }",
+      "java_method": "updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Source charge gate branch for applying overdrive to blocks in realRange.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_target_filter_state",
+      "status": "source-backed",
+      "tests": [
+        "test_overdrive_projector_target_filter_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_target_filter_like_source"
+      ]
+    },
+    "overdrive_projector_target_filter_state.can_overdrive_predicate": {
+      "godot_owner": "PortGame.source_overdrive_projector_target_filter_state",
+      "godot_symbol": "source_overdrive_projector_target_filter_state_result.can_overdrive",
+      "java_expr": "other.block.canOverdrive",
+      "java_method": "updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Source target block canOverdrive predicate.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_target_filter_state",
+      "status": "source-backed",
+      "tests": [
+        "test_overdrive_projector_target_filter_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_target_filter_like_source"
+      ]
+    },
+    "overdrive_projector_target_filter_state.distance_input": {
+      "godot_owner": "PortGame.source_overdrive_projector_target_filter_state",
+      "godot_symbol": "source_overdrive_projector_target_filter_state_input.distance",
+      "java_expr": "indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> other.applyBoost(realBoost(), reload + 1f));",
+      "java_method": "updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Explicit runtime distance input models source eachBlock radial inclusion against realRange.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_target_filter_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_overdrive_projector_target_filter_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_target_filter_like_source"
+      ]
+    },
+    "overdrive_projector_target_filter_state.each_block": {
+      "godot_owner": "PortGame.source_overdrive_projector_target_filter_state",
+      "godot_symbol": "source_overdrive_projector_target_filter_state_result.eachBlock",
+      "java_expr": "indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> other.applyBoost(realBoost(), reload + 1f));",
+      "java_method": "updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Source indexer.eachBlock boost lookup call.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_target_filter_state",
+      "status": "source-backed",
+      "tests": [
+        "test_overdrive_projector_target_filter_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_target_filter_like_source"
+      ]
+    },
+    "overdrive_projector_target_filter_state.phase_heat_input": {
+      "godot_owner": "PortGame.source_overdrive_projector_target_filter_state",
+      "godot_symbol": "source_overdrive_projector_target_filter_state_input.phaseHeat",
+      "java_expr": "phaseHeat",
+      "java_method": "updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Explicit phaseHeat input used by source realRange expression.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_target_filter_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_overdrive_projector_target_filter_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_target_filter_like_source"
+      ]
+    },
+    "overdrive_projector_target_filter_state.real_range": {
+      "godot_owner": "PortGame.source_overdrive_projector_target_filter_state",
+      "godot_symbol": "source_overdrive_projector_target_filter_state_result.real_range",
+      "java_expr": "float realRange = range + phaseHeat * phaseRangeBoost;",
+      "java_method": "updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Source realRange expression for updateTile boost lookup.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_target_filter_state",
+      "status": "source-backed",
+      "tests": [
+        "test_overdrive_projector_target_filter_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_target_filter_like_source"
+      ]
+    },
+    "overdrive_projector_target_filter_state.reload_duration": {
+      "godot_owner": "PortGame.source_overdrive_projector_target_filter_state",
+      "godot_symbol": "source_overdrive_projector_target_filter_state_result.reloadDuration",
+      "java_expr": "reload + 1f",
+      "java_method": "updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Source boost duration expression.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_target_filter_state",
+      "status": "source-backed",
+      "tests": [
+        "test_overdrive_projector_target_filter_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_target_filter_like_source"
+      ]
+    },
+    "overdrive_projector_target_filter_state.target_block_input": {
+      "godot_owner": "PortGame.source_overdrive_projector_target_filter_state",
+      "godot_symbol": "source_overdrive_projector_target_filter_state_input.targetBlock",
+      "java_expr": "other",
+      "java_method": "updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Runtime target_block parameter maps to source eachBlock lambda target other.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_target_filter_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_overdrive_projector_target_filter_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_target_filter_like_source"
+      ]
+    },
     "removed.frag_dispatch.building_damage_boundary": {
       "godot_owner": "PortGame.source_bullet_type_removed_frag_dispatch_state",
       "godot_symbol": "removed_frag_dispatch_result.buildingDamageBoundarySource",

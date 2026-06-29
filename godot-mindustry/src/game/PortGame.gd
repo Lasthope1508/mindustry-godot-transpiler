@@ -490,6 +490,13 @@ const SOURCE_OVERDRIVE_PROJECTOR_PLACE_CAN_OVERDRIVE_PREDICATE := "other.block.c
 func source_overdrive_projector_place_state(overdrive_projector) -> Dictionary:
 	return source_overdrive_projector_select_state(overdrive_projector, 0.0)
 
+const SOURCE_OVERDRIVE_PROJECTOR_TARGET_FILTER_BOOST_BRANCH := "if(charge >= reload){\n                float realRange = range + phaseHeat * phaseRangeBoost;\n\n                charge = 0f;\n                indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> other.applyBoost(realBoost(), reload + 1f));\n            }"
+const SOURCE_OVERDRIVE_PROJECTOR_TARGET_FILTER_REAL_RANGE := "float realRange = range + phaseHeat * phaseRangeBoost;"
+const SOURCE_OVERDRIVE_PROJECTOR_TARGET_FILTER_EACH_BLOCK := "indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> other.applyBoost(realBoost(), reload + 1f));"
+const SOURCE_OVERDRIVE_PROJECTOR_TARGET_FILTER_CAN_OVERDRIVE_PREDICATE := "other.block.canOverdrive"
+const SOURCE_OVERDRIVE_PROJECTOR_TARGET_FILTER_APPLY_BOOST := "other.applyBoost(realBoost(), reload + 1f)"
+const SOURCE_OVERDRIVE_PROJECTOR_TARGET_FILTER_RELOAD_DURATION := "reload + 1f"
+
 func source_overdrive_projector_target_filter_state(overdrive_projector, target_block, distance: float, phase_heat := 0.0) -> Dictionary:
 	if overdrive_projector == null or target_block == null:
 		return {"real_range": 0.0, "distance": distance, "can_overdrive": false, "in_range": false, "eligible": false}

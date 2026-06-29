@@ -429,6 +429,11 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_overdrive_projector_target_filter_state(overdrive_projector, target_block, distance: float, phase_heat := 0.0) -> Dictionary:", source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_TARGET_FILTER_BOOST_BRANCH := "if(charge >= reload){\\n                float realRange = range + phaseHeat * phaseRangeBoost;\\n\\n                charge = 0f;\\n                indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> other.applyBoost(realBoost(), reload + 1f));\\n            }"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_TARGET_FILTER_REAL_RANGE := "float realRange = range + phaseHeat * phaseRangeBoost;"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_TARGET_FILTER_EACH_BLOCK := "indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> other.applyBoost(realBoost(), reload + 1f));"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_TARGET_FILTER_CAN_OVERDRIVE_PREDICATE := "other.block.canOverdrive"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_TARGET_FILTER_APPLY_BOOST := "other.applyBoost(realBoost(), reload + 1f)"', source)
         self.assertIn("var real_range := source_overdrive_projector_range(overdrive_projector, phase_heat)", source)
         self.assertIn('var can_overdrive := bool(target_block.properties.get("canOverdrive", true))', source)
         self.assertIn("var in_range := distance <= real_range", source)

@@ -41764,6 +41764,160 @@
       },
       "status": "active"
     },
+    "source_overdrive_projector_target_filter_state_input": {
+      "keys": {
+        "distance": {
+          "godot_symbol": "source_overdrive_projector_target_filter_state_input.distance",
+          "java_expr": "indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> other.applyBoost(realBoost(), reload + 1f));",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Explicit runtime distance input models source eachBlock radial inclusion against realRange.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_overdrive_projector_target_filter_state"
+          ]
+        },
+        "phaseHeat": {
+          "godot_symbol": "source_overdrive_projector_target_filter_state_input.phaseHeat",
+          "java_expr": "phaseHeat",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Java OverdriveBuild.phaseHeat explicit input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_overdrive_projector_target_filter_state"
+          ]
+        },
+        "targetBlock": {
+          "godot_symbol": "source_overdrive_projector_target_filter_state_input.targetBlock",
+          "java_expr": "other",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Runtime target_block parameter maps to source eachBlock lambda target other.",
+          "status": "explicit-input",
+          "type": "object",
+          "used_by": [
+            "PortGame.source_overdrive_projector_target_filter_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_overdrive_projector_target_filter_state_result": {
+      "keys": {
+        "applyBoost": {
+          "godot_symbol": "source_overdrive_projector_target_filter_state_result.applyBoost",
+          "java_expr": "other.applyBoost(realBoost(), reload + 1f)",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source applyBoost action call for eligible targets.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_overdrive_projector_target_filter_state"
+          ]
+        },
+        "boostBranch": {
+          "godot_symbol": "source_overdrive_projector_target_filter_state_result.boostBranch",
+          "java_expr": "if(charge >= reload){\n                float realRange = range + phaseHeat * phaseRangeBoost;\n\n                charge = 0f;\n                indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> other.applyBoost(realBoost(), reload + 1f));\n            }",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source charge gate branch.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_overdrive_projector_target_filter_state"
+          ]
+        },
+        "can_overdrive": {
+          "godot_symbol": "source_overdrive_projector_target_filter_state_result.can_overdrive",
+          "java_expr": "other.block.canOverdrive",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source canOverdrive predicate result.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_overdrive_projector_target_filter_state"
+          ]
+        },
+        "distance": {
+          "alias_of": "source_overdrive_projector_target_filter_state_input.distance",
+          "rule": "Carries explicit distance input into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "eachBlock": {
+          "godot_symbol": "source_overdrive_projector_target_filter_state_result.eachBlock",
+          "java_expr": "indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> other.applyBoost(realBoost(), reload + 1f));",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source eachBlock call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_overdrive_projector_target_filter_state"
+          ]
+        },
+        "eligible": {
+          "godot_symbol": "source_overdrive_projector_target_filter_state_result.eligible",
+          "java_expr": "indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> other.applyBoost(realBoost(), reload + 1f));",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Runtime eligibility combines source eachBlock realRange inclusion and source canOverdrive predicate.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_overdrive_projector_target_filter_state"
+          ]
+        },
+        "in_range": {
+          "godot_symbol": "source_overdrive_projector_target_filter_state_result.in_range",
+          "java_expr": "indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> other.applyBoost(realBoost(), reload + 1f));",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Runtime range gate models source eachBlock realRange inclusion.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_overdrive_projector_target_filter_state"
+          ]
+        },
+        "phaseHeat": {
+          "alias_of": "source_overdrive_projector_target_filter_state_input.phaseHeat",
+          "rule": "Carries phaseHeat input into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "real_range": {
+          "godot_symbol": "source_overdrive_projector_target_filter_state_result.real_range",
+          "java_expr": "float realRange = range + phaseHeat * phaseRangeBoost;",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Real range used by updateTile eachBlock boost lookup.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_overdrive_projector_target_filter_state"
+          ]
+        },
+        "reloadDuration": {
+          "godot_symbol": "source_overdrive_projector_target_filter_state_result.reloadDuration",
+          "java_expr": "reload + 1f",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source boost duration expression.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_overdrive_projector_target_filter_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {
