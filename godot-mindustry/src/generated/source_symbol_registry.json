@@ -20459,6 +20459,120 @@
         "test_conveyor_path_progress_rate_symbols_are_registered_with_source_backing"
       ]
     },
+    "conveyor_world_speed.block_id": {
+      "godot_owner": "PortGame.source_conveyor_world_speed",
+      "godot_symbol": "source_conveyor_world_speed_input.block_id",
+      "java_expr": "Block block",
+      "java_method": "unitOn(Unit unit)",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "rule": "Godot block id selects the source Conveyor block data used for world speed.",
+      "runtime_proof": "/root/Main.source_conveyor_world_speed",
+      "status": "explicit-input",
+      "tests": [
+        "test_conveyor_world_speed_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "conveyor_world_speed.result": {
+      "godot_owner": "PortGame.source_conveyor_world_speed",
+      "godot_symbol": "source_conveyor_world_speed_result.world_speed",
+      "java_expr": "speed * tilesize * 55f",
+      "java_method": "unitOn(Unit unit)",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "rule": "Godot world speed returns the source Conveyor mspeed expression.",
+      "runtime_proof": "/root/Main.source_conveyor_world_speed",
+      "status": "source-backed",
+      "tests": [
+        "test_conveyor_world_speed_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "conveyor_world_speed.scale": {
+      "godot_owner": "PortGame.source_conveyor_world_speed",
+      "godot_symbol": "source_conveyor_world_speed_result.scale",
+      "java_expr": "55f",
+      "java_method": "unitOn(Unit unit)",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "rule": "Source Conveyor world speed multiplier from mspeed expression.",
+      "runtime_proof": "/root/Main.source_conveyor_world_speed",
+      "status": "source-backed",
+      "tests": [
+        "test_conveyor_world_speed_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "conveyor_world_speed.speed_field": {
+      "godot_owner": "PortGame.source_conveyor_world_speed",
+      "godot_symbol": "source_conveyor_world_speed_result.speed_field",
+      "java_expr": "public float speed = 0f;",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "rule": "Canonical Conveyor speed field default for world speed.",
+      "runtime_proof": "/root/Main.source_conveyor_world_speed",
+      "status": "source-backed",
+      "tests": [
+        "test_conveyor_world_speed_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "conveyor_world_speed.speed_key": {
+      "godot_owner": "PortGame.source_conveyor_world_speed",
+      "godot_symbol": "source_conveyor_world_speed_result.speed_key",
+      "rule": "Godot content properties key for the source Conveyor speed field.",
+      "runtime_proof": "/root/Main.source_conveyor_world_speed",
+      "status": "generated",
+      "tests": [
+        "test_conveyor_world_speed_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "conveyor_world_speed.tilesize_comment": {
+      "godot_owner": "PortGame.source_conveyor_world_speed",
+      "godot_symbol": "source_conveyor_world_speed_result.tilesize_comment",
+      "java_expr": "/** size of tiles in units */",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/Vars.java",
+      "rule": "Source Vars documents tile size units used by Conveyor mspeed.",
+      "runtime_proof": "/root/Main.source_conveyor_world_speed",
+      "status": "source-backed",
+      "tests": [
+        "test_conveyor_world_speed_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "conveyor_world_speed.tilesize_field": {
+      "godot_owner": "PortGame.source_conveyor_world_speed",
+      "godot_symbol": "source_conveyor_world_speed_result.tilesize_field",
+      "java_expr": "public static final int tilesize = 8;",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/Vars.java",
+      "rule": "Canonical source tile size used by Conveyor mspeed.",
+      "runtime_proof": "/root/Main.source_conveyor_world_speed",
+      "status": "source-backed",
+      "tests": [
+        "test_conveyor_world_speed_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "conveyor_world_speed.unit_impulse": {
+      "godot_owner": "PortGame.source_conveyor_world_speed",
+      "godot_symbol": "source_conveyor_world_speed_result.unit_impulse",
+      "java_expr": "unit.impulse((tx * mspeed + centerx) * delta(), (ty * mspeed + centery) * delta());",
+      "java_method": "unitOn(Unit unit)",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "rule": "Source Conveyor applies mspeed to unit impulse.",
+      "runtime_proof": "/root/Main.source_conveyor_world_speed",
+      "status": "source-backed",
+      "tests": [
+        "test_conveyor_world_speed_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "conveyor_world_speed.unit_world_speed": {
+      "godot_owner": "PortGame.source_conveyor_world_speed",
+      "godot_symbol": "source_conveyor_world_speed_result.unit_world_speed",
+      "java_expr": "float mspeed = speed * tilesize * 55f;",
+      "java_method": "unitOn(Unit unit)",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "rule": "Source Conveyor unit push speed expression.",
+      "runtime_proof": "/root/Main.source_conveyor_world_speed",
+      "status": "source-backed",
+      "tests": [
+        "test_conveyor_world_speed_symbols_are_registered_with_source_backing"
+      ]
+    },
     "create_aim.aim_gate": {
       "godot_owner": "PortGame.source_bullet_type_create_aim_state",
       "godot_symbol": "create_aim_result.hasAimTile",

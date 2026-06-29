@@ -4675,6 +4675,56 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result["java_expr"], "float moved = speed * edelta();")
         self.assertEqual(result["godot_symbol"], "source_conveyor_path_progress_rate_result.path_progress_rate")
 
+    def test_conveyor_world_speed_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        speed_field = source_symbols.source_symbol(registry, "conveyor_world_speed.speed_field")
+        self.assertEqual(speed_field["java_source"], "core/src/mindustry/world/blocks/distribution/Conveyor.java")
+        self.assertEqual(speed_field["java_method"], "field declaration")
+        self.assertEqual(speed_field["java_expr"], "public float speed = 0f;")
+        self.assertEqual(speed_field["godot_owner"], "PortGame.source_conveyor_world_speed")
+        self.assertEqual(speed_field["runtime_proof"], "/root/Main.source_conveyor_world_speed")
+        self.assertEqual(speed_field["godot_symbol"], "source_conveyor_world_speed_result.speed_field")
+
+        unit_speed = source_symbols.source_symbol(registry, "conveyor_world_speed.unit_world_speed")
+        self.assertEqual(unit_speed["java_method"], "unitOn(Unit unit)")
+        self.assertEqual(unit_speed["java_expr"], "float mspeed = speed * tilesize * 55f;")
+        self.assertEqual(unit_speed["godot_symbol"], "source_conveyor_world_speed_result.unit_world_speed")
+
+        unit_impulse = source_symbols.source_symbol(registry, "conveyor_world_speed.unit_impulse")
+        self.assertEqual(unit_impulse["java_expr"], "unit.impulse((tx * mspeed + centerx) * delta(), (ty * mspeed + centery) * delta());")
+        self.assertEqual(unit_impulse["godot_symbol"], "source_conveyor_world_speed_result.unit_impulse")
+
+        tilesize_comment = source_symbols.source_symbol(registry, "conveyor_world_speed.tilesize_comment")
+        self.assertEqual(tilesize_comment["java_source"], "core/src/mindustry/Vars.java")
+        self.assertEqual(tilesize_comment["java_expr"], "/** size of tiles in units */")
+        self.assertEqual(tilesize_comment["godot_symbol"], "source_conveyor_world_speed_result.tilesize_comment")
+
+        tilesize_field = source_symbols.source_symbol(registry, "conveyor_world_speed.tilesize_field")
+        self.assertEqual(tilesize_field["java_source"], "core/src/mindustry/Vars.java")
+        self.assertEqual(tilesize_field["java_expr"], "public static final int tilesize = 8;")
+        self.assertEqual(tilesize_field["godot_symbol"], "source_conveyor_world_speed_result.tilesize_field")
+
+        block_id = source_symbols.source_symbol(registry, "conveyor_world_speed.block_id")
+        self.assertEqual(block_id["status"], "explicit-input")
+        self.assertEqual(block_id["java_expr"], "Block block")
+        self.assertEqual(block_id["godot_symbol"], "source_conveyor_world_speed_input.block_id")
+
+        speed_key = source_symbols.source_symbol(registry, "conveyor_world_speed.speed_key")
+        self.assertEqual(speed_key["status"], "generated")
+        self.assertEqual(speed_key["godot_symbol"], "source_conveyor_world_speed_result.speed_key")
+
+        scale = source_symbols.source_symbol(registry, "conveyor_world_speed.scale")
+        self.assertEqual(scale["java_expr"], "55f")
+        self.assertEqual(scale["godot_symbol"], "source_conveyor_world_speed_result.scale")
+
+        result = source_symbols.source_symbol(registry, "conveyor_world_speed.result")
+        self.assertEqual(result["java_expr"], "speed * tilesize * 55f")
+        self.assertEqual(result["godot_symbol"], "source_conveyor_world_speed_result.world_speed")
+
     def test_building_can_be_replaced_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -8759,9 +8809,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 284)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 285)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 289)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 290)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -8953,6 +9003,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_conveyor_path_progress_delta", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_conveyor_path_progress_delta_for_cell", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_conveyor_path_progress_rate", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_conveyor_world_speed", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -10485,6 +10536,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("float moved = speed * edelta();", conveyor_path_progress_rate["exact_exprs"])
         self.assertIn("ys[i] += maxmove;", conveyor_path_progress_rate["exact_exprs"])
         self.assertIn("if(ys[i] >= 1f && pass(ids[i])){", conveyor_path_progress_rate["exact_exprs"])
+
+        conveyor_world_speed = source_symbols.source_slice(ledger, "N687")
+        self.assertEqual(conveyor_world_speed["java_source"], "core/src/mindustry/world/blocks/distribution/Conveyor.java")
+        self.assertEqual(conveyor_world_speed["java_method"], "unitOn(Unit unit)")
+        self.assertEqual(conveyor_world_speed["godot_owner"], "PortGame.source_conveyor_world_speed")
+        self.assertIn("public float speed = 0f;", conveyor_world_speed["exact_exprs"])
+        self.assertIn("float mspeed = speed * tilesize * 55f;", conveyor_world_speed["exact_exprs"])
+        self.assertIn("unit.impulse((tx * mspeed + centerx) * delta(), (ty * mspeed + centery) * delta());", conveyor_world_speed["exact_exprs"])
+        self.assertIn("/** size of tiles in units */", conveyor_world_speed["exact_exprs"])
+        self.assertIn("public static final int tilesize = 8;", conveyor_world_speed["exact_exprs"])
 
         building_update_consumption_non_optional = source_symbols.source_slice(ledger, "N662")
         self.assertEqual(building_update_consumption_non_optional["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -13598,6 +13659,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("path_length", conveyor_path_progress_rate["return_keys"])
         self.assertEqual(conveyor_path_progress_rate["source_method"], "unitOn(Unit unit)/ConveyorBuild.updateTile()")
 
+        conveyor_world_speed = source_symbols.api_contract(contracts, "PortGame.source_conveyor_world_speed")
+        self.assertEqual([param["name"] for param in conveyor_world_speed["params"]], ["block_id"])
+        self.assertEqual(conveyor_world_speed["params"][0]["schema"], "source_conveyor_world_speed_input.block_id")
+        self.assertIn("world_speed", conveyor_world_speed["return_keys"])
+        self.assertIn("scale", conveyor_world_speed["return_keys"])
+        self.assertEqual(conveyor_world_speed["source_method"], "unitOn(Unit unit)")
+
         building_placed = source_symbols.api_contract(contracts, "PortGame.source_building_placed_state")
         self.assertEqual([param["name"] for param in building_placed["params"]], ["net_client", "consumes_power", "outputs_power", "has_power", "connected_power", "linked_to_self", "source_pos"])
         self.assertEqual(building_placed["params"][0]["schema"], "source_building_placed_input.net_client")
@@ -16677,6 +16745,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_conveyor_path_progress_rate_result["keys"]["path_length"]["status"], "generated")
         self.assertEqual(source_conveyor_path_progress_rate_result["keys"]["path_progress_rate"]["java_expr"], "float moved = speed * edelta();")
         self.assertEqual(source_conveyor_path_progress_rate_result["keys"]["block_id"]["alias_of"], "source_conveyor_path_progress_rate_input.block_id")
+
+        source_conveyor_world_speed_input = source_symbols.state_schema(schema, "source_conveyor_world_speed_input")
+        self.assertEqual(source_conveyor_world_speed_input["keys"]["block_id"]["java_expr"], "Block block")
+
+        source_conveyor_world_speed_result = source_symbols.state_schema(schema, "source_conveyor_world_speed_result")
+        self.assertEqual(source_conveyor_world_speed_result["keys"]["speed_field"]["java_expr"], "public float speed = 0f;")
+        self.assertEqual(source_conveyor_world_speed_result["keys"]["unit_world_speed"]["java_expr"], "float mspeed = speed * tilesize * 55f;")
+        self.assertEqual(source_conveyor_world_speed_result["keys"]["unit_impulse"]["java_expr"], "unit.impulse((tx * mspeed + centerx) * delta(), (ty * mspeed + centery) * delta());")
+        self.assertEqual(source_conveyor_world_speed_result["keys"]["tilesize_comment"]["java_expr"], "/** size of tiles in units */")
+        self.assertEqual(source_conveyor_world_speed_result["keys"]["tilesize_field"]["java_expr"], "public static final int tilesize = 8;")
+        self.assertEqual(source_conveyor_world_speed_result["keys"]["speed_key"]["status"], "generated")
+        self.assertEqual(source_conveyor_world_speed_result["keys"]["scale"]["java_expr"], "55f")
+        self.assertEqual(source_conveyor_world_speed_result["keys"]["world_speed"]["java_expr"], "speed * tilesize * 55f")
+        self.assertEqual(source_conveyor_world_speed_result["keys"]["block_id"]["alias_of"], "source_conveyor_world_speed_input.block_id")
 
         source_building_placed_input = source_symbols.state_schema(schema, "source_building_placed_input")
         self.assertEqual(source_building_placed_input["keys"]["net_client"]["java_expr"], "net.client()")

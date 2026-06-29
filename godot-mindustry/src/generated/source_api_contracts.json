@@ -10768,6 +10768,28 @@
       "tests": [
         "test_conveyor_path_progress_rate_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_conveyor_world_speed": {
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "params": [
+        {
+          "name": "block_id",
+          "schema": "source_conveyor_world_speed_input.block_id",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "world_speed",
+        "scale"
+      ],
+      "rule": "Public runtime contract for resolving Conveyor speed into source world speed mspeed.",
+      "runtime_proof": "/root/Main.source_conveyor_world_speed",
+      "source_method": "unitOn(Unit unit)",
+      "source_slice": "N687",
+      "status": "active",
+      "tests": [
+        "test_conveyor_world_speed_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

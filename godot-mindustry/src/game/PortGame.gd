@@ -1144,13 +1144,21 @@ func source_drill_progress_fraction(progress: float, delay: float, has_dominant_
 		return 0.0
 	return clampf(progress / delay, 0.0, 1.0)
 
+const SOURCE_CONVEYOR_WORLD_SPEED_SPEED_FIELD := "public float speed = 0f;"
+const SOURCE_CONVEYOR_WORLD_SPEED_UNIT_WORLD_SPEED := "float mspeed = speed * tilesize * 55f;"
+const SOURCE_CONVEYOR_WORLD_SPEED_UNIT_IMPULSE := "unit.impulse((tx * mspeed + centerx) * delta(), (ty * mspeed + centery) * delta());"
+const SOURCE_CONVEYOR_WORLD_SPEED_TILESIZE_COMMENT := "/** size of tiles in units */"
+const SOURCE_CONVEYOR_WORLD_SPEED_TILESIZE_FIELD := "public static final int tilesize = 8;"
+const SOURCE_CONVEYOR_WORLD_SPEED_KEY := "speed"
+const SOURCE_CONVEYOR_WORLD_SPEED_TILE_SPEED_SCALE := 55.0
+
 func source_conveyor_world_speed(block_id: String) -> float:
 	if content_catalog == null:
 		return 0.0
 	var block = content_catalog.get_by_id(block_id)
 	if block == null:
 		return 0.0
-	return float(block.properties.get("speed", 0.0)) * float(tile_size) * SOURCE_CONVEYOR_TILE_SPEED_SCALE
+	return float(block.properties.get(SOURCE_CONVEYOR_WORLD_SPEED_KEY, 0.0)) * float(tile_size) * SOURCE_CONVEYOR_WORLD_SPEED_TILE_SPEED_SCALE
 
 const SOURCE_CONVEYOR_PATH_PROGRESS_RATE_SPEED_FIELD := "public float speed = 0f;"
 const SOURCE_CONVEYOR_PATH_PROGRESS_RATE_UNIT_WORLD_SPEED := "float mspeed = speed * tilesize * 55f;"

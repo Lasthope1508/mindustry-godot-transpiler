@@ -9141,6 +9141,37 @@
         "test_conveyor_path_progress_rate_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_conveyor_speed_for_item_motion"
       ]
+    },
+    "N687": {
+      "exact_exprs": [
+        "public float speed = 0f;",
+        "float mspeed = speed * tilesize * 55f;",
+        "unit.impulse((tx * mspeed + centerx) * delta(), (ty * mspeed + centery) * delta());",
+        "/** size of tiles in units */",
+        "public static final int tilesize = 8;",
+        "Block block"
+      ],
+      "godot_owner": "PortGame.source_conveyor_world_speed",
+      "java_class": "Conveyor/Vars",
+      "java_method": "unitOn(Unit unit)",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "runtime_proof": "/root/Main.source_conveyor_world_speed",
+      "source_symbols": [
+        "conveyor_world_speed.block_id",
+        "conveyor_world_speed.result",
+        "conveyor_world_speed.scale",
+        "conveyor_world_speed.speed_field",
+        "conveyor_world_speed.speed_key",
+        "conveyor_world_speed.tilesize_comment",
+        "conveyor_world_speed.tilesize_field",
+        "conveyor_world_speed.unit_impulse",
+        "conveyor_world_speed.unit_world_speed"
+      ],
+      "status": "done",
+      "tests": [
+        "test_conveyor_world_speed_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_conveyor_speed_for_item_motion"
+      ]
     }
   },
   "version": 1
