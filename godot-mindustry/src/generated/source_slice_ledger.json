@@ -9387,6 +9387,38 @@
         "test_drill_last_speed_symbols_are_registered_with_source_backing",
         "test_port_game_tracks_source_drill_last_speed"
       ]
+    },
+    "N694": {
+      "exact_exprs": [
+        "transient Tile tile;",
+        "transient Block block;",
+        "return tile.x;",
+        "return tile.y;",
+        "lastDrillSpeed = (speed * dominantItems * warmup) / delay;",
+        "Item dominantItem",
+        "dominantItems",
+        "warmup",
+        "speed"
+      ],
+      "godot_owner": "PortGame.source_drill_last_speed_for_cell",
+      "java_class": "mindustry.entities.comp.BuildingComp and mindustry.world.blocks.production.Drill.DrillBuild",
+      "java_method": "tile/block fields and DrillBuild.updateTile() delegate",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "runtime_proof": "/root/Main.source_drill_last_speed_for_cell",
+      "source_symbols": [
+        "drill_last_speed_for_cell.tile_field",
+        "drill_last_speed_for_cell.block_field",
+        "drill_last_speed_for_cell.tile_x",
+        "drill_last_speed_for_cell.tile_y",
+        "drill_last_speed_for_cell.delegate_result",
+        "drill_last_speed_for_cell.item_id",
+        "drill_last_speed_for_cell.dominant_items"
+      ],
+      "status": "done",
+      "tests": [
+        "test_drill_last_speed_for_cell_symbols_are_registered_with_source_backing",
+        "test_port_game_tracks_source_drill_last_speed"
+      ]
     }
   },
   "version": 1

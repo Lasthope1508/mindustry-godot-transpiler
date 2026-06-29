@@ -36712,6 +36712,166 @@
       },
       "status": "active"
     },
+    "source_drill_last_speed_for_cell_input": {
+      "keys": {
+        "dominant_items": {
+          "godot_symbol": "source_drill_last_speed_for_cell_input.dominant_items",
+          "java_expr": "dominantItems",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input DrillBuild dominantItems count for the delegated lastDrillSpeed formula.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_drill_last_speed_for_cell"
+          ]
+        },
+        "item_id": {
+          "godot_symbol": "source_drill_last_speed_for_cell_input.item_id",
+          "java_expr": "Item dominantItem",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input dominantItem identity for the delegated getDrillTime call.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_last_speed_for_cell"
+          ]
+        },
+        "speed": {
+          "godot_symbol": "source_drill_last_speed_for_cell_input.speed",
+          "java_expr": "speed",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input source local speed after liquid boost and efficiency.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_last_speed_for_cell"
+          ]
+        },
+        "warmup": {
+          "godot_symbol": "source_drill_last_speed_for_cell_input.warmup",
+          "java_expr": "warmup",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input DrillBuild warmup before active warmup progression.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_last_speed_for_cell"
+          ]
+        },
+        "x": {
+          "godot_symbol": "source_drill_last_speed_for_cell_input.x",
+          "java_expr": "return tile.x;",
+          "java_method": "tileX()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Input cell x mirrors BuildingComp tileX().",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_drill_last_speed_for_cell"
+          ]
+        },
+        "y": {
+          "godot_symbol": "source_drill_last_speed_for_cell_input.y",
+          "java_expr": "return tile.y;",
+          "java_method": "tileY()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Input cell y mirrors BuildingComp tileY().",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_drill_last_speed_for_cell"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_drill_last_speed_for_cell_result": {
+      "keys": {
+        "block_field": {
+          "godot_symbol": "source_drill_last_speed_for_cell_result.block_field",
+          "java_expr": "transient Block block;",
+          "java_method": "fields",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "BuildingComp block field backing source block lookup at a cell.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_last_speed_for_cell"
+          ]
+        },
+        "block_id": {
+          "alias_of": "source_drill_last_speed_for_cell_result.block_field",
+          "rule": "Carries source block id found at the BuildingComp cell wrapper.",
+          "status": "generated",
+          "type": "String"
+        },
+        "dominant_items": {
+          "alias_of": "source_drill_last_speed_for_cell_input.dominant_items",
+          "rule": "Carries dominant item count into cell last speed result schema.",
+          "status": "generated",
+          "type": "int"
+        },
+        "item_id": {
+          "alias_of": "source_drill_last_speed_for_cell_input.item_id",
+          "rule": "Carries dominant item id into cell last speed result schema.",
+          "status": "generated",
+          "type": "String"
+        },
+        "lastDrillSpeed": {
+          "godot_symbol": "source_drill_last_speed_for_cell_result.lastDrillSpeed",
+          "java_expr": "lastDrillSpeed = (speed * dominantItems * warmup) / delay;",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Delegated source lastDrillSpeed formula result.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_last_speed_for_cell"
+          ]
+        },
+        "speed": {
+          "alias_of": "source_drill_last_speed_for_cell_input.speed",
+          "rule": "Carries speed input into cell last speed result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "tile_field": {
+          "godot_symbol": "source_drill_last_speed_for_cell_result.tile_field",
+          "java_expr": "transient Tile tile;",
+          "java_method": "fields",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "BuildingComp tile field backing source cell lookup.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_last_speed_for_cell"
+          ]
+        },
+        "warmup": {
+          "alias_of": "source_drill_last_speed_for_cell_input.warmup",
+          "rule": "Carries warmup input into cell last speed result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "x": {
+          "alias_of": "source_drill_last_speed_for_cell_input.x",
+          "rule": "Carries tile x input into cell last speed result schema.",
+          "status": "generated",
+          "type": "int"
+        },
+        "y": {
+          "alias_of": "source_drill_last_speed_for_cell_input.y",
+          "rule": "Carries tile y input into cell last speed result schema.",
+          "status": "generated",
+          "type": "int"
+        }
+      },
+      "status": "active"
+    },
     "source_drill_last_speed_input": {
       "keys": {
         "block_id": {

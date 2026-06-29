@@ -1108,6 +1108,11 @@ const SOURCE_DRILL_LAST_SPEED_DELAY := "float delay = getDrillTime(dominantItem)
 const SOURCE_DRILL_LAST_SPEED_SPEED_EXPR := "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;"
 const SOURCE_DRILL_LAST_SPEED_ASSIGNMENT := "lastDrillSpeed = (speed * dominantItems * warmup) / delay;"
 const SOURCE_DRILL_LAST_SPEED_LIQUID_BOOST_FIELD := "public float liquidBoostIntensity = 1.6f;"
+const SOURCE_DRILL_LAST_SPEED_FOR_CELL_TILE_FIELD := "transient Tile tile;"
+const SOURCE_DRILL_LAST_SPEED_FOR_CELL_BLOCK_FIELD := "transient Block block;"
+const SOURCE_DRILL_LAST_SPEED_FOR_CELL_TILE_X := "return tile.x;"
+const SOURCE_DRILL_LAST_SPEED_FOR_CELL_TILE_Y := "return tile.y;"
+const SOURCE_DRILL_LAST_SPEED_FOR_CELL_DELEGATE := "lastDrillSpeed = (speed * dominantItems * warmup) / delay;"
 
 func source_drill_last_speed(block_id: String, item_id: String, ore_count: int, warmup: float, speed := 1.0) -> float:
 	if ore_count <= 0:
@@ -1117,11 +1122,11 @@ func source_drill_last_speed(block_id: String, item_id: String, ore_count: int, 
 		return 0.0
 	return speed * float(ore_count) * warmup / delay
 
-func source_drill_last_speed_for_cell(x: int, y: int, item_id: String, ore_count: int, warmup: float, speed := 1.0) -> float:
+func source_drill_last_speed_for_cell(x: int, y: int, item_id: String, dominant_items: int, warmup: float, speed := 1.0) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
 	if not is_instance_valid(sprite):
 		return 0.0
-	return source_drill_last_speed(str(sprite.get_meta("source_block_id", "")), item_id, ore_count, warmup, speed)
+	return source_drill_last_speed(str(sprite.get_meta("source_block_id", "")), item_id, dominant_items, warmup, speed)
 
 func drill_last_speed_at_cell(x: int, y: int) -> float:
 	return float(drill_last_speeds.get(cell_key(Vector2i(x, y)), 0.0))

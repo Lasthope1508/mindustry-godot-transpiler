@@ -10971,6 +10971,53 @@
       "tests": [
         "test_drill_last_speed_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_drill_last_speed_for_cell": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "x",
+          "schema": "source_drill_last_speed_for_cell_input.x",
+          "type": "int"
+        },
+        {
+          "name": "y",
+          "schema": "source_drill_last_speed_for_cell_input.y",
+          "type": "int"
+        },
+        {
+          "name": "item_id",
+          "schema": "source_drill_last_speed_for_cell_input.item_id",
+          "type": "String"
+        },
+        {
+          "name": "dominant_items",
+          "schema": "source_drill_last_speed_for_cell_input.dominant_items",
+          "type": "int"
+        },
+        {
+          "name": "warmup",
+          "schema": "source_drill_last_speed_for_cell_input.warmup",
+          "type": "float"
+        },
+        {
+          "name": "speed",
+          "schema": "source_drill_last_speed_for_cell_input.speed",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "lastDrillSpeed",
+        "block_id"
+      ],
+      "rule": "Public runtime contract for BuildingComp tile/block cell wrapper delegating to DrillBuild lastDrillSpeed formula.",
+      "runtime_proof": "/root/Main.source_drill_last_speed_for_cell",
+      "source_method": "tile/block fields and DrillBuild.updateTile() delegate",
+      "source_slice": "N694",
+      "status": "active",
+      "tests": [
+        "test_drill_last_speed_for_cell_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
