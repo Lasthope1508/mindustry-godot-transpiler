@@ -1305,8 +1305,10 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_building_should_consume_state(enabled_state: bool) -> bool:", source)
         self.assertIn("return enabled_state", source)
-        self.assertIn("func source_building_production_valid_state() -> bool:", source)
-        self.assertIn("return true", source)
+        self.assertIn("func source_building_production_valid_state() -> Dictionary:", source)
+        self.assertIn('"method": "public boolean productionValid(){",', source)
+        self.assertIn('"default_return": "return true;",', source)
+        self.assertIn('"production_valid": true,', source)
         self.assertIn("func source_building_consume_trigger_valid_state() -> bool:", source)
         self.assertIn("return false", source)
         self.assertIn("func source_building_power_production_state() -> Dictionary:", source)

@@ -1336,8 +1336,12 @@ func source_building_can_be_replaced_state(other_can_replace_block: bool) -> boo
 func source_building_should_consume_state(enabled_state: bool) -> bool:
 	return enabled_state
 
-func source_building_production_valid_state() -> bool:
-	return true
+func source_building_production_valid_state() -> Dictionary:
+	return {
+		"method": "public boolean productionValid(){",
+		"default_return": "return true;",
+		"production_valid": true,
+	}
 
 func source_building_consume_trigger_valid_state() -> bool:
 	return false

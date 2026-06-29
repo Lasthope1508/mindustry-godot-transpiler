@@ -21783,6 +21783,45 @@
       "godot_symbol": "source_building_player_placed_input.config_state",
       "rule": "Runtime config_state supplies Object config and is passed through because base playerPlaced has no side effects."
     },
+    "building_production_valid.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "productionValid()",
+      "godot_owner": "PortGame.source_building_production_valid_state",
+      "tests": [
+        "test_building_production_valid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_production_valid_state",
+      "java_expr": "public boolean productionValid(){",
+      "godot_symbol": "source_building_production_valid_result.method",
+      "rule": "BuildingComp productionValid method boundary."
+    },
+    "building_production_valid.default_return": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "productionValid()",
+      "godot_owner": "PortGame.source_building_production_valid_state",
+      "tests": [
+        "test_building_production_valid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_production_valid_state",
+      "java_expr": "return true;",
+      "godot_symbol": "source_building_production_valid_result.default_return",
+      "rule": "Base productionValid returns true."
+    },
+    "building_production_valid.production_valid": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "productionValid()",
+      "godot_owner": "PortGame.source_building_production_valid_state",
+      "tests": [
+        "test_building_production_valid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_production_valid_state",
+      "java_expr": "return true;",
+      "godot_symbol": "source_building_production_valid_result.production_valid",
+      "rule": "Runtime production_valid mirrors base return true."
+    },
     "building_power_production.method": {
       "status": "source-backed",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",

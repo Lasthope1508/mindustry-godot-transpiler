@@ -28326,6 +28326,47 @@
         }
       }
     },
+    "source_building_production_valid_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "productionValid()",
+          "java_expr": "public boolean productionValid(){",
+          "godot_symbol": "source_building_production_valid_result.method",
+          "used_by": [
+            "PortGame.source_building_production_valid_state"
+          ],
+          "rule": "BuildingComp productionValid method boundary."
+        },
+        "default_return": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "productionValid()",
+          "java_expr": "return true;",
+          "godot_symbol": "source_building_production_valid_result.default_return",
+          "used_by": [
+            "PortGame.source_building_production_valid_state"
+          ],
+          "rule": "Base productionValid returns true."
+        },
+        "production_valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "productionValid()",
+          "java_expr": "return true;",
+          "godot_symbol": "source_building_production_valid_result.production_valid",
+          "used_by": [
+            "PortGame.source_building_production_valid_state"
+          ],
+          "rule": "Runtime production_valid mirrors base return true."
+        }
+      }
+    },
     "source_building_power_production_result": {
       "status": "active",
       "keys": {

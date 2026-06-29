@@ -7095,6 +7095,30 @@
       ],
       "runtime_proof": "/root/Main.source_building_power_production_state",
       "rule": "Backfills SSOT for existing canonical source_building_power_production_state helper against BuildingComp.getPowerProduction() default 0f return."
+    },
+    "N626": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "productionValid()",
+      "godot_owner": "PortGame.source_building_production_valid_state",
+      "exact_exprs": [
+        "public boolean productionValid(){",
+        "return true;"
+      ],
+      "deferred_exprs": [
+        "Concrete block-specific productionValid overrides remain covered by their own runtime integration slices."
+      ],
+      "source_symbols": [
+        "building_production_valid.method",
+        "building_production_valid.default_return",
+        "building_production_valid.production_valid"
+      ],
+      "tests": [
+        "test_building_production_valid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_production_valid_state",
+      "rule": "Backfills SSOT for existing canonical source_building_production_valid_state helper against BuildingComp.productionValid() default true return."
     }
   },
   "version": 1
