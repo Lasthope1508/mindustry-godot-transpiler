@@ -11528,6 +11528,48 @@
       "tests": [
         "test_increment_dump_cursor_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_lerp_delta": {
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "params": [
+        {
+          "name": "from_value",
+          "schema": "source_lerp_delta_input.fromValue",
+          "type": "float"
+        },
+        {
+          "name": "to_value",
+          "schema": "source_lerp_delta_input.toValue",
+          "type": "float"
+        },
+        {
+          "name": "progress",
+          "schema": "source_lerp_delta_input.progress",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_lerp_delta_input.sourceDelta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "scaledProgress",
+        "clampedProgress",
+        "lerpDelta",
+        "fromValue",
+        "toValue",
+        "progress",
+        "sourceDelta"
+      ],
+      "rule": "Public runtime contract for Mathf.lerpDelta helper with explicit Time.delta input.",
+      "runtime_proof": "/root/Main.source_lerp_delta",
+      "source_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "source_slice": "N709",
+      "status": "active",
+      "tests": [
+        "test_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

@@ -9852,6 +9852,41 @@
         "test_increment_dump_cursor_symbols_are_registered_with_source_backing",
         "test_port_game_tracks_source_dump_cursor"
       ]
+    },
+    "N709": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public static float lerpDelta(float fromValue, float toValue, float progress){\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\n    }",
+        "public static float lerp(float fromValue, float toValue, float progress){\n        return fromValue + (toValue - fromValue) * progress;\n    }",
+        "public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }",
+        "return lerp(fromValue, toValue, clamp(progress * Time.delta));",
+        "progress * Time.delta",
+        "clamp(progress * Time.delta)",
+        "fromValue",
+        "toValue",
+        "progress",
+        "Time.delta"
+      ],
+      "godot_owner": "PortGame.source_lerp_delta",
+      "java_class": "arc.math.Mathf",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Backfills SSOT for existing source_lerp_delta helper against Arc Mathf.lerpDelta, clamp(float), and lerp(float,float,float).",
+      "runtime_proof": "/root/Main.source_lerp_delta",
+      "source_symbols": [
+        "lerp_delta.method",
+        "lerp_delta.scaled_progress",
+        "lerp_delta.clamp_expr",
+        "lerp_delta.lerp_expr",
+        "lerp_delta.from_input",
+        "lerp_delta.to_input",
+        "lerp_delta.progress_input",
+        "lerp_delta.delta_input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

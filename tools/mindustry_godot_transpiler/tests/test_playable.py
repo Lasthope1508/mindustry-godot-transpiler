@@ -523,6 +523,10 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("var mend_projector_optional_efficiency: Dictionary = {}", source)
+        self.assertIn('const SOURCE_LERP_DELTA_METHOD := "public static float lerpDelta(float fromValue, float toValue, float progress){\\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\\n    }"', source)
+        self.assertIn('const SOURCE_LERP_DELTA_SCALED_PROGRESS := "progress * Time.delta"', source)
+        self.assertIn('const SOURCE_LERP_DELTA_CLAMP_EXPR := "public static float clamp(float value){\\n        return Math.max(Math.min(value, 1f), 0f);\\n    }"', source)
+        self.assertIn('const SOURCE_LERP_DELTA_LERP_EXPR := "public static float lerp(float fromValue, float toValue, float progress){\\n        return fromValue + (toValue - fromValue) * progress;\\n    }"', source)
         self.assertIn("func source_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:", source)
         self.assertIn("return from_value + (to_value - from_value) * clamp(progress * source_delta, 0.0, 1.0)", source)
         self.assertIn("mend_projector_optional_efficiency[key] = 1.0", source)

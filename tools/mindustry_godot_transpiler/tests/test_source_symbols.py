@@ -2341,6 +2341,50 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(delta_input["java_expr"], "Time.delta")
         self.assertEqual(delta_input["godot_symbol"], "source_arc_lerp_delta_input.sourceDelta")
 
+    def test_lerp_delta_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "lerp_delta.method")
+        self.assertEqual(method["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(method["java_expr"], "public static float lerpDelta(float fromValue, float toValue, float progress){\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\n    }")
+        self.assertEqual(method["godot_owner"], "PortGame.source_lerp_delta")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_lerp_delta")
+
+        scaled_progress = source_symbols.source_symbol(registry, "lerp_delta.scaled_progress")
+        self.assertEqual(scaled_progress["java_expr"], "progress * Time.delta")
+        self.assertEqual(scaled_progress["godot_symbol"], "source_lerp_delta_result.scaledProgress")
+
+        clamp_expr = source_symbols.source_symbol(registry, "lerp_delta.clamp_expr")
+        self.assertEqual(clamp_expr["java_expr"], "public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }")
+        self.assertEqual(clamp_expr["godot_symbol"], "source_lerp_delta_result.clampedProgress")
+
+        lerp_expr = source_symbols.source_symbol(registry, "lerp_delta.lerp_expr")
+        self.assertEqual(lerp_expr["java_expr"], "public static float lerp(float fromValue, float toValue, float progress){\n        return fromValue + (toValue - fromValue) * progress;\n    }")
+        self.assertEqual(lerp_expr["godot_symbol"], "source_lerp_delta_result.lerpDelta")
+
+        from_input = source_symbols.source_symbol(registry, "lerp_delta.from_input")
+        self.assertEqual(from_input["status"], "explicit-input")
+        self.assertEqual(from_input["java_expr"], "fromValue")
+        self.assertEqual(from_input["godot_symbol"], "source_lerp_delta_input.fromValue")
+
+        to_input = source_symbols.source_symbol(registry, "lerp_delta.to_input")
+        self.assertEqual(to_input["status"], "explicit-input")
+        self.assertEqual(to_input["java_expr"], "toValue")
+        self.assertEqual(to_input["godot_symbol"], "source_lerp_delta_input.toValue")
+
+        progress_input = source_symbols.source_symbol(registry, "lerp_delta.progress_input")
+        self.assertEqual(progress_input["status"], "explicit-input")
+        self.assertEqual(progress_input["java_expr"], "progress")
+        self.assertEqual(progress_input["godot_symbol"], "source_lerp_delta_input.progress")
+
+        delta_input = source_symbols.source_symbol(registry, "lerp_delta.delta_input")
+        self.assertEqual(delta_input["status"], "explicit-input")
+        self.assertEqual(delta_input["java_expr"], "Time.delta")
+        self.assertEqual(delta_input["godot_symbol"], "source_lerp_delta_input.sourceDelta")
+
     def test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -9685,9 +9729,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 306)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 307)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 311)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 312)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -9847,6 +9891,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_dump_payload_index", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_dump_payload_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_increment_dump_cursor", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_lerp_delta", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_time_scale_decay_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_to_string_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_unit_on_state", audit["registeredSourceOwners"])
@@ -11111,6 +11156,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("cdump = ((cdump + 1) % prox);", increment_dump_cursor["exact_exprs"])
         self.assertIn("cdump", increment_dump_cursor["exact_exprs"])
         self.assertIn("prox", increment_dump_cursor["exact_exprs"])
+
+        lerp_delta = source_symbols.source_slice(ledger, "N709")
+        self.assertEqual(lerp_delta["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(lerp_delta["java_method"], "lerpDelta(float fromValue, float toValue, float progress)")
+        self.assertEqual(lerp_delta["godot_owner"], "PortGame.source_lerp_delta")
+        self.assertIn("public static float lerpDelta(float fromValue, float toValue, float progress){\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\n    }", lerp_delta["exact_exprs"])
+        self.assertIn("public static float lerp(float fromValue, float toValue, float progress){\n        return fromValue + (toValue - fromValue) * progress;\n    }", lerp_delta["exact_exprs"])
+        self.assertIn("public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }", lerp_delta["exact_exprs"])
+        self.assertIn("return lerp(fromValue, toValue, clamp(progress * Time.delta));", lerp_delta["exact_exprs"])
+        self.assertIn("progress * Time.delta", lerp_delta["exact_exprs"])
 
         building_accept_liquid = source_symbols.source_slice(ledger, "N522")
         self.assertEqual(building_accept_liquid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -13669,6 +13724,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("clampedProgress", arc_lerp_delta["return_keys"])
         self.assertIn("lerpDelta", arc_lerp_delta["return_keys"])
         self.assertEqual(arc_lerp_delta["source_method"], "lerpDelta(float fromValue, float toValue, float progress)")
+
+        lerp_delta = source_symbols.api_contract(contracts, "PortGame.source_lerp_delta")
+        self.assertEqual([param["name"] for param in lerp_delta["params"]], ["from_value", "to_value", "progress", "source_delta"])
+        self.assertEqual(lerp_delta["params"][0]["schema"], "source_lerp_delta_input.fromValue")
+        self.assertEqual(lerp_delta["params"][3]["schema"], "source_lerp_delta_input.sourceDelta")
+        self.assertIn("scaledProgress", lerp_delta["return_keys"])
+        self.assertIn("clampedProgress", lerp_delta["return_keys"])
+        self.assertIn("lerpDelta", lerp_delta["return_keys"])
+        self.assertEqual(lerp_delta["source_method"], "lerpDelta(float fromValue, float toValue, float progress)")
 
         arc_mathf_cos_lookup = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_lookup")
         self.assertEqual([param["name"] for param in arc_mathf_cos_lookup["params"]], ["radians"])
@@ -16581,6 +16645,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_arc_lerp_delta_result["keys"]["lerpDelta"]["java_expr"], "return lerp(fromValue, toValue, clamp(progress * Time.delta));")
         self.assertEqual(source_arc_lerp_delta_result["keys"]["fromValue"]["alias_of"], "source_arc_lerp_delta_input.fromValue")
         self.assertEqual(source_arc_lerp_delta_result["keys"]["sourceDelta"]["alias_of"], "source_arc_lerp_delta_input.sourceDelta")
+
+        source_lerp_delta_input = source_symbols.state_schema(schema, "source_lerp_delta_input")
+        self.assertEqual(source_lerp_delta_input["keys"]["fromValue"]["java_expr"], "fromValue")
+        self.assertEqual(source_lerp_delta_input["keys"]["toValue"]["java_expr"], "toValue")
+        self.assertEqual(source_lerp_delta_input["keys"]["progress"]["java_expr"], "progress")
+        self.assertEqual(source_lerp_delta_input["keys"]["sourceDelta"]["java_expr"], "Time.delta")
+
+        source_lerp_delta_result = source_symbols.state_schema(schema, "source_lerp_delta_result")
+        self.assertEqual(source_lerp_delta_result["keys"]["scaledProgress"]["java_expr"], "progress * Time.delta")
+        self.assertEqual(source_lerp_delta_result["keys"]["clampedProgress"]["java_expr"], "clamp(progress * Time.delta)")
+        self.assertEqual(source_lerp_delta_result["keys"]["lerpDelta"]["java_expr"], "return lerp(fromValue, toValue, clamp(progress * Time.delta));")
+        self.assertEqual(source_lerp_delta_result["keys"]["fromValue"]["alias_of"], "source_lerp_delta_input.fromValue")
+        self.assertEqual(source_lerp_delta_result["keys"]["sourceDelta"]["alias_of"], "source_lerp_delta_input.sourceDelta")
 
         source_arc_mathf_cos_lookup_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_lookup_input")
         self.assertEqual(source_arc_mathf_cos_lookup_input["keys"]["radians"]["java_expr"], "radians")
