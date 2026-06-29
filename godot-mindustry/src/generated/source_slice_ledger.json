@@ -7978,6 +7978,29 @@
       ],
       "runtime_proof": "/root/Main.source_building_splash_liquid_state",
       "rule": "Backfills SSOT for existing canonical source_building_splash_liquid_state helper against BuildingComp.splashLiquid scheduling and deposit expressions."
+    },
+    "N651": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "tapped()",
+      "godot_owner": "PortGame.source_building_tapped_state",
+      "exact_exprs": [
+        "/** Called when the block is tapped by the local player. */",
+        "public void tapped(){",
+        "public void tapped(){\n\n    }"
+      ],
+      "source_symbols": [
+        "building_tapped.comment",
+        "building_tapped.method",
+        "building_tapped.empty_body",
+        "building_tapped.current_state"
+      ],
+      "tests": [
+        "test_building_tapped_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_tapped_state",
+      "rule": "Backfills SSOT for existing canonical source_building_tapped_state helper against BuildingComp.tapped no-op body."
     }
   },
   "version": 1

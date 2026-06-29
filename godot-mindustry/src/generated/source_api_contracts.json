@@ -9746,6 +9746,31 @@
       ],
       "runtime_proof": "/root/Main.source_building_splash_liquid_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.splashLiquid helper."
+    },
+    "PortGame.source_building_tapped_state": {
+      "status": "active",
+      "source_slice": "N651",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "tapped()",
+      "params": [
+        {
+          "name": "current_state",
+          "type": "Variant",
+          "schema": "source_building_tapped_input.current_state"
+        }
+      ],
+      "return_keys": [
+        "comment",
+        "method",
+        "empty_body",
+        "current_state",
+        "no_op"
+      ],
+      "tests": [
+        "test_building_tapped_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_tapped_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.tapped no-op helper."
     }
   },
   "policy": {

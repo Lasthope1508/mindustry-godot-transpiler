@@ -24772,6 +24772,58 @@
       ],
       "runtime_proof": "/root/Main.source_building_splash_liquid_state",
       "rule": "Runtime source_tilesize supplies tilesize used by tile range."
+    },
+    "building_tapped.comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "tapped()",
+      "java_expr": "/** Called when the block is tapped by the local player. */",
+      "godot_symbol": "source_building_tapped_result.comment",
+      "godot_owner": "PortGame.source_building_tapped_state",
+      "tests": [
+        "test_building_tapped_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_tapped_state",
+      "rule": "BuildingComp tapped source comment."
+    },
+    "building_tapped.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "tapped()",
+      "java_expr": "public void tapped(){",
+      "godot_symbol": "source_building_tapped_result.method",
+      "godot_owner": "PortGame.source_building_tapped_state",
+      "tests": [
+        "test_building_tapped_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_tapped_state",
+      "rule": "BuildingComp tapped method boundary."
+    },
+    "building_tapped.empty_body": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "tapped()",
+      "java_expr": "public void tapped(){\n\n    }",
+      "godot_symbol": "source_building_tapped_result.empty_body",
+      "godot_owner": "PortGame.source_building_tapped_state",
+      "tests": [
+        "test_building_tapped_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_tapped_state",
+      "rule": "BuildingComp tapped has empty no-op body."
+    },
+    "building_tapped.current_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "tapped()",
+      "java_expr": "public void tapped(){",
+      "godot_symbol": "source_building_tapped_input.current_state",
+      "godot_owner": "PortGame.source_building_tapped_state",
+      "tests": [
+        "test_building_tapped_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_tapped_state",
+      "rule": "Runtime current_state is returned unchanged because tapped has an empty body."
     }
   }
 }

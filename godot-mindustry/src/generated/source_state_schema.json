@@ -32465,6 +32465,89 @@
           "rule": "Deposit guarded by other tile existence."
         }
       }
+    },
+    "source_building_tapped_input": {
+      "status": "active",
+      "keys": {
+        "current_state": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "tapped()",
+          "used_by": [
+            "PortGame.source_building_tapped_state"
+          ],
+          "java_expr": "public void tapped(){",
+          "godot_symbol": "source_building_tapped_input.current_state",
+          "rule": "Runtime current_state is returned unchanged because tapped has an empty body."
+        }
+      }
+    },
+    "source_building_tapped_result": {
+      "status": "active",
+      "keys": {
+        "comment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "tapped()",
+          "used_by": [
+            "PortGame.source_building_tapped_state"
+          ],
+          "java_expr": "/** Called when the block is tapped by the local player. */",
+          "godot_symbol": "source_building_tapped_result.comment",
+          "rule": "BuildingComp tapped source comment."
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "tapped()",
+          "used_by": [
+            "PortGame.source_building_tapped_state"
+          ],
+          "java_expr": "public void tapped(){",
+          "godot_symbol": "source_building_tapped_result.method",
+          "rule": "BuildingComp tapped method boundary."
+        },
+        "empty_body": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "tapped()",
+          "used_by": [
+            "PortGame.source_building_tapped_state"
+          ],
+          "java_expr": "public void tapped(){\n\n    }",
+          "godot_symbol": "source_building_tapped_result.empty_body",
+          "rule": "BuildingComp tapped empty no-op body."
+        },
+        "current_state": {
+          "type": "Variant",
+          "status": "alias",
+          "alias_of": "source_building_tapped_input.current_state",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "tapped()",
+          "used_by": [
+            "PortGame.source_building_tapped_state"
+          ],
+          "java_expr": "public void tapped(){",
+          "godot_symbol": "source_building_tapped_result.current_state",
+          "rule": "Result aliases explicit current_state input."
+        },
+        "no_op": {
+          "type": "bool",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "tapped()",
+          "used_by": [
+            "PortGame.source_building_tapped_state"
+          ],
+          "java_expr": "public void tapped(){\n\n    }",
+          "godot_symbol": "source_building_tapped_result.no_op",
+          "rule": "Empty body has no side effect."
+        }
+      }
     }
   },
   "version": 1

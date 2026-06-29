@@ -1729,8 +1729,12 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn("func source_building_tapped_state(current_state: Variant) -> Variant:", source)
-        self.assertIn("return current_state", source)
+        self.assertIn("func source_building_tapped_state(current_state: Variant) -> Dictionary:", source)
+        self.assertIn('"comment": "/** Called when the block is tapped by the local player. */",', source)
+        self.assertIn('"method": "public void tapped(){",', source)
+        self.assertIn('"empty_body": "public void tapped(){\\n\\n    }",', source)
+        self.assertIn('"current_state": current_state', source)
+        self.assertIn('"no_op": true', source)
 
     def test_port_game_exposes_source_building_after_destroyed_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

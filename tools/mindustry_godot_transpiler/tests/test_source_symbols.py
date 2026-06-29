@@ -3733,6 +3733,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(block_size["java_expr"], "block.size")
         self.assertEqual(block_size["godot_symbol"], "source_building_splash_liquid_input.source_block_size")
 
+    def test_building_tapped_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        comment = source_symbols.source_symbol(registry, "building_tapped.comment")
+        self.assertEqual(comment["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(comment["java_method"], "tapped()")
+        self.assertEqual(comment["java_expr"], "/** Called when the block is tapped by the local player. */")
+        self.assertEqual(comment["godot_owner"], "PortGame.source_building_tapped_state")
+        self.assertEqual(comment["runtime_proof"], "/root/Main.source_building_tapped_state")
+        self.assertEqual(comment["godot_symbol"], "source_building_tapped_result.comment")
+
+        method = source_symbols.source_symbol(registry, "building_tapped.method")
+        self.assertEqual(method["java_expr"], "public void tapped(){")
+        self.assertEqual(method["godot_symbol"], "source_building_tapped_result.method")
+
+        empty_body = source_symbols.source_symbol(registry, "building_tapped.empty_body")
+        self.assertEqual(empty_body["java_expr"], "public void tapped(){\n\n    }")
+        self.assertEqual(empty_body["godot_symbol"], "source_building_tapped_result.empty_body")
+
+        current_state = source_symbols.source_symbol(registry, "building_tapped.current_state")
+        self.assertEqual(current_state["status"], "explicit-input")
+        self.assertEqual(current_state["java_expr"], "public void tapped(){")
+        self.assertEqual(current_state["godot_symbol"], "source_building_tapped_input.current_state")
+
     def test_building_after_picked_up_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -7391,9 +7418,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 248)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 249)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 253)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 254)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -7574,6 +7601,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_should_hide_configure_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_should_show_configure_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_splash_liquid_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_tapped_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_object_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_destroyed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_picked_up_state", audit["registeredSourceOwners"])
@@ -8743,6 +8771,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("amount", building_splash_liquid["exact_exprs"])
         self.assertIn("block.size", building_splash_liquid["exact_exprs"])
         self.assertIn("tilesize", building_splash_liquid["exact_exprs"])
+
+        building_tapped = source_symbols.source_slice(ledger, "N651")
+        self.assertEqual(building_tapped["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_tapped["java_method"], "tapped()")
+        self.assertEqual(building_tapped["godot_owner"], "PortGame.source_building_tapped_state")
+        self.assertIn("/** Called when the block is tapped by the local player. */", building_tapped["exact_exprs"])
+        self.assertIn("public void tapped(){", building_tapped["exact_exprs"])
+        self.assertIn("public void tapped(){\n\n    }", building_tapped["exact_exprs"])
+        self.assertIn("public void tapped(){", building_tapped["exact_exprs"])
 
         building_sense_health_process = source_symbols.source_slice(ledger, "N635")
         self.assertEqual(building_sense_health_process["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -11109,6 +11146,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("delays", building_splash_liquid["return_keys"])
         self.assertIn("random_range", building_splash_liquid["return_keys"])
         self.assertEqual(building_splash_liquid["source_method"], "splashLiquid(Liquid liquid, float amount)")
+
+        building_tapped = source_symbols.api_contract(contracts, "PortGame.source_building_tapped_state")
+        self.assertEqual([param["name"] for param in building_tapped["params"]], ["current_state"])
+        self.assertEqual(building_tapped["params"][0]["schema"], "source_building_tapped_input.current_state")
+        self.assertIn("comment", building_tapped["return_keys"])
+        self.assertIn("method", building_tapped["return_keys"])
+        self.assertIn("empty_body", building_tapped["return_keys"])
+        self.assertIn("current_state", building_tapped["return_keys"])
+        self.assertIn("no_op", building_tapped["return_keys"])
+        self.assertEqual(building_tapped["source_method"], "tapped()")
 
         building_sense_payload_size = source_symbols.api_contract(contracts, "PortGame.source_building_sense_payload_size_state")
         self.assertEqual([param["name"] for param in building_sense_payload_size["params"]], ["has_payload_seq", "payload_seq_total", "has_single_payload", "block_size_value"])
@@ -13646,6 +13693,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_splash_liquid_result["keys"]["liquid"]["alias_of"], "source_building_splash_liquid_input.liquid")
         self.assertEqual(source_building_splash_liquid_result["keys"]["amount"]["alias_of"], "source_building_splash_liquid_input.amount")
         self.assertEqual(source_building_splash_liquid_result["keys"]["source_tilesize"]["alias_of"], "source_building_splash_liquid_input.source_tilesize")
+
+        source_building_tapped_input = source_symbols.state_schema(schema, "source_building_tapped_input")
+        self.assertEqual(source_building_tapped_input["keys"]["current_state"]["java_expr"], "public void tapped(){")
+        self.assertEqual(source_building_tapped_input["keys"]["current_state"]["status"], "explicit-input")
+
+        source_building_tapped_result = source_symbols.state_schema(schema, "source_building_tapped_result")
+        self.assertEqual(source_building_tapped_result["keys"]["comment"]["java_expr"], "/** Called when the block is tapped by the local player. */")
+        self.assertEqual(source_building_tapped_result["keys"]["method"]["java_expr"], "public void tapped(){")
+        self.assertEqual(source_building_tapped_result["keys"]["empty_body"]["java_expr"], "public void tapped(){\n\n    }")
+        self.assertEqual(source_building_tapped_result["keys"]["current_state"]["alias_of"], "source_building_tapped_input.current_state")
+        self.assertEqual(source_building_tapped_result["keys"]["no_op"]["java_expr"], "public void tapped(){\n\n    }")
 
         source_building_sense_payload_size_input = source_symbols.state_schema(schema, "source_building_sense_payload_size_input")
         self.assertEqual(source_building_sense_payload_size_input["keys"]["has_payload_seq"]["java_expr"], "getPayloads() != null")

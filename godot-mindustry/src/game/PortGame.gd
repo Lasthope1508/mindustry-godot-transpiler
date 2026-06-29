@@ -1786,8 +1786,14 @@ func source_building_configured_copy_config_state(value_is_building: bool, copie
 		result["config"] = copied_config
 	return result
 
-func source_building_tapped_state(current_state: Variant) -> Variant:
-	return current_state
+func source_building_tapped_state(current_state: Variant) -> Dictionary:
+	return {
+		"comment": "/** Called when the block is tapped by the local player. */",
+		"method": "public void tapped(){",
+		"empty_body": "public void tapped(){\n\n    }",
+		"current_state": current_state,
+		"no_op": true,
+	}
 
 func source_building_after_destroyed_state(has_destroy_bullet: bool, destroy_bullet_same_team: bool, team_id: String, source_x: float, source_y: float, building_id: int) -> Dictionary:
 	if not has_destroy_bullet:
