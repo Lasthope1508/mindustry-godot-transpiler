@@ -3187,6 +3187,54 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(total_power["java_expr"], "power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f)")
         self.assertEqual(total_power["godot_symbol"], "source_building_sense_totals_input.total_power")
 
+    def test_building_set_prop_health_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_set_prop_health.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "setProp(LAccess prop, double value)")
+        self.assertEqual(method["java_expr"], "public void setProp(LAccess prop, double value){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_set_prop_health_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_set_prop_health_state")
+        self.assertEqual(method["godot_symbol"], "source_building_set_prop_health_result.method")
+
+        switch_prop = source_symbols.source_symbol(registry, "building_set_prop_health.switch_prop")
+        self.assertEqual(switch_prop["java_expr"], "switch(prop){")
+        self.assertEqual(switch_prop["godot_symbol"], "source_building_set_prop_health_result.switch_prop")
+
+        health_case = source_symbols.source_symbol(registry, "building_set_prop_health.health_case")
+        self.assertEqual(health_case["java_expr"], "case health -> {")
+        self.assertEqual(health_case["godot_symbol"], "source_building_set_prop_health_result.health_case")
+
+        clamp_assign = source_symbols.source_symbol(registry, "building_set_prop_health.clamp_assign")
+        self.assertEqual(clamp_assign["java_expr"], "health = (float)Mathf.clamp(value, 0, maxHealth);")
+        self.assertEqual(clamp_assign["godot_symbol"], "source_building_set_prop_health_result.clamp_assign")
+
+        destroy_gate = source_symbols.source_symbol(registry, "building_set_prop_health.destroy_gate")
+        self.assertEqual(destroy_gate["java_expr"], "if(health <= 0f && !dead()){")
+        self.assertEqual(destroy_gate["godot_symbol"], "source_building_set_prop_health_result.destroy_gate")
+
+        build_destroyed_call = source_symbols.source_symbol(registry, "building_set_prop_health.build_destroyed_call")
+        self.assertEqual(build_destroyed_call["java_expr"], "Call.buildDestroyed(self());")
+        self.assertEqual(build_destroyed_call["godot_symbol"], "source_building_set_prop_health_result.build_destroyed_call")
+
+        health_changed_call = source_symbols.source_symbol(registry, "building_set_prop_health.health_changed_call")
+        self.assertEqual(health_changed_call["java_expr"], "healthChanged();")
+        self.assertEqual(health_changed_call["godot_symbol"], "source_building_set_prop_health_result.health_changed_call")
+
+        prop_input = source_symbols.source_symbol(registry, "building_set_prop_health.prop")
+        self.assertEqual(prop_input["status"], "explicit-input")
+        self.assertEqual(prop_input["java_expr"], "prop")
+        self.assertEqual(prop_input["godot_symbol"], "source_building_set_prop_health_input.prop")
+
+        max_health = source_symbols.source_symbol(registry, "building_set_prop_health.max_health_value")
+        self.assertEqual(max_health["status"], "explicit-input")
+        self.assertEqual(max_health["java_expr"], "maxHealth")
+        self.assertEqual(max_health["godot_symbol"], "source_building_set_prop_health_input.max_health_value")
+
     def test_building_sense_payload_size_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -6956,9 +7004,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 237)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 238)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 242)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 243)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -7128,6 +7176,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_sense_payload_size_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_position_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_totals_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_set_prop_health_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_object_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_destroyed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_picked_up_state", audit["registeredSourceOwners"])
@@ -8181,6 +8230,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("//totalLiquids is inherently bad design, but unfortunately it is useful for conduits/tanks", building_sense_totals["exact_exprs"])
         self.assertIn("case totalLiquids -> liquids == null ? 0 : liquids.currentAmount();", building_sense_totals["exact_exprs"])
         self.assertIn("case totalPower -> power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f);", building_sense_totals["exact_exprs"])
+
+        building_set_prop_health = source_symbols.source_slice(ledger, "N640")
+        self.assertEqual(building_set_prop_health["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_set_prop_health["java_method"], "setProp(LAccess prop, double value)")
+        self.assertEqual(building_set_prop_health["godot_owner"], "PortGame.source_building_set_prop_health_state")
+        self.assertIn("public void setProp(LAccess prop, double value){", building_set_prop_health["exact_exprs"])
+        self.assertIn("switch(prop){", building_set_prop_health["exact_exprs"])
+        self.assertIn("case health -> {", building_set_prop_health["exact_exprs"])
+        self.assertIn("health = (float)Mathf.clamp(value, 0, maxHealth);", building_set_prop_health["exact_exprs"])
+        self.assertIn("if(health <= 0f && !dead()){", building_set_prop_health["exact_exprs"])
+        self.assertIn("Call.buildDestroyed(self());", building_set_prop_health["exact_exprs"])
+        self.assertIn("}else{", building_set_prop_health["exact_exprs"])
+        self.assertIn("healthChanged();", building_set_prop_health["exact_exprs"])
 
         building_sense_health_process = source_symbols.source_slice(ledger, "N635")
         self.assertEqual(building_sense_health_process["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -10405,6 +10467,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("total_liquids", building_sense_totals["return_keys"])
         self.assertIn("total_power", building_sense_totals["return_keys"])
         self.assertEqual(building_sense_totals["source_method"], "sense(LAccess sensor)")
+
+        building_set_prop_health = source_symbols.api_contract(contracts, "PortGame.source_building_set_prop_health_state")
+        self.assertEqual([param["name"] for param in building_set_prop_health["params"]], ["prop", "current_health", "max_health_value", "value", "dead_state", "self_state"])
+        self.assertEqual(building_set_prop_health["params"][0]["schema"], "source_building_set_prop_health_input.prop")
+        self.assertEqual(building_set_prop_health["params"][2]["schema"], "source_building_set_prop_health_input.max_health_value")
+        self.assertIn("method", building_set_prop_health["return_keys"])
+        self.assertIn("switch_prop", building_set_prop_health["return_keys"])
+        self.assertIn("health_case", building_set_prop_health["return_keys"])
+        self.assertIn("clamp_assign", building_set_prop_health["return_keys"])
+        self.assertIn("destroy_gate", building_set_prop_health["return_keys"])
+        self.assertIn("build_destroyed_call", building_set_prop_health["return_keys"])
+        self.assertIn("health_changed_call", building_set_prop_health["return_keys"])
+        self.assertIn("health", building_set_prop_health["return_keys"])
+        self.assertIn("build_destroyed_called", building_set_prop_health["return_keys"])
+        self.assertIn("health_changed", building_set_prop_health["return_keys"])
+        self.assertEqual(building_set_prop_health["source_method"], "setProp(LAccess prop, double value)")
 
         building_sense_payload_size = source_symbols.api_contract(contracts, "PortGame.source_building_sense_payload_size_state")
         self.assertEqual([param["name"] for param in building_sense_payload_size["params"]], ["has_payload_seq", "payload_seq_total", "has_single_payload", "block_size_value"])
@@ -12781,6 +12859,25 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_sense_totals_result["keys"]["total_power_case"]["java_expr"], "case totalPower -> power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f);")
         self.assertEqual(source_building_sense_totals_result["keys"]["total_items"]["alias_of"], "source_building_sense_totals_input.total_items")
         self.assertEqual(source_building_sense_totals_result["keys"]["total_power"]["alias_of"], "source_building_sense_totals_input.total_power")
+
+        source_building_set_prop_health_input = source_symbols.state_schema(schema, "source_building_set_prop_health_input")
+        self.assertEqual(source_building_set_prop_health_input["keys"]["prop"]["java_expr"], "prop")
+        self.assertEqual(source_building_set_prop_health_input["keys"]["current_health"]["java_expr"], "health")
+        self.assertEqual(source_building_set_prop_health_input["keys"]["max_health_value"]["java_expr"], "maxHealth")
+        self.assertEqual(source_building_set_prop_health_input["keys"]["value"]["java_expr"], "value")
+        self.assertEqual(source_building_set_prop_health_input["keys"]["dead_state"]["java_expr"], "dead()")
+        self.assertEqual(source_building_set_prop_health_input["keys"]["self_state"]["java_expr"], "self()")
+
+        source_building_set_prop_health_result = source_symbols.state_schema(schema, "source_building_set_prop_health_result")
+        self.assertEqual(source_building_set_prop_health_result["keys"]["method"]["java_expr"], "public void setProp(LAccess prop, double value){")
+        self.assertEqual(source_building_set_prop_health_result["keys"]["switch_prop"]["java_expr"], "switch(prop){")
+        self.assertEqual(source_building_set_prop_health_result["keys"]["health_case"]["java_expr"], "case health -> {")
+        self.assertEqual(source_building_set_prop_health_result["keys"]["clamp_assign"]["java_expr"], "health = (float)Mathf.clamp(value, 0, maxHealth);")
+        self.assertEqual(source_building_set_prop_health_result["keys"]["destroy_gate"]["java_expr"], "if(health <= 0f && !dead()){")
+        self.assertEqual(source_building_set_prop_health_result["keys"]["build_destroyed_call"]["java_expr"], "Call.buildDestroyed(self());")
+        self.assertEqual(source_building_set_prop_health_result["keys"]["else_branch"]["java_expr"], "}else{")
+        self.assertEqual(source_building_set_prop_health_result["keys"]["health_changed_call"]["java_expr"], "healthChanged();")
+        self.assertEqual(source_building_set_prop_health_result["keys"]["health"]["java_expr"], "health = (float)Mathf.clamp(value, 0, maxHealth);")
 
         source_building_sense_payload_size_input = source_symbols.state_schema(schema, "source_building_sense_payload_size_input")
         self.assertEqual(source_building_sense_payload_size_input["keys"]["has_payload_seq"]["java_expr"], "getPayloads() != null")

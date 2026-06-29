@@ -9279,6 +9279,63 @@
       ],
       "runtime_proof": "/root/Main.source_building_sense_totals_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.sense(LAccess sensor) total item/liquid/power helper."
+    },
+    "PortGame.source_building_set_prop_health_state": {
+      "status": "active",
+      "source_slice": "N640",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "setProp(LAccess prop, double value)",
+      "params": [
+        {
+          "name": "prop",
+          "type": "String",
+          "schema": "source_building_set_prop_health_input.prop"
+        },
+        {
+          "name": "current_health",
+          "type": "float",
+          "schema": "source_building_set_prop_health_input.current_health"
+        },
+        {
+          "name": "max_health_value",
+          "type": "float",
+          "schema": "source_building_set_prop_health_input.max_health_value"
+        },
+        {
+          "name": "value",
+          "type": "float",
+          "schema": "source_building_set_prop_health_input.value"
+        },
+        {
+          "name": "dead_state",
+          "type": "bool",
+          "schema": "source_building_set_prop_health_input.dead_state"
+        },
+        {
+          "name": "self_state",
+          "type": "Variant",
+          "schema": "source_building_set_prop_health_input.self_state"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "switch_prop",
+        "health_case",
+        "clamp_assign",
+        "destroy_gate",
+        "build_destroyed_call",
+        "else_branch",
+        "health_changed_call",
+        "health",
+        "build_destroyed_called",
+        "build_destroyed",
+        "health_changed"
+      ],
+      "tests": [
+        "test_building_set_prop_health_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_health_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.setProp(LAccess prop, double value) health helper."
     }
   },
   "policy": {

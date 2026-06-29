@@ -2509,11 +2509,22 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_building_set_prop_health_state(prop: String, current_health: float, max_health_value: float, value: float, dead_state: bool, self_state: Variant) -> Dictionary:", source)
+        self.assertIn('"method": "public void setProp(LAccess prop, double value){",', source)
+        self.assertIn('"switch_prop": "switch(prop){",', source)
+        self.assertIn('"health_case": "case health -> {",', source)
+        self.assertIn('"clamp_assign": "health = (float)Mathf.clamp(value, 0, maxHealth);",', source)
+        self.assertIn('"destroy_gate": "if(health <= 0f && !dead()){",', source)
+        self.assertIn('"build_destroyed_call": "Call.buildDestroyed(self());",', source)
+        self.assertIn('"else_branch": "}else{",', source)
+        self.assertIn('"health_changed_call": "healthChanged();",', source)
         self.assertIn('if prop != "health":', source)
         self.assertIn('var next_health := clampf(value, 0.0, max_health_value)', source)
         self.assertIn("if next_health <= 0.0 and not dead_state:", source)
-        self.assertIn('return {"health": next_health, "build_destroyed_called": true, "build_destroyed": self_state, "health_changed": false}', source)
-        self.assertIn('return {"health": next_health, "build_destroyed_called": false, "build_destroyed": null, "health_changed": true}', source)
+        self.assertIn('"build_destroyed_called": true', source)
+        self.assertIn('"build_destroyed": self_state', source)
+        self.assertIn('"health_changed": true', source)
+        self.assertIn("destroyed_result.merge(source_exprs)", source)
+        self.assertIn("changed_result.merge(source_exprs)", source)
 
     def test_port_game_exposes_source_building_set_prop_team_double_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

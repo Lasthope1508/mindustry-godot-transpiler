@@ -2671,12 +2671,28 @@ func source_building_control_config_state(control_type: String, block_logic_conf
 	return {"configured_called": false, "builder": null, "value": null}
 
 func source_building_set_prop_health_state(prop: String, current_health: float, max_health_value: float, value: float, dead_state: bool, self_state: Variant) -> Dictionary:
+	var source_exprs: Dictionary = {
+		"method": "public void setProp(LAccess prop, double value){",
+		"switch_prop": "switch(prop){",
+		"health_case": "case health -> {",
+		"clamp_assign": "health = (float)Mathf.clamp(value, 0, maxHealth);",
+		"destroy_gate": "if(health <= 0f && !dead()){",
+		"build_destroyed_call": "Call.buildDestroyed(self());",
+		"else_branch": "}else{",
+		"health_changed_call": "healthChanged();",
+	}
 	if prop != "health":
-		return {"health": current_health, "build_destroyed_called": false, "build_destroyed": null, "health_changed": false}
+		var non_health_result: Dictionary = {"health": current_health, "build_destroyed_called": false, "build_destroyed": null, "health_changed": false}
+		non_health_result.merge(source_exprs)
+		return non_health_result
 	var next_health := clampf(value, 0.0, max_health_value)
 	if next_health <= 0.0 and not dead_state:
-		return {"health": next_health, "build_destroyed_called": true, "build_destroyed": self_state, "health_changed": false}
-	return {"health": next_health, "build_destroyed_called": false, "build_destroyed": null, "health_changed": true}
+		var destroyed_result: Dictionary = {"health": next_health, "build_destroyed_called": true, "build_destroyed": self_state, "health_changed": false}
+		destroyed_result.merge(source_exprs)
+		return destroyed_result
+	var changed_result: Dictionary = {"health": next_health, "build_destroyed_called": false, "build_destroyed": null, "health_changed": true}
+	changed_result.merge(source_exprs)
+	return changed_result
 
 func source_building_set_prop_team_double_state(prop: String, current_team_id: int, value: float) -> Dictionary:
 	if prop != "team":

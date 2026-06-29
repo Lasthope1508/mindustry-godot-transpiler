@@ -30739,6 +30739,232 @@
           "rule": "Carries total_power input into result schema."
         }
       }
+    },
+    "source_building_set_prop_health_input": {
+      "status": "active",
+      "keys": {
+        "prop": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_health_state"
+          ],
+          "java_expr": "prop",
+          "godot_symbol": "source_building_set_prop_health_input.prop",
+          "rule": "Runtime prop selects setProp switch case."
+        },
+        "current_health": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_health_state"
+          ],
+          "java_expr": "health",
+          "godot_symbol": "source_building_set_prop_health_input.current_health",
+          "rule": "Runtime current_health supplies current BuildingComp health for non-health no-op."
+        },
+        "max_health_value": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_health_state"
+          ],
+          "java_expr": "maxHealth",
+          "godot_symbol": "source_building_set_prop_health_input.max_health_value",
+          "rule": "Runtime max_health_value supplies BuildingComp maxHealth clamp upper bound."
+        },
+        "value": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_health_state"
+          ],
+          "java_expr": "value",
+          "godot_symbol": "source_building_set_prop_health_input.value",
+          "rule": "Runtime value supplies setProp double value."
+        },
+        "dead_state": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_health_state"
+          ],
+          "java_expr": "dead()",
+          "godot_symbol": "source_building_set_prop_health_input.dead_state",
+          "rule": "Runtime dead_state supplies dead() branch condition."
+        },
+        "self_state": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_health_state"
+          ],
+          "java_expr": "self()",
+          "godot_symbol": "source_building_set_prop_health_input.self_state",
+          "rule": "Runtime self_state supplies self() passed to buildDestroyed."
+        }
+      }
+    },
+    "source_building_set_prop_health_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_health_state"
+          ],
+          "java_expr": "public void setProp(LAccess prop, double value){",
+          "godot_symbol": "source_building_set_prop_health_result.method",
+          "rule": "BuildingComp setProp(LAccess,double) method boundary."
+        },
+        "switch_prop": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_health_state"
+          ],
+          "java_expr": "switch(prop){",
+          "godot_symbol": "source_building_set_prop_health_result.switch_prop",
+          "rule": "setProp prop switch boundary."
+        },
+        "health_case": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_health_state"
+          ],
+          "java_expr": "case health -> {",
+          "godot_symbol": "source_building_set_prop_health_result.health_case",
+          "rule": "setProp health case boundary."
+        },
+        "clamp_assign": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_health_state"
+          ],
+          "java_expr": "health = (float)Mathf.clamp(value, 0, maxHealth);",
+          "godot_symbol": "source_building_set_prop_health_result.clamp_assign",
+          "rule": "Health assignment clamps value between 0 and maxHealth."
+        },
+        "destroy_gate": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_health_state"
+          ],
+          "java_expr": "if(health <= 0f && !dead()){",
+          "godot_symbol": "source_building_set_prop_health_result.destroy_gate",
+          "rule": "Destroyed branch gate after clamped health assignment."
+        },
+        "build_destroyed_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_health_state"
+          ],
+          "java_expr": "Call.buildDestroyed(self());",
+          "godot_symbol": "source_building_set_prop_health_result.build_destroyed_call",
+          "rule": "Destroyed branch dispatches buildDestroyed for self."
+        },
+        "else_branch": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_health_state"
+          ],
+          "java_expr": "}else{",
+          "godot_symbol": "source_building_set_prop_health_result.else_branch",
+          "rule": "Else branch boundary for non-destroyed or already-dead health updates."
+        },
+        "health_changed_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_health_state"
+          ],
+          "java_expr": "healthChanged();",
+          "godot_symbol": "source_building_set_prop_health_result.health_changed_call",
+          "rule": "Non-destroy branch calls healthChanged."
+        },
+        "health": {
+          "type": "float",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_health_state"
+          ],
+          "java_expr": "health = (float)Mathf.clamp(value, 0, maxHealth);",
+          "godot_symbol": "source_building_set_prop_health_result.health",
+          "rule": "Clamped or unchanged health result."
+        },
+        "build_destroyed_called": {
+          "type": "bool",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_health_state"
+          ],
+          "java_expr": "Call.buildDestroyed(self());",
+          "godot_symbol": "source_building_set_prop_health_result.build_destroyed_called",
+          "rule": "True when destroyed branch calls buildDestroyed."
+        },
+        "build_destroyed": {
+          "type": "Variant",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_health_state"
+          ],
+          "java_expr": "self()",
+          "godot_symbol": "source_building_set_prop_health_result.build_destroyed",
+          "rule": "Self payload passed to buildDestroyed when called."
+        },
+        "health_changed": {
+          "type": "bool",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_health_state"
+          ],
+          "java_expr": "healthChanged();",
+          "godot_symbol": "source_building_set_prop_health_result.health_changed",
+          "rule": "True when healthChanged branch is called."
+        }
+      }
     }
   },
   "version": 1
