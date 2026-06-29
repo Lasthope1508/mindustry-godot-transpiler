@@ -25544,6 +25544,110 @@
         "test_drill_ore_count_symbols_are_registered_with_source_backing"
       ]
     },
+    "drill_output_batch.amount": {
+      "godot_owner": "PortGame.source_drill_output_batch",
+      "godot_symbol": "source_drill_output_batch_result.amount",
+      "java_expr": "int amount = (int)(progress / delay);",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Source integer batch amount from progress divided by delay.",
+      "runtime_proof": "/root/Main.source_drill_output_batch",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_output_batch_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_output_batch.delay": {
+      "godot_owner": "PortGame.source_drill_output_batch",
+      "godot_symbol": "source_drill_output_batch_input.delay",
+      "java_expr": "delay",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Godot delay supplies getDrillTime(dominantItem) result.",
+      "runtime_proof": "/root/Main.source_drill_output_batch",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_output_batch_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_output_batch.dominant_items": {
+      "godot_owner": "PortGame.source_drill_output_batch",
+      "godot_symbol": "source_drill_output_batch_input.dominant_items",
+      "java_expr": "dominantItems",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Godot dominant_items supplies DrillBuild dominantItems gate.",
+      "runtime_proof": "/root/Main.source_drill_output_batch",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_output_batch_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_output_batch.gate": {
+      "godot_owner": "PortGame.source_drill_output_batch",
+      "godot_symbol": "source_drill_output_batch_result.gate",
+      "java_expr": "if(dominantItems > 0 && progress >= delay && items.total() < itemCapacity){",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "DrillBuild output batch gate before amount/modulo.",
+      "runtime_proof": "/root/Main.source_drill_output_batch",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_output_batch_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_output_batch.item_capacity": {
+      "godot_owner": "PortGame.source_drill_output_batch",
+      "godot_symbol": "source_drill_output_batch_input.item_capacity",
+      "java_expr": "itemCapacity",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Godot item_capacity supplies source itemCapacity gate.",
+      "runtime_proof": "/root/Main.source_drill_output_batch",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_output_batch_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_output_batch.items_total": {
+      "godot_owner": "PortGame.source_drill_output_batch",
+      "godot_symbol": "source_drill_output_batch_input.items_total",
+      "java_expr": "items.total()",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Godot items_total supplies source items.total() gate.",
+      "runtime_proof": "/root/Main.source_drill_output_batch",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_output_batch_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_output_batch.progress": {
+      "godot_owner": "PortGame.source_drill_output_batch",
+      "godot_symbol": "source_drill_output_batch_input.progress",
+      "java_expr": "progress",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Godot progress supplies DrillBuild progress before output batch.",
+      "runtime_proof": "/root/Main.source_drill_output_batch",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_output_batch_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_output_batch.progress_mod": {
+      "godot_owner": "PortGame.source_drill_output_batch",
+      "godot_symbol": "source_drill_output_batch_result.progress",
+      "java_expr": "progress %= delay;",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Source progress modulo after output batch.",
+      "runtime_proof": "/root/Main.source_drill_output_batch",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_output_batch_symbols_are_registered_with_source_backing"
+      ]
+    },
     "handle_pierce.bullet.damage": {
       "godot_owner": "PortGame.source_bullet_type_handle_pierce_state",
       "godot_symbol": "bullet_state.damage",

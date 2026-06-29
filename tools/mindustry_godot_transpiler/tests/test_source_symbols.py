@@ -3224,6 +3224,53 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(item_id["java_expr"], "returnItem = itemArray.peek();")
         self.assertEqual(item_id["godot_symbol"], "source_drill_ore_count_input.item_id")
 
+    def test_drill_output_batch_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        gate = source_symbols.source_symbol(registry, "drill_output_batch.gate")
+        self.assertEqual(gate["java_source"], "core/src/mindustry/world/blocks/production/Drill.java")
+        self.assertEqual(gate["java_method"], "DrillBuild.updateTile()")
+        self.assertEqual(gate["java_expr"], "if(dominantItems > 0 && progress >= delay && items.total() < itemCapacity){")
+        self.assertEqual(gate["godot_owner"], "PortGame.source_drill_output_batch")
+        self.assertEqual(gate["runtime_proof"], "/root/Main.source_drill_output_batch")
+        self.assertEqual(gate["godot_symbol"], "source_drill_output_batch_result.gate")
+
+        amount = source_symbols.source_symbol(registry, "drill_output_batch.amount")
+        self.assertEqual(amount["java_expr"], "int amount = (int)(progress / delay);")
+        self.assertEqual(amount["godot_symbol"], "source_drill_output_batch_result.amount")
+
+        progress_mod = source_symbols.source_symbol(registry, "drill_output_batch.progress_mod")
+        self.assertEqual(progress_mod["java_expr"], "progress %= delay;")
+        self.assertEqual(progress_mod["godot_symbol"], "source_drill_output_batch_result.progress")
+
+        progress_input = source_symbols.source_symbol(registry, "drill_output_batch.progress")
+        self.assertEqual(progress_input["status"], "explicit-input")
+        self.assertEqual(progress_input["java_expr"], "progress")
+        self.assertEqual(progress_input["godot_symbol"], "source_drill_output_batch_input.progress")
+
+        delay_input = source_symbols.source_symbol(registry, "drill_output_batch.delay")
+        self.assertEqual(delay_input["status"], "explicit-input")
+        self.assertEqual(delay_input["java_expr"], "delay")
+        self.assertEqual(delay_input["godot_symbol"], "source_drill_output_batch_input.delay")
+
+        dominant_items = source_symbols.source_symbol(registry, "drill_output_batch.dominant_items")
+        self.assertEqual(dominant_items["status"], "explicit-input")
+        self.assertEqual(dominant_items["java_expr"], "dominantItems")
+        self.assertEqual(dominant_items["godot_symbol"], "source_drill_output_batch_input.dominant_items")
+
+        items_total = source_symbols.source_symbol(registry, "drill_output_batch.items_total")
+        self.assertEqual(items_total["status"], "explicit-input")
+        self.assertEqual(items_total["java_expr"], "items.total()")
+        self.assertEqual(items_total["godot_symbol"], "source_drill_output_batch_input.items_total")
+
+        item_capacity = source_symbols.source_symbol(registry, "drill_output_batch.item_capacity")
+        self.assertEqual(item_capacity["status"], "explicit-input")
+        self.assertEqual(item_capacity["java_expr"], "itemCapacity")
+        self.assertEqual(item_capacity["godot_symbol"], "source_drill_output_batch_input.item_capacity")
+
     def test_building_accept_liquid_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -9154,9 +9201,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 293)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 294)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 298)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 299)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -9357,6 +9404,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_drill_last_speed", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_last_speed_for_cell", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_ore_count", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_drill_output_batch", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -10425,6 +10473,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("oreCount.increment(getDrop(other), 0, 1);", drill_ore_count["exact_exprs"])
         self.assertIn("returnItem = itemArray.peek();", drill_ore_count["exact_exprs"])
         self.assertIn("returnCount = oreCount.get(itemArray.peek(), 0);", drill_ore_count["exact_exprs"])
+
+        drill_output_batch = source_symbols.source_slice(ledger, "N696")
+        self.assertEqual(drill_output_batch["java_source"], "core/src/mindustry/world/blocks/production/Drill.java")
+        self.assertEqual(drill_output_batch["java_method"], "DrillBuild.updateTile()")
+        self.assertEqual(drill_output_batch["godot_owner"], "PortGame.source_drill_output_batch")
+        self.assertIn("if(dominantItems > 0 && progress >= delay && items.total() < itemCapacity){", drill_output_batch["exact_exprs"])
+        self.assertIn("int amount = (int)(progress / delay);", drill_output_batch["exact_exprs"])
+        self.assertIn("progress %= delay;", drill_output_batch["exact_exprs"])
+        self.assertIn("dominantItems", drill_output_batch["exact_exprs"])
+        self.assertIn("items.total()", drill_output_batch["exact_exprs"])
+        self.assertIn("itemCapacity", drill_output_batch["exact_exprs"])
 
         building_accept_liquid = source_symbols.source_slice(ledger, "N522")
         self.assertEqual(building_accept_liquid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -13204,6 +13263,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("returnCount", drill_ore_count["return_keys"])
         self.assertIn("returnItem", drill_ore_count["return_keys"])
         self.assertEqual(drill_ore_count["source_method"], "countOre(Tile tile)")
+
+        drill_output_batch = source_symbols.api_contract(contracts, "PortGame.source_drill_output_batch")
+        self.assertEqual([param["name"] for param in drill_output_batch["params"]], ["progress", "delay", "dominant_items", "items_total", "item_capacity"])
+        self.assertEqual(drill_output_batch["params"][0]["schema"], "source_drill_output_batch_input.progress")
+        self.assertEqual(drill_output_batch["params"][1]["schema"], "source_drill_output_batch_input.delay")
+        self.assertEqual(drill_output_batch["params"][2]["schema"], "source_drill_output_batch_input.dominant_items")
+        self.assertEqual(drill_output_batch["params"][3]["schema"], "source_drill_output_batch_input.items_total")
+        self.assertEqual(drill_output_batch["params"][4]["schema"], "source_drill_output_batch_input.item_capacity")
+        self.assertIn("amount", drill_output_batch["return_keys"])
+        self.assertIn("progress", drill_output_batch["return_keys"])
+        self.assertEqual(drill_output_batch["source_method"], "DrillBuild.updateTile()")
 
         building_accept_liquid = source_symbols.api_contract(contracts, "PortGame.source_building_accept_liquid_state")
         self.assertEqual([param["name"] for param in building_accept_liquid["params"]], ["has_liquids", "consumes_liquid"])
@@ -16110,6 +16180,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_drill_ore_count_result["keys"]["returnItem"]["java_expr"], "returnItem = itemArray.peek();")
         self.assertEqual(source_drill_ore_count_result["keys"]["returnCount"]["java_expr"], "returnCount = oreCount.get(itemArray.peek(), 0);")
         self.assertEqual(source_drill_ore_count_result["keys"]["item_id"]["alias_of"], "source_drill_ore_count_input.item_id")
+
+        source_drill_output_batch_input = source_symbols.state_schema(schema, "source_drill_output_batch_input")
+        self.assertEqual(source_drill_output_batch_input["keys"]["progress"]["java_expr"], "progress")
+        self.assertEqual(source_drill_output_batch_input["keys"]["delay"]["java_expr"], "delay")
+        self.assertEqual(source_drill_output_batch_input["keys"]["dominant_items"]["java_expr"], "dominantItems")
+        self.assertEqual(source_drill_output_batch_input["keys"]["items_total"]["java_expr"], "items.total()")
+        self.assertEqual(source_drill_output_batch_input["keys"]["item_capacity"]["java_expr"], "itemCapacity")
+
+        source_drill_output_batch_result = source_symbols.state_schema(schema, "source_drill_output_batch_result")
+        self.assertEqual(source_drill_output_batch_result["keys"]["gate"]["java_expr"], "if(dominantItems > 0 && progress >= delay && items.total() < itemCapacity){")
+        self.assertEqual(source_drill_output_batch_result["keys"]["amount"]["java_expr"], "int amount = (int)(progress / delay);")
+        self.assertEqual(source_drill_output_batch_result["keys"]["progress"]["java_expr"], "progress %= delay;")
+        self.assertEqual(source_drill_output_batch_result["keys"]["items_total"]["alias_of"], "source_drill_output_batch_input.items_total")
 
         source_building_accept_liquid_input = source_symbols.state_schema(schema, "source_building_accept_liquid_input")
         self.assertEqual(source_building_accept_liquid_input["keys"]["hasLiquids"]["java_expr"], "block.hasLiquids")

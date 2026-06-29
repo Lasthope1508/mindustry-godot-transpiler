@@ -9456,6 +9456,38 @@
         "test_drill_ore_count_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_drill_rate"
       ]
+    },
+    "N696": {
+      "exact_exprs": [
+        "if(dominantItems > 0 && progress >= delay && items.total() < itemCapacity){",
+        "int amount = (int)(progress / delay);",
+        "progress %= delay;",
+        "progress",
+        "delay",
+        "dominantItems",
+        "items.total()",
+        "itemCapacity"
+      ],
+      "godot_owner": "PortGame.source_drill_output_batch",
+      "java_class": "mindustry.world.blocks.production.Drill.DrillBuild",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "runtime_proof": "/root/Main.source_drill_output_batch",
+      "source_symbols": [
+        "drill_output_batch.gate",
+        "drill_output_batch.amount",
+        "drill_output_batch.progress_mod",
+        "drill_output_batch.progress",
+        "drill_output_batch.delay",
+        "drill_output_batch.dominant_items",
+        "drill_output_batch.items_total",
+        "drill_output_batch.item_capacity"
+      ],
+      "status": "done",
+      "tests": [
+        "test_drill_output_batch_symbols_are_registered_with_source_backing",
+        "test_port_game_batches_source_drill_output"
+      ]
     }
   },
   "version": 1

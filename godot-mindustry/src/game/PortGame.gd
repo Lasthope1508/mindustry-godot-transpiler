@@ -1181,6 +1181,10 @@ func source_drill_output_delta_for_cell(x: int, y: int, item_id: String, ore_cou
 		return 0.0
 	return source_drill_output_delta(str(sprite.get_meta("source_block_id", "")), item_id, ore_count, seconds, float(sprite.get_meta("source_block_time_scale", 1.0)), warmup)
 
+const SOURCE_DRILL_OUTPUT_BATCH_GATE := "if(dominantItems > 0 && progress >= delay && items.total() < itemCapacity){"
+const SOURCE_DRILL_OUTPUT_BATCH_AMOUNT := "int amount = (int)(progress / delay);"
+const SOURCE_DRILL_OUTPUT_BATCH_PROGRESS_MOD := "progress %= delay;"
+
 func source_drill_output_batch(progress: float, delay: float, dominant_items: int, items_total: int, item_capacity: int) -> Dictionary:
 	if dominant_items > 0 and progress >= delay and items_total < item_capacity:
 		var amount := int(progress / delay)

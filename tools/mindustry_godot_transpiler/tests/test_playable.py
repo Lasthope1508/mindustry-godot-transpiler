@@ -1200,6 +1200,9 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_DRILL_OUTPUT_BATCH_GATE := "if(dominantItems > 0 && progress >= delay && items.total() < itemCapacity){"', source)
+        self.assertIn('const SOURCE_DRILL_OUTPUT_BATCH_AMOUNT := "int amount = (int)(progress / delay);"', source)
+        self.assertIn('const SOURCE_DRILL_OUTPUT_BATCH_PROGRESS_MOD := "progress %= delay;"', source)
         self.assertIn("func source_drill_output_batch(progress: float, delay: float, dominant_items: int, items_total: int, item_capacity: int) -> Dictionary:", source)
         self.assertIn("if dominant_items > 0 and progress >= delay and items_total < item_capacity:", source)
         self.assertIn("var amount := int(progress / delay)", source)
