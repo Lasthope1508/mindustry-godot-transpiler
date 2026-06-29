@@ -9009,6 +9009,82 @@
       ],
       "runtime_proof": "/root/Main.source_building_sense_enabled_controlled_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.sense(LAccess sensor) enabled/controlled helper."
+    },
+    "PortGame.source_building_sense_health_process_state": {
+      "status": "active",
+      "source_slice": "N635",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "sense(LAccess sensor)",
+      "params": [
+        {
+          "name": "health",
+          "type": "float",
+          "schema": "source_building_sense_health_process_input.health"
+        },
+        {
+          "name": "max_health",
+          "type": "float",
+          "schema": "source_building_sense_health_process_input.max_health"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_building_sense_health_process_input.efficiency"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_building_sense_health_process_input.time_scale"
+        },
+        {
+          "name": "ranged_range",
+          "type": "float",
+          "schema": "source_building_sense_health_process_input.ranged_range"
+        },
+        {
+          "name": "source_tilesize",
+          "type": "float",
+          "schema": "source_building_sense_health_process_input.source_tilesize"
+        },
+        {
+          "name": "has_range",
+          "type": "bool",
+          "schema": "source_building_sense_health_process_input.has_range"
+        },
+        {
+          "name": "rotation_value",
+          "type": "float",
+          "schema": "source_building_sense_health_process_input.rotation_value"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "health_case",
+        "max_health_case",
+        "efficiency_case",
+        "timescale_case",
+        "range_case",
+        "rotation_case",
+        "health_input",
+        "max_health_input",
+        "efficiency_input",
+        "time_scale",
+        "ranged_range",
+        "source_tilesize",
+        "has_range",
+        "rotation_value",
+        "health",
+        "max_health",
+        "efficiency",
+        "timescale",
+        "range",
+        "rotation"
+      ],
+      "tests": [
+        "test_building_sense_health_process_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_health_process_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.sense(LAccess sensor) health/process helper."
     }
   },
   "policy": {

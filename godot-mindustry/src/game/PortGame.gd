@@ -2471,14 +2471,30 @@ func source_building_sense_position_state(world_x: float, world_y: float, source
 	}
 
 func source_building_sense_health_process_state(health: float, max_health: float, efficiency: float, time_scale: float, ranged_range: float, source_tilesize: float, has_range: bool, rotation_value: float) -> Dictionary:
-	return {
-		"health": health,
-		"max_health": max_health,
-		"efficiency": efficiency,
-		"timescale": time_scale,
-		"range": ranged_range / source_tilesize if has_range else 0.0,
-		"rotation": rotation_value,
+	var source_state := {
+		"method": "public double sense(LAccess sensor){",
+		"health_case": "case health -> health;",
+		"max_health_case": "case maxHealth -> maxHealth;",
+		"efficiency_case": "case efficiency -> efficiency;",
+		"timescale_case": "case timescale -> timeScale;",
+		"range_case": "case range -> this instanceof Ranged r ? r.range() / tilesize : 0;",
+		"rotation_case": "case rotation -> rotation;",
+		"health_input": health,
+		"max_health_input": max_health,
+		"efficiency_input": efficiency,
+		"time_scale": time_scale,
+		"ranged_range": ranged_range,
+		"source_tilesize": source_tilesize,
+		"has_range": has_range,
+		"rotation_value": rotation_value,
 	}
+	source_state["health"] = health
+	source_state["max_health"] = max_health
+	source_state["efficiency"] = efficiency
+	source_state["timescale"] = time_scale
+	source_state["range"] = ranged_range / source_tilesize if has_range else 0.0
+	source_state["rotation"] = rotation_value
+	return source_state
 
 func source_building_sense_totals_state(total_items: float, total_liquids: float, total_power: float) -> Dictionary:
 	return {

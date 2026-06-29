@@ -2352,12 +2352,20 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_building_sense_health_process_state(health: float, max_health: float, efficiency: float, time_scale: float, ranged_range: float, source_tilesize: float, has_range: bool, rotation_value: float) -> Dictionary:", source)
-        self.assertIn('"health": health', source)
-        self.assertIn('"max_health": max_health', source)
-        self.assertIn('"efficiency": efficiency', source)
-        self.assertIn('"timescale": time_scale', source)
-        self.assertIn('"range": ranged_range / source_tilesize if has_range else 0.0', source)
-        self.assertIn('"rotation": rotation_value', source)
+        self.assertIn('"method": "public double sense(LAccess sensor){",', source)
+        self.assertIn('"health_case": "case health -> health;",', source)
+        self.assertIn('"max_health_case": "case maxHealth -> maxHealth;",', source)
+        self.assertIn('"efficiency_case": "case efficiency -> efficiency;",', source)
+        self.assertIn('"timescale_case": "case timescale -> timeScale;",', source)
+        self.assertIn('"range_case": "case range -> this instanceof Ranged r ? r.range() / tilesize : 0;",', source)
+        self.assertIn('"rotation_case": "case rotation -> rotation;",', source)
+        self.assertIn('source_state["health"] = health', source)
+        self.assertIn('source_state["max_health"] = max_health', source)
+        self.assertIn('source_state["efficiency"] = efficiency', source)
+        self.assertIn('source_state["timescale"] = time_scale', source)
+        self.assertIn('source_state["range"] = ranged_range / source_tilesize if has_range else 0.0', source)
+        self.assertIn('source_state["rotation"] = rotation_value', source)
+        self.assertIn("return source_state", source)
 
     def test_port_game_exposes_source_building_sense_totals_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

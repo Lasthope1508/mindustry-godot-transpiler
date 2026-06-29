@@ -22822,6 +22822,201 @@
       "java_expr": "GlobalVars.ctrlPlayer",
       "godot_symbol": "source_building_sense_enabled_controlled_input.ctrl_player_value",
       "rule": "Runtime ctrl_player_value supplies GlobalVars.ctrlPlayer."
+    },
+    "building_sense_health_process.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_health_process_state",
+      "tests": [
+        "test_building_sense_health_process_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_health_process_state",
+      "java_expr": "public double sense(LAccess sensor){",
+      "godot_symbol": "source_building_sense_health_process_result.method",
+      "rule": "BuildingComp sense(LAccess) method boundary."
+    },
+    "building_sense_health_process.health_case": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_health_process_state",
+      "tests": [
+        "test_building_sense_health_process_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_health_process_state",
+      "java_expr": "case health -> health;",
+      "godot_symbol": "source_building_sense_health_process_result.health_case",
+      "rule": "sense(LAccess) health case boundary."
+    },
+    "building_sense_health_process.max_health_case": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_health_process_state",
+      "tests": [
+        "test_building_sense_health_process_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_health_process_state",
+      "java_expr": "case maxHealth -> maxHealth;",
+      "godot_symbol": "source_building_sense_health_process_result.max_health_case",
+      "rule": "sense(LAccess) maxHealth case boundary."
+    },
+    "building_sense_health_process.efficiency_case": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_health_process_state",
+      "tests": [
+        "test_building_sense_health_process_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_health_process_state",
+      "java_expr": "case efficiency -> efficiency;",
+      "godot_symbol": "source_building_sense_health_process_result.efficiency_case",
+      "rule": "sense(LAccess) efficiency case boundary."
+    },
+    "building_sense_health_process.timescale_case": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_health_process_state",
+      "tests": [
+        "test_building_sense_health_process_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_health_process_state",
+      "java_expr": "case timescale -> timeScale;",
+      "godot_symbol": "source_building_sense_health_process_result.timescale_case",
+      "rule": "sense(LAccess) timescale case boundary."
+    },
+    "building_sense_health_process.range_case": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_health_process_state",
+      "tests": [
+        "test_building_sense_health_process_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_health_process_state",
+      "java_expr": "case range -> this instanceof Ranged r ? r.range() / tilesize : 0;",
+      "godot_symbol": "source_building_sense_health_process_result.range_case",
+      "rule": "sense(LAccess) range case boundary."
+    },
+    "building_sense_health_process.rotation_case": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_health_process_state",
+      "tests": [
+        "test_building_sense_health_process_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_health_process_state",
+      "java_expr": "case rotation -> rotation;",
+      "godot_symbol": "source_building_sense_health_process_result.rotation_case",
+      "rule": "sense(LAccess) rotation case boundary."
+    },
+    "building_sense_health_process.health": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_health_process_state",
+      "tests": [
+        "test_building_sense_health_process_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_health_process_state",
+      "java_expr": "health",
+      "godot_symbol": "source_building_sense_health_process_input.health",
+      "rule": "Runtime health supplies health."
+    },
+    "building_sense_health_process.max_health": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_health_process_state",
+      "tests": [
+        "test_building_sense_health_process_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_health_process_state",
+      "java_expr": "maxHealth",
+      "godot_symbol": "source_building_sense_health_process_input.max_health",
+      "rule": "Runtime max_health supplies maxHealth."
+    },
+    "building_sense_health_process.efficiency": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_health_process_state",
+      "tests": [
+        "test_building_sense_health_process_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_health_process_state",
+      "java_expr": "efficiency",
+      "godot_symbol": "source_building_sense_health_process_input.efficiency",
+      "rule": "Runtime efficiency supplies efficiency."
+    },
+    "building_sense_health_process.time_scale": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_health_process_state",
+      "tests": [
+        "test_building_sense_health_process_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_health_process_state",
+      "java_expr": "timeScale",
+      "godot_symbol": "source_building_sense_health_process_input.time_scale",
+      "rule": "Runtime time_scale supplies timeScale."
+    },
+    "building_sense_health_process.ranged_range": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_health_process_state",
+      "tests": [
+        "test_building_sense_health_process_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_health_process_state",
+      "java_expr": "r.range()",
+      "godot_symbol": "source_building_sense_health_process_input.ranged_range",
+      "rule": "Runtime ranged_range supplies r.range()."
+    },
+    "building_sense_health_process.source_tilesize": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_health_process_state",
+      "tests": [
+        "test_building_sense_health_process_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_health_process_state",
+      "java_expr": "tilesize",
+      "godot_symbol": "source_building_sense_health_process_input.source_tilesize",
+      "rule": "Runtime source_tilesize supplies tilesize."
+    },
+    "building_sense_health_process.has_range": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_health_process_state",
+      "tests": [
+        "test_building_sense_health_process_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_health_process_state",
+      "java_expr": "this instanceof Ranged r",
+      "godot_symbol": "source_building_sense_health_process_input.has_range",
+      "rule": "Runtime has_range supplies this instanceof Ranged r."
+    },
+    "building_sense_health_process.rotation_value": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_health_process_state",
+      "tests": [
+        "test_building_sense_health_process_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_health_process_state",
+      "java_expr": "rotation",
+      "godot_symbol": "source_building_sense_health_process_input.rotation_value",
+      "rule": "Runtime rotation_value supplies rotation."
     }
   }
 }

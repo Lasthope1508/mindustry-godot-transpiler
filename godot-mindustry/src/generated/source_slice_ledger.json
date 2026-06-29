@@ -7422,6 +7422,52 @@
         "building_sense_enabled_controlled.is_controlled",
         "building_sense_enabled_controlled.ctrl_player_value"
       ]
+    },
+    "N635": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_health_process_state",
+      "exact_exprs": [
+        "public double sense(LAccess sensor){",
+        "case health -> health;",
+        "case maxHealth -> maxHealth;",
+        "case efficiency -> efficiency;",
+        "case timescale -> timeScale;",
+        "case range -> this instanceof Ranged r ? r.range() / tilesize : 0;",
+        "case rotation -> rotation;",
+        "health",
+        "maxHealth",
+        "efficiency",
+        "timeScale",
+        "this instanceof Ranged r",
+        "r.range()",
+        "tilesize",
+        "rotation"
+      ],
+      "source_symbols": [
+        "building_sense_health_process.method",
+        "building_sense_health_process.health_case",
+        "building_sense_health_process.max_health_case",
+        "building_sense_health_process.efficiency_case",
+        "building_sense_health_process.timescale_case",
+        "building_sense_health_process.range_case",
+        "building_sense_health_process.rotation_case",
+        "building_sense_health_process.health",
+        "building_sense_health_process.max_health",
+        "building_sense_health_process.efficiency",
+        "building_sense_health_process.time_scale",
+        "building_sense_health_process.ranged_range",
+        "building_sense_health_process.source_tilesize",
+        "building_sense_health_process.has_range",
+        "building_sense_health_process.rotation_value"
+      ],
+      "tests": [
+        "test_building_sense_health_process_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_health_process_state",
+      "rule": "Backfills SSOT for existing canonical source_building_sense_health_process_state helper against BuildingComp.sense(LAccess sensor)."
     }
   },
   "version": 1
