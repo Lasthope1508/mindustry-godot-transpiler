@@ -10710,6 +10710,42 @@
       "tests": [
         "test_conveyor_path_progress_delta_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_conveyor_path_progress_delta_for_cell": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "x",
+          "schema": "source_conveyor_path_progress_delta_for_cell_input.x",
+          "type": "int"
+        },
+        {
+          "name": "y",
+          "schema": "source_conveyor_path_progress_delta_for_cell_input.y",
+          "type": "int"
+        },
+        {
+          "name": "seconds",
+          "schema": "source_conveyor_path_progress_delta_for_cell_input.seconds",
+          "type": "float"
+        },
+        {
+          "name": "efficiency",
+          "schema": "source_conveyor_path_progress_delta_for_cell_input.efficiency",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "progress_delta"
+      ],
+      "rule": "Public runtime contract for resolving a Building tile cell and delegating to Conveyor speed * edelta() path progress.",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_delta_for_cell",
+      "source_method": "tile/timeScale fields and ConveyorBuild.updateTile() delegate",
+      "source_slice": "N685",
+      "status": "active",
+      "tests": [
+        "test_conveyor_path_progress_delta_for_cell_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

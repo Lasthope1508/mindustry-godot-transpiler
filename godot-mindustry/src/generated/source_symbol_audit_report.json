@@ -7,9 +7,8 @@
     "PortGame.source_symbol_audit_state",
     "PortGame.source_symbol_registry_state"
   ],
-  "legacyUnregisteredOwnerCount": 201,
+  "legacyUnregisteredOwnerCount": 200,
   "legacyUnregisteredOwners": [
-    "PortGame.source_conveyor_path_progress_delta_for_cell",
     "PortGame.source_conveyor_path_progress_rate",
     "PortGame.source_conveyor_world_speed",
     "PortGame.source_core_accept_item",
@@ -215,7 +214,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 282,
+  "registeredSourceOwnerCount": 283,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -498,7 +497,8 @@
     "PortGame.source_bullet_velocity",
     "PortGame.source_bullet_velocity_vector_state",
     "PortGame.source_bullet_world_speed",
-    "PortGame.source_conveyor_path_progress_delta"
+    "PortGame.source_conveyor_path_progress_delta",
+    "PortGame.source_conveyor_path_progress_delta_for_cell"
   ],
   "sourceFunctions": [
     {

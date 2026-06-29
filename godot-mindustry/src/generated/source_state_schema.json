@@ -35404,6 +35404,160 @@
       },
       "status": "active"
     },
+    "source_conveyor_path_progress_delta_for_cell_input": {
+      "keys": {
+        "efficiency": {
+          "godot_symbol": "source_conveyor_path_progress_delta_for_cell_input.efficiency",
+          "java_expr": "efficiency",
+          "java_method": "edelta()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Efficiency input maps to source BuildingComp.efficiency.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_delta_for_cell"
+          ]
+        },
+        "seconds": {
+          "godot_symbol": "source_conveyor_path_progress_delta_for_cell_input.seconds",
+          "java_expr": "Time.delta",
+          "java_method": "delta()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Seconds input maps to source Time.delta after tick conversion.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_delta_for_cell"
+          ]
+        },
+        "x": {
+          "godot_symbol": "source_conveyor_path_progress_delta_for_cell_input.x",
+          "java_expr": "return tile.x;",
+          "java_method": "tileX()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Cell x maps to source BuildingComp tileX().",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_delta_for_cell"
+          ]
+        },
+        "y": {
+          "godot_symbol": "source_conveyor_path_progress_delta_for_cell_input.y",
+          "java_expr": "return tile.y;",
+          "java_method": "tileY()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Cell y maps to source BuildingComp tileY().",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_delta_for_cell"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_conveyor_path_progress_delta_for_cell_result": {
+      "keys": {
+        "block_field": {
+          "godot_symbol": "source_conveyor_path_progress_delta_for_cell_result.block_field",
+          "java_expr": "transient Block block;",
+          "java_method": "fields",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source BuildingComp block field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_delta_for_cell"
+          ]
+        },
+        "efficiency": {
+          "alias_of": "source_conveyor_path_progress_delta_for_cell_input.efficiency",
+          "rule": "Carries efficiency input into per-cell conveyor progress result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "progress_delta": {
+          "godot_symbol": "source_conveyor_path_progress_delta_for_cell_result.progress_delta",
+          "java_expr": "float moved = speed * edelta();",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "rule": "Per-cell conveyor progress delegates to source moved expression.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_delta_for_cell"
+          ]
+        },
+        "seconds": {
+          "alias_of": "source_conveyor_path_progress_delta_for_cell_input.seconds",
+          "rule": "Carries seconds input into per-cell conveyor progress result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "tile_field": {
+          "godot_symbol": "source_conveyor_path_progress_delta_for_cell_result.tile_field",
+          "java_expr": "transient Tile tile;",
+          "java_method": "fields",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source BuildingComp tile field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_delta_for_cell"
+          ]
+        },
+        "time_scale_field": {
+          "godot_symbol": "source_conveyor_path_progress_delta_for_cell_result.time_scale_field",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "java_method": "fields",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source BuildingComp timeScale field default.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_delta_for_cell"
+          ]
+        },
+        "time_scale_method": {
+          "godot_symbol": "source_conveyor_path_progress_delta_for_cell_result.time_scale_method",
+          "java_expr": "public float timeScale(){",
+          "java_method": "timeScale()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source BuildingComp timeScale method declaration.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_delta_for_cell"
+          ]
+        },
+        "time_scale_return": {
+          "godot_symbol": "source_conveyor_path_progress_delta_for_cell_result.time_scale_return",
+          "java_expr": "return timeScale;",
+          "java_method": "timeScale()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source BuildingComp timeScale return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_delta_for_cell"
+          ]
+        },
+        "x": {
+          "alias_of": "source_conveyor_path_progress_delta_for_cell_input.x",
+          "rule": "Carries x input into per-cell conveyor progress result schema.",
+          "status": "generated",
+          "type": "int"
+        },
+        "y": {
+          "alias_of": "source_conveyor_path_progress_delta_for_cell_input.y",
+          "rule": "Carries y input into per-cell conveyor progress result schema.",
+          "status": "generated",
+          "type": "int"
+        }
+      },
+      "status": "active"
+    },
     "source_conveyor_path_progress_delta_input": {
       "keys": {
         "block_id": {

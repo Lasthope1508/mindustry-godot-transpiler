@@ -4571,6 +4571,61 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result["java_expr"], "speed * edelta()")
         self.assertEqual(result["godot_symbol"], "source_conveyor_path_progress_delta_result.progress_delta")
 
+    def test_conveyor_path_progress_delta_for_cell_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        tile_field = source_symbols.source_symbol(registry, "conveyor_path_progress_delta_for_cell.tile_field")
+        self.assertEqual(tile_field["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(tile_field["java_method"], "fields")
+        self.assertEqual(tile_field["java_expr"], "transient Tile tile;")
+        self.assertEqual(tile_field["godot_owner"], "PortGame.source_conveyor_path_progress_delta_for_cell")
+        self.assertEqual(tile_field["runtime_proof"], "/root/Main.source_conveyor_path_progress_delta_for_cell")
+        self.assertEqual(tile_field["godot_symbol"], "source_conveyor_path_progress_delta_for_cell_result.tile_field")
+
+        block_field = source_symbols.source_symbol(registry, "conveyor_path_progress_delta_for_cell.block_field")
+        self.assertEqual(block_field["java_expr"], "transient Block block;")
+        self.assertEqual(block_field["godot_symbol"], "source_conveyor_path_progress_delta_for_cell_result.block_field")
+
+        tile_x = source_symbols.source_symbol(registry, "conveyor_path_progress_delta_for_cell.tile_x")
+        self.assertEqual(tile_x["java_method"], "tileX()")
+        self.assertEqual(tile_x["java_expr"], "return tile.x;")
+        self.assertEqual(tile_x["godot_symbol"], "source_conveyor_path_progress_delta_for_cell_input.x")
+
+        tile_y = source_symbols.source_symbol(registry, "conveyor_path_progress_delta_for_cell.tile_y")
+        self.assertEqual(tile_y["java_method"], "tileY()")
+        self.assertEqual(tile_y["java_expr"], "return tile.y;")
+        self.assertEqual(tile_y["godot_symbol"], "source_conveyor_path_progress_delta_for_cell_input.y")
+
+        time_scale_field = source_symbols.source_symbol(registry, "conveyor_path_progress_delta_for_cell.time_scale_field")
+        self.assertEqual(time_scale_field["java_expr"], "private transient float timeScale = 1f, timeScaleDuration;")
+        self.assertEqual(time_scale_field["godot_symbol"], "source_conveyor_path_progress_delta_for_cell_result.time_scale_field")
+
+        time_scale_method = source_symbols.source_symbol(registry, "conveyor_path_progress_delta_for_cell.time_scale_method")
+        self.assertEqual(time_scale_method["java_expr"], "public float timeScale(){")
+        self.assertEqual(time_scale_method["godot_symbol"], "source_conveyor_path_progress_delta_for_cell_result.time_scale_method")
+
+        time_scale_return = source_symbols.source_symbol(registry, "conveyor_path_progress_delta_for_cell.time_scale_return")
+        self.assertEqual(time_scale_return["java_expr"], "return timeScale;")
+        self.assertEqual(time_scale_return["godot_symbol"], "source_conveyor_path_progress_delta_for_cell_result.time_scale_return")
+
+        seconds = source_symbols.source_symbol(registry, "conveyor_path_progress_delta_for_cell.seconds")
+        self.assertEqual(seconds["status"], "explicit-input")
+        self.assertEqual(seconds["java_expr"], "Time.delta")
+        self.assertEqual(seconds["godot_symbol"], "source_conveyor_path_progress_delta_for_cell_input.seconds")
+
+        efficiency = source_symbols.source_symbol(registry, "conveyor_path_progress_delta_for_cell.efficiency")
+        self.assertEqual(efficiency["status"], "explicit-input")
+        self.assertEqual(efficiency["java_expr"], "efficiency")
+        self.assertEqual(efficiency["godot_symbol"], "source_conveyor_path_progress_delta_for_cell_input.efficiency")
+
+        result = source_symbols.source_symbol(registry, "conveyor_path_progress_delta_for_cell.result")
+        self.assertEqual(result["java_source"], "core/src/mindustry/world/blocks/distribution/Conveyor.java")
+        self.assertEqual(result["java_expr"], "float moved = speed * edelta();")
+        self.assertEqual(result["godot_symbol"], "source_conveyor_path_progress_delta_for_cell_result.progress_delta")
+
     def test_building_can_be_replaced_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -8655,9 +8710,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 282)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 283)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 287)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 288)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -8847,6 +8902,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_velocity_vector_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_world_speed", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_conveyor_path_progress_delta", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_conveyor_path_progress_delta_for_cell", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -10355,6 +10411,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("ys[i] += maxmove;", conveyor_path_progress_delta["exact_exprs"])
         self.assertIn("public float edelta(){", conveyor_path_progress_delta["exact_exprs"])
         self.assertIn("return efficiency * delta();", conveyor_path_progress_delta["exact_exprs"])
+
+        conveyor_path_progress_delta_for_cell = source_symbols.source_slice(ledger, "N685")
+        self.assertEqual(conveyor_path_progress_delta_for_cell["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(conveyor_path_progress_delta_for_cell["java_method"], "tile/timeScale fields and ConveyorBuild.updateTile() delegate")
+        self.assertEqual(conveyor_path_progress_delta_for_cell["godot_owner"], "PortGame.source_conveyor_path_progress_delta_for_cell")
+        self.assertIn("transient Tile tile;", conveyor_path_progress_delta_for_cell["exact_exprs"])
+        self.assertIn("transient Block block;", conveyor_path_progress_delta_for_cell["exact_exprs"])
+        self.assertIn("return tile.x;", conveyor_path_progress_delta_for_cell["exact_exprs"])
+        self.assertIn("return tile.y;", conveyor_path_progress_delta_for_cell["exact_exprs"])
+        self.assertIn("private transient float timeScale = 1f, timeScaleDuration;", conveyor_path_progress_delta_for_cell["exact_exprs"])
+        self.assertIn("public float timeScale(){", conveyor_path_progress_delta_for_cell["exact_exprs"])
+        self.assertIn("return timeScale;", conveyor_path_progress_delta_for_cell["exact_exprs"])
+        self.assertIn("float moved = speed * edelta();", conveyor_path_progress_delta_for_cell["exact_exprs"])
 
         building_update_consumption_non_optional = source_symbols.source_slice(ledger, "N662")
         self.assertEqual(building_update_consumption_non_optional["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -13452,6 +13521,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("progress_delta", conveyor_path_progress_delta["return_keys"])
         self.assertEqual(conveyor_path_progress_delta["source_method"], "updateTile()")
 
+        conveyor_path_progress_delta_for_cell = source_symbols.api_contract(contracts, "PortGame.source_conveyor_path_progress_delta_for_cell")
+        self.assertEqual([param["name"] for param in conveyor_path_progress_delta_for_cell["params"]], ["x", "y", "seconds", "efficiency"])
+        self.assertEqual(conveyor_path_progress_delta_for_cell["params"][0]["schema"], "source_conveyor_path_progress_delta_for_cell_input.x")
+        self.assertEqual(conveyor_path_progress_delta_for_cell["params"][1]["schema"], "source_conveyor_path_progress_delta_for_cell_input.y")
+        self.assertEqual(conveyor_path_progress_delta_for_cell["params"][2]["schema"], "source_conveyor_path_progress_delta_for_cell_input.seconds")
+        self.assertEqual(conveyor_path_progress_delta_for_cell["params"][3]["schema"], "source_conveyor_path_progress_delta_for_cell_input.efficiency")
+        self.assertIn("progress_delta", conveyor_path_progress_delta_for_cell["return_keys"])
+        self.assertEqual(conveyor_path_progress_delta_for_cell["source_method"], "tile/timeScale fields and ConveyorBuild.updateTile() delegate")
+
         building_placed = source_symbols.api_contract(contracts, "PortGame.source_building_placed_state")
         self.assertEqual([param["name"] for param in building_placed["params"]], ["net_client", "consumes_power", "outputs_power", "has_power", "connected_power", "linked_to_self", "source_pos"])
         self.assertEqual(building_placed["params"][0]["schema"], "source_building_placed_input.net_client")
@@ -16502,6 +16580,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_conveyor_path_progress_delta_result["keys"]["edelta_return"]["java_expr"], "return efficiency * delta();")
         self.assertEqual(source_conveyor_path_progress_delta_result["keys"]["progress_delta"]["java_expr"], "speed * edelta()")
         self.assertEqual(source_conveyor_path_progress_delta_result["keys"]["block_id"]["alias_of"], "source_conveyor_path_progress_delta_input.block_id")
+
+        source_conveyor_path_progress_delta_for_cell_input = source_symbols.state_schema(schema, "source_conveyor_path_progress_delta_for_cell_input")
+        self.assertEqual(source_conveyor_path_progress_delta_for_cell_input["keys"]["x"]["java_expr"], "return tile.x;")
+        self.assertEqual(source_conveyor_path_progress_delta_for_cell_input["keys"]["y"]["java_expr"], "return tile.y;")
+        self.assertEqual(source_conveyor_path_progress_delta_for_cell_input["keys"]["seconds"]["java_expr"], "Time.delta")
+        self.assertEqual(source_conveyor_path_progress_delta_for_cell_input["keys"]["efficiency"]["java_expr"], "efficiency")
+
+        source_conveyor_path_progress_delta_for_cell_result = source_symbols.state_schema(schema, "source_conveyor_path_progress_delta_for_cell_result")
+        self.assertEqual(source_conveyor_path_progress_delta_for_cell_result["keys"]["tile_field"]["java_expr"], "transient Tile tile;")
+        self.assertEqual(source_conveyor_path_progress_delta_for_cell_result["keys"]["block_field"]["java_expr"], "transient Block block;")
+        self.assertEqual(source_conveyor_path_progress_delta_for_cell_result["keys"]["time_scale_field"]["java_expr"], "private transient float timeScale = 1f, timeScaleDuration;")
+        self.assertEqual(source_conveyor_path_progress_delta_for_cell_result["keys"]["time_scale_method"]["java_expr"], "public float timeScale(){")
+        self.assertEqual(source_conveyor_path_progress_delta_for_cell_result["keys"]["time_scale_return"]["java_expr"], "return timeScale;")
+        self.assertEqual(source_conveyor_path_progress_delta_for_cell_result["keys"]["progress_delta"]["java_expr"], "float moved = speed * edelta();")
+        self.assertEqual(source_conveyor_path_progress_delta_for_cell_result["keys"]["x"]["alias_of"], "source_conveyor_path_progress_delta_for_cell_input.x")
 
         source_building_placed_input = source_symbols.state_schema(schema, "source_building_placed_input")
         self.assertEqual(source_building_placed_input["keys"]["net_client"]["java_expr"], "net.client()")

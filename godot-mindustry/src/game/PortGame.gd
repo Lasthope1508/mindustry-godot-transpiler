@@ -1169,6 +1169,14 @@ func source_conveyor_path_progress_delta(block_id: String, seconds: float, time_
 	var scaled_source_delta := source_building_edelta(seconds * SOURCE_TICK_RATE, time_scale, efficiency)
 	return source_conveyor_path_progress_rate(block_id) * scaled_source_delta / SOURCE_TICK_RATE
 
+const SOURCE_CONVEYOR_PATH_PROGRESS_DELTA_FOR_CELL_TILE_FIELD := "transient Tile tile;"
+const SOURCE_CONVEYOR_PATH_PROGRESS_DELTA_FOR_CELL_BLOCK_FIELD := "transient Block block;"
+const SOURCE_CONVEYOR_PATH_PROGRESS_DELTA_FOR_CELL_TILE_X := "return tile.x;"
+const SOURCE_CONVEYOR_PATH_PROGRESS_DELTA_FOR_CELL_TILE_Y := "return tile.y;"
+const SOURCE_CONVEYOR_PATH_PROGRESS_DELTA_FOR_CELL_TIME_SCALE_FIELD := "private transient float timeScale = 1f, timeScaleDuration;"
+const SOURCE_CONVEYOR_PATH_PROGRESS_DELTA_FOR_CELL_TIME_SCALE_METHOD := "public float timeScale(){"
+const SOURCE_CONVEYOR_PATH_PROGRESS_DELTA_FOR_CELL_TIME_SCALE_RETURN := "return timeScale;"
+
 func source_conveyor_path_progress_delta_for_cell(x: int, y: int, seconds: float, efficiency := 1.0) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
 	if not is_instance_valid(sprite):

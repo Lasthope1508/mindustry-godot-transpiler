@@ -20215,6 +20215,136 @@
         "test_conveyor_path_progress_delta_symbols_are_registered_with_source_backing"
       ]
     },
+    "conveyor_path_progress_delta_for_cell.block_field": {
+      "godot_owner": "PortGame.source_conveyor_path_progress_delta_for_cell",
+      "godot_symbol": "source_conveyor_path_progress_delta_for_cell_result.block_field",
+      "java_expr": "transient Block block;",
+      "java_method": "fields",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Building block field anchors source block data lookup for conveyor progress.",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_delta_for_cell",
+      "status": "source-backed",
+      "tests": [
+        "test_conveyor_path_progress_delta_for_cell_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "conveyor_path_progress_delta_for_cell.efficiency": {
+      "godot_owner": "PortGame.source_conveyor_path_progress_delta_for_cell",
+      "godot_symbol": "source_conveyor_path_progress_delta_for_cell_input.efficiency",
+      "java_expr": "efficiency",
+      "java_method": "edelta()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Godot efficiency input maps to source BuildingComp efficiency for edelta.",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_delta_for_cell",
+      "status": "explicit-input",
+      "tests": [
+        "test_conveyor_path_progress_delta_for_cell_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "conveyor_path_progress_delta_for_cell.result": {
+      "godot_owner": "PortGame.source_conveyor_path_progress_delta_for_cell",
+      "godot_symbol": "source_conveyor_path_progress_delta_for_cell_result.progress_delta",
+      "java_expr": "float moved = speed * edelta();",
+      "java_method": "updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "rule": "Per-cell wrapper delegates to source conveyor movement expression after resolving tile block/timeScale.",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_delta_for_cell",
+      "status": "source-backed",
+      "tests": [
+        "test_conveyor_path_progress_delta_for_cell_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "conveyor_path_progress_delta_for_cell.seconds": {
+      "godot_owner": "PortGame.source_conveyor_path_progress_delta_for_cell",
+      "godot_symbol": "source_conveyor_path_progress_delta_for_cell_input.seconds",
+      "java_expr": "Time.delta",
+      "java_method": "delta()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Godot seconds input maps to source Time.delta after tick conversion.",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_delta_for_cell",
+      "status": "explicit-input",
+      "tests": [
+        "test_conveyor_path_progress_delta_for_cell_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "conveyor_path_progress_delta_for_cell.tile_field": {
+      "godot_owner": "PortGame.source_conveyor_path_progress_delta_for_cell",
+      "godot_symbol": "source_conveyor_path_progress_delta_for_cell_result.tile_field",
+      "java_expr": "transient Tile tile;",
+      "java_method": "fields",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Building tile field anchors cell-based lookup to source BuildingComp tile.",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_delta_for_cell",
+      "status": "source-backed",
+      "tests": [
+        "test_conveyor_path_progress_delta_for_cell_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "conveyor_path_progress_delta_for_cell.tile_x": {
+      "godot_owner": "PortGame.source_conveyor_path_progress_delta_for_cell",
+      "godot_symbol": "source_conveyor_path_progress_delta_for_cell_input.x",
+      "java_expr": "return tile.x;",
+      "java_method": "tileX()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Godot cell x maps to source BuildingComp tileX().",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_delta_for_cell",
+      "status": "source-backed",
+      "tests": [
+        "test_conveyor_path_progress_delta_for_cell_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "conveyor_path_progress_delta_for_cell.tile_y": {
+      "godot_owner": "PortGame.source_conveyor_path_progress_delta_for_cell",
+      "godot_symbol": "source_conveyor_path_progress_delta_for_cell_input.y",
+      "java_expr": "return tile.y;",
+      "java_method": "tileY()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Godot cell y maps to source BuildingComp tileY().",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_delta_for_cell",
+      "status": "source-backed",
+      "tests": [
+        "test_conveyor_path_progress_delta_for_cell_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "conveyor_path_progress_delta_for_cell.time_scale_field": {
+      "godot_owner": "PortGame.source_conveyor_path_progress_delta_for_cell",
+      "godot_symbol": "source_conveyor_path_progress_delta_for_cell_result.time_scale_field",
+      "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+      "java_method": "fields",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Source BuildingComp timeScale field backs per-cell conveyor time scale metadata.",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_delta_for_cell",
+      "status": "source-backed",
+      "tests": [
+        "test_conveyor_path_progress_delta_for_cell_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "conveyor_path_progress_delta_for_cell.time_scale_method": {
+      "godot_owner": "PortGame.source_conveyor_path_progress_delta_for_cell",
+      "godot_symbol": "source_conveyor_path_progress_delta_for_cell_result.time_scale_method",
+      "java_expr": "public float timeScale(){",
+      "java_method": "timeScale()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Source BuildingComp exposes timeScale through timeScale().",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_delta_for_cell",
+      "status": "source-backed",
+      "tests": [
+        "test_conveyor_path_progress_delta_for_cell_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "conveyor_path_progress_delta_for_cell.time_scale_return": {
+      "godot_owner": "PortGame.source_conveyor_path_progress_delta_for_cell",
+      "godot_symbol": "source_conveyor_path_progress_delta_for_cell_result.time_scale_return",
+      "java_expr": "return timeScale;",
+      "java_method": "timeScale()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Source BuildingComp returns current timeScale for per-cell movement.",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_delta_for_cell",
+      "status": "source-backed",
+      "tests": [
+        "test_conveyor_path_progress_delta_for_cell_symbols_are_registered_with_source_backing"
+      ]
+    },
     "create_aim.aim_gate": {
       "godot_owner": "PortGame.source_bullet_type_create_aim_state",
       "godot_symbol": "create_aim_result.hasAimTile",

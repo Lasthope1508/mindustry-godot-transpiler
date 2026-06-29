@@ -9073,6 +9073,42 @@
         "test_conveyor_path_progress_delta_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_conveyor_speed_for_item_motion"
       ]
+    },
+    "N685": {
+      "exact_exprs": [
+        "transient Tile tile;",
+        "transient Block block;",
+        "return tile.x;",
+        "return tile.y;",
+        "private transient float timeScale = 1f, timeScaleDuration;",
+        "public float timeScale(){",
+        "return timeScale;",
+        "Time.delta",
+        "efficiency",
+        "float moved = speed * edelta();"
+      ],
+      "godot_owner": "PortGame.source_conveyor_path_progress_delta_for_cell",
+      "java_class": "BuildingComp/ConveyorBuild",
+      "java_method": "tile/timeScale fields and ConveyorBuild.updateTile() delegate",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_delta_for_cell",
+      "source_symbols": [
+        "conveyor_path_progress_delta_for_cell.block_field",
+        "conveyor_path_progress_delta_for_cell.efficiency",
+        "conveyor_path_progress_delta_for_cell.result",
+        "conveyor_path_progress_delta_for_cell.seconds",
+        "conveyor_path_progress_delta_for_cell.tile_field",
+        "conveyor_path_progress_delta_for_cell.tile_x",
+        "conveyor_path_progress_delta_for_cell.tile_y",
+        "conveyor_path_progress_delta_for_cell.time_scale_field",
+        "conveyor_path_progress_delta_for_cell.time_scale_method",
+        "conveyor_path_progress_delta_for_cell.time_scale_return"
+      ],
+      "status": "done",
+      "tests": [
+        "test_conveyor_path_progress_delta_for_cell_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_conveyor_speed_for_item_motion"
+      ]
     }
   },
   "version": 1
