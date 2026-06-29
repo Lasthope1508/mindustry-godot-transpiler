@@ -7071,6 +7071,30 @@
       ],
       "runtime_proof": "/root/Main.source_building_player_placed_state",
       "rule": "Backfills SSOT for existing canonical source_building_player_placed_state helper against BuildingComp.playerPlaced(Object config) no-op."
+    },
+    "N625": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "getPowerProduction()",
+      "godot_owner": "PortGame.source_building_power_production_state",
+      "exact_exprs": [
+        "public float getPowerProduction(){",
+        "return 0f;"
+      ],
+      "deferred_exprs": [
+        "Concrete block-specific getPowerProduction overrides remain covered by their own runtime integration slices."
+      ],
+      "source_symbols": [
+        "building_power_production.method",
+        "building_power_production.default_return",
+        "building_power_production.power_production"
+      ],
+      "tests": [
+        "test_building_power_production_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_power_production_state",
+      "rule": "Backfills SSOT for existing canonical source_building_power_production_state helper against BuildingComp.getPowerProduction() default 0f return."
     }
   },
   "version": 1

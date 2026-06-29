@@ -1309,8 +1309,10 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return true", source)
         self.assertIn("func source_building_consume_trigger_valid_state() -> bool:", source)
         self.assertIn("return false", source)
-        self.assertIn("func source_building_power_production_state() -> float:", source)
-        self.assertIn("return 0.0", source)
+        self.assertIn("func source_building_power_production_state() -> Dictionary:", source)
+        self.assertIn('"method": "public float getPowerProduction(){",', source)
+        self.assertIn('"default_return": "return 0f;",', source)
+        self.assertIn('"power_production": 0.0,', source)
 
     def test_port_game_exposes_source_building_progress_display_ambient_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

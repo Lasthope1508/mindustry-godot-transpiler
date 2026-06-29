@@ -21782,6 +21782,45 @@
       "java_expr": "Object config",
       "godot_symbol": "source_building_player_placed_input.config_state",
       "rule": "Runtime config_state supplies Object config and is passed through because base playerPlaced has no side effects."
+    },
+    "building_power_production.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getPowerProduction()",
+      "godot_owner": "PortGame.source_building_power_production_state",
+      "tests": [
+        "test_building_power_production_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_power_production_state",
+      "java_expr": "public float getPowerProduction(){",
+      "godot_symbol": "source_building_power_production_result.method",
+      "rule": "BuildingComp getPowerProduction method boundary."
+    },
+    "building_power_production.default_return": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getPowerProduction()",
+      "godot_owner": "PortGame.source_building_power_production_state",
+      "tests": [
+        "test_building_power_production_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_power_production_state",
+      "java_expr": "return 0f;",
+      "godot_symbol": "source_building_power_production_result.default_return",
+      "rule": "Base getPowerProduction returns 0f."
+    },
+    "building_power_production.power_production": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getPowerProduction()",
+      "godot_owner": "PortGame.source_building_power_production_state",
+      "tests": [
+        "test_building_power_production_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_power_production_state",
+      "java_expr": "return 0f;",
+      "godot_symbol": "source_building_power_production_result.power_production",
+      "rule": "Runtime power_production mirrors base return 0f."
     }
   }
 }

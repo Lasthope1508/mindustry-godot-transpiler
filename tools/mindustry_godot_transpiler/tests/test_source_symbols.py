@@ -4143,6 +4143,28 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(config_state["java_expr"], "Object config")
         self.assertEqual(config_state["godot_symbol"], "source_building_player_placed_input.config_state")
 
+    def test_building_power_production_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_power_production.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "getPowerProduction()")
+        self.assertEqual(method["java_expr"], "public float getPowerProduction(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_power_production_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_power_production_state")
+        self.assertEqual(method["godot_symbol"], "source_building_power_production_result.method")
+
+        default_return = source_symbols.source_symbol(registry, "building_power_production.default_return")
+        self.assertEqual(default_return["java_expr"], "return 0f;")
+        self.assertEqual(default_return["godot_symbol"], "source_building_power_production_result.default_return")
+
+        power_production = source_symbols.source_symbol(registry, "building_power_production.power_production")
+        self.assertEqual(power_production["java_expr"], "return 0f;")
+        self.assertEqual(power_production["godot_symbol"], "source_building_power_production_result.power_production")
+
     def test_building_payload_draw_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -6404,9 +6426,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 222)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 223)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 227)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 228)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6446,6 +6468,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_picked_up_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_placed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_player_placed_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_power_production_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7932,6 +7955,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("@CallSuper", building_player_placed["exact_exprs"])
         self.assertIn("public void playerPlaced(Object config){", building_player_placed["exact_exprs"])
         self.assertIn("Object config", building_player_placed["exact_exprs"])
+
+        building_power_production = source_symbols.source_slice(ledger, "N625")
+        self.assertEqual(building_power_production["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_power_production["java_method"], "getPowerProduction()")
+        self.assertEqual(building_power_production["godot_owner"], "PortGame.source_building_power_production_state")
+        self.assertIn("public float getPowerProduction(){", building_power_production["exact_exprs"])
+        self.assertIn("return 0f;", building_power_production["exact_exprs"])
 
         building_on_destroyed_base_sound = source_symbols.source_slice(ledger, "N608")
         self.assertEqual(building_on_destroyed_base_sound["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -9980,6 +10010,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("no_op", building_player_placed["return_keys"])
         self.assertIn("config_state", building_player_placed["return_keys"])
         self.assertEqual(building_player_placed["source_method"], "playerPlaced(Object config)")
+
+        building_power_production = source_symbols.api_contract(contracts, "PortGame.source_building_power_production_state")
+        self.assertEqual([param["name"] for param in building_power_production["params"]], [])
+        self.assertIn("method", building_power_production["return_keys"])
+        self.assertIn("default_return", building_power_production["return_keys"])
+        self.assertIn("power_production", building_power_production["return_keys"])
+        self.assertEqual(building_power_production["source_method"], "getPowerProduction()")
 
         building_on_destroyed_base_sound = source_symbols.api_contract(contracts, "PortGame.source_building_on_destroyed_base_sound_state")
         self.assertEqual([param["name"] for param in building_on_destroyed_base_sound["params"]], ["headless", "destroy_sound", "destroy_pitch_min", "destroy_pitch_max", "destroy_sound_volume"])
@@ -12237,6 +12274,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_player_placed_result["keys"]["call_super"]["java_expr"], "@CallSuper")
         self.assertEqual(source_building_player_placed_result["keys"]["no_op"]["java_expr"], "public void playerPlaced(Object config){")
         self.assertEqual(source_building_player_placed_result["keys"]["config_state"]["alias_of"], "source_building_player_placed_input.config_state")
+
+        source_building_power_production_result = source_symbols.state_schema(schema, "source_building_power_production_result")
+        self.assertEqual(source_building_power_production_result["keys"]["method"]["java_expr"], "public float getPowerProduction(){")
+        self.assertEqual(source_building_power_production_result["keys"]["default_return"]["java_expr"], "return 0f;")
+        self.assertEqual(source_building_power_production_result["keys"]["power_production"]["java_expr"], "return 0f;")
 
         source_building_on_destroyed_base_sound_input = source_symbols.state_schema(schema, "source_building_on_destroyed_base_sound_input")
         self.assertEqual(source_building_on_destroyed_base_sound_input["keys"]["headless"]["java_expr"], "headless")

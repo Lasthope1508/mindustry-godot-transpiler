@@ -28325,6 +28325,47 @@
           "rule": "Carries config_state input into no-op result schema."
         }
       }
+    },
+    "source_building_power_production_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "getPowerProduction()",
+          "java_expr": "public float getPowerProduction(){",
+          "godot_symbol": "source_building_power_production_result.method",
+          "used_by": [
+            "PortGame.source_building_power_production_state"
+          ],
+          "rule": "BuildingComp getPowerProduction method boundary."
+        },
+        "default_return": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "getPowerProduction()",
+          "java_expr": "return 0f;",
+          "godot_symbol": "source_building_power_production_result.default_return",
+          "used_by": [
+            "PortGame.source_building_power_production_state"
+          ],
+          "rule": "Base getPowerProduction returns 0f."
+        },
+        "power_production": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "getPowerProduction()",
+          "java_expr": "return 0f;",
+          "godot_symbol": "source_building_power_production_result.power_production",
+          "used_by": [
+            "PortGame.source_building_power_production_state"
+          ],
+          "rule": "Runtime power_production mirrors base return 0f."
+        }
+      }
     }
   },
   "version": 1

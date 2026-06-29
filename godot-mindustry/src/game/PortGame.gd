@@ -1342,8 +1342,12 @@ func source_building_production_valid_state() -> bool:
 func source_building_consume_trigger_valid_state() -> bool:
 	return false
 
-func source_building_power_production_state() -> float:
-	return 0.0
+func source_building_power_production_state() -> Dictionary:
+	return {
+		"method": "public float getPowerProduction(){",
+		"default_return": "return 0f;",
+		"power_production": 0.0,
+	}
 
 func source_building_progress_increase(base_time: float, edelta_value: float) -> float:
 	return 1.0 / base_time * edelta_value
