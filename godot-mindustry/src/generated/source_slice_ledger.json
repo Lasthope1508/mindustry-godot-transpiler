@@ -10424,6 +10424,45 @@
         "test_offload_to_inventory_symbols_are_registered_with_source_backing",
         "test_port_game_tracks_source_drill_internal_inventory"
       ]
+    },
+    "N725": {
+      "bridge_exprs": [
+        "source_overdrive_projector_real_boost(overdrive_projector, phase_heat, efficiency)"
+      ],
+      "exact_exprs": [
+        "public void setBars(){",
+        "addBar(\"boost\", (OverdriveBuild entity) -> new Bar(() -> Core.bundle.format(\"bar.boost\", Mathf.round(Math.max((entity.realBoost() * 100 - 100), 0))), () -> Pal.accent, () -> entity.realBoost() / (hasBoost ? speedBoost + speedBoostPhase : speedBoost)));",
+        "entity.realBoost()",
+        "hasBoost ? speedBoost + speedBoostPhase : speedBoost",
+        "entity.realBoost() / (hasBoost ? speedBoost + speedBoostPhase : speedBoost)",
+        "public float speedBoost = 1.5f;",
+        "public float speedBoostPhase = 0.75f;",
+        "public boolean hasBoost = true;",
+        "phaseHeat",
+        "efficiency"
+      ],
+      "godot_owner": "PortGame.source_overdrive_projector_boost_bar_fraction",
+      "java_class": "mindustry.world.blocks.defense.OverdriveProjector",
+      "java_method": "setBars()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "runtime_proof": "/root/Main.source_overdrive_projector_boost_bar_fraction",
+      "source_symbols": [
+        "overdrive_projector_boost_bar.method",
+        "overdrive_projector_boost_bar.add_bar",
+        "overdrive_projector_boost_bar.real_boost_call",
+        "overdrive_projector_boost_bar.denominator",
+        "overdrive_projector_boost_bar.speed_boost",
+        "overdrive_projector_boost_bar.speed_boost_phase",
+        "overdrive_projector_boost_bar.has_boost",
+        "overdrive_projector_boost_bar.phase_heat",
+        "overdrive_projector_boost_bar.efficiency",
+        "overdrive_projector_boost_bar.fraction"
+      ],
+      "status": "done",
+      "tests": [
+        "test_overdrive_projector_boost_bar_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_boost_bar_like_source"
+      ]
     }
   },
   "version": 1

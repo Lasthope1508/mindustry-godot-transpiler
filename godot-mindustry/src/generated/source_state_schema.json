@@ -42314,6 +42314,166 @@
           "type": "int"
         }
       }
+    },
+    "source_overdrive_projector_boost_bar_input": {
+      "status": "active",
+      "keys": {
+        "phaseHeat": {
+          "godot_symbol": "source_overdrive_projector_boost_bar_input.phaseHeat",
+          "java_expr": "phaseHeat",
+          "java_method": "OverdriveBuild field/read",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Explicit phase heat input used by realBoost bridge.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_overdrive_projector_boost_bar_fraction"
+          ]
+        },
+        "efficiency": {
+          "godot_symbol": "source_overdrive_projector_boost_bar_input.efficiency",
+          "java_expr": "efficiency",
+          "java_method": "OverdriveBuild realBoost()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Explicit efficiency input used by realBoost bridge.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_overdrive_projector_boost_bar_fraction"
+          ]
+        },
+        "speedBoost": {
+          "godot_symbol": "source_overdrive_projector_boost_bar_input.speedBoost",
+          "java_expr": "public float speedBoost = 1.5f;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source field read from OverdriveProjector properties.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_overdrive_projector_boost_bar_fraction"
+          ]
+        },
+        "speedBoostPhase": {
+          "godot_symbol": "source_overdrive_projector_boost_bar_input.speedBoostPhase",
+          "java_expr": "public float speedBoostPhase = 0.75f;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source phase field read from OverdriveProjector properties.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_overdrive_projector_boost_bar_fraction"
+          ]
+        },
+        "hasBoost": {
+          "godot_symbol": "source_overdrive_projector_boost_bar_input.hasBoost",
+          "java_expr": "public boolean hasBoost = true;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source field read from OverdriveProjector properties.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_overdrive_projector_boost_bar_fraction"
+          ]
+        }
+      }
+    },
+    "source_overdrive_projector_boost_bar_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "godot_symbol": "source_overdrive_projector_boost_bar_result.method",
+          "java_expr": "public void setBars(){",
+          "java_method": "setBars()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_overdrive_projector_boost_bar_fraction"
+          ]
+        },
+        "addBar": {
+          "godot_symbol": "source_overdrive_projector_boost_bar_result.addBar",
+          "java_expr": "addBar(\"boost\", (OverdriveBuild entity) -> new Bar(() -> Core.bundle.format(\"bar.boost\", Mathf.round(Math.max((entity.realBoost() * 100 - 100), 0))), () -> Pal.accent, () -> entity.realBoost() / (hasBoost ? speedBoost + speedBoostPhase : speedBoost)));",
+          "java_method": "setBars()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source addBar boost declaration.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_overdrive_projector_boost_bar_fraction"
+          ]
+        },
+        "realBoost": {
+          "godot_symbol": "source_overdrive_projector_real_boost(overdrive_projector, phase_heat, efficiency)",
+          "java_expr": "entity.realBoost()",
+          "java_method": "setBars()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Runtime numerator bridge to realBoost helper.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_overdrive_projector_boost_bar_fraction"
+          ]
+        },
+        "denominator": {
+          "godot_symbol": "source_overdrive_projector_boost_bar_result.denominator",
+          "java_expr": "hasBoost ? speedBoost + speedBoostPhase : speedBoost",
+          "java_method": "setBars()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source denominator ternary.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_overdrive_projector_boost_bar_fraction"
+          ]
+        },
+        "fraction": {
+          "godot_symbol": "source_overdrive_projector_boost_bar_result.fraction",
+          "java_expr": "entity.realBoost() / (hasBoost ? speedBoost + speedBoostPhase : speedBoost)",
+          "java_method": "setBars()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source boost bar fraction.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_overdrive_projector_boost_bar_fraction"
+          ]
+        },
+        "speedBoost": {
+          "alias_of": "source_overdrive_projector_boost_bar_input.speedBoost",
+          "rule": "Runtime echo of speedBoost property.",
+          "status": "generated",
+          "type": "float"
+        },
+        "speedBoostPhase": {
+          "alias_of": "source_overdrive_projector_boost_bar_input.speedBoostPhase",
+          "rule": "Runtime echo of speedBoostPhase property.",
+          "status": "generated",
+          "type": "float"
+        },
+        "hasBoost": {
+          "alias_of": "source_overdrive_projector_boost_bar_input.hasBoost",
+          "rule": "Runtime echo of hasBoost property.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "phaseHeat": {
+          "alias_of": "source_overdrive_projector_boost_bar_input.phaseHeat",
+          "rule": "Runtime echo of phaseHeat input.",
+          "status": "generated",
+          "type": "float"
+        },
+        "efficiency": {
+          "alias_of": "source_overdrive_projector_boost_bar_input.efficiency",
+          "rule": "Runtime echo of efficiency input.",
+          "status": "generated",
+          "type": "float"
+        }
+      }
     }
   },
   "version": 1

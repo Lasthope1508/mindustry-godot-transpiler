@@ -12115,6 +12115,43 @@
         "test_offload_to_inventory_symbols_are_registered_with_source_backing",
         "test_port_game_tracks_source_drill_internal_inventory"
       ]
+    },
+    "PortGame.source_overdrive_projector_boost_bar_fraction": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "source_method": "setBars()",
+      "source_slice": "N725",
+      "runtime_proof": "/root/Main.source_overdrive_projector_boost_bar_fraction",
+      "params": [
+        {
+          "name": "overdrive_projector",
+          "type": "object",
+          "schema": "content_block_state"
+        },
+        {
+          "name": "phase_heat",
+          "type": "float",
+          "schema": "source_overdrive_projector_boost_bar_input.phaseHeat"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_overdrive_projector_boost_bar_input.efficiency"
+        }
+      ],
+      "return_keys": [
+        "fraction",
+        "denominator",
+        "realBoost",
+        "speedBoost",
+        "speedBoostPhase",
+        "hasBoost"
+      ],
+      "rule": "Public runtime contract for OverdriveProjector boost bar fraction supplier in setBars().",
+      "tests": [
+        "test_overdrive_projector_boost_bar_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_boost_bar_like_source"
+      ]
     }
   },
   "policy": {

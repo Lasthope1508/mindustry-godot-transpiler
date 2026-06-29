@@ -300,6 +300,13 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_BOOST_BAR_METHOD := "public void setBars(){"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_BOOST_BAR_ADD_BAR := "addBar(\\"boost\\", (OverdriveBuild entity) -> new Bar(() -> Core.bundle.format(\\"bar.boost\\", Mathf.round(Math.max((entity.realBoost() * 100 - 100), 0))), () -> Pal.accent, () -> entity.realBoost() / (hasBoost ? speedBoost + speedBoostPhase : speedBoost)));"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_BOOST_BAR_REAL_BOOST_CALL := "entity.realBoost()"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_BOOST_BAR_DENOMINATOR := "hasBoost ? speedBoost + speedBoostPhase : speedBoost"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_BOOST_BAR_SPEED_BOOST_FIELD := "public float speedBoost = 1.5f;"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_BOOST_BAR_SPEED_BOOST_PHASE_FIELD := "public float speedBoostPhase = 0.75f;"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_BOOST_BAR_HAS_BOOST_FIELD := "public boolean hasBoost = true;"', source)
         self.assertIn("func source_overdrive_projector_boost_bar_fraction(overdrive_projector, phase_heat := 0.0, efficiency := 1.0) -> float:", source)
         self.assertIn('var speed_boost := float(overdrive_projector.properties.get("speedBoost", 0.0))', source)
         self.assertIn('var speed_boost_phase := float(overdrive_projector.properties.get("speedBoostPhase", 0.0))', source)

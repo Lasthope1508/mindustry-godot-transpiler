@@ -4269,6 +4269,54 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(neighbor_loop["status"], "deferred")
         self.assertEqual(neighbor_loop["java_expr"], "for(int i = 0; i < proximity.size; i++){")
 
+    def test_overdrive_projector_boost_bar_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "overdrive_projector_boost_bar.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/OverdriveProjector.java")
+        self.assertEqual(method["java_method"], "setBars()")
+        self.assertEqual(method["java_expr"], "public void setBars(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_overdrive_projector_boost_bar_fraction")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_overdrive_projector_boost_bar_fraction")
+        self.assertEqual(method["godot_symbol"], "source_overdrive_projector_boost_bar_result.method")
+
+        add_bar = source_symbols.source_symbol(registry, "overdrive_projector_boost_bar.add_bar")
+        self.assertEqual(add_bar["java_expr"], 'addBar("boost", (OverdriveBuild entity) -> new Bar(() -> Core.bundle.format("bar.boost", Mathf.round(Math.max((entity.realBoost() * 100 - 100), 0))), () -> Pal.accent, () -> entity.realBoost() / (hasBoost ? speedBoost + speedBoostPhase : speedBoost)));')
+        self.assertEqual(add_bar["godot_symbol"], "source_overdrive_projector_boost_bar_result.fraction")
+
+        real_boost_call = source_symbols.source_symbol(registry, "overdrive_projector_boost_bar.real_boost_call")
+        self.assertEqual(real_boost_call["java_expr"], "entity.realBoost()")
+        self.assertEqual(real_boost_call["godot_symbol"], "source_overdrive_projector_real_boost(overdrive_projector, phase_heat, efficiency)")
+
+        denominator = source_symbols.source_symbol(registry, "overdrive_projector_boost_bar.denominator")
+        self.assertEqual(denominator["java_expr"], "hasBoost ? speedBoost + speedBoostPhase : speedBoost")
+        self.assertEqual(denominator["godot_symbol"], "source_overdrive_projector_boost_bar_result.denominator")
+
+        speed_boost = source_symbols.source_symbol(registry, "overdrive_projector_boost_bar.speed_boost")
+        self.assertEqual(speed_boost["java_expr"], "public float speedBoost = 1.5f;")
+        self.assertEqual(speed_boost["godot_symbol"], "source_overdrive_projector_boost_bar_input.speedBoost")
+
+        speed_boost_phase = source_symbols.source_symbol(registry, "overdrive_projector_boost_bar.speed_boost_phase")
+        self.assertEqual(speed_boost_phase["java_expr"], "public float speedBoostPhase = 0.75f;")
+        self.assertEqual(speed_boost_phase["godot_symbol"], "source_overdrive_projector_boost_bar_input.speedBoostPhase")
+
+        has_boost = source_symbols.source_symbol(registry, "overdrive_projector_boost_bar.has_boost")
+        self.assertEqual(has_boost["java_expr"], "public boolean hasBoost = true;")
+        self.assertEqual(has_boost["godot_symbol"], "source_overdrive_projector_boost_bar_input.hasBoost")
+
+        phase_heat = source_symbols.source_symbol(registry, "overdrive_projector_boost_bar.phase_heat")
+        self.assertEqual(phase_heat["status"], "explicit-input")
+        self.assertEqual(phase_heat["java_expr"], "phaseHeat")
+        self.assertEqual(phase_heat["godot_symbol"], "source_overdrive_projector_boost_bar_input.phaseHeat")
+
+        efficiency = source_symbols.source_symbol(registry, "overdrive_projector_boost_bar.efficiency")
+        self.assertEqual(efficiency["status"], "explicit-input")
+        self.assertEqual(efficiency["java_expr"], "efficiency")
+        self.assertEqual(efficiency["godot_symbol"], "source_overdrive_projector_boost_bar_input.efficiency")
+
     def test_dump_drill_item_to_core_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -10400,9 +10448,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 322)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 323)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 327)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 328)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -10615,6 +10663,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_move_forward_to_core", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_move_payload_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_offload_to_inventory", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_overdrive_projector_boost_bar_fraction", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_delay", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_dump_interval", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_inactive_warmup_state", audit["registeredSourceOwners"])
@@ -11852,6 +11901,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("for(int i = 0; i < amount; i++){", offload_to_inventory["exact_exprs"])
         self.assertIn("offload(dominantItem);", offload_to_inventory["exact_exprs"])
         self.assertIn("for(int i = 0; i < proximity.size; i++){", offload_to_inventory["deferred_exprs"])
+
+        overdrive_boost_bar = source_symbols.source_slice(ledger, "N725")
+        self.assertEqual(overdrive_boost_bar["java_source"], "core/src/mindustry/world/blocks/defense/OverdriveProjector.java")
+        self.assertEqual(overdrive_boost_bar["java_method"], "setBars()")
+        self.assertEqual(overdrive_boost_bar["godot_owner"], "PortGame.source_overdrive_projector_boost_bar_fraction")
+        self.assertIn("public void setBars(){", overdrive_boost_bar["exact_exprs"])
+        self.assertIn('addBar("boost", (OverdriveBuild entity) -> new Bar(() -> Core.bundle.format("bar.boost", Mathf.round(Math.max((entity.realBoost() * 100 - 100), 0))), () -> Pal.accent, () -> entity.realBoost() / (hasBoost ? speedBoost + speedBoostPhase : speedBoost)));', overdrive_boost_bar["exact_exprs"])
+        self.assertIn("entity.realBoost()", overdrive_boost_bar["exact_exprs"])
+        self.assertIn("hasBoost ? speedBoost + speedBoostPhase : speedBoost", overdrive_boost_bar["exact_exprs"])
+        self.assertIn("public float speedBoost = 1.5f;", overdrive_boost_bar["exact_exprs"])
+        self.assertIn("public float speedBoostPhase = 0.75f;", overdrive_boost_bar["exact_exprs"])
+        self.assertIn("public boolean hasBoost = true;", overdrive_boost_bar["exact_exprs"])
+        self.assertIn("source_overdrive_projector_real_boost(overdrive_projector, phase_heat, efficiency)", overdrive_boost_bar["bridge_exprs"])
 
         dump_drill_item_to_core = source_symbols.source_slice(ledger, "N705")
         self.assertEqual(dump_drill_item_to_core["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -14857,6 +14919,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("handleItem", offload_to_inventory["return_keys"])
         self.assertIn("itemCountAfter", offload_to_inventory["return_keys"])
         self.assertEqual(offload_to_inventory["source_method"], "offload(Item item)/DrillBuild.updateTile()")
+
+        overdrive_boost_bar = source_symbols.api_contract(contracts, "PortGame.source_overdrive_projector_boost_bar_fraction")
+        self.assertEqual([param["name"] for param in overdrive_boost_bar["params"]], ["overdrive_projector", "phase_heat", "efficiency"])
+        self.assertEqual(overdrive_boost_bar["params"][0]["schema"], "content_block_state")
+        self.assertEqual(overdrive_boost_bar["params"][1]["schema"], "source_overdrive_projector_boost_bar_input.phaseHeat")
+        self.assertEqual(overdrive_boost_bar["params"][2]["schema"], "source_overdrive_projector_boost_bar_input.efficiency")
+        self.assertIn("fraction", overdrive_boost_bar["return_keys"])
+        self.assertIn("denominator", overdrive_boost_bar["return_keys"])
+        self.assertIn("realBoost", overdrive_boost_bar["return_keys"])
+        self.assertEqual(overdrive_boost_bar["source_method"], "setBars()")
 
         drill_delay = source_symbols.api_contract(contracts, "PortGame.source_drill_delay")
         self.assertEqual([param["name"] for param in drill_delay["params"]], ["block_id", "item_id"])
@@ -18277,6 +18349,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_offload_to_inventory_result["keys"]["neighborLoopDeferred"]["java_expr"], "for(int i = 0; i < proximity.size; i++){")
         self.assertEqual(source_offload_to_inventory_result["keys"]["itemCountAfter"]["godot_symbol"], "drill_item_count(item_id)")
         self.assertEqual(source_offload_to_inventory_result["keys"]["amount"]["alias_of"], "source_offload_to_inventory_input.amount")
+
+        source_overdrive_projector_boost_bar_input = source_symbols.state_schema(schema, "source_overdrive_projector_boost_bar_input")
+        self.assertEqual(source_overdrive_projector_boost_bar_input["keys"]["phaseHeat"]["java_expr"], "phaseHeat")
+        self.assertEqual(source_overdrive_projector_boost_bar_input["keys"]["efficiency"]["java_expr"], "efficiency")
+        self.assertEqual(source_overdrive_projector_boost_bar_input["keys"]["speedBoost"]["java_expr"], "public float speedBoost = 1.5f;")
+        self.assertEqual(source_overdrive_projector_boost_bar_input["keys"]["speedBoostPhase"]["java_expr"], "public float speedBoostPhase = 0.75f;")
+        self.assertEqual(source_overdrive_projector_boost_bar_input["keys"]["hasBoost"]["java_expr"], "public boolean hasBoost = true;")
+
+        source_overdrive_projector_boost_bar_result = source_symbols.state_schema(schema, "source_overdrive_projector_boost_bar_result")
+        self.assertEqual(source_overdrive_projector_boost_bar_result["keys"]["method"]["java_expr"], "public void setBars(){")
+        self.assertEqual(source_overdrive_projector_boost_bar_result["keys"]["addBar"]["java_expr"], 'addBar("boost", (OverdriveBuild entity) -> new Bar(() -> Core.bundle.format("bar.boost", Mathf.round(Math.max((entity.realBoost() * 100 - 100), 0))), () -> Pal.accent, () -> entity.realBoost() / (hasBoost ? speedBoost + speedBoostPhase : speedBoost)));')
+        self.assertEqual(source_overdrive_projector_boost_bar_result["keys"]["realBoost"]["java_expr"], "entity.realBoost()")
+        self.assertEqual(source_overdrive_projector_boost_bar_result["keys"]["realBoost"]["godot_symbol"], "source_overdrive_projector_real_boost(overdrive_projector, phase_heat, efficiency)")
+        self.assertEqual(source_overdrive_projector_boost_bar_result["keys"]["denominator"]["java_expr"], "hasBoost ? speedBoost + speedBoostPhase : speedBoost")
+        self.assertEqual(source_overdrive_projector_boost_bar_result["keys"]["fraction"]["java_expr"], "entity.realBoost() / (hasBoost ? speedBoost + speedBoostPhase : speedBoost)")
+        self.assertEqual(source_overdrive_projector_boost_bar_result["keys"]["phaseHeat"]["alias_of"], "source_overdrive_projector_boost_bar_input.phaseHeat")
+        self.assertEqual(source_overdrive_projector_boost_bar_result["keys"]["hasBoost"]["alias_of"], "source_overdrive_projector_boost_bar_input.hasBoost")
 
         source_dump_drill_item_to_core_input = source_symbols.state_schema(schema, "source_dump_drill_item_to_core_input")
         self.assertEqual(source_dump_drill_item_to_core_input["keys"]["item_id"]["java_expr"], "todump")

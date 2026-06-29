@@ -33150,6 +33150,146 @@
         "test_offload_to_inventory_symbols_are_registered_with_source_backing",
         "test_port_game_tracks_source_drill_internal_inventory"
       ]
+    },
+    "overdrive_projector_boost_bar.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "setBars()",
+      "java_expr": "public void setBars(){",
+      "godot_owner": "PortGame.source_overdrive_projector_boost_bar_fraction",
+      "godot_symbol": "source_overdrive_projector_boost_bar_result.method",
+      "runtime_proof": "/root/Main.source_overdrive_projector_boost_bar_fraction",
+      "rule": "OverdriveProjector setBars method boundary for boost bar fraction.",
+      "tests": [
+        "test_overdrive_projector_boost_bar_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_boost_bar_like_source"
+      ]
+    },
+    "overdrive_projector_boost_bar.add_bar": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "setBars()",
+      "java_expr": "addBar(\"boost\", (OverdriveBuild entity) -> new Bar(() -> Core.bundle.format(\"bar.boost\", Mathf.round(Math.max((entity.realBoost() * 100 - 100), 0))), () -> Pal.accent, () -> entity.realBoost() / (hasBoost ? speedBoost + speedBoostPhase : speedBoost)));",
+      "godot_owner": "PortGame.source_overdrive_projector_boost_bar_fraction",
+      "godot_symbol": "source_overdrive_projector_boost_bar_result.fraction",
+      "runtime_proof": "/root/Main.source_overdrive_projector_boost_bar_fraction",
+      "rule": "Boost bar fraction expression registered from OverdriveProjector.setBars().",
+      "tests": [
+        "test_overdrive_projector_boost_bar_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_boost_bar_like_source"
+      ]
+    },
+    "overdrive_projector_boost_bar.real_boost_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "setBars()",
+      "java_expr": "entity.realBoost()",
+      "godot_owner": "PortGame.source_overdrive_projector_boost_bar_fraction",
+      "godot_symbol": "source_overdrive_projector_real_boost(overdrive_projector, phase_heat, efficiency)",
+      "runtime_proof": "/root/Main.source_overdrive_projector_boost_bar_fraction",
+      "rule": "Boost bar numerator bridges to the existing realBoost helper; realBoost internals remain their own owner.",
+      "tests": [
+        "test_overdrive_projector_boost_bar_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_boost_bar_like_source"
+      ]
+    },
+    "overdrive_projector_boost_bar.denominator": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "setBars()",
+      "java_expr": "hasBoost ? speedBoost + speedBoostPhase : speedBoost",
+      "godot_owner": "PortGame.source_overdrive_projector_boost_bar_fraction",
+      "godot_symbol": "source_overdrive_projector_boost_bar_result.denominator",
+      "runtime_proof": "/root/Main.source_overdrive_projector_boost_bar_fraction",
+      "rule": "Source ternary denominator for boosted and non-boosted overdrive blocks.",
+      "tests": [
+        "test_overdrive_projector_boost_bar_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_boost_bar_like_source"
+      ]
+    },
+    "overdrive_projector_boost_bar.speed_boost": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "field declaration",
+      "java_expr": "public float speedBoost = 1.5f;",
+      "godot_owner": "PortGame.source_overdrive_projector_boost_bar_fraction",
+      "godot_symbol": "source_overdrive_projector_boost_bar_input.speedBoost",
+      "runtime_proof": "/root/Main.source_overdrive_projector_boost_bar_fraction",
+      "rule": "Source speedBoost field used by denominator.",
+      "tests": [
+        "test_overdrive_projector_boost_bar_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_boost_bar_like_source"
+      ]
+    },
+    "overdrive_projector_boost_bar.speed_boost_phase": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "field declaration",
+      "java_expr": "public float speedBoostPhase = 0.75f;",
+      "godot_owner": "PortGame.source_overdrive_projector_boost_bar_fraction",
+      "godot_symbol": "source_overdrive_projector_boost_bar_input.speedBoostPhase",
+      "runtime_proof": "/root/Main.source_overdrive_projector_boost_bar_fraction",
+      "rule": "Source speedBoostPhase field used by boosted denominator.",
+      "tests": [
+        "test_overdrive_projector_boost_bar_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_boost_bar_like_source"
+      ]
+    },
+    "overdrive_projector_boost_bar.has_boost": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "field declaration",
+      "java_expr": "public boolean hasBoost = true;",
+      "godot_owner": "PortGame.source_overdrive_projector_boost_bar_fraction",
+      "godot_symbol": "source_overdrive_projector_boost_bar_input.hasBoost",
+      "runtime_proof": "/root/Main.source_overdrive_projector_boost_bar_fraction",
+      "rule": "Source hasBoost field selects boost bar denominator.",
+      "tests": [
+        "test_overdrive_projector_boost_bar_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_boost_bar_like_source"
+      ]
+    },
+    "overdrive_projector_boost_bar.phase_heat": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "OverdriveBuild field/read",
+      "java_expr": "phaseHeat",
+      "godot_owner": "PortGame.source_overdrive_projector_boost_bar_fraction",
+      "godot_symbol": "source_overdrive_projector_boost_bar_input.phaseHeat",
+      "runtime_proof": "/root/Main.source_overdrive_projector_boost_bar_fraction",
+      "rule": "Runtime phase_heat parameter maps to OverdriveBuild.phaseHeat used by realBoost().",
+      "tests": [
+        "test_overdrive_projector_boost_bar_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_boost_bar_like_source"
+      ]
+    },
+    "overdrive_projector_boost_bar.efficiency": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "OverdriveBuild realBoost()",
+      "java_expr": "efficiency",
+      "godot_owner": "PortGame.source_overdrive_projector_boost_bar_fraction",
+      "godot_symbol": "source_overdrive_projector_boost_bar_input.efficiency",
+      "runtime_proof": "/root/Main.source_overdrive_projector_boost_bar_fraction",
+      "rule": "Runtime efficiency parameter maps to Building efficiency used by realBoost().",
+      "tests": [
+        "test_overdrive_projector_boost_bar_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_boost_bar_like_source"
+      ]
+    },
+    "overdrive_projector_boost_bar.fraction": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "setBars()",
+      "java_expr": "entity.realBoost() / (hasBoost ? speedBoost + speedBoostPhase : speedBoost)",
+      "godot_owner": "PortGame.source_overdrive_projector_boost_bar_fraction",
+      "godot_symbol": "source_overdrive_projector_boost_bar_result.fraction",
+      "runtime_proof": "/root/Main.source_overdrive_projector_boost_bar_fraction",
+      "rule": "Source boost bar fraction extracted from addBar supplier.",
+      "tests": [
+        "test_overdrive_projector_boost_bar_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_boost_bar_like_source"
+      ]
     }
   },
   "version": 1
