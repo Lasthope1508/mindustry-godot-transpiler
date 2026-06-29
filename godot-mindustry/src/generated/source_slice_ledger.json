@@ -9003,6 +9003,38 @@
         "test_bullet_velocity_vector_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_bullet_speed"
       ]
+    },
+    "N683": {
+      "exact_exprs": [
+        "/** Speed in units/tick. */",
+        "public float speed = 1f;",
+        "case speed -> type.speed * 60f / tilesize;",
+        "speed",
+        "1f",
+        "60f",
+        "BulletType data",
+        "type.speed * 60f"
+      ],
+      "godot_owner": "PortGame.source_bullet_world_speed",
+      "java_class": "BulletType",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "runtime_proof": "/root/Main.source_bullet_world_speed",
+      "source_symbols": [
+        "bullet_world_speed.comment",
+        "bullet_world_speed.data",
+        "bullet_world_speed.default",
+        "bullet_world_speed.field",
+        "bullet_world_speed.key",
+        "bullet_world_speed.result",
+        "bullet_world_speed.stat_case",
+        "bullet_world_speed.ticks_per_second"
+      ],
+      "status": "done",
+      "tests": [
+        "test_bullet_world_speed_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_speed"
+      ]
     }
   },
   "version": 1

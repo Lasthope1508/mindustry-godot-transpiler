@@ -4465,6 +4465,51 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result["java_expr"], "vel.trns(angle, amount)")
         self.assertEqual(result["godot_symbol"], "source_bullet_velocity_vector_result.vector")
 
+    def test_bullet_world_speed_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        comment = source_symbols.source_symbol(registry, "bullet_world_speed.comment")
+        self.assertEqual(comment["java_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(comment["java_method"], "field declaration")
+        self.assertEqual(comment["java_expr"], "/** Speed in units/tick. */")
+        self.assertEqual(comment["godot_owner"], "PortGame.source_bullet_world_speed")
+        self.assertEqual(comment["runtime_proof"], "/root/Main.source_bullet_world_speed")
+        self.assertEqual(comment["godot_symbol"], "source_bullet_world_speed_result.comment")
+
+        field = source_symbols.source_symbol(registry, "bullet_world_speed.field")
+        self.assertEqual(field["java_expr"], "public float speed = 1f;")
+        self.assertEqual(field["godot_symbol"], "source_bullet_world_speed_result.field")
+
+        stat_case = source_symbols.source_symbol(registry, "bullet_world_speed.stat_case")
+        self.assertEqual(stat_case["java_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(stat_case["java_method"], "sense(LAccess sensor)")
+        self.assertEqual(stat_case["java_expr"], "case speed -> type.speed * 60f / tilesize;")
+        self.assertEqual(stat_case["godot_symbol"], "source_bullet_world_speed_result.stat_case")
+
+        key = source_symbols.source_symbol(registry, "bullet_world_speed.key")
+        self.assertEqual(key["java_expr"], "speed")
+        self.assertEqual(key["godot_symbol"], "source_bullet_world_speed_result.key")
+
+        default = source_symbols.source_symbol(registry, "bullet_world_speed.default")
+        self.assertEqual(default["java_expr"], "1f")
+        self.assertEqual(default["godot_symbol"], "source_bullet_world_speed_result.default")
+
+        ticks_per_second = source_symbols.source_symbol(registry, "bullet_world_speed.ticks_per_second")
+        self.assertEqual(ticks_per_second["java_expr"], "60f")
+        self.assertEqual(ticks_per_second["godot_symbol"], "source_bullet_world_speed_result.ticks_per_second")
+
+        data = source_symbols.source_symbol(registry, "bullet_world_speed.data")
+        self.assertEqual(data["status"], "explicit-input")
+        self.assertEqual(data["java_expr"], "BulletType data")
+        self.assertEqual(data["godot_symbol"], "source_bullet_world_speed_input.data")
+
+        result = source_symbols.source_symbol(registry, "bullet_world_speed.result")
+        self.assertEqual(result["java_expr"], "type.speed * 60f")
+        self.assertEqual(result["godot_symbol"], "source_bullet_world_speed_result.world_speed")
+
     def test_building_can_be_replaced_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -8549,9 +8594,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 280)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 281)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 285)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 286)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -8739,6 +8784,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_texture", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_velocity", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_velocity_vector_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_world_speed", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -10227,6 +10273,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("vel.trns(angle, amount);", bullet_velocity_vector["exact_exprs"])
         self.assertIn("public Vec2 trns(float angle, float amount){", bullet_velocity_vector["exact_exprs"])
         self.assertIn("return set(amount, 0).rotate(angle);", bullet_velocity_vector["exact_exprs"])
+
+        bullet_world_speed = source_symbols.source_slice(ledger, "N683")
+        self.assertEqual(bullet_world_speed["java_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(bullet_world_speed["java_method"], "field declaration")
+        self.assertEqual(bullet_world_speed["godot_owner"], "PortGame.source_bullet_world_speed")
+        self.assertIn("/** Speed in units/tick. */", bullet_world_speed["exact_exprs"])
+        self.assertIn("public float speed = 1f;", bullet_world_speed["exact_exprs"])
+        self.assertIn("case speed -> type.speed * 60f / tilesize;", bullet_world_speed["exact_exprs"])
+        self.assertIn("type.speed * 60f", bullet_world_speed["exact_exprs"])
 
         building_update_consumption_non_optional = source_symbols.source_slice(ledger, "N662")
         self.assertEqual(building_update_consumption_non_optional["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -13309,6 +13364,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("source", bullet_velocity_vector["return_keys"])
         self.assertEqual(bullet_velocity_vector["source_method"], "initVel(float angle, float amount)")
 
+        bullet_world_speed = source_symbols.api_contract(contracts, "PortGame.source_bullet_world_speed")
+        self.assertEqual([param["name"] for param in bullet_world_speed["params"]], ["data"])
+        self.assertEqual(bullet_world_speed["params"][0]["schema"], "source_bullet_world_speed_input.data")
+        self.assertIn("world_speed", bullet_world_speed["return_keys"])
+        self.assertEqual(bullet_world_speed["source_method"], "field declaration")
+
         building_placed = source_symbols.api_contract(contracts, "PortGame.source_building_placed_state")
         self.assertEqual([param["name"] for param in building_placed["params"]], ["net_client", "consumes_power", "outputs_power", "has_power", "connected_power", "linked_to_self", "source_pos"])
         self.assertEqual(building_placed["params"][0]["schema"], "source_building_placed_input.net_client")
@@ -16329,6 +16390,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_bullet_velocity_vector_result["keys"]["speed"]["java_expr"], "amount")
         self.assertEqual(source_bullet_velocity_vector_result["keys"]["vector"]["java_expr"], "vel.trns(angle, amount)")
         self.assertEqual(source_bullet_velocity_vector_result["keys"]["velocity_state"]["alias_of"], "source_bullet_velocity_vector_input.velocity_state")
+
+        source_bullet_world_speed_input = source_symbols.state_schema(schema, "source_bullet_world_speed_input")
+        self.assertEqual(source_bullet_world_speed_input["keys"]["data"]["java_expr"], "BulletType data")
+        self.assertEqual(source_bullet_world_speed_input["keys"]["data"]["status"], "explicit-input")
+
+        source_bullet_world_speed_result = source_symbols.state_schema(schema, "source_bullet_world_speed_result")
+        self.assertEqual(source_bullet_world_speed_result["keys"]["comment"]["java_expr"], "/** Speed in units/tick. */")
+        self.assertEqual(source_bullet_world_speed_result["keys"]["field"]["java_expr"], "public float speed = 1f;")
+        self.assertEqual(source_bullet_world_speed_result["keys"]["stat_case"]["java_expr"], "case speed -> type.speed * 60f / tilesize;")
+        self.assertEqual(source_bullet_world_speed_result["keys"]["key"]["java_expr"], "speed")
+        self.assertEqual(source_bullet_world_speed_result["keys"]["default"]["java_expr"], "1f")
+        self.assertEqual(source_bullet_world_speed_result["keys"]["ticks_per_second"]["java_expr"], "60f")
+        self.assertEqual(source_bullet_world_speed_result["keys"]["world_speed"]["java_expr"], "type.speed * 60f")
+        self.assertEqual(source_bullet_world_speed_result["keys"]["data"]["alias_of"], "source_bullet_world_speed_input.data")
 
         source_building_placed_input = source_symbols.state_schema(schema, "source_building_placed_input")
         self.assertEqual(source_building_placed_input["keys"]["net_client"]["java_expr"], "net.client()")

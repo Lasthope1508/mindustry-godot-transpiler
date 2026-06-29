@@ -35292,6 +35292,118 @@
       },
       "status": "active"
     },
+    "source_bullet_world_speed_input": {
+      "keys": {
+        "data": {
+          "godot_symbol": "source_bullet_world_speed_input.data",
+          "java_expr": "BulletType data",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Runtime data supplies BulletType.speed.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_bullet_world_speed"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_bullet_world_speed_result": {
+      "keys": {
+        "comment": {
+          "godot_symbol": "source_bullet_world_speed_result.comment",
+          "java_expr": "/** Speed in units/tick. */",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Canonical BulletType speed comment records units per tick.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_world_speed"
+          ]
+        },
+        "data": {
+          "alias_of": "source_bullet_world_speed_input.data",
+          "rule": "Carries BulletType data input into world speed result schema.",
+          "status": "generated",
+          "type": "Dictionary"
+        },
+        "default": {
+          "godot_symbol": "source_bullet_world_speed_result.default",
+          "java_expr": "1f",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Default speed comes from BulletType field declaration.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_bullet_world_speed"
+          ]
+        },
+        "field": {
+          "godot_symbol": "source_bullet_world_speed_result.field",
+          "java_expr": "public float speed = 1f;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Canonical BulletType speed field default.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_world_speed"
+          ]
+        },
+        "key": {
+          "godot_symbol": "source_bullet_world_speed_result.key",
+          "java_expr": "speed",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Godot data key mirrors BulletType.speed.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_world_speed"
+          ]
+        },
+        "stat_case": {
+          "godot_symbol": "source_bullet_world_speed_result.stat_case",
+          "java_expr": "case speed -> type.speed * 60f / tilesize;",
+          "java_method": "sense(LAccess sensor)",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "rule": "BulletComp logic speed stat converts type speed with 60f per second and tilesize display units.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_world_speed"
+          ]
+        },
+        "ticks_per_second": {
+          "godot_symbol": "source_bullet_world_speed_result.ticks_per_second",
+          "java_expr": "60f",
+          "java_method": "sense(LAccess sensor)",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "rule": "Source stat conversion uses 60 ticks per second.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_bullet_world_speed"
+          ]
+        },
+        "world_speed": {
+          "godot_symbol": "source_bullet_world_speed_result.world_speed",
+          "java_expr": "type.speed * 60f",
+          "java_method": "sense(LAccess sensor)",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "rule": "Godot world speed keeps source units per tick and applies 60 ticks per second.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_bullet_world_speed"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

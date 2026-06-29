@@ -10653,6 +10653,27 @@
       "tests": [
         "test_bullet_velocity_vector_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_bullet_world_speed": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "params": [
+        {
+          "name": "data",
+          "schema": "source_bullet_world_speed_input.data",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "world_speed"
+      ],
+      "rule": "Public runtime contract for converting BulletType.speed units per tick into Godot world units per second.",
+      "runtime_proof": "/root/Main.source_bullet_world_speed",
+      "source_method": "field declaration",
+      "source_slice": "N683",
+      "status": "active",
+      "tests": [
+        "test_bullet_world_speed_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
