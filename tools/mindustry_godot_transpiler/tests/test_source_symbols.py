@@ -3058,6 +3058,43 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(time_scale["java_expr"], "timeScale")
         self.assertEqual(time_scale["godot_symbol"], "source_drill_dump_interval_input.time_scale")
 
+    def test_drill_inactive_warmup_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        inactive_last_speed = source_symbols.source_symbol(registry, "drill_inactive_warmup.last_speed_reset")
+        self.assertEqual(inactive_last_speed["java_source"], "core/src/mindustry/world/blocks/production/Drill.java")
+        self.assertEqual(inactive_last_speed["java_method"], "DrillBuild.updateTile()")
+        self.assertEqual(inactive_last_speed["java_expr"], "lastDrillSpeed = 0f;")
+        self.assertEqual(inactive_last_speed["godot_owner"], "PortGame.source_drill_inactive_warmup_state")
+        self.assertEqual(inactive_last_speed["runtime_proof"], "/root/Main.source_drill_inactive_warmup_state")
+        self.assertEqual(inactive_last_speed["godot_symbol"], "source_drill_inactive_warmup_result.lastDrillSpeed")
+
+        inactive_warmup = source_symbols.source_symbol(registry, "drill_inactive_warmup.warmup_decay")
+        self.assertEqual(inactive_warmup["java_expr"], "warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);")
+        self.assertEqual(inactive_warmup["godot_symbol"], "source_drill_inactive_warmup_result.warmup")
+
+        warmup_field = source_symbols.source_symbol(registry, "drill_inactive_warmup.warmup_speed_field")
+        self.assertEqual(warmup_field["java_expr"], "public float warmupSpeed = 0.015f;")
+        self.assertEqual(warmup_field["godot_symbol"], "source_drill_inactive_warmup_result.warmupSpeedField")
+
+        current_warmup = source_symbols.source_symbol(registry, "drill_inactive_warmup.current_warmup")
+        self.assertEqual(current_warmup["status"], "explicit-input")
+        self.assertEqual(current_warmup["java_expr"], "warmup")
+        self.assertEqual(current_warmup["godot_symbol"], "source_drill_inactive_warmup_input.current_warmup")
+
+        warmup_speed = source_symbols.source_symbol(registry, "drill_inactive_warmup.warmup_speed")
+        self.assertEqual(warmup_speed["status"], "explicit-input")
+        self.assertEqual(warmup_speed["java_expr"], "warmupSpeed")
+        self.assertEqual(warmup_speed["godot_symbol"], "source_drill_inactive_warmup_input.warmup_speed")
+
+        source_delta = source_symbols.source_symbol(registry, "drill_inactive_warmup.source_delta")
+        self.assertEqual(source_delta["status"], "explicit-input")
+        self.assertEqual(source_delta["java_expr"], "Time.delta")
+        self.assertEqual(source_delta["godot_symbol"], "source_drill_inactive_warmup_input.source_delta")
+
     def test_building_accept_liquid_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -8988,9 +9025,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 289)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 290)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 294)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 295)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -9187,6 +9224,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_core_handle_item", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_delay", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_dump_interval", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_drill_inactive_warmup_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -10216,6 +10254,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("protected final int timerDump = timers++;", drill_dump_interval["exact_exprs"])
         self.assertIn("public int dumpTime = 5;", drill_dump_interval["exact_exprs"])
         self.assertIn("timeScale", drill_dump_interval["exact_exprs"])
+
+        drill_inactive_warmup = source_symbols.source_slice(ledger, "N692")
+        self.assertEqual(drill_inactive_warmup["java_source"], "core/src/mindustry/world/blocks/production/Drill.java")
+        self.assertEqual(drill_inactive_warmup["java_method"], "DrillBuild.updateTile()")
+        self.assertEqual(drill_inactive_warmup["godot_owner"], "PortGame.source_drill_inactive_warmup_state")
+        self.assertIn("lastDrillSpeed = 0f;", drill_inactive_warmup["exact_exprs"])
+        self.assertIn("warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);", drill_inactive_warmup["exact_exprs"])
+        self.assertIn("public float warmupSpeed = 0.015f;", drill_inactive_warmup["exact_exprs"])
 
         building_accept_liquid = source_symbols.source_slice(ledger, "N522")
         self.assertEqual(building_accept_liquid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -12952,6 +12998,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("dumpTime", drill_dump_interval["return_keys"])
         self.assertIn("timeScale", drill_dump_interval["return_keys"])
         self.assertEqual(drill_dump_interval["source_method"], "DrillBuild.updateTile()")
+
+        drill_inactive_warmup = source_symbols.api_contract(contracts, "PortGame.source_drill_inactive_warmup_state")
+        self.assertEqual([param["name"] for param in drill_inactive_warmup["params"]], ["current_warmup", "warmup_speed", "source_delta"])
+        self.assertEqual(drill_inactive_warmup["params"][0]["schema"], "source_drill_inactive_warmup_input.current_warmup")
+        self.assertEqual(drill_inactive_warmup["params"][1]["schema"], "source_drill_inactive_warmup_input.warmup_speed")
+        self.assertEqual(drill_inactive_warmup["params"][2]["schema"], "source_drill_inactive_warmup_input.source_delta")
+        self.assertIn("warmup", drill_inactive_warmup["return_keys"])
+        self.assertIn("lastDrillSpeed", drill_inactive_warmup["return_keys"])
+        self.assertIn("warmupSpeed", drill_inactive_warmup["return_keys"])
+        self.assertEqual(drill_inactive_warmup["source_method"], "DrillBuild.updateTile()")
 
         building_accept_liquid = source_symbols.api_contract(contracts, "PortGame.source_building_accept_liquid_state")
         self.assertEqual([param["name"] for param in building_accept_liquid["params"]], ["has_liquids", "consumes_liquid"])
@@ -15795,6 +15851,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_drill_dump_interval_result["keys"]["timeScale"]["java_expr"], "timeScale")
         self.assertEqual(source_drill_dump_interval_result["keys"]["block_id"]["alias_of"], "source_drill_dump_interval_input.block_id")
         self.assertEqual(source_drill_dump_interval_result["keys"]["time_scale"]["alias_of"], "source_drill_dump_interval_input.time_scale")
+
+        source_drill_inactive_warmup_input = source_symbols.state_schema(schema, "source_drill_inactive_warmup_input")
+        self.assertEqual(source_drill_inactive_warmup_input["keys"]["current_warmup"]["java_expr"], "warmup")
+        self.assertEqual(source_drill_inactive_warmup_input["keys"]["current_warmup"]["status"], "explicit-input")
+        self.assertEqual(source_drill_inactive_warmup_input["keys"]["warmup_speed"]["java_expr"], "warmupSpeed")
+        self.assertEqual(source_drill_inactive_warmup_input["keys"]["warmup_speed"]["status"], "explicit-input")
+        self.assertEqual(source_drill_inactive_warmup_input["keys"]["source_delta"]["java_expr"], "Time.delta")
+        self.assertEqual(source_drill_inactive_warmup_input["keys"]["source_delta"]["status"], "explicit-input")
+
+        source_drill_inactive_warmup_result = source_symbols.state_schema(schema, "source_drill_inactive_warmup_result")
+        self.assertEqual(source_drill_inactive_warmup_result["keys"]["lastDrillSpeed"]["java_expr"], "lastDrillSpeed = 0f;")
+        self.assertEqual(source_drill_inactive_warmup_result["keys"]["warmup"]["java_expr"], "warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);")
+        self.assertEqual(source_drill_inactive_warmup_result["keys"]["warmupSpeedField"]["java_expr"], "public float warmupSpeed = 0.015f;")
+        self.assertEqual(source_drill_inactive_warmup_result["keys"]["warmupSpeed"]["java_expr"], "warmupSpeed")
+        self.assertEqual(source_drill_inactive_warmup_result["keys"]["current_warmup"]["alias_of"], "source_drill_inactive_warmup_input.current_warmup")
+        self.assertEqual(source_drill_inactive_warmup_result["keys"]["source_delta"]["alias_of"], "source_drill_inactive_warmup_input.source_delta")
 
         source_building_accept_liquid_input = source_symbols.state_schema(schema, "source_building_accept_liquid_input")
         self.assertEqual(source_building_accept_liquid_input["keys"]["hasLiquids"]["java_expr"], "block.hasLiquids")

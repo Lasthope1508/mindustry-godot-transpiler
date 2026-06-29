@@ -9324,6 +9324,34 @@
         "test_drill_dump_interval_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_drill_dump_interval"
       ]
+    },
+    "N692": {
+      "exact_exprs": [
+        "lastDrillSpeed = 0f;",
+        "warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);",
+        "public float warmupSpeed = 0.015f;",
+        "warmup",
+        "warmupSpeed",
+        "Time.delta"
+      ],
+      "godot_owner": "PortGame.source_drill_inactive_warmup_state",
+      "java_class": "mindustry.world.blocks.production.Drill.DrillBuild",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "runtime_proof": "/root/Main.source_drill_inactive_warmup_state",
+      "source_symbols": [
+        "drill_inactive_warmup.current_warmup",
+        "drill_inactive_warmup.last_speed_reset",
+        "drill_inactive_warmup.source_delta",
+        "drill_inactive_warmup.warmup_decay",
+        "drill_inactive_warmup.warmup_speed",
+        "drill_inactive_warmup.warmup_speed_field"
+      ],
+      "status": "done",
+      "tests": [
+        "test_drill_inactive_warmup_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_drill_inactive_warmup_state_symbols"
+      ]
     }
   },
   "version": 1

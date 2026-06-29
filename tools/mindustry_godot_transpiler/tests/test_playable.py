@@ -5871,6 +5871,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_drill_dump_interval(block_id: String, time_scale := 1.0) -> float:", source)
         self.assertIn("return source_block_dump_time(block_id) / time_scale", source)
 
+    def test_port_game_exposes_source_drill_inactive_warmup_state_symbols(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn('const SOURCE_DRILL_INACTIVE_WARMUP_LAST_SPEED_RESET := "lastDrillSpeed = 0f;"', source)
+        self.assertIn('const SOURCE_DRILL_INACTIVE_WARMUP_WARMUP_DECAY := "warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);"', source)
+        self.assertIn('const SOURCE_DRILL_INACTIVE_WARMUP_WARMUP_SPEED_FIELD := "public float warmupSpeed = 0.015f;"', source)
+        self.assertIn("func source_drill_inactive_warmup_state(current_warmup: float, warmup_speed: float, source_delta: float) -> float:", source)
+        self.assertIn("return source_approach_delta(current_warmup, 0.0, warmup_speed, source_delta)", source)
+
     def test_port_game_exposes_source_drill_progress_fraction(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

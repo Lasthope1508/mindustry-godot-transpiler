@@ -25115,6 +25115,84 @@
         "test_drill_dump_interval_symbols_are_registered_with_source_backing"
       ]
     },
+    "drill_inactive_warmup.current_warmup": {
+      "godot_owner": "PortGame.source_drill_inactive_warmup_state",
+      "godot_symbol": "source_drill_inactive_warmup_input.current_warmup",
+      "java_expr": "warmup",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Godot current_warmup supplies DrillBuild warmup before inactive decay.",
+      "runtime_proof": "/root/Main.source_drill_inactive_warmup_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_inactive_warmup_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_inactive_warmup.last_speed_reset": {
+      "godot_owner": "PortGame.source_drill_inactive_warmup_state",
+      "godot_symbol": "source_drill_inactive_warmup_result.lastDrillSpeed",
+      "java_expr": "lastDrillSpeed = 0f;",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Inactive DrillBuild branch resets lastDrillSpeed before returning.",
+      "runtime_proof": "/root/Main.source_drill_inactive_warmup_state",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_inactive_warmup_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_inactive_warmup.source_delta": {
+      "godot_owner": "PortGame.source_drill_inactive_warmup_state",
+      "godot_symbol": "source_drill_inactive_warmup_input.source_delta",
+      "java_expr": "Time.delta",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Godot source_delta supplies Arc Time.delta for Mathf.approachDelta.",
+      "runtime_proof": "/root/Main.source_drill_inactive_warmup_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_inactive_warmup_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_inactive_warmup.warmup_decay": {
+      "godot_owner": "PortGame.source_drill_inactive_warmup_state",
+      "godot_symbol": "source_drill_inactive_warmup_result.warmup",
+      "java_expr": "warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Inactive DrillBuild branch decays warmup toward zero.",
+      "runtime_proof": "/root/Main.source_drill_inactive_warmup_state",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_inactive_warmup_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_inactive_warmup.warmup_speed": {
+      "godot_owner": "PortGame.source_drill_inactive_warmup_state",
+      "godot_symbol": "source_drill_inactive_warmup_input.warmup_speed",
+      "java_expr": "warmupSpeed",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Godot warmup_speed supplies Drill.warmupSpeed for inactive decay.",
+      "runtime_proof": "/root/Main.source_drill_inactive_warmup_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_inactive_warmup_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_inactive_warmup.warmup_speed_field": {
+      "godot_owner": "PortGame.source_drill_inactive_warmup_state",
+      "godot_symbol": "source_drill_inactive_warmup_result.warmupSpeedField",
+      "java_expr": "public float warmupSpeed = 0.015f;",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Drill warmupSpeed field backing inactive warmup decay.",
+      "runtime_proof": "/root/Main.source_drill_inactive_warmup_state",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_inactive_warmup_symbols_are_registered_with_source_backing"
+      ]
+    },
     "handle_pierce.bullet.damage": {
       "godot_owner": "PortGame.source_bullet_type_handle_pierce_state",
       "godot_symbol": "bullet_state.damage",

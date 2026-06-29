@@ -36600,6 +36600,118 @@
       },
       "status": "active"
     },
+    "source_drill_inactive_warmup_input": {
+      "keys": {
+        "current_warmup": {
+          "godot_symbol": "source_drill_inactive_warmup_input.current_warmup",
+          "java_expr": "warmup",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input current DrillBuild warmup before inactive decay.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_inactive_warmup_state"
+          ]
+        },
+        "source_delta": {
+          "godot_symbol": "source_drill_inactive_warmup_input.source_delta",
+          "java_expr": "Time.delta",
+          "java_method": "Mathf.approachDelta(float from, float to, float speed)",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "rule": "Input source Time.delta used by Mathf.approachDelta.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_inactive_warmup_state"
+          ]
+        },
+        "warmup_speed": {
+          "godot_symbol": "source_drill_inactive_warmup_input.warmup_speed",
+          "java_expr": "warmupSpeed",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input Drill warmupSpeed for inactive decay.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_inactive_warmup_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_drill_inactive_warmup_result": {
+      "keys": {
+        "current_warmup": {
+          "alias_of": "source_drill_inactive_warmup_input.current_warmup",
+          "rule": "Carries current warmup input into inactive warmup result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "lastDrillSpeed": {
+          "godot_symbol": "source_drill_inactive_warmup_result.lastDrillSpeed",
+          "java_expr": "lastDrillSpeed = 0f;",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Inactive branch resets lastDrillSpeed to zero.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_inactive_warmup_state"
+          ]
+        },
+        "source_delta": {
+          "alias_of": "source_drill_inactive_warmup_input.source_delta",
+          "rule": "Carries source delta input into inactive warmup result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "warmup": {
+          "godot_symbol": "source_drill_inactive_warmup_result.warmup",
+          "java_expr": "warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Inactive branch decays warmup toward zero via Mathf.approachDelta.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_inactive_warmup_state"
+          ]
+        },
+        "warmupSpeed": {
+          "godot_symbol": "source_drill_inactive_warmup_result.warmupSpeed",
+          "java_expr": "warmupSpeed",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Runtime warmup speed used by inactive warmup decay.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_inactive_warmup_state"
+          ]
+        },
+        "warmupSpeedField": {
+          "godot_symbol": "source_drill_inactive_warmup_result.warmupSpeedField",
+          "java_expr": "public float warmupSpeed = 0.015f;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Drill warmupSpeed field declaration.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_inactive_warmup_state"
+          ]
+        },
+        "warmup_speed": {
+          "alias_of": "source_drill_inactive_warmup_input.warmup_speed",
+          "rule": "Carries warmup speed input into inactive warmup result schema.",
+          "status": "generated",
+          "type": "float"
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

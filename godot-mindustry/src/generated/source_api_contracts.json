@@ -10895,6 +10895,39 @@
       "tests": [
         "test_drill_dump_interval_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_drill_inactive_warmup_state": {
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "params": [
+        {
+          "name": "current_warmup",
+          "schema": "source_drill_inactive_warmup_input.current_warmup",
+          "type": "float"
+        },
+        {
+          "name": "warmup_speed",
+          "schema": "source_drill_inactive_warmup_input.warmup_speed",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_drill_inactive_warmup_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "lastDrillSpeed",
+        "warmup",
+        "warmupSpeed"
+      ],
+      "rule": "Public runtime contract for DrillBuild inactive branch warmup decay and lastDrillSpeed reset.",
+      "runtime_proof": "/root/Main.source_drill_inactive_warmup_state",
+      "source_method": "DrillBuild.updateTile()",
+      "source_slice": "N692",
+      "status": "active",
+      "tests": [
+        "test_drill_inactive_warmup_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
