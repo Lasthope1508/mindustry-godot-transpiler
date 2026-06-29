@@ -3625,6 +3625,43 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(item_id["java_expr"], "todump")
         self.assertEqual(item_id["godot_symbol"], "source_dump_drill_item_to_core_input.item_id")
 
+    def test_dump_payload_index_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        dump_field = source_symbols.source_symbol(registry, "dump_payload_index.dump_field")
+        self.assertEqual(dump_field["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(dump_field["java_method"], "dumpPayload(Payload todump)")
+        self.assertEqual(dump_field["java_expr"], "int dump = this.cdump;")
+        self.assertEqual(dump_field["godot_owner"], "PortGame.source_dump_payload_index")
+        self.assertEqual(dump_field["runtime_proof"], "/root/Main.source_dump_payload_index")
+        self.assertEqual(dump_field["godot_symbol"], "source_dump_payload_index_result.dump")
+
+        proximity_get = source_symbols.source_symbol(registry, "dump_payload_index.proximity_get")
+        self.assertEqual(proximity_get["java_expr"], "Building other = proximity.get((i + dump) % proximity.size);")
+        self.assertEqual(proximity_get["godot_symbol"], "source_dump_payload_index_result.otherIndex")
+
+        index_expr = source_symbols.source_symbol(registry, "dump_payload_index.index_expr")
+        self.assertEqual(index_expr["java_expr"], "(i + dump) % proximity.size")
+        self.assertEqual(index_expr["godot_symbol"], "source_dump_payload_index_result.otherIndex")
+
+        loop_index = source_symbols.source_symbol(registry, "dump_payload_index.loop_index")
+        self.assertEqual(loop_index["status"], "explicit-input")
+        self.assertEqual(loop_index["java_expr"], "i")
+        self.assertEqual(loop_index["godot_symbol"], "source_dump_payload_index_input.loop_index")
+
+        dump_cursor = source_symbols.source_symbol(registry, "dump_payload_index.dump_cursor")
+        self.assertEqual(dump_cursor["status"], "explicit-input")
+        self.assertEqual(dump_cursor["java_expr"], "dump")
+        self.assertEqual(dump_cursor["godot_symbol"], "source_dump_payload_index_input.dump_cursor")
+
+        proximity_size = source_symbols.source_symbol(registry, "dump_payload_index.proximity_size")
+        self.assertEqual(proximity_size["status"], "explicit-input")
+        self.assertEqual(proximity_size["java_expr"], "proximity.size")
+        self.assertEqual(proximity_size["godot_symbol"], "source_dump_payload_index_input.proximity_size")
+
     def test_building_accept_liquid_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -9555,9 +9592,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 303)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 304)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 308)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 309)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -9714,6 +9751,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_sprite_base_position", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_time_scale_at_cell", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_time_scale_duration_at_cell", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_dump_payload_index", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_time_scale_decay_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_to_string_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_unit_on_state", audit["registeredSourceOwners"])
@@ -10943,6 +10981,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("other.handleItem(self(), todump);", dump_drill_item_to_core["exact_exprs"])
         self.assertIn("items.remove(todump, 1);", dump_drill_item_to_core["exact_exprs"])
         self.assertIn("incrementDump(proximity.size);", dump_drill_item_to_core["exact_exprs"])
+
+        dump_payload_index = source_symbols.source_slice(ledger, "N706")
+        self.assertEqual(dump_payload_index["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(dump_payload_index["java_method"], "dumpPayload(Payload todump)")
+        self.assertEqual(dump_payload_index["godot_owner"], "PortGame.source_dump_payload_index")
+        self.assertIn("int dump = this.cdump;", dump_payload_index["exact_exprs"])
+        self.assertIn("Building other = proximity.get((i + dump) % proximity.size);", dump_payload_index["exact_exprs"])
+        self.assertIn("(i + dump) % proximity.size", dump_payload_index["exact_exprs"])
+        self.assertIn("i", dump_payload_index["exact_exprs"])
+        self.assertIn("dump", dump_payload_index["exact_exprs"])
+        self.assertIn("proximity.size", dump_payload_index["exact_exprs"])
 
         building_accept_liquid = source_symbols.source_slice(ledger, "N522")
         self.assertEqual(building_accept_liquid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -13814,6 +13863,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("handleItem", dump_drill_item_to_core["return_keys"])
         self.assertIn("removeItem", dump_drill_item_to_core["return_keys"])
         self.assertEqual(dump_drill_item_to_core["source_method"], "dump(Item todump)")
+
+        dump_payload_index = source_symbols.api_contract(contracts, "PortGame.source_dump_payload_index")
+        self.assertEqual([param["name"] for param in dump_payload_index["params"]], ["loop_index", "dump_cursor", "proximity_size"])
+        self.assertEqual(dump_payload_index["params"][0]["schema"], "source_dump_payload_index_input.loop_index")
+        self.assertEqual(dump_payload_index["params"][1]["schema"], "source_dump_payload_index_input.dump_cursor")
+        self.assertEqual(dump_payload_index["params"][2]["schema"], "source_dump_payload_index_input.proximity_size")
+        self.assertIn("otherIndex", dump_payload_index["return_keys"])
+        self.assertIn("dump", dump_payload_index["return_keys"])
+        self.assertIn("loop_index", dump_payload_index["return_keys"])
+        self.assertIn("dump_cursor", dump_payload_index["return_keys"])
+        self.assertIn("proximity_size", dump_payload_index["return_keys"])
+        self.assertEqual(dump_payload_index["source_method"], "dumpPayload(Payload todump)")
 
         building_accept_liquid = source_symbols.api_contract(contracts, "PortGame.source_building_accept_liquid_state")
         self.assertEqual([param["name"] for param in building_accept_liquid["params"]], ["has_liquids", "consumes_liquid"])
@@ -16841,6 +16902,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_dump_drill_item_to_core_result["keys"]["removeItem"]["java_expr"], "items.remove(todump, 1);")
         self.assertEqual(source_dump_drill_item_to_core_result["keys"]["incrementDump"]["java_expr"], "incrementDump(proximity.size);")
         self.assertEqual(source_dump_drill_item_to_core_result["keys"]["item_id"]["alias_of"], "source_dump_drill_item_to_core_input.item_id")
+
+        source_dump_payload_index_input = source_symbols.state_schema(schema, "source_dump_payload_index_input")
+        self.assertEqual(source_dump_payload_index_input["keys"]["loop_index"]["java_expr"], "i")
+        self.assertEqual(source_dump_payload_index_input["keys"]["dump_cursor"]["java_expr"], "dump")
+        self.assertEqual(source_dump_payload_index_input["keys"]["proximity_size"]["java_expr"], "proximity.size")
+
+        source_dump_payload_index_result = source_symbols.state_schema(schema, "source_dump_payload_index_result")
+        self.assertEqual(source_dump_payload_index_result["keys"]["dump"]["java_expr"], "int dump = this.cdump;")
+        self.assertEqual(source_dump_payload_index_result["keys"]["otherIndex"]["java_expr"], "(i + dump) % proximity.size")
+        self.assertEqual(source_dump_payload_index_result["keys"]["proximityGet"]["java_expr"], "Building other = proximity.get((i + dump) % proximity.size);")
+        self.assertEqual(source_dump_payload_index_result["keys"]["loop_index"]["alias_of"], "source_dump_payload_index_input.loop_index")
+        self.assertEqual(source_dump_payload_index_result["keys"]["dump_cursor"]["alias_of"], "source_dump_payload_index_input.dump_cursor")
+        self.assertEqual(source_dump_payload_index_result["keys"]["proximity_size"]["alias_of"], "source_dump_payload_index_input.proximity_size")
 
         source_building_accept_liquid_input = source_symbols.state_schema(schema, "source_building_accept_liquid_input")
         self.assertEqual(source_building_accept_liquid_input["keys"]["hasLiquids"]["java_expr"], "block.hasLiquids")

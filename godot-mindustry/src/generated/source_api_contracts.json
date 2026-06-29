@@ -11418,6 +11418,41 @@
       "tests": [
         "test_dump_drill_item_to_core_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_dump_payload_index": {
+      "status": "active",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "dumpPayload(Payload todump)",
+      "source_slice": "N706",
+      "runtime_proof": "/root/Main.source_dump_payload_index",
+      "params": [
+        {
+          "name": "loop_index",
+          "type": "int",
+          "schema": "source_dump_payload_index_input.loop_index"
+        },
+        {
+          "name": "dump_cursor",
+          "type": "int",
+          "schema": "source_dump_payload_index_input.dump_cursor"
+        },
+        {
+          "name": "proximity_size",
+          "type": "int",
+          "schema": "source_dump_payload_index_input.proximity_size"
+        }
+      ],
+      "return_keys": [
+        "otherIndex",
+        "dump",
+        "loop_index",
+        "dump_cursor",
+        "proximity_size"
+      ],
+      "rule": "Public runtime contract for source dumpPayload neighbor index expression mapped to GDScript helper.",
+      "tests": [
+        "test_dump_payload_index_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

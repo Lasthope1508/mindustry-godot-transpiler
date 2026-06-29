@@ -9758,6 +9758,34 @@
         "test_dump_drill_item_to_core_symbols_are_registered_with_source_backing",
         "test_port_game_dumps_source_drill_inventory_to_core"
       ]
+    },
+    "N706": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "dumpPayload(Payload todump)",
+      "exact_exprs": [
+        "int dump = this.cdump;",
+        "Building other = proximity.get((i + dump) % proximity.size);",
+        "(i + dump) % proximity.size",
+        "i",
+        "dump",
+        "proximity.size"
+      ],
+      "godot_owner": "PortGame.source_dump_payload_index",
+      "runtime_proof": "/root/Main.source_dump_payload_index",
+      "source_symbols": [
+        "dump_payload_index.dump_field",
+        "dump_payload_index.proximity_get",
+        "dump_payload_index.index_expr",
+        "dump_payload_index.loop_index",
+        "dump_payload_index.dump_cursor",
+        "dump_payload_index.proximity_size"
+      ],
+      "tests": [
+        "test_dump_payload_index_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_dump_payload_state"
+      ]
     }
   },
   "version": 1

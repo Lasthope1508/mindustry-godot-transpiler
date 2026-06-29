@@ -1485,6 +1485,10 @@ func source_payload_forward_offset(payload_block_size: int) -> int:
 func source_move_payload_state(has_next_tile: bool, has_next_build: bool, same_team: bool, accepts_payload: bool) -> bool:
 	return has_next_tile and has_next_build and same_team and accepts_payload
 
+const SOURCE_DUMP_PAYLOAD_INDEX_DUMP_FIELD := "int dump = this.cdump;"
+const SOURCE_DUMP_PAYLOAD_INDEX_PROXIMITY_GET := "Building other = proximity.get((i + dump) % proximity.size);"
+const SOURCE_DUMP_PAYLOAD_INDEX_EXPR := "(i + dump) % proximity.size"
+
 func source_dump_payload_index(loop_index: int, dump_cursor: int, proximity_size: int) -> int:
 	return (loop_index + dump_cursor) % proximity_size
 

@@ -39851,6 +39851,106 @@
           "rule": "Carries item_id input into dump result schema."
         }
       }
+    },
+    "source_dump_payload_index_input": {
+      "status": "active",
+      "keys": {
+        "loop_index": {
+          "status": "explicit-input",
+          "type": "int",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "dumpPayload(Payload todump)",
+          "java_expr": "i",
+          "godot_symbol": "source_dump_payload_index_input.loop_index",
+          "rule": "Input loop index maps to source i.",
+          "used_by": [
+            "PortGame.source_dump_payload_index"
+          ]
+        },
+        "dump_cursor": {
+          "status": "explicit-input",
+          "type": "int",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "dumpPayload(Payload todump)",
+          "java_expr": "dump",
+          "godot_symbol": "source_dump_payload_index_input.dump_cursor",
+          "rule": "Input dump cursor maps to source dump local snapshot.",
+          "used_by": [
+            "PortGame.source_dump_payload_index"
+          ]
+        },
+        "proximity_size": {
+          "status": "explicit-input",
+          "type": "int",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "dumpPayload(Payload todump)",
+          "java_expr": "proximity.size",
+          "godot_symbol": "source_dump_payload_index_input.proximity_size",
+          "rule": "Input proximity size maps to source proximity.size.",
+          "used_by": [
+            "PortGame.source_dump_payload_index"
+          ]
+        }
+      }
+    },
+    "source_dump_payload_index_result": {
+      "status": "active",
+      "keys": {
+        "dump": {
+          "status": "source-backed",
+          "type": "int",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "dumpPayload(Payload todump)",
+          "java_expr": "int dump = this.cdump;",
+          "godot_symbol": "source_dump_payload_index_result.dump",
+          "rule": "Source local dump snapshot.",
+          "used_by": [
+            "PortGame.source_dump_payload_index"
+          ]
+        },
+        "otherIndex": {
+          "status": "source-backed",
+          "type": "int",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "dumpPayload(Payload todump)",
+          "java_expr": "(i + dump) % proximity.size",
+          "godot_symbol": "source_dump_payload_index_result.otherIndex",
+          "rule": "Source payload neighbor index expression.",
+          "used_by": [
+            "PortGame.source_dump_payload_index"
+          ]
+        },
+        "proximityGet": {
+          "status": "source-backed",
+          "type": "int",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "dumpPayload(Payload todump)",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "godot_symbol": "source_dump_payload_index_result.proximityGet",
+          "rule": "Source proximity.get line that consumes otherIndex.",
+          "used_by": [
+            "PortGame.source_dump_payload_index"
+          ]
+        },
+        "loop_index": {
+          "status": "generated",
+          "type": "int",
+          "alias_of": "source_dump_payload_index_input.loop_index",
+          "rule": "Carries loop_index input into result schema."
+        },
+        "dump_cursor": {
+          "status": "generated",
+          "type": "int",
+          "alias_of": "source_dump_payload_index_input.dump_cursor",
+          "rule": "Carries dump_cursor input into result schema."
+        },
+        "proximity_size": {
+          "status": "generated",
+          "type": "int",
+          "alias_of": "source_dump_payload_index_input.proximity_size",
+          "rule": "Carries proximity_size input into result schema."
+        }
+      }
     }
   },
   "version": 1

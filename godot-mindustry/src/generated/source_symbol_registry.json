@@ -30916,6 +30916,84 @@
       "tests": [
         "test_dump_drill_item_to_core_symbols_are_registered_with_source_backing"
       ]
+    },
+    "dump_payload_index.dump_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpPayload(Payload todump)",
+      "java_expr": "int dump = this.cdump;",
+      "godot_owner": "PortGame.source_dump_payload_index",
+      "godot_symbol": "source_dump_payload_index_result.dump",
+      "runtime_proof": "/root/Main.source_dump_payload_index",
+      "rule": "Source snapshots cdump into local dump before payload neighbor indexing.",
+      "tests": [
+        "test_dump_payload_index_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "dump_payload_index.proximity_get": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpPayload(Payload todump)",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "godot_owner": "PortGame.source_dump_payload_index",
+      "godot_symbol": "source_dump_payload_index_result.otherIndex",
+      "runtime_proof": "/root/Main.source_dump_payload_index",
+      "rule": "Source selects payload neighbor from proximity with indexed dump cursor expression.",
+      "tests": [
+        "test_dump_payload_index_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "dump_payload_index.index_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpPayload(Payload todump)",
+      "java_expr": "(i + dump) % proximity.size",
+      "godot_owner": "PortGame.source_dump_payload_index",
+      "godot_symbol": "source_dump_payload_index_result.otherIndex",
+      "runtime_proof": "/root/Main.source_dump_payload_index",
+      "rule": "Source computes payload neighbor index from loop index plus dump cursor modulo proximity size.",
+      "tests": [
+        "test_dump_payload_index_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "dump_payload_index.loop_index": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpPayload(Payload todump)",
+      "java_expr": "i",
+      "godot_owner": "PortGame.source_dump_payload_index",
+      "godot_symbol": "source_dump_payload_index_input.loop_index",
+      "runtime_proof": "/root/Main.source_dump_payload_index",
+      "rule": "Godot loop_index supplies source payload dump loop variable i.",
+      "tests": [
+        "test_dump_payload_index_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "dump_payload_index.dump_cursor": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpPayload(Payload todump)",
+      "java_expr": "dump",
+      "godot_owner": "PortGame.source_dump_payload_index",
+      "godot_symbol": "source_dump_payload_index_input.dump_cursor",
+      "runtime_proof": "/root/Main.source_dump_payload_index",
+      "rule": "Godot dump_cursor supplies source local dump snapshot.",
+      "tests": [
+        "test_dump_payload_index_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "dump_payload_index.proximity_size": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpPayload(Payload todump)",
+      "java_expr": "proximity.size",
+      "godot_owner": "PortGame.source_dump_payload_index",
+      "godot_symbol": "source_dump_payload_index_input.proximity_size",
+      "runtime_proof": "/root/Main.source_dump_payload_index",
+      "rule": "Godot proximity_size supplies source proximity.size divisor.",
+      "tests": [
+        "test_dump_payload_index_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

@@ -1446,6 +1446,9 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_DUMP_PAYLOAD_INDEX_DUMP_FIELD := "int dump = this.cdump;"', source)
+        self.assertIn('const SOURCE_DUMP_PAYLOAD_INDEX_PROXIMITY_GET := "Building other = proximity.get((i + dump) % proximity.size);"', source)
+        self.assertIn('const SOURCE_DUMP_PAYLOAD_INDEX_EXPR := "(i + dump) % proximity.size"', source)
         self.assertIn("func source_dump_payload_index(loop_index: int, dump_cursor: int, proximity_size: int) -> int:", source)
         self.assertIn("return (loop_index + dump_cursor) % proximity_size", source)
         self.assertIn("func source_dump_payload_state(proximity_size: int, dump_cursor: int, accepts_payload_by_index: Array) -> Dictionary:", source)
