@@ -8722,6 +8722,33 @@
         "test_bullet_hit_size_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_bullet_hit_size"
       ]
+    },
+    "N674": {
+      "exact_exprs": [
+        "/** Extra inaccuracy when firing. */",
+        "public float inaccuracy = 0f;",
+        "BulletType data",
+        "inaccuracy",
+        "0f"
+      ],
+      "godot_owner": "PortGame.source_bullet_inaccuracy",
+      "java_class": "BulletType",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "runtime_proof": "/root/Main.source_bullet_inaccuracy",
+      "source_symbols": [
+        "bullet_inaccuracy.comment",
+        "bullet_inaccuracy.field",
+        "bullet_inaccuracy.data",
+        "bullet_inaccuracy.key",
+        "bullet_inaccuracy.default",
+        "bullet_inaccuracy.result"
+      ],
+      "status": "done",
+      "tests": [
+        "test_bullet_inaccuracy_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_inaccuracy"
+      ]
     }
   },
   "version": 1

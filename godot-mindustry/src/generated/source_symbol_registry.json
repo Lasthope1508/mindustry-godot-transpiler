@@ -18791,6 +18791,84 @@
         "test_bullet_hit_size_symbols_are_registered_with_source_backing"
       ]
     },
+    "bullet_inaccuracy.comment": {
+      "godot_owner": "PortGame.source_bullet_inaccuracy",
+      "godot_symbol": "source_bullet_inaccuracy_result.comment",
+      "java_expr": "/** Extra inaccuracy when firing. */",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Canonical BulletType inaccuracy source comment.",
+      "runtime_proof": "/root/Main.source_bullet_inaccuracy",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_inaccuracy_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_inaccuracy.data": {
+      "godot_owner": "PortGame.source_bullet_inaccuracy",
+      "godot_symbol": "source_bullet_inaccuracy_input.data",
+      "java_expr": "BulletType data",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Runtime data dictionary supplies BulletType inaccuracy field state.",
+      "runtime_proof": "/root/Main.source_bullet_inaccuracy",
+      "status": "explicit-input",
+      "tests": [
+        "test_bullet_inaccuracy_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_inaccuracy.default": {
+      "godot_owner": "PortGame.source_bullet_inaccuracy",
+      "godot_symbol": "source_bullet_inaccuracy_result.default_value",
+      "java_expr": "0f",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Godot fallback preserves BulletType.inaccuracy default value.",
+      "runtime_proof": "/root/Main.source_bullet_inaccuracy",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_inaccuracy_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_inaccuracy.field": {
+      "godot_owner": "PortGame.source_bullet_inaccuracy",
+      "godot_symbol": "source_bullet_inaccuracy_result.field",
+      "java_expr": "public float inaccuracy = 0f;",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Canonical BulletType inaccuracy field declaration.",
+      "runtime_proof": "/root/Main.source_bullet_inaccuracy",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_inaccuracy_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_inaccuracy.key": {
+      "godot_owner": "PortGame.source_bullet_inaccuracy",
+      "godot_symbol": "source_bullet_inaccuracy_result.key",
+      "java_expr": "inaccuracy",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Godot dictionary key maps to BulletType.inaccuracy exactly.",
+      "runtime_proof": "/root/Main.source_bullet_inaccuracy",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_inaccuracy_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_inaccuracy.result": {
+      "godot_owner": "PortGame.source_bullet_inaccuracy",
+      "godot_symbol": "source_bullet_inaccuracy_result.inaccuracy",
+      "java_expr": "inaccuracy",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Return inaccuracy from BulletType.inaccuracy runtime data or default.",
+      "runtime_proof": "/root/Main.source_bullet_inaccuracy",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_inaccuracy_symbols_are_registered_with_source_backing"
+      ]
+    },
     "bullet_type.parts": {
       "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
       "godot_symbol": "bullet_type_state.parts",

@@ -10132,6 +10132,11 @@ func source_move_angle_toward(current_degrees: float, target_degrees: float, max
 func source_bullet_range_change(data: Dictionary) -> float:
 	return float(data.get("rangeChange", 0.0))
 
+const SOURCE_BULLET_INACCURACY_COMMENT := "/** Extra inaccuracy when firing. */"
+const SOURCE_BULLET_INACCURACY_FIELD := "public float inaccuracy = 0f;"
+const SOURCE_BULLET_INACCURACY_KEY := "inaccuracy"
+const SOURCE_BULLET_INACCURACY_DEFAULT := 0.0
+
 func source_bullet_inaccuracy(data: Dictionary) -> float:
 	return float(data.get("inaccuracy", 0.0))
 

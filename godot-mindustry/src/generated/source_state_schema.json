@@ -34272,6 +34272,94 @@
       },
       "status": "active"
     },
+    "source_bullet_inaccuracy_input": {
+      "keys": {
+        "data": {
+          "godot_symbol": "source_bullet_inaccuracy_input.data",
+          "java_expr": "BulletType data",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Runtime data dictionary supplies BulletType inaccuracy field state.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_bullet_inaccuracy"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_bullet_inaccuracy_result": {
+      "keys": {
+        "comment": {
+          "godot_symbol": "source_bullet_inaccuracy_result.comment",
+          "java_expr": "/** Extra inaccuracy when firing. */",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Canonical BulletType inaccuracy source comment.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_inaccuracy"
+          ]
+        },
+        "data": {
+          "alias_of": "source_bullet_inaccuracy_input.data",
+          "rule": "Carries BulletType data input into inaccuracy result schema.",
+          "status": "generated",
+          "type": "Dictionary"
+        },
+        "default_value": {
+          "godot_symbol": "source_bullet_inaccuracy_result.default_value",
+          "java_expr": "0f",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Godot fallback preserves BulletType.inaccuracy default value.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_bullet_inaccuracy"
+          ]
+        },
+        "field": {
+          "godot_symbol": "source_bullet_inaccuracy_result.field",
+          "java_expr": "public float inaccuracy = 0f;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Canonical BulletType inaccuracy field declaration.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_inaccuracy"
+          ]
+        },
+        "inaccuracy": {
+          "godot_symbol": "source_bullet_inaccuracy_result.inaccuracy",
+          "java_expr": "inaccuracy",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Return inaccuracy from BulletType.inaccuracy runtime data or default.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_bullet_inaccuracy"
+          ]
+        },
+        "key": {
+          "godot_symbol": "source_bullet_inaccuracy_result.key",
+          "java_expr": "inaccuracy",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Godot dictionary key maps to BulletType.inaccuracy exactly.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_inaccuracy"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {
