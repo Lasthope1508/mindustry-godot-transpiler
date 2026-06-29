@@ -281,6 +281,11 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_overdrive_projector_range(overdrive_projector, phase_heat := 0.0) -> float:", source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_RANGE_METHOD := "public float range(){\\n            return range;\\n        }"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_RANGE_RETURN := "return range;"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_RANGE_FIELD := "public float range = 80f;"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_RANGE_PHASE_RANGE_BOOST_FIELD := "public float phaseRangeBoost = 20f;"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_RANGE_REAL_RANGE_EXPR := "float realRange = range + phaseHeat * phaseRangeBoost;"', source)
         self.assertIn('var base_range := float(overdrive_projector.properties.get("range", 0.0))', source)
         self.assertIn('var phase_range_boost := float(overdrive_projector.properties.get("phaseRangeBoost", 0.0))', source)
         self.assertIn("return base_range + phase_heat * phase_range_boost", source)

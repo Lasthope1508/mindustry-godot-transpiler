@@ -7,9 +7,8 @@
     "PortGame.source_symbol_audit_state",
     "PortGame.source_symbol_registry_state"
   ],
-  "legacyUnregisteredOwnerCount": 157,
+  "legacyUnregisteredOwnerCount": 156,
   "legacyUnregisteredOwners": [
-    "PortGame.source_overdrive_projector_range",
     "PortGame.source_overdrive_projector_real_boost",
     "PortGame.source_overdrive_projector_select_state",
     "PortGame.source_overdrive_projector_target_filter_state",
@@ -171,7 +170,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 326,
+  "registeredSourceOwnerCount": 327,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -498,7 +497,8 @@
     "PortGame.source_overdrive_projector_boost_bar_fraction",
     "PortGame.source_overdrive_projector_draw_state",
     "PortGame.source_overdrive_projector_light_state",
-    "PortGame.source_overdrive_projector_place_state"
+    "PortGame.source_overdrive_projector_place_state",
+    "PortGame.source_overdrive_projector_range"
   ],
   "sourceFunctions": [
     {

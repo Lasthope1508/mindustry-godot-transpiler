@@ -454,6 +454,12 @@ func selected_build_can_overdrive() -> bool:
 	var selected = build_palette[selected_build_index]
 	return bool(selected.properties.get("canOverdrive", true))
 
+const SOURCE_OVERDRIVE_PROJECTOR_RANGE_METHOD := "public float range(){\n            return range;\n        }"
+const SOURCE_OVERDRIVE_PROJECTOR_RANGE_RETURN := "return range;"
+const SOURCE_OVERDRIVE_PROJECTOR_RANGE_FIELD := "public float range = 80f;"
+const SOURCE_OVERDRIVE_PROJECTOR_RANGE_PHASE_RANGE_BOOST_FIELD := "public float phaseRangeBoost = 20f;"
+const SOURCE_OVERDRIVE_PROJECTOR_RANGE_REAL_RANGE_EXPR := "float realRange = range + phaseHeat * phaseRangeBoost;"
+
 func source_overdrive_projector_range(overdrive_projector, phase_heat := 0.0) -> float:
 	if overdrive_projector == null:
 		return 0.0

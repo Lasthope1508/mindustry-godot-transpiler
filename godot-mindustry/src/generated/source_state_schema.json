@@ -41452,6 +41452,88 @@
       },
       "status": "active"
     },
+    "source_overdrive_projector_range_input": {
+      "keys": {
+        "phaseHeat": {
+          "godot_symbol": "source_overdrive_projector_range_input.phaseHeat",
+          "java_expr": "phaseHeat",
+          "java_method": "drawSelect()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Java OverdriveBuild.phaseHeat explicit input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_overdrive_projector_range"
+          ]
+        },
+        "phaseRangeBoost": {
+          "godot_symbol": "source_overdrive_projector_range_input.phaseRangeBoost",
+          "java_expr": "public float phaseRangeBoost = 20f;",
+          "java_method": "OverdriveProjector fields",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Java OverdriveProjector.phaseRangeBoost field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_overdrive_projector_range"
+          ]
+        },
+        "range": {
+          "godot_symbol": "source_overdrive_projector_range_input.range",
+          "java_expr": "public float range = 80f;",
+          "java_method": "OverdriveProjector fields",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Java OverdriveProjector.range field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_overdrive_projector_range"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_overdrive_projector_range_result": {
+      "keys": {
+        "baseRange": {
+          "godot_symbol": "source_overdrive_projector_range_result.baseRange",
+          "java_expr": "return range;",
+          "java_method": "range()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Base range returned by range().",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_overdrive_projector_range"
+          ]
+        },
+        "phaseHeat": {
+          "alias_of": "source_overdrive_projector_range_input.phaseHeat",
+          "rule": "Carries phaseHeat input into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "phaseRangeBoost": {
+          "alias_of": "source_overdrive_projector_range_input.phaseRangeBoost",
+          "rule": "Carries phaseRangeBoost field into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "range": {
+          "godot_symbol": "source_overdrive_projector_range_result.range",
+          "java_expr": "float realRange = range + phaseHeat * phaseRangeBoost;",
+          "java_method": "drawSelect()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Real range used by drawSelect.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_overdrive_projector_range"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

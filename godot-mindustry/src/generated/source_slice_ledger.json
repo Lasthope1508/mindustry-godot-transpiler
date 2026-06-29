@@ -10585,6 +10585,36 @@
         "test_overdrive_projector_place_state_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_overdrive_projector_range_state_like_source"
       ]
+    },
+    "N729": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public float range(){\n            return range;\n        }",
+        "return range;",
+        "public float range = 80f;",
+        "public float phaseRangeBoost = 20f;",
+        "float realRange = range + phaseHeat * phaseRangeBoost;",
+        "phaseHeat"
+      ],
+      "godot_owner": "PortGame.source_overdrive_projector_range",
+      "java_class": "mindustry.world.blocks.defense.OverdriveProjector.OverdriveBuild",
+      "java_method": "range()/drawSelect()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Backfills SSOT for existing source_overdrive_projector_range helper against Mindustry OverdriveProjector range() and drawSelect realRange formula.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_range",
+      "source_symbols": [
+        "overdrive_projector_range.method",
+        "overdrive_projector_range.range_return",
+        "overdrive_projector_range.range_field",
+        "overdrive_projector_range.phase_range_boost_field",
+        "overdrive_projector_range.real_range_expr",
+        "overdrive_projector_range.phase_heat_input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_overdrive_projector_range_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_range_state_like_source"
+      ]
     }
   },
   "version": 1
