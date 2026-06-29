@@ -6781,6 +6781,27 @@
         "test_bullet_inaccuracy_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_bullet_lifetime_seconds": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "params": [
+        {
+          "name": "data",
+          "schema": "source_bullet_lifetime_input.data",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "lifetime_seconds"
+      ],
+      "rule": "Public runtime contract for BulletType lifetime field helper.",
+      "runtime_proof": "/root/Main.source_bullet_lifetime_seconds",
+      "source_method": "field declaration",
+      "source_slice": "N675",
+      "status": "active",
+      "tests": [
+        "test_bullet_lifetime_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_bullet_type_building_damage_state": {
       "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
       "params": [

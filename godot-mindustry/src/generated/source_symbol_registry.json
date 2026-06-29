@@ -18869,6 +18869,97 @@
         "test_bullet_inaccuracy_symbols_are_registered_with_source_backing"
       ]
     },
+    "bullet_lifetime.comment": {
+      "godot_owner": "PortGame.source_bullet_lifetime_seconds",
+      "godot_symbol": "source_bullet_lifetime_result.comment",
+      "java_expr": "/** Lifetime in ticks. */",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Canonical BulletType lifetime source comment.",
+      "runtime_proof": "/root/Main.source_bullet_lifetime_seconds",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_lifetime_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_lifetime.data": {
+      "godot_owner": "PortGame.source_bullet_lifetime_seconds",
+      "godot_symbol": "source_bullet_lifetime_input.data",
+      "java_expr": "BulletType data",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Runtime data dictionary supplies BulletType lifetime field state.",
+      "runtime_proof": "/root/Main.source_bullet_lifetime_seconds",
+      "status": "explicit-input",
+      "tests": [
+        "test_bullet_lifetime_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_lifetime.default": {
+      "godot_owner": "PortGame.source_bullet_lifetime_seconds",
+      "godot_symbol": "source_bullet_lifetime_result.default_value",
+      "java_expr": "40f",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Godot fallback preserves BulletType.lifetime default value.",
+      "runtime_proof": "/root/Main.source_bullet_lifetime_seconds",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_lifetime_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_lifetime.field": {
+      "godot_owner": "PortGame.source_bullet_lifetime_seconds",
+      "godot_symbol": "source_bullet_lifetime_result.field",
+      "java_expr": "public float lifetime = 40f;",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Canonical BulletType lifetime field declaration.",
+      "runtime_proof": "/root/Main.source_bullet_lifetime_seconds",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_lifetime_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_lifetime.key": {
+      "godot_owner": "PortGame.source_bullet_lifetime_seconds",
+      "godot_symbol": "source_bullet_lifetime_result.key",
+      "java_expr": "lifetime",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Godot dictionary key maps to BulletType.lifetime exactly.",
+      "runtime_proof": "/root/Main.source_bullet_lifetime_seconds",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_lifetime_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_lifetime.result": {
+      "godot_owner": "PortGame.source_bullet_lifetime_seconds",
+      "godot_symbol": "source_bullet_lifetime_result.lifetime_seconds",
+      "java_expr": "lifetime / 60f",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Return BulletType.lifetime converted from ticks to seconds.",
+      "runtime_proof": "/root/Main.source_bullet_lifetime_seconds",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_lifetime_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_lifetime.ticks_per_second": {
+      "godot_owner": "PortGame.source_bullet_lifetime_seconds",
+      "godot_symbol": "source_bullet_lifetime_result.ticks_per_second",
+      "java_expr": "60f",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Godot seconds conversion preserves Mindustry tick rate boundary.",
+      "runtime_proof": "/root/Main.source_bullet_lifetime_seconds",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_lifetime_symbols_are_registered_with_source_backing"
+      ]
+    },
     "bullet_type.parts": {
       "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
       "godot_symbol": "bullet_type_state.parts",

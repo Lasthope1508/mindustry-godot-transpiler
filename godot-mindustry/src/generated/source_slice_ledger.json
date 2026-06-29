@@ -8749,6 +8749,35 @@
         "test_bullet_inaccuracy_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_inaccuracy"
       ]
+    },
+    "N675": {
+      "exact_exprs": [
+        "/** Lifetime in ticks. */",
+        "public float lifetime = 40f;",
+        "BulletType data",
+        "lifetime",
+        "40f",
+        "60f"
+      ],
+      "godot_owner": "PortGame.source_bullet_lifetime_seconds",
+      "java_class": "BulletType",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "runtime_proof": "/root/Main.source_bullet_lifetime_seconds",
+      "source_symbols": [
+        "bullet_lifetime.comment",
+        "bullet_lifetime.data",
+        "bullet_lifetime.default",
+        "bullet_lifetime.field",
+        "bullet_lifetime.key",
+        "bullet_lifetime.result",
+        "bullet_lifetime.ticks_per_second"
+      ],
+      "status": "done",
+      "tests": [
+        "test_bullet_lifetime_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_lifetime"
+      ]
     }
   },
   "version": 1

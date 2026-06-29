@@ -4110,6 +4110,45 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result["java_expr"], "inaccuracy")
         self.assertEqual(result["godot_symbol"], "source_bullet_inaccuracy_result.inaccuracy")
 
+    def test_bullet_lifetime_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        comment = source_symbols.source_symbol(registry, "bullet_lifetime.comment")
+        self.assertEqual(comment["java_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(comment["java_method"], "field declaration")
+        self.assertEqual(comment["java_expr"], "/** Lifetime in ticks. */")
+        self.assertEqual(comment["godot_owner"], "PortGame.source_bullet_lifetime_seconds")
+        self.assertEqual(comment["runtime_proof"], "/root/Main.source_bullet_lifetime_seconds")
+        self.assertEqual(comment["godot_symbol"], "source_bullet_lifetime_result.comment")
+
+        field = source_symbols.source_symbol(registry, "bullet_lifetime.field")
+        self.assertEqual(field["java_expr"], "public float lifetime = 40f;")
+        self.assertEqual(field["godot_symbol"], "source_bullet_lifetime_result.field")
+
+        data = source_symbols.source_symbol(registry, "bullet_lifetime.data")
+        self.assertEqual(data["status"], "explicit-input")
+        self.assertEqual(data["java_expr"], "BulletType data")
+        self.assertEqual(data["godot_symbol"], "source_bullet_lifetime_input.data")
+
+        key = source_symbols.source_symbol(registry, "bullet_lifetime.key")
+        self.assertEqual(key["java_expr"], "lifetime")
+        self.assertEqual(key["godot_symbol"], "source_bullet_lifetime_result.key")
+
+        default_value = source_symbols.source_symbol(registry, "bullet_lifetime.default")
+        self.assertEqual(default_value["java_expr"], "40f")
+        self.assertEqual(default_value["godot_symbol"], "source_bullet_lifetime_result.default_value")
+
+        ticks_per_second = source_symbols.source_symbol(registry, "bullet_lifetime.ticks_per_second")
+        self.assertEqual(ticks_per_second["java_expr"], "60f")
+        self.assertEqual(ticks_per_second["godot_symbol"], "source_bullet_lifetime_result.ticks_per_second")
+
+        result = source_symbols.source_symbol(registry, "bullet_lifetime.result")
+        self.assertEqual(result["java_expr"], "lifetime / 60f")
+        self.assertEqual(result["godot_symbol"], "source_bullet_lifetime_result.lifetime_seconds")
+
     def test_building_can_be_replaced_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -8194,9 +8233,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 272)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 273)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 277)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 278)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -8376,6 +8415,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_damage", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_hit_size", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_inaccuracy", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_lifetime_seconds", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -9789,6 +9829,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float inaccuracy = 0f;", bullet_inaccuracy["exact_exprs"])
         self.assertIn("inaccuracy", bullet_inaccuracy["exact_exprs"])
         self.assertIn("0f", bullet_inaccuracy["exact_exprs"])
+
+        bullet_lifetime = source_symbols.source_slice(ledger, "N675")
+        self.assertEqual(bullet_lifetime["java_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(bullet_lifetime["java_method"], "field declaration")
+        self.assertEqual(bullet_lifetime["godot_owner"], "PortGame.source_bullet_lifetime_seconds")
+        self.assertIn("/** Lifetime in ticks. */", bullet_lifetime["exact_exprs"])
+        self.assertIn("public float lifetime = 40f;", bullet_lifetime["exact_exprs"])
+        self.assertIn("lifetime", bullet_lifetime["exact_exprs"])
+        self.assertIn("40f", bullet_lifetime["exact_exprs"])
+        self.assertIn("60f", bullet_lifetime["exact_exprs"])
 
         building_update_consumption_non_optional = source_symbols.source_slice(ledger, "N662")
         self.assertEqual(building_update_consumption_non_optional["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -12819,6 +12869,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("inaccuracy", bullet_inaccuracy["return_keys"])
         self.assertEqual(bullet_inaccuracy["source_method"], "field declaration")
 
+        bullet_lifetime = source_symbols.api_contract(contracts, "PortGame.source_bullet_lifetime_seconds")
+        self.assertEqual([param["name"] for param in bullet_lifetime["params"]], ["data"])
+        self.assertEqual(bullet_lifetime["params"][0]["schema"], "source_bullet_lifetime_input.data")
+        self.assertIn("lifetime_seconds", bullet_lifetime["return_keys"])
+        self.assertEqual(bullet_lifetime["source_method"], "field declaration")
+
         building_placed = source_symbols.api_contract(contracts, "PortGame.source_building_placed_state")
         self.assertEqual([param["name"] for param in building_placed["params"]], ["net_client", "consumes_power", "outputs_power", "has_power", "connected_power", "linked_to_self", "source_pos"])
         self.assertEqual(building_placed["params"][0]["schema"], "source_building_placed_input.net_client")
@@ -15722,6 +15778,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_bullet_inaccuracy_result["keys"]["default_value"]["java_expr"], "0f")
         self.assertEqual(source_bullet_inaccuracy_result["keys"]["inaccuracy"]["java_expr"], "inaccuracy")
         self.assertEqual(source_bullet_inaccuracy_result["keys"]["data"]["alias_of"], "source_bullet_inaccuracy_input.data")
+
+        source_bullet_lifetime_input = source_symbols.state_schema(schema, "source_bullet_lifetime_input")
+        self.assertEqual(source_bullet_lifetime_input["keys"]["data"]["java_expr"], "BulletType data")
+        self.assertEqual(source_bullet_lifetime_input["keys"]["data"]["status"], "explicit-input")
+
+        source_bullet_lifetime_result = source_symbols.state_schema(schema, "source_bullet_lifetime_result")
+        self.assertEqual(source_bullet_lifetime_result["keys"]["comment"]["java_expr"], "/** Lifetime in ticks. */")
+        self.assertEqual(source_bullet_lifetime_result["keys"]["field"]["java_expr"], "public float lifetime = 40f;")
+        self.assertEqual(source_bullet_lifetime_result["keys"]["key"]["java_expr"], "lifetime")
+        self.assertEqual(source_bullet_lifetime_result["keys"]["default_value"]["java_expr"], "40f")
+        self.assertEqual(source_bullet_lifetime_result["keys"]["ticks_per_second"]["java_expr"], "60f")
+        self.assertEqual(source_bullet_lifetime_result["keys"]["lifetime_seconds"]["java_expr"], "lifetime / 60f")
+        self.assertEqual(source_bullet_lifetime_result["keys"]["data"]["alias_of"], "source_bullet_lifetime_input.data")
 
         source_building_placed_input = source_symbols.state_schema(schema, "source_building_placed_input")
         self.assertEqual(source_building_placed_input["keys"]["net_client"]["java_expr"], "net.client()")

@@ -699,7 +699,12 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_lifetime_seconds(data: Dictionary) -> float:", source)
-        self.assertIn('return float(data.get("lifetime", 40.0)) / 60.0', source)
+        self.assertIn('const SOURCE_BULLET_LIFETIME_COMMENT := "/** Lifetime in ticks. */"', source)
+        self.assertIn('const SOURCE_BULLET_LIFETIME_FIELD := "public float lifetime = 40f;"', source)
+        self.assertIn('const SOURCE_BULLET_LIFETIME_KEY := "lifetime"', source)
+        self.assertIn("const SOURCE_BULLET_LIFETIME_DEFAULT := 40.0", source)
+        self.assertIn("const SOURCE_BULLET_LIFETIME_TICKS_PER_SECOND := 60.0", source)
+        self.assertIn("return float(data.get(SOURCE_BULLET_LIFETIME_KEY, SOURCE_BULLET_LIFETIME_DEFAULT)) / SOURCE_BULLET_LIFETIME_TICKS_PER_SECOND", source)
         self.assertIn('"lifetime_remaining": source_bullet_lifetime_seconds(data)', source)
         self.assertIn('var lifetime_remaining := float(bullet.get("lifetime_remaining", 0.0)) - delta', source)
         self.assertIn('bullet["lifetime_remaining"] = lifetime_remaining', source)

@@ -10146,8 +10146,14 @@ func source_turret_total_inaccuracy(turret, data: Dictionary) -> float:
 func source_turret_range_for_ammo(turret, data: Dictionary) -> float:
 	return source_turret_range(turret) + source_bullet_range_change(data)
 
+const SOURCE_BULLET_LIFETIME_COMMENT := "/** Lifetime in ticks. */"
+const SOURCE_BULLET_LIFETIME_FIELD := "public float lifetime = 40f;"
+const SOURCE_BULLET_LIFETIME_KEY := "lifetime"
+const SOURCE_BULLET_LIFETIME_DEFAULT := 40.0
+const SOURCE_BULLET_LIFETIME_TICKS_PER_SECOND := 60.0
+
 func source_bullet_lifetime_seconds(data: Dictionary) -> float:
-	return float(data.get("lifetime", 40.0)) / 60.0
+	return float(data.get(SOURCE_BULLET_LIFETIME_KEY, SOURCE_BULLET_LIFETIME_DEFAULT)) / SOURCE_BULLET_LIFETIME_TICKS_PER_SECOND
 
 func source_bullet_world_speed(data: Dictionary) -> float:
 	return float(data.get("speed", 1.0)) * 60.0

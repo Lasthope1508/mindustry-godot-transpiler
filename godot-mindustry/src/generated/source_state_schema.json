@@ -34360,6 +34360,106 @@
       },
       "status": "active"
     },
+    "source_bullet_lifetime_input": {
+      "keys": {
+        "data": {
+          "godot_symbol": "source_bullet_lifetime_input.data",
+          "java_expr": "BulletType data",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Runtime data dictionary supplies BulletType lifetime field state.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_bullet_lifetime_seconds"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_bullet_lifetime_result": {
+      "keys": {
+        "comment": {
+          "godot_symbol": "source_bullet_lifetime_result.comment",
+          "java_expr": "/** Lifetime in ticks. */",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Canonical BulletType lifetime source comment.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_lifetime_seconds"
+          ]
+        },
+        "data": {
+          "alias_of": "source_bullet_lifetime_input.data",
+          "rule": "Carries BulletType data input into lifetime result schema.",
+          "status": "generated",
+          "type": "Dictionary"
+        },
+        "default_value": {
+          "godot_symbol": "source_bullet_lifetime_result.default_value",
+          "java_expr": "40f",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Godot fallback preserves BulletType.lifetime default value.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_bullet_lifetime_seconds"
+          ]
+        },
+        "field": {
+          "godot_symbol": "source_bullet_lifetime_result.field",
+          "java_expr": "public float lifetime = 40f;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Canonical BulletType lifetime field declaration.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_lifetime_seconds"
+          ]
+        },
+        "key": {
+          "godot_symbol": "source_bullet_lifetime_result.key",
+          "java_expr": "lifetime",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Godot dictionary key maps to BulletType.lifetime exactly.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_lifetime_seconds"
+          ]
+        },
+        "lifetime_seconds": {
+          "godot_symbol": "source_bullet_lifetime_result.lifetime_seconds",
+          "java_expr": "lifetime / 60f",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Return BulletType.lifetime converted from ticks to seconds.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_bullet_lifetime_seconds"
+          ]
+        },
+        "ticks_per_second": {
+          "godot_symbol": "source_bullet_lifetime_result.ticks_per_second",
+          "java_expr": "60f",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Godot seconds conversion preserves Mindustry tick rate boundary.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_bullet_lifetime_seconds"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {
