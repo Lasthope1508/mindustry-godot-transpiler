@@ -10156,6 +10156,11 @@ func source_bullet_hit_size(data: Dictionary) -> float:
 func source_bullet_damage(data: Dictionary) -> float:
 	return float(data.get("damage", 1.0))
 
+const SOURCE_BULLET_AMMO_MULTIPLIER_COMMENT := "/** How many bullets get created per ammo item/liquid. */"
+const SOURCE_BULLET_AMMO_MULTIPLIER_FIELD := "public float ammoMultiplier = 2f;"
+const SOURCE_BULLET_AMMO_MULTIPLIER_KEY := "ammoMultiplier"
+const SOURCE_BULLET_AMMO_MULTIPLIER_DEFAULT := 2.0
+
 func source_bullet_ammo_multiplier(data: Dictionary) -> float:
 	return float(data.get("ammoMultiplier", 2.0))
 

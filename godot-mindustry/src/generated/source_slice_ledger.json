@@ -8645,6 +8645,33 @@
         "test_building_update_timescale_decay_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_building_update_timescale_decay_state"
       ]
+    },
+    "N671": {
+      "exact_exprs": [
+        "/** How many bullets get created per ammo item/liquid. */",
+        "public float ammoMultiplier = 2f;",
+        "BulletType data",
+        "ammoMultiplier",
+        "2f"
+      ],
+      "godot_owner": "PortGame.source_bullet_ammo_multiplier",
+      "java_class": "BulletType",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "runtime_proof": "/root/Main.source_bullet_ammo_multiplier",
+      "source_symbols": [
+        "bullet_ammo_multiplier.comment",
+        "bullet_ammo_multiplier.field",
+        "bullet_ammo_multiplier.data",
+        "bullet_ammo_multiplier.key",
+        "bullet_ammo_multiplier.default",
+        "bullet_ammo_multiplier.result"
+      ],
+      "status": "done",
+      "tests": [
+        "test_bullet_ammo_multiplier_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_ammo_multiplier"
+      ]
     }
   },
   "version": 1

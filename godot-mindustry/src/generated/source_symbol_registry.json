@@ -18583,6 +18583,84 @@
         "test_port_game_exposes_source_bullet_type_draw_parts_state"
       ]
     },
+    "bullet_ammo_multiplier.comment": {
+      "godot_owner": "PortGame.source_bullet_ammo_multiplier",
+      "godot_symbol": "source_bullet_ammo_multiplier_result.comment",
+      "java_expr": "/** How many bullets get created per ammo item/liquid. */",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Canonical BulletType ammoMultiplier source comment.",
+      "runtime_proof": "/root/Main.source_bullet_ammo_multiplier",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_ammo_multiplier_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_ammo_multiplier.data": {
+      "godot_owner": "PortGame.source_bullet_ammo_multiplier",
+      "godot_symbol": "source_bullet_ammo_multiplier_input.data",
+      "java_expr": "BulletType data",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Runtime data dictionary supplies BulletType ammoMultiplier field state.",
+      "runtime_proof": "/root/Main.source_bullet_ammo_multiplier",
+      "status": "explicit-input",
+      "tests": [
+        "test_bullet_ammo_multiplier_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_ammo_multiplier.default": {
+      "godot_owner": "PortGame.source_bullet_ammo_multiplier",
+      "godot_symbol": "source_bullet_ammo_multiplier_result.default_value",
+      "java_expr": "2f",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Godot fallback preserves BulletType.ammoMultiplier default value.",
+      "runtime_proof": "/root/Main.source_bullet_ammo_multiplier",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_ammo_multiplier_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_ammo_multiplier.field": {
+      "godot_owner": "PortGame.source_bullet_ammo_multiplier",
+      "godot_symbol": "source_bullet_ammo_multiplier_result.field",
+      "java_expr": "public float ammoMultiplier = 2f;",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Canonical BulletType ammoMultiplier field declaration.",
+      "runtime_proof": "/root/Main.source_bullet_ammo_multiplier",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_ammo_multiplier_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_ammo_multiplier.key": {
+      "godot_owner": "PortGame.source_bullet_ammo_multiplier",
+      "godot_symbol": "source_bullet_ammo_multiplier_result.key",
+      "java_expr": "ammoMultiplier",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Godot dictionary key maps to BulletType.ammoMultiplier exactly.",
+      "runtime_proof": "/root/Main.source_bullet_ammo_multiplier",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_ammo_multiplier_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_ammo_multiplier.result": {
+      "godot_owner": "PortGame.source_bullet_ammo_multiplier",
+      "godot_symbol": "source_bullet_ammo_multiplier_result.ammo_multiplier",
+      "java_expr": "ammoMultiplier",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Return ammo multiplier from BulletType.ammoMultiplier runtime data or default.",
+      "runtime_proof": "/root/Main.source_bullet_ammo_multiplier",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_ammo_multiplier_symbols_are_registered_with_source_backing"
+      ]
+    },
     "bullet_type.parts": {
       "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
       "godot_symbol": "bullet_type_state.parts",

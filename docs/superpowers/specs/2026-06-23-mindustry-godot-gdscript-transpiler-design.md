@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 646 |
-| Done | 643 |
+| Total tracked work items | 647 |
+| Done | 644 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -548,13 +548,14 @@
 - [x] N668: Source BuildingComp updateProximity canonical SSOT backfill state.
 - [x] N669: Source BuildingComp updateTile gate canonical SSOT backfill state.
 - [x] N670: Source BuildingComp update timeScaleDuration decay canonical SSOT backfill state.
+- [x] N671: Source BulletType ammoMultiplier canonical SSOT backfill state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
 
 Work now uses dependency cubes for prioritization without changing the verification contract. Each cube groups source Java, Godot runtime wiring, and playable behavior for one gameplay system. Inside a cube, every slice still moves linearly: read upstream Java, write RED tests, prove RED, implement minimal GREEN, run targeted/full tests, prove through Godot MCP runtime, update this checklist, run `git diff --check`, stage only touched tracked files, and commit.
 
-Current cube: `source-symbol canonical backfill by audit next-owner`. Current source path is selected by `source_symbol_audit_report.json` legacy owner order, with each slice reading the exact upstream Java method before RED/GREEN/MCP/checklist/commit. N670 followed `PortGame.source_building_update_timescale_decay_state` against `BuildingComp.update()`; next owner after regenerated audit is `PortGame.source_bullet_ammo_multiplier`.
+Current cube: `source-symbol canonical backfill by audit next-owner`. Current source path is selected by `source_symbol_audit_report.json` legacy owner order, with each slice reading the exact upstream Java method before RED/GREEN/MCP/checklist/commit. N671 followed `PortGame.source_bullet_ammo_multiplier` against `BulletType.ammoMultiplier`; next owner after regenerated audit is `PortGame.source_bullet_damage`.
 
 ## Done
 
@@ -1260,6 +1261,7 @@ Current cube: `source-symbol canonical backfill by audit next-owner`. Current so
 | N669 | Register source BuildingComp updateTile gate canonical SSOT backfill state | The next legacy owner was `PortGame.source_building_update_tile_gate_state`, backed by exact upstream Mindustry `BuildingComp.update()` lines `public void update(){`, `if(enabled || !block.noUpdateDisabled){`, and `updateTile();`; this slice records the source-backed `updateTile()` gate while leaving `updateTile()` body empty as in base `BuildingComp.updateTile()`; `source_symbol_registry.json`, `source_slice_ledger.json`, `source_api_contracts.json`, and `source_state_schema.json` register `building_update_tile_gate.*`, `source_building_update_tile_gate_input`, and `source_building_update_tile_gate_result`; targeted RED failed before implementation with `test_source_symbols.py` and `test_playable.py` `6 failed, 694 passed`; targeted GREEN passed `700` source/playable tests; full Python suite passed `1092` tests; regenerated audit records `totalSourceFunctions=488`, `registeredSourceOwnerCount=267`, `exemptSourceOwnerCount=5`, and `legacyUnregisteredOwnerCount=216`; clean MCP runtime showed Godot `4.6.2.stable.official.71f334935` TCP server on port `7777`, TCP calls on `/root/Main.source_building_update_tile_gate_state` proved `[true,true] -> {update_tile_called=true}`, `[false,false] -> {update_tile_called=true}`, and `[false,true] -> {update_tile_called=false}`; MCP debug output after clean TCP returned `errors: []`, runtime status returned `connected=true`, and stop returned `finalErrors: []` |
 
 | N670 | Register source BuildingComp update timeScaleDuration decay canonical SSOT backfill state | The next legacy owner was `PortGame.source_building_update_timescale_decay_state`, backed by exact upstream Mindustry `BuildingComp` field `private transient float timeScale = 1f, timeScaleDuration;` and `BuildingComp.update()` lines `public void update(){`, `if((timeScaleDuration -= Time.delta) <= 0f){`, and `timeScale = 1f;`; this slice records the source-backed duration decay and reset branch while reusing explicit inputs for current `timeScale`, `timeScaleDuration`, and `Time.delta`; `source_symbol_registry.json`, `source_slice_ledger.json`, `source_api_contracts.json`, and `source_state_schema.json` register `building_update_timescale_decay.*`, `source_building_update_timescale_decay_input`, and `source_building_update_timescale_decay_result`; targeted RED failed before implementation with `test_source_symbols.py` and `test_playable.py` `6 failed, 695 passed`; targeted GREEN passed `701` source/playable tests; full Python suite passed `1093` tests; regenerated audit records `totalSourceFunctions=488`, `registeredSourceOwnerCount=268`, `exemptSourceOwnerCount=5`, and `legacyUnregisteredOwnerCount=215`; clean MCP runtime showed Godot `4.6.2.stable.official.71f334935` TCP server on port `7777`, TCP calls on `/root/Main.source_building_update_timescale_decay_state` proved `[2.5,10,1.25] -> {time_scale=2.5,time_scale_duration=8.75}`, `[2.5,1,1.25] -> {time_scale=1,time_scale_duration=-0.25}`, and `[3,1.25,1.25] -> {time_scale=1,time_scale_duration=0}`; MCP debug output after clean TCP returned `errors: []`, runtime status returned `connected=true`, and stop returned `finalErrors: []` |
+| N671 | Register source BulletType ammoMultiplier canonical SSOT backfill state | The next legacy owner was `PortGame.source_bullet_ammo_multiplier`, backed by exact upstream Mindustry `BulletType.java` comment `/** How many bullets get created per ammo item/liquid. */` and field `public float ammoMultiplier = 2f;`; this slice records the source-backed ammo multiplier key/default while preserving existing runtime helper behavior; `source_symbol_registry.json`, `source_slice_ledger.json`, `source_api_contracts.json`, and `source_state_schema.json` register `bullet_ammo_multiplier.*`, `source_bullet_ammo_multiplier_input`, and `source_bullet_ammo_multiplier_result`; targeted RED failed before implementation with `test_source_symbols.py` and `test_playable.py` `6 failed, 696 passed`; targeted GREEN passed `702` source/playable tests; full Python suite passed `1094` tests; regenerated audit records `totalSourceFunctions=488`, `registeredSourceOwnerCount=269`, `exemptSourceOwnerCount=5`, and `legacyUnregisteredOwnerCount=214`; clean MCP runtime showed Godot `4.6.2.stable.official.71f334935` TCP server on port `7777`, TCP calls on `/root/Main.source_bullet_ammo_multiplier` proved `{ammoMultiplier:4.5} -> 4.5`, `{}` -> `2`, and `{ammoMultiplier:0.4} -> 0.4`; MCP debug output after clean TCP returned `errors: []`, runtime status returned `connected=true`, and stop returned `finalErrors: []` |
 
 ## Not Done
 

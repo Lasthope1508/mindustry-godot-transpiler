@@ -771,6 +771,10 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_BULLET_AMMO_MULTIPLIER_COMMENT := "/** How many bullets get created per ammo item/liquid. */"', source)
+        self.assertIn('const SOURCE_BULLET_AMMO_MULTIPLIER_FIELD := "public float ammoMultiplier = 2f;"', source)
+        self.assertIn('const SOURCE_BULLET_AMMO_MULTIPLIER_KEY := "ammoMultiplier"', source)
+        self.assertIn("const SOURCE_BULLET_AMMO_MULTIPLIER_DEFAULT := 2.0", source)
         self.assertIn("func source_bullet_ammo_multiplier(data: Dictionary) -> float:", source)
         self.assertIn('return float(data.get("ammoMultiplier", 2.0))', source)
         self.assertIn("func selected_turret_ammo_multiplier() -> float:", source)

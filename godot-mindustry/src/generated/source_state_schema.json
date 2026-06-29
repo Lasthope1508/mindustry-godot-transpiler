@@ -34032,6 +34032,94 @@
       "runtime_proof": "/root/Main.source_building_update_timescale_decay_state",
       "status": "active"
     },
+    "source_bullet_ammo_multiplier_input": {
+      "keys": {
+        "data": {
+          "godot_symbol": "source_bullet_ammo_multiplier_input.data",
+          "java_expr": "BulletType data",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Runtime data dictionary supplies BulletType ammoMultiplier field state.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_bullet_ammo_multiplier"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_bullet_ammo_multiplier_result": {
+      "keys": {
+        "ammo_multiplier": {
+          "godot_symbol": "source_bullet_ammo_multiplier_result.ammo_multiplier",
+          "java_expr": "ammoMultiplier",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Return ammo multiplier from BulletType.ammoMultiplier runtime data or default.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_bullet_ammo_multiplier"
+          ]
+        },
+        "comment": {
+          "godot_symbol": "source_bullet_ammo_multiplier_result.comment",
+          "java_expr": "/** How many bullets get created per ammo item/liquid. */",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Canonical BulletType ammoMultiplier source comment.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_ammo_multiplier"
+          ]
+        },
+        "data": {
+          "alias_of": "source_bullet_ammo_multiplier_input.data",
+          "rule": "Carries BulletType data input into ammoMultiplier result schema.",
+          "status": "generated",
+          "type": "Dictionary"
+        },
+        "default_value": {
+          "godot_symbol": "source_bullet_ammo_multiplier_result.default_value",
+          "java_expr": "2f",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Godot fallback preserves BulletType.ammoMultiplier default value.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_bullet_ammo_multiplier"
+          ]
+        },
+        "field": {
+          "godot_symbol": "source_bullet_ammo_multiplier_result.field",
+          "java_expr": "public float ammoMultiplier = 2f;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Canonical BulletType ammoMultiplier field declaration.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_ammo_multiplier"
+          ]
+        },
+        "key": {
+          "godot_symbol": "source_bullet_ammo_multiplier_result.key",
+          "java_expr": "ammoMultiplier",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Godot dictionary key maps to BulletType.ammoMultiplier exactly.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_ammo_multiplier"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {
