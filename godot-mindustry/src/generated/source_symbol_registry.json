@@ -26077,6 +26077,84 @@
         "test_drill_progress_fraction_symbols_are_registered_with_source_backing"
       ]
     },
+    "drill_time_drilled_delta.building_delta": {
+      "godot_owner": "PortGame.source_drill_time_drilled_delta",
+      "godot_symbol": "source_drill_time_drilled_delta_result.buildingDelta",
+      "java_expr": "return Time.delta * timeScale;",
+      "java_method": "delta()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "BuildingComp delta() scales Time.delta by timeScale before DrillBuild timeDrilled increment.",
+      "runtime_proof": "/root/Main.source_drill_time_drilled_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_time_drilled_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_time_drilled_delta.field": {
+      "godot_owner": "PortGame.source_drill_time_drilled_delta",
+      "godot_symbol": "source_drill_time_drilled_delta_result.timeDrilled",
+      "java_expr": "public float timeDrilled;",
+      "java_method": "DrillBuild fields",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Source DrillBuild timeDrilled field used for drill rotation animation.",
+      "runtime_proof": "/root/Main.source_drill_time_drilled_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_time_drilled_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_time_drilled_delta.increment": {
+      "godot_owner": "PortGame.source_drill_time_drilled_delta",
+      "godot_symbol": "source_drill_time_drilled_delta_result.delta",
+      "java_expr": "timeDrilled += warmup * delta();",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Source DrillBuild updateTile increments timeDrilled by warmup scaled delta.",
+      "runtime_proof": "/root/Main.source_drill_time_drilled_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_time_drilled_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_time_drilled_delta.source_delta": {
+      "godot_owner": "PortGame.source_drill_time_drilled_delta",
+      "godot_symbol": "source_drill_time_drilled_delta_input.source_delta",
+      "java_expr": "Time.delta",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Godot seconds converted to source ticks supplies Time.delta.",
+      "runtime_proof": "/root/Main.source_drill_time_drilled_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_time_drilled_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_time_drilled_delta.time_scale": {
+      "godot_owner": "PortGame.source_drill_time_drilled_delta",
+      "godot_symbol": "source_drill_time_drilled_delta_input.time_scale",
+      "java_expr": "timeScale",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Godot time_scale supplies BuildingComp timeScale for delta().",
+      "runtime_proof": "/root/Main.source_drill_time_drilled_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_time_drilled_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_time_drilled_delta.warmup": {
+      "godot_owner": "PortGame.source_drill_time_drilled_delta",
+      "godot_symbol": "source_drill_time_drilled_delta_input.warmup",
+      "java_expr": "warmup",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Godot warmup supplies DrillBuild warmup multiplier.",
+      "runtime_proof": "/root/Main.source_drill_time_drilled_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_time_drilled_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
     "handle_pierce.bullet.damage": {
       "godot_owner": "PortGame.source_bullet_type_handle_pierce_state",
       "godot_symbol": "bullet_state.damage",

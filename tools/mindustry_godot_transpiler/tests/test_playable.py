@@ -1180,6 +1180,11 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("var drill_time_drilled: Dictionary = {}", source)
+        self.assertIn('const SOURCE_DRILL_TIME_DRILLED_FIELD := "public float timeDrilled;"', source)
+        self.assertIn('const SOURCE_DRILL_TIME_DRILLED_INCREMENT := "timeDrilled += warmup * delta();"', source)
+        self.assertIn('const SOURCE_DRILL_TIME_DRILLED_WARMUP := "warmup"', source)
+        self.assertIn('const SOURCE_DRILL_TIME_DRILLED_SOURCE_DELTA := "delta()"', source)
+        self.assertIn('const SOURCE_DRILL_TIME_DRILLED_DELTA_RETURN := "return Time.delta * timeScale;"', source)
         self.assertIn("func source_drill_time_drilled_delta(warmup: float, seconds: float, time_scale := 1.0) -> float:", source)
         self.assertIn("return warmup * source_building_delta(seconds * SOURCE_TICK_RATE, time_scale)", source)
         self.assertIn("func drill_time_drilled_at_cell(x: int, y: int) -> float:", source)

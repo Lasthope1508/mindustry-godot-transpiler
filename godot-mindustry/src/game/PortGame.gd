@@ -1148,6 +1148,12 @@ func drill_last_speed_at_cell(x: int, y: int) -> float:
 func set_drill_last_speed_at_cell(x: int, y: int, value: float) -> void:
 	drill_last_speeds[cell_key(Vector2i(x, y))] = value
 
+const SOURCE_DRILL_TIME_DRILLED_FIELD := "public float timeDrilled;"
+const SOURCE_DRILL_TIME_DRILLED_INCREMENT := "timeDrilled += warmup * delta();"
+const SOURCE_DRILL_TIME_DRILLED_WARMUP := "warmup"
+const SOURCE_DRILL_TIME_DRILLED_SOURCE_DELTA := "delta()"
+const SOURCE_DRILL_TIME_DRILLED_DELTA_RETURN := "return Time.delta * timeScale;"
+
 func source_drill_time_drilled_delta(warmup: float, seconds: float, time_scale := 1.0) -> float:
 	return warmup * source_building_delta(seconds * SOURCE_TICK_RATE, time_scale)
 

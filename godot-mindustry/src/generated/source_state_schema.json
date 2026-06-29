@@ -37854,6 +37854,106 @@
       },
       "status": "active"
     },
+    "source_drill_time_drilled_delta_input": {
+      "keys": {
+        "source_delta": {
+          "godot_symbol": "source_drill_time_drilled_delta_input.source_delta",
+          "java_expr": "Time.delta",
+          "java_method": "delta()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Input source Time.delta supplied as seconds converted to source ticks.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_time_drilled_delta"
+          ]
+        },
+        "time_scale": {
+          "godot_symbol": "source_drill_time_drilled_delta_input.time_scale",
+          "java_expr": "timeScale",
+          "java_method": "delta()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Input BuildingComp timeScale for delta().",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_time_drilled_delta"
+          ]
+        },
+        "warmup": {
+          "godot_symbol": "source_drill_time_drilled_delta_input.warmup",
+          "java_expr": "warmup",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input DrillBuild warmup multiplier.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_time_drilled_delta"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_drill_time_drilled_delta_result": {
+      "keys": {
+        "buildingDelta": {
+          "godot_symbol": "source_drill_time_drilled_delta_result.buildingDelta",
+          "java_expr": "return Time.delta * timeScale;",
+          "java_method": "delta()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "BuildingComp scaled delta used by DrillBuild timeDrilled increment.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_time_drilled_delta"
+          ]
+        },
+        "delta": {
+          "godot_symbol": "source_drill_time_drilled_delta_result.delta",
+          "java_expr": "timeDrilled += warmup * delta();",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Source timeDrilled increment amount.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_time_drilled_delta"
+          ]
+        },
+        "source_delta": {
+          "alias_of": "source_drill_time_drilled_delta_input.source_delta",
+          "rule": "Carries source delta input into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "timeDrilled": {
+          "godot_symbol": "source_drill_time_drilled_delta_result.timeDrilled",
+          "java_expr": "public float timeDrilled;",
+          "java_method": "DrillBuild fields",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Source timeDrilled field updated by this delta.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_time_drilled_delta"
+          ]
+        },
+        "time_scale": {
+          "alias_of": "source_drill_time_drilled_delta_input.time_scale",
+          "rule": "Carries time_scale input into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "warmup": {
+          "alias_of": "source_drill_time_drilled_delta_input.warmup",
+          "rule": "Carries warmup input into result schema.",
+          "status": "generated",
+          "type": "float"
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {
