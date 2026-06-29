@@ -9728,6 +9728,36 @@
         "test_dump_accumulate_attempt_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_dump_accumulate_attempt_state"
       ]
+    },
+    "N705": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "dump(Item todump)",
+      "exact_exprs": [
+        "public boolean dump(Item todump){",
+        "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+        "if(other.acceptItem(self(), todump) && canDump(other, todump)){",
+        "other.handleItem(self(), todump);",
+        "items.remove(todump, 1);",
+        "incrementDump(proximity.size);",
+        "todump"
+      ],
+      "godot_owner": "PortGame.source_dump_drill_item_to_core",
+      "runtime_proof": "/root/Main.source_dump_drill_item_to_core",
+      "source_symbols": [
+        "dump_drill_item_to_core.method",
+        "dump_drill_item_to_core.initial_guard",
+        "dump_drill_item_to_core.accept_can_dump",
+        "dump_drill_item_to_core.handle_item",
+        "dump_drill_item_to_core.remove_item",
+        "dump_drill_item_to_core.increment_dump",
+        "dump_drill_item_to_core.item_id"
+      ],
+      "tests": [
+        "test_dump_drill_item_to_core_symbols_are_registered_with_source_backing",
+        "test_port_game_dumps_source_drill_inventory_to_core"
+      ]
     }
   },
   "version": 1

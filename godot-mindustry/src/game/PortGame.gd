@@ -3271,6 +3271,13 @@ func remove_drill_item(item_id: String, amount: int) -> int:
 	drill_items[item_id] = drill_item_count(item_id) - removed
 	return removed
 
+const SOURCE_DUMP_DRILL_ITEM_TO_CORE_METHOD := "public boolean dump(Item todump){"
+const SOURCE_DUMP_DRILL_ITEM_TO_CORE_INITIAL_GUARD := "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;"
+const SOURCE_DUMP_DRILL_ITEM_TO_CORE_ACCEPT_CAN_DUMP := "if(other.acceptItem(self(), todump) && canDump(other, todump)){"
+const SOURCE_DUMP_DRILL_ITEM_TO_CORE_HANDLE_ITEM := "other.handleItem(self(), todump);"
+const SOURCE_DUMP_DRILL_ITEM_TO_CORE_REMOVE_ITEM := "items.remove(todump, 1);"
+const SOURCE_DUMP_DRILL_ITEM_TO_CORE_INCREMENT_DUMP := "incrementDump(proximity.size);"
+
 func source_dump_drill_item_to_core(item_id: String) -> bool:
 	if drill_item_count(item_id) <= 0:
 		return false

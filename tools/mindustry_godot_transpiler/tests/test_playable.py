@@ -1258,6 +1258,12 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_DUMP_DRILL_ITEM_TO_CORE_METHOD := "public boolean dump(Item todump){"', source)
+        self.assertIn('const SOURCE_DUMP_DRILL_ITEM_TO_CORE_INITIAL_GUARD := "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;"', source)
+        self.assertIn('const SOURCE_DUMP_DRILL_ITEM_TO_CORE_ACCEPT_CAN_DUMP := "if(other.acceptItem(self(), todump) && canDump(other, todump)){"', source)
+        self.assertIn('const SOURCE_DUMP_DRILL_ITEM_TO_CORE_HANDLE_ITEM := "other.handleItem(self(), todump);"', source)
+        self.assertIn('const SOURCE_DUMP_DRILL_ITEM_TO_CORE_REMOVE_ITEM := "items.remove(todump, 1);"', source)
+        self.assertIn('const SOURCE_DUMP_DRILL_ITEM_TO_CORE_INCREMENT_DUMP := "incrementDump(proximity.size);"', source)
         self.assertIn("var drill_dump_timer := 0.0", source)
         self.assertIn("func remove_drill_item(item_id: String, amount: int) -> int:", source)
         self.assertIn("var removed = mini(amount, drill_item_count(item_id))", source)

@@ -11390,6 +11390,34 @@
       "tests": [
         "test_dump_accumulate_attempt_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_dump_drill_item_to_core": {
+      "status": "active",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "dump(Item todump)",
+      "source_slice": "N705",
+      "runtime_proof": "/root/Main.source_dump_drill_item_to_core",
+      "params": [
+        {
+          "name": "item_id",
+          "type": "String",
+          "schema": "source_dump_drill_item_to_core_input.item_id"
+        }
+      ],
+      "return_keys": [
+        "dumped",
+        "method",
+        "initialGuard",
+        "acceptCanDump",
+        "handleItem",
+        "removeItem",
+        "incrementDump",
+        "item_id"
+      ],
+      "rule": "Public runtime contract for source dump(Item todump) path mapped to current Drill-to-core single-neighbor runtime.",
+      "tests": [
+        "test_dump_drill_item_to_core_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

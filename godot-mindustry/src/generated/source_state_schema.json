@@ -39739,6 +39739,118 @@
           "rule": "Carries source_delta input into dump accumulate result schema."
         }
       }
+    },
+    "source_dump_drill_item_to_core_input": {
+      "status": "active",
+      "keys": {
+        "item_id": {
+          "status": "explicit-input",
+          "type": "String",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "dump(Item todump)",
+          "java_expr": "todump",
+          "godot_symbol": "source_dump_drill_item_to_core_input.item_id",
+          "rule": "Input item id maps to source todump item.",
+          "used_by": [
+            "PortGame.source_dump_drill_item_to_core"
+          ]
+        }
+      }
+    },
+    "source_dump_drill_item_to_core_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "status": "source-backed",
+          "type": "String",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "dump(Item todump)",
+          "java_expr": "public boolean dump(Item todump){",
+          "godot_symbol": "source_dump_drill_item_to_core_result.method",
+          "rule": "Source method boundary.",
+          "used_by": [
+            "PortGame.source_dump_drill_item_to_core"
+          ]
+        },
+        "initialGuard": {
+          "status": "source-backed",
+          "type": "bool",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "dump(Item todump)",
+          "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+          "godot_symbol": "source_dump_drill_item_to_core_result.initialGuard",
+          "rule": "Source initial guard.",
+          "used_by": [
+            "PortGame.source_dump_drill_item_to_core"
+          ]
+        },
+        "acceptCanDump": {
+          "status": "source-backed",
+          "type": "bool",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "dump(Item todump)",
+          "java_expr": "if(other.acceptItem(self(), todump) && canDump(other, todump)){",
+          "godot_symbol": "source_dump_drill_item_to_core_result.acceptCanDump",
+          "rule": "Source neighbor accept/canDump gate.",
+          "used_by": [
+            "PortGame.source_dump_drill_item_to_core"
+          ]
+        },
+        "handleItem": {
+          "status": "source-backed",
+          "type": "bool",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "dump(Item todump)",
+          "java_expr": "other.handleItem(self(), todump);",
+          "godot_symbol": "source_dump_drill_item_to_core_result.handleItem",
+          "rule": "Source neighbor handle call.",
+          "used_by": [
+            "PortGame.source_dump_drill_item_to_core"
+          ]
+        },
+        "removeItem": {
+          "status": "source-backed",
+          "type": "bool",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "dump(Item todump)",
+          "java_expr": "items.remove(todump, 1);",
+          "godot_symbol": "source_dump_drill_item_to_core_result.removeItem",
+          "rule": "Source item removal after successful handle.",
+          "used_by": [
+            "PortGame.source_dump_drill_item_to_core"
+          ]
+        },
+        "incrementDump": {
+          "status": "source-backed",
+          "type": "int",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "dump(Item todump)",
+          "java_expr": "incrementDump(proximity.size);",
+          "godot_symbol": "source_dump_drill_item_to_core_result.incrementDump",
+          "rule": "Source dump cursor increment.",
+          "used_by": [
+            "PortGame.source_dump_drill_item_to_core"
+          ]
+        },
+        "dumped": {
+          "status": "source-backed",
+          "type": "bool",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "dump(Item todump)",
+          "java_expr": "return true;",
+          "godot_symbol": "source_dump_drill_item_to_core_result.dumped",
+          "rule": "Source true return after successful dump branch; false paths preserve guard behavior.",
+          "used_by": [
+            "PortGame.source_dump_drill_item_to_core"
+          ]
+        },
+        "item_id": {
+          "status": "generated",
+          "type": "String",
+          "alias_of": "source_dump_drill_item_to_core_input.item_id",
+          "rule": "Carries item_id input into dump result schema."
+        }
+      }
     }
   },
   "version": 1
