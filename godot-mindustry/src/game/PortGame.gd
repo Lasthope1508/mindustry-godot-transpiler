@@ -459,6 +459,11 @@ const SOURCE_OVERDRIVE_PROJECTOR_RANGE_RETURN := "return range;"
 const SOURCE_OVERDRIVE_PROJECTOR_RANGE_FIELD := "public float range = 80f;"
 const SOURCE_OVERDRIVE_PROJECTOR_RANGE_PHASE_RANGE_BOOST_FIELD := "public float phaseRangeBoost = 20f;"
 const SOURCE_OVERDRIVE_PROJECTOR_RANGE_REAL_RANGE_EXPR := "float realRange = range + phaseHeat * phaseRangeBoost;"
+const SOURCE_OVERDRIVE_PROJECTOR_SELECT_METHOD := "public void drawSelect(){\n            float realRange = range + phaseHeat * phaseRangeBoost;\n\n            indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\n\n            Drawf.dashCircle(x, y, realRange, baseColor);\n        }"
+const SOURCE_OVERDRIVE_PROJECTOR_SELECT_REAL_RANGE := "float realRange = range + phaseHeat * phaseRangeBoost;"
+const SOURCE_OVERDRIVE_PROJECTOR_SELECT_EACH_BLOCK := "indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));"
+const SOURCE_OVERDRIVE_PROJECTOR_SELECT_DASH_CIRCLE := "Drawf.dashCircle(x, y, realRange, baseColor);"
+const SOURCE_OVERDRIVE_PROJECTOR_SELECT_SELECTED_CALL := "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))"
 
 func source_overdrive_projector_range(overdrive_projector, phase_heat := 0.0) -> float:
 	if overdrive_projector == null:

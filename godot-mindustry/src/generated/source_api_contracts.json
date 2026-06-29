@@ -12327,6 +12327,35 @@
         "test_overdrive_projector_real_boost_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_overdrive_projector_real_boost_like_source"
       ]
+    },
+    "PortGame.source_overdrive_projector_select_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "params": [
+        {
+          "name": "overdrive_projector",
+          "schema": "content_block_state",
+          "type": "object"
+        },
+        {
+          "name": "phase_heat",
+          "schema": "source_overdrive_projector_select_state_input.phaseHeat",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "range",
+        "color",
+        "dashCircle"
+      ],
+      "rule": "Public runtime contract for OverdriveProjector drawSelect summary state.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_select_state",
+      "source_method": "drawSelect()",
+      "source_slice": "N731",
+      "status": "active",
+      "tests": [
+        "test_overdrive_projector_select_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_range_state_like_source"
+      ]
     }
   },
   "policy": {

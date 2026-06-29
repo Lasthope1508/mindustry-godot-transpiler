@@ -32085,6 +32085,90 @@
         "test_port_game_exposes_overdrive_projector_real_boost_like_source"
       ]
     },
+    "overdrive_projector_select_state.color_expr": {
+      "godot_owner": "PortGame.source_overdrive_projector_select_state",
+      "godot_symbol": "source_overdrive_projector_select_state_result.color",
+      "java_expr": "baseColor",
+      "java_method": "drawSelect()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Source select baseColor expression.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_select_state",
+      "status": "source-backed",
+      "tests": [
+        "test_overdrive_projector_select_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_range_state_like_source"
+      ]
+    },
+    "overdrive_projector_select_state.dash_circle": {
+      "godot_owner": "PortGame.source_overdrive_projector_select_state",
+      "godot_symbol": "source_overdrive_projector_select_state_result.dashCircle",
+      "java_expr": "Drawf.dashCircle(x, y, realRange, baseColor);",
+      "java_method": "drawSelect()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Source Drawf.dashCircle call for select range.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_select_state",
+      "status": "source-backed",
+      "tests": [
+        "test_overdrive_projector_select_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_range_state_like_source"
+      ]
+    },
+    "overdrive_projector_select_state.each_block": {
+      "godot_owner": "PortGame.source_overdrive_projector_select_state",
+      "godot_symbol": "source_overdrive_projector_select_state_result.eachBlock",
+      "java_expr": "indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));",
+      "java_method": "drawSelect()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Source indexer.eachBlock selection loop.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_select_state",
+      "status": "source-backed",
+      "tests": [
+        "test_overdrive_projector_select_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_range_state_like_source"
+      ]
+    },
+    "overdrive_projector_select_state.method": {
+      "godot_owner": "PortGame.source_overdrive_projector_select_state",
+      "godot_symbol": "source_overdrive_projector_select_state_result.method",
+      "java_expr": "public void drawSelect(){\n            float realRange = range + phaseHeat * phaseRangeBoost;\n\n            indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\n\n            Drawf.dashCircle(x, y, realRange, baseColor);\n        }",
+      "java_method": "drawSelect()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Source drawSelect method body.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_select_state",
+      "status": "source-backed",
+      "tests": [
+        "test_overdrive_projector_select_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_range_state_like_source"
+      ]
+    },
+    "overdrive_projector_select_state.real_range": {
+      "godot_owner": "PortGame.source_overdrive_projector_select_state",
+      "godot_symbol": "source_overdrive_projector_select_state_result.range",
+      "java_expr": "float realRange = range + phaseHeat * phaseRangeBoost;",
+      "java_method": "drawSelect()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Source realRange expression for select drawing.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_select_state",
+      "status": "source-backed",
+      "tests": [
+        "test_overdrive_projector_select_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_range_state_like_source"
+      ]
+    },
+    "overdrive_projector_select_state.selected_call": {
+      "godot_owner": "PortGame.source_overdrive_projector_select_state",
+      "godot_symbol": "source_overdrive_projector_select_state_result.selected",
+      "java_expr": "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))",
+      "java_method": "drawSelect()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Source Drawf.selected call.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_select_state",
+      "status": "source-backed",
+      "tests": [
+        "test_overdrive_projector_select_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_range_state_like_source"
+      ]
+    },
     "removed.frag_dispatch.building_damage_boundary": {
       "godot_owner": "PortGame.source_bullet_type_removed_frag_dispatch_state",
       "godot_symbol": "removed_frag_dispatch_result.buildingDamageBoundarySource",

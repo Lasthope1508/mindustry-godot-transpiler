@@ -10647,6 +10647,34 @@
         "test_overdrive_projector_real_boost_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_overdrive_projector_real_boost_like_source"
       ]
+    },
+    "N731": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public void drawSelect(){\n            float realRange = range + phaseHeat * phaseRangeBoost;\n\n            indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\n\n            Drawf.dashCircle(x, y, realRange, baseColor);\n        }",
+        "float realRange = range + phaseHeat * phaseRangeBoost;",
+        "indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));",
+        "Drawf.dashCircle(x, y, realRange, baseColor);"
+      ],
+      "godot_owner": "PortGame.source_overdrive_projector_select_state",
+      "java_class": "mindustry.world.blocks.defense.OverdriveProjector.OverdriveBuild",
+      "java_method": "drawSelect()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Backfills SSOT for existing source_overdrive_projector_select_state helper against Mindustry OverdriveBuild.drawSelect().",
+      "runtime_proof": "/root/Main.source_overdrive_projector_select_state",
+      "source_symbols": [
+        "overdrive_projector_select_state.method",
+        "overdrive_projector_select_state.real_range",
+        "overdrive_projector_select_state.each_block",
+        "overdrive_projector_select_state.dash_circle",
+        "overdrive_projector_select_state.selected_call",
+        "overdrive_projector_select_state.color_expr"
+      ],
+      "status": "done",
+      "tests": [
+        "test_overdrive_projector_select_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_range_state_like_source"
+      ]
     }
   },
   "version": 1

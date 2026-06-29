@@ -41652,6 +41652,118 @@
       },
       "status": "active"
     },
+    "source_overdrive_projector_select_state_input": {
+      "keys": {
+        "baseColor": {
+          "godot_symbol": "source_overdrive_projector_select_state_input.baseColor",
+          "java_expr": "public Color baseColor = Color.valueOf(\"feb380\");",
+          "java_method": "OverdriveProjector fields",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Java OverdriveProjector.baseColor field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_overdrive_projector_select_state"
+          ]
+        },
+        "phaseHeat": {
+          "godot_symbol": "source_overdrive_projector_select_state_input.phaseHeat",
+          "java_expr": "phaseHeat",
+          "java_method": "drawSelect()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Java OverdriveBuild.phaseHeat explicit input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_overdrive_projector_select_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_overdrive_projector_select_state_result": {
+      "keys": {
+        "color": {
+          "godot_symbol": "source_overdrive_projector_select_state_result.color",
+          "java_expr": "baseColor",
+          "java_method": "drawSelect()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source select color expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_overdrive_projector_select_state"
+          ]
+        },
+        "dashCircle": {
+          "godot_symbol": "source_overdrive_projector_select_state_result.dashCircle",
+          "java_expr": "Drawf.dashCircle(x, y, realRange, baseColor);",
+          "java_method": "drawSelect()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source Drawf.dashCircle call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_overdrive_projector_select_state"
+          ]
+        },
+        "eachBlock": {
+          "godot_symbol": "source_overdrive_projector_select_state_result.eachBlock",
+          "java_expr": "indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));",
+          "java_method": "drawSelect()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source indexer.eachBlock call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_overdrive_projector_select_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_overdrive_projector_select_state_result.method",
+          "java_expr": "public void drawSelect(){\n            float realRange = range + phaseHeat * phaseRangeBoost;\n\n            indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\n\n            Drawf.dashCircle(x, y, realRange, baseColor);\n        }",
+          "java_method": "drawSelect()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source method body.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_overdrive_projector_select_state"
+          ]
+        },
+        "phaseHeat": {
+          "alias_of": "source_overdrive_projector_select_state_input.phaseHeat",
+          "rule": "Carries phaseHeat input into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "range": {
+          "godot_symbol": "source_overdrive_projector_select_state_result.range",
+          "java_expr": "float realRange = range + phaseHeat * phaseRangeBoost;",
+          "java_method": "drawSelect()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Real range used by drawSelect.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_overdrive_projector_select_state"
+          ]
+        },
+        "selected": {
+          "godot_symbol": "source_overdrive_projector_select_state_result.selected",
+          "java_expr": "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))",
+          "java_method": "drawSelect()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source Drawf.selected call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_overdrive_projector_select_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

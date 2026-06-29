@@ -4442,6 +4442,40 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(color_expr["java_expr"], "baseColor")
         self.assertEqual(color_expr["godot_symbol"], "source_overdrive_projector_place_state_result.color")
 
+    def test_overdrive_projector_select_state_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "overdrive_projector_select_state.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/OverdriveProjector.java")
+        self.assertEqual(method["java_method"], "drawSelect()")
+        self.assertEqual(method["java_expr"], "public void drawSelect(){\n            float realRange = range + phaseHeat * phaseRangeBoost;\n\n            indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\n\n            Drawf.dashCircle(x, y, realRange, baseColor);\n        }")
+        self.assertEqual(method["godot_owner"], "PortGame.source_overdrive_projector_select_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_overdrive_projector_select_state")
+        self.assertEqual(method["godot_symbol"], "source_overdrive_projector_select_state_result.method")
+
+        real_range = source_symbols.source_symbol(registry, "overdrive_projector_select_state.real_range")
+        self.assertEqual(real_range["java_expr"], "float realRange = range + phaseHeat * phaseRangeBoost;")
+        self.assertEqual(real_range["godot_symbol"], "source_overdrive_projector_select_state_result.range")
+
+        each_block = source_symbols.source_symbol(registry, "overdrive_projector_select_state.each_block")
+        self.assertEqual(each_block["java_expr"], "indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));")
+        self.assertEqual(each_block["godot_symbol"], "source_overdrive_projector_select_state_result.eachBlock")
+
+        dash_circle = source_symbols.source_symbol(registry, "overdrive_projector_select_state.dash_circle")
+        self.assertEqual(dash_circle["java_expr"], "Drawf.dashCircle(x, y, realRange, baseColor);")
+        self.assertEqual(dash_circle["godot_symbol"], "source_overdrive_projector_select_state_result.dashCircle")
+
+        selected_call = source_symbols.source_symbol(registry, "overdrive_projector_select_state.selected_call")
+        self.assertEqual(selected_call["java_expr"], "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))")
+        self.assertEqual(selected_call["godot_symbol"], "source_overdrive_projector_select_state_result.selected")
+
+        color_expr = source_symbols.source_symbol(registry, "overdrive_projector_select_state.color_expr")
+        self.assertEqual(color_expr["java_expr"], "baseColor")
+        self.assertEqual(color_expr["godot_symbol"], "source_overdrive_projector_select_state_result.color")
+
     def test_overdrive_projector_range_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -10656,9 +10690,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 328)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 329)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 333)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 334)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -10877,6 +10911,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_overdrive_projector_place_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_real_boost", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_overdrive_projector_select_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_delay", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_dump_interval", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_inactive_warmup_state", audit["registeredSourceOwners"])
@@ -10973,7 +11008,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angles_angle_dist", audit["registeredSourceOwners"])
-        self.assertIn("PortGame.source_overdrive_projector_select_state", audit["legacyUnregisteredOwners"])
+        self.assertIn("PortGame.source_overdrive_projector_target_filter_state", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
     def test_audit_report_file_matches_current_godot_source(self):
@@ -12182,6 +12217,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float speedBoost = 1.5f;", overdrive_real_boost["exact_exprs"])
         self.assertIn("public float speedBoostPhase = 0.75f;", overdrive_real_boost["exact_exprs"])
         self.assertIn("public float heat, charge = Mathf.random(reload), phaseHeat, smoothEfficiency, useProgress;", overdrive_real_boost["exact_exprs"])
+
+        overdrive_select_state = source_symbols.source_slice(ledger, "N731")
+        self.assertEqual(overdrive_select_state["java_source"], "core/src/mindustry/world/blocks/defense/OverdriveProjector.java")
+        self.assertEqual(overdrive_select_state["java_method"], "drawSelect()")
+        self.assertEqual(overdrive_select_state["godot_owner"], "PortGame.source_overdrive_projector_select_state")
+        self.assertIn("public void drawSelect(){\n            float realRange = range + phaseHeat * phaseRangeBoost;\n\n            indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\n\n            Drawf.dashCircle(x, y, realRange, baseColor);\n        }", overdrive_select_state["exact_exprs"])
+        self.assertIn("float realRange = range + phaseHeat * phaseRangeBoost;", overdrive_select_state["exact_exprs"])
+        self.assertIn("indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));", overdrive_select_state["exact_exprs"])
+        self.assertIn("Drawf.dashCircle(x, y, realRange, baseColor);", overdrive_select_state["exact_exprs"])
 
         dump_drill_item_to_core = source_symbols.source_slice(ledger, "N705")
         self.assertEqual(dump_drill_item_to_core["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -15247,6 +15291,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("baseRange", overdrive_projector_range["return_keys"])
         self.assertIn("phaseRangeBoost", overdrive_projector_range["return_keys"])
         self.assertEqual(overdrive_projector_range["source_method"], "range()/drawSelect()")
+
+        overdrive_select_state = source_symbols.api_contract(contracts, "PortGame.source_overdrive_projector_select_state")
+        self.assertEqual([param["name"] for param in overdrive_select_state["params"]], ["overdrive_projector", "phase_heat"])
+        self.assertEqual(overdrive_select_state["params"][0]["schema"], "content_block_state")
+        self.assertEqual(overdrive_select_state["params"][1]["schema"], "source_overdrive_projector_select_state_input.phaseHeat")
+        self.assertIn("range", overdrive_select_state["return_keys"])
+        self.assertIn("color", overdrive_select_state["return_keys"])
+        self.assertIn("dashCircle", overdrive_select_state["return_keys"])
+        self.assertEqual(overdrive_select_state["source_method"], "drawSelect()")
 
         drill_delay = source_symbols.api_contract(contracts, "PortGame.source_drill_delay")
         self.assertEqual([param["name"] for param in drill_delay["params"]], ["block_id", "item_id"])
@@ -18759,6 +18812,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_overdrive_projector_range_result["keys"]["range"]["java_expr"], "float realRange = range + phaseHeat * phaseRangeBoost;")
         self.assertEqual(source_overdrive_projector_range_result["keys"]["phaseHeat"]["alias_of"], "source_overdrive_projector_range_input.phaseHeat")
         self.assertEqual(source_overdrive_projector_range_result["keys"]["phaseRangeBoost"]["alias_of"], "source_overdrive_projector_range_input.phaseRangeBoost")
+
+        source_overdrive_projector_select_state_input = source_symbols.state_schema(schema, "source_overdrive_projector_select_state_input")
+        self.assertEqual(source_overdrive_projector_select_state_input["keys"]["phaseHeat"]["java_expr"], "phaseHeat")
+        self.assertEqual(source_overdrive_projector_select_state_input["keys"]["baseColor"]["java_expr"], "public Color baseColor = Color.valueOf(\"feb380\");")
+
+        source_overdrive_projector_select_state_result = source_symbols.state_schema(schema, "source_overdrive_projector_select_state_result")
+        self.assertEqual(source_overdrive_projector_select_state_result["keys"]["method"]["java_expr"], "public void drawSelect(){\n            float realRange = range + phaseHeat * phaseRangeBoost;\n\n            indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\n\n            Drawf.dashCircle(x, y, realRange, baseColor);\n        }")
+        self.assertEqual(source_overdrive_projector_select_state_result["keys"]["range"]["java_expr"], "float realRange = range + phaseHeat * phaseRangeBoost;")
+        self.assertEqual(source_overdrive_projector_select_state_result["keys"]["eachBlock"]["java_expr"], "indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));")
+        self.assertEqual(source_overdrive_projector_select_state_result["keys"]["dashCircle"]["java_expr"], "Drawf.dashCircle(x, y, realRange, baseColor);")
+        self.assertEqual(source_overdrive_projector_select_state_result["keys"]["selected"]["java_expr"], "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))")
+        self.assertEqual(source_overdrive_projector_select_state_result["keys"]["color"]["java_expr"], "baseColor")
+        self.assertEqual(source_overdrive_projector_select_state_result["keys"]["phaseHeat"]["alias_of"], "source_overdrive_projector_select_state_input.phaseHeat")
 
         source_dump_drill_item_to_core_input = source_symbols.state_schema(schema, "source_dump_drill_item_to_core_input")
         self.assertEqual(source_dump_drill_item_to_core_input["keys"]["item_id"]["java_expr"], "todump")
