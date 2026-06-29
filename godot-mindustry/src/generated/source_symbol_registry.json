@@ -21601,6 +21601,58 @@
       "godot_symbol": "source_building_placed_result.call_super",
       "rule": "Source annotation requires subclasses call super."
     },
+    "building_puddle_on.comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "puddleOn(Puddle puddle)",
+      "godot_owner": "PortGame.source_building_puddle_on_state",
+      "tests": [
+        "test_building_puddle_on_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_puddle_on_state",
+      "java_expr": "Called when a puddle is on this building. Only called at an interval (40 ticks).",
+      "godot_symbol": "source_building_puddle_on_result.comment",
+      "rule": "BuildingComp puddleOn timing comment."
+    },
+    "building_puddle_on.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "puddleOn(Puddle puddle)",
+      "godot_owner": "PortGame.source_building_puddle_on_state",
+      "tests": [
+        "test_building_puddle_on_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_puddle_on_state",
+      "java_expr": "public void puddleOn(Puddle puddle){",
+      "godot_symbol": "source_building_puddle_on_result.method",
+      "rule": "BuildingComp puddleOn method boundary."
+    },
+    "building_puddle_on.no_op": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "puddleOn(Puddle puddle)",
+      "godot_owner": "PortGame.source_building_puddle_on_state",
+      "tests": [
+        "test_building_puddle_on_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_puddle_on_state",
+      "java_expr": "public void puddleOn(Puddle puddle){",
+      "godot_symbol": "source_building_puddle_on_result.no_op",
+      "rule": "Base puddleOn implementation has no side effects."
+    },
+    "building_puddle_on.puddle_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "puddleOn(Puddle puddle)",
+      "godot_owner": "PortGame.source_building_puddle_on_state",
+      "tests": [
+        "test_building_puddle_on_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_puddle_on_state",
+      "java_expr": "Puddle puddle",
+      "godot_symbol": "source_building_puddle_on_input.puddle_state",
+      "rule": "Runtime puddle_state argument supplies Puddle puddle and is passed through because base puddleOn has no side effects."
+    },
     "building_placed.method": {
       "status": "source-backed",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",

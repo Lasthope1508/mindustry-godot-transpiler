@@ -8542,6 +8542,30 @@
       "runtime_proof": "/root/Main.source_building_picked_up_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.pickedUp no-op helper."
     },
+    "PortGame.source_building_puddle_on_state": {
+      "status": "active",
+      "source_slice": "N628",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "puddleOn(Puddle puddle)",
+      "params": [
+        {
+          "name": "puddle_state",
+          "type": "Variant",
+          "schema": "source_building_puddle_on_input.puddle_state"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "comment",
+        "no_op",
+        "puddle_state"
+      ],
+      "tests": [
+        "test_building_puddle_on_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_puddle_on_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.puddleOn no-op helper."
+    },
     "PortGame.source_building_placed_state": {
       "status": "active",
       "source_slice": "N623",

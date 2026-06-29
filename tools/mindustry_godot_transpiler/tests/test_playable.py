@@ -1664,8 +1664,11 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn("func source_building_puddle_on_state(puddle_state: Variant) -> Variant:", source)
-        self.assertIn("return puddle_state", source)
+        self.assertIn("func source_building_puddle_on_state(puddle_state: Variant) -> Dictionary:", source)
+        self.assertIn('"comment": "Called when a puddle is on this building. Only called at an interval (40 ticks).",', source)
+        self.assertIn('"method": "public void puddleOn(Puddle puddle){",', source)
+        self.assertIn('"no_op": true,', source)
+        self.assertIn('"puddle_state": puddle_state,', source)
 
     def test_port_game_exposes_source_building_configured_type_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

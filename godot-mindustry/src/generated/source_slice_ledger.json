@@ -7146,6 +7146,32 @@
       ],
       "runtime_proof": "/root/Main.source_building_progress_increase",
       "rule": "Backfills SSOT for existing canonical source_building_progress_increase helper against BuildingComp.getProgressIncrease(float baseTime)."
+    },
+    "N628": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "puddleOn(Puddle puddle)",
+      "godot_owner": "PortGame.source_building_puddle_on_state",
+      "exact_exprs": [
+        "Called when a puddle is on this building. Only called at an interval (40 ticks).",
+        "public void puddleOn(Puddle puddle){",
+        "Puddle puddle"
+      ],
+      "deferred_exprs": [
+        "Concrete block-specific puddleOn overrides remain covered by their own runtime integration slices."
+      ],
+      "source_symbols": [
+        "building_puddle_on.comment",
+        "building_puddle_on.method",
+        "building_puddle_on.no_op",
+        "building_puddle_on.puddle_state"
+      ],
+      "tests": [
+        "test_building_puddle_on_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_puddle_on_state",
+      "rule": "Backfills SSOT for existing canonical source_building_puddle_on_state helper against BuildingComp.puddleOn(Puddle puddle) no-op."
     }
   },
   "version": 1

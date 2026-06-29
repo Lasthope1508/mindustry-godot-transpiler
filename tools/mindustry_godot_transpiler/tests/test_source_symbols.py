@@ -4060,6 +4060,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(previous_state["java_expr"], "public void pickedUp(){")
         self.assertEqual(previous_state["godot_symbol"], "source_building_picked_up_input.previous_state")
 
+    def test_building_puddle_on_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        comment = source_symbols.source_symbol(registry, "building_puddle_on.comment")
+        self.assertEqual(comment["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(comment["java_method"], "puddleOn(Puddle puddle)")
+        self.assertEqual(comment["java_expr"], "Called when a puddle is on this building. Only called at an interval (40 ticks).")
+        self.assertEqual(comment["godot_owner"], "PortGame.source_building_puddle_on_state")
+        self.assertEqual(comment["runtime_proof"], "/root/Main.source_building_puddle_on_state")
+        self.assertEqual(comment["godot_symbol"], "source_building_puddle_on_result.comment")
+
+        method = source_symbols.source_symbol(registry, "building_puddle_on.method")
+        self.assertEqual(method["java_expr"], "public void puddleOn(Puddle puddle){")
+        self.assertEqual(method["godot_symbol"], "source_building_puddle_on_result.method")
+
+        no_op = source_symbols.source_symbol(registry, "building_puddle_on.no_op")
+        self.assertEqual(no_op["java_expr"], "public void puddleOn(Puddle puddle){")
+        self.assertEqual(no_op["godot_symbol"], "source_building_puddle_on_result.no_op")
+
+        puddle_state = source_symbols.source_symbol(registry, "building_puddle_on.puddle_state")
+        self.assertEqual(puddle_state["status"], "explicit-input")
+        self.assertEqual(puddle_state["java_expr"], "Puddle puddle")
+        self.assertEqual(puddle_state["godot_symbol"], "source_building_puddle_on_input.puddle_state")
+
     def test_building_placed_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -6476,9 +6503,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 225)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 226)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 230)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 231)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6520,6 +6547,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_player_placed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_production_valid_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_power_production_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_puddle_on_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7985,6 +8013,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_picked_up["godot_owner"], "PortGame.source_building_picked_up_state")
         self.assertIn("Called right before this building is picked up.", building_picked_up["exact_exprs"])
         self.assertIn("public void pickedUp(){", building_picked_up["exact_exprs"])
+
+        building_puddle_on = source_symbols.source_slice(ledger, "N628")
+        self.assertEqual(building_puddle_on["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_puddle_on["java_method"], "puddleOn(Puddle puddle)")
+        self.assertEqual(building_puddle_on["godot_owner"], "PortGame.source_building_puddle_on_state")
+        self.assertIn("Called when a puddle is on this building. Only called at an interval (40 ticks).", building_puddle_on["exact_exprs"])
+        self.assertIn("public void puddleOn(Puddle puddle){", building_puddle_on["exact_exprs"])
+        self.assertIn("Puddle puddle", building_puddle_on["exact_exprs"])
 
         building_placed = source_symbols.source_slice(ledger, "N623")
         self.assertEqual(building_placed["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -10050,6 +10086,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("no_op", building_picked_up["return_keys"])
         self.assertIn("previous_state", building_picked_up["return_keys"])
         self.assertEqual(building_picked_up["source_method"], "pickedUp()")
+
+        building_puddle_on = source_symbols.api_contract(contracts, "PortGame.source_building_puddle_on_state")
+        self.assertEqual([param["name"] for param in building_puddle_on["params"]], ["puddle_state"])
+        self.assertEqual(building_puddle_on["params"][0]["schema"], "source_building_puddle_on_input.puddle_state")
+        self.assertIn("method", building_puddle_on["return_keys"])
+        self.assertIn("comment", building_puddle_on["return_keys"])
+        self.assertIn("no_op", building_puddle_on["return_keys"])
+        self.assertIn("puddle_state", building_puddle_on["return_keys"])
+        self.assertEqual(building_puddle_on["source_method"], "puddleOn(Puddle puddle)")
 
         building_placed = source_symbols.api_contract(contracts, "PortGame.source_building_placed_state")
         self.assertEqual([param["name"] for param in building_placed["params"]], ["net_client", "consumes_power", "outputs_power", "has_power", "connected_power", "linked_to_self", "source_pos"])
@@ -12327,6 +12372,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_picked_up_result["keys"]["comment"]["java_expr"], "Called right before this building is picked up.")
         self.assertEqual(source_building_picked_up_result["keys"]["no_op"]["java_expr"], "public void pickedUp(){")
         self.assertEqual(source_building_picked_up_result["keys"]["previous_state"]["alias_of"], "source_building_picked_up_input.previous_state")
+
+        source_building_puddle_on_input = source_symbols.state_schema(schema, "source_building_puddle_on_input")
+        self.assertEqual(source_building_puddle_on_input["keys"]["puddle_state"]["java_expr"], "Puddle puddle")
+        self.assertEqual(source_building_puddle_on_input["keys"]["puddle_state"]["status"], "explicit-input")
+
+        source_building_puddle_on_result = source_symbols.state_schema(schema, "source_building_puddle_on_result")
+        self.assertEqual(source_building_puddle_on_result["keys"]["method"]["java_expr"], "public void puddleOn(Puddle puddle){")
+        self.assertEqual(source_building_puddle_on_result["keys"]["comment"]["java_expr"], "Called when a puddle is on this building. Only called at an interval (40 ticks).")
+        self.assertEqual(source_building_puddle_on_result["keys"]["no_op"]["java_expr"], "public void puddleOn(Puddle puddle){")
+        self.assertEqual(source_building_puddle_on_result["keys"]["puddle_state"]["alias_of"], "source_building_puddle_on_input.puddle_state")
 
         source_building_placed_input = source_symbols.state_schema(schema, "source_building_placed_input")
         self.assertEqual(source_building_placed_input["keys"]["net_client"]["java_expr"], "net.client()")

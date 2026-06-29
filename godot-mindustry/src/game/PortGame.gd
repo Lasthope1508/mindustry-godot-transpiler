@@ -1696,8 +1696,13 @@ func source_building_unit_on_any_state(unit_state: Variant) -> Variant:
 func source_building_unit_removed_state(unit_state: Variant) -> Variant:
 	return unit_state
 
-func source_building_puddle_on_state(puddle_state: Variant) -> Variant:
-	return puddle_state
+func source_building_puddle_on_state(puddle_state: Variant) -> Dictionary:
+	return {
+		"comment": "Called when a puddle is on this building. Only called at an interval (40 ticks).",
+		"method": "public void puddleOn(Puddle puddle){",
+		"no_op": true,
+		"puddle_state": puddle_state,
+	}
 
 func source_building_configured_type_state(value_state: Dictionary) -> String:
 	if bool(value_state.get("is_null", false)):
