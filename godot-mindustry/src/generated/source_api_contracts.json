@@ -6823,6 +6823,27 @@
         "test_bullet_range_change_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_bullet_reload_multiplier": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "params": [
+        {
+          "name": "data",
+          "schema": "source_bullet_reload_multiplier_input.data",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "reload_multiplier"
+      ],
+      "rule": "Public runtime contract for BulletType reloadMultiplier field helper.",
+      "runtime_proof": "/root/Main.source_bullet_reload_multiplier",
+      "source_method": "field declaration",
+      "source_slice": "N677",
+      "status": "active",
+      "tests": [
+        "test_bullet_reload_multiplier_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_bullet_type_building_damage_state": {
       "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
       "params": [

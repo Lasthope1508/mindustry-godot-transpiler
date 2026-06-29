@@ -8805,6 +8805,33 @@
         "test_bullet_range_change_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_range"
       ]
+    },
+    "N677": {
+      "exact_exprs": [
+        "/** Multiplied by turret reload speed to get final shoot speed. */",
+        "public float reloadMultiplier = 1f;",
+        "BulletType data",
+        "reloadMultiplier",
+        "1f"
+      ],
+      "godot_owner": "PortGame.source_bullet_reload_multiplier",
+      "java_class": "BulletType",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "runtime_proof": "/root/Main.source_bullet_reload_multiplier",
+      "source_symbols": [
+        "bullet_reload_multiplier.comment",
+        "bullet_reload_multiplier.data",
+        "bullet_reload_multiplier.default",
+        "bullet_reload_multiplier.field",
+        "bullet_reload_multiplier.key",
+        "bullet_reload_multiplier.result"
+      ],
+      "status": "done",
+      "tests": [
+        "test_bullet_reload_multiplier_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_reload_multiplier"
+      ]
     }
   },
   "version": 1

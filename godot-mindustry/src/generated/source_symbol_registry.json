@@ -19038,6 +19038,84 @@
         "test_bullet_range_change_symbols_are_registered_with_source_backing"
       ]
     },
+    "bullet_reload_multiplier.comment": {
+      "godot_owner": "PortGame.source_bullet_reload_multiplier",
+      "godot_symbol": "source_bullet_reload_multiplier_result.comment",
+      "java_expr": "/** Multiplied by turret reload speed to get final shoot speed. */",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Canonical BulletType reloadMultiplier source comment.",
+      "runtime_proof": "/root/Main.source_bullet_reload_multiplier",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_reload_multiplier_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_reload_multiplier.data": {
+      "godot_owner": "PortGame.source_bullet_reload_multiplier",
+      "godot_symbol": "source_bullet_reload_multiplier_input.data",
+      "java_expr": "BulletType data",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Runtime data dictionary supplies BulletType reloadMultiplier field state.",
+      "runtime_proof": "/root/Main.source_bullet_reload_multiplier",
+      "status": "explicit-input",
+      "tests": [
+        "test_bullet_reload_multiplier_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_reload_multiplier.default": {
+      "godot_owner": "PortGame.source_bullet_reload_multiplier",
+      "godot_symbol": "source_bullet_reload_multiplier_result.default_value",
+      "java_expr": "1f",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Godot fallback preserves BulletType.reloadMultiplier default value.",
+      "runtime_proof": "/root/Main.source_bullet_reload_multiplier",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_reload_multiplier_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_reload_multiplier.field": {
+      "godot_owner": "PortGame.source_bullet_reload_multiplier",
+      "godot_symbol": "source_bullet_reload_multiplier_result.field",
+      "java_expr": "public float reloadMultiplier = 1f;",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Canonical BulletType reloadMultiplier field declaration.",
+      "runtime_proof": "/root/Main.source_bullet_reload_multiplier",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_reload_multiplier_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_reload_multiplier.key": {
+      "godot_owner": "PortGame.source_bullet_reload_multiplier",
+      "godot_symbol": "source_bullet_reload_multiplier_result.key",
+      "java_expr": "reloadMultiplier",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Godot dictionary key maps to BulletType.reloadMultiplier exactly.",
+      "runtime_proof": "/root/Main.source_bullet_reload_multiplier",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_reload_multiplier_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_reload_multiplier.result": {
+      "godot_owner": "PortGame.source_bullet_reload_multiplier",
+      "godot_symbol": "source_bullet_reload_multiplier_result.reload_multiplier",
+      "java_expr": "reloadMultiplier",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Return reload multiplier from BulletType.reloadMultiplier runtime data or default.",
+      "runtime_proof": "/root/Main.source_bullet_reload_multiplier",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_reload_multiplier_symbols_are_registered_with_source_backing"
+      ]
+    },
     "bullet_type.parts": {
       "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
       "godot_symbol": "bullet_type_state.parts",

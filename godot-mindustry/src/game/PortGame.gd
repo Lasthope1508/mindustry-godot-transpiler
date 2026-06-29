@@ -10188,8 +10188,13 @@ const SOURCE_BULLET_AMMO_MULTIPLIER_DEFAULT := 2.0
 func source_bullet_ammo_multiplier(data: Dictionary) -> float:
 	return float(data.get("ammoMultiplier", 2.0))
 
+const SOURCE_BULLET_RELOAD_MULTIPLIER_COMMENT := "/** Multiplied by turret reload speed to get final shoot speed. */"
+const SOURCE_BULLET_RELOAD_MULTIPLIER_FIELD := "public float reloadMultiplier = 1f;"
+const SOURCE_BULLET_RELOAD_MULTIPLIER_KEY := "reloadMultiplier"
+const SOURCE_BULLET_RELOAD_MULTIPLIER_DEFAULT := 1.0
+
 func source_bullet_reload_multiplier(data: Dictionary) -> float:
-	return float(data.get("reloadMultiplier", 1.0))
+	return float(data.get(SOURCE_BULLET_RELOAD_MULTIPLIER_KEY, SOURCE_BULLET_RELOAD_MULTIPLIER_DEFAULT))
 
 func source_bullet_scale(data: Dictionary, texture_size: Vector2) -> Vector2:
 	var width := float(data.get("width", 4.0))

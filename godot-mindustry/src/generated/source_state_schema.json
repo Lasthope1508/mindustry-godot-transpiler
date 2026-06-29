@@ -34548,6 +34548,94 @@
       },
       "status": "active"
     },
+    "source_bullet_reload_multiplier_input": {
+      "keys": {
+        "data": {
+          "godot_symbol": "source_bullet_reload_multiplier_input.data",
+          "java_expr": "BulletType data",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Runtime data dictionary supplies BulletType reloadMultiplier field state.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_bullet_reload_multiplier"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_bullet_reload_multiplier_result": {
+      "keys": {
+        "comment": {
+          "godot_symbol": "source_bullet_reload_multiplier_result.comment",
+          "java_expr": "/** Multiplied by turret reload speed to get final shoot speed. */",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Canonical BulletType reloadMultiplier source comment.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_reload_multiplier"
+          ]
+        },
+        "data": {
+          "alias_of": "source_bullet_reload_multiplier_input.data",
+          "rule": "Carries BulletType data input into reloadMultiplier result schema.",
+          "status": "generated",
+          "type": "Dictionary"
+        },
+        "default_value": {
+          "godot_symbol": "source_bullet_reload_multiplier_result.default_value",
+          "java_expr": "1f",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Godot fallback preserves BulletType.reloadMultiplier default value.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_bullet_reload_multiplier"
+          ]
+        },
+        "field": {
+          "godot_symbol": "source_bullet_reload_multiplier_result.field",
+          "java_expr": "public float reloadMultiplier = 1f;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Canonical BulletType reloadMultiplier field declaration.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_reload_multiplier"
+          ]
+        },
+        "key": {
+          "godot_symbol": "source_bullet_reload_multiplier_result.key",
+          "java_expr": "reloadMultiplier",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Godot dictionary key maps to BulletType.reloadMultiplier exactly.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_reload_multiplier"
+          ]
+        },
+        "reload_multiplier": {
+          "godot_symbol": "source_bullet_reload_multiplier_result.reload_multiplier",
+          "java_expr": "reloadMultiplier",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Return reload multiplier from BulletType.reloadMultiplier runtime data or default.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_bullet_reload_multiplier"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

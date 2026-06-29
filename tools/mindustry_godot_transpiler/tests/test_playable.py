@@ -798,7 +798,11 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("var last_turret_fired_reload_multiplier := 1.0", source)
         self.assertIn("func source_bullet_reload_multiplier(data: Dictionary) -> float:", source)
-        self.assertIn('return float(data.get("reloadMultiplier", 1.0))', source)
+        self.assertIn('const SOURCE_BULLET_RELOAD_MULTIPLIER_COMMENT := "/** Multiplied by turret reload speed to get final shoot speed. */"', source)
+        self.assertIn('const SOURCE_BULLET_RELOAD_MULTIPLIER_FIELD := "public float reloadMultiplier = 1f;"', source)
+        self.assertIn('const SOURCE_BULLET_RELOAD_MULTIPLIER_KEY := "reloadMultiplier"', source)
+        self.assertIn("const SOURCE_BULLET_RELOAD_MULTIPLIER_DEFAULT := 1.0", source)
+        self.assertIn("return float(data.get(SOURCE_BULLET_RELOAD_MULTIPLIER_KEY, SOURCE_BULLET_RELOAD_MULTIPLIER_DEFAULT))", source)
         self.assertIn("func source_turret_reload_seconds_for_ammo(turret, data: Dictionary) -> float:", source)
         self.assertIn("return source_turret_reload_seconds(turret) / source_bullet_reload_multiplier(data)", source)
         self.assertIn("cooldown = source_turret_reload_seconds_for_ammo(duo, data)", source)
