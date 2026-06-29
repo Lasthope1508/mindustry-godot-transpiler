@@ -9996,7 +9996,9 @@ func simulate_turrets(delta: float) -> void:
 				data = use_turret_ammo(cell, duo)
 				if not data.is_empty():
 					var shoot_x_offset := use_turret_shoot_x_offset(cell, duo)
-					var bullet_origin := source_turret_bullet_origin(grid_to_world(cell), target, duo, shoot_x_offset)
+					var turret_origin := grid_to_world(cell)
+					var bullet_origin_state := source_turret_bullet_origin(turret_origin.x, turret_origin.y, current_rotation, duo, shoot_x_offset)
+					var bullet_origin := Vector2(float(bullet_origin_state.get("bulletX", turret_origin.x)), float(bullet_origin_state.get("bulletY", turret_origin.y)))
 					var inaccuracy_range := source_turret_total_inaccuracy(duo, data)
 					var inaccuracy_offset := randf_range(-inaccuracy_range, inaccuracy_range)
 					var shoot_angle_degrees := current_rotation + inaccuracy_offset
@@ -10458,18 +10460,37 @@ func use_turret_shoot_x_offset(cell: Vector2i, turret) -> float:
 	turret_barrel_counters[key] = counter + 1
 	return offset
 
-func source_turret_bullet_origin(origin: Vector2, target, turret, shoot_x_offset := 0.0) -> Vector2:
-	if target == null:
-		return origin
-	var sprite = target.get("sprite")
-	if not is_instance_valid(sprite):
-		return origin
-	var direction: Vector2 = sprite.position - origin
-	if direction == Vector2.ZERO:
-		return origin
-	var shoot_y_origin := origin + direction.normalized() * source_turret_shoot_y(turret)
-	var side := Vector2(-direction.y, direction.x).normalized()
-	return shoot_y_origin + side * shoot_x_offset
+const SOURCE_TURRET_BULLET_ORIGIN_SHOOT_POINT_FIELD := "public float shootX = 0f, shootY = Float.NEGATIVE_INFINITY;"
+const SOURCE_TURRET_BULLET_ORIGIN_SHOOT_Y_DEFAULT := "if(shootY == Float.NEGATIVE_INFINITY) shootY = size * tilesize / 2f;"
+const SOURCE_TURRET_BULLET_ORIGIN_X_SPREAD := "xSpread = Mathf.range(xRand)"
+const SOURCE_TURRET_BULLET_ORIGIN_BULLET_X := "bulletX = x + Angles.trnsx(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)"
+const SOURCE_TURRET_BULLET_ORIGIN_BULLET_Y := "bulletY = y + Angles.trnsy(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)"
+
+func source_turret_bullet_origin(origin_x: float, origin_y: float, turret_rotation_degrees: float, turret, shoot_x_offset := 0.0, y_offset := 0.0, x_spread := 0.0) -> Dictionary:
+	var turret_properties: Dictionary = {}
+	if turret != null:
+		turret_properties = turret.get("properties", {}) if turret is Dictionary else turret.properties
+	var shoot_x := float(turret_properties.get("shootX", 0.0))
+	var shoot_y := float(turret_properties.get("shootY", float(turret_properties.get("size", 0.0)) * SOURCE_TILESIZE / 2.0))
+	var rotation_minus_90 := turret_rotation_degrees - 90.0
+	var trns := source_arc_angles_trns_vec(rotation_minus_90, shoot_x + shoot_x_offset + x_spread, shoot_y + y_offset)
+	return {
+		"originX": origin_x,
+		"originY": origin_y,
+		"rotationDegrees": turret_rotation_degrees,
+		"rotationMinus90": rotation_minus_90,
+		"shootX": shoot_x,
+		"shootY": shoot_y,
+		"shootXOffset": shoot_x_offset,
+		"yOffset": y_offset,
+		"xSpread": x_spread,
+		"trnsx": float(trns.get("x", 0.0)),
+		"trnsy": float(trns.get("y", 0.0)),
+		"bulletX": origin_x + float(trns.get("x", 0.0)),
+		"bulletY": origin_y + float(trns.get("y", 0.0)),
+		"bulletXSource": SOURCE_TURRET_BULLET_ORIGIN_BULLET_X,
+		"bulletYSource": SOURCE_TURRET_BULLET_ORIGIN_BULLET_Y,
+	}
 
 func source_angle_to_target(origin, target) -> float:
 	if target == null:

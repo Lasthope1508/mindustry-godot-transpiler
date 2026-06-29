@@ -4350,6 +4350,37 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(copper_entry["java_expr"], "Items.copper,  new BasicBulletType(2.5f, 9){{")
         self.assertEqual(copper_entry["godot_symbol"], "source_turret_ammo_data_result.item")
 
+    def test_turret_bullet_origin_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        shoot_point = source_symbols.source_symbol(registry, "turret_bullet_origin.shoot_point_field")
+        self.assertEqual(shoot_point["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(shoot_point["java_expr"], "public float shootX = 0f, shootY = Float.NEGATIVE_INFINITY;")
+        self.assertEqual(shoot_point["godot_owner"], "PortGame.source_turret_bullet_origin")
+        self.assertEqual(shoot_point["runtime_proof"], "/root/Main.source_turret_bullet_origin")
+
+        shoot_y_default = source_symbols.source_symbol(registry, "turret_bullet_origin.shoot_y_default")
+        self.assertEqual(shoot_y_default["java_method"], "init()")
+        self.assertEqual(shoot_y_default["java_expr"], "if(shootY == Float.NEGATIVE_INFINITY) shootY = size * tilesize / 2f;")
+        self.assertEqual(shoot_y_default["godot_symbol"], "source_turret_bullet_origin_input.shootY")
+
+        bullet_x = source_symbols.source_symbol(registry, "turret_bullet_origin.bullet_x")
+        self.assertEqual(bullet_x["java_method"], "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)")
+        self.assertEqual(bullet_x["java_expr"], "bulletX = x + Angles.trnsx(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)")
+        self.assertEqual(bullet_x["godot_symbol"], "source_turret_bullet_origin_result.bulletX")
+
+        bullet_y = source_symbols.source_symbol(registry, "turret_bullet_origin.bullet_y")
+        self.assertEqual(bullet_y["java_expr"], "bulletY = y + Angles.trnsy(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)")
+        self.assertEqual(bullet_y["godot_symbol"], "source_turret_bullet_origin_result.bulletY")
+
+        rotation = source_symbols.source_symbol(registry, "turret_bullet_origin.rotation")
+        self.assertEqual(rotation["status"], "explicit-input")
+        self.assertEqual(rotation["java_expr"], "rotation")
+        self.assertEqual(rotation["godot_symbol"], "source_turret_bullet_origin_input.rotationDegrees")
+
     def test_offload_to_inventory_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -10863,9 +10894,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 334)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 335)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 339)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 340)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -11081,6 +11112,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_shoot_pattern_default_events", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_status_apply_result", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_turret_ammo_data", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_turret_bullet_origin", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_offload_to_inventory", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_boost_bar_fraction", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_draw_state", audit["registeredSourceOwners"])
@@ -12357,6 +12389,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public void ammo(Object... objects){", turret_ammo_data["exact_exprs"])
         self.assertIn("ammoTypes = OrderedMap.of(objects);", turret_ammo_data["exact_exprs"])
         self.assertIn("Items.copper,  new BasicBulletType(2.5f, 9){{", turret_ammo_data["bridge_exprs"])
+
+        turret_bullet_origin = source_symbols.source_slice(ledger, "N737")
+        self.assertEqual(turret_bullet_origin["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(turret_bullet_origin["java_method"], "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)")
+        self.assertEqual(turret_bullet_origin["godot_owner"], "PortGame.source_turret_bullet_origin")
+        self.assertIn("public float shootX = 0f, shootY = Float.NEGATIVE_INFINITY;", turret_bullet_origin["exact_exprs"])
+        self.assertIn("if(shootY == Float.NEGATIVE_INFINITY) shootY = size * tilesize / 2f;", turret_bullet_origin["exact_exprs"])
+        self.assertIn("xSpread = Mathf.range(xRand)", turret_bullet_origin["exact_exprs"])
+        self.assertIn("bulletX = x + Angles.trnsx(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)", turret_bullet_origin["exact_exprs"])
+        self.assertIn("bulletY = y + Angles.trnsy(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)", turret_bullet_origin["exact_exprs"])
+        self.assertIn("type.create(this, team, bulletX, bulletY, shootAngle, -1f", turret_bullet_origin["deferred_exprs"])
 
         offload_to_inventory = source_symbols.source_slice(ledger, "N724")
         self.assertEqual(offload_to_inventory["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -15480,6 +15523,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("damage", turret_ammo_data["return_keys"])
         self.assertIn("ammoMultiplier", turret_ammo_data["return_keys"])
         self.assertEqual(turret_ammo_data["source_method"], "ammo(Object... objects)")
+
+        turret_bullet_origin = source_symbols.api_contract(contracts, "PortGame.source_turret_bullet_origin")
+        self.assertEqual([param["name"] for param in turret_bullet_origin["params"]], ["origin_x", "origin_y", "turret_rotation_degrees", "turret", "shoot_x_offset", "y_offset", "x_spread"])
+        self.assertEqual(turret_bullet_origin["params"][0]["schema"], "source_turret_bullet_origin_input.originX")
+        self.assertEqual(turret_bullet_origin["params"][2]["schema"], "source_turret_bullet_origin_input.rotationDegrees")
+        self.assertIn("bulletX", turret_bullet_origin["return_keys"])
+        self.assertIn("bulletY", turret_bullet_origin["return_keys"])
+        self.assertIn("rotationMinus90", turret_bullet_origin["return_keys"])
+        self.assertEqual(turret_bullet_origin["source_method"], "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)")
 
         shoot_pattern_default_events = source_symbols.api_contract(contracts, "PortGame.source_shoot_pattern_default_events")
         self.assertEqual([param["name"] for param in shoot_pattern_default_events["params"]], ["shoot_state"])
@@ -19018,6 +19070,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_turret_ammo_data_result["keys"]["speed"]["java_expr"], "new BasicBulletType(2.5f, 9)")
         self.assertEqual(source_turret_ammo_data_result["keys"]["damage"]["java_expr"], "new BasicBulletType(2.5f, 9)")
         self.assertEqual(source_turret_ammo_data_result["keys"]["ammoMultiplier"]["java_expr"], "ammoMultiplier = 2;")
+
+        source_turret_bullet_origin_input = source_symbols.state_schema(schema, "source_turret_bullet_origin_input")
+        self.assertEqual(source_turret_bullet_origin_input["keys"]["originX"]["java_expr"], "x")
+        self.assertEqual(source_turret_bullet_origin_input["keys"]["originY"]["java_expr"], "y")
+        self.assertEqual(source_turret_bullet_origin_input["keys"]["rotationDegrees"]["java_expr"], "rotation")
+        self.assertEqual(source_turret_bullet_origin_input["keys"]["shootX"]["java_expr"], "shootX")
+        self.assertEqual(source_turret_bullet_origin_input["keys"]["shootY"]["java_expr"], "shootY")
+        self.assertEqual(source_turret_bullet_origin_input["keys"]["shootXOffset"]["java_expr"], "xOffset")
+        self.assertEqual(source_turret_bullet_origin_input["keys"]["yOffset"]["java_expr"], "yOffset")
+        self.assertEqual(source_turret_bullet_origin_input["keys"]["xSpread"]["java_expr"], "xSpread = Mathf.range(xRand)")
+
+        source_turret_bullet_origin_result = source_symbols.state_schema(schema, "source_turret_bullet_origin_result")
+        self.assertEqual(source_turret_bullet_origin_result["keys"]["rotationMinus90"]["java_expr"], "rotation - 90")
+        self.assertEqual(source_turret_bullet_origin_result["keys"]["trnsx"]["java_expr"], "Angles.trnsx(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)")
+        self.assertEqual(source_turret_bullet_origin_result["keys"]["trnsy"]["java_expr"], "Angles.trnsy(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)")
+        self.assertEqual(source_turret_bullet_origin_result["keys"]["bulletX"]["java_expr"], "bulletX = x + Angles.trnsx(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)")
+        self.assertEqual(source_turret_bullet_origin_result["keys"]["bulletY"]["java_expr"], "bulletY = y + Angles.trnsy(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)")
 
         source_shoot_pattern_default_events_input = source_symbols.state_schema(schema, "source_shoot_pattern_default_events_input")
         self.assertEqual(source_shoot_pattern_default_events_input["keys"]["shots"]["java_expr"], "public int shots = 1;")

@@ -7,9 +7,8 @@
     "PortGame.source_symbol_audit_state",
     "PortGame.source_symbol_registry_state"
   ],
-  "legacyUnregisteredOwnerCount": 149,
+  "legacyUnregisteredOwnerCount": 148,
   "legacyUnregisteredOwners": [
-    "PortGame.source_turret_bullet_origin",
     "PortGame.source_turret_inaccuracy",
     "PortGame.source_turret_range",
     "PortGame.source_turret_range_for_ammo",
@@ -163,7 +162,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 334,
+  "registeredSourceOwnerCount": 335,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -498,7 +497,8 @@
     "PortGame.source_payload_forward_offset",
     "PortGame.source_shoot_pattern_default_events",
     "PortGame.source_status_apply_result",
-    "PortGame.source_turret_ammo_data"
+    "PortGame.source_turret_ammo_data",
+    "PortGame.source_turret_bullet_origin"
   ],
   "sourceFunctions": [
     {

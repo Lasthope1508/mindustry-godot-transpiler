@@ -12508,6 +12508,72 @@
         "test_turret_ammo_data_symbols_are_registered_with_source_backing",
         "test_port_game_ports_source_item_turret_ammo_stack_logic"
       ]
+    },
+    "PortGame.source_turret_bullet_origin": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "params": [
+        {
+          "name": "origin_x",
+          "schema": "source_turret_bullet_origin_input.originX",
+          "type": "float"
+        },
+        {
+          "name": "origin_y",
+          "schema": "source_turret_bullet_origin_input.originY",
+          "type": "float"
+        },
+        {
+          "name": "turret_rotation_degrees",
+          "schema": "source_turret_bullet_origin_input.rotationDegrees",
+          "type": "float"
+        },
+        {
+          "name": "turret",
+          "schema": "source_turret_bullet_origin_input.turret",
+          "type": "Variant"
+        },
+        {
+          "name": "shoot_x_offset",
+          "schema": "source_turret_bullet_origin_input.shootXOffset",
+          "type": "float"
+        },
+        {
+          "name": "y_offset",
+          "schema": "source_turret_bullet_origin_input.yOffset",
+          "type": "float"
+        },
+        {
+          "name": "x_spread",
+          "schema": "source_turret_bullet_origin_input.xSpread",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "originX",
+        "originY",
+        "rotationDegrees",
+        "rotationMinus90",
+        "shootX",
+        "shootY",
+        "shootXOffset",
+        "yOffset",
+        "xSpread",
+        "trnsx",
+        "trnsy",
+        "bulletX",
+        "bulletY",
+        "bulletXSource",
+        "bulletYSource"
+      ],
+      "rule": "Public runtime contract for TurretBuild.bullet origin geometry: world origin plus Angles.trnsx/trnsy(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset).",
+      "runtime_proof": "/root/Main.source_turret_bullet_origin",
+      "source_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+      "source_slice": "N737",
+      "status": "active",
+      "tests": [
+        "test_turret_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_shoot_y"
+      ]
     }
   },
   "policy": {

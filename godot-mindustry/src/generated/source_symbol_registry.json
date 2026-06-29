@@ -33153,6 +33153,188 @@
         "test_port_game_ports_source_item_turret_ammo_stack_logic"
       ]
     },
+    "turret_bullet_origin.bullet_x": {
+      "godot_owner": "PortGame.source_turret_bullet_origin",
+      "godot_symbol": "source_turret_bullet_origin_result.bulletX",
+      "java_expr": "bulletX = x + Angles.trnsx(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)",
+      "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "TurretBuild.bullet computes bulletX from world x plus rotated local shoot offset.",
+      "runtime_proof": "/root/Main.source_turret_bullet_origin",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_shoot_y"
+      ]
+    },
+    "turret_bullet_origin.bullet_y": {
+      "godot_owner": "PortGame.source_turret_bullet_origin",
+      "godot_symbol": "source_turret_bullet_origin_result.bulletY",
+      "java_expr": "bulletY = y + Angles.trnsy(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)",
+      "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "TurretBuild.bullet computes bulletY from world y plus rotated local shoot offset.",
+      "runtime_proof": "/root/Main.source_turret_bullet_origin",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_shoot_y"
+      ]
+    },
+    "turret_bullet_origin.origin_x": {
+      "godot_owner": "PortGame.source_turret_bullet_origin",
+      "godot_symbol": "source_turret_bullet_origin_input.originX",
+      "java_expr": "x",
+      "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Runtime origin_x parameter maps to TurretBuild world x.",
+      "runtime_proof": "/root/Main.source_turret_bullet_origin",
+      "status": "explicit-input",
+      "tests": [
+        "test_turret_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_shoot_y"
+      ]
+    },
+    "turret_bullet_origin.origin_y": {
+      "godot_owner": "PortGame.source_turret_bullet_origin",
+      "godot_symbol": "source_turret_bullet_origin_input.originY",
+      "java_expr": "y",
+      "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Runtime origin_y parameter maps to TurretBuild world y.",
+      "runtime_proof": "/root/Main.source_turret_bullet_origin",
+      "status": "explicit-input",
+      "tests": [
+        "test_turret_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_shoot_y"
+      ]
+    },
+    "turret_bullet_origin.rotation": {
+      "godot_owner": "PortGame.source_turret_bullet_origin",
+      "godot_symbol": "source_turret_bullet_origin_input.rotationDegrees",
+      "java_expr": "rotation",
+      "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Runtime rotation parameter maps to BaseTurretBuild rotation used by TurretBuild.bullet().",
+      "runtime_proof": "/root/Main.source_turret_bullet_origin",
+      "status": "explicit-input",
+      "tests": [
+        "test_turret_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_shoot_y"
+      ]
+    },
+    "turret_bullet_origin.rotation_minus_90": {
+      "godot_owner": "PortGame.source_turret_bullet_origin",
+      "godot_symbol": "source_turret_bullet_origin_result.rotationMinus90",
+      "java_expr": "rotation - 90",
+      "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Turret bullet origin rotates local shoot point by rotation - 90 before adding world origin.",
+      "runtime_proof": "/root/Main.source_turret_bullet_origin",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_shoot_y"
+      ]
+    },
+    "turret_bullet_origin.shoot_point_field": {
+      "godot_owner": "PortGame.source_turret_bullet_origin",
+      "godot_symbol": "source_turret_bullet_origin_input.shootX/source_turret_bullet_origin_input.shootY",
+      "java_expr": "public float shootX = 0f, shootY = Float.NEGATIVE_INFINITY;",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Turret local shoot point uses shootX and shootY fields; shootY can be initialized from block size later in init().",
+      "runtime_proof": "/root/Main.source_turret_bullet_origin",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_shoot_y"
+      ]
+    },
+    "turret_bullet_origin.shoot_y_default": {
+      "godot_owner": "PortGame.source_turret_bullet_origin",
+      "godot_symbol": "source_turret_bullet_origin_input.shootY",
+      "java_expr": "if(shootY == Float.NEGATIVE_INFINITY) shootY = size * tilesize / 2f;",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Turret.init fills unset shootY from size * tilesize / 2f.",
+      "runtime_proof": "/root/Main.source_turret_bullet_origin",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_shoot_y"
+      ]
+    },
+    "turret_bullet_origin.trnsx": {
+      "godot_owner": "PortGame.source_turret_bullet_origin",
+      "godot_symbol": "source_turret_bullet_origin_result.trnsx",
+      "java_expr": "Angles.trnsx(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)",
+      "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Bullet origin x uses Arc Angles.trnsx over local shoot point and offsets.",
+      "runtime_proof": "/root/Main.source_turret_bullet_origin",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_shoot_y"
+      ]
+    },
+    "turret_bullet_origin.trnsy": {
+      "godot_owner": "PortGame.source_turret_bullet_origin",
+      "godot_symbol": "source_turret_bullet_origin_result.trnsy",
+      "java_expr": "Angles.trnsy(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)",
+      "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Bullet origin y uses Arc Angles.trnsy over local shoot point and offsets.",
+      "runtime_proof": "/root/Main.source_turret_bullet_origin",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_shoot_y"
+      ]
+    },
+    "turret_bullet_origin.x_offset": {
+      "godot_owner": "PortGame.source_turret_bullet_origin",
+      "godot_symbol": "source_turret_bullet_origin_input.shootXOffset",
+      "java_expr": "xOffset",
+      "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "ShootPattern callback xOffset is folded into the local shoot x coordinate.",
+      "runtime_proof": "/root/Main.source_turret_bullet_origin",
+      "status": "explicit-input",
+      "tests": [
+        "test_turret_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_shoot_y"
+      ]
+    },
+    "turret_bullet_origin.x_spread": {
+      "godot_owner": "PortGame.source_turret_bullet_origin",
+      "godot_symbol": "source_turret_bullet_origin_input.xSpread",
+      "java_expr": "xSpread = Mathf.range(xRand)",
+      "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Random xSpread is explicit input here; randomness itself remains outside this deterministic helper.",
+      "runtime_proof": "/root/Main.source_turret_bullet_origin",
+      "status": "explicit-input",
+      "tests": [
+        "test_turret_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_shoot_y"
+      ]
+    },
+    "turret_bullet_origin.y_offset": {
+      "godot_owner": "PortGame.source_turret_bullet_origin",
+      "godot_symbol": "source_turret_bullet_origin_input.yOffset",
+      "java_expr": "yOffset",
+      "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "ShootPattern callback yOffset is folded into the local shoot y coordinate.",
+      "runtime_proof": "/root/Main.source_turret_bullet_origin",
+      "status": "explicit-input",
+      "tests": [
+        "test_turret_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_shoot_y"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

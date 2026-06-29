@@ -42328,6 +42328,254 @@
       },
       "status": "active"
     },
+    "source_turret_bullet_origin_input": {
+      "keys": {
+        "originX": {
+          "java_expr": "x",
+          "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "World x for TurretBuild bullet origin.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_bullet_origin"
+          ]
+        },
+        "originY": {
+          "java_expr": "y",
+          "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "World y for TurretBuild bullet origin.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_bullet_origin"
+          ]
+        },
+        "rotationDegrees": {
+          "java_expr": "rotation",
+          "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "TurretBuild rotation in degrees.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_bullet_origin"
+          ]
+        },
+        "shootX": {
+          "java_expr": "shootX",
+          "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Local shoot x field used in bullet origin formula.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_bullet_origin"
+          ]
+        },
+        "shootXOffset": {
+          "java_expr": "xOffset",
+          "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "ShootPattern callback xOffset.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_bullet_origin"
+          ]
+        },
+        "shootY": {
+          "java_expr": "shootY",
+          "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Local shoot y field used in bullet origin formula; init() fills missing value from size * tilesize / 2f.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_bullet_origin"
+          ]
+        },
+        "turret": {
+          "java_expr": "Turret / TurretBuild block",
+          "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Runtime turret object/dictionary provides shootX, shootY, and size properties.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_bullet_origin"
+          ]
+        },
+        "xSpread": {
+          "java_expr": "xSpread = Mathf.range(xRand)",
+          "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Random x spread value is explicit deterministic input for this helper.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_bullet_origin"
+          ]
+        },
+        "yOffset": {
+          "java_expr": "yOffset",
+          "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "ShootPattern callback yOffset.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_bullet_origin"
+          ]
+        }
+      }
+    },
+    "source_turret_bullet_origin_result": {
+      "keys": {
+        "bulletX": {
+          "java_expr": "bulletX = x + Angles.trnsx(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)",
+          "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "World bullet x origin.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_bullet_origin"
+          ]
+        },
+        "bulletXSource": {
+          "java_expr": "bulletX = x + Angles.trnsx(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)",
+          "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Source expression exposed for runtime proof.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_bullet_origin"
+          ]
+        },
+        "bulletY": {
+          "java_expr": "bulletY = y + Angles.trnsy(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)",
+          "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "World bullet y origin.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_bullet_origin"
+          ]
+        },
+        "bulletYSource": {
+          "java_expr": "bulletY = y + Angles.trnsy(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)",
+          "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Source expression exposed for runtime proof.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_bullet_origin"
+          ]
+        },
+        "originX": {
+          "alias_of": "source_turret_bullet_origin_input.originX",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_bullet_origin"
+          ]
+        },
+        "originY": {
+          "alias_of": "source_turret_bullet_origin_input.originY",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_bullet_origin"
+          ]
+        },
+        "rotationDegrees": {
+          "alias_of": "source_turret_bullet_origin_input.rotationDegrees",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_bullet_origin"
+          ]
+        },
+        "rotationMinus90": {
+          "java_expr": "rotation - 90",
+          "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Rotation passed into Angles.trnsx/trnsy is rotation - 90.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_bullet_origin"
+          ]
+        },
+        "shootX": {
+          "alias_of": "source_turret_bullet_origin_input.shootX",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_bullet_origin"
+          ]
+        },
+        "shootXOffset": {
+          "alias_of": "source_turret_bullet_origin_input.shootXOffset",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_bullet_origin"
+          ]
+        },
+        "shootY": {
+          "alias_of": "source_turret_bullet_origin_input.shootY",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_bullet_origin"
+          ]
+        },
+        "trnsx": {
+          "java_expr": "Angles.trnsx(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)",
+          "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Rotated local x offset from Arc Angles.trnsx.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_bullet_origin"
+          ]
+        },
+        "trnsy": {
+          "java_expr": "Angles.trnsy(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)",
+          "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Rotated local y offset from Arc Angles.trnsy.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_bullet_origin"
+          ]
+        },
+        "xSpread": {
+          "alias_of": "source_turret_bullet_origin_input.xSpread",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_bullet_origin"
+          ]
+        },
+        "yOffset": {
+          "alias_of": "source_turret_bullet_origin_input.yOffset",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_bullet_origin"
+          ]
+        }
+      }
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {
