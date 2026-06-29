@@ -688,9 +688,16 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_BULLET_TEXTURE_SPRITE_FIELD := "public String sprite;"', source)
+        self.assertIn('const SOURCE_BULLET_TEXTURE_BACK_SPRITE_FIELD := "public @Nullable String backSprite;"', source)
+        self.assertIn('const SOURCE_BULLET_TEXTURE_DEFAULT_SPRITE_CTOR := "this(speed, damage, \\"bullet\\");"', source)
+        self.assertIn('const SOURCE_BULLET_TEXTURE_FRONT_REGION_LOAD := "frontRegion = Core.atlas.find(sprite);"', source)
+        self.assertIn('const SOURCE_BULLET_TEXTURE_DEFAULT := "bullet"', source)
+        self.assertIn('const SOURCE_BULLET_TEXTURE_ASSET_ROOT := "res://assets/core/assets-raw/sprites/effects"', source)
         self.assertIn("func source_bullet_texture(sprite_id: String) -> Texture2D:", source)
-        self.assertIn('"res://assets/core/assets-raw/sprites/effects/%s.png" % sprite_id', source)
-        self.assertIn('sprite.texture = source_bullet_texture(str(data.get("sprite", "bullet")))', source)
+        self.assertIn('var resolved_sprite := sprite_id if sprite_id != "" else SOURCE_BULLET_TEXTURE_DEFAULT', source)
+        self.assertIn('var path := "%s/%s.png" % [SOURCE_BULLET_TEXTURE_ASSET_ROOT, resolved_sprite]', source)
+        self.assertIn('sprite.texture = source_bullet_texture(str(data.get("sprite", SOURCE_BULLET_TEXTURE_DEFAULT)))', source)
         self.assertIn('"selected_turret_ammo_sprite": selected_turret_ammo_sprite()', source)
         self.assertNotIn('sprite.texture = textures.get("item")', source)
 

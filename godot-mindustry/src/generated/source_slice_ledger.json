@@ -8903,6 +8903,38 @@
         "test_bullet_scale_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_bullet_dimensions"
       ]
+    },
+    "N680": {
+      "exact_exprs": [
+        "public String sprite;",
+        "public @Nullable String backSprite;",
+        "this(speed, damage, \"bullet\");",
+        "public void load(){",
+        "frontRegion = Core.atlas.find(sprite);",
+        "sprite",
+        "\"bullet\"",
+        "Core.atlas.find(sprite)"
+      ],
+      "godot_owner": "PortGame.source_bullet_texture",
+      "java_class": "BasicBulletType",
+      "java_method": "load()",
+      "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+      "runtime_proof": "/root/Main.source_bullet_texture",
+      "source_symbols": [
+        "bullet_texture.asset_bridge",
+        "bullet_texture.back_sprite_field",
+        "bullet_texture.default",
+        "bullet_texture.default_sprite_ctor",
+        "bullet_texture.front_region_load",
+        "bullet_texture.load_method",
+        "bullet_texture.sprite_field",
+        "bullet_texture.sprite_id"
+      ],
+      "status": "done",
+      "tests": [
+        "test_bullet_texture_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_sprite_assets"
+      ]
     }
   },
   "version": 1

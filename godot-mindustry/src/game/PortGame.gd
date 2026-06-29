@@ -1223,8 +1223,16 @@ func block_texture(block) -> Texture2D:
 	block_texture_cache[block.id] = texture
 	return texture
 
+const SOURCE_BULLET_TEXTURE_SPRITE_FIELD := "public String sprite;"
+const SOURCE_BULLET_TEXTURE_BACK_SPRITE_FIELD := "public @Nullable String backSprite;"
+const SOURCE_BULLET_TEXTURE_DEFAULT_SPRITE_CTOR := "this(speed, damage, \"bullet\");"
+const SOURCE_BULLET_TEXTURE_FRONT_REGION_LOAD := "frontRegion = Core.atlas.find(sprite);"
+const SOURCE_BULLET_TEXTURE_DEFAULT := "bullet"
+const SOURCE_BULLET_TEXTURE_ASSET_ROOT := "res://assets/core/assets-raw/sprites/effects"
+
 func source_bullet_texture(sprite_id: String) -> Texture2D:
-	var path := "res://assets/core/assets-raw/sprites/effects/%s.png" % sprite_id
+	var resolved_sprite := sprite_id if sprite_id != "" else SOURCE_BULLET_TEXTURE_DEFAULT
+	var path := "%s/%s.png" % [SOURCE_BULLET_TEXTURE_ASSET_ROOT, resolved_sprite]
 	return load_png_texture(path)
 
 func can_afford(block) -> bool:
@@ -10236,7 +10244,7 @@ func spawn_turret_bullet(origin: Vector2, target, data: Dictionary, shoot_angle_
 	turret_shot_count += 1
 	var velocity := source_bullet_velocity(data, shoot_angle_degrees)
 	var sprite := Sprite2D.new()
-	sprite.texture = source_bullet_texture(str(data.get("sprite", "bullet")))
+	sprite.texture = source_bullet_texture(str(data.get("sprite", SOURCE_BULLET_TEXTURE_DEFAULT)))
 	sprite.position = origin
 	if sprite.texture:
 		var size := sprite.texture.get_size()

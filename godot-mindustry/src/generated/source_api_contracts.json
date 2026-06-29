@@ -6891,6 +6891,27 @@
         "test_bullet_scale_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_bullet_texture": {
+      "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+      "params": [
+        {
+          "name": "sprite_id",
+          "schema": "source_bullet_texture_input.sprite_id",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "texture"
+      ],
+      "rule": "Public runtime contract for BasicBulletType frontRegion sprite atlas lookup through Godot asset bridge.",
+      "runtime_proof": "/root/Main.source_bullet_texture",
+      "source_method": "load()",
+      "source_slice": "N680",
+      "status": "active",
+      "tests": [
+        "test_bullet_texture_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_bullet_type_building_damage_state": {
       "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
       "params": [

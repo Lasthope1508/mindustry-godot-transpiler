@@ -4316,6 +4316,52 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result["java_expr"], "Vector2(width / texture_size.x, height / texture_size.y)")
         self.assertEqual(result["godot_symbol"], "source_bullet_scale_result.scale")
 
+    def test_bullet_texture_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        sprite_field = source_symbols.source_symbol(registry, "bullet_texture.sprite_field")
+        self.assertEqual(sprite_field["java_source"], "core/src/mindustry/entities/bullet/BasicBulletType.java")
+        self.assertEqual(sprite_field["java_method"], "field declaration")
+        self.assertEqual(sprite_field["java_expr"], "public String sprite;")
+        self.assertEqual(sprite_field["godot_owner"], "PortGame.source_bullet_texture")
+        self.assertEqual(sprite_field["runtime_proof"], "/root/Main.source_bullet_texture")
+        self.assertEqual(sprite_field["godot_symbol"], "source_bullet_texture_result.sprite_field")
+
+        back_sprite_field = source_symbols.source_symbol(registry, "bullet_texture.back_sprite_field")
+        self.assertEqual(back_sprite_field["java_expr"], "public @Nullable String backSprite;")
+        self.assertEqual(back_sprite_field["godot_symbol"], "source_bullet_texture_result.back_sprite_field")
+
+        default_ctor = source_symbols.source_symbol(registry, "bullet_texture.default_sprite_ctor")
+        self.assertEqual(default_ctor["java_method"], "BasicBulletType(float speed, float damage)")
+        self.assertEqual(default_ctor["java_expr"], 'this(speed, damage, "bullet");')
+        self.assertEqual(default_ctor["godot_symbol"], "source_bullet_texture_result.default_sprite_ctor")
+
+        load_method = source_symbols.source_symbol(registry, "bullet_texture.load_method")
+        self.assertEqual(load_method["java_method"], "load()")
+        self.assertEqual(load_method["java_expr"], "public void load(){")
+        self.assertEqual(load_method["godot_symbol"], "source_bullet_texture_result.load_method")
+
+        front_region = source_symbols.source_symbol(registry, "bullet_texture.front_region_load")
+        self.assertEqual(front_region["java_expr"], "frontRegion = Core.atlas.find(sprite);")
+        self.assertEqual(front_region["godot_symbol"], "source_bullet_texture_result.front_region_load")
+
+        sprite_id = source_symbols.source_symbol(registry, "bullet_texture.sprite_id")
+        self.assertEqual(sprite_id["status"], "explicit-input")
+        self.assertEqual(sprite_id["java_expr"], "sprite")
+        self.assertEqual(sprite_id["godot_symbol"], "source_bullet_texture_input.sprite_id")
+
+        default_value = source_symbols.source_symbol(registry, "bullet_texture.default")
+        self.assertEqual(default_value["java_expr"], '"bullet"')
+        self.assertEqual(default_value["godot_symbol"], "source_bullet_texture_result.default_sprite")
+
+        asset_bridge = source_symbols.source_symbol(registry, "bullet_texture.asset_bridge")
+        self.assertEqual(asset_bridge["status"], "generated")
+        self.assertEqual(asset_bridge["java_expr"], "Core.atlas.find(sprite)")
+        self.assertEqual(asset_bridge["godot_symbol"], "source_bullet_texture_result.asset_path")
+
     def test_building_can_be_replaced_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -8400,9 +8446,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 277)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 278)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 282)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 283)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -8587,6 +8633,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_reload_multiplier", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_rotation_degrees", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_scale", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_texture", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -10046,6 +10093,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("float height = this.height * ((1f - shrinkY) + shrinkY * shrink);", bullet_scale["exact_exprs"])
         self.assertIn("float width = this.width * ((1f - shrinkX) + shrinkX * shrink);", bullet_scale["exact_exprs"])
         self.assertIn("Draw.rect(frontRegion, b.x, b.y, width, height, b.rotation() + offset);", bullet_scale["exact_exprs"])
+
+        bullet_texture = source_symbols.source_slice(ledger, "N680")
+        self.assertEqual(bullet_texture["java_source"], "core/src/mindustry/entities/bullet/BasicBulletType.java")
+        self.assertEqual(bullet_texture["java_method"], "load()")
+        self.assertEqual(bullet_texture["godot_owner"], "PortGame.source_bullet_texture")
+        self.assertIn("public String sprite;", bullet_texture["exact_exprs"])
+        self.assertIn("public @Nullable String backSprite;", bullet_texture["exact_exprs"])
+        self.assertIn('this(speed, damage, "bullet");', bullet_texture["exact_exprs"])
+        self.assertIn("public void load(){", bullet_texture["exact_exprs"])
+        self.assertIn("frontRegion = Core.atlas.find(sprite);", bullet_texture["exact_exprs"])
 
         building_update_consumption_non_optional = source_symbols.source_slice(ledger, "N662")
         self.assertEqual(building_update_consumption_non_optional["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -13107,6 +13164,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("scale", bullet_scale["return_keys"])
         self.assertEqual(bullet_scale["source_method"], "draw(Bullet b)")
 
+        bullet_texture = source_symbols.api_contract(contracts, "PortGame.source_bullet_texture")
+        self.assertEqual([param["name"] for param in bullet_texture["params"]], ["sprite_id"])
+        self.assertEqual(bullet_texture["params"][0]["schema"], "source_bullet_texture_input.sprite_id")
+        self.assertIn("texture", bullet_texture["return_keys"])
+        self.assertEqual(bullet_texture["source_method"], "load()")
+
         building_placed = source_symbols.api_contract(contracts, "PortGame.source_building_placed_state")
         self.assertEqual([param["name"] for param in building_placed["params"]], ["net_client", "consumes_power", "outputs_power", "has_power", "connected_power", "linked_to_self", "source_pos"])
         self.assertEqual(building_placed["params"][0]["schema"], "source_building_placed_input.net_client")
@@ -16081,6 +16144,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_bullet_scale_result["keys"]["scale"]["java_expr"], "Vector2(width / texture_size.x, height / texture_size.y)")
         self.assertEqual(source_bullet_scale_result["keys"]["data"]["alias_of"], "source_bullet_scale_input.data")
         self.assertEqual(source_bullet_scale_result["keys"]["texture_size"]["alias_of"], "source_bullet_scale_input.texture_size")
+
+        source_bullet_texture_input = source_symbols.state_schema(schema, "source_bullet_texture_input")
+        self.assertEqual(source_bullet_texture_input["keys"]["sprite_id"]["java_expr"], "sprite")
+        self.assertEqual(source_bullet_texture_input["keys"]["sprite_id"]["status"], "explicit-input")
+
+        source_bullet_texture_result = source_symbols.state_schema(schema, "source_bullet_texture_result")
+        self.assertEqual(source_bullet_texture_result["keys"]["sprite_field"]["java_expr"], "public String sprite;")
+        self.assertEqual(source_bullet_texture_result["keys"]["back_sprite_field"]["java_expr"], "public @Nullable String backSprite;")
+        self.assertEqual(source_bullet_texture_result["keys"]["default_sprite_ctor"]["java_expr"], 'this(speed, damage, "bullet");')
+        self.assertEqual(source_bullet_texture_result["keys"]["load_method"]["java_expr"], "public void load(){")
+        self.assertEqual(source_bullet_texture_result["keys"]["front_region_load"]["java_expr"], "frontRegion = Core.atlas.find(sprite);")
+        self.assertEqual(source_bullet_texture_result["keys"]["default_sprite"]["java_expr"], '"bullet"')
+        self.assertEqual(source_bullet_texture_result["keys"]["asset_path"]["java_expr"], "Core.atlas.find(sprite)")
+        self.assertEqual(source_bullet_texture_result["keys"]["sprite_id"]["alias_of"], "source_bullet_texture_input.sprite_id")
 
         source_building_placed_input = source_symbols.state_schema(schema, "source_building_placed_input")
         self.assertEqual(source_building_placed_input["keys"]["net_client"]["java_expr"], "net.client()")

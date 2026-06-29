@@ -19376,6 +19376,110 @@
         "test_bullet_scale_symbols_are_registered_with_source_backing"
       ]
     },
+    "bullet_texture.asset_bridge": {
+      "godot_owner": "PortGame.source_bullet_texture",
+      "godot_symbol": "source_bullet_texture_result.asset_path",
+      "java_expr": "Core.atlas.find(sprite)",
+      "java_method": "load()",
+      "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+      "rule": "Godot asset bridge maps Core.atlas.find(sprite) to imported PNG path.",
+      "runtime_proof": "/root/Main.source_bullet_texture",
+      "status": "generated",
+      "tests": [
+        "test_bullet_texture_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_texture.back_sprite_field": {
+      "godot_owner": "PortGame.source_bullet_texture",
+      "godot_symbol": "source_bullet_texture_result.back_sprite_field",
+      "java_expr": "public @Nullable String backSprite;",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+      "rule": "Canonical BasicBulletType optional backSprite field declaration.",
+      "runtime_proof": "/root/Main.source_bullet_texture",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_texture_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_texture.default": {
+      "godot_owner": "PortGame.source_bullet_texture",
+      "godot_symbol": "source_bullet_texture_result.default_sprite",
+      "java_expr": "\"bullet\"",
+      "java_method": "BasicBulletType(float speed, float damage)",
+      "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+      "rule": "Default bullet sprite string from BasicBulletType constructor.",
+      "runtime_proof": "/root/Main.source_bullet_texture",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_texture_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_texture.default_sprite_ctor": {
+      "godot_owner": "PortGame.source_bullet_texture",
+      "godot_symbol": "source_bullet_texture_result.default_sprite_ctor",
+      "java_expr": "this(speed, damage, \"bullet\");",
+      "java_method": "BasicBulletType(float speed, float damage)",
+      "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+      "rule": "Two-argument BasicBulletType constructor delegates to default bullet sprite.",
+      "runtime_proof": "/root/Main.source_bullet_texture",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_texture_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_texture.front_region_load": {
+      "godot_owner": "PortGame.source_bullet_texture",
+      "godot_symbol": "source_bullet_texture_result.front_region_load",
+      "java_expr": "frontRegion = Core.atlas.find(sprite);",
+      "java_method": "load()",
+      "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+      "rule": "BasicBulletType front region loads from sprite atlas name.",
+      "runtime_proof": "/root/Main.source_bullet_texture",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_texture_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_texture.load_method": {
+      "godot_owner": "PortGame.source_bullet_texture",
+      "godot_symbol": "source_bullet_texture_result.load_method",
+      "java_expr": "public void load(){",
+      "java_method": "load()",
+      "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+      "rule": "Canonical BasicBulletType load method boundary.",
+      "runtime_proof": "/root/Main.source_bullet_texture",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_texture_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_texture.sprite_field": {
+      "godot_owner": "PortGame.source_bullet_texture",
+      "godot_symbol": "source_bullet_texture_result.sprite_field",
+      "java_expr": "public String sprite;",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+      "rule": "Canonical BasicBulletType sprite field declaration.",
+      "runtime_proof": "/root/Main.source_bullet_texture",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_texture_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_texture.sprite_id": {
+      "godot_owner": "PortGame.source_bullet_texture",
+      "godot_symbol": "source_bullet_texture_input.sprite_id",
+      "java_expr": "sprite",
+      "java_method": "load()",
+      "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+      "rule": "Runtime sprite_id supplies BasicBulletType.sprite.",
+      "runtime_proof": "/root/Main.source_bullet_texture",
+      "status": "explicit-input",
+      "tests": [
+        "test_bullet_texture_symbols_are_registered_with_source_backing"
+      ]
+    },
     "bullet_type.parts": {
       "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
       "godot_symbol": "bullet_type_state.parts",
