@@ -32295,6 +32295,62 @@
         "test_port_game_exposes_overdrive_projector_target_filter_like_source"
       ]
     },
+    "payload_forward_offset.block_size_input": {
+      "godot_owner": "PortGame.source_payload_forward_offset",
+      "godot_symbol": "source_payload_forward_offset_input.blockSize",
+      "java_expr": "block.size",
+      "java_method": "movePayload(Payload todump)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Explicit block size input used by forward payload offset expression.",
+      "runtime_proof": "/root/Main.source_payload_forward_offset",
+      "status": "explicit-input",
+      "tests": [
+        "test_payload_forward_offset_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_payload_state"
+      ]
+    },
+    "payload_forward_offset.method": {
+      "godot_owner": "PortGame.source_payload_forward_offset",
+      "godot_symbol": "source_payload_forward_offset_result.method",
+      "java_expr": "public boolean movePayload(Payload todump){",
+      "java_method": "movePayload(Payload todump)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "BuildingComp movePayload method boundary for source payload forward offset.",
+      "runtime_proof": "/root/Main.source_payload_forward_offset",
+      "status": "source-backed",
+      "tests": [
+        "test_payload_forward_offset_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_payload_state"
+      ]
+    },
+    "payload_forward_offset.next_tile": {
+      "godot_owner": "PortGame.source_payload_forward_offset",
+      "godot_symbol": "source_payload_forward_offset_result.nextTile",
+      "java_expr": "Tile next = tile.nearby(Geometry.d4(rotation).x * trns, Geometry.d4(rotation).y * trns);",
+      "java_method": "movePayload(Payload todump)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Forward nearby tile lookup that consumes trns; geometry behavior remains outside this pure offset helper.",
+      "runtime_proof": "/root/Main.source_payload_forward_offset",
+      "status": "source-backed",
+      "tests": [
+        "test_payload_forward_offset_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_payload_state"
+      ]
+    },
+    "payload_forward_offset.trns": {
+      "godot_owner": "PortGame.source_payload_forward_offset",
+      "godot_symbol": "source_payload_forward_offset_result.trns",
+      "java_expr": "int trns = block.size/2 + 1;",
+      "java_method": "movePayload(Payload todump)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Forward payload tile offset expression from block size.",
+      "runtime_proof": "/root/Main.source_payload_forward_offset",
+      "status": "source-backed",
+      "tests": [
+        "test_payload_forward_offset_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_payload_state"
+      ]
+    },
     "removed.frag_dispatch.building_damage_boundary": {
       "godot_owner": "PortGame.source_bullet_type_removed_frag_dispatch_state",
       "godot_symbol": "removed_frag_dispatch_result.buildingDamageBoundarySource",

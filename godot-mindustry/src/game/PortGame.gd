@@ -1591,6 +1591,10 @@ func source_building_handle_payload_state(payload_state: Variant) -> Variant:
 func source_payload_forward_offset(payload_block_size: int) -> int:
 	return floori(float(payload_block_size) / 2.0) + 1
 
+const SOURCE_PAYLOAD_FORWARD_OFFSET_METHOD := "public boolean movePayload(Payload todump){"
+const SOURCE_PAYLOAD_FORWARD_OFFSET_TRNS := "int trns = block.size/2 + 1;"
+const SOURCE_PAYLOAD_FORWARD_OFFSET_NEXT_TILE := "Tile next = tile.nearby(Geometry.d4(rotation).x * trns, Geometry.d4(rotation).y * trns);"
+
 const SOURCE_MOVE_PAYLOAD_STATE_METHOD := "public boolean movePayload(Payload todump){"
 const SOURCE_MOVE_PAYLOAD_STATE_TRNS := "int trns = block.size/2 + 1;"
 const SOURCE_MOVE_PAYLOAD_STATE_NEXT := "Tile next = tile.nearby(Geometry.d4(rotation).x * trns, Geometry.d4(rotation).y * trns);"

@@ -12397,6 +12397,29 @@
         "test_overdrive_projector_target_filter_state_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_overdrive_projector_target_filter_like_source"
       ]
+    },
+    "PortGame.source_payload_forward_offset": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "payload_block_size",
+          "schema": "source_payload_forward_offset_input.blockSize",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "trns",
+        "nextTile"
+      ],
+      "rule": "Public runtime contract for BuildingComp.movePayload(Payload todump) forward offset int trns = block.size/2 + 1;.",
+      "runtime_proof": "/root/Main.source_payload_forward_offset",
+      "source_method": "movePayload(Payload todump)",
+      "source_slice": "N733",
+      "status": "active",
+      "tests": [
+        "test_payload_forward_offset_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_payload_state"
+      ]
     }
   },
   "policy": {

@@ -41918,6 +41918,70 @@
       },
       "status": "active"
     },
+    "source_payload_forward_offset_input": {
+      "keys": {
+        "blockSize": {
+          "godot_symbol": "source_payload_forward_offset_input.blockSize",
+          "java_expr": "block.size",
+          "java_method": "movePayload(Payload todump)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Explicit block size input used by Java trns expression.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_payload_forward_offset"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_payload_forward_offset_result": {
+      "keys": {
+        "blockSize": {
+          "alias_of": "source_payload_forward_offset_input.blockSize",
+          "rule": "Runtime echo of input blockSize.",
+          "status": "generated",
+          "type": "int"
+        },
+        "method": {
+          "godot_symbol": "source_payload_forward_offset_result.method",
+          "java_expr": "public boolean movePayload(Payload todump){",
+          "java_method": "movePayload(Payload todump)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_payload_forward_offset"
+          ]
+        },
+        "nextTile": {
+          "godot_symbol": "source_payload_forward_offset_result.nextTile",
+          "java_expr": "Tile next = tile.nearby(Geometry.d4(rotation).x * trns, Geometry.d4(rotation).y * trns);",
+          "java_method": "movePayload(Payload todump)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Forward nearby tile lookup pinned for relation to trns; not evaluated by this helper.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_payload_forward_offset"
+          ]
+        },
+        "trns": {
+          "godot_symbol": "source_payload_forward_offset_result.trns",
+          "java_expr": "int trns = block.size/2 + 1;",
+          "java_method": "movePayload(Payload todump)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Forward offset result returned by this helper.",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_payload_forward_offset"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

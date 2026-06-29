@@ -4216,6 +4216,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(accepts_payload["java_expr"], "next.build.acceptPayload(self(), todump)")
         self.assertEqual(accepts_payload["godot_symbol"], "source_move_payload_state_input.acceptsPayload")
 
+    def test_payload_forward_offset_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "payload_forward_offset.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "movePayload(Payload todump)")
+        self.assertEqual(method["java_expr"], "public boolean movePayload(Payload todump){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_payload_forward_offset")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_payload_forward_offset")
+        self.assertEqual(method["godot_symbol"], "source_payload_forward_offset_result.method")
+
+        block_size = source_symbols.source_symbol(registry, "payload_forward_offset.block_size_input")
+        self.assertEqual(block_size["status"], "explicit-input")
+        self.assertEqual(block_size["java_expr"], "block.size")
+        self.assertEqual(block_size["godot_symbol"], "source_payload_forward_offset_input.blockSize")
+
+        trns = source_symbols.source_symbol(registry, "payload_forward_offset.trns")
+        self.assertEqual(trns["java_expr"], "int trns = block.size/2 + 1;")
+        self.assertEqual(trns["godot_symbol"], "source_payload_forward_offset_result.trns")
+
+        next_tile = source_symbols.source_symbol(registry, "payload_forward_offset.next_tile")
+        self.assertEqual(next_tile["java_expr"], "Tile next = tile.nearby(Geometry.d4(rotation).x * trns, Geometry.d4(rotation).y * trns);")
+        self.assertEqual(next_tile["godot_symbol"], "source_payload_forward_offset_result.nextTile")
+
     def test_offload_to_inventory_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -10729,9 +10756,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 330)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 331)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 335)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 336)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -10943,6 +10970,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_core_handle_item", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_move_forward_to_core", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_move_payload_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_payload_forward_offset", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_offload_to_inventory", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_boost_bar_fraction", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_draw_state", audit["registeredSourceOwners"])
@@ -11048,7 +11076,8 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angles_angle_dist", audit["registeredSourceOwners"])
-        self.assertIn("PortGame.source_payload_forward_offset", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_payload_forward_offset", audit["legacyUnregisteredOwners"])
+        self.assertIn("PortGame.source_shoot_pattern_default_events", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
     def test_audit_report_file_matches_current_godot_source(self):
@@ -12176,6 +12205,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return true;", move_payload_state["exact_exprs"])
         self.assertIn("return false;", move_payload_state["exact_exprs"])
         self.assertIn("next.build.handlePayload(self(), todump);", move_payload_state["deferred_exprs"])
+
+        payload_forward_offset = source_symbols.source_slice(ledger, "N733")
+        self.assertEqual(payload_forward_offset["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(payload_forward_offset["java_method"], "movePayload(Payload todump)")
+        self.assertEqual(payload_forward_offset["godot_owner"], "PortGame.source_payload_forward_offset")
+        self.assertIn("public boolean movePayload(Payload todump){", payload_forward_offset["exact_exprs"])
+        self.assertIn("int trns = block.size/2 + 1;", payload_forward_offset["exact_exprs"])
+        self.assertIn("Tile next = tile.nearby(Geometry.d4(rotation).x * trns, Geometry.d4(rotation).y * trns);", payload_forward_offset["exact_exprs"])
+        self.assertIn("block.size", payload_forward_offset["source_inputs"])
 
         offload_to_inventory = source_symbols.source_slice(ledger, "N724")
         self.assertEqual(offload_to_inventory["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -15272,6 +15310,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("movePayload", move_payload_state["return_keys"])
         self.assertIn("handleDeferred", move_payload_state["return_keys"])
         self.assertEqual(move_payload_state["source_method"], "movePayload(Payload todump)")
+
+        payload_forward_offset = source_symbols.api_contract(contracts, "PortGame.source_payload_forward_offset")
+        self.assertEqual([param["name"] for param in payload_forward_offset["params"]], ["payload_block_size"])
+        self.assertEqual(payload_forward_offset["params"][0]["schema"], "source_payload_forward_offset_input.blockSize")
+        self.assertIn("trns", payload_forward_offset["return_keys"])
+        self.assertIn("nextTile", payload_forward_offset["return_keys"])
+        self.assertEqual(payload_forward_offset["source_method"], "movePayload(Payload todump)")
 
         offload_to_inventory = source_symbols.api_contract(contracts, "PortGame.source_offload_to_inventory")
         self.assertEqual([param["name"] for param in offload_to_inventory["params"]], ["item_id", "amount"])
@@ -18767,6 +18812,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_move_payload_state_result["keys"]["returnFalse"]["java_expr"], "return false;")
         self.assertEqual(source_move_payload_state_result["keys"]["hasNextTile"]["alias_of"], "source_move_payload_state_input.hasNextTile")
         self.assertEqual(source_move_payload_state_result["keys"]["acceptsPayload"]["alias_of"], "source_move_payload_state_input.acceptsPayload")
+
+        source_payload_forward_offset_input = source_symbols.state_schema(schema, "source_payload_forward_offset_input")
+        self.assertEqual(source_payload_forward_offset_input["keys"]["blockSize"]["java_expr"], "block.size")
+        self.assertEqual(source_payload_forward_offset_input["keys"]["blockSize"]["godot_symbol"], "source_payload_forward_offset_input.blockSize")
+
+        source_payload_forward_offset_result = source_symbols.state_schema(schema, "source_payload_forward_offset_result")
+        self.assertEqual(source_payload_forward_offset_result["keys"]["method"]["java_expr"], "public boolean movePayload(Payload todump){")
+        self.assertEqual(source_payload_forward_offset_result["keys"]["blockSize"]["alias_of"], "source_payload_forward_offset_input.blockSize")
+        self.assertEqual(source_payload_forward_offset_result["keys"]["trns"]["java_expr"], "int trns = block.size/2 + 1;")
+        self.assertEqual(source_payload_forward_offset_result["keys"]["trns"]["godot_symbol"], "source_payload_forward_offset_result.trns")
+        self.assertEqual(source_payload_forward_offset_result["keys"]["nextTile"]["java_expr"], "Tile next = tile.nearby(Geometry.d4(rotation).x * trns, Geometry.d4(rotation).y * trns);")
 
         source_offload_to_inventory_input = source_symbols.state_schema(schema, "source_offload_to_inventory_input")
         self.assertEqual(source_offload_to_inventory_input["keys"]["item_id"]["java_expr"], "dominantItem / Item item")

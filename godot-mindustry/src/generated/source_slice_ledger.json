@@ -10708,6 +10708,32 @@
         "test_overdrive_projector_target_filter_state_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_overdrive_projector_target_filter_like_source"
       ]
+    },
+    "N733": {
+      "exact_exprs": [
+        "public boolean movePayload(Payload todump){",
+        "int trns = block.size/2 + 1;",
+        "Tile next = tile.nearby(Geometry.d4(rotation).x * trns, Geometry.d4(rotation).y * trns);"
+      ],
+      "godot_owner": "PortGame.source_payload_forward_offset",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "movePayload(Payload todump)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "runtime_proof": "/root/Main.source_payload_forward_offset",
+      "source_inputs": [
+        "block.size"
+      ],
+      "source_symbols": [
+        "payload_forward_offset.method",
+        "payload_forward_offset.block_size_input",
+        "payload_forward_offset.trns",
+        "payload_forward_offset.next_tile"
+      ],
+      "status": "done",
+      "tests": [
+        "test_payload_forward_offset_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_payload_state"
+      ]
     }
   },
   "version": 1
