@@ -4317,6 +4317,46 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(efficiency["java_expr"], "efficiency")
         self.assertEqual(efficiency["godot_symbol"], "source_overdrive_projector_boost_bar_input.efficiency")
 
+    def test_overdrive_projector_real_boost_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "overdrive_projector_real_boost.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/OverdriveProjector.java")
+        self.assertEqual(method["java_method"], "realBoost()")
+        self.assertEqual(method["java_expr"], "public float realBoost(){\n            return (speedBoost + phaseHeat * speedBoostPhase) * efficiency;\n        }")
+        self.assertEqual(method["godot_owner"], "PortGame.source_overdrive_projector_real_boost")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_overdrive_projector_real_boost")
+        self.assertEqual(method["godot_symbol"], "source_overdrive_projector_real_boost_result.method")
+
+        real_boost_return = source_symbols.source_symbol(registry, "overdrive_projector_real_boost.return_expr")
+        self.assertEqual(real_boost_return["java_expr"], "return (speedBoost + phaseHeat * speedBoostPhase) * efficiency;")
+        self.assertEqual(real_boost_return["godot_symbol"], "source_overdrive_projector_real_boost_result.realBoost")
+
+        speed_boost = source_symbols.source_symbol(registry, "overdrive_projector_real_boost.speed_boost")
+        self.assertEqual(speed_boost["java_expr"], "public float speedBoost = 1.5f;")
+        self.assertEqual(speed_boost["godot_symbol"], "source_overdrive_projector_real_boost_input.speedBoost")
+
+        speed_boost_phase = source_symbols.source_symbol(registry, "overdrive_projector_real_boost.speed_boost_phase")
+        self.assertEqual(speed_boost_phase["java_expr"], "public float speedBoostPhase = 0.75f;")
+        self.assertEqual(speed_boost_phase["godot_symbol"], "source_overdrive_projector_real_boost_input.speedBoostPhase")
+
+        phase_heat = source_symbols.source_symbol(registry, "overdrive_projector_real_boost.phase_heat")
+        self.assertEqual(phase_heat["status"], "explicit-input")
+        self.assertEqual(phase_heat["java_expr"], "phaseHeat")
+        self.assertEqual(phase_heat["godot_symbol"], "source_overdrive_projector_real_boost_input.phaseHeat")
+
+        efficiency = source_symbols.source_symbol(registry, "overdrive_projector_real_boost.efficiency")
+        self.assertEqual(efficiency["status"], "explicit-input")
+        self.assertEqual(efficiency["java_expr"], "efficiency")
+        self.assertEqual(efficiency["godot_symbol"], "source_overdrive_projector_real_boost_input.efficiency")
+
+        phase_heat_field = source_symbols.source_symbol(registry, "overdrive_projector_real_boost.phase_heat_field")
+        self.assertEqual(phase_heat_field["java_expr"], "public float heat, charge = Mathf.random(reload), phaseHeat, smoothEfficiency, useProgress;")
+        self.assertEqual(phase_heat_field["godot_symbol"], "source_overdrive_projector_real_boost_input.phaseHeatField")
+
     def test_overdrive_projector_light_state_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -10616,9 +10656,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 327)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 328)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 332)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 333)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -10836,6 +10876,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_overdrive_projector_light_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_place_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_range", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_overdrive_projector_real_boost", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_delay", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_dump_interval", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_inactive_warmup_state", audit["registeredSourceOwners"])
@@ -10932,7 +10973,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angles_angle_dist", audit["registeredSourceOwners"])
-        self.assertIn("PortGame.source_overdrive_projector_real_boost", audit["legacyUnregisteredOwners"])
+        self.assertIn("PortGame.source_overdrive_projector_select_state", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
     def test_audit_report_file_matches_current_godot_source(self):
@@ -12131,6 +12172,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float range = 80f;", overdrive_projector_range["exact_exprs"])
         self.assertIn("public float phaseRangeBoost = 20f;", overdrive_projector_range["exact_exprs"])
         self.assertIn("float realRange = range + phaseHeat * phaseRangeBoost;", overdrive_projector_range["exact_exprs"])
+
+        overdrive_real_boost = source_symbols.source_slice(ledger, "N730")
+        self.assertEqual(overdrive_real_boost["java_source"], "core/src/mindustry/world/blocks/defense/OverdriveProjector.java")
+        self.assertEqual(overdrive_real_boost["java_method"], "realBoost()")
+        self.assertEqual(overdrive_real_boost["godot_owner"], "PortGame.source_overdrive_projector_real_boost")
+        self.assertIn("public float realBoost(){\n            return (speedBoost + phaseHeat * speedBoostPhase) * efficiency;\n        }", overdrive_real_boost["exact_exprs"])
+        self.assertIn("return (speedBoost + phaseHeat * speedBoostPhase) * efficiency;", overdrive_real_boost["exact_exprs"])
+        self.assertIn("public float speedBoost = 1.5f;", overdrive_real_boost["exact_exprs"])
+        self.assertIn("public float speedBoostPhase = 0.75f;", overdrive_real_boost["exact_exprs"])
+        self.assertIn("public float heat, charge = Mathf.random(reload), phaseHeat, smoothEfficiency, useProgress;", overdrive_real_boost["exact_exprs"])
 
         dump_drill_item_to_core = source_symbols.source_slice(ledger, "N705")
         self.assertEqual(dump_drill_item_to_core["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -15146,6 +15197,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("denominator", overdrive_boost_bar["return_keys"])
         self.assertIn("realBoost", overdrive_boost_bar["return_keys"])
         self.assertEqual(overdrive_boost_bar["source_method"], "setBars()")
+
+        overdrive_real_boost = source_symbols.api_contract(contracts, "PortGame.source_overdrive_projector_real_boost")
+        self.assertEqual([param["name"] for param in overdrive_real_boost["params"]], ["overdrive_projector", "phase_heat", "efficiency"])
+        self.assertEqual(overdrive_real_boost["params"][0]["schema"], "content_block_state")
+        self.assertEqual(overdrive_real_boost["params"][1]["schema"], "source_overdrive_projector_real_boost_input.phaseHeat")
+        self.assertEqual(overdrive_real_boost["params"][2]["schema"], "source_overdrive_projector_real_boost_input.efficiency")
+        self.assertIn("realBoost", overdrive_real_boost["return_keys"])
+        self.assertIn("speedBoost", overdrive_real_boost["return_keys"])
+        self.assertIn("speedBoostPhase", overdrive_real_boost["return_keys"])
+        self.assertEqual(overdrive_real_boost["source_method"], "realBoost()")
 
         overdrive_draw_state = source_symbols.api_contract(contracts, "PortGame.source_overdrive_projector_draw_state")
         self.assertEqual([param["name"] for param in overdrive_draw_state["params"]], ["overdrive_projector", "heat", "phase_heat", "source_time_ticks", "lod_l2", "lod_alpha2"])
@@ -18623,6 +18684,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_overdrive_projector_boost_bar_result["keys"]["fraction"]["java_expr"], "entity.realBoost() / (hasBoost ? speedBoost + speedBoostPhase : speedBoost)")
         self.assertEqual(source_overdrive_projector_boost_bar_result["keys"]["phaseHeat"]["alias_of"], "source_overdrive_projector_boost_bar_input.phaseHeat")
         self.assertEqual(source_overdrive_projector_boost_bar_result["keys"]["hasBoost"]["alias_of"], "source_overdrive_projector_boost_bar_input.hasBoost")
+
+        source_overdrive_projector_real_boost_input = source_symbols.state_schema(schema, "source_overdrive_projector_real_boost_input")
+        self.assertEqual(source_overdrive_projector_real_boost_input["keys"]["phaseHeat"]["java_expr"], "phaseHeat")
+        self.assertEqual(source_overdrive_projector_real_boost_input["keys"]["efficiency"]["java_expr"], "efficiency")
+        self.assertEqual(source_overdrive_projector_real_boost_input["keys"]["speedBoost"]["java_expr"], "public float speedBoost = 1.5f;")
+        self.assertEqual(source_overdrive_projector_real_boost_input["keys"]["speedBoostPhase"]["java_expr"], "public float speedBoostPhase = 0.75f;")
+        self.assertEqual(source_overdrive_projector_real_boost_input["keys"]["phaseHeatField"]["java_expr"], "public float heat, charge = Mathf.random(reload), phaseHeat, smoothEfficiency, useProgress;")
+
+        source_overdrive_projector_real_boost_result = source_symbols.state_schema(schema, "source_overdrive_projector_real_boost_result")
+        self.assertEqual(source_overdrive_projector_real_boost_result["keys"]["method"]["java_expr"], "public float realBoost(){\n            return (speedBoost + phaseHeat * speedBoostPhase) * efficiency;\n        }")
+        self.assertEqual(source_overdrive_projector_real_boost_result["keys"]["realBoost"]["java_expr"], "return (speedBoost + phaseHeat * speedBoostPhase) * efficiency;")
+        self.assertEqual(source_overdrive_projector_real_boost_result["keys"]["phaseHeat"]["alias_of"], "source_overdrive_projector_real_boost_input.phaseHeat")
+        self.assertEqual(source_overdrive_projector_real_boost_result["keys"]["efficiency"]["alias_of"], "source_overdrive_projector_real_boost_input.efficiency")
+        self.assertEqual(source_overdrive_projector_real_boost_result["keys"]["speedBoost"]["alias_of"], "source_overdrive_projector_real_boost_input.speedBoost")
+        self.assertEqual(source_overdrive_projector_real_boost_result["keys"]["speedBoostPhase"]["alias_of"], "source_overdrive_projector_real_boost_input.speedBoostPhase")
 
         source_overdrive_projector_draw_state_input = source_symbols.state_schema(schema, "source_overdrive_projector_draw_state_input")
         self.assertEqual(source_overdrive_projector_draw_state_input["keys"]["heat"]["java_expr"], "heat")

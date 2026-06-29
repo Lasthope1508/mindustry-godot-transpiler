@@ -265,6 +265,11 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_overdrive_projector_real_boost(overdrive_projector, phase_heat := 0.0, efficiency := 1.0) -> float:", source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_REAL_BOOST_METHOD := "public float realBoost(){\\n            return (speedBoost + phaseHeat * speedBoostPhase) * efficiency;\\n        }"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_REAL_BOOST_RETURN := "return (speedBoost + phaseHeat * speedBoostPhase) * efficiency;"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_REAL_BOOST_SPEED_BOOST_FIELD := "public float speedBoost = 1.5f;"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_REAL_BOOST_SPEED_BOOST_PHASE_FIELD := "public float speedBoostPhase = 0.75f;"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_REAL_BOOST_PHASE_HEAT_FIELD := "public float heat, charge = Mathf.random(reload), phaseHeat, smoothEfficiency, useProgress;"', source)
         self.assertIn('var speed_boost := float(overdrive_projector.properties.get("speedBoost", 0.0))', source)
         self.assertIn('var speed_boost_phase := float(overdrive_projector.properties.get("speedBoostPhase", 0.0))', source)
         self.assertIn("return (speed_boost + phase_heat * speed_boost_phase) * efficiency", source)

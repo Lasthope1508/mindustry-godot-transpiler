@@ -31987,6 +31987,104 @@
         "test_port_game_exposes_overdrive_projector_range_state_like_source"
       ]
     },
+    "overdrive_projector_real_boost.efficiency": {
+      "godot_owner": "PortGame.source_overdrive_projector_real_boost",
+      "godot_symbol": "source_overdrive_projector_real_boost_input.efficiency",
+      "java_expr": "efficiency",
+      "java_method": "realBoost()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Explicit Building efficiency input used by realBoost().",
+      "runtime_proof": "/root/Main.source_overdrive_projector_real_boost",
+      "status": "explicit-input",
+      "tests": [
+        "test_overdrive_projector_real_boost_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_real_boost_like_source"
+      ]
+    },
+    "overdrive_projector_real_boost.method": {
+      "godot_owner": "PortGame.source_overdrive_projector_real_boost",
+      "godot_symbol": "source_overdrive_projector_real_boost_result.method",
+      "java_expr": "public float realBoost(){\n            return (speedBoost + phaseHeat * speedBoostPhase) * efficiency;\n        }",
+      "java_method": "realBoost()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "OverdriveBuild.realBoost method body.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_real_boost",
+      "status": "source-backed",
+      "tests": [
+        "test_overdrive_projector_real_boost_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_real_boost_like_source"
+      ]
+    },
+    "overdrive_projector_real_boost.phase_heat": {
+      "godot_owner": "PortGame.source_overdrive_projector_real_boost",
+      "godot_symbol": "source_overdrive_projector_real_boost_input.phaseHeat",
+      "java_expr": "phaseHeat",
+      "java_method": "realBoost()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Explicit phaseHeat input used by realBoost().",
+      "runtime_proof": "/root/Main.source_overdrive_projector_real_boost",
+      "status": "explicit-input",
+      "tests": [
+        "test_overdrive_projector_real_boost_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_real_boost_like_source"
+      ]
+    },
+    "overdrive_projector_real_boost.phase_heat_field": {
+      "godot_owner": "PortGame.source_overdrive_projector_real_boost",
+      "godot_symbol": "source_overdrive_projector_real_boost_input.phaseHeatField",
+      "java_expr": "public float heat, charge = Mathf.random(reload), phaseHeat, smoothEfficiency, useProgress;",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Source field declaration containing phaseHeat.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_real_boost",
+      "status": "source-backed",
+      "tests": [
+        "test_overdrive_projector_real_boost_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_real_boost_like_source"
+      ]
+    },
+    "overdrive_projector_real_boost.return_expr": {
+      "godot_owner": "PortGame.source_overdrive_projector_real_boost",
+      "godot_symbol": "source_overdrive_projector_real_boost_result.realBoost",
+      "java_expr": "return (speedBoost + phaseHeat * speedBoostPhase) * efficiency;",
+      "java_method": "realBoost()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "realBoost return expression.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_real_boost",
+      "status": "source-backed",
+      "tests": [
+        "test_overdrive_projector_real_boost_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_real_boost_like_source"
+      ]
+    },
+    "overdrive_projector_real_boost.speed_boost": {
+      "godot_owner": "PortGame.source_overdrive_projector_real_boost",
+      "godot_symbol": "source_overdrive_projector_real_boost_input.speedBoost",
+      "java_expr": "public float speedBoost = 1.5f;",
+      "java_method": "OverdriveProjector fields",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Java OverdriveProjector.speedBoost field.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_real_boost",
+      "status": "source-backed",
+      "tests": [
+        "test_overdrive_projector_real_boost_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_real_boost_like_source"
+      ]
+    },
+    "overdrive_projector_real_boost.speed_boost_phase": {
+      "godot_owner": "PortGame.source_overdrive_projector_real_boost",
+      "godot_symbol": "source_overdrive_projector_real_boost_input.speedBoostPhase",
+      "java_expr": "public float speedBoostPhase = 0.75f;",
+      "java_method": "OverdriveProjector fields",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Java OverdriveProjector.speedBoostPhase field.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_real_boost",
+      "status": "source-backed",
+      "tests": [
+        "test_overdrive_projector_real_boost_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_real_boost_like_source"
+      ]
+    },
     "removed.frag_dispatch.building_damage_boundary": {
       "godot_owner": "PortGame.source_bullet_type_removed_frag_dispatch_state",
       "godot_symbol": "removed_frag_dispatch_result.buildingDamageBoundarySource",

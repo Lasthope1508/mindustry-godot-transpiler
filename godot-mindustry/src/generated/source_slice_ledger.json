@@ -10615,6 +10615,38 @@
         "test_overdrive_projector_range_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_overdrive_projector_range_state_like_source"
       ]
+    },
+    "N730": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public float realBoost(){\n            return (speedBoost + phaseHeat * speedBoostPhase) * efficiency;\n        }",
+        "return (speedBoost + phaseHeat * speedBoostPhase) * efficiency;",
+        "public float speedBoost = 1.5f;",
+        "public float speedBoostPhase = 0.75f;",
+        "public float heat, charge = Mathf.random(reload), phaseHeat, smoothEfficiency, useProgress;",
+        "phaseHeat",
+        "efficiency"
+      ],
+      "godot_owner": "PortGame.source_overdrive_projector_real_boost",
+      "java_class": "mindustry.world.blocks.defense.OverdriveProjector.OverdriveBuild",
+      "java_method": "realBoost()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Backfills SSOT for existing source_overdrive_projector_real_boost helper against Mindustry OverdriveBuild.realBoost().",
+      "runtime_proof": "/root/Main.source_overdrive_projector_real_boost",
+      "source_symbols": [
+        "overdrive_projector_real_boost.method",
+        "overdrive_projector_real_boost.return_expr",
+        "overdrive_projector_real_boost.speed_boost",
+        "overdrive_projector_real_boost.speed_boost_phase",
+        "overdrive_projector_real_boost.phase_heat",
+        "overdrive_projector_real_boost.efficiency",
+        "overdrive_projector_real_boost.phase_heat_field"
+      ],
+      "status": "done",
+      "tests": [
+        "test_overdrive_projector_real_boost_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_real_boost_like_source"
+      ]
     }
   },
   "version": 1

@@ -577,6 +577,12 @@ func source_overdrive_projector_draw_state(overdrive_projector, heat: float, pha
 		"line_w": line_w,
 	}
 
+const SOURCE_OVERDRIVE_PROJECTOR_REAL_BOOST_METHOD := "public float realBoost(){\n            return (speedBoost + phaseHeat * speedBoostPhase) * efficiency;\n        }"
+const SOURCE_OVERDRIVE_PROJECTOR_REAL_BOOST_RETURN := "return (speedBoost + phaseHeat * speedBoostPhase) * efficiency;"
+const SOURCE_OVERDRIVE_PROJECTOR_REAL_BOOST_SPEED_BOOST_FIELD := "public float speedBoost = 1.5f;"
+const SOURCE_OVERDRIVE_PROJECTOR_REAL_BOOST_SPEED_BOOST_PHASE_FIELD := "public float speedBoostPhase = 0.75f;"
+const SOURCE_OVERDRIVE_PROJECTOR_REAL_BOOST_PHASE_HEAT_FIELD := "public float heat, charge = Mathf.random(reload), phaseHeat, smoothEfficiency, useProgress;"
+
 func source_overdrive_projector_real_boost(overdrive_projector, phase_heat := 0.0, efficiency := 1.0) -> float:
 	if overdrive_projector == null:
 		return 0.0

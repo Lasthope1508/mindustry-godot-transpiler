@@ -12291,6 +12291,42 @@
         "test_overdrive_projector_range_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_overdrive_projector_range_state_like_source"
       ]
+    },
+    "PortGame.source_overdrive_projector_real_boost": {
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "params": [
+        {
+          "name": "overdrive_projector",
+          "schema": "content_block_state",
+          "type": "object"
+        },
+        {
+          "name": "phase_heat",
+          "schema": "source_overdrive_projector_real_boost_input.phaseHeat",
+          "type": "float"
+        },
+        {
+          "name": "efficiency",
+          "schema": "source_overdrive_projector_real_boost_input.efficiency",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "realBoost",
+        "speedBoost",
+        "phaseHeat",
+        "speedBoostPhase",
+        "efficiency"
+      ],
+      "rule": "Public runtime contract for OverdriveProjector realBoost helper using source speedBoost, phaseHeat, speedBoostPhase, and efficiency formula.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_real_boost",
+      "source_method": "realBoost()",
+      "source_slice": "N730",
+      "status": "active",
+      "tests": [
+        "test_overdrive_projector_real_boost_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_real_boost_like_source"
+      ]
     }
   },
   "policy": {
