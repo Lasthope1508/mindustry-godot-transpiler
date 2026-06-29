@@ -8001,6 +8001,35 @@
       ],
       "runtime_proof": "/root/Main.source_building_tapped_state",
       "rule": "Backfills SSOT for existing canonical source_building_tapped_state helper against BuildingComp.tapped no-op body."
+    },
+    "N652": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "update()",
+      "godot_owner": "PortGame.source_building_time_scale_decay_state",
+      "exact_exprs": [
+        "private transient float timeScale = 1f, timeScaleDuration;",
+        "public void update(){",
+        "if((timeScaleDuration -= Time.delta) <= 0f){",
+        "timeScale = 1f;",
+        "timeScaleDuration",
+        "Time.delta"
+      ],
+      "source_symbols": [
+        "building_time_scale_decay.field",
+        "building_time_scale_decay.method",
+        "building_time_scale_decay.decay_gate",
+        "building_time_scale_decay.reset",
+        "building_time_scale_decay.current_time_scale",
+        "building_time_scale_decay.current_duration",
+        "building_time_scale_decay.source_delta"
+      ],
+      "tests": [
+        "test_building_time_scale_decay_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_time_scale_decay_state",
+      "rule": "Backfills SSOT for existing canonical source_building_time_scale_decay_state helper against BuildingComp.update timeScaleDuration decay and reset."
     }
   },
   "version": 1

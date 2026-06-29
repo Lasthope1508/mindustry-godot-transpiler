@@ -9771,6 +9771,43 @@
       ],
       "runtime_proof": "/root/Main.source_building_tapped_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.tapped no-op helper."
+    },
+    "PortGame.source_building_time_scale_decay_state": {
+      "status": "active",
+      "source_slice": "N652",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "update()",
+      "params": [
+        {
+          "name": "current_time_scale",
+          "type": "float",
+          "schema": "source_building_time_scale_decay_input.current_time_scale"
+        },
+        {
+          "name": "current_duration",
+          "type": "float",
+          "schema": "source_building_time_scale_decay_input.current_duration"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_building_time_scale_decay_input.source_delta"
+        }
+      ],
+      "return_keys": [
+        "field",
+        "method",
+        "decay_gate",
+        "reset",
+        "time_scale",
+        "time_scale_duration"
+      ],
+      "tests": [
+        "test_building_time_scale_decay_symbols_are_registered_with_source_backing",
+        "test_port_game_decays_building_time_scale_like_source"
+      ],
+      "runtime_proof": "/root/Main.source_building_time_scale_decay_state",
+      "rule": "Public runtime contract for BuildingComp.update time-scale decay; do not clamp decremented duration unless upstream Java changes."
     }
   },
   "policy": {

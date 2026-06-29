@@ -501,10 +501,10 @@ func source_building_apply_boost_state(current_time_scale: float, current_durati
 	return result
 
 func source_building_time_scale_decay_state(current_time_scale: float, current_duration: float, source_delta: float) -> Dictionary:
-	var result := {"time_scale": current_time_scale, "time_scale_duration": current_duration - source_delta}
+	var decayed_duration := current_duration - source_delta
+	var result := {"field": "private transient float timeScale = 1f, timeScaleDuration;", "method": "public void update(){", "decay_gate": "if((timeScaleDuration -= Time.delta) <= 0f){", "reset": "timeScale = 1f;", "time_scale": current_time_scale, "time_scale_duration": decayed_duration}
 	if float(result["time_scale_duration"]) <= 0.0:
 		result["time_scale"] = 1.0
-		result["time_scale_duration"] = 0.0
 	return result
 
 func source_building_delta(source_delta: float, time_scale: float) -> float:
