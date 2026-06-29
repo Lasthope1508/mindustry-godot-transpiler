@@ -1330,8 +1330,11 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return 1.0 / base_time * edelta_value", source)
         self.assertIn("func source_building_display_efficiency(edelta_value: float) -> float:", source)
         self.assertIn("return source_building_progress_increase(1.0, edelta_value) / edelta_value", source)
-        self.assertIn("func source_building_should_ambient_sound(should_consume_state: bool) -> bool:", source)
-        self.assertIn("return should_consume_state", source)
+        self.assertIn("func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:", source)
+        self.assertIn('"method": "public boolean shouldAmbientSound(){",', source)
+        self.assertIn('"return_should_consume": "return shouldConsume();",', source)
+        self.assertIn('"should_ambient_sound": should_consume_state', source)
+        self.assertIn("result.merge(source_exprs)", source)
 
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

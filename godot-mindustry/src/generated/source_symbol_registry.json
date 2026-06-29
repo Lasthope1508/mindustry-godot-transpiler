@@ -24447,6 +24447,45 @@
       "java_expr": "value",
       "godot_symbol": "source_building_set_prop_total_power_input.value",
       "rule": "Runtime value supplies setProp value."
+    },
+    "building_should_ambient_sound.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "shouldAmbientSound()",
+      "godot_owner": "PortGame.source_building_should_ambient_sound",
+      "tests": [
+        "test_building_should_ambient_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_should_ambient_sound",
+      "java_expr": "public boolean shouldAmbientSound(){",
+      "godot_symbol": "source_building_should_ambient_sound_result.method",
+      "rule": "BuildingComp shouldAmbientSound method boundary."
+    },
+    "building_should_ambient_sound.return_should_consume": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "shouldAmbientSound()",
+      "godot_owner": "PortGame.source_building_should_ambient_sound",
+      "tests": [
+        "test_building_should_ambient_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_should_ambient_sound",
+      "java_expr": "return shouldConsume();",
+      "godot_symbol": "source_building_should_ambient_sound_result.return_should_consume",
+      "rule": "shouldAmbientSound delegates directly to shouldConsume()."
+    },
+    "building_should_ambient_sound.should_consume": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "shouldAmbientSound()",
+      "godot_owner": "PortGame.source_building_should_ambient_sound",
+      "tests": [
+        "test_building_should_ambient_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_should_ambient_sound",
+      "java_expr": "shouldConsume()",
+      "godot_symbol": "source_building_should_ambient_sound_input.should_consume_state",
+      "rule": "Runtime should_consume_state supplies shouldConsume() return value."
     }
   }
 }

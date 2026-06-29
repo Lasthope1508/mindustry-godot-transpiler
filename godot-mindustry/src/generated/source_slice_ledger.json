@@ -7848,6 +7848,28 @@
       ],
       "runtime_proof": "/root/Main.source_building_set_prop_total_power_state",
       "rule": "Backfills SSOT for existing canonical source_building_set_prop_total_power_state helper against BuildingComp.setProp(LAccess prop, double value) totalPower case."
+    },
+    "N646": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "shouldAmbientSound()",
+      "godot_owner": "PortGame.source_building_should_ambient_sound",
+      "exact_exprs": [
+        "public boolean shouldAmbientSound(){",
+        "return shouldConsume();",
+        "shouldConsume()"
+      ],
+      "source_symbols": [
+        "building_should_ambient_sound.method",
+        "building_should_ambient_sound.return_should_consume",
+        "building_should_ambient_sound.should_consume"
+      ],
+      "tests": [
+        "test_building_should_ambient_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_should_ambient_sound",
+      "rule": "Backfills SSOT for existing canonical source_building_should_ambient_sound helper against BuildingComp.shouldAmbientSound direct shouldConsume return."
     }
   },
   "version": 1

@@ -9605,6 +9605,29 @@
       ],
       "runtime_proof": "/root/Main.source_building_set_prop_total_power_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.setProp(LAccess prop, double value) totalPower helper."
+    },
+    "PortGame.source_building_should_ambient_sound": {
+      "status": "active",
+      "source_slice": "N646",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "shouldAmbientSound()",
+      "params": [
+        {
+          "name": "should_consume_state",
+          "type": "bool",
+          "schema": "source_building_should_ambient_sound_input.should_consume_state"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "return_should_consume",
+        "should_ambient_sound"
+      ],
+      "tests": [
+        "test_building_should_ambient_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_should_ambient_sound",
+      "rule": "Public runtime contract for Mindustry BuildingComp.shouldAmbientSound helper."
     }
   },
   "policy": {

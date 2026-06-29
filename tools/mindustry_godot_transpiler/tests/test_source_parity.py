@@ -1645,6 +1645,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_should_ambient_sound_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_should_ambient_sound_source"))
+        report = source_parity.verify_building_should_ambient_sound_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "should_ambient_sound_method": "public boolean shouldAmbientSound(){",
+            "should_ambient_sound_return": "return shouldConsume();",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_building_config_default_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_building_config_default_source"))
         report = source_parity.verify_building_config_default_source(ROOT / "mindustry-upstream")

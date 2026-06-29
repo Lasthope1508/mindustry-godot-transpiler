@@ -3381,6 +3381,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(value_input["java_expr"], "value")
         self.assertEqual(value_input["godot_symbol"], "source_building_set_prop_total_power_input.value")
 
+    def test_building_should_ambient_sound_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_should_ambient_sound.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "shouldAmbientSound()")
+        self.assertEqual(method["java_expr"], "public boolean shouldAmbientSound(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_should_ambient_sound")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_should_ambient_sound")
+        self.assertEqual(method["godot_symbol"], "source_building_should_ambient_sound_result.method")
+
+        return_should_consume = source_symbols.source_symbol(registry, "building_should_ambient_sound.return_should_consume")
+        self.assertEqual(return_should_consume["java_expr"], "return shouldConsume();")
+        self.assertEqual(return_should_consume["godot_symbol"], "source_building_should_ambient_sound_result.return_should_consume")
+
+        should_consume = source_symbols.source_symbol(registry, "building_should_ambient_sound.should_consume")
+        self.assertEqual(should_consume["status"], "explicit-input")
+        self.assertEqual(should_consume["java_expr"], "shouldConsume()")
+        self.assertEqual(should_consume["godot_symbol"], "source_building_should_ambient_sound_input.should_consume_state")
+
     def test_building_set_prop_item_content_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -7246,9 +7269,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 243)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 244)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 248)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 249)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -7424,6 +7447,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_set_prop_team_double_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_set_prop_team_object_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_set_prop_total_power_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_should_ambient_sound", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_object_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_destroyed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_picked_up_state", audit["registeredSourceOwners"])
@@ -8543,6 +8567,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("case totalPower -> {", building_set_prop_total_power["exact_exprs"])
         self.assertIn("if(power != null && block.consPower != null && block.consPower.buffered){", building_set_prop_total_power["exact_exprs"])
         self.assertIn("power.status = Mathf.clamp((float)(value / block.consPower.capacity));", building_set_prop_total_power["exact_exprs"])
+
+        building_should_ambient_sound = source_symbols.source_slice(ledger, "N646")
+        self.assertEqual(building_should_ambient_sound["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_should_ambient_sound["java_method"], "shouldAmbientSound()")
+        self.assertEqual(building_should_ambient_sound["godot_owner"], "PortGame.source_building_should_ambient_sound")
+        self.assertIn("public boolean shouldAmbientSound(){", building_should_ambient_sound["exact_exprs"])
+        self.assertIn("return shouldConsume();", building_should_ambient_sound["exact_exprs"])
+        self.assertIn("shouldConsume()", building_should_ambient_sound["exact_exprs"])
 
         building_sense_health_process = source_symbols.source_slice(ledger, "N635")
         self.assertEqual(building_sense_health_process["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -10857,6 +10889,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("power_status", building_set_prop_total_power["return_keys"])
         self.assertIn("updated", building_set_prop_total_power["return_keys"])
         self.assertEqual(building_set_prop_total_power["source_method"], "setProp(LAccess prop, double value)")
+
+        building_should_ambient_sound = source_symbols.api_contract(contracts, "PortGame.source_building_should_ambient_sound")
+        self.assertEqual([param["name"] for param in building_should_ambient_sound["params"]], ["should_consume_state"])
+        self.assertEqual(building_should_ambient_sound["params"][0]["schema"], "source_building_should_ambient_sound_input.should_consume_state")
+        self.assertIn("method", building_should_ambient_sound["return_keys"])
+        self.assertIn("return_should_consume", building_should_ambient_sound["return_keys"])
+        self.assertIn("should_ambient_sound", building_should_ambient_sound["return_keys"])
+        self.assertEqual(building_should_ambient_sound["source_method"], "shouldAmbientSound()")
 
         building_sense_payload_size = source_symbols.api_contract(contracts, "PortGame.source_building_sense_payload_size_state")
         self.assertEqual([param["name"] for param in building_sense_payload_size["params"]], ["has_payload_seq", "payload_seq_total", "has_single_payload", "block_size_value"])
@@ -13335,6 +13375,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_set_prop_total_power_result["keys"]["status_assign"]["java_expr"], "power.status = Mathf.clamp((float)(value / block.consPower.capacity));")
         self.assertEqual(source_building_set_prop_total_power_result["keys"]["power_status"]["java_expr"], "power.status = Mathf.clamp((float)(value / block.consPower.capacity));")
         self.assertEqual(source_building_set_prop_total_power_result["keys"]["updated"]["java_expr"], "power.status = Mathf.clamp((float)(value / block.consPower.capacity));")
+
+        source_building_should_ambient_sound_input = source_symbols.state_schema(schema, "source_building_should_ambient_sound_input")
+        self.assertEqual(source_building_should_ambient_sound_input["keys"]["should_consume_state"]["java_expr"], "shouldConsume()")
+        self.assertEqual(source_building_should_ambient_sound_input["keys"]["should_consume_state"]["status"], "explicit-input")
+
+        source_building_should_ambient_sound_result = source_symbols.state_schema(schema, "source_building_should_ambient_sound_result")
+        self.assertEqual(source_building_should_ambient_sound_result["keys"]["method"]["java_expr"], "public boolean shouldAmbientSound(){")
+        self.assertEqual(source_building_should_ambient_sound_result["keys"]["return_should_consume"]["java_expr"], "return shouldConsume();")
+        self.assertEqual(source_building_should_ambient_sound_result["keys"]["should_ambient_sound"]["java_expr"], "return shouldConsume();")
+        self.assertEqual(source_building_should_ambient_sound_result["keys"]["should_consume_state"]["alias_of"], "source_building_should_ambient_sound_input.should_consume_state")
 
         source_building_sense_payload_size_input = source_symbols.state_schema(schema, "source_building_sense_payload_size_input")
         self.assertEqual(source_building_sense_payload_size_input["keys"]["has_payload_seq"]["java_expr"], "getPayloads() != null")

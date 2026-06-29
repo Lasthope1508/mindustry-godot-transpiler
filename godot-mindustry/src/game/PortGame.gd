@@ -1383,8 +1383,14 @@ func source_building_progress_increase(base_time: float, edelta_value: float) ->
 func source_building_display_efficiency(edelta_value: float) -> float:
 	return source_building_progress_increase(1.0, edelta_value) / edelta_value
 
-func source_building_should_ambient_sound(should_consume_state: bool) -> bool:
-	return should_consume_state
+func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
+	var source_exprs: Dictionary = {
+		"method": "public boolean shouldAmbientSound(){",
+		"return_should_consume": "return shouldConsume();",
+	}
+	var result: Dictionary = {"should_ambient_sound": should_consume_state}
+	result.merge(source_exprs)
+	return result
 
 func source_building_draw_status_state(enable_draw_status: bool, consumers_length: int, block_size_value: int, source_x: float, source_y: float, source_tilesize: float) -> Dictionary:
 	if not (enable_draw_status and consumers_length > 0):
