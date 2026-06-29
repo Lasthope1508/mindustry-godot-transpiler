@@ -1211,6 +1211,12 @@ func source_drill_output_batch(progress: float, delay: float, dominant_items: in
 		return {"amount": amount, "progress": fmod(progress, delay)}
 	return {"amount": 0, "progress": progress}
 
+const SOURCE_DRILL_PROGRESS_FRACTION_METHOD := "public float progress(){"
+const SOURCE_DRILL_PROGRESS_FRACTION_RETURN := "return dominantItem == null ? 0f : Mathf.clamp(progress / getDrillTime(dominantItem));"
+const SOURCE_DRILL_PROGRESS_FRACTION_DOMINANT_ITEM_NULL := "dominantItem == null"
+const SOURCE_DRILL_PROGRESS_FRACTION_PROGRESS_RATIO := "progress / getDrillTime(dominantItem)"
+const SOURCE_DRILL_PROGRESS_FRACTION_MATHF_CLAMP := "return Math.max(Math.min(value, 1f), 0f);"
+
 func source_drill_progress_fraction(progress: float, delay: float, has_dominant_item: bool) -> float:
 	if not has_dominant_item:
 		return 0.0

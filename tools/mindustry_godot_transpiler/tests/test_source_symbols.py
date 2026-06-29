@@ -3401,6 +3401,48 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(return_count["java_expr"], "returnCount")
         self.assertEqual(return_count["godot_symbol"], "source_drill_output_rate_input.return_count")
 
+    def test_drill_progress_fraction_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "drill_progress_fraction.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/production/Drill.java")
+        self.assertEqual(method["java_method"], "progress()")
+        self.assertEqual(method["java_expr"], "public float progress(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_drill_progress_fraction")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_drill_progress_fraction")
+        self.assertEqual(method["godot_symbol"], "source_drill_progress_fraction_result.method")
+
+        return_expr = source_symbols.source_symbol(registry, "drill_progress_fraction.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return dominantItem == null ? 0f : Mathf.clamp(progress / getDrillTime(dominantItem));")
+        self.assertEqual(return_expr["godot_symbol"], "source_drill_progress_fraction_result.fraction")
+
+        dominant_item_null = source_symbols.source_symbol(registry, "drill_progress_fraction.dominant_item_null")
+        self.assertEqual(dominant_item_null["java_expr"], "dominantItem == null")
+        self.assertEqual(dominant_item_null["godot_symbol"], "source_drill_progress_fraction_result.dominantItemNull")
+
+        mathf_clamp = source_symbols.source_symbol(registry, "drill_progress_fraction.mathf_clamp")
+        self.assertEqual(mathf_clamp["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(mathf_clamp["java_expr"], "return Math.max(Math.min(value, 1f), 0f);")
+        self.assertEqual(mathf_clamp["godot_symbol"], "source_drill_progress_fraction_result.mathfClamp")
+
+        progress = source_symbols.source_symbol(registry, "drill_progress_fraction.progress")
+        self.assertEqual(progress["status"], "explicit-input")
+        self.assertEqual(progress["java_expr"], "progress")
+        self.assertEqual(progress["godot_symbol"], "source_drill_progress_fraction_input.progress")
+
+        delay = source_symbols.source_symbol(registry, "drill_progress_fraction.delay")
+        self.assertEqual(delay["status"], "explicit-input")
+        self.assertEqual(delay["java_expr"], "getDrillTime(dominantItem)")
+        self.assertEqual(delay["godot_symbol"], "source_drill_progress_fraction_input.delay")
+
+        has_dominant_item = source_symbols.source_symbol(registry, "drill_progress_fraction.has_dominant_item")
+        self.assertEqual(has_dominant_item["status"], "explicit-input")
+        self.assertEqual(has_dominant_item["java_expr"], "dominantItem == null")
+        self.assertEqual(has_dominant_item["godot_symbol"], "source_drill_progress_fraction_input.has_dominant_item")
+
     def test_building_accept_liquid_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -9331,9 +9373,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 297)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 298)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 302)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 303)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -9538,6 +9580,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_drill_output_delta", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_output_delta_for_cell", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_output_rate", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_drill_progress_fraction", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -10653,6 +10696,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("getDrillTime(returnItem)", drill_output_rate["exact_exprs"])
         self.assertIn("returnItem", drill_output_rate["exact_exprs"])
         self.assertIn("returnCount", drill_output_rate["exact_exprs"])
+
+        drill_progress_fraction = source_symbols.source_slice(ledger, "N700")
+        self.assertEqual(drill_progress_fraction["java_source"], "core/src/mindustry/world/blocks/production/Drill.java")
+        self.assertEqual(drill_progress_fraction["java_method"], "progress()")
+        self.assertEqual(drill_progress_fraction["godot_owner"], "PortGame.source_drill_progress_fraction")
+        self.assertIn("public float progress(){", drill_progress_fraction["exact_exprs"])
+        self.assertIn("return dominantItem == null ? 0f : Mathf.clamp(progress / getDrillTime(dominantItem));", drill_progress_fraction["exact_exprs"])
+        self.assertIn("dominantItem == null", drill_progress_fraction["exact_exprs"])
+        self.assertIn("progress / getDrillTime(dominantItem)", drill_progress_fraction["exact_exprs"])
+        self.assertIn("return Math.max(Math.min(value, 1f), 0f);", drill_progress_fraction["exact_exprs"])
 
         building_accept_liquid = source_symbols.source_slice(ledger, "N522")
         self.assertEqual(building_accept_liquid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -13474,6 +13527,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("rate", drill_output_rate["return_keys"])
         self.assertIn("delay", drill_output_rate["return_keys"])
         self.assertEqual(drill_output_rate["source_method"], "drawPlace(int x, int y, int rotation, boolean valid)")
+
+        drill_progress_fraction = source_symbols.api_contract(contracts, "PortGame.source_drill_progress_fraction")
+        self.assertEqual([param["name"] for param in drill_progress_fraction["params"]], ["progress", "delay", "has_dominant_item"])
+        self.assertEqual(drill_progress_fraction["params"][0]["schema"], "source_drill_progress_fraction_input.progress")
+        self.assertEqual(drill_progress_fraction["params"][1]["schema"], "source_drill_progress_fraction_input.delay")
+        self.assertEqual(drill_progress_fraction["params"][2]["schema"], "source_drill_progress_fraction_input.has_dominant_item")
+        self.assertIn("fraction", drill_progress_fraction["return_keys"])
+        self.assertIn("dominantItemNull", drill_progress_fraction["return_keys"])
+        self.assertEqual(drill_progress_fraction["source_method"], "progress()")
 
         building_accept_liquid = source_symbols.api_contract(contracts, "PortGame.source_building_accept_liquid_state")
         self.assertEqual([param["name"] for param in building_accept_liquid["params"]], ["has_liquids", "consumes_liquid"])
@@ -16434,6 +16496,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_drill_output_rate_result["keys"]["rateExpr"]["java_expr"], "60f / getDrillTime(returnItem) * returnCount")
         self.assertEqual(source_drill_output_rate_result["keys"]["delay"]["java_expr"], "getDrillTime(returnItem)")
         self.assertEqual(source_drill_output_rate_result["keys"]["return_count"]["alias_of"], "source_drill_output_rate_input.return_count")
+
+        source_drill_progress_fraction_input = source_symbols.state_schema(schema, "source_drill_progress_fraction_input")
+        self.assertEqual(source_drill_progress_fraction_input["keys"]["progress"]["java_expr"], "progress")
+        self.assertEqual(source_drill_progress_fraction_input["keys"]["delay"]["java_expr"], "getDrillTime(dominantItem)")
+        self.assertEqual(source_drill_progress_fraction_input["keys"]["has_dominant_item"]["java_expr"], "dominantItem == null")
+
+        source_drill_progress_fraction_result = source_symbols.state_schema(schema, "source_drill_progress_fraction_result")
+        self.assertEqual(source_drill_progress_fraction_result["keys"]["method"]["java_expr"], "public float progress(){")
+        self.assertEqual(source_drill_progress_fraction_result["keys"]["fraction"]["java_expr"], "return dominantItem == null ? 0f : Mathf.clamp(progress / getDrillTime(dominantItem));")
+        self.assertEqual(source_drill_progress_fraction_result["keys"]["dominantItemNull"]["java_expr"], "dominantItem == null")
+        self.assertEqual(source_drill_progress_fraction_result["keys"]["mathfClamp"]["java_expr"], "return Math.max(Math.min(value, 1f), 0f);")
+        self.assertEqual(source_drill_progress_fraction_result["keys"]["progress"]["alias_of"], "source_drill_progress_fraction_input.progress")
 
         source_building_accept_liquid_input = source_symbols.state_schema(schema, "source_building_accept_liquid_input")
         self.assertEqual(source_building_accept_liquid_input["keys"]["hasLiquids"]["java_expr"], "block.hasLiquids")

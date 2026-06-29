@@ -11223,6 +11223,44 @@
       "tests": [
         "test_drill_output_rate_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_drill_progress_fraction": {
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "params": [
+        {
+          "name": "progress",
+          "schema": "source_drill_progress_fraction_input.progress",
+          "type": "float"
+        },
+        {
+          "name": "delay",
+          "schema": "source_drill_progress_fraction_input.delay",
+          "type": "float"
+        },
+        {
+          "name": "has_dominant_item",
+          "schema": "source_drill_progress_fraction_input.has_dominant_item",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "fraction",
+        "method",
+        "dominantItemNull",
+        "progressRatio",
+        "mathfClamp",
+        "progress",
+        "delay",
+        "has_dominant_item"
+      ],
+      "rule": "Public runtime contract for DrillBuild.progress() progress fraction with dominantItem null guard and Mathf.clamp.",
+      "runtime_proof": "/root/Main.source_drill_progress_fraction",
+      "source_method": "progress()",
+      "source_slice": "N700",
+      "status": "active",
+      "tests": [
+        "test_drill_progress_fraction_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

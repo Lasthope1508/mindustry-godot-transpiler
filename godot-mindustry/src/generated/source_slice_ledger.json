@@ -9587,6 +9587,38 @@
         "test_drill_output_rate_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_drill_rate"
       ]
+    },
+    "N700": {
+      "exact_exprs": [
+        "public float progress(){",
+        "return dominantItem == null ? 0f : Mathf.clamp(progress / getDrillTime(dominantItem));",
+        "dominantItem == null",
+        "progress / getDrillTime(dominantItem)",
+        "return Math.max(Math.min(value, 1f), 0f);",
+        "progress",
+        "getDrillTime(dominantItem)"
+      ],
+      "godot_owner": "PortGame.source_drill_progress_fraction",
+      "java_class": "mindustry.world.blocks.production.Drill.DrillBuild",
+      "java_method": "progress()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "runtime_proof": "/root/Main.source_drill_progress_fraction",
+      "source_symbols": [
+        "drill_progress_fraction.method",
+        "drill_progress_fraction.return_expr",
+        "drill_progress_fraction.dominant_item_null",
+        "drill_progress_fraction.progress_ratio",
+        "drill_progress_fraction.mathf_clamp",
+        "drill_progress_fraction.progress",
+        "drill_progress_fraction.delay",
+        "drill_progress_fraction.has_dominant_item"
+      ],
+      "status": "done",
+      "tests": [
+        "test_drill_progress_fraction_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_drill_progress_fraction",
+        "test_port_game_batches_source_drill_output"
+      ]
     }
   },
   "version": 1

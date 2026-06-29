@@ -5924,6 +5924,11 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_DRILL_PROGRESS_FRACTION_METHOD := "public float progress(){"', source)
+        self.assertIn('const SOURCE_DRILL_PROGRESS_FRACTION_RETURN := "return dominantItem == null ? 0f : Mathf.clamp(progress / getDrillTime(dominantItem));"', source)
+        self.assertIn('const SOURCE_DRILL_PROGRESS_FRACTION_DOMINANT_ITEM_NULL := "dominantItem == null"', source)
+        self.assertIn('const SOURCE_DRILL_PROGRESS_FRACTION_PROGRESS_RATIO := "progress / getDrillTime(dominantItem)"', source)
+        self.assertIn('const SOURCE_DRILL_PROGRESS_FRACTION_MATHF_CLAMP := "return Math.max(Math.min(value, 1f), 0f);"', source)
         self.assertIn("func source_drill_progress_fraction(progress: float, delay: float, has_dominant_item: bool) -> float:", source)
         self.assertIn("if not has_dominant_item:", source)
         self.assertIn("return clampf(progress / delay, 0.0, 1.0)", source)

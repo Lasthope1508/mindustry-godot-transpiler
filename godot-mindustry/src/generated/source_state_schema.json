@@ -37730,6 +37730,130 @@
       },
       "status": "active"
     },
+    "source_drill_progress_fraction_input": {
+      "keys": {
+        "delay": {
+          "godot_symbol": "source_drill_progress_fraction_input.delay",
+          "java_expr": "getDrillTime(dominantItem)",
+          "java_method": "progress()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input delay mirrors source getDrillTime(dominantItem).",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_progress_fraction"
+          ]
+        },
+        "has_dominant_item": {
+          "godot_symbol": "source_drill_progress_fraction_input.has_dominant_item",
+          "java_expr": "dominantItem == null",
+          "java_method": "progress()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input boolean is inverse of source dominantItem null guard.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_drill_progress_fraction"
+          ]
+        },
+        "progress": {
+          "godot_symbol": "source_drill_progress_fraction_input.progress",
+          "java_expr": "progress",
+          "java_method": "progress()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input source DrillBuild progress field.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_progress_fraction"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_drill_progress_fraction_result": {
+      "keys": {
+        "delay": {
+          "alias_of": "source_drill_progress_fraction_input.delay",
+          "rule": "Carries delay into progress fraction result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "dominantItemNull": {
+          "godot_symbol": "source_drill_progress_fraction_result.dominantItemNull",
+          "java_expr": "dominantItem == null",
+          "java_method": "progress()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Source dominantItem null guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_drill_progress_fraction"
+          ]
+        },
+        "fraction": {
+          "godot_symbol": "source_drill_progress_fraction_result.fraction",
+          "java_expr": "return dominantItem == null ? 0f : Mathf.clamp(progress / getDrillTime(dominantItem));",
+          "java_method": "progress()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Source returned progress fraction.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_progress_fraction"
+          ]
+        },
+        "has_dominant_item": {
+          "alias_of": "source_drill_progress_fraction_input.has_dominant_item",
+          "rule": "Carries dominant item guard input into progress fraction result schema.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "mathfClamp": {
+          "godot_symbol": "source_drill_progress_fraction_result.mathfClamp",
+          "java_expr": "return Math.max(Math.min(value, 1f), 0f);",
+          "java_method": "clamp(float value)",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "rule": "Arc clamp source used by DrillBuild.progress().",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_progress_fraction"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_drill_progress_fraction_result.method",
+          "java_expr": "public float progress(){",
+          "java_method": "progress()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Source method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_progress_fraction"
+          ]
+        },
+        "progress": {
+          "alias_of": "source_drill_progress_fraction_input.progress",
+          "rule": "Carries progress into progress fraction result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "progressRatio": {
+          "godot_symbol": "source_drill_progress_fraction_result.progressRatio",
+          "java_expr": "progress / getDrillTime(dominantItem)",
+          "java_method": "progress()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Source ratio before Mathf.clamp.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_progress_fraction"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {
