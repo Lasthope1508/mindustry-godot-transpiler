@@ -21522,6 +21522,201 @@
       "java_expr": "public void pickedUp(){",
       "godot_symbol": "source_building_picked_up_input.previous_state",
       "rule": "Runtime previous_state is passed through because base pickedUp has no side effects."
+    },
+    "building_placed.comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "placed()",
+      "godot_owner": "PortGame.source_building_placed_state",
+      "tests": [
+        "test_building_placed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_placed_state",
+      "java_expr": "Called after the block is placed by anyone.",
+      "godot_symbol": "source_building_placed_result.comment",
+      "rule": "Source comment documents placed() timing."
+    },
+    "building_placed.call_super": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "placed()",
+      "godot_owner": "PortGame.source_building_placed_state",
+      "tests": [
+        "test_building_placed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_placed_state",
+      "java_expr": "@CallSuper",
+      "godot_symbol": "source_building_placed_result.call_super",
+      "rule": "Source annotation requires subclasses call super."
+    },
+    "building_placed.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "placed()",
+      "godot_owner": "PortGame.source_building_placed_state",
+      "tests": [
+        "test_building_placed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_placed_state",
+      "java_expr": "public void placed(){",
+      "godot_symbol": "source_building_placed_result.method",
+      "rule": "BuildingComp placed method boundary."
+    },
+    "building_placed.client_guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "placed()",
+      "godot_owner": "PortGame.source_building_placed_state",
+      "tests": [
+        "test_building_placed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_placed_state",
+      "java_expr": "if(net.client()) return;",
+      "godot_symbol": "source_building_placed_result.client_guard",
+      "rule": "placed returns early on net.client()."
+    },
+    "building_placed.power_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "placed()",
+      "godot_owner": "PortGame.source_building_placed_state",
+      "tests": [
+        "test_building_placed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_placed_state",
+      "java_expr": "if((block.consumesPower || block.outputsPower) && block.hasPower && block.connectedPower){",
+      "godot_symbol": "source_building_placed_result.power_gate",
+      "rule": "Power-link scan only runs when power-consume/output, hasPower, and connectedPower are true."
+    },
+    "building_placed.power_node_scan": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "placed()",
+      "godot_owner": "PortGame.source_building_placed_state",
+      "tests": [
+        "test_building_placed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_placed_state",
+      "java_expr": "PowerNode.getNodeLinks(tile, block, team, other -> {",
+      "godot_symbol": "source_building_placed_result.power_node_scan",
+      "rule": "placed scans PowerNode links for nearby power nodes."
+    },
+    "building_placed.link_guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "placed()",
+      "godot_owner": "PortGame.source_building_placed_state",
+      "tests": [
+        "test_building_placed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_placed_state",
+      "java_expr": "if(!other.power.links.contains(pos())){",
+      "godot_symbol": "source_building_placed_result.link_guard",
+      "rule": "placed configures only power nodes not already linked to this pos()."
+    },
+    "building_placed.configure_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "placed()",
+      "godot_owner": "PortGame.source_building_placed_state",
+      "tests": [
+        "test_building_placed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_placed_state",
+      "java_expr": "other.configureAny(pos());",
+      "godot_symbol": "source_building_placed_result.configure_call",
+      "rule": "placed configures missing power links with pos()."
+    },
+    "building_placed.net_client": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "placed()",
+      "godot_owner": "PortGame.source_building_placed_state",
+      "tests": [
+        "test_building_placed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_placed_state",
+      "java_expr": "net.client()",
+      "godot_symbol": "source_building_placed_input.net_client",
+      "rule": "Runtime net_client supplies net.client()."
+    },
+    "building_placed.consumes_power": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "placed()",
+      "godot_owner": "PortGame.source_building_placed_state",
+      "tests": [
+        "test_building_placed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_placed_state",
+      "java_expr": "block.consumesPower",
+      "godot_symbol": "source_building_placed_input.consumes_power",
+      "rule": "Runtime consumes_power supplies block.consumesPower."
+    },
+    "building_placed.outputs_power": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "placed()",
+      "godot_owner": "PortGame.source_building_placed_state",
+      "tests": [
+        "test_building_placed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_placed_state",
+      "java_expr": "block.outputsPower",
+      "godot_symbol": "source_building_placed_input.outputs_power",
+      "rule": "Runtime outputs_power supplies block.outputsPower."
+    },
+    "building_placed.has_power": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "placed()",
+      "godot_owner": "PortGame.source_building_placed_state",
+      "tests": [
+        "test_building_placed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_placed_state",
+      "java_expr": "block.hasPower",
+      "godot_symbol": "source_building_placed_input.has_power",
+      "rule": "Runtime has_power supplies block.hasPower."
+    },
+    "building_placed.connected_power": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "placed()",
+      "godot_owner": "PortGame.source_building_placed_state",
+      "tests": [
+        "test_building_placed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_placed_state",
+      "java_expr": "block.connectedPower",
+      "godot_symbol": "source_building_placed_input.connected_power",
+      "rule": "Runtime connected_power supplies block.connectedPower."
+    },
+    "building_placed.linked_to_self": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "placed()",
+      "godot_owner": "PortGame.source_building_placed_state",
+      "tests": [
+        "test_building_placed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_placed_state",
+      "java_expr": "other.power.links.contains(pos())",
+      "godot_symbol": "source_building_placed_input.linked_to_self",
+      "rule": "Runtime linked_to_self supplies other.power.links.contains(pos())."
+    },
+    "building_placed.source_pos": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "placed()",
+      "godot_owner": "PortGame.source_building_placed_state",
+      "tests": [
+        "test_building_placed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_placed_state",
+      "java_expr": "pos()",
+      "godot_symbol": "source_building_placed_input.source_pos",
+      "rule": "Runtime source_pos supplies pos()."
     }
   }
 }

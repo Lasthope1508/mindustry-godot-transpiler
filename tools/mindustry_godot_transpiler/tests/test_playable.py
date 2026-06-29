@@ -1568,12 +1568,20 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_building_placed_state(net_client: bool, consumes_power: bool, outputs_power: bool, has_power: bool, connected_power: bool, linked_to_self: bool, source_pos: int) -> Dictionary:", source)
+        self.assertIn('"method": "public void placed(){",', source)
+        self.assertIn('"comment": "Called after the block is placed by anyone.",', source)
+        self.assertIn('"call_super": "@CallSuper",', source)
+        self.assertIn('"client_guard": "if(net.client()) return;" if net_client else "",', source)
         self.assertIn("if net_client:", source)
         self.assertIn('"returned": true', source)
         self.assertIn("var should_link_power := (consumes_power or outputs_power) and has_power and connected_power", source)
+        self.assertIn('"power_gate": "if((block.consumesPower || block.outputsPower) && block.hasPower && block.connectedPower){" if should_link_power else "",', source)
+        self.assertIn('"power_node_scan": "PowerNode.getNodeLinks(tile, block, team, other -> {" if should_link_power else "",', source)
         self.assertIn("if not should_link_power:", source)
         self.assertIn('"power_link_scan": false', source)
         self.assertIn("var configure := not linked_to_self", source)
+        self.assertIn('"link_guard": "if(!other.power.links.contains(pos())){" if should_link_power else "",', source)
+        self.assertIn('"configure_call": "other.configureAny(pos());" if configure else "",', source)
         self.assertIn('"configure_pos": source_pos if configure else -1', source)
 
     def test_port_game_exposes_source_building_on_repaired_state(self):

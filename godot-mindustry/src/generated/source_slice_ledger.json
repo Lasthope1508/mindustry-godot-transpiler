@@ -6994,6 +6994,55 @@
       ],
       "runtime_proof": "/root/Main.source_building_picked_up_state",
       "rule": "Backfills SSOT for existing canonical source_building_picked_up_state helper against BuildingComp.pickedUp() no-op."
+    },
+    "N623": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "placed()",
+      "godot_owner": "PortGame.source_building_placed_state",
+      "exact_exprs": [
+        "Called after the block is placed by anyone.",
+        "@CallSuper",
+        "public void placed(){",
+        "if(net.client()) return;",
+        "if((block.consumesPower || block.outputsPower) && block.hasPower && block.connectedPower){",
+        "PowerNode.getNodeLinks(tile, block, team, other -> {",
+        "if(!other.power.links.contains(pos())){",
+        "other.configureAny(pos());",
+        "net.client()",
+        "block.consumesPower",
+        "block.outputsPower",
+        "block.hasPower",
+        "block.connectedPower",
+        "other.power.links.contains(pos())",
+        "pos()"
+      ],
+      "deferred_exprs": [
+        "Concrete PowerNode graph mutation and configureAny side effects remain covered by power-link runtime integration slices."
+      ],
+      "source_symbols": [
+        "building_placed.comment",
+        "building_placed.call_super",
+        "building_placed.method",
+        "building_placed.client_guard",
+        "building_placed.power_gate",
+        "building_placed.power_node_scan",
+        "building_placed.link_guard",
+        "building_placed.configure_call",
+        "building_placed.net_client",
+        "building_placed.consumes_power",
+        "building_placed.outputs_power",
+        "building_placed.has_power",
+        "building_placed.connected_power",
+        "building_placed.linked_to_self",
+        "building_placed.source_pos"
+      ],
+      "tests": [
+        "test_building_placed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_placed_state",
+      "rule": "Backfills SSOT for existing canonical source_building_placed_state helper against BuildingComp.placed() client guard and power-link configure branch."
     }
   },
   "version": 1

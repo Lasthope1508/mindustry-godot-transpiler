@@ -8512,6 +8512,68 @@
       ],
       "runtime_proof": "/root/Main.source_building_picked_up_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.pickedUp no-op helper."
+    },
+    "PortGame.source_building_placed_state": {
+      "status": "active",
+      "source_slice": "N623",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "placed()",
+      "params": [
+        {
+          "name": "net_client",
+          "type": "bool",
+          "schema": "source_building_placed_input.net_client"
+        },
+        {
+          "name": "consumes_power",
+          "type": "bool",
+          "schema": "source_building_placed_input.consumes_power"
+        },
+        {
+          "name": "outputs_power",
+          "type": "bool",
+          "schema": "source_building_placed_input.outputs_power"
+        },
+        {
+          "name": "has_power",
+          "type": "bool",
+          "schema": "source_building_placed_input.has_power"
+        },
+        {
+          "name": "connected_power",
+          "type": "bool",
+          "schema": "source_building_placed_input.connected_power"
+        },
+        {
+          "name": "linked_to_self",
+          "type": "bool",
+          "schema": "source_building_placed_input.linked_to_self"
+        },
+        {
+          "name": "source_pos",
+          "type": "int",
+          "schema": "source_building_placed_input.source_pos"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "comment",
+        "call_super",
+        "client_guard",
+        "power_gate",
+        "power_node_scan",
+        "link_guard",
+        "configure_call",
+        "returned",
+        "power_link_scan",
+        "configure",
+        "configure_pos"
+      ],
+      "tests": [
+        "test_building_placed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_placed_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.placed helper."
     }
   },
   "policy": {
