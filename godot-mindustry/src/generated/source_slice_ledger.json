@@ -7345,6 +7345,53 @@
       ],
       "runtime_proof": "/root/Main.source_building_sense_capacity_power_net_state",
       "rule": "Backfills SSOT for existing canonical source_building_sense_capacity_power_net_state helper against BuildingComp.sense capacity and power-net cases."
+    },
+    "N633": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "sense(Content content)",
+      "godot_owner": "PortGame.source_building_sense_content_state",
+      "exact_exprs": [
+        "public double sense(Content content){",
+        "if(content instanceof Item i && items != null) return items.get(i);",
+        "if(content instanceof Liquid l && liquids != null) return liquids.get(l);",
+        "if(getPayloads() != null){",
+        "if(content instanceof UnitType u) return getPayloads().get(u);",
+        "if(content instanceof Block b) return getPayloads().get(b);",
+        "return Float.NaN; //invalid sense",
+        "content instanceof Item i / Liquid l / UnitType u / Block b",
+        "items != null",
+        "items.get(i)",
+        "liquids != null",
+        "liquids.get(l)",
+        "getPayloads() != null",
+        "getPayloads().get(u) / getPayloads().get(b)"
+      ],
+      "deferred_exprs": [
+        "Concrete content class checks and payload container internals remain owned by content/payload integration slices."
+      ],
+      "source_symbols": [
+        "building_sense_content.method",
+        "building_sense_content.item_case",
+        "building_sense_content.liquid_case",
+        "building_sense_content.payloads_guard",
+        "building_sense_content.unit_payload_case",
+        "building_sense_content.block_payload_case",
+        "building_sense_content.invalid_return",
+        "building_sense_content.content_type",
+        "building_sense_content.has_items_module",
+        "building_sense_content.item_amount",
+        "building_sense_content.has_liquids_module",
+        "building_sense_content.liquid_amount",
+        "building_sense_content.has_payloads",
+        "building_sense_content.payload_amount"
+      ],
+      "tests": [
+        "test_building_sense_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_content_state",
+      "rule": "Backfills SSOT for existing canonical source_building_sense_content_state helper against BuildingComp.sense(Content content)."
     }
   },
   "version": 1

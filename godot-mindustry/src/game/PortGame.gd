@@ -2559,13 +2559,37 @@ func source_building_sense_object_state(sensor: String, block_value: Variant, ha
 			return {"no_sensed": true, "value": null}
 
 func source_building_sense_content_state(content_type: String, has_items_module: bool, item_amount: float, has_liquids_module: bool, liquid_amount: float, has_payloads: bool, payload_amount: float) -> Dictionary:
+	var source_state := {
+		"method": "public double sense(Content content){",
+		"item_case": "if(content instanceof Item i && items != null) return items.get(i);",
+		"liquid_case": "if(content instanceof Liquid l && liquids != null) return liquids.get(l);",
+		"payloads_guard": "if(getPayloads() != null){",
+		"unit_payload_case": "if(content instanceof UnitType u) return getPayloads().get(u);",
+		"block_payload_case": "if(content instanceof Block b) return getPayloads().get(b);",
+		"invalid_return": "return Float.NaN; //invalid sense",
+		"content_type": content_type,
+		"has_items_module": has_items_module,
+		"item_amount": item_amount,
+		"has_liquids_module": has_liquids_module,
+		"liquid_amount": liquid_amount,
+		"has_payloads": has_payloads,
+		"payload_amount": payload_amount,
+	}
 	if content_type == "item" and has_items_module:
-		return {"sensed": true, "value": item_amount}
+		source_state["sensed"] = true
+		source_state["value"] = item_amount
+		return source_state
 	if content_type == "liquid" and has_liquids_module:
-		return {"sensed": true, "value": liquid_amount}
+		source_state["sensed"] = true
+		source_state["value"] = liquid_amount
+		return source_state
 	if (content_type == "unit" or content_type == "block") and has_payloads:
-		return {"sensed": true, "value": payload_amount}
-	return {"sensed": false, "value": null}
+		source_state["sensed"] = true
+		source_state["value"] = payload_amount
+		return source_state
+	source_state["sensed"] = false
+	source_state["value"] = null
+	return source_state
 
 func source_building_control_enabled_state(current_enabled: bool, control_type: String, p1: float) -> Dictionary:
 	var next_enabled := current_enabled

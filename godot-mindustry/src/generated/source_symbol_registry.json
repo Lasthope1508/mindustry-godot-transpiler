@@ -22549,6 +22549,188 @@
       "java_expr": "power.graph.getLastCapacity()",
       "godot_symbol": "source_building_sense_capacity_power_net_input.last_power_capacity",
       "rule": "Runtime last_power_capacity supplies power.graph.getLastCapacity()."
+    },
+    "building_sense_content.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(Content content)",
+      "godot_owner": "PortGame.source_building_sense_content_state",
+      "tests": [
+        "test_building_sense_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_content_state",
+      "java_expr": "public double sense(Content content){",
+      "godot_symbol": "source_building_sense_content_result.method",
+      "rule": "BuildingComp sense(Content) method boundary."
+    },
+    "building_sense_content.item_case": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(Content content)",
+      "godot_owner": "PortGame.source_building_sense_content_state",
+      "tests": [
+        "test_building_sense_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_content_state",
+      "java_expr": "if(content instanceof Item i && items != null) return items.get(i);",
+      "godot_symbol": "source_building_sense_content_result.item_case",
+      "rule": "sense(Content) returns item amount when content is Item and items module exists."
+    },
+    "building_sense_content.liquid_case": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(Content content)",
+      "godot_owner": "PortGame.source_building_sense_content_state",
+      "tests": [
+        "test_building_sense_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_content_state",
+      "java_expr": "if(content instanceof Liquid l && liquids != null) return liquids.get(l);",
+      "godot_symbol": "source_building_sense_content_result.liquid_case",
+      "rule": "sense(Content) returns liquid amount when content is Liquid and liquids module exists."
+    },
+    "building_sense_content.payloads_guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(Content content)",
+      "godot_owner": "PortGame.source_building_sense_content_state",
+      "tests": [
+        "test_building_sense_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_content_state",
+      "java_expr": "if(getPayloads() != null){",
+      "godot_symbol": "source_building_sense_content_result.payloads_guard",
+      "rule": "sense(Content) checks payload container before unit/block payload lookup."
+    },
+    "building_sense_content.unit_payload_case": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(Content content)",
+      "godot_owner": "PortGame.source_building_sense_content_state",
+      "tests": [
+        "test_building_sense_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_content_state",
+      "java_expr": "if(content instanceof UnitType u) return getPayloads().get(u);",
+      "godot_symbol": "source_building_sense_content_result.unit_payload_case",
+      "rule": "sense(Content) returns UnitType payload amount from getPayloads()."
+    },
+    "building_sense_content.block_payload_case": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(Content content)",
+      "godot_owner": "PortGame.source_building_sense_content_state",
+      "tests": [
+        "test_building_sense_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_content_state",
+      "java_expr": "if(content instanceof Block b) return getPayloads().get(b);",
+      "godot_symbol": "source_building_sense_content_result.block_payload_case",
+      "rule": "sense(Content) returns Block payload amount from getPayloads()."
+    },
+    "building_sense_content.invalid_return": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(Content content)",
+      "godot_owner": "PortGame.source_building_sense_content_state",
+      "tests": [
+        "test_building_sense_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_content_state",
+      "java_expr": "return Float.NaN; //invalid sense",
+      "godot_symbol": "source_building_sense_content_result.invalid_return",
+      "rule": "Invalid content sense returns Float.NaN upstream; runtime exposes null-safe invalid state."
+    },
+    "building_sense_content.content_type": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(Content content)",
+      "godot_owner": "PortGame.source_building_sense_content_state",
+      "tests": [
+        "test_building_sense_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_content_state",
+      "java_expr": "content instanceof Item i / Liquid l / UnitType u / Block b",
+      "godot_symbol": "source_building_sense_content_input.content_type",
+      "rule": "Runtime content_type supplies content instanceof Item i / Liquid l / UnitType u / Block b."
+    },
+    "building_sense_content.has_items_module": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(Content content)",
+      "godot_owner": "PortGame.source_building_sense_content_state",
+      "tests": [
+        "test_building_sense_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_content_state",
+      "java_expr": "items != null",
+      "godot_symbol": "source_building_sense_content_input.has_items_module",
+      "rule": "Runtime has_items_module supplies items != null."
+    },
+    "building_sense_content.item_amount": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(Content content)",
+      "godot_owner": "PortGame.source_building_sense_content_state",
+      "tests": [
+        "test_building_sense_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_content_state",
+      "java_expr": "items.get(i)",
+      "godot_symbol": "source_building_sense_content_input.item_amount",
+      "rule": "Runtime item_amount supplies items.get(i)."
+    },
+    "building_sense_content.has_liquids_module": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(Content content)",
+      "godot_owner": "PortGame.source_building_sense_content_state",
+      "tests": [
+        "test_building_sense_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_content_state",
+      "java_expr": "liquids != null",
+      "godot_symbol": "source_building_sense_content_input.has_liquids_module",
+      "rule": "Runtime has_liquids_module supplies liquids != null."
+    },
+    "building_sense_content.liquid_amount": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(Content content)",
+      "godot_owner": "PortGame.source_building_sense_content_state",
+      "tests": [
+        "test_building_sense_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_content_state",
+      "java_expr": "liquids.get(l)",
+      "godot_symbol": "source_building_sense_content_input.liquid_amount",
+      "rule": "Runtime liquid_amount supplies liquids.get(l)."
+    },
+    "building_sense_content.has_payloads": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(Content content)",
+      "godot_owner": "PortGame.source_building_sense_content_state",
+      "tests": [
+        "test_building_sense_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_content_state",
+      "java_expr": "getPayloads() != null",
+      "godot_symbol": "source_building_sense_content_input.has_payloads",
+      "rule": "Runtime has_payloads supplies getPayloads() != null."
+    },
+    "building_sense_content.payload_amount": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(Content content)",
+      "godot_owner": "PortGame.source_building_sense_content_state",
+      "tests": [
+        "test_building_sense_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_content_state",
+      "java_expr": "getPayloads().get(u) / getPayloads().get(b)",
+      "godot_symbol": "source_building_sense_content_input.payload_amount",
+      "rule": "Runtime payload_amount supplies getPayloads().get(u) / getPayloads().get(b)."
     }
   }
 }

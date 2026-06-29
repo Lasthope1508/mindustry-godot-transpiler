@@ -8899,6 +8899,72 @@
       ],
       "runtime_proof": "/root/Main.source_building_sense_capacity_power_net_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.sense capacity and power-net helper."
+    },
+    "PortGame.source_building_sense_content_state": {
+      "status": "active",
+      "source_slice": "N633",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "sense(Content content)",
+      "params": [
+        {
+          "name": "content_type",
+          "type": "String",
+          "schema": "source_building_sense_content_input.content_type"
+        },
+        {
+          "name": "has_items_module",
+          "type": "bool",
+          "schema": "source_building_sense_content_input.has_items_module"
+        },
+        {
+          "name": "item_amount",
+          "type": "float",
+          "schema": "source_building_sense_content_input.item_amount"
+        },
+        {
+          "name": "has_liquids_module",
+          "type": "bool",
+          "schema": "source_building_sense_content_input.has_liquids_module"
+        },
+        {
+          "name": "liquid_amount",
+          "type": "float",
+          "schema": "source_building_sense_content_input.liquid_amount"
+        },
+        {
+          "name": "has_payloads",
+          "type": "bool",
+          "schema": "source_building_sense_content_input.has_payloads"
+        },
+        {
+          "name": "payload_amount",
+          "type": "float",
+          "schema": "source_building_sense_content_input.payload_amount"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "item_case",
+        "liquid_case",
+        "payloads_guard",
+        "unit_payload_case",
+        "block_payload_case",
+        "invalid_return",
+        "content_type",
+        "has_items_module",
+        "item_amount",
+        "has_liquids_module",
+        "liquid_amount",
+        "has_payloads",
+        "payload_amount",
+        "sensed",
+        "value"
+      ],
+      "tests": [
+        "test_building_sense_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_content_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.sense(Content content) helper."
     }
   },
   "policy": {

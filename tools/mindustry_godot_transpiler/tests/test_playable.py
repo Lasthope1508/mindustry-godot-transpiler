@@ -2427,13 +2427,23 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_building_sense_content_state(content_type: String, has_items_module: bool, item_amount: float, has_liquids_module: bool, liquid_amount: float, has_payloads: bool, payload_amount: float) -> Dictionary:", source)
+        self.assertIn('"method": "public double sense(Content content){",', source)
+        self.assertIn('"item_case": "if(content instanceof Item i && items != null) return items.get(i);",', source)
+        self.assertIn('"liquid_case": "if(content instanceof Liquid l && liquids != null) return liquids.get(l);",', source)
+        self.assertIn('"payloads_guard": "if(getPayloads() != null){",', source)
+        self.assertIn('"unit_payload_case": "if(content instanceof UnitType u) return getPayloads().get(u);",', source)
+        self.assertIn('"block_payload_case": "if(content instanceof Block b) return getPayloads().get(b);",', source)
+        self.assertIn('"invalid_return": "return Float.NaN; //invalid sense",', source)
         self.assertIn('if content_type == "item" and has_items_module:', source)
-        self.assertIn('return {"sensed": true, "value": item_amount}', source)
+        self.assertIn('source_state["sensed"] = true', source)
+        self.assertIn('source_state["value"] = item_amount', source)
         self.assertIn('if content_type == "liquid" and has_liquids_module:', source)
-        self.assertIn('return {"sensed": true, "value": liquid_amount}', source)
+        self.assertIn('source_state["value"] = liquid_amount', source)
         self.assertIn('if (content_type == "unit" or content_type == "block") and has_payloads:', source)
-        self.assertIn('return {"sensed": true, "value": payload_amount}', source)
-        self.assertIn('return {"sensed": false, "value": null}', source)
+        self.assertIn('source_state["value"] = payload_amount', source)
+        self.assertIn('source_state["sensed"] = false', source)
+        self.assertIn('source_state["value"] = null', source)
+        self.assertIn("return source_state", source)
 
     def test_port_game_exposes_source_building_control_enabled_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

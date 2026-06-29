@@ -3045,6 +3045,54 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(last_power_capacity["java_expr"], "power.graph.getLastCapacity()")
         self.assertEqual(last_power_capacity["godot_symbol"], "source_building_sense_capacity_power_net_input.last_power_capacity")
 
+    def test_building_sense_content_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_sense_content.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "sense(Content content)")
+        self.assertEqual(method["java_expr"], "public double sense(Content content){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_sense_content_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_sense_content_state")
+        self.assertEqual(method["godot_symbol"], "source_building_sense_content_result.method")
+
+        item_case = source_symbols.source_symbol(registry, "building_sense_content.item_case")
+        self.assertEqual(item_case["java_expr"], "if(content instanceof Item i && items != null) return items.get(i);")
+        self.assertEqual(item_case["godot_symbol"], "source_building_sense_content_result.item_case")
+
+        liquid_case = source_symbols.source_symbol(registry, "building_sense_content.liquid_case")
+        self.assertEqual(liquid_case["java_expr"], "if(content instanceof Liquid l && liquids != null) return liquids.get(l);")
+        self.assertEqual(liquid_case["godot_symbol"], "source_building_sense_content_result.liquid_case")
+
+        payloads_guard = source_symbols.source_symbol(registry, "building_sense_content.payloads_guard")
+        self.assertEqual(payloads_guard["java_expr"], "if(getPayloads() != null){")
+        self.assertEqual(payloads_guard["godot_symbol"], "source_building_sense_content_result.payloads_guard")
+
+        unit_payload_case = source_symbols.source_symbol(registry, "building_sense_content.unit_payload_case")
+        self.assertEqual(unit_payload_case["java_expr"], "if(content instanceof UnitType u) return getPayloads().get(u);")
+        self.assertEqual(unit_payload_case["godot_symbol"], "source_building_sense_content_result.unit_payload_case")
+
+        block_payload_case = source_symbols.source_symbol(registry, "building_sense_content.block_payload_case")
+        self.assertEqual(block_payload_case["java_expr"], "if(content instanceof Block b) return getPayloads().get(b);")
+        self.assertEqual(block_payload_case["godot_symbol"], "source_building_sense_content_result.block_payload_case")
+
+        invalid_return = source_symbols.source_symbol(registry, "building_sense_content.invalid_return")
+        self.assertEqual(invalid_return["java_expr"], "return Float.NaN; //invalid sense")
+        self.assertEqual(invalid_return["godot_symbol"], "source_building_sense_content_result.invalid_return")
+
+        content_type = source_symbols.source_symbol(registry, "building_sense_content.content_type")
+        self.assertEqual(content_type["status"], "explicit-input")
+        self.assertEqual(content_type["java_expr"], "content instanceof Item i / Liquid l / UnitType u / Block b")
+        self.assertEqual(content_type["godot_symbol"], "source_building_sense_content_input.content_type")
+
+        payload_amount = source_symbols.source_symbol(registry, "building_sense_content.payload_amount")
+        self.assertEqual(payload_amount["status"], "explicit-input")
+        self.assertEqual(payload_amount["java_expr"], "getPayloads().get(u) / getPayloads().get(b)")
+        self.assertEqual(payload_amount["godot_symbol"], "source_building_sense_content_input.payload_amount")
+
     def test_building_maximum_accepted_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -6702,9 +6750,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 230)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 231)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 235)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 236)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6868,6 +6916,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_accept_stack_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_remove_stack_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_capacity_power_net_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_sense_content_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_destroyed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_picked_up_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_ambient_volume", audit["registeredSourceOwners"])
@@ -7875,6 +7924,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("case powerNetOut -> power == null ? 0 : power.graph.getLastScaledPowerOut() * 60;", building_sense_capacity_power_net["exact_exprs"])
         self.assertIn("case powerNetStored -> power == null ? 0 : power.graph.getLastPowerStored();", building_sense_capacity_power_net["exact_exprs"])
         self.assertIn("case powerNetCapacity -> power == null ? 0 : power.graph.getLastCapacity();", building_sense_capacity_power_net["exact_exprs"])
+
+        building_sense_content = source_symbols.source_slice(ledger, "N633")
+        self.assertEqual(building_sense_content["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_sense_content["java_method"], "sense(Content content)")
+        self.assertEqual(building_sense_content["godot_owner"], "PortGame.source_building_sense_content_state")
+        self.assertIn("public double sense(Content content){", building_sense_content["exact_exprs"])
+        self.assertIn("if(content instanceof Item i && items != null) return items.get(i);", building_sense_content["exact_exprs"])
+        self.assertIn("if(content instanceof Liquid l && liquids != null) return liquids.get(l);", building_sense_content["exact_exprs"])
+        self.assertIn("if(getPayloads() != null){", building_sense_content["exact_exprs"])
+        self.assertIn("if(content instanceof UnitType u) return getPayloads().get(u);", building_sense_content["exact_exprs"])
+        self.assertIn("if(content instanceof Block b) return getPayloads().get(b);", building_sense_content["exact_exprs"])
+        self.assertIn("return Float.NaN; //invalid sense", building_sense_content["exact_exprs"])
 
         building_maximum_accepted = source_symbols.source_slice(ledger, "N603")
         self.assertEqual(building_maximum_accepted["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -9997,6 +10058,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("item_capacity", building_sense_capacity_power_net["return_keys"])
         self.assertIn("power_net_capacity", building_sense_capacity_power_net["return_keys"])
         self.assertEqual(building_sense_capacity_power_net["source_method"], "sense(LAccess sensor)")
+
+        building_sense_content = source_symbols.api_contract(contracts, "PortGame.source_building_sense_content_state")
+        self.assertEqual([param["name"] for param in building_sense_content["params"]], ["content_type", "has_items_module", "item_amount", "has_liquids_module", "liquid_amount", "has_payloads", "payload_amount"])
+        self.assertEqual(building_sense_content["params"][0]["schema"], "source_building_sense_content_input.content_type")
+        self.assertEqual(building_sense_content["params"][6]["schema"], "source_building_sense_content_input.payload_amount")
+        self.assertIn("method", building_sense_content["return_keys"])
+        self.assertIn("item_case", building_sense_content["return_keys"])
+        self.assertIn("liquid_case", building_sense_content["return_keys"])
+        self.assertIn("payloads_guard", building_sense_content["return_keys"])
+        self.assertIn("unit_payload_case", building_sense_content["return_keys"])
+        self.assertIn("block_payload_case", building_sense_content["return_keys"])
+        self.assertIn("invalid_return", building_sense_content["return_keys"])
+        self.assertIn("sensed", building_sense_content["return_keys"])
+        self.assertIn("value", building_sense_content["return_keys"])
+        self.assertEqual(building_sense_content["source_method"], "sense(Content content)")
 
         building_maximum_accepted = source_symbols.api_contract(contracts, "PortGame.source_building_maximum_accepted")
         self.assertEqual([param["name"] for param in building_maximum_accepted["params"]], ["block_item_capacity"])
@@ -12270,6 +12346,26 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_sense_capacity_power_net_result["keys"]["power_net_capacity_case"]["java_expr"], "case powerNetCapacity -> power == null ? 0 : power.graph.getLastCapacity();")
         self.assertEqual(source_building_sense_capacity_power_net_result["keys"]["block_has_items"]["alias_of"], "source_building_sense_capacity_power_net_input.block_has_items")
         self.assertEqual(source_building_sense_capacity_power_net_result["keys"]["last_power_capacity"]["alias_of"], "source_building_sense_capacity_power_net_input.last_power_capacity")
+
+        source_building_sense_content_input = source_symbols.state_schema(schema, "source_building_sense_content_input")
+        self.assertEqual(source_building_sense_content_input["keys"]["content_type"]["java_expr"], "content instanceof Item i / Liquid l / UnitType u / Block b")
+        self.assertEqual(source_building_sense_content_input["keys"]["has_items_module"]["java_expr"], "items != null")
+        self.assertEqual(source_building_sense_content_input["keys"]["item_amount"]["java_expr"], "items.get(i)")
+        self.assertEqual(source_building_sense_content_input["keys"]["has_liquids_module"]["java_expr"], "liquids != null")
+        self.assertEqual(source_building_sense_content_input["keys"]["liquid_amount"]["java_expr"], "liquids.get(l)")
+        self.assertEqual(source_building_sense_content_input["keys"]["has_payloads"]["java_expr"], "getPayloads() != null")
+        self.assertEqual(source_building_sense_content_input["keys"]["payload_amount"]["java_expr"], "getPayloads().get(u) / getPayloads().get(b)")
+
+        source_building_sense_content_result = source_symbols.state_schema(schema, "source_building_sense_content_result")
+        self.assertEqual(source_building_sense_content_result["keys"]["method"]["java_expr"], "public double sense(Content content){")
+        self.assertEqual(source_building_sense_content_result["keys"]["item_case"]["java_expr"], "if(content instanceof Item i && items != null) return items.get(i);")
+        self.assertEqual(source_building_sense_content_result["keys"]["liquid_case"]["java_expr"], "if(content instanceof Liquid l && liquids != null) return liquids.get(l);")
+        self.assertEqual(source_building_sense_content_result["keys"]["payloads_guard"]["java_expr"], "if(getPayloads() != null){")
+        self.assertEqual(source_building_sense_content_result["keys"]["unit_payload_case"]["java_expr"], "if(content instanceof UnitType u) return getPayloads().get(u);")
+        self.assertEqual(source_building_sense_content_result["keys"]["block_payload_case"]["java_expr"], "if(content instanceof Block b) return getPayloads().get(b);")
+        self.assertEqual(source_building_sense_content_result["keys"]["invalid_return"]["java_expr"], "return Float.NaN; //invalid sense")
+        self.assertEqual(source_building_sense_content_result["keys"]["content_type"]["alias_of"], "source_building_sense_content_input.content_type")
+        self.assertEqual(source_building_sense_content_result["keys"]["payload_amount"]["alias_of"], "source_building_sense_content_input.payload_amount")
 
         source_building_maximum_accepted_input = source_symbols.state_schema(schema, "source_building_maximum_accepted_input")
         self.assertEqual(source_building_maximum_accepted_input["keys"]["block_item_capacity"]["java_expr"], "block.itemCapacity")
