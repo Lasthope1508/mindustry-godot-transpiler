@@ -11695,6 +11695,62 @@
       "tests": [
         "test_mathf_lerp_delta_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_mend_projector_draw_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "params": [
+        {
+          "name": "mend_projector",
+          "schema": "content_block_state",
+          "type": "object"
+        },
+        {
+          "name": "heat",
+          "schema": "source_mend_projector_draw_state_input.heat",
+          "type": "float"
+        },
+        {
+          "name": "phase_heat",
+          "schema": "source_mend_projector_draw_state_input.phaseHeat",
+          "type": "float"
+        },
+        {
+          "name": "source_time_ticks",
+          "schema": "source_mend_projector_draw_state_input.sourceTimeTicks",
+          "type": "float"
+        },
+        {
+          "name": "lod_l2",
+          "schema": "source_mend_projector_draw_state_input.lodL2",
+          "type": "bool"
+        },
+        {
+          "name": "lod_alpha2",
+          "schema": "source_mend_projector_draw_state_input.lodAlpha2",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "visible",
+        "f",
+        "baseColor",
+        "phaseColor",
+        "phaseHeat",
+        "topAlpha",
+        "topRegion",
+        "squareAlpha",
+        "squareStroke",
+        "squareRadius",
+        "reset"
+      ],
+      "rule": "Public runtime contract for MendProjector draw-state helper with explicit Time.time and Lod inputs.",
+      "runtime_proof": "/root/Main.source_mend_projector_draw_state",
+      "source_method": "draw()",
+      "source_slice": "N713",
+      "status": "active",
+      "tests": [
+        "test_mend_projector_draw_state_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

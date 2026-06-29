@@ -9987,6 +9987,52 @@
       "tests": [
         "test_mathf_lerp_delta_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N713": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public void draw(){\n            float f = 1f - (Time.time / 100f) % 1f;\n\n            if(!Lod.l2) return;\n\n            Draw.color(baseColor, phaseColor, phaseHeat);\n            Draw.alpha(heat * Mathf.absin(Time.time, 50f / Mathf.PI2, 1f) * 0.5f * Lod.alpha2);\n            Draw.rect(topRegion, x, y);\n            Draw.alpha(Lod.alpha2);\n            Lines.stroke((2f * f + 0.2f) * heat);\n            Lines.square(x, y, Math.min(1f + (1f - f) * size * tilesize / 2f, size * tilesize/2f));\n\n            Draw.reset();\n        }",
+        "float f = 1f - (Time.time / 100f) % 1f;",
+        "if(!Lod.l2) return;",
+        "Draw.color(baseColor, phaseColor, phaseHeat);",
+        "Draw.alpha(heat * Mathf.absin(Time.time, 50f / Mathf.PI2, 1f) * 0.5f * Lod.alpha2);",
+        "Draw.rect(topRegion, x, y);",
+        "Draw.alpha(Lod.alpha2);",
+        "Lines.stroke((2f * f + 0.2f) * heat);",
+        "Lines.square(x, y, Math.min(1f + (1f - f) * size * tilesize / 2f, size * tilesize/2f));",
+        "Draw.reset();",
+        "heat",
+        "phaseHeat",
+        "Time.time",
+        "Lod.l2",
+        "Lod.alpha2"
+      ],
+      "godot_owner": "PortGame.source_mend_projector_draw_state",
+      "java_class": "mindustry.world.blocks.defense.MendProjector.MendBuild",
+      "java_method": "draw()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "Backfills SSOT for existing source_mend_projector_draw_state helper against Mindustry MendProjector.MendBuild.draw().",
+      "runtime_proof": "/root/Main.source_mend_projector_draw_state",
+      "source_symbols": [
+        "mend_projector_draw_state.method",
+        "mend_projector_draw_state.f_expr",
+        "mend_projector_draw_state.lod_l2_gate",
+        "mend_projector_draw_state.color_blend",
+        "mend_projector_draw_state.top_alpha",
+        "mend_projector_draw_state.top_rect",
+        "mend_projector_draw_state.square_alpha",
+        "mend_projector_draw_state.square_stroke",
+        "mend_projector_draw_state.square_radius",
+        "mend_projector_draw_state.reset",
+        "mend_projector_draw_state.heat_input",
+        "mend_projector_draw_state.phase_heat_input",
+        "mend_projector_draw_state.time_input",
+        "mend_projector_draw_state.lod_alpha2_input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_mend_projector_draw_state_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

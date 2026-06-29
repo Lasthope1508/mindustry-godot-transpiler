@@ -620,6 +620,11 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("const SOURCE_PI2 := PI * 2.0", source)
+        self.assertIn('const SOURCE_MEND_PROJECTOR_DRAW_METHOD := "public void draw(){\\n            float f = 1f - (Time.time / 100f) % 1f;\\n\\n            if(!Lod.l2) return;\\n\\n            Draw.color(baseColor, phaseColor, phaseHeat);\\n            Draw.alpha(heat * Mathf.absin(Time.time, 50f / Mathf.PI2, 1f) * 0.5f * Lod.alpha2);\\n            Draw.rect(topRegion, x, y);\\n            Draw.alpha(Lod.alpha2);\\n            Lines.stroke((2f * f + 0.2f) * heat);\\n            Lines.square(x, y, Math.min(1f + (1f - f) * size * tilesize / 2f, size * tilesize/2f));\\n\\n            Draw.reset();\\n        }"', source)
+        self.assertIn('const SOURCE_MEND_PROJECTOR_DRAW_F_EXPR := "float f = 1f - (Time.time / 100f) % 1f;"', source)
+        self.assertIn('const SOURCE_MEND_PROJECTOR_DRAW_COLOR_BLEND := "Draw.color(baseColor, phaseColor, phaseHeat);"', source)
+        self.assertIn('const SOURCE_MEND_PROJECTOR_DRAW_TOP_ALPHA := "Draw.alpha(heat * Mathf.absin(Time.time, 50f / Mathf.PI2, 1f) * 0.5f * Lod.alpha2);"', source)
+        self.assertIn('const SOURCE_MEND_PROJECTOR_DRAW_SQUARE_RADIUS := "Lines.square(x, y, Math.min(1f + (1f - f) * size * tilesize / 2f, size * tilesize/2f));"', source)
         self.assertIn("func source_absin(value: float, scl: float, mag: float) -> float:", source)
         self.assertIn("return (sin(value / (scl * 2.0)) * mag + mag) / 2.0", source)
         self.assertIn("func source_mend_projector_draw_state(mend_projector, heat: float, phase_heat: float, source_time_ticks := 0.0, lod_l2 := true, lod_alpha2 := 1.0) -> Dictionary:", source)

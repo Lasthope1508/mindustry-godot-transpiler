@@ -40683,6 +40683,201 @@
         }
       },
       "status": "active"
+    },
+    "source_mend_projector_draw_state_input": {
+      "keys": {
+        "heat": {
+          "java_expr": "heat",
+          "java_method": "draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Java MendBuild.heat explicit input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_draw_state"
+          ],
+          "godot_symbol": "source_mend_projector_draw_state_input.heat"
+        },
+        "phaseHeat": {
+          "java_expr": "phaseHeat",
+          "java_method": "draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Java MendBuild.phaseHeat explicit input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_draw_state"
+          ],
+          "godot_symbol": "source_mend_projector_draw_state_input.phaseHeat"
+        },
+        "sourceTimeTicks": {
+          "java_expr": "Time.time",
+          "java_method": "draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Runtime source_time_ticks supplies Java Time.time.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_draw_state"
+          ],
+          "godot_symbol": "source_mend_projector_draw_state_input.sourceTimeTicks"
+        },
+        "lodL2": {
+          "java_expr": "Lod.l2",
+          "java_method": "draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Runtime lod_l2 supplies Java Lod.l2 draw gate.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_mend_projector_draw_state"
+          ],
+          "godot_symbol": "source_mend_projector_draw_state_input.lodL2"
+        },
+        "lodAlpha2": {
+          "java_expr": "Lod.alpha2",
+          "java_method": "draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Runtime lod_alpha2 supplies Java Lod.alpha2.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_draw_state"
+          ],
+          "godot_symbol": "source_mend_projector_draw_state_input.lodAlpha2"
+        }
+      },
+      "status": "active"
+    },
+    "source_mend_projector_draw_state_result": {
+      "keys": {
+        "visible": {
+          "rule": "Generated visibility state reflects null and Lod.l2 gate.",
+          "status": "generated",
+          "type": "bool",
+          "java_expr": "if(!Lod.l2) return;",
+          "java_method": "draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "used_by": [
+            "PortGame.source_mend_projector_draw_state"
+          ]
+        },
+        "f": {
+          "java_expr": "float f = 1f - (Time.time / 100f) % 1f;",
+          "java_method": "draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Pulse fraction used by Lines.stroke and Lines.square.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_draw_state"
+          ],
+          "godot_symbol": "source_mend_projector_draw_state_result.f"
+        },
+        "baseColor": {
+          "java_expr": "baseColor",
+          "java_method": "draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Base color used in Draw.color blend.",
+          "status": "source-backed",
+          "type": "string",
+          "used_by": [
+            "PortGame.source_mend_projector_draw_state"
+          ],
+          "godot_symbol": "source_mend_projector_draw_state_result.baseColor"
+        },
+        "phaseColor": {
+          "java_expr": "phaseColor",
+          "java_method": "draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Phase color used in Draw.color blend.",
+          "status": "source-backed",
+          "type": "string",
+          "used_by": [
+            "PortGame.source_mend_projector_draw_state"
+          ],
+          "godot_symbol": "source_mend_projector_draw_state_result.phaseColor"
+        },
+        "phaseHeat": {
+          "alias_of": "source_mend_projector_draw_state_input.phaseHeat",
+          "rule": "Carries Java phaseHeat input into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "topAlpha": {
+          "java_expr": "Draw.alpha(heat * Mathf.absin(Time.time, 50f / Mathf.PI2, 1f) * 0.5f * Lod.alpha2);",
+          "java_method": "draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Top overlay alpha expression.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_draw_state"
+          ],
+          "godot_symbol": "source_mend_projector_draw_state_result.topAlpha"
+        },
+        "topRegion": {
+          "java_expr": "Draw.rect(topRegion, x, y);",
+          "java_method": "draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Top region draw marker.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_mend_projector_draw_state"
+          ],
+          "godot_symbol": "source_mend_projector_draw_state_result.topRegion"
+        },
+        "squareAlpha": {
+          "java_expr": "Draw.alpha(Lod.alpha2);",
+          "java_method": "draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Square alpha expression.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_draw_state"
+          ],
+          "godot_symbol": "source_mend_projector_draw_state_result.squareAlpha"
+        },
+        "squareStroke": {
+          "java_expr": "Lines.stroke((2f * f + 0.2f) * heat);",
+          "java_method": "draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Square stroke expression.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_draw_state"
+          ],
+          "godot_symbol": "source_mend_projector_draw_state_result.squareStroke"
+        },
+        "squareRadius": {
+          "java_expr": "Lines.square(x, y, Math.min(1f + (1f - f) * size * tilesize / 2f, size * tilesize/2f));",
+          "java_method": "draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Square radius expression.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_draw_state"
+          ],
+          "godot_symbol": "source_mend_projector_draw_state_result.squareRadius"
+        },
+        "reset": {
+          "java_expr": "Draw.reset();",
+          "java_method": "draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Draw reset marker.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_mend_projector_draw_state"
+          ],
+          "godot_symbol": "source_mend_projector_draw_state_result.reset"
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

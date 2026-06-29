@@ -681,6 +681,18 @@ func source_mend_projector_select_state(mend_projector, phase_heat := 0.0) -> Di
 
 func source_mend_projector_place_state(mend_projector) -> Dictionary:
 	return source_mend_projector_select_state(mend_projector, 0.0)
+
+const SOURCE_MEND_PROJECTOR_DRAW_METHOD := "public void draw(){\n            float f = 1f - (Time.time / 100f) % 1f;\n\n            if(!Lod.l2) return;\n\n            Draw.color(baseColor, phaseColor, phaseHeat);\n            Draw.alpha(heat * Mathf.absin(Time.time, 50f / Mathf.PI2, 1f) * 0.5f * Lod.alpha2);\n            Draw.rect(topRegion, x, y);\n            Draw.alpha(Lod.alpha2);\n            Lines.stroke((2f * f + 0.2f) * heat);\n            Lines.square(x, y, Math.min(1f + (1f - f) * size * tilesize / 2f, size * tilesize/2f));\n\n            Draw.reset();\n        }"
+const SOURCE_MEND_PROJECTOR_DRAW_F_EXPR := "float f = 1f - (Time.time / 100f) % 1f;"
+const SOURCE_MEND_PROJECTOR_DRAW_LOD_L2_GATE := "if(!Lod.l2) return;"
+const SOURCE_MEND_PROJECTOR_DRAW_COLOR_BLEND := "Draw.color(baseColor, phaseColor, phaseHeat);"
+const SOURCE_MEND_PROJECTOR_DRAW_TOP_ALPHA := "Draw.alpha(heat * Mathf.absin(Time.time, 50f / Mathf.PI2, 1f) * 0.5f * Lod.alpha2);"
+const SOURCE_MEND_PROJECTOR_DRAW_TOP_RECT := "Draw.rect(topRegion, x, y);"
+const SOURCE_MEND_PROJECTOR_DRAW_SQUARE_ALPHA := "Draw.alpha(Lod.alpha2);"
+const SOURCE_MEND_PROJECTOR_DRAW_SQUARE_STROKE := "Lines.stroke((2f * f + 0.2f) * heat);"
+const SOURCE_MEND_PROJECTOR_DRAW_SQUARE_RADIUS := "Lines.square(x, y, Math.min(1f + (1f - f) * size * tilesize / 2f, size * tilesize/2f));"
+const SOURCE_MEND_PROJECTOR_DRAW_RESET := "Draw.reset();"
+
 func source_mend_projector_draw_state(mend_projector, heat: float, phase_heat: float, source_time_ticks := 0.0, lod_l2 := true, lod_alpha2 := 1.0) -> Dictionary:
 	var f := 1.0 - fmod(source_time_ticks / 100.0, 1.0)
 	if mend_projector == null or not lod_l2:

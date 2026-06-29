@@ -2513,6 +2513,60 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(delta_input["java_expr"], "Time.delta")
         self.assertEqual(delta_input["godot_symbol"], "source_mathf_lerp_delta_input.sourceDelta")
 
+    def test_mend_projector_draw_state_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "mend_projector_draw_state.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/MendProjector.java")
+        self.assertEqual(method["java_expr"], "public void draw(){\n            float f = 1f - (Time.time / 100f) % 1f;\n\n            if(!Lod.l2) return;\n\n            Draw.color(baseColor, phaseColor, phaseHeat);\n            Draw.alpha(heat * Mathf.absin(Time.time, 50f / Mathf.PI2, 1f) * 0.5f * Lod.alpha2);\n            Draw.rect(topRegion, x, y);\n            Draw.alpha(Lod.alpha2);\n            Lines.stroke((2f * f + 0.2f) * heat);\n            Lines.square(x, y, Math.min(1f + (1f - f) * size * tilesize / 2f, size * tilesize/2f));\n\n            Draw.reset();\n        }")
+        self.assertEqual(method["godot_owner"], "PortGame.source_mend_projector_draw_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_mend_projector_draw_state")
+
+        f_expr = source_symbols.source_symbol(registry, "mend_projector_draw_state.f_expr")
+        self.assertEqual(f_expr["java_expr"], "float f = 1f - (Time.time / 100f) % 1f;")
+        self.assertEqual(f_expr["godot_symbol"], "source_mend_projector_draw_state_result.f")
+
+        lod_gate = source_symbols.source_symbol(registry, "mend_projector_draw_state.lod_l2_gate")
+        self.assertEqual(lod_gate["java_expr"], "if(!Lod.l2) return;")
+        self.assertEqual(lod_gate["godot_symbol"], "source_mend_projector_draw_state_input.lodL2")
+
+        color_blend = source_symbols.source_symbol(registry, "mend_projector_draw_state.color_blend")
+        self.assertEqual(color_blend["java_expr"], "Draw.color(baseColor, phaseColor, phaseHeat);")
+        self.assertEqual(color_blend["godot_symbol"], "source_mend_projector_draw_state_result.phaseHeat")
+
+        top_alpha = source_symbols.source_symbol(registry, "mend_projector_draw_state.top_alpha")
+        self.assertEqual(top_alpha["java_expr"], "Draw.alpha(heat * Mathf.absin(Time.time, 50f / Mathf.PI2, 1f) * 0.5f * Lod.alpha2);")
+        self.assertEqual(top_alpha["godot_symbol"], "source_mend_projector_draw_state_result.topAlpha")
+
+        top_rect = source_symbols.source_symbol(registry, "mend_projector_draw_state.top_rect")
+        self.assertEqual(top_rect["java_expr"], "Draw.rect(topRegion, x, y);")
+        self.assertEqual(top_rect["godot_symbol"], "source_mend_projector_draw_state_result.topRegion")
+
+        square_alpha = source_symbols.source_symbol(registry, "mend_projector_draw_state.square_alpha")
+        self.assertEqual(square_alpha["java_expr"], "Draw.alpha(Lod.alpha2);")
+        self.assertEqual(square_alpha["godot_symbol"], "source_mend_projector_draw_state_result.squareAlpha")
+
+        square_stroke = source_symbols.source_symbol(registry, "mend_projector_draw_state.square_stroke")
+        self.assertEqual(square_stroke["java_expr"], "Lines.stroke((2f * f + 0.2f) * heat);")
+        self.assertEqual(square_stroke["godot_symbol"], "source_mend_projector_draw_state_result.squareStroke")
+
+        square_radius = source_symbols.source_symbol(registry, "mend_projector_draw_state.square_radius")
+        self.assertEqual(square_radius["java_expr"], "Lines.square(x, y, Math.min(1f + (1f - f) * size * tilesize / 2f, size * tilesize/2f));")
+        self.assertEqual(square_radius["godot_symbol"], "source_mend_projector_draw_state_result.squareRadius")
+
+        heat_input = source_symbols.source_symbol(registry, "mend_projector_draw_state.heat_input")
+        self.assertEqual(heat_input["status"], "explicit-input")
+        self.assertEqual(heat_input["java_expr"], "heat")
+        self.assertEqual(heat_input["godot_symbol"], "source_mend_projector_draw_state_input.heat")
+
+        time_input = source_symbols.source_symbol(registry, "mend_projector_draw_state.time_input")
+        self.assertEqual(time_input["status"], "explicit-input")
+        self.assertEqual(time_input["java_expr"], "Time.time")
+        self.assertEqual(time_input["godot_symbol"], "source_mend_projector_draw_state_input.sourceTimeTicks")
+
     def test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -9857,9 +9911,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 310)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 311)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 315)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 316)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -9991,6 +10045,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_mathf_approach_delta", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_mathf_dst", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_mathf_lerp_delta", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_mend_projector_draw_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_backward_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_forward_distance", audit["registeredSourceOwners"])
@@ -11325,6 +11380,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }", mathf_lerp_delta["exact_exprs"])
         self.assertIn("return lerp(fromValue, toValue, clamp(progress * Time.delta));", mathf_lerp_delta["exact_exprs"])
         self.assertIn("progress * Time.delta", mathf_lerp_delta["exact_exprs"])
+
+        mend_projector_draw_state = source_symbols.source_slice(ledger, "N713")
+        self.assertEqual(mend_projector_draw_state["java_source"], "core/src/mindustry/world/blocks/defense/MendProjector.java")
+        self.assertEqual(mend_projector_draw_state["java_method"], "draw()")
+        self.assertEqual(mend_projector_draw_state["godot_owner"], "PortGame.source_mend_projector_draw_state")
+        self.assertIn("public void draw(){\n            float f = 1f - (Time.time / 100f) % 1f;\n\n            if(!Lod.l2) return;\n\n            Draw.color(baseColor, phaseColor, phaseHeat);\n            Draw.alpha(heat * Mathf.absin(Time.time, 50f / Mathf.PI2, 1f) * 0.5f * Lod.alpha2);\n            Draw.rect(topRegion, x, y);\n            Draw.alpha(Lod.alpha2);\n            Lines.stroke((2f * f + 0.2f) * heat);\n            Lines.square(x, y, Math.min(1f + (1f - f) * size * tilesize / 2f, size * tilesize/2f));\n\n            Draw.reset();\n        }", mend_projector_draw_state["exact_exprs"])
+        self.assertIn("Draw.color(baseColor, phaseColor, phaseHeat);", mend_projector_draw_state["exact_exprs"])
+        self.assertIn("Draw.alpha(heat * Mathf.absin(Time.time, 50f / Mathf.PI2, 1f) * 0.5f * Lod.alpha2);", mend_projector_draw_state["exact_exprs"])
+        self.assertIn("Lines.square(x, y, Math.min(1f + (1f - f) * size * tilesize / 2f, size * tilesize/2f));", mend_projector_draw_state["exact_exprs"])
 
         building_accept_liquid = source_symbols.source_slice(ledger, "N522")
         self.assertEqual(building_accept_liquid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -13922,6 +13986,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("clampedProgress", mathf_lerp_delta["return_keys"])
         self.assertIn("lerpDelta", mathf_lerp_delta["return_keys"])
         self.assertEqual(mathf_lerp_delta["source_method"], "lerpDelta(float fromValue, float toValue, float progress)")
+
+        mend_projector_draw_state = source_symbols.api_contract(contracts, "PortGame.source_mend_projector_draw_state")
+        self.assertEqual([param["name"] for param in mend_projector_draw_state["params"]], ["mend_projector", "heat", "phase_heat", "source_time_ticks", "lod_l2", "lod_alpha2"])
+        self.assertEqual(mend_projector_draw_state["params"][1]["schema"], "source_mend_projector_draw_state_input.heat")
+        self.assertEqual(mend_projector_draw_state["params"][3]["schema"], "source_mend_projector_draw_state_input.sourceTimeTicks")
+        self.assertIn("f", mend_projector_draw_state["return_keys"])
+        self.assertIn("topAlpha", mend_projector_draw_state["return_keys"])
+        self.assertIn("squareStroke", mend_projector_draw_state["return_keys"])
+        self.assertIn("squareRadius", mend_projector_draw_state["return_keys"])
+        self.assertEqual(mend_projector_draw_state["source_method"], "draw()")
 
         arc_mathf_cos_lookup = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_lookup")
         self.assertEqual([param["name"] for param in arc_mathf_cos_lookup["params"]], ["radians"])
@@ -16885,6 +16959,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_mathf_lerp_delta_result["keys"]["lerpDelta"]["java_expr"], "return lerp(fromValue, toValue, clamp(progress * Time.delta));")
         self.assertEqual(source_mathf_lerp_delta_result["keys"]["fromValue"]["alias_of"], "source_mathf_lerp_delta_input.fromValue")
         self.assertEqual(source_mathf_lerp_delta_result["keys"]["sourceDelta"]["alias_of"], "source_mathf_lerp_delta_input.sourceDelta")
+
+        source_mend_projector_draw_state_input = source_symbols.state_schema(schema, "source_mend_projector_draw_state_input")
+        self.assertEqual(source_mend_projector_draw_state_input["keys"]["heat"]["java_expr"], "heat")
+        self.assertEqual(source_mend_projector_draw_state_input["keys"]["phaseHeat"]["java_expr"], "phaseHeat")
+        self.assertEqual(source_mend_projector_draw_state_input["keys"]["sourceTimeTicks"]["java_expr"], "Time.time")
+        self.assertEqual(source_mend_projector_draw_state_input["keys"]["lodL2"]["java_expr"], "Lod.l2")
+        self.assertEqual(source_mend_projector_draw_state_input["keys"]["lodAlpha2"]["java_expr"], "Lod.alpha2")
+
+        source_mend_projector_draw_state_result = source_symbols.state_schema(schema, "source_mend_projector_draw_state_result")
+        self.assertEqual(source_mend_projector_draw_state_result["keys"]["f"]["java_expr"], "float f = 1f - (Time.time / 100f) % 1f;")
+        self.assertEqual(source_mend_projector_draw_state_result["keys"]["phaseHeat"]["alias_of"], "source_mend_projector_draw_state_input.phaseHeat")
+        self.assertEqual(source_mend_projector_draw_state_result["keys"]["topAlpha"]["java_expr"], "Draw.alpha(heat * Mathf.absin(Time.time, 50f / Mathf.PI2, 1f) * 0.5f * Lod.alpha2);")
+        self.assertEqual(source_mend_projector_draw_state_result["keys"]["squareAlpha"]["java_expr"], "Draw.alpha(Lod.alpha2);")
+        self.assertEqual(source_mend_projector_draw_state_result["keys"]["squareStroke"]["java_expr"], "Lines.stroke((2f * f + 0.2f) * heat);")
+        self.assertEqual(source_mend_projector_draw_state_result["keys"]["squareRadius"]["java_expr"], "Lines.square(x, y, Math.min(1f + (1f - f) * size * tilesize / 2f, size * tilesize/2f));")
 
         source_arc_mathf_cos_lookup_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_lookup_input")
         self.assertEqual(source_arc_mathf_cos_lookup_input["keys"]["radians"]["java_expr"], "radians")
