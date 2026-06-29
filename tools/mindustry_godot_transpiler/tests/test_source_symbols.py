@@ -4360,6 +4360,48 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(alpha["java_expr"], "0.7f * smoothEfficiency")
         self.assertEqual(alpha["godot_symbol"], "source_overdrive_projector_light_state_result.alpha")
 
+    def test_overdrive_projector_place_state_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "overdrive_projector_place_state.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/OverdriveProjector.java")
+        self.assertEqual(method["java_method"], "drawPlace(int x, int y, int rotation, boolean valid)")
+        self.assertEqual(method["java_expr"], "public void drawPlace(int x, int y, int rotation, boolean valid){\n        super.drawPlace(x, y, rotation, valid);\n\n        Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);\n\n        indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\n    }")
+        self.assertEqual(method["godot_owner"], "PortGame.source_overdrive_projector_place_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_overdrive_projector_place_state")
+        self.assertEqual(method["godot_symbol"], "source_overdrive_projector_place_state_result.method")
+
+        super_draw = source_symbols.source_symbol(registry, "overdrive_projector_place_state.super_draw_place")
+        self.assertEqual(super_draw["java_expr"], "super.drawPlace(x, y, rotation, valid);")
+        self.assertEqual(super_draw["godot_symbol"], "source_overdrive_projector_place_state_result.superDrawPlace")
+
+        dash_circle = source_symbols.source_symbol(registry, "overdrive_projector_place_state.dash_circle")
+        self.assertEqual(dash_circle["java_expr"], "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);")
+        self.assertEqual(dash_circle["godot_symbol"], "source_overdrive_projector_place_state_result.dashCircle")
+
+        each_block = source_symbols.source_symbol(registry, "overdrive_projector_place_state.each_block")
+        self.assertEqual(each_block["java_expr"], "indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));")
+        self.assertEqual(each_block["godot_symbol"], "source_overdrive_projector_place_state_result.eachBlock")
+
+        can_overdrive = source_symbols.source_symbol(registry, "overdrive_projector_place_state.can_overdrive_predicate")
+        self.assertEqual(can_overdrive["java_expr"], "other.block.canOverdrive")
+        self.assertEqual(can_overdrive["godot_symbol"], "source_overdrive_projector_place_state_result.canOverdrivePredicate")
+
+        selected_call = source_symbols.source_symbol(registry, "overdrive_projector_place_state.selected_call")
+        self.assertEqual(selected_call["java_expr"], "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))")
+        self.assertEqual(selected_call["godot_symbol"], "source_overdrive_projector_place_state_result.selected")
+
+        range_expr = source_symbols.source_symbol(registry, "overdrive_projector_place_state.range_expr")
+        self.assertEqual(range_expr["java_expr"], "range")
+        self.assertEqual(range_expr["godot_symbol"], "source_overdrive_projector_place_state_result.range")
+
+        color_expr = source_symbols.source_symbol(registry, "overdrive_projector_place_state.color_expr")
+        self.assertEqual(color_expr["java_expr"], "baseColor")
+        self.assertEqual(color_expr["godot_symbol"], "source_overdrive_projector_place_state_result.color")
+
     def test_overdrive_projector_draw_state_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -10541,9 +10583,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 325)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 326)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 330)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 331)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -10759,6 +10801,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_overdrive_projector_boost_bar_fraction", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_draw_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_light_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_overdrive_projector_place_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_delay", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_dump_interval", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_inactive_warmup_state", audit["registeredSourceOwners"])
@@ -12035,6 +12078,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("lightRadius = 50f;", overdrive_light_state["exact_exprs"])
         self.assertIn("public Color baseColor = Color.valueOf(\"feb380\");", overdrive_light_state["exact_exprs"])
         self.assertIn("smoothEfficiency", overdrive_light_state["exact_exprs"])
+
+        overdrive_place_state = source_symbols.source_slice(ledger, "N728")
+        self.assertEqual(overdrive_place_state["java_source"], "core/src/mindustry/world/blocks/defense/OverdriveProjector.java")
+        self.assertEqual(overdrive_place_state["java_method"], "drawPlace(int x, int y, int rotation, boolean valid)")
+        self.assertEqual(overdrive_place_state["godot_owner"], "PortGame.source_overdrive_projector_place_state")
+        self.assertIn("public void drawPlace(int x, int y, int rotation, boolean valid){\n        super.drawPlace(x, y, rotation, valid);\n\n        Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);\n\n        indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\n    }", overdrive_place_state["exact_exprs"])
+        self.assertIn("Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);", overdrive_place_state["exact_exprs"])
+        self.assertIn("other.block.canOverdrive", overdrive_place_state["exact_exprs"])
+        self.assertIn("Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))", overdrive_place_state["exact_exprs"])
 
         dump_drill_item_to_core = source_symbols.source_slice(ledger, "N705")
         self.assertEqual(dump_drill_item_to_core["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -15075,6 +15127,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("radius", overdrive_light_state["return_keys"])
         self.assertIn("alpha", overdrive_light_state["return_keys"])
         self.assertEqual(overdrive_light_state["source_method"], "drawLight()")
+
+        overdrive_place_state = source_symbols.api_contract(contracts, "PortGame.source_overdrive_projector_place_state")
+        self.assertEqual([param["name"] for param in overdrive_place_state["params"]], ["overdrive_projector"])
+        self.assertEqual(overdrive_place_state["params"][0]["schema"], "content_block_state")
+        self.assertIn("range", overdrive_place_state["return_keys"])
+        self.assertIn("color", overdrive_place_state["return_keys"])
+        self.assertEqual(overdrive_place_state["source_method"], "drawPlace(int x, int y, int rotation, boolean valid)")
 
         drill_delay = source_symbols.api_contract(contracts, "PortGame.source_drill_delay")
         self.assertEqual([param["name"] for param in drill_delay["params"]], ["block_id", "item_id"])
@@ -18551,6 +18610,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_overdrive_projector_light_state_result["keys"]["alpha"]["java_expr"], "0.7f * smoothEfficiency")
         self.assertEqual(source_overdrive_projector_light_state_result["keys"]["color"]["alias_of"], "source_overdrive_projector_light_state_input.baseColor")
         self.assertEqual(source_overdrive_projector_light_state_result["keys"]["smoothEfficiency"]["alias_of"], "source_overdrive_projector_light_state_input.smoothEfficiency")
+
+        source_overdrive_projector_place_state_result = source_symbols.state_schema(schema, "source_overdrive_projector_place_state_result")
+        self.assertEqual(source_overdrive_projector_place_state_result["keys"]["method"]["java_expr"], "public void drawPlace(int x, int y, int rotation, boolean valid){\n        super.drawPlace(x, y, rotation, valid);\n\n        Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);\n\n        indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\n    }")
+        self.assertEqual(source_overdrive_projector_place_state_result["keys"]["superDrawPlace"]["java_expr"], "super.drawPlace(x, y, rotation, valid);")
+        self.assertEqual(source_overdrive_projector_place_state_result["keys"]["dashCircle"]["java_expr"], "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);")
+        self.assertEqual(source_overdrive_projector_place_state_result["keys"]["eachBlock"]["java_expr"], "indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));")
+        self.assertEqual(source_overdrive_projector_place_state_result["keys"]["canOverdrivePredicate"]["java_expr"], "other.block.canOverdrive")
+        self.assertEqual(source_overdrive_projector_place_state_result["keys"]["selected"]["java_expr"], "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))")
+        self.assertEqual(source_overdrive_projector_place_state_result["keys"]["range"]["java_expr"], "range")
+        self.assertEqual(source_overdrive_projector_place_state_result["keys"]["color"]["java_expr"], "baseColor")
 
         source_dump_drill_item_to_core_input = source_symbols.state_schema(schema, "source_dump_drill_item_to_core_input")
         self.assertEqual(source_dump_drill_item_to_core_input["keys"]["item_id"]["java_expr"], "todump")

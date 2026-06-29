@@ -41351,6 +41351,107 @@
       },
       "status": "active"
     },
+    "source_overdrive_projector_place_state_result": {
+      "keys": {
+        "canOverdrivePredicate": {
+          "godot_symbol": "source_overdrive_projector_place_state_result.canOverdrivePredicate",
+          "java_expr": "other.block.canOverdrive",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source block canOverdrive predicate.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_overdrive_projector_place_state"
+          ]
+        },
+        "color": {
+          "godot_symbol": "source_overdrive_projector_place_state_result.color",
+          "java_expr": "baseColor",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source placement color expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_overdrive_projector_place_state"
+          ]
+        },
+        "dashCircle": {
+          "godot_symbol": "source_overdrive_projector_place_state_result.dashCircle",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source Drawf.dashCircle call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_overdrive_projector_place_state"
+          ]
+        },
+        "eachBlock": {
+          "godot_symbol": "source_overdrive_projector_place_state_result.eachBlock",
+          "java_expr": "indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source indexer.eachBlock call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_overdrive_projector_place_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_overdrive_projector_place_state_result.method",
+          "java_expr": "public void drawPlace(int x, int y, int rotation, boolean valid){\n        super.drawPlace(x, y, rotation, valid);\n\n        Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);\n\n        indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\n    }",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source method body.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_overdrive_projector_place_state"
+          ]
+        },
+        "range": {
+          "godot_symbol": "source_overdrive_projector_place_state_result.range",
+          "java_expr": "range",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source placement range expression.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_overdrive_projector_place_state"
+          ]
+        },
+        "selected": {
+          "godot_symbol": "source_overdrive_projector_place_state_result.selected",
+          "java_expr": "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source Drawf.selected call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_overdrive_projector_place_state"
+          ]
+        },
+        "superDrawPlace": {
+          "godot_symbol": "source_overdrive_projector_place_state_result.superDrawPlace",
+          "java_expr": "super.drawPlace(x, y, rotation, valid);",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source super.drawPlace call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_overdrive_projector_place_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

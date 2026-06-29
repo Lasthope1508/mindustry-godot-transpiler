@@ -12238,6 +12238,29 @@
         "test_overdrive_projector_light_state_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_overdrive_projector_draw_light_like_source"
       ]
+    },
+    "PortGame.source_overdrive_projector_place_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "params": [
+        {
+          "name": "overdrive_projector",
+          "schema": "content_block_state",
+          "type": "object"
+        }
+      ],
+      "return_keys": [
+        "range",
+        "color"
+      ],
+      "rule": "Public runtime contract for OverdriveProjector drawPlace placement summary state.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_place_state",
+      "source_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+      "source_slice": "N728",
+      "status": "active",
+      "tests": [
+        "test_overdrive_projector_place_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_range_state_like_source"
+      ]
     }
   },
   "policy": {

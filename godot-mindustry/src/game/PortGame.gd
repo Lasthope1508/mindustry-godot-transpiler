@@ -469,6 +469,13 @@ func source_overdrive_projector_select_state(overdrive_projector, phase_heat := 
 		"color": str(overdrive_projector.properties.get("baseColor", "")),
 	}
 
+const SOURCE_OVERDRIVE_PROJECTOR_PLACE_METHOD := "public void drawPlace(int x, int y, int rotation, boolean valid){\n        super.drawPlace(x, y, rotation, valid);\n\n        Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);\n\n        indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\n    }"
+const SOURCE_OVERDRIVE_PROJECTOR_PLACE_SUPER := "super.drawPlace(x, y, rotation, valid);"
+const SOURCE_OVERDRIVE_PROJECTOR_PLACE_DASH_CIRCLE := "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);"
+const SOURCE_OVERDRIVE_PROJECTOR_PLACE_EACH_BLOCK := "indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));"
+const SOURCE_OVERDRIVE_PROJECTOR_PLACE_SELECTED_CALL := "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))"
+const SOURCE_OVERDRIVE_PROJECTOR_PLACE_CAN_OVERDRIVE_PREDICATE := "other.block.canOverdrive"
+
 func source_overdrive_projector_place_state(overdrive_projector) -> Dictionary:
 	return source_overdrive_projector_select_state(overdrive_projector, 0.0)
 
