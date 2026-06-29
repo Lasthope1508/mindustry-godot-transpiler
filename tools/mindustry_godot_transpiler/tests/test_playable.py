@@ -1092,7 +1092,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn('add_core_item("copper", 1)', source)
         self.assertIn("func source_drill_output_rate(block_id: String, item_id: String, ore_count: int) -> float:", source)
         self.assertIn("func source_drill_delay(block_id: String, item_id: String) -> float:", source)
-        self.assertIn('return float(block.properties.get("drillTime", 300.0)) + SOURCE_DRILL_HARDNESS_MULTIPLIER * float(item.properties.get("hardness", 0))', source)
+        self.assertIn("/ drill_multiplier", source)
         self.assertIn("var delay := source_drill_delay(block_id, item_id)", source)
         self.assertIn("return 60.0 * float(ore_count) / delay", source)
         self.assertIn("func source_drill_output_delta(block_id: String, item_id: String, ore_count: int, seconds: float, time_scale := 1.0, warmup := 1.0) -> float:", source)
@@ -1103,6 +1103,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"drill_output_item_id": drill_output_item_id', source)
         self.assertIn('"drill_ore_cell_count": drill_ore_cell_count', source)
         self.assertIn('"drill_output_rate": drill_output_rate', source)
+
+    def test_port_game_source_drill_delay_matches_get_drill_time(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn('const SOURCE_DRILL_DELAY_METHOD := "public float getDrillTime(Item item){"', source)
+        self.assertIn('const SOURCE_DRILL_DELAY_RESULT := "return (drillTime + hardnessDrillMultiplier * item.hardness) / drillMultipliers.get(item, 1f);"', source)
+        self.assertIn('const SOURCE_DRILL_DELAY_HARDNESS_MULTIPLIER_FIELD := "public float hardnessDrillMultiplier = 50f;"', source)
+        self.assertIn('const SOURCE_DRILL_DELAY_DRILL_TIME_FIELD := "public float drillTime = 300;"', source)
+        self.assertIn('const SOURCE_DRILL_DELAY_DRILL_MULTIPLIERS_FIELD := "public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();"', source)
+        self.assertIn('const SOURCE_DRILL_DELAY_ITEM_HARDNESS_FIELD := "public int hardness = 0;"', source)
+        self.assertIn("var drill_multipliers = block.properties.get(\"drillMultipliers\", {})", source)
+        self.assertIn("var drill_multiplier := 1.0", source)
+        self.assertIn("drill_multiplier = float(drill_multipliers.get(item_id, 1.0))", source)
+        self.assertIn('float(block.properties.get("drillTime", SOURCE_DRILL_DELAY_DRILL_TIME_DEFAULT))', source)
+        self.assertIn('SOURCE_DRILL_HARDNESS_MULTIPLIER * float(item.properties.get("hardness", SOURCE_DRILL_DELAY_ITEM_HARDNESS_DEFAULT))', source)
+        self.assertIn("/ drill_multiplier", source)
 
     def test_port_game_applies_source_drill_warmup_to_output_delta(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

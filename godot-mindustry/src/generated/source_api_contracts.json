@@ -10838,6 +10838,35 @@
       "tests": [
         "test_core_handle_item_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_drill_delay": {
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "params": [
+        {
+          "name": "block_id",
+          "schema": "source_drill_delay_input.block_id",
+          "type": "String"
+        },
+        {
+          "name": "item_id",
+          "schema": "source_drill_delay_input.item_id",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "drillTime",
+        "hardnessDrillMultiplier",
+        "itemHardness",
+        "drillMultiplier"
+      ],
+      "rule": "Public runtime contract for Drill.getDrillTime using drillTime, hardnessDrillMultiplier, item.hardness, and drillMultipliers.get(item, 1f).",
+      "runtime_proof": "/root/Main.source_drill_delay",
+      "source_method": "getDrillTime(Item item)",
+      "source_slice": "N690",
+      "status": "active",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

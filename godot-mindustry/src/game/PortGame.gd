@@ -15,6 +15,8 @@ const WORLD_H := 16
 const PINNED_BUILD_BLOCK_IDS := ["conveyor", "router", "junction", "mechanical-drill", "duo", "copper-wall"]
 const SELECTED_GENERATED_CLASS_NAMES := ["Items", "Blocks", "UnitTypes", "Damage"]
 const SOURCE_DRILL_HARDNESS_MULTIPLIER := 50.0
+const SOURCE_DRILL_DELAY_DRILL_TIME_DEFAULT := 300.0
+const SOURCE_DRILL_DELAY_ITEM_HARDNESS_DEFAULT := 0
 const SOURCE_DRILL_WARMUP_SPEED := 0.015
 const SOURCE_BLOCK_DUMP_TIME := 5.0
 const SOURCE_CONVEYOR_TILE_SPEED_SCALE := 55.0
@@ -1040,6 +1042,16 @@ func source_drill_ore_count(block_id: String, cell: Vector2i, item_id: String) -
 			count += 1
 	return count
 
+const SOURCE_DRILL_DELAY_METHOD := "public float getDrillTime(Item item){"
+const SOURCE_DRILL_DELAY_RESULT := "return (drillTime + hardnessDrillMultiplier * item.hardness) / drillMultipliers.get(item, 1f);"
+const SOURCE_DRILL_DELAY_HARDNESS_MULTIPLIER_FIELD := "public float hardnessDrillMultiplier = 50f;"
+const SOURCE_DRILL_DELAY_DRILL_TIME_COMMENT := "Base time to drill one ore, in frames."
+const SOURCE_DRILL_DELAY_DRILL_TIME_FIELD := "public float drillTime = 300;"
+const SOURCE_DRILL_DELAY_DRILL_MULTIPLIERS_COMMENT := "Multipliers of drill speed for each item. Defaults to 1."
+const SOURCE_DRILL_DELAY_DRILL_MULTIPLIERS_FIELD := "public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();"
+const SOURCE_DRILL_DELAY_ITEM_HARDNESS_COMMENT := "drill hardness of the item"
+const SOURCE_DRILL_DELAY_ITEM_HARDNESS_FIELD := "public int hardness = 0;"
+
 func source_drill_delay(block_id: String, item_id: String) -> float:
 	if content_catalog == null:
 		return 0.0
@@ -1047,7 +1059,11 @@ func source_drill_delay(block_id: String, item_id: String) -> float:
 	var item = content_catalog.get_by_id(item_id)
 	if block == null or item == null:
 		return 0.0
-	return float(block.properties.get("drillTime", 300.0)) + SOURCE_DRILL_HARDNESS_MULTIPLIER * float(item.properties.get("hardness", 0))
+	var drill_multipliers = block.properties.get("drillMultipliers", {})
+	var drill_multiplier := 1.0
+	if typeof(drill_multipliers) == TYPE_DICTIONARY:
+		drill_multiplier = float(drill_multipliers.get(item_id, 1.0))
+	return (float(block.properties.get("drillTime", SOURCE_DRILL_DELAY_DRILL_TIME_DEFAULT)) + SOURCE_DRILL_HARDNESS_MULTIPLIER * float(item.properties.get("hardness", SOURCE_DRILL_DELAY_ITEM_HARDNESS_DEFAULT))) / drill_multiplier
 
 func source_drill_output_rate(block_id: String, item_id: String, ore_count: int) -> float:
 	if ore_count <= 0:

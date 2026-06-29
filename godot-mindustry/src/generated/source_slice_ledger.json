@@ -9246,6 +9246,48 @@
         "test_core_handle_item_symbols_are_registered_with_source_backing",
         "test_port_game_handles_core_item_like_source_before_dump_remove"
       ]
+    },
+    "N690": {
+      "exact_exprs": [
+        "public float getDrillTime(Item item){",
+        "return (drillTime + hardnessDrillMultiplier * item.hardness) / drillMultipliers.get(item, 1f);",
+        "public float hardnessDrillMultiplier = 50f;",
+        "Base time to drill one ore, in frames.",
+        "public float drillTime = 300;",
+        "Multipliers of drill speed for each item. Defaults to 1.",
+        "public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();",
+        "drill hardness of the item",
+        "public int hardness = 0;",
+        "Drill block",
+        "Item item",
+        "item.hardness",
+        "drillMultipliers.get(item, 1f)"
+      ],
+      "godot_owner": "PortGame.source_drill_delay",
+      "java_class": "Drill/Item",
+      "java_method": "getDrillTime(Item item)",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "runtime_proof": "/root/Main.source_drill_delay",
+      "source_symbols": [
+        "drill_delay.block_id",
+        "drill_delay.drill_multiplier",
+        "drill_delay.drill_multipliers_comment",
+        "drill_delay.drill_multipliers_field",
+        "drill_delay.drill_time_comment",
+        "drill_delay.drill_time_field",
+        "drill_delay.hardness_multiplier_field",
+        "drill_delay.item_hardness",
+        "drill_delay.item_hardness_comment",
+        "drill_delay.item_hardness_field",
+        "drill_delay.item_id",
+        "drill_delay.method",
+        "drill_delay.result"
+      ],
+      "status": "done",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing",
+        "test_port_game_source_drill_delay_matches_get_drill_time"
+      ]
     }
   },
   "version": 1

@@ -24816,6 +24816,175 @@
         "test_bullet_type_draw_trail_symbols_are_registered_with_source_backing"
       ]
     },
+    "drill_delay.block_id": {
+      "godot_owner": "PortGame.source_drill_delay",
+      "godot_symbol": "source_drill_delay_input.block_id",
+      "java_expr": "Drill block",
+      "java_method": "getDrillTime(Item item)",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Godot block_id identifies source Drill instance.",
+      "runtime_proof": "/root/Main.source_drill_delay",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_delay.drill_multiplier": {
+      "godot_owner": "PortGame.source_drill_delay",
+      "godot_symbol": "source_drill_delay_result.drillMultiplier",
+      "java_expr": "drillMultipliers.get(item, 1f)",
+      "java_method": "getDrillTime(Item item)",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Runtime drill multiplier map supplies source drillMultipliers defaulting to 1f.",
+      "runtime_proof": "/root/Main.source_drill_delay",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_delay.drill_multipliers_comment": {
+      "godot_owner": "PortGame.source_drill_delay",
+      "godot_symbol": "source_drill_delay_result.drillMultipliersComment",
+      "java_expr": "Multipliers of drill speed for each item. Defaults to 1.",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Source Drill drillMultipliers comment.",
+      "runtime_proof": "/root/Main.source_drill_delay",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_delay.drill_multipliers_field": {
+      "godot_owner": "PortGame.source_drill_delay",
+      "godot_symbol": "source_drill_delay_result.drillMultipliersField",
+      "java_expr": "public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Source Drill drillMultipliers map field.",
+      "runtime_proof": "/root/Main.source_drill_delay",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_delay.drill_time_comment": {
+      "godot_owner": "PortGame.source_drill_delay",
+      "godot_symbol": "source_drill_delay_result.drillTimeComment",
+      "java_expr": "Base time to drill one ore, in frames.",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Source Drill drillTime comment.",
+      "runtime_proof": "/root/Main.source_drill_delay",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_delay.drill_time_field": {
+      "godot_owner": "PortGame.source_drill_delay",
+      "godot_symbol": "source_drill_delay_result.drillTimeField",
+      "java_expr": "public float drillTime = 300;",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Source Drill drillTime default.",
+      "runtime_proof": "/root/Main.source_drill_delay",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_delay.hardness_multiplier_field": {
+      "godot_owner": "PortGame.source_drill_delay",
+      "godot_symbol": "source_drill_delay_result.hardnessDrillMultiplier",
+      "java_expr": "public float hardnessDrillMultiplier = 50f;",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Source Drill hardness multiplier default.",
+      "runtime_proof": "/root/Main.source_drill_delay",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_delay.item_hardness": {
+      "godot_owner": "PortGame.source_drill_delay",
+      "godot_symbol": "source_drill_delay_result.itemHardness",
+      "java_expr": "item.hardness",
+      "java_method": "getDrillTime(Item item)",
+      "java_source": "core/src/mindustry/type/Item.java",
+      "rule": "Runtime item hardness supplies source item.hardness.",
+      "runtime_proof": "/root/Main.source_drill_delay",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_delay.item_hardness_comment": {
+      "godot_owner": "PortGame.source_drill_delay",
+      "godot_symbol": "source_drill_delay_result.itemHardnessComment",
+      "java_expr": "drill hardness of the item",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/type/Item.java",
+      "rule": "Source Item hardness comment.",
+      "runtime_proof": "/root/Main.source_drill_delay",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_delay.item_hardness_field": {
+      "godot_owner": "PortGame.source_drill_delay",
+      "godot_symbol": "source_drill_delay_result.itemHardnessField",
+      "java_expr": "public int hardness = 0;",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/type/Item.java",
+      "rule": "Source Item hardness default.",
+      "runtime_proof": "/root/Main.source_drill_delay",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_delay.item_id": {
+      "godot_owner": "PortGame.source_drill_delay",
+      "godot_symbol": "source_drill_delay_input.item_id",
+      "java_expr": "Item item",
+      "java_method": "getDrillTime(Item item)",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Godot item_id identifies source Item item parameter.",
+      "runtime_proof": "/root/Main.source_drill_delay",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_delay.method": {
+      "godot_owner": "PortGame.source_drill_delay",
+      "godot_symbol": "source_drill_delay_result.method",
+      "java_expr": "public float getDrillTime(Item item){",
+      "java_method": "getDrillTime(Item item)",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Drill.getDrillTime method boundary.",
+      "runtime_proof": "/root/Main.source_drill_delay",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_delay.result": {
+      "godot_owner": "PortGame.source_drill_delay",
+      "godot_symbol": "source_drill_delay_result.drillTime",
+      "java_expr": "return (drillTime + hardnessDrillMultiplier * item.hardness) / drillMultipliers.get(item, 1f);",
+      "java_method": "getDrillTime(Item item)",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Source Drill getDrillTime formula.",
+      "runtime_proof": "/root/Main.source_drill_delay",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ]
+    },
     "handle_pierce.bullet.damage": {
       "godot_owner": "PortGame.source_bullet_type_handle_pierce_state",
       "godot_symbol": "bullet_state.damage",
