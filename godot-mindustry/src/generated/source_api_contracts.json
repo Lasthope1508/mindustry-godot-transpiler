@@ -11361,6 +11361,35 @@
       "tests": [
         "test_drill_warmup_state_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_dump_accumulate_attempt_state": {
+      "status": "active",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "dumpAccumulate(Item item)",
+      "source_slice": "N704",
+      "runtime_proof": "/root/Main.source_dump_accumulate_attempt_state",
+      "params": [
+        {
+          "name": "current_accum",
+          "type": "float",
+          "schema": "source_dump_accumulate_attempt_input.current_accum"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_dump_accumulate_attempt_input.source_delta"
+        }
+      ],
+      "return_keys": [
+        "dumpAttempts",
+        "dumpAccum",
+        "current_accum",
+        "source_delta"
+      ],
+      "rule": "Public runtime contract for BuildingComp dumpAccumulate attempt scheduling without fabricating dump success.",
+      "tests": [
+        "test_dump_accumulate_attempt_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

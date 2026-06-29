@@ -1339,6 +1339,11 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("var building_dump_accum := 0.0", source)
+        self.assertIn('const SOURCE_DUMP_ACCUMULATE_ATTEMPT_FIELD := "private transient float dumpAccum;"', source)
+        self.assertIn('const SOURCE_DUMP_ACCUMULATE_ATTEMPT_ADD_DELTA := "dumpAccum += delta();"', source)
+        self.assertIn('const SOURCE_DUMP_ACCUMULATE_ATTEMPT_WHILE_GATE := "while(dumpAccum >= 1f){"', source)
+        self.assertIn('const SOURCE_DUMP_ACCUMULATE_ATTEMPT_DUMP_CALL := "res |= dump(item);"', source)
+        self.assertIn('const SOURCE_DUMP_ACCUMULATE_ATTEMPT_SUBTRACT_ONE := "dumpAccum -=1f;"', source)
         self.assertIn("func source_dump_accumulate_attempt_state(current_accum: float, source_delta: float) -> Dictionary:", source)
         self.assertIn("var next_accum := current_accum + source_delta", source)
         self.assertIn("var dump_attempts := 0", source)

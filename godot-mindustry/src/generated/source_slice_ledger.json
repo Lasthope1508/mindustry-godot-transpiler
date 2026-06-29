@@ -9699,6 +9699,35 @@
         "test_drill_warmup_state_symbols_are_registered_with_source_backing",
         "test_port_game_applies_source_drill_warmup_to_output_delta"
       ]
+    },
+    "N704": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "dumpAccumulate(Item item)",
+      "exact_exprs": [
+        "private transient float dumpAccum;",
+        "dumpAccum += delta();",
+        "while(dumpAccum >= 1f){",
+        "res |= dump(item);",
+        "dumpAccum -=1f;",
+        "delta()"
+      ],
+      "godot_owner": "PortGame.source_dump_accumulate_attempt_state",
+      "runtime_proof": "/root/Main.source_dump_accumulate_attempt_state",
+      "source_symbols": [
+        "dump_accumulate_attempt.dump_accum_field",
+        "dump_accumulate_attempt.add_delta",
+        "dump_accumulate_attempt.while_gate",
+        "dump_accumulate_attempt.dump_call",
+        "dump_accumulate_attempt.subtract_one",
+        "dump_accumulate_attempt.current_accum",
+        "dump_accumulate_attempt.source_delta"
+      ],
+      "tests": [
+        "test_dump_accumulate_attempt_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_dump_accumulate_attempt_state"
+      ]
     }
   },
   "version": 1

@@ -3546,6 +3546,46 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_delta["java_expr"], "Time.delta")
         self.assertEqual(source_delta["godot_symbol"], "source_drill_warmup_state_input.source_delta")
 
+    def test_dump_accumulate_attempt_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        dump_accum = source_symbols.source_symbol(registry, "dump_accumulate_attempt.dump_accum_field")
+        self.assertEqual(dump_accum["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(dump_accum["java_method"], "dumpAccumulate(Item item)")
+        self.assertEqual(dump_accum["java_expr"], "private transient float dumpAccum;")
+        self.assertEqual(dump_accum["godot_owner"], "PortGame.source_dump_accumulate_attempt_state")
+        self.assertEqual(dump_accum["runtime_proof"], "/root/Main.source_dump_accumulate_attempt_state")
+        self.assertEqual(dump_accum["godot_symbol"], "source_dump_accumulate_attempt_result.dumpAccum")
+
+        add_delta = source_symbols.source_symbol(registry, "dump_accumulate_attempt.add_delta")
+        self.assertEqual(add_delta["java_expr"], "dumpAccum += delta();")
+        self.assertEqual(add_delta["godot_symbol"], "source_dump_accumulate_attempt_result.dumpAccum")
+
+        while_gate = source_symbols.source_symbol(registry, "dump_accumulate_attempt.while_gate")
+        self.assertEqual(while_gate["java_expr"], "while(dumpAccum >= 1f){")
+        self.assertEqual(while_gate["godot_symbol"], "source_dump_accumulate_attempt_result.dumpAttempts")
+
+        dump_call = source_symbols.source_symbol(registry, "dump_accumulate_attempt.dump_call")
+        self.assertEqual(dump_call["java_expr"], "res |= dump(item);")
+        self.assertEqual(dump_call["godot_symbol"], "source_dump_accumulate_attempt_result.dumpAttempts")
+
+        subtract = source_symbols.source_symbol(registry, "dump_accumulate_attempt.subtract_one")
+        self.assertEqual(subtract["java_expr"], "dumpAccum -=1f;")
+        self.assertEqual(subtract["godot_symbol"], "source_dump_accumulate_attempt_result.dumpAccum")
+
+        current_accum = source_symbols.source_symbol(registry, "dump_accumulate_attempt.current_accum")
+        self.assertEqual(current_accum["status"], "explicit-input")
+        self.assertEqual(current_accum["java_expr"], "dumpAccum")
+        self.assertEqual(current_accum["godot_symbol"], "source_dump_accumulate_attempt_input.current_accum")
+
+        source_delta = source_symbols.source_symbol(registry, "dump_accumulate_attempt.source_delta")
+        self.assertEqual(source_delta["status"], "explicit-input")
+        self.assertEqual(source_delta["java_expr"], "delta()")
+        self.assertEqual(source_delta["godot_symbol"], "source_dump_accumulate_attempt_input.source_delta")
+
     def test_building_accept_liquid_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -9476,9 +9516,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 301)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 302)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 306)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 307)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -9687,6 +9727,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_drill_time_drilled_delta", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_warmup_speed", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_warmup_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_dump_accumulate_attempt_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -10841,6 +10882,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("speed", drill_warmup_state["exact_exprs"])
         self.assertIn("warmupSpeed", drill_warmup_state["exact_exprs"])
         self.assertIn("Time.delta", drill_warmup_state["exact_exprs"])
+
+        dump_accumulate_attempt = source_symbols.source_slice(ledger, "N704")
+        self.assertEqual(dump_accumulate_attempt["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(dump_accumulate_attempt["java_method"], "dumpAccumulate(Item item)")
+        self.assertEqual(dump_accumulate_attempt["godot_owner"], "PortGame.source_dump_accumulate_attempt_state")
+        self.assertIn("private transient float dumpAccum;", dump_accumulate_attempt["exact_exprs"])
+        self.assertIn("dumpAccum += delta();", dump_accumulate_attempt["exact_exprs"])
+        self.assertIn("while(dumpAccum >= 1f){", dump_accumulate_attempt["exact_exprs"])
+        self.assertIn("res |= dump(item);", dump_accumulate_attempt["exact_exprs"])
+        self.assertIn("dumpAccum -=1f;", dump_accumulate_attempt["exact_exprs"])
 
         building_accept_liquid = source_symbols.source_slice(ledger, "N522")
         self.assertEqual(building_accept_liquid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -13696,6 +13747,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(drill_warmup_state["params"][3]["schema"], "source_drill_warmup_state_input.source_delta")
         self.assertIn("warmup", drill_warmup_state["return_keys"])
         self.assertEqual(drill_warmup_state["source_method"], "DrillBuild.updateTile()")
+
+        dump_accumulate_attempt = source_symbols.api_contract(contracts, "PortGame.source_dump_accumulate_attempt_state")
+        self.assertEqual([param["name"] for param in dump_accumulate_attempt["params"]], ["current_accum", "source_delta"])
+        self.assertEqual(dump_accumulate_attempt["params"][0]["schema"], "source_dump_accumulate_attempt_input.current_accum")
+        self.assertEqual(dump_accumulate_attempt["params"][1]["schema"], "source_dump_accumulate_attempt_input.source_delta")
+        self.assertIn("dumpAttempts", dump_accumulate_attempt["return_keys"])
+        self.assertIn("dumpAccum", dump_accumulate_attempt["return_keys"])
+        self.assertEqual(dump_accumulate_attempt["source_method"], "dumpAccumulate(Item item)")
 
         building_accept_liquid = source_symbols.api_contract(contracts, "PortGame.source_building_accept_liquid_state")
         self.assertEqual([param["name"] for param in building_accept_liquid["params"]], ["has_liquids", "consumes_liquid"])
@@ -16700,6 +16759,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_drill_warmup_state_result["keys"]["current_warmup"]["alias_of"], "source_drill_warmup_state_input.current_warmup")
         self.assertEqual(source_drill_warmup_state_result["keys"]["speed"]["alias_of"], "source_drill_warmup_state_input.speed")
         self.assertEqual(source_drill_warmup_state_result["keys"]["warmup_speed"]["alias_of"], "source_drill_warmup_state_input.warmup_speed")
+
+        source_dump_accumulate_attempt_input = source_symbols.state_schema(schema, "source_dump_accumulate_attempt_input")
+        self.assertEqual(source_dump_accumulate_attempt_input["keys"]["current_accum"]["java_expr"], "dumpAccum")
+        self.assertEqual(source_dump_accumulate_attempt_input["keys"]["source_delta"]["java_expr"], "delta()")
+
+        source_dump_accumulate_attempt_result = source_symbols.state_schema(schema, "source_dump_accumulate_attempt_result")
+        self.assertEqual(source_dump_accumulate_attempt_result["keys"]["dumpAccum"]["java_expr"], "dumpAccum += delta();")
+        self.assertEqual(source_dump_accumulate_attempt_result["keys"]["dumpAttempts"]["java_expr"], "res |= dump(item);")
+        self.assertEqual(source_dump_accumulate_attempt_result["keys"]["subtractOne"]["java_expr"], "dumpAccum -=1f;")
+        self.assertEqual(source_dump_accumulate_attempt_result["keys"]["current_accum"]["alias_of"], "source_dump_accumulate_attempt_input.current_accum")
+        self.assertEqual(source_dump_accumulate_attempt_result["keys"]["source_delta"]["alias_of"], "source_dump_accumulate_attempt_input.source_delta")
 
         source_building_accept_liquid_input = source_symbols.state_schema(schema, "source_building_accept_liquid_input")
         self.assertEqual(source_building_accept_liquid_input["keys"]["hasLiquids"]["java_expr"], "block.hasLiquids")

@@ -30734,6 +30734,97 @@
       "tests": [
         "test_drill_warmup_state_symbols_are_registered_with_source_backing"
       ]
+    },
+    "dump_accumulate_attempt.dump_accum_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpAccumulate(Item item)",
+      "java_expr": "private transient float dumpAccum;",
+      "godot_owner": "PortGame.source_dump_accumulate_attempt_state",
+      "godot_symbol": "source_dump_accumulate_attempt_result.dumpAccum",
+      "runtime_proof": "/root/Main.source_dump_accumulate_attempt_state",
+      "rule": "BuildingComp stores dump accumulator in dumpAccum.",
+      "tests": [
+        "test_dump_accumulate_attempt_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "dump_accumulate_attempt.add_delta": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpAccumulate(Item item)",
+      "java_expr": "dumpAccum += delta();",
+      "godot_owner": "PortGame.source_dump_accumulate_attempt_state",
+      "godot_symbol": "source_dump_accumulate_attempt_result.dumpAccum",
+      "runtime_proof": "/root/Main.source_dump_accumulate_attempt_state",
+      "rule": "Source adds BuildingComp.delta() into dumpAccum before attempts.",
+      "tests": [
+        "test_dump_accumulate_attempt_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "dump_accumulate_attempt.while_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpAccumulate(Item item)",
+      "java_expr": "while(dumpAccum >= 1f){",
+      "godot_owner": "PortGame.source_dump_accumulate_attempt_state",
+      "godot_symbol": "source_dump_accumulate_attempt_result.dumpAttempts",
+      "runtime_proof": "/root/Main.source_dump_accumulate_attempt_state",
+      "rule": "Each whole dumpAccum tick schedules one dump attempt.",
+      "tests": [
+        "test_dump_accumulate_attempt_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "dump_accumulate_attempt.dump_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpAccumulate(Item item)",
+      "java_expr": "res |= dump(item);",
+      "godot_owner": "PortGame.source_dump_accumulate_attempt_state",
+      "godot_symbol": "source_dump_accumulate_attempt_result.dumpAttempts",
+      "runtime_proof": "/root/Main.source_dump_accumulate_attempt_state",
+      "rule": "Godot attempts count mirrors one source dump(item) call per loop; dump success remains separate owner behavior.",
+      "tests": [
+        "test_dump_accumulate_attempt_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "dump_accumulate_attempt.subtract_one": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpAccumulate(Item item)",
+      "java_expr": "dumpAccum -=1f;",
+      "godot_owner": "PortGame.source_dump_accumulate_attempt_state",
+      "godot_symbol": "source_dump_accumulate_attempt_result.dumpAccum",
+      "runtime_proof": "/root/Main.source_dump_accumulate_attempt_state",
+      "rule": "Source subtracts one accumulator unit after each dump attempt.",
+      "tests": [
+        "test_dump_accumulate_attempt_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "dump_accumulate_attempt.current_accum": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpAccumulate(Item item)",
+      "java_expr": "dumpAccum",
+      "godot_owner": "PortGame.source_dump_accumulate_attempt_state",
+      "godot_symbol": "source_dump_accumulate_attempt_input.current_accum",
+      "runtime_proof": "/root/Main.source_dump_accumulate_attempt_state",
+      "rule": "Godot current_accum supplies existing BuildingComp dumpAccum.",
+      "tests": [
+        "test_dump_accumulate_attempt_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "dump_accumulate_attempt.source_delta": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpAccumulate(Item item)",
+      "java_expr": "delta()",
+      "godot_owner": "PortGame.source_dump_accumulate_attempt_state",
+      "godot_symbol": "source_dump_accumulate_attempt_input.source_delta",
+      "runtime_proof": "/root/Main.source_dump_accumulate_attempt_state",
+      "rule": "Godot source_delta supplies BuildingComp.delta() result.",
+      "tests": [
+        "test_dump_accumulate_attempt_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

@@ -3232,6 +3232,12 @@ func increment_drill_dump(proximity_size: int) -> int:
 	drill_dump_cursor = source_increment_dump_cursor(drill_dump_cursor, proximity_size)
 	return drill_dump_cursor
 
+const SOURCE_DUMP_ACCUMULATE_ATTEMPT_FIELD := "private transient float dumpAccum;"
+const SOURCE_DUMP_ACCUMULATE_ATTEMPT_ADD_DELTA := "dumpAccum += delta();"
+const SOURCE_DUMP_ACCUMULATE_ATTEMPT_WHILE_GATE := "while(dumpAccum >= 1f){"
+const SOURCE_DUMP_ACCUMULATE_ATTEMPT_DUMP_CALL := "res |= dump(item);"
+const SOURCE_DUMP_ACCUMULATE_ATTEMPT_SUBTRACT_ONE := "dumpAccum -=1f;"
+
 func source_dump_accumulate_attempt_state(current_accum: float, source_delta: float) -> Dictionary:
 	var next_accum := current_accum + source_delta
 	var dump_attempts := 0

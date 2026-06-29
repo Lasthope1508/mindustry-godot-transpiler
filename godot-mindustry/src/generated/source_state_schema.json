@@ -39657,6 +39657,88 @@
           "rule": "Carries source_delta input into active warmup result schema."
         }
       }
+    },
+    "source_dump_accumulate_attempt_input": {
+      "status": "active",
+      "keys": {
+        "current_accum": {
+          "status": "explicit-input",
+          "type": "float",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "dumpAccumulate(Item item)",
+          "java_expr": "dumpAccum",
+          "godot_symbol": "source_dump_accumulate_attempt_input.current_accum",
+          "rule": "Input current BuildingComp dumpAccum.",
+          "used_by": [
+            "PortGame.source_dump_accumulate_attempt_state"
+          ]
+        },
+        "source_delta": {
+          "status": "explicit-input",
+          "type": "float",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "dumpAccumulate(Item item)",
+          "java_expr": "delta()",
+          "godot_symbol": "source_dump_accumulate_attempt_input.source_delta",
+          "rule": "Input BuildingComp.delta() result.",
+          "used_by": [
+            "PortGame.source_dump_accumulate_attempt_state"
+          ]
+        }
+      }
+    },
+    "source_dump_accumulate_attempt_result": {
+      "status": "active",
+      "keys": {
+        "dumpAccum": {
+          "status": "source-backed",
+          "type": "float",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "dumpAccumulate(Item item)",
+          "java_expr": "dumpAccum += delta();",
+          "godot_symbol": "source_dump_accumulate_attempt_result.dumpAccum",
+          "rule": "Result accumulator after add-delta and per-attempt subtract-one loop.",
+          "used_by": [
+            "PortGame.source_dump_accumulate_attempt_state"
+          ]
+        },
+        "dumpAttempts": {
+          "status": "source-backed",
+          "type": "int",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "dumpAccumulate(Item item)",
+          "java_expr": "res |= dump(item);",
+          "godot_symbol": "source_dump_accumulate_attempt_result.dumpAttempts",
+          "rule": "Count of source dump(item) attempts scheduled by while loop.",
+          "used_by": [
+            "PortGame.source_dump_accumulate_attempt_state"
+          ]
+        },
+        "subtractOne": {
+          "status": "source-backed",
+          "type": "String",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "dumpAccumulate(Item item)",
+          "java_expr": "dumpAccum -=1f;",
+          "godot_symbol": "source_dump_accumulate_attempt_result.subtractOne",
+          "rule": "Source accumulator decrement per attempt.",
+          "used_by": [
+            "PortGame.source_dump_accumulate_attempt_state"
+          ]
+        },
+        "current_accum": {
+          "status": "generated",
+          "type": "float",
+          "alias_of": "source_dump_accumulate_attempt_input.current_accum",
+          "rule": "Carries current_accum input into dump accumulate result schema."
+        },
+        "source_delta": {
+          "status": "generated",
+          "type": "float",
+          "alias_of": "source_dump_accumulate_attempt_input.source_delta",
+          "rule": "Carries source_delta input into dump accumulate result schema."
+        }
+      }
     }
   },
   "version": 1
