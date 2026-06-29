@@ -9488,6 +9488,38 @@
         "test_drill_output_batch_symbols_are_registered_with_source_backing",
         "test_port_game_batches_source_drill_output"
       ]
+    },
+    "N697": {
+      "exact_exprs": [
+        "progress += delta() * dominantItems * speed * warmup;",
+        "return Time.delta * timeScale;",
+        "Time.delta",
+        "timeScale",
+        "dominantItems",
+        "speed",
+        "warmup"
+      ],
+      "godot_owner": "PortGame.source_drill_output_delta",
+      "java_class": "mindustry.world.blocks.production.Drill.DrillBuild",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "runtime_proof": "/root/Main.source_drill_output_delta",
+      "source_symbols": [
+        "drill_output_delta.progress_increment",
+        "drill_output_delta.delta_return",
+        "drill_output_delta.source_delta",
+        "drill_output_delta.time_scale",
+        "drill_output_delta.dominant_items",
+        "drill_output_delta.speed",
+        "drill_output_delta.warmup"
+      ],
+      "status": "done",
+      "tests": [
+        "test_drill_output_delta_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_drill_rate",
+        "test_port_game_applies_source_drill_warmup_to_output_delta",
+        "test_port_game_batches_source_drill_output"
+      ]
     }
   },
   "version": 1

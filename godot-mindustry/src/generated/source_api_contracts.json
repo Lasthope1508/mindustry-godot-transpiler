@@ -11092,6 +11092,53 @@
       "tests": [
         "test_drill_output_batch_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_drill_output_delta": {
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "params": [
+        {
+          "name": "dominant_items",
+          "schema": "source_drill_output_delta_input.dominant_items",
+          "type": "int"
+        },
+        {
+          "name": "seconds",
+          "schema": "source_drill_output_delta_input.source_delta",
+          "type": "float"
+        },
+        {
+          "name": "time_scale",
+          "schema": "source_drill_output_delta_input.time_scale",
+          "type": "float"
+        },
+        {
+          "name": "warmup",
+          "schema": "source_drill_output_delta_input.warmup",
+          "type": "float"
+        },
+        {
+          "name": "speed",
+          "schema": "source_drill_output_delta_input.speed",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "progress",
+        "delta",
+        "dominant_items",
+        "source_delta",
+        "time_scale",
+        "warmup",
+        "speed"
+      ],
+      "rule": "Public runtime contract for DrillBuild active branch raw progress increment.",
+      "runtime_proof": "/root/Main.source_drill_output_delta",
+      "source_method": "DrillBuild.updateTile()",
+      "source_slice": "N697",
+      "status": "active",
+      "tests": [
+        "test_drill_output_delta_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

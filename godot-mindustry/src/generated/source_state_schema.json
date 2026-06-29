@@ -37310,6 +37310,130 @@
       },
       "status": "active"
     },
+    "source_drill_output_delta_input": {
+      "keys": {
+        "dominant_items": {
+          "godot_symbol": "source_drill_output_delta_input.dominant_items",
+          "java_expr": "dominantItems",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input DrillBuild dominantItems count.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_drill_output_delta"
+          ]
+        },
+        "source_delta": {
+          "godot_symbol": "source_drill_output_delta_input.source_delta",
+          "java_expr": "Time.delta",
+          "java_method": "delta()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Input Time.delta before BuildingComp timeScale, supplied as seconds converted to source ticks.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_output_delta"
+          ]
+        },
+        "speed": {
+          "godot_symbol": "source_drill_output_delta_input.speed",
+          "java_expr": "speed",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input source local speed after liquid boost and efficiency.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_output_delta"
+          ]
+        },
+        "time_scale": {
+          "godot_symbol": "source_drill_output_delta_input.time_scale",
+          "java_expr": "timeScale",
+          "java_method": "delta()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Input BuildingComp timeScale for delta().",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_output_delta"
+          ]
+        },
+        "warmup": {
+          "godot_symbol": "source_drill_output_delta_input.warmup",
+          "java_expr": "warmup",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input DrillBuild warmup before active progress increment.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_output_delta"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_drill_output_delta_result": {
+      "keys": {
+        "delta": {
+          "godot_symbol": "source_drill_output_delta_result.delta",
+          "java_expr": "return Time.delta * timeScale;",
+          "java_method": "delta()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "BuildingComp delta() scaled source delta.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_output_delta"
+          ]
+        },
+        "dominant_items": {
+          "alias_of": "source_drill_output_delta_input.dominant_items",
+          "rule": "Carries dominantItems into output delta result schema.",
+          "status": "generated",
+          "type": "int"
+        },
+        "progress": {
+          "godot_symbol": "source_drill_output_delta_result.progress",
+          "java_expr": "progress += delta() * dominantItems * speed * warmup;",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Source raw DrillBuild progress increment.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_output_delta"
+          ]
+        },
+        "source_delta": {
+          "alias_of": "source_drill_output_delta_input.source_delta",
+          "rule": "Carries source_delta input into output delta result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "speed": {
+          "alias_of": "source_drill_output_delta_input.speed",
+          "rule": "Carries speed input into output delta result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "time_scale": {
+          "alias_of": "source_drill_output_delta_input.time_scale",
+          "rule": "Carries time_scale input into output delta result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "warmup": {
+          "alias_of": "source_drill_output_delta_input.warmup",
+          "rule": "Carries warmup input into output delta result schema.",
+          "status": "generated",
+          "type": "float"
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

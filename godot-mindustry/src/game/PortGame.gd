@@ -1171,15 +1171,21 @@ func step_drill_warmup_cell(x: int, y: int, seconds: float, speed := 1.0) -> flo
 	drill_warmups[key] = warmup
 	return warmup
 
-func source_drill_output_delta(block_id: String, item_id: String, ore_count: int, seconds: float, time_scale := 1.0, warmup := 1.0) -> float:
-	var scaled_source_delta := source_building_delta(seconds * SOURCE_TICK_RATE, time_scale)
-	return source_drill_output_rate(block_id, item_id, ore_count) * scaled_source_delta / SOURCE_TICK_RATE * warmup
+const SOURCE_DRILL_OUTPUT_DELTA_PROGRESS_INCREMENT := "progress += delta() * dominantItems * speed * warmup;"
+const SOURCE_DRILL_OUTPUT_DELTA_SOURCE_DELTA := "delta()"
+const SOURCE_DRILL_OUTPUT_DELTA_DOMINANT_ITEMS := "dominantItems"
+const SOURCE_DRILL_OUTPUT_DELTA_SPEED := "speed"
+const SOURCE_DRILL_OUTPUT_DELTA_WARMUP := "warmup"
 
-func source_drill_output_delta_for_cell(x: int, y: int, item_id: String, ore_count: int, seconds: float, warmup := 1.0) -> float:
+func source_drill_output_delta(dominant_items: int, seconds: float, time_scale := 1.0, warmup := 1.0, speed := 1.0) -> float:
+	var scaled_source_delta := source_building_delta(seconds * SOURCE_TICK_RATE, time_scale)
+	return scaled_source_delta * float(dominant_items) * speed * warmup
+
+func source_drill_output_delta_for_cell(x: int, y: int, dominant_items: int, seconds: float, warmup := 1.0, speed := 1.0) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
 	if not is_instance_valid(sprite):
 		return 0.0
-	return source_drill_output_delta(str(sprite.get_meta("source_block_id", "")), item_id, ore_count, seconds, float(sprite.get_meta("source_block_time_scale", 1.0)), warmup)
+	return source_drill_output_delta(dominant_items, seconds, float(sprite.get_meta("source_block_time_scale", 1.0)), warmup, speed)
 
 const SOURCE_DRILL_OUTPUT_BATCH_GATE := "if(dominantItems > 0 && progress >= delay && items.total() < itemCapacity){"
 const SOURCE_DRILL_OUTPUT_BATCH_AMOUNT := "int amount = (int)(progress / delay);"
@@ -3291,7 +3297,7 @@ func simulate_factory(delta: float) -> void:
 		var drill_warmup := step_drill_warmup_cell(drill_pos.x, drill_pos.y, delta)
 		var drill_delay := source_drill_delay("mechanical-drill", drill_output_item_id)
 		var raw_progress := item_progress * drill_delay
-		raw_progress += source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_output_item_id, drill_ore_cell_count, delta, drill_warmup) * drill_delay
+		raw_progress += source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_ore_cell_count, delta, drill_warmup)
 		var output_batch := source_drill_output_batch(raw_progress, drill_delay, drill_ore_cell_count, drill_items_total(), source_block_item_capacity("mechanical-drill"))
 		item_progress = source_drill_progress_fraction(float(output_batch["progress"]), drill_delay, drill_ore_cell_count > 0)
 		source_offload_to_inventory(drill_output_item_id, int(output_batch["amount"]))
@@ -3335,7 +3341,7 @@ func step_factory_drill(seconds: float) -> Dictionary:
 	var warmup_before := drill_warmup_at_cell(drill_pos.x, drill_pos.y)
 	simulate_factory(seconds)
 	var warmup_after := drill_warmup_at_cell(drill_pos.x, drill_pos.y)
-	var output_delta := source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_output_item_id, drill_ore_cell_count, seconds, warmup_after)
+	var output_delta := source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_ore_cell_count, seconds, warmup_after)
 	return {
 		"item_progress_before": before,
 		"drill_warmup_before": warmup_before,

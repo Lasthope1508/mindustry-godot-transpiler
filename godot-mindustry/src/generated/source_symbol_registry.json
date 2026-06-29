@@ -25648,6 +25648,97 @@
         "test_drill_output_batch_symbols_are_registered_with_source_backing"
       ]
     },
+    "drill_output_delta.delta_return": {
+      "godot_owner": "PortGame.source_drill_output_delta",
+      "godot_symbol": "source_drill_output_delta_result.delta",
+      "java_expr": "return Time.delta * timeScale;",
+      "java_method": "delta()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "BuildingComp delta() supplies scaled source delta used by DrillBuild progress increment.",
+      "runtime_proof": "/root/Main.source_drill_output_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_output_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_output_delta.dominant_items": {
+      "godot_owner": "PortGame.source_drill_output_delta",
+      "godot_symbol": "source_drill_output_delta_input.dominant_items",
+      "java_expr": "dominantItems",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Godot dominant_items supplies DrillBuild dominantItems in raw progress increment.",
+      "runtime_proof": "/root/Main.source_drill_output_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_output_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_output_delta.progress_increment": {
+      "godot_owner": "PortGame.source_drill_output_delta",
+      "godot_symbol": "source_drill_output_delta_result.progress",
+      "java_expr": "progress += delta() * dominantItems * speed * warmup;",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Source active DrillBuild branch raw progress increment.",
+      "runtime_proof": "/root/Main.source_drill_output_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_output_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_output_delta.source_delta": {
+      "godot_owner": "PortGame.source_drill_output_delta",
+      "godot_symbol": "source_drill_output_delta_input.source_delta",
+      "java_expr": "Time.delta",
+      "java_method": "delta()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Godot seconds converted to source ticks supplies Time.delta before BuildingComp timeScale.",
+      "runtime_proof": "/root/Main.source_drill_output_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_output_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_output_delta.speed": {
+      "godot_owner": "PortGame.source_drill_output_delta",
+      "godot_symbol": "source_drill_output_delta_input.speed",
+      "java_expr": "speed",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Godot speed supplies source local speed after liquid boost and efficiency.",
+      "runtime_proof": "/root/Main.source_drill_output_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_output_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_output_delta.time_scale": {
+      "godot_owner": "PortGame.source_drill_output_delta",
+      "godot_symbol": "source_drill_output_delta_input.time_scale",
+      "java_expr": "timeScale",
+      "java_method": "delta()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Godot time_scale supplies BuildingComp timeScale for delta().",
+      "runtime_proof": "/root/Main.source_drill_output_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_output_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_output_delta.warmup": {
+      "godot_owner": "PortGame.source_drill_output_delta",
+      "godot_symbol": "source_drill_output_delta_input.warmup",
+      "java_expr": "warmup",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Godot warmup supplies DrillBuild warmup before raw progress increment.",
+      "runtime_proof": "/root/Main.source_drill_output_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_output_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
     "handle_pierce.bullet.damage": {
       "godot_owner": "PortGame.source_bullet_type_handle_pierce_state",
       "godot_symbol": "bullet_state.damage",
