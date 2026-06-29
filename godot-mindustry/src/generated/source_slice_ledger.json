@@ -7576,6 +7576,38 @@
       ],
       "runtime_proof": "/root/Main.source_building_sense_position_state",
       "rule": "Backfills SSOT for existing canonical source_building_sense_position_state helper against BuildingComp.sense(LAccess sensor) and World.conv(float coord)."
+    },
+    "N639": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_totals_state",
+      "exact_exprs": [
+        "public double sense(LAccess sensor){",
+        "case totalItems -> items == null ? 0 : items.total();",
+        "//totalLiquids is inherently bad design, but unfortunately it is useful for conduits/tanks",
+        "case totalLiquids -> liquids == null ? 0 : liquids.currentAmount();",
+        "case totalPower -> power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f);",
+        "items == null ? 0 : items.total()",
+        "liquids == null ? 0 : liquids.currentAmount()",
+        "power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f)"
+      ],
+      "source_symbols": [
+        "building_sense_totals.method",
+        "building_sense_totals.total_items_case",
+        "building_sense_totals.total_liquids_comment",
+        "building_sense_totals.total_liquids_case",
+        "building_sense_totals.total_power_case",
+        "building_sense_totals.total_items",
+        "building_sense_totals.total_liquids",
+        "building_sense_totals.total_power"
+      ],
+      "tests": [
+        "test_building_sense_totals_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_totals_state",
+      "rule": "Backfills SSOT for existing canonical source_building_sense_totals_state helper against BuildingComp.sense(LAccess sensor) totalItems, totalLiquids, and totalPower cases."
     }
   },
   "version": 1

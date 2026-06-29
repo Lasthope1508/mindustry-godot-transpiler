@@ -2381,6 +2381,11 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_building_sense_totals_state(total_items: float, total_liquids: float, total_power: float) -> Dictionary:", source)
+        self.assertIn('"method": "public double sense(LAccess sensor){",', source)
+        self.assertIn('"total_items_case": "case totalItems -> items == null ? 0 : items.total();",', source)
+        self.assertIn('"total_liquids_comment": "//totalLiquids is inherently bad design, but unfortunately it is useful for conduits/tanks",', source)
+        self.assertIn('"total_liquids_case": "case totalLiquids -> liquids == null ? 0 : liquids.currentAmount();",', source)
+        self.assertIn('"total_power_case": "case totalPower -> power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f);",', source)
         self.assertIn('"total_items": total_items', source)
         self.assertIn('"total_liquids": total_liquids', source)
         self.assertIn('"total_power": total_power', source)

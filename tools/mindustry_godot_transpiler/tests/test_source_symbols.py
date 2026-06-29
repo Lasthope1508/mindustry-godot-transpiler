@@ -3151,6 +3151,42 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_tilesize["java_expr"], "tilesize")
         self.assertEqual(source_tilesize["godot_symbol"], "source_building_sense_health_process_input.source_tilesize")
 
+    def test_building_sense_totals_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_sense_totals.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "sense(LAccess sensor)")
+        self.assertEqual(method["java_expr"], "public double sense(LAccess sensor){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_sense_totals_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_sense_totals_state")
+        self.assertEqual(method["godot_symbol"], "source_building_sense_totals_result.method")
+
+        total_items_case = source_symbols.source_symbol(registry, "building_sense_totals.total_items_case")
+        self.assertEqual(total_items_case["java_expr"], "case totalItems -> items == null ? 0 : items.total();")
+        self.assertEqual(total_items_case["godot_symbol"], "source_building_sense_totals_result.total_items_case")
+
+        total_liquids_comment = source_symbols.source_symbol(registry, "building_sense_totals.total_liquids_comment")
+        self.assertEqual(total_liquids_comment["java_expr"], "//totalLiquids is inherently bad design, but unfortunately it is useful for conduits/tanks")
+        self.assertEqual(total_liquids_comment["godot_symbol"], "source_building_sense_totals_result.total_liquids_comment")
+
+        total_power_case = source_symbols.source_symbol(registry, "building_sense_totals.total_power_case")
+        self.assertEqual(total_power_case["java_expr"], "case totalPower -> power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f);")
+        self.assertEqual(total_power_case["godot_symbol"], "source_building_sense_totals_result.total_power_case")
+
+        total_items = source_symbols.source_symbol(registry, "building_sense_totals.total_items")
+        self.assertEqual(total_items["status"], "explicit-input")
+        self.assertEqual(total_items["java_expr"], "items == null ? 0 : items.total()")
+        self.assertEqual(total_items["godot_symbol"], "source_building_sense_totals_input.total_items")
+
+        total_power = source_symbols.source_symbol(registry, "building_sense_totals.total_power")
+        self.assertEqual(total_power["status"], "explicit-input")
+        self.assertEqual(total_power["java_expr"], "power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f)")
+        self.assertEqual(total_power["godot_symbol"], "source_building_sense_totals_input.total_power")
+
     def test_building_sense_payload_size_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -6920,9 +6956,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 236)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 237)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 241)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 242)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -7091,6 +7127,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_sense_health_process_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_payload_size_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_position_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_sense_totals_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_object_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_destroyed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_picked_up_state", audit["registeredSourceOwners"])
@@ -8134,6 +8171,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("case y -> World.conv(y);", building_sense_position["exact_exprs"])
         self.assertIn("public static float conv(float coord){", building_sense_position["exact_exprs"])
         self.assertIn("return coord / tilesize;", building_sense_position["exact_exprs"])
+
+        building_sense_totals = source_symbols.source_slice(ledger, "N639")
+        self.assertEqual(building_sense_totals["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_sense_totals["java_method"], "sense(LAccess sensor)")
+        self.assertEqual(building_sense_totals["godot_owner"], "PortGame.source_building_sense_totals_state")
+        self.assertIn("public double sense(LAccess sensor){", building_sense_totals["exact_exprs"])
+        self.assertIn("case totalItems -> items == null ? 0 : items.total();", building_sense_totals["exact_exprs"])
+        self.assertIn("//totalLiquids is inherently bad design, but unfortunately it is useful for conduits/tanks", building_sense_totals["exact_exprs"])
+        self.assertIn("case totalLiquids -> liquids == null ? 0 : liquids.currentAmount();", building_sense_totals["exact_exprs"])
+        self.assertIn("case totalPower -> power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f);", building_sense_totals["exact_exprs"])
 
         building_sense_health_process = source_symbols.source_slice(ledger, "N635")
         self.assertEqual(building_sense_health_process["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -10344,6 +10391,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("range", building_sense_health_process["return_keys"])
         self.assertIn("rotation", building_sense_health_process["return_keys"])
         self.assertEqual(building_sense_health_process["source_method"], "sense(LAccess sensor)")
+
+        building_sense_totals = source_symbols.api_contract(contracts, "PortGame.source_building_sense_totals_state")
+        self.assertEqual([param["name"] for param in building_sense_totals["params"]], ["total_items", "total_liquids", "total_power"])
+        self.assertEqual(building_sense_totals["params"][0]["schema"], "source_building_sense_totals_input.total_items")
+        self.assertEqual(building_sense_totals["params"][2]["schema"], "source_building_sense_totals_input.total_power")
+        self.assertIn("method", building_sense_totals["return_keys"])
+        self.assertIn("total_items_case", building_sense_totals["return_keys"])
+        self.assertIn("total_liquids_comment", building_sense_totals["return_keys"])
+        self.assertIn("total_liquids_case", building_sense_totals["return_keys"])
+        self.assertIn("total_power_case", building_sense_totals["return_keys"])
+        self.assertIn("total_items", building_sense_totals["return_keys"])
+        self.assertIn("total_liquids", building_sense_totals["return_keys"])
+        self.assertIn("total_power", building_sense_totals["return_keys"])
+        self.assertEqual(building_sense_totals["source_method"], "sense(LAccess sensor)")
 
         building_sense_payload_size = source_symbols.api_contract(contracts, "PortGame.source_building_sense_payload_size_state")
         self.assertEqual([param["name"] for param in building_sense_payload_size["params"]], ["has_payload_seq", "payload_seq_total", "has_single_payload", "block_size_value"])
@@ -12706,6 +12767,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_sense_health_process_result["keys"]["range_case"]["java_expr"], "case range -> this instanceof Ranged r ? r.range() / tilesize : 0;")
         self.assertEqual(source_building_sense_health_process_result["keys"]["health"]["alias_of"], "source_building_sense_health_process_input.health")
         self.assertEqual(source_building_sense_health_process_result["keys"]["rotation_value"]["alias_of"], "source_building_sense_health_process_input.rotation_value")
+
+        source_building_sense_totals_input = source_symbols.state_schema(schema, "source_building_sense_totals_input")
+        self.assertEqual(source_building_sense_totals_input["keys"]["total_items"]["java_expr"], "items == null ? 0 : items.total()")
+        self.assertEqual(source_building_sense_totals_input["keys"]["total_liquids"]["java_expr"], "liquids == null ? 0 : liquids.currentAmount()")
+        self.assertEqual(source_building_sense_totals_input["keys"]["total_power"]["java_expr"], "power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f)")
+
+        source_building_sense_totals_result = source_symbols.state_schema(schema, "source_building_sense_totals_result")
+        self.assertEqual(source_building_sense_totals_result["keys"]["method"]["java_expr"], "public double sense(LAccess sensor){")
+        self.assertEqual(source_building_sense_totals_result["keys"]["total_items_case"]["java_expr"], "case totalItems -> items == null ? 0 : items.total();")
+        self.assertEqual(source_building_sense_totals_result["keys"]["total_liquids_comment"]["java_expr"], "//totalLiquids is inherently bad design, but unfortunately it is useful for conduits/tanks")
+        self.assertEqual(source_building_sense_totals_result["keys"]["total_liquids_case"]["java_expr"], "case totalLiquids -> liquids == null ? 0 : liquids.currentAmount();")
+        self.assertEqual(source_building_sense_totals_result["keys"]["total_power_case"]["java_expr"], "case totalPower -> power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f);")
+        self.assertEqual(source_building_sense_totals_result["keys"]["total_items"]["alias_of"], "source_building_sense_totals_input.total_items")
+        self.assertEqual(source_building_sense_totals_result["keys"]["total_power"]["alias_of"], "source_building_sense_totals_input.total_power")
 
         source_building_sense_payload_size_input = source_symbols.state_schema(schema, "source_building_sense_payload_size_input")
         self.assertEqual(source_building_sense_payload_size_input["keys"]["has_payload_seq"]["java_expr"], "getPayloads() != null")

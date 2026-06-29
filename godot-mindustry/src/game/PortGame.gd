@@ -2507,6 +2507,11 @@ func source_building_sense_health_process_state(health: float, max_health: float
 
 func source_building_sense_totals_state(total_items: float, total_liquids: float, total_power: float) -> Dictionary:
 	return {
+		"method": "public double sense(LAccess sensor){",
+		"total_items_case": "case totalItems -> items == null ? 0 : items.total();",
+		"total_liquids_comment": "//totalLiquids is inherently bad design, but unfortunately it is useful for conduits/tanks",
+		"total_liquids_case": "case totalLiquids -> liquids == null ? 0 : liquids.currentAmount();",
+		"total_power_case": "case totalPower -> power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f);",
 		"total_items": total_items,
 		"total_liquids": total_liquids,
 		"total_power": total_power,

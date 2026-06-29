@@ -9241,6 +9241,44 @@
       ],
       "runtime_proof": "/root/Main.source_building_sense_position_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.sense(LAccess sensor) x/y World.conv helper."
+    },
+    "PortGame.source_building_sense_totals_state": {
+      "status": "active",
+      "source_slice": "N639",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "sense(LAccess sensor)",
+      "params": [
+        {
+          "name": "total_items",
+          "type": "float",
+          "schema": "source_building_sense_totals_input.total_items"
+        },
+        {
+          "name": "total_liquids",
+          "type": "float",
+          "schema": "source_building_sense_totals_input.total_liquids"
+        },
+        {
+          "name": "total_power",
+          "type": "float",
+          "schema": "source_building_sense_totals_input.total_power"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "total_items_case",
+        "total_liquids_comment",
+        "total_liquids_case",
+        "total_power_case",
+        "total_items",
+        "total_liquids",
+        "total_power"
+      ],
+      "tests": [
+        "test_building_sense_totals_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_totals_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.sense(LAccess sensor) total item/liquid/power helper."
     }
   },
   "policy": {

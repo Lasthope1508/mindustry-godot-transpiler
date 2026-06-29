@@ -23407,6 +23407,110 @@
       "java_expr": "tilesize",
       "godot_symbol": "source_building_sense_position_input.source_tilesize",
       "rule": "Runtime source_tilesize supplies World.tilesize."
+    },
+    "building_sense_totals.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_totals_state",
+      "tests": [
+        "test_building_sense_totals_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_totals_state",
+      "java_expr": "public double sense(LAccess sensor){",
+      "godot_symbol": "source_building_sense_totals_result.method",
+      "rule": "BuildingComp sense(LAccess) method boundary."
+    },
+    "building_sense_totals.total_items_case": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_totals_state",
+      "tests": [
+        "test_building_sense_totals_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_totals_state",
+      "java_expr": "case totalItems -> items == null ? 0 : items.total();",
+      "godot_symbol": "source_building_sense_totals_result.total_items_case",
+      "rule": "sense(LAccess) totalItems case boundary."
+    },
+    "building_sense_totals.total_liquids_comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_totals_state",
+      "tests": [
+        "test_building_sense_totals_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_totals_state",
+      "java_expr": "//totalLiquids is inherently bad design, but unfortunately it is useful for conduits/tanks",
+      "godot_symbol": "source_building_sense_totals_result.total_liquids_comment",
+      "rule": "Upstream totalLiquids design comment boundary."
+    },
+    "building_sense_totals.total_liquids_case": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_totals_state",
+      "tests": [
+        "test_building_sense_totals_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_totals_state",
+      "java_expr": "case totalLiquids -> liquids == null ? 0 : liquids.currentAmount();",
+      "godot_symbol": "source_building_sense_totals_result.total_liquids_case",
+      "rule": "sense(LAccess) totalLiquids case boundary."
+    },
+    "building_sense_totals.total_power_case": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_totals_state",
+      "tests": [
+        "test_building_sense_totals_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_totals_state",
+      "java_expr": "case totalPower -> power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f);",
+      "godot_symbol": "source_building_sense_totals_result.total_power_case",
+      "rule": "sense(LAccess) totalPower case boundary."
+    },
+    "building_sense_totals.total_items": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_totals_state",
+      "tests": [
+        "test_building_sense_totals_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_totals_state",
+      "java_expr": "items == null ? 0 : items.total()",
+      "godot_symbol": "source_building_sense_totals_input.total_items",
+      "rule": "Runtime total_items supplies already-computed totalItems branch output."
+    },
+    "building_sense_totals.total_liquids": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_totals_state",
+      "tests": [
+        "test_building_sense_totals_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_totals_state",
+      "java_expr": "liquids == null ? 0 : liquids.currentAmount()",
+      "godot_symbol": "source_building_sense_totals_input.total_liquids",
+      "rule": "Runtime total_liquids supplies already-computed totalLiquids branch output."
+    },
+    "building_sense_totals.total_power": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_totals_state",
+      "tests": [
+        "test_building_sense_totals_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_totals_state",
+      "java_expr": "power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f)",
+      "godot_symbol": "source_building_sense_totals_input.total_power",
+      "rule": "Runtime total_power supplies already-computed totalPower branch output."
     }
   }
 }
