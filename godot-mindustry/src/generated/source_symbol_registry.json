@@ -24304,6 +24304,149 @@
       "java_expr": "team",
       "godot_symbol": "source_building_set_prop_team_object_input.team_value",
       "rule": "Runtime team_value supplies Team payload bound by instanceof gate."
+    },
+    "building_set_prop_total_power.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(LAccess prop, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_total_power_state",
+      "tests": [
+        "test_building_set_prop_total_power_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_total_power_state",
+      "java_expr": "public void setProp(LAccess prop, double value){",
+      "godot_symbol": "source_building_set_prop_total_power_result.method",
+      "rule": "BuildingComp setProp(LAccess,double) method boundary."
+    },
+    "building_set_prop_total_power.total_power_case": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(LAccess prop, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_total_power_state",
+      "tests": [
+        "test_building_set_prop_total_power_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_total_power_state",
+      "java_expr": "case totalPower -> {",
+      "godot_symbol": "source_building_set_prop_total_power_result.total_power_case",
+      "rule": "setProp totalPower case boundary."
+    },
+    "building_set_prop_total_power.total_power_guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(LAccess prop, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_total_power_state",
+      "tests": [
+        "test_building_set_prop_total_power_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_total_power_state",
+      "java_expr": "if(power != null && block.consPower != null && block.consPower.buffered){",
+      "godot_symbol": "source_building_set_prop_total_power_result.total_power_guard",
+      "rule": "setProp totalPower updates only with power module, consPower, and buffered consPower."
+    },
+    "building_set_prop_total_power.status_assign": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(LAccess prop, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_total_power_state",
+      "tests": [
+        "test_building_set_prop_total_power_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_total_power_state",
+      "java_expr": "power.status = Mathf.clamp((float)(value / block.consPower.capacity));",
+      "godot_symbol": "source_building_set_prop_total_power_result.status_assign",
+      "rule": "setProp totalPower assigns clamped value/capacity status."
+    },
+    "building_set_prop_total_power.prop": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(LAccess prop, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_total_power_state",
+      "tests": [
+        "test_building_set_prop_total_power_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_total_power_state",
+      "java_expr": "prop",
+      "godot_symbol": "source_building_set_prop_total_power_input.prop",
+      "rule": "Runtime prop selects setProp switch case."
+    },
+    "building_set_prop_total_power.current_power_status": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(LAccess prop, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_total_power_state",
+      "tests": [
+        "test_building_set_prop_total_power_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_total_power_state",
+      "java_expr": "power.status",
+      "godot_symbol": "source_building_set_prop_total_power_input.current_power_status",
+      "rule": "Runtime current_power_status preserves existing power.status when guard does not pass."
+    },
+    "building_set_prop_total_power.has_power": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(LAccess prop, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_total_power_state",
+      "tests": [
+        "test_building_set_prop_total_power_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_total_power_state",
+      "java_expr": "power != null",
+      "godot_symbol": "source_building_set_prop_total_power_input.has_power",
+      "rule": "Runtime has_power supplies power module null guard."
+    },
+    "building_set_prop_total_power.has_cons_power": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(LAccess prop, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_total_power_state",
+      "tests": [
+        "test_building_set_prop_total_power_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_total_power_state",
+      "java_expr": "block.consPower != null",
+      "godot_symbol": "source_building_set_prop_total_power_input.has_cons_power",
+      "rule": "Runtime has_cons_power supplies block.consPower null guard."
+    },
+    "building_set_prop_total_power.cons_power_buffered": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(LAccess prop, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_total_power_state",
+      "tests": [
+        "test_building_set_prop_total_power_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_total_power_state",
+      "java_expr": "block.consPower.buffered",
+      "godot_symbol": "source_building_set_prop_total_power_input.cons_power_buffered",
+      "rule": "Runtime cons_power_buffered supplies buffered guard."
+    },
+    "building_set_prop_total_power.cons_power_capacity": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(LAccess prop, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_total_power_state",
+      "tests": [
+        "test_building_set_prop_total_power_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_total_power_state",
+      "java_expr": "block.consPower.capacity",
+      "godot_symbol": "source_building_set_prop_total_power_input.cons_power_capacity",
+      "rule": "Runtime cons_power_capacity supplies denominator for status assignment."
+    },
+    "building_set_prop_total_power.value": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(LAccess prop, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_total_power_state",
+      "tests": [
+        "test_building_set_prop_total_power_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_total_power_state",
+      "java_expr": "value",
+      "godot_symbol": "source_building_set_prop_total_power_input.value",
+      "rule": "Runtime value supplies setProp value."
     }
   }
 }

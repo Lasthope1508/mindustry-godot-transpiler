@@ -7810,6 +7810,44 @@
       ],
       "runtime_proof": "/root/Main.source_building_set_prop_team_object_state",
       "rule": "Backfills SSOT for existing canonical source_building_set_prop_team_object_state helper against BuildingComp.setProp(LAccess prop, Object value) team case."
+    },
+    "N645": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "setProp(LAccess prop, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_total_power_state",
+      "exact_exprs": [
+        "public void setProp(LAccess prop, double value){",
+        "case totalPower -> {",
+        "if(power != null && block.consPower != null && block.consPower.buffered){",
+        "power.status = Mathf.clamp((float)(value / block.consPower.capacity));",
+        "prop",
+        "power.status",
+        "power != null",
+        "block.consPower != null",
+        "block.consPower.buffered",
+        "block.consPower.capacity",
+        "value"
+      ],
+      "source_symbols": [
+        "building_set_prop_total_power.method",
+        "building_set_prop_total_power.total_power_case",
+        "building_set_prop_total_power.total_power_guard",
+        "building_set_prop_total_power.status_assign",
+        "building_set_prop_total_power.prop",
+        "building_set_prop_total_power.current_power_status",
+        "building_set_prop_total_power.has_power",
+        "building_set_prop_total_power.has_cons_power",
+        "building_set_prop_total_power.cons_power_buffered",
+        "building_set_prop_total_power.cons_power_capacity",
+        "building_set_prop_total_power.value"
+      ],
+      "tests": [
+        "test_building_set_prop_total_power_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_total_power_state",
+      "rule": "Backfills SSOT for existing canonical source_building_set_prop_total_power_state helper against BuildingComp.setProp(LAccess prop, double value) totalPower case."
     }
   },
   "version": 1

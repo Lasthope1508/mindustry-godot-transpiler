@@ -3320,6 +3320,67 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(team_value["java_expr"], "team")
         self.assertEqual(team_value["godot_symbol"], "source_building_set_prop_team_object_input.team_value")
 
+    def test_building_set_prop_total_power_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_set_prop_total_power.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "setProp(LAccess prop, double value)")
+        self.assertEqual(method["java_expr"], "public void setProp(LAccess prop, double value){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_set_prop_total_power_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_set_prop_total_power_state")
+        self.assertEqual(method["godot_symbol"], "source_building_set_prop_total_power_result.method")
+
+        total_power_case = source_symbols.source_symbol(registry, "building_set_prop_total_power.total_power_case")
+        self.assertEqual(total_power_case["java_expr"], "case totalPower -> {")
+        self.assertEqual(total_power_case["godot_symbol"], "source_building_set_prop_total_power_result.total_power_case")
+
+        total_power_guard = source_symbols.source_symbol(registry, "building_set_prop_total_power.total_power_guard")
+        self.assertEqual(total_power_guard["java_expr"], "if(power != null && block.consPower != null && block.consPower.buffered){")
+        self.assertEqual(total_power_guard["godot_symbol"], "source_building_set_prop_total_power_result.total_power_guard")
+
+        status_assign = source_symbols.source_symbol(registry, "building_set_prop_total_power.status_assign")
+        self.assertEqual(status_assign["java_expr"], "power.status = Mathf.clamp((float)(value / block.consPower.capacity));")
+        self.assertEqual(status_assign["godot_symbol"], "source_building_set_prop_total_power_result.status_assign")
+
+        prop_input = source_symbols.source_symbol(registry, "building_set_prop_total_power.prop")
+        self.assertEqual(prop_input["status"], "explicit-input")
+        self.assertEqual(prop_input["java_expr"], "prop")
+        self.assertEqual(prop_input["godot_symbol"], "source_building_set_prop_total_power_input.prop")
+
+        current_power_status = source_symbols.source_symbol(registry, "building_set_prop_total_power.current_power_status")
+        self.assertEqual(current_power_status["status"], "explicit-input")
+        self.assertEqual(current_power_status["java_expr"], "power.status")
+        self.assertEqual(current_power_status["godot_symbol"], "source_building_set_prop_total_power_input.current_power_status")
+
+        has_power = source_symbols.source_symbol(registry, "building_set_prop_total_power.has_power")
+        self.assertEqual(has_power["status"], "explicit-input")
+        self.assertEqual(has_power["java_expr"], "power != null")
+        self.assertEqual(has_power["godot_symbol"], "source_building_set_prop_total_power_input.has_power")
+
+        has_cons_power = source_symbols.source_symbol(registry, "building_set_prop_total_power.has_cons_power")
+        self.assertEqual(has_cons_power["status"], "explicit-input")
+        self.assertEqual(has_cons_power["java_expr"], "block.consPower != null")
+        self.assertEqual(has_cons_power["godot_symbol"], "source_building_set_prop_total_power_input.has_cons_power")
+
+        cons_power_buffered = source_symbols.source_symbol(registry, "building_set_prop_total_power.cons_power_buffered")
+        self.assertEqual(cons_power_buffered["status"], "explicit-input")
+        self.assertEqual(cons_power_buffered["java_expr"], "block.consPower.buffered")
+        self.assertEqual(cons_power_buffered["godot_symbol"], "source_building_set_prop_total_power_input.cons_power_buffered")
+
+        cons_power_capacity = source_symbols.source_symbol(registry, "building_set_prop_total_power.cons_power_capacity")
+        self.assertEqual(cons_power_capacity["status"], "explicit-input")
+        self.assertEqual(cons_power_capacity["java_expr"], "block.consPower.capacity")
+        self.assertEqual(cons_power_capacity["godot_symbol"], "source_building_set_prop_total_power_input.cons_power_capacity")
+
+        value_input = source_symbols.source_symbol(registry, "building_set_prop_total_power.value")
+        self.assertEqual(value_input["status"], "explicit-input")
+        self.assertEqual(value_input["java_expr"], "value")
+        self.assertEqual(value_input["godot_symbol"], "source_building_set_prop_total_power_input.value")
+
     def test_building_set_prop_item_content_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -7185,9 +7246,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 242)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 243)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 247)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 248)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -7362,6 +7423,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_set_prop_liquid_content_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_set_prop_team_double_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_set_prop_team_object_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_set_prop_total_power_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_object_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_destroyed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_picked_up_state", audit["registeredSourceOwners"])
@@ -8472,6 +8534,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("case team -> {", building_set_prop_team_object["exact_exprs"])
         self.assertIn("if(value instanceof Team team && this.team != team){", building_set_prop_team_object["exact_exprs"])
         self.assertIn("changeTeam(team);", building_set_prop_team_object["exact_exprs"])
+
+        building_set_prop_total_power = source_symbols.source_slice(ledger, "N645")
+        self.assertEqual(building_set_prop_total_power["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_set_prop_total_power["java_method"], "setProp(LAccess prop, double value)")
+        self.assertEqual(building_set_prop_total_power["godot_owner"], "PortGame.source_building_set_prop_total_power_state")
+        self.assertIn("public void setProp(LAccess prop, double value){", building_set_prop_total_power["exact_exprs"])
+        self.assertIn("case totalPower -> {", building_set_prop_total_power["exact_exprs"])
+        self.assertIn("if(power != null && block.consPower != null && block.consPower.buffered){", building_set_prop_total_power["exact_exprs"])
+        self.assertIn("power.status = Mathf.clamp((float)(value / block.consPower.capacity));", building_set_prop_total_power["exact_exprs"])
 
         building_sense_health_process = source_symbols.source_slice(ledger, "N635")
         self.assertEqual(building_sense_health_process["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -10773,6 +10844,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("change_team_called", building_set_prop_team_object["return_keys"])
         self.assertIn("change_team", building_set_prop_team_object["return_keys"])
         self.assertEqual(building_set_prop_team_object["source_method"], "setProp(LAccess prop, Object value)")
+
+        building_set_prop_total_power = source_symbols.api_contract(contracts, "PortGame.source_building_set_prop_total_power_state")
+        self.assertEqual([param["name"] for param in building_set_prop_total_power["params"]], ["prop", "current_power_status", "has_power", "has_cons_power", "cons_power_buffered", "cons_power_capacity", "value"])
+        self.assertEqual(building_set_prop_total_power["params"][0]["schema"], "source_building_set_prop_total_power_input.prop")
+        self.assertEqual(building_set_prop_total_power["params"][1]["schema"], "source_building_set_prop_total_power_input.current_power_status")
+        self.assertEqual(building_set_prop_total_power["params"][5]["schema"], "source_building_set_prop_total_power_input.cons_power_capacity")
+        self.assertIn("method", building_set_prop_total_power["return_keys"])
+        self.assertIn("total_power_case", building_set_prop_total_power["return_keys"])
+        self.assertIn("total_power_guard", building_set_prop_total_power["return_keys"])
+        self.assertIn("status_assign", building_set_prop_total_power["return_keys"])
+        self.assertIn("power_status", building_set_prop_total_power["return_keys"])
+        self.assertIn("updated", building_set_prop_total_power["return_keys"])
+        self.assertEqual(building_set_prop_total_power["source_method"], "setProp(LAccess prop, double value)")
 
         building_sense_payload_size = source_symbols.api_contract(contracts, "PortGame.source_building_sense_payload_size_state")
         self.assertEqual([param["name"] for param in building_sense_payload_size["params"]], ["has_payload_seq", "payload_seq_total", "has_single_payload", "block_size_value"])
@@ -13234,6 +13318,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_set_prop_team_object_result["keys"]["team_gate"]["java_expr"], "if(value instanceof Team team && this.team != team){")
         self.assertEqual(source_building_set_prop_team_object_result["keys"]["change_team_call"]["java_expr"], "changeTeam(team);")
         self.assertEqual(source_building_set_prop_team_object_result["keys"]["team"]["java_expr"], "team")
+
+        source_building_set_prop_total_power_input = source_symbols.state_schema(schema, "source_building_set_prop_total_power_input")
+        self.assertEqual(source_building_set_prop_total_power_input["keys"]["prop"]["java_expr"], "prop")
+        self.assertEqual(source_building_set_prop_total_power_input["keys"]["current_power_status"]["java_expr"], "power.status")
+        self.assertEqual(source_building_set_prop_total_power_input["keys"]["has_power"]["java_expr"], "power != null")
+        self.assertEqual(source_building_set_prop_total_power_input["keys"]["has_cons_power"]["java_expr"], "block.consPower != null")
+        self.assertEqual(source_building_set_prop_total_power_input["keys"]["cons_power_buffered"]["java_expr"], "block.consPower.buffered")
+        self.assertEqual(source_building_set_prop_total_power_input["keys"]["cons_power_capacity"]["java_expr"], "block.consPower.capacity")
+        self.assertEqual(source_building_set_prop_total_power_input["keys"]["value"]["java_expr"], "value")
+
+        source_building_set_prop_total_power_result = source_symbols.state_schema(schema, "source_building_set_prop_total_power_result")
+        self.assertEqual(source_building_set_prop_total_power_result["keys"]["method"]["java_expr"], "public void setProp(LAccess prop, double value){")
+        self.assertEqual(source_building_set_prop_total_power_result["keys"]["total_power_case"]["java_expr"], "case totalPower -> {")
+        self.assertEqual(source_building_set_prop_total_power_result["keys"]["total_power_guard"]["java_expr"], "if(power != null && block.consPower != null && block.consPower.buffered){")
+        self.assertEqual(source_building_set_prop_total_power_result["keys"]["status_assign"]["java_expr"], "power.status = Mathf.clamp((float)(value / block.consPower.capacity));")
+        self.assertEqual(source_building_set_prop_total_power_result["keys"]["power_status"]["java_expr"], "power.status = Mathf.clamp((float)(value / block.consPower.capacity));")
+        self.assertEqual(source_building_set_prop_total_power_result["keys"]["updated"]["java_expr"], "power.status = Mathf.clamp((float)(value / block.consPower.capacity));")
 
         source_building_sense_payload_size_input = source_symbols.state_schema(schema, "source_building_sense_payload_size_input")
         self.assertEqual(source_building_sense_payload_size_input["keys"]["has_payload_seq"]["java_expr"], "getPayloads() != null")

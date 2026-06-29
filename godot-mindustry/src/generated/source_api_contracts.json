@@ -9549,6 +9549,62 @@
       ],
       "runtime_proof": "/root/Main.source_building_set_prop_team_object_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.setProp(LAccess prop, Object value) team helper."
+    },
+    "PortGame.source_building_set_prop_total_power_state": {
+      "status": "active",
+      "source_slice": "N645",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "setProp(LAccess prop, double value)",
+      "params": [
+        {
+          "name": "prop",
+          "type": "String",
+          "schema": "source_building_set_prop_total_power_input.prop"
+        },
+        {
+          "name": "current_power_status",
+          "type": "float",
+          "schema": "source_building_set_prop_total_power_input.current_power_status"
+        },
+        {
+          "name": "has_power",
+          "type": "bool",
+          "schema": "source_building_set_prop_total_power_input.has_power"
+        },
+        {
+          "name": "has_cons_power",
+          "type": "bool",
+          "schema": "source_building_set_prop_total_power_input.has_cons_power"
+        },
+        {
+          "name": "cons_power_buffered",
+          "type": "bool",
+          "schema": "source_building_set_prop_total_power_input.cons_power_buffered"
+        },
+        {
+          "name": "cons_power_capacity",
+          "type": "float",
+          "schema": "source_building_set_prop_total_power_input.cons_power_capacity"
+        },
+        {
+          "name": "value",
+          "type": "float",
+          "schema": "source_building_set_prop_total_power_input.value"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "total_power_case",
+        "total_power_guard",
+        "status_assign",
+        "power_status",
+        "updated"
+      ],
+      "tests": [
+        "test_building_set_prop_total_power_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_total_power_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.setProp(LAccess prop, double value) totalPower helper."
     }
   },
   "policy": {

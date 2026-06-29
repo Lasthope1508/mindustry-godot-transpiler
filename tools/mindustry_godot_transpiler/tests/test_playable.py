@@ -2549,10 +2549,18 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_building_set_prop_total_power_state(prop: String, current_power_status: float, has_power: bool, has_cons_power: bool, cons_power_buffered: bool, cons_power_capacity: float, value: float) -> Dictionary:", source)
+        self.assertIn('"method": "public void setProp(LAccess prop, double value){",', source)
+        self.assertIn('"total_power_case": "case totalPower -> {",', source)
+        self.assertIn('"total_power_guard": "if(power != null && block.consPower != null && block.consPower.buffered){",', source)
+        self.assertIn('"status_assign": "power.status = Mathf.clamp((float)(value / block.consPower.capacity));",', source)
         self.assertIn('if prop == "totalPower" and has_power and has_cons_power and cons_power_buffered:', source)
         self.assertIn("var next_status := clampf(value / cons_power_capacity, 0.0, 1.0)", source)
-        self.assertIn('return {"power_status": next_status, "updated": true}', source)
-        self.assertIn('return {"power_status": current_power_status, "updated": false}', source)
+        self.assertIn('"power_status": next_status', source)
+        self.assertIn('"updated": true', source)
+        self.assertIn('"power_status": current_power_status', source)
+        self.assertIn('"updated": false', source)
+        self.assertIn("updated_result.merge(source_exprs)", source)
+        self.assertIn("unchanged_result.merge(source_exprs)", source)
 
     def test_port_game_exposes_source_building_set_prop_team_object_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

@@ -2716,10 +2716,20 @@ func source_building_set_prop_team_double_state(prop: String, current_team_id: i
 	return same_result
 
 func source_building_set_prop_total_power_state(prop: String, current_power_status: float, has_power: bool, has_cons_power: bool, cons_power_buffered: bool, cons_power_capacity: float, value: float) -> Dictionary:
+	var source_exprs: Dictionary = {
+		"method": "public void setProp(LAccess prop, double value){",
+		"total_power_case": "case totalPower -> {",
+		"total_power_guard": "if(power != null && block.consPower != null && block.consPower.buffered){",
+		"status_assign": "power.status = Mathf.clamp((float)(value / block.consPower.capacity));",
+	}
 	if prop == "totalPower" and has_power and has_cons_power and cons_power_buffered:
 		var next_status := clampf(value / cons_power_capacity, 0.0, 1.0)
-		return {"power_status": next_status, "updated": true}
-	return {"power_status": current_power_status, "updated": false}
+		var updated_result: Dictionary = {"power_status": next_status, "updated": true}
+		updated_result.merge(source_exprs)
+		return updated_result
+	var unchanged_result: Dictionary = {"power_status": current_power_status, "updated": false}
+	unchanged_result.merge(source_exprs)
+	return unchanged_result
 
 func source_building_set_prop_team_object_state(prop: String, current_team_value: Variant, value_is_team: bool, team_value: Variant) -> Dictionary:
 	var source_exprs: Dictionary = {
