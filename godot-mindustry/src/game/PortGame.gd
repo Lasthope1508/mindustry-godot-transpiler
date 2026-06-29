@@ -2377,6 +2377,13 @@ func source_building_update_consumption_initial_state(has_consumers: bool, cheat
 		"returned": true,
 	}
 
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_DISABLED_METHOD := "public void updateConsumption(){"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_DISABLED_COMMENT := "//disabled -> nothing works"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_DISABLED_GUARD := "if(!enabled){"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_DISABLED_EFFICIENCIES := "potentialEfficiency = efficiency = optionalEfficiency = 0f;"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_DISABLED_POWER := "shouldConsumePower = false;"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_DISABLED_RETURN := "return;"
+
 func source_building_update_consumption_disabled_state(enabled_state: bool) -> Dictionary:
 	if enabled_state:
 		return {"returned": false}

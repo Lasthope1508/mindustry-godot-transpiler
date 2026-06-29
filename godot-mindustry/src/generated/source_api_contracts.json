@@ -9976,6 +9976,32 @@
       ],
       "runtime_proof": "/root/Main.source_building_update_consumption_call_state",
       "rule": "Source-backed marker for updateConsumption(); callee internals are already split into N189-N195."
+    },
+    "PortGame.source_building_update_consumption_disabled_state": {
+      "status": "active",
+      "source_slice": "N659",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "updateConsumption()",
+      "params": [
+        {
+          "name": "enabled_state",
+          "type": "bool",
+          "schema": "source_building_update_consumption_disabled_input.enabled_state"
+        }
+      ],
+      "return_keys": [
+        "potential_efficiency",
+        "efficiency",
+        "optional_efficiency",
+        "should_consume_power",
+        "returned"
+      ],
+      "tests": [
+        "test_building_update_consumption_disabled_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_disabled_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_consumption_disabled_state",
+      "rule": "Backfills SSOT for updateConsumption disabled branch; later consumer passes remain separate slices."
     }
   },
   "policy": {

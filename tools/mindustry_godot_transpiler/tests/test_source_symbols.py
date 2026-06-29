@@ -4995,6 +4995,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(marker["java_expr"], "updateConsumption();")
         self.assertEqual(marker["godot_symbol"], "source_building_update_consumption_call_result.update_consumption_called")
 
+    def test_building_update_consumption_disabled_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_update_consumption_disabled.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "updateConsumption()")
+        self.assertEqual(method["java_expr"], "public void updateConsumption(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_update_consumption_disabled_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_update_consumption_disabled_state")
+        self.assertEqual(method["godot_symbol"], "source_building_update_consumption_disabled_result.method")
+
+        guard = source_symbols.source_symbol(registry, "building_update_consumption_disabled.guard")
+        self.assertEqual(guard["java_expr"], "if(!enabled){")
+        self.assertEqual(guard["godot_symbol"], "source_building_update_consumption_disabled_result.guard")
+
+        efficiencies = source_symbols.source_symbol(registry, "building_update_consumption_disabled.efficiencies")
+        self.assertEqual(efficiencies["java_expr"], "potentialEfficiency = efficiency = optionalEfficiency = 0f;")
+        self.assertEqual(efficiencies["godot_symbol"], "source_building_update_consumption_disabled_result.efficiencies")
+
+        enabled = source_symbols.source_symbol(registry, "building_update_consumption_disabled.enabled")
+        self.assertEqual(enabled["status"], "explicit-input")
+        self.assertEqual(enabled["java_expr"], "enabled")
+        self.assertEqual(enabled["godot_symbol"], "source_building_update_consumption_disabled_input.enabled_state")
+
     def test_building_on_repaired_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -7666,9 +7693,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 256)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 257)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 261)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 262)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -7832,6 +7859,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_unit_removed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_update_ambient_sound_gate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_update_consumption_call_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_update_consumption_disabled_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -9102,6 +9130,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_update_consumption_call["godot_owner"], "PortGame.source_building_update_consumption_call_state")
         self.assertIn("public void update(){", building_update_consumption_call["exact_exprs"])
         self.assertIn("updateConsumption();", building_update_consumption_call["exact_exprs"])
+
+        building_update_consumption_disabled = source_symbols.source_slice(ledger, "N659")
+        self.assertEqual(building_update_consumption_disabled["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_update_consumption_disabled["java_method"], "updateConsumption()")
+        self.assertEqual(building_update_consumption_disabled["godot_owner"], "PortGame.source_building_update_consumption_disabled_state")
+        self.assertIn("public void updateConsumption(){", building_update_consumption_disabled["exact_exprs"])
+        self.assertIn("//disabled -> nothing works", building_update_consumption_disabled["exact_exprs"])
+        self.assertIn("if(!enabled){", building_update_consumption_disabled["exact_exprs"])
+        self.assertIn("potentialEfficiency = efficiency = optionalEfficiency = 0f;", building_update_consumption_disabled["exact_exprs"])
+        self.assertIn("shouldConsumePower = false;", building_update_consumption_disabled["exact_exprs"])
+        self.assertIn("return;", building_update_consumption_disabled["exact_exprs"])
 
         building_sense_health_process = source_symbols.source_slice(ledger, "N635")
         self.assertEqual(building_sense_health_process["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -11532,6 +11571,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual([param["name"] for param in building_update_consumption_call["params"]], [])
         self.assertIn("update_consumption_called", building_update_consumption_call["return_keys"])
         self.assertEqual(building_update_consumption_call["source_method"], "update()")
+
+        building_update_consumption_disabled = source_symbols.api_contract(contracts, "PortGame.source_building_update_consumption_disabled_state")
+        self.assertEqual([param["name"] for param in building_update_consumption_disabled["params"]], ["enabled_state"])
+        self.assertEqual(building_update_consumption_disabled["params"][0]["schema"], "source_building_update_consumption_disabled_input.enabled_state")
+        self.assertIn("potential_efficiency", building_update_consumption_disabled["return_keys"])
+        self.assertIn("efficiency", building_update_consumption_disabled["return_keys"])
+        self.assertIn("optional_efficiency", building_update_consumption_disabled["return_keys"])
+        self.assertIn("should_consume_power", building_update_consumption_disabled["return_keys"])
+        self.assertIn("returned", building_update_consumption_disabled["return_keys"])
+        self.assertEqual(building_update_consumption_disabled["source_method"], "updateConsumption()")
 
         building_sense_payload_size = source_symbols.api_contract(contracts, "PortGame.source_building_sense_payload_size_state")
         self.assertEqual([param["name"] for param in building_sense_payload_size["params"]], ["has_payload_seq", "payload_seq_total", "has_single_payload", "block_size_value"])
@@ -14585,6 +14634,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_update_consumption_call_result["keys"]["method"]["java_expr"], "public void update(){")
         self.assertEqual(source_building_update_consumption_call_result["keys"]["call"]["java_expr"], "updateConsumption();")
         self.assertEqual(source_building_update_consumption_call_result["keys"]["update_consumption_called"]["java_expr"], "updateConsumption();")
+
+        source_building_update_consumption_disabled_input = source_symbols.state_schema(schema, "source_building_update_consumption_disabled_input")
+        self.assertEqual(source_building_update_consumption_disabled_input["keys"]["enabled_state"]["java_expr"], "enabled")
+
+        source_building_update_consumption_disabled_result = source_symbols.state_schema(schema, "source_building_update_consumption_disabled_result")
+        self.assertEqual(source_building_update_consumption_disabled_result["keys"]["method"]["java_expr"], "public void updateConsumption(){")
+        self.assertEqual(source_building_update_consumption_disabled_result["keys"]["comment"]["java_expr"], "//disabled -> nothing works")
+        self.assertEqual(source_building_update_consumption_disabled_result["keys"]["guard"]["java_expr"], "if(!enabled){")
+        self.assertEqual(source_building_update_consumption_disabled_result["keys"]["efficiencies"]["java_expr"], "potentialEfficiency = efficiency = optionalEfficiency = 0f;")
+        self.assertEqual(source_building_update_consumption_disabled_result["keys"]["power"]["java_expr"], "shouldConsumePower = false;")
+        self.assertEqual(source_building_update_consumption_disabled_result["keys"]["return"]["java_expr"], "return;")
+        self.assertEqual(source_building_update_consumption_disabled_result["keys"]["enabled_state"]["alias_of"], "source_building_update_consumption_disabled_input.enabled_state")
 
         source_building_on_repaired_input = source_symbols.state_schema(schema, "source_building_on_repaired_input")
         self.assertEqual(source_building_on_repaired_input["keys"]["has_fog_radius"]["java_expr"], "block.flags.contains(BlockFlag.hasFogRadius)")

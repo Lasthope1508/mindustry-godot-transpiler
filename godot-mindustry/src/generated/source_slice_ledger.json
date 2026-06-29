@@ -8193,6 +8193,42 @@
       ],
       "runtime_proof": "/root/Main.source_building_update_consumption_call_state",
       "rule": "Backfills SSOT for existing canonical source_building_update_consumption_call_state helper against BuildingComp.update updateConsumption() call."
+    },
+    "N659": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "BuildingComp",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_disabled_state",
+      "exact_exprs": [
+        "public void updateConsumption(){",
+        "//disabled -> nothing works",
+        "if(!enabled){",
+        "potentialEfficiency = efficiency = optionalEfficiency = 0f;",
+        "shouldConsumePower = false;",
+        "return;",
+        "enabled"
+      ],
+      "source_symbols": [
+        "building_update_consumption_disabled.method",
+        "building_update_consumption_disabled.comment",
+        "building_update_consumption_disabled.guard",
+        "building_update_consumption_disabled.efficiencies",
+        "building_update_consumption_disabled.power",
+        "building_update_consumption_disabled.return",
+        "building_update_consumption_disabled.enabled",
+        "building_update_consumption_disabled.potential_efficiency",
+        "building_update_consumption_disabled.efficiency",
+        "building_update_consumption_disabled.optional_efficiency",
+        "building_update_consumption_disabled.should_consume_power",
+        "building_update_consumption_disabled.returned"
+      ],
+      "tests": [
+        "test_building_update_consumption_disabled_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_disabled_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_consumption_disabled_state",
+      "rule": "Backfills SSOT for existing canonical source_building_update_consumption_disabled_state helper against BuildingComp.updateConsumption disabled branch."
     }
   },
   "version": 1

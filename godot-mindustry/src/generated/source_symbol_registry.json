@@ -25345,6 +25345,167 @@
         "test_port_game_exposes_source_building_update_consumption_call_state"
       ],
       "runtime_proof": "/root/Main.source_building_update_consumption_call_state"
+    },
+    "building_update_consumption_disabled.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_disabled_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_disabled_state",
+      "java_expr": "public void updateConsumption(){",
+      "godot_symbol": "source_building_update_consumption_disabled_result.method",
+      "rule": "BuildingComp.updateConsumption method boundary for disabled branch slice.",
+      "tests": [
+        "test_building_update_consumption_disabled_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_disabled.comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_disabled_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_disabled_state",
+      "java_expr": "//disabled -> nothing works",
+      "godot_symbol": "source_building_update_consumption_disabled_result.comment",
+      "rule": "Exact upstream disabled branch comment.",
+      "tests": [
+        "test_building_update_consumption_disabled_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_disabled.guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_disabled_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_disabled_state",
+      "java_expr": "if(!enabled){",
+      "godot_symbol": "source_building_update_consumption_disabled_result.guard",
+      "rule": "Exact upstream disabled branch guard.",
+      "tests": [
+        "test_building_update_consumption_disabled_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_disabled.efficiencies": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_disabled_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_disabled_state",
+      "java_expr": "potentialEfficiency = efficiency = optionalEfficiency = 0f;",
+      "godot_symbol": "source_building_update_consumption_disabled_result.efficiencies",
+      "rule": "Exact upstream zero-efficiency assignment.",
+      "tests": [
+        "test_building_update_consumption_disabled_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_disabled.power": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_disabled_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_disabled_state",
+      "java_expr": "shouldConsumePower = false;",
+      "godot_symbol": "source_building_update_consumption_disabled_result.power",
+      "rule": "Exact upstream shouldConsumePower false assignment.",
+      "tests": [
+        "test_building_update_consumption_disabled_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_disabled.return": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_disabled_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_disabled_state",
+      "java_expr": "return;",
+      "godot_symbol": "source_building_update_consumption_disabled_result.return",
+      "rule": "Exact upstream disabled branch return.",
+      "tests": [
+        "test_building_update_consumption_disabled_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_disabled.enabled": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_disabled_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_disabled_state",
+      "java_expr": "enabled",
+      "godot_symbol": "source_building_update_consumption_disabled_input.enabled_state",
+      "rule": "Explicit runtime input for upstream enabled field.",
+      "tests": [
+        "test_building_update_consumption_disabled_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_disabled.potential_efficiency": {
+      "status": "generated",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_disabled_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_disabled_state",
+      "java_expr": "potentialEfficiency = efficiency = optionalEfficiency = 0f;",
+      "godot_symbol": "source_building_update_consumption_disabled_result.potential_efficiency",
+      "rule": "Generated zero mirrors potentialEfficiency assignment.",
+      "tests": [
+        "test_building_update_consumption_disabled_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_disabled_state"
+      ]
+    },
+    "building_update_consumption_disabled.efficiency": {
+      "status": "generated",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_disabled_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_disabled_state",
+      "java_expr": "potentialEfficiency = efficiency = optionalEfficiency = 0f;",
+      "godot_symbol": "source_building_update_consumption_disabled_result.efficiency",
+      "rule": "Generated zero mirrors efficiency assignment.",
+      "tests": [
+        "test_building_update_consumption_disabled_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_disabled_state"
+      ]
+    },
+    "building_update_consumption_disabled.optional_efficiency": {
+      "status": "generated",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_disabled_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_disabled_state",
+      "java_expr": "potentialEfficiency = efficiency = optionalEfficiency = 0f;",
+      "godot_symbol": "source_building_update_consumption_disabled_result.optional_efficiency",
+      "rule": "Generated zero mirrors optionalEfficiency assignment.",
+      "tests": [
+        "test_building_update_consumption_disabled_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_disabled_state"
+      ]
+    },
+    "building_update_consumption_disabled.should_consume_power": {
+      "status": "generated",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_disabled_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_disabled_state",
+      "java_expr": "shouldConsumePower = false;",
+      "godot_symbol": "source_building_update_consumption_disabled_result.should_consume_power",
+      "rule": "Generated bool mirrors shouldConsumePower assignment.",
+      "tests": [
+        "test_building_update_consumption_disabled_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_disabled_state"
+      ]
+    },
+    "building_update_consumption_disabled.returned": {
+      "status": "generated",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_disabled_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_disabled_state",
+      "java_expr": "return;",
+      "godot_symbol": "source_building_update_consumption_disabled_result.returned",
+      "rule": "Generated bool marks disabled branch return.",
+      "tests": [
+        "test_building_update_consumption_disabled_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_disabled_state"
+      ]
     }
   }
 }
