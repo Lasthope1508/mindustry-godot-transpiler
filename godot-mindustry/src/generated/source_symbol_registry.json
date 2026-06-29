@@ -31410,6 +31410,110 @@
       "tests": [
         "test_mathf_approach_delta_symbols_are_registered_with_source_backing"
       ]
+    },
+    "mathf_dst.method": {
+      "godot_owner": "PortGame.source_mathf_dst",
+      "godot_symbol": "source_mathf_dst_result.dst",
+      "java_expr": "public static float dst(float x1, float y1, float x2, float y2){\n        final float xd = x2 - x1;\n        final float yd = y2 - y1;\n        return (float)Math.sqrt(xd * xd + yd * yd);\n    }",
+      "java_method": "dst(float x1, float y1, float x2, float y2)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf.dst computes Euclidean distance from coordinate deltas.",
+      "runtime_proof": "/root/Main.source_mathf_dst",
+      "status": "source-backed",
+      "tests": [
+        "test_mathf_dst_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_dst.xd_expr": {
+      "godot_owner": "PortGame.source_mathf_dst",
+      "godot_symbol": "source_mathf_dst_result.xd",
+      "java_expr": "final float xd = x2 - x1;",
+      "java_method": "dst(float x1, float y1, float x2, float y2)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "X delta subtracts x1 from x2.",
+      "runtime_proof": "/root/Main.source_mathf_dst",
+      "status": "source-backed",
+      "tests": [
+        "test_mathf_dst_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_dst.yd_expr": {
+      "godot_owner": "PortGame.source_mathf_dst",
+      "godot_symbol": "source_mathf_dst_result.yd",
+      "java_expr": "final float yd = y2 - y1;",
+      "java_method": "dst(float x1, float y1, float x2, float y2)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Y delta subtracts y1 from y2.",
+      "runtime_proof": "/root/Main.source_mathf_dst",
+      "status": "source-backed",
+      "tests": [
+        "test_mathf_dst_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_dst.sqrt_expr": {
+      "godot_owner": "PortGame.source_mathf_dst",
+      "godot_symbol": "source_mathf_dst_result.dst",
+      "java_expr": "return (float)Math.sqrt(xd * xd + yd * yd);",
+      "java_method": "dst(float x1, float y1, float x2, float y2)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Distance is sqrt(xd * xd + yd * yd).",
+      "runtime_proof": "/root/Main.source_mathf_dst",
+      "status": "source-backed",
+      "tests": [
+        "test_mathf_dst_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_dst.x1_input": {
+      "godot_owner": "PortGame.source_mathf_dst",
+      "godot_symbol": "source_mathf_dst_input.x1",
+      "java_expr": "x1",
+      "java_method": "dst(float x1, float y1, float x2, float y2)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Java dst x1 input.",
+      "runtime_proof": "/root/Main.source_mathf_dst",
+      "status": "explicit-input",
+      "tests": [
+        "test_mathf_dst_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_dst.y1_input": {
+      "godot_owner": "PortGame.source_mathf_dst",
+      "godot_symbol": "source_mathf_dst_input.y1",
+      "java_expr": "y1",
+      "java_method": "dst(float x1, float y1, float x2, float y2)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Java dst y1 input.",
+      "runtime_proof": "/root/Main.source_mathf_dst",
+      "status": "explicit-input",
+      "tests": [
+        "test_mathf_dst_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_dst.x2_input": {
+      "godot_owner": "PortGame.source_mathf_dst",
+      "godot_symbol": "source_mathf_dst_input.x2",
+      "java_expr": "x2",
+      "java_method": "dst(float x1, float y1, float x2, float y2)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Java dst x2 input.",
+      "runtime_proof": "/root/Main.source_mathf_dst",
+      "status": "explicit-input",
+      "tests": [
+        "test_mathf_dst_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_dst.y2_input": {
+      "godot_owner": "PortGame.source_mathf_dst",
+      "godot_symbol": "source_mathf_dst_input.y2",
+      "java_expr": "y2",
+      "java_method": "dst(float x1, float y1, float x2, float y2)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Java dst y2 input.",
+      "runtime_proof": "/root/Main.source_mathf_dst",
+      "status": "explicit-input",
+      "tests": [
+        "test_mathf_dst_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

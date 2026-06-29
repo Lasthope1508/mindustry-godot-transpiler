@@ -3904,6 +3904,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_mathf_approach_delta(from_value: float, to_value: float, speed: float, source_delta: float) -> float:", source)
         self.assertIn("return from_value + clampf(to_value - from_value, -source_delta * speed, source_delta * speed)", source)
 
+    def test_port_game_exposes_source_mathf_dst_constants(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn('const SOURCE_MATHF_DST_METHOD := "public static float dst(float x1, float y1, float x2, float y2){\\n        final float xd = x2 - x1;\\n        final float yd = y2 - y1;\\n        return (float)Math.sqrt(xd * xd + yd * yd);\\n    }"', source)
+        self.assertIn('const SOURCE_MATHF_DST_XD_EXPR := "final float xd = x2 - x1;"', source)
+        self.assertIn('const SOURCE_MATHF_DST_YD_EXPR := "final float yd = y2 - y1;"', source)
+        self.assertIn('const SOURCE_MATHF_DST_RETURN_EXPR := "return (float)Math.sqrt(xd * xd + yd * yd);"', source)
+        self.assertIn("func source_mathf_dst(x1: float, y1: float, x2: float, y2: float) -> float:", source)
+        self.assertIn("var xd := x2 - x1", source)
+        self.assertIn("var yd := y2 - y1", source)
+        self.assertIn("return sqrt(xd * xd + yd * yd)", source)
+
     def test_port_game_exposes_source_weapon_update_passive_timers_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

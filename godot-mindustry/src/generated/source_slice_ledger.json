@@ -9919,6 +9919,39 @@
       "tests": [
         "test_mathf_approach_delta_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N711": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public static float dst(float x1, float y1, float x2, float y2){\n        final float xd = x2 - x1;\n        final float yd = y2 - y1;\n        return (float)Math.sqrt(xd * xd + yd * yd);\n    }",
+        "final float xd = x2 - x1;",
+        "final float yd = y2 - y1;",
+        "return (float)Math.sqrt(xd * xd + yd * yd);",
+        "x1",
+        "y1",
+        "x2",
+        "y2"
+      ],
+      "godot_owner": "PortGame.source_mathf_dst",
+      "java_class": "arc.math.Mathf",
+      "java_method": "dst(float x1, float y1, float x2, float y2)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Backfills SSOT for existing source_mathf_dst helper against Arc Mathf.dst(float,float,float,float).",
+      "runtime_proof": "/root/Main.source_mathf_dst",
+      "source_symbols": [
+        "mathf_dst.method",
+        "mathf_dst.xd_expr",
+        "mathf_dst.yd_expr",
+        "mathf_dst.sqrt_expr",
+        "mathf_dst.x1_input",
+        "mathf_dst.y1_input",
+        "mathf_dst.x2_input",
+        "mathf_dst.y2_input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_mathf_dst_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

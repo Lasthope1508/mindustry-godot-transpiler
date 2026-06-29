@@ -4136,6 +4136,11 @@ const SOURCE_MATHF_APPROACH_DELTA_SCALED_SPEED := "Time.delta * speed"
 func source_mathf_approach_delta(from_value: float, to_value: float, speed: float, source_delta: float) -> float:
 	return from_value + clampf(to_value - from_value, -source_delta * speed, source_delta * speed)
 
+const SOURCE_MATHF_DST_METHOD := "public static float dst(float x1, float y1, float x2, float y2){\n        final float xd = x2 - x1;\n        final float yd = y2 - y1;\n        return (float)Math.sqrt(xd * xd + yd * yd);\n    }"
+const SOURCE_MATHF_DST_XD_EXPR := "final float xd = x2 - x1;"
+const SOURCE_MATHF_DST_YD_EXPR := "final float yd = y2 - y1;"
+const SOURCE_MATHF_DST_RETURN_EXPR := "return (float)Math.sqrt(xd * xd + yd * yd);"
+
 func source_mathf_dst(x1: float, y1: float, x2: float, y2: float) -> float:
 	var xd := x2 - x1
 	var yd := y2 - y1

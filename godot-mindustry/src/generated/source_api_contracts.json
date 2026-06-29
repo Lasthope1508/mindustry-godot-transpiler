@@ -11611,6 +11611,48 @@
       "tests": [
         "test_mathf_approach_delta_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_mathf_dst": {
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "params": [
+        {
+          "name": "x1",
+          "schema": "source_mathf_dst_input.x1",
+          "type": "float"
+        },
+        {
+          "name": "y1",
+          "schema": "source_mathf_dst_input.y1",
+          "type": "float"
+        },
+        {
+          "name": "x2",
+          "schema": "source_mathf_dst_input.x2",
+          "type": "float"
+        },
+        {
+          "name": "y2",
+          "schema": "source_mathf_dst_input.y2",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "xd",
+        "yd",
+        "dst",
+        "x1",
+        "y1",
+        "x2",
+        "y2"
+      ],
+      "rule": "Public runtime contract for Arc Mathf.dst coordinate distance helper.",
+      "runtime_proof": "/root/Main.source_mathf_dst",
+      "source_method": "dst(float x1, float y1, float x2, float y2)",
+      "source_slice": "N711",
+      "status": "active",
+      "tests": [
+        "test_mathf_dst_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
