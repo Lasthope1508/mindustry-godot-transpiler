@@ -15231,6 +15231,58 @@
       "godot_symbol": "source_building_display_efficiency_input.edelta_value",
       "rule": "Runtime edelta_value argument supplies BuildingComp edelta() result."
     },
+    "building_progress_increase.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getProgressIncrease(float baseTime)",
+      "godot_owner": "PortGame.source_building_progress_increase",
+      "tests": [
+        "test_building_progress_increase_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_progress_increase",
+      "java_expr": "public float getProgressIncrease(float baseTime){",
+      "godot_symbol": "source_building_progress_increase_result.method",
+      "rule": "BuildingComp getProgressIncrease method boundary."
+    },
+    "building_progress_increase.progress_increase": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getProgressIncrease(float baseTime)",
+      "godot_owner": "PortGame.source_building_progress_increase",
+      "tests": [
+        "test_building_progress_increase_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_progress_increase",
+      "java_expr": "return 1f / baseTime * edelta();",
+      "godot_symbol": "source_building_progress_increase_result.progressIncrease",
+      "rule": "BuildingComp progress increase divides 1f by baseTime and multiplies by edelta()."
+    },
+    "building_progress_increase.base_time": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getProgressIncrease(float baseTime)",
+      "godot_owner": "PortGame.source_building_progress_increase",
+      "tests": [
+        "test_building_progress_increase_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_progress_increase",
+      "java_expr": "float baseTime",
+      "godot_symbol": "source_building_progress_increase_input.base_time",
+      "rule": "Runtime base_time argument supplies BuildingComp getProgressIncrease(float baseTime)."
+    },
+    "building_progress_increase.edelta": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getProgressIncrease(float baseTime)",
+      "godot_owner": "PortGame.source_building_progress_increase",
+      "tests": [
+        "test_building_progress_increase_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_progress_increase",
+      "java_expr": "edelta()",
+      "godot_symbol": "source_building_progress_increase_input.edelta_value",
+      "rule": "Runtime edelta_value argument supplies BuildingComp edelta() result."
+    },
     "building_display_flow_rate_label.display_flow": {
       "tests": [
         "test_building_display_flow_rate_label_symbols_are_registered_with_source_backing"

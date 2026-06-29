@@ -7119,6 +7119,33 @@
       ],
       "runtime_proof": "/root/Main.source_building_production_valid_state",
       "rule": "Backfills SSOT for existing canonical source_building_production_valid_state helper against BuildingComp.productionValid() default true return."
+    },
+    "N627": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "getProgressIncrease(float baseTime)",
+      "godot_owner": "PortGame.source_building_progress_increase",
+      "exact_exprs": [
+        "public float getProgressIncrease(float baseTime){",
+        "return 1f / baseTime * edelta();",
+        "float baseTime",
+        "edelta()"
+      ],
+      "deferred_exprs": [
+        "BuildingComp.edelta() body is owned by the canonical source_building_edelta slice."
+      ],
+      "source_symbols": [
+        "building_progress_increase.method",
+        "building_progress_increase.progress_increase",
+        "building_progress_increase.base_time",
+        "building_progress_increase.edelta"
+      ],
+      "tests": [
+        "test_building_progress_increase_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_progress_increase",
+      "rule": "Backfills SSOT for existing canonical source_building_progress_increase helper against BuildingComp.getProgressIncrease(float baseTime)."
     }
   },
   "version": 1

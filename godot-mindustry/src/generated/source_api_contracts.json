@@ -6141,6 +6141,35 @@
       "runtime_proof": "/root/Main.source_building_display_efficiency",
       "rule": "Public runtime contract for Mindustry BuildingComp.getDisplayEfficiency helper."
     },
+    "PortGame.source_building_progress_increase": {
+      "status": "active",
+      "source_slice": "N627",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "getProgressIncrease(float baseTime)",
+      "params": [
+        {
+          "name": "base_time",
+          "type": "float",
+          "schema": "source_building_progress_increase_input.base_time"
+        },
+        {
+          "name": "edelta_value",
+          "type": "float",
+          "schema": "source_building_progress_increase_input.edelta_value"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "progressIncrease",
+        "base_time",
+        "edelta_value"
+      ],
+      "tests": [
+        "test_building_progress_increase_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_progress_increase",
+      "rule": "Public runtime contract for Mindustry BuildingComp.getProgressIncrease helper."
+    },
     "PortGame.source_building_display_flow_rate_label": {
       "status": "active",
       "source_slice": "N562",

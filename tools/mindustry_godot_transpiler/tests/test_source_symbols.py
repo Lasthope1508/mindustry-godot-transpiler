@@ -4757,6 +4757,34 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(edelta_value["java_expr"], "edelta()")
         self.assertEqual(edelta_value["godot_symbol"], "source_building_display_efficiency_input.edelta_value")
 
+    def test_building_progress_increase_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_progress_increase.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "getProgressIncrease(float baseTime)")
+        self.assertEqual(method["java_expr"], "public float getProgressIncrease(float baseTime){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_progress_increase")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_progress_increase")
+        self.assertEqual(method["godot_symbol"], "source_building_progress_increase_result.method")
+
+        progress_increase = source_symbols.source_symbol(registry, "building_progress_increase.progress_increase")
+        self.assertEqual(progress_increase["java_expr"], "return 1f / baseTime * edelta();")
+        self.assertEqual(progress_increase["godot_symbol"], "source_building_progress_increase_result.progressIncrease")
+
+        base_time = source_symbols.source_symbol(registry, "building_progress_increase.base_time")
+        self.assertEqual(base_time["status"], "explicit-input")
+        self.assertEqual(base_time["java_expr"], "float baseTime")
+        self.assertEqual(base_time["godot_symbol"], "source_building_progress_increase_input.base_time")
+
+        edelta_value = source_symbols.source_symbol(registry, "building_progress_increase.edelta")
+        self.assertEqual(edelta_value["status"], "explicit-input")
+        self.assertEqual(edelta_value["java_expr"], "edelta()")
+        self.assertEqual(edelta_value["godot_symbol"], "source_building_progress_increase_input.edelta_value")
+
     def test_building_display_flow_rate_label_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -6448,9 +6476,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 224)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 225)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 229)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 230)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6650,6 +6678,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_display_icon_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_display_name_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_display_ui_gates_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_progress_increase", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_draw_cached_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_draw_configure_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_draw_cracks_state", audit["registeredSourceOwners"])
@@ -8154,6 +8183,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("getProgressIncrease(1f)", building_display_efficiency["exact_exprs"])
         self.assertIn("1f", building_display_efficiency["exact_exprs"])
         self.assertIn("edelta()", building_display_efficiency["exact_exprs"])
+
+        building_progress_increase = source_symbols.source_slice(ledger, "N627")
+        self.assertEqual(building_progress_increase["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_progress_increase["java_method"], "getProgressIncrease(float baseTime)")
+        self.assertEqual(building_progress_increase["godot_owner"], "PortGame.source_building_progress_increase")
+        self.assertIn("public float getProgressIncrease(float baseTime){", building_progress_increase["exact_exprs"])
+        self.assertIn("return 1f / baseTime * edelta();", building_progress_increase["exact_exprs"])
+        self.assertIn("float baseTime", building_progress_increase["exact_exprs"])
+        self.assertIn("edelta()", building_progress_increase["exact_exprs"])
 
         building_display_flow_rate_label = source_symbols.source_slice(ledger, "N562")
         self.assertEqual(building_display_flow_rate_label["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -10186,6 +10224,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("displayEfficiency", building_display_efficiency["return_keys"])
         self.assertIn("progressIncrease", building_display_efficiency["return_keys"])
         self.assertEqual(building_display_efficiency["source_method"], "getDisplayEfficiency()")
+
+        building_progress_increase = source_symbols.api_contract(contracts, "PortGame.source_building_progress_increase")
+        self.assertEqual([param["name"] for param in building_progress_increase["params"]], ["base_time", "edelta_value"])
+        self.assertEqual(building_progress_increase["params"][0]["schema"], "source_building_progress_increase_input.base_time")
+        self.assertEqual(building_progress_increase["params"][1]["schema"], "source_building_progress_increase_input.edelta_value")
+        self.assertIn("progressIncrease", building_progress_increase["return_keys"])
+        self.assertIn("base_time", building_progress_increase["return_keys"])
+        self.assertIn("edelta_value", building_progress_increase["return_keys"])
+        self.assertEqual(building_progress_increase["source_method"], "getProgressIncrease(float baseTime)")
 
         building_display_flow_rate_label = source_symbols.api_contract(contracts, "PortGame.source_building_display_flow_rate_label")
         self.assertEqual([param["name"] for param in building_display_flow_rate_label["params"]], ["flow_rate", "per_second_label"])
@@ -12506,6 +12553,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_display_efficiency_result["keys"]["baseTime"]["java_expr"], "1f")
         self.assertEqual(source_building_display_efficiency_result["keys"]["displayEfficiency"]["java_expr"], "return getProgressIncrease(1f) / edelta();")
         self.assertEqual(source_building_display_efficiency_result["keys"]["edelta_value"]["alias_of"], "source_building_display_efficiency_input.edelta_value")
+
+        source_building_progress_increase_input = source_symbols.state_schema(schema, "source_building_progress_increase_input")
+        self.assertEqual(source_building_progress_increase_input["keys"]["base_time"]["java_expr"], "float baseTime")
+        self.assertEqual(source_building_progress_increase_input["keys"]["base_time"]["status"], "explicit-input")
+        self.assertEqual(source_building_progress_increase_input["keys"]["edelta_value"]["java_expr"], "edelta()")
+        self.assertEqual(source_building_progress_increase_input["keys"]["edelta_value"]["status"], "explicit-input")
+
+        source_building_progress_increase_result = source_symbols.state_schema(schema, "source_building_progress_increase_result")
+        self.assertEqual(source_building_progress_increase_result["keys"]["method"]["java_expr"], "public float getProgressIncrease(float baseTime){")
+        self.assertEqual(source_building_progress_increase_result["keys"]["progressIncrease"]["java_expr"], "return 1f / baseTime * edelta();")
+        self.assertEqual(source_building_progress_increase_result["keys"]["base_time"]["alias_of"], "source_building_progress_increase_input.base_time")
+        self.assertEqual(source_building_progress_increase_result["keys"]["edelta_value"]["alias_of"], "source_building_progress_increase_input.edelta_value")
 
         source_building_display_flow_rate_label_input = source_symbols.state_schema(schema, "source_building_display_flow_rate_label_input")
         self.assertEqual(source_building_display_flow_rate_label_input["keys"]["flow_rate"]["java_expr"], "flowItems.getFlowRate(item)")
