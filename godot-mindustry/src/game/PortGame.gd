@@ -10201,9 +10201,15 @@ const SOURCE_BULLET_RELOAD_MULTIPLIER_DEFAULT := 1.0
 func source_bullet_reload_multiplier(data: Dictionary) -> float:
 	return float(data.get(SOURCE_BULLET_RELOAD_MULTIPLIER_KEY, SOURCE_BULLET_RELOAD_MULTIPLIER_DEFAULT))
 
+const SOURCE_BULLET_SCALE_FIELD := "public float width = 5f, height = 7f;"
+const SOURCE_BULLET_SCALE_WIDTH_KEY := "width"
+const SOURCE_BULLET_SCALE_HEIGHT_KEY := "height"
+const SOURCE_BULLET_SCALE_WIDTH_DEFAULT := 5.0
+const SOURCE_BULLET_SCALE_HEIGHT_DEFAULT := 7.0
+
 func source_bullet_scale(data: Dictionary, texture_size: Vector2) -> Vector2:
-	var width := float(data.get("width", 4.0))
-	var height := float(data.get("height", width))
+	var width := float(data.get(SOURCE_BULLET_SCALE_WIDTH_KEY, SOURCE_BULLET_SCALE_WIDTH_DEFAULT))
+	var height := float(data.get(SOURCE_BULLET_SCALE_HEIGHT_KEY, SOURCE_BULLET_SCALE_HEIGHT_DEFAULT))
 	if texture_size.x <= 0.0 or texture_size.y <= 0.0:
 		return Vector2.ONE
 	return Vector2(width / texture_size.x, height / texture_size.y)

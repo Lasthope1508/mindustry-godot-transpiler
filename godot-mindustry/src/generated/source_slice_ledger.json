@@ -8865,6 +8865,44 @@
         "test_bullet_rotation_degrees_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_bullet_type_update_trail_effects_chance_state"
       ]
+    },
+    "N679": {
+      "exact_exprs": [
+        "public float width = 5f, height = 7f;",
+        "float height = this.height * ((1f - shrinkY) + shrinkY * shrink);",
+        "float width = this.width * ((1f - shrinkX) + shrinkX * shrink);",
+        "Draw.rect(frontRegion, b.x, b.y, width, height, b.rotation() + offset);",
+        "BasicBulletType data",
+        "TextureRegion texture_size",
+        "width",
+        "height",
+        "5f",
+        "7f",
+        "Vector2(width / texture_size.x, height / texture_size.y)"
+      ],
+      "godot_owner": "PortGame.source_bullet_scale",
+      "java_class": "BasicBulletType",
+      "java_method": "draw(Bullet b)",
+      "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+      "runtime_proof": "/root/Main.source_bullet_scale",
+      "source_symbols": [
+        "bullet_scale.data",
+        "bullet_scale.draw_height",
+        "bullet_scale.draw_rect",
+        "bullet_scale.draw_width",
+        "bullet_scale.field",
+        "bullet_scale.height_default",
+        "bullet_scale.height_key",
+        "bullet_scale.result",
+        "bullet_scale.texture_size",
+        "bullet_scale.width_default",
+        "bullet_scale.width_key"
+      ],
+      "status": "done",
+      "tests": [
+        "test_bullet_scale_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_dimensions"
+      ]
     }
   },
   "version": 1

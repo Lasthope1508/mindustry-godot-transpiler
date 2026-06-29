@@ -4267,6 +4267,55 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result["java_expr"], "vel.isZero(0.001f) ? rotation : vel.angle()")
         self.assertEqual(result["godot_symbol"], "source_bullet_rotation_degrees_result.rotation_degrees")
 
+    def test_bullet_scale_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        field = source_symbols.source_symbol(registry, "bullet_scale.field")
+        self.assertEqual(field["java_source"], "core/src/mindustry/entities/bullet/BasicBulletType.java")
+        self.assertEqual(field["java_method"], "field declaration")
+        self.assertEqual(field["java_expr"], "public float width = 5f, height = 7f;")
+        self.assertEqual(field["godot_owner"], "PortGame.source_bullet_scale")
+        self.assertEqual(field["runtime_proof"], "/root/Main.source_bullet_scale")
+        self.assertEqual(field["godot_symbol"], "source_bullet_scale_result.field")
+
+        draw_width = source_symbols.source_symbol(registry, "bullet_scale.draw_width")
+        self.assertEqual(draw_width["java_method"], "draw(Bullet b)")
+        self.assertEqual(draw_width["java_expr"], "float width = this.width * ((1f - shrinkX) + shrinkX * shrink);")
+        self.assertEqual(draw_width["godot_symbol"], "source_bullet_scale_result.draw_width")
+
+        draw_height = source_symbols.source_symbol(registry, "bullet_scale.draw_height")
+        self.assertEqual(draw_height["java_expr"], "float height = this.height * ((1f - shrinkY) + shrinkY * shrink);")
+        self.assertEqual(draw_height["godot_symbol"], "source_bullet_scale_result.draw_height")
+
+        draw_rect = source_symbols.source_symbol(registry, "bullet_scale.draw_rect")
+        self.assertEqual(draw_rect["java_expr"], "Draw.rect(frontRegion, b.x, b.y, width, height, b.rotation() + offset);")
+        self.assertEqual(draw_rect["godot_symbol"], "source_bullet_scale_result.draw_rect")
+
+        data = source_symbols.source_symbol(registry, "bullet_scale.data")
+        self.assertEqual(data["status"], "explicit-input")
+        self.assertEqual(data["java_expr"], "BasicBulletType data")
+        self.assertEqual(data["godot_symbol"], "source_bullet_scale_input.data")
+
+        texture_size = source_symbols.source_symbol(registry, "bullet_scale.texture_size")
+        self.assertEqual(texture_size["status"], "explicit-input")
+        self.assertEqual(texture_size["java_expr"], "TextureRegion texture_size")
+        self.assertEqual(texture_size["godot_symbol"], "source_bullet_scale_input.texture_size")
+
+        width_default = source_symbols.source_symbol(registry, "bullet_scale.width_default")
+        self.assertEqual(width_default["java_expr"], "5f")
+        self.assertEqual(width_default["godot_symbol"], "source_bullet_scale_result.width_default")
+
+        height_default = source_symbols.source_symbol(registry, "bullet_scale.height_default")
+        self.assertEqual(height_default["java_expr"], "7f")
+        self.assertEqual(height_default["godot_symbol"], "source_bullet_scale_result.height_default")
+
+        result = source_symbols.source_symbol(registry, "bullet_scale.result")
+        self.assertEqual(result["java_expr"], "Vector2(width / texture_size.x, height / texture_size.y)")
+        self.assertEqual(result["godot_symbol"], "source_bullet_scale_result.scale")
+
     def test_building_can_be_replaced_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -8351,9 +8400,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 276)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 277)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 281)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 282)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -8537,6 +8586,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_range_change", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_reload_multiplier", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_rotation_degrees", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_scale", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -9987,6 +10037,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float rotation(){", bullet_rotation_degrees["exact_exprs"])
         self.assertIn("return vel.isZero(0.001f) ? rotation : vel.angle();", bullet_rotation_degrees["exact_exprs"])
         self.assertIn("return len2() < margin;", bullet_rotation_degrees["exact_exprs"])
+
+        bullet_scale = source_symbols.source_slice(ledger, "N679")
+        self.assertEqual(bullet_scale["java_source"], "core/src/mindustry/entities/bullet/BasicBulletType.java")
+        self.assertEqual(bullet_scale["java_method"], "draw(Bullet b)")
+        self.assertEqual(bullet_scale["godot_owner"], "PortGame.source_bullet_scale")
+        self.assertIn("public float width = 5f, height = 7f;", bullet_scale["exact_exprs"])
+        self.assertIn("float height = this.height * ((1f - shrinkY) + shrinkY * shrink);", bullet_scale["exact_exprs"])
+        self.assertIn("float width = this.width * ((1f - shrinkX) + shrinkX * shrink);", bullet_scale["exact_exprs"])
+        self.assertIn("Draw.rect(frontRegion, b.x, b.y, width, height, b.rotation() + offset);", bullet_scale["exact_exprs"])
 
         building_update_consumption_non_optional = source_symbols.source_slice(ledger, "N662")
         self.assertEqual(building_update_consumption_non_optional["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -13041,6 +13100,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("rotation_degrees", bullet_rotation_degrees["return_keys"])
         self.assertEqual(bullet_rotation_degrees["source_method"], "rotation()")
 
+        bullet_scale = source_symbols.api_contract(contracts, "PortGame.source_bullet_scale")
+        self.assertEqual([param["name"] for param in bullet_scale["params"]], ["data", "texture_size"])
+        self.assertEqual(bullet_scale["params"][0]["schema"], "source_bullet_scale_input.data")
+        self.assertEqual(bullet_scale["params"][1]["schema"], "source_bullet_scale_input.texture_size")
+        self.assertIn("scale", bullet_scale["return_keys"])
+        self.assertEqual(bullet_scale["source_method"], "draw(Bullet b)")
+
         building_placed = source_symbols.api_contract(contracts, "PortGame.source_building_placed_state")
         self.assertEqual([param["name"] for param in building_placed["params"]], ["net_client", "consumes_power", "outputs_power", "has_power", "connected_power", "linked_to_self", "source_pos"])
         self.assertEqual(building_placed["params"][0]["schema"], "source_building_placed_input.net_client")
@@ -15996,6 +16062,25 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_bullet_rotation_degrees_result["keys"]["fallback_rotation"]["java_expr"], "rotation")
         self.assertEqual(source_bullet_rotation_degrees_result["keys"]["rotation_degrees"]["java_expr"], "vel.isZero(0.001f) ? rotation : vel.angle()")
         self.assertEqual(source_bullet_rotation_degrees_result["keys"]["bullet_state"]["alias_of"], "source_bullet_rotation_degrees_input.bullet_state")
+
+        source_bullet_scale_input = source_symbols.state_schema(schema, "source_bullet_scale_input")
+        self.assertEqual(source_bullet_scale_input["keys"]["data"]["java_expr"], "BasicBulletType data")
+        self.assertEqual(source_bullet_scale_input["keys"]["data"]["status"], "explicit-input")
+        self.assertEqual(source_bullet_scale_input["keys"]["texture_size"]["java_expr"], "TextureRegion texture_size")
+        self.assertEqual(source_bullet_scale_input["keys"]["texture_size"]["status"], "explicit-input")
+
+        source_bullet_scale_result = source_symbols.state_schema(schema, "source_bullet_scale_result")
+        self.assertEqual(source_bullet_scale_result["keys"]["field"]["java_expr"], "public float width = 5f, height = 7f;")
+        self.assertEqual(source_bullet_scale_result["keys"]["draw_width"]["java_expr"], "float width = this.width * ((1f - shrinkX) + shrinkX * shrink);")
+        self.assertEqual(source_bullet_scale_result["keys"]["draw_height"]["java_expr"], "float height = this.height * ((1f - shrinkY) + shrinkY * shrink);")
+        self.assertEqual(source_bullet_scale_result["keys"]["draw_rect"]["java_expr"], "Draw.rect(frontRegion, b.x, b.y, width, height, b.rotation() + offset);")
+        self.assertEqual(source_bullet_scale_result["keys"]["width_key"]["java_expr"], "width")
+        self.assertEqual(source_bullet_scale_result["keys"]["height_key"]["java_expr"], "height")
+        self.assertEqual(source_bullet_scale_result["keys"]["width_default"]["java_expr"], "5f")
+        self.assertEqual(source_bullet_scale_result["keys"]["height_default"]["java_expr"], "7f")
+        self.assertEqual(source_bullet_scale_result["keys"]["scale"]["java_expr"], "Vector2(width / texture_size.x, height / texture_size.y)")
+        self.assertEqual(source_bullet_scale_result["keys"]["data"]["alias_of"], "source_bullet_scale_input.data")
+        self.assertEqual(source_bullet_scale_result["keys"]["texture_size"]["alias_of"], "source_bullet_scale_input.texture_size")
 
         source_building_placed_input = source_symbols.state_schema(schema, "source_building_placed_input")
         self.assertEqual(source_building_placed_input["keys"]["net_client"]["java_expr"], "net.client()")

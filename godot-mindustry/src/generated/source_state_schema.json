@@ -34760,6 +34760,160 @@
       },
       "status": "active"
     },
+    "source_bullet_scale_input": {
+      "keys": {
+        "data": {
+          "godot_symbol": "source_bullet_scale_input.data",
+          "java_expr": "BasicBulletType data",
+          "java_method": "draw(Bullet b)",
+          "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+          "rule": "Runtime data supplies BasicBulletType width and height fields.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_bullet_scale"
+          ]
+        },
+        "texture_size": {
+          "godot_symbol": "source_bullet_scale_input.texture_size",
+          "java_expr": "TextureRegion texture_size",
+          "java_method": "draw(Bullet b)",
+          "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+          "rule": "Runtime texture_size supplies rendered region dimensions for Godot scale conversion.",
+          "status": "explicit-input",
+          "type": "Vector2",
+          "used_by": [
+            "PortGame.source_bullet_scale"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_bullet_scale_result": {
+      "keys": {
+        "data": {
+          "alias_of": "source_bullet_scale_input.data",
+          "rule": "Carries BasicBulletType data input into scale result schema.",
+          "status": "generated",
+          "type": "Dictionary"
+        },
+        "draw_height": {
+          "godot_symbol": "source_bullet_scale_result.draw_height",
+          "java_expr": "float height = this.height * ((1f - shrinkY) + shrinkY * shrink);",
+          "java_method": "draw(Bullet b)",
+          "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+          "rule": "Draw height derives from BasicBulletType height and shrinkY/shrink.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_bullet_scale"
+          ]
+        },
+        "draw_rect": {
+          "godot_symbol": "source_bullet_scale_result.draw_rect",
+          "java_expr": "Draw.rect(frontRegion, b.x, b.y, width, height, b.rotation() + offset);",
+          "java_method": "draw(Bullet b)",
+          "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+          "rule": "Front bullet region is drawn with computed width and height.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_scale"
+          ]
+        },
+        "draw_width": {
+          "godot_symbol": "source_bullet_scale_result.draw_width",
+          "java_expr": "float width = this.width * ((1f - shrinkX) + shrinkX * shrink);",
+          "java_method": "draw(Bullet b)",
+          "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+          "rule": "Draw width derives from BasicBulletType width and shrinkX/shrink.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_bullet_scale"
+          ]
+        },
+        "field": {
+          "godot_symbol": "source_bullet_scale_result.field",
+          "java_expr": "public float width = 5f, height = 7f;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+          "rule": "Canonical BasicBulletType width and height field defaults.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_scale"
+          ]
+        },
+        "height_default": {
+          "godot_symbol": "source_bullet_scale_result.height_default",
+          "java_expr": "7f",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+          "rule": "Default height comes from BasicBulletType field declaration.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_bullet_scale"
+          ]
+        },
+        "height_key": {
+          "godot_symbol": "source_bullet_scale_result.height_key",
+          "java_expr": "height",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+          "rule": "Godot data key mirrors BasicBulletType.height.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_scale"
+          ]
+        },
+        "scale": {
+          "godot_symbol": "source_bullet_scale_result.scale",
+          "java_expr": "Vector2(width / texture_size.x, height / texture_size.y)",
+          "java_method": "draw(Bullet b)",
+          "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+          "rule": "Godot scale converts source draw dimensions by texture dimensions.",
+          "status": "source-backed",
+          "type": "Vector2",
+          "used_by": [
+            "PortGame.source_bullet_scale"
+          ]
+        },
+        "texture_size": {
+          "alias_of": "source_bullet_scale_input.texture_size",
+          "rule": "Carries texture_size input into scale result schema.",
+          "status": "generated",
+          "type": "Vector2"
+        },
+        "width_default": {
+          "godot_symbol": "source_bullet_scale_result.width_default",
+          "java_expr": "5f",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+          "rule": "Default width comes from BasicBulletType field declaration.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_bullet_scale"
+          ]
+        },
+        "width_key": {
+          "godot_symbol": "source_bullet_scale_result.width_key",
+          "java_expr": "width",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+          "rule": "Godot data key mirrors BasicBulletType.width.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_scale"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

@@ -6865,6 +6865,32 @@
         "test_bullet_rotation_degrees_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_bullet_scale": {
+      "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+      "params": [
+        {
+          "name": "data",
+          "schema": "source_bullet_scale_input.data",
+          "type": "Dictionary"
+        },
+        {
+          "name": "texture_size",
+          "schema": "source_bullet_scale_input.texture_size",
+          "type": "Vector2"
+        }
+      ],
+      "return_keys": [
+        "scale"
+      ],
+      "rule": "Public runtime contract for BasicBulletType draw dimension to Godot scale helper.",
+      "runtime_proof": "/root/Main.source_bullet_scale",
+      "source_method": "draw(Bullet b)",
+      "source_slice": "N679",
+      "status": "active",
+      "tests": [
+        "test_bullet_scale_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_bullet_type_building_damage_state": {
       "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
       "params": [
