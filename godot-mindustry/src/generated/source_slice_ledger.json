@@ -9887,6 +9887,38 @@
       "tests": [
         "test_lerp_delta_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N710": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public static float approachDelta(float from, float to, float speed){\n        return approach(from, to, Time.delta * speed);\n    }",
+        "public static float approach(float from, float to, float speed){\n        return from + Mathf.clamp(to - from, -speed, speed);\n    }",
+        "approach(from, to, Time.delta * speed)",
+        "Time.delta * speed",
+        "from",
+        "to",
+        "speed",
+        "Time.delta"
+      ],
+      "godot_owner": "PortGame.source_mathf_approach_delta",
+      "java_class": "arc.math.Mathf",
+      "java_method": "approachDelta(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Backfills SSOT for existing source_mathf_approach_delta helper against Arc Mathf.approachDelta and approach(float,float,float).",
+      "runtime_proof": "/root/Main.source_mathf_approach_delta",
+      "source_symbols": [
+        "mathf_approach_delta.method",
+        "mathf_approach_delta.scaled_speed",
+        "mathf_approach_delta.approach_call",
+        "mathf_approach_delta.from_input",
+        "mathf_approach_delta.to_input",
+        "mathf_approach_delta.speed_input",
+        "mathf_approach_delta.delta_input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_mathf_approach_delta_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

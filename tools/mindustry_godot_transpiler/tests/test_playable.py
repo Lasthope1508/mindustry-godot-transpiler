@@ -3894,6 +3894,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"weaponUpdateMethod": "public void update(Unit unit, WeaponMount mount)"', source)
         self.assertIn('"dispatches": dispatches', source)
 
+    def test_port_game_exposes_source_mathf_approach_delta_constants(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn('const SOURCE_MATHF_APPROACH_DELTA_METHOD := "public static float approachDelta(float from, float to, float speed){\\n        return approach(from, to, Time.delta * speed);\\n    }"', source)
+        self.assertIn('const SOURCE_MATHF_APPROACH_DELTA_APPROACH_METHOD := "public static float approach(float from, float to, float speed){\\n        return from + Mathf.clamp(to - from, -speed, speed);\\n    }"', source)
+        self.assertIn('const SOURCE_MATHF_APPROACH_DELTA_SCALED_SPEED := "Time.delta * speed"', source)
+        self.assertIn("func source_mathf_approach_delta(from_value: float, to_value: float, speed: float, source_delta: float) -> float:", source)
+        self.assertIn("return from_value + clampf(to_value - from_value, -source_delta * speed, source_delta * speed)", source)
+
     def test_port_game_exposes_source_weapon_update_passive_timers_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

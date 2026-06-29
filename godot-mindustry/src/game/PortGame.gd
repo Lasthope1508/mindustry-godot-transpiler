@@ -4129,6 +4129,10 @@ func source_weapons_update_dispatch_state(mount_states: Array, unit_id: int) -> 
 		"dispatches": dispatches,
 	}
 
+const SOURCE_MATHF_APPROACH_DELTA_METHOD := "public static float approachDelta(float from, float to, float speed){\n        return approach(from, to, Time.delta * speed);\n    }"
+const SOURCE_MATHF_APPROACH_DELTA_APPROACH_METHOD := "public static float approach(float from, float to, float speed){\n        return from + Mathf.clamp(to - from, -speed, speed);\n    }"
+const SOURCE_MATHF_APPROACH_DELTA_SCALED_SPEED := "Time.delta * speed"
+
 func source_mathf_approach_delta(from_value: float, to_value: float, speed: float, source_delta: float) -> float:
 	return from_value + clampf(to_value - from_value, -source_delta * speed, source_delta * speed)
 

@@ -2261,6 +2261,46 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(delta_input["java_expr"], "Time.delta")
         self.assertEqual(delta_input["godot_symbol"], "source_approach_delta_input.sourceDelta")
 
+    def test_mathf_approach_delta_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "mathf_approach_delta.method")
+        self.assertEqual(method["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(method["java_expr"], "public static float approachDelta(float from, float to, float speed){\n        return approach(from, to, Time.delta * speed);\n    }")
+        self.assertEqual(method["godot_owner"], "PortGame.source_mathf_approach_delta")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_mathf_approach_delta")
+
+        scaled_speed = source_symbols.source_symbol(registry, "mathf_approach_delta.scaled_speed")
+        self.assertEqual(scaled_speed["java_expr"], "Time.delta * speed")
+        self.assertEqual(scaled_speed["godot_symbol"], "source_mathf_approach_delta_result.scaledSpeed")
+
+        approach_call = source_symbols.source_symbol(registry, "mathf_approach_delta.approach_call")
+        self.assertEqual(approach_call["java_expr"], "approach(from, to, Time.delta * speed)")
+        self.assertEqual(approach_call["godot_symbol"], "source_mathf_approach_delta_result.approachDelta")
+
+        from_input = source_symbols.source_symbol(registry, "mathf_approach_delta.from_input")
+        self.assertEqual(from_input["status"], "explicit-input")
+        self.assertEqual(from_input["java_expr"], "from")
+        self.assertEqual(from_input["godot_symbol"], "source_mathf_approach_delta_input.from")
+
+        to_input = source_symbols.source_symbol(registry, "mathf_approach_delta.to_input")
+        self.assertEqual(to_input["status"], "explicit-input")
+        self.assertEqual(to_input["java_expr"], "to")
+        self.assertEqual(to_input["godot_symbol"], "source_mathf_approach_delta_input.to")
+
+        speed_input = source_symbols.source_symbol(registry, "mathf_approach_delta.speed_input")
+        self.assertEqual(speed_input["status"], "explicit-input")
+        self.assertEqual(speed_input["java_expr"], "speed")
+        self.assertEqual(speed_input["godot_symbol"], "source_mathf_approach_delta_input.speed")
+
+        delta_input = source_symbols.source_symbol(registry, "mathf_approach_delta.delta_input")
+        self.assertEqual(delta_input["status"], "explicit-input")
+        self.assertEqual(delta_input["java_expr"], "Time.delta")
+        self.assertEqual(delta_input["godot_symbol"], "source_mathf_approach_delta_input.sourceDelta")
+
     def test_arc_chance_delta_threshold_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -9729,9 +9769,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 307)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 308)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 312)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 313)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -9860,6 +9900,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_absin", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_approach", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_approach_delta", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_mathf_approach_delta", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_backward_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_forward_distance", audit["registeredSourceOwners"])
@@ -11166,6 +11207,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }", lerp_delta["exact_exprs"])
         self.assertIn("return lerp(fromValue, toValue, clamp(progress * Time.delta));", lerp_delta["exact_exprs"])
         self.assertIn("progress * Time.delta", lerp_delta["exact_exprs"])
+
+        mathf_approach_delta = source_symbols.source_slice(ledger, "N710")
+        self.assertEqual(mathf_approach_delta["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(mathf_approach_delta["java_method"], "approachDelta(float from, float to, float speed)")
+        self.assertEqual(mathf_approach_delta["godot_owner"], "PortGame.source_mathf_approach_delta")
+        self.assertIn("public static float approachDelta(float from, float to, float speed){\n        return approach(from, to, Time.delta * speed);\n    }", mathf_approach_delta["exact_exprs"])
+        self.assertIn("public static float approach(float from, float to, float speed){\n        return from + Mathf.clamp(to - from, -speed, speed);\n    }", mathf_approach_delta["exact_exprs"])
+        self.assertIn("approach(from, to, Time.delta * speed)", mathf_approach_delta["exact_exprs"])
+        self.assertIn("Time.delta * speed", mathf_approach_delta["exact_exprs"])
 
         building_accept_liquid = source_symbols.source_slice(ledger, "N522")
         self.assertEqual(building_accept_liquid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -13650,6 +13700,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("scaledSpeed", arc_approach_delta["return_keys"])
         self.assertIn("approachDelta", arc_approach_delta["return_keys"])
         self.assertEqual(arc_approach_delta["source_method"], "approachDelta(float from, float to, float speed)")
+
+        mathf_approach_delta = source_symbols.api_contract(contracts, "PortGame.source_mathf_approach_delta")
+        self.assertEqual([param["name"] for param in mathf_approach_delta["params"]], ["from_value", "to_value", "speed", "source_delta"])
+        self.assertEqual(mathf_approach_delta["params"][0]["schema"], "source_mathf_approach_delta_input.from")
+        self.assertEqual(mathf_approach_delta["params"][1]["schema"], "source_mathf_approach_delta_input.to")
+        self.assertEqual(mathf_approach_delta["params"][2]["schema"], "source_mathf_approach_delta_input.speed")
+        self.assertEqual(mathf_approach_delta["params"][3]["schema"], "source_mathf_approach_delta_input.sourceDelta")
+        self.assertIn("scaledSpeed", mathf_approach_delta["return_keys"])
+        self.assertIn("approachDelta", mathf_approach_delta["return_keys"])
+        self.assertEqual(mathf_approach_delta["source_method"], "approachDelta(float from, float to, float speed)")
 
         arc_angles_angle = source_symbols.api_contract(contracts, "PortGame.source_arc_angles_angle")
         self.assertEqual([param["name"] for param in arc_angles_angle["params"]], ["from_x", "from_y", "to_x", "to_y"])
@@ -16548,6 +16608,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_approach_delta_result["keys"]["approachDelta"]["java_expr"], "approach(from, to, Time.delta * speed)")
         self.assertEqual(source_approach_delta_result["keys"]["from"]["alias_of"], "source_approach_delta_input.from")
         self.assertEqual(source_approach_delta_result["keys"]["sourceDelta"]["alias_of"], "source_approach_delta_input.sourceDelta")
+
+        source_mathf_approach_delta_input = source_symbols.state_schema(schema, "source_mathf_approach_delta_input")
+        self.assertEqual(source_mathf_approach_delta_input["keys"]["from"]["java_expr"], "from")
+        self.assertEqual(source_mathf_approach_delta_input["keys"]["to"]["java_expr"], "to")
+        self.assertEqual(source_mathf_approach_delta_input["keys"]["speed"]["java_expr"], "speed")
+        self.assertEqual(source_mathf_approach_delta_input["keys"]["sourceDelta"]["java_expr"], "Time.delta")
+
+        source_mathf_approach_delta_result = source_symbols.state_schema(schema, "source_mathf_approach_delta_result")
+        self.assertEqual(source_mathf_approach_delta_result["keys"]["scaledSpeed"]["java_expr"], "Time.delta * speed")
+        self.assertEqual(source_mathf_approach_delta_result["keys"]["approachDelta"]["java_expr"], "approach(from, to, Time.delta * speed)")
+        self.assertEqual(source_mathf_approach_delta_result["keys"]["from"]["alias_of"], "source_mathf_approach_delta_input.from")
+        self.assertEqual(source_mathf_approach_delta_result["keys"]["sourceDelta"]["alias_of"], "source_mathf_approach_delta_input.sourceDelta")
 
         source_arc_angles_angle_input = source_symbols.state_schema(schema, "source_arc_angles_angle_input")
         self.assertEqual(source_arc_angles_angle_input["keys"]["fromX"]["java_expr"], "x")

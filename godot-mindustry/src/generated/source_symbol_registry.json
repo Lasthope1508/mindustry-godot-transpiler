@@ -31319,6 +31319,97 @@
       "tests": [
         "test_lerp_delta_symbols_are_registered_with_source_backing"
       ]
+    },
+    "mathf_approach_delta.method": {
+      "godot_owner": "PortGame.source_mathf_approach_delta",
+      "godot_symbol": "source_mathf_approach_delta_result.approachDelta",
+      "java_expr": "public static float approachDelta(float from, float to, float speed){\n        return approach(from, to, Time.delta * speed);\n    }",
+      "java_method": "approachDelta(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf.approachDelta delegates to approach with speed multiplied by Time.delta.",
+      "runtime_proof": "/root/Main.source_mathf_approach_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_mathf_approach_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_approach_delta.scaled_speed": {
+      "godot_owner": "PortGame.source_mathf_approach_delta",
+      "godot_symbol": "source_mathf_approach_delta_result.scaledSpeed",
+      "java_expr": "Time.delta * speed",
+      "java_method": "approachDelta(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Delta-scaled speed multiplies Java speed by Time.delta.",
+      "runtime_proof": "/root/Main.source_mathf_approach_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_mathf_approach_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_approach_delta.approach_call": {
+      "godot_owner": "PortGame.source_mathf_approach_delta",
+      "godot_symbol": "source_mathf_approach_delta_result.approachDelta",
+      "java_expr": "approach(from, to, Time.delta * speed)",
+      "java_method": "approachDelta(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "ApproachDelta delegates to approach(from, to, scaled speed).",
+      "runtime_proof": "/root/Main.source_mathf_approach_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_mathf_approach_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_approach_delta.from_input": {
+      "godot_owner": "PortGame.source_mathf_approach_delta",
+      "godot_symbol": "source_mathf_approach_delta_input.from",
+      "java_expr": "from",
+      "java_method": "approachDelta(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Java approachDelta starting value from.",
+      "runtime_proof": "/root/Main.source_mathf_approach_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_mathf_approach_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_approach_delta.to_input": {
+      "godot_owner": "PortGame.source_mathf_approach_delta",
+      "godot_symbol": "source_mathf_approach_delta_input.to",
+      "java_expr": "to",
+      "java_method": "approachDelta(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Java approachDelta target value to.",
+      "runtime_proof": "/root/Main.source_mathf_approach_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_mathf_approach_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_approach_delta.speed_input": {
+      "godot_owner": "PortGame.source_mathf_approach_delta",
+      "godot_symbol": "source_mathf_approach_delta_input.speed",
+      "java_expr": "speed",
+      "java_method": "approachDelta(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Java approachDelta linear speed.",
+      "runtime_proof": "/root/Main.source_mathf_approach_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_mathf_approach_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_approach_delta.delta_input": {
+      "godot_owner": "PortGame.source_mathf_approach_delta",
+      "godot_symbol": "source_mathf_approach_delta_input.sourceDelta",
+      "java_expr": "Time.delta",
+      "java_method": "approachDelta(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime source_delta parameter supplies Java Time.delta.",
+      "runtime_proof": "/root/Main.source_mathf_approach_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_mathf_approach_delta_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

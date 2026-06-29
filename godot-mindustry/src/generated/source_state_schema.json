@@ -40341,6 +40341,112 @@
         }
       },
       "status": "active"
+    },
+    "source_mathf_approach_delta_input": {
+      "keys": {
+        "from": {
+          "godot_symbol": "source_mathf_approach_delta_input.from",
+          "java_expr": "from",
+          "java_method": "approachDelta(float from, float to, float speed)",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "rule": "Java approachDelta starting value from.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mathf_approach_delta"
+          ]
+        },
+        "sourceDelta": {
+          "godot_symbol": "source_mathf_approach_delta_input.sourceDelta",
+          "java_expr": "Time.delta",
+          "java_method": "approachDelta(float from, float to, float speed)",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "rule": "Runtime source_delta supplies Java Time.delta.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mathf_approach_delta"
+          ]
+        },
+        "speed": {
+          "godot_symbol": "source_mathf_approach_delta_input.speed",
+          "java_expr": "speed",
+          "java_method": "approachDelta(float from, float to, float speed)",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "rule": "Java approachDelta linear speed.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mathf_approach_delta"
+          ]
+        },
+        "to": {
+          "godot_symbol": "source_mathf_approach_delta_input.to",
+          "java_expr": "to",
+          "java_method": "approachDelta(float from, float to, float speed)",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "rule": "Java approachDelta target value to.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mathf_approach_delta"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_mathf_approach_delta_result": {
+      "keys": {
+        "approachDelta": {
+          "godot_symbol": "source_mathf_approach_delta_result.approachDelta",
+          "java_expr": "approach(from, to, Time.delta * speed)",
+          "java_method": "approachDelta(float from, float to, float speed)",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "rule": "ApproachDelta return value.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mathf_approach_delta"
+          ]
+        },
+        "from": {
+          "alias_of": "source_mathf_approach_delta_input.from",
+          "rule": "Carries Java approachDelta input from into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "scaledSpeed": {
+          "godot_symbol": "source_mathf_approach_delta_result.scaledSpeed",
+          "java_expr": "Time.delta * speed",
+          "java_method": "approachDelta(float from, float to, float speed)",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "rule": "Speed after multiplying by Time.delta.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mathf_approach_delta"
+          ]
+        },
+        "sourceDelta": {
+          "alias_of": "source_mathf_approach_delta_input.sourceDelta",
+          "rule": "Carries Java Time.delta input into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "speed": {
+          "alias_of": "source_mathf_approach_delta_input.speed",
+          "rule": "Carries Java approachDelta input speed into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "to": {
+          "alias_of": "source_mathf_approach_delta_input.to",
+          "rule": "Carries Java approachDelta input to into result schema.",
+          "status": "generated",
+          "type": "float"
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

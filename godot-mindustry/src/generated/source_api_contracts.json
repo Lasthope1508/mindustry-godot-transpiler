@@ -11570,6 +11570,47 @@
       "tests": [
         "test_lerp_delta_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_mathf_approach_delta": {
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "params": [
+        {
+          "name": "from_value",
+          "schema": "source_mathf_approach_delta_input.from",
+          "type": "float"
+        },
+        {
+          "name": "to_value",
+          "schema": "source_mathf_approach_delta_input.to",
+          "type": "float"
+        },
+        {
+          "name": "speed",
+          "schema": "source_mathf_approach_delta_input.speed",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_mathf_approach_delta_input.sourceDelta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "scaledSpeed",
+        "approachDelta",
+        "from",
+        "to",
+        "speed",
+        "sourceDelta"
+      ],
+      "rule": "Public runtime contract for Arc Mathf.approachDelta-backed helper with explicit Time.delta input.",
+      "runtime_proof": "/root/Main.source_mathf_approach_delta",
+      "source_method": "approachDelta(float from, float to, float speed)",
+      "source_slice": "N710",
+      "status": "active",
+      "tests": [
+        "test_mathf_approach_delta_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
