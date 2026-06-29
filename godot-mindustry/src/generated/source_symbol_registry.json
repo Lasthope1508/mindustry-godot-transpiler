@@ -34774,6 +34774,118 @@
         "test_port_game_exposes_source_bullet_type_update_weaving_rotate_speed_state",
         "test_bullet_type_update_weaving_rotate_speed_symbols_are_registered_with_source_backing"
       ]
+    },
+    "turret_inaccuracy.comment": {
+      "godot_owner": "PortGame.source_turret_inaccuracy",
+      "godot_symbol": "source_turret_inaccuracy_result.comment",
+      "java_expr": "/** Bullet angle randomness in degrees. */",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Canonical Turret.inaccuracy source comment.",
+      "runtime_proof": "/root/Main.source_turret_inaccuracy",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_inaccuracy_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_inaccuracy"
+      ]
+    },
+    "turret_inaccuracy.field": {
+      "godot_owner": "PortGame.source_turret_inaccuracy",
+      "godot_symbol": "source_turret_inaccuracy_result.field",
+      "java_expr": "public float inaccuracy = 0f;",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Canonical Turret.inaccuracy field declaration.",
+      "runtime_proof": "/root/Main.source_turret_inaccuracy",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_inaccuracy_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_inaccuracy"
+      ]
+    },
+    "turret_inaccuracy.turret": {
+      "godot_owner": "PortGame.source_turret_inaccuracy",
+      "godot_symbol": "source_turret_inaccuracy_input.turret",
+      "java_expr": "Turret / TurretBuild block",
+      "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Runtime turret object supplies Turret.inaccuracy field state.",
+      "runtime_proof": "/root/Main.source_turret_inaccuracy",
+      "status": "explicit-input",
+      "tests": [
+        "test_turret_inaccuracy_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_inaccuracy"
+      ]
+    },
+    "turret_inaccuracy.key": {
+      "godot_owner": "PortGame.source_turret_inaccuracy",
+      "godot_symbol": "source_turret_inaccuracy_result.key",
+      "java_expr": "inaccuracy",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Godot dictionary key maps to Turret.inaccuracy exactly.",
+      "runtime_proof": "/root/Main.source_turret_inaccuracy",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_inaccuracy_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_inaccuracy"
+      ]
+    },
+    "turret_inaccuracy.default": {
+      "godot_owner": "PortGame.source_turret_inaccuracy",
+      "godot_symbol": "source_turret_inaccuracy_result.default_value",
+      "java_expr": "0f",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Godot fallback preserves Turret.inaccuracy default value.",
+      "runtime_proof": "/root/Main.source_turret_inaccuracy",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_inaccuracy_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_inaccuracy"
+      ]
+    },
+    "turret_inaccuracy.result": {
+      "godot_owner": "PortGame.source_turret_inaccuracy",
+      "godot_symbol": "source_turret_inaccuracy_result.inaccuracy",
+      "java_expr": "inaccuracy",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Return inaccuracy from Turret.inaccuracy runtime data or default.",
+      "runtime_proof": "/root/Main.source_turret_inaccuracy",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_inaccuracy_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_inaccuracy"
+      ]
+    },
+    "turret_inaccuracy.duo_value": {
+      "godot_owner": "PortGame.source_turret_inaccuracy",
+      "godot_symbol": "source_turret_inaccuracy_result.duoValue",
+      "java_expr": "inaccuracy = 2f;",
+      "java_method": "load()",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "rule": "Duo block overrides Turret.inaccuracy to 2 degrees.",
+      "runtime_proof": "/root/Main.source_turret_inaccuracy",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_inaccuracy_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_inaccuracy"
+      ]
+    },
+    "turret_inaccuracy.shoot_angle": {
+      "godot_owner": "PortGame.source_turret_inaccuracy",
+      "godot_symbol": "source_turret_inaccuracy_result.shootAngleSource",
+      "java_expr": "shootAngle = rotation + angleOffset + Mathf.range(inaccuracy + type.inaccuracy);",
+      "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "TurretBuild.bullet adds random inaccuracy range to rotation plus ShootPattern angleOffset.",
+      "runtime_proof": "/root/Main.source_turret_inaccuracy",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_inaccuracy_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_inaccuracy"
+      ]
     }
   },
   "version": 1

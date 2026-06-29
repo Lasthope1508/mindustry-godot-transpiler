@@ -10878,6 +10878,42 @@
         "test_turret_bullet_origin_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_shoot_y"
       ]
+    },
+    "N738": {
+      "deferred_exprs": [
+        "type.create(this, team, bulletX, bulletY, shootAngle, -1f",
+        "float lifeScl = type.scaleLife ? Mathf.clamp((1 + scaleLifetimeOffset) * Mathf.dst(bulletX, bulletY, targetPos.x, targetPos.y) / type.range, minRange() / type.range, range() / type.range) : 1f;"
+      ],
+      "exact_exprs": [
+        "/** Bullet angle randomness in degrees. */",
+        "public float inaccuracy = 0f;",
+        "shootAngle = rotation + angleOffset + Mathf.range(inaccuracy + type.inaccuracy);"
+      ],
+      "bridge_exprs": [
+        "inaccuracy = 2f;",
+        "/** Extra inaccuracy when firing. */",
+        "public float inaccuracy = 0f;"
+      ],
+      "godot_owner": "PortGame.source_turret_inaccuracy",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret.TurretBuild",
+      "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "runtime_proof": "/root/Main.source_turret_inaccuracy",
+      "source_symbols": [
+        "turret_inaccuracy.comment",
+        "turret_inaccuracy.field",
+        "turret_inaccuracy.turret",
+        "turret_inaccuracy.key",
+        "turret_inaccuracy.default",
+        "turret_inaccuracy.result",
+        "turret_inaccuracy.duo_value",
+        "turret_inaccuracy.shoot_angle"
+      ],
+      "status": "done",
+      "tests": [
+        "test_turret_inaccuracy_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_inaccuracy"
+      ]
     }
   },
   "version": 1

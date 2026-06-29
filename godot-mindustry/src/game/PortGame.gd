@@ -10393,10 +10393,17 @@ func source_turret_shoot_y(turret) -> float:
 		return 0.0
 	return float(turret.properties.get("shootY", 0.0))
 
+const SOURCE_TURRET_INACCURACY_COMMENT := "/** Bullet angle randomness in degrees. */"
+const SOURCE_TURRET_INACCURACY_FIELD := "public float inaccuracy = 0f;"
+const SOURCE_TURRET_INACCURACY_KEY := "inaccuracy"
+const SOURCE_TURRET_INACCURACY_DEFAULT := 0.0
+const SOURCE_TURRET_INACCURACY_DUO_VALUE := "inaccuracy = 2f;"
+const SOURCE_TURRET_INACCURACY_SHOOT_ANGLE := "shootAngle = rotation + angleOffset + Mathf.range(inaccuracy + type.inaccuracy);"
+
 func source_turret_inaccuracy(turret) -> float:
 	if turret == null:
 		return 0.0
-	return float(turret.properties.get("inaccuracy", 0.0))
+	return float(turret.properties.get(SOURCE_TURRET_INACCURACY_KEY, SOURCE_TURRET_INACCURACY_DEFAULT))
 
 func source_turret_rotate_speed(turret) -> float:
 	if turret == null:
