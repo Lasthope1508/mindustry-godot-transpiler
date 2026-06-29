@@ -4362,6 +4362,53 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(asset_bridge["java_expr"], "Core.atlas.find(sprite)")
         self.assertEqual(asset_bridge["godot_symbol"], "source_bullet_texture_result.asset_path")
 
+    def test_bullet_velocity_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        speed_field = source_symbols.source_symbol(registry, "bullet_velocity.speed_field")
+        self.assertEqual(speed_field["java_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(speed_field["java_method"], "field declaration")
+        self.assertEqual(speed_field["java_expr"], "public float speed = 1f;")
+        self.assertEqual(speed_field["godot_owner"], "PortGame.source_bullet_velocity")
+        self.assertEqual(speed_field["runtime_proof"], "/root/Main.source_bullet_velocity")
+        self.assertEqual(speed_field["godot_symbol"], "source_bullet_velocity_result.speed_field")
+
+        init_vel_call = source_symbols.source_symbol(registry, "bullet_velocity.init_vel_call")
+        self.assertEqual(init_vel_call["java_method"], "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)")
+        self.assertEqual(init_vel_call["java_expr"], "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));")
+        self.assertEqual(init_vel_call["godot_symbol"], "source_bullet_velocity_result.init_vel_call")
+
+        init_vel_method = source_symbols.source_symbol(registry, "bullet_velocity.comp_init_vel_method")
+        self.assertEqual(init_vel_method["java_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(init_vel_method["java_method"], "initVel(float angle, float amount)")
+        self.assertEqual(init_vel_method["java_expr"], "public void initVel(float angle, float amount){")
+        self.assertEqual(init_vel_method["godot_symbol"], "source_bullet_velocity_result.comp_init_vel_method")
+
+        trns = source_symbols.source_symbol(registry, "bullet_velocity.comp_trns")
+        self.assertEqual(trns["java_expr"], "vel.trns(angle, amount);")
+        self.assertEqual(trns["godot_symbol"], "source_bullet_velocity_result.comp_trns")
+
+        rotation = source_symbols.source_symbol(registry, "bullet_velocity.comp_rotation")
+        self.assertEqual(rotation["java_expr"], "rotation = angle;")
+        self.assertEqual(rotation["godot_symbol"], "source_bullet_velocity_result.comp_rotation")
+
+        data = source_symbols.source_symbol(registry, "bullet_velocity.data")
+        self.assertEqual(data["status"], "explicit-input")
+        self.assertEqual(data["java_expr"], "BulletType data")
+        self.assertEqual(data["godot_symbol"], "source_bullet_velocity_input.data")
+
+        angle = source_symbols.source_symbol(registry, "bullet_velocity.angle")
+        self.assertEqual(angle["status"], "explicit-input")
+        self.assertEqual(angle["java_expr"], "angle")
+        self.assertEqual(angle["godot_symbol"], "source_bullet_velocity_input.shoot_angle_degrees")
+
+        result = source_symbols.source_symbol(registry, "bullet_velocity.result")
+        self.assertEqual(result["java_expr"], "vel.trns(angle, amount)")
+        self.assertEqual(result["godot_symbol"], "source_bullet_velocity_result.velocity")
+
     def test_building_can_be_replaced_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -8446,9 +8493,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 278)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 279)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 283)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 284)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -8634,6 +8681,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_rotation_degrees", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_scale", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_texture", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_velocity", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -10103,6 +10151,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn('this(speed, damage, "bullet");', bullet_texture["exact_exprs"])
         self.assertIn("public void load(){", bullet_texture["exact_exprs"])
         self.assertIn("frontRegion = Core.atlas.find(sprite);", bullet_texture["exact_exprs"])
+
+        bullet_velocity = source_symbols.source_slice(ledger, "N681")
+        self.assertEqual(bullet_velocity["java_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(bullet_velocity["java_method"], "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)")
+        self.assertEqual(bullet_velocity["godot_owner"], "PortGame.source_bullet_velocity")
+        self.assertIn("public float speed = 1f;", bullet_velocity["exact_exprs"])
+        self.assertIn("bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));", bullet_velocity["exact_exprs"])
+        self.assertIn("public void initVel(float angle, float amount){", bullet_velocity["exact_exprs"])
+        self.assertIn("vel.trns(angle, amount);", bullet_velocity["exact_exprs"])
+        self.assertIn("rotation = angle;", bullet_velocity["exact_exprs"])
 
         building_update_consumption_non_optional = source_symbols.source_slice(ledger, "N662")
         self.assertEqual(building_update_consumption_non_optional["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -13170,6 +13228,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("texture", bullet_texture["return_keys"])
         self.assertEqual(bullet_texture["source_method"], "load()")
 
+        bullet_velocity = source_symbols.api_contract(contracts, "PortGame.source_bullet_velocity")
+        self.assertEqual([param["name"] for param in bullet_velocity["params"]], ["data", "shoot_angle_degrees"])
+        self.assertEqual(bullet_velocity["params"][0]["schema"], "source_bullet_velocity_input.data")
+        self.assertEqual(bullet_velocity["params"][1]["schema"], "source_bullet_velocity_input.shoot_angle_degrees")
+        self.assertIn("velocity", bullet_velocity["return_keys"])
+        self.assertEqual(bullet_velocity["source_method"], "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)")
+
         building_placed = source_symbols.api_contract(contracts, "PortGame.source_building_placed_state")
         self.assertEqual([param["name"] for param in building_placed["params"]], ["net_client", "consumes_power", "outputs_power", "has_power", "connected_power", "linked_to_self", "source_pos"])
         self.assertEqual(building_placed["params"][0]["schema"], "source_building_placed_input.net_client")
@@ -16158,6 +16223,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_bullet_texture_result["keys"]["default_sprite"]["java_expr"], '"bullet"')
         self.assertEqual(source_bullet_texture_result["keys"]["asset_path"]["java_expr"], "Core.atlas.find(sprite)")
         self.assertEqual(source_bullet_texture_result["keys"]["sprite_id"]["alias_of"], "source_bullet_texture_input.sprite_id")
+
+        source_bullet_velocity_input = source_symbols.state_schema(schema, "source_bullet_velocity_input")
+        self.assertEqual(source_bullet_velocity_input["keys"]["data"]["java_expr"], "BulletType data")
+        self.assertEqual(source_bullet_velocity_input["keys"]["data"]["status"], "explicit-input")
+        self.assertEqual(source_bullet_velocity_input["keys"]["shoot_angle_degrees"]["java_expr"], "angle")
+        self.assertEqual(source_bullet_velocity_input["keys"]["shoot_angle_degrees"]["status"], "explicit-input")
+
+        source_bullet_velocity_result = source_symbols.state_schema(schema, "source_bullet_velocity_result")
+        self.assertEqual(source_bullet_velocity_result["keys"]["speed_field"]["java_expr"], "public float speed = 1f;")
+        self.assertEqual(source_bullet_velocity_result["keys"]["init_vel_call"]["java_expr"], "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));")
+        self.assertEqual(source_bullet_velocity_result["keys"]["comp_init_vel_method"]["java_expr"], "public void initVel(float angle, float amount){")
+        self.assertEqual(source_bullet_velocity_result["keys"]["comp_trns"]["java_expr"], "vel.trns(angle, amount);")
+        self.assertEqual(source_bullet_velocity_result["keys"]["comp_rotation"]["java_expr"], "rotation = angle;")
+        self.assertEqual(source_bullet_velocity_result["keys"]["velocity"]["java_expr"], "vel.trns(angle, amount)")
+        self.assertEqual(source_bullet_velocity_result["keys"]["data"]["alias_of"], "source_bullet_velocity_input.data")
+        self.assertEqual(source_bullet_velocity_result["keys"]["shoot_angle_degrees"]["alias_of"], "source_bullet_velocity_input.shoot_angle_degrees")
 
         source_building_placed_input = source_symbols.state_schema(schema, "source_building_placed_input")
         self.assertEqual(source_building_placed_input["keys"]["net_client"]["java_expr"], "net.client()")

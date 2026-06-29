@@ -10176,6 +10176,12 @@ func source_bullet_lifetime_seconds(data: Dictionary) -> float:
 func source_bullet_world_speed(data: Dictionary) -> float:
 	return float(data.get("speed", 1.0)) * 60.0
 
+const SOURCE_BULLET_VELOCITY_SPEED_FIELD := "public float speed = 1f;"
+const SOURCE_BULLET_VELOCITY_INIT_VEL_CALL := "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));"
+const SOURCE_BULLET_VELOCITY_COMP_INIT_VEL_METHOD := "public void initVel(float angle, float amount){"
+const SOURCE_BULLET_VELOCITY_COMP_TRNS := "vel.trns(angle, amount);"
+const SOURCE_BULLET_VELOCITY_COMP_ROTATION := "rotation = angle;"
+
 func source_bullet_velocity(data: Dictionary, shoot_angle_degrees: float) -> Vector2:
 	return Vector2.RIGHT.rotated(deg_to_rad(shoot_angle_degrees)) * source_bullet_world_speed(data)
 

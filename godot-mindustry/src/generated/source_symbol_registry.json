@@ -19494,6 +19494,110 @@
         "test_port_game_exposes_source_bullet_type_draw_parts_state"
       ]
     },
+    "bullet_velocity.angle": {
+      "godot_owner": "PortGame.source_bullet_velocity",
+      "godot_symbol": "source_bullet_velocity_input.shoot_angle_degrees",
+      "java_expr": "angle",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Runtime shoot angle supplies BulletType.create angle.",
+      "runtime_proof": "/root/Main.source_bullet_velocity",
+      "status": "explicit-input",
+      "tests": [
+        "test_bullet_velocity_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_velocity.comp_init_vel_method": {
+      "godot_owner": "PortGame.source_bullet_velocity",
+      "godot_symbol": "source_bullet_velocity_result.comp_init_vel_method",
+      "java_expr": "public void initVel(float angle, float amount){",
+      "java_method": "initVel(float angle, float amount)",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "rule": "BulletComp initVel method boundary for velocity transfer.",
+      "runtime_proof": "/root/Main.source_bullet_velocity",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_velocity_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_velocity.comp_rotation": {
+      "godot_owner": "PortGame.source_bullet_velocity",
+      "godot_symbol": "source_bullet_velocity_result.comp_rotation",
+      "java_expr": "rotation = angle;",
+      "java_method": "initVel(float angle, float amount)",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "rule": "BulletComp rotation is assigned from velocity angle.",
+      "runtime_proof": "/root/Main.source_bullet_velocity",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_velocity_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_velocity.comp_trns": {
+      "godot_owner": "PortGame.source_bullet_velocity",
+      "godot_symbol": "source_bullet_velocity_result.comp_trns",
+      "java_expr": "vel.trns(angle, amount);",
+      "java_method": "initVel(float angle, float amount)",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "rule": "BulletComp velocity vector is transformed by angle and amount.",
+      "runtime_proof": "/root/Main.source_bullet_velocity",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_velocity_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_velocity.data": {
+      "godot_owner": "PortGame.source_bullet_velocity",
+      "godot_symbol": "source_bullet_velocity_input.data",
+      "java_expr": "BulletType data",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Runtime data supplies BulletType speed field.",
+      "runtime_proof": "/root/Main.source_bullet_velocity",
+      "status": "explicit-input",
+      "tests": [
+        "test_bullet_velocity_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_velocity.init_vel_call": {
+      "godot_owner": "PortGame.source_bullet_velocity",
+      "godot_symbol": "source_bullet_velocity_result.init_vel_call",
+      "java_expr": "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "BulletType.create initializes bullet velocity from angle and scaled speed.",
+      "runtime_proof": "/root/Main.source_bullet_velocity",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_velocity_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_velocity.result": {
+      "godot_owner": "PortGame.source_bullet_velocity",
+      "godot_symbol": "source_bullet_velocity_result.velocity",
+      "java_expr": "vel.trns(angle, amount)",
+      "java_method": "initVel(float angle, float amount)",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "rule": "Godot Vector2 velocity mirrors BulletComp vel.trns(angle, amount).",
+      "runtime_proof": "/root/Main.source_bullet_velocity",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_velocity_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_velocity.speed_field": {
+      "godot_owner": "PortGame.source_bullet_velocity",
+      "godot_symbol": "source_bullet_velocity_result.speed_field",
+      "java_expr": "public float speed = 1f;",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Canonical BulletType speed field declaration.",
+      "runtime_proof": "/root/Main.source_bullet_velocity",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_velocity_symbols_are_registered_with_source_backing"
+      ]
+    },
     "calculate_range_despawn_unit.despawn_unit_field": {
       "godot_owner": "PortGame.source_bullet_type_calculate_range_despawn_unit_state",
       "godot_symbol": "bullet_type_state.despawnUnit",

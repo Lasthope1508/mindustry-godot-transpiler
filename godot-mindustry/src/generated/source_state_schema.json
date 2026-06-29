@@ -35026,6 +35026,124 @@
       },
       "status": "active"
     },
+    "source_bullet_velocity_input": {
+      "keys": {
+        "data": {
+          "godot_symbol": "source_bullet_velocity_input.data",
+          "java_expr": "BulletType data",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Runtime data supplies BulletType speed field.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_bullet_velocity"
+          ]
+        },
+        "shoot_angle_degrees": {
+          "godot_symbol": "source_bullet_velocity_input.shoot_angle_degrees",
+          "java_expr": "angle",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Runtime shoot angle supplies BulletType.create angle.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_bullet_velocity"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_bullet_velocity_result": {
+      "keys": {
+        "comp_init_vel_method": {
+          "godot_symbol": "source_bullet_velocity_result.comp_init_vel_method",
+          "java_expr": "public void initVel(float angle, float amount){",
+          "java_method": "initVel(float angle, float amount)",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "rule": "BulletComp initVel method boundary for velocity transfer.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_velocity"
+          ]
+        },
+        "comp_rotation": {
+          "godot_symbol": "source_bullet_velocity_result.comp_rotation",
+          "java_expr": "rotation = angle;",
+          "java_method": "initVel(float angle, float amount)",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "rule": "BulletComp rotation is assigned from velocity angle.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_velocity"
+          ]
+        },
+        "comp_trns": {
+          "godot_symbol": "source_bullet_velocity_result.comp_trns",
+          "java_expr": "vel.trns(angle, amount);",
+          "java_method": "initVel(float angle, float amount)",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "rule": "BulletComp velocity vector is transformed by angle and amount.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_velocity"
+          ]
+        },
+        "data": {
+          "alias_of": "source_bullet_velocity_input.data",
+          "rule": "Carries BulletType data input into velocity result schema.",
+          "status": "generated",
+          "type": "Dictionary"
+        },
+        "init_vel_call": {
+          "godot_symbol": "source_bullet_velocity_result.init_vel_call",
+          "java_expr": "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));",
+          "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "BulletType.create initializes bullet velocity from angle and scaled speed.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_velocity"
+          ]
+        },
+        "shoot_angle_degrees": {
+          "alias_of": "source_bullet_velocity_input.shoot_angle_degrees",
+          "rule": "Carries shoot angle input into velocity result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "speed_field": {
+          "godot_symbol": "source_bullet_velocity_result.speed_field",
+          "java_expr": "public float speed = 1f;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Canonical BulletType speed field declaration.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_velocity"
+          ]
+        },
+        "velocity": {
+          "godot_symbol": "source_bullet_velocity_result.velocity",
+          "java_expr": "vel.trns(angle, amount)",
+          "java_method": "initVel(float angle, float amount)",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "rule": "Godot Vector2 velocity mirrors BulletComp vel.trns(angle, amount).",
+          "status": "source-backed",
+          "type": "Vector2",
+          "used_by": [
+            "PortGame.source_bullet_velocity"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {
