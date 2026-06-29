@@ -11297,6 +11297,30 @@
       "tests": [
         "test_drill_time_drilled_delta_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_drill_warmup_speed": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "field declaration",
+      "source_slice": "N702",
+      "runtime_proof": "/root/Main.source_drill_warmup_speed",
+      "params": [
+        {
+          "name": "block_id",
+          "type": "String",
+          "schema": "source_drill_warmup_speed_input.block_id"
+        }
+      ],
+      "return_keys": [
+        "warmupSpeed",
+        "comment",
+        "key",
+        "default"
+      ],
+      "rule": "Public runtime contract for Drill warmupSpeed field lookup with source default fallback.",
+      "tests": [
+        "test_drill_warmup_speed_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

@@ -39493,6 +39493,76 @@
         }
       },
       "status": "active"
+    },
+    "source_drill_warmup_speed_input": {
+      "status": "active",
+      "keys": {
+        "block_id": {
+          "status": "explicit-input",
+          "type": "String",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_method": "field declaration",
+          "java_expr": "Drill block",
+          "godot_symbol": "source_drill_warmup_speed_input.block_id",
+          "rule": "Input block id selects source Drill block metadata.",
+          "used_by": [
+            "PortGame.source_drill_warmup_speed"
+          ]
+        }
+      }
+    },
+    "source_drill_warmup_speed_result": {
+      "status": "active",
+      "keys": {
+        "comment": {
+          "status": "source-backed",
+          "type": "String",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_method": "field declaration",
+          "java_expr": "Speed at which the drill speeds up.",
+          "godot_symbol": "source_drill_warmup_speed_result.comment",
+          "rule": "Source comment for warmupSpeed.",
+          "used_by": [
+            "PortGame.source_drill_warmup_speed"
+          ]
+        },
+        "warmupSpeed": {
+          "status": "source-backed",
+          "type": "float",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_method": "field declaration",
+          "java_expr": "public float warmupSpeed = 0.015f;",
+          "godot_symbol": "source_drill_warmup_speed_result.warmupSpeed",
+          "rule": "Resolved warmupSpeed value from source field metadata.",
+          "used_by": [
+            "PortGame.source_drill_warmup_speed"
+          ]
+        },
+        "key": {
+          "status": "source-backed",
+          "type": "String",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_method": "field declaration",
+          "java_expr": "warmupSpeed",
+          "godot_symbol": "source_drill_warmup_speed_result.key",
+          "rule": "Source field/property key.",
+          "used_by": [
+            "PortGame.source_drill_warmup_speed"
+          ]
+        },
+        "default": {
+          "status": "source-backed",
+          "type": "float",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_method": "field declaration",
+          "java_expr": "0.015f",
+          "godot_symbol": "source_drill_warmup_speed_result.default",
+          "rule": "Source warmupSpeed fallback default.",
+          "used_by": [
+            "PortGame.source_drill_warmup_speed"
+          ]
+        }
+      }
     }
   },
   "version": 1

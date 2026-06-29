@@ -5925,6 +5925,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_drill_inactive_warmup_state(current_warmup: float, warmup_speed: float, source_delta: float) -> float:", source)
         self.assertIn("return source_approach_delta(current_warmup, 0.0, warmup_speed, source_delta)", source)
 
+    def test_port_game_exposes_source_drill_warmup_speed_symbols(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn('const SOURCE_DRILL_WARMUP_SPEED_COMMENT := "Speed at which the drill speeds up."', source)
+        self.assertIn('const SOURCE_DRILL_WARMUP_SPEED_FIELD := "public float warmupSpeed = 0.015f;"', source)
+        self.assertIn('const SOURCE_DRILL_WARMUP_SPEED_KEY := "warmupSpeed"', source)
+        self.assertIn("const SOURCE_DRILL_WARMUP_SPEED_DEFAULT := 0.015", source)
+        self.assertIn("func source_drill_warmup_speed(block_id: String) -> float:", source)
+        self.assertIn("return SOURCE_DRILL_WARMUP_SPEED_DEFAULT", source)
+        self.assertIn("block.properties.get(SOURCE_DRILL_WARMUP_SPEED_KEY, SOURCE_DRILL_WARMUP_SPEED_DEFAULT)", source)
+
     def test_port_game_exposes_source_drill_progress_fraction(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -9648,6 +9648,31 @@
         "test_drill_time_drilled_delta_symbols_are_registered_with_source_backing",
         "test_port_game_tracks_source_drill_time_drilled"
       ]
+    },
+    "N702": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_class": "mindustry.world.blocks.production.Drill",
+      "java_method": "field declaration",
+      "exact_exprs": [
+        "Speed at which the drill speeds up.",
+        "public float warmupSpeed = 0.015f;",
+        "warmupSpeed",
+        "0.015f"
+      ],
+      "godot_owner": "PortGame.source_drill_warmup_speed",
+      "runtime_proof": "/root/Main.source_drill_warmup_speed",
+      "source_symbols": [
+        "drill_warmup_speed.field",
+        "drill_warmup_speed.comment",
+        "drill_warmup_speed.key",
+        "drill_warmup_speed.default",
+        "drill_warmup_speed.block_id"
+      ],
+      "tests": [
+        "test_drill_warmup_speed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_drill_warmup_speed_symbols"
+      ]
     }
   },
   "version": 1

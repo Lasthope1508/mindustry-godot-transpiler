@@ -1037,6 +1037,10 @@ const SOURCE_DRILL_INACTIVE_WARMUP_LAST_SPEED_RESET := "lastDrillSpeed = 0f;"
 const SOURCE_DRILL_INACTIVE_WARMUP_WARMUP_DECAY := "warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);"
 const SOURCE_DRILL_INACTIVE_WARMUP_WARMUP_SPEED_COMMENT := "Speed at which the drill speeds up."
 const SOURCE_DRILL_INACTIVE_WARMUP_WARMUP_SPEED_FIELD := "public float warmupSpeed = 0.015f;"
+const SOURCE_DRILL_WARMUP_SPEED_COMMENT := "Speed at which the drill speeds up."
+const SOURCE_DRILL_WARMUP_SPEED_FIELD := "public float warmupSpeed = 0.015f;"
+const SOURCE_DRILL_WARMUP_SPEED_KEY := "warmupSpeed"
+const SOURCE_DRILL_WARMUP_SPEED_DEFAULT := 0.015
 
 func source_drill_dump_interval(block_id: String, time_scale := 1.0) -> float:
 	return source_block_dump_time(block_id) / time_scale
@@ -1100,11 +1104,11 @@ func source_drill_output_rate(block_id: String, item_id: String, return_count: i
 
 func source_drill_warmup_speed(block_id: String) -> float:
 	if content_catalog == null:
-		return SOURCE_DRILL_WARMUP_SPEED
+		return SOURCE_DRILL_WARMUP_SPEED_DEFAULT
 	var block = content_catalog.get_by_id(block_id)
 	if block == null:
-		return SOURCE_DRILL_WARMUP_SPEED
-	return float(block.properties.get("warmupSpeed", SOURCE_DRILL_WARMUP_SPEED))
+		return SOURCE_DRILL_WARMUP_SPEED_DEFAULT
+	return float(block.properties.get(SOURCE_DRILL_WARMUP_SPEED_KEY, SOURCE_DRILL_WARMUP_SPEED_DEFAULT))
 
 func source_drill_warmup_state(current_warmup: float, speed: float, warmup_speed: float, source_delta: float) -> float:
 	return source_approach_delta(current_warmup, speed, warmup_speed, source_delta)
