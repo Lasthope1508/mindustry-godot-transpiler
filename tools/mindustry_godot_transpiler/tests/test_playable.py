@@ -2208,6 +2208,11 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_building_efficiency_scale_state() -> float:", source)
         self.assertIn("return 1.0", source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_EFFICIENCY_MULTIPLIER_COMMENT := "/** Called after efficiency is updated but before consumers are updated. Use to apply your own multiplier. */"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_EFFICIENCY_MULTIPLIER_METHOD := "public void updateEfficiencyMultiplier(){"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_EFFICIENCY_MULTIPLIER_SCALE := "float scale = efficiencyScale();"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_EFFICIENCY_MULTIPLIER_EFFICIENCY := "efficiency *= scale;"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_EFFICIENCY_MULTIPLIER_OPTIONAL := "optionalEfficiency *= scale;"', source)
         self.assertIn("func source_building_update_efficiency_multiplier_state(efficiency: float, optional_efficiency: float, efficiency_scale := 1.0) -> Dictionary:", source)
         self.assertIn('"efficiency": efficiency * efficiency_scale', source)
         self.assertIn('"optional_efficiency": optional_efficiency * efficiency_scale', source)

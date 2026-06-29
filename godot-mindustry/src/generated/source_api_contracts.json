@@ -10201,6 +10201,39 @@
       ],
       "runtime_proof": "/root/Main.source_building_update_consumption_setup_state",
       "rule": "Backfills SSOT for updateConsumption setup/reset state before consumer passes."
+    },
+    "PortGame.source_building_update_efficiency_multiplier_state": {
+      "status": "active",
+      "source_slice": "N666",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "updateEfficiencyMultiplier()",
+      "params": [
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_building_update_efficiency_multiplier_input.efficiency"
+        },
+        {
+          "name": "optional_efficiency",
+          "type": "float",
+          "schema": "source_building_update_efficiency_multiplier_input.optional_efficiency"
+        },
+        {
+          "name": "efficiency_scale",
+          "type": "float",
+          "schema": "source_building_update_efficiency_multiplier_input.efficiency_scale"
+        }
+      ],
+      "return_keys": [
+        "efficiency",
+        "optional_efficiency"
+      ],
+      "tests": [
+        "test_building_update_efficiency_multiplier_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_efficiency_multiplier_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_efficiency_multiplier_state",
+      "rule": "Backfills SSOT for updateEfficiencyMultiplier efficiency and optionalEfficiency scaling."
     }
   },
   "policy": {

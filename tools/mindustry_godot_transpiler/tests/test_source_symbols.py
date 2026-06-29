@@ -6823,6 +6823,41 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(return_value["java_expr"], "return 1f;")
         self.assertEqual(return_value["godot_symbol"], "source_building_efficiency_scale_result.efficiency_scale")
 
+    def test_building_update_efficiency_multiplier_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        comment = source_symbols.source_symbol(registry, "building_update_efficiency_multiplier.comment")
+        self.assertEqual(comment["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(comment["java_method"], "updateEfficiencyMultiplier()")
+        self.assertEqual(comment["java_expr"], "/** Called after efficiency is updated but before consumers are updated. Use to apply your own multiplier. */")
+        self.assertEqual(comment["godot_owner"], "PortGame.source_building_update_efficiency_multiplier_state")
+        self.assertEqual(comment["runtime_proof"], "/root/Main.source_building_update_efficiency_multiplier_state")
+        self.assertEqual(comment["godot_symbol"], "source_building_update_efficiency_multiplier_result.comment")
+
+        method = source_symbols.source_symbol(registry, "building_update_efficiency_multiplier.method")
+        self.assertEqual(method["java_expr"], "public void updateEfficiencyMultiplier(){")
+        self.assertEqual(method["godot_symbol"], "source_building_update_efficiency_multiplier_result.method")
+
+        scale = source_symbols.source_symbol(registry, "building_update_efficiency_multiplier.scale")
+        self.assertEqual(scale["java_expr"], "float scale = efficiencyScale();")
+        self.assertEqual(scale["godot_symbol"], "source_building_update_efficiency_multiplier_result.scale")
+
+        efficiency = source_symbols.source_symbol(registry, "building_update_efficiency_multiplier.efficiency")
+        self.assertEqual(efficiency["java_expr"], "efficiency *= scale;")
+        self.assertEqual(efficiency["godot_symbol"], "source_building_update_efficiency_multiplier_result.efficiency")
+
+        optional_efficiency = source_symbols.source_symbol(registry, "building_update_efficiency_multiplier.optional_efficiency")
+        self.assertEqual(optional_efficiency["java_expr"], "optionalEfficiency *= scale;")
+        self.assertEqual(optional_efficiency["godot_symbol"], "source_building_update_efficiency_multiplier_result.optional_efficiency")
+
+        efficiency_scale = source_symbols.source_symbol(registry, "building_update_efficiency_multiplier.efficiency_scale")
+        self.assertEqual(efficiency_scale["status"], "explicit-input")
+        self.assertEqual(efficiency_scale["java_expr"], "efficiencyScale()")
+        self.assertEqual(efficiency_scale["godot_symbol"], "source_building_update_efficiency_multiplier_input.efficiency_scale")
+
     def test_building_explosion_item_cap_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -7871,9 +7906,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 263)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 264)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 268)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 269)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -8044,6 +8079,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_update_consumption_optional_pass_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_update_consumption_second_pass_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_update_consumption_setup_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_update_efficiency_multiplier_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -9363,6 +9399,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("//assume efficiency is 1 for the calculations below", building_update_consumption_setup["exact_exprs"])
         self.assertIn("efficiency = optionalEfficiency = 1f;", building_update_consumption_setup["exact_exprs"])
         self.assertIn("shouldConsumePower = true;", building_update_consumption_setup["exact_exprs"])
+
+        building_update_efficiency_multiplier = source_symbols.source_slice(ledger, "N666")
+        self.assertEqual(building_update_efficiency_multiplier["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_update_efficiency_multiplier["java_method"], "updateEfficiencyMultiplier()")
+        self.assertEqual(building_update_efficiency_multiplier["godot_owner"], "PortGame.source_building_update_efficiency_multiplier_state")
+        self.assertIn("/** Called after efficiency is updated but before consumers are updated. Use to apply your own multiplier. */", building_update_efficiency_multiplier["exact_exprs"])
+        self.assertIn("public void updateEfficiencyMultiplier(){", building_update_efficiency_multiplier["exact_exprs"])
+        self.assertIn("float scale = efficiencyScale();", building_update_efficiency_multiplier["exact_exprs"])
+        self.assertIn("efficiency *= scale;", building_update_efficiency_multiplier["exact_exprs"])
+        self.assertIn("optionalEfficiency *= scale;", building_update_efficiency_multiplier["exact_exprs"])
+        self.assertIn("efficiencyScale()", building_update_efficiency_multiplier["exact_exprs"])
 
         building_update_consumption_non_optional = source_symbols.source_slice(ledger, "N662")
         self.assertEqual(building_update_consumption_non_optional["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -11866,6 +11913,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("optional_efficiency", building_update_consumption_setup["return_keys"])
         self.assertIn("should_consume_power", building_update_consumption_setup["return_keys"])
         self.assertEqual(building_update_consumption_setup["source_method"], "updateConsumption()")
+
+        building_update_efficiency_multiplier = source_symbols.api_contract(contracts, "PortGame.source_building_update_efficiency_multiplier_state")
+        self.assertEqual([param["name"] for param in building_update_efficiency_multiplier["params"]], ["efficiency", "optional_efficiency", "efficiency_scale"])
+        self.assertEqual(building_update_efficiency_multiplier["params"][0]["schema"], "source_building_update_efficiency_multiplier_input.efficiency")
+        self.assertEqual(building_update_efficiency_multiplier["params"][2]["schema"], "source_building_update_efficiency_multiplier_input.efficiency_scale")
+        self.assertIn("efficiency", building_update_efficiency_multiplier["return_keys"])
+        self.assertIn("optional_efficiency", building_update_efficiency_multiplier["return_keys"])
+        self.assertEqual(building_update_efficiency_multiplier["source_method"], "updateEfficiencyMultiplier()")
 
         building_update_consumption_non_optional = source_symbols.api_contract(contracts, "PortGame.source_building_update_consumption_non_optional_pass_state")
         self.assertEqual([param["name"] for param in building_update_consumption_non_optional["params"]], ["non_optional_consumer_results"])
@@ -15681,6 +15736,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_efficiency_scale_result["keys"]["comment"]["java_expr"], "/** Calculate your own efficiency multiplier. By default, this is applied in updateEfficiencyMultiplier. */")
         self.assertEqual(source_building_efficiency_scale_result["keys"]["method"]["java_expr"], "public float efficiencyScale(){")
         self.assertEqual(source_building_efficiency_scale_result["keys"]["efficiency_scale"]["java_expr"], "return 1f;")
+
+        source_building_update_efficiency_multiplier_input = source_symbols.state_schema(schema, "source_building_update_efficiency_multiplier_input")
+        self.assertEqual(source_building_update_efficiency_multiplier_input["keys"]["efficiency"]["java_expr"], "efficiency")
+        self.assertEqual(source_building_update_efficiency_multiplier_input["keys"]["optional_efficiency"]["java_expr"], "optionalEfficiency")
+        self.assertEqual(source_building_update_efficiency_multiplier_input["keys"]["efficiency_scale"]["java_expr"], "efficiencyScale()")
+
+        source_building_update_efficiency_multiplier_result = source_symbols.state_schema(schema, "source_building_update_efficiency_multiplier_result")
+        self.assertEqual(source_building_update_efficiency_multiplier_result["keys"]["comment"]["java_expr"], "/** Called after efficiency is updated but before consumers are updated. Use to apply your own multiplier. */")
+        self.assertEqual(source_building_update_efficiency_multiplier_result["keys"]["method"]["java_expr"], "public void updateEfficiencyMultiplier(){")
+        self.assertEqual(source_building_update_efficiency_multiplier_result["keys"]["scale"]["java_expr"], "float scale = efficiencyScale();")
+        self.assertEqual(source_building_update_efficiency_multiplier_result["keys"]["efficiency"]["java_expr"], "efficiency *= scale;")
+        self.assertEqual(source_building_update_efficiency_multiplier_result["keys"]["optional_efficiency"]["java_expr"], "optionalEfficiency *= scale;")
 
         source_building_explosion_item_cap_input = source_symbols.state_schema(schema, "source_building_explosion_item_cap_input")
         self.assertEqual(source_building_explosion_item_cap_input["keys"]["item_capacity"]["java_expr"], "block.itemCapacity")

@@ -2354,6 +2354,12 @@ func source_building_consume_state(consumers: Array, self_state: Variant) -> Dic
 func source_building_can_consume_state(potential_efficiency: float) -> bool:
 	return potential_efficiency > 0.0
 
+const SOURCE_BUILDING_UPDATE_EFFICIENCY_MULTIPLIER_COMMENT := "/** Called after efficiency is updated but before consumers are updated. Use to apply your own multiplier. */"
+const SOURCE_BUILDING_UPDATE_EFFICIENCY_MULTIPLIER_METHOD := "public void updateEfficiencyMultiplier(){"
+const SOURCE_BUILDING_UPDATE_EFFICIENCY_MULTIPLIER_SCALE := "float scale = efficiencyScale();"
+const SOURCE_BUILDING_UPDATE_EFFICIENCY_MULTIPLIER_EFFICIENCY := "efficiency *= scale;"
+const SOURCE_BUILDING_UPDATE_EFFICIENCY_MULTIPLIER_OPTIONAL := "optionalEfficiency *= scale;"
+
 func source_building_efficiency_scale_state() -> float:
 	return 1.0
 

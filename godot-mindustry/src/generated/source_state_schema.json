@@ -34744,6 +34744,129 @@
           "rule": "Generated shouldConsumePower reset value."
         }
       }
+    },
+    "source_building_update_efficiency_multiplier_input": {
+      "status": "active",
+      "owner": "PortGame.source_building_update_efficiency_multiplier_state",
+      "runtime_proof": "/root/Main.source_building_update_efficiency_multiplier_state",
+      "keys": {
+        "efficiency": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateEfficiencyMultiplier()",
+          "used_by": [
+            "PortGame.source_building_update_efficiency_multiplier_state"
+          ],
+          "java_expr": "efficiency",
+          "godot_symbol": "source_building_update_efficiency_multiplier_input.efficiency",
+          "rule": "Explicit runtime input for upstream efficiency field before multiplier."
+        },
+        "optional_efficiency": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateEfficiencyMultiplier()",
+          "used_by": [
+            "PortGame.source_building_update_efficiency_multiplier_state"
+          ],
+          "java_expr": "optionalEfficiency",
+          "godot_symbol": "source_building_update_efficiency_multiplier_input.optional_efficiency",
+          "rule": "Explicit runtime input for upstream optionalEfficiency field before multiplier."
+        },
+        "efficiency_scale": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateEfficiencyMultiplier()",
+          "used_by": [
+            "PortGame.source_building_update_efficiency_multiplier_state"
+          ],
+          "java_expr": "efficiencyScale()",
+          "godot_symbol": "source_building_update_efficiency_multiplier_input.efficiency_scale",
+          "rule": "Explicit runtime input for upstream efficiencyScale() result."
+        }
+      }
+    },
+    "source_building_update_efficiency_multiplier_result": {
+      "status": "active",
+      "owner": "PortGame.source_building_update_efficiency_multiplier_state",
+      "runtime_proof": "/root/Main.source_building_update_efficiency_multiplier_state",
+      "keys": {
+        "comment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateEfficiencyMultiplier()",
+          "used_by": [
+            "PortGame.source_building_update_efficiency_multiplier_state"
+          ],
+          "java_expr": "/** Called after efficiency is updated but before consumers are updated. Use to apply your own multiplier. */",
+          "godot_symbol": "source_building_update_efficiency_multiplier_result.comment",
+          "rule": "Exact source comment for updateEfficiencyMultiplier multiplier hook."
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateEfficiencyMultiplier()",
+          "used_by": [
+            "PortGame.source_building_update_efficiency_multiplier_state"
+          ],
+          "java_expr": "public void updateEfficiencyMultiplier(){",
+          "godot_symbol": "source_building_update_efficiency_multiplier_result.method",
+          "rule": "Method boundary for source slice."
+        },
+        "scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateEfficiencyMultiplier()",
+          "used_by": [
+            "PortGame.source_building_update_efficiency_multiplier_state"
+          ],
+          "java_expr": "float scale = efficiencyScale();",
+          "godot_symbol": "source_building_update_efficiency_multiplier_result.scale",
+          "rule": "Exact upstream efficiencyScale() local scale read."
+        },
+        "efficiency_scale": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateEfficiencyMultiplier()",
+          "used_by": [
+            "PortGame.source_building_update_efficiency_multiplier_state"
+          ],
+          "java_expr": "efficiencyScale()",
+          "godot_symbol": "source_building_update_efficiency_multiplier_result.efficiency_scale",
+          "rule": "Result aliases explicit efficiencyScale input.",
+          "alias_of": "source_building_update_efficiency_multiplier_input.efficiency_scale"
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateEfficiencyMultiplier()",
+          "used_by": [
+            "PortGame.source_building_update_efficiency_multiplier_state"
+          ],
+          "java_expr": "efficiency *= scale;",
+          "godot_symbol": "source_building_update_efficiency_multiplier_result.efficiency",
+          "rule": "Generated efficiency after multiplying by scale."
+        },
+        "optional_efficiency": {
+          "type": "float",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateEfficiencyMultiplier()",
+          "used_by": [
+            "PortGame.source_building_update_efficiency_multiplier_state"
+          ],
+          "java_expr": "optionalEfficiency *= scale;",
+          "godot_symbol": "source_building_update_efficiency_multiplier_result.optional_efficiency",
+          "rule": "Generated optionalEfficiency after multiplying by scale."
+        }
+      }
     }
   },
   "version": 1
