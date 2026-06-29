@@ -1158,6 +1158,13 @@ func source_conveyor_path_progress_rate(block_id: String) -> float:
 	var path_length := float(max(1, path_points.size() - 1) * tile_size)
 	return source_conveyor_world_speed(block_id) / path_length
 
+const SOURCE_CONVEYOR_PATH_PROGRESS_DELTA_SPEED_FIELD := "public float speed = 0f;"
+const SOURCE_CONVEYOR_PATH_PROGRESS_DELTA_MOVED := "float moved = speed * edelta();"
+const SOURCE_CONVEYOR_PATH_PROGRESS_DELTA_MAXMOVE := "float maxmove = Mathf.clamp(nextpos - ys[i], 0, moved);"
+const SOURCE_CONVEYOR_PATH_PROGRESS_DELTA_YS_ADD := "ys[i] += maxmove;"
+const SOURCE_CONVEYOR_PATH_PROGRESS_DELTA_EDELTA_METHOD := "public float edelta(){"
+const SOURCE_CONVEYOR_PATH_PROGRESS_DELTA_EDELTA_RETURN := "return efficiency * delta();"
+
 func source_conveyor_path_progress_delta(block_id: String, seconds: float, time_scale := 1.0, efficiency := 1.0) -> float:
 	var scaled_source_delta := source_building_edelta(seconds * SOURCE_TICK_RATE, time_scale, efficiency)
 	return source_conveyor_path_progress_rate(block_id) * scaled_source_delta / SOURCE_TICK_RATE

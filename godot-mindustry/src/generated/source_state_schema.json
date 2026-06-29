@@ -35404,6 +35404,172 @@
       },
       "status": "active"
     },
+    "source_conveyor_path_progress_delta_input": {
+      "keys": {
+        "block_id": {
+          "godot_symbol": "source_conveyor_path_progress_delta_input.block_id",
+          "java_expr": "Block block",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "rule": "Block id selects the source Conveyor block data used for speed.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_delta"
+          ]
+        },
+        "efficiency": {
+          "godot_symbol": "source_conveyor_path_progress_delta_input.efficiency",
+          "java_expr": "efficiency",
+          "java_method": "edelta()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Efficiency input maps to source BuildingComp.efficiency.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_delta"
+          ]
+        },
+        "seconds": {
+          "godot_symbol": "source_conveyor_path_progress_delta_input.seconds",
+          "java_expr": "Time.delta",
+          "java_method": "delta()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Seconds input maps to source Time.delta after tick conversion.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_delta"
+          ]
+        },
+        "time_scale": {
+          "godot_symbol": "source_conveyor_path_progress_delta_input.time_scale",
+          "java_expr": "timeScale",
+          "java_method": "delta()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Time scale input maps to source BuildingComp.timeScale.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_delta"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_conveyor_path_progress_delta_result": {
+      "keys": {
+        "block_id": {
+          "alias_of": "source_conveyor_path_progress_delta_input.block_id",
+          "rule": "Carries block id input into conveyor path progress delta result schema.",
+          "status": "generated",
+          "type": "String"
+        },
+        "edelta_method": {
+          "godot_symbol": "source_conveyor_path_progress_delta_result.edelta_method",
+          "java_expr": "public float edelta(){",
+          "java_method": "edelta()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source BuildingComp edelta method declaration.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_delta"
+          ]
+        },
+        "edelta_return": {
+          "godot_symbol": "source_conveyor_path_progress_delta_result.edelta_return",
+          "java_expr": "return efficiency * delta();",
+          "java_method": "edelta()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source BuildingComp edelta return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_delta"
+          ]
+        },
+        "efficiency": {
+          "alias_of": "source_conveyor_path_progress_delta_input.efficiency",
+          "rule": "Carries efficiency input into conveyor path progress delta result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "maxmove": {
+          "godot_symbol": "source_conveyor_path_progress_delta_result.maxmove",
+          "java_expr": "float maxmove = Mathf.clamp(nextpos - ys[i], 0, moved);",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "rule": "Source movement clamp expression from ConveyorBuild.updateTile.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_delta"
+          ]
+        },
+        "moved": {
+          "godot_symbol": "source_conveyor_path_progress_delta_result.moved",
+          "java_expr": "float moved = speed * edelta();",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "rule": "Source movement expression from ConveyorBuild.updateTile.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_delta"
+          ]
+        },
+        "progress_delta": {
+          "godot_symbol": "source_conveyor_path_progress_delta_result.progress_delta",
+          "java_expr": "speed * edelta()",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "rule": "Godot normalized path progress delta preserves source conveyor speed times edelta.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_delta"
+          ]
+        },
+        "seconds": {
+          "alias_of": "source_conveyor_path_progress_delta_input.seconds",
+          "rule": "Carries seconds input into conveyor path progress delta result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "speed_field": {
+          "godot_symbol": "source_conveyor_path_progress_delta_result.speed_field",
+          "java_expr": "public float speed = 0f;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "rule": "Canonical Conveyor speed field default.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_delta"
+          ]
+        },
+        "time_scale": {
+          "alias_of": "source_conveyor_path_progress_delta_input.time_scale",
+          "rule": "Carries time scale input into conveyor path progress delta result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "ys_add": {
+          "godot_symbol": "source_conveyor_path_progress_delta_result.ys_add",
+          "java_expr": "ys[i] += maxmove;",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "rule": "Source progress update expression from ConveyorBuild.updateTile.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_delta"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

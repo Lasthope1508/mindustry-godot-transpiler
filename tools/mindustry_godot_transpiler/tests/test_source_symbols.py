@@ -4510,6 +4510,67 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result["java_expr"], "type.speed * 60f")
         self.assertEqual(result["godot_symbol"], "source_bullet_world_speed_result.world_speed")
 
+    def test_conveyor_path_progress_delta_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        speed_field = source_symbols.source_symbol(registry, "conveyor_path_progress_delta.speed_field")
+        self.assertEqual(speed_field["java_source"], "core/src/mindustry/world/blocks/distribution/Conveyor.java")
+        self.assertEqual(speed_field["java_method"], "field declaration")
+        self.assertEqual(speed_field["java_expr"], "public float speed = 0f;")
+        self.assertEqual(speed_field["godot_owner"], "PortGame.source_conveyor_path_progress_delta")
+        self.assertEqual(speed_field["runtime_proof"], "/root/Main.source_conveyor_path_progress_delta")
+        self.assertEqual(speed_field["godot_symbol"], "source_conveyor_path_progress_delta_result.speed_field")
+
+        moved = source_symbols.source_symbol(registry, "conveyor_path_progress_delta.moved")
+        self.assertEqual(moved["java_method"], "updateTile()")
+        self.assertEqual(moved["java_expr"], "float moved = speed * edelta();")
+        self.assertEqual(moved["godot_symbol"], "source_conveyor_path_progress_delta_result.moved")
+
+        maxmove = source_symbols.source_symbol(registry, "conveyor_path_progress_delta.maxmove")
+        self.assertEqual(maxmove["java_expr"], "float maxmove = Mathf.clamp(nextpos - ys[i], 0, moved);")
+        self.assertEqual(maxmove["godot_symbol"], "source_conveyor_path_progress_delta_result.maxmove")
+
+        ys_add = source_symbols.source_symbol(registry, "conveyor_path_progress_delta.ys_add")
+        self.assertEqual(ys_add["java_expr"], "ys[i] += maxmove;")
+        self.assertEqual(ys_add["godot_symbol"], "source_conveyor_path_progress_delta_result.ys_add")
+
+        edelta_method = source_symbols.source_symbol(registry, "conveyor_path_progress_delta.edelta_method")
+        self.assertEqual(edelta_method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(edelta_method["java_method"], "edelta()")
+        self.assertEqual(edelta_method["java_expr"], "public float edelta(){")
+        self.assertEqual(edelta_method["godot_symbol"], "source_conveyor_path_progress_delta_result.edelta_method")
+
+        edelta_return = source_symbols.source_symbol(registry, "conveyor_path_progress_delta.edelta_return")
+        self.assertEqual(edelta_return["java_expr"], "return efficiency * delta();")
+        self.assertEqual(edelta_return["godot_symbol"], "source_conveyor_path_progress_delta_result.edelta_return")
+
+        block_id = source_symbols.source_symbol(registry, "conveyor_path_progress_delta.block_id")
+        self.assertEqual(block_id["status"], "explicit-input")
+        self.assertEqual(block_id["java_expr"], "Block block")
+        self.assertEqual(block_id["godot_symbol"], "source_conveyor_path_progress_delta_input.block_id")
+
+        seconds = source_symbols.source_symbol(registry, "conveyor_path_progress_delta.seconds")
+        self.assertEqual(seconds["status"], "explicit-input")
+        self.assertEqual(seconds["java_expr"], "Time.delta")
+        self.assertEqual(seconds["godot_symbol"], "source_conveyor_path_progress_delta_input.seconds")
+
+        time_scale = source_symbols.source_symbol(registry, "conveyor_path_progress_delta.time_scale")
+        self.assertEqual(time_scale["status"], "explicit-input")
+        self.assertEqual(time_scale["java_expr"], "timeScale")
+        self.assertEqual(time_scale["godot_symbol"], "source_conveyor_path_progress_delta_input.time_scale")
+
+        efficiency = source_symbols.source_symbol(registry, "conveyor_path_progress_delta.efficiency")
+        self.assertEqual(efficiency["status"], "explicit-input")
+        self.assertEqual(efficiency["java_expr"], "efficiency")
+        self.assertEqual(efficiency["godot_symbol"], "source_conveyor_path_progress_delta_input.efficiency")
+
+        result = source_symbols.source_symbol(registry, "conveyor_path_progress_delta.result")
+        self.assertEqual(result["java_expr"], "speed * edelta()")
+        self.assertEqual(result["godot_symbol"], "source_conveyor_path_progress_delta_result.progress_delta")
+
     def test_building_can_be_replaced_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -8594,9 +8655,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 281)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 282)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 286)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 287)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -8785,6 +8846,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_velocity", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_velocity_vector_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_world_speed", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_conveyor_path_progress_delta", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -10282,6 +10344,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float speed = 1f;", bullet_world_speed["exact_exprs"])
         self.assertIn("case speed -> type.speed * 60f / tilesize;", bullet_world_speed["exact_exprs"])
         self.assertIn("type.speed * 60f", bullet_world_speed["exact_exprs"])
+
+        conveyor_path_progress_delta = source_symbols.source_slice(ledger, "N684")
+        self.assertEqual(conveyor_path_progress_delta["java_source"], "core/src/mindustry/world/blocks/distribution/Conveyor.java")
+        self.assertEqual(conveyor_path_progress_delta["java_method"], "updateTile()")
+        self.assertEqual(conveyor_path_progress_delta["godot_owner"], "PortGame.source_conveyor_path_progress_delta")
+        self.assertIn("public float speed = 0f;", conveyor_path_progress_delta["exact_exprs"])
+        self.assertIn("float moved = speed * edelta();", conveyor_path_progress_delta["exact_exprs"])
+        self.assertIn("float maxmove = Mathf.clamp(nextpos - ys[i], 0, moved);", conveyor_path_progress_delta["exact_exprs"])
+        self.assertIn("ys[i] += maxmove;", conveyor_path_progress_delta["exact_exprs"])
+        self.assertIn("public float edelta(){", conveyor_path_progress_delta["exact_exprs"])
+        self.assertIn("return efficiency * delta();", conveyor_path_progress_delta["exact_exprs"])
 
         building_update_consumption_non_optional = source_symbols.source_slice(ledger, "N662")
         self.assertEqual(building_update_consumption_non_optional["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -13370,6 +13443,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("world_speed", bullet_world_speed["return_keys"])
         self.assertEqual(bullet_world_speed["source_method"], "field declaration")
 
+        conveyor_path_progress_delta = source_symbols.api_contract(contracts, "PortGame.source_conveyor_path_progress_delta")
+        self.assertEqual([param["name"] for param in conveyor_path_progress_delta["params"]], ["block_id", "seconds", "time_scale", "efficiency"])
+        self.assertEqual(conveyor_path_progress_delta["params"][0]["schema"], "source_conveyor_path_progress_delta_input.block_id")
+        self.assertEqual(conveyor_path_progress_delta["params"][1]["schema"], "source_conveyor_path_progress_delta_input.seconds")
+        self.assertEqual(conveyor_path_progress_delta["params"][2]["schema"], "source_conveyor_path_progress_delta_input.time_scale")
+        self.assertEqual(conveyor_path_progress_delta["params"][3]["schema"], "source_conveyor_path_progress_delta_input.efficiency")
+        self.assertIn("progress_delta", conveyor_path_progress_delta["return_keys"])
+        self.assertEqual(conveyor_path_progress_delta["source_method"], "updateTile()")
+
         building_placed = source_symbols.api_contract(contracts, "PortGame.source_building_placed_state")
         self.assertEqual([param["name"] for param in building_placed["params"]], ["net_client", "consumes_power", "outputs_power", "has_power", "connected_power", "linked_to_self", "source_pos"])
         self.assertEqual(building_placed["params"][0]["schema"], "source_building_placed_input.net_client")
@@ -16404,6 +16486,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_bullet_world_speed_result["keys"]["ticks_per_second"]["java_expr"], "60f")
         self.assertEqual(source_bullet_world_speed_result["keys"]["world_speed"]["java_expr"], "type.speed * 60f")
         self.assertEqual(source_bullet_world_speed_result["keys"]["data"]["alias_of"], "source_bullet_world_speed_input.data")
+
+        source_conveyor_path_progress_delta_input = source_symbols.state_schema(schema, "source_conveyor_path_progress_delta_input")
+        self.assertEqual(source_conveyor_path_progress_delta_input["keys"]["block_id"]["java_expr"], "Block block")
+        self.assertEqual(source_conveyor_path_progress_delta_input["keys"]["seconds"]["java_expr"], "Time.delta")
+        self.assertEqual(source_conveyor_path_progress_delta_input["keys"]["time_scale"]["java_expr"], "timeScale")
+        self.assertEqual(source_conveyor_path_progress_delta_input["keys"]["efficiency"]["java_expr"], "efficiency")
+
+        source_conveyor_path_progress_delta_result = source_symbols.state_schema(schema, "source_conveyor_path_progress_delta_result")
+        self.assertEqual(source_conveyor_path_progress_delta_result["keys"]["speed_field"]["java_expr"], "public float speed = 0f;")
+        self.assertEqual(source_conveyor_path_progress_delta_result["keys"]["moved"]["java_expr"], "float moved = speed * edelta();")
+        self.assertEqual(source_conveyor_path_progress_delta_result["keys"]["maxmove"]["java_expr"], "float maxmove = Mathf.clamp(nextpos - ys[i], 0, moved);")
+        self.assertEqual(source_conveyor_path_progress_delta_result["keys"]["ys_add"]["java_expr"], "ys[i] += maxmove;")
+        self.assertEqual(source_conveyor_path_progress_delta_result["keys"]["edelta_method"]["java_expr"], "public float edelta(){")
+        self.assertEqual(source_conveyor_path_progress_delta_result["keys"]["edelta_return"]["java_expr"], "return efficiency * delta();")
+        self.assertEqual(source_conveyor_path_progress_delta_result["keys"]["progress_delta"]["java_expr"], "speed * edelta()")
+        self.assertEqual(source_conveyor_path_progress_delta_result["keys"]["block_id"]["alias_of"], "source_conveyor_path_progress_delta_input.block_id")
 
         source_building_placed_input = source_symbols.state_schema(schema, "source_building_placed_input")
         self.assertEqual(source_building_placed_input["keys"]["net_client"]["java_expr"], "net.client()")

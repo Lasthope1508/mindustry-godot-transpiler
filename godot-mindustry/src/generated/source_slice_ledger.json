@@ -9035,6 +9035,44 @@
         "test_bullet_world_speed_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_bullet_speed"
       ]
+    },
+    "N684": {
+      "exact_exprs": [
+        "public float speed = 0f;",
+        "float moved = speed * edelta();",
+        "float maxmove = Mathf.clamp(nextpos - ys[i], 0, moved);",
+        "ys[i] += maxmove;",
+        "public float edelta(){",
+        "return efficiency * delta();",
+        "Block block",
+        "Time.delta",
+        "timeScale",
+        "efficiency",
+        "speed * edelta()"
+      ],
+      "godot_owner": "PortGame.source_conveyor_path_progress_delta",
+      "java_class": "ConveyorBuild",
+      "java_method": "updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_delta",
+      "source_symbols": [
+        "conveyor_path_progress_delta.block_id",
+        "conveyor_path_progress_delta.edelta_method",
+        "conveyor_path_progress_delta.edelta_return",
+        "conveyor_path_progress_delta.efficiency",
+        "conveyor_path_progress_delta.maxmove",
+        "conveyor_path_progress_delta.moved",
+        "conveyor_path_progress_delta.result",
+        "conveyor_path_progress_delta.seconds",
+        "conveyor_path_progress_delta.speed_field",
+        "conveyor_path_progress_delta.time_scale",
+        "conveyor_path_progress_delta.ys_add"
+      ],
+      "status": "done",
+      "tests": [
+        "test_conveyor_path_progress_delta_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_conveyor_speed_for_item_motion"
+      ]
     }
   },
   "version": 1

@@ -10674,6 +10674,42 @@
       "tests": [
         "test_bullet_world_speed_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_conveyor_path_progress_delta": {
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "params": [
+        {
+          "name": "block_id",
+          "schema": "source_conveyor_path_progress_delta_input.block_id",
+          "type": "String"
+        },
+        {
+          "name": "seconds",
+          "schema": "source_conveyor_path_progress_delta_input.seconds",
+          "type": "float"
+        },
+        {
+          "name": "time_scale",
+          "schema": "source_conveyor_path_progress_delta_input.time_scale",
+          "type": "float"
+        },
+        {
+          "name": "efficiency",
+          "schema": "source_conveyor_path_progress_delta_input.efficiency",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "progress_delta"
+      ],
+      "rule": "Public runtime contract for converting Conveyor speed * edelta() into normalized Godot path progress delta.",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_delta",
+      "source_method": "updateTile()",
+      "source_slice": "N684",
+      "status": "active",
+      "tests": [
+        "test_conveyor_path_progress_delta_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
