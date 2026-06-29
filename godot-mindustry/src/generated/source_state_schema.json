@@ -34548,6 +34548,202 @@
           "rule": "Generated update call count."
         }
       }
+    },
+    "source_building_update_consumption_setup_input": {
+      "status": "active",
+      "owner": "PortGame.source_building_update_consumption_setup_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_setup_state",
+      "keys": {
+        "should_consume_state": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_setup_state"
+          ],
+          "java_expr": "shouldConsume()",
+          "godot_symbol": "source_building_update_consumption_setup_input.should_consume_state",
+          "rule": "Explicit runtime input for upstream shouldConsume()."
+        },
+        "production_valid": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_setup_state"
+          ],
+          "java_expr": "productionValid()",
+          "godot_symbol": "source_building_update_consumption_setup_input.production_valid",
+          "rule": "Explicit runtime input for upstream productionValid()."
+        }
+      }
+    },
+    "source_building_update_consumption_setup_result": {
+      "status": "active",
+      "owner": "PortGame.source_building_update_consumption_setup_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_setup_state",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_setup_state"
+          ],
+          "java_expr": "public void updateConsumption(){",
+          "godot_symbol": "source_building_update_consumption_setup_result.method",
+          "rule": "Method boundary for source slice."
+        },
+        "update_expr": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_setup_state"
+          ],
+          "java_expr": "boolean update = shouldConsume() && productionValid();",
+          "godot_symbol": "source_building_update_consumption_setup_result.update_expr",
+          "rule": "Exact upstream update boolean assignment."
+        },
+        "min": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_setup_state"
+          ],
+          "java_expr": "float minEfficiency = 1f;",
+          "godot_symbol": "source_building_update_consumption_setup_result.min",
+          "rule": "Exact upstream minEfficiency initialization."
+        },
+        "comment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_setup_state"
+          ],
+          "java_expr": "//assume efficiency is 1 for the calculations below",
+          "godot_symbol": "source_building_update_consumption_setup_result.comment",
+          "rule": "Exact upstream setup comment."
+        },
+        "efficiencies": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_setup_state"
+          ],
+          "java_expr": "efficiency = optionalEfficiency = 1f;",
+          "godot_symbol": "source_building_update_consumption_setup_result.efficiencies",
+          "rule": "Exact upstream efficiency reset assignment."
+        },
+        "power": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_setup_state"
+          ],
+          "java_expr": "shouldConsumePower = true;",
+          "godot_symbol": "source_building_update_consumption_setup_result.power",
+          "rule": "Exact upstream power flag reset."
+        },
+        "should_consume_state": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_setup_state"
+          ],
+          "java_expr": "shouldConsume()",
+          "godot_symbol": "source_building_update_consumption_setup_result.should_consume_state",
+          "rule": "Result aliases explicit shouldConsume input.",
+          "alias_of": "source_building_update_consumption_setup_input.should_consume_state"
+        },
+        "production_valid": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_setup_state"
+          ],
+          "java_expr": "productionValid()",
+          "godot_symbol": "source_building_update_consumption_setup_result.production_valid",
+          "rule": "Result aliases explicit productionValid input.",
+          "alias_of": "source_building_update_consumption_setup_input.production_valid"
+        },
+        "update": {
+          "type": "bool",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_setup_state"
+          ],
+          "java_expr": "boolean update = shouldConsume() && productionValid();",
+          "godot_symbol": "source_building_update_consumption_setup_result.update",
+          "rule": "Generated update boolean."
+        },
+        "min_efficiency": {
+          "type": "float",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_setup_state"
+          ],
+          "java_expr": "float minEfficiency = 1f;",
+          "godot_symbol": "source_building_update_consumption_setup_result.min_efficiency",
+          "rule": "Generated minEfficiency initial value."
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_setup_state"
+          ],
+          "java_expr": "efficiency = optionalEfficiency = 1f;",
+          "godot_symbol": "source_building_update_consumption_setup_result.efficiency",
+          "rule": "Generated efficiency reset value."
+        },
+        "optional_efficiency": {
+          "type": "float",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_setup_state"
+          ],
+          "java_expr": "efficiency = optionalEfficiency = 1f;",
+          "godot_symbol": "source_building_update_consumption_setup_result.optional_efficiency",
+          "rule": "Generated optionalEfficiency reset value."
+        },
+        "should_consume_power": {
+          "type": "bool",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_setup_state"
+          ],
+          "java_expr": "shouldConsumePower = true;",
+          "godot_symbol": "source_building_update_consumption_setup_result.should_consume_power",
+          "rule": "Generated shouldConsumePower reset value."
+        }
+      }
     }
   },
   "version": 1

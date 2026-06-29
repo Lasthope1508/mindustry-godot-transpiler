@@ -2251,6 +2251,12 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_SETUP_METHOD := "public void updateConsumption(){"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_SETUP_UPDATE := "boolean update = shouldConsume() && productionValid();"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_SETUP_MIN := "float minEfficiency = 1f;"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_SETUP_COMMENT := "//assume efficiency is 1 for the calculations below"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_SETUP_EFFICIENCIES := "efficiency = optionalEfficiency = 1f;"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_SETUP_POWER := "shouldConsumePower = true;"', source)
         self.assertIn("func source_building_update_consumption_setup_state(should_consume_state: bool, production_valid: bool) -> Dictionary:", source)
         self.assertIn('"update": should_consume_state and production_valid', source)
         self.assertIn('"min_efficiency": 1.0', source)

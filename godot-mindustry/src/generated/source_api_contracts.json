@@ -10170,6 +10170,37 @@
       ],
       "runtime_proof": "/root/Main.source_building_update_consumption_second_pass_state",
       "rule": "Backfills SSOT for updateConsumption efficiency multiplier call and update-consumer second pass."
+    },
+    "PortGame.source_building_update_consumption_setup_state": {
+      "status": "active",
+      "source_slice": "N665",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "updateConsumption()",
+      "params": [
+        {
+          "name": "should_consume_state",
+          "type": "bool",
+          "schema": "source_building_update_consumption_setup_input.should_consume_state"
+        },
+        {
+          "name": "production_valid",
+          "type": "bool",
+          "schema": "source_building_update_consumption_setup_input.production_valid"
+        }
+      ],
+      "return_keys": [
+        "update",
+        "min_efficiency",
+        "efficiency",
+        "optional_efficiency",
+        "should_consume_power"
+      ],
+      "tests": [
+        "test_building_update_consumption_setup_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_setup_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_consumption_setup_state",
+      "rule": "Backfills SSOT for updateConsumption setup/reset state before consumer passes."
     }
   },
   "policy": {

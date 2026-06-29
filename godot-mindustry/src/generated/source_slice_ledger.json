@@ -8425,6 +8425,44 @@
       ],
       "runtime_proof": "/root/Main.source_building_update_consumption_second_pass_state",
       "rule": "Backfills SSOT for existing canonical source_building_update_consumption_second_pass_state helper against BuildingComp.updateConsumption update-consumer second pass."
+    },
+    "N665": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "BuildingComp",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_setup_state",
+      "exact_exprs": [
+        "public void updateConsumption(){",
+        "boolean update = shouldConsume() && productionValid();",
+        "float minEfficiency = 1f;",
+        "//assume efficiency is 1 for the calculations below",
+        "efficiency = optionalEfficiency = 1f;",
+        "shouldConsumePower = true;",
+        "shouldConsume()",
+        "productionValid()"
+      ],
+      "source_symbols": [
+        "building_update_consumption_setup.method",
+        "building_update_consumption_setup.update_expr",
+        "building_update_consumption_setup.min",
+        "building_update_consumption_setup.comment",
+        "building_update_consumption_setup.efficiencies",
+        "building_update_consumption_setup.power",
+        "building_update_consumption_setup.should_consume_state",
+        "building_update_consumption_setup.production_valid",
+        "building_update_consumption_setup.update",
+        "building_update_consumption_setup.min_efficiency",
+        "building_update_consumption_setup.efficiency",
+        "building_update_consumption_setup.optional_efficiency",
+        "building_update_consumption_setup.should_consume_power"
+      ],
+      "tests": [
+        "test_building_update_consumption_setup_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_setup_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_consumption_setup_state",
+      "rule": "Backfills SSOT for existing canonical source_building_update_consumption_setup_state helper against BuildingComp.updateConsumption setup/reset state."
     }
   },
   "version": 1

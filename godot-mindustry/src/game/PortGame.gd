@@ -2404,6 +2404,13 @@ func source_building_update_consumption_disabled_state(enabled_state: bool) -> D
 		"returned": true,
 	}
 
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_SETUP_METHOD := "public void updateConsumption(){"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_SETUP_UPDATE := "boolean update = shouldConsume() && productionValid();"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_SETUP_MIN := "float minEfficiency = 1f;"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_SETUP_COMMENT := "//assume efficiency is 1 for the calculations below"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_SETUP_EFFICIENCIES := "efficiency = optionalEfficiency = 1f;"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_SETUP_POWER := "shouldConsumePower = true;"
+
 func source_building_update_consumption_setup_state(should_consume_state: bool, production_valid: bool) -> Dictionary:
 	return {
 		"update": should_consume_state and production_valid,
