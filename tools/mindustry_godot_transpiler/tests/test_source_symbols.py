@@ -4319,6 +4319,37 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(weapon_call["java_expr"], "unit.apply(shootStatus, shootStatusDuration);")
         self.assertEqual(weapon_call["godot_symbol"], "source_status_apply_result_result.statusApplication")
 
+    def test_turret_ammo_data_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        field = source_symbols.source_symbol(registry, "turret_ammo_data.ammo_types_field")
+        self.assertEqual(field["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(field["java_expr"], "public ObjectMap<Item, BulletType> ammoTypes = new OrderedMap<>();")
+        self.assertEqual(field["godot_owner"], "PortGame.source_turret_ammo_data")
+        self.assertEqual(field["runtime_proof"], "/root/Main.source_turret_ammo_data")
+
+        method = source_symbols.source_symbol(registry, "turret_ammo_data.method")
+        self.assertEqual(method["java_method"], "ammo(Object... objects)")
+        self.assertEqual(method["java_expr"], "public void ammo(Object... objects){")
+        self.assertEqual(method["godot_symbol"], "source_turret_ammo_data_result.ammoData")
+
+        ordered_map = source_symbols.source_symbol(registry, "turret_ammo_data.ordered_map")
+        self.assertEqual(ordered_map["java_expr"], "ammoTypes = OrderedMap.of(objects);")
+        self.assertEqual(ordered_map["godot_symbol"], "source_turret_ammo_data_result.ammoData")
+
+        item_id = source_symbols.source_symbol(registry, "turret_ammo_data.item_id")
+        self.assertEqual(item_id["status"], "explicit-input")
+        self.assertEqual(item_id["java_expr"], "Item item / Items.copper")
+        self.assertEqual(item_id["godot_symbol"], "source_turret_ammo_data_input.itemId")
+
+        copper_entry = source_symbols.source_symbol(registry, "turret_ammo_data.duo_copper_entry")
+        self.assertEqual(copper_entry["java_source"], "core/src/mindustry/content/Blocks.java")
+        self.assertEqual(copper_entry["java_expr"], "Items.copper,  new BasicBulletType(2.5f, 9){{")
+        self.assertEqual(copper_entry["godot_symbol"], "source_turret_ammo_data_result.item")
+
     def test_offload_to_inventory_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -10832,9 +10863,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 333)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 334)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 338)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 339)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -11049,6 +11080,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_payload_forward_offset", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_shoot_pattern_default_events", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_status_apply_result", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_turret_ammo_data", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_offload_to_inventory", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_boost_bar_fraction", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_draw_state", audit["registeredSourceOwners"])
@@ -11157,7 +11189,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_payload_forward_offset", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_shoot_pattern_default_events", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_status_apply_result", audit["legacyUnregisteredOwners"])
-        self.assertIn("PortGame.source_turret_ammo_data", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_turret_ammo_data", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
     def test_audit_report_file_matches_current_godot_source(self):
@@ -12316,6 +12348,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("unit.apply(shootStatus, shootStatusDuration);", status_apply_result["bridge_exprs"])
         self.assertIn("effect.unlock();", status_apply_result["deferred_exprs"])
         self.assertIn("statuses.add(entry);", status_apply_result["deferred_exprs"])
+
+        turret_ammo_data = source_symbols.source_slice(ledger, "N736")
+        self.assertEqual(turret_ammo_data["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(turret_ammo_data["java_method"], "ammo(Object... objects)")
+        self.assertEqual(turret_ammo_data["godot_owner"], "PortGame.source_turret_ammo_data")
+        self.assertIn("public ObjectMap<Item, BulletType> ammoTypes = new OrderedMap<>();", turret_ammo_data["exact_exprs"])
+        self.assertIn("public void ammo(Object... objects){", turret_ammo_data["exact_exprs"])
+        self.assertIn("ammoTypes = OrderedMap.of(objects);", turret_ammo_data["exact_exprs"])
+        self.assertIn("Items.copper,  new BasicBulletType(2.5f, 9){{", turret_ammo_data["bridge_exprs"])
 
         offload_to_inventory = source_symbols.source_slice(ledger, "N724")
         self.assertEqual(offload_to_inventory["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -15429,6 +15470,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("statusApplication", status_apply_result["return_keys"])
         self.assertIn("statusApplyGuardSource", status_apply_result["return_keys"])
         self.assertEqual(status_apply_result["source_method"], "apply(StatusEffect effect, float duration)")
+
+        turret_ammo_data = source_symbols.api_contract(contracts, "PortGame.source_turret_ammo_data")
+        self.assertEqual([param["name"] for param in turret_ammo_data["params"]], ["turret", "item_id"])
+        self.assertEqual(turret_ammo_data["params"][0]["schema"], "source_turret_ammo_data_input.turret")
+        self.assertEqual(turret_ammo_data["params"][1]["schema"], "source_turret_ammo_data_input.itemId")
+        self.assertIn("item", turret_ammo_data["return_keys"])
+        self.assertIn("speed", turret_ammo_data["return_keys"])
+        self.assertIn("damage", turret_ammo_data["return_keys"])
+        self.assertIn("ammoMultiplier", turret_ammo_data["return_keys"])
+        self.assertEqual(turret_ammo_data["source_method"], "ammo(Object... objects)")
 
         shoot_pattern_default_events = source_symbols.api_contract(contracts, "PortGame.source_shoot_pattern_default_events")
         self.assertEqual([param["name"] for param in shoot_pattern_default_events["params"]], ["shoot_state"])
@@ -18956,6 +19007,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_status_apply_result_result["keys"]["statusApplyGuardSource"]["java_expr"], "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;")
         self.assertEqual(source_status_apply_result_result["keys"]["statusEffect"]["alias_of"], "source_status_apply_result_input.statusEffect")
         self.assertEqual(source_status_apply_result_result["keys"]["duration"]["alias_of"], "source_status_apply_result_input.duration")
+
+        source_turret_ammo_data_input = source_symbols.state_schema(schema, "source_turret_ammo_data_input")
+        self.assertEqual(source_turret_ammo_data_input["keys"]["turret"]["java_expr"], "ItemTurret / ammoTypes")
+        self.assertEqual(source_turret_ammo_data_input["keys"]["itemId"]["java_expr"], "Item item / Items.copper")
+
+        source_turret_ammo_data_result = source_symbols.state_schema(schema, "source_turret_ammo_data_result")
+        self.assertEqual(source_turret_ammo_data_result["keys"]["ammoData"]["java_expr"], "ammoTypes = OrderedMap.of(objects);")
+        self.assertEqual(source_turret_ammo_data_result["keys"]["item"]["java_expr"], "Items.copper,  new BasicBulletType(2.5f, 9){{")
+        self.assertEqual(source_turret_ammo_data_result["keys"]["speed"]["java_expr"], "new BasicBulletType(2.5f, 9)")
+        self.assertEqual(source_turret_ammo_data_result["keys"]["damage"]["java_expr"], "new BasicBulletType(2.5f, 9)")
+        self.assertEqual(source_turret_ammo_data_result["keys"]["ammoMultiplier"]["java_expr"], "ammoMultiplier = 2;")
 
         source_shoot_pattern_default_events_input = source_symbols.state_schema(schema, "source_shoot_pattern_default_events_input")
         self.assertEqual(source_shoot_pattern_default_events_input["keys"]["shots"]["java_expr"], "public int shots = 1;")

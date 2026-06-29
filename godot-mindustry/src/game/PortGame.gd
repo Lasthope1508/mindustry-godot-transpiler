@@ -10181,10 +10181,17 @@ func selected_turret_loaded_ammo_item() -> String:
 	var stack: Dictionary = stacks[stacks.size() - 1]
 	return str(stack.get("item", ""))
 
+const SOURCE_TURRET_AMMO_DATA_AMMO_TYPES_FIELD := "public ObjectMap<Item, BulletType> ammoTypes = new OrderedMap<>();"
+const SOURCE_TURRET_AMMO_DATA_METHOD := "public void ammo(Object... objects){"
+const SOURCE_TURRET_AMMO_DATA_ORDERED_MAP := "ammoTypes = OrderedMap.of(objects);"
+const SOURCE_TURRET_AMMO_DATA_DUO_AMMO_CALL := "ammo("
+const SOURCE_TURRET_AMMO_DATA_DUO_COPPER_ENTRY := "Items.copper,  new BasicBulletType(2.5f, 9){{"
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}
-	for data in turret.properties.get("ammo", []):
+	var turret_properties: Dictionary = turret.get("properties", {}) if turret is Dictionary else turret.properties
+	for data in turret_properties.get("ammo", []):
 		if data is Dictionary and str(data.get("item", "")) == item_id:
 			return data
 	return {}

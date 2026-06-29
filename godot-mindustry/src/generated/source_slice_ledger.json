@@ -10800,6 +10800,45 @@
         "test_status_apply_result_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_weapon_shoot_charge_start_state"
       ]
+    },
+    "N736": {
+      "bridge_exprs": [
+        "ammo(",
+        "Items.copper,  new BasicBulletType(2.5f, 9){{",
+        "new BasicBulletType(2.5f, 9)",
+        "ammoMultiplier = 2;"
+      ],
+      "deferred_exprs": [
+        "BulletType type = ammoTypes.get(item);",
+        "totalAmmo += type.ammoMultiplier;",
+        "ammo.add(new ItemEntry(item, (int)type.ammoMultiplier));"
+      ],
+      "exact_exprs": [
+        "public ObjectMap<Item, BulletType> ammoTypes = new OrderedMap<>();",
+        "public void ammo(Object... objects){",
+        "ammoTypes = OrderedMap.of(objects);"
+      ],
+      "godot_owner": "PortGame.source_turret_ammo_data",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret",
+      "java_method": "ammo(Object... objects)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "runtime_proof": "/root/Main.source_turret_ammo_data",
+      "source_symbols": [
+        "turret_ammo_data.ammo_types_field",
+        "turret_ammo_data.method",
+        "turret_ammo_data.ordered_map",
+        "turret_ammo_data.item_id",
+        "turret_ammo_data.duo_ammo_call",
+        "turret_ammo_data.duo_copper_entry",
+        "turret_ammo_data.duo_copper_speed",
+        "turret_ammo_data.duo_copper_damage",
+        "turret_ammo_data.duo_copper_ammo_multiplier"
+      ],
+      "status": "done",
+      "tests": [
+        "test_turret_ammo_data_symbols_are_registered_with_source_backing",
+        "test_port_game_ports_source_item_turret_ammo_stack_logic"
+      ]
     }
   },
   "version": 1

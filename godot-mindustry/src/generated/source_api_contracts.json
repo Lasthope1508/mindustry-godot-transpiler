@@ -12478,6 +12478,36 @@
         "test_status_apply_result_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_weapon_shoot_charge_start_state"
       ]
+    },
+    "PortGame.source_turret_ammo_data": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "params": [
+        {
+          "name": "turret",
+          "schema": "source_turret_ammo_data_input.turret",
+          "type": "Variant"
+        },
+        {
+          "name": "item_id",
+          "schema": "source_turret_ammo_data_input.itemId",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "item",
+        "speed",
+        "damage",
+        "ammoMultiplier"
+      ],
+      "rule": "Public runtime contract for ItemTurret ammo data lookup: item_id selects an item key from the turret ammo mapping built by ammo(Object... objects).",
+      "runtime_proof": "/root/Main.source_turret_ammo_data",
+      "source_method": "ammo(Object... objects)",
+      "source_slice": "N736",
+      "status": "active",
+      "tests": [
+        "test_turret_ammo_data_symbols_are_registered_with_source_backing",
+        "test_port_game_ports_source_item_turret_ammo_stack_logic"
+      ]
     }
   },
   "policy": {

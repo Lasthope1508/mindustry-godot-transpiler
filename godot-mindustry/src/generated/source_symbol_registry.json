@@ -33027,6 +33027,132 @@
         "test_port_game_exposes_source_bullet_type_test_collision_state"
       ]
     },
+    "turret_ammo_data.ammo_types_field": {
+      "godot_owner": "PortGame.source_turret_ammo_data",
+      "godot_symbol": "source_turret_ammo_data_input.turret",
+      "java_expr": "public ObjectMap<Item, BulletType> ammoTypes = new OrderedMap<>();",
+      "java_method": "ItemTurret field",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "ItemTurret stores accepted item-to-bullet ammo mappings in ammoTypes.",
+      "runtime_proof": "/root/Main.source_turret_ammo_data",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_ammo_data_symbols_are_registered_with_source_backing",
+        "test_port_game_ports_source_item_turret_ammo_stack_logic"
+      ]
+    },
+    "turret_ammo_data.duo_ammo_call": {
+      "godot_owner": "PortGame.source_turret_ammo_data",
+      "godot_symbol": "source_turret_ammo_data_result.ammoData",
+      "java_expr": "ammo(",
+      "java_method": "Blocks.duo initializer",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "rule": "Duo block invokes ItemTurret.ammo with item/bullet pairs.",
+      "runtime_proof": "/root/Main.source_turret_ammo_data",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_ammo_data_symbols_are_registered_with_source_backing",
+        "test_port_game_ports_source_item_turret_ammo_stack_logic"
+      ]
+    },
+    "turret_ammo_data.duo_copper_ammo_multiplier": {
+      "godot_owner": "PortGame.source_turret_ammo_data",
+      "godot_symbol": "source_turret_ammo_data_result.ammoMultiplier",
+      "java_expr": "ammoMultiplier = 2;",
+      "java_method": "Blocks.duo initializer",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "rule": "Duo copper bullet sets ammoMultiplier to 2.",
+      "runtime_proof": "/root/Main.source_turret_ammo_data",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_ammo_data_symbols_are_registered_with_source_backing",
+        "test_port_game_ports_source_item_turret_ammo_stack_logic"
+      ]
+    },
+    "turret_ammo_data.duo_copper_damage": {
+      "godot_owner": "PortGame.source_turret_ammo_data",
+      "godot_symbol": "source_turret_ammo_data_result.damage",
+      "java_expr": "new BasicBulletType(2.5f, 9)",
+      "java_method": "Blocks.duo initializer",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "rule": "Second BasicBulletType constructor argument is copper bullet damage.",
+      "runtime_proof": "/root/Main.source_turret_ammo_data",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_ammo_data_symbols_are_registered_with_source_backing",
+        "test_port_game_ports_source_item_turret_ammo_stack_logic"
+      ]
+    },
+    "turret_ammo_data.duo_copper_entry": {
+      "godot_owner": "PortGame.source_turret_ammo_data",
+      "godot_symbol": "source_turret_ammo_data_result.item",
+      "java_expr": "Items.copper,  new BasicBulletType(2.5f, 9){{",
+      "java_method": "Blocks.duo initializer",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "rule": "Duo copper ammo entry maps Items.copper to a BasicBulletType.",
+      "runtime_proof": "/root/Main.source_turret_ammo_data",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_ammo_data_symbols_are_registered_with_source_backing",
+        "test_port_game_ports_source_item_turret_ammo_stack_logic"
+      ]
+    },
+    "turret_ammo_data.duo_copper_speed": {
+      "godot_owner": "PortGame.source_turret_ammo_data",
+      "godot_symbol": "source_turret_ammo_data_result.speed",
+      "java_expr": "new BasicBulletType(2.5f, 9)",
+      "java_method": "Blocks.duo initializer",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "rule": "First BasicBulletType constructor argument is copper bullet speed.",
+      "runtime_proof": "/root/Main.source_turret_ammo_data",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_ammo_data_symbols_are_registered_with_source_backing",
+        "test_port_game_ports_source_item_turret_ammo_stack_logic"
+      ]
+    },
+    "turret_ammo_data.item_id": {
+      "godot_owner": "PortGame.source_turret_ammo_data",
+      "godot_symbol": "source_turret_ammo_data_input.itemId",
+      "java_expr": "Item item / Items.copper",
+      "java_method": "ammo(Object... objects)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "Lookup item input corresponds to Item key in ammoTypes and concrete Items.* entries in Blocks.",
+      "runtime_proof": "/root/Main.source_turret_ammo_data",
+      "status": "explicit-input",
+      "tests": [
+        "test_turret_ammo_data_symbols_are_registered_with_source_backing",
+        "test_port_game_ports_source_item_turret_ammo_stack_logic"
+      ]
+    },
+    "turret_ammo_data.method": {
+      "godot_owner": "PortGame.source_turret_ammo_data",
+      "godot_symbol": "source_turret_ammo_data_result.ammoData",
+      "java_expr": "public void ammo(Object... objects){",
+      "java_method": "ammo(Object... objects)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "ItemTurret ammo varargs method defines accepted ammo mapping entries.",
+      "runtime_proof": "/root/Main.source_turret_ammo_data",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_ammo_data_symbols_are_registered_with_source_backing",
+        "test_port_game_ports_source_item_turret_ammo_stack_logic"
+      ]
+    },
+    "turret_ammo_data.ordered_map": {
+      "godot_owner": "PortGame.source_turret_ammo_data",
+      "godot_symbol": "source_turret_ammo_data_result.ammoData",
+      "java_expr": "ammoTypes = OrderedMap.of(objects);",
+      "java_method": "ammo(Object... objects)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "Varargs ammo pairs are stored in an OrderedMap.",
+      "runtime_proof": "/root/Main.source_turret_ammo_data",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_ammo_data_symbols_are_registered_with_source_backing",
+        "test_port_game_ports_source_item_turret_ammo_stack_logic"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

@@ -42234,6 +42234,100 @@
       },
       "status": "active"
     },
+    "source_turret_ammo_data_input": {
+      "keys": {
+        "itemId": {
+          "godot_symbol": "source_turret_ammo_data_input.itemId",
+          "java_expr": "Item item / Items.copper",
+          "java_method": "ammo(Object... objects)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "rule": "Item id selects an Item key from ammoTypes.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_ammo_data"
+          ]
+        },
+        "turret": {
+          "godot_symbol": "source_turret_ammo_data_input.turret",
+          "java_expr": "ItemTurret / ammoTypes",
+          "java_method": "ammo(Object... objects)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "rule": "ItemTurret supplies ammoTypes mapping.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_ammo_data"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_turret_ammo_data_result": {
+      "keys": {
+        "ammoData": {
+          "godot_symbol": "source_turret_ammo_data_result.ammoData",
+          "java_expr": "ammoTypes = OrderedMap.of(objects);",
+          "java_method": "ammo(Object... objects)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "rule": "Returned dictionary is one ammoTypes entry.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_turret_ammo_data"
+          ]
+        },
+        "ammoMultiplier": {
+          "godot_symbol": "source_turret_ammo_data_result.ammoMultiplier",
+          "java_expr": "ammoMultiplier = 2;",
+          "java_method": "Blocks.duo initializer",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "rule": "Duo copper ammo multiplier field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_ammo_data"
+          ]
+        },
+        "damage": {
+          "godot_symbol": "source_turret_ammo_data_result.damage",
+          "java_expr": "new BasicBulletType(2.5f, 9)",
+          "java_method": "Blocks.duo initializer",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "rule": "Duo copper bullet damage constructor argument.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_ammo_data"
+          ]
+        },
+        "item": {
+          "godot_symbol": "source_turret_ammo_data_result.item",
+          "java_expr": "Items.copper,  new BasicBulletType(2.5f, 9){{",
+          "java_method": "Blocks.duo initializer",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "rule": "Duo copper ammo item key.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_ammo_data"
+          ]
+        },
+        "speed": {
+          "godot_symbol": "source_turret_ammo_data_result.speed",
+          "java_expr": "new BasicBulletType(2.5f, 9)",
+          "java_method": "Blocks.duo initializer",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "rule": "Duo copper bullet speed constructor argument.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_ammo_data"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {
