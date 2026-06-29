@@ -8393,6 +8393,101 @@
       ],
       "runtime_proof": "/root/Main.source_building_overwrote_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.overwrote no-op helper."
+    },
+    "PortGame.source_building_payload_draw_state": {
+      "status": "active",
+      "source_slice": "N621",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "payloadDraw()",
+      "params": [
+        {
+          "name": "draw_cached",
+          "type": "bool",
+          "schema": "source_building_payload_draw_input.draw_cached"
+        },
+        {
+          "name": "draw_dynamic",
+          "type": "bool",
+          "schema": "source_building_payload_draw_input.draw_dynamic"
+        },
+        {
+          "name": "current_z",
+          "type": "float",
+          "schema": "source_building_payload_draw_input.current_z"
+        },
+        {
+          "name": "building_cache_layer_z",
+          "type": "float",
+          "schema": "source_building_payload_draw_input.building_cache_layer_z"
+        },
+        {
+          "name": "variants",
+          "type": "int",
+          "schema": "source_building_payload_draw_input.variants"
+        },
+        {
+          "name": "has_variant_regions",
+          "type": "bool",
+          "schema": "source_building_payload_draw_input.has_variant_regions"
+        },
+        {
+          "name": "variant_region_count",
+          "type": "int",
+          "schema": "source_building_payload_draw_input.variant_region_count"
+        },
+        {
+          "name": "tile_pos",
+          "type": "int",
+          "schema": "source_building_payload_draw_input.tile_pos"
+        },
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_building_payload_draw_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_building_payload_draw_input.source_y"
+        },
+        {
+          "name": "block_rotate",
+          "type": "bool",
+          "schema": "source_building_payload_draw_input.block_rotate"
+        },
+        {
+          "name": "block_rotate_draw",
+          "type": "bool",
+          "schema": "source_building_payload_draw_input.block_rotate_draw"
+        },
+        {
+          "name": "rotation_quadrants",
+          "type": "int",
+          "schema": "source_building_payload_draw_input.rotation_quadrants"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "saved_z_call",
+        "cached_gate",
+        "cached_z_call",
+        "cached_draw_call",
+        "dynamic_gate",
+        "restore_z_call",
+        "dynamic_draw_call",
+        "saved_z",
+        "cached_visible",
+        "cached_z",
+        "cached_draw",
+        "dynamic_visible",
+        "dynamic_z",
+        "dynamic_draw"
+      ],
+      "tests": [
+        "test_building_payload_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_payload_draw_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.payloadDraw helper."
     }
   },
   "policy": {

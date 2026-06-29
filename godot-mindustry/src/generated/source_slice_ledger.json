@@ -6926,6 +6926,49 @@
       ],
       "runtime_proof": "/root/Main.source_building_overwrote_state",
       "rule": "Backfills SSOT for existing canonical source_building_overwrote_state helper against BuildingComp.overwrote(Seq<Building> previous) no-op."
+    },
+    "N621": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "payloadDraw()",
+      "godot_owner": "PortGame.source_building_payload_draw_state",
+      "exact_exprs": [
+        "public void payloadDraw(){",
+        "float z = Draw.z();",
+        "if(block.drawCached){",
+        "Draw.z(block.buildingCacheLayer.layer);",
+        "drawCached();",
+        "if(block.drawDynamic){",
+        "Draw.z(z);",
+        "draw();",
+        "block.drawCached",
+        "block.drawDynamic",
+        "block.buildingCacheLayer.layer"
+      ],
+      "deferred_exprs": [
+        "Concrete drawCached() and draw() internals remain covered by their canonical helper slices."
+      ],
+      "source_symbols": [
+        "building_payload_draw.method",
+        "building_payload_draw.saved_z",
+        "building_payload_draw.saved_z_call",
+        "building_payload_draw.cached_gate",
+        "building_payload_draw.cached_z_call",
+        "building_payload_draw.cached_draw_call",
+        "building_payload_draw.dynamic_gate",
+        "building_payload_draw.restore_z_call",
+        "building_payload_draw.dynamic_draw_call",
+        "building_payload_draw.draw_cached",
+        "building_payload_draw.draw_dynamic",
+        "building_payload_draw.current_z",
+        "building_payload_draw.building_cache_layer_z"
+      ],
+      "tests": [
+        "test_building_payload_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_payload_draw_state",
+      "rule": "Backfills SSOT for existing canonical source_building_payload_draw_state helper against BuildingComp.payloadDraw() z save, cached branch, and dynamic branch."
     }
   },
   "version": 1

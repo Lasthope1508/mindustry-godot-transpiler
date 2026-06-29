@@ -21301,6 +21301,175 @@
       "java_expr": "Seq<Building> previous",
       "godot_symbol": "source_building_overwrote_input.previous_state",
       "rule": "Runtime previous_state supplies source previous building seq for no-op passthrough."
+    },
+    "building_payload_draw.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "payloadDraw()",
+      "godot_owner": "PortGame.source_building_payload_draw_state",
+      "tests": [
+        "test_building_payload_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_payload_draw_state",
+      "java_expr": "public void payloadDraw(){",
+      "godot_symbol": "source_building_payload_draw_result.method",
+      "rule": "BuildingComp payloadDraw method boundary."
+    },
+    "building_payload_draw.saved_z": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "payloadDraw()",
+      "godot_owner": "PortGame.source_building_payload_draw_state",
+      "tests": [
+        "test_building_payload_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_payload_draw_state",
+      "java_expr": "float z = Draw.z();",
+      "godot_symbol": "source_building_payload_draw_result.saved_z",
+      "rule": "payloadDraw saves the current Draw.z() value."
+    },
+    "building_payload_draw.saved_z_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "payloadDraw()",
+      "godot_owner": "PortGame.source_building_payload_draw_state",
+      "tests": [
+        "test_building_payload_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_payload_draw_state",
+      "java_expr": "float z = Draw.z();",
+      "godot_symbol": "source_building_payload_draw_result.saved_z_call",
+      "rule": "payloadDraw source marker for saved Draw.z() call."
+    },
+    "building_payload_draw.cached_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "payloadDraw()",
+      "godot_owner": "PortGame.source_building_payload_draw_state",
+      "tests": [
+        "test_building_payload_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_payload_draw_state",
+      "java_expr": "if(block.drawCached){",
+      "godot_symbol": "source_building_payload_draw_result.cached_visible",
+      "rule": "Cached draw branch is gated by block.drawCached."
+    },
+    "building_payload_draw.cached_z_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "payloadDraw()",
+      "godot_owner": "PortGame.source_building_payload_draw_state",
+      "tests": [
+        "test_building_payload_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_payload_draw_state",
+      "java_expr": "Draw.z(block.buildingCacheLayer.layer);",
+      "godot_symbol": "source_building_payload_draw_result.cached_z_call",
+      "rule": "Cached draw branch switches to block.buildingCacheLayer.layer."
+    },
+    "building_payload_draw.cached_draw_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "payloadDraw()",
+      "godot_owner": "PortGame.source_building_payload_draw_state",
+      "tests": [
+        "test_building_payload_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_payload_draw_state",
+      "java_expr": "drawCached();",
+      "godot_symbol": "source_building_payload_draw_result.cached_draw_call",
+      "rule": "Cached draw branch calls drawCached()."
+    },
+    "building_payload_draw.dynamic_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "payloadDraw()",
+      "godot_owner": "PortGame.source_building_payload_draw_state",
+      "tests": [
+        "test_building_payload_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_payload_draw_state",
+      "java_expr": "if(block.drawDynamic){",
+      "godot_symbol": "source_building_payload_draw_result.dynamic_visible",
+      "rule": "Dynamic draw branch is gated by block.drawDynamic."
+    },
+    "building_payload_draw.restore_z_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "payloadDraw()",
+      "godot_owner": "PortGame.source_building_payload_draw_state",
+      "tests": [
+        "test_building_payload_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_payload_draw_state",
+      "java_expr": "Draw.z(z);",
+      "godot_symbol": "source_building_payload_draw_result.restore_z_call",
+      "rule": "Dynamic draw branch restores saved Draw.z() value."
+    },
+    "building_payload_draw.dynamic_draw_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "payloadDraw()",
+      "godot_owner": "PortGame.source_building_payload_draw_state",
+      "tests": [
+        "test_building_payload_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_payload_draw_state",
+      "java_expr": "draw();",
+      "godot_symbol": "source_building_payload_draw_result.dynamic_draw_call",
+      "rule": "Dynamic draw branch calls draw()."
+    },
+    "building_payload_draw.draw_cached": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "payloadDraw()",
+      "godot_owner": "PortGame.source_building_payload_draw_state",
+      "tests": [
+        "test_building_payload_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_payload_draw_state",
+      "java_expr": "block.drawCached",
+      "godot_symbol": "source_building_payload_draw_input.draw_cached",
+      "rule": "Runtime draw_cached supplies block.drawCached."
+    },
+    "building_payload_draw.draw_dynamic": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "payloadDraw()",
+      "godot_owner": "PortGame.source_building_payload_draw_state",
+      "tests": [
+        "test_building_payload_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_payload_draw_state",
+      "java_expr": "block.drawDynamic",
+      "godot_symbol": "source_building_payload_draw_input.draw_dynamic",
+      "rule": "Runtime draw_dynamic supplies block.drawDynamic."
+    },
+    "building_payload_draw.current_z": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "payloadDraw()",
+      "godot_owner": "PortGame.source_building_payload_draw_state",
+      "tests": [
+        "test_building_payload_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_payload_draw_state",
+      "java_expr": "Draw.z()",
+      "godot_symbol": "source_building_payload_draw_input.current_z",
+      "rule": "Runtime current_z supplies Draw.z() before payloadDraw changes it."
+    },
+    "building_payload_draw.building_cache_layer_z": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "payloadDraw()",
+      "godot_owner": "PortGame.source_building_payload_draw_state",
+      "tests": [
+        "test_building_payload_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_payload_draw_state",
+      "java_expr": "block.buildingCacheLayer.layer",
+      "godot_symbol": "source_building_payload_draw_input.building_cache_layer_z",
+      "rule": "Runtime building_cache_layer_z supplies block.buildingCacheLayer.layer."
     }
   }
 }

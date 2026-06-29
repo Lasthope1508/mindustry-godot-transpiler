@@ -27607,6 +27607,304 @@
           "rule": "Carries previous_state input into no-op result schema."
         }
       }
+    },
+    "source_building_payload_draw_input": {
+      "status": "active",
+      "keys": {
+        "draw_cached": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "payloadDraw()",
+          "java_expr": "block.drawCached",
+          "godot_symbol": "source_building_payload_draw_input.draw_cached",
+          "used_by": [
+            "PortGame.source_building_payload_draw_state"
+          ],
+          "rule": "Runtime draw_cached supplies block.drawCached."
+        },
+        "draw_dynamic": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "payloadDraw()",
+          "java_expr": "block.drawDynamic",
+          "godot_symbol": "source_building_payload_draw_input.draw_dynamic",
+          "used_by": [
+            "PortGame.source_building_payload_draw_state"
+          ],
+          "rule": "Runtime draw_dynamic supplies block.drawDynamic."
+        },
+        "current_z": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "payloadDraw()",
+          "java_expr": "Draw.z()",
+          "godot_symbol": "source_building_payload_draw_input.current_z",
+          "used_by": [
+            "PortGame.source_building_payload_draw_state"
+          ],
+          "rule": "Runtime current_z supplies Draw.z() before payloadDraw changes it."
+        },
+        "building_cache_layer_z": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "payloadDraw()",
+          "java_expr": "block.buildingCacheLayer.layer",
+          "godot_symbol": "source_building_payload_draw_input.building_cache_layer_z",
+          "used_by": [
+            "PortGame.source_building_payload_draw_state"
+          ],
+          "rule": "Runtime building_cache_layer_z supplies block.buildingCacheLayer.layer."
+        },
+        "variants": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_draw_input.variants",
+          "rule": "Reuses draw() block.variants schema for delegated draw/drawCached helpers."
+        },
+        "has_variant_regions": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_draw_input.has_variant_regions",
+          "rule": "Reuses draw() block.variantRegions null-check schema for delegated draw/drawCached helpers."
+        },
+        "variant_region_count": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_draw_input.variant_region_count",
+          "rule": "Reuses draw() block.variantRegions.length schema for delegated draw/drawCached helpers."
+        },
+        "tile_pos": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_draw_input.tile_pos",
+          "rule": "Reuses draw() tile.pos() schema for delegated draw/drawCached helpers."
+        },
+        "source_x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_input.source_x",
+          "rule": "Reuses draw() x schema for delegated draw/drawCached helpers."
+        },
+        "source_y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_draw_input.source_y",
+          "rule": "Reuses draw() y schema for delegated draw/drawCached helpers."
+        },
+        "block_rotate": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_draw_input.block_rotate",
+          "rule": "Reuses draw() block.rotate schema for delegated draw/drawCached helpers."
+        },
+        "block_rotate_draw": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_draw_input.block_rotate_draw",
+          "rule": "Reuses draw() block.rotateDraw schema for delegated draw/drawCached helpers."
+        },
+        "rotation_quadrants": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_draw_input.rotation_quadrants",
+          "rule": "Reuses draw() rotation schema for delegated draw/drawCached helpers."
+        }
+      }
+    },
+    "source_building_payload_draw_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "payloadDraw()",
+          "java_expr": "public void payloadDraw(){",
+          "godot_symbol": "source_building_payload_draw_result.method",
+          "used_by": [
+            "PortGame.source_building_payload_draw_state"
+          ],
+          "rule": "BuildingComp payloadDraw method boundary."
+        },
+        "saved_z_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "payloadDraw()",
+          "java_expr": "float z = Draw.z();",
+          "godot_symbol": "source_building_payload_draw_result.saved_z_call",
+          "used_by": [
+            "PortGame.source_building_payload_draw_state"
+          ],
+          "rule": "Source marker for saving Draw.z()."
+        },
+        "cached_gate": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "payloadDraw()",
+          "java_expr": "if(block.drawCached){",
+          "godot_symbol": "source_building_payload_draw_result.cached_gate",
+          "used_by": [
+            "PortGame.source_building_payload_draw_state"
+          ],
+          "rule": "Source marker for cached branch gate."
+        },
+        "cached_z_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "payloadDraw()",
+          "java_expr": "Draw.z(block.buildingCacheLayer.layer);",
+          "godot_symbol": "source_building_payload_draw_result.cached_z_call",
+          "used_by": [
+            "PortGame.source_building_payload_draw_state"
+          ],
+          "rule": "Source marker for cached z layer call."
+        },
+        "cached_draw_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "payloadDraw()",
+          "java_expr": "drawCached();",
+          "godot_symbol": "source_building_payload_draw_result.cached_draw_call",
+          "used_by": [
+            "PortGame.source_building_payload_draw_state"
+          ],
+          "rule": "Source marker for cached draw call."
+        },
+        "dynamic_gate": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "payloadDraw()",
+          "java_expr": "if(block.drawDynamic){",
+          "godot_symbol": "source_building_payload_draw_result.dynamic_gate",
+          "used_by": [
+            "PortGame.source_building_payload_draw_state"
+          ],
+          "rule": "Source marker for dynamic branch gate."
+        },
+        "restore_z_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "payloadDraw()",
+          "java_expr": "Draw.z(z);",
+          "godot_symbol": "source_building_payload_draw_result.restore_z_call",
+          "used_by": [
+            "PortGame.source_building_payload_draw_state"
+          ],
+          "rule": "Source marker for restoring saved z."
+        },
+        "dynamic_draw_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "payloadDraw()",
+          "java_expr": "draw();",
+          "godot_symbol": "source_building_payload_draw_result.dynamic_draw_call",
+          "used_by": [
+            "PortGame.source_building_payload_draw_state"
+          ],
+          "rule": "Source marker for dynamic draw call."
+        },
+        "saved_z": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "payloadDraw()",
+          "java_expr": "float z = Draw.z();",
+          "godot_symbol": "source_building_payload_draw_result.saved_z",
+          "used_by": [
+            "PortGame.source_building_payload_draw_state"
+          ],
+          "rule": "Runtime saved_z carries saved Draw.z() value."
+        },
+        "cached_visible": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "payloadDraw()",
+          "java_expr": "if(block.drawCached){",
+          "godot_symbol": "source_building_payload_draw_result.cached_visible",
+          "used_by": [
+            "PortGame.source_building_payload_draw_state"
+          ],
+          "rule": "Runtime cached_visible follows block.drawCached branch."
+        },
+        "cached_z": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_payload_draw_input.building_cache_layer_z",
+          "rule": "Carries cached z layer input into result schema."
+        },
+        "cached_draw": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "payloadDraw()",
+          "java_expr": "drawCached();",
+          "godot_symbol": "source_building_payload_draw_result.cached_draw",
+          "used_by": [
+            "PortGame.source_building_payload_draw_state"
+          ],
+          "rule": "Runtime cached_draw carries drawCached() result when cached branch runs."
+        },
+        "dynamic_visible": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "payloadDraw()",
+          "java_expr": "if(block.drawDynamic){",
+          "godot_symbol": "source_building_payload_draw_result.dynamic_visible",
+          "used_by": [
+            "PortGame.source_building_payload_draw_state"
+          ],
+          "rule": "Runtime dynamic_visible follows block.drawDynamic branch."
+        },
+        "dynamic_z": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "payloadDraw()",
+          "java_expr": "Draw.z(z);",
+          "godot_symbol": "source_building_payload_draw_result.dynamic_z",
+          "used_by": [
+            "PortGame.source_building_payload_draw_state"
+          ],
+          "rule": "Runtime dynamic_z carries restored saved Draw.z() value."
+        },
+        "dynamic_draw": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "payloadDraw()",
+          "java_expr": "draw();",
+          "godot_symbol": "source_building_payload_draw_result.dynamic_draw",
+          "used_by": [
+            "PortGame.source_building_payload_draw_state"
+          ],
+          "rule": "Runtime dynamic_draw carries draw() result when dynamic branch runs."
+        },
+        "draw_cached": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_payload_draw_input.draw_cached",
+          "rule": "Carries draw_cached input into result schema."
+        },
+        "draw_dynamic": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_payload_draw_input.draw_dynamic",
+          "rule": "Carries draw_dynamic input into result schema."
+        }
+      }
     }
   },
   "version": 1

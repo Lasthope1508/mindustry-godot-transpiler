@@ -4033,6 +4033,41 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(previous_state["java_expr"], "Seq<Building> previous")
         self.assertEqual(previous_state["godot_symbol"], "source_building_overwrote_input.previous_state")
 
+    def test_building_payload_draw_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_payload_draw.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "payloadDraw()")
+        self.assertEqual(method["java_expr"], "public void payloadDraw(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_payload_draw_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_payload_draw_state")
+        self.assertEqual(method["godot_symbol"], "source_building_payload_draw_result.method")
+
+        saved_z = source_symbols.source_symbol(registry, "building_payload_draw.saved_z")
+        self.assertEqual(saved_z["java_expr"], "float z = Draw.z();")
+        self.assertEqual(saved_z["godot_symbol"], "source_building_payload_draw_result.saved_z")
+
+        cached_gate = source_symbols.source_symbol(registry, "building_payload_draw.cached_gate")
+        self.assertEqual(cached_gate["java_expr"], "if(block.drawCached){")
+        self.assertEqual(cached_gate["godot_symbol"], "source_building_payload_draw_result.cached_visible")
+
+        cached_z_call = source_symbols.source_symbol(registry, "building_payload_draw.cached_z_call")
+        self.assertEqual(cached_z_call["java_expr"], "Draw.z(block.buildingCacheLayer.layer);")
+        self.assertEqual(cached_z_call["godot_symbol"], "source_building_payload_draw_result.cached_z_call")
+
+        dynamic_draw_call = source_symbols.source_symbol(registry, "building_payload_draw.dynamic_draw_call")
+        self.assertEqual(dynamic_draw_call["java_expr"], "draw();")
+        self.assertEqual(dynamic_draw_call["godot_symbol"], "source_building_payload_draw_result.dynamic_draw_call")
+
+        draw_cached = source_symbols.source_symbol(registry, "building_payload_draw.draw_cached")
+        self.assertEqual(draw_cached["status"], "explicit-input")
+        self.assertEqual(draw_cached["java_expr"], "block.drawCached")
+        self.assertEqual(draw_cached["godot_symbol"], "source_building_payload_draw_input.draw_cached")
+
     def test_building_on_destroyed_base_sound_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -6259,9 +6294,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 218)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 219)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 223)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 224)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6297,6 +6332,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_on_removed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_on_repaired_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_overwrote_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_payload_draw_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7741,6 +7777,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("Should load some previous state, if necessary. */", building_overwrote["exact_exprs"])
         self.assertIn("public void overwrote(Seq<Building> previous){", building_overwrote["exact_exprs"])
         self.assertIn("Seq<Building> previous", building_overwrote["exact_exprs"])
+
+        building_payload_draw = source_symbols.source_slice(ledger, "N621")
+        self.assertEqual(building_payload_draw["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_payload_draw["java_method"], "payloadDraw()")
+        self.assertEqual(building_payload_draw["godot_owner"], "PortGame.source_building_payload_draw_state")
+        self.assertIn("public void payloadDraw(){", building_payload_draw["exact_exprs"])
+        self.assertIn("float z = Draw.z();", building_payload_draw["exact_exprs"])
+        self.assertIn("if(block.drawCached){", building_payload_draw["exact_exprs"])
+        self.assertIn("Draw.z(block.buildingCacheLayer.layer);", building_payload_draw["exact_exprs"])
+        self.assertIn("drawCached();", building_payload_draw["exact_exprs"])
+        self.assertIn("if(block.drawDynamic){", building_payload_draw["exact_exprs"])
+        self.assertIn("Draw.z(z);", building_payload_draw["exact_exprs"])
+        self.assertIn("draw();", building_payload_draw["exact_exprs"])
 
         building_on_destroyed_base_sound = source_symbols.source_slice(ledger, "N608")
         self.assertEqual(building_on_destroyed_base_sound["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -9740,6 +9789,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("no_op", building_overwrote["return_keys"])
         self.assertIn("previous_state", building_overwrote["return_keys"])
         self.assertEqual(building_overwrote["source_method"], "overwrote(Seq<Building> previous)")
+
+        building_payload_draw = source_symbols.api_contract(contracts, "PortGame.source_building_payload_draw_state")
+        self.assertEqual([param["name"] for param in building_payload_draw["params"]], ["draw_cached", "draw_dynamic", "current_z", "building_cache_layer_z", "variants", "has_variant_regions", "variant_region_count", "tile_pos", "source_x", "source_y", "block_rotate", "block_rotate_draw", "rotation_quadrants"])
+        self.assertEqual(building_payload_draw["params"][0]["schema"], "source_building_payload_draw_input.draw_cached")
+        self.assertEqual(building_payload_draw["params"][3]["schema"], "source_building_payload_draw_input.building_cache_layer_z")
+        self.assertIn("method", building_payload_draw["return_keys"])
+        self.assertIn("saved_z_call", building_payload_draw["return_keys"])
+        self.assertIn("cached_z_call", building_payload_draw["return_keys"])
+        self.assertIn("dynamic_draw_call", building_payload_draw["return_keys"])
+        self.assertIn("cached_draw", building_payload_draw["return_keys"])
+        self.assertIn("dynamic_draw", building_payload_draw["return_keys"])
+        self.assertEqual(building_payload_draw["source_method"], "payloadDraw()")
 
         building_on_destroyed_base_sound = source_symbols.api_contract(contracts, "PortGame.source_building_on_destroyed_base_sound_state")
         self.assertEqual([param["name"] for param in building_on_destroyed_base_sound["params"]], ["headless", "destroy_sound", "destroy_pitch_min", "destroy_pitch_max", "destroy_sound_volume"])
@@ -11944,6 +12005,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_overwrote_result["keys"]["comment"]["java_expr"], "Called when a block is placed over some other blocks. This seq will always have at least one item.")
         self.assertEqual(source_building_overwrote_result["keys"]["no_op"]["java_expr"], "public void overwrote(Seq<Building> previous){")
         self.assertEqual(source_building_overwrote_result["keys"]["previous_state"]["alias_of"], "source_building_overwrote_input.previous_state")
+
+        source_building_payload_draw_input = source_symbols.state_schema(schema, "source_building_payload_draw_input")
+        self.assertEqual(source_building_payload_draw_input["keys"]["draw_cached"]["java_expr"], "block.drawCached")
+        self.assertEqual(source_building_payload_draw_input["keys"]["draw_dynamic"]["java_expr"], "block.drawDynamic")
+        self.assertEqual(source_building_payload_draw_input["keys"]["building_cache_layer_z"]["java_expr"], "block.buildingCacheLayer.layer")
+
+        source_building_payload_draw_result = source_symbols.state_schema(schema, "source_building_payload_draw_result")
+        self.assertEqual(source_building_payload_draw_result["keys"]["method"]["java_expr"], "public void payloadDraw(){")
+        self.assertEqual(source_building_payload_draw_result["keys"]["saved_z_call"]["java_expr"], "float z = Draw.z();")
+        self.assertEqual(source_building_payload_draw_result["keys"]["cached_visible"]["java_expr"], "if(block.drawCached){")
+        self.assertEqual(source_building_payload_draw_result["keys"]["cached_z_call"]["java_expr"], "Draw.z(block.buildingCacheLayer.layer);")
+        self.assertEqual(source_building_payload_draw_result["keys"]["dynamic_draw_call"]["java_expr"], "draw();")
+        self.assertEqual(source_building_payload_draw_result["keys"]["draw_cached"]["alias_of"], "source_building_payload_draw_input.draw_cached")
 
         source_building_on_destroyed_base_sound_input = source_symbols.state_schema(schema, "source_building_on_destroyed_base_sound_input")
         self.assertEqual(source_building_on_destroyed_base_sound_input["keys"]["headless"]["java_expr"], "headless")
