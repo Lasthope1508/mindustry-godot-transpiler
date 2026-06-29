@@ -526,10 +526,21 @@ func source_overdrive_projector_light_state(overdrive_projector, smooth_efficien
 		"alpha": 0.7 * smooth_efficiency,
 	}
 
+const SOURCE_OVERDRIVE_PROJECTOR_DRAW_METHOD := "public void draw(){"
+const SOURCE_OVERDRIVE_PROJECTOR_DRAW_LOD_GUARD := "if(!Lod.l2) return;"
+const SOURCE_OVERDRIVE_PROJECTOR_DRAW_FRACTION := "float f = 1f - (Time.time / 100f) % 1f;"
+const SOURCE_OVERDRIVE_PROJECTOR_DRAW_COLOR := "Draw.color(baseColor, phaseColor, phaseHeat);"
+const SOURCE_OVERDRIVE_PROJECTOR_DRAW_TOP_ALPHA := "Draw.alpha(heat * Mathf.absin(Time.time, 50f / Mathf.PI2, 1f) * 0.5f * Lod.alpha2);"
+const SOURCE_OVERDRIVE_PROJECTOR_DRAW_TOP_RECT := "Draw.rect(topRegion, x, y);"
+const SOURCE_OVERDRIVE_PROJECTOR_DRAW_ALPHA_RESET := "Draw.alpha(Lod.alpha2);"
+const SOURCE_OVERDRIVE_PROJECTOR_DRAW_STROKE := "Lines.stroke((2f * f + 0.1f) * heat);"
+const SOURCE_OVERDRIVE_PROJECTOR_DRAW_LINE_DIMENSIONS := "float r = Math.max(0f, Mathf.clamp(2f - f * 2f) * size * tilesize / 2f - f - 0.2f), w = Mathf.clamp(0.5f - f) * size * tilesize;"
+const SOURCE_OVERDRIVE_PROJECTOR_DRAW_LINE_LOOP := "for(int i = 0; i < 4; i++){"
+
 func source_overdrive_projector_draw_state(overdrive_projector, heat: float, phase_heat: float, source_time_ticks := 0.0, lod_l2 := true, lod_alpha2 := 1.0) -> Dictionary:
 	var f := 1.0 - fmod(source_time_ticks / 100.0, 1.0)
 	if overdrive_projector == null or not lod_l2:
-		return {"visible": false, "f": f, "base_color": "", "phase_color": "", "phase_heat": phase_heat, "top_alpha": 0.0, "stroke": 0.0, "line_r": 0.0, "line_w": 0.0}
+		return {"visible": false, "f": f, "base_color": "", "phase_color": "", "phase_heat": phase_heat, "top_alpha": 0.0, "top_rect": false, "lod_alpha2": 0.0, "stroke": 0.0, "line_r": 0.0, "line_w": 0.0}
 	var line_r: float = max(0.0, clamp(2.0 - f * 2.0, 0.0, 1.0) * float(block_size(overdrive_projector)) * float(tile_size) / 2.0 - f - 0.2)
 	var line_w: float = clamp(0.5 - f, 0.0, 1.0) * float(block_size(overdrive_projector)) * float(tile_size)
 	return {
@@ -539,6 +550,8 @@ func source_overdrive_projector_draw_state(overdrive_projector, heat: float, pha
 		"phase_color": str(overdrive_projector.properties.get("phaseColor", overdrive_projector.properties.get("baseColor", ""))),
 		"phase_heat": phase_heat,
 		"top_alpha": heat * source_absin(source_time_ticks, 50.0 / SOURCE_PI2, 1.0) * 0.5 * lod_alpha2,
+		"top_rect": true,
+		"lod_alpha2": lod_alpha2,
 		"stroke": (2.0 * f + 0.1) * heat,
 		"line_r": line_r,
 		"line_w": line_w,
@@ -628,10 +641,10 @@ func selected_build_overdrive_light_state_for_smooth_efficiency(smooth_efficienc
 
 func selected_build_overdrive_draw_state_for_inputs(heat: float, phase_heat: float, source_time_ticks := 0.0) -> Dictionary:
 	if build_palette.is_empty():
-		return {"visible": false, "f": 0.0, "base_color": "", "phase_color": "", "phase_heat": phase_heat, "top_alpha": 0.0, "stroke": 0.0, "line_r": 0.0, "line_w": 0.0}
+		return {"visible": false, "f": 0.0, "base_color": "", "phase_color": "", "phase_heat": phase_heat, "top_alpha": 0.0, "top_rect": false, "lod_alpha2": 0.0, "stroke": 0.0, "line_r": 0.0, "line_w": 0.0}
 	var selected = build_palette[selected_build_index]
 	if selected.implementation != "OverdriveProjector":
-		return {"visible": false, "f": 0.0, "base_color": "", "phase_color": "", "phase_heat": phase_heat, "top_alpha": 0.0, "stroke": 0.0, "line_r": 0.0, "line_w": 0.0}
+		return {"visible": false, "f": 0.0, "base_color": "", "phase_color": "", "phase_heat": phase_heat, "top_alpha": 0.0, "top_rect": false, "lod_alpha2": 0.0, "stroke": 0.0, "line_r": 0.0, "line_w": 0.0}
 	return source_overdrive_projector_draw_state(selected, heat, phase_heat, source_time_ticks)
 
 func selected_build_booster_item() -> String:

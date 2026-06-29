@@ -336,6 +336,16 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_DRAW_METHOD := "public void draw(){"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_DRAW_LOD_GUARD := "if(!Lod.l2) return;"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_DRAW_FRACTION := "float f = 1f - (Time.time / 100f) % 1f;"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_DRAW_COLOR := "Draw.color(baseColor, phaseColor, phaseHeat);"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_DRAW_TOP_ALPHA := "Draw.alpha(heat * Mathf.absin(Time.time, 50f / Mathf.PI2, 1f) * 0.5f * Lod.alpha2);"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_DRAW_TOP_RECT := "Draw.rect(topRegion, x, y);"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_DRAW_ALPHA_RESET := "Draw.alpha(Lod.alpha2);"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_DRAW_STROKE := "Lines.stroke((2f * f + 0.1f) * heat);"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_DRAW_LINE_DIMENSIONS := "float r = Math.max(0f, Mathf.clamp(2f - f * 2f) * size * tilesize / 2f - f - 0.2f), w = Mathf.clamp(0.5f - f) * size * tilesize;"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_DRAW_LINE_LOOP := "for(int i = 0; i < 4; i++){"', source)
         self.assertIn("func source_overdrive_projector_draw_state(overdrive_projector, heat: float, phase_heat: float, source_time_ticks := 0.0, lod_l2 := true, lod_alpha2 := 1.0) -> Dictionary:", source)
         self.assertIn("var f := 1.0 - fmod(source_time_ticks / 100.0, 1.0)", source)
         self.assertIn("var line_r: float = max(0.0, clamp(2.0 - f * 2.0, 0.0, 1.0) * float(block_size(overdrive_projector)) * float(tile_size) / 2.0 - f - 0.2)", source)

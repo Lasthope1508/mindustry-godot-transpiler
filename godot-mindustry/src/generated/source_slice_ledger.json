@@ -9650,10 +9650,6 @@
       ]
     },
     "N702": {
-      "status": "done",
-      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-      "java_class": "mindustry.world.blocks.production.Drill",
-      "java_method": "field declaration",
       "exact_exprs": [
         "Speed at which the drill speeds up.",
         "public float warmupSpeed = 0.015f;",
@@ -9661,6 +9657,9 @@
         "0.015f"
       ],
       "godot_owner": "PortGame.source_drill_warmup_speed",
+      "java_class": "mindustry.world.blocks.production.Drill",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
       "runtime_proof": "/root/Main.source_drill_warmup_speed",
       "source_symbols": [
         "drill_warmup_speed.field",
@@ -9669,16 +9668,13 @@
         "drill_warmup_speed.default",
         "drill_warmup_speed.block_id"
       ],
+      "status": "done",
       "tests": [
         "test_drill_warmup_speed_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_drill_warmup_speed_symbols"
       ]
     },
     "N703": {
-      "status": "done",
-      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-      "java_class": "mindustry.world.blocks.production.Drill.DrillBuild",
-      "java_method": "DrillBuild.updateTile()",
       "exact_exprs": [
         "warmup = Mathf.approachDelta(warmup, speed, warmupSpeed);",
         "warmup",
@@ -9687,6 +9683,9 @@
         "Time.delta"
       ],
       "godot_owner": "PortGame.source_drill_warmup_state",
+      "java_class": "mindustry.world.blocks.production.Drill.DrillBuild",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
       "runtime_proof": "/root/Main.source_drill_warmup_state",
       "source_symbols": [
         "drill_warmup_state.active_warmup",
@@ -9695,16 +9694,13 @@
         "drill_warmup_state.warmup_speed",
         "drill_warmup_state.source_delta"
       ],
+      "status": "done",
       "tests": [
         "test_drill_warmup_state_symbols_are_registered_with_source_backing",
         "test_port_game_applies_source_drill_warmup_to_output_delta"
       ]
     },
     "N704": {
-      "status": "done",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "java_class": "mindustry.entities.comp.BuildingComp",
-      "java_method": "dumpAccumulate(Item item)",
       "exact_exprs": [
         "private transient float dumpAccum;",
         "dumpAccum += delta();",
@@ -9714,6 +9710,9 @@
         "delta()"
       ],
       "godot_owner": "PortGame.source_dump_accumulate_attempt_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "dumpAccumulate(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "runtime_proof": "/root/Main.source_dump_accumulate_attempt_state",
       "source_symbols": [
         "dump_accumulate_attempt.dump_accum_field",
@@ -9724,16 +9723,13 @@
         "dump_accumulate_attempt.current_accum",
         "dump_accumulate_attempt.source_delta"
       ],
+      "status": "done",
       "tests": [
         "test_dump_accumulate_attempt_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_dump_accumulate_attempt_state"
       ]
     },
     "N705": {
-      "status": "done",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "java_class": "mindustry.entities.comp.BuildingComp",
-      "java_method": "dump(Item todump)",
       "exact_exprs": [
         "public boolean dump(Item todump){",
         "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
@@ -9744,6 +9740,9 @@
         "todump"
       ],
       "godot_owner": "PortGame.source_dump_drill_item_to_core",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "dump(Item todump)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "runtime_proof": "/root/Main.source_dump_drill_item_to_core",
       "source_symbols": [
         "dump_drill_item_to_core.method",
@@ -9754,16 +9753,13 @@
         "dump_drill_item_to_core.increment_dump",
         "dump_drill_item_to_core.item_id"
       ],
+      "status": "done",
       "tests": [
         "test_dump_drill_item_to_core_symbols_are_registered_with_source_backing",
         "test_port_game_dumps_source_drill_inventory_to_core"
       ]
     },
     "N706": {
-      "status": "done",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "java_class": "mindustry.entities.comp.BuildingComp",
-      "java_method": "dumpPayload(Payload todump)",
       "exact_exprs": [
         "int dump = this.cdump;",
         "Building other = proximity.get((i + dump) % proximity.size);",
@@ -9773,6 +9769,9 @@
         "proximity.size"
       ],
       "godot_owner": "PortGame.source_dump_payload_index",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "dumpPayload(Payload todump)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "runtime_proof": "/root/Main.source_dump_payload_index",
       "source_symbols": [
         "dump_payload_index.dump_field",
@@ -9782,16 +9781,13 @@
         "dump_payload_index.dump_cursor",
         "dump_payload_index.proximity_size"
       ],
+      "status": "done",
       "tests": [
         "test_dump_payload_index_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_dump_payload_state"
       ]
     },
     "N707": {
-      "status": "done",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "java_class": "mindustry.entities.comp.BuildingComp",
-      "java_method": "dumpPayload(Payload todump)",
       "exact_exprs": [
         "public boolean dumpPayload(Payload todump){",
         "if(proximity.size == 0) return false;",
@@ -9806,6 +9802,9 @@
         "other.acceptPayload(self(), todump)"
       ],
       "godot_owner": "PortGame.source_dump_payload_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "dumpPayload(Payload todump)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "runtime_proof": "/root/Main.source_dump_payload_state",
       "source_symbols": [
         "dump_payload_state.method",
@@ -9820,16 +9819,13 @@
         "dump_payload_state.dump_cursor",
         "dump_payload_state.accepts_payload_by_index"
       ],
+      "status": "done",
       "tests": [
         "test_dump_payload_state_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_dump_payload_state"
       ]
     },
     "N708": {
-      "status": "done",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "java_class": "mindustry.entities.comp.BuildingComp",
-      "java_method": "incrementDump(int prox)",
       "exact_exprs": [
         "public void incrementDump(int prox){",
         "//this is possible if transferring an item changed a block",
@@ -9839,6 +9835,9 @@
         "prox"
       ],
       "godot_owner": "PortGame.source_increment_dump_cursor",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "incrementDump(int prox)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "runtime_proof": "/root/Main.source_increment_dump_cursor",
       "source_symbols": [
         "increment_dump_cursor.method",
@@ -9848,6 +9847,7 @@
         "increment_dump_cursor.current_dump",
         "increment_dump_cursor.proximity_size"
       ],
+      "status": "done",
       "tests": [
         "test_increment_dump_cursor_symbols_are_registered_with_source_backing",
         "test_port_game_tracks_source_dump_cursor"
@@ -10462,6 +10462,62 @@
       "tests": [
         "test_overdrive_projector_boost_bar_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_overdrive_projector_boost_bar_like_source"
+      ]
+    },
+    "N726": {
+      "deferred_exprs": [
+        "for(int i = 0; i < 4; i++){"
+      ],
+      "exact_exprs": [
+        "public void draw(){",
+        "if(!Lod.l2) return;",
+        "float f = 1f - (Time.time / 100f) % 1f;",
+        "Draw.color(baseColor, phaseColor, phaseHeat);",
+        "Draw.alpha(heat * Mathf.absin(Time.time, 50f / Mathf.PI2, 1f) * 0.5f * Lod.alpha2);",
+        "Draw.rect(topRegion, x, y);",
+        "Draw.alpha(Lod.alpha2);",
+        "Lines.stroke((2f * f + 0.1f) * heat);",
+        "float r = Math.max(0f, Mathf.clamp(2f - f * 2f) * size * tilesize / 2f - f - 0.2f), w = Mathf.clamp(0.5f - f) * size * tilesize;",
+        "public Color baseColor = Color.valueOf(\"feb380\");",
+        "public Color phaseColor = Color.valueOf(\"ffd59e\");",
+        "heat",
+        "phaseHeat",
+        "Time.time",
+        "Lod.l2",
+        "Lod.alpha2",
+        "size",
+        "tilesize"
+      ],
+      "godot_owner": "PortGame.source_overdrive_projector_draw_state",
+      "java_class": "mindustry.world.blocks.defense.OverdriveProjector.OverdriveBuild",
+      "java_method": "draw()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "runtime_proof": "/root/Main.source_overdrive_projector_draw_state",
+      "source_symbols": [
+        "overdrive_projector_draw_state.method",
+        "overdrive_projector_draw_state.lod_guard",
+        "overdrive_projector_draw_state.fraction",
+        "overdrive_projector_draw_state.color",
+        "overdrive_projector_draw_state.top_alpha",
+        "overdrive_projector_draw_state.top_rect",
+        "overdrive_projector_draw_state.alpha_reset",
+        "overdrive_projector_draw_state.stroke",
+        "overdrive_projector_draw_state.line_dimensions",
+        "overdrive_projector_draw_state.line_loop_deferred",
+        "overdrive_projector_draw_state.heat",
+        "overdrive_projector_draw_state.phase_heat",
+        "overdrive_projector_draw_state.time",
+        "overdrive_projector_draw_state.lod_l2",
+        "overdrive_projector_draw_state.lod_alpha2",
+        "overdrive_projector_draw_state.base_color",
+        "overdrive_projector_draw_state.phase_color",
+        "overdrive_projector_draw_state.size",
+        "overdrive_projector_draw_state.tilesize"
+      ],
+      "status": "done",
+      "tests": [
+        "test_overdrive_projector_draw_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_draw_state_like_source"
       ]
     }
   },

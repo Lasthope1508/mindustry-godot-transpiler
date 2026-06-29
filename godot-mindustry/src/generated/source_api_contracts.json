@@ -11299,16 +11299,12 @@
       ]
     },
     "PortGame.source_drill_warmup_speed": {
-      "status": "active",
       "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-      "source_method": "field declaration",
-      "source_slice": "N702",
-      "runtime_proof": "/root/Main.source_drill_warmup_speed",
       "params": [
         {
           "name": "block_id",
-          "type": "String",
-          "schema": "source_drill_warmup_speed_input.block_id"
+          "schema": "source_drill_warmup_speed_input.block_id",
+          "type": "String"
         }
       ],
       "return_keys": [
@@ -11318,36 +11314,36 @@
         "default"
       ],
       "rule": "Public runtime contract for Drill warmupSpeed field lookup with source default fallback.",
+      "runtime_proof": "/root/Main.source_drill_warmup_speed",
+      "source_method": "field declaration",
+      "source_slice": "N702",
+      "status": "active",
       "tests": [
         "test_drill_warmup_speed_symbols_are_registered_with_source_backing"
       ]
     },
     "PortGame.source_drill_warmup_state": {
-      "status": "active",
       "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-      "source_method": "DrillBuild.updateTile()",
-      "source_slice": "N703",
-      "runtime_proof": "/root/Main.source_drill_warmup_state",
       "params": [
         {
           "name": "current_warmup",
-          "type": "float",
-          "schema": "source_drill_warmup_state_input.current_warmup"
+          "schema": "source_drill_warmup_state_input.current_warmup",
+          "type": "float"
         },
         {
           "name": "speed",
-          "type": "float",
-          "schema": "source_drill_warmup_state_input.speed"
+          "schema": "source_drill_warmup_state_input.speed",
+          "type": "float"
         },
         {
           "name": "warmup_speed",
-          "type": "float",
-          "schema": "source_drill_warmup_state_input.warmup_speed"
+          "schema": "source_drill_warmup_state_input.warmup_speed",
+          "type": "float"
         },
         {
           "name": "source_delta",
-          "type": "float",
-          "schema": "source_drill_warmup_state_input.source_delta"
+          "schema": "source_drill_warmup_state_input.source_delta",
+          "type": "float"
         }
       ],
       "return_keys": [
@@ -11358,26 +11354,26 @@
         "source_delta"
       ],
       "rule": "Public runtime contract for DrillBuild active warmup approach state.",
+      "runtime_proof": "/root/Main.source_drill_warmup_state",
+      "source_method": "DrillBuild.updateTile()",
+      "source_slice": "N703",
+      "status": "active",
       "tests": [
         "test_drill_warmup_state_symbols_are_registered_with_source_backing"
       ]
     },
     "PortGame.source_dump_accumulate_attempt_state": {
-      "status": "active",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "source_method": "dumpAccumulate(Item item)",
-      "source_slice": "N704",
-      "runtime_proof": "/root/Main.source_dump_accumulate_attempt_state",
       "params": [
         {
           "name": "current_accum",
-          "type": "float",
-          "schema": "source_dump_accumulate_attempt_input.current_accum"
+          "schema": "source_dump_accumulate_attempt_input.current_accum",
+          "type": "float"
         },
         {
           "name": "source_delta",
-          "type": "float",
-          "schema": "source_dump_accumulate_attempt_input.source_delta"
+          "schema": "source_dump_accumulate_attempt_input.source_delta",
+          "type": "float"
         }
       ],
       "return_keys": [
@@ -11387,21 +11383,21 @@
         "source_delta"
       ],
       "rule": "Public runtime contract for BuildingComp dumpAccumulate attempt scheduling without fabricating dump success.",
+      "runtime_proof": "/root/Main.source_dump_accumulate_attempt_state",
+      "source_method": "dumpAccumulate(Item item)",
+      "source_slice": "N704",
+      "status": "active",
       "tests": [
         "test_dump_accumulate_attempt_symbols_are_registered_with_source_backing"
       ]
     },
     "PortGame.source_dump_drill_item_to_core": {
-      "status": "active",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "source_method": "dump(Item todump)",
-      "source_slice": "N705",
-      "runtime_proof": "/root/Main.source_dump_drill_item_to_core",
       "params": [
         {
           "name": "item_id",
-          "type": "String",
-          "schema": "source_dump_drill_item_to_core_input.item_id"
+          "schema": "source_dump_drill_item_to_core_input.item_id",
+          "type": "String"
         }
       ],
       "return_keys": [
@@ -11415,31 +11411,31 @@
         "item_id"
       ],
       "rule": "Public runtime contract for source dump(Item todump) path mapped to current Drill-to-core single-neighbor runtime.",
+      "runtime_proof": "/root/Main.source_dump_drill_item_to_core",
+      "source_method": "dump(Item todump)",
+      "source_slice": "N705",
+      "status": "active",
       "tests": [
         "test_dump_drill_item_to_core_symbols_are_registered_with_source_backing"
       ]
     },
     "PortGame.source_dump_payload_index": {
-      "status": "active",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "source_method": "dumpPayload(Payload todump)",
-      "source_slice": "N706",
-      "runtime_proof": "/root/Main.source_dump_payload_index",
       "params": [
         {
           "name": "loop_index",
-          "type": "int",
-          "schema": "source_dump_payload_index_input.loop_index"
+          "schema": "source_dump_payload_index_input.loop_index",
+          "type": "int"
         },
         {
           "name": "dump_cursor",
-          "type": "int",
-          "schema": "source_dump_payload_index_input.dump_cursor"
+          "schema": "source_dump_payload_index_input.dump_cursor",
+          "type": "int"
         },
         {
           "name": "proximity_size",
-          "type": "int",
-          "schema": "source_dump_payload_index_input.proximity_size"
+          "schema": "source_dump_payload_index_input.proximity_size",
+          "type": "int"
         }
       ],
       "return_keys": [
@@ -11450,31 +11446,31 @@
         "proximity_size"
       ],
       "rule": "Public runtime contract for source dumpPayload neighbor index expression mapped to GDScript helper.",
+      "runtime_proof": "/root/Main.source_dump_payload_index",
+      "source_method": "dumpPayload(Payload todump)",
+      "source_slice": "N706",
+      "status": "active",
       "tests": [
         "test_dump_payload_index_symbols_are_registered_with_source_backing"
       ]
     },
     "PortGame.source_dump_payload_state": {
-      "status": "active",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "source_method": "dumpPayload(Payload todump)",
-      "source_slice": "N707",
-      "runtime_proof": "/root/Main.source_dump_payload_state",
       "params": [
         {
           "name": "proximity_size",
-          "type": "int",
-          "schema": "source_dump_payload_state_input.proximity_size"
+          "schema": "source_dump_payload_state_input.proximity_size",
+          "type": "int"
         },
         {
           "name": "dump_cursor",
-          "type": "int",
-          "schema": "source_dump_payload_state_input.dump_cursor"
+          "schema": "source_dump_payload_state_input.dump_cursor",
+          "type": "int"
         },
         {
           "name": "accepts_payload_by_index",
-          "type": "Array",
-          "schema": "source_dump_payload_state_input.accepts_payload_by_index"
+          "schema": "source_dump_payload_state_input.accepts_payload_by_index",
+          "type": "Array"
         }
       ],
       "return_keys": [
@@ -11494,26 +11490,26 @@
         "accepts_payload_by_index"
       ],
       "rule": "Public runtime contract for source dumpPayload(Payload todump) loop state mapped to GDScript helper.",
+      "runtime_proof": "/root/Main.source_dump_payload_state",
+      "source_method": "dumpPayload(Payload todump)",
+      "source_slice": "N707",
+      "status": "active",
       "tests": [
         "test_dump_payload_state_symbols_are_registered_with_source_backing"
       ]
     },
     "PortGame.source_increment_dump_cursor": {
-      "status": "active",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "source_method": "incrementDump(int prox)",
-      "source_slice": "N708",
-      "runtime_proof": "/root/Main.source_increment_dump_cursor",
       "params": [
         {
           "name": "current_dump",
-          "type": "int",
-          "schema": "source_increment_dump_cursor_input.current_dump"
+          "schema": "source_increment_dump_cursor_input.current_dump",
+          "type": "int"
         },
         {
           "name": "proximity_size",
-          "type": "int",
-          "schema": "source_increment_dump_cursor_input.proximity_size"
+          "schema": "source_increment_dump_cursor_input.proximity_size",
+          "type": "int"
         }
       ],
       "return_keys": [
@@ -11525,6 +11521,10 @@
         "comment"
       ],
       "rule": "Public runtime contract for source incrementDump(int prox) mapped to pure cursor helper.",
+      "runtime_proof": "/root/Main.source_increment_dump_cursor",
+      "source_method": "incrementDump(int prox)",
+      "source_slice": "N708",
+      "status": "active",
       "tests": [
         "test_increment_dump_cursor_symbols_are_registered_with_source_backing"
       ]
@@ -12086,21 +12086,17 @@
       ]
     },
     "PortGame.source_offload_to_inventory": {
-      "status": "active",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "source_method": "offload(Item item)/DrillBuild.updateTile()",
-      "source_slice": "N724",
-      "runtime_proof": "/root/Main.source_offload_to_inventory",
       "params": [
         {
           "name": "item_id",
-          "type": "String",
-          "schema": "source_offload_to_inventory_input.item_id"
+          "schema": "source_offload_to_inventory_input.item_id",
+          "type": "String"
         },
         {
           "name": "amount",
-          "type": "int",
-          "schema": "source_offload_to_inventory_input.amount"
+          "schema": "source_offload_to_inventory_input.amount",
+          "type": "int"
         }
       ],
       "return_keys": [
@@ -12111,32 +12107,32 @@
         "offloadCall"
       ],
       "rule": "Public runtime contract for batched Drill output calling BuildingComp.offload and falling back to this building inventory when neighbor routing is deferred.",
+      "runtime_proof": "/root/Main.source_offload_to_inventory",
+      "source_method": "offload(Item item)/DrillBuild.updateTile()",
+      "source_slice": "N724",
+      "status": "active",
       "tests": [
         "test_offload_to_inventory_symbols_are_registered_with_source_backing",
         "test_port_game_tracks_source_drill_internal_inventory"
       ]
     },
     "PortGame.source_overdrive_projector_boost_bar_fraction": {
-      "status": "active",
       "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
-      "source_method": "setBars()",
-      "source_slice": "N725",
-      "runtime_proof": "/root/Main.source_overdrive_projector_boost_bar_fraction",
       "params": [
         {
           "name": "overdrive_projector",
-          "type": "object",
-          "schema": "content_block_state"
+          "schema": "content_block_state",
+          "type": "object"
         },
         {
           "name": "phase_heat",
-          "type": "float",
-          "schema": "source_overdrive_projector_boost_bar_input.phaseHeat"
+          "schema": "source_overdrive_projector_boost_bar_input.phaseHeat",
+          "type": "float"
         },
         {
           "name": "efficiency",
-          "type": "float",
-          "schema": "source_overdrive_projector_boost_bar_input.efficiency"
+          "schema": "source_overdrive_projector_boost_bar_input.efficiency",
+          "type": "float"
         }
       ],
       "return_keys": [
@@ -12148,9 +12144,70 @@
         "hasBoost"
       ],
       "rule": "Public runtime contract for OverdriveProjector boost bar fraction supplier in setBars().",
+      "runtime_proof": "/root/Main.source_overdrive_projector_boost_bar_fraction",
+      "source_method": "setBars()",
+      "source_slice": "N725",
+      "status": "active",
       "tests": [
         "test_overdrive_projector_boost_bar_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_overdrive_projector_boost_bar_like_source"
+      ]
+    },
+    "PortGame.source_overdrive_projector_draw_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "params": [
+        {
+          "name": "overdrive_projector",
+          "schema": "content_block_state",
+          "type": "object"
+        },
+        {
+          "name": "heat",
+          "schema": "source_overdrive_projector_draw_state_input.heat",
+          "type": "float"
+        },
+        {
+          "name": "phase_heat",
+          "schema": "source_overdrive_projector_draw_state_input.phaseHeat",
+          "type": "float"
+        },
+        {
+          "name": "source_time_ticks",
+          "schema": "source_overdrive_projector_draw_state_input.time",
+          "type": "float"
+        },
+        {
+          "name": "lod_l2",
+          "schema": "source_overdrive_projector_draw_state_input.lodL2",
+          "type": "bool"
+        },
+        {
+          "name": "lod_alpha2",
+          "schema": "source_overdrive_projector_draw_state_input.lodAlpha2",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "visible",
+        "f",
+        "base_color",
+        "phase_color",
+        "phase_heat",
+        "top_alpha",
+        "top_rect",
+        "lod_alpha2",
+        "stroke",
+        "line_r",
+        "line_w"
+      ],
+      "rule": "Public runtime contract for OverdriveProjector draw overlay summary state.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_draw_state",
+      "source_method": "draw()",
+      "source_slice": "N726",
+      "status": "active",
+      "tests": [
+        "test_overdrive_projector_draw_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_draw_state_like_source"
       ]
     }
   },
