@@ -12602,6 +12602,33 @@
         "test_turret_inaccuracy_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_inaccuracy"
       ]
+    },
+    "PortGame.source_turret_range": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "params": [
+        {
+          "name": "turret",
+          "schema": "source_turret_range_input.turret",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "range",
+        "field",
+        "method",
+        "key",
+        "default_value",
+        "duoValue"
+      ],
+      "rule": "Public runtime contract for BaseTurretBuild.range returning BaseTurret.range without ammo rangeChange.",
+      "runtime_proof": "/root/Main.source_turret_range",
+      "source_method": "range()",
+      "source_slice": "N739",
+      "status": "active",
+      "tests": [
+        "test_turret_range_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_range"
+      ]
     }
   },
   "policy": {

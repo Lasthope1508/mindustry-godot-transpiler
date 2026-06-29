@@ -10914,6 +10914,40 @@
         "test_turret_inaccuracy_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_inaccuracy"
       ]
+    },
+    "N739": {
+      "deferred_exprs": [
+        "public float range(){\n            if(peekAmmo() != null){\n                return range + peekAmmo().rangeChange;\n            }\n            return range;\n        }",
+        "return range + peekAmmo().rangeChange;",
+        "canShoot = within(target, range() + (target instanceof Sized hb ? hb.hitSize()/1.9f : 0f));"
+      ],
+      "exact_exprs": [
+        "public float range = 80f;",
+        "public float range(){\n            return range;\n        }",
+        "return range;"
+      ],
+      "bridge_exprs": [
+        "range = 160;"
+      ],
+      "godot_owner": "PortGame.source_turret_range",
+      "java_class": "mindustry.world.blocks.defense.turrets.BaseTurret.BaseTurretBuild",
+      "java_method": "range()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "runtime_proof": "/root/Main.source_turret_range",
+      "source_symbols": [
+        "turret_range.field",
+        "turret_range.method",
+        "turret_range.turret",
+        "turret_range.key",
+        "turret_range.default",
+        "turret_range.result",
+        "turret_range.duo_value"
+      ],
+      "status": "done",
+      "tests": [
+        "test_turret_range_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_range"
+      ]
     }
   },
   "version": 1

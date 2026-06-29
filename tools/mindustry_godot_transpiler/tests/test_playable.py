@@ -1007,8 +1007,13 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_TURRET_RANGE_FIELD := "public float range = 80f;"', source)
+        self.assertIn('const SOURCE_TURRET_RANGE_METHOD := "public float range(){\\n            return range;\\n        }"', source)
+        self.assertIn('const SOURCE_TURRET_RANGE_KEY := "range"', source)
+        self.assertIn("const SOURCE_TURRET_RANGE_DEFAULT := 80.0", source)
+        self.assertIn('const SOURCE_TURRET_RANGE_DUO_VALUE := "range = 160;"', source)
         self.assertIn("func source_turret_range(turret) -> float:", source)
-        self.assertIn('return float(turret.properties.get("range", 80.0))', source)
+        self.assertIn("return float(turret.properties.get(SOURCE_TURRET_RANGE_KEY, SOURCE_TURRET_RANGE_DEFAULT))", source)
         self.assertIn("func source_bullet_range_change(data: Dictionary) -> float:", source)
         self.assertIn('const SOURCE_BULLET_RANGE_CHANGE_COMMENT := "/** When used in a turret with multiple ammo types, this can be set to a non-zero value to influence range. */"', source)
         self.assertIn('const SOURCE_BULLET_RANGE_CHANGE_FIELD := "public float rangeChange = 0f;"', source)

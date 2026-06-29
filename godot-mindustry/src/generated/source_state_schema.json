@@ -44227,6 +44227,106 @@
         }
       },
       "status": "active"
+    },
+    "source_turret_range_input": {
+      "keys": {
+        "turret": {
+          "godot_symbol": "source_turret_range_input.turret",
+          "java_expr": "BaseTurret / BaseTurretBuild block",
+          "java_method": "range()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Runtime turret object/dictionary provides BaseTurret.range property.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_range"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_turret_range_result": {
+      "keys": {
+        "default_value": {
+          "godot_symbol": "source_turret_range_result.default_value",
+          "java_expr": "80f",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Godot fallback preserves BaseTurret.range default value.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_range"
+          ]
+        },
+        "duoValue": {
+          "godot_symbol": "source_turret_range_result.duoValue",
+          "java_expr": "range = 160;",
+          "java_method": "load()",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "rule": "Duo block override for BaseTurret.range.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_range"
+          ]
+        },
+        "field": {
+          "godot_symbol": "source_turret_range_result.field",
+          "java_expr": "public float range = 80f;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Canonical BaseTurret.range field declaration.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_range"
+          ]
+        },
+        "key": {
+          "godot_symbol": "source_turret_range_result.key",
+          "java_expr": "range",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Godot dictionary key maps to BaseTurret.range exactly.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_range"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_turret_range_result.method",
+          "java_expr": "public float range(){\n            return range;\n        }",
+          "java_method": "range()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "BaseTurretBuild.range returns range field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_range"
+          ]
+        },
+        "range": {
+          "godot_symbol": "source_turret_range_result.range",
+          "java_expr": "return range;",
+          "java_method": "range()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Returned BaseTurret range value.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_range"
+          ]
+        },
+        "turret": {
+          "alias_of": "source_turret_range_input.turret",
+          "rule": "Carries BaseTurret input into range result schema.",
+          "status": "generated",
+          "type": "Variant"
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

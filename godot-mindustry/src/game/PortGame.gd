@@ -10383,10 +10383,16 @@ func source_turret_reload_seconds_for_ammo(turret, data: Dictionary) -> float:
 		return source_turret_reload_seconds(turret)
 	return source_turret_reload_seconds(turret) / source_bullet_reload_multiplier(data)
 
+const SOURCE_TURRET_RANGE_FIELD := "public float range = 80f;"
+const SOURCE_TURRET_RANGE_METHOD := "public float range(){\n            return range;\n        }"
+const SOURCE_TURRET_RANGE_KEY := "range"
+const SOURCE_TURRET_RANGE_DEFAULT := 80.0
+const SOURCE_TURRET_RANGE_DUO_VALUE := "range = 160;"
+
 func source_turret_range(turret) -> float:
 	if turret == null:
 		return 0.0
-	return float(turret.properties.get("range", 80.0))
+	return float(turret.properties.get(SOURCE_TURRET_RANGE_KEY, SOURCE_TURRET_RANGE_DEFAULT))
 
 func source_turret_shoot_y(turret) -> float:
 	if turret == null:
