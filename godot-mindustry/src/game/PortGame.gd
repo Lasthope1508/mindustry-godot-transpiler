@@ -5121,6 +5121,14 @@ func source_weapon_shoot_charge_start_state(mount_state: Dictionary, weapon_stat
 		"shootLoopReservedSource": "shoot.shoot(mount.barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {",
 	}
 
+const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_SHOTS_FIELD := "public int shots = 1;"
+const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_FIRST_SHOT_DELAY_FIELD := "public float firstShotDelay = 0;"
+const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_SHOT_DELAY_FIELD := "public float shotDelay = 0;"
+const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_METHOD := "public void shoot(int totalShots, BulletHandler handler){"
+const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_LOOP := "for(int i = 0; i < shots; i++){"
+const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_HANDLER_CALL := "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);"
+const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_MOVER_NULL := "shoot(x, y, rotation, delay, null);"
+
 func source_shoot_pattern_default_events(shoot_state: Dictionary) -> Array:
 	var shots := int(shoot_state.get("shots", 1))
 	var first_shot_delay := float(shoot_state.get("firstShotDelay", 0.0))

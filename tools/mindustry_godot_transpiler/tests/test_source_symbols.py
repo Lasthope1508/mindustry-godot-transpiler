@@ -4243,6 +4243,44 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(next_tile["java_expr"], "Tile next = tile.nearby(Geometry.d4(rotation).x * trns, Geometry.d4(rotation).y * trns);")
         self.assertEqual(next_tile["godot_symbol"], "source_payload_forward_offset_result.nextTile")
 
+    def test_shoot_pattern_default_events_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "shoot_pattern_default_events.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/pattern/ShootPattern.java")
+        self.assertEqual(method["java_method"], "shoot(int totalShots, BulletHandler handler)")
+        self.assertEqual(method["java_expr"], "public void shoot(int totalShots, BulletHandler handler){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_shoot_pattern_default_events")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_shoot_pattern_default_events")
+        self.assertEqual(method["godot_symbol"], "source_shoot_pattern_default_events_result.method")
+
+        shots = source_symbols.source_symbol(registry, "shoot_pattern_default_events.shots")
+        self.assertEqual(shots["java_expr"], "public int shots = 1;")
+        self.assertEqual(shots["godot_symbol"], "source_shoot_pattern_default_events_input.shots")
+
+        first_shot_delay = source_symbols.source_symbol(registry, "shoot_pattern_default_events.first_shot_delay")
+        self.assertEqual(first_shot_delay["java_expr"], "public float firstShotDelay = 0;")
+        self.assertEqual(first_shot_delay["godot_symbol"], "source_shoot_pattern_default_events_input.firstShotDelay")
+
+        shot_delay = source_symbols.source_symbol(registry, "shoot_pattern_default_events.shot_delay")
+        self.assertEqual(shot_delay["java_expr"], "public float shotDelay = 0;")
+        self.assertEqual(shot_delay["godot_symbol"], "source_shoot_pattern_default_events_input.shotDelay")
+
+        loop = source_symbols.source_symbol(registry, "shoot_pattern_default_events.loop")
+        self.assertEqual(loop["java_expr"], "for(int i = 0; i < shots; i++){")
+        self.assertEqual(loop["godot_symbol"], "source_shoot_pattern_default_events_result.events")
+
+        handler_call = source_symbols.source_symbol(registry, "shoot_pattern_default_events.handler_call")
+        self.assertEqual(handler_call["java_expr"], "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);")
+        self.assertEqual(handler_call["godot_symbol"], "source_shoot_pattern_default_events_result.events")
+
+        mover_null = source_symbols.source_symbol(registry, "shoot_pattern_default_events.mover_null")
+        self.assertEqual(mover_null["java_expr"], "shoot(x, y, rotation, delay, null);")
+        self.assertEqual(mover_null["godot_symbol"], "source_shoot_pattern_default_events_result.mover")
+
     def test_offload_to_inventory_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -10756,9 +10794,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 331)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 332)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 336)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 337)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -10971,6 +11009,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_move_forward_to_core", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_move_payload_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_payload_forward_offset", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_shoot_pattern_default_events", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_offload_to_inventory", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_boost_bar_fraction", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_draw_state", audit["registeredSourceOwners"])
@@ -11077,7 +11116,8 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertNotIn("PortGame.source_payload_forward_offset", audit["legacyUnregisteredOwners"])
-        self.assertIn("PortGame.source_shoot_pattern_default_events", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_shoot_pattern_default_events", audit["legacyUnregisteredOwners"])
+        self.assertIn("PortGame.source_status_apply_result", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
     def test_audit_report_file_matches_current_godot_source(self):
@@ -12214,6 +12254,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("int trns = block.size/2 + 1;", payload_forward_offset["exact_exprs"])
         self.assertIn("Tile next = tile.nearby(Geometry.d4(rotation).x * trns, Geometry.d4(rotation).y * trns);", payload_forward_offset["exact_exprs"])
         self.assertIn("block.size", payload_forward_offset["source_inputs"])
+
+        shoot_pattern_default_events = source_symbols.source_slice(ledger, "N734")
+        self.assertEqual(shoot_pattern_default_events["java_source"], "core/src/mindustry/entities/pattern/ShootPattern.java")
+        self.assertEqual(shoot_pattern_default_events["java_method"], "shoot(int totalShots, BulletHandler handler)")
+        self.assertEqual(shoot_pattern_default_events["godot_owner"], "PortGame.source_shoot_pattern_default_events")
+        self.assertIn("public int shots = 1;", shoot_pattern_default_events["exact_exprs"])
+        self.assertIn("public float firstShotDelay = 0;", shoot_pattern_default_events["exact_exprs"])
+        self.assertIn("public float shotDelay = 0;", shoot_pattern_default_events["exact_exprs"])
+        self.assertIn("public void shoot(int totalShots, BulletHandler handler){", shoot_pattern_default_events["exact_exprs"])
+        self.assertIn("for(int i = 0; i < shots; i++){", shoot_pattern_default_events["exact_exprs"])
+        self.assertIn("handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);", shoot_pattern_default_events["exact_exprs"])
+        self.assertIn("shoot(x, y, rotation, delay, null);", shoot_pattern_default_events["exact_exprs"])
 
         offload_to_inventory = source_symbols.source_slice(ledger, "N724")
         self.assertEqual(offload_to_inventory["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -15317,6 +15369,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("trns", payload_forward_offset["return_keys"])
         self.assertIn("nextTile", payload_forward_offset["return_keys"])
         self.assertEqual(payload_forward_offset["source_method"], "movePayload(Payload todump)")
+
+        shoot_pattern_default_events = source_symbols.api_contract(contracts, "PortGame.source_shoot_pattern_default_events")
+        self.assertEqual([param["name"] for param in shoot_pattern_default_events["params"]], ["shoot_state"])
+        self.assertEqual(shoot_pattern_default_events["params"][0]["schema"], "source_shoot_pattern_default_events_input")
+        self.assertIn("events", shoot_pattern_default_events["return_keys"])
+        self.assertIn("delay", shoot_pattern_default_events["return_keys"])
+        self.assertIn("mover", shoot_pattern_default_events["return_keys"])
+        self.assertEqual(shoot_pattern_default_events["source_method"], "shoot(int totalShots, BulletHandler handler)")
 
         offload_to_inventory = source_symbols.api_contract(contracts, "PortGame.source_offload_to_inventory")
         self.assertEqual([param["name"] for param in offload_to_inventory["params"]], ["item_id", "amount"])
@@ -18823,6 +18883,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_payload_forward_offset_result["keys"]["trns"]["java_expr"], "int trns = block.size/2 + 1;")
         self.assertEqual(source_payload_forward_offset_result["keys"]["trns"]["godot_symbol"], "source_payload_forward_offset_result.trns")
         self.assertEqual(source_payload_forward_offset_result["keys"]["nextTile"]["java_expr"], "Tile next = tile.nearby(Geometry.d4(rotation).x * trns, Geometry.d4(rotation).y * trns);")
+
+        source_shoot_pattern_default_events_input = source_symbols.state_schema(schema, "source_shoot_pattern_default_events_input")
+        self.assertEqual(source_shoot_pattern_default_events_input["keys"]["shots"]["java_expr"], "public int shots = 1;")
+        self.assertEqual(source_shoot_pattern_default_events_input["keys"]["firstShotDelay"]["java_expr"], "public float firstShotDelay = 0;")
+        self.assertEqual(source_shoot_pattern_default_events_input["keys"]["shotDelay"]["java_expr"], "public float shotDelay = 0;")
+
+        source_shoot_pattern_default_events_result = source_symbols.state_schema(schema, "source_shoot_pattern_default_events_result")
+        self.assertEqual(source_shoot_pattern_default_events_result["keys"]["method"]["java_expr"], "public void shoot(int totalShots, BulletHandler handler){")
+        self.assertEqual(source_shoot_pattern_default_events_result["keys"]["loop"]["java_expr"], "for(int i = 0; i < shots; i++){")
+        self.assertEqual(source_shoot_pattern_default_events_result["keys"]["events"]["java_expr"], "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);")
+        self.assertEqual(source_shoot_pattern_default_events_result["keys"]["xOffset"]["java_expr"], "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);")
+        self.assertEqual(source_shoot_pattern_default_events_result["keys"]["yOffset"]["java_expr"], "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);")
+        self.assertEqual(source_shoot_pattern_default_events_result["keys"]["angleOffset"]["java_expr"], "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);")
+        self.assertEqual(source_shoot_pattern_default_events_result["keys"]["delay"]["java_expr"], "firstShotDelay + shotDelay * i")
+        self.assertEqual(source_shoot_pattern_default_events_result["keys"]["mover"]["java_expr"], "shoot(x, y, rotation, delay, null);")
 
         source_offload_to_inventory_input = source_symbols.state_schema(schema, "source_offload_to_inventory_input")
         self.assertEqual(source_offload_to_inventory_input["keys"]["item_id"]["java_expr"], "dominantItem / Item item")

@@ -32621,6 +32621,118 @@
         "test_bullet_type_shield_damage_symbols_are_registered_with_source_backing"
       ]
     },
+    "shoot_pattern_default_events.delay": {
+      "godot_owner": "PortGame.source_shoot_pattern_default_events",
+      "godot_symbol": "source_shoot_pattern_default_events_result.delay",
+      "java_expr": "firstShotDelay + shotDelay * i",
+      "java_method": "shoot(int totalShots, BulletHandler handler)",
+      "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+      "rule": "Delay expression passed to BulletHandler.shoot.",
+      "runtime_proof": "/root/Main.source_shoot_pattern_default_events",
+      "status": "source-backed",
+      "tests": [
+        "test_shoot_pattern_default_events_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_default_pattern_dispatch_state"
+      ]
+    },
+    "shoot_pattern_default_events.first_shot_delay": {
+      "godot_owner": "PortGame.source_shoot_pattern_default_events",
+      "godot_symbol": "source_shoot_pattern_default_events_input.firstShotDelay",
+      "java_expr": "public float firstShotDelay = 0;",
+      "java_method": "shoot(int totalShots, BulletHandler handler)",
+      "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+      "rule": "ShootPattern first shot delay field consumed by handler delay expression.",
+      "runtime_proof": "/root/Main.source_shoot_pattern_default_events",
+      "status": "explicit-input",
+      "tests": [
+        "test_shoot_pattern_default_events_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_default_pattern_dispatch_state"
+      ]
+    },
+    "shoot_pattern_default_events.handler_call": {
+      "godot_owner": "PortGame.source_shoot_pattern_default_events",
+      "godot_symbol": "source_shoot_pattern_default_events_result.events",
+      "java_expr": "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);",
+      "java_method": "shoot(int totalShots, BulletHandler handler)",
+      "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+      "rule": "Default ShootPattern handler call emits zero offsets and computed delay.",
+      "runtime_proof": "/root/Main.source_shoot_pattern_default_events",
+      "status": "source-backed",
+      "tests": [
+        "test_shoot_pattern_default_events_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_default_pattern_dispatch_state"
+      ]
+    },
+    "shoot_pattern_default_events.loop": {
+      "godot_owner": "PortGame.source_shoot_pattern_default_events",
+      "godot_symbol": "source_shoot_pattern_default_events_result.events",
+      "java_expr": "for(int i = 0; i < shots; i++){",
+      "java_method": "shoot(int totalShots, BulletHandler handler)",
+      "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+      "rule": "Default ShootPattern emits one handler event per loop iteration.",
+      "runtime_proof": "/root/Main.source_shoot_pattern_default_events",
+      "status": "source-backed",
+      "tests": [
+        "test_shoot_pattern_default_events_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_default_pattern_dispatch_state"
+      ]
+    },
+    "shoot_pattern_default_events.method": {
+      "godot_owner": "PortGame.source_shoot_pattern_default_events",
+      "godot_symbol": "source_shoot_pattern_default_events_result.method",
+      "java_expr": "public void shoot(int totalShots, BulletHandler handler){",
+      "java_method": "shoot(int totalShots, BulletHandler handler)",
+      "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+      "rule": "Default ShootPattern shoot method boundary.",
+      "runtime_proof": "/root/Main.source_shoot_pattern_default_events",
+      "status": "source-backed",
+      "tests": [
+        "test_shoot_pattern_default_events_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_default_pattern_dispatch_state"
+      ]
+    },
+    "shoot_pattern_default_events.mover_null": {
+      "godot_owner": "PortGame.source_shoot_pattern_default_events",
+      "godot_symbol": "source_shoot_pattern_default_events_result.mover",
+      "java_expr": "shoot(x, y, rotation, delay, null);",
+      "java_method": "shoot(int totalShots, BulletHandler handler)",
+      "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+      "rule": "Four-argument BulletHandler.shoot delegates to five-argument overload with null mover.",
+      "runtime_proof": "/root/Main.source_shoot_pattern_default_events",
+      "status": "source-backed",
+      "tests": [
+        "test_shoot_pattern_default_events_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_default_pattern_dispatch_state"
+      ]
+    },
+    "shoot_pattern_default_events.shot_delay": {
+      "godot_owner": "PortGame.source_shoot_pattern_default_events",
+      "godot_symbol": "source_shoot_pattern_default_events_input.shotDelay",
+      "java_expr": "public float shotDelay = 0;",
+      "java_method": "shoot(int totalShots, BulletHandler handler)",
+      "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+      "rule": "ShootPattern shot delay field consumed by handler delay expression.",
+      "runtime_proof": "/root/Main.source_shoot_pattern_default_events",
+      "status": "explicit-input",
+      "tests": [
+        "test_shoot_pattern_default_events_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_default_pattern_dispatch_state"
+      ]
+    },
+    "shoot_pattern_default_events.shots": {
+      "godot_owner": "PortGame.source_shoot_pattern_default_events",
+      "godot_symbol": "source_shoot_pattern_default_events_input.shots",
+      "java_expr": "public int shots = 1;",
+      "java_method": "shoot(int totalShots, BulletHandler handler)",
+      "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+      "rule": "ShootPattern shots field consumed by default shoot loop.",
+      "runtime_proof": "/root/Main.source_shoot_pattern_default_events",
+      "status": "explicit-input",
+      "tests": [
+        "test_shoot_pattern_default_events_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_default_pattern_dispatch_state"
+      ]
+    },
     "source_angles_angle_dist.a_input": {
       "godot_owner": "PortGame.source_angles_angle_dist",
       "godot_symbol": "source_angles_angle_dist_input.a",

@@ -4422,6 +4422,13 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_SHOTS_FIELD := "public int shots = 1;"', source)
+        self.assertIn('const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_FIRST_SHOT_DELAY_FIELD := "public float firstShotDelay = 0;"', source)
+        self.assertIn('const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_SHOT_DELAY_FIELD := "public float shotDelay = 0;"', source)
+        self.assertIn('const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_METHOD := "public void shoot(int totalShots, BulletHandler handler){"', source)
+        self.assertIn('const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_LOOP := "for(int i = 0; i < shots; i++){"', source)
+        self.assertIn('const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_HANDLER_CALL := "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);"', source)
+        self.assertIn('const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_MOVER_NULL := "shoot(x, y, rotation, delay, null);"', source)
         self.assertIn("func source_shoot_pattern_default_events(shoot_state: Dictionary) -> Array:", source)
         self.assertIn("var shots := int(shoot_state.get(\"shots\", 1))", source)
         self.assertIn("var first_shot_delay := float(shoot_state.get(\"firstShotDelay\", 0.0))", source)

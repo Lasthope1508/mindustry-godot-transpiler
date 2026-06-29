@@ -41982,6 +41982,148 @@
       },
       "status": "active"
     },
+    "source_shoot_pattern_default_events_input": {
+      "keys": {
+        "firstShotDelay": {
+          "godot_symbol": "source_shoot_pattern_default_events_input.firstShotDelay",
+          "java_expr": "public float firstShotDelay = 0;",
+          "java_method": "shoot(int totalShots, BulletHandler handler)",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "rule": "ShootPattern first shot delay field.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_shoot_pattern_default_events"
+          ]
+        },
+        "shotDelay": {
+          "godot_symbol": "source_shoot_pattern_default_events_input.shotDelay",
+          "java_expr": "public float shotDelay = 0;",
+          "java_method": "shoot(int totalShots, BulletHandler handler)",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "rule": "ShootPattern shot delay field.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_shoot_pattern_default_events"
+          ]
+        },
+        "shots": {
+          "godot_symbol": "source_shoot_pattern_default_events_input.shots",
+          "java_expr": "public int shots = 1;",
+          "java_method": "shoot(int totalShots, BulletHandler handler)",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "rule": "ShootPattern shots field.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_shoot_pattern_default_events"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_shoot_pattern_default_events_result": {
+      "keys": {
+        "angleOffset": {
+          "godot_symbol": "source_shoot_pattern_default_events_result.angleOffset",
+          "java_expr": "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);",
+          "java_method": "shoot(int totalShots, BulletHandler handler)",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "rule": "Third handler argument is rotation offset 0.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_shoot_pattern_default_events"
+          ]
+        },
+        "delay": {
+          "godot_symbol": "source_shoot_pattern_default_events_result.delay",
+          "java_expr": "firstShotDelay + shotDelay * i",
+          "java_method": "shoot(int totalShots, BulletHandler handler)",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "rule": "Fourth handler argument delay expression.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_shoot_pattern_default_events"
+          ]
+        },
+        "events": {
+          "godot_symbol": "source_shoot_pattern_default_events_result.events",
+          "java_expr": "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);",
+          "java_method": "shoot(int totalShots, BulletHandler handler)",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "rule": "One result event per handler.shoot call.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_shoot_pattern_default_events"
+          ]
+        },
+        "loop": {
+          "godot_symbol": "source_shoot_pattern_default_events_result.loop",
+          "java_expr": "for(int i = 0; i < shots; i++){",
+          "java_method": "shoot(int totalShots, BulletHandler handler)",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "rule": "Event loop boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_shoot_pattern_default_events"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_shoot_pattern_default_events_result.method",
+          "java_expr": "public void shoot(int totalShots, BulletHandler handler){",
+          "java_method": "shoot(int totalShots, BulletHandler handler)",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "rule": "Source method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_shoot_pattern_default_events"
+          ]
+        },
+        "mover": {
+          "godot_symbol": "source_shoot_pattern_default_events_result.mover",
+          "java_expr": "shoot(x, y, rotation, delay, null);",
+          "java_method": "BulletHandler.shoot(float x, float y, float rotation, float delay)",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "rule": "Default BulletHandler overload supplies null mover.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_shoot_pattern_default_events"
+          ]
+        },
+        "xOffset": {
+          "godot_symbol": "source_shoot_pattern_default_events_result.xOffset",
+          "java_expr": "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);",
+          "java_method": "shoot(int totalShots, BulletHandler handler)",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "rule": "First handler argument is x offset 0.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_shoot_pattern_default_events"
+          ]
+        },
+        "yOffset": {
+          "godot_symbol": "source_shoot_pattern_default_events_result.yOffset",
+          "java_expr": "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);",
+          "java_method": "shoot(int totalShots, BulletHandler handler)",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "rule": "Second handler argument is y offset 0.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_shoot_pattern_default_events"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {
