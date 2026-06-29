@@ -8062,6 +8062,30 @@
       ],
       "runtime_proof": "/root/Main.source_building_to_string_state",
       "rule": "Backfills SSOT for existing canonical source_building_to_string_state helper against BuildingComp.toString exact concatenation."
+    },
+    "N654": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "unitOnAny(Unit unit)",
+      "godot_owner": "PortGame.source_building_unit_on_any_state",
+      "exact_exprs": [
+        "/** Called every frame a unit is on this. Applies to any unit.  */",
+        "public void unitOnAny(Unit unit){",
+        "public void unitOnAny(Unit unit){\n    }",
+        "unit"
+      ],
+      "source_symbols": [
+        "building_unit_on_any.comment",
+        "building_unit_on_any.method",
+        "building_unit_on_any.empty_body",
+        "building_unit_on_any.unit_state"
+      ],
+      "tests": [
+        "test_building_unit_on_any_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_unit_on_any_state",
+      "rule": "Backfills SSOT for existing canonical source_building_unit_on_any_state helper against BuildingComp.unitOnAny no-op body."
     }
   },
   "version": 1

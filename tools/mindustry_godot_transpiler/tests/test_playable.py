@@ -1672,6 +1672,9 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_BUILDING_UNIT_ON_ANY_COMMENT := "/** Called every frame a unit is on this. Applies to any unit.  */"', source)
+        self.assertIn('const SOURCE_BUILDING_UNIT_ON_ANY_METHOD := "public void unitOnAny(Unit unit){"', source)
+        self.assertIn('const SOURCE_BUILDING_UNIT_ON_ANY_EMPTY_BODY := "public void unitOnAny(Unit unit){\\n    }"', source)
         self.assertIn("func source_building_unit_on_any_state(unit_state: Variant) -> Variant:", source)
         self.assertIn("return unit_state", source)
 

@@ -32825,6 +32825,77 @@
           "alias_of": "source_building_to_string_input.block_value"
         }
       }
+    },
+    "source_building_unit_on_any_input": {
+      "status": "active",
+      "keys": {
+        "unit_state": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "unitOnAny(Unit unit)",
+          "used_by": [
+            "PortGame.source_building_unit_on_any_state"
+          ],
+          "java_expr": "unit",
+          "godot_symbol": "source_building_unit_on_any_input.unit_state",
+          "rule": "Input mirrors Unit unit parameter."
+        }
+      }
+    },
+    "source_building_unit_on_any_result": {
+      "status": "active",
+      "keys": {
+        "comment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "unitOnAny(Unit unit)",
+          "used_by": [
+            "PortGame.source_building_unit_on_any_state"
+          ],
+          "java_expr": "/** Called every frame a unit is on this. Applies to any unit.  */",
+          "godot_symbol": "source_building_unit_on_any_result.comment",
+          "rule": "BuildingComp.unitOnAny source comment."
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "unitOnAny(Unit unit)",
+          "used_by": [
+            "PortGame.source_building_unit_on_any_state"
+          ],
+          "java_expr": "public void unitOnAny(Unit unit){",
+          "godot_symbol": "source_building_unit_on_any_result.method",
+          "rule": "BuildingComp.unitOnAny method boundary."
+        },
+        "empty_body": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "unitOnAny(Unit unit)",
+          "used_by": [
+            "PortGame.source_building_unit_on_any_state"
+          ],
+          "java_expr": "public void unitOnAny(Unit unit){\n    }",
+          "godot_symbol": "source_building_unit_on_any_result.empty_body",
+          "rule": "BuildingComp.unitOnAny empty body."
+        },
+        "unit_state": {
+          "type": "Variant",
+          "status": "alias",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "unitOnAny(Unit unit)",
+          "used_by": [
+            "PortGame.source_building_unit_on_any_state"
+          ],
+          "java_expr": "unit",
+          "godot_symbol": "source_building_unit_on_any_result.unit_state",
+          "rule": "Result aliases explicit unit_state input.",
+          "alias_of": "source_building_unit_on_any_input.unit_state"
+        }
+      }
     }
   },
   "version": 1

@@ -9845,6 +9845,28 @@
       ],
       "runtime_proof": "/root/Main.source_building_to_string_state",
       "rule": "Public runtime contract for BuildingComp.toString; keep return type String and source concatenation order exact."
+    },
+    "PortGame.source_building_unit_on_any_state": {
+      "status": "active",
+      "source_slice": "N654",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "unitOnAny(Unit unit)",
+      "params": [
+        {
+          "name": "unit_state",
+          "type": "Variant",
+          "schema": "source_building_unit_on_any_input.unit_state"
+        }
+      ],
+      "return_keys": [
+        "unit_state"
+      ],
+      "tests": [
+        "test_building_unit_on_any_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_unit_on_any_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_unit_on_any_state",
+      "rule": "Public runtime contract for BuildingComp.unitOnAny no-op; return the supplied unit_state unchanged."
     }
   },
   "policy": {

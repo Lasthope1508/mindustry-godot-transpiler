@@ -1740,6 +1740,10 @@ func source_building_on_removed_state(current_state: Variant) -> Dictionary:
 func source_building_unit_on_state(unit_state: Variant) -> Variant:
 	return unit_state
 
+const SOURCE_BUILDING_UNIT_ON_ANY_COMMENT := "/** Called every frame a unit is on this. Applies to any unit.  */"
+const SOURCE_BUILDING_UNIT_ON_ANY_METHOD := "public void unitOnAny(Unit unit){"
+const SOURCE_BUILDING_UNIT_ON_ANY_EMPTY_BODY := "public void unitOnAny(Unit unit){\n    }"
+
 func source_building_unit_on_any_state(unit_state: Variant) -> Variant:
 	return unit_state
 

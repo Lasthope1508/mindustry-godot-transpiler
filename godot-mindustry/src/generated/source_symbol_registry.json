@@ -25019,6 +25019,58 @@
       ],
       "runtime_proof": "/root/Main.source_building_to_string_state",
       "rule": "Runtime block_value mirrors block field string value used in toString."
+    },
+    "building_unit_on_any.comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "unitOnAny(Unit unit)",
+      "java_expr": "/** Called every frame a unit is on this. Applies to any unit.  */",
+      "godot_symbol": "source_building_unit_on_any_result.comment",
+      "godot_owner": "PortGame.source_building_unit_on_any_state",
+      "tests": [
+        "test_building_unit_on_any_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_unit_on_any_state",
+      "rule": "BuildingComp.unitOnAny source comment applies to any unit."
+    },
+    "building_unit_on_any.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "unitOnAny(Unit unit)",
+      "java_expr": "public void unitOnAny(Unit unit){",
+      "godot_symbol": "source_building_unit_on_any_result.method",
+      "godot_owner": "PortGame.source_building_unit_on_any_state",
+      "tests": [
+        "test_building_unit_on_any_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_unit_on_any_state",
+      "rule": "BuildingComp.unitOnAny method boundary."
+    },
+    "building_unit_on_any.empty_body": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "unitOnAny(Unit unit)",
+      "java_expr": "public void unitOnAny(Unit unit){\n    }",
+      "godot_symbol": "source_building_unit_on_any_result.empty_body",
+      "godot_owner": "PortGame.source_building_unit_on_any_state",
+      "tests": [
+        "test_building_unit_on_any_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_unit_on_any_state",
+      "rule": "BuildingComp.unitOnAny has empty no-op body."
+    },
+    "building_unit_on_any.unit_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "unitOnAny(Unit unit)",
+      "java_expr": "unit",
+      "godot_symbol": "source_building_unit_on_any_input.unit_state",
+      "godot_owner": "PortGame.source_building_unit_on_any_state",
+      "tests": [
+        "test_building_unit_on_any_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_unit_on_any_state",
+      "rule": "Runtime unit_state is returned unchanged because unitOnAny has an empty body."
     }
   }
 }
